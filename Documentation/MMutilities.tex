@@ -21,7 +21,7 @@ An example service with persistent state is
 running sum for the connected client.
 The program takes an optional argument for the \yarp{} network port of the service; if no
 argument is provided, all services are checked for connections with persistent state.
-It has two command--line options:
+It also has two command--line options:
 \begin{itemize}
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
@@ -68,9 +68,9 @@ and the JSON--formatted and tab--delimited outputs would be empty.
 The program \utilityNameX{mpmFindServices} displays the primary channels belonging to
 services that match a criteria provided on the command--line or interactively.\\
 
-It has three command--line options:
+The program takes an optional argument for the matching criteria to be used.
+It also has two command--line options:
 \begin{itemize}
-\item \textbf{--c} use the next command--line argument as the matching criteria
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
 \end{itemize}
@@ -225,8 +225,8 @@ Ports:\\
 and the tab--delimited output would be empty.
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
 \tertiaryStart{\utilityNameP{mpmRecordAsJSONService}}
-The \utilityNameX{mpmRecordIntegersService} application is an Output
-service, recording a stream of \yarp{} values to an external file.
+The \utilityNameX{mpmRecordAsJSONService} application is an Output
+service, recording a stream of \yarp{} values as JSON structures to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
@@ -246,12 +246,11 @@ file that is being used.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired.\\
-
-The application also has three optional parameters:
+The application has one optional argument -- the output file path to be used.
+The application also has four optional parameters:
 \begin{itemize}
-\item \textbf{-p:} specifies the output file path to be used
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
 \item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
@@ -264,7 +263,7 @@ As well as the service name, the input stream name is modified if a tag is speci
 the default endpoint is being used.\\
 
 The output file path parameter provides the initial output file path; if not specified, a
-random path in the temporary directory will be used.
+random path in the system temporary directory will be used.
 For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
 while, for Macintosh OS X, it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
@@ -293,7 +292,7 @@ The program takes two optional arguments for the \yarp{} network port of the ser
 the request to get information on; if the request is not specified, all requests for the
 given service are shown and, if no port is specified, all requests for all services are
 displayed.
-It has two command--line options:
+It also has two command--line options:
 \begin{itemize}
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
@@ -559,7 +558,7 @@ It lists each \yarp{} network port for the service and details about the activit
 channel.
 The program takes an optional argument for the \yarp{} network port of the service; if no
 port is specified, all services are displayed.
-It has two command--line options:
+It also has two command--line options:
 \begin{itemize}
 \item \textbf{--j} generate JSON--formatted output
 \item \textbf{--t} generate output in tab--delimited form
@@ -704,8 +703,9 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} an
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
 
-The application also has one optional parameter:
+The application has two optional parameters:
 \begin{itemize}
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be

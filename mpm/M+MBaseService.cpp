@@ -62,6 +62,10 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include <mpm/getopt.h>
+#endif //(! MAC_OR_LINUX_)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -79,11 +83,15 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief Whether or not metrics are initially being gathered. */
 #if defined(MpM_MetricsInitiallyOn)
 # define MEASUREMENTS_ON true
 #else // ! defined(MpM_MetricsInitiallyOn)
 # define MEASUREMENTS_ON false
 #endif // ! defined(MpM_MetricsInitiallyOn)
+
+/*! @brief The accepted command line arguments for services. */
+#define STANDARD_SERVICE_OPTIONS "e:p:rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -614,7 +622,7 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                          STANDARD_WAIT_TIME, false, checker,
                                                          checkStuff))
                 {
@@ -649,12 +657,12 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                                   STANDARD_WAIT_TIME, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -662,7 +670,7 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
                            "checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
@@ -813,6 +821,71 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+bool Common::ProcessStandardServiceOptions(const int                     argc,
+                                           char * *                      argv,
+                                           const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           bool &                        reportOnExit,
+                                           yarp::os::ConstString &       tag,
+                                           yarp::os::ConstString &       serviceEndpointName,
+                                           yarp::os::ConstString &       servicePortNumber)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_L1("argc = ", argc); //####
+    OD_LOG_P2("argv = ", argv, "reportOnExit = ", &reportOnExit); //####
+    OD_LOG_S1s("defaultEndpointNameRoot = ", defaultEndpointNameRoot); //####
+    bool endpointSpecified = false;
+    
+    opterr = 0; // Suppress the error message resulting from an unknown option.
+    reportOnExit = false;
+    tag = serviceEndpointName = serviceEndpointName = "";
+    for (int cc = getopt(argc, argv, STANDARD_SERVICE_OPTIONS); -1 != cc;
+         cc = getopt(argc, argv, STANDARD_SERVICE_OPTIONS))
+    {
+        switch (cc)
+        {
+            case 'e' :
+                serviceEndpointName = optarg;
+                OD_LOG_S1s("serviceEndpointName <- ", serviceEndpointName); //####
+                break;
+                
+            case 'p' :
+                servicePortNumber = optarg;
+                OD_LOG_S1s("servicePortNumber <- ", servicePortNumber); //####
+                break;
+                
+            case 'r' :
+                // Report metrics on exit
+                reportOnExit = true;
+                break;
+                
+            case 't' :
+                // Tag
+                tag = optarg;
+                OD_LOG_S1s("tag <- ", tag); //####
+                break;
+                
+            default :
+                // Ignore unknown options.
+                break;
+                
+        }
+    }
+    if (0 < serviceEndpointName.size())
+    {
+        endpointSpecified = true;
+    }
+    else if (0 < tag.size())
+    {
+        serviceEndpointName = defaultEndpointNameRoot + "/" + tag;
+    }
+    else
+    {
+        serviceEndpointName = defaultEndpointNameRoot;
+    }
+    OD_LOG_EXIT_B(endpointSpecified); //####
+    return endpointSpecified;
+} // Common::ProcessStandardServiceOptions
+
 bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                                   BaseService &                 service,
                                   CheckFunction                 checker,
@@ -848,7 +921,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                          STANDARD_WAIT_TIME, false, checker,
                                                          checkStuff))
                 {
@@ -884,12 +957,12 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                                   STANDARD_WAIT_TIME, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -897,7 +970,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
                            "checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
@@ -963,7 +1036,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                          STANDARD_WAIT_TIME, false, checker,
                                                          checkStuff))
                 {
@@ -999,12 +1072,12 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                                   STANDARD_WAIT_TIME, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -1012,7 +1085,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
                            "checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)

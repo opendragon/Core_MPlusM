@@ -50,13 +50,13 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The standard name for the Registry Service channel. */
-# define MpM_REGISTRY_CHANNEL_NAME   "/$ervice"
+# define MpM_REGISTRY_ENDPOINT_NAME  "/$ervice"
 
 /*! @brief The channel-independent name of the Registry Service. */
 # define MpM_REGISTRY_CANONICAL_NAME "Registry"
 
 /*! @brief The name of the secondary port for the Registry Service. */
-#define MpM_REGISTRY_STATUS_NAME     T_(MpM_REGISTRY_CHANNEL_NAME "/status")
+#define MpM_REGISTRY_STATUS_NAME     T_(MpM_REGISTRY_ENDPOINT_NAME "/status")
 
 /*! @brief The name for an 'associate' request. */
 # define MpM_ASSOCIATE_REQUEST       "associate"

@@ -43,10 +43,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -567,7 +563,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                         {
                             yarp::os::ConstString serviceName(matches.get(1).toString());
                             
-                            if (aDescriptor._portName == MpM_REGISTRY_CHANNEL_NAME)
+                            if (aDescriptor._portName == MpM_REGISTRY_ENDPOINT_NAME)
                             {
                                 portClass = "Registry Service port for '";
                                 portClass += serviceName;
@@ -759,28 +755,9 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour = kOutputFlavourNormal;
-
-	opterr = 0; // Suppress the error message resulting from an unknown option.
-    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
-         cc = getopt(argc, argv, STANDARD_OPTIONS))
-    {
-        switch (cc)
-        {
-            case 'j' :
-                flavour = kOutputFlavourJSON;
-                break;
-                
-            case 't' :
-                flavour = kOutputFlavourTabs;
-                break;
-                
-            default :
-                // Ignore unknown options.
-                break;
-                
-        }
-    }
+    OutputFlavour flavour;
+    
+    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
     try
     {
         Utilities::CheckForNameServerReporter();

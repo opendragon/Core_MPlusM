@@ -10,16 +10,14 @@ _release and _debug]
 
 + for YARP - unset ACE_ROOT before doing a fresh ‘ccmake ..’, so that the /opt/M+M files will be picked, not the ACE_ROOT ones
 
+* for JavaScript - cd …/gecko/js/src; autoconf213; cd build_OPT.OBJ; ../configure --prefix=/opt/M+M/gecko --with-system-icu; make; sudo make install; sudo cp js/src/js-config.h /opt/M+M/gecko/include/mozjs-37a1 
+
 * change signal handling to use platform-neutral mechanisms
 
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-** move /opt/gecko to /opt/M+M/gecko!!
-
 * add index to general channels, pass index to input handler
 
 ** javascript should support thread _or_ input handler
-
-= change all executables to get endpoint info as options, not optional arguments, so that the rest of the argument list can be passed to interpreters —> -e for endpoint name, -p for endpoint port (change -p to -f for file paths); change documentation to reflect this, of course

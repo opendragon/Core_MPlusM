@@ -37,10 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MCommon.h>
-
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
+#include <mpm/M+MUtilities.h>
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -99,31 +96,12 @@ using std::endl;
 int main(int      argc,
          char * * argv)
 {
-    OutputFlavour         flavour = kOutputFlavourNormal;
+    OutputFlavour         flavour;
     yarp::os::ConstString aceVersionString;
     yarp::os::ConstString mpmVersionString;
     yarp::os::ConstString yarpVersionString;
     
-    opterr = 0; // Suppress the error message resulting from an unknown option.
-    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
-         cc = getopt(argc, argv, STANDARD_OPTIONS))
-    {
-        switch (cc)
-        {
-            case 'j' :
-                flavour = kOutputFlavourJSON;
-                break;
-                
-            case 't' :
-                flavour = kOutputFlavourTabs;
-                break;
-                
-            default :
-                // Ignore unknown options.
-                break;
-                
-        }
-    }
+    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
     switch (flavour)
     {
         case kOutputFlavourTabs :
@@ -131,8 +109,7 @@ int main(int      argc,
             mpmVersionString = SanitizeString(MpM_VERSION, true);
             yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
             cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
-                    aceVersionString.c_str() <<
-            endl;
+                    aceVersionString.c_str() << endl;
             break;
             
         case kOutputFlavourJSON :

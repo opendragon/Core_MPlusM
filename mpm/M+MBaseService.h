@@ -426,6 +426,29 @@ namespace MplusM
             
         }; // BaseService
         
+        /*! @brief Process the standard options for service executables.
+         The option 'e' specifies the endpoint name to be used.
+         The option 'p' specifie the port number to be used.
+         The option 'r' indicates that the service metrics are to be reported on exit.
+         The option 't' specifies the tag modifier, which is applied to the name of the channel, if
+         the name was not specified. It is also applied to the service name as a suffix.
+         @param argc The number of arguments in 'argv'.
+         @param argv The arguments to be used with the service.
+         @param defaultEndpointNameRoot The default endpoint root name.
+         @param reportOnExit Set to @c true if the -r option is seen.
+         @param tag Set to the argument of the last -t option seen.
+         @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
+         options.
+         @param serviceEndpointNumber Set to the argument of the last -p option seen.
+         @returns @c true if the service endpoint option appeared. */
+        bool ProcessStandardServiceOptions(const int                     argc,
+                                           char * *                      argv,
+                                           const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           bool &                        reportOnExit,
+                                           yarp::os::ConstString &       tag,
+                                           yarp::os::ConstString &       serviceEndpointName,
+                                           yarp::os::ConstString &       servicePortNumber);
+        
         /*! @brief Register a local service with a running Registry Service.
          @param channelName The channel provided by the service.
          @param service The actual service being registered.

@@ -72,9 +72,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The accepted command line arguments for the service. */
-#define EXEMPLAROUTPUT_OPTIONS "p:rt:"
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -116,8 +113,7 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
-    ExemplarOutputService * stuff = new ExemplarOutputService(*argv, tag,
-                                                              serviceEndpointName,
+    ExemplarOutputService * stuff = new ExemplarOutputService(*argv, tag, serviceEndpointName,
                                                               servicePortNumber);
     
     if (stuff)
@@ -296,12 +292,7 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
 
 /*! @brief The entry point for running the exemplar output service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is
- the name of the channel to be used. There is no output.
- The option 'p' specifies the path to the file being written.
- The option 'r' indicates that the service metrics are to be reported on exit.
- The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
- name was not specified. It is also applied to the service name as a suffix.
+ The first, optional, argument is the path to the file being written.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the exemplar output service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -324,86 +315,40 @@ int main(int      argc,
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString recordPath;
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
-
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, EXEMPLAROUTPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, EXEMPLAROUTPUT_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'p' :
-                    recordPath = optarg;
-                    OD_LOG_S1s("recordPath <- ", recordPath); //####
-                    break;
-                    
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        
+        ProcessStandardServiceOptions(argc, argv, DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME, reportOnExit,
+                                      tag, serviceEndpointName, servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString servicePortNumber;
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
             
             Initialize(*argv);
             // Note that we can't use Random::uniform until after the seed has been set
+            if (optind < argc)
+            {
+                recordPath = argv[optind];
+                OD_LOG_S1s("recordPath <- ", recordPath); //####
+            }
             if (0 == recordPath.size())
             {
                 int               randNumb = yarp::os::Random::uniform(0, 10000);
                 std::stringstream buff;
-
+                
 #if MAC_OR_LINUX_
                 buff << "/tmp/record_";
 #else // ! MAC_OR_LINUX_
                 buff << "\\tmp\\record_";
 #endif // ! MAC_OR_LINUX_
-                buff << hex << randNumb;
+                buff << std::hex << randNumb;
                 recordPath = buff.str();
                 OD_LOG_S1s("recordPath <- ", recordPath); //####
-            }
-            if (optind >= argc)
-            {
-                // Zero args
-                if (0 < tag.size())
-                {
-                    serviceEndpointName =
-                                        yarp::os::ConstString(DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME) +
-                                        "/" + tag;
-                }
-                else
-                {
-                    serviceEndpointName = DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME;
-                }
-            }
-            else if ((optind + 1) == argc)
-            {
-                // 1 arg
-                serviceEndpointName = argv[optind];
-            }
-            else
-            {
-                // 2 or more args
-                serviceEndpointName = argv[optind];
-                servicePortNumber = argv[optind + 1];
             }
             setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
                        stdinAvailable, reportOnExit);

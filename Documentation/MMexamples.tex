@@ -41,11 +41,10 @@ on the input stream.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired.\\
-
-The application also has two optional parameters:
+The application has four optional parameters:
 \begin{itemize}
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
 \item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
@@ -79,23 +78,22 @@ sent with the request.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired; the matching client
-application does not directly use the endpoint name to establish a connection to the
-service.\\
-
-The application also has two optional parameters:
+The application has four optional parameters:
 \begin{itemize}
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
 \item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute.
+The matching client application does not directly use the endpoint name to establish a
+connection to the service.
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomBurstService}}
 The \examplesNameX{Services}{mpmRandomBurstService} application is an Input service,
 generating a stream of random floating--point values, with a given `burst size' -- the
-number of values sent in a group, and a `burst perdiod' -- the number of seconds between
+number of values sent in a group, and a `burst period' -- the number of seconds between
 groups.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -119,14 +117,13 @@ number generator, which stops the output \yarp{} network connection.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired.\\
-
+The application has two optional arguments -- the burst period, in seconds and the number
+of random values to generate in each burst.
 The application also has four optional parameters:
 \begin{itemize}
-\item \textbf{-p:} specifies the burst period, in seconds, to be used 
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
-\item \textbf{-s:} specifies the burst size to be used
 \item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
@@ -164,18 +161,17 @@ numbers to the client.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired; the matching client
-application does not directly use the endpoint name to establish a connection to the
-service.\\
-
-The application also has two optional parameters:
+The application has four optional parameters:
 \begin{itemize}
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
 \item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute.\\
+service can execute.
+The matching client application does not directly use the endpoint name to establish a
+connection to the service.\\
 
 The \requestsNameD{Examples}{Examples}{random} request has an argument of the
 count of floating--point random numbers to be returned as a response to the request.
@@ -203,12 +199,11 @@ file that is being used.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired.\\
-
-The application also has three optional parameters:
+The application has one optional argument -- the output file path to be used.
+The application also has four optional parameters:
 \begin{itemize}
-\item \textbf{-p:} specifies the output file path to be used
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
 \item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
@@ -221,7 +216,7 @@ As well as the service name, the input stream name is modified if a tag is speci
 the default endpoint is being used.\\
 
 The output file path parameter provides the initial output file path; if not specified, a
-random path in the temporary directory will be used.
+random path in the system temporary directory will be used.
 For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
 while, for Macintosh OS X, it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
@@ -251,18 +246,17 @@ associated with the requesting application or adapter.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired; the matching client
-application does not directly use the endpoint name to establish a connection to the
-service.\\
-
-The application also has two optional parameter:
+The application has four optional parameters:
 \begin{itemize}
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
 \item \textbf{-r:} report the service metrics when the application exits
 \item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute.\\
+service can execute.
+The matching client application does not directly use the endpoint name to establish a
+connection to the service.\\
 
 The \requestsNameD{Examples}{Examples}{addtosum} request updates the running sum
 corresponding to the requesting application or adapter and returns the resulting value.
@@ -307,8 +301,7 @@ Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired.\\
-
+the port number to be used, if a non--default port is desired.
 The application also has one optional parameters:
 \begin{itemize}
 \item \textbf{-t:} specifies the tag to be used as part of the service name.

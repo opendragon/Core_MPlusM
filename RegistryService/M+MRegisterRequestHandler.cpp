@@ -208,7 +208,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                                                     reply.addString(MpM_OK_RESPONSE);
                                                     // If we're registering the Registry Service, we
                                                     // don't care about timeouts!
-                                                    if (argAsString != MpM_REGISTRY_CHANNEL_NAME)
+                                                    if (argAsString != MpM_REGISTRY_ENDPOINT_NAME)
                                                     {
                                                 theService.updateCheckedTimeForChannel(argAsString);
                                                     }

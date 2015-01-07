@@ -45,8 +45,8 @@ if(APPLE)
     set(OLD_CMAKE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(OLD_CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}")
-    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};/opt/gecko/lib" CACHE STRING "Fixes rpath"
-        FORCE)
+    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};/opt/M+M/gecko/lib" CACHE STRING
+        "Fixes rpath" FORCE)
 endif(APPLE)
 
 if(WIN32)
@@ -54,8 +54,8 @@ if(WIN32)
 endif(WIN32)
 if(APPLE)
     add_library(JS SHARED IMPORTED)
-    include_directories("/opt/gecko/include/mozjs-37a1")
-    set_property(TARGET JS PROPERTY IMPORTED_LOCATION "/opt/gecko/lib/libmozjs-37a1.dylib")
+    include_directories("/opt/M+M/gecko/include/mozjs-37a1")
+    set_property(TARGET JS PROPERTY IMPORTED_LOCATION "/opt/M+M/gecko/lib/libmozjs-37a1.dylib")
     set(SPIDERMONKEY "JS")
 endif(APPLE)
 

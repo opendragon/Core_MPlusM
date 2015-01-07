@@ -75,9 +75,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The accepted command line arguments for the service. */
-#define VICONDATASTREAMINPUT_OPTIONS "h:p:rt:"
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -322,13 +319,8 @@ static void setUpAndGo(yarp::os::ConstString &       hostName,
 
 /*! @brief The entry point for running the Vicon DataStream input service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is
- the name of the channel to be used. There is no output.
- The option 'h' specifies the host name for the Vicon device server.
- The option 'p' specifies the port for the Vicon device server.
- The option 'r' indicates that the service metrics are to be reported on exit.
- The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
- name was not specified. It is also applied to the service name as a suffix.
+ The second, optional, argument is the port for the Vicon device server and the first, optional,
+ argument is the host name for the Vicon device server.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Vicon DataStream input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -350,86 +342,44 @@ int main(int      argc,
     {
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
-        char *                endPtr;
-		int                   hostPort = 801;
-        int                   tempInt;
+        int                   hostPort = 801;
+        yarp::os::ConstString hostName;
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
-		yarp::os::ConstString hostName("localhost");
-
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, VICONDATASTREAMINPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, VICONDATASTREAMINPUT_OPTIONS))
-        {
-            switch (cc)
-            {
-				case 'h' :
-					// Host name
-                    hostName = optarg;
-                    OD_LOG_S1s("hostName <- ", hostName); //####
-					break;
-
-                case 'p' :
-                    // Host port
-                    tempInt = static_cast<int>(strtol(optarg, &endPtr, 10));
-                    if ((optarg != endPtr) && (0 < tempInt))
-                    {
-                        // Useable data.
-                        hostPort = tempInt;
-                    }
-                    break;
-                    
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        
+        ProcessStandardServiceOptions(argc, argv, DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME,
+                                      reportOnExit, tag, serviceEndpointName, servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString servicePortNumber;
- 
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
+            
             Initialize(*argv);
-            if (optind >= argc)
+            // Note that we can't use Random::uniform until after the seed has been set
+            if (optind < argc)
             {
-                // Zero args
-                if (0 < tag.size())
+                hostName = argv[optind];
+                OD_LOG_S1s("hostName <- ", hostName); //####
+                if ((optind + 1) < argc)
                 {
-                    serviceEndpointName =
-                                yarp::os::ConstString(DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME) +
-                                "/" + tag;
-                }
-                else
-                {
-                    serviceEndpointName = DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME;
+                    char * endPtr;
+                    int    tempInt = static_cast<int>(strtol(argv[optind + 1], &endPtr, 10));
+                    
+                    if ((argv[optind + 1] != endPtr) && (0 < tempInt))
+                    {
+                        // Useable data.
+                        hostPort = tempInt;
+                    }
                 }
             }
-            else if ((optind + 1) == argc)
+            if (0 == hostName.size())
             {
-                // 1 arg
-                serviceEndpointName = argv[optind];
-            }
-            else
-            {
-                // 2 or more args
-                serviceEndpointName = argv[optind];
-                servicePortNumber = argv[optind + 1];
+                hostName = "localhost";
+                OD_LOG_S1s("hostName <- ", hostName); //####
             }
             setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName, servicePortNumber,
                        stdinAvailable, reportOnExit);

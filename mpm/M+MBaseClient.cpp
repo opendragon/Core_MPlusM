@@ -239,7 +239,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                          STANDARD_WAIT_TIME, false, checker,
                                                          checkStuff))
                 {
@@ -261,12 +261,12 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                                   STANDARD_WAIT_TIME, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -274,7 +274,7 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
                            " checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
@@ -495,7 +495,7 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                          STANDARD_WAIT_TIME, false, checker,
                                                          checkStuff))
                 {
@@ -515,12 +515,12 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                                   STANDARD_WAIT_TIME, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -528,7 +528,7 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
                            " checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
@@ -627,7 +627,7 @@ yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & crit
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                          STANDARD_WAIT_TIME, false, checker,
                                                          checkStuff))
                 {
@@ -648,12 +648,12 @@ yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & crit
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                                   STANDARD_WAIT_TIME, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -661,7 +661,7 @@ yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & crit
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME, false, checker, " //####
+                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
                            " checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)

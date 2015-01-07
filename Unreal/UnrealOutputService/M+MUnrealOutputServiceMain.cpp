@@ -75,9 +75,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The accepted command line arguments for the service. */
-#define UNREALOUTPUT_OPTIONS "p:rs:t:"
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -313,12 +310,8 @@ static void setUpAndGo(int &                         outPort,
 
 /*! @brief The entry point for running the %Unreal output service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is
- the name of the channel to be used. There is no output.
- The option 'p' specifies the port to be written to.
- The option 'r' indicates that the service metrics are to be reported on exit.
- The option 's' specifies the translation scale factor.
- name was not specified. It is also applied to the service name as a suffix.
+ The second, optional, argument is the translation scale factor and the first, optional, argument is
+ the port to be written to.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Unreal output service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -340,92 +333,47 @@ int main(int      argc,
     {
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
-        char *                endPtr;
-        double                tempDouble;
         double                translationScale = 1.0;
-		int                   outPort = 9876;
-		int                   tempInt;
+        int                   outPort = 9876;
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
-
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, UNREALOUTPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, UNREALOUTPUT_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'p' :
-                    // Output port
-                    tempInt = static_cast<int>(strtol(optarg, &endPtr, 10));
-                    if ((optarg != endPtr) && (0 < tempInt))
-                    {
-                        // Useable data.
-                        outPort = tempInt;
-                    }
-                    break;
-                    
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 's' :
-                    // Scale
-                    tempDouble = strtod(optarg, &endPtr);
-                    if ((optarg != endPtr) && (0 < tempDouble))
-                    {
-                        // Useable data.
-                        translationScale = tempDouble;
-                    }
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        
+        ProcessStandardServiceOptions(argc, argv, DEFAULT_UNREALOUTPUT_SERVICE_NAME, reportOnExit,
+                                      tag, serviceEndpointName, servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString servicePortNumber;
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
             
             Initialize(*argv);
-            // Note that we can't use Random::uniform until after the seed has been set
-            if (optind >= argc)
+            if (optind < argc)
             {
-                // Zero args
-                if (0 < tag.size())
+                char * endPtr;
+                int    tempInt;
+                
+                // 1 or more arguments
+                tempInt = static_cast<int>(strtol(argv[optind], &endPtr, 10));
+                if ((argv[optind] != endPtr) && (0 < tempInt))
                 {
-                    serviceEndpointName =
-                                        yarp::os::ConstString(DEFAULT_UNREALOUTPUT_SERVICE_NAME) +
-                                        "/" + tag;
+                    // Useable data.
+                    outPort = tempInt;
                 }
-                else
+                if ((optind + 1) < argc)
                 {
-                    serviceEndpointName = DEFAULT_UNREALOUTPUT_SERVICE_NAME;
+                    double tempDouble;
+                    
+                    // 2 or more arguments
+                    tempDouble = strtod(argv[optind + 1], &endPtr);
+                    if ((argv[optind + 1] != endPtr) && (0 < tempDouble))
+                    {
+                        // Useable data.
+                        translationScale = tempDouble;
+                    }
                 }
-            }
-            else if ((optind + 1) == argc)
-            {
-                // 1 arg
-                serviceEndpointName = argv[optind];
-            }
-            else
-            {
-                // 2 or more args
-                serviceEndpointName = argv[optind];
-                servicePortNumber = argv[optind + 1];
             }
             setUpAndGo(outPort, translationScale, argv, tag, serviceEndpointName, servicePortNumber,
                        stdinAvailable, reportOnExit);

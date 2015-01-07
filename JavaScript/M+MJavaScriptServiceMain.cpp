@@ -88,9 +88,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The accepted command line arguments for the service. */
-#define JAVASCRIPT_OPTIONS "rt:"
-
 /*! @brief The number of megabytes before the %JavaScript engine triggers a garbage collection. */
 #define JAVASCRIPT_GC_SIZE 16
 
@@ -428,11 +425,6 @@ static yarp::os::ConstString getFileNameBase(const yarp::os::ConstString & inFil
 /*! @brief The entry point for running the %JavaScript input / output service.
  
  The first argument is the path of the script to be run by the service.
- The third, optional, argument is the port number to be used and the second, optional, argument is
- the name of the channel to be used. There is no output.
- The option 'r' indicates that the service metrics are to be reported on exit.
- The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
- name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -453,32 +445,15 @@ int main(int      argc,
     try
     {
         bool                  reportOnExit = false;
+        bool                  nameWasSet;
         bool                  stdinAvailable = CanReadFromStandardInput();
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, JAVASCRIPT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, JAVASCRIPT_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        nameWasSet = ProcessStandardServiceOptions(argc, argv, DEFAULT_JAVASCRIPT_SERVICE_NAME,
+                                                   reportOnExit, tag, serviceEndpointName,
+                                                   servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
@@ -491,32 +466,13 @@ int main(int      argc,
             if (optind < argc)
             {
                 yarp::os::ConstString scriptPath(argv[optind]);
-                yarp::os::ConstString serviceEndpointName;
-                yarp::os::ConstString servicePortNumber;
                 yarp::os::ConstString scriptSource;
                 
-                if ((optind + 1) == argc)
+                if (! nameWasSet)
                 {
-                    // 1 arg
                     yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
-                    
-                    serviceEndpointName = yarp::os::ConstString(DEFAULT_JAVASCRIPT_SERVICE_NAME) +
-                                            "/" + tagModifier;
-                    if (0 < tag.size())
-                    {
-                        serviceEndpointName += "/" + tag;
-                    }
-                }
-                else if ((optind + 2) == argc)
-                {
-                    // 2 args
-                    serviceEndpointName = argv[optind + 1];
-                }
-                else
-                {
-                    // 3 or more args
-                    serviceEndpointName = argv[optind + 1];
-                    servicePortNumber = argv[optind + 2];
+
+                    serviceEndpointName += "/" + tagModifier;
                 }
                 // Make sure that the scriptPath is valid and construct the modified 'tag' and
                 // (optional) endpoint name.

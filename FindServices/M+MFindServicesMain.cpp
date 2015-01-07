@@ -68,9 +68,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The accepted command line arguments for the service. */
-#define FINDSERVICES_OPTIONS STANDARD_OPTIONS "c:"
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -204,7 +201,9 @@ static void getMatchingChannels(const yarp::os::ConstString & criteria,
 
 /*! @brief The entry point for finding matching services.
  
- There are no input arguments and standard output will receive a list of the matching services.
+ The first, optional, argument is the search criteria to be used. If the search criteria is not
+ specified, all service channels will be reported. Standard output will receive a list of the
+ matching services.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example client.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -218,32 +217,9 @@ int main(int      argc,
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     yarp::os::ConstString criteria;
-    OutputFlavour         flavour = kOutputFlavourNormal;
-
-    opterr = 0; // Suppress the error message resulting from an unknown option.
-    for (int cc = getopt(argc, argv, FINDSERVICES_OPTIONS); -1 != cc;
-         cc = getopt(argc, argv, FINDSERVICES_OPTIONS))
-    {
-        switch (cc)
-        {
-            case 'c' :
-                criteria = optarg;
-                break;
-                
-            case 'j' :
-                flavour = kOutputFlavourJSON;
-                break;
-                
-            case 't' :
-                flavour = kOutputFlavourTabs;
-                break;
-                
-            default :
-                // Ignore unknown options.
-                break;
-                
-        }
-    }
+    OutputFlavour         flavour;
+    
+    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
     try
     {
         Utilities::CheckForNameServerReporter();
@@ -255,6 +231,11 @@ int main(int      argc,
                                     // infrastructure
             
             Initialize(*argv);
+            if (optind < argc)
+            {
+                criteria = argv[optind];
+                OD_LOG_S1s("criteria <- ", criteria); //####
+            }
             if (0 < criteria.size())
             {
                 getMatchingChannels(criteria, flavour);

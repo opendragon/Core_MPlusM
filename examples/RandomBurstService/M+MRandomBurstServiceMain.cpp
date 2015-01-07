@@ -72,9 +72,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The accepted command line arguments for the service. */
-#define RANDOMBURST_OPTIONS "p:rs:t:"
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -309,13 +306,8 @@ static void setUpAndGo(double &                      burstPeriod,
 
 /*! @brief The entry point for running the random burst input service.
  
- The second, optional, argument is the port number to be used and the first, optional, argument is
- the name of the channel to be used. There is no output.
- The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of
- random values to generate in each burst.
- The option 'r' indicates that the service metrics are to be reported on exit.
- The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
- name was not specified. It is also applied to the service name as a suffix.
+ The second, optional, argument is the number of random values to generate in each burst and the
+ first, optional, argument is the burst period, in seconds.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the random burst input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -337,90 +329,47 @@ int main(int      argc,
     {
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
-        char *                endPtr;
         double                burstPeriod = 1;
-        double                tempDouble;
         int                   burstSize = 1;
-        int                   tempInt;
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
-
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, RANDOMBURST_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, RANDOMBURST_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'p' :
-                    // Burst period
-                    tempDouble = strtod(optarg, &endPtr);
-                    if ((optarg != endPtr) && (0 < tempDouble))
-                    {
-                        // Useable data.
-                        burstPeriod = tempDouble;
-                    }
-                    break;
-                    
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 's' :
-                    // Burst size
-                    tempInt = static_cast<int>(strtol(optarg, &endPtr, 10));
-                    if ((optarg != endPtr) && (0 < tempInt))
-                    {
-                        // Useable data.
-                        burstSize = tempInt;
-                    }
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        
+        ProcessStandardServiceOptions(argc, argv, DEFAULT_RANDOMBURST_SERVICE_NAME, reportOnExit,
+                                      tag, serviceEndpointName, servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString servicePortNumber;
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
  
             Initialize(*argv);
-            if (optind >= argc)
+            if (optind < argc)
             {
-                // Zero args
-                if (0 < tag.size())
+                char * endPtr;
+                double tempDouble;
+                
+                // 1 or more arguments
+                tempDouble = strtod(argv[optind], &endPtr);
+                if ((argv[optind] != endPtr) && (0 < tempDouble))
                 {
-                    serviceEndpointName = yarp::os::ConstString(DEFAULT_RANDOMBURST_SERVICE_NAME) +
-                                            "/" + tag;
+                    // Useable data.
+                    burstPeriod = tempDouble;
                 }
-                else
+                if ((optind + 1) < argc)
                 {
-                    serviceEndpointName = DEFAULT_RANDOMBURST_SERVICE_NAME;
+                    int tempInt;
+
+                    // 2 or more arguments
+                    tempInt = static_cast<int>(strtol(argv[optind + 1], &endPtr, 10));
+                    if ((argv[optind + 1] != endPtr) && (0 < tempInt))
+                    {
+                        // Useable data.
+                        burstSize = tempInt;
+                    }
                 }
-            }
-            else if ((optind + 1) == argc)
-            {
-                // 1 arg
-                serviceEndpointName = argv[optind];
-            }
-            else
-            {
-                // 2 or more args
-                serviceEndpointName = argv[optind];
-                servicePortNumber = argv[optind + 1];
             }
             setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName, servicePortNumber,
                        stdinAvailable, reportOnExit);

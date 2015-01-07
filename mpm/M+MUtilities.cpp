@@ -47,6 +47,10 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include <mpm/getopt.h>
+#endif //(! MAC_OR_LINUX_)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -800,7 +804,7 @@ bool Utilities::CheckForRegistryService(const PortVector & ports)
     {
         for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
         {
-            if (walker->_portName == MpM_REGISTRY_CHANNEL_NAME)
+            if (walker->_portName == MpM_REGISTRY_ENDPOINT_NAME)
             {
                 result = true;
                 break;
@@ -1194,7 +1198,7 @@ bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, timeToWait, false,
+                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME, timeToWait, false,
                                               checker, checkStuff))
                 {
                     yarp::os::Bottle parameters;
@@ -1213,18 +1217,18 @@ bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
                         OD_LOG("! (request.send(*newChannel, &response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                        timeToWait, checker, checkStuff))
                     {
                         OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_CHANNEL_NAME, timeToWait, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, timeToWait, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME, " //####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME, " //####
                            "timeToWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
@@ -1721,7 +1725,7 @@ Utilities::PortKind Utilities::GetPortKind(const yarp::os::ConstString & portNam
     const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
     PortKind     result;
     
-    if (! strcmp(MpM_REGISTRY_CHANNEL_NAME, portNameChars))
+    if (! strcmp(MpM_REGISTRY_ENDPOINT_NAME, portNameChars))
     {
         result = kPortKindRegistryService;
     }
@@ -2091,6 +2095,38 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
+
+void Utilities::ProcessStandardUtilitiesOptions(const int               argc,
+                                                char * *                argv,
+                                                Common::OutputFlavour & flavour)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_L1("argc = ", argc); //####
+    OD_LOG_P2("argv = ", argv, "flavour = ", &flavour); //####
+    
+    opterr = 0; // Suppress the error message resulting from an unknown option.
+    flavour = kOutputFlavourNormal;
+    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
+         cc = getopt(argc, argv, STANDARD_OPTIONS))
+    {
+        switch (cc)
+        {
+            case 'j' :
+                flavour = kOutputFlavourJSON;
+                break;
+                
+            case 't' :
+                flavour = kOutputFlavourTabs;
+                break;
+                
+            default :
+                // Ignore unknown options.
+                break;
+                
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // Utilities::ProcessStandardUtilitiesOptions
 
 bool Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
                                  const yarp::os::ConstString & toPortName,

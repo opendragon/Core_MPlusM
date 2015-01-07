@@ -45,10 +45,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -76,9 +72,6 @@ using namespace MplusM::Common;
 # define USE_INMEMORY true
 #endif // ! defined(MpM_UseDiskDatabase)
 
-/*! @brief The accepted command line arguments for the service. */
-#define REGISTRYSERVICE_OPTIONS "r"
-
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -88,9 +81,6 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief The entry point for running the Registry Service.
- 
- The first, optional, argument is the port number to be used. There is no output.
- The option 'r' indicates that the service metrics are to be reported on exit.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Registry Service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -110,44 +100,25 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool reportOnExit = false;
+        bool                  reportOnExit = false;
+        yarp::os::ConstString serviceEndpointName; // not used
+        yarp::os::ConstString servicePortNumber;
+        yarp::os::ConstString tag; // not used
         
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, REGISTRYSERVICE_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, REGISTRYSERVICE_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        ProcessStandardServiceOptions(argc, argv, MpM_REGISTRY_ENDPOINT_NAME, reportOnExit, tag,
+                                      serviceEndpointName, servicePortNumber);
         // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up the
         // NameServerReporter!
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network           yarp; // This is necessary to establish any connections to
-                                              // the YARP infrastructure
-            Registry::RegistryService * stuff = NULL;
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
             
             Initialize(*argv);
-            if (optind >= argc)
-            {
-                stuff = new Registry::RegistryService(*argv, USE_INMEMORY);
-            }
-            else if ((optind + 1) == argc)
-            {
-                stuff = new Registry::RegistryService(*argv, USE_INMEMORY, argv[optind]);
-            }
+            Registry::RegistryService * stuff = new Registry::RegistryService(*argv, USE_INMEMORY,
+                                                                              servicePortNumber);
             if (stuff)
             {
                 stuff->enableMetrics();
@@ -181,8 +152,7 @@ int main(int      argc,
                         yarp::os::Bottle metrics;
                         
                         stuff->gatherMetrics(metrics);
-                        yarp::os::ConstString converted =
-                                                        Utilities::ConvertMetricsToString(metrics);
+                        yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
                         
                         std::cout << converted.c_str() << std::endl;
                     }

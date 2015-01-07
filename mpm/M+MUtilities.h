@@ -381,6 +381,16 @@ namespace MplusM
                                           Common::CheckFunction         checker = NULL,
                                           void *                        checkStuff = NULL);
         
+        /*! @brief Process the standard options for utility executables.
+         The option 'j' specifies that output is to be in JSON format.
+         The option 't' specifies that output is to be in tab-delimited format.
+         @param argc The number of arguments in 'argv'.
+         @param argv The arguments to be used with the service.
+         @param flavour Set if the -j or -t options are seen. */
+        void ProcessStandardUtilitiesOptions(const int               argc,
+                                             char * *                argv,
+                                             Common::OutputFlavour & flavour);
+        
         /*! @brief Remove a connection between two ports.
          @param fromPortName The name of the source port.
          @param toPortName The name of the destination port.

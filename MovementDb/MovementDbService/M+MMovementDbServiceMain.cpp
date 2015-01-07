@@ -44,6 +44,10 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
+# include <mpm/getopt.h>
+#endif //(! MAC_OR_LINUX_)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -71,9 +75,6 @@ using namespace MplusM::MovementDb;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The accepted command line arguments for the service. */
-#define MOVEMENTDBINPUT_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -170,11 +171,6 @@ static void setUpAndGo(const yarp::os::ConstString & databaseAddress,
 /*! @brief The entry point for running the Movement Database service.
  
  The first argument is the IP address of the database server to be connected to.
- The third, optional, argument is the port number to be used and the second, optional, argument is
- the name of the channel to be used. There is no output.
- The option 'r' indicates that the service metrics are to be reported on exit.
- The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
- name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Movement Database service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -195,31 +191,12 @@ int main(int      argc,
     try
     {
         bool                  reportOnExit = false;
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, MOVEMENTDBINPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, MOVEMENTDBINPUT_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        ProcessStandardServiceOptions(argc, argv, DEFAULT_MOVEMENTDB_SERVICE_NAME, reportOnExit,
+                                      tag, serviceEndpointName, servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
@@ -232,34 +209,7 @@ int main(int      argc,
             if (optind < argc)
             {
                 yarp::os::ConstString databaseAddress(argv[optind]);
-                yarp::os::ConstString serviceEndpointName;
-                yarp::os::ConstString servicePortNumber;
 
-                if ((optind + 1) == argc)
-                {
-                    // 1 arg
-                    if (0 < tag.size())
-                    {
-                        serviceEndpointName =
-                                            yarp::os::ConstString(DEFAULT_MOVEMENTDB_SERVICE_NAME) +
-                                            "/" + tag;
-                    }
-                    else
-                    {
-                        serviceEndpointName = DEFAULT_MOVEMENTDB_SERVICE_NAME;
-                    }
-                }
-                else if ((optind + 2) == argc)
-                {
-                    // 2 args
-                    serviceEndpointName = argv[optind + 1];
-                }
-                else
-                {
-                    // 3 args
-                    serviceEndpointName = argv[optind + 1];
-                    servicePortNumber = argv[optind + 2];
-                }
                 setUpAndGo(databaseAddress, argv, tag, serviceEndpointName, servicePortNumber,
                            reportOnExit);
             }

@@ -163,28 +163,9 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour = kOutputFlavourNormal;
-
-    opterr = 0; // Suppress the error message resulting from an unknown option.
-    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
-         cc = getopt(argc, argv, STANDARD_OPTIONS))
-    {
-        switch (cc)
-        {
-            case 'j' :
-                flavour = kOutputFlavourJSON;
-                break;
-                
-            case 't' :
-                flavour = kOutputFlavourTabs;
-                break;
-                
-            default :
-                // Ignore unknown options.
-                break;
-                
-        }
-    }
+    OutputFlavour flavour;
+    
+    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
     try
     {
         Utilities::CheckForNameServerReporter();

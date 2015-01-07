@@ -46,10 +46,6 @@
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -72,9 +68,6 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The accepted command line arguments for the service. */
-#define ECHOINPUT_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -165,11 +158,7 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the example Echo service.
- 
- The second, optional, argument is the port number to be used and the first, optional, argument is
- the name of the channel to be used. There is no output.
- The option 'r' indicates that the service metrics are to be reported on exit.
+/*! @brief The entry point for running the example Echo service. 
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example Echo service.
  @returns @c 0 on a successful test and @c 1 on failure. */
@@ -190,67 +179,21 @@ int main(int      argc,
     try
     {
         bool                  reportOnExit = false;
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, ECHOINPUT_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, ECHOINPUT_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        ProcessStandardServiceOptions(argc, argv, DEFAULT_ECHO_SERVICE_NAME, reportOnExit, tag,
+                                      serviceEndpointName, servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connection to the YARP
-                                        // infrastructure
-            yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString serviceHostName;
-            yarp::os::ConstString servicePortNumber;
+            yarp::os::Network yarp; // This is necessary to establish any connection to the YARP
+                                    // infrastructure
             
             Initialize(*argv);
-            if (optind >= argc)
-            {
-                // Zero args
-                if (0 < tag.size())
-                {
-                    serviceEndpointName = yarp::os::ConstString(DEFAULT_ECHO_SERVICE_NAME) + "/" +
-                                            tag;
-                }
-                else
-                {
-                    serviceEndpointName = DEFAULT_ECHO_SERVICE_NAME;
-                }
-            }
-            else if ((optind + 1) == argc)
-            {
-                // 1 arg
-                serviceEndpointName = argv[optind];
-            }
-            else
-            {
-                // 2 or more args
-                serviceEndpointName = argv[optind];
-                servicePortNumber = argv[optind + 1];
-            }
             setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, reportOnExit);
         }
 #if CheckNetworkWorks_

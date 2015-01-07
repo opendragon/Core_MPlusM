@@ -1837,7 +1837,7 @@ RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
               "for a service on the given channel\n"
               "register - record the information for a service on the given channel\n"
               "unregister - remove the information for a service on the given channel",
-              MpM_REGISTRY_CHANNEL_NAME, servicePortNumber), _db(NULL),
+              MpM_REGISTRY_ENDPOINT_NAME, servicePortNumber), _db(NULL),
     _validator(new ColumnNameValidator), _associateHandler(NULL), _disassociateHandler(NULL),
     _getAssociatesHandler(NULL), _matchHandler(NULL), _pingHandler(NULL), _statusChannel(NULL),
     _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL), _inMemory(useInMemoryDb),
@@ -3124,7 +3124,7 @@ bool RegistryService::start(void)
                 // Register ourselves!!!
                 yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
                                                                  "temp_"
-                                                                 MpM_REGISTRY_CHANNEL_NAME));
+                                                                 MpM_REGISTRY_ENDPOINT_NAME));
                 ClientChannel *       newChannel = new ClientChannel;
                 
                 if (newChannel)
@@ -3139,10 +3139,10 @@ bool RegistryService::start(void)
                     }
                     if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                     {
-                        if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_CHANNEL_NAME,
+                        if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
                                                                  STANDARD_WAIT_TIME))
                         {
-                            yarp::os::Bottle parameters(MpM_REGISTRY_CHANNEL_NAME);
+                            yarp::os::Bottle parameters(MpM_REGISTRY_ENDPOINT_NAME);
                             ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
                             ServiceResponse  response;
                             
@@ -3179,7 +3179,7 @@ bool RegistryService::start(void)
                         else
                         {
                             OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                                   "MpM_REGISTRY_CHANNEL_NAME, STANDARD_WAIT_TIME))"); //####
+                                   "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         newChannel->close();

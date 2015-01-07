@@ -44,10 +44,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -71,9 +67,6 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The accepted command line arguments for the service. */
-#define EXEMPLARFILTER_OPTIONS "rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -301,67 +294,21 @@ int main(int      argc,
     {
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
+        yarp::os::ConstString serviceEndpointName;
+        yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        opterr = 0; // Suppress the error message resulting from an unknown option.
-        for (int cc = getopt(argc, argv, EXEMPLARFILTER_OPTIONS); -1 != cc;
-             cc = getopt(argc, argv, EXEMPLARFILTER_OPTIONS))
-        {
-            switch (cc)
-            {
-                case 'r' :
-                    // Report metrics on exit
-                    reportOnExit = true;
-                    break;
-                    
-                case 't' :
-                    // Tag
-                    tag = optarg;
-                    OD_LOG_S1s("tag <- ", tag); //####
-                    break;
-                    
-                default :
-                    // Ignore unknown options.
-                    break;
-                    
-            }
-        }
+        ProcessStandardServiceOptions(argc, argv, DEFAULT_EXEMPLARFILTER_SERVICE_NAME, reportOnExit,
+                                      tag, serviceEndpointName, servicePortNumber);
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString serviceEndpointName;
-            yarp::os::ConstString servicePortNumber;
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
             
             Initialize(*argv);
-            if (optind >= argc)
-            {
-                // Zero args
-                if (0 < tag.size())
-                {
-                    serviceEndpointName =
-                                        yarp::os::ConstString(DEFAULT_EXEMPLARFILTER_SERVICE_NAME) +
-                                        "/" + tag;
-                }
-                else
-                {
-                    serviceEndpointName = DEFAULT_EXEMPLARFILTER_SERVICE_NAME;
-                }
-            }
-            else if ((optind + 1) == argc)
-            {
-                // 1 arg
-                serviceEndpointName = argv[optind];
-            }
-            else
-            {
-                // 2 or more args
-                serviceEndpointName = argv[optind];
-                servicePortNumber = argv[optind + 1];
-            }
             setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, stdinAvailable,
                        reportOnExit);
         }
