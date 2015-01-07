@@ -18,6 +18,4 @@ _release and _debug]
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-* add index to general channels, pass index to input handler
-
 ** javascript should support thread _or_ input handler

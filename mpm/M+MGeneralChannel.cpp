@@ -71,10 +71,13 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-GeneralChannel::GeneralChannel(const bool isOutput) :
-    inherited(), _protocol(), _protocolDescription(), _isOutput(isOutput)
+GeneralChannel::GeneralChannel(const int  slotNumber,
+                               const bool isOutput) :
+    inherited(), _protocol(), _protocolDescription(), _slotNumber(slotNumber), _isOutput(isOutput)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_L1("slotNumber = ", slotNumber); //####
+    OD_LOG_B1("isOutput = ", isOutput); //####
     OD_LOG_EXIT_P(this); //####
 } // GeneralChannel::GeneralChannel
 

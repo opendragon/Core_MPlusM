@@ -3064,7 +3064,7 @@ bool RegistryService::setUpStatusChannel(void)
     
     try
     {
-        _statusChannel = new GeneralChannel(true);
+        _statusChannel = new GeneralChannel(0, true);
         if (_statusChannel)
         {
             yarp::os::ConstString   outputName(MpM_REGISTRY_STATUS_NAME);

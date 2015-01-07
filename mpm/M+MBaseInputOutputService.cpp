@@ -130,7 +130,7 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
             for (ChannelVector::const_iterator walker(descriptions.begin());
                  result && (descriptions.end() != walker); ++walker)
             {
-                GeneralChannel * newChannel = new GeneralChannel(false);
+                GeneralChannel * newChannel = new GeneralChannel(_inStreams.size(), false);
                 
                 if (newChannel)
                 {
@@ -200,7 +200,7 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
             for (ChannelVector::const_iterator walker(descriptions.begin());
                  result && (descriptions.end() != walker); ++walker)
             {
-                GeneralChannel * newChannel = new GeneralChannel(true);
+                GeneralChannel * newChannel = new GeneralChannel(_outStreams.size(), true);
                 
                 if (newChannel)
                 {
