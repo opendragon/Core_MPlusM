@@ -330,7 +330,11 @@ void Common::SetUpCatcher(void)
 void Common::SetUpLogger(const char * progName)
 {
     OD_LOG_ENTER(); //####
-    lLogger = new yarp::os::impl::Logger(progName, yarp::os::impl::Logger::get());
+    lLogger = new yarp::os::impl::Logger(progName);
+    if (lLogger)
+    {
+        lLogger->setVerbosity(1);
+    }
     OD_LOG_EXIT(); //####
 } // Common::SetUpLogger
 #endif // MAC_OR_LINUX_

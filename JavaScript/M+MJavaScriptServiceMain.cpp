@@ -197,8 +197,7 @@ static void setUpAndGo(JSContext *                   jct,
             {
                 if (stuff->start())
                 {
-                    yarp::os::ConstString channelName =
-                    stuff->getEndpoint().getName();
+                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
                     
                     OD_LOG_S1s("channelName = ", channelName); //####
                     if (RegisterLocalService(channelName, *stuff))
