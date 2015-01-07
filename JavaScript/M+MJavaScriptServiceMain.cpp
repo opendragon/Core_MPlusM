@@ -60,6 +60,7 @@
 #endif // defined(__APPLE__)
 #include <js/RequiredDefines.h>
 #include <jsapi.h>
+#include <js/CallArgs.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -144,8 +145,16 @@ static void reportJavaScriptError(JSContext *     cx,
     // exceptions!
     try
     {
-        std::cerr << (report->filename ? report->filename : "[no filename]") << ":" <<
-                    report->lineno << message << endl;
+        yarp::os::ConstString errMessage(report->filename ? report->filename : "[no filename]");
+        std::stringstream     buff;
+        
+        buff << report->lineno << ":" << message;
+        errMessage += buff.str();
+#if MAC_OR_LINUX_
+        GetLogger().fail(errMessage);
+#else // ! MAC_OR_LINUX_
+        std::cerr << errMessage.c_str() << std::endl;
+#endif // ! MAC_OR_LINUX_
     }
     catch (...)
     {
@@ -153,9 +162,113 @@ static void reportJavaScriptError(JSContext *     cx,
     }
 } // reportJavaScriptError
 
+/*! @brief A C-callback function for %JavaScript to write out a string.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool writeStringForJs(JSContext * jct,
+                             unsigned    argc,
+                             JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    
+    if (0 == args.length())
+    {
+        JS_ReportError(jct, "Missing argument to writeString");
+        result = false;
+    }
+    else if (1 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to writeString");
+        result = false;
+    }
+    else if (args[0].isString())
+    {
+        JSString *             asString = args[0].toString();
+        size_t                 stringLength;
+        JS::AutoCheckCannotGC  nogc;
+        const JS::Latin1Char * asChars = JS_GetLatin1StringCharsAndLength(jct, nogc, asString,
+                                                                          &stringLength);
+        
+        std::cout << asChars << std::endl;
+        result = true;
+    }
+    else
+    {
+        JS_ReportError(jct, "Non-string argument to writeString");
+        result = false;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // writeStringForJs
+#if 0
+extern JS_PUBLIC_API(const JS::Latin1Char *)
+JS_GetLatin1StringCharsAndLength(JSContext *cx, const JS::AutoCheckCannotGC &nogc, JSString *str,
+                                 size_t *length);
+#endif//0
+
+// The table of supplied functions for the service.
+static JSFunctionSpec lServiceFunctions[] =
+{
+    JS_FS("writeString", writeStringForJs, 1, 0),
+//    JS_FS("rand",   myjs_rand,   0, 0),
+//    JS_FS("srand",  myjs_srand,  0, 0),
+//    JS_FS("system", myjs_system, 1, 0),
+    JS_FS_END
+};
+
+/*! @brief Add custom functions to the %JavaScript environment.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @returns @c true if the functions were addeded successfully and @c false otherwise. */
+static bool addCustomFunctions(JSContext *        jct,
+                               JS::RootedObject & global)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
+
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // addCustomFunctions
+
+/*! @brief Load a script into the %JavaScript environment.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @param script The %JavaScript source code to be executed.
+ @param scriptPath The path to the script file.
+ @returns @c true on success and @c false otherwise. */
+static bool loadScript(JSContext *                   jct,
+                       JS::RootedObject &            global,
+                       const yarp::os::ConstString & script,
+                       const yarp::os::ConstString & scriptPath)
+{
+    OD_LOG_ENTER();
+    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    OD_LOG_S1s("scriptPath = ", scriptPath); //####
+    bool               okSoFar;
+    JS::CompileOptions options(jct);
+    JS::RootedValue    result(jct);
+    
+    options.setFileAndLine(scriptPath.c_str(), 1);
+    okSoFar = JS::Evaluate(jct, global, options, script.c_str(), script.size(), &result);
+    if (okSoFar)
+    {
+        std::cerr << "Woo hoo!!" << std::endl;
+    }
+    OD_LOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // loadScript
+
 /*! @brief Set up the %JavaScript environment and start the %JavaScript input / output service.
  @param jct The %JavaScript engine context.
  @param script The %JavaScript source code to be executed.
+ @param scriptPath The path to the script file.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -165,6 +278,7 @@ static void reportJavaScriptError(JSContext *     cx,
  */
 static void setUpAndGo(JSContext *                   jct,
                        const yarp::os::ConstString & script,
+                       const yarp::os::ConstString & scriptPath,
                        char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
@@ -174,8 +288,8 @@ static void setUpAndGo(JSContext *                   jct,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
     // Enter a request before running anything in the context.
     JSAutoRequest    ar(jct);
@@ -185,10 +299,53 @@ static void setUpAndGo(JSContext *                   jct,
     if (global)
     {
         // Enter the new global object's compartment.
+        bool              okSoFar;
         JSAutoCompartment ac(jct, global);
         
         // Populate the global object with the standard globals, like Object and Array.
         if (JS_InitStandardClasses(jct, global))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_LOG("! (JS_InitStandardClasses(jct, global))"); //####
+            okSoFar = false;
+#if MAC_OR_LINUX_
+            GetLogger().fail("JavaScript global object could not be initialized.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "JavaScript global object could not be initialized." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        if (okSoFar)
+        {
+            if (! addCustomFunctions(jct, global))
+            {
+                OD_LOG("(! addCustomFunctions(jct))"); //####
+                okSoFar = false;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Custom functions could not be added to the JavaScript global "
+                                 "object.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Custom functions could not be added to the JavaScript global "
+                                "object." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        if (okSoFar)
+        {
+            if (! loadScript(jct, global, script, scriptPath))
+            {
+                OD_LOG("(! loadScript(jct, global, script, scriptPath))"); //####
+                okSoFar = false;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Script could not be loaded.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Script could not be loaded." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        if (okSoFar)
         {
             JavaScriptService * stuff = new JavaScriptService(jct, *argv, tag, serviceEndpointName,
                                                               servicePortNumber);
@@ -344,15 +501,6 @@ static void setUpAndGo(JSContext *                   jct,
             {
                 OD_LOG("! (stuff)"); //####
             }
-        }
-        else
-        {
-            OD_LOG("! (JS_InitStandardClasses(jct, global))"); //####
-#if MAC_OR_LINUX_
-            GetLogger().fail("JavaScript global object could not be initialized.");
-#else // ! MAC_OR_LINUX_
-            std::cerr << "JavaScript global object could not be initialized." << std::endl;
-#endif // ! MAC_OR_LINUX_
         }
     }
     else
@@ -535,8 +683,9 @@ int main(int      argc,
                         }
                         if (jrt && jct)
                         {
-                            setUpAndGo(jct, scriptSource, argv, tag, serviceEndpointName,
-                                       servicePortNumber, stdinAvailable, reportOnExit);
+                            setUpAndGo(jct, scriptSource, scriptPath, argv, tag,
+                                       serviceEndpointName, servicePortNumber, stdinAvailable,
+                                       reportOnExit);
                             JS_DestroyContext(jct);
                             JS_DestroyRuntime(jrt);
                         }
