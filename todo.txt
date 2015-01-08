@@ -26,3 +26,10 @@ b) have the service code validate loaded code to make sure that it can be used
 d) have the JavaScript code handle an input stream
 e) have the JavaScript code generate an output stream from its input
 f) add support for an output-only script - that is, it will be running more-or-less continuously in a thread, generating output
+
+
+—> add argv[] to global object, as early as possible
+—> change tag order (tag:script) to match stream order (script/tag/)
+—> add handler function to stream description object, for inlets (ie., name: ‘’, …, handler: inHandler)
+—> return handler vector, parallel with ChannelVector, for inlets; don’t need for outlets
+—> if the scriptInlets is a function object, invoke it to get the list, so that scripts like ‘mergeInlets.js’ can be created - the number of inlets could be a command-line argument!
