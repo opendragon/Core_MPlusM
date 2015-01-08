@@ -189,13 +189,11 @@ static bool writeStringForJs(JSContext * jct,
     }
     else if (args[0].isString())
     {
-        JSString *             asString = args[0].toString();
-        size_t                 stringLength;
-        JS::AutoCheckCannotGC  nogc;
-        const JS::Latin1Char * asChars = JS_GetLatin1StringCharsAndLength(jct, nogc, asString,
-                                                                          &stringLength);
-        
+        JSString * asString = args[0].toString();
+        char *     asChars = JS_EncodeString(jct, asString);
+
         std::cout << asChars << std::endl;
+        JS_free(jct, asChars);
         result = true;
     }
     else
@@ -207,15 +205,18 @@ static bool writeStringForJs(JSContext * jct,
     return result;
 } // writeStringForJs
 #if 0
-extern JS_PUBLIC_API(const JS::Latin1Char *)
-JS_GetLatin1StringCharsAndLength(JSContext *cx, const JS::AutoCheckCannotGC &nogc, JSString *str,
-                                 size_t *length);
+bool myNative(JSContext *cx, unsigned argc, JS::Value *vp)
+{
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject *global = JS_GetGlobalForObject(cx, &args.callee());
+    ...
+}
 #endif//0
 
 // The table of supplied functions for the service.
 static JSFunctionSpec lServiceFunctions[] =
 {
-    JS_FS("writeString", writeStringForJs, 1, 0),
+    JS_FS("writeStringToStdout", writeStringForJs, 1, 0),
 //    JS_FS("rand",   myjs_rand,   0, 0),
 //    JS_FS("srand",  myjs_srand,  0, 0),
 //    JS_FS("system", myjs_system, 1, 0),
@@ -240,30 +241,474 @@ static bool addCustomFunctions(JSContext *        jct,
 /*! @brief Load a script into the %JavaScript environment.
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
+ @param options The compile options used to retain the compiled script.
  @param script The %JavaScript source code to be executed.
  @param scriptPath The path to the script file.
  @returns @c true on success and @c false otherwise. */
 static bool loadScript(JSContext *                   jct,
                        JS::RootedObject &            global,
+                       JS::OwningCompileOptions &    options,
                        const yarp::os::ConstString & script,
                        const yarp::os::ConstString & scriptPath)
 {
     OD_LOG_ENTER();
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
     OD_LOG_S1s("scriptPath = ", scriptPath); //####
-    bool               okSoFar;
-    JS::CompileOptions options(jct);
-    JS::RootedValue    result(jct);
+    bool            okSoFar;
+    JS::RootedValue result(jct);
     
-    options.setFileAndLine(scriptPath.c_str(), 1);
+    options.setFileAndLine(jct, scriptPath.c_str(), 1);
+    // We can ignore the returned result, since we are only interested in setting up the functions
+    // and variables in the environment. The documentation states that NULL can be passed as the
+    // last argument, but compiles fail if this is done.
     okSoFar = JS::Evaluate(jct, global, options, script.c_str(), script.size(), &result);
     if (okSoFar)
     {
-        std::cerr << "Woo hoo!!" << std::endl;
+        std::cout << "Woo hoo!!" << std::endl;
     }
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
 } // loadScript
+
+/*! @brief Print out a value.
+ @param jct The %JavaScript engine context.
+ @param caption A title for the output.
+ @param value The value to be printed.
+ @param depth The indentation level to be used. */
+static void printRootedValue(JSContext *       jct,
+                             const char *      caption,
+                             JS::RootedValue & value,
+                             const int         depth)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "value = ", value); //####
+    OD_LOG_S1("caption = ", caption); //####
+    if (0 < depth)
+    {
+        std::cout.width(depth);
+        std::cout << " ";
+    }
+    std::cout << caption;
+    if (value.isString())
+    {
+        JSString * asString = value.toString();
+        char *     asChars = JS_EncodeString(jct, asString);
+        
+        std::cout << "string(" << asChars << ")";
+        JS_free(jct, asChars);
+    }
+    else if (value.isObject())
+    {
+        std::cout << "object";
+    }
+    else if (value.isInt32())
+    {
+        std::cout << "int32(" << value.toInt32() << ")";
+    }
+    else if (value.isBoolean())
+    {
+        std::cout << "boolean(" << (value.toBoolean() ? "true" : "false") << ")";
+    }
+    else if (value.isDouble())
+    {
+        std::cout << "double(" << value.toDouble() << ")";
+    }
+    else if (value.isNullOrUndefined())
+    {
+        std::cout << "null or undefined";
+    }
+    else
+    {
+        std::cout << "other";
+    }
+    OD_LOG_EXIT(); //####
+} // printRootedValue
+
+/*! @brief Print out an object.
+ @param jct The %JavaScript engine context.
+ @param anObject The object to be printed.
+ @param depth The indentation level to be used. */
+static void printObject(JSContext *        jct,
+                        JS::RootedObject & anObject,
+                        const int          depth)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
+    OD_LOG_L1("depth = ", depth); //####
+    JS::AutoIdArray ids(jct, JS_Enumerate(jct, anObject));
+    
+    // Note that only operator! is defined, so we need to do a 'double-negative'.
+    if (!! ids)
+    {
+        bool okSoFar = true;
+        
+        for (int ii = 0, len = ids.length(); (len > ii) && okSoFar; ++ii)
+        {
+            JS::RootedValue key(jct);
+            
+            if (JS_IdToValue(jct, ids[ii], &key))
+            {
+                printRootedValue(jct, "id = ", key, depth);
+                std::cout << std::endl;
+            }
+            else
+            {
+                okSoFar = false;
+            }
+            if (okSoFar)
+            {
+                JS::RootedValue result(jct);
+                JS::RootedId    aRootedId(jct);
+                
+                aRootedId = ids[ii];
+                if (JS_GetPropertyById(jct, anObject, aRootedId, &result))
+                {
+                    printRootedValue(jct, "property = ", result, depth);
+                }
+                else
+                {
+                    okSoFar = false;
+                }
+                if (okSoFar)
+                {
+                    if (result.isObject())
+                    {
+                        JS::RootedObject asObject(jct);
+                        
+                        if (JS_ValueToObject(jct, result, &asObject) &&
+                            JS_ObjectIsFunction(jct, asObject))
+                        {
+                            std::cout << " function";
+                            JSFunction * asFunction = JS_ValueToFunction(jct, result);
+                            
+                            if (asFunction)
+                            {
+                                std::cout << ", arity = " << JS_GetFunctionArity(asFunction);
+                            }
+                        }
+                        std::cout << std::endl;
+                        printObject(jct, asObject, depth + 1);
+                    }
+                    else
+                    {
+                        std::cout << std::endl;
+                    }
+                }
+            }
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // printObject
+
+/*! @brief Check the %JavaScript environment for a specific string variable.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @param stringName The name of the string variable being searched for.
+ @param result The value of the string variable, if located.
+ @returns @c true on success and @c false otherwise. */
+static bool getLoadedString(JSContext *             jct,
+                            JS::RootedObject &      global,
+                            const char *            stringName,
+                            yarp::os::ConstString & result)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("jct = ", jct, "global = ", &global, "result = ", &result); //####
+    OD_LOG_S1("stringName = ", stringName); //####
+    bool found = false;
+    bool okSoFar;
+    
+    if (JS_HasProperty(jct, global, stringName, &found))
+    {
+        okSoFar = found;
+    }
+    else
+    {
+        OD_LOG("! (JS_HasProperty(jct, global, stringName, &found))"); //####
+        okSoFar = false;
+#if MAC_OR_LINUX_
+        GetLogger().fail("Problem searching for a global property.");
+#else // ! MAC_OR_LINUX_
+        std::cerr << "Problem searching for a global property." << std::endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    if (okSoFar)
+    {
+        JS::RootedValue value(jct);
+
+        if (JS_GetProperty(jct, global, stringName, &value))
+        {
+            if (value.isString())
+            {
+                JSString * asString = value.toString();
+                char *     asChars = JS_EncodeString(jct, asString);
+                
+                result = asChars;
+                JS_free(jct, asChars);
+            }
+            else
+            {
+                OD_LOG("! (value.isString())"); //####
+                okSoFar = false;
+                yarp::os::ConstString message("Variable '");
+                
+                message += stringName;
+                message += "' has the wrong type.";
+#if MAC_OR_LINUX_
+                GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                std::cerr << message.c_str() << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (JS_GetProperty(jct, global, stringName, &value))"); //####
+            okSoFar = false;
+#if MAC_OR_LINUX_
+            GetLogger().fail("Problem retrieving a global property.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "Problem retrieving a global property." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // getLoadedString
+
+/*! @brief Check a stream description.
+ @param jct The %JavaScript engine context.
+ @param anElement The stream description object to be checked.
+ @param description The validated stream description.
+ @returns @c true on success and @c false otherwise. */
+static bool processStreamDescription(JSContext *          jct,
+                                     JS::RootedValue &    anElement,
+                                     ChannelDescription & description)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("jct = ", jct, "anElement = ", &anElement, "description = ", &description); //####
+    bool okSoFar = true;
+    
+    if (! anElement.isObject())
+    {
+        OD_LOG("(! anElement.isObject())"); //####
+        okSoFar = false;
+#if MAC_OR_LINUX_
+        GetLogger().fail("Array element has the wrong type.");
+#else // ! MAC_OR_LINUX_
+        std::cerr << "Array element has the wrong type." << std::endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    JS::RootedObject asObject(jct);
+    
+    if (okSoFar)
+    {
+        if (! JS_ValueToObject(jct, anElement, &asObject))
+        {
+            OD_LOG("(! JS_ValueToObject(jct, anElement, &asObject))"); //####
+            okSoFar = false;
+#if MAC_OR_LINUX_
+            GetLogger().fail("Problem converting array element to object.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "Problem converting array element to object." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    if (okSoFar)
+    {
+        okSoFar = getLoadedString(jct, asObject, "name", description._portName);
+    }
+    if (okSoFar)
+    {
+        okSoFar = getLoadedString(jct, asObject, "protocol", description._portProtocol);
+    }
+    if (okSoFar)
+    {
+        okSoFar = getLoadedString(jct, asObject, "protocolDescription",
+                                  description._protocolDescription);
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // processStreamDescription
+
+/*! @brief Check the %JavaScript environment for a specific array variable containing stream
+ descriptions.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @param arrayName The name of the array variable being searched for.
+ @param streamDescriptions The list of loaded stream descriptions.
+ @returns @c true on success and @c false otherwise. */
+static bool getLoadedStreamDescriptions(JSContext *        jct,
+                                        JS::RootedObject & global,
+                                        const char *       arrayName,
+                                        ChannelVector &    streamDescriptions)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("jct = ", jct, "global = ", &global, "streamDescriptions = ", //####
+              &streamDescriptions); //####
+    OD_LOG_S1("arrayName = ", arrayName); //####
+    bool found = false;
+    bool okSoFar;
+    
+    if (JS_HasProperty(jct, global, arrayName, &found))
+    {
+        okSoFar = found;
+    }
+    else
+    {
+        OD_LOG("! (JS_HasProperty(jct, global, arrayName, &found))"); //####
+        okSoFar = false;
+#if MAC_OR_LINUX_
+        GetLogger().fail("Problem searching for a global property.");
+#else // ! MAC_OR_LINUX_
+        std::cerr << "Problem searching for a global property." << std::endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    if (okSoFar)
+    {
+        JS::RootedValue value(jct);
+        
+        if (JS_GetProperty(jct, global, arrayName, &value))
+        {
+            if (! JS_IsArrayObject(jct, value))
+            {
+                OD_LOG("(! JS_IsArrayObject(jct, value))"); //####
+                okSoFar = false;
+                yarp::os::ConstString message("Variable '");
+                
+                message += arrayName;
+                message += "' has the wrong type.";
+#if MAC_OR_LINUX_
+                GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                std::cerr << message.c_str() << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (JS_GetProperty(jct, global, arrayName, &value))"); //####
+            okSoFar = false;
+#if MAC_OR_LINUX_
+            GetLogger().fail("Problem retrieving a global property.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "Problem retrieving a global property." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        JS::RootedObject asObject(jct);
+        
+        if (okSoFar)
+        {
+            if (! JS_ValueToObject(jct, value, &asObject))
+            {
+                OD_LOG("(! JS_ValueToObject(jct, value, &asObject))"); //####
+                okSoFar = false;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Problem converting value to object.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Problem converting value to object." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        uint32_t arrayLength;
+        
+        if (okSoFar)
+        {
+            if (! JS_GetArrayLength(jct, asObject, &arrayLength))
+            {
+                OD_LOG("(! JS_GetArrayLength(jct, asObject, &arrayLength))"); //####
+                okSoFar = false;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Problem getting the array length.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Problem getting the array length." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        if (okSoFar)
+        {
+            for (uint32_t ii = 0; okSoFar && (arrayLength > ii); ++ii)
+            {
+                JS::RootedValue anElement(jct);
+                
+                if (JS_GetElement(jct, asObject, ii, &anElement))
+                {
+                    ChannelDescription description;
+
+                    okSoFar = processStreamDescription(jct, anElement, description);
+                    if (okSoFar)
+                    {
+                        streamDescriptions.push_back(description);
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (JS_GetElement(jct, asObject, ii, &anElement))"); //####
+                    okSoFar = false;
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem getting an array element.");
+#else // ! MAC_OR_LINUX_
+                    std::cerr << "Problem getting an array element." << std::endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+        }
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // getLoadedStreamDescriptions
+
+/*! @brief Check the %JavaScript environment after loading a script.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @param description The descriptive text from the script.
+ @param loadedInletDescriptions The list of loaded inlet stream descriptions.
+ @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
+ @returns @c true on success and @c false otherwise. */
+static bool validateLoadedScript(JSContext *             jct,
+                                 JS::RootedObject &      global,
+                                 yarp::os::ConstString & description,
+                                 ChannelVector &         loadedInletDescriptions,
+                                 ChannelVector &         loadedOutletDescriptions)
+{
+    OD_LOG_ENTER();
+    OD_LOG_P4("jct = ", jct, "global = ", &global, "description = ", &description, //####
+              "loadedInletDescriptions = ", &loadedInletDescriptions); //####
+    OD_LOG_P1("loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
+    bool okSoFar = true;
+
+#if 0
+    printObject(jct, global, 0);
+#endif //0
+    okSoFar = getLoadedString(jct, global, "scriptDescription", description);
+    if (okSoFar)
+    {
+        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", loadedInletDescriptions);
+    }
+    if (okSoFar)
+    {
+        ChannelVector outStreamDescriptions;
+        
+        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptOutlets",
+                                              loadedOutletDescriptions);
+    }
+    if (okSoFar)
+    {
+        
+    }
+    OD_LOG_EXIT_B(okSoFar);
+    return okSoFar;
+} // validateLoadedScript
+#if 0
+/* Call a global function named "foo" that takes no arguments. */
+ok = JS_CallFunctionName(cx, globalObj, "foo", 0, 0, &rval);
+
+jsval argv[2];
+
+/* Call a function in obj's scope named "method", passing two arguments. */
+argv[0] = . . .;
+argv[1] = . . .;
+ok = JS_CallFunctionName(cx, obj, "method", 2, argv, &rval);
+#endif//0
 
 /*! @brief Set up the %JavaScript environment and start the %JavaScript input / output service.
  @param jct The %JavaScript engine context.
@@ -291,7 +736,8 @@ static void setUpAndGo(JSContext *                   jct,
     OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
-    // Enter a request before running anything in the context.
+    // Enter a request before running anything in the context. In particular, the request is needed
+    // in order for JS_InitStandardClasses to work properly.
     JSAutoRequest    ar(jct);
     JS::RootedObject global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
                                                     JS::FireOnNewGlobalHook));
@@ -299,8 +745,10 @@ static void setUpAndGo(JSContext *                   jct,
     if (global)
     {
         // Enter the new global object's compartment.
-        bool              okSoFar;
-        JSAutoCompartment ac(jct, global);
+        bool                     okSoFar;
+        JSAutoCompartment        ac(jct, global);
+        JS::OwningCompileOptions options(jct); // this is used so that script objects persist
+        yarp::os::ConstString    description;
         
         // Populate the global object with the standard globals, like Object and Array.
         if (JS_InitStandardClasses(jct, global))
@@ -334,7 +782,7 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            if (! loadScript(jct, global, script, scriptPath))
+            if (! loadScript(jct, global, options, script, scriptPath))
             {
                 OD_LOG("(! loadScript(jct, global, script, scriptPath))"); //####
                 okSoFar = false;
@@ -345,9 +793,30 @@ static void setUpAndGo(JSContext *                   jct,
 #endif // ! MAC_OR_LINUX_
             }
         }
+        ChannelVector loadedInletDescriptions;
+        ChannelVector loadedOutletDescriptions;
+        
         if (okSoFar)
         {
-            JavaScriptService * stuff = new JavaScriptService(jct, *argv, tag, serviceEndpointName,
+            if (! validateLoadedScript(jct, global, description, loadedInletDescriptions,
+                                       loadedOutletDescriptions))
+            {
+                OD_LOG("(! validateLoadedScript(jct, global, description, " //####
+                       "inStreamDescriptions, outStreamDescriptions))"); //####
+                okSoFar = false;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Script is missing one or more functions or variables.");
+#else // ! MAC_OR_LINUX_
+                std::cerr << "Script is missing one or more functions or variables." << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        if (okSoFar)
+        {
+            JavaScriptService * stuff = new JavaScriptService(jct, *argv, tag, description,
+                                                              loadedInletDescriptions,
+                                                              loadedOutletDescriptions,
+                                                              serviceEndpointName,
                                                               servicePortNumber);
             
             if (stuff)
@@ -614,12 +1083,19 @@ int main(int      argc,
             {
                 yarp::os::ConstString scriptPath(argv[optind]);
                 yarp::os::ConstString scriptSource;
+                yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
                 
                 if (! nameWasSet)
                 {
-                    yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
-
                     serviceEndpointName += "/" + tagModifier;
+                }
+                if (0 < tag.length())
+                {
+                    tag = tagModifier + ":" + tag;
+                }
+                else
+                {
+                    tag = tagModifier;
                 }
                 // Make sure that the scriptPath is valid and construct the modified 'tag' and
                 // (optional) endpoint name.
@@ -652,12 +1128,13 @@ int main(int      argc,
                         
                         if (jrt)
                         {
+                            // Avoid ambiguity between 'var x = ...' and 'x = ...'.
+                            JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
+                            JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
                             jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
                             if (jct)
                             {
                                 JS_SetErrorReporter(jrt, reportJavaScriptError);
-// Note that JS_SetOptions() is no longer supported.
-//                        JS_SetOptions(jct, JSOPTION_VAROBJFIX | JSOPTION_EXTRA_WARNINGS);
                             }
                             else
                             {

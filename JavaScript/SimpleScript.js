@@ -37,4 +37,40 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-writeString('hello' + 'world, it is ' + new Date())
+// Some test JavaScript...
+
+writeStringToStdout('hello ' + 'world, it is ' + new Date());
+
+var xx = 5;
+
+function hereWeGo()
+{
+    writeStringToStdout('inside hereWeGo');
+}
+
+var yy = {};
+
+var zz = { aa : 'first', bb : 'second', cc : 42};
+
+function andAnotherFunction(aa)
+{
+    writeStringToStdout('argument is ' + aa);
+    hereWeGo();
+}
+
+andAnotherFunction(42);
+
+// The real stuff:
+
+var scriptDescription = 'An example script';
+
+var scriptInlets = [ { name: 'incoming', protocol: 'd+',
+                        protocolDescription: 'A sequence of floating-point values' } ];
+
+var scriptOutlets = [ { name: 'outgoing', protocol: 'i+',
+                        protocolDescription: 'A sequence of integer values' } ];
+
+function scriptHandleInput(portNumber, incomingData)
+{
+    writeStringToStdout('input on port ' + portNumber);
+}

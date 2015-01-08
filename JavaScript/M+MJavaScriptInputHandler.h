@@ -72,6 +72,18 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~JavaScriptInputHandler(void);
             
+            /*! @brief Turn on input processing. */
+            void activate(void)
+            {
+                _active = true;
+            } // activate
+            
+            /*! @brief Turn off input processing. */
+            void deactivate(void)
+            {
+                _active = false;
+            } // deactivate
+            
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
@@ -83,9 +95,9 @@ namespace MplusM
                                      yarp::os::ConnectionWriter *  replyMechanism,
                                      const size_t                  numBytes);
             
-            /*! @brief Set the channel to be written to.
-             @param output The channel to be written to. */
-            void setOutput(Common::GeneralChannel * output);
+//            /*! @brief Set the channel to be written to.
+//             @param output The channel to be written to. */
+//            void setOutput(Common::GeneralChannel * output);
             
         protected :
             
@@ -102,8 +114,11 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
             
-            /*! @brief The channel that is to be written to. */
-            Common::GeneralChannel * _outChannel;
+//            /*! @brief The channel that is to be written to. */
+//            Common::GeneralChannel * _outChannel;
+            
+            /*! @brief @c true if the input is to be processed and @c false otherwise. */
+            bool _active;
             
         }; // JavaScriptInputHandler
         

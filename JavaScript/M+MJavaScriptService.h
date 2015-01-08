@@ -75,11 +75,17 @@ namespace MplusM
              @param context The %JavaScript engine context.
              @param launchPath The command-line name used to launch the service.
              @param tag The modifier for the service name and port names.
+             @param description The description from the active script.
+             @param loadedInletDescriptions The list of loaded inlet stream descriptions.
+             @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             JavaScriptService(JSContext *                   context,
                               const yarp::os::ConstString & launchPath,
                               const yarp::os::ConstString & tag,
+                              const yarp::os::ConstString & description,
+                              const Common::ChannelVector & loadedInletDescriptions,
+                              const Common::ChannelVector & loadedOutletDescriptions,
                               const yarp::os::ConstString & serviceEndpointName,
                               const yarp::os::ConstString & servicePortNumber = "");
             
@@ -90,6 +96,14 @@ namespace MplusM
              @param details The configuration information for the input/output streams.
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool configure(const yarp::os::Bottle & details);
+            
+            /*! @brief Return the %JavaScript execution environment.
+             @returns The %JavaScript execution environment. */
+            JSContext * getContext(void)
+            const
+            {
+                return _context;
+            } // getContext
             
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
@@ -126,6 +140,15 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseFilterService inherited;
+            
+            /*! @brief The %JavaScript execution environment. */
+            JSContext * _context;
+            
+            /*! @brief The list of loaded inlet stream descriptions. */
+            const Common::ChannelVector & _loadedInletDescriptions;
+            
+            /*! @brief The list of loaded outlet stream descriptions. */
+            const Common::ChannelVector & _loadedOutletDescriptions;
             
             /*! @brief The handler for input data. */
             JavaScriptInputHandler * _inHandler;

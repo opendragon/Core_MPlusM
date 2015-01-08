@@ -74,7 +74,7 @@ using namespace MplusM::JavaScript;
 #endif // defined(__APPLE__)
 
 JavaScriptInputHandler::JavaScriptInputHandler(void) :
-    inherited(), _outChannel(NULL)
+    inherited(), _active(false)//, _outChannel(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -112,6 +112,11 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
     
     try
     {
+        if (_active)
+        {
+            
+        }
+#if 0
         yarp::os::Bottle outBottle;
         
         for (int ii = 0, mm = input.size(); mm > ii; ++ii)
@@ -137,6 +142,7 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
 #endif // defined(MpM_StallOnSendProblem)
             }
         }
+#endif//0
     }
     catch (...)
     {
@@ -150,6 +156,7 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+#if 0
 void JavaScriptInputHandler::setOutput(GeneralChannel * output)
 {
     OD_LOG_OBJENTER(); //####
@@ -157,6 +164,7 @@ void JavaScriptInputHandler::setOutput(GeneralChannel * output)
     _outChannel = output;
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptInputHandler::setOutput
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Global functions

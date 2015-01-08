@@ -88,16 +88,23 @@ using namespace MplusM::JavaScript;
 JavaScriptService::JavaScriptService(JSContext *                   context,
                                      const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & tag,
+                                     const yarp::os::ConstString & description,
+                                     const Common::ChannelVector & loadedInletDescriptions,
+                                     const Common::ChannelVector & loadedOutletDescriptions,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME,
-              "The JavaScript input / output service", "", serviceEndpointName, servicePortNumber),
-    _inHandler(new JavaScriptInputHandler)
+    inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
+              serviceEndpointName, servicePortNumber),
+    _context(context), _loadedInletDescriptions(loadedInletDescriptions),
+    _loadedOutletDescriptions(loadedOutletDescriptions), _inHandler(new JavaScriptInputHandler)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("context = ", context); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_P3("context = ", context, "loadedInletDescriptions = ", &loadedInletDescriptions, //####
+              "loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    JS_SetContextPrivate(context, this);
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptService::JavaScriptService
 
@@ -170,15 +177,23 @@ bool JavaScriptService::setUpStreamDescriptions(void)
     yarp::os::ConstString rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
-    description._portName = rootName + "input";
-    description._portProtocol = "d+";
-    description._protocolDescription = "One or more numeric values";
-    _inDescriptions.push_back(description);
+    for (ChannelVector::const_iterator walker(_loadedInletDescriptions.begin());
+         _loadedInletDescriptions.end() != walker; ++walker)
+    {
+        description._portName = rootName + walker->_portName;
+        description._portProtocol = walker->_portProtocol;
+        description._protocolDescription = walker->_protocolDescription;
+        _inDescriptions.push_back(description);
+    }
     _outDescriptions.clear();
-    description._portName = rootName + "output";
-    description._portProtocol = "i+";
-    description._protocolDescription = "One or more integer values";
-    _outDescriptions.push_back(description);
+    for (ChannelVector::const_iterator walker(_loadedOutletDescriptions.begin());
+         _loadedOutletDescriptions.end() != walker; ++walker)
+    {
+        description._portName = rootName + walker->_portName;
+        description._portProtocol = walker->_portProtocol;
+        description._protocolDescription = walker->_protocolDescription;
+        _outDescriptions.push_back(description);
+    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptService::setUpStreamDescriptions
@@ -219,8 +234,12 @@ void JavaScriptService::startStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(_outStreams.at(0));
-                _inStreams.at(0)->setReader(*_inHandler);
+//                _inHandler->setOutput(_outStreams.at(0));
+                for (int ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
+                {
+                    _inStreams.at(ii)->setReader(*_inHandler);
+                }
+                _inHandler->activate();
                 setActive();
             }
         }
@@ -260,7 +279,8 @@ void JavaScriptService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(NULL);
+                _inHandler->deactivate();
+//                _inHandler->setOutput(NULL);
             }
             clearActive();
         }
