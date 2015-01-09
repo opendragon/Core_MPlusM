@@ -41,7 +41,7 @@
 
 writeStringToStdout('hello ' + 'world, it is ' + new Date());
 
-var xx = 5;
+var ww = 4.34, xx = 5;
 
 function hereWeGo()
 {
@@ -59,18 +59,20 @@ function andAnotherFunction(aa)
 }
 
 andAnotherFunction(42);
+writeStringToStdout('argv is: [' + argv.toString() + ']');
 
 // The real stuff:
-
-var scriptDescription = 'An example script';
-
-var scriptInlets = [ { name: 'incoming', protocol: 'd+',
-                        protocolDescription: 'A sequence of floating-point values' } ];
-
-var scriptOutlets = [ { name: 'outgoing', protocol: 'i+',
-                        protocolDescription: 'A sequence of integer values' } ];
 
 function scriptHandleInput(portNumber, incomingData)
 {
     writeStringToStdout('input on port ' + portNumber);
 }
+
+var scriptDescription = 'An example script';
+
+var scriptInlets = [ { name: 'incoming', protocol: 'd+',
+                    protocolDescription: 'A sequence of floating-point values',
+                    handler: scriptHandleInput } ];
+
+var scriptOutlets = [ { name: 'outgoing', protocol: 'i+',
+                        protocolDescription: 'A sequence of integer values' } ];

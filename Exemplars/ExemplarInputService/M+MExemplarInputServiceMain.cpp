@@ -359,7 +359,7 @@ int main(int      argc,
                 
                 // 1 or more arguments
                 tempDouble = strtod(argv[optind], &endPtr);
-                if ((argv[optind] != endPtr) && (0 < tempDouble))
+                if ((argv[optind] != endPtr) && (! *endPtr) && (0 < tempDouble))
                 {
                     // Useable data.
                     burstPeriod = tempDouble;
@@ -370,7 +370,7 @@ int main(int      argc,
                     
                     // 2 or more arguments
                     tempInt = static_cast<int>(strtol(argv[optind + 1], &endPtr, 10));
-                    if ((argv[optind + 1] != endPtr) && (0 < tempInt))
+                    if ((argv[optind + 1] != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
                         burstSize = tempInt;

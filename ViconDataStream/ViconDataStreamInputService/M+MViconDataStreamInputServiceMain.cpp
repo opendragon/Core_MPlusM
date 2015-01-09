@@ -369,7 +369,7 @@ int main(int      argc,
                     char * endPtr;
                     int    tempInt = static_cast<int>(strtol(argv[optind + 1], &endPtr, 10));
                     
-                    if ((argv[optind + 1] != endPtr) && (0 < tempInt))
+                    if ((argv[optind + 1] != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
                         hostPort = tempInt;

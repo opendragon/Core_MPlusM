@@ -204,14 +204,6 @@ static bool writeStringForJs(JSContext * jct,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // writeStringForJs
-#if 0
-bool myNative(JSContext *cx, unsigned argc, JS::Value *vp)
-{
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    JSObject *global = JS_GetGlobalForObject(cx, &args.callee());
-    ...
-}
-#endif//0
 
 // The table of supplied functions for the service.
 static JSFunctionSpec lServiceFunctions[] =
@@ -223,20 +215,99 @@ static JSFunctionSpec lServiceFunctions[] =
     JS_FS_END
 };
 
-/*! @brief Add custom functions to the %JavaScript environment.
+/*! @brief Add custom functions and variables to the %JavaScript environment.
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
+ @param argv The arguments to be used with the %JavaScript input / output service.
+ @param argc The number of arguments in 'argv'.
  @returns @c true if the functions were addeded successfully and @c false otherwise. */
-static bool addCustomFunctions(JSContext *        jct,
-                               JS::RootedObject & global)
+static bool addCustomFunctionsAndVariables(JSContext *        jct,
+                                           JS::RootedObject & global,
+                                           char * *           argv,
+                                           const int          argc)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
     bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
 
+    if (okSoFar)
+    {
+        JSObject * argArray = JS_NewArrayObject(jct, 0);
+        
+        if (argArray)
+        {
+            JS::RootedObject argObject(jct);
+            JS::RootedValue  argValue(jct);
+            
+            argObject = argArray;
+            argValue.setObject(*argArray);
+            if (JS_SetProperty(jct, global, "argv", argValue))
+            {
+                char *          endPtr;
+                int32_t         tempInt;
+                JS::RootedValue anElement(jct);
+                JS::RootedId    aRootedId(jct);
+                
+                for (int ii = optind; okSoFar && (argc > ii); ++ii)
+                {
+                    char * anArg = argv[ii];
+                    
+                    // Check for an integer value
+                    tempInt = static_cast<int32_t>(strtol(anArg, &endPtr, 10));
+                    if ((anArg == endPtr) || *endPtr)
+                    {
+                        // Check for an floating-point value
+                        double tempDouble = strtod(anArg, &endPtr);
+                        
+                        if ((anArg == endPtr) || *endPtr)
+                        {
+                            // Otherwise, treat as a string
+                            JSString * aString = JS_NewStringCopyZ(jct, anArg);
+                            
+                            if (aString)
+                            {
+                                anElement.setString(aString);
+                            }
+                            else
+                            {
+                                okSoFar = false;
+                            }
+                        }
+                        else
+                        {
+                            anElement.setDouble(tempDouble);
+                        }
+                    }
+                    else
+                    {
+                        anElement.setInt32(tempInt);
+                    }
+                    if (okSoFar)
+                    {
+                        if (JS_IndexToId(jct, ii - optind, &aRootedId))
+                        {
+                            JS_SetPropertyById(jct, argObject, aRootedId, anElement);
+                        }
+                        else
+                        {
+                            okSoFar = false;
+                        }
+                    }
+                }
+            }
+            else
+            {
+                okSoFar = false;
+            }
+        }
+        else
+        {
+            okSoFar = false;
+        }
+    }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
-} // addCustomFunctions
+} // addCustomFunctionsAndVariables
 
 /*! @brief Load a script into the %JavaScript environment.
  @param jct The %JavaScript engine context.
@@ -262,10 +333,6 @@ static bool loadScript(JSContext *                   jct,
     // and variables in the environment. The documentation states that NULL can be passed as the
     // last argument, but compiles fail if this is done.
     okSoFar = JS::Evaluate(jct, global, options, script.c_str(), script.size(), &result);
-    if (okSoFar)
-    {
-        std::cout << "Woo hoo!!" << std::endl;
-    }
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
 } // loadScript
@@ -299,7 +366,7 @@ static void printRootedValue(JSContext *       jct,
     }
     else if (value.isObject())
     {
-        std::cout << "object";
+        // Objects will be processed separately.
     }
     else if (value.isInt32())
     {
@@ -349,7 +416,6 @@ static void printObject(JSContext *        jct,
             if (JS_IdToValue(jct, ids[ii], &key))
             {
                 printRootedValue(jct, "id = ", key, depth);
-                std::cout << std::endl;
             }
             else
             {
@@ -363,7 +429,7 @@ static void printObject(JSContext *        jct,
                 aRootedId = ids[ii];
                 if (JS_GetPropertyById(jct, anObject, aRootedId, &result))
                 {
-                    printRootedValue(jct, "property = ", result, depth);
+                    printRootedValue(jct, ", property = ", result, 0);
                 }
                 else
                 {
@@ -375,19 +441,46 @@ static void printObject(JSContext *        jct,
                     {
                         JS::RootedObject asObject(jct);
                         
-                        if (JS_ValueToObject(jct, result, &asObject) &&
-                            JS_ObjectIsFunction(jct, asObject))
+                        if (JS_ValueToObject(jct, result, &asObject))
                         {
-                            std::cout << " function";
-                            JSFunction * asFunction = JS_ValueToFunction(jct, result);
-                            
-                            if (asFunction)
+                            if (JS_IsArrayObject(jct, result))
                             {
-                                std::cout << ", arity = " << JS_GetFunctionArity(asFunction);
+                                std::cout << "array";
+                                uint32_t arrayLength;
+                                
+                                if (JS_GetArrayLength(jct, asObject, &arrayLength))
+                                {
+                                    std::cout << ", size = " << arrayLength;
+                                }
+                            }
+                            else if (JS_ObjectIsFunction(jct, asObject))
+                            {
+                                std::cout << "function";
+                                JSFunction * asFunction = JS_ValueToFunction(jct, result);
+                                
+                                if (asFunction)
+                                {
+                                    std::cout << ", arity = " << JS_GetFunctionArity(asFunction);
+                                    if (! JS::IsCallable(asObject))
+                                    {
+                                        std::cout << ", not callable";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                std::cout << "object";
                             }
                         }
+                        else
+                        {
+                            okSoFar = false;
+                        }
                         std::cout << std::endl;
-                        printObject(jct, asObject, depth + 1);
+                        if (okSoFar)
+                        {
+                            printObject(jct, asObject, depth + 1);
+                        }
                     }
                     else
                     {
@@ -676,9 +769,9 @@ static bool validateLoadedScript(JSContext *             jct,
     OD_LOG_P1("loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
     bool okSoFar = true;
 
-#if 0
+    //#if 0
     printObject(jct, global, 0);
-#endif //0
+    //#endif //0
     okSoFar = getLoadedString(jct, global, "scriptDescription", description);
     if (okSoFar)
     {
@@ -686,8 +779,6 @@ static bool validateLoadedScript(JSContext *             jct,
     }
     if (okSoFar)
     {
-        ChannelVector outStreamDescriptions;
-        
         okSoFar = getLoadedStreamDescriptions(jct, global, "scriptOutlets",
                                               loadedOutletDescriptions);
     }
@@ -698,23 +789,13 @@ static bool validateLoadedScript(JSContext *             jct,
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
 } // validateLoadedScript
-#if 0
-/* Call a global function named "foo" that takes no arguments. */
-ok = JS_CallFunctionName(cx, globalObj, "foo", 0, 0, &rval);
-
-jsval argv[2];
-
-/* Call a function in obj's scope named "method", passing two arguments. */
-argv[0] = . . .;
-argv[1] = . . .;
-ok = JS_CallFunctionName(cx, obj, "method", 2, argv, &rval);
-#endif//0
 
 /*! @brief Set up the %JavaScript environment and start the %JavaScript input / output service.
  @param jct The %JavaScript engine context.
  @param script The %JavaScript source code to be executed.
  @param scriptPath The path to the script file.
  @param argv The arguments to be used with the %JavaScript input / output service.
+ @param argc The number of arguments in 'argv'.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -725,6 +806,7 @@ static void setUpAndGo(JSContext *                   jct,
                        const yarp::os::ConstString & script,
                        const yarp::os::ConstString & scriptPath,
                        char * *                      argv,
+                       const int                     argc,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
@@ -735,6 +817,7 @@ static void setUpAndGo(JSContext *                   jct,
     OD_LOG_P2("jct = ", jct, "argv = ", argv); //####
     OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_L1("argc = ", argc); //####
     OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
     // Enter a request before running anything in the context. In particular, the request is needed
     // in order for JS_InitStandardClasses to work properly.
@@ -767,16 +850,16 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            if (! addCustomFunctions(jct, global))
+            if (! addCustomFunctionsAndVariables(jct, global, argv, argc))
             {
-                OD_LOG("(! addCustomFunctions(jct))"); //####
+                OD_LOG("(! addCustomFunctionsAndVariables(jct, global, argv, argc))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
-                GetLogger().fail("Custom functions could not be added to the JavaScript global "
-                                 "object.");
+                GetLogger().fail("Custom functions and variables could not be added to the "
+                                 "JavaScript global object.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Custom functions could not be added to the JavaScript global "
-                                "object." << std::endl;
+                std::cerr << "Custom functions and variables could not be added to the "
+                                "JavaScript global object." << std::endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1091,7 +1174,7 @@ int main(int      argc,
                 }
                 if (0 < tag.length())
                 {
-                    tag = tagModifier + ":" + tag;
+                    tag += ":" + tagModifier;
                 }
                 else
                 {
@@ -1160,7 +1243,7 @@ int main(int      argc,
                         }
                         if (jrt && jct)
                         {
-                            setUpAndGo(jct, scriptSource, scriptPath, argv, tag,
+                            setUpAndGo(jct, scriptSource, scriptPath, argv, argc, tag,
                                        serviceEndpointName, servicePortNumber, stdinAvailable,
                                        reportOnExit);
                             JS_DestroyContext(jct);

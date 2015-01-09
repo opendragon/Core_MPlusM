@@ -357,7 +357,7 @@ int main(int      argc,
                 
                 // 1 or more arguments
                 tempInt = static_cast<int>(strtol(argv[optind], &endPtr, 10));
-                if ((argv[optind] != endPtr) && (0 < tempInt))
+                if ((argv[optind] != endPtr) && (! *endPtr) && (0 < tempInt))
                 {
                     // Useable data.
                     outPort = tempInt;
@@ -368,7 +368,7 @@ int main(int      argc,
                     
                     // 2 or more arguments
                     tempDouble = strtod(argv[optind + 1], &endPtr);
-                    if ((argv[optind + 1] != endPtr) && (0 < tempDouble))
+                    if ((argv[optind + 1] != endPtr) && (! *endPtr) && (0 < tempDouble))
                     {
                         // Useable data.
                         translationScale = tempDouble;
