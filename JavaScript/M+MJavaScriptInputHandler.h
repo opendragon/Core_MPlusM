@@ -70,7 +70,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param owner The service that owns this handler.
-             @param index The slot number of the associated channel. */
+             @param slotNumber The slot number of the associated channel. */
             JavaScriptInputHandler(JavaScriptService * owner,
                                    const size_t        slotNumber);
             

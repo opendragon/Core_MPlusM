@@ -439,7 +439,7 @@ namespace MplusM
          @param tag Set to the argument of the last -t option seen.
          @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
          options.
-         @param serviceEndpointNumber Set to the argument of the last -p option seen.
+         @param servicePortNumber Set to the argument of the last -p option seen.
          @returns @c true if the service endpoint option appeared. */
         bool ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
