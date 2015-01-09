@@ -277,6 +277,7 @@
 		DF385121198ACCFE00A0414E /* M+MStopStreamsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopStreamsRequestHandler.h"; path = "mpm/M+MStopStreamsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF385122198ACCFE00A0414E /* M+MUtilities.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUtilities.cpp"; path = "mpm/M+MUtilities.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385123198ACCFE00A0414E /* M+MUtilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUtilities.h"; path = "mpm/M+MUtilities.h"; sourceTree = SOURCE_ROOT; };
+		DF4179A11A60596F006552F0 /* MergeChannels.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = MergeChannels.js; path = JavaScript/MergeChannels.js; sourceTree = SOURCE_ROOT; };
 		DF45F21A1A5AF9500090E161 /* M+MJavaScriptInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MJavaScriptInputHandler.cpp"; path = "JavaScript/M+MJavaScriptInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF45F21B1A5AF9500090E161 /* M+MJavaScriptInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptInputHandler.h"; path = "JavaScript/M+MJavaScriptInputHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF45F21C1A5AF9500090E161 /* M+MJavaScriptRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptRequests.h"; path = "JavaScript/M+MJavaScriptRequests.h"; sourceTree = SOURCE_ROOT; };
@@ -284,7 +285,7 @@
 		DF45F21E1A5AF9500090E161 /* M+MJavaScriptService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptService.h"; path = "JavaScript/M+MJavaScriptService.h"; sourceTree = SOURCE_ROOT; };
 		DF45F21F1A5AF9500090E161 /* M+MJavaScriptServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MJavaScriptServiceMain.cpp"; path = "JavaScript/M+MJavaScriptServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF45F2201A5AF9500090E161 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = JavaScript/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF45F2211A5C4CA30090E161 /* SimpleScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SimpleScript.js; path = JavaScript/SimpleScript.js; sourceTree = "<group>"; };
+		DF45F2211A5C4CA30090E161 /* SimpleScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SimpleScript.js; path = JavaScript/SimpleScript.js; sourceTree = SOURCE_ROOT; };
 		DF6DFCC11A0D263400E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC21A0D265000E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/ViconDataStreamInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC31A0D265000E8CEF5 /* M+MViconDataStreamEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamEventThread.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamEventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -791,6 +792,7 @@
 				DF45F21D1A5AF9500090E161 /* M+MJavaScriptService.cpp */,
 				DF45F21E1A5AF9500090E161 /* M+MJavaScriptService.h */,
 				DF45F21F1A5AF9500090E161 /* M+MJavaScriptServiceMain.cpp */,
+				DF4179A11A60596F006552F0 /* MergeChannels.js */,
 				DF45F2211A5C4CA30090E161 /* SimpleScript.js */,
 			);
 			name = JavaScript;

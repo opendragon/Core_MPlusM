@@ -493,43 +493,47 @@ static void printObject(JSContext *        jct,
     OD_LOG_EXIT(); //####
 } // printObject
 
-/*! @brief Check the %JavaScript environment for a specific string variable.
+/*! @brief Check an object for a specific string property.
  @param jct The %JavaScript engine context.
- @param global The %JavaScript global object.
- @param stringName The name of the string variable being searched for.
- @param result The value of the string variable, if located.
+ @param anObject The object to check.
+ @param propertyName The name of the property being searched for.
+ @param canBeFunction @c true if the property can be a function rather than a string and @c false if
+ the property must be a string.
+ @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
 static bool getLoadedString(JSContext *             jct,
-                            JS::RootedObject &      global,
-                            const char *            stringName,
+                            JS::RootedObject &      anObject,
+                            const char *            propertyName,
+                            const bool              canBeFunction,
                             yarp::os::ConstString & result)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "global = ", &global, "result = ", &result); //####
-    OD_LOG_S1("stringName = ", stringName); //####
+    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    OD_LOG_S1("propertyName = ", propertyName); //####
     bool found = false;
     bool okSoFar;
     
-    if (JS_HasProperty(jct, global, stringName, &found))
+    if (JS_HasProperty(jct, anObject, propertyName, &found))
     {
         okSoFar = found;
     }
     else
     {
-        OD_LOG("! (JS_HasProperty(jct, global, stringName, &found))"); //####
+        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
         okSoFar = false;
 #if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a global property.");
+        GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-        std::cerr << "Problem searching for a global property." << std::endl;
+        std::cerr << "Problem searching for a property." << std::endl;
 #endif // ! MAC_OR_LINUX_
     }
     if (okSoFar)
     {
         JS::RootedValue value(jct);
 
-        if (JS_GetProperty(jct, global, stringName, &value))
+        if (JS_GetProperty(jct, anObject, propertyName, &value))
         {
+            okSoFar = false;
             if (value.isString())
             {
                 JSString * asString = value.toString();
@@ -537,14 +541,44 @@ static bool getLoadedString(JSContext *             jct,
                 
                 result = asChars;
                 JS_free(jct, asChars);
+                okSoFar = true;
             }
-            else
+            else if (canBeFunction)
             {
-                OD_LOG("! (value.isString())"); //####
+                if (value.isObject())
+                {
+                    JS::RootedObject asObject(jct);
+                    
+                    if (JS_ValueToObject(jct, value, &asObject))
+                    {
+                        if (JS_ObjectIsFunction(jct, asObject))
+                        {
+                            JS::RootedValue funcResult(jct);
+                            
+                            if (JS_CallFunctionValue(jct, anObject, value,
+                                                     JS::HandleValueArray::empty(), &funcResult))
+                            {
+                                if (funcResult.isString())
+                                {
+                                    JSString * asString = funcResult.toString();
+                                    char *     asChars = JS_EncodeString(jct, asString);
+                                    
+                                    result = asChars;
+                                    JS_free(jct, asChars);
+                                    okSoFar = true;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            if (! okSoFar)
+            {
+                OD_LOG("! (canBeFunction)"); //####
                 okSoFar = false;
-                yarp::os::ConstString message("Variable '");
+                yarp::os::ConstString message("Property '");
                 
-                message += stringName;
+                message += propertyName;
                 message += "' has the wrong type.";
 #if MAC_OR_LINUX_
                 GetLogger().fail(message.c_str());
@@ -555,12 +589,12 @@ static bool getLoadedString(JSContext *             jct,
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, global, stringName, &value))"); //####
+            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
             okSoFar = false;
 #if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a global property.");
+            GetLogger().fail("Problem retrieving a property.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Problem retrieving a global property." << std::endl;
+            std::cerr << "Problem retrieving a property." << std::endl;
 #endif // ! MAC_OR_LINUX_
         }
     }
@@ -608,15 +642,15 @@ static bool processStreamDescription(JSContext *          jct,
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedString(jct, asObject, "name", description._portName);
+        okSoFar = getLoadedString(jct, asObject, "name", false, description._portName);
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedString(jct, asObject, "protocol", description._portProtocol);
+        okSoFar = getLoadedString(jct, asObject, "protocol", false, description._portProtocol);
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedString(jct, asObject, "protocolDescription",
+        okSoFar = getLoadedString(jct, asObject, "protocolDescription", false,
                                   description._protocolDescription);
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -658,15 +692,62 @@ static bool getLoadedStreamDescriptions(JSContext *        jct,
     }
     if (okSoFar)
     {
-        JS::RootedValue value(jct);
+        JS::RootedValue  value(jct);
+        JS::RootedObject asObject(jct);
         
         if (JS_GetProperty(jct, global, arrayName, &value))
         {
-            if (! JS_IsArrayObject(jct, value))
+            okSoFar = false;
+            if (value.isObject())
             {
-                OD_LOG("(! JS_IsArrayObject(jct, value))"); //####
-                okSoFar = false;
-                yarp::os::ConstString message("Variable '");
+                if (JS_ValueToObject(jct, value, &asObject))
+                {
+                    okSoFar = true;
+                }
+                else
+                {
+                    OD_LOG("(! JS_ValueToObject(jct, value, &asObject))"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem converting value to object.");
+#else // ! MAC_OR_LINUX_
+                    std::cerr << "Problem converting value to object." << std::endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+            if (okSoFar)
+            {
+                if (JS_ObjectIsFunction(jct, asObject))
+                {
+                    JS::RootedValue funcResult(jct);
+                    
+                    okSoFar = false;
+                    if (JS_CallFunctionValue(jct, global, value,
+                                             JS::HandleValueArray::empty(), &funcResult))
+                    {
+                        if (funcResult.isObject())
+                        {
+                            if (JS_ValueToObject(jct, funcResult, &asObject))
+                            {
+                                value = funcResult;
+                                okSoFar = true;
+                            }
+                            else
+                            {
+                                OD_LOG("(! JS_ValueToObject(jct, funcResult, &asObject))"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem converting value to object.");
+#else // ! MAC_OR_LINUX_
+                                std::cerr << "Problem converting value to object." << std::endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                        }
+                    }
+                }
+            }
+            if (! okSoFar)
+            {
+                OD_LOG("(! okSoFar)"); //####
+                yarp::os::ConstString message("Property '");
                 
                 message += arrayName;
                 message += "' has the wrong type.";
@@ -686,21 +767,6 @@ static bool getLoadedStreamDescriptions(JSContext *        jct,
 #else // ! MAC_OR_LINUX_
             std::cerr << "Problem retrieving a global property." << std::endl;
 #endif // ! MAC_OR_LINUX_
-        }
-        JS::RootedObject asObject(jct);
-        
-        if (okSoFar)
-        {
-            if (! JS_ValueToObject(jct, value, &asObject))
-            {
-                OD_LOG("(! JS_ValueToObject(jct, value, &asObject))"); //####
-                okSoFar = false;
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem converting value to object.");
-#else // ! MAC_OR_LINUX_
-                std::cerr << "Problem converting value to object." << std::endl;
-#endif // ! MAC_OR_LINUX_
-            }
         }
         uint32_t arrayLength;
         
@@ -769,10 +835,10 @@ static bool validateLoadedScript(JSContext *             jct,
     OD_LOG_P1("loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
     bool okSoFar = true;
 
-    //#if 0
+#if 0
     printObject(jct, global, 0);
-    //#endif //0
-    okSoFar = getLoadedString(jct, global, "scriptDescription", description);
+#endif //0
+    okSoFar = getLoadedString(jct, global, "scriptDescription", true, description);
     if (okSoFar)
     {
         okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", loadedInletDescriptions);

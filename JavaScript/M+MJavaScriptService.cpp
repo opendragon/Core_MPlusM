@@ -234,7 +234,6 @@ void JavaScriptService::startStreams(void)
         {
             if (_inHandler)
             {
-//                _inHandler->setOutput(_outStreams.at(0));
                 for (int ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
                 {
                     _inStreams.at(ii)->setReader(*_inHandler);
@@ -280,7 +279,6 @@ void JavaScriptService::stopStreams(void)
             if (_inHandler)
             {
                 _inHandler->deactivate();
-//                _inHandler->setOutput(NULL);
             }
             clearActive();
         }

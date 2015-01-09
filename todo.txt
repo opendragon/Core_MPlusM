@@ -20,9 +20,6 @@ _release and _debug]
 
 ** javascript should support thread _or_ input handler
 
-a) work out how to do the reverse - calling into the loaded JavaScript code and retrieving values from the JavaScript environment
-b) have the service code validate loaded code to make sure that it can be used
-
 d) have the JavaScript code handle an input stream
 e) have the JavaScript code generate an output stream from its input
 f) add support for an output-only script - that is, it will be running more-or-less continuously in a thread, generating output
@@ -30,5 +27,5 @@ f) add support for an output-only script - that is, it will be running more-or-l
 
 —> add handler function to stream description object, for inlets (ie., name: ‘’, …, handler: inHandler)
 —> return handler vector, parallel with ChannelVector, for inlets; don’t need for outlets
-—> if the scriptInlets is a function object, invoke it to get the list, so that scripts like ‘mergeInlets.js’ can be created - the number of inlets could be a command-line argument!
 —> use scriptThread to define the behaviour of an output-only thread and add a thread object to the service
+—> pass tag to script?

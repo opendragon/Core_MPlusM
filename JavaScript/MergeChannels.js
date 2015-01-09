@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       SimpleScript.js
+//  File:       MergeChannels.js
 //
 //  Project:    M+M
 //
-//  Contains:   An example script that meets the requirements for a JavaScript file to be used with
-//              the JavaScript input / output service.
+//  Contains:   An example script that merges all its inlet channels to its outlet.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,49 +32,16 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-01-06
+//  Created:    2015-01-09
 //
 //--------------------------------------------------------------------------------------------------
-
-// Some test JavaScript...
-
-writeStringToStdout('hello ' + 'world, it is ' + new Date());
-
-var ww = 4.34, xx = 5;
-
-function hereWeGo()
-{
-    writeStringToStdout('inside hereWeGo');
-}
-
-var yy = {};
-
-var zz = { aa : 'first', bb : 'second', cc : 42};
-
-function andAnotherFunction(aa)
-{
-    writeStringToStdout('argument is ' + aa);
-    hereWeGo();
-}
-
-andAnotherFunction(42);
-writeStringToStdout('argv is: [' + argv.toString() + ']');
-
-// The real stuff:
 
 function scriptHandleInput(portNumber, incomingData)
 {
     writeStringToStdout('input on port ' + portNumber);
 } // scriptHandleInput
 
-// Specfic named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
-// can be provided by either functions or 'global' variables.
-
-//var scriptDescription = 'An example script';
-function scriptDescription()
-{
-    return "An example script";
-} // scriptDescription
+var scriptDescription = 'A script that merges multiple channels';
 
 // The following function will either generate one inlet, called 'incoming' or a set of inlets,
 // called 'incoming#',
@@ -96,20 +62,19 @@ function scriptInlets()
     {
         for (var ii = 0; inletCount > ii; ++ii)
         {
-            inlets[ii] = { name: ('incoming' + (ii + 1)), protocol: 'd+',
-                            protocolDescription: 'A sequence of floating-point values',
+            inlets[ii] = { name: ('incoming' + (ii + 1)), protocol: '*',
+                            protocolDescription: 'An arbitrary sequence of values',
                             handler: scriptHandleInput };
         }
     }
     else
     {
-        inlets[0] = { name: 'incoming', protocol: 'd+',
-                        protocolDescription: 'A sequence of floating-point values',
+        inlets[0] = { name: 'incoming', protocol: '*',
+                        protocolDescription: 'An arbitrary sequence of values',
                         handler: scriptHandleInput };
     }
     return inlets;
 } // scriptInlets
-//var scriptInlets = [];
 
-var scriptOutlets = [ { name: 'outgoing', protocol: 'i+',
-                        protocolDescription: 'A sequence of integer values' } ];
+var scriptOutlets = [ { name: 'outgoing', protocol: '*',
+                        protocolDescription: 'An arbitrary sequence of values' } ];

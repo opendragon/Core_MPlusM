@@ -95,10 +95,6 @@ namespace MplusM
                                      yarp::os::ConnectionWriter *  replyMechanism,
                                      const size_t                  numBytes);
             
-//            /*! @brief Set the channel to be written to.
-//             @param output The channel to be written to. */
-//            void setOutput(Common::GeneralChannel * output);
-            
         protected :
             
         private :
@@ -113,9 +109,6 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
-            
-//            /*! @brief The channel that is to be written to. */
-//            Common::GeneralChannel * _outChannel;
             
             /*! @brief @c true if the input is to be processed and @c false otherwise. */
             bool _active;
