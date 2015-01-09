@@ -18,7 +18,7 @@ _release and _debug]
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-** javascript should support thread _or_ input handler
+** javascript should support thread and / or input handler
 
 d) have the JavaScript code handle an input stream
 e) have the JavaScript code generate an output stream from its input
@@ -29,3 +29,4 @@ f) add support for an output-only script - that is, it will be running more-or-l
 —> return handler vector, parallel with ChannelVector, for inlets; don’t need for outlets
 —> use scriptThread to define the behaviour of an output-only thread and add a thread object to the service
 —> pass tag to script?
+—> general channels don’t need indices, as the input handler has the same information
