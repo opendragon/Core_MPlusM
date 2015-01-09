@@ -95,7 +95,7 @@ using std::endl;
 /*! @brief The number of bytes for each %JavaScript 'stack chunk'. */
 #define JAVASCRIPT_STACKCHUNK_SIZE 8192
 
-// The class of the global object.
+/*! @brief The class of the global object. */
 static JSClass lGlobalClass =
 {
     "global",
@@ -112,7 +112,7 @@ static JSClass lGlobalClass =
     NULL,
     NULL,
     JS_GlobalObjectTraceHook
-};
+}; // lGlobalClass
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -205,7 +205,7 @@ static bool writeStringForJs(JSContext * jct,
     return result;
 } // writeStringForJs
 
-// The table of supplied functions for the service.
+/*! @brief The table of supplied functions for the service. */
 static JSFunctionSpec lServiceFunctions[] =
 {
     JS_FS("writeStringToStdout", writeStringForJs, 1, 0),
@@ -213,7 +213,7 @@ static JSFunctionSpec lServiceFunctions[] =
 //    JS_FS("srand",  myjs_srand,  0, 0),
 //    JS_FS("system", myjs_system, 1, 0),
     JS_FS_END
-};
+}; // lServiceFunctions
 
 /*! @brief Add custom functions and variables to the %JavaScript environment.
  @param jct The %JavaScript engine context.
