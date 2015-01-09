@@ -39,6 +39,7 @@
 function scriptHandleInput(portNumber, incomingData)
 {
     writeStringToStdout('input on port ' + portNumber);
+    sendToChannel(0, incomingData);
 } // scriptHandleInput
 
 var scriptDescription = 'A script that merges multiple channels';

@@ -107,6 +107,16 @@ namespace MplusM
              @param metrics The gathered metrics. */
             virtual void gatherMetrics(yarp::os::Bottle & metrics);
             
+            /*! @brief Returns the number of input streams.
+             @returns The number of output streams. */
+            size_t getInletCount(void)
+            const;
+  
+            /*! @brief Returns the number of output streams.
+             @returns The number of output streams. */
+            size_t getOutletCount(void)
+            const;
+            
             /*! @brief Return @c true if the streams are processing data and @c false otherwise.
              @returns @c true if the streams are processing data and @c false otherwise. */
             inline bool isActive(void)

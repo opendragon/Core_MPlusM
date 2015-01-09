@@ -51,6 +51,7 @@
 #endif // defined(__APPLE__)
 #include <js/RequiredDefines.h>
 #include <jsapi.h>
+#include <js/CallArgs.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -77,6 +78,19 @@ using namespace MplusM::JavaScript;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Fill a bottle with the contents of an object.
+ @param aBottle The bottle to be filled.
+ @param theData The value to be sent.
+ @param jct The %JavaScript engine context. */
+static void fillBottleFromValue(yarp::os::Bottle & aBottle,
+                                JS::Value          theData,
+                                JSContext *        jct)
+{
+    OD_LOG_ENTER(); //####
+                    //TBD --> copy values from theData to aBottle
+    OD_LOG_EXIT(); //####
+} // fillBottleFromValue
+
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
@@ -96,7 +110,7 @@ JavaScriptService::JavaScriptService(JSContext *                   context,
     inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
               serviceEndpointName, servicePortNumber),
     _context(context), _loadedInletDescriptions(loadedInletDescriptions),
-    _loadedOutletDescriptions(loadedOutletDescriptions), _inHandler(new JavaScriptInputHandler)
+    _loadedOutletDescriptions(loadedOutletDescriptions), _inHandlers()
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("context = ", context, "loadedInletDescriptions = ", &loadedInletDescriptions, //####
@@ -112,7 +126,7 @@ JavaScriptService::~JavaScriptService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
-    delete _inHandler;
+    releaseHandlers();
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptService::~JavaScriptService
 
@@ -152,6 +166,27 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+void JavaScriptService::releaseHandlers(void)
+{
+    OD_LOG_OBJENTER(); //####
+    if (0 < _inHandlers.size())
+    {
+        for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
+             ++walker)
+        {
+            JavaScriptInputHandler * aHandler = *walker;
+            
+            if (aHandler)
+            {
+                OD_LOG_P1("aHandler = ", aHandler); //####
+                delete aHandler;
+            }
+        }
+        _inHandlers.clear();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // JavaScriptService::releaseHandlers
+
 void JavaScriptService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -168,6 +203,38 @@ void JavaScriptService::restartStreams(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptService::restartStreams
+
+bool JavaScriptService::sendToChannel(const int32_t channelSlot,
+                                      JS::Value     theData)
+{
+    OD_LOG_OBJENTER();
+    OD_LOG_L1("channelSlot = ", channelSlot); //####
+    bool okSoFar = false;
+    
+    if ((0 <= channelSlot) && (channelSlot < getOutletCount()))
+    {
+        Common::GeneralChannel * outChannel = _outStreams.at(channelSlot);
+        yarp::os::Bottle         outBottle;
+        
+        fillBottleFromValue(outBottle, theData, _context);
+        if ((0 < outBottle.size()) && outChannel)
+        {
+            if (outChannel->write(outBottle))
+            {
+                okSoFar = true;
+            }
+            else
+            {
+                OD_LOG("! (outChannel->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+                Stall();
+#endif // defined(MpM_StallOnSendProblem)
+            }
+        }
+    }
+    OD_LOG_OBJEXIT_B(okSoFar); //####
+    return okSoFar;
+} // JavaScriptService::sendToChannel
 
 bool JavaScriptService::setUpStreamDescriptions(void)
 {
@@ -232,15 +299,20 @@ void JavaScriptService::startStreams(void)
     {
         if (! isActive())
         {
-            if (_inHandler)
+            releaseHandlers();
+            for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
             {
-                for (int ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
+                //TBD we need a reference to the JavaScript handler here
+                JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii);
+                
+                if (aHandler)
                 {
-                    _inStreams.at(ii)->setReader(*_inHandler);
+                    _inHandlers.push_back(aHandler);
+                    _inStreams.at(ii)->setReader(*aHandler);
+                    aHandler->activate();
                 }
-                _inHandler->activate();
-                setActive();
             }
+            setActive();
         }
     }
     catch (...)
@@ -276,9 +348,14 @@ void JavaScriptService::stopStreams(void)
     {
         if (isActive())
         {
-            if (_inHandler)
+            for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
             {
-                _inHandler->deactivate();
+                JavaScriptInputHandler * aHandler = _inHandlers.at(ii);
+                
+                if (aHandler)
+                {
+                    aHandler->deactivate();
+                }
             }
             clearActive();
         }

@@ -58,6 +58,8 @@ namespace MplusM
 {
     namespace JavaScript
     {
+        class JavaScriptService;
+        
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of integer or floating point
@@ -66,8 +68,11 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            JavaScriptInputHandler(void);
+            /*! @brief The constructor.
+             @param owner The service that owns this handler.
+             @param index The slot number of the associated channel. */
+            JavaScriptInputHandler(JavaScriptService * owner,
+                                   const size_t        slotNumber);
             
             /*! @brief The destructor. */
             virtual ~JavaScriptInputHandler(void);
@@ -109,6 +114,12 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
+            
+            /*! @brief The service that owns this handler. */
+            JavaScriptService * _owner;
+            
+            /*! @brief The slot number of the associated channel. */
+            size_t _slotNumber;
             
             /*! @brief @c true if the input is to be processed and @c false otherwise. */
             bool _active;

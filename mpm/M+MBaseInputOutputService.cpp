@@ -476,6 +476,26 @@ void BaseInputOutputService::gatherMetrics(yarp::os::Bottle & metrics)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::gatherMetrics
 
+size_t BaseInputOutputService::getInletCount(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    size_t result = _inStreams.size();
+    
+    OD_LOG_OBJEXIT_L(result); //#####
+    return result;
+} // BaseInputOutputService::getInletCount
+
+size_t BaseInputOutputService::getOutletCount(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    size_t result = _outStreams.size();
+    
+    OD_LOG_OBJEXIT_L(result); //#####
+    return result;
+} // BaseInputOutputService::getOutletCount
+
 bool BaseInputOutputService::setUpInputStreams(void)
 {
     OD_LOG_OBJENTER(); //####

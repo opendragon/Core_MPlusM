@@ -38,9 +38,21 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MJavaScriptInputHandler.h"
+#include "M+MJavaScriptService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
+
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Winvalid-offsetof"
+#endif // defined(__APPLE__)
+#include <js/RequiredDefines.h>
+#include <jsapi.h>
+#include <js/CallArgs.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -65,6 +77,20 @@ using namespace MplusM::JavaScript;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Fill a bottle with the contents of an object.
+ @param aBottle The bottle to be filled.
+ @param theData The value to be sent.
+ @param jct The %JavaScript engine context. */
+static void createValueFromBottle(const yarp::os::Bottle & aBottle,
+                                  JS::MutableHandleValue   theData,
+                                  JSContext *              jct)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("aBottle = ", aBottle, "jct = ", jct); //####
+                    //TBD --> copy values from theData to aBottle
+    OD_LOG_EXIT(); //####
+} // createValueFromBottle
+
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
@@ -73,10 +99,13 @@ using namespace MplusM::JavaScript;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptInputHandler::JavaScriptInputHandler(void) :
-    inherited(), _active(false)
+JavaScriptInputHandler::JavaScriptInputHandler(JavaScriptService * owner,
+                                               const size_t        slotNumber) :
+    inherited(), _owner(owner), _slotNumber(slotNumber), _active(false)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("owner = ", owner); //####
+    OD_LOG_L1("slotNumber = ", slotNumber); //####
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptInputHandler::JavaScriptInputHandler
 
@@ -112,37 +141,19 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
     
     try
     {
-        if (_active)
+        if (_active && _owner)
         {
+            JSContext * jct = _owner->getContext();
             
-        }
-#if 0
-        yarp::os::Bottle outBottle;
-        
-        for (int ii = 0, mm = input.size(); mm > ii; ++ii)
-        {
-            yarp::os::Value aValue(input.get(ii));
-            
-            if (aValue.isInt())
+            if (jct)
             {
-                outBottle.addInt(aValue.asInt());
-            }
-            else if (aValue.isDouble())
-            {
-                outBottle.addInt(static_cast<int>(aValue.asDouble()));
+                JS::RootedValue argValue(jct);
+
+                createValueFromBottle(input, &argValue, jct);
+                //TBD --> call into JavaScript code to handle the input; pass _slotNumber to
+                // the script; we need a referenc to the JavaScript handler!
             }
         }
-        if ((0 < outBottle.size()) && _outChannel)
-        {
-            if (! _outChannel->write(outBottle))
-            {
-                OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
-        }
-#endif//0
     }
     catch (...)
     {

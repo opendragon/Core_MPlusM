@@ -98,20 +98,20 @@ using std::endl;
 /*! @brief The class of the global object. */
 static JSClass lGlobalClass =
 {
-    "global",
-    JSCLASS_GLOBAL_FLAGS,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    NULL,
-    JS_GlobalObjectTraceHook
+    "global",                // name
+    JSCLASS_GLOBAL_FLAGS,    // flags
+    NULL,                    // addProperty
+    NULL,                    // delProperty
+    NULL,                    // getProperty
+    NULL,                    // setProperty
+    NULL,                    // enumerate
+    NULL,                    // resolve
+    NULL,                    // convert
+    NULL,                    // finalize
+    NULL,                    // call
+    NULL,                    // hasInstance
+    NULL,                    // construct
+    JS_GlobalObjectTraceHook // trace
 }; // lGlobalClass
 
 #if defined(__APPLE__)
@@ -205,13 +205,55 @@ static bool writeStringForJs(JSContext * jct,
     return result;
 } // writeStringForJs
 
+/*! @brief A C-callback function for %JavaScript to send an object to a channel.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool sendToChannelForJs(JSContext * jct,
+                               unsigned    argc,
+                               JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+
+    if (2 == args.length())
+    {
+        // Check that the first argument is a valid integer.
+        if (args[0].isInt32())
+        {
+            JSObject *          global = JS_GetGlobalForObject(jct, &args.callee());
+            int32_t             channelSlot = args[0].toInt32();
+            JavaScriptService * theService =
+                                reinterpret_cast<JavaScriptService *>(JS_GetContextPrivate(jct));
+            
+            if (theService)
+            {
+                result = theService->sendToChannel(channelSlot, args[1]);
+            }
+        }
+    }
+    else if (2 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to sendToChannel");
+    }
+    else
+    {
+        JS_ReportError(jct, "Missing argument(s) to sendToChannel");
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // sendToChannelForJs
+
 /*! @brief The table of supplied functions for the service. */
 static JSFunctionSpec lServiceFunctions[] =
 {
+    // name, call, nargs, flags
+    JS_FS("sendToChannel", sendToChannelForJs, 2, 0),
     JS_FS("writeStringToStdout", writeStringForJs, 1, 0),
-//    JS_FS("rand",   myjs_rand,   0, 0),
-//    JS_FS("srand",  myjs_srand,  0, 0),
-//    JS_FS("system", myjs_system, 1, 0),
     JS_FS_END
 }; // lServiceFunctions
 

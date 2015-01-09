@@ -60,6 +60,11 @@
 
 class JSContext;
 
+namespace JS
+{
+    class Value;
+} // JS
+
 namespace MplusM
 {
     namespace JavaScript
@@ -108,6 +113,13 @@ namespace MplusM
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
             
+            /*! @brief Send a value out a specified channel.
+             @param channelSlot The output channel to be used.
+             @param theData The value to be sent.
+             @returns @c true if the data was successfully sent and @c false otherwise. */
+            bool sendToChannel(const int32_t channelSlot,
+                               JS::Value     theData);
+            
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool start(void);
@@ -128,6 +140,9 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(JavaScriptService);
             
+            /*! @brief Release all the allocated handlers. */
+            void releaseHandlers(void);
+
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
             virtual bool setUpStreamDescriptions(void);
@@ -141,6 +156,12 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseFilterService inherited;
             
+            /*! @brief A sequence of input handlers. */
+            typedef std::vector<JavaScriptInputHandler *> HandlerVector;
+
+            /*! @brief The set of input handlers. */
+            HandlerVector _inHandlers;
+            
             /*! @brief The %JavaScript execution environment. */
             JSContext * _context;
             
@@ -149,9 +170,6 @@ namespace MplusM
             
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
-            
-            /*! @brief The handler for input data. */
-            JavaScriptInputHandler * _inHandler;
             
         }; // JavaScriptService
         
