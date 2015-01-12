@@ -56,17 +56,6 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Winvalid-offsetof"
-#endif // defined(__APPLE__)
-#include <js/RequiredDefines.h>
-#include <jsapi.h>
-#include <js/CallArgs.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -162,6 +151,110 @@ static void reportJavaScriptError(JSContext *     cx,
     }
 } // reportJavaScriptError
 
+/*! @brief A C-callback function for %JavaScript to write out an object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool dumpObjectToStdoutForJs(JSContext * jct,
+                                    unsigned    argc,
+                                    JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    
+    if (2 == args.length())
+    {
+        if (args[0].isString())
+        {
+            if (args[1].isObject())
+            {
+                JS::RootedObject asObject(jct);
+                
+                if (JS_ValueToObject(jct, args[1], &asObject))
+                {
+                    JSString * asString = args[0].toString();
+                    char *     asChars = JS_EncodeString(jct, asString);
+                    
+                    std::cout << asChars << std::endl;
+                    JS_free(jct, asChars);
+                    PrintJavaScriptObject(std::cout, jct, asObject, 1);
+                    result = true;
+                }
+            }
+            else
+            {
+                JS_ReportError(jct, "Non-object argument to dumpObjectToStdout");
+                result = false;
+            }
+        }
+        else
+        {
+            JS_ReportError(jct, "Non-string argument to dumpObjectToStdout");
+            result = false;
+        }
+    }
+    else if (2 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to dumpObjectToStdout");
+        result = false;
+    }
+    else
+    {
+        JS_ReportError(jct, "Missing arguments to dumpObjectToStdout");
+        result = false;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // dumpObjectToStdoutForJs
+
+/*! @brief A C-callback function for %JavaScript to send an object to a channel.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool sendToChannelForJs(JSContext * jct,
+                               unsigned    argc,
+                               JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    
+    if (2 == args.length())
+    {
+        // Check that the first argument is a valid integer.
+        if (args[0].isInt32())
+        {
+            JSObject *          global = JS_GetGlobalForObject(jct, &args.callee());
+            int32_t             channelSlot = args[0].toInt32();
+            JavaScriptService * theService =
+                                reinterpret_cast<JavaScriptService *>(JS_GetContextPrivate(jct));
+            
+            if (theService)
+            {
+                std::cout << "ready to write, slot = " << channelSlot << std::endl;
+                result = theService->sendToChannel(channelSlot, args[1]);
+            }
+        }
+    }
+    else if (2 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to sendToChannel");
+    }
+    else
+    {
+        JS_ReportError(jct, "Missing argument(s) to sendToChannel");
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // sendToChannelForJs
+
 /*! @brief A C-callback function for %JavaScript to write out a string.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
@@ -205,53 +298,11 @@ static bool writeStringForJs(JSContext * jct,
     return result;
 } // writeStringForJs
 
-/*! @brief A C-callback function for %JavaScript to send an object to a channel.
- @param jct The context in which the native function is being called.
- @param argc The number of arguments supplied to the function by the caller.
- @param vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
-static bool sendToChannelForJs(JSContext * jct,
-                               unsigned    argc,
-                               JS::Value * vp)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
-    bool         result = false;
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-
-    if (2 == args.length())
-    {
-        // Check that the first argument is a valid integer.
-        if (args[0].isInt32())
-        {
-            JSObject *          global = JS_GetGlobalForObject(jct, &args.callee());
-            int32_t             channelSlot = args[0].toInt32();
-            JavaScriptService * theService =
-                                reinterpret_cast<JavaScriptService *>(JS_GetContextPrivate(jct));
-            
-            if (theService)
-            {
-                result = theService->sendToChannel(channelSlot, args[1]);
-            }
-        }
-    }
-    else if (2 < args.length())
-    {
-        JS_ReportError(jct, "Extra arguments to sendToChannel");
-    }
-    else
-    {
-        JS_ReportError(jct, "Missing argument(s) to sendToChannel");
-    }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // sendToChannelForJs
-
 /*! @brief The table of supplied functions for the service. */
 static JSFunctionSpec lServiceFunctions[] =
 {
     // name, call, nargs, flags
+    JS_FS("dumpObjectToStdout", dumpObjectToStdoutForJs, 2, 0),
     JS_FS("sendToChannel", sendToChannelForJs, 2, 0),
     JS_FS("writeStringToStdout", writeStringForJs, 1, 0),
     JS_FS_END
@@ -260,16 +311,19 @@ static JSFunctionSpec lServiceFunctions[] =
 /*! @brief Add custom functions and variables to the %JavaScript environment.
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
- @param argv The arguments to be used with the %JavaScript input / output service.
+ @param tag The modifier for the service name and port names.
  @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c true if the functions were addeded successfully and @c false otherwise. */
-static bool addCustomFunctionsAndVariables(JSContext *        jct,
-                                           JS::RootedObject & global,
-                                           char * *           argv,
-                                           const int          argc)
+static bool addCustomFunctionsAndVariables(JSContext *                   jct,
+                                           JS::RootedObject &            global,
+                                           const yarp::os::ConstString & tag,
+                                           const int                     argc,
+                                           char * *                      argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    OD_LOG_S1s("tag = ", tag); //####
     bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
 
     if (okSoFar)
@@ -347,6 +401,25 @@ static bool addCustomFunctionsAndVariables(JSContext *        jct,
             okSoFar = false;
         }
     }
+    if (okSoFar)
+    {
+        JSString * aString = JS_NewStringCopyZ(jct, tag.c_str());
+        
+        if (aString)
+        {
+            JS::RootedValue argValue(jct);
+            
+            argValue.setString(aString);
+            if (! JS_SetProperty(jct, global, "scriptTag", argValue))
+            {
+                okSoFar = false;
+            }
+        }
+        else
+        {
+            okSoFar = false;
+        }
+    }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomFunctionsAndVariables
@@ -378,162 +451,6 @@ static bool loadScript(JSContext *                   jct,
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
 } // loadScript
-
-/*! @brief Print out a value.
- @param jct The %JavaScript engine context.
- @param caption A title for the output.
- @param value The value to be printed.
- @param depth The indentation level to be used. */
-static void printRootedValue(JSContext *       jct,
-                             const char *      caption,
-                             JS::RootedValue & value,
-                             const int         depth)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "value = ", value); //####
-    OD_LOG_S1("caption = ", caption); //####
-    if (0 < depth)
-    {
-        std::cout.width(depth);
-        std::cout << " ";
-    }
-    std::cout << caption;
-    if (value.isString())
-    {
-        JSString * asString = value.toString();
-        char *     asChars = JS_EncodeString(jct, asString);
-        
-        std::cout << "string(" << asChars << ")";
-        JS_free(jct, asChars);
-    }
-    else if (value.isObject())
-    {
-        // Objects will be processed separately.
-    }
-    else if (value.isInt32())
-    {
-        std::cout << "int32(" << value.toInt32() << ")";
-    }
-    else if (value.isBoolean())
-    {
-        std::cout << "boolean(" << (value.toBoolean() ? "true" : "false") << ")";
-    }
-    else if (value.isDouble())
-    {
-        std::cout << "double(" << value.toDouble() << ")";
-    }
-    else if (value.isNullOrUndefined())
-    {
-        std::cout << "null or undefined";
-    }
-    else
-    {
-        std::cout << "other";
-    }
-    OD_LOG_EXIT(); //####
-} // printRootedValue
-
-/*! @brief Print out an object.
- @param jct The %JavaScript engine context.
- @param anObject The object to be printed.
- @param depth The indentation level to be used. */
-static void printObject(JSContext *        jct,
-                        JS::RootedObject & anObject,
-                        const int          depth)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
-    OD_LOG_L1("depth = ", depth); //####
-    JS::AutoIdArray ids(jct, JS_Enumerate(jct, anObject));
-    
-    // Note that only operator! is defined, so we need to do a 'double-negative'.
-    if (!! ids)
-    {
-        bool okSoFar = true;
-        
-        for (int ii = 0, len = ids.length(); (len > ii) && okSoFar; ++ii)
-        {
-            JS::RootedValue key(jct);
-            
-            if (JS_IdToValue(jct, ids[ii], &key))
-            {
-                printRootedValue(jct, "id = ", key, depth);
-            }
-            else
-            {
-                okSoFar = false;
-            }
-            if (okSoFar)
-            {
-                JS::RootedValue result(jct);
-                JS::RootedId    aRootedId(jct);
-                
-                aRootedId = ids[ii];
-                if (JS_GetPropertyById(jct, anObject, aRootedId, &result))
-                {
-                    printRootedValue(jct, ", property = ", result, 0);
-                }
-                else
-                {
-                    okSoFar = false;
-                }
-                if (okSoFar)
-                {
-                    if (result.isObject())
-                    {
-                        JS::RootedObject asObject(jct);
-                        
-                        if (JS_ValueToObject(jct, result, &asObject))
-                        {
-                            if (JS_IsArrayObject(jct, result))
-                            {
-                                std::cout << "array";
-                                uint32_t arrayLength;
-                                
-                                if (JS_GetArrayLength(jct, asObject, &arrayLength))
-                                {
-                                    std::cout << ", size = " << arrayLength;
-                                }
-                            }
-                            else if (JS_ObjectIsFunction(jct, asObject))
-                            {
-                                std::cout << "function";
-                                JSFunction * asFunction = JS_ValueToFunction(jct, result);
-                                
-                                if (asFunction)
-                                {
-                                    std::cout << ", arity = " << JS_GetFunctionArity(asFunction);
-                                    if (! JS::IsCallable(asObject))
-                                    {
-                                        std::cout << ", not callable";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                std::cout << "object";
-                            }
-                        }
-                        else
-                        {
-                            okSoFar = false;
-                        }
-                        std::cout << std::endl;
-                        if (okSoFar)
-                        {
-                            printObject(jct, asObject, depth + 1);
-                        }
-                    }
-                    else
-                    {
-                        std::cout << std::endl;
-                    }
-                }
-            }
-        }
-    }
-    OD_LOG_EXIT(); //####
-} // printObject
 
 /*! @brief Check an object for a specific string property.
  @param jct The %JavaScript engine context.
@@ -595,10 +512,11 @@ static bool getLoadedString(JSContext *             jct,
                     {
                         if (JS_ObjectIsFunction(jct, asObject))
                         {
-                            JS::RootedValue funcResult(jct);
+                            JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
+                            JS::RootedValue      funcResult(jct);
                             
-                            if (JS_CallFunctionValue(jct, anObject, value,
-                                                     JS::HandleValueArray::empty(), &funcResult))
+                            JS_BeginRequest(jct);
+                            if (JS_CallFunctionValue(jct, anObject, value, funcArgs, &funcResult))
                             {
                                 if (funcResult.isString())
                                 {
@@ -610,13 +528,36 @@ static bool getLoadedString(JSContext *             jct,
                                     okSoFar = true;
                                 }
                             }
+                            else
+                            {
+                                OD_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
+                                       "funcArgs, &funcResult))"); //####
+                                JS::RootedValue exc(jct);
+                                
+                                if (JS_GetPendingException(jct, &exc))
+                                {
+                                    JS_ClearPendingException(jct);
+                                    yarp::os::ConstString message("Exception occurred while "
+                                                                  "executing function for "
+                                                                  "Property '");
+                                    
+                                    message += propertyName;
+                                    message += "'.";
+#if MAC_OR_LINUX_
+                                    GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                                    std::cerr << message.c_str() << std::endl;
+#endif // ! MAC_OR_LINUX_
+                                }
+                            }
+                            JS_EndRequest(jct);
                         }
                     }
                 }
             }
             if (! okSoFar)
             {
-                OD_LOG("! (canBeFunction)"); //####
+                OD_LOG("! (okSoFar)"); //####
                 okSoFar = false;
                 yarp::os::ConstString message("Property '");
                 
@@ -644,17 +585,104 @@ static bool getLoadedString(JSContext *             jct,
     return okSoFar;
 } // getLoadedString
 
+/*! @brief Check an object for a specific function property.
+ @param jct The %JavaScript engine context.
+ @param anObject The object to check.
+ @param propertyName The name of the property being searched for.
+ @param arity The required arity for the function.
+ @param result The value of the function, if located.
+ @returns @c true on success and @c false otherwise. */
+static bool getLoadedFunctionRef(JSContext *        jct,
+                                 JS::RootedObject & anObject,
+                                 const char *       propertyName,
+                                 const uint32_t     arity,
+                                 JS::RootedValue &  result)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    OD_LOG_S1("propertyName = ", propertyName); //####
+    OD_LOG_L1("arity = ", arity); //####
+    bool found = false;
+    bool okSoFar;
+    
+    if (JS_HasProperty(jct, anObject, propertyName, &found))
+    {
+        okSoFar = found;
+    }
+    else
+    {
+        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
+        okSoFar = false;
+#if MAC_OR_LINUX_
+        GetLogger().fail("Problem searching for a property.");
+#else // ! MAC_OR_LINUX_
+        std::cerr << "Problem searching for a property." << std::endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    if (okSoFar)
+    {
+        if (JS_GetProperty(jct, anObject, propertyName, &result))
+        {
+            okSoFar = false;
+            if (result.isObject())
+            {
+                JS::RootedObject asObject(jct);
+                
+                if (JS_ValueToObject(jct, result, &asObject) &&
+                    JS_ObjectIsFunction(jct, asObject) && JS::IsCallable(asObject))
+                {
+                    JSFunction * asFunction = JS_ValueToFunction(jct, result);
+                    
+                    if (asFunction)
+                    {
+                        okSoFar = (arity == JS_GetFunctionArity(asFunction));
+                    }
+                }
+            }
+            if (! okSoFar)
+            {
+                OD_LOG("! (okSoFar)"); //####
+                okSoFar = false;
+                yarp::os::ConstString message("Property '");
+                
+                message += propertyName;
+                message += "' has the wrong type.";
+#if MAC_OR_LINUX_
+                GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                std::cerr << message.c_str() << std::endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &result))"); //####
+            okSoFar = false;
+#if MAC_OR_LINUX_
+            GetLogger().fail("Problem retrieving a property.");
+#else // ! MAC_OR_LINUX_
+            std::cerr << "Problem retrieving a property." << std::endl;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // getLoadedFunctionRef
+
 /*! @brief Check a stream description.
  @param jct The %JavaScript engine context.
  @param anElement The stream description object to be checked.
+ @param inletHandlers non-@c NULL if there must be a handler for the stream description.
  @param description The validated stream description.
  @returns @c true on success and @c false otherwise. */
-static bool processStreamDescription(JSContext *          jct,
-                                     JS::RootedValue &    anElement,
-                                     ChannelDescription & description)
+static bool processStreamDescription(JSContext *           jct,
+                                     JS::RootedValue &     anElement,
+                                     JS::AutoValueVector * inletHandlers,
+                                     ChannelDescription &  description)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "anElement = ", &anElement, "description = ", &description); //####
+    OD_LOG_P4("jct = ", jct, "anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
+              "description = ", &description); //####
     bool okSoFar = true;
     
     if (! anElement.isObject())
@@ -684,6 +712,10 @@ static bool processStreamDescription(JSContext *          jct,
     }
     if (okSoFar)
     {
+#if 0
+        std::cout << std::endl;
+        PrintJavaScriptObject(std::cout, jct, asObject, 0);
+#endif//0
         okSoFar = getLoadedString(jct, asObject, "name", false, description._portName);
     }
     if (okSoFar)
@@ -695,6 +727,16 @@ static bool processStreamDescription(JSContext *          jct,
         okSoFar = getLoadedString(jct, asObject, "protocolDescription", false,
                                   description._protocolDescription);
     }
+    if (okSoFar && inletHandlers)
+    {
+        JS::RootedValue result(jct);
+        
+        okSoFar = getLoadedFunctionRef(jct, asObject, "handler", 2, result);
+        if (okSoFar)
+        {
+            inletHandlers->append(result);
+        }
+    }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // processStreamDescription
@@ -704,16 +746,18 @@ static bool processStreamDescription(JSContext *          jct,
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
  @param arrayName The name of the array variable being searched for.
+ @param inletHandlers non-@c NULL if there must be a handler for each stream description.
  @param streamDescriptions The list of loaded stream descriptions.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedStreamDescriptions(JSContext *        jct,
-                                        JS::RootedObject & global,
-                                        const char *       arrayName,
-                                        ChannelVector &    streamDescriptions)
+static bool getLoadedStreamDescriptions(JSContext *           jct,
+                                        JS::RootedObject &    global,
+                                        const char *          arrayName,
+                                        JS::AutoValueVector * inletHandlers,
+                                        ChannelVector &       streamDescriptions)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "global = ", &global, "streamDescriptions = ", //####
-              &streamDescriptions); //####
+    OD_LOG_P4("jct = ", jct, "global = ", &global, "inletHandlers = ", inletHandlers, //####
+              "streamDescriptions = ", &streamDescriptions); //####
     OD_LOG_S1("arrayName = ", arrayName); //####
     bool found = false;
     bool okSoFar;
@@ -760,11 +804,12 @@ static bool getLoadedStreamDescriptions(JSContext *        jct,
             {
                 if (JS_ObjectIsFunction(jct, asObject))
                 {
-                    JS::RootedValue funcResult(jct);
+                    JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
+                    JS::RootedValue      funcResult(jct);
                     
                     okSoFar = false;
-                    if (JS_CallFunctionValue(jct, global, value,
-                                             JS::HandleValueArray::empty(), &funcResult))
+                    JS_BeginRequest(jct);
+                    if (JS_CallFunctionValue(jct, global, value, funcArgs, &funcResult))
                     {
                         if (funcResult.isObject())
                         {
@@ -784,6 +829,28 @@ static bool getLoadedStreamDescriptions(JSContext *        jct,
                             }
                         }
                     }
+                    else
+                    {
+                        OD_LOG("! (JS_CallFunctionValue(jct, global, value, funcArgs, " //####
+                               "&funcResult))"); //####
+                        JS::RootedValue exc(jct);
+                        
+                        if (JS_GetPendingException(jct, &exc))
+                        {
+                            JS_ClearPendingException(jct);
+                            yarp::os::ConstString message("Exception occurred while executing "
+                                                          "function for Property '");
+                                                          
+                            message += arrayName;
+                            message += "'.";
+#if MAC_OR_LINUX_
+                            GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                            std::cerr << message.c_str() << std::endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+                    }
+                    JS_EndRequest(jct);
                 }
             }
             if (! okSoFar)
@@ -835,7 +902,7 @@ static bool getLoadedStreamDescriptions(JSContext *        jct,
                 {
                     ChannelDescription description;
 
-                    okSoFar = processStreamDescription(jct, anElement, description);
+                    okSoFar = processStreamDescription(jct, anElement, inletHandlers, description);
                     if (okSoFar)
                     {
                         streamDescriptions.push_back(description);
@@ -864,30 +931,34 @@ static bool getLoadedStreamDescriptions(JSContext *        jct,
  @param description The descriptive text from the script.
  @param loadedInletDescriptions The list of loaded inlet stream descriptions.
  @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
+ @param loadedInletHandlers The list of loaded inlet handlers.
  @returns @c true on success and @c false otherwise. */
 static bool validateLoadedScript(JSContext *             jct,
                                  JS::RootedObject &      global,
                                  yarp::os::ConstString & description,
                                  ChannelVector &         loadedInletDescriptions,
-                                 ChannelVector &         loadedOutletDescriptions)
+                                 ChannelVector &         loadedOutletDescriptions,
+                                 JS::AutoValueVector &   loadedInletHandlers)
 {
     OD_LOG_ENTER();
     OD_LOG_P4("jct = ", jct, "global = ", &global, "description = ", &description, //####
               "loadedInletDescriptions = ", &loadedInletDescriptions); //####
-    OD_LOG_P1("loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
+    OD_LOG_P2("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+              "loadedInletHandlers = ", &loadedInletHandlers); //####
     bool okSoFar = true;
 
 #if 0
-    printObject(jct, global, 0);
+    PrintJavaScriptObject(std::cout, jct, global, 0);
 #endif //0
     okSoFar = getLoadedString(jct, global, "scriptDescription", true, description);
     if (okSoFar)
     {
-        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", loadedInletDescriptions);
+        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", &loadedInletHandlers,
+                                              loadedInletDescriptions);
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptOutlets",
+        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptOutlets", NULL,
                                               loadedOutletDescriptions);
     }
     if (okSoFar)
@@ -902,9 +973,9 @@ static bool validateLoadedScript(JSContext *             jct,
  @param jct The %JavaScript engine context.
  @param script The %JavaScript source code to be executed.
  @param scriptPath The path to the script file.
- @param argv The arguments to be used with the %JavaScript input / output service.
- @param argc The number of arguments in 'argv'.
  @param tag The modifier for the service name and port names.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the %JavaScript input / output service.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
@@ -913,9 +984,9 @@ static bool validateLoadedScript(JSContext *             jct,
 static void setUpAndGo(JSContext *                   jct,
                        const yarp::os::ConstString & script,
                        const yarp::os::ConstString & scriptPath,
-                       char * *                      argv,
-                       const int                     argc,
                        const yarp::os::ConstString & tag,
+                       const int                     argc,
+                       char * *                      argv,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
                        const bool                    stdinAvailable,
@@ -958,9 +1029,9 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            if (! addCustomFunctionsAndVariables(jct, global, argv, argc))
+            if (! addCustomFunctionsAndVariables(jct, global, tag, argc, argv))
             {
-                OD_LOG("(! addCustomFunctionsAndVariables(jct, global, argv, argc))"); //####
+                OD_LOG("(! addCustomFunctionsAndVariables(jct, global, tag, argc, argv))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
                 GetLogger().fail("Custom functions and variables could not be added to the "
@@ -984,16 +1055,17 @@ static void setUpAndGo(JSContext *                   jct,
 #endif // ! MAC_OR_LINUX_
             }
         }
-        ChannelVector loadedInletDescriptions;
-        ChannelVector loadedOutletDescriptions;
+        ChannelVector       loadedInletDescriptions;
+        ChannelVector       loadedOutletDescriptions;
+        JS::AutoValueVector loadedInletHandlers(jct);
         
         if (okSoFar)
         {
             if (! validateLoadedScript(jct, global, description, loadedInletDescriptions,
-                                       loadedOutletDescriptions))
+                                       loadedOutletDescriptions, loadedInletHandlers))
             {
                 OD_LOG("(! validateLoadedScript(jct, global, description, " //####
-                       "inStreamDescriptions, outStreamDescriptions))"); //####
+                       "inStreamDescriptions, outStreamDescriptions, loadedInletHandlers))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
                 GetLogger().fail("Script is missing one or more functions or variables.");
@@ -1004,9 +1076,10 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            JavaScriptService * stuff = new JavaScriptService(jct, *argv, tag, description,
+            JavaScriptService * stuff = new JavaScriptService(jct, global, *argv, tag, description,
                                                               loadedInletDescriptions,
                                                               loadedOutletDescriptions,
+                                                              loadedInletHandlers,
                                                               serviceEndpointName,
                                                               servicePortNumber);
             
@@ -1272,6 +1345,7 @@ int main(int      argc,
             Initialize(*argv);
             if (optind < argc)
             {
+                yarp::os::ConstString rawTag(tag);
                 yarp::os::ConstString scriptPath(argv[optind]);
                 yarp::os::ConstString scriptSource;
                 yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
@@ -1325,6 +1399,8 @@ int main(int      argc,
                             jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
                             if (jct)
                             {
+                                JS::ContextOptionsRef(jct).setDontReportUncaught(true);
+                                JS::ContextOptionsRef(jct).setAutoJSAPIOwnsErrorReporting(true);
                                 JS_SetErrorReporter(jrt, reportJavaScriptError);
                             }
                             else
@@ -1351,7 +1427,7 @@ int main(int      argc,
                         }
                         if (jrt && jct)
                         {
-                            setUpAndGo(jct, scriptSource, scriptPath, argv, argc, tag,
+                            setUpAndGo(jct, scriptSource, scriptPath, rawTag, argc, argv,
                                        serviceEndpointName, servicePortNumber, stdinAvailable,
                                        reportOnExit);
                             JS_DestroyContext(jct);

@@ -47,17 +47,6 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Winvalid-offsetof"
-#endif // defined(__APPLE__)
-#include <js/RequiredDefines.h>
-#include <jsapi.h>
-#include <js/CallArgs.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -79,15 +68,28 @@ using namespace MplusM::JavaScript;
 #endif // defined(__APPLE__)
 
 /*! @brief Fill a bottle with the contents of an object.
+ @param jct The %JavaScript engine context.
  @param aBottle The bottle to be filled.
- @param theData The value to be sent.
- @param jct The %JavaScript engine context. */
-static void fillBottleFromValue(yarp::os::Bottle & aBottle,
-                                JS::Value          theData,
-                                JSContext *        jct)
+ @param theData The value to be sent. */
+static void fillBottleFromValue(JSContext *        jct,
+                                yarp::os::Bottle & aBottle,
+                                JS::Value          theData)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
                     //TBD --> copy values from theData to aBottle
+#if 0
+    JS::RootedObject asObject(jct);
+    
+    if (JS_ValueToObject(jct, theData, &asObject))
+    {
+        PrintJavaScriptObject(std::cout, jct, asObject, 0);
+    }
+#endif//0
+    yarp::os::Property & aProp = aBottle.addDict();
+
+    aProp.put("1", "12");
+    aProp.put("2", "24");
     OD_LOG_EXIT(); //####
 } // fillBottleFromValue
 
@@ -100,25 +102,30 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
 #endif // defined(__APPLE__)
 
 JavaScriptService::JavaScriptService(JSContext *                   context,
+                                     JS::RootedObject &            global,
                                      const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & tag,
                                      const yarp::os::ConstString & description,
                                      const Common::ChannelVector & loadedInletDescriptions,
                                      const Common::ChannelVector & loadedOutletDescriptions,
+                                     const JS::AutoValueVector &   loadedInletHandlers,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
-              serviceEndpointName, servicePortNumber),
-    _context(context), _loadedInletDescriptions(loadedInletDescriptions),
-    _loadedOutletDescriptions(loadedOutletDescriptions), _inHandlers()
+              serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
+    _context(context), _global(global), _loadedInletDescriptions(loadedInletDescriptions),
+    _loadedOutletDescriptions(loadedOutletDescriptions)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("context = ", context, "loadedInletDescriptions = ", &loadedInletDescriptions, //####
-              "loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
+    OD_LOG_P4("context = ", context, "global = ", &global, "loadedInletDescriptions = ", //####
+              &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
+              &loadedOutletDescriptions); //####
+    OD_LOG_P1("loadedInletHandlers = ", &loadedInletHandlers); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     JS_SetContextPrivate(context, this);
+    _inletHandlers.appendAll(loadedInletHandlers);
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptService::JavaScriptService
 
@@ -216,7 +223,7 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
         Common::GeneralChannel * outChannel = _outStreams.at(channelSlot);
         yarp::os::Bottle         outBottle;
         
-        fillBottleFromValue(outBottle, theData, _context);
+        fillBottleFromValue(_context, outBottle, theData);
         if ((0 < outBottle.size()) && outChannel)
         {
             if (outChannel->write(outBottle))
@@ -230,6 +237,12 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
+        }
+        else
+        {
+            // If there's nothing to write, or the channel is gone, continue as if everything is
+            // fine.
+            okSoFar = true;
         }
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
@@ -303,7 +316,9 @@ void JavaScriptService::startStreams(void)
             for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
             {
                 //TBD we need a reference to the JavaScript handler here
-                JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii);
+                JS::HandleValue          handlerFunc = _inletHandlers[ii];
+                JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii,
+                                                                               handlerFunc);
                 
                 if (aHandler)
                 {
@@ -371,3 +386,152 @@ void JavaScriptService::stopStreams(void)
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
+
+void JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
+                                       JSContext *        jct,
+                                       JS::RootedObject & anObject,
+                                       const int          depth)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
+    OD_LOG_L1("depth = ", depth); //####
+    JS::AutoIdArray ids(jct, JS_Enumerate(jct, anObject));
+    
+    // Note that only operator! is defined, so we need to do a 'double-negative'.
+    if (!! ids)
+    {
+        bool okSoFar = true;
+        
+        for (int ii = 0, len = ids.length(); (len > ii) && okSoFar; ++ii)
+        {
+            JS::RootedValue key(jct);
+            
+            if (JS_IdToValue(jct, ids[ii], &key))
+            {
+                PrintJavaScriptValue(outStream, jct, "id = ", key, depth);
+            }
+            else
+            {
+                okSoFar = false;
+            }
+            if (okSoFar)
+            {
+                JS::RootedValue result(jct);
+                JS::RootedId    aRootedId(jct);
+                
+                aRootedId = ids[ii];
+                if (JS_GetPropertyById(jct, anObject, aRootedId, &result))
+                {
+                    PrintJavaScriptValue(outStream, jct, ", property = ", result, 0);
+                }
+                else
+                {
+                    okSoFar = false;
+                }
+                if (okSoFar)
+                {
+                    if (result.isObject())
+                    {
+                        JS::RootedObject asObject(jct);
+                        
+                        if (JS_ValueToObject(jct, result, &asObject))
+                        {
+                            if (JS_IsArrayObject(jct, result))
+                            {
+                                outStream << "array";
+                                uint32_t arrayLength;
+                                
+                                if (JS_GetArrayLength(jct, asObject, &arrayLength))
+                                {
+                                    outStream << ", size = " << arrayLength;
+                                }
+                            }
+                            else if (JS_ObjectIsFunction(jct, asObject))
+                            {
+                                outStream << "function";
+                                JSFunction * asFunction = JS_ValueToFunction(jct, result);
+                                
+                                if (asFunction)
+                                {
+                                    outStream << ", arity = " << JS_GetFunctionArity(asFunction);
+                                    if (! JS::IsCallable(asObject))
+                                    {
+                                        outStream << ", not callable";
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                outStream << "object";
+                            }
+                        }
+                        else
+                        {
+                            okSoFar = false;
+                        }
+                        outStream << std::endl;
+                        if (okSoFar)
+                        {
+                            PrintJavaScriptObject(outStream, jct, asObject, depth + 1);
+                        }
+                    }
+                    else
+                    {
+                        outStream << std::endl;
+                    }
+                }
+            }
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // JavaScript::PrintJavaScriptObject
+
+void JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
+                                      JSContext *       jct,
+                                      const char *      caption,
+                                      JS::RootedValue & value,
+                                      const int         depth)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("outStream = ", &outStream, "jct = ", jct, "value = ", value); //####
+    OD_LOG_S1("caption = ", caption); //####
+    if (0 < depth)
+    {
+        outStream.width(depth);
+        outStream << " ";
+    }
+    std::cout << caption;
+    if (value.isString())
+    {
+        JSString * asString = value.toString();
+        char *     asChars = JS_EncodeString(jct, asString);
+        
+        outStream << "string(" << asChars << ")";
+        JS_free(jct, asChars);
+    }
+    else if (value.isObject())
+    {
+        // Objects will be processed separately.
+    }
+    else if (value.isInt32())
+    {
+        outStream << "int32(" << value.toInt32() << ")";
+    }
+    else if (value.isBoolean())
+    {
+        outStream << "boolean(" << (value.toBoolean() ? "true" : "false") << ")";
+    }
+    else if (value.isDouble())
+    {
+        outStream << "double(" << value.toDouble() << ")";
+    }
+    else if (value.isNullOrUndefined())
+    {
+        outStream << "null or undefined";
+    }
+    else
+    {
+        outStream << "other";
+    }
+    OD_LOG_EXIT(); //####
+} // JavaScript::PrintJavaScriptValue

@@ -61,10 +61,8 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
-             @param slotNumber The index of the channel if in a set of channels.
              @param isOutput @c true if the channel is used for output and @c false otherwise. */
-            GeneralChannel(const int  slotNumber,
-                           const bool isOutput);
+            GeneralChannel(const bool isOutput);
             
             /*! @brief The destructor. */
             virtual ~GeneralChannel(void);
@@ -93,14 +91,6 @@ namespace MplusM
                 return _protocolDescription;
             } // protocolDescription
             
-            /*! @brief Returns the index of the channel if in a set of channels.
-             @returns The index of the channel if in a set of channels. */
-            inline int slotNumber(void)
-            const
-            {
-                return _slotNumber;
-            } // slotNumber
-            
             /*! @brief Sets the protocol associated with the channel.
              @param newProtocol The new protocol associated with the channel.
              @param description The description of the new protocol. */
@@ -127,9 +117,6 @@ namespace MplusM
             
             /*! @brief The description of the protocol that the channel supports. */
             yarp::os::ConstString _protocolDescription;
-            
-            /*! @brief The index of the channel if in a set of channels. */
-            int _slotNumber;
             
             /*! @brief @c true if the channel is used for output and @c false otherwise. */
             bool _isOutput;

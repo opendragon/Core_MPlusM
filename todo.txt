@@ -24,8 +24,4 @@ d) have the JavaScript code handle an input stream
 e) have the JavaScript code generate an output stream from its input
 f) add support for an output-only script - that is, it will be running more-or-less continuously in a thread, generating output
 
-—> each time that a function is invoked from the script, it should be bracketed with a ‘try/catch’
-—> return handler vector, parallel with ChannelVector, for inlets; don’t need for outlets
 —> use scriptThread to define the behaviour of an output-only thread and add a thread object to the service
-—> pass tag to script?
-—> general channels don’t need indices, as the input handler has the same information

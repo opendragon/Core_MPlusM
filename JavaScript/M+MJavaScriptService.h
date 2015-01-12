@@ -43,6 +43,17 @@
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Winvalid-offsetof"
+# endif // defined(__APPLE__)
+# include <js/RequiredDefines.h>
+# include <jsapi.h>
+# include <js/CallArgs.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
@@ -60,11 +71,6 @@
 
 class JSContext;
 
-namespace JS
-{
-    class Value;
-} // JS
-
 namespace MplusM
 {
     namespace JavaScript
@@ -78,19 +84,23 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param context The %JavaScript engine context.
+             @param global The %JavaScript global object.
              @param launchPath The command-line name used to launch the service.
              @param tag The modifier for the service name and port names.
              @param description The description from the active script.
              @param loadedInletDescriptions The list of loaded inlet stream descriptions.
              @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
+             @param loadedInletHandlers The list of loaded inlet handlers.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             JavaScriptService(JSContext *                   context,
+                              JS::RootedObject &            global,
                               const yarp::os::ConstString & launchPath,
                               const yarp::os::ConstString & tag,
                               const yarp::os::ConstString & description,
                               const Common::ChannelVector & loadedInletDescriptions,
                               const Common::ChannelVector & loadedOutletDescriptions,
+                              const JS::AutoValueVector &   loadedInletHandlers,
                               const yarp::os::ConstString & serviceEndpointName,
                               const yarp::os::ConstString & servicePortNumber = "");
             
@@ -109,6 +119,14 @@ namespace MplusM
             {
                 return _context;
             } // getContext
+            
+            /*! @brief Return the global object for the %JavaScript execution environment.
+             @returns The global object for the %JavaScript execution environment. */
+            JS::RootedObject & getGlobal(void)
+            const
+            {
+                return _global;
+            } // getGlobal
             
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
@@ -159,11 +177,16 @@ namespace MplusM
             /*! @brief A sequence of input handlers. */
             typedef std::vector<JavaScriptInputHandler *> HandlerVector;
 
+            JS::AutoValueVector _inletHandlers;
+            
             /*! @brief The set of input handlers. */
             HandlerVector _inHandlers;
             
             /*! @brief The %JavaScript execution environment. */
             JSContext * _context;
+            
+            /*! @brief The %JavaScript global object for this execution environment. */
+            JS::RootedObject & _global;
             
             /*! @brief The list of loaded inlet stream descriptions. */
             const Common::ChannelVector & _loadedInletDescriptions;
@@ -173,6 +196,28 @@ namespace MplusM
             
         }; // JavaScriptService
         
+        /*! @brief Print out a %JavaScript object.
+         @param outStream Where to write the object.
+         @param jct The %JavaScript engine context.
+         @param anObject The object to be printed.
+         @param depth The indentation level to be used. */
+        void PrintJavaScriptObject(std::ostream &     outStream,
+                                   JSContext *        jct,
+                                   JS::RootedObject & anObject,
+                                   const int          depth);
+        
+        /*! @brief Print out a value.
+         @param outStream Where to write the value.
+         @param jct The %JavaScript engine context.
+         @param caption A title for the output.
+         @param value The value to be printed.
+         @param depth The indentation level to be used. */
+        void PrintJavaScriptValue(std::ostream &    outStream,
+                                  JSContext *       jct,
+                                  const char *      caption,
+                                  JS::RootedValue & value,
+                                  const int         depth);
+
     } // JavaScript
     
 } // MplusM

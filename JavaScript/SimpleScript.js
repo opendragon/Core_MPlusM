@@ -59,7 +59,8 @@ function andAnotherFunction(aa)
 }
 
 andAnotherFunction(42);
-writeStringToStdout('argv is: [' + argv.toString() + ']');
+dumpObjectToStdout('argv:', argv);
+writeStringToStdout('tag is "' + scriptTag + '"');
 
 // The real stuff:
 
@@ -68,6 +69,7 @@ function scriptHandleInput(portNumber, incomingData)
     writeStringToStdout('input on port ' + portNumber);
     // Convert the input to an integer, if it's a floating-point number; if it's an integer, pass it
     // through. If it's an array, process each element. If a value is non-numeric, report an error.
+    sendToChannel(0, portNumber.toString());
 } // scriptHandleInput
 
 // Specfic named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
@@ -98,20 +100,20 @@ function scriptInlets()
     {
         for (var ii = 0; inletCount > ii; ++ii)
         {
-            inlets[ii] = { name: ('incoming' + (ii + 1)), protocol: 'd+',
-                            protocolDescription: 'A sequence of floating-point values',
+            inlets[ii] = { name: ('incoming' + (ii + 1)), protocol: '*',
+                            protocolDescription: 'Anything',
                             handler: scriptHandleInput };
         }
     }
     else
     {
-        inlets[0] = { name: 'incoming', protocol: 'd+',
-                        protocolDescription: 'A sequence of floating-point values',
+        inlets[0] = { name: 'incoming', protocol: '*',
+                        protocolDescription: 'Anything',
                         handler: scriptHandleInput };
     }
     return inlets;
 } // scriptInlets
 //var scriptInlets = [];
 
-var scriptOutlets = [ { name: 'outgoing', protocol: 'i+',
-                        protocolDescription: 'A sequence of integer values' } ];
+var scriptOutlets = [ { name: 'outgoing', protocol: '*',
+                        protocolDescription: 'Anything' } ];

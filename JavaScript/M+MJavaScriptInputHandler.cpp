@@ -45,17 +45,6 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Winvalid-offsetof"
-#endif // defined(__APPLE__)
-#include <js/RequiredDefines.h>
-#include <jsapi.h>
-#include <js/CallArgs.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -77,17 +66,118 @@ using namespace MplusM::JavaScript;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Fill a bottle with the contents of an object.
- @param aBottle The bottle to be filled.
- @param theData The value to be sent.
- @param jct The %JavaScript engine context. */
-static void createValueFromBottle(const yarp::os::Bottle & aBottle,
-                                  JS::MutableHandleValue   theData,
-                                  JSContext *              jct)
+/*! @brief Convert a YARP value into a %JavaScript object.
+ @param jct The %JavaScript engine context.
+ @param theData The output object.
+ @param inputValue The value to be processed. */
+static void convertValue(JSContext *             jct,
+                         JS::MutableHandleValue  theData,
+                         const yarp::os::Value & inputValue);
+
+
+
+
+
+
+static void convertValue(JSContext *             jct,
+                         JS::MutableHandleValue  theData,
+                         const yarp::os::Value & inputValue)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("aBottle = ", aBottle, "jct = ", jct); //####
-                    //TBD --> copy values from theData to aBottle
+    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
+    if (inputValue.isBool())
+    {
+        bool value = inputValue.asBool();
+        
+        theData.setBoolean(value);
+    }
+    else if (inputValue.isInt())
+    {
+        int value = inputValue.asInt();
+        
+        theData.setInt32(value);
+    }
+    else if (inputValue.isString())
+    {
+        yarp::os::ConstString value = inputValue.asString();
+        JSString *            aString = JS_NewStringCopyZ(jct, value.c_str());
+        
+        if (aString)
+        {
+            theData.setString(aString);
+        }
+    }
+    else if (inputValue.isDouble())
+    {
+        double value = inputValue.asDouble();
+        
+        theData.setDouble(value);
+    }
+    else if (inputValue.isDict())
+    {
+        yarp::os::Property * value = inputValue.asDict();
+        
+        if (value)
+        {
+            std::cout << "inside dictionary" << std::endl;
+//            processDictionary(outFile, *value);
+        }
+    }
+    else if (inputValue.isList())
+    {
+        yarp::os::Bottle * value = inputValue.asList();
+        
+        if (value)
+        {
+            std::cout << "inside list" << std::endl;
+            yarp::os::Property asDict;
+            
+            if (ListIsReallyDictionary(*value, asDict))
+            {
+                std::cout << "really a dictionary" << std::endl;
+//                processDictionary(outFile, asDict);
+            }
+            else
+            {
+//                processList(outFile, *value);
+            }
+        }
+    }
+    else
+    {
+        // We don't know what to do with this...
+        theData.setNull();
+    }
+    OD_LOG_EXIT(); //####
+} // convertValue
+
+/*! @brief Fill a bottle with the contents of an object.
+ @param jct The %JavaScript engine context.
+ @param aBottle The bottle to be filled.
+ @param theData The value to be sent. */
+static void createValueFromBottle(JSContext *              jct,
+                                  const yarp::os::Bottle & aBottle,
+                                  JS::MutableHandleValue   theData)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "aBottle = ", aBottle); //####
+    int  mm = aBottle.size();
+    
+    std::cout << "'" << aBottle.toString().c_str() << "'" << std::endl << std::endl;
+    
+    if (1 == mm)
+    {
+        convertValue(jct, theData, aBottle.get(0));
+    }
+    else if (1 < mm)
+    {
+        std::cout << "list" << std::endl;
+//        convertList(theData, aBottle);
+    }
+    else
+    {
+        theData.setNull();
+    }
     OD_LOG_EXIT(); //####
 } // createValueFromBottle
 
@@ -100,11 +190,12 @@ static void createValueFromBottle(const yarp::os::Bottle & aBottle,
 #endif // defined(__APPLE__)
 
 JavaScriptInputHandler::JavaScriptInputHandler(JavaScriptService * owner,
-                                               const size_t        slotNumber) :
-    inherited(), _owner(owner), _slotNumber(slotNumber), _active(false)
+                                               const size_t        slotNumber,
+                                               JS::HandleValue &   handlerFunc) :
+    inherited(), _owner(owner), _handlerFunc(handlerFunc), _slotNumber(slotNumber), _active(false)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", owner); //####
+    OD_LOG_P2("owner = ", owner, "handlerFunc = ", &handlerFunc); //####
     OD_LOG_L1("slotNumber = ", slotNumber); //####
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptInputHandler::JavaScriptInputHandler
@@ -147,11 +238,58 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
             
             if (jct)
             {
+                std::cout << __LINE__ << std::endl;
                 JS::RootedValue argValue(jct);
+                JS::Value       slotNumberValue;
 
-                createValueFromBottle(input, &argValue, jct);
-                //TBD --> call into JavaScript code to handle the input; pass _slotNumber to
-                // the script; we need a referenc to the JavaScript handler!
+                slotNumberValue.setInt32(_slotNumber);
+                createValueFromBottle(jct, input, &argValue);
+//#if 0
+                PrintJavaScriptValue(std::cout, jct, "incoming = ", argValue, 0);
+                std::cout << std::endl;
+//#endif//0
+                JS::AutoValueVector funcArgs(jct);
+                JS::RootedValue     funcResult(jct);
+                
+                result = false;
+                std::cout << __LINE__ << std::endl;
+                funcArgs.append(slotNumberValue);
+                funcArgs.append(argValue);
+                JS_BeginRequest(jct);
+                std::cout << __LINE__ << std::endl;
+                if (JS_CallFunctionValue(jct, _owner->getGlobal(), _handlerFunc, funcArgs,
+                                         &funcResult))
+                {
+                    std::cout << __LINE__ << " OK" << std::endl;
+                    // We don't care about the function result, as it's supposed to just write to
+                    // the outlet stream(s).
+                    result = true;
+                }
+                else
+                {
+                    std::cout << __LINE__ << std::endl;
+                    OD_LOG("! (JS_CallFunctionValue(jct, _owner->getGlobal(), _handlerFunc, " //####
+                           "funcArgs, &funcResult))"); //####
+                    JS::RootedValue exc(jct);
+                    
+                    if (JS_GetPendingException(jct, &exc))
+                    {
+                        JS_ClearPendingException(jct);
+                        std::stringstream     buff;
+                        yarp::os::ConstString message("Exception occurred while executing "
+                                                      "handler function for inlet ");
+                        
+                        buff << _slotNumber;
+                        message += buff.str();
+                        message += ".";
+#if MAC_OR_LINUX_
+                        GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                        std::cerr << message.c_str() << std::endl;
+#endif // ! MAC_OR_LINUX_
+                    }
+                }
+                JS_EndRequest(jct);
             }
         }
     }

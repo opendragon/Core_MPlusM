@@ -99,100 +99,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
             {
                 yarp::os::Value & aFinger = fingers->get(ii);
                 
-                if (aFinger.isList())
-                {
-                    yarp::os::Bottle * fingerList = aFinger.asList();
-                    
-                    if (fingerList)
-                    {
-                        yarp::os::Property fingerProps(fingerList->toString().c_str());
-                        yarp::os::Value &  fingerType(fingerProps.find("type"));
-                        yarp::os::Value &  tipPosition(fingerProps.find("tipposition"));
-                        yarp::os::Value &  tipDirection(fingerProps.find("direction"));
-                        
-                        if (fingerType.isString() && tipPosition.isList() && tipDirection.isList())
-                        {
-                            yarp::os::ConstString fingerTag = fingerType.asString();
-                            yarp::os::Bottle *    positionData = tipPosition.asList();
-                            yarp::os::Bottle *    directionData = tipDirection.asList();
-                            
-                            if (positionData && (3 == positionData->size()) && directionData &&
-                                (3 == directionData->size()))
-                            {
-                                std::cerr << "Segment = " << fingerTag.c_str() << std::endl; //!!!!
-                                outBuffer << fingerTag.c_str();
-                                for (int jj = 0; okSoFar && (3 > jj); ++jj)
-                                {
-                                    double            aValue;
-                                    yarp::os::Value & anElement = positionData->get(jj);
-                                    
-                                    if (anElement.isDouble())
-                                    {
-                                        aValue = anElement.asDouble();
-                                    }
-                                    else if (anElement.isInt())
-                                    {
-                                        aValue = anElement.asInt();
-                                    }
-                                    else
-                                    {
-                                        std::cerr << "Bad position data" << std::endl; //!!!!
-                                        okSoFar = false;
-                                    }
-                                    if (okSoFar)
-                                    {
-                                        aValue *= (scale * kLeapScale);
-                                        outBuffer << "\t" << aValue;
-                                    }
-                                }
-                                for (int jj = 0; okSoFar && (3 > jj); ++jj)
-                                {
-                                    double            aValue;
-                                    yarp::os::Value & anElement = directionData->get(jj);
-                                    
-                                    if (anElement.isDouble())
-                                    {
-                                        aValue = anElement.asDouble();
-                                    }
-                                    else if (anElement.isInt())
-                                    {
-                                        aValue = anElement.asInt();
-                                    }
-                                    else
-                                    {
-                                        std::cerr << "Bad direction data" << std::endl; //!!!!
-                                        okSoFar = false;
-                                    }
-                                    if (okSoFar)
-                                    {
-                                        aValue *= scale;
-                                        outBuffer << "\t" << aValue;
-                                    }
-                                }
-                                if (okSoFar)
-                                {
-                                    // Add a dummy 'w' value.
-                                    outBuffer << "\t1" << LINE_END;
-                                }
-                            }
-                            else
-                            {
-                                std::cerr << "Position or direction data invalid" << //!!!!
-                                            std::endl; //!!!!
-                            }
-                        }
-                        else
-                        {
-                            std::cerr << "Missing or invalid finger values" << std::endl; //!!!!
-                            okSoFar = false;
-                        }
-                    }
-                    else
-                    {
-                        std::cerr << "Bad finger list pointer" << std::endl; //!!!!
-                    }
-                }
-                else if (aFinger.isDict())
+                if (aFinger.isDict())
                 {
                     yarp::os::Property * fingerProps = aFinger.asDict();
                     
@@ -283,6 +190,99 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                     {
                         std::cerr << "Bad finger pointer" << std::endl; //!!!!
                         okSoFar = false;
+                    }
+                }
+                else if (aFinger.isList())
+                {
+                    yarp::os::Bottle * fingerList = aFinger.asList();
+                    
+                    if (fingerList)
+                    {
+                        yarp::os::Property fingerProps(fingerList->toString().c_str());
+                        yarp::os::Value &  fingerType(fingerProps.find("type"));
+                        yarp::os::Value &  tipPosition(fingerProps.find("tipposition"));
+                        yarp::os::Value &  tipDirection(fingerProps.find("direction"));
+                        
+                        if (fingerType.isString() && tipPosition.isList() && tipDirection.isList())
+                        {
+                            yarp::os::ConstString fingerTag = fingerType.asString();
+                            yarp::os::Bottle *    positionData = tipPosition.asList();
+                            yarp::os::Bottle *    directionData = tipDirection.asList();
+                            
+                            if (positionData && (3 == positionData->size()) && directionData &&
+                                (3 == directionData->size()))
+                            {
+                                std::cerr << "Segment = " << fingerTag.c_str() << std::endl; //!!!!
+                                outBuffer << fingerTag.c_str();
+                                for (int jj = 0; okSoFar && (3 > jj); ++jj)
+                                {
+                                    double            aValue;
+                                    yarp::os::Value & anElement = positionData->get(jj);
+                                    
+                                    if (anElement.isDouble())
+                                    {
+                                        aValue = anElement.asDouble();
+                                    }
+                                    else if (anElement.isInt())
+                                    {
+                                        aValue = anElement.asInt();
+                                    }
+                                    else
+                                    {
+                                        std::cerr << "Bad position data" << std::endl; //!!!!
+                                        okSoFar = false;
+                                    }
+                                    if (okSoFar)
+                                    {
+                                        aValue *= (scale * kLeapScale);
+                                        outBuffer << "\t" << aValue;
+                                    }
+                                }
+                                for (int jj = 0; okSoFar && (3 > jj); ++jj)
+                                {
+                                    double            aValue;
+                                    yarp::os::Value & anElement = directionData->get(jj);
+                                    
+                                    if (anElement.isDouble())
+                                    {
+                                        aValue = anElement.asDouble();
+                                    }
+                                    else if (anElement.isInt())
+                                    {
+                                        aValue = anElement.asInt();
+                                    }
+                                    else
+                                    {
+                                        std::cerr << "Bad direction data" << std::endl; //!!!!
+                                        okSoFar = false;
+                                    }
+                                    if (okSoFar)
+                                    {
+                                        aValue *= scale;
+                                        outBuffer << "\t" << aValue;
+                                    }
+                                }
+                                if (okSoFar)
+                                {
+                                    // Add a dummy 'w' value.
+                                    outBuffer << "\t1" << LINE_END;
+                                }
+                            }
+                            else
+                            {
+                                std::cerr << "Position or direction data invalid" << //!!!!
+                                            std::endl; //!!!!
+                            }
+                        }
+                        else
+                        {
+                            std::cerr << "Missing or invalid finger values" << std::endl; //!!!!
+                            okSoFar = false;
+                        }
+                    }
+                    else
+                    {
+                        std::cerr << "Bad finger list pointer" << std::endl; //!!!!
                     }
                 }
                 else

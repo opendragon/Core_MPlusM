@@ -43,6 +43,17 @@
 # include <mpm/M+MBaseInputHandler.h>
 # include <mpm/M+MGeneralChannel.h>
 
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Winvalid-offsetof"
+#endif // defined(__APPLE__)
+#include <js/RequiredDefines.h>
+#include <jsapi.h>
+#include <js/CallArgs.h>
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -70,9 +81,11 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param owner The service that owns this handler.
-             @param slotNumber The slot number of the associated channel. */
+             @param slotNumber The slot number of the associated channel.
+             @param handlerFunc The %JavaScript handler function for the channel. */
             JavaScriptInputHandler(JavaScriptService * owner,
-                                   const size_t        slotNumber);
+                                   const size_t        slotNumber,
+                                   JS::HandleValue &   handlerFunc);
             
             /*! @brief The destructor. */
             virtual ~JavaScriptInputHandler(void);
@@ -117,6 +130,9 @@ namespace MplusM
             
             /*! @brief The service that owns this handler. */
             JavaScriptService * _owner;
+            
+            /*! @brief The %JavaScript input handler function. */
+            JS::HandleValue _handlerFunc;
             
             /*! @brief The slot number of the associated channel. */
             size_t _slotNumber;

@@ -218,15 +218,6 @@ static void processValue(FILE *                   outFile,
         
         fprintf(outFile, "%g", value);
     }
-    else if (inputValue.isList())
-    {
-        yarp::os::Bottle * value = inputValue.asList();
-        
-        if (value)
-        {
-            processList(outFile, *value);
-        }
-    }
     else if (inputValue.isDict())
     {
         yarp::os::Property * value = inputValue.asDict();
@@ -234,6 +225,24 @@ static void processValue(FILE *                   outFile,
         if (value)
         {
             processDictionary(outFile, *value);
+        }
+    }
+    else if (inputValue.isList())
+    {
+        yarp::os::Bottle * value = inputValue.asList();
+        
+        if (value)
+        {
+            yarp::os::Property asDict;
+            
+            if (ListIsReallyDictionary(*value, asDict))
+            {
+                processDictionary(outFile, asDict);
+            }
+            else
+            {
+                processList(outFile, *value);
+            }
         }
     }
     else

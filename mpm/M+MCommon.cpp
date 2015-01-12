@@ -409,6 +409,63 @@ bool MplusM::IsRunning(void)
     return lKeepRunning;
 } // MplusM::IsRunning
 
+bool MplusM::ListIsReallyDictionary(yarp::os::Bottle &   aList,
+                                    yarp::os::Property & aDictionary)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("aList = ", &aList, "aDictionary = ", &aDictionary); //####
+    int  mm = aList.size();
+    bool isDictionary = (0 < mm);
+    
+    aDictionary.clear();
+    for (int ii = 0; isDictionary && (mm > ii); ++ii)
+    {
+        yarp::os::Value anEntry(aList.get(ii));
+        
+        if (anEntry.isList())
+        {
+            yarp::os::Bottle * entryAsList = anEntry.asList();
+            
+            if (entryAsList)
+            {
+                if (2 == entryAsList->size())
+                {
+                    yarp::os::Value key(entryAsList->get(0));
+                    yarp::os::Value data(entryAsList->get(1));
+                    
+                    if (key.isString())
+                    {
+                        yarp::os::ConstString keyAsString(key.toString());
+                        
+                        if (aDictionary.check(keyAsString))
+                        {
+                            isDictionary = false;
+                        }
+                        else
+                        {
+                            aDictionary.put(keyAsString, data);
+                        }
+                    }
+                    else
+                    {
+                        isDictionary = false;
+                    }
+                }
+                else
+                {
+                    isDictionary = false;
+                }
+            }
+        }
+        else
+        {
+            isDictionary = false;
+        }
+    }
+    OD_LOG_EXIT_B(isDictionary); //####
+    return isDictionary;
+} // MplusM::ListIsReallyDictionary
+
 const char * MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;

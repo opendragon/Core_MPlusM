@@ -380,6 +380,17 @@ namespace MplusM
      @returns @c true if the executable can continue running and @c false otherwise. */
     bool IsRunning(void);
     
+    /*! @brief Check if a list is actually a dictionary, as they have the same textual
+     representation.
+     
+     Note that the output dictionary will be modified, regardless of whether or not the list is, in
+     fact, a dictionary.
+     @param aList The list of interest.
+     @param aDictionary The corresponding dictionary.
+     @returns @c true if the list can be converted into a dictionary and @c false otherwise. */
+    bool ListIsReallyDictionary(yarp::os::Bottle &   aList,
+                                yarp::os::Property & aDictionary);
+    
     /*! @brief Return the name of a signal.
      @param theSignal The signal of interest.
      @returns A string description of the signal. */
