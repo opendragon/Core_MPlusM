@@ -200,23 +200,25 @@ namespace MplusM
          @param outStream Where to write the object.
          @param jct The %JavaScript engine context.
          @param anObject The object to be printed.
-         @param depth The indentation level to be used. */
-        void PrintJavaScriptObject(std::ostream &     outStream,
-                                   JSContext *        jct,
-                                   JS::RootedObject & anObject,
-                                   const int          depth);
+         @param depth The indentation level to be used.
+         @returns The stream that was written to. */
+        std::ostream & PrintJavaScriptObject(std::ostream &     outStream,
+                                             JSContext *        jct,
+                                             JS::RootedObject & anObject,
+                                             const int          depth);
         
         /*! @brief Print out a value.
          @param outStream Where to write the value.
          @param jct The %JavaScript engine context.
          @param caption A title for the output.
          @param value The value to be printed.
-         @param depth The indentation level to be used. */
-        void PrintJavaScriptValue(std::ostream &    outStream,
-                                  JSContext *       jct,
-                                  const char *      caption,
-                                  JS::RootedValue & value,
-                                  const int         depth);
+         @param depth The indentation level to be used.
+         @returns The stream that was written to. */
+        std::ostream & PrintJavaScriptValue(std::ostream &    outStream,
+                                            JSContext *       jct,
+                                            const char *      caption,
+                                            JS::RootedValue & value,
+                                            const int         depth);
 
     } // JavaScript
     

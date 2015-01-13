@@ -74,10 +74,84 @@ static void convertValue(JSContext *             jct,
                          JS::MutableHandleValue  theData,
                          const yarp::os::Value & inputValue);
 
+/*! @brief Convert a YARP dictionary into a %JavaScript object.
+ @param jct The %JavaScript engine context.
+ @param theData The output object.
+ @param inputValue The value to be processed.
+ @param inputAsList The input dictionary as a list. */
+static void convertDictionary(JSContext *                jct,
+                              JS::MutableHandleValue     theData,
+                              const yarp::os::Property & inputValue,
+                              const yarp::os::Bottle &   inputAsList)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("jct = ", jct, "inputValue = ", &inputValue, "inputAsList = ", &inputAsList); //####
+    JS::RootedObject empty(jct);
+    JSObject *       valueObject = JS_NewObject(jct, NULL, empty, empty);
 
+    if (valueObject)
+    {
+        JS::RootedObject objectRooted(jct);
+        JS::RootedValue  anElement(jct);
+        
+        objectRooted = valueObject;
+        for (int ii = 0, mm = inputAsList.size(); mm > ii; ++ii)
+        {
+            yarp::os::Value anEntry(inputAsList.get(ii));
+            
+            if (anEntry.isList())
+            {
+                yarp::os::Bottle * entryAsList = anEntry.asList();
+                
+                if (entryAsList && (2 == entryAsList->size()))
+                {
+                    yarp::os::Value aValue(entryAsList->get(1));
 
+                    convertValue(jct, &anElement, aValue);
+                    JS_SetProperty(jct, objectRooted, entryAsList->get(0).toString().c_str(),
+                                   anElement);
+                }
+            }
+        }
+        theData.setObject(*valueObject);
+    }
+    OD_LOG_EXIT(); //####
+} // convertDictionary
 
+// convertList
+/*! @brief Convert a YARP list into a %JavaScript object.
+ @param jct The %JavaScript engine context.
+ @param theData The output object.
+ @param inputValue The value to be processed. */
+static void convertList(JSContext *              jct,
+                        JS::MutableHandleValue   theData,
+                        const yarp::os::Bottle & inputValue)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
+    JSObject * valueArray = JS_NewArrayObject(jct, 0);
+    
+    if (valueArray)
+    {
+        JS::RootedObject arrayRooted(jct);
+        JS::RootedValue  anElement(jct);
+        JS::RootedId     aRootedId(jct);
 
+        arrayRooted = valueArray;
+        for (int ii = 0, mm = inputValue.size(); mm > ii; ++ii)
+        {
+            yarp::os::Value aValue(inputValue.get(ii));
+            
+            convertValue(jct, &anElement, aValue);
+            if (JS_IndexToId(jct, ii, &aRootedId))
+            {
+                JS_SetPropertyById(jct, arrayRooted, aRootedId, anElement);
+            }
+        }
+        theData.setObject(*valueArray);
+    }
+    OD_LOG_EXIT(); //####
+} // convertList
 
 static void convertValue(JSContext *             jct,
                          JS::MutableHandleValue  theData,
@@ -119,8 +193,9 @@ static void convertValue(JSContext *             jct,
         
         if (value)
         {
-            std::cout << "inside dictionary" << std::endl;
-//            processDictionary(outFile, *value);
+            yarp::os::Bottle asList(value->toString());
+
+            convertDictionary(jct, theData, *value, asList);
         }
     }
     else if (inputValue.isList())
@@ -129,17 +204,15 @@ static void convertValue(JSContext *             jct,
         
         if (value)
         {
-            std::cout << "inside list" << std::endl;
             yarp::os::Property asDict;
             
             if (ListIsReallyDictionary(*value, asDict))
             {
-                std::cout << "really a dictionary" << std::endl;
-//                processDictionary(outFile, asDict);
+                convertDictionary(jct, theData, asDict, *value);
             }
             else
             {
-//                processList(outFile, *value);
+                convertList(jct, theData, *value);
             }
         }
     }
@@ -163,16 +236,23 @@ static void createValueFromBottle(JSContext *              jct,
     OD_LOG_P2("jct = ", jct, "aBottle = ", aBottle); //####
     int  mm = aBottle.size();
     
-    std::cout << "'" << aBottle.toString().c_str() << "'" << std::endl << std::endl;
-    
+//    std::cout << "'" << aBottle.toString().c_str() << "'" << std::endl << std::endl;
     if (1 == mm)
     {
         convertValue(jct, theData, aBottle.get(0));
     }
     else if (1 < mm)
     {
-        std::cout << "list" << std::endl;
-//        convertList(theData, aBottle);
+        yarp::os::Property asDict;
+        
+        if (ListIsReallyDictionary(aBottle, asDict))
+        {
+            convertDictionary(jct, theData, asDict, aBottle);
+        }
+        else
+        {
+            convertList(jct, theData, aBottle);
+        }
     }
     else
     {
@@ -238,36 +318,28 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
             
             if (jct)
             {
-                std::cout << __LINE__ << std::endl;
                 JS::RootedValue argValue(jct);
                 JS::Value       slotNumberValue;
 
                 slotNumberValue.setInt32(_slotNumber);
                 createValueFromBottle(jct, input, &argValue);
-//#if 0
-                PrintJavaScriptValue(std::cout, jct, "incoming = ", argValue, 0);
-                std::cout << std::endl;
-//#endif//0
+//                PrintJavaScriptValue(std::cout, jct, "incoming = ", argValue, 0) << std::endl;
                 JS::AutoValueVector funcArgs(jct);
                 JS::RootedValue     funcResult(jct);
                 
                 result = false;
-                std::cout << __LINE__ << std::endl;
                 funcArgs.append(slotNumberValue);
                 funcArgs.append(argValue);
                 JS_BeginRequest(jct);
-                std::cout << __LINE__ << std::endl;
                 if (JS_CallFunctionValue(jct, _owner->getGlobal(), _handlerFunc, funcArgs,
                                          &funcResult))
                 {
-                    std::cout << __LINE__ << " OK" << std::endl;
                     // We don't care about the function result, as it's supposed to just write to
                     // the outlet stream(s).
                     result = true;
                 }
                 else
                 {
-                    std::cout << __LINE__ << std::endl;
                     OD_LOG("! (JS_CallFunctionValue(jct, _owner->getGlobal(), _handlerFunc, " //####
                            "funcArgs, &funcResult))"); //####
                     JS::RootedValue exc(jct);

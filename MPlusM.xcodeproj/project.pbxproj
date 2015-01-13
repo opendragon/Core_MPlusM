@@ -295,6 +295,9 @@
 		DF6DFCC71A0D265000E8CEF5 /* M+MViconDataStreamInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MViconDataStreamInputService.h"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamInputService.h"; sourceTree = SOURCE_ROOT; };
 		DF6DFCC81A0D265000E8CEF5 /* M+MViconDataStreamInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamInputServiceMain.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF6DFCC91A0D265000E8CEF5 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = ViconDataStream/ViconDataStreamInputService/stdafx.h; sourceTree = SOURCE_ROOT; };
+		DF6EAFA11A65BEA400FC0085 /* RunningSum.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RunningSum.js; path = JavaScript/RunningSum.js; sourceTree = SOURCE_ROOT; };
+		DF6EAFA21A65C97000FC0085 /* TruncateFloat.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = TruncateFloat.js; path = JavaScript/TruncateFloat.js; sourceTree = SOURCE_ROOT; };
+		DF6EAFA31A65CD1700FC0085 /* RecordIntegers.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RecordIntegers.js; path = JavaScript/RecordIntegers.js; sourceTree = SOURCE_ROOT; };
 		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -793,7 +796,10 @@
 				DF45F21E1A5AF9500090E161 /* M+MJavaScriptService.h */,
 				DF45F21F1A5AF9500090E161 /* M+MJavaScriptServiceMain.cpp */,
 				DF4179A11A60596F006552F0 /* MergeChannels.js */,
+				DF6EAFA31A65CD1700FC0085 /* RecordIntegers.js */,
+				DF6EAFA11A65BEA400FC0085 /* RunningSum.js */,
 				DF45F2211A5C4CA30090E161 /* SimpleScript.js */,
+				DF6EAFA21A65C97000FC0085 /* TruncateFloat.js */,
 			);
 			name = JavaScript;
 			sourceTree = "<group>";

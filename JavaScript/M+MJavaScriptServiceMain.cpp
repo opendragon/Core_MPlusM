@@ -238,7 +238,6 @@ static bool sendToChannelForJs(JSContext * jct,
             
             if (theService)
             {
-                std::cout << "ready to write, slot = " << channelSlot << std::endl;
                 result = theService->sendToChannel(channelSlot, args[1]);
             }
         }
@@ -308,18 +307,18 @@ static JSFunctionSpec lServiceFunctions[] =
     JS_FS_END
 }; // lServiceFunctions
 
-/*! @brief Add custom functions and variables to the %JavaScript environment.
+/*! @brief Add custom classes, functions and variables to the %JavaScript environment.
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
  @param tag The modifier for the service name and port names.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c true if the functions were addeded successfully and @c false otherwise. */
-static bool addCustomFunctionsAndVariables(JSContext *                   jct,
-                                           JS::RootedObject &            global,
-                                           const yarp::os::ConstString & tag,
-                                           const int                     argc,
-                                           char * *                      argv)
+static bool addCustomObjects(JSContext *                   jct,
+                             JS::RootedObject &            global,
+                             const yarp::os::ConstString & tag,
+                             const int                     argc,
+                             char * *                      argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
@@ -422,7 +421,7 @@ static bool addCustomFunctionsAndVariables(JSContext *                   jct,
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
-} // addCustomFunctionsAndVariables
+} // addCustomObjects
 
 /*! @brief Load a script into the %JavaScript environment.
  @param jct The %JavaScript engine context.
@@ -628,8 +627,20 @@ static bool getLoadedFunctionRef(JSContext *        jct,
             {
                 JS::RootedObject asObject(jct);
                 
-                if (JS_ValueToObject(jct, result, &asObject) &&
-                    JS_ObjectIsFunction(jct, asObject) && JS::IsCallable(asObject))
+//                if (JS_ValueToObject(jct, result, &asObject) &&
+//                    JS_ObjectIsFunction(jct, asObject) && JS::IsCallable(asObject))
+//                {
+//                    JSFunction * asFunction = JS_ValueToFunction(jct, result);
+//                    
+//                    if (asFunction)
+//                    {
+//                        okSoFar = (arity == JS_GetFunctionArity(asFunction));
+//                    }
+//                }
+                JS::RootedValue asFunctionValue(jct);
+                
+                if (JS_ConvertValue(jct, result, JSTYPE_FUNCTION, &asFunctionValue) &&
+                    JS_ValueToObject(jct, asFunctionValue, &asObject) && JS::IsCallable(asObject))
                 {
                     JSFunction * asFunction = JS_ValueToFunction(jct, result);
                     
@@ -712,10 +723,7 @@ static bool processStreamDescription(JSContext *           jct,
     }
     if (okSoFar)
     {
-#if 0
-        std::cout << std::endl;
-        PrintJavaScriptObject(std::cout, jct, asObject, 0);
-#endif//0
+//        PrintJavaScriptObject(std::cout, jct, asObject, 0);
         okSoFar = getLoadedString(jct, asObject, "name", false, description._portName);
     }
     if (okSoFar)
@@ -947,9 +955,7 @@ static bool validateLoadedScript(JSContext *             jct,
               "loadedInletHandlers = ", &loadedInletHandlers); //####
     bool okSoFar = true;
 
-#if 0
-    PrintJavaScriptObject(std::cout, jct, global, 0);
-#endif //0
+//    PrintJavaScriptObject(std::cout, jct, global, 0);
     okSoFar = getLoadedString(jct, global, "scriptDescription", true, description);
     if (okSoFar)
     {
@@ -1029,16 +1035,16 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            if (! addCustomFunctionsAndVariables(jct, global, tag, argc, argv))
+            if (! addCustomObjects(jct, global, tag, argc, argv))
             {
-                OD_LOG("(! addCustomFunctionsAndVariables(jct, global, tag, argc, argv))"); //####
+                OD_LOG("(! addCustomObjects(jct, global, tag, argc, argv))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
-                GetLogger().fail("Custom functions and variables could not be added to the "
-                                 "JavaScript global object.");
+                GetLogger().fail("Custom objects could not be added to the JavaScript global "
+                                 "object.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Custom functions and variables could not be added to the "
-                                "JavaScript global object." << std::endl;
+                std::cerr << "Custom objects could not be added to the JavaScript global object." <<
+                            std::endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1046,7 +1052,7 @@ static void setUpAndGo(JSContext *                   jct,
         {
             if (! loadScript(jct, global, options, script, scriptPath))
             {
-                OD_LOG("(! loadScript(jct, global, script, scriptPath))"); //####
+                OD_LOG("(! loadScript(jct, global, options, script, scriptPath))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
                 GetLogger().fail("Script could not be loaded.");

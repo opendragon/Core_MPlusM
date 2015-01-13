@@ -69,7 +69,7 @@ function scriptHandleInput(portNumber, incomingData)
     writeStringToStdout('input on port ' + portNumber);
     // Convert the input to an integer, if it's a floating-point number; if it's an integer, pass it
     // through. If it's an array, process each element. If a value is non-numeric, report an error.
-    sendToChannel(0, portNumber.toString());
+    sendToChannel(0, incomingData);//portNumber.toString());
 } // scriptHandleInput
 
 // Specfic named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',

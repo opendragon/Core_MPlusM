@@ -388,8 +388,8 @@ namespace MplusM
      @param aList The list of interest.
      @param aDictionary The corresponding dictionary.
      @returns @c true if the list can be converted into a dictionary and @c false otherwise. */
-    bool ListIsReallyDictionary(yarp::os::Bottle &   aList,
-                                yarp::os::Property & aDictionary);
+    bool ListIsReallyDictionary(const yarp::os::Bottle & aList,
+                                yarp::os::Property &     aDictionary);
     
     /*! @brief Return the name of a signal.
      @param theSignal The signal of interest.

@@ -409,8 +409,8 @@ bool MplusM::IsRunning(void)
     return lKeepRunning;
 } // MplusM::IsRunning
 
-bool MplusM::ListIsReallyDictionary(yarp::os::Bottle &   aList,
-                                    yarp::os::Property & aDictionary)
+bool MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
+                                    yarp::os::Property &     aDictionary)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("aList = ", &aList, "aDictionary = ", &aDictionary); //####

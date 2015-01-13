@@ -77,19 +77,129 @@ static void fillBottleFromValue(JSContext *        jct,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
-                    //TBD --> copy values from theData to aBottle
-#if 0
-    JS::RootedObject asObject(jct);
-    
-    if (JS_ValueToObject(jct, theData, &asObject))
-    {
-        PrintJavaScriptObject(std::cout, jct, asObject, 0);
-    }
-#endif//0
-    yarp::os::Property & aProp = aBottle.addDict();
+    JS::RootedValue asRootedValue(jct);
 
-    aProp.put("1", "12");
-    aProp.put("2", "24");
+    asRootedValue = theData;
+    if (theData.isBoolean())
+    {
+        aBottle.addInt(JS::ToBoolean(asRootedValue) ? 1 : 0);
+    }
+    else if (theData.isDouble())
+    {
+        double aValue;
+        
+        if (JS::ToNumber(jct, asRootedValue, &aValue))
+        {
+            aBottle.addDouble(aValue);
+        }
+    }
+    else if (theData.isInt32())
+    {
+        int32_t aValue;
+        
+        if (JS::ToInt32(jct, asRootedValue, &aValue))
+        {
+            aBottle.addInt(aValue);
+        }
+    }
+    else if (theData.isString())
+    {
+        JSString * asString = theData.toString();
+        char *     asChars = JS_EncodeString(jct, asString);
+        
+        aBottle.addString(yarp::os::ConstString(asChars));
+        JS_free(jct, asChars);
+    }
+    else if (theData.isObject())
+    {
+        JS::RootedObject asObject(jct);
+        
+        if (JS_ValueToObject(jct, asRootedValue, &asObject))
+        {
+            bool processed = false;
+            
+//            PrintJavaScriptObject(std::cout, jct, asObject, 0);
+            if (JS_IsArrayObject(jct, asObject))
+            {
+                uint32_t arrayLength;
+                
+                if (JS_GetArrayLength(jct, asObject, &arrayLength))
+                {
+                    // Treat as a list
+                    yarp::os::Bottle & innerList(aBottle.addList());
+                    
+                    for (uint32_t ii = 0; arrayLength > ii; ++ii)
+                    {
+                        JS::RootedValue anElement(jct);
+                        
+                        if (JS_GetElement(jct, asObject, ii, &anElement))
+                        {
+                            fillBottleFromValue(jct, innerList, anElement);
+                        }
+                    }
+                    processed = true;
+                }
+            }
+            if (! processed)
+            {
+                // Treat as a dictionary
+                JS::AutoIdArray      ids(jct, JS_Enumerate(jct, asObject));
+                yarp::os::Property & innerDict(aBottle.addDict());
+                
+                // Note that only operator! is defined, so we need to do a 'double-negative'.
+                if (!! ids)
+                {
+                    bool okSoFar = true;
+                    
+                    for (int ii = 0, len = ids.length(); len > ii; ++ii)
+                    {
+                        JS::RootedValue key(jct);
+                        
+                        if (JS_IdToValue(jct, ids[ii], &key))
+                        {
+                            JS::RootedValue key(jct);
+                            JS::RootedValue result(jct);
+                            JS::RootedId    aRootedId(jct);
+                            
+                            aRootedId = ids[ii];
+                            if (JS_IdToValue(jct, ids[ii], &key) &&
+                                JS_GetPropertyById(jct, asObject, aRootedId, &result))
+                            {
+                                JSString *            keyString = key.toString();
+                                char *                keyAsChars = JS_EncodeString(jct, keyString);
+                                yarp::os::ConstString keyToUse(keyAsChars);
+                                yarp::os::Bottle      convertedResult;
+                                
+                                JS_free(jct, keyAsChars);
+                                fillBottleFromValue(jct, convertedResult, result);
+                                if (1 == convertedResult.size())
+                                {
+                                    yarp::os::Value anElement(convertedResult.get(0));
+                                    
+                                    if (anElement.isInt())
+                                    {
+                                        innerDict.put(keyToUse, anElement.asInt());
+                                    }
+                                    else if (anElement.isDouble())
+                                    {
+                                        innerDict.put(keyToUse, anElement.asDouble());
+                                    }
+                                    else if (anElement.isString())
+                                    {
+                                        innerDict.put(keyToUse, anElement.asString());
+                                    }
+                                    else
+                                    {
+                                        innerDict.put(keyToUse, anElement);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
     OD_LOG_EXIT(); //####
 } // fillBottleFromValue
 
@@ -386,10 +496,10 @@ void JavaScriptService::stopStreams(void)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-void JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
-                                       JSContext *        jct,
-                                       JS::RootedObject & anObject,
-                                       const int          depth)
+std::ostream & JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
+                                                 JSContext *        jct,
+                                                 JS::RootedObject & anObject,
+                                                 const int          depth)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
@@ -482,14 +592,15 @@ void JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
             }
         }
     }
-    OD_LOG_EXIT(); //####
+    OD_LOG_EXIT_P(&outStream); //####
+    return outStream;
 } // JavaScript::PrintJavaScriptObject
 
-void JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
-                                      JSContext *       jct,
-                                      const char *      caption,
-                                      JS::RootedValue & value,
-                                      const int         depth)
+std::ostream & JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
+                                                JSContext *       jct,
+                                                const char *      caption,
+                                                JS::RootedValue & value,
+                                                const int         depth)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("outStream = ", &outStream, "jct = ", jct, "value = ", value); //####
@@ -532,5 +643,6 @@ void JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
     {
         outStream << "other";
     }
-    OD_LOG_EXIT(); //####
+    OD_LOG_EXIT_P(&outStream); //####
+    return outStream;
 } // JavaScript::PrintJavaScriptValue
