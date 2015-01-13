@@ -1227,6 +1227,185 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
 #endif // defined(__APPLE__)
 
 /*! @brief Check the response from the 'list' request for this test.
+ @param asDict The dictionary to be checked.
+ @param sawChannels Set to @c true if a valid 'channels' entry appears.
+ @param sawClients Set to @c true if a valid 'clients' entry appears.
+ @param sawDetach Set to @c true if a valid 'detach' entry appears.
+ @param sawEcho Set to @c true if a valid 'echo' entry appears.
+ @param sawGetMetrics Set to @c true if a valid 'getMetrics' entry appears.
+ @param sawGetMetricsState Set to @c true if a valid 'getMetricsState' entry appears.
+ @param sawInfo Set to @c true if a valid 'info' entry appears.
+ @param sawList Set to @c true if a valid 'list' entry appears.
+ @param sawName Set to @c true if a valid 'name' entry appears.
+ @param sawSetMetricsState Set to @c true if a valid 'setMetricsState' entry appears.
+ @returns @c false if an unexpected value appears and @c true otherwise. */
+static bool checkListDictionary(yarp::os::Property & asDict,
+                                bool &               sawChannels,
+                                bool &               sawClients,
+                                bool &               sawDetach,
+                                bool &               sawEcho,
+                                bool &               sawGetMetrics,
+                                bool &               sawGetMetricsState,
+                                bool &               sawInfo,
+                                bool &               sawList,
+                                bool &               sawName,
+                                bool &               sawSetMetricsState)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P4("asDict = ", &asDict, "sawChannels = ", &sawChannels, "sawClients = ", //####
+              &sawClients, "sawDetach = ", &sawDetach); //####
+    OD_LOG_P4("sawEcho = ", &sawEcho, "sawGetMetrics = ", &sawGetMetrics, //####
+              "sawGetMetricsState = ", &sawGetMetricsState, "sawInfo = ", &sawInfo); //####
+    OD_LOG_P3("sawList = ", &sawList, "sawName = ", &sawName, "sawSetMetricsState = ", //####
+              &sawSetMetricsState); //####
+    bool result = true;
+    bool hasInput = asDict.check(MpM_REQREP_DICT_INPUT_KEY);
+    bool hasOutput = asDict.check(MpM_REQREP_DICT_OUTPUT_KEY);
+    
+    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
+    {
+        yarp::os::ConstString aName(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        
+        if (aName == MpM_CHANNELS_REQUEST)
+        {
+            if (sawChannels)
+            {
+                result = false;
+            }
+            else if ((! hasInput) && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                
+                sawChannels = (itsOutput == "(s*)(s*)");
+            }
+        }
+        else if (aName == MpM_CLIENTS_REQUEST)
+        {
+            if (sawClients)
+            {
+                result = false;
+            }
+            else if ((! hasInput) && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                
+                sawClients = (itsOutput == "(s*)");
+            }
+        }
+        else if (aName == MpM_DETACH_REQUEST)
+        {
+            if (sawDetach)
+            {
+                result = false;
+            }
+            else if ((! hasInput) && (! hasOutput))
+            {
+                sawDetach = true;
+            }
+        }
+        else if (aName == MpM_ECHO_REQUEST)
+        {
+            if (sawEcho)
+            {
+                result = false;
+            }
+            else if (hasInput && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                yarp::os::ConstString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                
+                sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
+            }
+        }
+        else if (aName == MpM_INFO_REQUEST)
+        {
+            if (sawInfo)
+            {
+                result = false;
+            }
+            else if (hasInput && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                yarp::os::ConstString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                
+                sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
+            }
+        }
+        else if (aName == MpM_LIST_REQUEST)
+        {
+            if (sawList)
+            {
+                result = false;
+            }
+            else if ((! hasInput) && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                
+                sawList = (itsOutput == "([]+)");
+            }
+        }
+        else if (aName == MpM_GETMETRICS_REQUEST)
+        {
+            if (sawGetMetrics)
+            {
+                result = false;
+            }
+            else if ((! hasInput) && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                
+                sawGetMetrics = (itsOutput == "([]+)");
+            }
+        }
+        else if (aName == MpM_GETMETRICSSTATE_REQUEST)
+        {
+            if (sawGetMetricsState)
+            {
+                result = false;
+            }
+            else if ((! hasInput) && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                
+                sawGetMetricsState = (itsOutput == "i");
+            }
+        }
+        else if (aName == MpM_NAME_REQUEST)
+        {
+            if (sawName)
+            {
+                result = false;
+            }
+            else if ((! hasInput) && hasOutput)
+            {
+                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                
+                sawName = (itsOutput == "ssssss");
+            }
+        }
+        else if (aName == MpM_SETMETRICSSTATE_REQUEST)
+        {
+            if (sawSetMetricsState)
+            {
+                result = false;
+            }
+            else if (hasInput && (! hasOutput))
+            {
+                yarp::os::ConstString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                
+                sawSetMetricsState = (itsInput == "i");
+            }
+        }
+    }
+    else
+    {
+        result = false;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // checkListDictionary
+
+/*! @brief Check the response from the 'list' request for this test.
  @param response The response to be analyzed.
  @returns @c true if the expected values are all present and @c false if they are not or if
  unexpected values appear. */
@@ -1234,6 +1413,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                                                                                         response)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("response = ", &response); //####
     bool result = false;
     
     try
@@ -1259,154 +1439,32 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                 if (anElement.isDict())
                 {
                     yarp::os::Property * asDict = anElement.asDict();
-                    bool                 hasInput = asDict->check(MpM_REQREP_DICT_INPUT_KEY);
-                    bool                 hasOutput = asDict->check(MpM_REQREP_DICT_OUTPUT_KEY);
                     
-                    if (asDict->check(MpM_REQREP_DICT_REQUEST_KEY))
+                    if (asDict)
                     {
-                        yarp::os::ConstString aName =
-                                            asDict->find(MpM_REQREP_DICT_REQUEST_KEY).asString();
+                        result = checkListDictionary(*asDict, sawChannels, sawClients, sawDetach,
+                                                     sawEcho, sawGetMetrics, sawGetMetricsState,
+                                                     sawInfo, sawList, sawName, sawSetMetricsState);
+                    }
+                }
+                else if (anElement.isList())
+                {
+                    yarp::os::Bottle * asList = anElement.asList();
+                    
+                    if (asList)
+                    {
+                        yarp::os::Property asDict;
                         
-                        if (aName == MpM_CHANNELS_REQUEST)
+                        if (ListIsReallyDictionary(*asList, asDict))
                         {
-                            if (sawChannels)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                
-                                sawChannels = (itsOutput == "(s*)(s*)");
-                            }
+                            result = checkListDictionary(asDict, sawChannels, sawClients, sawDetach,
+                                                         sawEcho, sawGetMetrics, sawGetMetricsState,
+                                                         sawInfo, sawList, sawName,
+                                                         sawSetMetricsState);
                         }
-                        else if (aName == MpM_CLIENTS_REQUEST)
+                        else
                         {
-                            if (sawClients)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                
-                                sawClients = (itsOutput == "(s*)");
-                            }
-                        }
-                        else if (aName == MpM_DETACH_REQUEST)
-                        {
-                            if (sawDetach)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && (! hasOutput))
-                            {
-                                sawDetach = true;
-                            }
-                        }
-                        else if (aName == MpM_ECHO_REQUEST)
-                        {
-                            if (sawEcho)
-                            {
-                                result = false;
-                            }
-                            else if (hasInput && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                yarp::os::ConstString itsInput =
-                                                asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString();
-                                
-                                sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
-                            }
-                        }
-                        else if (aName == MpM_INFO_REQUEST)
-                        {
-                            if (sawInfo)
-                            {
-                                result = false;
-                            }
-                            else if (hasInput && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                yarp::os::ConstString itsInput =
-                                                asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString();
-                                
-                                sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
-                            }
-                        }
-                        else if (aName == MpM_LIST_REQUEST)
-                        {
-                            if (sawList)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                
-                                sawList = (itsOutput == "([]+)");
-                            }
-                        }
-                        else if (aName == MpM_GETMETRICS_REQUEST)
-                        {
-                            if (sawGetMetrics)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                
-                                sawGetMetrics = (itsOutput == "([]+)");
-                            }
-                        }
-                        else if (aName == MpM_GETMETRICSSTATE_REQUEST)
-                        {
-                            if (sawGetMetricsState)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                            asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                
-                                sawGetMetricsState = (itsOutput == "i");
-                            }
-                        }
-                        else if (aName == MpM_NAME_REQUEST)
-                        {
-                            if (sawName)
-                            {
-                                result = false;
-                            }
-                            else if ((! hasInput) && hasOutput)
-                            {
-                                yarp::os::ConstString itsOutput =
-                                                asDict->find(MpM_REQREP_DICT_OUTPUT_KEY).asString();
-                                
-                                sawName = (itsOutput == "ssssss");
-                            }
-                        }
-                        else if (aName == MpM_SETMETRICSSTATE_REQUEST)
-                        {
-                            if (sawSetMetricsState)
-                            {
-                                result = false;
-                            }
-                            else if (hasInput && (! hasOutput))
-                            {
-                                yarp::os::ConstString itsInput =
-                                                asDict->find(MpM_REQREP_DICT_INPUT_KEY).asString();
-                                
-                                sawSetMetricsState = (itsInput == "i");
-                            }
+                            result = false;
                         }
                     }
                     else

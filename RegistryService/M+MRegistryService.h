@@ -320,6 +320,13 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
+            /*! @brief Check the dictionary entry from the 'list' response.
+             @param asDict The dictionary to be checked.
+             @param channelName The channel that sent the response.
+             @returns @c false if an unexpected value appears and @c true otherwise. */
+            bool processDictionaryEntry(yarp::os::Property &          asDict,
+                                        const yarp::os::ConstString & channelName);
+            
             /*! @brief Set up the Registry Service database.
              @returns @c true if the database was set up and @c false otherwise. */
             bool setUpDatabase(void);

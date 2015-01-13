@@ -315,7 +315,6 @@ void JavaScriptService::startStreams(void)
             releaseHandlers();
             for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
             {
-                //TBD we need a reference to the JavaScript handler here
                 JS::HandleValue          handlerFunc = _inletHandlers[ii];
                 JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii,
                                                                                handlerFunc);

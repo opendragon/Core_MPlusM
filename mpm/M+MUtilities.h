@@ -213,8 +213,8 @@ namespace MplusM
          @param metrics The metrics to convert.
          @param flavour The output format to be used.
          @returns A string representation of the service metrics. */
-        yarp::os::ConstString ConvertMetricsToString(const yarp::os::Bottle & metrics,
-                                                     Common::OutputFlavour    flavour =
+        yarp::os::ConstString ConvertMetricsToString(const yarp::os::Bottle &    metrics,
+                                                     const Common::OutputFlavour flavour =
                                                                     Common::kOutputFlavourNormal);
         
         /*! @brief Collect the input and output connections for a port.

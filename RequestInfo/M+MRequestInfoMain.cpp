@@ -73,6 +73,160 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Check the dictionary entry from the 'list' or 'info' response.
+ @param asDict The dictionary to be checked.
+ @param cleanServiceName The 'sanitized' version of the service name.
+ @param flavour The format for the output.
+ @param sawResponse @c true if there was already a response output and @c false if this is the
+ first.
+ @returns @c false if an unexpected value appears and @c true otherwise. */
+static bool processDictionaryEntry(yarp::os::Property &          asDict,
+                                   const yarp::os::ConstString & cleanServiceName,
+                                   const OutputFlavour           flavour,
+                                   const bool                    sawResponse)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("asDict = ", &asDict); //####
+    OD_LOG_S1s("cleanServiceName = ", cleanServiceName); //####
+    OD_LOG_B1("sawResponse = ", sawResponse); //####
+    bool result = false;
+    
+    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
+    {
+        yarp::os::ConstString theDetailsString;
+        yarp::os::ConstString theInputsString;
+        yarp::os::ConstString theOutputsString;
+        yarp::os::ConstString theVersionString;
+        yarp::os::ConstString theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        yarp::os::Bottle      keywordList;
+        
+        theRequest = SanitizeString(theRequest, kOutputFlavourJSON != flavour);
+        if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY))
+        {
+            yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY);
+            
+            if (theDetails.isString())
+            {
+                theDetailsString = theDetails.toString();
+            }
+        }
+        if (asDict.check(MpM_REQREP_DICT_INPUT_KEY))
+        {
+            yarp::os::Value theInputs = asDict.find(MpM_REQREP_DICT_INPUT_KEY);
+            
+            if (theInputs.isString())
+            {
+                theInputsString = theInputs.toString();
+            }
+        }
+        if (asDict.check(MpM_REQREP_DICT_KEYWORDS_KEY))
+        {
+            yarp::os::Value theKeywords = asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY);
+            
+            if (theKeywords.isList())
+            {
+                keywordList = *theKeywords.asList();
+            }
+        }
+        if (asDict.check(MpM_REQREP_DICT_OUTPUT_KEY))
+        {
+            yarp::os::Value theOutputs = asDict.find(MpM_REQREP_DICT_OUTPUT_KEY);
+            
+            if (theOutputs.isString())
+            {
+                theOutputsString = theOutputs.toString();
+            }
+        }
+        if (asDict.check(MpM_REQREP_DICT_VERSION_KEY))
+        {
+            yarp::os::Value theVersion = asDict.find(MpM_REQREP_DICT_VERSION_KEY);
+            
+            if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
+            {
+                theVersionString = theVersion.toString();
+            }
+        }
+        switch (flavour)
+        {
+            case kOutputFlavourTabs :
+                cout << cleanServiceName.c_str() << "\t" << theRequest.c_str() << "\t" <<
+                        SanitizeString(theVersionString).c_str() << "\t" <<
+                        SanitizeString(theDetailsString).c_str() << "\t" <<
+                        SanitizeString(keywordList.toString()).c_str() << "\t" <<
+                        theInputsString.c_str() << "\t" << theOutputsString.c_str() << endl;
+                break;
+                
+            case kOutputFlavourJSON :
+                if (result || sawResponse)
+                {
+                    cout << "," << endl;
+                }
+                cout << T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                        cleanServiceName.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Request" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << theRequest.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Version" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << SanitizeString(theVersionString, true).c_str() <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Details" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << SanitizeString(theDetailsString, true).c_str() <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Keywords" CHAR_DOUBLEQUOTE
+                           ": [ ");
+                for (int jj = 0, mm = keywordList.size(); mm > jj; ++jj)
+                {
+                    yarp::os::Value aKeyword(keywordList.get(jj));
+                    
+                    if (jj)
+                    {
+                        cout << ", ";
+                    }
+                    cout << CHAR_DOUBLEQUOTE << SanitizeString(aKeyword.toString(), true) <<
+                            CHAR_DOUBLEQUOTE;
+                }
+                cout << T_(" ], " CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << theInputsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Outputs" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << theOutputsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE " }");
+                break;
+                
+            case kOutputFlavourNormal :
+                cout << "Service Port: " << cleanServiceName.c_str() << endl;
+                cout << "Request:      " << theRequest.c_str() << endl;
+                if (0 < theVersionString.length())
+                {
+                    cout << "Version:      " <<
+                    SanitizeString(theVersionString).c_str() << endl;
+                }
+                if (0 < theDetailsString.length())
+                {
+                    OutputDescription(cout, "Details:      ", theDetailsString);
+                }
+                if (0 < keywordList.size())
+                {
+                    cout << "Keywords:     " <<
+                    SanitizeString(keywordList.toString()).c_str() << endl;
+                }
+                if (0 < theInputsString.length())
+                {
+                    cout << "Inputs:       " << theInputsString.c_str() << endl;
+                }
+                if (0 < theInputsString.length())
+                {
+                    cout << "Outputs:      " << theOutputsString.c_str() << endl;
+                }
+                cout << endl;
+                break;
+                
+            default :
+                break;
+                
+        }
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // processDictionary
+
 /*! @brief Process the response to the 'list' or 'info' request sent to a service.
  @param flavour The format for the output.
  @param serviceName The name of the service that generated the response.
@@ -80,7 +234,7 @@ using std::endl;
  @param sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(OutputFlavour                 flavour,
+static bool processResponse(const OutputFlavour           flavour,
                             const yarp::os::ConstString & serviceName,
                             const ServiceResponse &       response,
                             const bool                    sawResponse)
@@ -99,147 +253,24 @@ static bool processResponse(OutputFlavour                 flavour,
         
         if (element.isDict())
         {
-            yarp::os::Property * propList = element.asDict();
+            yarp::os::Property * propDict = element.asDict();
             
-            if (propList)
+            if (propDict)
             {
-                if (propList->check(MpM_REQREP_DICT_REQUEST_KEY))
+                result = processDictionaryEntry(*propDict, cleanServiceName, flavour, sawResponse);
+            }
+        }
+        else if (element.isList())
+        {
+            yarp::os::Bottle * asList = element.asList();
+            
+            if (asList)
+            {
+                yarp::os::Property asDict;
+                
+                if (ListIsReallyDictionary(*asList, asDict))
                 {
-                    yarp::os::ConstString theDetailsString;
-                    yarp::os::ConstString theInputsString;
-                    yarp::os::ConstString theOutputsString;
-                    yarp::os::ConstString theVersionString;
-                    yarp::os::ConstString theRequest =
-                                            propList->find(MpM_REQREP_DICT_REQUEST_KEY).asString();
-                    yarp::os::Bottle      keywordList;
-                    
-                    theRequest = SanitizeString(theRequest, kOutputFlavourJSON != flavour);
-                    if (propList->check(MpM_REQREP_DICT_DETAILS_KEY))
-                    {
-                        yarp::os::Value theDetails = propList->find(MpM_REQREP_DICT_DETAILS_KEY);
-                        
-                        if (theDetails.isString())
-                        {
-                            theDetailsString = theDetails.toString();
-                        }
-                    }
-                    if (propList->check(MpM_REQREP_DICT_INPUT_KEY))
-                    {
-                        yarp::os::Value theInputs = propList->find(MpM_REQREP_DICT_INPUT_KEY);
-                        
-                        if (theInputs.isString())
-                        {
-                            theInputsString = theInputs.toString();
-                        }
-                    }
-                    if (propList->check(MpM_REQREP_DICT_KEYWORDS_KEY))
-                    {
-                        yarp::os::Value theKeywords = propList->find(MpM_REQREP_DICT_KEYWORDS_KEY);
-                        
-                        if (theKeywords.isList())
-                        {
-                            keywordList = *theKeywords.asList();
-                        }
-                    }
-                    if (propList->check(MpM_REQREP_DICT_OUTPUT_KEY))
-                    {
-                        yarp::os::Value theOutputs = propList->find(MpM_REQREP_DICT_OUTPUT_KEY);
-                        
-                        if (theOutputs.isString())
-                        {
-                            theOutputsString = theOutputs.toString();
-                        }
-                    }
-                    if (propList->check(MpM_REQREP_DICT_VERSION_KEY))
-                    {
-                        yarp::os::Value theVersion = propList->find(MpM_REQREP_DICT_VERSION_KEY);
-                        
-                        if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
-                        {
-                            theVersionString = theVersion.toString();
-                        }
-                    }
-                    switch (flavour)
-                    {
-                        case kOutputFlavourTabs :
-                            cout << cleanServiceName.c_str() << "\t" << theRequest.c_str() <<
-                                    "\t" << SanitizeString(theVersionString).c_str() <<
-                                    "\t" << SanitizeString(theDetailsString).c_str() <<
-                                    "\t" << SanitizeString(keywordList.toString()).c_str() <<
-                                    "\t" << theInputsString.c_str() << "\t" <<
-                                    theOutputsString.c_str() << endl;
-                            break;
-                            
-                        case kOutputFlavourJSON :
-                            if (result || sawResponse)
-                            {
-                                cout << "," << endl;
-                            }
-                            cout << T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << cleanServiceName.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Request"
-                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                                    theRequest.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
-                                                             "Version" CHAR_DOUBLEQUOTE ": "
-                                                             CHAR_DOUBLEQUOTE) <<
-                                    SanitizeString(theVersionString, true).c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Details"
-                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                                    SanitizeString(theDetailsString, true).c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Keywords"
-                                       CHAR_DOUBLEQUOTE ": [ ");
-                            for (int jj = 0, mm = keywordList.size(); mm > jj; ++jj)
-                            {
-                                yarp::os::Value aKeyword(keywordList.get(jj));
-                                
-                                if (jj)
-                                {
-                                    cout << ", ";
-                                }
-                                cout << CHAR_DOUBLEQUOTE <<
-                                        SanitizeString(aKeyword.toString(), true) <<
-                                        CHAR_DOUBLEQUOTE;
-                            }
-                            cout << T_(" ], " CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << theInputsString.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Outputs"
-                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                                    theOutputsString.c_str() << T_(CHAR_DOUBLEQUOTE " }");
-                            break;
-                            
-                        case kOutputFlavourNormal :
-                            cout << "Service Port: " << cleanServiceName.c_str() << endl;
-                            cout << "Request:      " << theRequest.c_str() << endl;
-                            if (0 < theVersionString.length())
-                            {
-                                cout << "Version:      " <<
-                                        SanitizeString(theVersionString).c_str() << endl;
-                            }
-                            if (0 < theDetailsString.length())
-                            {
-                                OutputDescription(cout, "Details:      ", theDetailsString);
-                            }
-                            if (0 < keywordList.size())
-                            {
-                                cout << "Keywords:     " <<
-                                        SanitizeString(keywordList.toString()).c_str() << endl;
-                            }
-                            if (0 < theInputsString.length())
-                            {
-                                cout << "Inputs:       " << theInputsString.c_str() << endl;
-                            }
-                            if (0 < theInputsString.length())
-                            {
-                                cout << "Outputs:      " << theOutputsString.c_str() << endl;
-                            }
-                            cout << endl;
-                            break;
-                            
-                        default :
-                            break;
-                            
-                    }
-                    result = true;
+                    result = processDictionaryEntry(asDict, cleanServiceName, flavour, sawResponse);
                 }
             }
         }
