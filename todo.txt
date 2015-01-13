@@ -25,3 +25,4 @@ e) have the JavaScript code generate an output stream from its input
 f) add support for an output-only script - that is, it will be running more-or-less continuously in a thread, generating output
 
 —> use scriptThread to define the behaviour of an output-only thread and add a thread object to the service
+—> add ‘scriptStarting’ and ‘scriptStopping’ optional JavaScript functions; scriptStarting is executed before the handlers are attached to inlets or a background thread is launched and scriptStopping is executed after the handlers are detached and the background thread has exited
