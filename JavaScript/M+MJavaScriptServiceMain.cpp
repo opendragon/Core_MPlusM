@@ -259,9 +259,9 @@ static bool sendToChannelForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool writeStringForJs(JSContext * jct,
-                             unsigned    argc,
-                             JS::Value * vp)
+static bool writeLineForJs(JSContext * jct,
+                           unsigned    argc,
+                           JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -271,12 +271,12 @@ static bool writeStringForJs(JSContext * jct,
     
     if (0 == args.length())
     {
-        JS_ReportError(jct, "Missing argument to writeString");
+        JS_ReportError(jct, "Missing argument to writeLineToStdout");
         result = false;
     }
     else if (1 < args.length())
     {
-        JS_ReportError(jct, "Extra arguments to writeString");
+        JS_ReportError(jct, "Extra arguments to writeLineToStdout");
         result = false;
     }
     else if (args[0].isString())
@@ -290,12 +290,12 @@ static bool writeStringForJs(JSContext * jct,
     }
     else
     {
-        JS_ReportError(jct, "Non-string argument to writeString");
+        JS_ReportError(jct, "Non-string argument to writeLineToStdout");
         result = false;
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // writeStringForJs
+} // writeLineForJs
 
 /*! @brief The table of supplied functions for the service. */
 static JSFunctionSpec lServiceFunctions[] =
@@ -303,7 +303,7 @@ static JSFunctionSpec lServiceFunctions[] =
     // name, call, nargs, flags
     JS_FS("dumpObjectToStdout", dumpObjectToStdoutForJs, 2, 0),
     JS_FS("sendToChannel", sendToChannelForJs, 2, 0),
-    JS_FS("writeStringToStdout", writeStringForJs, 1, 0),
+    JS_FS("writeLineToStdout", writeLineForJs, 1, 0),
     JS_FS_END
 }; // lServiceFunctions
 
@@ -940,19 +940,24 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
  @param loadedInletDescriptions The list of loaded inlet stream descriptions.
  @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
  @param loadedInletHandlers The list of loaded inlet handlers.
+ @param loadedStartingFunction The function to execute on starting the service streams.
+ @param loadedStoppingFunction The function to execute on stopping the service streams.
  @returns @c true on success and @c false otherwise. */
 static bool validateLoadedScript(JSContext *             jct,
                                  JS::RootedObject &      global,
                                  yarp::os::ConstString & description,
                                  ChannelVector &         loadedInletDescriptions,
                                  ChannelVector &         loadedOutletDescriptions,
-                                 JS::AutoValueVector &   loadedInletHandlers)
+                                 JS::AutoValueVector &   loadedInletHandlers,
+                                 JS::RootedValue &       loadedStartingFunction,
+                                 JS::RootedValue &       loadedStoppingFunction)
 {
     OD_LOG_ENTER();
     OD_LOG_P4("jct = ", jct, "global = ", &global, "description = ", &description, //####
               "loadedInletDescriptions = ", &loadedInletDescriptions); //####
-    OD_LOG_P2("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
-              "loadedInletHandlers = ", &loadedInletHandlers); //####
+    OD_LOG_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+              "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
     bool okSoFar = true;
 
 //    PrintJavaScriptObject(std::cout, jct, global, 0);
@@ -969,7 +974,16 @@ static bool validateLoadedScript(JSContext *             jct,
     }
     if (okSoFar)
     {
-        
+        loadedStartingFunction = JS::NullValue();
+        loadedStoppingFunction = JS::NullValue();
+        if (getLoadedFunctionRef(jct, global, "scriptStarting", 0, loadedStartingFunction))
+        {
+//            std::cout << "function scriptStarting defined" << std::endl;
+        }
+        if (getLoadedFunctionRef(jct, global, "scriptStopping", 0, loadedStoppingFunction))
+        {
+//            std::cout << "function scriptStopping defined" << std::endl;
+        }
     }
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -1064,11 +1078,14 @@ static void setUpAndGo(JSContext *                   jct,
         ChannelVector       loadedInletDescriptions;
         ChannelVector       loadedOutletDescriptions;
         JS::AutoValueVector loadedInletHandlers(jct);
+        JS::RootedValue     loadedStartingFunction(jct);
+        JS::RootedValue     loadedStoppingFunction(jct);
         
         if (okSoFar)
         {
             if (! validateLoadedScript(jct, global, description, loadedInletDescriptions,
-                                       loadedOutletDescriptions, loadedInletHandlers))
+                                       loadedOutletDescriptions, loadedInletHandlers,
+                                       loadedStartingFunction, loadedStoppingFunction))
             {
                 OD_LOG("(! validateLoadedScript(jct, global, description, " //####
                        "inStreamDescriptions, outStreamDescriptions, loadedInletHandlers))"); //####
@@ -1086,6 +1103,8 @@ static void setUpAndGo(JSContext *                   jct,
                                                               loadedInletDescriptions,
                                                               loadedOutletDescriptions,
                                                               loadedInletHandlers,
+                                                              loadedStartingFunction,
+                                                              loadedStoppingFunction,
                                                               serviceEndpointName,
                                                               servicePortNumber);
             

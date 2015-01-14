@@ -219,23 +219,29 @@ JavaScriptService::JavaScriptService(JSContext *                   context,
                                      const Common::ChannelVector & loadedInletDescriptions,
                                      const Common::ChannelVector & loadedOutletDescriptions,
                                      const JS::AutoValueVector &   loadedInletHandlers,
+                                     const JS::RootedValue &       loadedStartingFunction,
+                                     const JS::RootedValue &       loadedStoppingFunction,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
               serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
     _context(context), _global(global), _loadedInletDescriptions(loadedInletDescriptions),
-    _loadedOutletDescriptions(loadedOutletDescriptions)
+    _loadedOutletDescriptions(loadedOutletDescriptions), _scriptStartingFunc(context),
+    _scriptStoppingFunc(context)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("context = ", context, "global = ", &global, "loadedInletDescriptions = ", //####
               &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
               &loadedOutletDescriptions); //####
-    OD_LOG_P1("loadedInletHandlers = ", &loadedInletHandlers); //####
+    OD_LOG_P3("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     JS_SetContextPrivate(context, this);
     _inletHandlers.appendAll(loadedInletHandlers);
+    _scriptStartingFunc = loadedStartingFunction;
+    _scriptStoppingFunc = loadedStoppingFunction;
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptService::JavaScriptService
 
@@ -268,8 +274,62 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        // Nothing needs to be done.
-        result = true;
+        // Check if the script is happy.
+        if (_context && (! _scriptStartingFunc.isNullOrUndefined()))
+        {
+            JS::AutoValueVector funcArgs(_context);
+            JS::RootedValue     funcResult(_context);
+            
+            JS_BeginRequest(_context);
+            if (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, funcArgs, &funcResult))
+            {
+                // Check if we got a result of 'true' - if not, there was a problem and we should
+                // report it.
+                if (funcResult.isBoolean())
+                {
+                    if (funcResult.toBoolean())
+                    {
+                        result = true;
+                    }
+                    else
+                    {
+                        // Script rejected starting, but gave no reason.
+                        std::cout << "Could not configure -> unknown reason." << std::endl;
+                    }
+                }
+                else
+                {
+                    // Script rejected starting.
+                    JSString * reason = funcResult.toString();
+                    char *     asChars = JS_EncodeString(_context, reason);
+                    
+                    std::cout << "Could not configure -> " << asChars << "." << std::endl;
+                    JS_free(_context, asChars);
+                }
+            }
+            else
+            {
+                OD_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, " //####
+                       "funcArgs, &funcResult))"); //####
+                JS::RootedValue exc(_context);
+                
+                if (JS_GetPendingException(_context, &exc))
+                {
+                    JS_ClearPendingException(_context);
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Exception occurred while executing scriptStarting function.");
+#else // ! MAC_OR_LINUX_
+                    std::cerr << "Exception occurred while executing scriptStarting function." <<
+                                std::endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+            JS_EndRequest(_context);
+        }
+        else
+        {
+            result = true;
+        }
     }
     catch (...)
     {
@@ -482,6 +542,39 @@ void JavaScriptService::stopStreams(void)
                 }
             }
             clearActive();
+            // Tell the script that we're done for now.
+            if (_context && (! _scriptStoppingFunc.isNullOrUndefined()))
+            {
+                JS::AutoValueVector funcArgs(_context);
+                JS::RootedValue     funcResult(_context);
+                
+                JS_BeginRequest(_context);
+                if (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, funcArgs,
+                                         &funcResult))
+                {
+                    // We don't care about the function result, as it's supposed to just tell the
+                    // script that it can clean up.
+                }
+                else
+                {
+                    OD_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, " //####
+                           "funcArgs, &funcResult))"); //####
+                    JS::RootedValue exc(_context);
+                    
+                    if (JS_GetPendingException(_context, &exc))
+                    {
+                        JS_ClearPendingException(_context);
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Exception occurred while executing scriptStopping "
+                                         "function.");
+#else // ! MAC_OR_LINUX_
+                        std::cerr << "Exception occurred while executing scriptStopping "
+                                    "function." << std::endl;
+#endif // ! MAC_OR_LINUX_
+                    }
+                }
+                JS_EndRequest(_context);
+            }
         }
     }
     catch (...)

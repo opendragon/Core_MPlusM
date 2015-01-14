@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       SimpleScript.js
+//  File:       SampleScript.js
 //
 //  Project:    M+M
 //
@@ -39,13 +39,13 @@
 
 // Some test JavaScript...
 
-writeStringToStdout('hello ' + 'world, it is ' + new Date());
+writeLineToStdout('hello ' + 'world, it is ' + new Date());
 
 var ww = 4.34, xx = 5;
 
 function hereWeGo()
 {
-    writeStringToStdout('inside hereWeGo');
+    writeLineToStdout('inside hereWeGo');
 }
 
 var yy = {};
@@ -54,19 +54,19 @@ var zz = { aa : 'first', bb : 'second', cc : 42};
 
 function andAnotherFunction(aa)
 {
-    writeStringToStdout('argument is ' + aa);
+    writeLineToStdout('argument is ' + aa);
     hereWeGo();
 }
 
 andAnotherFunction(42);
 dumpObjectToStdout('argv:', argv);
-writeStringToStdout('tag is "' + scriptTag + '"');
+writeLineToStdout('tag is "' + scriptTag + '"');
 
 // The real stuff:
 
 function scriptHandleInput(portNumber, incomingData)
 {
-    writeStringToStdout('input on port ' + portNumber);
+    writeLineToStdout('input on port ' + portNumber);
     // Convert the input to an integer, if it's a floating-point number; if it's an integer, pass it
     // through. If it's an array, process each element. If a value is non-numeric, report an error.
     sendToChannel(0, incomingData);//portNumber.toString());
@@ -117,3 +117,20 @@ function scriptInlets()
 
 var scriptOutlets = [ { name: 'outgoing', protocol: '*',
                         protocolDescription: 'Anything' } ];
+
+// The 'scriptStarting' and 'scriptStopping' functions are optional; if 'scriptStarting' returns
+// the boolean value true, it's OK to proceed. If, instead, it returns something else, the script
+// has indicated that it shouldn't be run, and the return value gets displayed when the service is
+// started - not when it's created or when the script is loaded. Note that 'scriptStarting' is
+// executed before the handlers for the inlets are attached and 'scriptStopping' is executed after
+// all the inlets are detached.
+function scriptStarting()
+{
+    writeLineToStdout('script starting');
+    return true;
+} // scriptStarting
+
+function scriptStopping()
+{
+    writeLineToStdout('script stopping');
+} // scriptStopping

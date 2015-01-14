@@ -38,7 +38,8 @@
 
 function scriptHandleInput(portNumber, incomingData)
 {
-    writeStringToStdout('input on port ' + portNumber);
+    writeLineToStdout('input on port ' + portNumber);
+    incomingData.unshift(portNumber);
     sendToChannel(0, incomingData);
 } // scriptHandleInput
 

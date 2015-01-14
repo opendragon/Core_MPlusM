@@ -285,7 +285,7 @@
 		DF45F21E1A5AF9500090E161 /* M+MJavaScriptService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptService.h"; path = "JavaScript/M+MJavaScriptService.h"; sourceTree = SOURCE_ROOT; };
 		DF45F21F1A5AF9500090E161 /* M+MJavaScriptServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MJavaScriptServiceMain.cpp"; path = "JavaScript/M+MJavaScriptServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF45F2201A5AF9500090E161 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = JavaScript/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF45F2211A5C4CA30090E161 /* SimpleScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SimpleScript.js; path = JavaScript/SimpleScript.js; sourceTree = SOURCE_ROOT; };
+		DF45F2211A5C4CA30090E161 /* SampleScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SampleScript.js; path = JavaScript/SampleScript.js; sourceTree = SOURCE_ROOT; };
 		DF6DFCC11A0D263400E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC21A0D265000E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/ViconDataStreamInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC31A0D265000E8CEF5 /* M+MViconDataStreamEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamEventThread.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamEventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -798,7 +798,7 @@
 				DF4179A11A60596F006552F0 /* MergeChannels.js */,
 				DF6EAFA31A65CD1700FC0085 /* RecordIntegers.js */,
 				DF6EAFA11A65BEA400FC0085 /* RunningSum.js */,
-				DF45F2211A5C4CA30090E161 /* SimpleScript.js */,
+				DF45F2211A5C4CA30090E161 /* SampleScript.js */,
 				DF6EAFA21A65C97000FC0085 /* TruncateFloat.js */,
 			);
 			name = JavaScript;

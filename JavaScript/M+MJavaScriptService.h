@@ -91,6 +91,8 @@ namespace MplusM
              @param loadedInletDescriptions The list of loaded inlet stream descriptions.
              @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
              @param loadedInletHandlers The list of loaded inlet handlers.
+             @param loadedStartingFunction The function to execute on starting the service streams.
+             @param loadedStoppingFunction The function to execute on stopping the service streams.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             JavaScriptService(JSContext *                   context,
@@ -101,6 +103,8 @@ namespace MplusM
                               const Common::ChannelVector & loadedInletDescriptions,
                               const Common::ChannelVector & loadedOutletDescriptions,
                               const JS::AutoValueVector &   loadedInletHandlers,
+                              const JS::RootedValue &       loadedStartingFunction,
+                              const JS::RootedValue &       loadedStoppingFunction,
                               const yarp::os::ConstString & serviceEndpointName,
                               const yarp::os::ConstString & servicePortNumber = "");
             
@@ -193,6 +197,12 @@ namespace MplusM
             
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
+            
+            /*! @brief The %JavaScript script starting function. */
+            JS::RootedValue _scriptStartingFunc;
+            
+            /*! @brief The %JavaScript script stopping function. */
+            JS::RootedValue _scriptStoppingFunc;
             
         }; // JavaScriptService
         
