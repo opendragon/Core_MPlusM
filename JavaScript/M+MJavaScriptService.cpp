@@ -70,13 +70,16 @@ using namespace MplusM::JavaScript;
 /*! @brief Fill a bottle with the contents of an object.
  @param jct The %JavaScript engine context.
  @param aBottle The bottle to be filled.
- @param theData The value to be sent. */
+ @param theData The value to be sent.
+ @param topLevel @c true if this is the outermost list of an object. */
 static void fillBottleFromValue(JSContext *        jct,
                                 yarp::os::Bottle & aBottle,
-                                JS::Value          theData)
+                                JS::Value          theData,
+                                const bool         topLevel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
+    OD_LOG_B1("topLevel = ", topLevel); //####
     JS::RootedValue asRootedValue(jct);
 
     asRootedValue = theData;
@@ -118,7 +121,6 @@ static void fillBottleFromValue(JSContext *        jct,
         {
             bool processed = false;
             
-//            PrintJavaScriptObject(std::cout, jct, asObject, 0);
             if (JS_IsArrayObject(jct, asObject))
             {
                 uint32_t arrayLength;
@@ -126,16 +128,32 @@ static void fillBottleFromValue(JSContext *        jct,
                 if (JS_GetArrayLength(jct, asObject, &arrayLength))
                 {
                     // Treat as a list
-                    yarp::os::Bottle & innerList(aBottle.addList());
-                    
-                    for (uint32_t ii = 0; arrayLength > ii; ++ii)
+                    if (topLevel)
                     {
-                        JS::RootedValue anElement(jct);
-                        
-                        if (JS_GetElement(jct, asObject, ii, &anElement))
+                        for (uint32_t ii = 0; arrayLength > ii; ++ii)
                         {
-                            fillBottleFromValue(jct, innerList, anElement);
+                            JS::RootedValue anElement(jct);
+                            
+                            if (JS_GetElement(jct, asObject, ii, &anElement))
+                            {
+                                fillBottleFromValue(jct, aBottle, anElement, false);
+                            }
                         }
+                    }
+                    else
+                    {
+                        yarp::os::Bottle & innerList(aBottle.addList());
+                        
+                        for (uint32_t ii = 0; arrayLength > ii; ++ii)
+                        {
+                            JS::RootedValue anElement(jct);
+                            
+                            if (JS_GetElement(jct, asObject, ii, &anElement))
+                            {
+                                fillBottleFromValue(jct, innerList, anElement, false);
+                            }
+                        }
+                        
                     }
                     processed = true;
                 }
@@ -171,7 +189,7 @@ static void fillBottleFromValue(JSContext *        jct,
                                 yarp::os::Bottle      convertedResult;
                                 
                                 JS_free(jct, keyAsChars);
-                                fillBottleFromValue(jct, convertedResult, result);
+                                fillBottleFromValue(jct, convertedResult, result, false);
                                 if (1 == convertedResult.size())
                                 {
                                     yarp::os::Value anElement(convertedResult.get(0));
@@ -393,7 +411,16 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
         Common::GeneralChannel * outChannel = _outStreams.at(channelSlot);
         yarp::os::Bottle         outBottle;
         
-        fillBottleFromValue(_context, outBottle, theData);
+//        JS::RootedObject asObject(_context);
+//        JS::RootedValue  asValue(_context);
+//
+//        asValue = theData;
+//        if (JS_ValueToObject(_context, asValue, &asObject))
+//        {
+//            std::cout << "outgoing:" << std::endl;
+//            PrintJavaScriptObject(std::cout, _context, asObject, 0);
+//        }
+        fillBottleFromValue(_context, outBottle, theData, true);
         if ((0 < outBottle.size()) && outChannel)
         {
             if (outChannel->write(outBottle))

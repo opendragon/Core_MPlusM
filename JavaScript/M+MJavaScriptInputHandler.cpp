@@ -234,30 +234,8 @@ static void createValueFromBottle(JSContext *              jct,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "aBottle = ", aBottle); //####
-    int  mm = aBottle.size();
-    
 //    std::cout << "'" << aBottle.toString().c_str() << "'" << std::endl << std::endl;
-    if (1 == mm)
-    {
-        convertValue(jct, theData, aBottle.get(0));
-    }
-    else if (1 < mm)
-    {
-        yarp::os::Property asDict;
-        
-        if (ListIsReallyDictionary(aBottle, asDict))
-        {
-            convertDictionary(jct, theData, asDict, aBottle);
-        }
-        else
-        {
-            convertList(jct, theData, aBottle);
-        }
-    }
-    else
-    {
-        theData.setNull();
-    }
+    convertList(jct, theData, aBottle);
     OD_LOG_EXIT(); //####
 } // createValueFromBottle
 
@@ -323,7 +301,14 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
 
                 slotNumberValue.setInt32(_slotNumber);
                 createValueFromBottle(jct, input, &argValue);
-//                PrintJavaScriptValue(std::cout, jct, "incoming = ", argValue, 0) << std::endl;
+
+//                JS::RootedObject asObject(jct);
+//
+//                if (JS_ValueToObject(jct, argValue, &asObject))
+//                {
+//                    std::cout << "incoming:" << std::endl;
+//                    PrintJavaScriptObject(std::cout, jct, asObject, 0);
+//                }
                 JS::AutoValueVector funcArgs(jct);
                 JS::RootedValue     funcResult(jct);
                 
