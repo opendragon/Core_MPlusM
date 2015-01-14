@@ -231,7 +231,6 @@ static bool sendToChannelForJs(JSContext * jct,
         // Check that the first argument is a valid integer.
         if (args[0].isInt32())
         {
-            JSObject *          global = JS_GetGlobalForObject(jct, &args.callee());
             int32_t             channelSlot = args[0].toInt32();
             JavaScriptService * theService =
                                 reinterpret_cast<JavaScriptService *>(JS_GetContextPrivate(jct));
@@ -298,14 +297,697 @@ static bool writeLineForJs(JSContext * jct,
 } // writeLineForJs
 
 /*! @brief The table of supplied functions for the service. */
-static JSFunctionSpec lServiceFunctions[] =
+static const JSFunctionSpec lServiceFunctions[] =
 {
     // name, call, nargs, flags
-    JS_FS("dumpObjectToStdout", dumpObjectToStdoutForJs, 2, 0),
-    JS_FS("sendToChannel", sendToChannelForJs, 2, 0),
-    JS_FS("writeLineToStdout", writeLineForJs, 1, 0),
+    JS_FS("dumpObjectToStdout", dumpObjectToStdoutForJs, 2, JSPROP_ENUMERATE),
+    JS_FS("sendToChannel", sendToChannelForJs, 2, JSPROP_ENUMERATE),
+    JS_FS("writeLineToStdout", writeLineForJs, 1, JSPROP_ENUMERATE),
     JS_FS_END
 }; // lServiceFunctions
+
+/*! @brief Add custom functions to the %JavaScript environment.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
+static bool addCustomFunctions(JSContext *        jct,
+                               JS::RootedObject & global)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
+    
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // addCustomFunctions
+
+// The following forward reference is needed since lStreamClass refers to this function and the
+// function uses lStreamClass.
+/*! @brief Release resources used by a Stream object.
+ @param freeOp The environment in which this is being performed.
+ @param obj The Stream object being released. */
+static void cleanupStreamObject(JSFreeOp * freeOp,
+                                JSObject * obj);
+
+/*! @brief The class of the global object. */
+static JSClass lStreamClass =
+{
+    "Stream",                // name
+    JSCLASS_HAS_PRIVATE,     // flags
+    NULL,                    // addProperty
+    NULL,                    // delProperty
+    NULL,                    // getProperty
+    NULL,                    // setProperty
+    NULL,                    // enumerate
+    NULL,                    // resolve
+    NULL,                    // convert
+    cleanupStreamObject      // finalize
+#if 0
+    NULL,                    // call
+    NULL,                    // hasInstance
+    NULL,                    // construct
+    JS_GlobalObjectTraceHook // trace
+#endif//0
+}; // lStreamClass
+
+static void cleanupStreamObject(JSFreeOp * freeOp,
+                                JSObject * obj)
+{
+    OD_LOG_ENTER(); //####
+    if (&lStreamClass == JS_GetClass(obj))
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(obj));
+        
+        if (aFile)
+        {
+            fclose(aFile);
+            JS_SetPrivate(obj, NULL);
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // cleanupStreamObject
+
+/*! @brief A C-callback function for %JavaScript to create a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool CreateStreamObject(JSContext * jct,
+                               unsigned    argc,
+                               JS::Value * vp)
+{
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    
+    if (args.length())
+    {
+        std::cerr << "Extra arguments to Stream constructor" << std::endl;
+    }
+    else
+    {
+        JSObject * obj = JS_NewObjectForConstructor(jct, &lStreamClass, args);
+        
+        if (obj)
+        {
+            JS_SetPrivate(obj, NULL);
+            args.rval().setObject(*obj);
+            result = true;
+        }
+    }
+    return result;
+} // CreateStreamObject
+
+/*! @brief A C-callback function for %JavaScript to check if a Stream object is at EOF.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamAtEofForJs(JSContext * jct,
+                             unsigned    argc,
+                             JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.isOpen");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            args.rval().setBoolean(feof(aFile));
+        }
+        else
+        {
+            // If it isn't open, treat it as if it was at EOF
+            args.rval().setBoolean(true);
+        }
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamAtEofForJs
+
+/*! @brief A C-callback function for %JavaScript to clear the error state of a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamClearErrorForJs(JSContext * jct,
+                                  unsigned    argc,
+                                  JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.close");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            clearerr(aFile);
+        }
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamClearErrorForJs
+
+/*! @brief A C-callback function for %JavaScript to close a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamCloseForJs(JSContext * jct,
+                             unsigned    argc,
+                             JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.close");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            fclose(aFile);
+            JS_SetPrivate(&theThis, NULL);
+        }
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamCloseForJs
+
+/*! @brief A C-callback function for %JavaScript to check if a Stream object is in an error state.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamHasErrorForJs(JSContext * jct,
+                                unsigned    argc,
+                                JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.isOpen");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            args.rval().setBoolean(feof(aFile));
+        }
+        else
+        {
+            // If it isn't open, treat it as if it was at EOF
+            args.rval().setBoolean(true);
+        }
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamHasErrorForJs
+
+/*! @brief A C-callback function for %JavaScript to check if a Stream object is open.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamIsOpenForJs(JSContext * jct,
+                             unsigned    argc,
+                             JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.isOpen");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        args.rval().setBoolean(NULL != aFile);
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamIsOpenForJs
+
+/*! @brief A C-callback function for %JavaScript to open a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamOpenForJs(JSContext * jct,
+                            unsigned    argc,
+                            JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (2 == args.length())
+    {
+        // Check if the Stream is already open and close it.
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+
+        if (aFile)
+        {
+            fclose(aFile);
+            JS_SetPrivate(&theThis, NULL);
+        }
+        if (args[0].isString() && args[1].isString())
+        {
+            JSString * asString1 = args[0].toString();
+            char *     asChars1 = JS_EncodeString(jct, asString1);
+            JSString * asString2 = args[1].toString();
+            char *     asChars2 = JS_EncodeString(jct, asString2);
+            
+            aFile = fopen(asChars1, asChars2);
+            JS_free(jct, asChars1);
+            JS_free(jct, asChars2);
+            if (aFile)
+            {
+                JS_SetPrivate(&theThis, aFile);
+                result = true;
+            }
+        }
+    }
+    else if (2 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.open");
+    }
+    else
+    {
+        JS_ReportError(jct, "Missing argument(s) to Stream.open");
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamOpenForJs
+
+/*! @brief A C-callback function for %JavaScript to read a line from a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamReadStringLineForJs(JSContext * jct,
+                                      unsigned    argc,
+                                      JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.readStringLine");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            bool       keepGoing = true;
+            char       inBuffer[200];
+            JSString * outString = JS_NewStringCopyZ(jct, "");
+            
+            for ( ; keepGoing; )
+            {
+                char * inPtr = fgets(inBuffer, sizeof(inBuffer), aFile);
+            
+                if (inPtr)
+                {
+                    JSString * thisChunk;
+                    int        len = strlen(inBuffer);
+                    
+                    if ('\n' == inBuffer[len - 1])
+                    {
+                        // We don't want to copy the newline into the buffer.
+                        thisChunk = JS_NewStringCopyN(jct, inBuffer, len - 1);
+                        keepGoing = false;
+                    }
+                    else
+                    {
+                        thisChunk = JS_NewStringCopyZ(jct, inBuffer);
+                    }
+                    JS::RootedString leftString(jct);
+                    JS::RootedString rightString(jct);
+                    
+                    leftString = outString;
+                    rightString = thisChunk;
+                    outString = JS_ConcatStrings(jct, leftString, rightString);
+                }
+                else
+                {
+                    keepGoing = false;
+                }
+            }
+            args.rval().setString(outString);
+            result = true;
+        }
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamReadStringLineForJs
+
+/*! @brief A C-callback function for %JavaScript to reposition a Stream object to its beginning.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamRewindForJs(JSContext * jct,
+                              unsigned    argc,
+                              JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.close");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            rewind(aFile);
+        }
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamRewindForJs
+
+/*! @brief A C-callback function for %JavaScript to write a string value to a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamWriteStringForJs(JSContext * jct,
+                                   unsigned    argc,
+                                   JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (1 == args.length())
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile && args[0].isString())
+        {
+            JSString * asString = args[0].toString();
+            
+            if (asString && JS_GetStringLength(asString))
+            {
+                char * asChars = JS_EncodeString(jct, asString);
+                
+                fputs(asChars, aFile);
+                JS_free(jct, asChars);
+            }
+            result = true;
+        }
+    }
+    else if (1 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.writeString");
+    }
+    else
+    {
+        JS_ReportError(jct, "Missing argument(s) to Stream.writeString");
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamWriteStringForJs
+
+/*! @brief A C-callback function for %JavaScript to write a string value to a Stream object,
+ followed by a newline.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamWriteStringLineForJs(JSContext * jct,
+                                       unsigned    argc,
+                                       JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (1 == args.length())
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile && args[0].isString())
+        {
+            JSString * asString = args[0].toString();
+            
+            if (asString && JS_GetStringLength(asString))
+            {
+                char * asChars = JS_EncodeString(jct, asString);
+                
+                fputs(asChars, aFile);
+                JS_free(jct, asChars);
+            }
+            fputc('\n', aFile);
+            fflush(aFile);
+            result = true;
+        }
+    }
+    else if (1 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.writeStringLine");
+    }
+    else
+    {
+        JS_ReportError(jct, "Missing argument(s) to Stream.writeStringLine");
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamWriteStringLineForJs
+
+/*! @brief The table of supplied functions for the %Stream class. */
+static const JSFunctionSpec lStreamFunctions[] =
+{
+    JS_FS("atEof", streamAtEofForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("clearError", streamClearErrorForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("close", streamCloseForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("hasError", streamHasErrorForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("isOpen", streamIsOpenForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("open", streamOpenForJs, 2, JSPROP_ENUMERATE),
+    JS_FS("readStringLine", streamReadStringLineForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("rewind", streamRewindForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("writeString", streamWriteStringForJs, 1, JSPROP_ENUMERATE),
+    JS_FS("writeStringLine", streamWriteStringLineForJs, 1, JSPROP_ENUMERATE),
+    JS_FS_END
+}; // lStreamFunctions
+
+/*! @brief Add custom classes to the %JavaScript environment.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @returns @c true if the custom classes were addeded successfully and @c false otherwise. */
+static bool addCustomClasses(JSContext *        jct,
+                             JS::RootedObject & global)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    bool okSoFar = false;
+    
+    if (JS_InitClass(jct, global, JS::NullPtr(), &lStreamClass, CreateStreamObject, 0, NULL,
+                     lStreamFunctions, NULL, NULL))
+    {
+        okSoFar = true;
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // addCustomClasses
+
+/*! @brief Add an array containing the command-line arguments to the %JavaScript environment.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the %JavaScript input / output service.
+ @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
+static bool addArgvObject(JSContext *        jct,
+                          JS::RootedObject & global,
+                          const int          argc,
+                          char * *           argv)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    OD_LOG_S1s("tag = ", tag); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool       okSoFar = true;
+    JSObject * argArray = JS_NewArrayObject(jct, 0);
+    
+    if (argArray)
+    {
+        JS::RootedObject argObject(jct);
+        JS::RootedValue  argValue(jct);
+        
+        argObject = argArray;
+        argValue.setObject(*argArray);
+        if (JS_SetProperty(jct, global, "argv", argValue))
+        {
+            char *          endPtr;
+            int32_t         tempInt;
+            JS::RootedValue anElement(jct);
+            JS::RootedId    aRootedId(jct);
+            
+            for (int ii = optind; okSoFar && (argc > ii); ++ii)
+            {
+                char * anArg = argv[ii];
+                
+                // Check for an integer value
+                tempInt = static_cast<int32_t>(strtol(anArg, &endPtr, 10));
+                if ((anArg == endPtr) || *endPtr)
+                {
+                    // Check for an floating-point value
+                    double tempDouble = strtod(anArg, &endPtr);
+                    
+                    if ((anArg == endPtr) || *endPtr)
+                    {
+                        // Otherwise, treat as a string
+                        JSString * aString = JS_NewStringCopyZ(jct, anArg);
+                        
+                        if (aString)
+                        {
+                            anElement.setString(aString);
+                        }
+                        else
+                        {
+                            okSoFar = false;
+                        }
+                    }
+                    else
+                    {
+                        anElement.setDouble(tempDouble);
+                    }
+                }
+                else
+                {
+                    anElement.setInt32(tempInt);
+                }
+                if (okSoFar)
+                {
+                    if (JS_IndexToId(jct, ii - optind, &aRootedId))
+                    {
+                        JS_SetPropertyById(jct, argObject, aRootedId, anElement);
+                    }
+                    else
+                    {
+                        okSoFar = false;
+                    }
+                }
+            }
+        }
+        else
+        {
+            okSoFar = false;
+        }
+    }
+    else
+    {
+        okSoFar = false;
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // addArgvObject
+
+/*! @brief Add a custom string object to the %JavaScript environment.
+ @param jct The %JavaScript engine context.
+ @param global The %JavaScript global object.
+ @param tag The modifier for the service name and port names.
+ @returns @c true if the custom string object was addeded successfully and @c false otherwise. */
+static bool addScriptTagObject(JSContext *                   jct,
+                               JS::RootedObject &            global,
+                               const yarp::os::ConstString & tag)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    OD_LOG_S1s("tag = ", tag); //####
+    bool       okSoFar = true;
+    JSString * aString = JS_NewStringCopyZ(jct, tag.c_str());
+    
+    if (aString)
+    {
+        JS::RootedValue argValue(jct);
+        
+        argValue.setString(aString);
+        if (! JS_SetProperty(jct, global, "scriptTag", argValue))
+        {
+            okSoFar = false;
+        }
+    }
+    else
+    {
+        okSoFar = false;
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // addScriptTagObject
 
 /*! @brief Add custom classes, functions and variables to the %JavaScript environment.
  @param jct The %JavaScript engine context.
@@ -313,7 +995,7 @@ static JSFunctionSpec lServiceFunctions[] =
  @param tag The modifier for the service name and port names.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %JavaScript input / output service.
- @returns @c true if the functions were addeded successfully and @c false otherwise. */
+ @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
 static bool addCustomObjects(JSContext *                   jct,
                              JS::RootedObject &            global,
                              const yarp::os::ConstString & tag,
@@ -323,101 +1005,20 @@ static bool addCustomObjects(JSContext *                   jct,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
     OD_LOG_S1s("tag = ", tag); //####
-    bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
-
+    OD_LOG_L1("argc = ", argc); //####
+    bool okSoFar = addCustomFunctions(jct, global);
+    
     if (okSoFar)
     {
-        JSObject * argArray = JS_NewArrayObject(jct, 0);
-        
-        if (argArray)
-        {
-            JS::RootedObject argObject(jct);
-            JS::RootedValue  argValue(jct);
-            
-            argObject = argArray;
-            argValue.setObject(*argArray);
-            if (JS_SetProperty(jct, global, "argv", argValue))
-            {
-                char *          endPtr;
-                int32_t         tempInt;
-                JS::RootedValue anElement(jct);
-                JS::RootedId    aRootedId(jct);
-                
-                for (int ii = optind; okSoFar && (argc > ii); ++ii)
-                {
-                    char * anArg = argv[ii];
-                    
-                    // Check for an integer value
-                    tempInt = static_cast<int32_t>(strtol(anArg, &endPtr, 10));
-                    if ((anArg == endPtr) || *endPtr)
-                    {
-                        // Check for an floating-point value
-                        double tempDouble = strtod(anArg, &endPtr);
-                        
-                        if ((anArg == endPtr) || *endPtr)
-                        {
-                            // Otherwise, treat as a string
-                            JSString * aString = JS_NewStringCopyZ(jct, anArg);
-                            
-                            if (aString)
-                            {
-                                anElement.setString(aString);
-                            }
-                            else
-                            {
-                                okSoFar = false;
-                            }
-                        }
-                        else
-                        {
-                            anElement.setDouble(tempDouble);
-                        }
-                    }
-                    else
-                    {
-                        anElement.setInt32(tempInt);
-                    }
-                    if (okSoFar)
-                    {
-                        if (JS_IndexToId(jct, ii - optind, &aRootedId))
-                        {
-                            JS_SetPropertyById(jct, argObject, aRootedId, anElement);
-                        }
-                        else
-                        {
-                            okSoFar = false;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                okSoFar = false;
-            }
-        }
-        else
-        {
-            okSoFar = false;
-        }
+        okSoFar = addCustomClasses(jct, global);
     }
     if (okSoFar)
     {
-        JSString * aString = JS_NewStringCopyZ(jct, tag.c_str());
-        
-        if (aString)
-        {
-            JS::RootedValue argValue(jct);
-            
-            argValue.setString(aString);
-            if (! JS_SetProperty(jct, global, "scriptTag", argValue))
-            {
-                okSoFar = false;
-            }
-        }
-        else
-        {
-            okSoFar = false;
-        }
+        okSoFar = addArgvObject(jct, global, argc, argv);
+    }
+    if (okSoFar)
+    {
+        okSoFar = addScriptTagObject(jct, global, tag);
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;

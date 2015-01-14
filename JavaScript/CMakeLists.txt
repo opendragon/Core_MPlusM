@@ -54,8 +54,8 @@ if(WIN32)
 endif(WIN32)
 if(APPLE)
     add_library(JS SHARED IMPORTED)
-    include_directories("/opt/M+M/gecko/include/mozjs-37a1")
-    set_property(TARGET JS PROPERTY IMPORTED_LOCATION "/opt/M+M/gecko/lib/libmozjs-37a1.dylib")
+    include_directories("/opt/M+M/gecko/include/mozjs-")
+    set_property(TARGET JS PROPERTY IMPORTED_LOCATION "/opt/M+M/gecko/lib/libmozjs-.dylib")
     set(SPIDERMONKEY "JS")
 endif(APPLE)
 
@@ -77,7 +77,7 @@ target_link_libraries(${THIS_TARGET}
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "@executable_path/libmozjs-37a1.dylib" "@rpath/libmozjs-37a1.dylib"
+                        "@executable_path/libmozjs-.dylib" "@rpath/libmozjs-.dylib"
                         ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

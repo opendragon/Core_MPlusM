@@ -61,6 +61,7 @@ function andAnotherFunction(aa)
 andAnotherFunction(42);
 dumpObjectToStdout('argv:', argv);
 writeLineToStdout('tag is "' + scriptTag + '"');
+dumpObjectToStdout('global:', this);
 
 // The real stuff:
 

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       RunningSum.js
+//  File:       ReadFile.js
 //
 //  Project:    M+M
 //
-//  Contains:   An example script that performs a running sum.
+//  Contains:   An example script that reads a series of values from a file.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,70 +32,55 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-01-13
+//  Created:    2015-01-14
 //
 //--------------------------------------------------------------------------------------------------
 
-var runningSum = 0;
+var inStream = null;
 
-function doCommand(aCommand, itsArgs)
+var scriptDescription = 'A script that reads values from a file';
+
+var scriptInlets = [ ];
+
+var scriptOutlets = [ ];
+
+function scriptStarting()
 {
-    var aValue;
+    var okSoFar = false;
     
-    switch (aCommand)
+    writeLineToStdout('script starting');
+    if (1 < argv.length)
     {
-        case 'add' :
-            if (Array.isArray(itsArgs))
-            {
-                for (var ii = 0, mm = itsArgs.length; mm > ii; ++ii)
-                {
-                    aValue = Number(itsArgs[ii]);
-                    if (! isNaN(aValue))
-                    {
-                        runningSum += Number(aValue);
-                    }
-                }
-            }
-            else
-            {
-                aValue Number(itsArgs);
-                if (! isNaN(aValue))
-                {
-                    runningSum += Number(aValue);
-                }
-            }
-            break;
-            
-        case 'reset' :
-            runningSum = 0;
-            break;
-            
-        default :
-            break;
-            
-    }
-} // doCommand
-
-function doRunningSum(portNumber, incomingData)
-{
-    if (Array.isArray(incomingData))
-    {
-        var cmd = String(incomingData.shift());
+        var path = argv[1];
         
-        doCommand(cmd, incomingData)
+        writeLineToStdout('path = ' + path);
+        inStream = new Stream();
+        inStream.open(path, "r");
+        dumpObjectToStdout('inStream:', inStream);
+        if (inStream.isOpen())
+        {
+            var inString;
+            
+            writeLineToStdout('inStream isOpen = true');
+            writeLineToStdout('inStream atEof = ' + inStream.atEof());
+            writeLineToStdout('inStream hasError = ' + inStream.hasError());
+            for ( ; ! inStream.atEof(); )
+            {
+                inString = inStream.readStringLine();
+                if (! inStream.atEof())
+                {
+                    writeLineToStdout('inStream read = "' + inString + '"');
+                }
+            }
+        }
+        okSoFar = true;
     }
-    else
-    {
-        doCommand(String(incomingData), [])
-    }
-    sendToChannel(0, runningSum);
-} // doRunningSum
+    return okSoFar;
+} // scriptStarting
 
-var scriptDescription = 'A script that calculates running sums';
-
-var scriptInlets = [ { name: 'incoming', protocol: 'sd*',
-                        protocolDescription: 'A command and data',
-                        handler: doRunningSum } ];
-
-var scriptOutlets = [ { name: 'outgoing', protocol: 'd',
-                        protocolDescription: 'The running sum' } ];
+function scriptStopping()
+{
+    writeLineToStdout('script stopping');
+    inStream.close();
+    inStream = null;
+} // scriptStopping

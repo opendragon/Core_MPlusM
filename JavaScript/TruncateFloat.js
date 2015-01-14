@@ -38,6 +38,7 @@
 
 function doTruncateFloat(portNumber, incomingData)
 {
+    var aValue;
     var outValues;
     
     if (Array.isArray(incomingData))
@@ -45,19 +46,27 @@ function doTruncateFloat(portNumber, incomingData)
         outValues = [];
         for (var ii = 0, mm = incomingData.length; mm > ii; ++ii)
         {
-            outValues.push(Math.floor(Number(incomingData[ii])));
+            aValue = Number(incomingData[ii]);
+            if (! isNaN(aValue))
+            {
+                outValues.push(Math.floor(aValue));
+            }
         }
     }
     else
     {
-        outValues = Math.floor(Number(incomingData));
+        aValue = Number(incomingData);
+        if (! isNaN(aValue))
+        {
+            outValues = Math.floor(aValue);
+        }
     }
     sendToChannel(0, outValues);
 } // doTruncateFloat
 
 var scriptDescription = 'A script that truncates floating-point numbers';
 
-var scriptInlets = [ { name: 'incoming', protocol: '*',//'d*',
+var scriptInlets = [ { name: 'incoming', protocol: 'd*',
                         protocolDescription: 'A sequence of floating-point numbers',
                         handler: doTruncateFloat } ];
 

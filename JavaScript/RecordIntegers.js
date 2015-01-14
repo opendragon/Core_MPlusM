@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   An example script that performs a running sum.
+//  Contains:   An example script that writes a series of integer values to a file.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,31 +36,79 @@
 //
 //--------------------------------------------------------------------------------------------------
 
+var outStream = null;
+
 function doRecordIntegers(portNumber, incomingData)
 {
-    var outValues;
+    var aValue;
     
     if (Array.isArray(incomingData))
     {
-//        outValues = [];
-//        for (var ii = 0, mm = incomingData.length; mm > ii; ++ii)
-//        {
-//            //outValues.push(Math.floor(Number(incomingData[ii])));
-//        }
+        var mm = incomingData.length;
+        
+        for (var ii = 0; mm > ii; ++ii)
+        {
+            if (0 < ii)
+            {
+                outStream.writeString(' ');
+            }
+            aValue = Number(incomingData[ii]);
+            if (! isNaN(aValue))
+            {
+                outStream.writeString(aValue + '');
+            }
+        }
+        if (0 < mm)
+        {
+            outStream.writeStringLine('');
+        }
     }
     else
     {
-//        outValues = Math.floor(Number(incomingData));
+        aValue = Number(incomingData);
+        if (! isNaN(aValue))
+        {
+            outStream.writeStringLine(aValue + '');
+        }
     }
-    sendToChannel(0, outValues);
 } // doRecordIntegers
 
 var scriptDescription = 'A script that writes integer values to a file';
 
-var scriptInlets = [ { name: 'incoming', protocol: '*',//'i*',
+var scriptInlets = [ { name: 'incoming', protocol: 'i*',
                         protocolDescription: 'A sequence of integer values',
                         handler: doRecordIntegers } ];
 
 var scriptOutlets = [ ];
 
-dumpObjectToStdout('argv:', argv);
+function scriptStarting()
+{
+    var okSoFar = false;
+    
+    writeLineToStdout('script starting');
+    dumpObjectToStdout('argv:', argv);
+    if (1 < argv.length)
+    {
+        var path = argv[1];
+        
+        writeLineToStdout('path = ' + path);
+        outStream = new Stream();
+        outStream.open(path, "w");
+        dumpObjectToStdout('outStream:', outStream);
+        if (outStream.isOpen())
+        {
+            writeLineToStdout('outStream isOpen = true');
+            writeLineToStdout('outStream atEof = ' + outStream.atEof());
+            writeLineToStdout('outStream hasError = ' + outStream.hasError());
+        }
+        okSoFar = true;
+    }
+    return okSoFar;
+} // scriptStarting
+
+function scriptStopping()
+{
+    writeLineToStdout('script stopping');
+    outStream.close();
+    outStream = null;
+} // scriptStopping
