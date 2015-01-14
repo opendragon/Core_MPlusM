@@ -66,7 +66,7 @@ function scriptStarting()
             writeLineToStdout('inStream hasError = ' + inStream.hasError());
             for ( ; ! inStream.atEof(); )
             {
-                inString = inStream.readStringLine();
+                inString = inStream.readLine();
                 if (! inStream.atEof())
                 {
                     writeLineToStdout('inStream read = "' + inString + '"');

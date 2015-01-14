@@ -50,17 +50,17 @@ function doRecordIntegers(portNumber, incomingData)
         {
             if (0 < ii)
             {
-                outStream.writeString(' ');
+                outStream.write(' ');
             }
             aValue = Number(incomingData[ii]);
             if (! isNaN(aValue))
             {
-                outStream.writeString(aValue + '');
+                outStream.write(aValue);
             }
         }
         if (0 < mm)
         {
-            outStream.writeStringLine('');
+            outStream.writeLine('');
         }
     }
     else
@@ -68,7 +68,7 @@ function doRecordIntegers(portNumber, incomingData)
         aValue = Number(incomingData);
         if (! isNaN(aValue))
         {
-            outStream.writeStringLine(aValue + '');
+            outStream.writeLine(aValue);
         }
     }
 } // doRecordIntegers

@@ -635,9 +635,9 @@ static bool streamOpenForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadStringLineForJs(JSContext * jct,
-                                      unsigned    argc,
-                                      JS::Value * vp)
+static bool streamReadLineForJs(JSContext * jct,
+                                unsigned    argc,
+                                JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -648,7 +648,7 @@ static bool streamReadStringLineForJs(JSContext * jct,
     
     if (args.length())
     {
-        JS_ReportError(jct, "Extra arguments to Stream.readStringLine");
+        JS_ReportError(jct, "Extra arguments to Stream.readLine");
     }
     else
     {
@@ -697,7 +697,7 @@ static bool streamReadStringLineForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamReadStringLineForJs
+} // streamReadLineForJs
 
 /*! @brief A C-callback function for %JavaScript to reposition a Stream object to its beginning.
  @param jct The context in which the native function is being called.
@@ -733,14 +733,14 @@ static bool streamRewindForJs(JSContext * jct,
     return result;
 } // streamRewindForJs
 
-/*! @brief A C-callback function for %JavaScript to write a string value to a Stream object.
+/*! @brief A C-callback function for %JavaScript to write a value to a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamWriteStringForJs(JSContext * jct,
-                                   unsigned    argc,
-                                   JS::Value * vp)
+static bool streamWriteForJs(JSContext * jct,
+                             unsigned    argc,
+                             JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -753,9 +753,9 @@ static bool streamWriteStringForJs(JSContext * jct,
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
         
-        if (aFile && args[0].isString())
+        if (aFile)
         {
-            JSString * asString = args[0].toString();
+            JSString * asString = JS::ToString(jct, args[0]);
             
             if (asString && JS_GetStringLength(asString))
             {
@@ -769,25 +769,25 @@ static bool streamWriteStringForJs(JSContext * jct,
     }
     else if (1 < args.length())
     {
-        JS_ReportError(jct, "Extra arguments to Stream.writeString");
+        JS_ReportError(jct, "Extra arguments to Stream.write");
     }
     else
     {
-        JS_ReportError(jct, "Missing argument(s) to Stream.writeString");
+        JS_ReportError(jct, "Missing argument(s) to Stream.write");
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamWriteStringForJs
+} // streamWriteForJs
 
-/*! @brief A C-callback function for %JavaScript to write a string value to a Stream object,
+/*! @brief A C-callback function for %JavaScript to write a value to a Stream object,
  followed by a newline.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamWriteStringLineForJs(JSContext * jct,
-                                       unsigned    argc,
-                                       JS::Value * vp)
+static bool streamWriteLineForJs(JSContext * jct,
+                                 unsigned    argc,
+                                 JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -800,9 +800,9 @@ static bool streamWriteStringLineForJs(JSContext * jct,
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
         
-        if (aFile && args[0].isString())
+        if (aFile)
         {
-            JSString * asString = args[0].toString();
+            JSString * asString = JS::ToString(jct, args[0]);
             
             if (asString && JS_GetStringLength(asString))
             {
@@ -818,15 +818,15 @@ static bool streamWriteStringLineForJs(JSContext * jct,
     }
     else if (1 < args.length())
     {
-        JS_ReportError(jct, "Extra arguments to Stream.writeStringLine");
+        JS_ReportError(jct, "Extra arguments to Stream.writeLine");
     }
     else
     {
-        JS_ReportError(jct, "Missing argument(s) to Stream.writeStringLine");
+        JS_ReportError(jct, "Missing argument(s) to Stream.writeLine");
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamWriteStringLineForJs
+} // streamWriteLineForJs
 
 /*! @brief The table of supplied functions for the %Stream class. */
 static const JSFunctionSpec lStreamFunctions[] =
@@ -837,10 +837,10 @@ static const JSFunctionSpec lStreamFunctions[] =
     JS_FS("hasError", streamHasErrorForJs, 0, JSPROP_ENUMERATE),
     JS_FS("isOpen", streamIsOpenForJs, 0, JSPROP_ENUMERATE),
     JS_FS("open", streamOpenForJs, 2, JSPROP_ENUMERATE),
-    JS_FS("readStringLine", streamReadStringLineForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("readLine", streamReadLineForJs, 0, JSPROP_ENUMERATE),
     JS_FS("rewind", streamRewindForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("writeString", streamWriteStringForJs, 1, JSPROP_ENUMERATE),
-    JS_FS("writeStringLine", streamWriteStringLineForJs, 1, JSPROP_ENUMERATE),
+    JS_FS("write", streamWriteForJs, 1, JSPROP_ENUMERATE),
+    JS_FS("writeLine", streamWriteLineForJs, 1, JSPROP_ENUMERATE),
     JS_FS_END
 }; // lStreamFunctions
 
