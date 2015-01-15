@@ -73,6 +73,7 @@ using namespace MplusM::JavaScript;
 using std::cin;
 using std::cout;
 using std::endl;
+using std::cerr;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -107,10 +108,16 @@ static JSClass lGlobalClass =
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Display the available commands. */
-static void displayCommands(void)
+/*! @brief Display the available commands.
+ @param helpText The help text from the script. */
+static void displayCommands(yarp::os::ConstString & helpText)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("helpText = ", helpText); //####
+    if (0 < helpText.size())
+    {
+        cout << helpText.c_str() << endl;
+    }
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
     cout << "  b - start (begin) the input and output streams" << endl;
@@ -142,7 +149,7 @@ static void reportJavaScriptError(JSContext *     cx,
 #if MAC_OR_LINUX_
         GetLogger().fail(errMessage);
 #else // ! MAC_OR_LINUX_
-        std::cerr << errMessage.c_str() << std::endl;
+        cerr << errMessage.c_str() << endl;
 #endif // ! MAC_OR_LINUX_
     }
     catch (...)
@@ -179,9 +186,9 @@ static bool dumpObjectToStdoutForJs(JSContext * jct,
                     JSString * asString = args[0].toString();
                     char *     asChars = JS_EncodeString(jct, asString);
                     
-                    std::cout << asChars << std::endl;
+                    cout << asChars << endl;
                     JS_free(jct, asChars);
-                    PrintJavaScriptObject(std::cout, jct, asObject, 1);
+                    PrintJavaScriptObject(cout, jct, asObject, 1);
                     result = true;
                 }
             }
@@ -283,7 +290,7 @@ static bool writeLineForJs(JSContext * jct,
         JSString * asString = args[0].toString();
         char *     asChars = JS_EncodeString(jct, asString);
 
-        std::cout << asChars << std::endl;
+        cout << asChars << endl;
         JS_free(jct, asChars);
         result = true;
     }
@@ -381,7 +388,7 @@ static bool CreateStreamObject(JSContext * jct,
     
     if (args.length())
     {
-        std::cerr << "Extra arguments to Stream constructor" << std::endl;
+        cerr << "Extra arguments to Stream constructor" << endl;
     }
     else
     {
@@ -630,6 +637,48 @@ static bool streamOpenForJs(JSContext * jct,
     return result;
 } // streamOpenForJs
 
+/*! @brief A C-callback function for %JavaScript to read the next non-blank character from a Stream
+ object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamReadCharacterForJs(JSContext * jct,
+                                     unsigned    argc,
+                                     JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.readCharacter");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            char aChar = '\0';
+            
+            if (1 == fscanf(aFile, " %c", &aChar))
+            {
+                JSString * outString = JS_NewStringCopyN(jct, &aChar, 1);
+                
+                args.rval().setString(outString);
+            }
+            result = true;
+        }
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamReadCharacterForJs
+
 /*! @brief A C-callback function for %JavaScript to read a line from a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
@@ -698,6 +747,164 @@ static bool streamReadLineForJs(JSContext * jct,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // streamReadLineForJs
+
+/*! @brief A C-callback function for %JavaScript to read the next number from a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamReadNumberForJs(JSContext * jct,
+                                  unsigned    argc,
+                                  JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.readNumber");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            double aDouble = 0;
+            
+            if (1 == fscanf(aFile, " %lg", &aDouble))
+            {
+                args.rval().setDouble(aDouble);
+            }
+            result = true;
+        }
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamReadNumberForJs
+
+/*! @brief A C-callback function for %JavaScript to read a string from a Stream object.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool streamReadStringForJs(JSContext * jct,
+                                  unsigned    argc,
+                                  JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result = false;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    JSObject &   theThis = args.thisv().toObject();
+    
+    if (args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to Stream.readLine");
+    }
+    else
+    {
+        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
+        
+        if (aFile)
+        {
+            char aChar = '\0';
+            
+            if (1 == fscanf(aFile, " %c", &aChar))
+            {
+                bool       keepGoing = true;
+                int        outLen = 0;
+                char       outBuff[100];
+                char       matchChar;
+                JSString * outString = NULL;
+                JSString * thisChunk = NULL;
+                
+                if (('"' == aChar) || ('\'' == aChar))
+                {
+                    matchChar = aChar;
+                }
+                else
+                {
+                    matchChar = '\0';
+                    outBuff[0] = aChar;
+                    outLen = 1;
+                }
+                for ( ; keepGoing; )
+                {
+                    aChar = fgetc(aFile);
+                    if (EOF == aChar)
+                    {
+                        // Something happened.
+                        keepGoing = false;
+                    }
+                    else if (matchChar == aChar)
+                    {
+                        // Reached the end-of-string.
+                        keepGoing = false;
+                    }
+                    else if (outLen < sizeof(outBuff))
+                    {
+                        outBuff[outLen++] = aChar;
+                    }
+                    else
+                    {
+                        // The buffer is full.
+                        if (outString)
+                        {
+                            // We need to concenate
+                            thisChunk = JS_NewStringCopyN(jct, outBuff, outLen);
+                            JS::RootedString leftString(jct);
+                            JS::RootedString rightString(jct);
+                            
+                            leftString = outString;
+                            rightString = thisChunk;
+                            outString = JS_ConcatStrings(jct, leftString, rightString);
+                        }
+                        else
+                        {
+                            // This is the first chunk
+                            outString = JS_NewStringCopyN(jct, outBuff, outLen);
+                        }
+                        outLen = 0;
+                    }
+                }
+                // Add the remaining characters to the string.
+                if (outLen)
+                {
+                    if (outString)
+                    {
+                        // We need to concenate
+                        thisChunk = JS_NewStringCopyN(jct, outBuff, outLen);
+                        JS::RootedString leftString(jct);
+                        JS::RootedString rightString(jct);
+                        
+                        leftString = outString;
+                        rightString = thisChunk;
+                        outString = JS_ConcatStrings(jct, leftString, rightString);
+                    }
+                    else
+                    {
+                        // This is the first chunk
+                        outString = JS_NewStringCopyN(jct, outBuff, outLen);
+                    }
+                }
+                else if (! outString)
+                {
+                    outString = JS_NewStringCopyZ(jct, "");
+                }
+                args.rval().setString(outString);
+            }
+            result = true;
+        }
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // streamReadStringForJs
 
 /*! @brief A C-callback function for %JavaScript to reposition a Stream object to its beginning.
  @param jct The context in which the native function is being called.
@@ -827,7 +1034,10 @@ static const JSFunctionSpec lStreamFunctions[] =
     JS_FS("hasError", streamHasErrorForJs, 0, JSPROP_ENUMERATE),
     JS_FS("isOpen", streamIsOpenForJs, 0, JSPROP_ENUMERATE),
     JS_FS("open", streamOpenForJs, 2, JSPROP_ENUMERATE),
+    JS_FS("readCharacter", streamReadCharacterForJs, 0, JSPROP_ENUMERATE),
     JS_FS("readLine", streamReadLineForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("readNumber", streamReadNumberForJs, 0, JSPROP_ENUMERATE),
+    JS_FS("readString", streamReadStringForJs, 0, JSPROP_ENUMERATE),
     JS_FS("rewind", streamRewindForJs, 0, JSPROP_ENUMERATE),
     JS_FS("write", streamWriteForJs, 1, JSPROP_ENUMERATE),
     JS_FS("writeLine", streamWriteLineForJs, 1, JSPROP_ENUMERATE),
@@ -867,7 +1077,6 @@ static bool addArgvObject(JSContext *        jct,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
-    OD_LOG_S1s("tag = ", tag); //####
     OD_LOG_L1("argc = ", argc); //####
     bool       okSoFar = true;
     JSObject * argArray = JS_NewArrayObject(jct, 0);
@@ -1048,23 +1257,27 @@ static bool loadScript(JSContext *                   jct,
  @param propertyName The name of the property being searched for.
  @param canBeFunction @c true if the property can be a function rather than a string and @c false if
  the property must be a string.
+ @param isOptional @c true if the property does not have to be present.
  @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
 static bool getLoadedString(JSContext *             jct,
                             JS::RootedObject &      anObject,
                             const char *            propertyName,
                             const bool              canBeFunction,
+                            const bool              isOptional,
                             yarp::os::ConstString & result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
+    OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
     bool found = false;
     bool okSoFar;
     
+    result = "";
     if (JS_HasProperty(jct, anObject, propertyName, &found))
     {
-        okSoFar = found;
+        okSoFar = true;
     }
     else
     {
@@ -1073,10 +1286,10 @@ static bool getLoadedString(JSContext *             jct,
 #if MAC_OR_LINUX_
         GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-        std::cerr << "Problem searching for a property." << std::endl;
+        cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
     }
-    if (okSoFar)
+    if (okSoFar && found)
     {
         JS::RootedValue value(jct);
 
@@ -1136,7 +1349,7 @@ static bool getLoadedString(JSContext *             jct,
 #if MAC_OR_LINUX_
                                     GetLogger().fail(message.c_str());
 #else // ! MAC_OR_LINUX_
-                                    std::cerr << message.c_str() << std::endl;
+                                    cerr << message.c_str() << endl;
 #endif // ! MAC_OR_LINUX_
                                 }
                             }
@@ -1156,7 +1369,7 @@ static bool getLoadedString(JSContext *             jct,
 #if MAC_OR_LINUX_
                 GetLogger().fail(message.c_str());
 #else // ! MAC_OR_LINUX_
-                std::cerr << message.c_str() << std::endl;
+                cerr << message.c_str() << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1167,7 +1380,7 @@ static bool getLoadedString(JSContext *             jct,
 #if MAC_OR_LINUX_
             GetLogger().fail("Problem retrieving a property.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Problem retrieving a property." << std::endl;
+            cerr << "Problem retrieving a property." << endl;
 #endif // ! MAC_OR_LINUX_
         }
     }
@@ -1206,7 +1419,7 @@ static bool getLoadedFunctionRef(JSContext *        jct,
 #if MAC_OR_LINUX_
         GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-        std::cerr << "Problem searching for a property." << std::endl;
+        cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
     }
     if (okSoFar)
@@ -1217,18 +1430,7 @@ static bool getLoadedFunctionRef(JSContext *        jct,
             if (result.isObject())
             {
                 JS::RootedObject asObject(jct);
-                
-//                if (JS_ValueToObject(jct, result, &asObject) &&
-//                    JS_ObjectIsFunction(jct, asObject) && JS::IsCallable(asObject))
-//                {
-//                    JSFunction * asFunction = JS_ValueToFunction(jct, result);
-//                    
-//                    if (asFunction)
-//                    {
-//                        okSoFar = (arity == JS_GetFunctionArity(asFunction));
-//                    }
-//                }
-                JS::RootedValue asFunctionValue(jct);
+                JS::RootedValue  asFunctionValue(jct);
                 
                 if (JS_ConvertValue(jct, result, JSTYPE_FUNCTION, &asFunctionValue) &&
                     JS_ValueToObject(jct, asFunctionValue, &asObject) && JS::IsCallable(asObject))
@@ -1252,7 +1454,7 @@ static bool getLoadedFunctionRef(JSContext *        jct,
 #if MAC_OR_LINUX_
                 GetLogger().fail(message.c_str());
 #else // ! MAC_OR_LINUX_
-                std::cerr << message.c_str() << std::endl;
+                cerr << message.c_str() << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1263,7 +1465,7 @@ static bool getLoadedFunctionRef(JSContext *        jct,
 #if MAC_OR_LINUX_
             GetLogger().fail("Problem retrieving a property.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Problem retrieving a property." << std::endl;
+            cerr << "Problem retrieving a property." << endl;
 #endif // ! MAC_OR_LINUX_
         }
     }
@@ -1294,7 +1496,7 @@ static bool processStreamDescription(JSContext *           jct,
 #if MAC_OR_LINUX_
         GetLogger().fail("Array element has the wrong type.");
 #else // ! MAC_OR_LINUX_
-        std::cerr << "Array element has the wrong type." << std::endl;
+        cerr << "Array element has the wrong type." << endl;
 #endif // ! MAC_OR_LINUX_
     }
     JS::RootedObject asObject(jct);
@@ -1308,22 +1510,23 @@ static bool processStreamDescription(JSContext *           jct,
 #if MAC_OR_LINUX_
             GetLogger().fail("Problem converting array element to object.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Problem converting array element to object." << std::endl;
+            cerr << "Problem converting array element to object." << endl;
 #endif // ! MAC_OR_LINUX_
         }
     }
     if (okSoFar)
     {
-//        PrintJavaScriptObject(std::cout, jct, asObject, 0);
-        okSoFar = getLoadedString(jct, asObject, "name", false, description._portName);
+//        PrintJavaScriptObject(cout, jct, asObject, 0);
+        okSoFar = getLoadedString(jct, asObject, "name", false, false, description._portName);
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedString(jct, asObject, "protocol", false, description._portProtocol);
+        okSoFar = getLoadedString(jct, asObject, "protocol", false, false,
+                                  description._portProtocol);
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedString(jct, asObject, "protocolDescription", false,
+        okSoFar = getLoadedString(jct, asObject, "protocolDescription", false, false,
                                   description._protocolDescription);
     }
     if (okSoFar && inletHandlers)
@@ -1373,7 +1576,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
         GetLogger().fail("Problem searching for a global property.");
 #else // ! MAC_OR_LINUX_
-        std::cerr << "Problem searching for a global property." << std::endl;
+        cerr << "Problem searching for a global property." << endl;
 #endif // ! MAC_OR_LINUX_
     }
     if (okSoFar && found)
@@ -1396,7 +1599,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
                     GetLogger().fail("Problem converting value to object.");
 #else // ! MAC_OR_LINUX_
-                    std::cerr << "Problem converting value to object." << std::endl;
+                    cerr << "Problem converting value to object." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
             }
@@ -1424,7 +1627,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem converting value to object.");
 #else // ! MAC_OR_LINUX_
-                                std::cerr << "Problem converting value to object." << std::endl;
+                                cerr << "Problem converting value to object." << endl;
 #endif // ! MAC_OR_LINUX_
                             }
                         }
@@ -1446,7 +1649,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
                             GetLogger().fail(message.c_str());
 #else // ! MAC_OR_LINUX_
-                            std::cerr << message.c_str() << std::endl;
+                            cerr << message.c_str() << endl;
 #endif // ! MAC_OR_LINUX_
                         }
                     }
@@ -1463,7 +1666,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
                 GetLogger().fail(message.c_str());
 #else // ! MAC_OR_LINUX_
-                std::cerr << message.c_str() << std::endl;
+                cerr << message.c_str() << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1474,7 +1677,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
             GetLogger().fail("Problem retrieving a global property.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Problem retrieving a global property." << std::endl;
+            cerr << "Problem retrieving a global property." << endl;
 #endif // ! MAC_OR_LINUX_
         }
         uint32_t arrayLength;
@@ -1488,7 +1691,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
                 GetLogger().fail("Problem getting the array length.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Problem getting the array length." << std::endl;
+                cerr << "Problem getting the array length." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1515,7 +1718,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 #if MAC_OR_LINUX_
                     GetLogger().fail("Problem getting an array element.");
 #else // ! MAC_OR_LINUX_
-                    std::cerr << "Problem getting an array element." << std::endl;
+                    cerr << "Problem getting an array element." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
             }
@@ -1529,6 +1732,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
  @param description The descriptive text from the script.
+ @param helpString The help text from the script.
  @param loadedInletDescriptions The list of loaded inlet stream descriptions.
  @param loadedOutletDescriptions The list of loaded outlet stream descriptions.
  @param loadedInletHandlers The list of loaded inlet handlers.
@@ -1538,6 +1742,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 static bool validateLoadedScript(JSContext *             jct,
                                  JS::RootedObject &      global,
                                  yarp::os::ConstString & description,
+                                 yarp::os::ConstString & helpString,
                                  ChannelVector &         loadedInletDescriptions,
                                  ChannelVector &         loadedOutletDescriptions,
                                  JS::AutoValueVector &   loadedInletHandlers,
@@ -1546,14 +1751,20 @@ static bool validateLoadedScript(JSContext *             jct,
 {
     OD_LOG_ENTER();
     OD_LOG_P4("jct = ", jct, "global = ", &global, "description = ", &description, //####
-              "loadedInletDescriptions = ", &loadedInletDescriptions); //####
-    OD_LOG_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+              "helpString = ", &helpString); //####
+    OD_LOG_P4("loadedInletDescriptions = ", &loadedInletDescriptions, //####
+              "loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
               "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
+              &loadedStartingFunction); //####
+    OD_LOG_P1("loadedStoppingFunction = ", &loadedStoppingFunction); //####
     bool okSoFar = true;
 
-//    PrintJavaScriptObject(std::cout, jct, global, 0);
-    okSoFar = getLoadedString(jct, global, "scriptDescription", true, description);
+//    PrintJavaScriptObject(cout, jct, global, 0);
+    okSoFar = getLoadedString(jct, global, "scriptDescription", true, false, description);
+    if (okSoFar)
+    {
+        okSoFar = getLoadedString(jct, global, "scriptHelp", false, true, helpString);
+    }
     if (okSoFar)
     {
         okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", &loadedInletHandlers,
@@ -1570,11 +1781,11 @@ static bool validateLoadedScript(JSContext *             jct,
         loadedStoppingFunction = JS::NullValue();
         if (getLoadedFunctionRef(jct, global, "scriptStarting", 0, loadedStartingFunction))
         {
-//            std::cout << "function scriptStarting defined" << std::endl;
+//            cout << "function scriptStarting defined" << endl;
         }
         if (getLoadedFunctionRef(jct, global, "scriptStopping", 0, loadedStoppingFunction))
         {
-//            std::cout << "function scriptStopping defined" << std::endl;
+//            cout << "function scriptStopping defined" << endl;
         }
     }
     OD_LOG_EXIT_B(okSoFar);
@@ -1636,7 +1847,7 @@ static void setUpAndGo(JSContext *                   jct,
 #if MAC_OR_LINUX_
             GetLogger().fail("JavaScript global object could not be initialized.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "JavaScript global object could not be initialized." << std::endl;
+            cerr << "JavaScript global object could not be initialized." << endl;
 #endif // ! MAC_OR_LINUX_
         }
         if (okSoFar)
@@ -1649,8 +1860,8 @@ static void setUpAndGo(JSContext *                   jct,
                 GetLogger().fail("Custom objects could not be added to the JavaScript global "
                                  "object.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Custom objects could not be added to the JavaScript global object." <<
-                            std::endl;
+                cerr << "Custom objects could not be added to the JavaScript global object." <<
+                            endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1663,19 +1874,20 @@ static void setUpAndGo(JSContext *                   jct,
 #if MAC_OR_LINUX_
                 GetLogger().fail("Script could not be loaded.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Script could not be loaded." << std::endl;
+                cerr << "Script could not be loaded." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
-        ChannelVector       loadedInletDescriptions;
-        ChannelVector       loadedOutletDescriptions;
-        JS::AutoValueVector loadedInletHandlers(jct);
-        JS::RootedValue     loadedStartingFunction(jct);
-        JS::RootedValue     loadedStoppingFunction(jct);
+        yarp::os::ConstString helpText;
+        ChannelVector         loadedInletDescriptions;
+        ChannelVector         loadedOutletDescriptions;
+        JS::AutoValueVector   loadedInletHandlers(jct);
+        JS::RootedValue       loadedStartingFunction(jct);
+        JS::RootedValue       loadedStoppingFunction(jct);
         
         if (okSoFar)
         {
-            if (! validateLoadedScript(jct, global, description, loadedInletDescriptions,
+            if (! validateLoadedScript(jct, global, description, helpText, loadedInletDescriptions,
                                        loadedOutletDescriptions, loadedInletHandlers,
                                        loadedStartingFunction, loadedStoppingFunction))
             {
@@ -1685,7 +1897,7 @@ static void setUpAndGo(JSContext *                   jct,
 #if MAC_OR_LINUX_
                 GetLogger().fail("Script is missing one or more functions or variables.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Script is missing one or more functions or variables." << std::endl;
+                cerr << "Script is missing one or more functions or variables." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -1735,7 +1947,7 @@ static void setUpAndGo(JSContext *                   jct,
                                 {
                                     case '?' :
                                         // Help
-                                        displayCommands();
+                                        displayCommands(helpText);
                                         break;
                                         
                                     case 'b' :
@@ -1832,7 +2044,7 @@ static void setUpAndGo(JSContext *                   jct,
 #if MAC_OR_LINUX_
                         GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_
-                        std::cerr << "Service could not be registered." << std::endl;
+                        cerr << "Service could not be registered." << endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
@@ -1842,7 +2054,7 @@ static void setUpAndGo(JSContext *                   jct,
 #if MAC_OR_LINUX_
                     GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
-                    std::cerr << "Service could not be started." << std::endl;
+                    cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
                 delete stuff;
@@ -1859,7 +2071,7 @@ static void setUpAndGo(JSContext *                   jct,
 #if MAC_OR_LINUX_
         GetLogger().fail("JavaScript global object could not be created.");
 #else // ! MAC_OR_LINUX_
-        std::cerr << "JavaScript global object could not be created." << std::endl;
+        cerr << "JavaScript global object could not be created." << endl;
 #endif // ! MAC_OR_LINUX_
     }
     OD_LOG_EXIT(); //####
@@ -2026,8 +2238,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
                                 GetLogger().fail("JavaScript context could not be allocated.");
 #else // ! MAC_OR_LINUX_
-                                std::cerr << "JavaScript context could not be allocated." <<
-                                            std::endl;
+                                cerr << "JavaScript context could not be allocated." << endl;
 #endif // ! MAC_OR_LINUX_
                                 JS_DestroyRuntime(jrt);
                                 jrt = NULL;
@@ -2039,7 +2250,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
                             GetLogger().fail("JavaScript runtime could not be allocated.");
 #else // ! MAC_OR_LINUX_
-                            std::cerr << "JavaScript runtime could not be allocated." << std::endl;
+                            cerr << "JavaScript runtime could not be allocated." << endl;
 #endif // ! MAC_OR_LINUX_
                         }
                         if (jrt && jct)
@@ -2058,7 +2269,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
                         GetLogger().fail("JavaScript engine could not be started.");
 #else // ! MAC_OR_LINUX_
-                        std::cerr << "JavaScript engine could not be started." << std::endl;
+                        cerr << "JavaScript engine could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
@@ -2068,7 +2279,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
                     GetLogger().fail("Empty script file.");
 #else // ! MAC_OR_LINUX_
-                    std::cerr << "Empty script file." << std::endl;
+                    cerr << "Empty script file." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
             }
@@ -2077,7 +2288,7 @@ int main(int      argc,
 # if MAC_OR_LINUX_
                 GetLogger().fail("Missing script file path.");
 # else // ! MAC_OR_LINUX_
-                std::cerr << "Missing script file path." << std::endl;
+                cerr << "Missing script file path." << endl;
 # endif // ! MAC_OR_LINUX_
             }
         }
@@ -2088,7 +2299,7 @@ int main(int      argc,
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+            cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

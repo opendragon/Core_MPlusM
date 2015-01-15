@@ -40,6 +40,8 @@ var inStream = null;
 
 var scriptDescription = 'A script that reads values from a file';
 
+var scriptHelp = 'The first argument is the path to the input file';
+
 function scriptStarting()
 {
     var okSoFar = false;

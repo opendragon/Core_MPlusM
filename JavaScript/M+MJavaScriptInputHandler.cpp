@@ -57,6 +57,8 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::JavaScript;
+using std::endl;
+using std::cerr;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -233,7 +235,7 @@ static void createValueFromBottle(JSContext *              jct,
                                   JS::MutableHandleValue   theData)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "aBottle = ", aBottle); //####
+    OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
 //    std::cout << "'" << aBottle.toString().c_str() << "'" << std::endl << std::endl;
     convertList(jct, theData, aBottle);
     OD_LOG_EXIT(); //####
@@ -301,14 +303,6 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
 
                 slotNumberValue.setInt32(_slotNumber);
                 createValueFromBottle(jct, input, &argValue);
-
-//                JS::RootedObject asObject(jct);
-//
-//                if (JS_ValueToObject(jct, argValue, &asObject))
-//                {
-//                    std::cout << "incoming:" << std::endl;
-//                    PrintJavaScriptObject(std::cout, jct, asObject, 0);
-//                }
                 JS::AutoValueVector funcArgs(jct);
                 JS::RootedValue     funcResult(jct);
                 
@@ -342,7 +336,7 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
 #if MAC_OR_LINUX_
                         GetLogger().fail(message.c_str());
 #else // ! MAC_OR_LINUX_
-                        std::cerr << message.c_str() << std::endl;
+                        cerr << message.c_str() << endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }

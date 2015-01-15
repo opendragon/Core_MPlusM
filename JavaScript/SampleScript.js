@@ -47,7 +47,14 @@
 //     isOpen() - returns true if there is an external file connected
 //     open(fn, fm) - connects to an external file at path 'fn' with mode 'fm' [mode can be 'r',
 //                    'w', et cetera]
+//     readCharacter() - returns a string containing the next non-blank character from the external
+//                       file
 //     readLine() - returns a string containing the next line from the external file
+//     readNumber() - returns the next numeric value from the external file, or zero. Note that EOF
+//                    or error will be set if the number could not be read
+//     readString() - returns a string from the external file; if the string starts with '"' or "'",
+//                    it ends with the same character while, otherwise it starts with the next
+//                    non-blank character and ends when a blank is read
 //     rewind() - moves back to the beginning of the external file
 //     write(...) - writes the arguments, as strings, to the external file
 //     writeLine(...) - writes the arguments, as strings, to the external file and adds a newline
@@ -56,14 +63,38 @@
 //
 //   dumpObjectToStdout(x) - writes out the object 'x' to the standard output, including its
 //                           properties
+//
 //   sendToChannel(n, x) - converts the value 'x' to YARP format and sends it to the channel
 //                         numbered 'n', with zero being the first outlet channel
+//
 //   writeLineToStdout(x) - writes the string 'x' to the standard output.
 //
 // Global variables available to JavaScript code:
 //
-//    argv: a list of the arguments passed to the script
-//    tag:  the (optional) tag argument for the JavaScript service
+//   argv: a list of the arguments passed to the script
+//
+//   tag:  the (optional) tag argument for the JavaScript service
+//
+// Values that must be provided by the JavaScript code:
+//
+//   scriptDescription: a variable or a function that provides a string describing the script
+//
+// Values that may be provided by the JavaScript code:
+//
+//   scriptHelp:       a variable or a function that provides a string that can be presented to the
+//                     user when requested by the '?' command; note that it should not end with a
+//                     newline
+//
+//   scriptInlets:     a variable or a function that provides an array of inlet descriptions [name,
+//                     protocol, protocolDescription, handler]
+//
+//   scriptOutlets:    a variable or a function that provides an array of outlet descriptions [name,
+//                     protocol, protocolDescription]
+//
+//   scriptStarting(): a function that is called before any inlets are attached or threads started
+//
+//   scriptStopping(): a function that is called after all the inlets are detached and threads are
+//                     stopped
 //
 
 // Some test JavaScript...
@@ -94,13 +125,13 @@ dumpObjectToStdout('global:', this);
 
 // The real stuff:
 
-function scriptHandleInput(portNumber, incomingData)
+function handleOurInput(portNumber, incomingData)
 {
     writeLineToStdout('input on port ' + portNumber);
     // Convert the input to an integer, if it's a floating-point number; if it's an integer, pass it
     // through. If it's an array, process each element. If a value is non-numeric, report an error.
-    sendToChannel(0, incomingData);//portNumber.toString());
-} // scriptHandleInput
+    sendToChannel(0, incomingData);
+} // handleOurInput
 
 // Specfic named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
 // can be provided by either functions or 'global' variables.
@@ -110,6 +141,8 @@ function scriptDescription()
 {
     return "An example script";
 } // scriptDescription
+
+var scriptHelp = 'The first argument to the script is the number of inlets to create';
 
 // The following function will either generate one inlet, called 'incoming' or a set of inlets,
 // called 'incoming#',
@@ -132,14 +165,14 @@ function scriptInlets()
         {
             inlets[ii] = { name: ('incoming' + (ii + 1)), protocol: '*',
                             protocolDescription: 'Anything',
-                            handler: scriptHandleInput };
+                            handler: handleOurInput };
         }
     }
     else
     {
         inlets[0] = { name: 'incoming', protocol: '*',
                         protocolDescription: 'Anything',
-                        handler: scriptHandleInput };
+                        handler: handleOurInput };
     }
     return inlets;
 } // scriptInlets

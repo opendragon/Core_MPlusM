@@ -58,6 +58,8 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::JavaScript;
+using std::endl;
+using std::cerr;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -337,8 +339,7 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
 #if MAC_OR_LINUX_
                     GetLogger().fail("Exception occurred while executing scriptStarting function.");
 #else // ! MAC_OR_LINUX_
-                    std::cerr << "Exception occurred while executing scriptStarting function." <<
-                                std::endl;
+                    cerr << "Exception occurred while executing scriptStarting function." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
             }
@@ -354,7 +355,7 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
         OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_OBJEXIT_B(); //####
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // JavaScriptService::configure
 #if (! MAC_OR_LINUX_)
@@ -595,8 +596,8 @@ void JavaScriptService::stopStreams(void)
                         GetLogger().fail("Exception occurred while executing scriptStopping "
                                          "function.");
 #else // ! MAC_OR_LINUX_
-                        std::cerr << "Exception occurred while executing scriptStopping "
-                                    "function." << std::endl;
+                        cerr << "Exception occurred while executing scriptStopping function." <<
+                                endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
@@ -723,7 +724,7 @@ std::ostream & JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
                                                 const int         depth)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("outStream = ", &outStream, "jct = ", jct, "value = ", value); //####
+    OD_LOG_P3("outStream = ", &outStream, "jct = ", jct, "value = ", &value); //####
     OD_LOG_S1("caption = ", caption); //####
     if (0 < depth)
     {

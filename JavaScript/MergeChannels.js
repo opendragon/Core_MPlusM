@@ -45,6 +45,8 @@ function scriptHandleInput(portNumber, incomingData)
 
 var scriptDescription = 'A script that merges multiple channels';
 
+var scriptHelp = 'The first argument to the script is the number of inlets to create';
+
 // The following function will either generate one inlet, called 'incoming' or a set of inlets,
 // called 'incoming#',
 function scriptInlets()

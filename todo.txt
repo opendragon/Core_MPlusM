@@ -24,5 +24,3 @@ f) add support for an output-only script - that is, it will be running more-or-l
 
 —> use scriptThread to define the behaviour of an output-only thread and add a thread object to the service
 —> if scriptThread is defined, don’t look for a value for scriptInlets
-—> add scriptHelp, which is invoked (if a function) / displayed (if a string) when ‘?’ is entered after the command prompt
-—> add readNumber, readString [skip to next non-blank, collect until next blank, unless ‘ or “, which must be paired], readCharacter [skip to next non-blank, read one character]
