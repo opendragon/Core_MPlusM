@@ -1,0 +1,53 @@
+\ProvidesFile{JSservice.tex}[v1.0.0]
+\primaryStart[TheJSService]{The~\JSIO{}~Service}
+The \asCode{mpmJavaScriptService} application is an \inputOutput{} service,
+executing a set of \asCode{JavaScript} functions contained in a file.
+The application responds to the standard \inputOutput{} service requests and can be used
+as a standalone data generator, without the need for a client connection.\\
+
+The \emph{configure} request request has no arguments and does nothing.\\
+
+The \emph{restartStreams} request stops and then starts processing thread and the input
+and output streams.\\
+
+The \emph{startStreams} request starts a processing thread and the input and output
+streams.
+Once started, the processing thread will execute the \asCode{scriptThread} function with
+an interval provided by the value of \asCode{scriptInterval}.\\
+
+The \emph{stopStreams} request stops the processing thread and the input and output
+streams.\\ 
+
+Note that the application will exit if the \emph{Registry~Service} is not running.\\
+
+The application has one argument -- the path to the \asCode{JavaScript} file to be used.
+Any additional arguments are passed to the \asCode{JavaScript} environment.
+The application has four optional parameters:
+\begin{itemize}
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
+\item \textbf{-r:} report the service metrics when the application exits
+\item \textbf{-t:} specifies the tag to be used as part of the service name
+\end{itemize}
+The tag is added to the standard name of the service, so that more than one copy of the
+service can execute -- an \mplusm{} installation can support multiple copies of each
+\inputOutput{} service, but the \emph{ChannelManager} application cannot display them
+without a distinguishing `tag'.
+If the tag is not specified, the standard name of the service will be used.
+As well as the service name, the output stream name is modified if a tag is specified and
+the default endpoint is being used.\\
+
+If the application is running from a terminal, the following commands are available:
+\begin{itemize}
+\item \textbf{?:} display a list of the available commands and any help text provided in
+the \asCode{scriptHelp} value.
+\item \textbf{b:} start the processing thread and the input and output streams. 
+\item \textbf{c:} configure the service; this has no effect, as the service has no
+configurable parameters. 
+\item \textbf{e:} stop the processing thread and input and output streams. 
+\item \textbf{q:} quit the application. 
+\item \textbf{r:} restart the processing thread and input and output streams. 
+\item \textbf{u:} reset the configuration so that it will be reprocessed when the
+processing thread and input and output streams are restarted. 
+\end{itemize}
+\primaryEnd{}

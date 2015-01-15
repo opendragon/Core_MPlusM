@@ -58,7 +58,7 @@ function doCommand(aCommand, itsArgs)
             }
             else
             {
-                aValue Number(itsArgs);
+                aValue = Number(itsArgs);
                 if (! isNaN(aValue))
                 {
                     runningSum += Number(aValue);
@@ -82,11 +82,11 @@ function doRunningSum(portNumber, incomingData)
     {
         var cmd = String(incomingData.shift());
         
-        doCommand(cmd, incomingData)
+        doCommand(cmd, incomingData);
     }
     else
     {
-        doCommand(String(incomingData), [])
+        doCommand(String(incomingData), []);
     }
     sendToChannel(0, runningSum);
 } // doRunningSum

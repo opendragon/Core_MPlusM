@@ -1,0 +1,148 @@
+\ProvidesFile{JSfileFormat.tex}[v1.0.0]
+\primaryStart{The~JavaScript~File~Format}
+The \JSIO{} service loads a \JS{} file that contains a number of required and optional
+values.
+Once loaded, the \JS{} functions and values are used to define the behaviour of the
+service itself.
+\secondaryStart{The~JavaScript~Standard~Classes}
+The \JSIO{} service provides the following standard classes as part of the \JS{}
+environment:\\
+\asCode{Array}, \asCode{Boolean}, \asCode{Date}, \asCode{decodeURI},
+\asCode{decodeURIComponent}, \asCode{encodeURI}, \asCode{encodeURIComponent},
+\asCode{Error}, \asCode{eval}, \asCode{EvalError}, \asCode{Function}, \asCode{Infinity},
+\asCode{isNaN}, \asCode{isFinite}, \asCode{Math}, \asCode{NaN}, \asCode{Number},
+\asCode{Object}, \asCode{parseInt}, \asCode{parseFloat}, \asCode{RangeError},
+\asCode{ReferenceError}, \asCode{RegExp}, \asCode{String}, \asCode{SyntaxError},
+\asCode{TypeError}, \asCode{undefined} and \asCode{URIError}.
+\secondaryEnd{}
+\secondaryStart{Service~Provided~Classes}
+The \JSIO{} service provides the following class as part of the \JS{} environment:
+\tertiaryStart{Stream}
+Objects of the \asCode{Stream} class encapsulate access to standard text files on the
+system.
+They have the following function properties:
+\begin{itemize}
+\item \textbf{\asCode{atEof}()} -- returns \asCode{true} if the file is at end--of--file
+\item \textbf{\asCode{clearError}()} -- clears the end--of--file and error flags
+\item \textbf{\asCode{close}()} -- disconnects from the external file
+\item \textbf{\asCode{hasError}()} -- returns \asCode{true} if the error flag was set by a
+previous operation
+\item \textbf{\asCode{isOpen}()} -- returns \asCode{true} if there is an external file
+connected
+\item \textbf{\asCode{open}(\textit{fn}, \textit{fm})} -- connects to an external file at
+path `\textit{fn}' with mode `\textit{fm}' \openSq{}mode can be \asCode{"r"},
+\asCode{"w"}, et cetera\closeSq
+\item \textbf{\asCode{readCharacter}()} -- returns a string containing the next non-blank
+character from the external file
+\item \textbf{\asCode{readLine}()} -- returns a string containing the next line from the
+external file
+\item \textbf{\asCode{readNumber}()} -- returns the next numeric value from the external
+file, or zero; note that end--of--file or error will be set if the number could not be
+read
+\item \textbf{\asCode{readString}()} -- returns a string from the external file; if the
+string starts with \asCode{"} or \asCode{'}, it ends with the same character while,
+otherwise, it starts with the next non--blank character and ends when a blank is read
+\item \textbf{\asCode{rewind}()} -- moves back to the beginning of the external file
+\item \textbf{\asCode{write}(\textellipsis)} -- writes the arguments, as strings, to the
+external file
+\item \textbf{\asCode{writeLine}(\textellipsis)} -- writes the arguments, as strings, to
+the external file and adds a newline
+\end{itemize}
+A \asCode{Stream} object can only be used between calls to its \asCode{open}() and
+\asCode{close}() functions; if reading a file and \asCode{atEof}() returns \asCode{true},
+no further reading will succeed.
+if \asCode{hasError}() returns true, operations other than \asCode{close}() will fail
+until \asCode{clearError}() is called.
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{Service~Provided~Functions}
+The \JSIO{} service provides the following functions as part of the \JS{} environment:
+\begin{itemize}
+\item \textbf{\asCode{dumpObjectToStdout}(\textit{obj})} -- writes out the object
+`\textit{obj}' to the standard output, including its properties
+\item \textbf{\asCode{sendToChannel}(\textit{n}, \textit{x})} -- converts the value
+`\textit{x}' to \yarp{} format and sends it to the channel numbered `\textit{n}', with
+zero being the first outlet channel
+\item \textbf{\asCode{writeLineToStdout}(\textit{x})} -- writes the string `\textit{x}' to
+the standard output
+\end{itemize}
+\secondaryEnd{}
+\secondaryStart{Service~Provided~Values}
+The \JSIO{} service provides the following values as part of the \JS{} environment:
+\begin{itemize}
+\item \textbf{\asCode{argv}\openSq\closeSq} -- a list of the arguments passed to the
+script
+\item \textbf{\asCode{tag}} -- the (optional) tag argument for the service
+script
+\end{itemize}
+\secondaryEnd{}
+\secondaryStart{The~Required~Values}
+The \JSIO{} service requires that the following values are supplied by the \JS{} file:
+\begin{itemize}
+\item \textbf{\asCode{scriptDescription}} -- a variable or a function that provides a
+string describing the script; if defined as a function, it takes no arguments
+\end{itemize}
+\secondaryEnd{}
+\secondaryStart{The~Optional~Values}
+The \JSIO{} service will use the following values, if they are supplied by the \JS{} file:
+\begin{itemize}
+\item \textbf{\asCode{scriptHelp}} -- a variable or a function that provides a
+string that can be presented to the user when requested by the `\asCode{?}' command; note
+that it should not end with a newline; if defined as a function it takes no argument
+\item \textbf{\asCode{scriptInlets}} -- a variable or a function that provides an array of
+inlet descriptions \openSq{}\asCode{name}, \asCode{protocol},
+\asCode{protocolDescription}, \asCode{handler}\closeSq; note that this is ignored if
+\asCode{scriptThread}() is defined
+\item \textbf{\asCode{scriptInterval}} -- a variable or a function that provides the
+interval between executions of the \asCode{scriptThread}() function; note that this is
+ignored if \asCode{scriptThread}() is not defined, and it is executed only once, after all
+the other values have been processed
+\item \textbf{\asCode{scriptOutlets}} -- a variable or a function that provides an array
+of outlet descriptions \openSq{}\asCode{name}, \asCode{protocol},
+\asCode{protocolDescription}\closeSq
+\item \textbf{\asCode{scriptStarting}()} -- a function that is called before any inlets
+are attached or threads started
+\item \textbf{\asCode{scriptStopping}()} -- a function that is called after all the inlets
+are detached and threads are stopped
+\item \textbf{\asCode{scriptThread}()} -- a function that is repeatedly called by the
+output thread of the service
+\end{itemize}
+\secondaryEnd{}
+\newpage
+\secondaryStart{The~Execution~Sequence}
+The following sequence of actions occur when a \JS{} file is loaded and run:
+\begin{itemize}
+\item The \JS{} environment is set up
+\item The \JS{} file is read from disk and any global statements are executed
+\item The \asCode{scriptDescription} value is retrieved (or the
+\asCode{scriptDescription}() function is executed to get a value)
+\item The \asCode{scriptHelp} value is retrieved, if it is present
+\item The \asCode{scriptThread}() function is located, if present
+\item If there was no \asCode{scriptThread}() function defined, the \asCode{scriptInlets}
+value is retrieved (or the \asCode{scriptInlets}() function is executed to get a value)
+\item The \asCode{scriptOutlets} value is retrieved (or the \asCode{scriptOutlets}()
+function is executed to get a value)
+\item The \asCode{scriptStarting} function is located, if present
+\item The \asCode{scriptStopping} function is located, if present
+\item If there was a \asCode{scriptThread}() function defined, the \asCode{scriptInterval}
+value is retrieved (or the \asCode{scriptInterval}() function is executed to get a value)
+\item The required inlets and outlets are created
+\item The service is started
+\begin{itemize}
+\item If the \asCode{scriptStarting}() function was defined, it is executed
+\item If the \asCode{scriptThread}() function was defined, a thread is created and given
+the \asCode{scriptThread}() function to be executed
+\item If the \asCode{scriptThread}() function was not defined, input handlers are created
+for each inlet and given the \asCode{handler}() function from their inlet description
+\end{itemize}
+\item The service is stopped
+\begin{itemize}
+\item If the \asCode{scriptThread}() function was defined, the thread is stopped and
+destroyed
+\item If the \asCode{scriptThread}() function was not defined, the input handlers
+for each inlet are deactivated
+\item If the \asCode{scriptStopping}() function was defined, it is executed
+\end{itemize}
+\end{itemize}
+\secondaryEnd{}
+\primaryEnd{}

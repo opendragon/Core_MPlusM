@@ -1911,7 +1911,7 @@ static bool validateLoadedScript(JSContext *             jct,
         loadedThreadFunction = JS::NullValue();
         if (getLoadedFunctionRef(jct, global, "scriptThread", 0, loadedThreadFunction))
         {
-            cout << "function scriptThread defined" << endl;
+//            cout << "function scriptThread defined" << endl;
             sawThread = true;
         }
     }

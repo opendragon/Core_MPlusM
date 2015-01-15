@@ -6,6 +6,8 @@ CMpsfiles = CMcmDiagram.ps
 
 IMpsfiles =
 
+JSpsfiles =
+
 KV2psfiles =
 
 LMpsfiles =
@@ -35,6 +37,8 @@ IMimagefiles = images/Installer01.eps images/Installer02.eps images/Installer03.
 	images/win_install07.eps images/win_install08.eps images/win_install09.eps \
 	images/win_install10.eps images/win_install11.eps images/win_run01.eps
 
+JSimagefiles =
+
 KV2imagefiles =
 
 LMimagefiles =
@@ -48,6 +52,8 @@ VDSimagefiles =
 CMmainsource = ChannelManagerUtility_Manual.tex
 
 IMmainsource = Installation_Manual.tex
+
+JSmainsource = JavaScript_Manual.tex
 
 KV2mainsource = KinectV2Input_Manual.tex
 
@@ -67,6 +73,9 @@ CMsecondarysources = CMdocumentationHistory.tex CMfrontispiece.tex CMoverview.te
 IMsecondarysources = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
 	IMprocedure.tex $(Commonsources)
 
+JSsecondarysources = JSdocumentationHistory.tex JSfrontispiece.tex JSoverview.tex \
+	JSfileFormat.tex JSservice.tex JSexamples.tex $(Commonsources)
+	
 KV2secondarysources = KV2documentationHistory.tex KV2frontispiece.tex \
 	KV2messageFormat.tex KV2overview.tex KV2service.tex $(Commonsources)
 
@@ -87,6 +96,8 @@ CMmaindvi = $(CMmainsource:.tex=.dvi)
 
 IMmaindvi = $(IMmainsource:.tex=.dvi)
 
+JSmaindvi = $(JSmainsource:.tex=.dvi)
+
 KV2maindvi = $(KV2mainsource:.tex=.dvi)
 
 LMmaindvi = $(LMmainsource:.tex=.dvi)
@@ -100,6 +111,8 @@ VDSmaindvi = $(VDSmainsource:.tex=.dvi)
 CMmainidx = $(CMmainsource:.tex=.idx)
 
 IMmainidx = $(IMmainsource:.tex=.idx)
+
+JSmainidx = $(JSmainsource:.tex=.idx)
 
 KV2mainidx = $(KV2mainsource:.tex=.idx)
 
@@ -115,6 +128,8 @@ CMmainps = $(CMmainsource:.tex=.ps)
 
 IMmainps = $(IMmainsource:.tex=.ps)
 
+JSmainps = $(JSmainsource:.tex=.ps)
+
 KV2mainps = $(KV2mainsource:.tex=.ps)
 
 LMmainps = $(LMmainsource:.tex=.ps)
@@ -129,6 +144,8 @@ CMmainpdf = $(CMmainsource:.tex=.pdf)
 
 IMmainpdf = $(IMmainsource:.tex=.pdf)
 
+JSmainpdf = $(JSmainsource:.tex=.pdf)
+
 KV2mainpdf = $(KV2mainsource:.tex=.pdf)
 
 LMmainpdf = $(LMmainsource:.tex=.pdf)
@@ -142,6 +159,8 @@ VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 CMtarget = $(HOME)/$(CMmainpdf)
 
 IMtarget = $(HOME)/$(IMmainpdf)
+
+JStarget = $(HOME)/$(JSmainpdf)
 
 KV2target = $(HOME)/$(KV2mainpdf)
 
@@ -183,6 +202,13 @@ $(IMmaindvi) : $(IMimagefiles) $(IMpsfiles) $(IMmainsource) $(IMsecondarysources
 	makeindex $(IMmainidx)
 	latex -interaction=batchmode $(IMmainsource)
 
+$(JSmaindvi) : $(JSimagefiles) $(JSpsfiles) $(JSmainsource) $(JSsecondarysources)
+	latex -interaction=batchmode $(JSmainsource)
+	latex -interaction=batchmode $(JSmainsource)
+	latex -interaction=batchmode $(JSmainsource)
+	makeindex $(JSmainidx)
+	latex -interaction=batchmode $(JSmainsource)
+
 $(KV2maindvi) : $(KV2imagefiles) $(KV2psfiles) $(KV2mainsource) $(KV2secondarysources)
 	latex -interaction=batchmode $(KV2mainsource)
 	latex -interaction=batchmode $(KV2mainsource)
@@ -221,4 +247,5 @@ clean :
 	rm -f $(CMpsfiles) $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
 	rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
 
-all : $(CMtarget) $(IMtarget) $(KV2target) $(LMtarget) $(MMtarget) $(VDStarget)
+all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
+		$(VDStarget)

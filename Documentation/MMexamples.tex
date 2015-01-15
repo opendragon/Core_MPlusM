@@ -100,10 +100,11 @@ standalone data generator, without the need for a client connection.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has two arguments -- a
 floating--point value for the `burst period' and an integer value for the `burst size'.
-These values will be applied when the output stream is started or restarted.\\
+These values will be applied when the random number generator is started or restarted.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
-starts the output stream.\\
+starts the random number generator, which restarts the output \yarp{} network
+connection.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request starts a random
 number generator for the output stream, using the configured `burst period' and
@@ -300,11 +301,12 @@ on the input stream, which will cause sending on the output stream to cease as w
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- an alternative endpoint name to be used and
-the port number to be used, if a non--default port is desired.
-The application also has one optional parameters:
+The application has four optional parameters:
 \begin{itemize}
-\item \textbf{-t:} specifies the tag to be used as part of the service name.
+\item \textbf{-e:} specifies an alternative endpoint name to be used
+\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
+\item \textbf{-r:} report the service metrics when the application exits
+\item \textbf{-t:} specifies the tag to be used as part of the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each

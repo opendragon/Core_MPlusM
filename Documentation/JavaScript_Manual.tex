@@ -1,0 +1,70 @@
+\ProvidesFile{JavaScript_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{JavaScript Input / Output}
+\newcommand{\docKeywords}{JavaScript,middleware,input,output}
+\newcommand{\docSubject}{Input / Output Service}
+
+\input{sharedSetup.tex}
+
+\newcommand{\JSIO}{JavaScript~Input~/~Output}
+\newcommand{\JS}{\asCode{JavaScript}}
+\newcommand{\tS}{\hspace*{10pt}}
+
+% Set up the page layout:
+\pagestyle{fancyplain}
+\newcommand{\mymark}{}
+\lhead[]{\fancyplain{}{\textsc{\mymark}}}
+\chead[]{}
+\rhead[\fancyplain{}{\textsc{\mymark}}]{}
+\lfoot[Page \thepage]{\today}
+\cfoot[\JSIO]{\JSIO}
+\rfoot[\today]{Page \thepage}
+\renewcommand{\headrulewidth}{0.5bp}
+\pagenumbering{roman}
+
+\title{\cal\Huge\textitcorr{\JSIO}\\
+\vspace{1ex}}
+\author{HPlus~Technologies~Ltd. and Simon~Fraser~University\\
+Vancouver, British~Columbia, Canada}
+
+\makeindex
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%\insertpart{List~of~Figures}{\listoffigures}
+
+\input{JSdocumentationHistory.tex}
+\input{JSfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{JSoverview.tex}
+
+%% section for the service
+
+\input{JSservice.tex}
+
+%% section for the file format
+
+\input{JSfileFormat.tex}
+
+\appendix
+\input{JSexamples.tex}
+
+% End of contents
+
+\end{document}
+\end
