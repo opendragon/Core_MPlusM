@@ -745,17 +745,16 @@ static bool streamWriteForJs(JSContext * jct,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
     OD_LOG_L1("argc = ", argc); //####
-    bool         result = false;
+    bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
+    FILE *       aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
     
-    if (1 == args.length())
+    if (aFile)
     {
-        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
-        if (aFile)
+        for (int ii = 0, mm = args.length(); mm > ii; ++ii)
         {
-            JSString * asString = JS::ToString(jct, args[0]);
+            JSString * asString = JS::ToString(jct, args[ii]);
             
             if (asString && JS_GetStringLength(asString))
             {
@@ -764,16 +763,12 @@ static bool streamWriteForJs(JSContext * jct,
                 fputs(asChars, aFile);
                 JS_free(jct, asChars);
             }
-            result = true;
         }
-    }
-    else if (1 < args.length())
-    {
-        JS_ReportError(jct, "Extra arguments to Stream.write");
+        result = true;
     }
     else
     {
-        JS_ReportError(jct, "Missing argument(s) to Stream.write");
+        result = false;
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -792,17 +787,16 @@ static bool streamWriteLineForJs(JSContext * jct,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
     OD_LOG_L1("argc = ", argc); //####
-    bool         result = false;
+    bool         result;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
     JSObject &   theThis = args.thisv().toObject();
+    FILE *       aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
     
-    if (1 == args.length())
+    if (aFile)
     {
-        FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
-        
-        if (aFile)
+        for (int ii = 0, mm = args.length(); mm > ii; ++ii)
         {
-            JSString * asString = JS::ToString(jct, args[0]);
+            JSString * asString = JS::ToString(jct, args[ii]);
             
             if (asString && JS_GetStringLength(asString))
             {
@@ -811,18 +805,14 @@ static bool streamWriteLineForJs(JSContext * jct,
                 fputs(asChars, aFile);
                 JS_free(jct, asChars);
             }
-            fputc('\n', aFile);
-            fflush(aFile);
-            result = true;
         }
-    }
-    else if (1 < args.length())
-    {
-        JS_ReportError(jct, "Extra arguments to Stream.writeLine");
+        fputc('\n', aFile);
+        fflush(aFile);
+        result = true;
     }
     else
     {
-        JS_ReportError(jct, "Missing argument(s) to Stream.writeLine");
+        result = false;
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -1371,9 +1361,10 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
     bool found = false;
     bool okSoFar;
     
+    streamDescriptions.clear();
     if (JS_HasProperty(jct, global, arrayName, &found))
     {
-        okSoFar = found;
+        okSoFar = true;
     }
     else
     {
@@ -1385,7 +1376,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
         std::cerr << "Problem searching for a global property." << std::endl;
 #endif // ! MAC_OR_LINUX_
     }
-    if (okSoFar)
+    if (okSoFar && found)
     {
         JS::RootedValue  value(jct);
         JS::RootedObject asObject(jct);

@@ -79,8 +79,6 @@ var scriptInlets = [ { name: 'incoming', protocol: 'i*',
                         protocolDescription: 'A sequence of integer values',
                         handler: doRecordIntegers } ];
 
-var scriptOutlets = [ ];
-
 function scriptStarting()
 {
     var okSoFar = false;

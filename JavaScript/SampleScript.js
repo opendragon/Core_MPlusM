@@ -37,6 +37,35 @@
 //
 //--------------------------------------------------------------------------------------------------
 
+// Classes available to JavaScript code:
+//
+//   Stream: objects that connect to external text files
+//     atEof() - returns true if the file is at end-of-file
+//     clearError() - clears the end-of-file and error flags
+//     close() - disconnects from the external file
+//     hasError() - returns true if the error flag was set by a previous operation
+//     isOpen() - returns true if there is an external file connected
+//     open(fn, fm) - connects to an external file at path 'fn' with mode 'fm' [mode can be 'r',
+//                    'w', et cetera]
+//     readLine() - returns a string containing the next line from the external file
+//     rewind() - moves back to the beginning of the external file
+//     write(...) - writes the arguments, as strings, to the external file
+//     writeLine(...) - writes the arguments, as strings, to the external file and adds a newline
+//
+// Functions available to JavaScript code:
+//
+//   dumpObjectToStdout(x) - writes out the object 'x' to the standard output, including its
+//                           properties
+//   sendToChannel(n, x) - converts the value 'x' to YARP format and sends it to the channel
+//                         numbered 'n', with zero being the first outlet channel
+//   writeLineToStdout(x) - writes the string 'x' to the standard output.
+//
+// Global variables available to JavaScript code:
+//
+//    argv: a list of the arguments passed to the script
+//    tag:  the (optional) tag argument for the JavaScript service
+//
+
 // Some test JavaScript...
 
 writeLineToStdout('hello ' + 'world, it is ' + new Date());

@@ -40,10 +40,6 @@ var inStream = null;
 
 var scriptDescription = 'A script that reads values from a file';
 
-var scriptInlets = [ ];
-
-var scriptOutlets = [ ];
-
 function scriptStarting()
 {
     var okSoFar = false;
