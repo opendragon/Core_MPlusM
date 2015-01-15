@@ -86,7 +86,13 @@
 //                     newline
 //
 //   scriptInlets:     a variable or a function that provides an array of inlet descriptions [name,
-//                     protocol, protocolDescription, handler]
+//                     protocol, protocolDescription, handler]; note that this is ignored if
+//                     scriptThread() is defined
+//
+//   scriptInterval:   a variable or a function that provides the interval between executions of the
+//                     scriptThread() function; note that this is ignored if scriptThread() is not
+//                     defined, and it is executed only once, after all the other values have been
+//                     processed
 //
 //   scriptOutlets:    a variable or a function that provides an array of outlet descriptions [name,
 //                     protocol, protocolDescription]
@@ -95,6 +101,8 @@
 //
 //   scriptStopping(): a function that is called after all the inlets are detached and threads are
 //                     stopped
+//
+//   scriptThread():   a function that is repeatedly called by the output thread of the service
 //
 
 // Some test JavaScript...

@@ -39,6 +39,7 @@
 #include "M+MJavaScriptService.h"
 #include "M+MJavaScriptInputHandler.h"
 #include "M+MJavaScriptRequests.h"
+#include "M+MJavaScriptThread.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -241,27 +242,36 @@ JavaScriptService::JavaScriptService(JSContext *                   context,
                                      const JS::AutoValueVector &   loadedInletHandlers,
                                      const JS::RootedValue &       loadedStartingFunction,
                                      const JS::RootedValue &       loadedStoppingFunction,
+                                     const bool                    sawThread,
+                                     const JS::RootedValue &       loadedThreadFunction,
+                                     const double                  loadedInterval,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
               serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
-    _context(context), _global(global), _loadedInletDescriptions(loadedInletDescriptions),
+    _generator(NULL), _context(context), _global(global),
+    _loadedInletDescriptions(loadedInletDescriptions),
     _loadedOutletDescriptions(loadedOutletDescriptions), _scriptStartingFunc(context),
-    _scriptStoppingFunc(context)
+    _scriptStoppingFunc(context), _scriptThreadFunc(context), _threadInterval(loadedInterval),
+    _isThreaded(sawThread)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("context = ", context, "global = ", &global, "loadedInletDescriptions = ", //####
               &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
               &loadedOutletDescriptions); //####
-    OD_LOG_P3("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
+    OD_LOG_P4("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction, //####
+              "loadedThreadFunction = ", &loadedThreadFunction); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_B1("sawThread = ", sawThread); //####
+    OD_LOG_D1("loadedInterval = ", loadedInterval); //####
     JS_SetContextPrivate(context, this);
     _inletHandlers.appendAll(loadedInletHandlers);
     _scriptStartingFunc = loadedStartingFunction;
     _scriptStoppingFunc = loadedStoppingFunction;
+    _scriptThreadFunc = loadedThreadFunction;
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptService::JavaScriptService
 
@@ -412,15 +422,6 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
         Common::GeneralChannel * outChannel = _outStreams.at(channelSlot);
         yarp::os::Bottle         outBottle;
         
-//        JS::RootedObject asObject(_context);
-//        JS::RootedValue  asValue(_context);
-//
-//        asValue = theData;
-//        if (JS_ValueToObject(_context, asValue, &asObject))
-//        {
-//            std::cout << "outgoing:" << std::endl;
-//            PrintJavaScriptObject(std::cout, _context, asObject, 0);
-//        }
         fillBottleFromValue(_context, outBottle, theData, true);
         if ((0 < outBottle.size()) && outChannel)
         {
@@ -510,18 +511,27 @@ void JavaScriptService::startStreams(void)
     {
         if (! isActive())
         {
-            releaseHandlers();
-            for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
+            if (_isThreaded)
             {
-                JS::HandleValue          handlerFunc = _inletHandlers[ii];
-                JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii,
-                                                                               handlerFunc);
-                
-                if (aHandler)
+                _generator = new JavaScriptThread(_threadInterval, _context, _global,
+                                                  _scriptThreadFunc);
+                _generator->start();
+            }
+            else
+            {
+                releaseHandlers();
+                for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
                 {
-                    _inHandlers.push_back(aHandler);
-                    _inStreams.at(ii)->setReader(*aHandler);
-                    aHandler->activate();
+                    JS::HandleValue          handlerFunc = _inletHandlers[ii];
+                    JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii,
+                                                                                   handlerFunc);
+                    
+                    if (aHandler)
+                    {
+                        _inHandlers.push_back(aHandler);
+                        _inStreams.at(ii)->setReader(*aHandler);
+                        aHandler->activate();
+                    }
                 }
             }
             setActive();
@@ -560,14 +570,27 @@ void JavaScriptService::stopStreams(void)
     {
         if (isActive())
         {
-            for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
+            if (_isThreaded)
             {
-                JavaScriptInputHandler * aHandler = _inHandlers.at(ii);
-                
-                if (aHandler)
+                _generator->stop();
+                for ( ; _generator->isRunning(); )
                 {
-                    aHandler->deactivate();
+                    yarp::os::Time::delay(_threadInterval / 3.9);
                 }
+                delete _generator;
+                _generator = NULL;
+            }
+            else
+            {
+                for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
+                {
+                    JavaScriptInputHandler * aHandler = _inHandlers.at(ii);
+                    
+                    if (aHandler)
+                    {
+                        aHandler->deactivate();
+                    }
+                }                
             }
             clearActive();
             // Tell the script that we're done for now.

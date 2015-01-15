@@ -299,6 +299,9 @@
 		DF6EAFA21A65C97000FC0085 /* TruncateFloat.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = TruncateFloat.js; path = JavaScript/TruncateFloat.js; sourceTree = SOURCE_ROOT; };
 		DF6EAFA31A65CD1700FC0085 /* RecordIntegers.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RecordIntegers.js; path = JavaScript/RecordIntegers.js; sourceTree = SOURCE_ROOT; };
 		DF6EAFA41A67156400FC0085 /* ReadFile.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = ReadFile.js; path = JavaScript/ReadFile.js; sourceTree = SOURCE_ROOT; };
+		DF6EAFA51A68255E00FC0085 /* M+MJavaScriptThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MJavaScriptThread.cpp"; path = "JavaScript/M+MJavaScriptThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF6EAFA61A68255E00FC0085 /* M+MJavaScriptThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptThread.h"; path = "JavaScript/M+MJavaScriptThread.h"; sourceTree = SOURCE_ROOT; };
+		DF6EAFA71A68274C00FC0085 /* RandomBurst.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RandomBurst.js; path = JavaScript/RandomBurst.js; sourceTree = SOURCE_ROOT; };
 		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -796,7 +799,10 @@
 				DF45F21D1A5AF9500090E161 /* M+MJavaScriptService.cpp */,
 				DF45F21E1A5AF9500090E161 /* M+MJavaScriptService.h */,
 				DF45F21F1A5AF9500090E161 /* M+MJavaScriptServiceMain.cpp */,
+				DF6EAFA51A68255E00FC0085 /* M+MJavaScriptThread.cpp */,
+				DF6EAFA61A68255E00FC0085 /* M+MJavaScriptThread.h */,
 				DF4179A11A60596F006552F0 /* MergeChannels.js */,
+				DF6EAFA71A68274C00FC0085 /* RandomBurst.js */,
 				DF6EAFA41A67156400FC0085 /* ReadFile.js */,
 				DF6EAFA31A65CD1700FC0085 /* RecordIntegers.js */,
 				DF6EAFA11A65BEA400FC0085 /* RunningSum.js */,

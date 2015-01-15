@@ -63,7 +63,8 @@ endif(APPLE)
 add_executable(${THIS_TARGET}
                M+MJavaScriptServiceMain.cpp
                M+MJavaScriptInputHandler.cpp
-               M+MJavaScriptService.cpp)
+               M+MJavaScriptService.cpp
+               M+MJavaScriptThread.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

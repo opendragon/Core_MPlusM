@@ -76,6 +76,7 @@ namespace MplusM
     namespace JavaScript
     {
         class JavaScriptInputHandler;
+        class JavaScriptThread;
         
         /*! @brief The %JavaScript input / output service. */
         class JavaScriptService : public Common::BaseFilterService
@@ -93,6 +94,10 @@ namespace MplusM
              @param loadedInletHandlers The list of loaded inlet handlers.
              @param loadedStartingFunction The function to execute on starting the service streams.
              @param loadedStoppingFunction The function to execute on stopping the service streams.
+             @param sawThread @c true if a thread function was defined.
+             @param loadedThreadFunction The function to execute on an output-generating thread.
+             @param loadedInterval The interval (in seconds) between executions of the
+             output-generating thread.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             JavaScriptService(JSContext *                   context,
@@ -105,6 +110,9 @@ namespace MplusM
                               const JS::AutoValueVector &   loadedInletHandlers,
                               const JS::RootedValue &       loadedStartingFunction,
                               const JS::RootedValue &       loadedStoppingFunction,
+                              const bool                    sawThread,
+                              const JS::RootedValue &       loadedThreadFunction,
+                              const double                  loadedInterval,
                               const yarp::os::ConstString & serviceEndpointName,
                               const yarp::os::ConstString & servicePortNumber = "");
             
@@ -186,6 +194,9 @@ namespace MplusM
             /*! @brief The set of input handlers. */
             HandlerVector _inHandlers;
             
+            /*! @brief The output thread to use. */
+            JavaScriptThread * _generator;
+            
             /*! @brief The %JavaScript execution environment. */
             JSContext * _context;
             
@@ -204,6 +215,25 @@ namespace MplusM
             /*! @brief The %JavaScript script stopping function. */
             JS::RootedValue _scriptStoppingFunc;
             
+            /*! @brief The %JavaScript script thread function. */
+            JS::RootedValue _scriptThreadFunc;
+            
+            /*! @brief The thread interval. */
+            double _threadInterval;
+            
+            /*! @brief @c true if a thread is being used. */
+            bool _isThreaded;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler1[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+
         }; // JavaScriptService
         
         /*! @brief Print out a %JavaScript object.

@@ -17,10 +17,3 @@ _release and _debug]
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
-
-** javascript should support thread and / or input handler
-
-f) add support for an output-only script - that is, it will be running more-or-less continuously in a thread, generating output
-
-—> use scriptThread to define the behaviour of an output-only thread and add a thread object to the service
-—> if scriptThread is defined, don’t look for a value for scriptInlets

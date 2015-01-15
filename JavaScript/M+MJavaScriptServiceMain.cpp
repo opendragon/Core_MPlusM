@@ -189,6 +189,7 @@ static bool dumpObjectToStdoutForJs(JSContext * jct,
                     cout << asChars << endl;
                     JS_free(jct, asChars);
                     PrintJavaScriptObject(cout, jct, asObject, 1);
+                    cout.flush();
                     result = true;
                 }
             }
@@ -265,9 +266,9 @@ static bool sendToChannelForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool writeLineForJs(JSContext * jct,
-                           unsigned    argc,
-                           JS::Value * vp)
+static bool writeLineToStdoutForJs(JSContext * jct,
+                                   unsigned    argc,
+                                   JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -292,6 +293,7 @@ static bool writeLineForJs(JSContext * jct,
 
         cout << asChars << endl;
         JS_free(jct, asChars);
+        cout.flush();
         result = true;
     }
     else
@@ -301,7 +303,7 @@ static bool writeLineForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // writeLineForJs
+} // writeLineToStdoutForJs
 
 /*! @brief The table of supplied functions for the service. */
 static const JSFunctionSpec lServiceFunctions[] =
@@ -309,7 +311,7 @@ static const JSFunctionSpec lServiceFunctions[] =
     // name, call, nargs, flags
     JS_FS("dumpObjectToStdout", dumpObjectToStdoutForJs, 2, JSPROP_ENUMERATE),
     JS_FS("sendToChannel", sendToChannelForJs, 2, JSPROP_ENUMERATE),
-    JS_FS("writeLineToStdout", writeLineForJs, 1, JSPROP_ENUMERATE),
+    JS_FS("writeLineToStdout", writeLineToStdoutForJs, 1, JSPROP_ENUMERATE),
     JS_FS_END
 }; // lServiceFunctions
 
@@ -1251,6 +1253,135 @@ static bool loadScript(JSContext *                   jct,
     return okSoFar;
 } // loadScript
 
+/*! @brief Check an object for a specific numeric property.
+ @param jct The %JavaScript engine context.
+ @param anObject The object to check.
+ @param propertyName The name of the property being searched for.
+ @param canBeFunction @c true if the property can be a function rather than a string and @c false if
+ the property must be a string.
+ @param isOptional @c true if the property does not have to be present.
+ @param result The value of the number, if located.
+ @returns @c true on success and @c false otherwise. */
+static bool getLoadedDouble(JSContext *        jct,
+                            JS::RootedObject & anObject,
+                            const char *       propertyName,
+                            const bool         canBeFunction,
+                            const bool         isOptional,
+                            double &           result)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    OD_LOG_S1("propertyName = ", propertyName); //####
+    OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
+    bool found = false;
+    bool okSoFar;
+    
+    result = 0;
+    if (JS_HasProperty(jct, anObject, propertyName, &found))
+    {
+        okSoFar = true;
+    }
+    else
+    {
+        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
+        okSoFar = false;
+#if MAC_OR_LINUX_
+        GetLogger().fail("Problem searching for a property.");
+#else // ! MAC_OR_LINUX_
+        cerr << "Problem searching for a property." << endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    if (okSoFar && found)
+    {
+        JS::RootedValue value(jct);
+        
+        if (JS_GetProperty(jct, anObject, propertyName, &value))
+        {
+            okSoFar = false;
+            if (value.isNumber())
+            {
+                result = value.toNumber();
+                okSoFar = true;
+            }
+            else if (canBeFunction)
+            {
+                if (value.isObject())
+                {
+                    JS::RootedObject asObject(jct);
+                    
+                    if (JS_ValueToObject(jct, value, &asObject))
+                    {
+                        if (JS_ObjectIsFunction(jct, asObject))
+                        {
+                            JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
+                            JS::RootedValue      funcResult(jct);
+                            
+                            JS_BeginRequest(jct);
+                            if (JS_CallFunctionValue(jct, anObject, value, funcArgs, &funcResult))
+                            {
+                                if (funcResult.isNumber())
+                                {
+                                    result = funcResult.toNumber();
+                                    okSoFar = true;
+                                }
+                            }
+                            else
+                            {
+                                OD_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
+                                       "funcArgs, &funcResult))"); //####
+                                JS::RootedValue exc(jct);
+                                
+                                if (JS_GetPendingException(jct, &exc))
+                                {
+                                    JS_ClearPendingException(jct);
+                                    yarp::os::ConstString message("Exception occurred while "
+                                                                  "executing function for "
+                                                                  "Property '");
+                                    
+                                    message += propertyName;
+                                    message += "'.";
+#if MAC_OR_LINUX_
+                                    GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                                    cerr << message.c_str() << endl;
+#endif // ! MAC_OR_LINUX_
+                                }
+                            }
+                            JS_EndRequest(jct);
+                        }
+                    }
+                }
+            }
+            if (! okSoFar)
+            {
+                OD_LOG("! (okSoFar)"); //####
+                okSoFar = false;
+                yarp::os::ConstString message("Property '");
+                
+                message += propertyName;
+                message += "' has the wrong type.";
+#if MAC_OR_LINUX_
+                GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                cerr << message.c_str() << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
+            okSoFar = false;
+#if MAC_OR_LINUX_
+            GetLogger().fail("Problem retrieving a property.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Problem retrieving a property." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // getLoadedDouble
+
 /*! @brief Check an object for a specific string property.
  @param jct The %JavaScript engine context.
  @param anObject The object to check.
@@ -1731,6 +1862,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 /*! @brief Check the %JavaScript environment after loading a script.
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
+ @param sawThread @c true if a thread function was defined.
  @param description The descriptive text from the script.
  @param helpString The help text from the script.
  @param loadedInletDescriptions The list of loaded inlet stream descriptions.
@@ -1738,34 +1870,52 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
  @param loadedInletHandlers The list of loaded inlet handlers.
  @param loadedStartingFunction The function to execute on starting the service streams.
  @param loadedStoppingFunction The function to execute on stopping the service streams.
+ @param loadedThreadFunction The function to execute on an output-generating thread.
+ @param loadedInterval The interval (in seconds) between executions of the output-generating thread.
  @returns @c true on success and @c false otherwise. */
 static bool validateLoadedScript(JSContext *             jct,
                                  JS::RootedObject &      global,
+                                 bool &                  sawThread,
                                  yarp::os::ConstString & description,
                                  yarp::os::ConstString & helpString,
                                  ChannelVector &         loadedInletDescriptions,
                                  ChannelVector &         loadedOutletDescriptions,
                                  JS::AutoValueVector &   loadedInletHandlers,
                                  JS::RootedValue &       loadedStartingFunction,
-                                 JS::RootedValue &       loadedStoppingFunction)
+                                 JS::RootedValue &       loadedStoppingFunction,
+                                 JS::RootedValue &       loadedThreadFunction,
+                                 double &                loadedInterval)
 {
     OD_LOG_ENTER();
-    OD_LOG_P4("jct = ", jct, "global = ", &global, "description = ", &description, //####
-              "helpString = ", &helpString); //####
-    OD_LOG_P4("loadedInletDescriptions = ", &loadedInletDescriptions, //####
-              "loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
-              "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction); //####
-    OD_LOG_P1("loadedStoppingFunction = ", &loadedStoppingFunction); //####
+    OD_LOG_P4("jct = ", jct, "global = ", &global, "sawThread = ", &sawThread, //####
+              "description = ", &description); //####
+    OD_LOG_P4("helpString = ", &helpString, "loadedInletDescriptions = ", //####
+              &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
+              &loadedOutletDescriptions, "loadedInletHandlers = ", &loadedInletHandlers); //####
+    OD_LOG_P4("loadedStartingFunction = ", &loadedStartingFunction, //####
+              "loadedStoppingFunction = ", &loadedStoppingFunction, //####
+              "loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
+              &loadedInterval); //####
     bool okSoFar = true;
 
 //    PrintJavaScriptObject(cout, jct, global, 0);
+    sawThread = false;
+    loadedInterval = 1.0;
     okSoFar = getLoadedString(jct, global, "scriptDescription", true, false, description);
     if (okSoFar)
     {
         okSoFar = getLoadedString(jct, global, "scriptHelp", false, true, helpString);
     }
     if (okSoFar)
+    {
+        loadedThreadFunction = JS::NullValue();
+        if (getLoadedFunctionRef(jct, global, "scriptThread", 0, loadedThreadFunction))
+        {
+            cout << "function scriptThread defined" << endl;
+            sawThread = true;
+        }
+    }
+    if (okSoFar && (! sawThread))
     {
         okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", &loadedInletHandlers,
                                               loadedInletDescriptions);
@@ -1787,6 +1937,10 @@ static bool validateLoadedScript(JSContext *             jct,
         {
 //            cout << "function scriptStopping defined" << endl;
         }
+    }
+    if (okSoFar && sawThread)
+    {
+        okSoFar = getLoadedDouble(jct, global, "scriptInterval", true, true, loadedInterval);
     }
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -1878,21 +2032,27 @@ static void setUpAndGo(JSContext *                   jct,
 #endif // ! MAC_OR_LINUX_
             }
         }
+        bool                  sawThread;
         yarp::os::ConstString helpText;
         ChannelVector         loadedInletDescriptions;
         ChannelVector         loadedOutletDescriptions;
+        double                loadedInterval;
         JS::AutoValueVector   loadedInletHandlers(jct);
         JS::RootedValue       loadedStartingFunction(jct);
         JS::RootedValue       loadedStoppingFunction(jct);
+        JS::RootedValue       loadedThreadFunction(jct);
         
         if (okSoFar)
         {
-            if (! validateLoadedScript(jct, global, description, helpText, loadedInletDescriptions,
-                                       loadedOutletDescriptions, loadedInletHandlers,
-                                       loadedStartingFunction, loadedStoppingFunction))
+            if (! validateLoadedScript(jct, global, sawThread, description, helpText,
+                                       loadedInletDescriptions, loadedOutletDescriptions,
+                                       loadedInletHandlers, loadedStartingFunction,
+                                       loadedStoppingFunction, loadedThreadFunction,
+                                       loadedInterval))
             {
-                OD_LOG("(! validateLoadedScript(jct, global, description, " //####
-                       "inStreamDescriptions, outStreamDescriptions, loadedInletHandlers))"); //####
+                OD_LOG("(! validateLoadedScript(jct, global, sawThread, description, " //####
+                       "inStreamDescriptions, outStreamDescriptions, " //####
+                       "loadedInletHandlers, loadedThreadFunction, loadedInterval))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
                 GetLogger().fail("Script is missing one or more functions or variables.");
@@ -1909,6 +2069,8 @@ static void setUpAndGo(JSContext *                   jct,
                                                               loadedInletHandlers,
                                                               loadedStartingFunction,
                                                               loadedStoppingFunction,
+                                                              sawThread, loadedThreadFunction,
+                                                              loadedInterval,
                                                               serviceEndpointName,
                                                               servicePortNumber);
             
