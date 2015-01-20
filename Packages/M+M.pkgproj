@@ -606,6 +606,22 @@
 											<key>GID</key>
 											<integer>0</integer>
 											<key>PATH</key>
+											<string>/opt/M+M/gecko</string>
+											<key>PATH_TYPE</key>
+											<integer>0</integer>
+											<key>PERMISSIONS</key>
+											<integer>493</integer>
+											<key>TYPE</key>
+											<integer>3</integer>
+											<key>UID</key>
+											<integer>0</integer>
+										</dict>
+										<dict>
+											<key>CHILDREN</key>
+											<array/>
+											<key>GID</key>
+											<integer>0</integer>
+											<key>PATH</key>
 											<string>/opt/M+M/include</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
@@ -623,6 +639,22 @@
 											<integer>0</integer>
 											<key>PATH</key>
 											<string>/opt/M+M/lib</string>
+											<key>PATH_TYPE</key>
+											<integer>0</integer>
+											<key>PERMISSIONS</key>
+											<integer>493</integer>
+											<key>TYPE</key>
+											<integer>3</integer>
+											<key>UID</key>
+											<integer>0</integer>
+										</dict>
+										<dict>
+											<key>CHILDREN</key>
+											<array/>
+											<key>GID</key>
+											<integer>0</integer>
+											<key>PATH</key>
+											<string>/opt/M+M/python</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
 											<key>PERMISSIONS</key>
@@ -791,11 +823,15 @@
 				<integer>1</integer>
 				<key>CONCLUSION_ACTION</key>
 				<integer>0</integer>
+				<key>FOLLOW_SYMBOLIC_LINKS</key>
+				<true/>
 				<key>IDENTIFIER</key>
 				<string>com.hplustechnologies.pkg.mm-core</string>
 				<key>NAME</key>
 				<string>Core</string>
 				<key>OVERWRITE_PERMISSIONS</key>
+				<false/>
+				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
 				<string>1.0</string>
