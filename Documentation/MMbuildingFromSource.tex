@@ -1,0 +1,263 @@
+\ProvidesFile{MMbuildingFromSource.tex}[v1.0.0]
+\appendixStart[BuildingFromSource]{\textitcorr{Building~\mplusm{}~From~Source}}%
+An \mplusm{} installation is normally simply installed according to the
+\emph{\MMM{}~Installation} manual.
+It is also possible to build a customized \mplusm{} from the source files, which can be
+done if the \asCode{Developer} package has also been installed.
+\secondaryStart{Prerequisites}
+\tertiaryStart{General~prerequisites}
+At a minimum, the source files from the \asCode{Developer} package must be present on the
+system, along with a \compLang{C++} development environment.
+Note that the source files are provided as \textbf{ZIP} files that contain a snapshot of
+the \asCode{git} repositories where the source code is stored.
+\tertiaryEnd{}
+\tertiaryStart{Prerequisites~for~Macintosh~OS~X}
+\begin{itemize}
+\item Xcode is available from the Macintosh App Store and provides the \compLang{C++}
+development environment for Macintosh OS X
+\item The Xcode command--line tools must be installed, using the command
+`\asCode{xcode-select~{-}{-}install}'
+\item The \asCode{ccmake} and \asCode{cmake} command--line tools, which can be installed
+using \asCode{MacPorts} or directly from the web--page
+\companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
+\item The \asCode{autoconf213} command--line tool, which can be installed using
+\asCode{MacPorts}; note that this is only needed if SpiderMonkey is being built
+\item The \asCode{Packages} GUI tool, from
+\companyReference{http://s.sudre.free.fr/Software/Packages/about.html}{St\'ephane Sudre};
+this is only needed if you wish to create installer packages after building \mplusm
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Prerequisites~for~Microsoft~Windows}
+\begin{itemize}
+\item Visual Studio is available from Microsoft and provides the \compLang{C++}
+development environment for Windows; the version used during development is
+`Microsoft Visual Studio Express 2012 for Windows Desktop', but newer versions should also
+work
+\item The \asCode{cmake} tool, which can be installed from the web--page
+\companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
+\item An `\asCode{unzip}' program
+\end{itemize}
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{Initial~Steps}
+\begin{itemize}
+\item Create a directory to hold the source code; we'll call it `\asCode{MPM}'
+\item Copy the desired \textbf{ZIP} files from their installation location
+(\asCode{/opt/M+M/src} on Macintosh~OS~X) to the new directory \asCode{MPM}
+\item \asCode{unzip} the \textbf{ZIP} files in the directory \asCode{MPM}
+\item Remove the \textbf{ZIP} files from the \asCode{MPM} directory
+\end{itemize}
+\secondaryEnd{}
+\secondaryStart{(Optional)~Building~\textbf{ACE}}
+\textbf{ACE} (The ADAPTIVE Communication Environment) provides the low--level networking
+support used within \mplusm{}; the files needed to compile and link with ACE are installed
+as part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
+ACE; the source code is provided in case there is an issue with the headers or libraries.
+\tertiaryStart{Building~on~Macintosh~OS~X}
+Note that the file \asCode{ACE\fatUnderscore{}wrappers-6.2.6/ace/config.h} will select the
+correct configuration file for Macintosh OS X or Windows, so it does not need to be
+modified.
+\begin{itemize}
+\item On the command--line, move to the directory containing the \mplusm{} source code,
+\asCode{MPM}
+\item Execute the command `\asCode{cd~ACE\fatUnderscore{}wrappers2}'
+\item Execute the command `\asCode{export~ACE\fatUnderscore{}ROOT=\$(pwd)}'
+\item Execute the command `\asCode{make}'
+\item If the build is successful, execute the command `\asCode{sudo~sh}' and the following
+commands within the new subshell:
+\begin{itemize}
+\item \asCode{export~ACE\fatUnderscore{}ROOT=\$(pwd)}
+\item \asCode{export~DYLD\fatUnderscore{}LIBRARY\fatUnderscore{}PATH=/opt/M+M/lib:%
+\$DYLD\fatUnderscore{}LIBRARY\fatUnderscore{}PATH}
+\item \asCode{make~install}
+\item \asCode{exit}
+\end{itemize}
+\item Execute the command `\asCode{sudo~./after-install.sh}'; this removes some unneeded
+files
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Building~on~Microsoft~Windows}
+TBD
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{(Optional)~Building~\textbf{\yarp}}
+\textbf{\yarp} (Yet Another Robot Platform) provides the connection management support
+used within \mplusm{}; the files needed to compile and link with \yarp{} are installed as
+part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
+\yarp{}; the source code is provided in case there is an issue with the headers or
+libraries.
+\tertiaryStart{Building~on~Macintosh~OS~X}
+\begin{itemize}
+\item On the command--line, move to the directory containing the \mplusm{} source code,
+\asCode{MPM}
+\item Execute the command `\asCode{cd~yarp-master}'
+\item Execute the command `\asCode{mkdir~build}'
+\item Execute the command `\asCode{cd~build}'
+\item Execute the command `\asCode{unset~ACE\fatUnderscore{}ROOT}'; this is necessary to
+ensure that the installed version of \textbf{ACE} is used
+\item Execute the command `\asCode{ccmake~..}'; this will open a graphical interface to the
+makefile builder. If this is the first time that the command is executed within a
+directory, the text `\asCode{EMPTY CACHE}' will be displayed -- press `\textbf{c}' to do
+the initial configuration; there may be some warnings for project developers, which can be
+cleared by pressing `\textbf{e}'
+\item Change the `\textbf{CMAKE\fatUnderscore{}INSTALL\fatUnderscore{}PREFIX}' to
+\asCode{/opt/M+M}
+\item Change any other options that you are interested in applying; it is recommended that
+the option\\
+`\textbf{ENABLE\fatUnderscore{}YARPRUN\fatUnderscore{}LOG}' should be enabled and the
+option `\textbf{CREATE\fatUnderscore{}YMANAGER}' should be disabled
+\item Press `\textbf{c}' to configure the makefiles; there may be some CMake warnings for
+project developers, which can be cleared by pressing `\textbf{e}'
+\item Press `\textbf{g}' to generate the makefiles; there may be some CMake warnings for
+project developers, which can be cleared by pressing `\textbf{e}'
+\item Execute the command `\asCode{cmake~.}'; again, there will be some project developer
+warnings, which can be safely ignored
+\item Execute the command `\asCode{make}'
+\item Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some linking
+issues with \yarp{} caused by installing it in a non--default location
+\item Execute the command `\asCode{sudo~make~install}'
+\item If desired, you can verify that \yarp{} is correctly built be executing the command
+`\asCode{yarp}'
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Building~on~Microsoft~Windows}
+TBD
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{(Optional, used with \textit{Channel~Manager})~Building~\textbf{OGDF}}
+\textbf{OGDF} (Open Graph Drawing Framework) provides the tools to layout graphs for the
+Channel~Manager GUI application; the files needed to compile and link with OGDF are
+installed as part of the normal \mplusm{} installation procedure, so it's not necessary to
+rebuild OGDF; the source code is provided in case there is an issue with the headers or
+libraries.
+\tertiaryStart{Building~on~Macintosh~OS~X}
+\begin{itemize}
+\item On the command--line, move to the directory containing the \mplusm{} source code,
+\asCode{MPM}
+\item Execute the command `\asCode{cd~OGDF}'
+\item Execute the command `\asCode{make~cleanrelease}'
+\item Execute the command `\asCode{make~release}'
+\item Execute the command `\asCode{sudo~make~install}'
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Building~on~Microsoft~Windows}
+TBD
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
+\textbf{SpiderMonkey}, is the JavaScript engine used with the JavaScript service or
+\mplusm{}; the files needed to compile and link with SpiderMonkey are installed as part of
+the normal \mplusm{} installation procedure, so it's not necessary to rebuild
+SpiderMonkey.
+The source files are not provided with the \asCode{Developer} package, but can be obtained
+via the instructions on the web--page
+\companyReference{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/%
+Getting\_SpiderMonkey\_source\_code}%
+{SpiderMonkey source code}, as \mplusm{} does not use a modified version of SpiderMonkey
+and does not depend on a particular version -- other than it must be at least SpiderMonkey
+\textbf{31}.
+\tertiaryStart{Building~on~Macintosh~OS~X}
+\begin{itemize}
+\item On the command--line, move to the directory containing the SpiderMonkey source code,
+which will most likely be named `\textbf{gecko}'
+\item Execute the command `\asCode{cd~js/src}'
+\item Execute the command `\asCode{autconf213}'
+\item Execute the command `\asCode{mkdir~\fatUnderscore{}obj\fatUnderscore}'
+\item Execute the command `\asCode{cd~\fatUnderscore{}obj\fatUnderscore}'
+\item Create the file `replace-links.sh' with the following content:\\
+\codeBegin{}
+\#!/bin/bash\\
+if test \$\# != 0\\
+then\\
+\tS\tS{}if test -d \$1\\
+\tS\tS{}then\\
+\tS\tS\tS\tS{}for ff in \$1/* \$1/*/*\\
+\tS\tS\tS\tS{}do\\
+\tS\tS\tS\tS\tS\tS{}if test -h "\$ff"\\
+\tS\tS\tS\tS\tS\tS{}then\\
+\tS\tS\tS\tS\tS\tS\tS\tS{}repl=\$(readlink "\$ff")\\
+\tS\tS\tS\tS\tS\tS\tS\tS{}rm "\$ff"\\
+\tS\tS\tS\tS\tS\tS\tS\tS{}cp -a "\$repl" "\$ff"\\
+\tS\tS\tS\tS\tS\tS{}fi\\
+\tS\tS\tS\tS{}done\\
+\tS\tS{}fi\\
+fi\\
+\codeEnd{}
+\item Execute the command `\asCode{../configure {-}{-}prefix=/opt/M+M/gecko
+{-}{-}with-system-icu\\
+{-}{-}enable-release {-}{-}enable-more-deterministic}'
+\item Execute the command `\asCode{make}'
+\item Execute the command `\asCode{sudo~make~install}'
+\item Execute the command `\asCode{sudo~./replace-links~/opt/M+M/gecko/include/mozjs-}';
+this replaces symbolic links in the header directories with the original items, so that it
+is safe to distribute the resulting directories
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Building~on~Microsoft~Windows}
+TBD
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{Building~Core~\mplusm}
+\tertiaryStart{Building~on~Macintosh~OS~X}
+\begin{itemize}
+\item On the command--line, move to the directory containing the \mplusm{} source code,
+\asCode{MPM}
+\item Execute the command `\asCode{cd~Core\fatUnderscore{}MPlusM-master}'
+\item Execute the command `\asCode{ccmake~.}'; this will open a graphical interface to the
+makefile builder. If this is the first time that the command is executed within a
+directory, the text `\asCode{EMPTY CACHE}' will be displayed -- press `\textbf{c}' to do
+the initial configuration
+\item Change the `\textbf{CMAKE\fatUnderscore{}BUILD\fatUnderscore{}TYPE}' to
+\asCode{Release}
+\item Change any other options that you are interested in applying; the default options
+minimize the amount of text that is output when \mplusm{} command--line tools are
+executed
+\item Press `\textbf{c}' to configure the makefiles
+\item Press `\textbf{g}' to generate the makefiles
+\item Execute the command `\asCode{cmake~.}'
+\item Execute the command `\asCode{make}'
+\item To run the unit tests for \mplusm{}, do the following:
+\begin{itemize}
+\item In a separate terminal session, launch the \yarp{} server by executing the command
+`\asCode{yarp~server}'
+\item In the terminal session where \mplusm{} was built, execute the command
+`\asCode{make~test}'
+\end{itemize}
+\item To install the freshly--built \mplusm{} files, execute the command
+`\asCode{sudo~make~install}'
+\item To confirm the normal operation of \mplusm{}, do the following:
+\begin{itemize}
+\item Execute the command `\asCode{mpmRegistryService~\&}'; this will launch the Registry
+Service in the background and return the \textbf{PID} that can be used to halt it later
+\item Execute the command `\asCode{mpmServiceLister}; this should display the properties
+of the Registry Service
+\item If you wish to halt the Registry Service, execute the command `\asCode{halt -s HUP}
+\#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was returned when the Registry
+Service was launched
+\end{itemize}
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Building~on~Microsoft~Windows}
+TBD
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{Building~\textit{Channel~Manager}}
+\textit{Channel~Manager} is not built from the command--line but, rather, from the IDE.
+\tertiaryStart{Building~on~Macintosh~OS~X}
+\begin{itemize}
+\item In Finder, open the directory containing the \mplusm source code, \asCode{MPM}
+\item Open the directory `Utilities\fatUnderscore{}ChannelManager-master' within
+\asCode{MPM}
+\item Open the directory `Builds/MacOSX'
+\item Open the file `Channel Manager.xcodeproj' with Xcode
+\item Within Xcode, select either the `Channel Manager Debug' or `Channel Manager Release'
+Scheme
+\item `Build' or `Run' the project; to create an executable that can be placed in the
+`Applications' folder, do an `Archive' / `Export' / `Export as a Mac Application'
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Building~on~Microsoft~Windows}
+TBD
+\tertiaryEnd{}
+\secondaryEnd{}
+\appendixEnd{}

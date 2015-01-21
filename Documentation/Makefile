@@ -82,10 +82,10 @@ KV2secondarysources = KV2documentationHistory.tex KV2frontispiece.tex \
 LMsecondarysources = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex \
 	LMoverview.tex LMservice.tex $(Commonsources)
 
-MMsecondarysources = MMcaseStudy.tex MMclasses.tex MMdocumentationHistory.tex \
-	MMexamples.tex MMexemplars.tex MMfrontispiece.tex MMinternalDb.tex \
-	MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex MMservices.tex \
-	MMutilities.tex $(Commonsources)
+MMsecondarysources = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
+	MMdocumentationHistory.tex MMexamples.tex MMexemplars.tex MMfrontispiece.tex \
+	MMinternalDb.tex MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex \
+	MMservices.tex MMutilities.tex $(Commonsources)
 
 VDSsecondarysources = VDSdocumentationHistory.tex VDSfrontispiece.tex \
 	VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources)

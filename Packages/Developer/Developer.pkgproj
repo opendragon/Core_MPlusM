@@ -381,7 +381,7 @@
 												<key>GID</key>
 												<integer>0</integer>
 												<key>PATH</key>
-												<string>../../../ACE_wrappers-6.2.6.zip</string>
+												<string>../../../ACE_wrappers2.zip</string>
 												<key>PATH_TYPE</key>
 												<integer>1</integer>
 												<key>PERMISSIONS</key>
@@ -389,13 +389,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../Core_MPlusM-master.zip</string>
 												<key>PATH_TYPE</key>
@@ -405,23 +405,7 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
-											</dict>
-											<dict>
-												<key>CHILDREN</key>
-												<array/>
-												<key>GID</key>
-												<integer>20</integer>
-												<key>PATH</key>
-												<string>../../../JUCE.zip</string>
-												<key>PATH_TYPE</key>
-												<integer>1</integer>
-												<key>PERMISSIONS</key>
-												<integer>420</integer>
-												<key>TYPE</key>
-												<integer>3</integer>
-												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
@@ -437,13 +421,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../Utilities_ChannelManager-master.zip</string>
 												<key>PATH_TYPE</key>
@@ -453,13 +437,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../Utilities_ServiceViewer-master.zip</string>
 												<key>PATH_TYPE</key>
@@ -469,13 +453,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../yarp2.zip</string>
 												<key>PATH_TYPE</key>
@@ -485,7 +469,7 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 										</array>
 										<key>GID</key>
@@ -1011,40 +995,6 @@
 							<string>build</string>
 							<key>TYPE</key>
 							<integer>1</integer>
-						</dict>
-					</array>
-					<key>PROTECTED</key>
-					<false/>
-					<key>STATE</key>
-					<true/>
-				</dict>
-				<dict>
-					<key>PATTERNS_ARRAY</key>
-					<array>
-						<dict>
-							<key>REGULAR_EXPRESSION</key>
-							<false/>
-							<key>STRING</key>
-							<string>OGDF.zip</string>
-							<key>TYPE</key>
-							<integer>0</integer>
-						</dict>
-					</array>
-					<key>PROTECTED</key>
-					<false/>
-					<key>STATE</key>
-					<true/>
-				</dict>
-				<dict>
-					<key>PATTERNS_ARRAY</key>
-					<array>
-						<dict>
-							<key>REGULAR_EXPRESSION</key>
-							<true/>
-							<key>STRING</key>
-							<string>ACE_wrappers.*\.zip$</string>
-							<key>TYPE</key>
-							<integer>0</integer>
 						</dict>
 					</array>
 					<key>PROTECTED</key>

@@ -478,7 +478,7 @@
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../ChannelManagerUtility_Manual.pdf</string>
 													<key>PATH_TYPE</key>
@@ -488,13 +488,13 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../Installation_Manual.pdf</string>
 													<key>PATH_TYPE</key>
@@ -504,13 +504,13 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../JavaScript_Manual.pdf</string>
 													<key>PATH_TYPE</key>
@@ -520,13 +520,13 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../KinectV2Input_Manual.pdf</string>
 													<key>PATH_TYPE</key>
@@ -536,13 +536,13 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../LeapMotionInput_Manual.pdf</string>
 													<key>PATH_TYPE</key>
@@ -552,13 +552,13 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../MpM_Manual.pdf</string>
 													<key>PATH_TYPE</key>
@@ -568,13 +568,13 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../ViconDataStreamInput_Manual.pdf</string>
 													<key>PATH_TYPE</key>
@@ -584,7 +584,7 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 											</array>
 											<key>GID</key>
