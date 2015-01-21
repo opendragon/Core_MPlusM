@@ -19,3 +19,5 @@ _release and _debug]
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
+
+@ create ‘Building M+M from Source’ manual to collect the instructions for building ACE, YARP, OGDF, JUCE, gecko, et cetera, for Windows and Macintosh
