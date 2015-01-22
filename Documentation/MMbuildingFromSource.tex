@@ -13,9 +13,9 @@ the \asCode{git} repositories where the source code is stored.
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Macintosh~OS~X}
 \begin{itemize}
-\item Xcode is available from the Macintosh App Store and provides the \compLang{C++}
-development environment for Macintosh OS X
-\item The Xcode command--line tools must be installed, using the command
+\item \asCode{Xcode} is available from the Macintosh App Store and provides the
+\compLang{C++} development environment for Macintosh OS~X
+\item The \asCode{Xcode} command--line tools must be installed, using the command
 `\asCode{xcode-select~{-}{-}install}'
 \item The \asCode{ccmake} and \asCode{cmake} command--line tools, which can be installed
 using \asCode{MacPorts} or directly from the web--page
@@ -29,9 +29,9 @@ this is only needed if you wish to create installer packages after building \mpl
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Microsoft~Windows}
 \begin{itemize}
-\item Visual Studio is available from Microsoft and provides the \compLang{C++}
-development environment for Windows; the version used during development is
-`Microsoft Visual Studio Express 2012 for Windows Desktop', but newer versions should also
+\item \asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
+development environment for Microsoft Windows; the version used for development is
+`\asCode{Visual Studio Express 2012 for Windows Desktop}', but newer versions should also
 work
 \item The \asCode{cmake} tool, which can be installed from the web--page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
@@ -41,9 +41,11 @@ work
 \secondaryEnd{}
 \secondaryStart{Initial~Steps}
 \begin{itemize}
-\item Create a directory to hold the source code; we'll call it `\asCode{MPM}'
+\item Create a directory to hold the source code; we'll refer to it from now on as
+`\asCode{MPM}'
 \item Copy the desired \textbf{ZIP} files from their installation location
-(\asCode{/opt/M+M/src} on Macintosh~OS~X) to the new directory \asCode{MPM}
+(\asCode{/opt/M+M/src} on Macintosh OS~X, and \textbf{TBD} for Microsoft Windows) to the
+new directory \asCode{MPM}
 \item \asCode{unzip} the \textbf{ZIP} files in the directory \asCode{MPM}
 \item Remove the \textbf{ZIP} files from the \asCode{MPM} directory
 \end{itemize}
@@ -55,16 +57,17 @@ as part of the normal \mplusm{} installation procedure, so it's not necessary to
 ACE; the source code is provided in case there is an issue with the headers or libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 Note that the file \asCode{ACE\fatUnderscore{}wrappers-6.2.6/ace/config.h} will select the
-correct configuration file for Macintosh OS X or Windows, so it does not need to be
+correct configuration file for Macintosh OS~X or Microsoft Windows, so it does not need to be
 modified.
 \begin{itemize}
 \item On the command--line, move to the directory containing the \mplusm{} source code,
 \asCode{MPM}
 \item Execute the command `\asCode{cd~ACE\fatUnderscore{}wrappers2}'
 \item Execute the command `\asCode{export~ACE\fatUnderscore{}ROOT=\$(pwd)}'
+\item Execute the command `\asCode{make~clean}'
 \item Execute the command `\asCode{make}'
-\item If the build is successful, execute the command `\asCode{sudo~sh}' and the following
-commands within the new subshell:
+\item If the build is successful, execute the command `\asCode{sudo~sh}'
+\item Execute the following commands within the new subshell:
 \begin{itemize}
 \item \asCode{export~ACE\fatUnderscore{}ROOT=\$(pwd)}
 \item \asCode{export~DYLD\fatUnderscore{}LIBRARY\fatUnderscore{}PATH=/opt/M+M/lib:%
@@ -77,7 +80,7 @@ files
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
-TBD
+\textbf{TBD}
 \tertiaryEnd{}
 \secondaryEnd{}
 \secondaryStart{(Optional)~Building~\textbf{\yarp}}
@@ -112,6 +115,7 @@ project developers, which can be cleared by pressing `\textbf{e}'
 project developers, which can be cleared by pressing `\textbf{e}'
 \item Execute the command `\asCode{cmake~.}'; again, there will be some project developer
 warnings, which can be safely ignored
+\item Execute the command `\asCode{make~clean}'
 \item Execute the command `\asCode{make}'
 \item Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some linking
 issues with \yarp{} caused by installing it in a non--default location
@@ -121,7 +125,7 @@ issues with \yarp{} caused by installing it in a non--default location
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
-TBD
+\textbf{TBD}
 \tertiaryEnd{}
 \secondaryEnd{}
 \secondaryStart{(Optional, used with \textit{Channel~Manager})~Building~\textbf{OGDF}}
@@ -141,7 +145,7 @@ libraries.
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
-TBD
+\textbf{TBD}
 \tertiaryEnd{}
 \secondaryEnd{}
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
@@ -159,42 +163,27 @@ and does not depend on a particular version -- other than it must be at least Sp
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command--line, move to the directory containing the SpiderMonkey source code,
-which will most likely be named `\textbf{gecko}'
+which will be named `\asCode{spidermonkey}'
 \item Execute the command `\asCode{cd~js/src}'
-\item Execute the command `\asCode{autconf213}'
+\item Execute the command `\asCode{autoconf213}'
 \item Execute the command `\asCode{mkdir~\fatUnderscore{}obj\fatUnderscore}'
 \item Execute the command `\asCode{cd~\fatUnderscore{}obj\fatUnderscore}'
-\item Create the file `replace-links.sh' with the following content:\\
-\codeBegin{}
-\#!/bin/bash\\
-if test \$\# != 0\\
-then\\
-\tS\tS{}if test -d \$1\\
-\tS\tS{}then\\
-\tS\tS\tS\tS{}for ff in \$1/* \$1/*/*\\
-\tS\tS\tS\tS{}do\\
-\tS\tS\tS\tS\tS\tS{}if test -h "\$ff"\\
-\tS\tS\tS\tS\tS\tS{}then\\
-\tS\tS\tS\tS\tS\tS\tS\tS{}repl=\$(readlink "\$ff")\\
-\tS\tS\tS\tS\tS\tS\tS\tS{}rm "\$ff"\\
-\tS\tS\tS\tS\tS\tS\tS\tS{}cp -a "\$repl" "\$ff"\\
-\tS\tS\tS\tS\tS\tS{}fi\\
-\tS\tS\tS\tS{}done\\
-\tS\tS{}fi\\
-fi\\
-\codeEnd{}
-\item Execute the command `\asCode{../configure {-}{-}prefix=/opt/M+M/gecko
+\item Execute the command `\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey
 {-}{-}with-system-icu\\
 {-}{-}enable-release {-}{-}enable-more-deterministic}'
+\item Execute the command `\asCode{make~clean}'
 \item Execute the command `\asCode{make}'
 \item Execute the command `\asCode{sudo~make~install}'
-\item Execute the command `\asCode{sudo~./replace-links~/opt/M+M/gecko/include/mozjs-}';
-this replaces symbolic links in the header directories with the original items, so that it
-is safe to distribute the resulting directories
+\item On the command--line, move to the directory containing the \mplusm{} source code,
+\asCode{MPM}
+\item Execute the command
+`\asCode{sudo~./replace-links~/opt/M+M/spidermonkey/include/mozjs-}'; this replaces
+symbolic links in the header directories for SpiderMonkey with the original items, so that
+it is safe to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
-TBD
+\textbf{TBD}
 \tertiaryEnd{}
 \secondaryEnd{}
 \secondaryStart{Building~Core~\mplusm}
@@ -215,6 +204,7 @@ executed
 \item Press `\textbf{c}' to configure the makefiles
 \item Press `\textbf{g}' to generate the makefiles
 \item Execute the command `\asCode{cmake~.}'
+\item Execute the command `\asCode{make~clean}'
 \item Execute the command `\asCode{make}'
 \item To run the unit tests for \mplusm{}, do the following:
 \begin{itemize}
@@ -238,7 +228,7 @@ Service was launched
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
-TBD
+\textbf{TBD}
 \tertiaryEnd{}
 \secondaryEnd{}
 \secondaryStart{Building~\textit{Channel~Manager}}
@@ -246,18 +236,48 @@ TBD
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item In Finder, open the directory containing the \mplusm source code, \asCode{MPM}
-\item Open the directory `Utilities\fatUnderscore{}ChannelManager-master' within
+\item Open the directory `\asCode{Utilities\fatUnderscore{}ChannelManager-master}' within
 \asCode{MPM}
-\item Open the directory `Builds/MacOSX'
-\item Open the file `Channel Manager.xcodeproj' with Xcode
-\item Within Xcode, select either the `Channel Manager Debug' or `Channel Manager Release'
-Scheme
-\item `Build' or `Run' the project; to create an executable that can be placed in the
-`Applications' folder, do an `Archive' / `Export' / `Export as a Mac Application'
+\item Open the directory `\asCode{Builds/MacOSX}'
+\item Open the file `\asCode{Channel Manager.xcodeproj}' with Xcode
+\item Within Xcode, select either the `\asCode{Channel Manager Debug}' or
+`\asCode{Channel Manager Release}' Scheme
+\item `\asCode{Product $\Rightarrow$ Build}' or `\asCode{Product $\Rightarrow$ Run}' the
+project
+\item To create an executable that can be placed in the `\asCode{/Applications}' folder,
+do an `\asCode{Archive $\Rightarrow$ Export $\Rightarrow$ Export as a Mac Application}'
+and place the generated application in a writable location, like your home directory
+\item If the generated application is named \asCode{Channel Manager Debug}, rename it to
+\asCode{Channel Manager} and, if it is named \asCode{Channel Manager Release}, rename it
+to \asCode{Channel Manager}
+\item Copy the \asCode{Channel Manager} application to the \asCode{/Applications}
+directory
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
-TBD
+\textbf{TBD}
+\tertiaryEnd{}
+\secondaryEnd{}
+\secondaryStart{Creating~the~Distribution~Packages}
+The distribution packages are standalone files that can be used to create a complete
+\mplusm{} installation.
+\tertiaryStart{Creating~on~Macintosh~OS~X}
+\begin{itemize}
+\item Launch the \asCode{Packages} GUI tool
+\item Open the \asCode{Developer} file, which is located in the
+\asCode{Packages/Developer} directory within the directory containing the \mplusm{} source
+code, \asCode{MPM}
+\item Perform the menu item \asCode{Build $\Rightarrow$ Clean\textellipsis}
+\item Perform the menu item \asCode{Build $\Rightarrow$ Build}
+\item Open the \asCode{M+M} file, which is located in the \asCode{Packages} directory
+\item Perform the menu item \asCode{Build $\Rightarrow$ Clean\textellipsis}
+\item Perform the menu item \asCode{Build $\Rightarrow$ Build}
+\item The distribution package is the \asCode{M+M.pkg} file located in the
+\asCode{Packages/build} directory
+\end{itemize}
+\tertiaryEnd{}
+\tertiaryStart{Creating~on~Microsoft~Windows}
+\textbf{TBD}
 \tertiaryEnd{}
 \secondaryEnd{}
 \appendixEnd{}
