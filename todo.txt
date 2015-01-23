@@ -2,18 +2,6 @@
 
 = use selected inclusion of ODEnableLogging/ODLogging, ODDisableLogging/ODLogging to bracket code that needs to be logged
 
-+ use the new ‘install’ target for OGDF!
-[do a make cleanrelease && make release, make cleandebug && make debug, this will build libOGDF.a in
-_release and _debug]
-
-+ for ACE - after building, do a ‘sudo sh’ for installing - and make sure to do ‘export ACE_ROOT=$(pwd)’ and ‘export DYLD_LIBRARY_PATH=????:$DYLD_LIBRARY_PATH’ if the install directory is not /usr/local
-
-+ for YARP - unset ACE_ROOT before doing a fresh ‘ccmake ..’, so that the /opt/M+M files will be picked, not the ACE_ROOT ones
-
-* for JavaScript - cd …/gecko/js/src; autoconf213; cd _obj_; ../configure --prefix=/opt/M+M/gecko --with-system-icu --enable-release  --enable-more-deterministic; make; sudo make install; sudo cp js/src/js-config.h /opt/M+M/gecko/include/mozjs- 
-**** problem - ‘make install’ puts aliases in the /opt/M+M/gecko/include/mozjs- directory, not copies of the files, and the package builder doesn’t replace these with the original files, so the installer includes references to directories that will not exist on a users’ system!!!!
-* sudo replace-links.sh /opt/M+M/gecko/include/mozjs-; after sudo make install - the script is in the ‘bin’ directory and replaces symbolic linked files in the given directory (and immediate subdirectories) with the original file
-
 * change signal handling to use platform-neutral mechanisms
 
 + on dragging, do an adjustSize() without repaint?
