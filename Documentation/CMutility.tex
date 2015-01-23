@@ -3,12 +3,12 @@
 The utility programs that are provided with \mplusm{} provide access to the processes that
 are running in the \mplusm{} installation.\\
 
-Currently there is one GUI--based tool, the \emph{ChannelManager} application,
+Currently there is one GUI--based tool, the \emph{Channel Manager} application,
 which provides a view of the state of connections within an \mplusm{} installation, as
 well as managing non--\mplusm{} \yarp{} network connections.
 \objDiagram{CMcmDiagram.ps}{cmDiagram}{Channel~Manager structure}
 
-The \emph{ChannelManager} application displays a single window view of the connections
+The \emph{Channel Manager} application displays a single window view of the connections
 within a \yarp{} network, with features designed to make management of an \mplusm{}
 installation easier.
 Simple \yarp{} network ports are shown as rectangles with a title consisting of the IP
@@ -128,7 +128,8 @@ channel -- the number of bytes and the number of messages sent to and from the c
 \end{itemize}
 \objDoubleScaledDiagram{images/serviceChannelMenuMetricsDisabled.eps}%
 {images/serviceChannelMenuMetricsEnabled.eps}%
-{serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service metrics enabled)}%
+{serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service
+metrics enabled)}%
 {0.7}
 \clearpage
 Doing a right--mouse click on a regular port displays a popup menu with two choices:
@@ -156,12 +157,14 @@ disabled
 \objDoubleScaledDiagram{images/regularChannelMenuMetricsDisabled.eps}%
 {images/regularChannelMenuMetricsEnabled.eps}%
 {regularChannelMenu}%
-{Non--primary channel menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.7}
+{Non--primary channel menu (Left=Service metrics disabled, Right=Service metrics
+enabled)}{0.7}
 \clearpage
-The positions of the objects within the window are stored in the file `settings.txt'
-within the `ChannelManager' directory inside the user--specific application data
-directory.
-On Microsoft Windows, this will likely be ``\textbackslash{}Documents~and~Settings%
-\textbackslash{}username\textbackslash{}Application~Data'' while, for Macintosh OS X, it
-will likely be ``\textasciitilde/Library''.\\
+The positions of the objects within the window are stored in the file
+`\asCode{settings.txt}' within the `\asCode{Channel Manager}' directory inside the
+user--specific application data directory.
+On Microsoft Windows, this will likely be\\
+``\asCode{\textbackslash{}Documents~and~Settings\textbackslash{}username%
+\textbackslash{}Application~Data}'' while, for Macintosh OS X, it will likely be\\
+``\asCode{\textasciitilde/Library}''.\\
 \primaryEnd{}

@@ -2,48 +2,48 @@
 \appendixStart[InternalDatabaseStructure]{\textitcorr{Internal~Database~Structure}}%
 Here are the SQL statements used to construct the internal database:
 \outputBegin{}
-\settowidth{\utilLen}{CREATE }%
+\settowidth{\uL}{CREATE }%
 CREATE TABLE IF NOT EXISTS Services(\\
-\hspace*{\utilLen}channelname Text NOT NULL DEFAULT \fatUnderscore{} PRIMARY KEY ON CONFLICT REPLACE,\\
-\hspace*{\utilLen}name Text NOT NULL DEFAULT \fatUnderscore,\\
-\hspace*{\utilLen}description Text NOT NULL DEFAULT \fatUnderscore,\\
-\hspace*{\utilLen}executable Text NOT NULL DEFAULT \fatUnderscore,\\
-\hspace*{\utilLen}requestsdescription Text NOT NULL DEFAULT \fatUnderscore,\\
-\hspace*{\utilLen}tag Text NOT NULL DEFAULT  \fatUnderscore);\\
+\hspace*{\uL}channelname Text NOT NULL DEFAULT \fUS{} PRIMARY KEY ON CONFLICT REPLACE,\\
+\hspace*{\uL}name Text NOT NULL DEFAULT \fUS,\\
+\hspace*{\uL}description Text NOT NULL DEFAULT \fUS,\\
+\hspace*{\uL}executable Text NOT NULL DEFAULT \fUS,\\
+\hspace*{\uL}requestsdescription Text NOT NULL DEFAULT \fUS,\\
+\hspace*{\uL}tag Text NOT NULL DEFAULT  \fUS);\\
 CREATE INDEX IF NOT EXISTS Services\_name\_idx ON Services(name);\\
 CREATE TABLE IF NOT EXISTS Keywords(\\
-\hspace*{\utilLen}keyword Text NOT NULL DEFAULT \fatUnderscore{} PRIMARY KEY ON CONFLICT IGNORE;\\
+\hspace*{\uL}keyword Text NOT NULL DEFAULT \fUS{} PRIMARY KEY ON CONFLICT IGNORE;\\
 CREATE TABLE IF NOT EXISTS Requests(\\
-\hspace*{\utilLen}channelname Text NOT NULL DEFAULT \fatUnderscore{} REFERENCES Services(channelname),\\
-\hspace*{\utilLen}request Text NOT NULL DEFAULT \fatUnderscore,\\
-\hspace*{\utilLen}input Text,\\
-\hspace*{\utilLen}output Text,\\
-\hspace*{\utilLen}version Text,\\
-\hspace*{\utilLen}details Text,\\
-\hspace*{\utilLen}key Integer PRIMARY KEY);\\
+\hspace*{\uL}channelname Text NOT NULL DEFAULT \fUS{} REFERENCES Services(channelname),\\
+\hspace*{\uL}request Text NOT NULL DEFAULT \fUS,\\
+\hspace*{\uL}input Text,\\
+\hspace*{\uL}output Text,\\
+\hspace*{\uL}version Text,\\
+\hspace*{\uL}details Text,\\
+\hspace*{\uL}key Integer PRIMARY KEY);\\
 CREATE INDEX IF NOT EXISTS Requests\_request\_idx ON Requests(request);\\
 CREATE INDEX IF NOT EXISTS Requests\_channelname\_idx ON Requests(channelname);\\
 CREATE TABLE IF NOT EXISTS RequestsKeywords(\\
-\hspace*{\utilLen}keywords\_id Text REFERENCES Keywords(keyword),\\
-\hspace*{\utilLen}requests\_id Integer REFERENCES Requests(key));\\
+\hspace*{\uL}keywords\_id Text REFERENCES Keywords(keyword),\\
+\hspace*{\uL}requests\_id Integer REFERENCES Requests(key));\\
 CREATE INDEX IF NOT EXISTS RequestsKeywords\_Keywords\_id\_idx ON\\
-\hspace*{\utilLen}RequestsKeywords(keywords\_id);\\
+\hspace*{\uL}RequestsKeywords(keywords\_id);\\
 CREATE INDEX IF NOT EXISTS RequestsKeywords\_Requests\_id\_idx ON\\
-\hspace*{\utilLen}RequestsKeywords(requests\_id);\\
+\hspace*{\uL}RequestsKeywords(requests\_id);\\
 CREATE TABLE IF NOT EXISTS Channels(\\
-\hspace*{\utilLen}channelname Text NOT NULL UNIQUE DEFAULT \fatUnderscore,\\
-\hspace*{\utilLen}key Integer PRIMARY KEY);\\
+\hspace*{\uL}channelname Text NOT NULL UNIQUE DEFAULT \fUS,\\
+\hspace*{\uL}key Integer PRIMARY KEY);\\
 CREATE INDEX IF NOT EXISTS Channels\_channelname\_idx ON Channels(channelname);\\
 CREATE TABLE IF NOT EXISTS Associates(\\
-\hspace*{\utilLen}associate Text NOT NULL DEFAULT \fatUnderscore{} PRIMARY KEY ON CONFLICT IGNORE);\\
+\hspace*{\uL}associate Text NOT NULL DEFAULT \fUS{} PRIMARY KEY ON CONFLICT IGNORE);\\
 CREATE TABLE IF NOT EXISTS ChannelsAssociates(\\
-\hspace*{\utilLen}channels\_id Integer REFERENCES Channels(key),\\
-\hspace*{\utilLen}associates\_id Text REFERENCES Associates(associate),\\
-\hspace*{\utilLen}direction Integer);\\
+\hspace*{\uL}channels\_id Integer REFERENCES Channels(key),\\
+\hspace*{\uL}associates\_id Text REFERENCES Associates(associate),\\
+\hspace*{\uL}direction Integer);\\
 CREATE INDEX IF NOT EXISTS ChannelsAssociates\_Associates\_id\_idx ON\\
-\hspace*{\utilLen}ChannelsAssociates(associates\_id);\\
+\hspace*{\uL}ChannelsAssociates(associates\_id);\\
 CREATE INDEX IF NOT EXISTS ChannelsAssociates\_Channels\_id\_idx ON\\
-\hspace*{\utilLen}ChannelsAssociates(channels\_id);
+\hspace*{\uL}ChannelsAssociates(channels\_id);
 \outputEnd{}
 \newpage
 And here is the internal database, in graphical form:\\

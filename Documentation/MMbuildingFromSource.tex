@@ -56,22 +56,21 @@ support used within \mplusm{}; the files needed to compile and link with ACE are
 as part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
 ACE; the source code is provided in case there is an issue with the headers or libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
-Note that the file \asCode{ACE\fatUnderscore{}wrappers-6.2.6/ace/config.h} will select the
-correct configuration file for Macintosh OS~X or Microsoft Windows, so it does not need to be
+Note that the file \asCode{ACE\fUS{}wrappers-6.2.6/ace/config.h} will select the correct
+configuration file for Macintosh OS~X or Microsoft Windows, so it does not need to be
 modified.
 \begin{itemize}
 \item On the command--line, move to the directory containing the \mplusm{} source code,
 \asCode{MPM}
-\item Execute the command `\asCode{cd~ACE\fatUnderscore{}wrappers2}'
-\item Execute the command `\asCode{export~ACE\fatUnderscore{}ROOT=\$(pwd)}'
-\item Execute the command `\asCode{make~clean}'
-\item Execute the command `\asCode{make}'
+\item Execute the command `\asCode{cd~ACE\fUS{}wrappers2}'
+\item Execute the command `\asCode{export~ACE\fUS{}ROOT=\$(pwd)}'
+\item Execute the command `\asCode{make~clean~\&\&~make}'
 \item If the build is successful, execute the command `\asCode{sudo~sh}'
 \item Execute the following commands within the new subshell:
 \begin{itemize}
-\item \asCode{export~ACE\fatUnderscore{}ROOT=\$(pwd)}
-\item \asCode{export~DYLD\fatUnderscore{}LIBRARY\fatUnderscore{}PATH=/opt/M+M/lib:%
-\$DYLD\fatUnderscore{}LIBRARY\fatUnderscore{}PATH}
+\item \asCode{export~ACE\fUS{}ROOT=\$(pwd)}
+\item \asCode{export~DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/M+M/lib:%
+\$DYLD\fUS{}LIBRARY\fUS{}PATH}
 \item \asCode{make~install}
 \item \asCode{exit}
 \end{itemize}
@@ -96,27 +95,25 @@ libraries.
 \item Execute the command `\asCode{cd~yarp-master}'
 \item Execute the command `\asCode{mkdir~build}'
 \item Execute the command `\asCode{cd~build}'
-\item Execute the command `\asCode{unset~ACE\fatUnderscore{}ROOT}'; this is necessary to
-ensure that the installed version of \textbf{ACE} is used
+\item Execute the command `\asCode{unset~ACE\fUS{}ROOT}'; this is necessary to ensure that
+the installed version of \textbf{ACE} is used
 \item Execute the command `\asCode{ccmake~..}'; this will open a graphical interface to the
 makefile builder. If this is the first time that the command is executed within a
 directory, the text `\asCode{EMPTY CACHE}' will be displayed -- press `\textbf{c}' to do
 the initial configuration; there may be some warnings for project developers, which can be
 cleared by pressing `\textbf{e}'
-\item Change the `\textbf{CMAKE\fatUnderscore{}INSTALL\fatUnderscore{}PREFIX}' to
-\asCode{/opt/M+M}
+\item Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' to \asCode{/opt/M+M}
 \item Change any other options that you are interested in applying; it is recommended that
 the option\\
-`\textbf{ENABLE\fatUnderscore{}YARPRUN\fatUnderscore{}LOG}' should be enabled and the
-option `\textbf{CREATE\fatUnderscore{}YMANAGER}' should be disabled
+`\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the option
+`\textbf{CREATE\fUS{}YMANAGER}' should be disabled
 \item Press `\textbf{c}' to configure the makefiles; there may be some CMake warnings for
 project developers, which can be cleared by pressing `\textbf{e}'
 \item Press `\textbf{g}' to generate the makefiles; there may be some CMake warnings for
 project developers, which can be cleared by pressing `\textbf{e}'
 \item Execute the command `\asCode{cmake~.}'; again, there will be some project developer
 warnings, which can be safely ignored
-\item Execute the command `\asCode{make~clean}'
-\item Execute the command `\asCode{make}'
+\item Execute the command `\asCode{make~clean~\&\&~make}'
 \item Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some linking
 issues with \yarp{} caused by installing it in a non--default location
 \item Execute the command `\asCode{sudo~make~install}'
@@ -139,8 +136,7 @@ libraries.
 \item On the command--line, move to the directory containing the \mplusm{} source code,
 \asCode{MPM}
 \item Execute the command `\asCode{cd~OGDF}'
-\item Execute the command `\asCode{make~cleanrelease}'
-\item Execute the command `\asCode{make~release}'
+\item Execute the command `\asCode{make~cleanrelease~\&\&~make~release}'
 \item Execute the command `\asCode{sudo~make~install}'
 \end{itemize}
 \tertiaryEnd{}
@@ -166,13 +162,12 @@ and does not depend on a particular version -- other than it must be at least Sp
 which will be named `\asCode{spidermonkey}'
 \item Execute the command `\asCode{cd~js/src}'
 \item Execute the command `\asCode{autoconf213}'
-\item Execute the command `\asCode{mkdir~\fatUnderscore{}obj\fatUnderscore}'
-\item Execute the command `\asCode{cd~\fatUnderscore{}obj\fatUnderscore}'
+\item Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
+\item Execute the command `\asCode{cd~\fUS{}obj\fUS}'
 \item Execute the command `\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey
 {-}{-}with-system-icu\\
 {-}{-}enable-release {-}{-}enable-more-deterministic}'
-\item Execute the command `\asCode{make~clean}'
-\item Execute the command `\asCode{make}'
+\item Execute the command `\asCode{make~clean~\&\&~make}'
 \item Execute the command `\asCode{sudo~make~install}'
 \item On the command--line, move to the directory containing the \mplusm{} source code,
 \asCode{MPM}
@@ -191,21 +186,19 @@ it is safe to distribute the resulting directories
 \begin{itemize}
 \item On the command--line, move to the directory containing the \mplusm{} source code,
 \asCode{MPM}
-\item Execute the command `\asCode{cd~Core\fatUnderscore{}MPlusM-master}'
+\item Execute the command `\asCode{cd~Core\fUS{}MPlusM-master}'
 \item Execute the command `\asCode{ccmake~.}'; this will open a graphical interface to the
 makefile builder. If this is the first time that the command is executed within a
 directory, the text `\asCode{EMPTY CACHE}' will be displayed -- press `\textbf{c}' to do
 the initial configuration
-\item Change the `\textbf{CMAKE\fatUnderscore{}BUILD\fatUnderscore{}TYPE}' to
-\asCode{Release}
+\item Change the `\textbf{CMAKE\fUS{}BUILD\fUS{}TYPE}' to \asCode{Release}
 \item Change any other options that you are interested in applying; the default options
 minimize the amount of text that is output when \mplusm{} command--line tools are
 executed
 \item Press `\textbf{c}' to configure the makefiles
 \item Press `\textbf{g}' to generate the makefiles
 \item Execute the command `\asCode{cmake~.}'
-\item Execute the command `\asCode{make~clean}'
-\item Execute the command `\asCode{make}'
+\item Execute the command `\asCode{make~clean~\&\&~make}'
 \item To run the unit tests for \mplusm{}, do the following:
 \begin{itemize}
 \item In a separate terminal session, launch the \yarp{} server by executing the command
@@ -236,17 +229,18 @@ Service was launched
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item In Finder, open the directory containing the \mplusm source code, \asCode{MPM}
-\item Open the directory `\asCode{Utilities\fatUnderscore{}ChannelManager-master}' within
+\item Open the directory `\asCode{Utilities\fUS{}ChannelManager-master}' within
 \asCode{MPM}
 \item Open the directory `\asCode{Builds/MacOSX}'
 \item Open the file `\asCode{Channel Manager.xcodeproj}' with Xcode
 \item Within Xcode, select either the `\asCode{Channel Manager Debug}' or
 `\asCode{Channel Manager Release}' Scheme
-\item `\asCode{Product $\Rightarrow$ Build}' or `\asCode{Product $\Rightarrow$ Run}' the
-project
+\item Perform the menu item `\asCode{Product $\Rightarrow$ Build}' or
+`\asCode{Product $\Rightarrow$ Run}'
 \item To create an executable that can be placed in the `\asCode{/Applications}' folder,
 do an `\asCode{Archive $\Rightarrow$ Export $\Rightarrow$ Export as a Mac Application}'
 and place the generated application in a writable location, like your home directory
+\item Exit from Xcode
 \item If the generated application is named \asCode{Channel Manager Debug}, rename it to
 \asCode{Channel Manager} and, if it is named \asCode{Channel Manager Release}, rename it
 to \asCode{Channel Manager}

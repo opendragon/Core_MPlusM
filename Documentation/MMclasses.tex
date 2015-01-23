@@ -44,23 +44,23 @@ which is a method of the \asCode{M+M::Example::RandomNumberClient} class.\\
 The following methods are available to code that uses
 \secondaryRef{BaseClient}{BaseClient} classes:
 \begin{itemize}
-\item \textbf{\asCode{FindMatchingService}} This static function is provided for the use
-of utility programs that need to identify active services
-\item \textbf{\asCode{addAssociatedChannel}} Adapter applications use this method to
-inform the \serviceNameR[Registry~Service]{RegistryService} about their input and output
-\yarp{} network connections
-\item \textbf{\asCode{connectToService}} This method is use by clients to establish a
+\item \asBoldCode{FindMatchingService} This static function is provided for the use of
+utility programs that need to identify active services
+\item \asBoldCode{addAssociatedChannel} Adapter applications use this method to inform the
+\serviceNameR[Registry~Service]{RegistryService} about their input and output \yarp{}
+network connections
+\item \asBoldCode{connectToService} This method is use by clients to establish a
 connection to the endpoint of their companion service
-\item \textbf{\asCode{disconnectFromService}} This method is used by clients to release
-the connection to their companion service
-\item \textbf{\asCode{findService}} This method is used by clients to locate the channel
-to be used for communication with their companion service
-\item \textbf{\asCode{reconnectIfDisconnected}} This method is used by clients to
-re--establish a dropped connection with their companion service
-\item \textbf{\asCode{removeAssociatedChannels}} Adapter applications use this method to
-inform the \serviceNameR[Registry~Service]{RegistryService} that their input and output
+\item \asBoldCode{disconnectFromService} This method is used by clients to release the
+connection to their companion service
+\item \asBoldCode{findService}} This method is used by clients to locate the channel to be
+used for communication with their companion service
+\item \asBoldCode{reconnectIfDisconnected} This method is used by clients to re--establish
+a dropped connection with their companion service
+\item \asBoldCode{removeAssociatedChannels} Adapter applications use this method to inform
+the \serviceNameR[Registry~Service]{RegistryService} that their input and output
 \yarp{} network connections are no longer available
-\item \textbf{\asCode{send}} This method is used by clients to send a request to their
+\item \asBoldCode{send} This method is used by clients to send a request to their
 companion service
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseClient}}
@@ -100,20 +100,20 @@ flow--through operation.\\
 Classes derived from \secondaryRef{BaseInputOutputService}{BaseInputOutputService} are
 required to provide implementations of the following methods:
 \begin{itemize}
-\item \textbf{\asCode{configure}} This method is invoked when a
+\item \asBoldCode{configure} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{configure} request is sent to the service; it
 is responsible for setting attributes of the input and output streams of the service
-\item \textbf{\asCode{restartStreams}} This method is invoked when a
+\item \asBoldCode{restartStreams} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request is sent to the
 service; it is responsible for stopping and then starting the input and output streams of
 the service
-\item \textbf{\asCode{setUpStreamDescriptions}} This method is invoked when the service is
+\item \asBoldCode{setUpStreamDescriptions} This method is invoked when the service is
 started and it is responsible for providing a list of port names and protocols for use by
 the current instance of the service
-\item \textbf{\asCode{startStreams}} This method is invoked when a
+\item \asBoldCode{startStreams} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request is sent to the service;
 it is responsible for starting the input and output streams of the service
-\item \textbf{\asCode{stopStreams}} This method is invoked when a
+\item \asBoldCode{stopStreams} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request is sent to the service;
 it is responsible for stopping the input and output streams of the service
 \end{itemize}
@@ -162,16 +162,15 @@ designed to provide a consistent request handling mechanism for \mplusm{} servic
 Classes derived from \secondaryRef{BaseRequestHandler}{BaseRequestHandler} are required to
 provide implementations of the following methods:
 \begin{itemize}
-\item \textbf{\asCode{fillInAliases}} This method is invoked when a service is registering
-its request handlers; it is responsible for providing a list of alternative names for the
+\item \asBoldCode{fillInAliases} This method is invoked when a service is registering its
+request handlers; it is responsible for providing a list of alternative names for the
 request
-\item \textbf{\asCode{fillInDescription}} This method is invoked when a service is
-responding to an \requestsNameR{Basic}{Basic}{info} or a
+\item \asBoldCode{fillInDescription} This method is invoked when a service is responding
+to an \requestsNameR{Basic}{Basic}{info} or a
 \requestsNameR{Basic}{Basic}{list} request; it is responsible for providing a detailed
 description of the request
-\item \textbf{\asCode{processRequest}} This method is invoked with the request is seen by
-the service and it is responsible for performing the operations that correspond to the
-request
+\item \asBoldCode{processRequest} This method is invoked with the request is seen by the
+service and it is responsible for performing the operations that correspond to the request
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseRequestHandler}}
 \secondaryStart{BaseService}
@@ -190,43 +189,43 @@ handlers.\\
 Classes derived from \secondaryRef{BaseService}{BaseService} should implement the
 following methods:
 \begin{itemize}
-\item \textbf{\asCode{attachRequestHandlers}} This method should be called in the
-constructor for the service class and should register handlers for its custom requests
-\item \textbf{\asCode{detachRequestHandlers}} This method should be called in the
-destructor for the service class and should unregister handlers for its custom requests
-\item \textbf{\asCode{start}} This method is invoked by the service application and should
+\item \asBoldCode{attachRequestHandlers} This method should be called in the constructor
+for the service class and should register handlers for its custom requests
+\item \asBoldCode{detachRequestHandlers} This method should be called in the destructor
+for the service class and should unregister handlers for its custom requests
+\item \asBoldCode{start} This method is invoked by the service application and should
 invoke the same method of its parent class; it should set up any special conditions that
 are needed by the service
-\item \textbf{\asCode{stop}} This method is invoked by the service application and should
+\item \asBoldCode{stop} This method is invoked by the service application and should
 invoke the same method of its parent class; it should release any resources used by the
 service
 \end{itemize}
 The following methods are available to code that uses
 \secondaryRef{BaseService}{BaseService} classes:
 \begin{itemize}
-\item \textbf{\asCode{gatherMetrics}} This method returns a list of the metrics for the
+\item \asBoldCode{gatherMetrics} This method returns a list of the metrics for the
 connections associated with the service
-\item \textbf{\asCode{getEndpoint}} This method provides access to the
+\item \asBoldCode{getEndpoint} This method provides access to the
 \secondaryRef{Endpoint}{Endpoint} that is provided for the service and is useful for
 establishing a connection to an `embedded' service
 \end{itemize}
 The following convenience methods are available to derived classes of
 \secondaryRef{BaseService}{BaseService}:
 \begin{itemize}
-\item \textbf{\asCode{addContext}} This method is used to record the data that holds the
+\item \asBoldCode{addContext} This method is used to record the data that holds the
 persistent state for a connection
-\item \textbf{\asCode{clearContexts}} This method is used to remove all the persistent
-state for connections
-\item \textbf{\asCode{findContext}} This method is used to retrieve the data that holds
-the persistent state of a connection
-\item \textbf{\asCode{registerRequestHandler}} This method is used to register the
-object that will handle a request
-\item \textbf{\asCode{removeContext}} This method is used to remove the persistent state
-of a connection
-\item \textbf{\asCode{setDefaultRequestHandler}} This method is used to register the
-object that will handle unknown requests
-\item \textbf{\asCode{unregisterRequestHandler}} This method is used to unregister a
-request handler
+\item \asBoldCode{clearContexts} This method is used to remove all the persistent state
+for connections
+\item \asBoldCode{findContext} This method is used to retrieve the data that holds the
+persistent state of a connection
+\item \asBoldCode{registerRequestHandler} This method is used to register the object that
+will handle a request
+\item \asBoldCode{removeContext} This method is used to remove the persistent state of a
+connection
+\item \asBoldCode{setDefaultRequestHandler} This method is used to register the object
+that will handle unknown requests
+\item \asBoldCode{unregisterRequestHandler} This method is used to unregister a request
+handler
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseService}}
 \secondaryStart{Endpoint}

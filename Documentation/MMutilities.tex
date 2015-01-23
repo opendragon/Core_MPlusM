@@ -7,7 +7,7 @@ connections, it is recommended that the more specialized \mplusm{} tools be used
 inconsistencies.
 \secondaryStart[CommandLineUtilities]{Command--Line~Utilities}
 \mplusm{} includes a number of command--line tools that provide some of the functionality
-of the GUI--based tool, \emph{ChannelManager}.
+of the GUI--based tool, \emph{Channel Manager}.
 As well, the native \yarp{} command--line tools to create and remove connections can be
 used with \mplusm{}, but it is very easy to create a non--functional installation if care
 is not taken.
@@ -34,9 +34,9 @@ The output specifies the \yarp{} network port of a service with persistent state
 For example, the default output could be:
 \outputBegin{}
 Service:\ /\serviceName/examples/runningSum\\
-\settowidth{\utilLen}{Cli}%
+\settowidth{\uL}{Cli}%
 Clients:\\
-\hspace*{\utilLen}/\clientName/examples/runningsum\textunderscore{}4896162
+\hspace*{\uL}/\clientName/examples/runningsum\textunderscore{}4896162
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
@@ -159,19 +159,19 @@ of the connection, such as TCP or UDP.\\
 For example, the default output could be:
 \outputBegin{}
 Ports:\\
-\settowidth{\utilLen}{Por}%
+\settowidth{\uL}{Por}%
 /\dollarService:\ Service registry port for 'Registry'.\\
-\hspace*{\utilLen}No active connections.\\
+\hspace*{\uL}No active connections.\\
 /\dollarService/status:\ Standard port at 10.0.1.2:10008.\\
-\hspace*{\utilLen}Output to /reader via UDP.\\
+\hspace*{\uL}Output to /reader via UDP.\\
 /reader:\ Standard port at 10.0.1.2:10003.\\
-\hspace*{\utilLen}Input from /writer2 via TCP.\\
-\hspace*{\utilLen}Input from /writer via TCP.\\
-\hspace*{\utilLen}Input from /\dollarService/status via UDP.\\
+\hspace*{\uL}Input from /writer2 via TCP.\\
+\hspace*{\uL}Input from /writer via TCP.\\
+\hspace*{\uL}Input from /\dollarService/status via UDP.\\
 /writer:\ Standard port at 10.0.1.2:10002.\\
-\hspace*{\utilLen}Output to /reader via TCP.\\
+\hspace*{\uL}Output to /reader via TCP.\\
 /writer2:\ Standard port at 10.0.1.2:10004.\\
-\hspace*{\utilLen}Output to /reader via TCP.
+\hspace*{\uL}Output to /reader via TCP.
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
@@ -215,8 +215,8 @@ Note that, if no ports are found, the JSON--formatted output would be:
 while the default output would be:
 \outputBegin{}
 Ports:\\
-\settowidth{\utilLen}{Por}%
-\hspace*{\utilLen}No ports found.
+\settowidth{\uL}{Por}%
+\hspace*{\uL}No ports found.
 \outputEnd{}
 and the tab--delimited output would be empty.
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
@@ -252,7 +252,7 @@ The application also has four optional parameters:
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{ChannelManager} application cannot display them
+\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
 without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the input stream name is modified if a tag is specified and
@@ -571,33 +571,33 @@ All services use transient \yarp{} network ports to, at least, register themselv
 For example, the default output could be (with the lines wrapped for clarity):
 \outputBegin{}
 /\dollarService\\
-\settowidth{\utilLen}{/status}%
-\hspace*{\utilLen}/\dollarService:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32,
+\settowidth{\uL}{/status}%
+\hspace*{\uL}/\dollarService:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32,
 bytes in:\ 11221, out:\ 52535,\\
-\settowidth{\utilLen}{/Service/status: }%
-\hspace*{\utilLen}messages in:\ 265, out:\ 264\closeSq\\
-\settowidth{\utilLen}{/servi}%
-\hspace*{\utilLen}auxiliary:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes in:\ 0,
+\settowidth{\uL}{/Service/status: }%
+\hspace*{\uL}messages in:\ 265, out:\ 264\closeSq\\
+\settowidth{\uL}{/servi}%
+\hspace*{\uL}auxiliary:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes in:\ 0,
 out:\ 0, messages\\
-\settowidth{\utilLen}{/Service/status: }%
-\hspace*{\utilLen}in:\ 0, out:\ 0\closeSq\\
+\settowidth{\uL}{/Service/status: }%
+\hspace*{\uL}in:\ 0, out:\ 0\closeSq\\
 /\dollarService/status:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes in:\ 0,
 out:\ 17292,\\
-\hspace*{\utilLen}messages in:\ 0, out:\ 176\closeSq\\
+\hspace*{\uL}messages in:\ 0, out:\ 176\closeSq\\
 
 /\serviceName/input/leapmotion\\
-\settowidth{\utilLen}{/output}%
-\hspace*{\utilLen}/\serviceName/input/leapmotion:\ \openSq{}date:\ 2014-10-10, time:\
+\settowidth{\uL}{/output}%
+\hspace*{\uL}/\serviceName/input/leapmotion:\ \openSq{}date:\ 2014-10-10, time:\
 09:16:32, bytes in:\ \\
-\settowidth{\utilLen}{/xservicx/input/leapmotion/output: }%
-\hspace*{\utilLen}54, out:\ 4842, messages in:\ 3, out:\ 2\closeSq\\
-\settowidth{\utilLen}{/xservicx/input/leapmoti}%
-\hspace*{\utilLen}auxiliary:\ \openSq{}date: 2014-10-10, time: 09:16:32, bytes in:\ \\
-\settowidth{\utilLen}{/xservicx/input/leapmotion/output: }%
-\hspace*{\utilLen}15, out:\ 53, messages in:\ 1, out:\ 1\closeSq\\
+\settowidth{\uL}{/xservicx/input/leapmotion/output: }%
+\hspace*{\uL}54, out:\ 4842, messages in:\ 3, out:\ 2\closeSq\\
+\settowidth{\uL}{/xservicx/input/leapmoti}%
+\hspace*{\uL}auxiliary:\ \openSq{}date: 2014-10-10, time: 09:16:32, bytes in:\ \\
+\settowidth{\uL}{/xservicx/input/leapmotion/output: }%
+\hspace*{\uL}15, out:\ 53, messages in:\ 1, out:\ 1\closeSq\\
 /\serviceName/input/leapmotion/output:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes
 in:\ \\
-\hspace*{\utilLen}0, out:\ 0, messages in:\ 0, out:\ 0\closeSq
+\hspace*{\uL}0, out:\ 0, messages in:\ 0, out:\ 0\closeSq
 \outputEnd{}
 \newpage
 or, if JSON--formatted output is requested:

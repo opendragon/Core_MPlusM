@@ -42,8 +42,8 @@ There is also a dynamic library to be copied and, for the Macintosh, this is
 \asCode{libLeap.dylib}; we will edit the\\
 \asCode{LeapMotionInputService/CMakeLists.txt} file to include this in the
 `\asCode{target\textunderscore{}link\textunderscore{}libraries}' statement.
-Running the `\asCode{ccmake .}', `\asCode{cmake .}' and `\asCode{make}' commands again
-will verify that we are linking properly with the dynamic library.\\
+Running the `\asCode{ccmake~.}', `\asCode{cmake~.}' and `\asCode{make~clean~\&\&~make}'
+commands again will verify that we are linking properly with the dynamic library.\\
 
 Since we've decided to use a separate \asCode{Leap::Listener} subclass, rather than
 polling the Leap Motion controller, we no longer need the \asCode{LeapMotionInputThread}

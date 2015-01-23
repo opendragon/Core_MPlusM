@@ -29,16 +29,16 @@ The following BNF statements describe the syntax in more precise terms:
 ;; values within the list. A negated value list is the complement of the values\\
 ;; within the list.\\
 
-\settowidth{\utilLen}{<FieldName> ::= }%
+\settowidth{\uL}{<FieldName> ::= }%
 <FieldName> ::= description | details | executable | input | keyword |\\
-\hspace*{\utilLen}name | output | channelname | request |\\
-\hspace*{\utilLen}requestsdescription | tag | version\\
+\hspace*{\uL}name | output | channelname | request |\\
+\hspace*{\uL}requestsdescription | tag | version\\
 ;; The field names are case-insensitive and correspond to the columns in\\
 ;; the internal database.\\
 
-\settowidth{\utilLen}{<SingleValue> ::= }%
+\settowidth{\uL}{<SingleValue> ::= }%
 <SingleValue> ::= <DoubleQuote> <String> <DoubleQuote> |\\
-\hspace*{\utilLen}<SingleQuote> <String> <SingleQuote> | <String>\\
+\hspace*{\uL}<SingleQuote> <String> <SingleQuote> | <String>\\
 <DoubleQuote> ::= '"'\\
 <SingleQuote> ::= "'"\\
 ;; If the matching value includes an unescaped double quote character, it\\
@@ -50,13 +50,13 @@ The following BNF statements describe the syntax in more precise terms:
 ;; quote characters.\\
 \newpage
 <String> ::= <Character> <String> | <Character>\\
-\settowidth{\utilLen}{<Character> ::= }%
+\settowidth{\uL}{<Character> ::= }%
 <Character> ::= <Escape> <Reserved> | <WildSpan> | <WildSingle> |\\
-\hspace*{\utilLen}<Normal>\\
+\hspace*{\uL}<Normal>\\
 <Escape> ::= '\textbackslash'\\
-\settowidth{\utilLen}{<Reserved> ::= }%
+\settowidth{\uL}{<Reserved> ::= }%
 <Reserved> ::= <DoubleQuote> | <SingleQuote> | <WildSpan> |\\
-\hspace*{\utilLen}<WildSingle> | <Escape>\\
+\hspace*{\uL}<WildSingle> | <Escape>\\
 <WildSpan> ::= '*'\\
 <WildSingle> ::= '?'\\
 <Normal> ::= a non-reserved character\\

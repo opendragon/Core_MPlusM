@@ -185,14 +185,15 @@ directory.
 \item In the \compLang{C++} header and source files, change the class names from
 \asCode{ExemplarXXX} to \asCode{FooXXX}, change the file references from
 \asCode{M+MExemplarXXX.h} to \asCode{M+MFooXXX.h}, change the namespace from
-\asCode{Exemplar} to \asCode{Foo} and replace references to `exemplar' in comments with
-`foo' -- note that the copyright notice at the beginning of each file includes the word
-`EXEMPLARY', which should not be changed
+\asCode{Exemplar} to \asCode{Foo} and replace references to `\asCode{exemplar}' in
+comments with `\asCode{foo}' -- note that the copyright notice at the beginning of each
+file includes the word `\asCode{EXEMPLARY}', which should not be changed
 \item In the main files for each application (\asCode{M+MFooAdapterMain.cpp},
 \asCode{M+MFooClientMain.cpp}, et cetera),\\
-change any text strings that contain `exemplar' to contain `foo' or that contain
-`Exemplar' to contain `Foo' -- these will most often be the names of \yarp{} network
-connections and must not conflict with the ports from other services and clients
+change any text strings that contain `\asCode{exemplar}' to contain `\asCode{foo}' or that
+contain `\asCode{Exemplar}' to contain `\asCode{Foo}' -- these will most often be the
+names of \yarp{} network connections and must not conflict with the ports from other
+services and clients
 \item In the files \asCode{M+MFooRequests.h} and \asCode{M+MFooService.cpp}, replace
 \asCode{MpM\textunderscore{}EXEMPLAR\textunderscore{}CANONICAL\textunderscore{}NAME} with
 \asCode{MpM\textunderscore{}FOO\textunderscore{}CANONICAL\textunderscore{}NAME}
@@ -216,8 +217,8 @@ where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
 \item In the top--level file \asCode{CMakeLists.txt}, comment out the directories that are
 not being built, by putting a hash--mark (or pound sign), `\asCode{\#}', at the beginning
 of the \asCode{add\textunderscore{}subdirectory} statement for the directory
-\item And lastly, change the ``Written by'' string in the comment block at the beginning
-of each file to reference the actual writer of the new custom application set
+\item And lastly, change the ``\asCode{Written by}'' string in the comment block at the
+beginning of each file to reference the actual writer of the new custom application set
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Build the application(s)}
@@ -227,15 +228,15 @@ same source files.
 \begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
 \begin{itemize}
 \item Execute `\asCode{ccmake~.}' from a terminal session that has the current directory
-set to the top--level directory for the custom files and then perform the `c' (configure)
-and `g' (generate) commands
-\item If \asCode{ccmake} does not exit with success, use the `q' (quit) command and review
-the \asCode{CMakeLists.txt} files to make sure that they've been edited correctly -- the
-error screen from \asCode{ccmake} will indicate which files have problems
+set to the top--level directory for the custom files and then perform the `\textbf{c}'
+(configure) and `\textbf{g}' (generate) commands
+\item If \asCode{ccmake} does not exit with success, use the `\textbf{q}' (quit) command
+and review the \asCode{CMakeLists.txt} files to make sure that they've been edited
+correctly -- the error screen from \asCode{ccmake} will indicate which files have problems
 \item Execute `\asCode{cmake~.}' from the terminal session, to create the `makefiles' used
 to construct the applications
-\item Execute `\asCode{make}' to build the applications; errors at this point will be a
-result of incomplete or incorrect edits and should be easy to fix
+\item Execute `\asCode{make~clean~\&\&~make}' to build the applications; errors at this
+point will be a result of incomplete or incorrect edits and should be easy to fix
 \item After testing the applications, they can be installed on the system, if desired, via
 the command\\
 `\asCode{sudo~make~install}'

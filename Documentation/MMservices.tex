@@ -90,7 +90,7 @@ They constitute the fundamental mechanism that is used by the
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
 channels and a list of the secondary output channels for its service.\\
 
-It is used by the \utilityNameR{mpmServiceLister} and \emph{ChannelManager} utilities to
+It is used by the \utilityNameR{mpmServiceLister} and \emph{Channel Manager} utilities to
 determine the active \yarp{} network connections for each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{channels}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{clients}, alias:\ %
@@ -156,7 +156,7 @@ form of the canonical name of the service, its description, its kind, the path t
 executable for the service and a description of the requests for the service.\\
 
 It is used by the \serviceNameR[Registry~Service]{RegistryService} and the
-\utilityNameR{mpmServiceLister} and \emph{ChannelManager} utilities to collect basic
+\utilityNameR{mpmServiceLister} and \emph{Channel Manager} utilities to collect basic
 information about each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{name}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{setMetricsState}}
@@ -197,7 +197,7 @@ connections for a given connection; if the requested port corresponds to a secon
 \yarp{} network connection, then the request returns the client connection that it is
 associated with.\\
 
-It is used by the \utilityNameR{mpmPortLister} and \emph{ChannelManager} utilities to
+It is used by the \utilityNameR{mpmPortLister} and \emph{Channel Manager} utilities to
 identify relationships between \yarp{} network connections.
 \tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{getAssociates}}
 \tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{match}, alias:\ %
@@ -209,7 +209,7 @@ provided as an argument to the request.\\
 It is used by all client and adapter applications to identify the service to which they
 need to connect as well as by the \utilityNameR{mpmClientList},
 \utilityNameR{mpmPortLister}, \utilityNameR{mpmRequestInfo},
-\utilityNameR{mpmServiceLister} and \emph{ChannelManager} utilities to identify services
+\utilityNameR{mpmServiceLister} and \emph{Channel Manager} utilities to identify services
 in order to gather information about them.\\
 
 For details on the syntax used with the criteria, see the 

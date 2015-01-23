@@ -115,7 +115,7 @@ Name server failed to open
 \outputEnd{}
 If you chose to stop the running \yarp{} server in order to use the version installed with
 \mplusm, you will need to clear the \yarp{} configuration before issuing the
-`\asCode{yarp server}' command.
+`\asCode{yarp~server}' command.
 The following command will clear the \yarp{} configuration:
 \outputBegin{}
 yarp conf --clean
@@ -174,22 +174,22 @@ mpmRegistryService \&
 The output similar to the following should appear:
 \outputBegin{}
 \openSq{}1\closeSq{} 63918\\
-registered admin's iMac.\fatUnderscore{}yarpns.\fatUnderscore{}tcp.local.
+registered admin's iMac.\fUS{}yarpns.\fUS{}tcp.local.
 \outputEnd{}
-where `1' will be incremented each time that a process is run in the background, `63918'
-will be replaced by the process identifier for the copy of \asCode{mpmRegistryService}
-that is running and `admin's iMac' will be replaced by the name of the computer on which
-\mplusm{} has been installed.\\
+where `\asBoldCode{1}' will be incremented each time that a process is run in the
+background, `\asBoldCode{63918}' will be replaced by the process identifier for the copy
+of \asCode{mpmRegistryService} that is running and `\asCode{admin's~iMac}' will be
+replaced by the name of the computer on which \mplusm{} has been installed.\\
 
 If something similar to the following appears:
 \outputBegin{}
 \openSq{}1\closeSq{} 64234\\
 \openSq{}1\closeSq{}+\hspace*{1em}Done\hspace*{8em}mpmRegistryService
 \outputEnd{}
-then the \asCode{mpmRegistryService} application was already running when \mplusm{} was
+then the \emph{mpmRegistryService} application was already running when \mplusm{} was
 installed, indicating that this was not a new installation but, rather, an upgrade.\\
 
-It will be necessary to stop the earlier copy of \asCode{mpmRegistryService}.
+It will be necessary to stop the earlier copy of \emph{mpmRegistryService}.
 To to this, find the running copy via the command:
 \outputBegin{}
 ps -ax | grep -i mpm | grep -v grep
@@ -198,22 +198,22 @@ A single line of output should appear, similar to:
 \outputBegin{}
 63918 ttys015   16:42.19 mpmRegistryService
 \outputEnd{}
-where `63918' will be the process identifier of the already--running copy of
-\asCode{mpmRegistryService}.
-Enter the following command, replacing `63918' with the first number that appeared in the
-output that was just displayed.
+where `\asBoldCode{63918}' will be the process identifier of the already--running copy of
+\emph{mpmRegistryService}.
+Enter the following command, replacing `\asBoldCode{63918}' with the first number that
+appeared in the output that was just displayed.
 \outputBegin{}
 kill -s HUP 63918
 \outputEnd{}
-It should now be possible to issue the `\asCode{mpmRegistryService \&}' command as
+It should now be possible to issue the `\asCode{mpmRegistryService~\&}' command as
 described earlier.\\
 
 The last step in testing the \mplusm{} installation is to launch the
-\asCode{Channel~Manager} application, which was placed in the \asCode{/Applications}
+\emph{Channel Manager} application, which was placed in the \asCode{/Applications}
 directory.
 You should see something similar to the following:
 \objScaledPicture{images/RunningChannelManager.eps}{0.75}
-You now have a test \mplusm{} installation and can begin using it for your projects!
+You now have a basic \mplusm{} installation and can begin using it for your projects!
 \tertiaryEnd{}
 \secondaryEnd{}
 \newpage
@@ -224,7 +224,7 @@ Depending on your security settings, you may receive a User Access Warning.
 Simply click the \asBoldCode{Next~>} button if that is the case.
 You will be greeted with the following window:
 \objScaledPicture{images/win_install01.eps}{0.75}
-Click the \asBoldCode{I Agree} button to proceed.
+Click the \asBoldCode{I~Agree} button to proceed.
 \objScaledPicture{images/win_install02.eps}{0.75}
 \newpage
 Then, select the destination for the installed files:

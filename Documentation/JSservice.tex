@@ -1,7 +1,7 @@
 \ProvidesFile{JSservice.tex}[v1.0.0]
 \primaryStart[TheJSService]{The~\JSIO{}~Service}
 The \asCode{mpmJavaScriptService} application is an \inputOutput{} service,
-executing a set of \asCode{JavaScript} functions contained in a file.
+executing a set of \JS{} functions contained in a file.
 The application responds to the standard \inputOutput{} service requests and can be used
 as a standalone data generator, without the need for a client connection.\\
 
@@ -18,10 +18,10 @@ an interval provided by the value of \asCode{scriptInterval}.\\
 The \emph{stopStreams} request stops the processing thread and the input and output
 streams.\\ 
 
-Note that the application will exit if the \emph{Registry~Service} is not running.\\
+Note that the application will exit if the \emph{Registry Service} is not running.\\
 
-The application has one argument -- the path to the \asCode{JavaScript} file to be used.
-Any additional arguments are passed to the \asCode{JavaScript} environment.
+The application has one argument -- the path to the \JS{} file to be used.
+Any additional arguments are passed to the \JS{} environment.
 The application has four optional parameters:
 \begin{itemize}
 \item \textbf{-e:} specifies an alternative endpoint name to be used
@@ -31,7 +31,7 @@ The application has four optional parameters:
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{ChannelManager} application cannot display them
+\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
 without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the output stream name is modified if a tag is specified and
