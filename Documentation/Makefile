@@ -189,51 +189,51 @@ $(HOME)/%.pdf : %.pdf
 # Specific rules
 
 $(CMmaindvi) : $(CMimagefiles) $(CMpsfiles) $(CMmainsource) $(CMsecondarysources)
-	latex -interaction=batchmode $(CMmainsource)
-	latex -interaction=batchmode $(CMmainsource)
-	latex -interaction=batchmode $(CMmainsource)
+	-latex -interaction=batchmode $(CMmainsource)
+	-latex -interaction=batchmode $(CMmainsource)
+	-latex -interaction=batchmode $(CMmainsource)
 	makeindex $(CMmainidx)
 	latex -interaction=batchmode $(CMmainsource)
 
 $(IMmaindvi) : $(IMimagefiles) $(IMpsfiles) $(IMmainsource) $(IMsecondarysources)
-	latex -interaction=batchmode $(IMmainsource)
-	latex -interaction=batchmode $(IMmainsource)
-	latex -interaction=batchmode $(IMmainsource)
+	-latex -interaction=batchmode $(IMmainsource)
+	-latex -interaction=batchmode $(IMmainsource)
+	-latex -interaction=batchmode $(IMmainsource)
 	makeindex $(IMmainidx)
 	latex -interaction=batchmode $(IMmainsource)
 
 $(JSmaindvi) : $(JSimagefiles) $(JSpsfiles) $(JSmainsource) $(JSsecondarysources)
-	latex -interaction=batchmode $(JSmainsource)
-	latex -interaction=batchmode $(JSmainsource)
-	latex -interaction=batchmode $(JSmainsource)
+	-latex -interaction=batchmode $(JSmainsource)
+	-latex -interaction=batchmode $(JSmainsource)
+	-latex -interaction=batchmode $(JSmainsource)
 	makeindex $(JSmainidx)
 	latex -interaction=batchmode $(JSmainsource)
 
 $(KV2maindvi) : $(KV2imagefiles) $(KV2psfiles) $(KV2mainsource) $(KV2secondarysources)
-	latex -interaction=batchmode $(KV2mainsource)
-	latex -interaction=batchmode $(KV2mainsource)
-	latex -interaction=batchmode $(KV2mainsource)
+	-latex -interaction=batchmode $(KV2mainsource)
+	-latex -interaction=batchmode $(KV2mainsource)
+	-latex -interaction=batchmode $(KV2mainsource)
 	makeindex $(KV2mainidx)
 	latex -interaction=batchmode $(KV2mainsource)
 
 $(LMmaindvi) : $(LMimagefiles) $(LMpsfiles) $(LMmainsource) $(LMsecondarysources)
-	latex -interaction=batchmode $(LMmainsource)
-	latex -interaction=batchmode $(LMmainsource)
-	latex -interaction=batchmode $(LMmainsource)
+	-latex -interaction=batchmode $(LMmainsource)
+	-latex -interaction=batchmode $(LMmainsource)
+	-latex -interaction=batchmode $(LMmainsource)
 	makeindex $(LMmainidx)
 	latex -interaction=batchmode $(LMmainsource)
 
 $(MMmaindvi) : $(MMimagefiles) $(MMpsfiles) $(MMmainsource) $(MMsecondarysources)
-	latex -interaction=batchmode $(MMmainsource)
-	latex -interaction=batchmode $(MMmainsource)
-	latex -interaction=batchmode $(MMmainsource)
+	-latex -interaction=batchmode $(MMmainsource)
+	-latex -interaction=batchmode $(MMmainsource)
+	-latex -interaction=batchmode $(MMmainsource)
 	makeindex $(MMmainidx)
 	latex -interaction=batchmode $(MMmainsource)
 
 $(VDSmaindvi) : $(VDSimagefiles) $(VDSpsfiles) $(VDSmainsource) $(VDSsecondarysources)
-	latex -interaction=batchmode $(VDSmainsource)
-	latex -interaction=batchmode $(VDSmainsource)
-	latex -interaction=batchmode $(VDSmainsource)
+	-latex -interaction=batchmode $(VDSmainsource)
+	-latex -interaction=batchmode $(VDSmainsource)
+	-latex -interaction=batchmode $(VDSmainsource)
 	makeindex $(VDSmainidx)
 	latex -interaction=batchmode $(VDSmainsource)
 
@@ -244,8 +244,8 @@ $(VDSmaindvi) : $(VDSimagefiles) $(VDSpsfiles) $(VDSmainsource) $(VDSsecondaryso
 .PRECIOUS : %.ps %.pdf
 
 clean :
-	rm -f $(CMpsfiles) $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
-	rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
+	-rm -f $(CMpsfiles) $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
+	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
 
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
 		$(VDStarget)

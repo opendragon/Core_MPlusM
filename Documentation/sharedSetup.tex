@@ -182,6 +182,18 @@
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
+\newcommand{\entityNameA}[5]{%
+  \genTarget{#1}{#4}%
+  \ifthenelse{\equal{#5}{\default{}}}%
+    {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|textbf}}%
+    {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|textbf}}%
+  \multilabel{#1}{#2}{#3}{#4}}
+
+% First argument: hyperlink/index category
+% Second argument: hyperlink/index subcategory
+% Third argument: alternate hyperlink/index subcategory
+% Fourth argument: hyperlink/index name
+% Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameD}[5]{%
   \genTarget{#1}{#4}%
   \ifthenelse{\equal{#5}{\default{}}}%
@@ -282,6 +294,7 @@
 
 % First argument [optional]: alternate name
 % Second argument: entity name
+\newcommand{\clientNameA}[2][\default{}]{\entityNameA{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\clientNameD}[2][\default{}]{\entityNameD{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\clientNameE}[2][\default{}]{\entityNameE{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\clientNameM}[2][\default{}]{\entityNameM{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
@@ -292,6 +305,7 @@
 
 % First argument [optional]: alternate name
 % Second argument: entity name
+\newcommand{\serviceNameA}[2][\default{}]{\entityNameA{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\serviceNameD}[2][\default{}]{\entityNameD{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\serviceNameE}[2][\default{}]{\entityNameE{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\serviceNameM}[2][\default{}]{\entityNameM{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
@@ -302,6 +316,7 @@
 
 % First argument [optional]: alternate name
 % Second argument: entity name
+\newcommand{\utilityNameA}[2][\default{}]{\entityNameA{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\utilityNameD}[2][\default{}]{\entityNameD{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\utilityNameE}[2][\default{}]{\entityNameE{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\utilityNameM}[2][\default{}]{\entityNameM{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
@@ -313,6 +328,7 @@
 % First argument [optional]: alternate name
 % Second argument: Subcategory
 % Third argument: entity name
+\newcommand{\examplesNameA}[3][\default{}]{\entityNameA{Examples}{#2}{#2}{#3}{#1}}% shortcut
 \newcommand{\examplesNameD}[3][\default{}]{\entityNameD{Examples}{#2}{#2}{#3}{#1}}% shortcut
 \newcommand{\examplesNameE}[3][\default{}]{\entityNameE{Examples}{#2}{#2}{#3}{#1}}% shortcut
 \newcommand{\examplesNameM}[3][\default{}]{\entityNameM{Examples}{#2}{#2}{#3}{#1}}% shortcut
@@ -325,6 +341,7 @@
 % Second argument: Subcategory
 % Third argument: Alternate subcategory name
 % Fourth argument: entity name
+\newcommand{\requestsNameA}[4][\default{}]{\entityNameA{Requests}{#2}{#3}{#4}{#1}}% shortcut
 \newcommand{\requestsNameD}[4][\default{}]{\entityNameD{Requests}{#2}{#3}{#4}{#1}}% shortcut
 \newcommand{\requestsNameE}[4][\default{}]{\entityNameE{Requests}{#2}{#3}{#4}{#1}}% shortcut
 \newcommand{\requestsNameM}[4][\default{}]{\entityNameM{Requests}{#2}{#3}{#4}{#1}}% shortcut
@@ -336,6 +353,7 @@
 % First argument [optional]: alternate name
 % Second argument: Subcategory
 % Third argument: entity name
+\newcommand{\exemplarsNameA}[2][\default{}]{\entityNameA{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\exemplarsNameD}[2][\default{}]{\entityNameD{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\exemplarsNameE}[2][\default{}]{\entityNameE{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
 \newcommand{\exemplarsNameM}[2][\default{}]{\entityNameM{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
@@ -347,6 +365,7 @@
 % First argument [optional]: alternate name
 % Second argument: Subcategory
 % Third argument: entity name
+\newcommand{\classNameA}[3][\default{}]{\entityNameA{Classes}{#2}{#2}{#3}{#1}}% shortcut
 \newcommand{\classNameD}[3][\default{}]{\entityNameD{Classes}{#2}{#2}{#3}{#1}}% shortcut
 \newcommand{\classNameE}[3][\default{}]{\entityNameE{Classes}{#2}{#2}{#3}{#1}}% shortcut
 \newcommand{\classNameM}[3][\default{}]{\entityNameM{Classes}{#2}{#2}{#3}{#1}}% shortcut

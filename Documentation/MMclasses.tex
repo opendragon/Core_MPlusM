@@ -27,7 +27,7 @@ derive from these classes.
 The class \secondaryRef{BaseAdapterData}{\classNameP{Common}{BaseAdapterData}} is used to
 provide common methods and variables for data that is shared between instances of
 derived classes of \secondaryRef{BaseService}{BaseService} and instances of derived
-classes of \classNameP{Common}{BaseInputHandler}.
+classes of \classNameR{Common}{BaseInputHandler}.
 In particular, the shared data includes the activation state of the input stream and the
 primary output stream to use when responding to input data.
 \secondaryEnd{\classNameE{Common}{BaseAdapterData}}
@@ -53,7 +53,7 @@ network connections
 connection to the endpoint of their companion service
 \item \asBoldCode{disconnectFromService} This method is used by clients to release the
 connection to their companion service
-\item \asBoldCode{findService}} This method is used by clients to locate the channel to be
+\item \asBoldCode{findService} This method is used by clients to locate the channel to be
 used for communication with their companion service
 \item \asBoldCode{reconnectIfDisconnected} This method is used by clients to re--establish
 a dropped connection with their companion service
@@ -70,7 +70,7 @@ network connections with persistent state use instances of
 derived classes of \secondaryRef{BaseContext}{\classNameP{Common}{BaseContext}} to track
 the information that is retained from each request for the following request.
 The \secondaryRef{BaseContext}{BaseContext} class itself provides no functionality.
-\secondaryEnd{}
+\secondaryEnd{\classNameE{Common}{BaseContext}}
 \secondaryStart{BaseFilterService}
 The \secondaryRef{BaseFilterService}{\classNameP{Common}{BaseFilterService}}
 class is a subclass of \secondaryRef{BaseInputOutputService}{BaseInputOutputService}
@@ -141,7 +141,7 @@ The \secondaryRef{BaseMatcher}{\classNameP{Common}{BaseMatcher}} class represent
 operations.
 The `outermost' matcher that is parsed from the original request is used to generate the
 \asCode{SQL} -- the \secondaryRef{BaseMatcher}{BaseMatcher} class acts as a placeholder.
-\secondaryEnd{}
+\secondaryEnd{\classNameE{Common}{BaseMatcher}}
 \secondaryStart{BaseOutputService}
 The \secondaryRef{BaseOutputService}{\classNameP{Common}{BaseOutputService}}
 class is a subclass of \secondaryRef{BaseInputOutputService}{BaseInputOutputService}
@@ -233,15 +233,15 @@ Instances of the \secondaryRef{Endpoint}{\classNameP{Common}{Endpoint}} class ma
 \yarp{} network connection for a service.
 They are used to simplify the communication mechanisms that each service must provide and
 to standardize on the mid--level protocols that \mplusm{} services and clients share.
-\secondaryEnd{}
+\secondaryEnd{\classNameE{Common}{Endpoint}}
 \secondaryStart{ServiceRequest}
 Instances of the \secondaryRef{ServiceRequest}{\classNameP{Common}{ServiceRequest}} class
 are used to represent requests in the mid--level protocols of \mplusm{} services in a
 uniform format.
-\secondaryEnd{}
+\secondaryEnd{\classNameE{Common}{ServiceRequest}}
 \secondaryStart{ServiceResponse}
 Instances of the \secondaryRef{ServiceResponse}{\classNameP{Common}{ServiceResponse}}
 class are used to represent responses in the mid--level protocols of \mplusm{} services in
 a uniform format.
-\secondaryEnd{}
+\secondaryEnd{\classNameE{Common}{ServiceResponse}}
 \primaryEnd{}

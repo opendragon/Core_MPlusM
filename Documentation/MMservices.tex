@@ -94,7 +94,7 @@ It is used by the \utilityNameR{mpmServiceLister} and \emph{Channel Manager} uti
 determine the active \yarp{} network connections for each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{channels}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{clients}, alias:\ %
-\requestsNameD{Basic}{Basic}{c}}
+\requestsNameA{Basic}{Basic}{c}}
 The \requestsNameX{Basic}{Basic}{clients} request returns a list of the active clients of
 its service, if the service has \yarp{} network connections with persistent state.\\
 
@@ -137,7 +137,7 @@ It is used by the \utilityNameR{mpmRequestInfo} utility to gather information ab
 request available from an active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{info}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{list}, alias:\ %
-\requestsNameD{Basic}{Basic}{l}}
+\requestsNameA{Basic}{Basic}{l}}
 The \requestsNameX{Basic}{Basic}{list} request returns details about one or more requests
 handled by a service.
 The request details include the standard name of the request, the version number of the
@@ -150,7 +150,7 @@ It is used by the \serviceNameR[Registry~Service]{RegistryService} and the
 from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{name}, alias:\ %
-\requestsNameD{Basic}{Basic}{n}}
+\requestsNameA{Basic}{Basic}{n}}
 The \requestsNameX{Basic}{Basic}{name} request returns details about its service, in the
 form of the canonical name of the service, its description, its kind, the path to the
 executable for the service and a description of the requests for the service.\\
@@ -201,7 +201,7 @@ It is used by the \utilityNameR{mpmPortLister} and \emph{Channel Manager} utilit
 identify relationships between \yarp{} network connections.
 \tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{getAssociates}}
 \tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{match}, alias:\ %
-\requestsNameD{Registry~Service}{RegistryService}{find}}
+\requestsNameA{Registry~Service}{RegistryService}{find}}
 The \requestsNameX{Registry~Service}{RegistryService}{match} request returns a list of
 input \yarp{} network connections or service names for services that match the criteria
 provided as an argument to the request.\\
@@ -231,7 +231,7 @@ The sequence of requests sent to the active service is described in the
 \appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
 \tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{ping}}
 \tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{register}, alias:\ %
-\requestsNameD{Registry~Service}{RegistryService}{remember}}
+\requestsNameA{Registry~Service}{RegistryService}{remember}}
 The \requestsNameX{Registry~Service}{RegistryService}{register} request is sent by each
 active service (except the \serviceNameR[Registry~Service]{RegistryService}) when it
 starts execution.\\
@@ -243,7 +243,7 @@ The sequence of requests sent to the active service is described in the
 \appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
 \tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{register}}
 \tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{unregister}, alias:\ %
-\requestsNameD{Registry~Service}{RegistryService}{forget}}
+\requestsNameA{Registry~Service}{RegistryService}{forget}}
 The \requestsNameX{Registry~Service}{RegistryService}{unregister} request is sent by each
 service (except the \serviceNameR[Registry~Service]{RegistryService}) just before it stops
 execution.\\
