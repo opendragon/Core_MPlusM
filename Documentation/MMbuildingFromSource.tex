@@ -109,8 +109,9 @@ page of options
 \item Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to \asCode{/opt/M+M}
 \item Change any other options that you are interested in applying; it is recommended that
 the option\\
-`\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the option
-`\textbf{CREATE\fUS{}YMANAGER}' should be disabled
+`\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
+`\textbf{CREATE\fUS{}YMANAGER}' and\\
+`\textbf{YARP\fUS{}USE\fUS{}READLINE}' should be disabled
 \item Press `\textbf{c}' to configure the makefiles; there may be some CMake warnings for
 project developers, which can be cleared by pressing `\textbf{e}'
 \item Press `\textbf{g}' to generate the makefiles; there may be some CMake warnings for
@@ -122,7 +123,7 @@ warnings, which can be safely ignored
 issues with \yarp{} caused by installing it in a non--default location
 \item Execute the command `\asCode{sudo~make~install}'
 \item If desired, you can verify that \yarp{} is correctly built be executing the command
-`\asCode{yarp}'
+`\asCode{make~test}'
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
