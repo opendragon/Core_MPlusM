@@ -213,6 +213,31 @@ similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}' then the \y
 server is already running
 \item If the \yarp{} server is not already running, start a separate terminal session and
 launch the \yarp{} server by executing the command `\asCode{yarp~server}'
+\item If you see something similar to the following, there is another process using the
+network port that \yarp{} uses by default:
+\outputBegin{}
+\begin{verbatim}
+__   __ _    ____  ____  
+\ \ / // \  |  _ \|  _ \ 
+ \ V // _ \ | |_) | |_) |
+  | |/ ___ \|  _ <|  __/ 
+  |_/_/   \_\_| \_\_|    
+\end{verbatim}
+Call with --help for information on available options\\
+Options can be set on command line or in /Users/M\textunderscore{}M/Library/Application\\
+\hspace*{5em}Support/yarp/config/yarpserver.conf\\
+Using port database:\ :memory:\\
+Using subscription database:\ :memory:\\
+IP address:\ default\\
+Port number:\ 10000\\
+yarp:\ Port /root failed to activate at tcp://10.0.1.2:10000 (address conflict)\\
+Name server failed to open
+\outputEnd{}
+\item If you see the above error message, you will need to clear the \yarp{}
+configuration by issuing the command `\asCode{yarp~conf~{-}{-}clean}'.
+\item Once the \yarp{} configuration is cleared, execute the command
+`\asCode{yarp server --socket 11223 --write}' to start the \yarp{} server, where
+`\asCode{11223}' is an arbitrary number greater than 1024.
 \item In the terminal session where \mplusm{} was built, execute the command
 `\asCode{make~test}'
 \item When the test completes, close the new terminal session if one was started for the

@@ -91,10 +91,15 @@ Click on the \asBoldCode{Close} button to exit from the installer.
 \tertiaryStart{Testing~The~Installation}
 Open the \asCode{Terminal} program and enter the following:
 \outputBegin{}
+ps | grep yarp | grep -v grep
+\outputEnd{}
+If there is a line similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}'
+then the \yarp{} server is already running. If not, enter the following:
+\outputBegin{}
 yarp server
 \outputEnd{}
-If you see the following, there was another copy of the \yarp{} server already running on
-the system and you may wish to stop it before continuing:
+If you then see something similar to the following, there is another process using the
+network port that \yarp{} uses by default:
 \outputBegin{}
 \begin{verbatim}
 __   __ _    ____  ____  
@@ -114,12 +119,18 @@ yarp:\ Port /root failed to activate at tcp://10.0.1.2:10000 (address conflict)\
 Name server failed to open
 \outputEnd{}
 If you chose to stop the running \yarp{} server in order to use the version installed with
-\mplusm, you will need to clear the \yarp{} configuration before issuing the
-`\asCode{yarp~server}' command.
+\mplusm{} or if you see the above error message, you will need to clear the \yarp{}
+configuration before issuing the `\asCode{yarp~server}' command.
 The following command will clear the \yarp{} configuration:
 \outputBegin{}
 yarp conf --clean
 \outputEnd{}
+If there was an address conflict due to another process using \yarp's default port, use
+the following command to start the \yarp{} server:
+\outputBegin{}
+yarp server --socket 11223 --write
+\outputEnd{}
+where `\asCode{11223}' is an arbitrary number greater than 1024.
 Note that \mplusm{} has been tested with \yarp{} versions 2.3.61 through 2.3.63 and should
 work with newer versions.
 To identify the version of \yarp{} that is installed, issue the command:
