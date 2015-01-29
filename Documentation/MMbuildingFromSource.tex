@@ -208,15 +208,22 @@ executed
 \item Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 7 minutes
 \item To run the unit tests for \mplusm{}, do the following:
 \begin{itemize}
-\item In a separate terminal session, launch the \yarp{} server by executing the command
-`\asCode{yarp~server}'
+\item Execute the command `\asCode{ps | grep yarp | grep -v grep}'; if there is a line
+similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}' then the \yarp{}
+server is already running
+\item If the \yarp{} server is not already running, start a separate terminal session and
+launch the \yarp{} server by executing the command `\asCode{yarp~server}'
 \item In the terminal session where \mplusm{} was built, execute the command
 `\asCode{make~test}'
+\item When the test completes, close the new terminal session if one was started for the
+test
 \end{itemize}
 \item To install the freshly--built \mplusm{} files, execute the command
 `\asCode{sudo~make~install}'
 \item To confirm the normal operation of \mplusm{}, do the following:
 \begin{itemize}
+\item Check that the \yarp{} server is running and start it if it is not, using the
+instructions above
 \item Execute the command `\asCode{mpmRegistryService~\&}'; this will launch the Registry
 Service in the background and return the \textbf{PID} that can be used to halt it later
 \item Execute the command `\asCode{mpmServiceLister}; this should display the properties
