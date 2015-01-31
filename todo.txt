@@ -8,3 +8,4 @@
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
+@ determine if long options work with Windows and, if so, change command-line tools to use them!
