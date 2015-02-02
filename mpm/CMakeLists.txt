@@ -44,7 +44,7 @@ set(OTHER_TARGET_PYTHON mpmCommon_swig_python)
 
 if(APPLE)
     set(DO_SHARED "SHARED")
-    set(GETOPT_SOURCE "${MpM_SOURCE_DIR}/mpm/optionparser.cpp")
+    set(GETOPT_SOURCE "")
     set(THIS_TARGET_LIB "lib${THIS_TARGET}.dylib")
 else(APPLE)
     set(DO_SHARED "")
@@ -54,6 +54,7 @@ endif(APPLE)
 add_library(${THIS_TARGET}
             "${DO_SHARED}"
             "${GETOPT_SOURCE}"
+            "${MpM_SOURCE_DIR}/mpm/optionparser.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
@@ -136,6 +137,7 @@ install(TARGETS ${THIS_TARGET}
         COMPONENT libraries)
 
 install(FILES
+        "${MpM_SOURCE_DIR}/mpm/optionparser.h"
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"
@@ -179,9 +181,6 @@ install(FILES
 		COMPONENT headers)
 
 if(APPLE)
-    install(FILES
-    "${MpM_SOURCE_DIR}/mpm/optionparser.h"
-    DESTINATION include/mpm)
 else(APPLE)
     install(FILES
             "${MpM_SOURCE_DIR}/mpm/getopt.h"
