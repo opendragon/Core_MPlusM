@@ -57,6 +57,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Unreal;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -96,7 +99,7 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
         if (positionData && (3 == positionData->size()) && directionData &&
             (3 == directionData->size()))
         {
-            std::cerr << "Segment = " << fingerTag.c_str() << std::endl; //!!!!
+            cerr << "Segment = " << fingerTag.c_str() << endl; //!!!!
             outBuffer << fingerTag.c_str();
             for (int jj = 0; okSoFar && (3 > jj); ++jj)
             {
@@ -113,7 +116,7 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
                 }
                 else
                 {
-                    std::cerr << "Bad position data" << std::endl; //!!!!
+                    cerr << "Bad position data" << endl; //!!!!
                     okSoFar = false;
                 }
                 if (okSoFar)
@@ -137,7 +140,7 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
                 }
                 else
                 {
-                    std::cerr << "Bad direction data" << std::endl; //!!!!
+                    cerr << "Bad direction data" << endl; //!!!!
                     okSoFar = false;
                 }
                 if (okSoFar)
@@ -154,13 +157,13 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
         }
         else
         {
-            std::cerr << "Position or direction data invalid" << std::endl; //!!!!
+            cerr << "Position or direction data invalid" << endl; //!!!!
             okSoFar = false;
         }
     }
     else
     {
-        std::cerr << "Missing or invalid finger values" << std::endl; //!!!!
+        cerr << "Missing or invalid finger values" << endl; //!!!!
         okSoFar = false;
     }
     OD_LOG_EXIT(); //####
@@ -190,7 +193,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
         {
             int fingerCount = fingers->size();
             
-            std::cerr << "Subject = " << nameTag.c_str() << std::endl; //!!!!
+            cerr << "Subject = " << nameTag.c_str() << endl; //!!!!
             outBuffer << nameTag.c_str() << "\t" << fingerCount << "\t0" << LINE_END;
             for (int ii = 0; okSoFar && (fingerCount > ii); ++ii)
             {
@@ -206,7 +209,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                     }
                     else
                     {
-                        std::cerr << "Bad finger pointer" << std::endl; //!!!!
+                        cerr << "Bad finger pointer" << endl; //!!!!
                         okSoFar = false;
                     }
                 }
@@ -224,32 +227,32 @@ static bool dumpHandData(std::stringstream &  outBuffer,
                         }
                         else
                         {
-                            std::cerr << "Finger is not a dictionary" << std::endl; //!!!!
+                            cerr << "Finger is not a dictionary" << endl; //!!!!
                             okSoFar = false;
                         }
                     }
                     else
                     {
-                        std::cerr << "Bad finger list pointer" << std::endl; //!!!!
+                        cerr << "Bad finger list pointer" << endl; //!!!!
                         okSoFar = false;
                     }
                 }
                 else
                 {
-                    std::cerr << "Finger is not a dictionary" << std::endl; //!!!!
+                    cerr << "Finger is not a dictionary" << endl; //!!!!
                     okSoFar = false;
                 }
             }
         }
         else
         {
-            std::cerr << "Bad finger list pointer" << std::endl; //!!!!
+            cerr << "Bad finger list pointer" << endl; //!!!!
             okSoFar = false;
         }
     }
     else
     {
-        std::cerr << "Missing or invalid hand values" << std::endl; //!!!!
+        cerr << "Missing or invalid hand values" << endl; //!!!!
         okSoFar = false;
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -308,11 +311,11 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
         {
             if (INVALID_SOCKET == _outSocket)
             {
-                std::cerr << "invalid socket" << std::endl; //!!!!
+                cerr << "invalid socket" << endl; //!!!!
             }
             else
             {
-                std::cerr << "got data" << std::endl; //!!!!
+                cerr << "got data" << endl; //!!!!
                 if (2 == input.size())
                 {
                     yarp::os::Value & firstTopValue = input.get(0);
@@ -332,7 +335,7 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                                 bool              okSoFar = true;
                                 std::stringstream outBuffer;
                                 
-//                                std::cerr << "# hands = " << handCount << std::endl; //!!!!
+//                                cerr << "# hands = " << handCount << endl; //!!!!
                                 outBuffer << handCount << LINE_END;
                                 for (int ii = 0; okSoFar && (handCount > ii); ++ii)
                                 {
@@ -348,8 +351,7 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                                         }
                                         else
                                         {
-                                            std::cerr << "Bad hand data pointer" << //!!!!
-                                                        std::endl; //!!!!
+                                            cerr << "Bad hand data pointer" << endl; //!!!!
                                             okSoFar = false;
                                         }
                                     }
@@ -367,21 +369,20 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                                             }
                                             else
                                             {
-                                                std::cerr << "Hand value is not a dictionary" <<
-                                                            std::endl; //!!!!
+                                                cerr << "Hand value is not a dictionary" <<
+                                                        endl; //!!!!
                                                 okSoFar = false;
                                             }
                                         }
                                         else
                                         {
-                                            std::cerr << "Bad hand data pointer" << std::endl; //!!!!
+                                            cerr << "Bad hand data pointer" << endl; //!!!!
                                             okSoFar = false;
                                         }
                                     }
                                     else
                                     {
-                                        std::cerr << "Hand value is not a dictionary" << //!!!!
-                                                    std::endl; //!!!!
+                                        cerr << "Hand value is not a dictionary" << endl; //!!!!
                                         okSoFar = false;
                                     }
                                 }
@@ -392,7 +393,7 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                                     int         retVal = send(_outSocket, outString.c_str(),
                                                               outString.length(), 0);
                                     
-                                    std::cerr << "send--> " << retVal << std::endl; //!!!!
+                                    cerr << "send--> " << retVal << endl; //!!!!
                                     if (0 > retVal)
                                     {
                                         _owner.deactivateConnection();
@@ -402,19 +403,17 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      inp
                         }
                         else
                         {
-                            std::cerr << "Bad hand or tool list pointer" << std::endl; //!!!!
+                            cerr << "Bad hand or tool list pointer" << endl; //!!!!
                         }
                     }
                     else
                     {
-                        std::cerr << "Input not just a list of hands and a list of tools" << //!!!!
-                                    std::endl; //!!!!
+                        cerr << "Input not just a list of hands and a list of tools" << endl; //!!!!
                     }
                 }
                 else
                 {
-                    std::cerr << "Input not just a list of hands and a list of tools" << //!!!!
-                                std::endl; //!!!!
+                    cerr << "Input not just a list of hands and a list of tools" << endl; //!!!!
                 }
             }
         }

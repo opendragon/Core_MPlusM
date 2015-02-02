@@ -78,6 +78,8 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -91,7 +93,7 @@ using namespace MplusM::Common;
 #endif // ! defined(MpM_MetricsInitiallyOn)
 
 /*! @brief The accepted command line arguments for services. */
-#define STANDARD_SERVICE_OPTIONS "e:p:rt:"
+#define STANDARD_SERVICE_OPTIONS "e:hp:rt:"
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -823,7 +825,9 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 
 bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
+                                           const char *                  argList,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           bool &                        nameWasSet,
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,
                                            yarp::os::ConstString &       serviceEndpointName,
@@ -831,14 +835,16 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L1("argc = ", argc); //####
-    OD_LOG_P2("argv = ", argv, "reportOnExit = ", &reportOnExit); //####
+    OD_LOG_P3("argv = ", argv, "nameWasSet = ", &nameWasSet, "reportOnExit = ",//####
+              &reportOnExit); //####
+    OD_LOG_S1("argList = ", argList); //####
     OD_LOG_S1s("defaultEndpointNameRoot = ", defaultEndpointNameRoot); //####
-    bool endpointSpecified = false;
+    bool keepGoing = true;
     
     opterr = 0; // Suppress the error message resulting from an unknown option.
-    reportOnExit = false;
+    nameWasSet = reportOnExit = false;
     tag = serviceEndpointName = serviceEndpointName = "";
-    for (int cc = getopt(argc, argv, STANDARD_SERVICE_OPTIONS); -1 != cc;
+    for (int cc = getopt(argc, argv, STANDARD_SERVICE_OPTIONS); keepGoing && (-1 != cc);
          cc = getopt(argc, argv, STANDARD_SERVICE_OPTIONS))
     {
         switch (cc)
@@ -846,6 +852,20 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
             case 'e' :
                 serviceEndpointName = optarg;
                 OD_LOG_S1s("serviceEndpointName <- ", serviceEndpointName); //####
+                break;
+                
+            case 'h' :
+                cout << "Usage: " << *argv << " [-ehprt]" << argList << endl << endl;
+                cout << "The following options are available:" << endl << endl;
+                cout << "    -e    specifies an alternative endpoint name to be used" << endl;
+                cout << "    -h    display the list of optional parameters and arguments and "
+                        "leave" << endl;
+                cout << "    -p    specifies the port number to be used, if a non-default port is "
+                        "desired" << endl;
+                cout << "    -r    report the service metrics when the application exits" << endl;
+                cout << "    -t    specifies the tag to be used as part of the service name" <<
+                        endl;
+                keepGoing = false;
                 break;
                 
             case 'p' :
@@ -872,7 +892,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     if (0 < serviceEndpointName.size())
     {
-        endpointSpecified = true;
+        nameWasSet = true;
     }
     else if (0 < tag.size())
     {
@@ -882,8 +902,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     {
         serviceEndpointName = defaultEndpointNameRoot;
     }
-    OD_LOG_EXIT_B(endpointSpecified); //####
-    return endpointSpecified;
+    OD_LOG_EXIT_B(keepGoing); //####
+    return keepGoing;
 } // Common::ProcessStandardServiceOptions
 
 bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,

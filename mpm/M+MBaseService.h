@@ -434,16 +434,20 @@ namespace MplusM
          the name was not specified. It is also applied to the service name as a suffix.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the service.
+         @param argList The command-line options and arguments for the service.
          @param defaultEndpointNameRoot The default endpoint root name.
+         @param nameWasSet Set to @c true if the service endpoint option appeared.
          @param reportOnExit Set to @c true if the -r option is seen.
          @param tag Set to the argument of the last -t option seen.
          @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
          options.
          @param servicePortNumber Set to the argument of the last -p option seen.
-         @returns @c true if the service endpoint option appeared. */
+         @returns @c true if the service should continue and @c false if it should leave. */
         bool ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
+                                           const char *                  argList,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           bool &                        nameWasSet,
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,
                                            yarp::os::ConstString &       serviceEndpointName,

@@ -71,6 +71,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Test;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -1718,7 +1721,7 @@ int main(int      argc,
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+            cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

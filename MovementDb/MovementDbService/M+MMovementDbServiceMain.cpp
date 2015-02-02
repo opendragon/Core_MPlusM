@@ -71,6 +71,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::MovementDb;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -142,7 +145,7 @@ static void setUpAndGo(const yarp::os::ConstString & databaseAddress,
 #if MAC_OR_LINUX_
                 GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Service could not be registered." << std::endl;
+                cerr << "Service could not be registered." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -152,7 +155,7 @@ static void setUpAndGo(const yarp::os::ConstString & databaseAddress,
 #if MAC_OR_LINUX_
             GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Service could not be started." << std::endl;
+            cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
         }
         delete stuff;
@@ -190,49 +193,53 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        ProcessStandardServiceOptions(argc, argv, DEFAULT_MOVEMENTDB_SERVICE_NAME, reportOnExit,
-                                      tag, serviceEndpointName, servicePortNumber);
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        if (ProcessStandardServiceOptions(argc, argv, " [dbNetAddress]",
+                                          DEFAULT_MOVEMENTDB_SERVICE_NAME, nameWasSet, reportOnExit,
+                                          tag, serviceEndpointName, servicePortNumber))
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            if (optind < argc)
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                yarp::os::ConstString databaseAddress(argv[optind]);
-
-                setUpAndGo(databaseAddress, argv, tag, serviceEndpointName, servicePortNumber,
-                           reportOnExit);
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
+                
+                Initialize(*argv);
+                if (optind < argc)
+                {
+                    yarp::os::ConstString databaseAddress(argv[optind]);
+                    
+                    setUpAndGo(databaseAddress, argv, tag, serviceEndpointName, servicePortNumber,
+                               reportOnExit);
+                }
+                else
+                {
+# if MAC_OR_LINUX_
+                    GetLogger().fail("Missing database network address.");
+# else // ! MAC_OR_LINUX_
+                    cerr << "Missing database network address." << endl;
+# endif // ! MAC_OR_LINUX_
+                }
             }
+#if CheckNetworkWorks_
             else
             {
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-                GetLogger().fail("Missing database network address.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-                std::cerr << "Missing database network address." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
             }
-        }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
-# if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
-# else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
-# endif // ! MAC_OR_LINUX_
-        }
 #endif // CheckNetworkWorks_
+        }
     }
     catch (...)
     {

@@ -80,6 +80,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -651,14 +652,14 @@ void MplusM::OutputDescription(std::ostream &                outStream,
         {
             yarp::os::ConstString piece(description.substr(pieceStart, ii - pieceStart));
             
-            outStream << indent << piece.c_str() << std::endl;
+            outStream << indent << piece.c_str() << endl;
             pieceStart = ii + 1;
             indent = blanks;
         }
     }
     yarp::os::ConstString piece(description.substr(pieceStart, descriptionLength - pieceStart));
     
-    outStream << indent << piece.c_str() << std::endl;
+    outStream << indent << piece.c_str() << endl;
 } // MplusM::OutputDescription
 
 yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inString,

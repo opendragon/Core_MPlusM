@@ -63,6 +63,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -258,7 +261,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
                         GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
-                        std::cerr << "Could not connect to the required service." << std::endl;
+                        cerr << "Could not connect to the required service." << endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
@@ -268,7 +271,7 @@ int main(int      argc,
 #if MAC_OR_LINUX_
                     GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
-                    std::cerr << "Could not find the required service." << std::endl;
+                    cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
                 delete stuff;
@@ -285,7 +288,7 @@ int main(int      argc,
 # if MAC_OR_LINUX_
             GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+            cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_

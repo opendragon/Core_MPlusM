@@ -58,6 +58,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -757,128 +758,130 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     OutputFlavour flavour;
     
-    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
-    try
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", flavour))
     {
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        try
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            bool                  found = false;
-            Utilities::PortVector ports;
-            
-            Utilities::RemoveStalePorts();
-            if (Utilities::GetDetectedPortList(ports, true))
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                bool serviceRegistryPresent = Utilities::CheckForRegistryService(ports);
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
-                switch (flavour)
+                Initialize(*argv);
+                bool                  found = false;
+                Utilities::PortVector ports;
+                
+                Utilities::RemoveStalePorts();
+                if (Utilities::GetDetectedPortList(ports, true))
                 {
-                    case kOutputFlavourTabs :
-                        break;
-                        
-                    case kOutputFlavourJSON :
-                        cout << "[ ";
-                        break;
-                        
-                    case kOutputFlavourNormal :
-                        cout << "Ports:" << endl;
-                        break;
-                        
-                    default :
-                        break;
-                        
-                }
-                if (0 < ports.size())
-                {
-                    for (Utilities::PortVector::const_iterator walker(ports.begin());
-                         ports.end() != walker; ++walker)
+                    bool serviceRegistryPresent = Utilities::CheckForRegistryService(ports);
+                    
+                    switch (flavour)
                     {
-                        switch (flavour)
+                        case kOutputFlavourTabs :
+                            break;
+                            
+                        case kOutputFlavourJSON :
+                            cout << "[ ";
+                            break;
+                            
+                        case kOutputFlavourNormal :
+                            cout << "Ports:" << endl;
+                            break;
+                            
+                        default :
+                            break;
+                            
+                    }
+                    if (0 < ports.size())
+                    {
+                        for (Utilities::PortVector::const_iterator walker(ports.begin());
+                             ports.end() != walker; ++walker)
                         {
-                            case kOutputFlavourJSON :
-                                if (found)
-                                {
-                                    cout << "," << endl;
-                                }
-                                break;
-                                
-                            case kOutputFlavourTabs :
-                                if (found)
-                                {
-                                    cout << endl;
-                                }
-                                break;
-                                
-                            case kOutputFlavourNormal :
-                                break;
-                                
-                            default :
-                                break;
-                                
+                            switch (flavour)
+                            {
+                                case kOutputFlavourJSON :
+                                    if (found)
+                                    {
+                                        cout << "," << endl;
+                                    }
+                                    break;
+                                    
+                                case kOutputFlavourTabs :
+                                    if (found)
+                                    {
+                                        cout << endl;
+                                    }
+                                    break;
+                                    
+                                case kOutputFlavourNormal :
+                                    break;
+                                    
+                                default :
+                                    break;
+                                    
+                            }
+                            found = reportPortStatus(flavour, *walker, serviceRegistryPresent);
                         }
-                        found = reportPortStatus(flavour, *walker, serviceRegistryPresent);
+                    }
+                    switch (flavour)
+                    {
+                        case kOutputFlavourTabs :
+                            if (found)
+                            {
+                                cout << endl;
+                            }
+                            break;
+                            
+                        case kOutputFlavourJSON :
+                            cout << " ]" << endl;
+                            break;
+                            
+                        case kOutputFlavourNormal :
+                            if (found)
+                            {
+                                cout << endl;
+                            }
+                            else
+                            {
+                                cout << "   No ports found." << endl;
+                            }
+                            break;
+                            
+                        default :
+                            break;
+                            
                     }
                 }
-                switch (flavour)
+                else
                 {
-                    case kOutputFlavourTabs :
-                        if (found)
-                        {
-                            cout << endl;
-                        }
-                        break;
-                        
-                    case kOutputFlavourJSON :
-                        cout << " ]" << endl;
-                        break;
-                        
-                    case kOutputFlavourNormal :
-                        if (found)
-                        {
-                            cout << endl;
-                        }
-                        else
-                        {
-                            cout << "   No ports found." << endl;
-                        }
-                        break;
-                        
-                    default :
-                        break;
-                        
+                    OD_LOG("! (Utilities::GetDetectedPortList(ports, true))"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Could not get port list.");
+#endif // MAC_OR_LINUX_
                 }
             }
+#if CheckNetworkWorks_
             else
             {
-                OD_LOG("! (Utilities::GetDetectedPortList(ports, true))"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Could not get port list.");
-#endif // MAC_OR_LINUX_
-            }
-        }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught"); //####
+        }
+        yarp::os::Network::fini();
     }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-    }
-    yarp::os::Network::fini();
     OD_LOG_EXIT_L(0); //####
     return 0;
 } // main

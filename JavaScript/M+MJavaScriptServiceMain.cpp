@@ -2315,156 +2315,158 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  nameWasSet = false;
         bool                  reportOnExit = false;
-        bool                  nameWasSet;
         bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        nameWasSet = ProcessStandardServiceOptions(argc, argv, DEFAULT_JAVASCRIPT_SERVICE_NAME,
-                                                   reportOnExit, tag, serviceEndpointName,
-                                                   servicePortNumber);
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        if (ProcessStandardServiceOptions(argc, argv, " scriptPath",
+                                          DEFAULT_JAVASCRIPT_SERVICE_NAME, nameWasSet, reportOnExit,
+                                          tag, serviceEndpointName, servicePortNumber))
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            if (optind < argc)
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                yarp::os::ConstString rawTag(tag);
-                yarp::os::ConstString scriptPath(argv[optind]);
-                yarp::os::ConstString scriptSource;
-                yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
-                if (! nameWasSet)
+                Initialize(*argv);
+                if (optind < argc)
                 {
-                    serviceEndpointName += "/" + tagModifier;
-                }
-                if (0 < tag.length())
-                {
-                    tag += ":" + tagModifier;
-                }
-                else
-                {
-                    tag = tagModifier;
-                }
-                // Make sure that the scriptPath is valid and construct the modified 'tag' and
-                // (optional) endpoint name.
-                FILE * scratch = fopen(scriptPath.c_str(), "r");
-                
-                if (scratch)
-                {
-                    // The path given is a readable file, so read it in and prepare to start the
-                    // service by filling in the scriptSource.
-                    char   buffer[10240];
-                    size_t numRead;
+                    yarp::os::ConstString rawTag(tag);
+                    yarp::os::ConstString scriptPath(argv[optind]);
+                    yarp::os::ConstString scriptSource;
+                    yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
                     
-                    for ( ; ! feof(scratch); )
+                    if (! nameWasSet)
                     {
-                        numRead = fread(buffer, 1, sizeof(buffer) - 1, scratch);
-                        if (numRead)
-                        {
-                            buffer[numRead] = '\0';
-                            scriptSource += buffer;
-                        }
+                        serviceEndpointName += "/" + tagModifier;
                     }
-                    fclose(scratch);
-                }
-                if (0 < scriptSource.size())
-                {
-                    if (JS_Init())
+                    if (0 < tag.length())
                     {
-                        JSContext * jct = NULL;
-                        JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE * 1024 * 1024);
-                        
-                        if (jrt)
-                        {
-                            // Avoid ambiguity between 'var x = ...' and 'x = ...'.
-                            JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
-                            JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
-                            jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
-                            if (jct)
-                            {
-                                JS::ContextOptionsRef(jct).setDontReportUncaught(true);
-                                JS::ContextOptionsRef(jct).setAutoJSAPIOwnsErrorReporting(true);
-                                JS_SetErrorReporter(jrt, reportJavaScriptError);
-                            }
-                            else
-                            {
-                                OD_LOG("! (jct)"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("JavaScript context could not be allocated.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "JavaScript context could not be allocated." << endl;
-#endif // ! MAC_OR_LINUX_
-                                JS_DestroyRuntime(jrt);
-                                jrt = NULL;
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (jrt)"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("JavaScript runtime could not be allocated.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "JavaScript runtime could not be allocated." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                        if (jrt && jct)
-                        {
-                            setUpAndGo(jct, scriptSource, scriptPath, rawTag, argc, argv,
-                                       serviceEndpointName, servicePortNumber, stdinAvailable,
-                                       reportOnExit);
-                            JS_DestroyContext(jct);
-                            JS_DestroyRuntime(jrt);
-                        }
-                        JS_ShutDown();
+                        tag += ":" + tagModifier;
                     }
                     else
                     {
-                        OD_LOG("! (JS_Init())"); //####
+                        tag = tagModifier;
+                    }
+                    // Make sure that the scriptPath is valid and construct the modified 'tag' and
+                    // (optional) endpoint name.
+                    FILE * scratch = fopen(scriptPath.c_str(), "r");
+                    
+                    if (scratch)
+                    {
+                        // The path given is a readable file, so read it in and prepare to start the
+                        // service by filling in the scriptSource.
+                        char   buffer[10240];
+                        size_t numRead;
+                        
+                        for ( ; ! feof(scratch); )
+                        {
+                            numRead = fread(buffer, 1, sizeof(buffer) - 1, scratch);
+                            if (numRead)
+                            {
+                                buffer[numRead] = '\0';
+                                scriptSource += buffer;
+                            }
+                        }
+                        fclose(scratch);
+                    }
+                    if (0 < scriptSource.size())
+                    {
+                        if (JS_Init())
+                        {
+                            JSContext * jct = NULL;
+                            JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE * 1024 * 1024);
+                            
+                            if (jrt)
+                            {
+                                // Avoid ambiguity between 'var x = ...' and 'x = ...'.
+                                JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
+                                JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
+                                jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
+                                if (jct)
+                                {
+                                    JS::ContextOptionsRef(jct).setDontReportUncaught(true);
+                                    JS::ContextOptionsRef(jct).setAutoJSAPIOwnsErrorReporting(true);
+                                    JS_SetErrorReporter(jrt, reportJavaScriptError);
+                                }
+                                else
+                                {
+                                    OD_LOG("! (jct)"); //####
 #if MAC_OR_LINUX_
-                        GetLogger().fail("JavaScript engine could not be started.");
+                                    GetLogger().fail("JavaScript context could not be allocated.");
 #else // ! MAC_OR_LINUX_
-                        cerr << "JavaScript engine could not be started." << endl;
+                                    cerr << "JavaScript context could not be allocated." << endl;
+#endif // ! MAC_OR_LINUX_
+                                    JS_DestroyRuntime(jrt);
+                                    jrt = NULL;
+                                }
+                            }
+                            else
+                            {
+                                OD_LOG("! (jrt)"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("JavaScript runtime could not be allocated.");
+#else // ! MAC_OR_LINUX_
+                                cerr << "JavaScript runtime could not be allocated." << endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                            if (jrt && jct)
+                            {
+                                setUpAndGo(jct, scriptSource, scriptPath, rawTag, argc, argv,
+                                           serviceEndpointName, servicePortNumber, stdinAvailable,
+                                           reportOnExit);
+                                JS_DestroyContext(jct);
+                                JS_DestroyRuntime(jrt);
+                            }
+                            JS_ShutDown();
+                        }
+                        else
+                        {
+                            OD_LOG("! (JS_Init())"); //####
+#if MAC_OR_LINUX_
+                            GetLogger().fail("JavaScript engine could not be started.");
+#else // ! MAC_OR_LINUX_
+                            cerr << "JavaScript engine could not be started." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (0 < scriptSource.size())"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Empty script file.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Empty script file." << endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
                 else
                 {
-                    OD_LOG("! (0 < scriptSource.size())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Empty script file.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Empty script file." << endl;
-#endif // ! MAC_OR_LINUX_
+# if MAC_OR_LINUX_
+                    GetLogger().fail("Missing script file path.");
+# else // ! MAC_OR_LINUX_
+                    cerr << "Missing script file path." << endl;
+# endif // ! MAC_OR_LINUX_
                 }
             }
+#if CheckNetworkWorks_
             else
             {
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-                GetLogger().fail("Missing script file path.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-                cerr << "Missing script file path." << endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
             }
-        }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
-# if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
-# else // ! MAC_OR_LINUX_
-            cerr << "YARP network not running." << endl;
-# endif // ! MAC_OR_LINUX_
-        }
 #endif // CheckNetworkWorks_
+        }
     }
     catch (...)
     {

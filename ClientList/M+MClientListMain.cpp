@@ -65,6 +65,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -165,212 +166,218 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     OutputFlavour flavour;
     
-    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
-    try
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", flavour))
     {
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        try
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
-            
-            Initialize(*argv);
-            if (optind >= argc)
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                channelNameRequest += "*";
-            }
-            else
-            {
-                channelNameRequest += argv[optind];
-            }
-            yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
-            
-            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
-            {
-                // First, check if the search succeeded.
-                yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
+                yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
                 
-                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+                Initialize(*argv);
+                if (optind >= argc)
                 {
-                    OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
-#if MAC_OR_LINUX_
-                    yarp::os::ConstString reason(matches.get(1).toString());
-                    
-                    GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
-#endif // MAC_OR_LINUX_
+                    channelNameRequest += "*";
                 }
                 else
                 {
-                    // Now, process the second element.
-                    yarp::os::Bottle * matchesList = matches.get(1).asList();
+                    channelNameRequest += argv[optind];
+                }
+                yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
+                
+                if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+                {
+                    // First, check if the search succeeded.
+                    yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                     
-                    if (matchesList)
+                    if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                     {
-                        int matchesCount = matchesList->size();
+                        OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
+#if MAC_OR_LINUX_
+                        yarp::os::ConstString reason(matches.get(1).toString());
                         
-                        if (matchesCount)
+                        GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
+#endif // MAC_OR_LINUX_
+                    }
+                    else
+                    {
+                        // Now, process the second element.
+                        yarp::os::Bottle * matchesList = matches.get(1).asList();
+                        
+                        if (matchesList)
                         {
-                            yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                               "clientlist_/"
-                                                                           DEFAULT_CHANNEL_ROOT);
-                            ClientChannel *       newChannel = new ClientChannel;
+                            int matchesCount = matchesList->size();
                             
-                            if (newChannel)
+                            if (matchesCount)
                             {
-                                if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                                yarp::os::ConstString aName =
+                                                        GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                             "clientlist_/"
+                                                                             DEFAULT_CHANNEL_ROOT);
+                                ClientChannel *       newChannel = new ClientChannel;
+                                
+                                if (newChannel)
                                 {
-                                    bool             sawRequestResponse = false;
-                                    yarp::os::Bottle parameters;
-                                    
-                                    if (kOutputFlavourJSON == flavour)
+                                    if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
                                     {
-                                        cout << "[ ";
-                                    }
-                                    for (int ii = 0; ii < matchesCount; ++ii)
-                                    {
-                                        yarp::os::ConstString aMatch =
-                                                                    matchesList->get(ii).toString();
+                                        bool             sawRequestResponse = false;
+                                        yarp::os::Bottle parameters;
                                         
-                                        if (Utilities::NetworkConnectWithRetries(aName, aMatch,
-                                                                             STANDARD_WAIT_TIME))
+                                        if (kOutputFlavourJSON == flavour)
                                         {
-                                            ServiceRequest  request(MpM_CLIENTS_REQUEST,
-                                                                    parameters);
-                                            ServiceResponse response;
+                                            cout << "[ ";
+                                        }
+                                        for (int ii = 0; ii < matchesCount; ++ii)
+                                        {
+                                            yarp::os::ConstString aMatch =
+                                            matchesList->get(ii).toString();
                                             
-                                            if (request.send(*newChannel, &response))
+                                            if (Utilities::NetworkConnectWithRetries(aName, aMatch,
+                                                                             STANDARD_WAIT_TIME))
                                             {
-                                                OD_LOG("(request.send(*newChannel, " //####
-                                                       "&response))"); //####
-                                                if (0 < response.count())
+                                                ServiceRequest  request(MpM_CLIENTS_REQUEST,
+                                                                        parameters);
+                                                ServiceResponse response;
+                                                
+                                                if (request.send(*newChannel, &response))
                                                 {
-                                                    OD_LOG("(0 < response.count())"); //####
-                                                    if (processResponse(flavour, aMatch, response,
-                                                                        sawRequestResponse))
+                                                    OD_LOG("(request.send(*newChannel, " //####
+                                                           "&response))"); //####
+                                                    if (0 < response.count())
                                                     {
-                                                        sawRequestResponse = true;
+                                                        OD_LOG("(0 < response.count())"); //####
+                                                        if (processResponse(flavour, aMatch,
+                                                                            response,
+                                                                            sawRequestResponse))
+                                                        {
+                                                            sawRequestResponse = true;
+                                                        }
                                                     }
                                                 }
+                                                else
+                                                {
+                                                    OD_LOG("! (request.send(*newChannel, " //####
+                                                           "&response))"); //####
+#if MAC_OR_LINUX_
+                                                    yarp::os::impl::Logger & theLogger =
+                                                                                        GetLogger();
+                                                    
+                                                    theLogger.fail(yarp::os::ConstString("Problem "
+                                                                                    "communicating "
+                                                                                         "with ") +
+                                                                   aMatch + ".");
+#endif // MAC_OR_LINUX_
+                                                }
+#if defined(MpM_DoExplicitDisconnect)
+                                                if (! Utilities::NetworkDisconnectWithRetries(aName,
+                                                                                          aMatch,
+                                                                              STANDARD_WAIT_TIME))
+                                                {
+                                                    OD_LOG("(! Utilities::Network" //####
+                                                           "DisconnectWithRetries(aName, " //####
+                                                           "aMatch, STANDARD_WAIT_TIME))"); //####
+                                                }
+#endif // defined(MpM_DoExplicitDisconnect)
                                             }
                                             else
                                             {
-                                                OD_LOG("! (request.send(*newChannel, " //####
-                                                       "&response))"); //####
-#if MAC_OR_LINUX_
-                                                yarp::os::impl::Logger & theLogger = GetLogger();
-                                                
-                                                theLogger.fail(yarp::os::ConstString("Problem "
-                                                                         "communicating with ") +
-                                                               aMatch + ".");
-#endif // MAC_OR_LINUX_
+                                                OD_LOG("! (Utilities::NetworkConnectWith" //####
+                                                       "Retries(aName, aMatch, " //####
+                                                       "STANDARD_WAIT_TIME))"); //####
                                             }
-#if defined(MpM_DoExplicitDisconnect)
-                                            if (! Utilities::NetworkDisconnectWithRetries(aName,
-                                                                                          aMatch,
-                                                                              STANDARD_WAIT_TIME))
+                                        }
+                                        if (kOutputFlavourJSON == flavour)
+                                        {
+                                            cout << " ]" << endl;
+                                        }
+                                        if (! sawRequestResponse)
+                                        {
+                                            switch (flavour)
                                             {
-                                                OD_LOG("(! Utilities::Network" //####
-                                                       "DisconnectWithRetries(aName, " //####
-                                                       "aMatch, STANDARD_WAIT_TIME))"); //####
+                                                case kOutputFlavourJSON :
+                                                case kOutputFlavourTabs :
+                                                    break;
+                                                    
+                                                case kOutputFlavourNormal :
+                                                    cout << "No client connections found." << endl;
+                                                    break;
+                                                    
+                                                default :
+                                                    break;
+                                                    
                                             }
-#endif // defined(MpM_DoExplicitDisconnect)
                                         }
-                                        else
-                                        {
-                                            OD_LOG("! (Utilities::NetworkConnectWith" //####
-                                                   "Retries(aName, aMatch, " //####
-                                                   "STANDARD_WAIT_TIME))"); //####
-                                        }
-                                    }
-                                    if (kOutputFlavourJSON == flavour)
-                                    {
-                                        cout << " ]" << endl;
-                                    }
-                                    if (! sawRequestResponse)
-                                    {
-                                        switch (flavour)
-                                        {
-                                            case kOutputFlavourJSON :
-                                            case kOutputFlavourTabs :
-                                                break;
-                                                
-                                            case kOutputFlavourNormal :
-                                                cout << "No client connections found." << endl;
-                                                break;
-                                                
-                                            default :
-                                                break;
-                                                
-                                        }
-                                    }
 #if defined(MpM_DoExplicitClose)
-                                    newChannel->close();
+                                        newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (newChannel->openWithRetries(aName, " //####
+                                               "STANDARD_WAIT_TIME))"); //####
+                                    }
+                                    delete newChannel;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (newChannel->openWithRetries(aName, " //####
-                                           "STANDARD_WAIT_TIME))"); //####
+                                    OD_LOG("! (newChannel)"); //####
                                 }
-                                delete newChannel;
                             }
                             else
                             {
-                                OD_LOG("! (newChannel)"); //####
+                                switch (flavour)
+                                {
+                                    case kOutputFlavourJSON :
+                                    case kOutputFlavourTabs :
+                                        break;
+                                        
+                                    case kOutputFlavourNormal :
+                                        cout << "No services found." << endl;
+                                        break;
+                                        
+                                    default :
+                                        break;
+                                        
+                                }
                             }
                         }
                         else
                         {
-                            switch (flavour)
-                            {
-                                case kOutputFlavourJSON :
-                                case kOutputFlavourTabs :
-                                    break;
-                                    
-                                case kOutputFlavourNormal :
-                                    cout << "No services found." << endl;
-                                    break;
-                                    
-                                default :
-                                    break;
-                                    
-                            }
+                            OD_LOG("! (matchesList)"); //####
                         }
                     }
-                    else
-                    {
-                        OD_LOG("! (matchesList)"); //####
-                    }
+                }
+                else
+                {
+                    OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem getting information from the Registry Service.");
+#endif // MAC_OR_LINUX_
                 }
             }
+#if CheckNetworkWorks_
             else
             {
-                OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem getting information from the Registry Service.");
-#endif // MAC_OR_LINUX_
-            }
-        }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught"); //####
+        }
+        yarp::os::Network::fini();
     }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-    }
-    yarp::os::Network::fini();
     OD_LOG_EXIT_L(0); //####
     return 0;
 } // main

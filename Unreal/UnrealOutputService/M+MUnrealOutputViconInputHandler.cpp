@@ -57,6 +57,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Unreal;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -121,8 +124,7 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                 }
                                 else
                                 {
-									std::cerr << "value not an integer or a float" <<
-                                                std::endl; //!!!!
+									cerr << "value not an integer or a float" << endl; //!!!!
                                     okSoFar = false;
                                 }
                                 if (okSoFar)
@@ -138,33 +140,32 @@ static bool dumpSegments(std::stringstream & outBuffer,
                         }
                         else
                         {
-							std::cerr << "bad list pointer or incorrect list size" <<
-                                        std::endl; //!!!!
+							cerr << "bad list pointer or incorrect list size" << endl; //!!!!
                             okSoFar = false;
                         }
                     }
                     else
                     {
-						std::cerr << "segment not a string and a list" << std::endl; //!!!!
+						cerr << "segment not a string and a list" << endl; //!!!!
                         okSoFar = false;
                     }
                 }
                 else
                 {
-					std::cerr << "segment not a 2-element list" << std::endl; //!!!!
+					cerr << "segment not a 2-element list" << endl; //!!!!
                     okSoFar = false;
                 }
             }
             else
             {
-				std::cerr << "segment not a list" << std::endl; //!!!!
+				cerr << "segment not a list" << endl; //!!!!
                 okSoFar = false;
             }
         }
     }
     else
     {
-		std::cerr << "no segments" << std::endl; //!!!!
+		cerr << "no segments" << endl; //!!!!
         okSoFar = false;
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -219,91 +220,58 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
     
     try
     {
-		if (_owner.isActive())
-		{
-		if (INVALID_SOCKET == _outSocket)
-		{
-			std::cerr << "invalid socket" << std::endl; //!!!!
-		}
-		else
-		{
-            int numSubjects = input.size();
-
-            if (0 < numSubjects)
+        if (_owner.isActive())
+        {
+            if (INVALID_SOCKET == _outSocket)
             {
-                bool              okSoFar = true;
-                std::stringstream outBuffer;
+                cerr << "invalid socket" << endl; //!!!!
+            }
+            else
+            {
+                int numSubjects = input.size();
                 
-//				std::cerr << "# subjects = " << numSubjects << std::endl; //!!!!
-                outBuffer << numSubjects << LINE_END;
-                for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
+                if (0 < numSubjects)
                 {
-                    yarp::os::Value & aValue = input.get(ii);
+                    bool              okSoFar = true;
+                    std::stringstream outBuffer;
                     
-                    if (aValue.isList())
+//                    cerr << "# subjects = " << numSubjects << endl; //!!!!
+                    outBuffer << numSubjects << LINE_END;
+                    for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
                     {
-                        yarp::os::Bottle * asBottle = aValue.asList();
+                        yarp::os::Value & aValue = input.get(ii);
                         
-                        if (asBottle)
+                        if (aValue.isList())
                         {
-                            if (2 == asBottle->size())
+                            yarp::os::Bottle * asBottle = aValue.asList();
+                            
+                            if (asBottle)
                             {
-                                yarp::os::Value & firstValue = asBottle->get(0);
-                                
-                                if (firstValue.isString())
+                                if (2 == asBottle->size())
                                 {
-                                    yarp::os::ConstString subjName = firstValue.asString();
-                                    yarp::os::Value &     secondValue = asBottle->get(1);
-
-                                    if (secondValue.isDict())
+                                    yarp::os::Value & firstValue = asBottle->get(0);
+                                    
+                                    if (firstValue.isString())
                                     {
-                                        yarp::os::Property * segments = secondValue.asDict();
-
-//                                        std::cerr << subjName.c_str() << std::endl; //!!!!
-                                        if (segments)
-                                        {
-                                            yarp::os::ConstString segmentsAsString =
-                                                                            segments->toString();
-//                                            std::cerr << ":" << segments->toString() << ":" <<
-//                                                        std::endl; //!!!!
-                                            yarp::os::Bottle      segmentsAsBottle =
-                                                                                segmentsAsString;
-                                            
-                                            std::cerr << ":" << segmentsAsBottle.size() << ":" <<
-                                                        segmentsAsBottle.toString() << ":" <<
-                                                        std::endl; //!!!!
-                                            outBuffer << subjName.c_str() << "\t" <<
-                                                            segmentsAsBottle.size() << "\t0" <<
-                                                            LINE_END;
-                                            okSoFar = dumpSegments(outBuffer, segmentsAsBottle,
-                                                                   _scale);
-                                        }
-                                        else
-                                        {
-                                            std::cerr << "bad segments pointer" << std::endl; //!!!!
-                                            okSoFar = false;
-                                        }
-                                    }
-                                    else if (secondValue.isList())
-                                    {
-                                        yarp::os::Bottle * asList = secondValue.asList();
+                                        yarp::os::ConstString subjName = firstValue.asString();
+                                        yarp::os::Value &     secondValue = asBottle->get(1);
                                         
-                                        if (asList)
+                                        if (secondValue.isDict())
                                         {
-                                            yarp::os::Property segments;
+                                            yarp::os::Property * segments = secondValue.asDict();
                                             
-                                            if (ListIsReallyDictionary(*asList, segments))
+//                                            cerr << subjName.c_str() << endl; //!!!!
+                                            if (segments)
                                             {
                                                 yarp::os::ConstString segmentsAsString =
-                                                                                segments.toString();
-//                                            std::cerr << ":" << segments->toString() << ":" <<
-//                                                        std::endl; //!!!!
+                                                                            segments->toString();
+//                                                cerr << ":" << segments->toString() << ":" << endl; //!!!!
                                                 yarp::os::Bottle      segmentsAsBottle =
                                                                                 segmentsAsString;
                                                 
-                                                std::cerr << ":" << segmentsAsBottle.size() <<
-                                                            ":" << segmentsAsBottle.toString() <<
-                                                            ":" << std::endl; //!!!!
+                                                cerr << ":" << segmentsAsBottle.size() << ":" <<
+                                                        segmentsAsBottle.toString() << ":" <<
+                                                        endl; //!!!!
                                                 outBuffer << subjName.c_str() << "\t" <<
                                                             segmentsAsBottle.size() << "\t0" <<
                                                             LINE_END;
@@ -312,65 +280,99 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
                                             }
                                             else
                                             {
-                                                std::cerr << "not a dictionary" << std::endl; //!!!!
+                                                cerr << "bad segments pointer" << endl; //!!!!
+                                                okSoFar = false;
+                                            }
+                                        }
+                                        else if (secondValue.isList())
+                                        {
+                                            yarp::os::Bottle * asList = secondValue.asList();
+                                            
+                                            if (asList)
+                                            {
+                                                yarp::os::Property segments;
+                                                
+                                                if (ListIsReallyDictionary(*asList, segments))
+                                                {
+                                                    yarp::os::ConstString segmentsAsString =
+                                                                                segments.toString();
+//                                                    cerr << ":" << segments->toString() << ":" <<
+//                                                            endl; //!!!!
+                                                    yarp::os::Bottle      segmentsAsBottle =
+                                                                                segmentsAsString;
+                                                    
+                                                    cerr << ":" << segmentsAsBottle.size() << ":" <<
+                                                            segmentsAsBottle.toString() << ":" <<
+                                                            endl; //!!!!
+                                                    outBuffer << subjName.c_str() << "\t" <<
+                                                                segmentsAsBottle.size() << "\t0" <<
+                                                                LINE_END;
+                                                    okSoFar = dumpSegments(outBuffer,
+                                                                           segmentsAsBottle,
+                                                                           _scale);
+                                                }
+                                                else
+                                                {
+                                                    cerr << "not a dictionary" << endl; //!!!!
+                                                    okSoFar = false;
+                                                }
+                                            }
+                                            else
+                                            {
+                                                cerr << "bad segments pointer" << endl; //!!!!
                                                 okSoFar = false;
                                             }
                                         }
                                         else
                                         {
-                                            std::cerr << "bad segments pointer" << std::endl; //!!!!
+                                            cerr << "not a dictionary" << endl; //!!!!
                                             okSoFar = false;
                                         }
                                     }
                                     else
                                     {
-                                        std::cerr << "not a dictionary" << std::endl; //!!!!
+                                        cerr << "not a string" << endl; //!!!!
                                         okSoFar = false;
                                     }
                                 }
                                 else
                                 {
-                                    std::cerr << "not a string" << std::endl; //!!!!
+                                    cerr << "not 2 pieces in list" << endl; //!!!!
                                     okSoFar = false;
                                 }
                             }
                             else
                             {
-								std::cerr << "not 2 pieces in list" << std::endl; //!!!!
+                                cerr << "bad subject pointer" << endl; //!!!!
                                 okSoFar = false;
                             }
                         }
                         else
                         {
-							std::cerr << "bad subject pointer" << std::endl; //!!!!
+                            cerr << "subject is not a list" << endl; //!!!!
                             okSoFar = false;
                         }
                     }
-                    else
+                    if (okSoFar)
                     {
-						std::cerr << "subject is not a list" << std::endl; //!!!!
-                        okSoFar = false;
+                        outBuffer << "END" << LINE_END;
+                        std::string outString(outBuffer.str());    
+                        int         retVal = send(_outSocket, outString.c_str(), outString.length(),
+                                                  0);
+                        
+//                        cerr << "send--> " << retVal << endl; //!!!!
+                        if (0 > retVal)
+                        {
+                            _owner.deactivateConnection();
+                        }
                     }
                 }
-                if (okSoFar)
+                else
                 {
-                    outBuffer << "END" << LINE_END;
-                    std::string outString(outBuffer.str());    
-                    int         retVal = send(_outSocket, outString.c_str(), outString.length(), 0);
-
-//					std::cerr << "send--> " << retVal << std::endl; //!!!!
-                    if (0 > retVal)
-                    {
-                        _owner.deactivateConnection();
-                    }
-				}
+                    cerr << "no subjects" << endl; //!!!!
+                }
             }
-			else
-			{
-				std::cerr << "no subjects" << std::endl; //!!!!
-				}
-			}
-		}
+        }
     }
     catch (...)
     {

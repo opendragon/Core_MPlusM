@@ -54,6 +54,9 @@
 using namespace MplusM;
 using namespace MplusM::ViconDataStream;
 using namespace ViconDataStreamSDK;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -163,14 +166,14 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 	OD_LOG_L1("subjectCount = ", subjectCount); //####
 	yarp::os::Bottle message;
 
-	std::cerr << "got data" << std::endl; //!!!!
+	cerr << "got data" << endl; //!!!!
 	for (unsigned int ii = 0; subjectCount > ii; ++ii)
 	{
 		CPP::Output_GetSubjectName o_gsubjn = _viconClient.GetSubjectName(ii);
 
 		if (CPP::Result::Success == o_gsubjn.Result)
 		{
-			std::cerr << "got subject name" << std::endl; //!!!!
+			cerr << "got subject name" << endl; //!!!!
 			yarp::os::Bottle & aList = message.addList();
 
 			aList.addString(static_cast<std::string>(o_gsubjn.SubjectName).c_str());
@@ -180,7 +183,7 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 
 			if (CPP::Result::Success == o_gsegc.Result)
 			{
-				std::cerr << "got segment count, " << o_gsegc.SegmentCount << std::endl; //!!!!
+				cerr << "got segment count, " << o_gsegc.SegmentCount << endl; //!!!!
 				for (unsigned int jj = 0, segCount = o_gsegc.SegmentCount; segCount > jj; ++jj)
 				{
 					CPP::Output_GetSegmentName o_gsegn =
@@ -188,7 +191,7 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 
 					if (CPP::Result::Success == o_gsegn.Result)
 					{
-						std::cerr << "got segment name" << std::endl; //!!!!
+						cerr << "got segment name" << endl; //!!!!
 #if defined(USE_SEGMENT_LOCAL_DATA)
 						CPP::Output_GetSegmentLocalTranslation        o_gseglt =
                                     _viconClient.GetSegmentLocalTranslation(o_gsubjn.SubjectName,
@@ -232,10 +235,10 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 						if ((CPP::Result::Success == o_gseggt.Result) &&
                             (CPP::Result::Success == o_gseggrq.Result))
 						{
-							std::cerr << "got segment translation and rotation" << std::endl; //!!!!
+							cerr << "got segment translation and rotation" << endl; //!!!!
 							if (! (o_gseggt.Occluded || o_gseggrq.Occluded))
 							{
-								std::cerr << "got unoccluded data" << std::endl; //!!!!
+								cerr << "got unoccluded data" << endl; //!!!!
 								yarp::os::Value    stuff;
 								yarp::os::Bottle * stuffAsList = stuff.asList();
 
@@ -263,7 +266,7 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 	{
 #if defined(REPORT_EVENT_COUNT_)
 		++lEventCount; //####
-		std::cerr << "sending " << lEventCount << std::endl; //####
+		cerr << "sending " << lEventCount << endl; //####
 #endif // defined(REPORT_EVENT_COUNT_)
 		if (0 < message.size())
 		{
@@ -284,7 +287,7 @@ void ViconDataStreamEventThread::run(void)
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
-		std::cerr << "checking for a frame" << std::endl; //!!!!
+		cerr << "checking for a frame" << endl; //!!!!
 		if (CPP::Result::Success == _viconClient.GetFrame().Result)
 		{
 			CPP::Output_GetSubjectCount o_gsubjc = _viconClient.GetSubjectCount();

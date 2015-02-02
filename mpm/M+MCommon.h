@@ -168,9 +168,6 @@
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER          1.21
 
-/*! @brief The standard command-line options. */
-# define STANDARD_OPTIONS          "jt"
-
 /*! @brief A TAB character. */
 # define CHAR_TAB                  "\t"
 

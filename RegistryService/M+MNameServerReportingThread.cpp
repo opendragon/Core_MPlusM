@@ -56,6 +56,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Registry;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -96,11 +99,11 @@ static void DNSSD_API registrationCallback(DNSServiceRef       service,
     OD_LOG_S3("name = ", name, "type = ", type, "domain = ", domain); //####
     if (kDNSServiceErr_NoError == errorCode)
     {
-        std::cerr << "registered " << name << "." << type << domain << std::endl;
+        cerr << "registered " << name << "." << type << domain << endl;
     }
     else
     {
-        std::cerr << "not registered -> " << errorCode << std::endl;
+        cerr << "not registered -> " << errorCode << endl;
     }
     OD_LOG_EXIT(); //####
 } // registrationCallback
@@ -159,7 +162,7 @@ void NameServerReportingThread::run(void)
             }
             if (err)
             {
-                std::cerr << "DNSServiceProcessResult returned " << err << std::endl;
+                cerr << "DNSServiceProcessResult returned " << err << endl;
                 break;
             }
             
@@ -174,8 +177,8 @@ void NameServerReportingThread::run(void)
 #else // ! MAC_OR_LINUX_
             strerror_s(errBuff, sizeof(errBuff), actErrno);
 #endif // ! MAC_OR_LINUX_
-            std::cerr << "select() returned " << result << " errno " << actErrno << " " <<
-                        errBuff << std::endl;
+            cerr << "select() returned " << result << " errno " << actErrno << " " << errBuff <<
+                    endl;
             if (EINTR != actErrno)
             {
                 break;

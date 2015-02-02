@@ -64,6 +64,7 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
+using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -264,7 +265,7 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
 #if MAC_OR_LINUX_
                 GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Service could not be registered." << std::endl;
+                cerr << "Service could not be registered." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -274,7 +275,7 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
 #if MAC_OR_LINUX_
             GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Service could not be started." << std::endl;
+            cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
         }
         delete stuff;
@@ -313,6 +314,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString recordPath;
@@ -320,51 +322,55 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        ProcessStandardServiceOptions(argc, argv, DEFAULT_RECORDINTEGERS_SERVICE_NAME, reportOnExit,
-                                      tag, serviceEndpointName, servicePortNumber);
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        if (ProcessStandardServiceOptions(argc, argv, " [filePath]",
+                                          DEFAULT_RECORDINTEGERS_SERVICE_NAME, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber))
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            // Note that we can't use Random::uniform until after the seed has been set
-            if (optind < argc)
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                recordPath = argv[optind];
-                OD_LOG_S1s("recordPath <- ", recordPath); //####
-            }
-            if (0 == recordPath.size())
-            {
-                int               randNumb = yarp::os::Random::uniform(0, 10000);
-                std::stringstream buff;
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
+                Initialize(*argv);
+                // Note that we can't use Random::uniform until after the seed has been set
+                if (optind < argc)
+                {
+                    recordPath = argv[optind];
+                    OD_LOG_S1s("recordPath <- ", recordPath); //####
+                }
+                if (0 == recordPath.size())
+                {
+                    int               randNumb = yarp::os::Random::uniform(0, 10000);
+                    std::stringstream buff;
+                    
 #if MAC_OR_LINUX_
-                buff << "/tmp/record_";
+                    buff << "/tmp/record_";
 #else // ! MAC_OR_LINUX_
-                buff << "\\tmp\\record_";
+                    buff << "\\tmp\\record_";
 #endif // ! MAC_OR_LINUX_
-                buff << std::hex << randNumb;
-                recordPath = buff.str();
-                OD_LOG_S1s("recordPath <- ", recordPath); //####
+                    buff << std::hex << randNumb;
+                    recordPath = buff.str();
+                    OD_LOG_S1s("recordPath <- ", recordPath); //####
+                }
+                setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
+                           stdinAvailable, reportOnExit);
             }
-            setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
-                       stdinAvailable, reportOnExit);
-        }
 #if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+            else
+            {
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
     }
     catch (...)
     {

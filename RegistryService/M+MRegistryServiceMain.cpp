@@ -60,6 +60,9 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -100,86 +103,92 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         yarp::os::ConstString serviceEndpointName; // not used
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag; // not used
         
-        ProcessStandardServiceOptions(argc, argv, MpM_REGISTRY_ENDPOINT_NAME, reportOnExit, tag,
-                                      serviceEndpointName, servicePortNumber);
-        // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up the
-        // NameServerReporter!
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber))
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            Registry::RegistryService * stuff = new Registry::RegistryService(*argv, USE_INMEMORY,
-                                                                              servicePortNumber);
-            if (stuff)
+            // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up
+            // the NameServerReporter!
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                stuff->enableMetrics();
-                if (stuff->start())
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
+                
+                Initialize(*argv);
+                Registry::RegistryService * stuff = new Registry::RegistryService(*argv,
+                                                                                  USE_INMEMORY,
+                                                                              servicePortNumber);
+                if (stuff)
                 {
-                    // Note that the Registry Service is self-registering... so we don't need to
-                    // call RegisterLocalService() _or_ start a 'pinger'.
-                    Registry::NameServerReportingThread * reporter = new
-                                                                Registry::NameServerReportingThread;
-                    
-                    StartRunning();
-                    SetSignalHandlers(SignalRunningStop);
-                    stuff->startChecker();
-                    reporter->start();
-                    for ( ; IsRunning(); )
+                    stuff->enableMetrics();
+                    if (stuff->start())
                     {
+                        // Note that the Registry Service is self-registering... so we don't need to
+                        // call RegisterLocalService() _or_ start a 'pinger'.
+                        Registry::NameServerReportingThread * reporter = new
+                        Registry::NameServerReportingThread;
+                        
+                        StartRunning();
+                        SetSignalHandlers(SignalRunningStop);
+                        stuff->startChecker();
+                        reporter->start();
+                        for ( ; IsRunning(); )
+                        {
 #if defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::delay(ONE_SECOND_DELAY);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::yield();
+                            yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+                        }
+                        reporter->stop();
+                        for ( ; reporter->isRunning(); )
+                        {
+                            yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
+                        }
+                        delete reporter;
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            yarp::os::ConstString converted =
+                                                        Utilities::ConvertMetricsToString(metrics);
+                            
+                            cout << converted.c_str() << endl;
+                        }
+                        stuff->stop();
                     }
-                    reporter->stop();
-                    for ( ; reporter->isRunning(); )
+                    else
                     {
-                        yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
+                        OD_LOG("! (stuff->start())"); //####
                     }
-                    delete reporter;
-                    if (reportOnExit)
-                    {
-                        yarp::os::Bottle metrics;
-                        
-                        stuff->gatherMetrics(metrics);
-                        yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
-                        
-                        std::cout << converted.c_str() << std::endl;
-                    }
-                    stuff->stop();
+                    delete stuff;
                 }
                 else
                 {
-                    OD_LOG("! (stuff->start())"); //####
+                    OD_LOG("! (stuff)"); //####
                 }
-                delete stuff;
             }
+#if CheckNetworkWorks_
             else
             {
-                OD_LOG("! (stuff)"); //####
-            }
-        }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
     }
     catch (...)
     {

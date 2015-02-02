@@ -57,8 +57,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::JavaScript;
-using std::endl;
 using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -236,7 +237,7 @@ static void createValueFromBottle(JSContext *              jct,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
-//    std::cout << "'" << aBottle.toString().c_str() << "'" << std::endl << std::endl;
+//    cout << "'" << aBottle.toString().c_str() << "'" << endl << endl;
     convertList(jct, theData, aBottle);
     OD_LOG_EXIT(); //####
 } // createValueFromBottle

@@ -101,41 +101,43 @@ int main(int      argc,
     yarp::os::ConstString mpmVersionString;
     yarp::os::ConstString yarpVersionString;
     
-    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
-    switch (flavour)
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", flavour))
     {
-        case kOutputFlavourTabs :
-            aceVersionString = SanitizeString(ACE_VERSION, true);
-            mpmVersionString = SanitizeString(MpM_VERSION, true);
-            yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
-            cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
-                    aceVersionString.c_str() << endl;
-            break;
-            
-        case kOutputFlavourJSON :
-            aceVersionString = SanitizeString(ACE_VERSION);
-            mpmVersionString = SanitizeString(MpM_VERSION);
-            yarpVersionString = SanitizeString(YARP_VERSION_STRING);
-            cout << T_("{ " CHAR_DOUBLEQUOTE "M+M" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                    mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "YARP"
-                                                   CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                    yarpVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "ACE"
-                                                    CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                    aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
-            break;
-            
-        case kOutputFlavourNormal :
-            aceVersionString = SanitizeString(ACE_VERSION, true);
-            mpmVersionString = SanitizeString(MpM_VERSION, true);
-            yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
-            cout << "Movement And Meaning Version: " << mpmVersionString.c_str() <<
-                    ", YARP Version: " << yarpVersionString.c_str() << ", ACE Version: " <<
-                    aceVersionString.c_str() << endl;
-            break;
-            
-        default :
-            break;
-            
+        switch (flavour)
+        {
+            case kOutputFlavourTabs :
+                aceVersionString = SanitizeString(ACE_VERSION, true);
+                mpmVersionString = SanitizeString(MpM_VERSION, true);
+                yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
+                cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
+                        aceVersionString.c_str() << endl;
+                break;
+                
+            case kOutputFlavourJSON :
+                aceVersionString = SanitizeString(ACE_VERSION);
+                mpmVersionString = SanitizeString(MpM_VERSION);
+                yarpVersionString = SanitizeString(YARP_VERSION_STRING);
+                cout << T_("{ " CHAR_DOUBLEQUOTE "M+M" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                        mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "YARP"
+                                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                        yarpVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "ACE"
+                                                        CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
+                        aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
+                break;
+                
+            case kOutputFlavourNormal :
+                aceVersionString = SanitizeString(ACE_VERSION, true);
+                mpmVersionString = SanitizeString(MpM_VERSION, true);
+                yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
+                cout << "Movement And Meaning Version: " << mpmVersionString.c_str() <<
+                        ", YARP Version: " << yarpVersionString.c_str() << ", ACE Version: " <<
+                aceVersionString.c_str() << endl;
+                break;
+                
+            default :
+                break;
+                
+        }
     }
     return 0;
 } // main

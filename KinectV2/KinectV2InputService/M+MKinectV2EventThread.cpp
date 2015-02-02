@@ -53,6 +53,9 @@
 
 using namespace MplusM;
 using namespace MplusM::KinectV2;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -472,7 +475,7 @@ HRESULT KinectV2EventThread::initializeDefaultSensor(void)
         }
         if ((! _kinectSensor) || FAILED(hr))
         {
-            std::cerr << "problem?!?!" << std::endl;
+            cerr << "problem?!?!" << endl;
             //SetStatusMessage(L"No ready Kinect found!", 10000, true);
             hr = E_FAIL;
         }
@@ -527,7 +530,7 @@ void KinectV2EventThread::processEventData(void)
                     {
 #if defined(REPORT_EVENT_COUNT_)
                         ++lEventCount; //####
-                        std::cerr << "sending " << lEventCount << std::endl; //####
+                        cerr << "sending " << lEventCount << endl; //####
 #endif // defined(REPORT_EVENT_COUNT_)
                         if (0 < message.size())
                         {

@@ -10,7 +10,15 @@ inconsistencies.
 of the GUI--based tool, \emph{Channel Manager}.
 As well, the native \yarp{} command--line tools to create and remove connections can be
 used with \mplusm{}, but it is very easy to create a non--functional installation if care
-is not taken.
+is not taken.\\
+
+The command--line tools all have three options:
+\begin{itemize}
+\item \textbf{--h:} display the list of optional parameters and arguments and leave
+\item \textbf{--j:} generate JSON--formatted output
+\item \textbf{--t:} generate output in tab--delimited form
+\end{itemize}
+If neither option is present, the output is written as simple text.
 \tertiaryStart{\utilityNameP{mpmClientList}}
 The program \utilityNameX{mpmClientList} displays the clients for services that have
 \yarp{} network connections with persistent state.
@@ -20,13 +28,7 @@ An example service with persistent state is
 \examplesNameR{Services}{mpmRunningSumService}, where the information that is kept is the
 running sum for the connected client.
 The program takes an optional argument for the \yarp{} network port of the service; if no
-argument is provided, all services are checked for connections with persistent state.
-It also has two command--line options:
-\begin{itemize}
-\item \textbf{--j} generate JSON--formatted output
-\item \textbf{--t} generate output in tab--delimited form
-\end{itemize}
-If neither option is present, the output is written as simple text.\\
+argument is provided, all services are checked for connections with persistent state.\\
 
 The output specifies the \yarp{} network port of a service with persistent state and the
 \yarp{} network ports that are connected to it.\\
@@ -67,15 +69,8 @@ and the JSON--formatted and tab--delimited outputs would be empty.
 The program \utilityNameX{mpmFindServices} displays the primary channels belonging to
 services that match a criteria provided on the command--line or interactively.\\
 
-The program takes an optional argument for the matching criteria to be used.
-It also has two command--line options:
-\begin{itemize}
-\item \textbf{--j} generate JSON--formatted output
-\item \textbf{--t} generate output in tab--delimited form
-\end{itemize}
-If neither format is specified, the output is written as simple text.\\
-
-If no criteria is provided on the command--line, the program enters a loop, asking for an
+The program takes an optional argument for the matching criteria to be used; if no
+criteria is provided on the command--line, the program enters a loop, asking for an
 operation to do:
 \begin{itemize}
 \item \textbf{?:} display a list of the available commands.
@@ -135,13 +130,7 @@ entities.
 For each \yarp{} port, its role in the \mplusm{} installation is shown as well as any
 incoming and outgoing \yarp{} network connections.
 The primary port for each active service is identified, as well as the primary port for
-each adapter.
-It has two command--line options:
-\begin{itemize}
-\item \textbf{--j} generate JSON--formatted output
-\item \textbf{--t} generate output in tab--delimited form
-\end{itemize}
-If neither option is present, the output is written as simple text.\\
+each adapter.\\
 
 The output specifies the all the active \yarp{} network ports along with their input and
 output \yarp{} network ports; regular \yarp{} network ports are tagged as `Standard',
@@ -245,10 +234,11 @@ Note that the application will exit if the
 The application has one optional argument -- the output file path to be used.
 The application also has four optional parameters:
 \begin{itemize}
-\item \textbf{-e:} specifies an alternative endpoint name to be used
-\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
-\item \textbf{-r:} report the service metrics when the application exits
-\item \textbf{-t:} specifies the tag to be used as part of the service name
+\item \textbf{--e:} specifies an alternative endpoint name to be used
+\item \textbf{--h:} display the list of optional parameters and arguments and leave
+\item \textbf{--p:} specifies the port number to be used, if a non--default port is desired
+\item \textbf{--r:} report the service metrics when the application exits
+\item \textbf{--t:} specifies the tag to be used as part of the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -287,13 +277,7 @@ the request and details about the request.
 The program takes two optional arguments for the \yarp{} network port of the service and
 the request to get information on; if the request is not specified, all requests for the
 given service are shown and, if no port is specified, all requests for all services are
-displayed.
-It also has two command--line options:
-\begin{itemize}
-\item \textbf{--j} generate JSON--formatted output
-\item \textbf{--t} generate output in tab--delimited form
-\end{itemize}
-If neither option is present, the output is written as simple text.\\
+displayed.\\
 
 The output consists of the \yarp{} network port that is used by the service, the name of
 the request, its version number, a description of the request, including its expected
@@ -377,13 +361,7 @@ The program \utilityNameX{mpmServiceLister} displays the active services in the 
 installation.
 It lists each service, along with the service description and requests, as well as the
 path to the executable for the service and the \yarp{} network ports that the service
-provides.
-It has two command--line options:
-\begin{itemize}
-\item \textbf{--j} generate JSON--formatted output
-\item \textbf{--t} generate output in tab--delimited form
-\end{itemize}
-If neither option is present, the output is written as simple text.\\
+provides.\\
 
 The output consists of the \yarp{} network port for the service, the `canonical' name of
 the service, the kind of service (`Filter', `Input', `Output', `Normal' or `Registry'), a
@@ -551,13 +529,7 @@ or more active services in the \mplusm{} installation.
 It lists each \yarp{} network port for the service and details about the activity on the
 channel.
 The program takes an optional argument for the \yarp{} network port of the service; if no
-port is specified, all services are displayed.
-It also has two command--line options:
-\begin{itemize}
-\item \textbf{--j} generate JSON--formatted output
-\item \textbf{--t} generate output in tab--delimited form
-\end{itemize}
-If neither option is present, the output is written as simple text.\\
+port is specified, all services are displayed.\\
 
 The output consists of the \yarp{} network port that has been measured, the date and time
 of the measurement, the number of input and output bytes transferred and the number of
@@ -661,13 +633,7 @@ and the JSON--formatted and tab--delimited outputs would be empty.
 \newpage
 \tertiaryStart{\utilityNameP{mpmVersion}}
 The program \utilityNameX{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
-and ACE, the low--level networking layer used by \mplusm{} and \yarp{}.
-It has two command--line options:
-\begin{itemize}
-\item \textbf{--j} generate JSON--formatted output
-\item \textbf{--t} generate output in tab--delimited form
-\end{itemize}
-If neither option is present, the output is written as simple text.\\
+and ACE, the low--level networking layer used by \mplusm{} and \yarp{}.\\
 
 For example, the default output could be:
 \outputBegin{}
@@ -695,10 +661,13 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} an
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
 
-The application has two optional parameters:
+The application has four optional parameters:
 \begin{itemize}
-\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
-\item \textbf{-r:} report the service metrics when the application exits
+\item \textbf{--e:} specifies an alternative endpoint name to be used
+\item \textbf{--h:} display the list of optional parameters and arguments and leave
+\item \textbf{--p:} specifies the port number to be used, if a non--default port is desired
+\item \textbf{--r:} report the service metrics when the application exits
+\item \textbf{--t:} specifies the tag to be used as part of the service name
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed \yarp{} network port.

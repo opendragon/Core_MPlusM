@@ -67,6 +67,7 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Unreal;
+using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -281,7 +282,7 @@ static void setUpAndGo(int &                         outPort,
 #if MAC_OR_LINUX_
                 GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Service could not be registered." << std::endl;
+                cerr << "Service could not be registered." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -291,7 +292,7 @@ static void setUpAndGo(int &                         outPort,
 #if MAC_OR_LINUX_
             GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Service could not be started." << std::endl;
+            cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
         }
         delete stuff;
@@ -331,6 +332,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
         double                translationScale = 1.0;
@@ -339,56 +341,60 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        ProcessStandardServiceOptions(argc, argv, DEFAULT_UNREALOUTPUT_SERVICE_NAME, reportOnExit,
-                                      tag, serviceEndpointName, servicePortNumber);
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        if (ProcessStandardServiceOptions(argc, argv, " [port [scale]]",
+                                          DEFAULT_UNREALOUTPUT_SERVICE_NAME, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber))
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            if (optind < argc)
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                char * endPtr;
-                int    tempInt;
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
-                // 1 or more arguments
-                tempInt = static_cast<int>(strtol(argv[optind], &endPtr, 10));
-                if ((argv[optind] != endPtr) && (! *endPtr) && (0 < tempInt))
+                Initialize(*argv);
+                if (optind < argc)
                 {
-                    // Useable data.
-                    outPort = tempInt;
-                }
-                if ((optind + 1) < argc)
-                {
-                    double tempDouble;
+                    char * endPtr;
+                    int    tempInt;
                     
-                    // 2 or more arguments
-                    tempDouble = strtod(argv[optind + 1], &endPtr);
-                    if ((argv[optind + 1] != endPtr) && (! *endPtr) && (0 < tempDouble))
+                    // 1 or more arguments
+                    tempInt = static_cast<int>(strtol(argv[optind], &endPtr, 10));
+                    if ((argv[optind] != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
-                        translationScale = tempDouble;
+                        outPort = tempInt;
+                    }
+                    if ((optind + 1) < argc)
+                    {
+                        double tempDouble;
+                        
+                        // 2 or more arguments
+                        tempDouble = strtod(argv[optind + 1], &endPtr);
+                        if ((argv[optind + 1] != endPtr) && (! *endPtr) && (0 < tempDouble))
+                        {
+                            // Useable data.
+                            translationScale = tempDouble;
+                        }
                     }
                 }
+                setUpAndGo(outPort, translationScale, argv, tag, serviceEndpointName,
+                           servicePortNumber, stdinAvailable, reportOnExit);
             }
-            setUpAndGo(outPort, translationScale, argv, tag, serviceEndpointName, servicePortNumber,
-                       stdinAvailable, reportOnExit);
-        }
 #if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+            else
+            {
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
     }
     catch (...)
     {

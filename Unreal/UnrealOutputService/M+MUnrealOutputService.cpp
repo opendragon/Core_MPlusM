@@ -64,6 +64,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Unreal;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -147,7 +150,7 @@ void UnrealOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
     clearActive();
-	std::cerr << "connection is dead" << std::endl; //!!!!
+	cerr << "connection is dead" << endl; //!!!!
     if (_inLeapHandler)
     {
         _inLeapHandler->setSocket(INVALID_SOCKET);
@@ -290,18 +293,18 @@ void UnrealOutputService::startStreams(void)
 #else // ! MAC_OR_LINUX_
                 if (WSAStartup(wVersionRequested, &ww))
 				{
-					std::cerr << "could not start up WSA" << std::endl; //!!!!
+					cerr << "could not start up WSA" << endl; //!!!!
 				}
 				else
                 {
                     if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
                     {
-						std::cerr << "creating socket" << std::endl; //!!!!
+						cerr << "creating socket" << endl; //!!!!
                         SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                         
                         if (INVALID_SOCKET == listenSocket)
 						{
-							std::cerr << "problem creating socket" << std::endl; //!!!!
+							cerr << "problem creating socket" << endl; //!!!!
 						}
 						else
                         {
@@ -310,27 +313,26 @@ void UnrealOutputService::startStreams(void)
                             addr.sin_family = AF_INET;
                             addr.sin_port = htons(_outPort);
                             addr.sin_addr.s_addr = htonl(INADDR_ANY);
-							std::cerr << "binding to port" << std::endl; //!!!!
+							cerr << "binding to port" << endl; //!!!!
                             if (SOCKET_ERROR == bind(listenSocket,
                                                      reinterpret_cast<LPSOCKADDR>(&addr),
                                                      sizeof(addr)))
 							{
-								std::cerr << "problem binding to socket" << std::endl; //!!!!
+								cerr << "problem binding to socket" << endl; //!!!!
 							}
 							else
                             {
-								std::cerr << "listening for connection" << std::endl; //!!!!
+								cerr << "listening for connection" << endl; //!!!!
                                 listen(listenSocket, SOMAXCONN);
-								std::cerr << "accepting the connection" << std::endl; //!!!!
+								cerr << "accepting the connection" << endl; //!!!!
                                 _networkSocket = accept(listenSocket, 0, 0);
                                 if (INVALID_SOCKET == _networkSocket)
 								{
-									std::cerr << "problem accepting a connection" <<
-                                                std::endl; //!!!!
+									cerr << "problem accepting a connection" << endl; //!!!!
 								}
 								else
                                 {
-									std::cerr << "connection is live" << std::endl; //!!!!
+									cerr << "connection is live" << endl; //!!!!
                                     _inLeapHandler->setSocket(_networkSocket);
                                     _inLeapHandler->setScale(_translationScale);
                                     _inStreams.at(0)->setReader(*_inLeapHandler);
@@ -345,7 +347,7 @@ void UnrealOutputService::startStreams(void)
                     }
                     else
                     {
-						std::cerr << "WSA version not available" << std::endl;
+						cerr << "WSA version not available" << endl;
                         WSACleanup();
                     }
                 }

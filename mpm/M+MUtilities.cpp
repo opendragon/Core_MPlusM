@@ -105,10 +105,16 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Utilities;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The standard command-line options. */
+# define STANDARD_OPTIONS "hjt"
 
 /*! @brief The number of seconds to wait on a select() for mDNS operatios. */
 static const int kDNSWaitTime = 3;
@@ -295,7 +301,7 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
                         }
                         if (err)
                         {
-                            std::cerr << "DNSServiceProcessResult returned " << err << std::endl;
+                            cerr << "DNSServiceProcessResult returned " << err << endl;
                             break;
                         }
                         
@@ -310,8 +316,8 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
 #else // ! MAC_OR_LINUX_
                         strerror_s(errBuff, sizeof(errBuff), actErrno);
 #endif // ! MAC_OR_LINUX_
-                        std::cerr << "select() returned " << result << " errno " << actErrno <<
-                                    " " << errBuff << std::endl;
+                        cerr << "select() returned " << result << " errno " << actErrno << " " <<
+                                errBuff << endl;
                         if (EINTR != actErrno)
                         {
                             break;
@@ -329,14 +335,14 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
             }
             else
             {
-                std::cerr << "DNSServiceResolve returned " << err << std::endl;
+                cerr << "DNSServiceResolve returned " << err << endl;
             }
             lSawBrowseAdd = true;
         }
     }
     else
     {
-        std::cerr << "browseCallBack returned " << errorCode << std::endl;
+        cerr << "browseCallBack returned " << errorCode << endl;
     }
     OD_LOG_EXIT(); //####
 } // browseCallBack
@@ -758,7 +764,7 @@ void Utilities::CheckForNameServerReporter(void)
                     }
                     if (err)
                     {
-                        std::cerr << "DNSServiceProcessResult returned " << err << std::endl;
+                        cerr << "DNSServiceProcessResult returned " << err << endl;
                         break;
                     }
                     
@@ -773,8 +779,8 @@ void Utilities::CheckForNameServerReporter(void)
 #else // ! MAC_OR_LINUX_
                     strerror_s(errBuff, sizeof(errBuff), actErrno);
 #endif // ! MAC_OR_LINUX_
-                    std::cerr << "select() returned " << result << " errno " << actErrno << " " <<
-                                errBuff << std::endl;
+                    cerr << "select() returned " << result << " errno " << actErrno << " " <<
+                            errBuff << endl;
                     if (EINTR != actErrno)
                     {
                         break;
@@ -957,7 +963,7 @@ static void convertMetricPropertyToString(yarp::os::Property &        propList,
             case kOutputFlavourTabs :
                 if (sawSome)
                 {
-                    result << std::endl;
+                    result << endl;
                 }
                 result << theChannelAsString.c_str() << "\t" << theDateAsString.c_str() << "\t" <<
                             theTimeAsString.c_str() << "\t" << inByteCount << "\t" <<
@@ -989,7 +995,7 @@ static void convertMetricPropertyToString(yarp::os::Property &        propList,
             case kOutputFlavourNormal :
                 if (sawSome)
                 {
-                    result << std::endl;
+                    result << endl;
                 }
                 result.width(channelWidth);
                 result << theChannelAsString.c_str() << ": [date: " << theDateAsString.c_str() <<
@@ -1386,7 +1392,7 @@ bool Utilities::GetDetectedPortList(PortVector & ports,
         char buffer2[DATE_TIME_BUFFER_SIZE];
         
         GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
-        std::cerr << buffer1 << " " << buffer2 << "Problem getting list of ports." << std::endl;
+        cerr << buffer1 << " " << buffer2 << "Problem getting list of ports." << endl;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
@@ -1898,8 +1904,7 @@ bool Utilities::GetServiceNamesFromCriteria(const yarp::os::ConstString & criter
         char buffer2[DATE_TIME_BUFFER_SIZE];
         
         GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
-        std::cerr << buffer1 << " " << buffer2 << " Problem getting list of service names." <<
-        std::endl;
+        cerr << buffer1 << " " << buffer2 << " Problem getting list of service names." << endl;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
@@ -2148,21 +2153,34 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void Utilities::ProcessStandardUtilitiesOptions(const int               argc,
+bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
                                                 char * *                argv,
+                                                const char *            argList,
                                                 Common::OutputFlavour & flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L1("argc = ", argc); //####
     OD_LOG_P2("argv = ", argv, "flavour = ", &flavour); //####
+    OD_LOG_S1("argList = ", argList); //####
+    bool keepGoing = true;
     
     opterr = 0; // Suppress the error message resulting from an unknown option.
     flavour = kOutputFlavourNormal;
-    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); -1 != cc;
+    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); keepGoing && (-1 != cc);
          cc = getopt(argc, argv, STANDARD_OPTIONS))
     {
         switch (cc)
         {
+            case 'h' :
+                cout << "Usage: " << *argv << " [-hjt]" << argList << endl << endl;
+                cout << "The following options are available:" << endl << endl;
+                cout << "    -h    display the list of optional parameters and arguments and "
+                        "leave" << endl;
+                cout << "    -j    generate JSON-formatted output" << endl;
+                cout << "    -t    generate output in tab-delimited form" << endl;
+                keepGoing = false;
+                break;
+                
             case 'j' :
                 flavour = kOutputFlavourJSON;
                 break;
@@ -2177,7 +2195,8 @@ void Utilities::ProcessStandardUtilitiesOptions(const int               argc,
                 
         }
     }
-    OD_LOG_EXIT(); //####
+    OD_LOG_EXIT_B(keepGoing); //####
+    return keepGoing;
 } // Utilities::ProcessStandardUtilitiesOptions
 
 bool Utilities::RemoveConnection(const yarp::os::ConstString & fromPortName,
@@ -2267,9 +2286,8 @@ void Utilities::RemoveStalePorts(const float timeout)
                                 
                                 GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
                                 yarp::os::NetworkBase::unregisterName(port);
-                                std::cerr << buffer1 << " " << buffer2 <<
-                                            " Removing stale port '" << port.c_str() << "'." <<
-                                            std::endl;
+                                cerr << buffer1 << " " << buffer2 << " Removing stale port '" <<
+                                        port.c_str() << "'." << endl;
                             }
                         }
                     }

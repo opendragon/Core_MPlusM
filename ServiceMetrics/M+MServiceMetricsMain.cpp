@@ -66,6 +66,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -100,109 +101,128 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     OutputFlavour flavour;
     
-    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
-    try
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [channel]", flavour))
     {
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        try
         {
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-            yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
-            
-            Initialize(*argv);
-            if (optind >= argc)
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                channelNameRequest += "*";
-            }
-            else
-            {
-                channelNameRequest += argv[optind];
-            }
-            yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
-            
-            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
-            {
-                // First, check if the search succeeded.
-                yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
+                yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
                 
-                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+                Initialize(*argv);
+                if (optind >= argc)
                 {
-                    OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
-#if MAC_OR_LINUX_
-                    yarp::os::ConstString reason(matches.get(1).toString());
-                    
-                    GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
-#endif // MAC_OR_LINUX_
+                    channelNameRequest += "*";
                 }
                 else
                 {
-                    // Now, process the second element.
-                    yarp::os::Bottle * matchesList = matches.get(1).asList();
+                    channelNameRequest += argv[optind];
+                }
+                yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
+                
+                if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+                {
+                    // First, check if the search succeeded.
+                    yarp::os::ConstString matchesFirstString(matches.get(0).toString());
                     
-                    if (matchesList)
+                    if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                     {
-                        int matchesCount = matchesList->size();
+                        OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
+#if MAC_OR_LINUX_
+                        yarp::os::ConstString reason(matches.get(1).toString());
                         
-                        if (matchesCount)
+                        GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
+#endif // MAC_OR_LINUX_
+                    }
+                    else
+                    {
+                        // Now, process the second element.
+                        yarp::os::Bottle * matchesList = matches.get(1).asList();
+                        
+                        if (matchesList)
                         {
-                            bool sawResponse = false;
+                            int matchesCount = matchesList->size();
                             
-                            if (kOutputFlavourJSON == flavour)
+                            if (matchesCount)
                             {
-                                cout << "[ ";
-                            }
-                            for (int ii = 0; ii < matchesCount; ++ii)
-                            {
-                                yarp::os::ConstString aMatch = matchesList->get(ii).toString();
-                                yarp::os::Bottle      metrics;
+                                bool sawResponse = false;
                                 
-                                if (Utilities::GetMetricsForService(aMatch, metrics,
-                                                                    STANDARD_WAIT_TIME))
-
+                                if (kOutputFlavourJSON == flavour)
                                 {
-                                    yarp::os::ConstString responseAsString =
+                                    cout << "[ ";
+                                }
+                                for (int ii = 0; ii < matchesCount; ++ii)
+                                {
+                                    yarp::os::ConstString aMatch = matchesList->get(ii).toString();
+                                    yarp::os::Bottle      metrics;
+                                    
+                                    if (Utilities::GetMetricsForService(aMatch, metrics,
+                                                                        STANDARD_WAIT_TIME))
+                                        
+                                    {
+                                        yarp::os::ConstString responseAsString =
                                                         Utilities::ConvertMetricsToString(metrics,
                                                                                           flavour);
-                                    
-                                    if (sawResponse)
-                                    {
-                                        switch (flavour)
+                                        
+                                        if (sawResponse)
                                         {
-                                            case kOutputFlavourTabs :
-                                                cout << endl;
-                                                break;
-                                                
-                                            case kOutputFlavourJSON :
-                                                cout << "," << endl;
-                                                break;
-                                                
-                                            case kOutputFlavourNormal :
-                                                cout << endl << endl;
-                                                break;
-                                                
-                                            default :
-                                                break;
-                                                
+                                            switch (flavour)
+                                            {
+                                                case kOutputFlavourTabs :
+                                                    cout << endl;
+                                                    break;
+                                                    
+                                                case kOutputFlavourJSON :
+                                                    cout << "," << endl;
+                                                    break;
+                                                    
+                                                case kOutputFlavourNormal :
+                                                    cout << endl << endl;
+                                                    break;
+                                                    
+                                                default :
+                                                    break;
+                                                    
+                                            }
                                         }
+                                        sawResponse = true;
+                                        if (kOutputFlavourNormal == flavour)
+                                        {
+                                            cout << SanitizeString(aMatch, true).c_str() << endl;
+                                        }
+                                        cout << responseAsString.c_str();
                                     }
-                                    sawResponse = true;
-                                    if (kOutputFlavourNormal == flavour)
-                                    {
-                                        cout << SanitizeString(aMatch, true).c_str() << endl;
-                                    }
-                                    cout << responseAsString.c_str();
                                 }
-                            }
-                            if (kOutputFlavourJSON == flavour)
-                            {
-                                cout << " ]";
-                            }
-                            if (sawResponse)
-                            {
-                                cout << endl;
+                                if (kOutputFlavourJSON == flavour)
+                                {
+                                    cout << " ]";
+                                }
+                                if (sawResponse)
+                                {
+                                    cout << endl;
+                                }
+                                else
+                                {
+                                    switch (flavour)
+                                    {
+                                        case kOutputFlavourJSON :
+                                        case kOutputFlavourTabs :
+                                            break;
+                                            
+                                        case kOutputFlavourNormal :
+                                            cout << "No matching service found." << endl;
+                                            break;
+                                            
+                                        default :
+                                            break;
+                                            
+                                    }
+                                }
                             }
                             else
                             {
@@ -213,7 +233,7 @@ int main(int      argc,
                                         break;
                                         
                                     case kOutputFlavourNormal :
-                                        cout << "No matching service found." << endl;
+                                        cout << "No services found." << endl;
                                         break;
                                         
                                     default :
@@ -224,53 +244,36 @@ int main(int      argc,
                         }
                         else
                         {
-                            switch (flavour)
-                            {
-                                case kOutputFlavourJSON :
-                                case kOutputFlavourTabs :
-                                    break;
-                                    
-                                case kOutputFlavourNormal :
-                                    cout << "No services found." << endl;
-                                    break;
-                                    
-                                default :
-                                    break;
-                                    
-                            }
+                            OD_LOG("! (matchesList)"); //####
                         }
                     }
-                    else
-                    {
-                        OD_LOG("! (matchesList)"); //####
-                    }
+                }
+                else
+                {
+                    OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem getting information from the Registry Service.");
+#endif // MAC_OR_LINUX_
                 }
             }
+#if CheckNetworkWorks_
             else
             {
-                OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem getting information from the Registry Service.");
-#endif // MAC_OR_LINUX_
-            }
-        }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught"); //####
+        }
+        yarp::os::Network::fini();
     }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-    }
-    yarp::os::Network::fini();
     OD_LOG_EXIT_L(0); //####
     return 0;
 } // main

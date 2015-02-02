@@ -60,6 +60,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -219,92 +220,94 @@ int main(int      argc,
     yarp::os::ConstString criteria;
     OutputFlavour         flavour;
     
-    Utilities::ProcessStandardUtilitiesOptions(argc, argv, flavour);
-    try
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [criteria]", flavour))
     {
-        Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        try
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            if (optind < argc)
+            Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
             {
-                criteria = argv[optind];
-                OD_LOG_S1s("criteria <- ", criteria); //####
-            }
-            if (0 < criteria.size())
-            {
-                getMatchingChannels(criteria, flavour);
-            }
-            else if (CanReadFromStandardInput())
-            {
-                StartRunning();
-                for ( ; IsRunning(); )
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
+                
+                Initialize(*argv);
+                if (optind < argc)
                 {
-                    char        inChar;
-                    std::string inputLine;
-                    
-                    cout << "Operation: [? f q]? ";
-                    cout.flush();
-                    cin >> inChar;
-                    switch (inChar)
+                    criteria = argv[optind];
+                    OD_LOG_S1s("criteria <- ", criteria); //####
+                }
+                if (0 < criteria.size())
+                {
+                    getMatchingChannels(criteria, flavour);
+                }
+                else if (CanReadFromStandardInput())
+                {
+                    StartRunning();
+                    for ( ; IsRunning(); )
                     {
-                        case '?' :
-                            // Help
-                            displayCommands();
-                            break;
-                            
-                        case 'f' :
-                        case 'F' :
-                            cout << "Match criteria: ";
-                            cout.flush();
-                            cin >> inChar;
-                            if (getline(cin, inputLine))
-                            {
-                                inputLine = inChar + inputLine;
-                                criteria = inputLine.c_str();
-                                if (0 < criteria.size())
+                        char        inChar;
+                        std::string inputLine;
+                        
+                        cout << "Operation: [? f q]? ";
+                        cout.flush();
+                        cin >> inChar;
+                        switch (inChar)
+                        {
+                            case '?' :
+                                // Help
+                                displayCommands();
+                                break;
+                                
+                            case 'f' :
+                            case 'F' :
+                                cout << "Match criteria: ";
+                                cout.flush();
+                                cin >> inChar;
+                                if (getline(cin, inputLine))
                                 {
-                                    getMatchingChannels(criteria, flavour);
+                                    inputLine = inChar + inputLine;
+                                    criteria = inputLine.c_str();
+                                    if (0 < criteria.size())
+                                    {
+                                        getMatchingChannels(criteria, flavour);
+                                    }
                                 }
-                            }
-                            break;
-                            
-                        case 'q' :
-                        case 'Q' :
-                            // Quit
-                            StopRunning();
-                            break;
-                            
-                        default :
-                            cout << "Unrecognized request '" << inChar << "'." << endl;
-                            break;
-                            
+                                break;
+                                
+                            case 'q' :
+                            case 'Q' :
+                                // Quit
+                                StopRunning();
+                                break;
+                                
+                            default :
+                                cout << "Unrecognized request '" << inChar << "'." << endl;
+                                break;
+                                
+                        }
                     }
                 }
             }
-        }
 #if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+            else
+            {
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught"); //####
+        }
+        yarp::os::Network::fini();
     }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-    }
-    yarp::os::Network::fini();
     OD_LOG_EXIT_L(0); //####
     return 0;
 } // main

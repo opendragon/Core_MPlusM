@@ -61,6 +61,9 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -161,7 +164,7 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem opening input channel.");
 #else // ! MAC_OR_LINUX_
-                        std::cerr << "Problem opening input channel." << std::endl;
+                        cerr << "Problem opening input channel." << endl;
 #endif // ! MAC_OR_LINUX_
                         result = false;
                     }
@@ -231,7 +234,7 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem opening output channel.");
 #else // ! MAC_OR_LINUX_
-                        std::cerr << "Problem opening output channel." << std::endl;
+                        cerr << "Problem opening output channel." << endl;
 #endif // ! MAC_OR_LINUX_
                         result = false;
                     }

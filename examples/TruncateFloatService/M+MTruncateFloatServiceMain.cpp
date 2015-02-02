@@ -60,6 +60,7 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
+using std::cerr;
 using std::cin;
 using std::cout;
 using std::endl;
@@ -240,7 +241,7 @@ static void setUpAndGo(char * *                      argv,
 #if MAC_OR_LINUX_
                 GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_
-                std::cerr << "Service could not be registered." << std::endl;
+                cerr << "Service could not be registered." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -250,7 +251,7 @@ static void setUpAndGo(char * *                      argv,
 #if MAC_OR_LINUX_
             GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
-            std::cerr << "Service could not be started." << std::endl;
+            cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
         }
         delete stuff;
@@ -286,37 +287,41 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  nameWasSet; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        ProcessStandardServiceOptions(argc, argv, DEFAULT_TRUNCATEFLOAT_SERVICE_NAME, reportOnExit,
-                                      tag, serviceEndpointName, servicePortNumber);
-        Utilities::CheckForNameServerReporter();
+        if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_TRUNCATEFLOAT_SERVICE_NAME,
+                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber))
+        {
+            Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
-        {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
-            
-            Initialize(*argv);
-            setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, stdinAvailable,
-                       reportOnExit);
-        }
+            {
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
+                
+                Initialize(*argv);
+                setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, stdinAvailable,
+                           reportOnExit);
+            }
 #if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+            else
+            {
+                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
 # if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
+                GetLogger().fail("YARP network not running.");
 # else // ! MAC_OR_LINUX_
-            std::cerr << "YARP network not running." << std::endl;
+                cerr << "YARP network not running." << endl;
 # endif // ! MAC_OR_LINUX_
-        }
+            }
 #endif // CheckNetworkWorks_
+        }
     }
     catch (...)
     {

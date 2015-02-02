@@ -59,6 +59,8 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -284,9 +286,9 @@ void AbsorberService::updateCount(const size_t numBytes)
             _totalBytes += numBytes;
             // Note that the function 'convertToCommaSplitNumber' was used because the locale
             // mechanism in C++ for OS X is very, very broken.
-            std::cout << "messages = " << convertToCommaSplitNumber(_count).c_str() <<
-                        "; bytes = " << convertToCommaSplitNumber(numBytes).c_str() <<
-                        "; total = " << convertToCommaSplitNumber(_totalBytes).c_str() << std::endl;
+            cout << "messages = " << convertToCommaSplitNumber(_count).c_str() << "; bytes = " <<
+                    convertToCommaSplitNumber(numBytes).c_str() << "; total = " <<
+                    convertToCommaSplitNumber(_totalBytes).c_str() << endl;
         }
     }
     catch (...)

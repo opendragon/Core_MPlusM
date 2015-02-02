@@ -59,8 +59,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::JavaScript;
-using std::endl;
 using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -324,7 +325,7 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
                     else
                     {
                         // Script rejected starting, but gave no reason.
-                        std::cout << "Could not configure -> unknown reason." << std::endl;
+                        cout << "Could not configure -> unknown reason." << endl;
                     }
                 }
                 else
@@ -333,7 +334,7 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
                     JSString * reason = funcResult.toString();
                     char *     asChars = JS_EncodeString(_context, reason);
                     
-                    std::cout << "Could not configure -> " << asChars << "." << std::endl;
+                    cout << "Could not configure -> " << asChars << "." << endl;
                     JS_free(_context, asChars);
                 }
             }
@@ -722,7 +723,7 @@ std::ostream & JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                         {
                             okSoFar = false;
                         }
-                        outStream << std::endl;
+                        outStream << endl;
                         if (okSoFar)
                         {
                             PrintJavaScriptObject(outStream, jct, asObject, depth + 1);
@@ -730,7 +731,7 @@ std::ostream & JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                     }
                     else
                     {
-                        outStream << std::endl;
+                        outStream << endl;
                     }
                 }
             }
@@ -754,7 +755,7 @@ std::ostream & JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
         outStream.width(depth);
         outStream << " ";
     }
-    std::cout << caption;
+    cout << caption;
     if (value.isString())
     {
         JSString * asString = value.toString();
