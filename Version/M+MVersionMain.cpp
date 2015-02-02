@@ -106,21 +106,41 @@ int main(int      argc,
     
     
     
+#define USAGE_PREFIX "USAGE: "
+#define USAGE_SUFFIX " [options]\n\nOptions:"
+#define EXAMPLES_PREFIX "\nExamples:\n  "
+#define EXAMPLES_INTERIOR " --unknown -- --this_is_no_option\n  "
+#define EXAMPLES_SUFFIX " -unk --plus -ppp file1 file2\n"
     
-    enum  optionIndex { UNKNOWN, HELP, PLUS };
-    const Option_::Descriptor usage[] =
+    enum optionIndex
     {
-        {UNKNOWN, 0,"" , ""    ,Option_::Arg::None, "USAGE: example [options]\n\n"
-            "Options:" },
-        {HELP,    0,"" , "help",Option_::Arg::None, "  --help  \tPrint usage and exit." },
-        {PLUS,    0,"p", "plus",Option_::Arg::None, "  --plus, -p  \tIncrement count." },
-        {UNKNOWN, 0,"" ,  ""   ,Option_::Arg::None, "\nExamples:\n"
-            "  example --unknown -- --this_is_no_option\n"
-            "  example -unk --plus -ppp file1 file2\n" },
-        {0,0,0,0,0,0}
+        UNKNOWN,
+        HELP,
+        PLUS
+    }; // optionIndex
+    
+    Option_::Descriptor usage[] =
+    {
+        { UNKNOWN, 0, "", "", Option_::Arg::None, T_(USAGE_PREFIX "example" USAGE_SUFFIX) },
+        { HELP, 0, "h", "help", Option_::Arg::None, "  --help, -h\tPrint usage and exit." },
+        { PLUS, 0, "p", "plus", Option_::Arg::None, "  --plus, -p\tIncrement count." },
+        { UNKNOWN, 0, "", "", Option_::Arg::None, T_(EXAMPLES_PREFIX "example" EXAMPLES_INTERIOR
+                                                     "example" EXAMPLES_SUFFIX) },
+        { 0, 0, 0, 0, 0, 0 }
     };
-    int      argcWork = argc;
-    char * * argvWork = argv;
+    int                   argcWork = argc;
+    char * *              argvWork = argv;
+    yarp::os::ConstString usageString(USAGE_PREFIX);
+    
+    usageString += *argv;
+    usageString += USAGE_SUFFIX;
+    usage[0].help = strdup(usageString.c_str());
+    usageString = EXAMPLES_PREFIX;
+    usageString += *argv;
+    usageString += EXAMPLES_INTERIOR;
+    usageString += *argv;
+    usageString += EXAMPLES_SUFFIX;
+    usage[3].help = strdup(usageString.c_str());
     
 //    cerr << argc << endl;//!!!!
     argcWork -= (argc > 0);
