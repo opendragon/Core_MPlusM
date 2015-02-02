@@ -400,6 +400,8 @@
 		DFCDE50619E7059B0051D294 /* M+MGetMetricsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGetMetricsRequestHandler.h"; path = "mpm/M+MGetMetricsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DFCDE50819E73A210051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceMetrics/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCDE50919E73A210051D294 /* M+MServiceMetricsMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceMetricsMain.cpp"; path = "ServiceMetrics/M+MServiceMetricsMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DFDC7E501A7FF07200BE0557 /* optionparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = optionparser.cpp; path = mpm/optionparser.cpp; sourceTree = "<group>"; };
+		DFDC7E511A7FF07200BE0557 /* optionparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = optionparser.h; path = mpm/optionparser.h; sourceTree = "<group>"; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMovementDbClient.h"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.h"; sourceTree = SOURCE_ROOT; };
 		DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMovementDbClientMain.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClientMain.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1179,6 +1181,8 @@
 				DF38511D198ACCFE00A0414E /* M+MServiceResponse.h */,
 				DF385122198ACCFE00A0414E /* M+MUtilities.cpp */,
 				DF385123198ACCFE00A0414E /* M+MUtilities.h */,
+				DFDC7E501A7FF07200BE0557 /* optionparser.cpp */,
+				DFDC7E511A7FF07200BE0557 /* optionparser.h */,
 				DF36EEF21958DE9F00E7D889 /* RequestHandlers */,
 				DFEF4B631A24FC7900FBB838 /* swig_mpm_in */,
 			);

@@ -39,6 +39,8 @@
 #include <mpm/M+MCommon.h>
 #include <mpm/M+MUtilities.h>
 
+#include <mpm/optionparser.h>
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -72,6 +74,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -100,6 +103,69 @@ int main(int      argc,
     yarp::os::ConstString aceVersionString;
     yarp::os::ConstString mpmVersionString;
     yarp::os::ConstString yarpVersionString;
+    
+    
+    
+    
+    enum  optionIndex { UNKNOWN, HELP, PLUS };
+    const Option_::Descriptor usage[] =
+    {
+        {UNKNOWN, 0,"" , ""    ,Option_::Arg::None, "USAGE: example [options]\n\n"
+            "Options:" },
+        {HELP,    0,"" , "help",Option_::Arg::None, "  --help  \tPrint usage and exit." },
+        {PLUS,    0,"p", "plus",Option_::Arg::None, "  --plus, -p  \tIncrement count." },
+        {UNKNOWN, 0,"" ,  ""   ,Option_::Arg::None, "\nExamples:\n"
+            "  example --unknown -- --this_is_no_option\n"
+            "  example -unk --plus -ppp file1 file2\n" },
+        {0,0,0,0,0,0}
+    };
+    int      argcWork = argc;
+    char * * argvWork = argv;
+    
+//    cerr << argc << endl;//!!!!
+    argcWork -= (argc > 0);
+    argvWork += (argc > 0); // skip program name argv[0] if present
+//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
+    Option_::Stats    stats(usage, argcWork, argvWork);
+//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
+//    cerr << stats.options_max << " " << stats.buffer_max << endl;//!!!!
+    Option_::Option * options = new Option_::Option[stats.options_max];
+//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
+    Option_::Option * buffer = new Option_::Option[stats.buffer_max];
+//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
+//    cerr << argcWork << " " << endl;//!!!!
+//    cerr << "options = " << hex << reinterpret_cast<size_t>(options) << dec << endl;//!!!!
+//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
+    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer);
+//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
+
+    if (parse.error())
+    {
+        return 1;
+    }
+    
+    if (options[HELP] || (argcWork == 0))
+    {
+        Option_::printUsage(cout, usage);
+        return 0;
+    }
+    
+    cout << "--plus count: " << options[PLUS].count() << endl;
+    for (Option_::Option * opt = options[UNKNOWN]; opt; opt = opt->next())
+    {
+        cout << "Unknown option: " << opt->name << endl;
+    }
+    for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
+    {
+        cout << "Non-option #" << ii << ": " << parse.nonOption(ii) << endl;
+    }
+    exit(0);
+    
+    
+    
+    
+    
+    
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", flavour))
     {
