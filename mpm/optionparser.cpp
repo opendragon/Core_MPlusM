@@ -681,7 +681,8 @@ bool Parser::streqabbr(const char * st1,
         ++st1;
         ++st2;
     }
-    return ((! *st1) || ((min > 0) && ((st1 - st1start) >= min))) && ((! *st2) || ('=' == *st2));
+    return (((! *st1) || ((min > 0) && ((st1 - st1start) >= static_cast<int>(min)))) &&
+            ((! *st2) || ('=' == *st2)));
 } // Parser::streqabbr
 
 bool Parser::instr(const char   ch,

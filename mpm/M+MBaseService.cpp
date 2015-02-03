@@ -874,7 +874,11 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     usageString += " [options]";
     usageString += argList;
     usageString += "\n\nOptions:";
+#if MAC_OR_LINUX_
     usage[0].help = strdup(usageString.c_str());
+#else // ! MAC_OR_LINUX_
+    usage[0].help = _strdup(usageString.c_str());
+#endif // ! MAC_OR_LINUX_
     argcWork -= (argc > 0);
     argvWork += (argc > 0); // skip program name argv[0] if present
     Option_::Stats    stats(usage, argcWork, argvWork);
