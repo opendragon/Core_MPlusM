@@ -29,21 +29,22 @@
 
 #include "optionparser.h"
 
-# include <iostream>
+//     #include <iostream>  // cout
 using namespace Option_;
-using std::cerr;
-using std::dec;
-using std::endl;
-using std::hex;
+//using ::std::cerr;
+//using ::std::dec;
+//using ::std::endl;
+//using ::std::hex;
 
 #if defined(_MSC_VER)
-static int MSC_Builtin_CLZ::builtin_clz(unsigned xx)
+# pragma intrinsic(_BitScanReverse)
+int MSC_Builtin_CLZ::builtin_clz(const unsigned xx)
 {
     unsigned long index;
     
     _BitScanReverse(&index, xx);
     return (32 - index); // int is always 32bit on Windows, even for target x64
-} // MSC_Builtin_CLZ::builtin_clz# define __builtin_clz(xx) MSC_Builtin_CLZ::builtin_clz(xx)
+} // MSC_Builtin_CLZ::builtin_clz
 #endif // defined(_MSC_VER)
 
 void Option::append(Option * new_last)

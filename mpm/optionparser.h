@@ -214,7 +214,7 @@
 #if (! defined(OPTIONPARSER_H_))
 # define OPTIONPARSER_H_ /* Header guard */
 
-# include <stdlib.h>
+# include <cstdlib>
 
 /** @brief The namespace of The Lean Mean C++ Option Parser. */
 namespace Option_
@@ -222,10 +222,9 @@ namespace Option_
     
 # if defined(_MSC_VER)
 #  include <intrin.h>
-#  pragma intrinsic(_BitScanReverse)
     struct MSC_Builtin_CLZ
     {
-        static int builtin_clz(unsigned xx);
+        static int builtin_clz(const unsigned xx);
     };
 #  define __builtin_clz(xx) MSC_Builtin_CLZ::builtin_clz(xx)
 # endif // defined(_MSC_VER)

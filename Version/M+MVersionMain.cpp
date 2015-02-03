@@ -104,7 +104,7 @@ int main(int      argc,
     yarp::os::ConstString mpmVersionString;
     yarp::os::ConstString yarpVersionString;
     
-    
+//#if 0
     
 #define USAGE_PREFIX "USAGE: "
 #define USAGE_INTERIOR " [options]"
@@ -186,7 +186,7 @@ int main(int      argc,
     
     
     
-    
+//#endif//0
     
     
     
