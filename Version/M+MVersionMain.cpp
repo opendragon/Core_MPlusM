@@ -107,7 +107,8 @@ int main(int      argc,
     
     
 #define USAGE_PREFIX "USAGE: "
-#define USAGE_SUFFIX " [options]\n\nOptions:"
+#define USAGE_INTERIOR " [options]"
+#define USAGE_SUFFIX "\n\nOptions:"
 #define EXAMPLES_PREFIX "\nExamples:\n  "
 #define EXAMPLES_INTERIOR " --unknown -- --this_is_no_option\n  "
 #define EXAMPLES_SUFFIX " -unk --plus -ppp file1 file2\n"
@@ -122,8 +123,8 @@ int main(int      argc,
     Option_::Descriptor usage[] =
     {
         { UNKNOWN, 0, "", "", Option_::Arg::None, T_(USAGE_PREFIX "example" USAGE_SUFFIX) },
-        { HELP, 0, "h", "help", Option_::Arg::None, "  --help, -h\tPrint usage and exit." },
-        { PLUS, 0, "p", "plus", Option_::Arg::None, "  --plus, -p\tIncrement count." },
+        { HELP, 0, "h", "help", Option_::Arg::None, "  --help, -h    Print usage and exit." },
+        { PLUS, 0, "p", "plus", Option_::Arg::None, "  --plus, -p    Increment count." },
         { UNKNOWN, 0, "", "", Option_::Arg::None, T_(EXAMPLES_PREFIX "example" EXAMPLES_INTERIOR
                                                      "example" EXAMPLES_SUFFIX) },
         { 0, 0, 0, 0, 0, 0 }
@@ -133,6 +134,8 @@ int main(int      argc,
     yarp::os::ConstString usageString(USAGE_PREFIX);
     
     usageString += *argv;
+    usageString += USAGE_INTERIOR;
+    usageString += " [args]\n\n  args    Optional arguments";
     usageString += USAGE_SUFFIX;
     usage[0].help = strdup(usageString.c_str());
     usageString = EXAMPLES_PREFIX;
@@ -156,7 +159,7 @@ int main(int      argc,
 //    cerr << argcWork << " " << endl;//!!!!
 //    cerr << "options = " << hex << reinterpret_cast<size_t>(options) << dec << endl;//!!!!
 //    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
-    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer);
+    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
 //    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
 
     if (parse.error())
