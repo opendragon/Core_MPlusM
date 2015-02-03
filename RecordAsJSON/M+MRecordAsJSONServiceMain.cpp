@@ -44,10 +44,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -320,11 +316,13 @@ int main(int      argc,
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
+        StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, " [filePath]",
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
+                                                         "  filePath   Optional output file path"),
                                           DEFAULT_RECORDASJSON_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          servicePortNumber, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -336,9 +334,9 @@ int main(int      argc,
                 
                 Initialize(*argv);
                 // Note that we can't use Random::uniform until after the seed has been set
-                if (optind < argc)
+                if (0 < arguments.size())
                 {
-                    recordPath = argv[optind];
+                    recordPath = arguments[0];
                     OD_LOG_S1s("recordPath <- ", recordPath); //####
                 }
                 if (0 == recordPath.size())

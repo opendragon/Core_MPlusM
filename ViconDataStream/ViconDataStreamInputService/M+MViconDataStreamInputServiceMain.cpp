@@ -44,10 +44,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -349,11 +345,16 @@ int main(int      argc,
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
+        StringVector          arguments;        
         
-        if (ProcessStandardServiceOptions(argc, argv, " [hostname [port]]",
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [hostname [port]]\n\n"
+                                                         "  hostname   Optional hostname for the "
+                                                         "device server"
+                                                         "  port       Optional port for the "
+                                                         "device server"),
                                           DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          servicePortNumber, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -364,17 +365,17 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                // Note that we can't use Random::uniform until after the seed has been set
-                if (optind < argc)
+                if (0 < arguments.size())
                 {
-                    hostName = argv[optind];
+                    hostName = arguments[0];
                     OD_LOG_S1s("hostName <- ", hostName); //####
-                    if ((optind + 1) < argc)
+                    if (1 < arguments.size())
                     {
-                        char * endPtr;
-                        int    tempInt = static_cast<int>(strtol(argv[optind + 1], &endPtr, 10));
+                        const char * startPtr = arguments[1].c_str();
+                        char *       endPtr;
+                        int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
                         
-                        if ((argv[optind + 1] != endPtr) && (! *endPtr) && (0 < tempInt))
+                        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                         {
                             // Useable data.
                             hostPort = tempInt;

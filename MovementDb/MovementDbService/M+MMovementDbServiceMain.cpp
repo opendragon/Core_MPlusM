@@ -44,10 +44,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -198,10 +194,13 @@ int main(int      argc,
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
+        StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, " [dbNetAddress]",
+        if (ProcessStandardServiceOptions(argc, argv, T_(" dbAddress\n\n"
+                                                         "  dbAddress  Network address for "
+                                                         "database"),
                                           DEFAULT_MOVEMENTDB_SERVICE_NAME, nameWasSet, reportOnExit,
-                                          tag, serviceEndpointName, servicePortNumber))
+                                          tag, serviceEndpointName, servicePortNumber, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -212,9 +211,9 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (optind < argc)
+                if (0 < arguments.size())
                 {
-                    yarp::os::ConstString databaseAddress(argv[optind]);
+                    yarp::os::ConstString databaseAddress(arguments[0]);
                     
                     setUpAndGo(databaseAddress, argv, tag, serviceEndpointName, servicePortNumber,
                                reportOnExit);
@@ -226,7 +225,7 @@ int main(int      argc,
 # else // ! MAC_OR_LINUX_
                     cerr << "Missing database network address." << endl;
 # endif // ! MAC_OR_LINUX_
-                }
+                }                
             }
 #if CheckNetworkWorks_
             else

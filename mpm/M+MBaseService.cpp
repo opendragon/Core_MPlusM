@@ -47,6 +47,7 @@
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
 #include <mpm/M+MUtilities.h>
+#include <mpm/optionparser.h>
 
 #include "M+MChannelsRequestHandler.h"
 #include "M+MClientsRequestHandler.h"
@@ -61,10 +62,6 @@
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
-
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -831,65 +828,102 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,
                                            yarp::os::ConstString &       serviceEndpointName,
-                                           yarp::os::ConstString &       servicePortNumber)
+                                           yarp::os::ConstString &       servicePortNumber,
+                                           StringVector *                arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L1("argc = ", argc); //####
-    OD_LOG_P3("argv = ", argv, "nameWasSet = ", &nameWasSet, "reportOnExit = ",//####
-              &reportOnExit); //####
+    OD_LOG_P4("argv = ", argv, "nameWasSet = ", &nameWasSet, "reportOnExit = ",//####
+              &reportOnExit, "arguments = ", arguments); //####
     OD_LOG_S1("argList = ", argList); //####
     OD_LOG_S1s("defaultEndpointNameRoot = ", defaultEndpointNameRoot); //####
-    bool keepGoing = true;
-    
-    opterr = 0; // Suppress the error message resulting from an unknown option.
-    nameWasSet = reportOnExit = false;
-    tag = serviceEndpointName = serviceEndpointName = "";
-    for (int cc = getopt(argc, argv, STANDARD_SERVICE_OPTIONS); keepGoing && (-1 != cc);
-         cc = getopt(argc, argv, STANDARD_SERVICE_OPTIONS))
+    enum optionIndex
     {
-        switch (cc)
+        UNKNOWN,
+        ENDPOINT,
+        HELP,
+        PORT,
+        REPORT,
+        TAG
+    }; // optionIndex
+    
+    bool                keepGoing = true;
+    Option_::Descriptor usage[] =
+    {
+        { UNKNOWN, 0, "", "", Option_::Arg::None, NULL },
+        { ENDPOINT, 0, "e", "endpoint", Option_::Arg::Required, T_("  --endpoint, -e    Specify an "
+                                                                   "alternative endpoint name to "
+                                                                   "be used") },
+        { HELP, 0, "h", "help", Option_::Arg::None, T_("  --help, -h        Print usage and "
+                                                       "exit") },
+        { PORT, 0, "p", "port", Option_::Arg::Required, T_("  --port, -p        Specify a non-"
+                                                           "default port to be used") },
+        { REPORT, 0, "r", "report", Option_::Arg::None, T_("  --report, -r      Report the service "
+                                                           "metrics when the application exits") },
+        { TAG, 0, "t", "tag", Option_::Arg::Required, T_("  --tag, -t         Specify the tag to "
+                                                         "be used as part of the service name") },
+        { 0, 0, 0, 0, 0, 0 }
+    };
+    int                   argcWork = argc;
+    char * *              argvWork = argv;
+    yarp::os::ConstString usageString("USAGE: ");
+    
+    reportOnExit = nameWasSet = false;
+    tag = serviceEndpointName = serviceEndpointName = "";
+    usageString += *argv;
+    usageString += " [options]";
+    usageString += argList;
+    usageString += "\n\nOptions:";
+    usage[0].help = strdup(usageString.c_str());
+    argcWork -= (argc > 0);
+    argvWork += (argc > 0); // skip program name argv[0] if present
+    Option_::Stats    stats(usage, argcWork, argvWork);
+    Option_::Option * options = new Option_::Option[stats.options_max];
+    Option_::Option * buffer = new Option_::Option[stats.buffer_max];
+    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
+    
+    if (parse.error())
+    {
+        std::cerr << "oops" << std::endl;
+        keepGoing = false;
+    }
+    else if (options[HELP])
+    {
+        Option_::printUsage(cout, usage);
+        keepGoing = false;
+    }
+    else
+    {
+        if (options[REPORT])
         {
-            case 'e' :
-                serviceEndpointName = optarg;
-                OD_LOG_S1s("serviceEndpointName <- ", serviceEndpointName); //####
-                break;
-                
-            case 'h' :
-                cout << "Usage: " << *argv << " [-ehprt]" << argList << endl << endl;
-                cout << "The following options are available:" << endl << endl;
-                cout << "    -e    specifies an alternative endpoint name to be used" << endl;
-                cout << "    -h    display the list of optional parameters and arguments and "
-                        "leave" << endl;
-                cout << "    -p    specifies the port number to be used, if a non-default port is "
-                        "desired" << endl;
-                cout << "    -r    report the service metrics when the application exits" << endl;
-                cout << "    -t    specifies the tag to be used as part of the service name" <<
-                        endl;
-                keepGoing = false;
-                break;
-                
-            case 'p' :
-                servicePortNumber = optarg;
-                OD_LOG_S1s("servicePortNumber <- ", servicePortNumber); //####
-                break;
-                
-            case 'r' :
-                // Report metrics on exit
-                reportOnExit = true;
-                break;
-                
-            case 't' :
-                // Tag
-                tag = optarg;
-                OD_LOG_S1s("tag <- ", tag); //####
-                break;
-                
-            default :
-                // Ignore unknown options.
-                break;
-                
+            reportOnExit = true;
+        }
+        if (options[ENDPOINT])
+        {
+            serviceEndpointName = options[ENDPOINT].arg;
+            OD_LOG_S1s("serviceEndpointName <- ", serviceEndpointName); //####
+        }
+        if (options[PORT])
+        {
+            servicePortNumber = options[PORT].arg;
+            OD_LOG_S1s("servicePortNumber <- ", servicePortNumber); //####
+        }
+        if (options[TAG])
+        {
+            tag = options[TAG].arg;
+            OD_LOG_S1s("tag <- ", tag); //####
+        }
+        if (arguments)
+        {
+            arguments->clear();
+            for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
+            {
+                arguments->push_back(parse.nonOption(ii));
+            }
         }
     }
+    delete[] options;
+    delete[] buffer;
     if (0 < serviceEndpointName.size())
     {
         nameWasSet = true;

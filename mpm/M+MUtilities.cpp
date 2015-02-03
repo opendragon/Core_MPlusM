@@ -42,13 +42,10 @@
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
+#include <mpm/optionparser.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
-
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -111,9 +108,6 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The standard command-line options. */
-# define STANDARD_OPTIONS "hjt"
 
 /*! @brief The number of seconds to wait on a select() for mDNS operatios. */
 static const int kDNSWaitTime = 3;
@@ -1118,7 +1112,7 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
     {
         result << " ]";
     }
-    OD_LOG_EXIT_S(result.str()); //####
+    OD_LOG_EXIT_S(result.str().c_str()); //####
     return result.str();
 } // Utilities::ConvertMetricsToString
 
@@ -2155,45 +2149,79 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
                                                 char * *                argv,
                                                 const char *            argList,
-                                                Common::OutputFlavour & flavour)
+                                                Common::OutputFlavour & flavour,
+                                                Common::StringVector *  arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L1("argc = ", argc); //####
-    OD_LOG_P2("argv = ", argv, "flavour = ", &flavour); //####
+    OD_LOG_P3("argv = ", argv, "flavour = ", &flavour, "arguments = ", arguments); //####
     OD_LOG_S1("argList = ", argList); //####
-    bool keepGoing = true;
-    
-    opterr = 0; // Suppress the error message resulting from an unknown option.
-    flavour = kOutputFlavourNormal;
-    for (int cc = getopt(argc, argv, STANDARD_OPTIONS); keepGoing && (-1 != cc);
-         cc = getopt(argc, argv, STANDARD_OPTIONS))
+    enum optionIndex
     {
-        switch (cc)
+        UNKNOWN,
+        HELP,
+        JSON,
+        TABS
+    }; // optionIndex
+    
+    bool                keepGoing = true;
+    Option_::Descriptor usage[] =
+    {
+        { UNKNOWN, 0, "", "", Option_::Arg::None, NULL },
+        { HELP, 0, "h", "help", Option_::Arg::None, T_("  --help, -h    Print usage and exit") },
+        { JSON, 0, "j", "json", Option_::Arg::None, T_("  --json, -j    Generate output in JSON "
+                                                       "format") },
+        { TABS, 0, "t", "tabs", Option_::Arg::None, T_("  --tabs, -t    Generate output in tab-"
+                                                       "delimited format") },
+        { 0, 0, 0, 0, 0, 0 }
+    };
+    int                   argcWork = argc;
+    char * *              argvWork = argv;
+    yarp::os::ConstString usageString("USAGE: ");
+    
+    flavour = kOutputFlavourNormal;
+    usageString += *argv;
+    usageString += " [options]";
+    usageString += argList;
+    usageString += "\n\nOptions:";
+    usage[0].help = strdup(usageString.c_str());
+    argcWork -= (argc > 0);
+    argvWork += (argc > 0); // skip program name argv[0] if present
+    Option_::Stats    stats(usage, argcWork, argvWork);
+    Option_::Option * options = new Option_::Option[stats.options_max];
+    Option_::Option * buffer = new Option_::Option[stats.buffer_max];
+    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
+    
+    if (parse.error())
+    {
+        keepGoing = false;
+    }
+    else if (options[HELP])
+    {
+        Option_::printUsage(cout, usage);
+        keepGoing = false;
+    }
+    else
+    {
+        if (options[JSON])
         {
-            case 'h' :
-                cout << "Usage: " << *argv << " [-hjt]" << argList << endl << endl;
-                cout << "The following options are available:" << endl << endl;
-                cout << "    -h    display the list of optional parameters and arguments and "
-                        "leave" << endl;
-                cout << "    -j    generate JSON-formatted output" << endl;
-                cout << "    -t    generate output in tab-delimited form" << endl;
-                keepGoing = false;
-                break;
-                
-            case 'j' :
-                flavour = kOutputFlavourJSON;
-                break;
-                
-            case 't' :
-                flavour = kOutputFlavourTabs;
-                break;
-                
-            default :
-                // Ignore unknown options.
-                break;
-                
+            flavour = kOutputFlavourJSON;
+        }
+        else if (options[TABS])
+        {
+            flavour = kOutputFlavourTabs;
+        }
+        if (arguments)
+        {
+            arguments->clear();
+            for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
+            {
+                arguments->push_back(parse.nonOption(ii));
+            }
         }
     }
+    delete[] options;
+    delete[] buffer;
     OD_LOG_EXIT_B(keepGoing); //####
     return keepGoing;
 } // Utilities::ProcessStandardUtilitiesOptions

@@ -39,8 +39,6 @@
 #include <mpm/M+MCommon.h>
 #include <mpm/M+MUtilities.h>
 
-#include <mpm/optionparser.h>
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wc++11-extensions"
@@ -103,92 +101,6 @@ int main(int      argc,
     yarp::os::ConstString aceVersionString;
     yarp::os::ConstString mpmVersionString;
     yarp::os::ConstString yarpVersionString;
-    
-//#if 0
-    
-#define USAGE_PREFIX "USAGE: "
-#define USAGE_INTERIOR " [options]"
-#define USAGE_SUFFIX "\n\nOptions:"
-#define EXAMPLES_PREFIX "\nExamples:\n  "
-#define EXAMPLES_INTERIOR " --unknown -- --this_is_no_option\n  "
-#define EXAMPLES_SUFFIX " -unk --plus -ppp file1 file2\n"
-    
-    enum optionIndex
-    {
-        UNKNOWN,
-        HELP,
-        PLUS
-    }; // optionIndex
-    
-    Option_::Descriptor usage[] =
-    {
-        { UNKNOWN, 0, "", "", Option_::Arg::None, T_(USAGE_PREFIX "example" USAGE_SUFFIX) },
-        { HELP, 0, "h", "help", Option_::Arg::None, "  --help, -h    Print usage and exit." },
-        { PLUS, 0, "p", "plus", Option_::Arg::None, "  --plus, -p    Increment count." },
-        { UNKNOWN, 0, "", "", Option_::Arg::None, T_(EXAMPLES_PREFIX "example" EXAMPLES_INTERIOR
-                                                     "example" EXAMPLES_SUFFIX) },
-        { 0, 0, 0, 0, 0, 0 }
-    };
-    int                   argcWork = argc;
-    char * *              argvWork = argv;
-    yarp::os::ConstString usageString(USAGE_PREFIX);
-    
-    usageString += *argv;
-    usageString += USAGE_INTERIOR;
-    usageString += " [args]\n\n  args    Optional arguments";
-    usageString += USAGE_SUFFIX;
-    usage[0].help = strdup(usageString.c_str());
-    usageString = EXAMPLES_PREFIX;
-    usageString += *argv;
-    usageString += EXAMPLES_INTERIOR;
-    usageString += *argv;
-    usageString += EXAMPLES_SUFFIX;
-    usage[3].help = strdup(usageString.c_str());
-    
-//    cerr << argc << endl;//!!!!
-    argcWork -= (argc > 0);
-    argvWork += (argc > 0); // skip program name argv[0] if present
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-    Option_::Stats    stats(usage, argcWork, argvWork);
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << stats.options_max << " " << stats.buffer_max << endl;//!!!!
-    Option_::Option * options = new Option_::Option[stats.options_max];
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-    Option_::Option * buffer = new Option_::Option[stats.buffer_max];
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << argcWork << " " << endl;//!!!!
-//    cerr << "options = " << hex << reinterpret_cast<size_t>(options) << dec << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
-    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-
-    if (parse.error())
-    {
-        return 1;
-    }
-    
-    if (options[HELP] || (argcWork == 0))
-    {
-        Option_::printUsage(cout, usage);
-        return 0;
-    }
-    
-    cout << "--plus count: " << options[PLUS].count() << endl;
-    for (Option_::Option * opt = options[UNKNOWN]; opt; opt = opt->next())
-    {
-        cout << "Unknown option: " << opt->name << endl;
-    }
-    for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
-    {
-        cout << "Non-option #" << ii << ": " << parse.nonOption(ii) << endl;
-    }
-    exit(0);
-    
-    
-    
-//#endif//0
-    
-    
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", flavour))
     {

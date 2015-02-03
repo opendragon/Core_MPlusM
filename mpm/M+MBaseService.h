@@ -427,11 +427,13 @@ namespace MplusM
         }; // BaseService
         
         /*! @brief Process the standard options for service executables.
-         The option 'e' specifies the endpoint name to be used.
-         The option 'p' specifie the port number to be used.
-         The option 'r' indicates that the service metrics are to be reported on exit.
-         The option 't' specifies the tag modifier, which is applied to the name of the channel, if
-         the name was not specified. It is also applied to the service name as a suffix.
+         The option '-e' / '--endpoint' specifies the endpoint name to be used.
+         The option '-h' / '--help' displays the list of optional parameters and arguments, returns
+         @c false.
+         The option '-p' / '--port' specifie the port number to be used.
+         The option '-r' / '--report' indicates that the service metrics are to be reported on exit.
+         The option '-t' / '--tag' specifies the tag modifier, which is applied to the name of the
+         channel, if the name was not specified. It is also applied to the service name as a suffix.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the service.
          @param argList The command-line options and arguments for the service.
@@ -442,6 +444,7 @@ namespace MplusM
          @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
          options.
          @param servicePortNumber Set to the argument of the last -p option seen.
+         @param arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
         bool ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
@@ -451,7 +454,8 @@ namespace MplusM
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,
                                            yarp::os::ConstString &       serviceEndpointName,
-                                           yarp::os::ConstString &       servicePortNumber);
+                                           yarp::os::ConstString &       servicePortNumber,
+                                           StringVector *                arguments = NULL);
         
         /*! @brief Register a local service with a running Registry Service.
          @param channelName The channel provided by the service.

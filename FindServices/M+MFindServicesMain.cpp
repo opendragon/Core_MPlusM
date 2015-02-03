@@ -41,10 +41,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -219,8 +215,11 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     yarp::os::ConstString criteria;
     OutputFlavour         flavour;
+    StringVector          arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [criteria]", flavour))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [criteria]\n\n"
+                                                   "  criteria   Matching criteria for service",
+                                                   flavour, &arguments))
     {
         try
         {
@@ -233,9 +232,9 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (optind < argc)
+                if (0 < arguments.size())
                 {
-                    criteria = argv[optind];
+                    criteria = arguments[0];
                     OD_LOG_S1s("criteria <- ", criteria); //####
                 }
                 if (0 < criteria.size())

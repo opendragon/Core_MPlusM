@@ -46,10 +46,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -165,8 +161,11 @@ int main(int      argc,
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     OutputFlavour flavour;
+    StringVector  arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", flavour))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [channel]\n\n"
+                                                   "  channel    Optional channel name for "
+                                                   "service", flavour, &arguments))
     {
         try
         {
@@ -180,13 +179,13 @@ int main(int      argc,
                 yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
                 
                 Initialize(*argv);
-                if (optind >= argc)
+                if (0 < arguments.size())
                 {
-                    channelNameRequest += "*";
+                    channelNameRequest += arguments[0];
                 }
                 else
                 {
-                    channelNameRequest += argv[optind];
+                    channelNameRequest += "*";
                 }
                 yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
                 

@@ -44,10 +44,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(MAC_OR_LINUX_)
 # include <libgen.h>
 #else  // ! defined(MAC_OR_LINUX_)
@@ -1069,17 +1065,14 @@ static bool addCustomClasses(JSContext *        jct,
 /*! @brief Add an array containing the command-line arguments to the %JavaScript environment.
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
- @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
 static bool addArgvObject(JSContext *        jct,
                           JS::RootedObject & global,
-                          const int          argc,
-                          char * *           argv)
+                          StringVector &     argv)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
-    OD_LOG_L1("argc = ", argc); //####
+    OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
     bool       okSoFar = true;
     JSObject * argArray = JS_NewArrayObject(jct, 0);
     
@@ -1093,13 +1086,14 @@ static bool addArgvObject(JSContext *        jct,
         if (JS_SetProperty(jct, global, "argv", argValue))
         {
             char *          endPtr;
+            int             argc = argv.size();
             int32_t         tempInt;
             JS::RootedValue anElement(jct);
             JS::RootedId    aRootedId(jct);
             
-            for (int ii = optind; okSoFar && (argc > ii); ++ii)
+            for (int ii = 0; okSoFar && (argc > ii); ++ii)
             {
-                char * anArg = argv[ii];
+                const char * anArg = argv[ii].c_str();
                 
                 // Check for an integer value
                 tempInt = static_cast<int32_t>(strtol(anArg, &endPtr, 10));
@@ -1133,7 +1127,7 @@ static bool addArgvObject(JSContext *        jct,
                 }
                 if (okSoFar)
                 {
-                    if (JS_IndexToId(jct, ii - optind, &aRootedId))
+                    if (JS_IndexToId(jct, ii, &aRootedId))
                     {
                         JS_SetPropertyById(jct, argObject, aRootedId, anElement);
                     }
@@ -1194,17 +1188,15 @@ static bool addScriptTagObject(JSContext *                   jct,
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
  @param tag The modifier for the service name and port names.
- @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
 static bool addCustomObjects(JSContext *                   jct,
                              JS::RootedObject &            global,
                              const yarp::os::ConstString & tag,
-                             const int                     argc,
-                             char * *                      argv)
+                             StringVector &                argv)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
     OD_LOG_S1s("tag = ", tag); //####
     OD_LOG_L1("argc = ", argc); //####
     bool okSoFar = addCustomFunctions(jct, global);
@@ -1215,7 +1207,7 @@ static bool addCustomObjects(JSContext *                   jct,
     }
     if (okSoFar)
     {
-        okSoFar = addArgvObject(jct, global, argc, argv);
+        okSoFar = addArgvObject(jct, global, argv);
     }
     if (okSoFar)
     {
@@ -1951,7 +1943,6 @@ static bool validateLoadedScript(JSContext *             jct,
  @param script The %JavaScript source code to be executed.
  @param scriptPath The path to the script file.
  @param tag The modifier for the service name and port names.
- @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -1962,15 +1953,14 @@ static void setUpAndGo(JSContext *                   jct,
                        const yarp::os::ConstString & script,
                        const yarp::os::ConstString & scriptPath,
                        const yarp::os::ConstString & tag,
-                       const int                     argc,
-                       char * *                      argv,
+                       StringVector &                argv,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
                        const bool                    stdinAvailable,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "argv = ", argv); //####
+    OD_LOG_P2("jct = ", jct, "argv = ", &argv); //####
     OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_L1("argc = ", argc); //####
@@ -2006,16 +1996,16 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            if (! addCustomObjects(jct, global, tag, argc, argv))
+            if (! addCustomObjects(jct, global, tag, argv))
             {
-                OD_LOG("(! addCustomObjects(jct, global, tag, argc, argv))"); //####
+                OD_LOG("(! addCustomObjects(jct, global, tag, argv))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
                 GetLogger().fail("Custom objects could not be added to the JavaScript global "
                                  "object.");
 #else // ! MAC_OR_LINUX_
                 cerr << "Custom objects could not be added to the JavaScript global object." <<
-                            endl;
+                endl;
 #endif // ! MAC_OR_LINUX_
             }
         }
@@ -2063,8 +2053,8 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            JavaScriptService * stuff = new JavaScriptService(jct, global, *argv, tag, description,
-                                                              loadedInletDescriptions,
+            JavaScriptService * stuff = new JavaScriptService(jct, global, argv[0], tag,
+                                                              description, loadedInletDescriptions,
                                                               loadedOutletDescriptions,
                                                               loadedInletHandlers,
                                                               loadedStartingFunction,
@@ -2194,7 +2184,7 @@ static void setUpAndGo(JSContext *                   jct,
                             
                             stuff->gatherMetrics(metrics);
                             yarp::os::ConstString converted =
-                                                        Utilities::ConvertMetricsToString(metrics);
+                            Utilities::ConvertMetricsToString(metrics);
                             
                             cout << converted.c_str() << endl;
                         }
@@ -2321,10 +2311,12 @@ int main(int      argc,
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
-        
-        if (ProcessStandardServiceOptions(argc, argv, " scriptPath",
+        StringVector          arguments;
+                
+        if (ProcessStandardServiceOptions(argc, argv, T_(" filePath\n\n"
+                                                         "  filePath   Path to script file to use"),
                                           DEFAULT_JAVASCRIPT_SERVICE_NAME, nameWasSet, reportOnExit,
-                                          tag, serviceEndpointName, servicePortNumber))
+                                          tag, serviceEndpointName, servicePortNumber, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -2335,10 +2327,10 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (optind < argc)
+                if (0 < arguments.size())
                 {
                     yarp::os::ConstString rawTag(tag);
-                    yarp::os::ConstString scriptPath(argv[optind]);
+                    yarp::os::ConstString scriptPath(arguments[0]);
                     yarp::os::ConstString scriptSource;
                     yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
                     
@@ -2418,7 +2410,7 @@ int main(int      argc,
                             }
                             if (jrt && jct)
                             {
-                                setUpAndGo(jct, scriptSource, scriptPath, rawTag, argc, argv,
+                                setUpAndGo(jct, scriptSource, scriptPath, rawTag, arguments,
                                            serviceEndpointName, servicePortNumber, stdinAvailable,
                                            reportOnExit);
                                 JS_DestroyContext(jct);

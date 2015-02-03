@@ -277,7 +277,7 @@ namespace Option_
      * @li @c Arg::Optional @copybrief Arg::Optional
      *
      */
-    typedef ArgStatus (*CheckArg)
+    typedef ArgStatus (* CheckArg)
         (const Option & option,
          const bool     msg);
     
@@ -841,18 +841,19 @@ namespace Option_
     {
         //! @brief For options that don't take an argument: Returns ARG_NONE.
         inline static ArgStatus None(const Option &,
-                                     bool)
+                                     const bool)
         {
             return ARG_NONE;
         } // None
         
         //! @brief Returns ARG_OK if the argument is attached and ARG_IGNORE otherwise.
-        static ArgStatus Optional(const Option & option,
-                                  bool)
+        inline static ArgStatus Optional(const Option & option,
+                                         const bool)
         {
             ArgStatus result;
             
-            if (option.arg && option.name[option.namelen])
+            // The use of 'option.name[option.namelen]' forces the 'x=y' form of arguments
+            if (option.arg)// && option.name[option.namelen])
             {
                 result = ARG_OK;
             }
@@ -862,6 +863,24 @@ namespace Option_
             }
             return result;
         } // Optional
+        
+        //! @brief Returns ARG_OK if the argument is attached and ARG_ILLEGAL otherwise.
+        inline static ArgStatus Required(const Option & option,
+                                         const bool)
+        {
+            ArgStatus result;
+            
+            // The use of 'option.name[option.namelen]' forces the 'x=y' form of arguments
+            if (option.arg)// && option.name[option.namelen])
+            {
+                result = ARG_OK;
+            }
+            else
+            {
+                result = ARG_ILLEGAL;
+            }
+            return result;
+        } // Required
         
     }; // Arg
     

@@ -46,10 +46,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -307,8 +303,13 @@ int main(int      argc,
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     OutputFlavour flavour;
+    StringVector  arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [channel [request]]", flavour))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [channel [request]]\n\n"
+                                                   "  channel    Optional channel name for "
+                                                   "service\n"
+                                                   "  request    Optional request name",
+                                                   flavour, &arguments))
     {
         try
         {
@@ -323,27 +324,27 @@ int main(int      argc,
                 const char *          requestName;
                 
                 Initialize(*argv);
-                if (optind >= argc)
+                if (1 < arguments.size())
                 {
-                    channelNameRequest += "*";
-                    requestName = NULL;
-                }
-                else if ((optind + 1) == argc)
-                {
-                    channelNameRequest += argv[optind];
-                    requestName = NULL;
-                }
-                else
-                {
-                    channelNameRequest += argv[optind];
-                    if (strcmp(argv[optind + 1], "*"))
+                    channelNameRequest += arguments[0];
+                    if (strcmp(arguments[1].c_str(), "*"))
                     {
-                        requestName = argv[optind + 1];
+                        requestName = arguments[1].c_str();
                     }
                     else
                     {
                         requestName = NULL;
                     }
+                }
+                else if (0 < arguments.size())
+                {
+                    channelNameRequest += arguments[0];
+                    requestName = NULL;
+                }
+                else
+                {
+                    channelNameRequest += "*";
+                    requestName = NULL;
                 }
                 yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
                 

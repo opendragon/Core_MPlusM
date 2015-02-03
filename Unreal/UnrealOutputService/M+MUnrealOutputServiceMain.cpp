@@ -44,10 +44,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_) //ASSUME WINDOWS
-# include <mpm/getopt.h>
-#endif //(! MAC_OR_LINUX_)
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -340,11 +336,15 @@ int main(int      argc,
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
+        StringVector          arguments;        
         
-        if (ProcessStandardServiceOptions(argc, argv, " [port [scale]]",
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [port [scale]]\n\n"
+                                                         "  port       Optional port to use to "
+                                                         "connect"
+                                                         "  scale      Optional translation scale"),
                                           DEFAULT_UNREALOUTPUT_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          servicePortNumber, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -355,25 +355,27 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (optind < argc)
+                if (0 < arguments.size())
                 {
-                    char * endPtr;
-                    int    tempInt;
+                    const char * startPtr = arguments[0].c_str();
+                    char *       endPtr;
+                    int          tempInt;
                     
                     // 1 or more arguments
-                    tempInt = static_cast<int>(strtol(argv[optind], &endPtr, 10));
-                    if ((argv[optind] != endPtr) && (! *endPtr) && (0 < tempInt))
+                    tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                    if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
                         outPort = tempInt;
                     }
-                    if ((optind + 1) < argc)
+                    if (1 < arguments.size())
                     {
                         double tempDouble;
                         
                         // 2 or more arguments
-                        tempDouble = strtod(argv[optind + 1], &endPtr);
-                        if ((argv[optind + 1] != endPtr) && (! *endPtr) && (0 < tempDouble))
+                        startPtr = arguments[1].c_str();
+                        tempDouble = strtod(startPtr, &endPtr);
+                        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
                         {
                             // Useable data.
                             translationScale = tempDouble;
