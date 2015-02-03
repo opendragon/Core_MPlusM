@@ -22,13 +22,18 @@ Note that the application will exit if the \emph{Registry Service} is not runnin
 
 The application has one argument -- the path to the \JS{} file to be used.
 Any additional arguments are passed to the \JS{} environment.
-The application has four optional parameters:
+The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e:} specifies an alternative endpoint name to be used
-\item \textbf{--h:} display the list of optional parameters and arguments and leave
-\item \textbf{--p:} specifies the port number to be used, if a non--default port is desired
-\item \textbf{--r:} report the service metrics when the application exits
-\item \textbf{--t:} specifies the tag to be used as part of the service name
+\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
+name to be used
+\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
+and arguments and leave
+\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
+a non--default port is desired
+\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
+application exits
+\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
+the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each

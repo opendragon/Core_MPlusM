@@ -14,9 +14,10 @@ is not taken.\\
 
 The command--line tools all have three options:
 \begin{itemize}
-\item \textbf{--h:} display the list of optional parameters and arguments and leave
-\item \textbf{--j:} generate JSON--formatted output
-\item \textbf{--t:} generate output in tab--delimited form
+\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
+and arguments and leave
+\item \textbf{--j} \textbar{} \textbf{{-}{-}json} generate JSON--formatted output
+\item \textbf{--t} \textbar{} \textbf{{-}{-}tabs} generate output in tab--delimited form
 \end{itemize}
 If neither option is present, the output is written as simple text.
 \tertiaryStart{\utilityNameP{mpmClientList}}
@@ -231,13 +232,18 @@ Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has one optional argument -- the output file path to be used.
-The application also has four optional parameters:
+The application also has five optional parameters:
 \begin{itemize}
-\item \textbf{--e:} specifies an alternative endpoint name to be used
-\item \textbf{--h:} display the list of optional parameters and arguments and leave
-\item \textbf{--p:} specifies the port number to be used, if a non--default port is desired
-\item \textbf{--r:} report the service metrics when the application exits
-\item \textbf{--t:} specifies the tag to be used as part of the service name
+\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
+name to be used
+\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
+and arguments and leave
+\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
+a non--default port is desired
+\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
+application exits
+\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
+the service name
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -660,13 +666,18 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} an
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
 
-The application has four optional parameters:
+The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e:} specifies an alternative endpoint name to be used
-\item \textbf{--h:} display the list of optional parameters and arguments and leave
-\item \textbf{--p:} specifies the port number to be used, if a non--default port is desired
-\item \textbf{--r:} report the service metrics when the application exits
-\item \textbf{--t:} specifies the tag to be used as part of the service name
+\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
+name to be used
+\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
+and arguments and leave
+\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
+a non--default port is desired
+\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
+application exits
+\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
+the service name
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed \yarp{} network port.

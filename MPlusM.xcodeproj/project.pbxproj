@@ -180,8 +180,6 @@
 		DF38507C198AC50200A0414E /* M+MTestNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestNameValidator.cpp"; path = "ParserTest/M+MTestNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		DF38507D198AC50200A0414E /* M+MTestNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTestNameValidator.h"; path = "ParserTest/M+MTestNameValidator.h"; sourceTree = SOURCE_ROOT; };
 		DF3850BE198ACCFE00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = mpm/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF3850BF198ACCFE00A0414E /* getopt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = getopt.cpp; path = mpm/getopt.cpp; sourceTree = SOURCE_ROOT; };
-		DF3850C0198ACCFE00A0414E /* getopt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = getopt.h; path = mpm/getopt.h; sourceTree = SOURCE_ROOT; };
 		DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MAdapterChannel.cpp"; path = "mpm/M+MAdapterChannel.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterChannel.h"; path = "mpm/M+MAdapterChannel.h"; sourceTree = SOURCE_ROOT; };
 		DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBailOut.cpp"; path = "mpm/M+MBailOut.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1100,8 +1098,6 @@
 			isa = PBXGroup;
 			children = (
 				DF3850BE198ACCFE00A0414E /* CMakeLists.txt */,
-				DF3850BF198ACCFE00A0414E /* getopt.cpp */,
-				DF3850C0198ACCFE00A0414E /* getopt.h */,
 				DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */,
 				DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */,
 				DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */,
