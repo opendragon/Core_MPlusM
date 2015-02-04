@@ -411,6 +411,17 @@ namespace Option_
          * prefix to make sure string literals are properly encoded.
          */
         const char * help;
+        
+        /**
+         * @brief The constructor.
+         */
+        Descriptor(const unsigned     index_ = 0,
+                   const int          type_ = 0,
+                   const char * const shortopt_ = NULL,
+                   const char * const longopt_ = NULL,
+                   const CheckArg     check_arg_ = NULL,
+                   const char *       help_ = NULL);
+        
     }; // Descriptor
     
     /**

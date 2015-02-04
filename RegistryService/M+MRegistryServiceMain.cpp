@@ -111,7 +111,7 @@ int main(int      argc,
         
         if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          servicePortNumber, kSkipEndpointAndTagOptions))
         {
             // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up
             // the NameServerReporter!

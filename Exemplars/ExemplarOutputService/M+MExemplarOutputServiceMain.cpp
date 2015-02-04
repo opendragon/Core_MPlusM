@@ -323,7 +323,7 @@ int main(int      argc,
                                                          "file"),
                                           DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, &arguments))
+                                          servicePortNumber, kSkipNone, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

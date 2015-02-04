@@ -2316,7 +2316,8 @@ int main(int      argc,
         if (ProcessStandardServiceOptions(argc, argv, T_(" filePath\n\n"
                                                          "  filePath   Path to script file to use"),
                                           DEFAULT_JAVASCRIPT_SERVICE_NAME, nameWasSet, reportOnExit,
-                                          tag, serviceEndpointName, servicePortNumber, &arguments))
+                                          tag, serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

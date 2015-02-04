@@ -322,7 +322,7 @@ int main(int      argc,
                                                          "  filePath   Optional output file path"),
                                           DEFAULT_RECORDASJSON_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, &arguments))
+                                          servicePortNumber, kSkipNone, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

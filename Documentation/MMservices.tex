@@ -68,10 +68,12 @@ It uses an internal database, as described in the
 It responds to the requests in the
 \secondaryRef{RegistryServiceRequests}{Registry~Service~Requests} group.\\
 
-The application has two optional parameters:
+The application has three optional parameters:
 \begin{itemize}
-\item \textbf{-p:} specifies the port number to be used, if a non--default port is desired
-\item \textbf{-r:} report the service metrics when the application exits
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
 \end{itemize}
 Note that only one copy of the \serviceNameX[Registry~Service]{RegistryService}
 application can be running at a time in an \mplusm{} installation, due to its fixed

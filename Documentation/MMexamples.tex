@@ -43,16 +43,12 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -64,15 +60,15 @@ the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{b:} start the input stream. 
-\item \textbf{c:} configure the service; this has no effect, as the service has no
-configurable parameters. 
-\item \textbf{e:} stop the input stream. 
-\item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the input stream.
-\item \textbf{u:} reset the configuration so that it will be reprocessed when the input
-stream is restarted. 
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{b}{start the input stream}
+\item \cmdItem{c}{configure the service; this has no effect, as the service has no
+configurable parameters}
+\item \cmdItem{e}{stop the input stream}
+\item \cmdItem{q}{quit the application}
+\item \cmdItem{r}{restart the input stream}
+\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
+stream is restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmAbsorberService}}
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
@@ -86,16 +82,12 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute.
@@ -134,16 +126,12 @@ The application has two optional arguments -- the burst period, in seconds and t
 of random values to generate in each burst.
 The application also has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -160,15 +148,15 @@ running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{b:} start the output stream, sending bursts of data of the specified size
-and period. 
-\item \textbf{c:} configure the service by providing the burst size and period. 
-\item \textbf{e:} stop the output stream. 
-\item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the output stream. 
-\item \textbf{u:} reset the configuration so that it will be reprocessed when the output
-stream is restarted. 
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{b}{start the output stream, sending bursts of data of the specified size
+and period}
+\item \cmdItem{c}{configure the service by providing the burst size and period}
+\item \cmdItem{e}{stop the output stream}
+\item \cmdItem{q}{quit the application}
+\item \cmdItem{r}{restart the output stream}
+\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the output
+stream is restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
@@ -182,16 +170,12 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute.
@@ -227,16 +211,12 @@ Note that the application will exit if the
 The application has one optional argument -- the output file path to be used.
 The application also has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -249,22 +229,22 @@ the default endpoint is being used.\\
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
 For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
-while, for Macintosh OS X, it will be ``/tmp''.
+while, for Macintosh OS X, it will be ``/tmp'' and, for Linux it is \TBD.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{b:} start the input stream, using the specified output file path to record
-the input data. 
-\item \textbf{c:} configure the service by providing the output file path to be used. 
-\item \textbf{e:} stop the input stream, which will close the output file. 
-\item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the input stream, which will cause the current output file to be
-closed and a new output file to be opened.
-\item \textbf{u:} reset the configuration so that it will be reprocessed when the input
-stream is restarted. 
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{b}{start the input stream, using the specified output file path to record
+the input data}
+\item \cmdItem{c}{configure the service by providing the output file path to be used}
+\item \cmdItem{e}{stop the input stream, which will close the output file}
+\item \cmdItem{q}{quit the application}
+\item \cmdItem{r}{restart the input stream, which will cause the current output file to be
+closed and a new output file to be opened}
+\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
+stream is restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
@@ -279,16 +259,12 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute.
@@ -339,16 +315,12 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -360,15 +332,15 @@ specified and the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{b:} start the input and output streams. 
-\item \textbf{c:} configure the service; this has no effect, as the service has no
-configurable parameters. 
-\item \textbf{e:} stop the input and output streams. 
-\item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the input and output streams.
-\item \textbf{u:} reset the configuration so that it will be reprocessed when the input
-and output streams are restarted. 
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{b}{start the input and output streams}
+\item \cmdItem{c}{configure the service; this has no effect, as the service has no
+configurable parameters}
+\item \cmdItem{e}{stop the input and output streams}
+\item \cmdItem{q}{quit the application}
+\item \cmdItem{r}{restart the input and output streams}
+\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
+and output streams are restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatService}}
 \secondaryEnd{}
@@ -404,17 +376,17 @@ terminal and sends corresponding requests to the
 
 The commands are:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{+:} read a number from the terminal and send it to the service via an
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{+}{read a number from the terminal and send it to the service via an
 \requestsNameR{Examples}{Examples}{addtosum} request, to update the running sum for this
-client.
-\item \textbf{q:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+client}
+\item \cmdItem{q}{send a \requestsNameR{Examples}{Examples}{stopsum} request to the
 service so that it will stop calculating the running sum for this client and then exit the
-application.
-\item \textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
-service so that it will reset the running sum for this client.
-\item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
-service so that it will start calculating the running sum for this client.
+application}
+\item \cmdItem{r}{send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+service so that it will reset the running sum for this client}
+\item \cmdItem{s}{send a \requestsNameR{Examples}{Examples}{startsum} request to the
+service so that it will start calculating the running sum for this client}
 \end{itemize}
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the

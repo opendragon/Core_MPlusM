@@ -354,7 +354,7 @@ int main(int      argc,
                                                          "device server"),
                                           DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, &arguments))
+                                          servicePortNumber, kSkipNone, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

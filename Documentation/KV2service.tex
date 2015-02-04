@@ -20,16 +20,12 @@ Note that the application will exit if the \emph{Registry Service} is not runnin
 
 The application has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -41,14 +37,14 @@ the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{b:} start the output stream, sending body data. 
-\item \textbf{c:} configure the service; this has no effect, as the service has no
-configurable parameters. 
-\item \textbf{e:} stop the output stream. 
-\item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the output stream. 
-\item \textbf{u:} reset the configuration so that it will be reprocessed when the output
-stream is restarted.
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{b}{start the output stream, sending body data}
+\item \cmdItem{c}{configure the service; this has no effect, as the service has no
+configurable parameters}
+\item \cmdItem{e}{stop the output stream}
+\item \cmdItem{q}{quit the application}
+\item \cmdItem{r}{restart the output stream}
+\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the output
+stream is restarted}
 \end{itemize}
 \primaryEnd{}

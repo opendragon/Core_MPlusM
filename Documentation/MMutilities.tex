@@ -12,14 +12,14 @@ As well, the native \yarp{} command--line tools to create and remove connections
 used with \mplusm{}, but it is very easy to create a non--functional installation if care
 is not taken.\\
 
-The command--line tools all have three options:
+The command--line tools all have three optional parameters:
 \begin{itemize}
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--j} \textbar{} \textbf{{-}{-}json} generate JSON--formatted output
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tabs} generate output in tab--delimited form
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{j}{json}{generate JSON--formatted output}
+\item \optItem{t}{tabs}{generate output in a tab--delimited format}
 \end{itemize}
-If neither option is present, the output is written as simple text.
+If neither JSON format nor tab--delimited format are specified, the output is written as
+simple text.
 \tertiaryStart{\utilityNameP{mpmClientList}}
 The program \utilityNameX{mpmClientList} displays the clients for services that have
 \yarp{} network connections with persistent state.
@@ -74,9 +74,9 @@ The program takes an optional argument for the matching criteria to be used; if 
 criteria is provided on the command--line, the program enters a loop, asking for an
 operation to do:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{f:} request the matching criteria and process it.
-\item \textbf{q:} quit the application. 
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{f}{request the matching criteria and process it}
+\item \cmdItem{q}{quit the application}
 \end{itemize}
 An example execution of the program, with the command--line argument \asCode{'tag!blurt'}
 provided, would have the following output if default formatting is used:
@@ -234,16 +234,12 @@ Note that the application will exit if the
 The application has one optional argument -- the output file path to be used.
 The application also has five optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of each
@@ -256,22 +252,22 @@ the default endpoint is being used.\\
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
 For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
-while, for Macintosh OS X, it will be ``/tmp''.
+while, for Macintosh OS X, it will be ``/tmp'' and, for Linux, it is \TBD.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \textbf{?:} display a list of the available commands.
-\item \textbf{b:} start the input stream, using the specified output file path to record
-the input data. 
-\item \textbf{c:} configure the service by providing the output file path to be used. 
-\item \textbf{e:} stop the input stream, which will close the output file. 
-\item \textbf{q:} quit the application. 
-\item \textbf{r:} restart the input stream, which will cause the current output file to be
-closed and a new output file to be opened.
-\item \textbf{u:} reset the configuration so that it will be reprocessed when the input
-stream is restarted. 
+\item \cmdItem{?}{display a list of the available commands}
+\item \cmdItem{b}{start the input stream, using the specified output file path to record
+the input data}
+\item \cmdItem{c}{configure the service by providing the output file path to be used}
+\item \cmdItem{e}{stop the input stream, which will close the output file}
+\item \cmdItem{q}{quit the application}
+\item \cmdItem{r}{restart the input stream, which will cause the output file to be closed
+and a new output file to be opened}
+\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
+stream is restarted}
 \end{itemize}
 \tertiaryEnd{\utilityNameE{mpmRecordAsJSONService}}
 \tertiaryStart{\utilityNameP{mpmRequestInfo}}
@@ -666,21 +662,15 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} an
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
 
-The application has five optional parameters:
+The application has three optional parameters:
 \begin{itemize}
-\item \textbf{--e} \textbar{} \textbf{{-}{-}endpoint} specifies an alternative endpoint
-name to be used
-\item \textbf{--h} \textbar{} \textbf{{-}{-}help} display the list of optional parameters
-and arguments and leave
-\item \textbf{--p} \textbar{} \textbf{{-}{-}port} specifies the port number to be used, if
-a non--default port is desired
-\item \textbf{--r} \textbar{} \textbf{{-}{-}report} report the service metrics when the
-application exits
-\item \textbf{--t} \textbar{} \textbf{{-}{-}tag} specifies the tag to be used as part of
-the service name
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
-running at a time in an \mplusm{} installation, due to its fixed \yarp{} network port.
+running at a time in an \mplusm{} installation, due to its fixed endpoint name.
 \tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
 \tertiaryStart{\utilityNameP{mpmRequestCounterClient}}
 The \utilityNameX{mpmRequestCounterClient} application is a command--line tool to

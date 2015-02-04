@@ -72,6 +72,31 @@ namespace MplusM
         class ServiceInputHandlerCreator;
         class SetMetricsStateRequestHandler;
         
+        /*! @brief The command-line options to skip. */
+        enum OptionsMask
+        {
+            /*! @brief Skip no options. */
+            kSkipNone                  = 0x00,
+            
+            /*! @brief Skip the 'endpoint' option. */
+            kSkipEndpointOption        = 0x01,
+            
+            /*! @brief Skip the 'help' option. */
+            kSkipHelpOption            = 0x02,
+            
+            /*! @brief Skip the 'port' option. */
+            kSkipPortOption            = 0x04,
+            
+            /*! @brief Skip the 'report' option. */
+            kSkipReportOption          = 0x08,
+            
+            /*! @brief Skip the 'tag' option. */
+            kSkipTagOption             = 0x10,
+            
+            /*! @brief Skipt the 'endpoint' and 'tag' options. */
+            kSkipEndpointAndTagOptions = (kSkipEndpointOption | kSkipTagOption)
+        }; // OptionsMask
+        
         /*! @brief The minimal functionality required for an M+M service. */
         class BaseService
         {
@@ -444,6 +469,7 @@ namespace MplusM
          @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
          options.
          @param servicePortNumber Set to the argument of the last -p option seen.
+         @param skipOptions The command-line options to be skipped.
          @param arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
         bool ProcessStandardServiceOptions(const int                     argc,
@@ -455,6 +481,7 @@ namespace MplusM
                                            yarp::os::ConstString &       tag,
                                            yarp::os::ConstString &       serviceEndpointName,
                                            yarp::os::ConstString &       servicePortNumber,
+                                           const OptionsMask             skipOptions = kSkipNone,
                                            StringVector *                arguments = NULL);
         
         /*! @brief Register a local service with a running Registry Service.

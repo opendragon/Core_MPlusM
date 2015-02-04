@@ -29,12 +29,7 @@
 
 #include "optionparser.h"
 
-//#include <iostream>
 using namespace Option_;
-//using ::std::cerr;
-//using ::std::dec;
-//using ::std::endl;
-//using ::std::hex;
 
 #if defined(_MSC_VER)
 # pragma intrinsic(_BitScanReverse)
@@ -46,6 +41,17 @@ int MSC_Builtin_CLZ::builtin_clz(const unsigned xx)
     return (32 - index); // int is always 32bit on Windows, even for target x64
 } // MSC_Builtin_CLZ::builtin_clz
 #endif // defined(_MSC_VER)
+
+Descriptor::Descriptor(const unsigned     index_,
+                       const int          type_,
+                       const char * const shortopt_,
+                       const char * const longopt_,
+                       const CheckArg     check_arg_,
+                       const char *       help_) :
+    index(index_), type(type_), shortopt(shortopt_), longopt(longopt_), check_arg(check_arg_),
+    help(help_)
+{
+} // Descriptor::Descriptor
 
 void Option::append(Option * new_last)
 {
@@ -83,41 +89,28 @@ void Option::init(const Descriptor * desc_,
                   const char *       name_,
                   const char *       arg_)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
     desc = desc_;
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     name = name_;
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     arg = arg_;
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     prev_ = tag(this);
     next_ = tag(this);
     namelen = 0;
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     if (name)
     {
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//        cerr << name << endl;//!!!!
         namelen = 1;
         if ('-' == *name)
         {
-//            cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
             for ( ; name[namelen] && ('=' != name[namelen]); )
             {
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                 ++namelen;
             }
         }
-//        cerr << namelen << endl;//!!!!
     }
 } // Option::init
 
 Option::Option(void) :
     desc(NULL), name(NULL), arg(NULL), namelen(0)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
     prev_ = tag(this);
     next_ = tag(this);
 } // Option::Option
@@ -126,32 +119,22 @@ Option::Option(const Descriptor * desc_,
                const char *       name_,
                const char *       arg_)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
     init(desc_, name_, arg_);
 } // Option::Option
 
 Option::Option(const Option & orig)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
-//    cerr << "orig = " << hex << reinterpret_cast<size_t>(&orig) << dec << endl;//!!!!
     init(orig.desc, orig.name, orig.arg);
 } // Option::Option
 
 void Option::operator =(const Option & orig)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
-//    cerr << "orig = " << hex << reinterpret_cast<size_t>(&orig) << dec << endl;//!!!!
     init(orig.desc, orig.name, orig.arg);
 } // Option::operator =
 
 Stats::Stats(void) :
     buffer_max(1), options_max(1) // 1 more than necessary as sentinel
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
 } // Stats::Stats
 
 Stats::Stats(const bool         gnu,
@@ -162,7 +145,6 @@ Stats::Stats(const bool         gnu,
              const bool         single_minus_longopt) :
     buffer_max(1), options_max(1) // 1 more than necessary as sentinel
 {
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
     add(gnu, usage, argc, argv, min_abbr_len, single_minus_longopt);
 } // Stats::Stats
 
@@ -174,8 +156,6 @@ Stats::Stats(const bool         gnu,
              const bool         single_minus_longopt) :
     buffer_max(1), options_max(1) // 1 more than necessary as sentinel
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
     add(gnu, usage, argc, const_cast<const char * *>(argv), min_abbr_len, single_minus_longopt);
 } // Stats::Stats
 
@@ -186,8 +166,6 @@ Stats::Stats(const Descriptor * usage,
              const bool         single_minus_longopt) :
     buffer_max(1), options_max(1) // 1 more than necessary as sentinel
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
     add(false, usage, argc, argv, min_abbr_len, single_minus_longopt);
 } // Stats::Stats
 
@@ -198,8 +176,6 @@ Stats::Stats(const Descriptor * usage,
              const bool         single_minus_longopt) :
     buffer_max(1), options_max(1) // 1 more than necessary as sentinel
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
     add(false, usage, argc, const_cast<const char * *>(argv), min_abbr_len, single_minus_longopt);
 } // Stats::Stats
 
@@ -254,8 +230,6 @@ void Stats::add(const Descriptor * usage,
 Parser::Parser(void) :
     op_count(0), nonop_count(0), nonop_args(0), err(false)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
 } // Parser::Parser
 
 Parser::Parser(const bool         gnu,
@@ -269,9 +243,6 @@ Parser::Parser(const bool         gnu,
                const int          bufmax) :
     op_count(0), nonop_count(0), nonop_args(0), err(false)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     parse(gnu, usage, argc, argv, options, buffer, min_abbr_len, single_minus_longopt, bufmax);
 } // Parser::Parser
 
@@ -286,9 +257,6 @@ Parser::Parser(const bool         gnu,
                const int          bufmax) :
     op_count(0), nonop_count(0), nonop_args(0), err(false)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     parse(gnu, usage, argc, const_cast<const char * *>(argv), options, buffer, min_abbr_len,
           single_minus_longopt, bufmax);
 } // Parser::Parser
@@ -303,9 +271,6 @@ Parser::Parser(const Descriptor * usage,
                const int          bufmax) :
     op_count(0), nonop_count(0), nonop_args(0), err(false)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     parse(false, usage, argc, argv, options, buffer, min_abbr_len, single_minus_longopt, bufmax);
 } // Parser::Parser
 
@@ -319,9 +284,6 @@ Parser::Parser(const Descriptor * usage,
                const int          bufmax) :
     op_count(0), nonop_count(0), nonop_args(0), err(false)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     parse(false, usage, argc, const_cast<const char * *>(argv), options, buffer, min_abbr_len,
           single_minus_longopt, bufmax);
 } // Parser::Parser
@@ -336,11 +298,8 @@ void Parser::parse(const bool         gnu,
                    const bool         single_minus_longopt,
                    const int          bufmax)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     StoreOptionAction action(*this, options, buffer, bufmax);
     
-//    cerr << __FILE__ << ":" << __LINE__ << endl;
     err = (! workhorse(gnu, usage, argc, argv, action, single_minus_longopt, true, min_abbr_len));
 } // Parser::parse
 
@@ -354,8 +313,6 @@ void Parser::parse(const bool         gnu,
                    const bool         single_minus_longopt,
                    const int          bufmax)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     parse(gnu, usage, argc, const_cast<const char * *>(argv), options, buffer, min_abbr_len,
           single_minus_longopt, bufmax);
 } // Parser::parse
@@ -369,8 +326,6 @@ void Parser::parse(const Descriptor * usage,
                    const bool         single_minus_longopt,
                    const int          bufmax)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     parse(false, usage, argc, argv, options, buffer, min_abbr_len, single_minus_longopt, bufmax);
 } // Parser::parse
 
@@ -383,8 +338,6 @@ void Parser::parse(const Descriptor * usage,
                    const bool         single_minus_longopt,
                    const int          bufmax)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     parse(false, usage, argc, const_cast<const char * *>(argv), options, buffer, min_abbr_len,
           single_minus_longopt, bufmax);
 } // Parser::parse
@@ -398,7 +351,6 @@ bool Parser::workhorse(const bool         gnu,
                        const bool         print_errors,
                        const int          min_abbr_len)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     int numargs = numargsIn;
     int nonops = 0;
     
@@ -407,18 +359,14 @@ bool Parser::workhorse(const bool         gnu,
     {
         numargs = 0;
     }
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << numargs << endl;//!!!!
     for ( ; numargs && *args; )
     {
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
         const char * param = *args; // param can be --long-option, -srto or non-option argument
         
         // in POSIX mode the first non-option argument terminates the option list
         // a lone minus character is a non-option argument
         if (('-' != param[0]) || (! param[1]))
         {
-//            cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
             if (gnu)
             {
                 ++nonops;
@@ -436,7 +384,6 @@ bool Parser::workhorse(const bool         gnu,
         // -- terminates the option list. The -- itself is skipped.
         if (('-' == param[1]) && (! param[2]))
         {
-//            cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
             shift(args, nonops);
             ++args;
             if (numargs > 0)
@@ -446,7 +393,6 @@ bool Parser::workhorse(const bool         gnu,
             break;
         }
         
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
         bool         handle_short_options;
         const char * longopt_name;
         
@@ -460,13 +406,11 @@ bool Parser::workhorse(const bool         gnu,
             handle_short_options = true;
             longopt_name = param + 1; //for testing a potential -long-option
         }
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
         bool try_single_minus_longopt = single_minus_longopt;
         bool have_more_args = ((numargs > 1) || (numargs < 0)); // is referencing argv[1] valid?
         
         do
         {
-//            cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
             // loop over short options in group, for long options the body is executed only once
             int          idx;
             const char * optarg;
@@ -474,12 +418,10 @@ bool Parser::workhorse(const bool         gnu,
             /******************** long option **********************/
             if ((! handle_short_options) || try_single_minus_longopt)
             {
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                 for (idx = 0; usage[idx].longopt && (! streq(usage[idx].longopt, longopt_name)); )
                 {
                     ++idx;
                 }
-//                cerr << "idx = " << idx << endl;//!!!!
                 if ((! usage[idx].longopt) && (min_abbr_len > 0))
                 {
                     // if we should try to match abbreviated long options
@@ -509,7 +451,6 @@ bool Parser::workhorse(const bool         gnu,
                 }
                 // if we found something, disable handle_short_options (only relevant if
                 // single_minus_longopt)
-//                cerr << "idx = " << idx << endl;//!!!!
                 if (usage[idx].longopt)
                 {
                     handle_short_options = false;
@@ -531,11 +472,9 @@ bool Parser::workhorse(const bool         gnu,
                     optarg = (have_more_args ? args[1] : NULL);
                 }
             }
-//            cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
             /************************ short option ***********************************/
             if (handle_short_options)
             {
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                 if (! *++param) // point at the 1st/next option character
                 {
                     break; // end of short option group
@@ -556,36 +495,24 @@ bool Parser::workhorse(const bool         gnu,
                     optarg = (have_more_args ? args[1] : NULL);
                 }
             }
-//            cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//            cerr << "idx = " << idx << endl;//!!!!
             const Descriptor * descriptor = &usage[idx];
             
-//            cerr << "descriptor = " << hex << reinterpret_cast<size_t>(descriptor) << dec <<
-//                    endl;//!!!!
             if (! descriptor->shortopt)
             {
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                 /**************  unknown option ********************/
                 // look for dummy entry (shortopt == "" and longopt == "") to use as Descriptor for
                 // unknown options
                 for (idx = 0;
                      usage[idx].shortopt && (usage[idx].shortopt[0] || usage[idx].longopt[0]); )
                 {
-//                    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                     ++idx;
                 }
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//                cerr << "idx = " << idx << endl;//!!!!
                 descriptor = (usage[idx].shortopt ? &usage[idx] : NULL);
             }
             if (descriptor)
             {
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//                cerr << "descriptor = " << hex << reinterpret_cast<size_t>(descriptor) << dec <<
-//                        endl;//!!!!
                 Option option(descriptor, param, optarg);
                 
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                 switch (descriptor->check_arg(option, print_errors))
                 {
                     case ARG_ILLEGAL:
@@ -593,14 +520,11 @@ bool Parser::workhorse(const bool         gnu,
                         
                     case ARG_OK:
                         // skip one element of the argument vector, if it's a separated argument
-//                        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                         if (optarg && have_more_args && (optarg == args[1]))
                         {
-//                            cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                             shift(args, nonops);
                             if (numargs > 0)
                             {
-//                                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                                 --numargs;
                             }
                             ++args;
@@ -611,25 +535,18 @@ bool Parser::workhorse(const bool         gnu,
                         
                     case ARG_IGNORE:
                     case ARG_NONE:
-//                        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                         option.arg = 0;
                         break;
                         
                 }
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//                cerr << "option = " << hex << reinterpret_cast<size_t>(&option) << dec <<
-//                        endl;//!!!!
                 if (! action.perform(option))
                 {
-//                    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
                     return false;
                 }
 
-//                cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
             }
         }
         while (handle_short_options);
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
         shift(args, nonops);
         ++args;
         if (numargs > 0)
@@ -639,13 +556,11 @@ bool Parser::workhorse(const bool         gnu,
     }
     if ((numargs > 0) && (! *args))
     {
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
         // It's a bug in the caller if numargs is greater than the actual number
         numargs = 0; // of arguments, but as a service to the user we fix this if we spot it.
     }
     if (numargs < 0) // if we don't know the number of remaining non-option arguments
     {
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
         // we need to count them
         numargs = 0;
         for ( ; args[numargs]; )
@@ -653,7 +568,6 @@ bool Parser::workhorse(const bool         gnu,
             ++numargs;
         }
     }
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     return action.finished(numargs + nonops, args - nonops);
 } // Parser::workhorse
 
@@ -717,7 +631,6 @@ bool Parser::Action::finished(const int      numargs,
 
 bool Parser::Action::perform(Option &)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     return true;
 } // Parser::Action::perform
 
@@ -728,7 +641,6 @@ Stats::CountOptionsAction::CountOptionsAction(unsigned * buffer_max_) :
 
 bool Stats::CountOptionsAction::perform(Option &)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     if (0x7fffffff == *buffer_max)
     {
         return false; // overflow protection: don't accept number of options that doesn't fit signed
@@ -744,9 +656,6 @@ Parser::StoreOptionAction::StoreOptionAction(Parser &  parser_,
                                              const int bufmax_) :
     parser(parser_), options(options_), buffer(buffer_), bufmax(bufmax_)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "this = " << hex << reinterpret_cast<size_t>(this) << dec << endl;//!!!!
-//    cerr << "buffer = " << hex << reinterpret_cast<size_t>(buffer) << dec << endl;//!!!!
     // find first empty slot in buffer (if any)
     int bufidx = 0;
     
@@ -754,7 +663,6 @@ Parser::StoreOptionAction::StoreOptionAction(Parser &  parser_,
     {
         ++bufidx;
     }
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
     // set parser's optionCount
     parser.op_count = bufidx;
 } // Parser::StoreOptionAction::StoreOptionAction
@@ -775,23 +683,17 @@ bool Parser::StoreOptionAction::finished(const int      numargs,
 
 bool Parser::StoreOptionAction::perform(Option & option)
 {
-//    cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//    cerr << "option = " << hex << reinterpret_cast<size_t>(&option) << dec << endl;//!!!!
     if ((bufmax < 0) || (parser.op_count < bufmax))
     {
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
         if (0x7fffffff == parser.op_count)
         {
             return false; // overflow protection: don't accept number of options that doesn't fit
                           // signed int
         }
         
-//        cerr << __FILE__ << ":" << __LINE__ << endl;//!!!!
-//        cerr << "parser.op_count = " << parser.op_count << endl;//!!!!
         buffer[parser.op_count] = option;
         int idx = buffer[parser.op_count].desc->index;
         
-//        cerr << "idx = " << idx << endl;//!!!!
         if (options[idx])
         {
             options[idx].append(buffer[parser.op_count]);

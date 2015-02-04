@@ -190,7 +190,7 @@ int main(int      argc,
         
         if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
                                           nameWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          servicePortNumber, kSkipEndpointAndTagOptions))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

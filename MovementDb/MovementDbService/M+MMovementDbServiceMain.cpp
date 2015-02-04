@@ -200,7 +200,8 @@ int main(int      argc,
                                                          "  dbAddress  Network address for "
                                                          "database"),
                                           DEFAULT_MOVEMENTDB_SERVICE_NAME, nameWasSet, reportOnExit,
-                                          tag, serviceEndpointName, servicePortNumber, &arguments))
+                                          tag, serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

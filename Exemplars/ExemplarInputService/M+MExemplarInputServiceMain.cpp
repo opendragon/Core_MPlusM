@@ -346,7 +346,7 @@ int main(int      argc,
                                                          "  size       Optional burst size"),
                                           DEFAULT_EXEMPLARINPUT_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, &arguments))
+                                          servicePortNumber, kSkipNone, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

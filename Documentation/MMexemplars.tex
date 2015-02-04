@@ -223,8 +223,8 @@ beginning of each file to reference the actual writer of the new custom applicat
 \tertiaryEnd{}
 \tertiaryStart{Build the application(s)}
 At this point, it should be possible to build the custom applications.
-The procedures are different for Macintosh~OS~X and Windows, although they start from the
-same source files. 
+The procedures are different for Macintosh~OS~X, Windows and Linux, although they start
+from the same source files. 
 \begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
 \begin{itemize}
 \item Execute `\asCode{ccmake~.}' from a terminal session that has the current directory
@@ -245,7 +245,13 @@ the command\\
 \begin{itemize}
 \item Execute the tool \asCode{cmake} to create the project files used to construct the
 application
-\item \textbf{TBD}
+\item \TBD{}
+\end{itemize}
+\begin{center}\textbf{On~Linux:}\end{center}
+\begin{itemize}
+\item Execute the tool \asCode{cmake} to create the project files used to construct the
+application
+\item \TBD{}
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Add custom code}
@@ -284,7 +290,9 @@ Once all the customization has been developed and tested, the applications can t
 installed by executing\\
 `\asCode{sudo~make~install}' from a terminal session in the top--level directory.
 \begin{center}\textbf{On~Windows:}\end{center}
-\textbf{TBD}
+\TBD{}
+\begin{center}\textbf{On~Linux:}\end{center}
+\TBD{}
 \tertiaryEnd{}
 \secondaryEnd{}
 \appendixEnd{}

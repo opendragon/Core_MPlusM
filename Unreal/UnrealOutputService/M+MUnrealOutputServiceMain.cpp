@@ -344,7 +344,7 @@ int main(int      argc,
                                                          "  scale      Optional translation scale"),
                                           DEFAULT_UNREALOUTPUT_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, &arguments))
+                                          servicePortNumber, kSkipNone, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

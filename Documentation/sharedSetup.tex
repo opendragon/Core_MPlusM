@@ -86,7 +86,12 @@
 \newcommand{\closeSq}{\boldmath{$\rbrack$}}
 \newcommand{\sqPair}{\boldmath{$\lbrack{}\ \rbrack$}}
 \newcommand{\fUS}{\begin{Large}\textbf{\textunderscore}\end{Large}}
+\newcommand{\TBD}{\textbf{TBD}}
 \newlength{\uL}
+
+\newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} #2}
+\newcommand{\optItem}[3]{\makebox[1.25em][l]{\textbf{--#1}} \textbar{} %
+\makebox[5em][l]{\textbf{{-}{-}#2}} #3}
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
 

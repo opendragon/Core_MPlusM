@@ -829,6 +829,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            yarp::os::ConstString &       tag,
                                            yarp::os::ConstString &       serviceEndpointName,
                                            yarp::os::ConstString &       servicePortNumber,
+                                           const Common::OptionsMask     skipOptions,
                                            StringVector *                arguments)
 {
     OD_LOG_ENTER(); //####
@@ -847,23 +848,28 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         TAG
     }; // optionIndex
     
-    bool                keepGoing = true;
-    Option_::Descriptor usage[] =
-    {
-        { UNKNOWN, 0, "", "", Option_::Arg::None, NULL },
-        { ENDPOINT, 0, "e", "endpoint", Option_::Arg::Required, T_("  --endpoint, -e    Specify an "
-                                                                   "alternative endpoint name to "
-                                                                   "be used") },
-        { HELP, 0, "h", "help", Option_::Arg::None, T_("  --help, -h        Print usage and "
-                                                       "exit") },
-        { PORT, 0, "p", "port", Option_::Arg::Required, T_("  --port, -p        Specify a non-"
-                                                           "default port to be used") },
-        { REPORT, 0, "r", "report", Option_::Arg::None, T_("  --report, -r      Report the service "
-                                                           "metrics when the application exits") },
-        { TAG, 0, "t", "tag", Option_::Arg::Required, T_("  --tag, -t         Specify the tag to "
-                                                         "be used as part of the service name") },
-        { 0, 0, 0, 0, 0, 0 }
-    };
+    bool                  keepGoing = true;
+    Option_::Descriptor   firstDescriptor =
+        { UNKNOWN, 0, "", "", Option_::Arg::None, NULL };
+    Option_::Descriptor   endpointDescriptor =
+        { ENDPOINT, 0, "e", "endpoint", Option_::Arg::Required,
+            T_("  --endpoint, -e    Specify an alternative endpoint name to be used") };
+    Option_::Descriptor   helpDescriptor =
+        { HELP, 0, "h", "help", Option_::Arg::None,
+            T_("  --help, -h        Print usage and exit") };
+    Option_::Descriptor   portDescriptor =
+        { PORT, 0, "p", "port", Option_::Arg::Required,
+            T_("  --port, -p        Specify a non-default port to be used") };
+    Option_::Descriptor   reportDescriptor =
+        { REPORT, 0, "r", "report", Option_::Arg::None,
+            T_("  --report, -r      Report the service metrics when the application exits") };
+    Option_::Descriptor   tagDescriptor =
+        { TAG, 0, "t", "tag", Option_::Arg::Required,
+            T_("  --tag, -t         Specify the tag to be used as part of the service name") };
+    Option_::Descriptor   lastDescriptor =
+        { 0, 0, 0, 0, 0, 0 };
+    Option_::Descriptor   usage[7];
+    Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
     yarp::os::ConstString usageString("USAGE: ");
@@ -875,10 +881,23 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     usageString += argList;
     usageString += "\n\nOptions:";
 #if MAC_OR_LINUX_
-    usage[0].help = strdup(usageString.c_str());
+    firstDescriptor.help = strdup(usageString.c_str());
 #else // ! MAC_OR_LINUX_
-    usage[0].help = _strdup(usageString.c_str());
+    firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
+    memcpy(usageWalker++, &firstDescriptor, sizeof(Option_::Descriptor));
+    if (! (skipOptions & kSkipEndpointOption))
+    {
+        memcpy(usageWalker++, &endpointDescriptor, sizeof(Option_::Descriptor));
+    }
+    memcpy(usageWalker++, &helpDescriptor, sizeof(Option_::Descriptor));
+    memcpy(usageWalker++, &portDescriptor, sizeof(Option_::Descriptor));
+    memcpy(usageWalker++, &reportDescriptor, sizeof(Option_::Descriptor));
+    if (! (skipOptions & kSkipTagOption))
+    {
+        memcpy(usageWalker++, &tagDescriptor, sizeof(Option_::Descriptor));
+    }
+    memcpy(usageWalker++, &lastDescriptor, sizeof(Option_::Descriptor));
     argcWork -= (argc > 0);
     argvWork += (argc > 0); // skip program name argv[0] if present
     Option_::Stats    stats(usage, argcWork, argvWork);
@@ -888,7 +907,6 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     
     if (parse.error())
     {
-        std::cerr << "oops" << std::endl;
         keepGoing = false;
     }
     else if (options[HELP])
