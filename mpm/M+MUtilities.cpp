@@ -2164,17 +2164,17 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
         TABS
     }; // optionIndex
     
-    bool                keepGoing = true;
-    Option_::Descriptor usage[] =
-    {
-        { UNKNOWN, 0, "", "", Option_::Arg::None, NULL },
-        { HELP, 0, "h", "help", Option_::Arg::None, T_("  --help, -h    Print usage and exit") },
-        { JSON, 0, "j", "json", Option_::Arg::None, T_("  --json, -j    Generate output in JSON "
-                                                       "format") },
-        { TABS, 0, "t", "tabs", Option_::Arg::None, T_("  --tabs, -t    Generate output in tab-"
-                                                       "delimited format") },
-        { 0, 0, 0, 0, 0, 0 }
-    };
+    bool                  keepGoing = true;
+    Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   helpDescriptor(HELP, 0, "h", "help", Option_::Arg::None,
+            T_("  --help, -h    Print usage and exit"));
+    Option_::Descriptor   jsonDescriptor(JSON, 0, "j", "json", Option_::Arg::None,
+            T_("  --json, -j    Generate output in JSON format") );
+    Option_::Descriptor   tabsDescriptor(TABS, 0, "t", "tabs", Option_::Arg::None,
+            T_("  --tabs, -t    Generate output in tab-delimited format"));
+    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
+    Option_::Descriptor   usage[5];
+    Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
     yarp::os::ConstString usageString("USAGE: ");
@@ -2184,7 +2184,16 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     usageString += " [options]";
     usageString += argList;
     usageString += "\n\nOptions:";
-    usage[0].help = strdup(usageString.c_str());
+ #if MAC_OR_LINUX_
+    firstDescriptor.help = strdup(usageString.c_str());
+#else // ! MAC_OR_LINUX_
+    firstDescriptor.help = _strdup(usageString.c_str());
+#endif // ! MAC_OR_LINUX_
+    memcpy(usageWalker++, &firstDescriptor, sizeof(Option_::Descriptor));
+    memcpy(usageWalker++, &helpDescriptor, sizeof(Option_::Descriptor));
+    memcpy(usageWalker++, &jsonDescriptor, sizeof(Option_::Descriptor));
+    memcpy(usageWalker++, &tabsDescriptor, sizeof(Option_::Descriptor));
+    memcpy(usageWalker++, &lastDescriptor, sizeof(Option_::Descriptor));
     argcWork -= (argc > 0);
     argvWork += (argc > 0); // skip program name argv[0] if present
     Option_::Stats    stats(usage, argcWork, argvWork);
