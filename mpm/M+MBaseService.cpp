@@ -851,15 +851,19 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     bool                  keepGoing = true;
     Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   endpointDescriptor(ENDPOINT, 0, "e", "endpoint", Option_::Arg::Required,
-            T_("  --endpoint, -e    Specify an alternative endpoint name to be used"));
+                                             T_("  --endpoint, -e    Specify an alternative "
+                                                "endpoint name to be used"));
     Option_::Descriptor   helpDescriptor(HELP, 0, "h", "help", Option_::Arg::None,
-            T_("  --help, -h        Print usage and exit"));
+                                         T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   portDescriptor(PORT, 0, "p", "port", Option_::Arg::Required,
-            T_("  --port, -p        Specify a non-default port to be used"));
+                                         T_("  --port, -p        Specify a non-default port to be "
+                                            "used"));
     Option_::Descriptor   reportDescriptor(REPORT, 0, "r", "report", Option_::Arg::None,
-            T_("  --report, -r      Report the service metrics when the application exits"));
+                                           T_("  --report, -r      Report the service metrics when "
+                                              "the application exits"));
     Option_::Descriptor   tagDescriptor(TAG, 0, "t", "tag", Option_::Arg::Required,
-            T_("  --tag, -t         Specify the tag to be used as part of the service name"));
+                                        T_("  --tag, -t         Specify the tag to be used as part "
+                                           "of the service name"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
     Option_::Descriptor   usage[7];
     Option_::Descriptor * usageWalker = usage;

@@ -2167,11 +2167,12 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     bool                  keepGoing = true;
     Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   helpDescriptor(HELP, 0, "h", "help", Option_::Arg::None,
-            T_("  --help, -h    Print usage and exit"));
+                                         T_("  --help, -h    Print usage and exit"));
     Option_::Descriptor   jsonDescriptor(JSON, 0, "j", "json", Option_::Arg::None,
-            T_("  --json, -j    Generate output in JSON format") );
+                                         T_("  --json, -j    Generate output in JSON format") );
     Option_::Descriptor   tabsDescriptor(TABS, 0, "t", "tabs", Option_::Arg::None,
-            T_("  --tabs, -t    Generate output in tab-delimited format"));
+                                         T_("  --tabs, -t    Generate output in tab-delimited "
+                                            "format"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
     Option_::Descriptor   usage[5];
     Option_::Descriptor * usageWalker = usage;
