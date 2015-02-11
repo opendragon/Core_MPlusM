@@ -146,6 +146,7 @@ else(WIN32)
 endif(WIN32)
 
 add_subdirectory(Address)
+add_subdirectory(Bridge)
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)
 add_subdirectory(examples)

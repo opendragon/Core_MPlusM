@@ -268,7 +268,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
 #endif // defined(__APPLE__)
 
 UnrealOutputLeapInputHandler::UnrealOutputLeapInputHandler(UnrealOutputService & owner) :
-inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
+    inherited(), _owner(owner), _scale(1.0), _outSocket(INVALID_SOCKET)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAddressClient.h
+//  File:       M+MBridgeService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the client of the address service.
+//  Contains:   The class declaration for a service that returns an internet address upon request.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,48 +36,77 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAddressClient_H_))
-# define MpMAddressClient_H_ /* Header guard */
+#if (! defined(MpMBridgeService_H_))
+# define MpMBridgeService_H_ /* Header guard */
 
-# include <mpm/M+MBaseClient.h>
+# include <mpm/M+MBaseService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
- @brief The class declaration for the client of the address service. */
+/*! @file
+ @brief The class declaration for a service that returns an IP address and port upon request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The channel name to use for the service if not provided. */
+# define DEFAULT_ADDRESS_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "bridge")
+
 namespace MplusM
 {
-    namespace Address
+    namespace Bridge
     {
-        /*! @brief A client for the address service. */
-        class AddressClient : public Common::BaseClient
+        class WhereRequestHandler;
+        
+        /*! @brief The request counter service. */
+        class BridgeService : public Common::BaseService
         {
         public :
             
-            /*! @brief The constructor. */
-            AddressClient(void);
+            /*! @brief The constructor.
+             @param hostName The host address to be returned.
+             @param hostPort The port to be returned.
+             @param launchPath The command-line name used to launch the service.
+             @param tag The modifier for the service name and port names.
+             @param serviceEndpointName The YARP name to be assigned to the new service.
+             @param servicePortNumber The port being used by the service. */
+            BridgeService(const yarp::os::ConstString & hostName,
+                          const int                     hostPort,
+                          const yarp::os::ConstString & launchPath,
+                          const yarp::os::ConstString & tag,
+                          const yarp::os::ConstString & serviceEndpointName,
+                          const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~AddressClient(void);
+            virtual ~BridgeService(void);
             
-            /*! @brief Get the address from the service.
+            /*! @brief Return the remembered address.
              @param address The remembered address.
-             @param port The remembered port.
-             @returns @c true if the address was retrieved successfully and @c false otherwise. */
-            bool getAddress(yarp::os::ConstString & address,
+             @param port The remembered port. */
+            void getAddress(yarp::os::ConstString & address,
                             int &                   port);
+            
+            /*! @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
+            virtual bool start(void);
+            
+            /*! @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
+            virtual bool stop(void);
             
         protected :
             
         private :
             
-            COPY_AND_ASSIGNMENT_(AddressClient);
+            COPY_AND_ASSIGNMENT_(BridgeService);
+            
+            /*! @brief Enable the standard request handlers. */
+            void attachRequestHandlers(void);
+            
+            /*! @brief Disable the standard request handlers. */
+            void detachRequestHandlers(void);
             
         public :
         
@@ -86,12 +115,21 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
+            typedef BaseService inherited;
             
-        }; // AddressClient
+            /*! @brief The remembered address. */
+            yarp::os::ConstString _address;
+            
+            /*! @brief The request handler for the 'where' request. */
+            WhereRequestHandler * _whereHandler;
+            
+            /*! @brief The remembered port. */
+            int _port;
+            
+        }; // BridgeService
         
-    } // Address
+    } // Bridge
     
 } // MplusM
 
-#endif // ! defined(MpMAddressClient_H_)
+#endif // ! defined(MpMBridgeService_H_)

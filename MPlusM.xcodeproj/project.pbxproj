@@ -19,6 +19,18 @@
 		DF1BD32F1A8BA3310070A09C /* M+MAddressServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressServiceMain.cpp"; path = "Address/AddressService/M+MAddressServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1BD3301A8BA3310070A09C /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Address/AddressService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1BD3311A8BA3310070A09C /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Address/AddressService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD3361A8C014F0070A09C /* M+MBridgeService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeService.cpp"; path = "Bridge/BridgeService/M+MBridgeService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD3371A8C014F0070A09C /* M+MBridgeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBridgeService.h"; path = "Bridge/BridgeService/M+MBridgeService.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD3381A8C014F0070A09C /* M+MBridgeServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeServiceMain.cpp"; path = "Bridge/BridgeService/M+MBridgeServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD3391A8C014F0070A09C /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Bridge/BridgeService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD33A1A8C014F0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/BridgeService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1BD33B1A8C014F0070A09C /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Bridge/BridgeService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD33C1A8C014F0070A09C /* M+MBridgeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBridgeRequests.h"; path = "Bridge/BridgeCommon/M+MBridgeRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD33D1A8C014F0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/BridgeClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1BD33E1A8C014F0070A09C /* M+MBridgeClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeClientMain.cpp"; path = "Bridge/BridgeClient/M+MBridgeClientMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD33F1A8C014F0070A09C /* M+MBridgeClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeClient.cpp"; path = "Bridge/BridgeClient/M+MBridgeClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD3401A8C014F0070A09C /* M+MBridgeClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBridgeClient.h"; path = "Bridge/BridgeClient/M+MBridgeClient.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD3411A8C014F0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -543,6 +555,57 @@
 				DF1BD3311A8BA3310070A09C /* M+MWhereRequestHandler.h */,
 			);
 			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF1BD3351A8C010E0070A09C /* Bridge */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD3451A8C01C70070A09C /* BridgeClient */,
+				DF1BD3431A8C01790070A09C /* BridgeCommon */,
+				DF1BD3421A8C01600070A09C /* BridgeService */,
+				DF1BD3411A8C014F0070A09C /* CMakeLists.txt */,
+			);
+			name = Bridge;
+			sourceTree = "<group>";
+		};
+		DF1BD3421A8C01600070A09C /* BridgeService */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD33A1A8C014F0070A09C /* CMakeLists.txt */,
+				DF1BD3361A8C014F0070A09C /* M+MBridgeService.cpp */,
+				DF1BD3371A8C014F0070A09C /* M+MBridgeService.h */,
+				DF1BD3381A8C014F0070A09C /* M+MBridgeServiceMain.cpp */,
+				DF1BD3441A8C01A50070A09C /* RequestHandlers */,
+			);
+			name = BridgeService;
+			sourceTree = "<group>";
+		};
+		DF1BD3431A8C01790070A09C /* BridgeCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD33C1A8C014F0070A09C /* M+MBridgeRequests.h */,
+			);
+			name = BridgeCommon;
+			sourceTree = "<group>";
+		};
+		DF1BD3441A8C01A50070A09C /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD3391A8C014F0070A09C /* M+MWhereRequestHandler.cpp */,
+				DF1BD33B1A8C014F0070A09C /* M+MWhereRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
+		};
+		DF1BD3451A8C01C70070A09C /* BridgeClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD33D1A8C014F0070A09C /* CMakeLists.txt */,
+				DF1BD33F1A8C014F0070A09C /* M+MBridgeClient.cpp */,
+				DF1BD3401A8C014F0070A09C /* M+MBridgeClient.h */,
+				DF1BD33E1A8C014F0070A09C /* M+MBridgeClientMain.cpp */,
+			);
+			name = BridgeClient;
 			sourceTree = "<group>";
 		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
@@ -1073,6 +1136,7 @@
 			isa = PBXGroup;
 			children = (
 				DF1BD31E1A8BA2D00070A09C /* Address */,
+				DF1BD3351A8C010E0070A09C /* Bridge */,
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
 				DFCB229718EF23D200358EA5 /* ClientList */,
 				DF38503D198ABBA000A0414E /* CommonTests */,

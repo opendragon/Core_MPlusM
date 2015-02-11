@@ -121,6 +121,9 @@
 /*! @brief The name for an 'unregister' request. */
 # define MpM_UNREGISTER_REQUEST      "unregister"
 
+/*! @brief The name for a 'where' request. */
+# define MpM_WHERE_REQUEST  "where"
+
 /*! @brief The number of elements expected in the output of an 'associate' request. */
 # define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE      1
 

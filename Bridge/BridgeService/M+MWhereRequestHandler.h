@@ -53,11 +53,11 @@
 
 namespace MplusM
 {
-    namespace Address
+    namespace Bridge
     {
-        class AddressService;
+        class BridgeService;
         
-        /*! @brief The 'where' request handler for the address service.
+        /*! @brief The 'where' request handler for the bridge service.
          
          There is no input or output for the request. */
         class WhereRequestHandler : public Common::BaseRequestHandler
@@ -66,7 +66,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            WhereRequestHandler(AddressService & service);
+            WhereRequestHandler(BridgeService & service);
             
             /*! @brief The destructor. */
             virtual ~WhereRequestHandler(void);
@@ -108,7 +108,7 @@ namespace MplusM
             
         }; // WhereRequestHandler
         
-    } // Address
+    } // Bridge
     
 } // MplusM
 

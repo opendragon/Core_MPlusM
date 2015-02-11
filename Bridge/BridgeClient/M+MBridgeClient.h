@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MWhereRequestHandler.h
+//  File:       M+MBridgeClient.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'resetcounter' request.
+//  Contains:   The class declaration for the client of the bridge service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,66 +36,48 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMWhereRequestHandler_H_))
-# define MpMWhereRequestHandler_H_ /* Header guard */
+#if (! defined(MpMBridgeClient_H_))
+# define MpMBridgeClient_H_ /* Header guard */
 
-# include <mpm/M+MBaseRequestHandler.h>
+# include <mpm/M+MBaseClient.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file
- @brief The class declaration for the request handler for a 'where' request. */
+/*! @file 
+ @brief The class declaration for the client of the bridge service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace Address
+    namespace Bridge
     {
-        class AddressService;
-        
-        /*! @brief The 'where' request handler for the address service.
-         
-         There is no input or output for the request. */
-        class WhereRequestHandler : public Common::BaseRequestHandler
+        /*! @brief A client for the bridge service. */
+        class BridgeClient : public Common::BaseClient
         {
         public :
             
-            /*! @brief The constructor.
-             @param service The service that has registered this request. */
-            WhereRequestHandler(AddressService & service);
+            /*! @brief The constructor. */
+            BridgeClient(void);
             
             /*! @brief The destructor. */
-            virtual ~WhereRequestHandler(void);
+            virtual ~BridgeClient(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
-            
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
-            
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &       restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+            /*! @brief Get the address from the service.
+             @param address The remembered address.
+             @param port The remembered port.
+             @returns @c true if the address was retrieved successfully and @c false otherwise. */
+            bool getAddress(yarp::os::ConstString & address,
+                            int &                   port);
             
         protected :
             
         private :
             
-            COPY_AND_ASSIGNMENT_(WhereRequestHandler);
+            COPY_AND_ASSIGNMENT_(BridgeClient);
             
         public :
         
@@ -104,12 +86,12 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
+            typedef BaseClient inherited;
             
-        }; // WhereRequestHandler
+        }; // BridgeClient
         
-    } // Address
+    } // Bridge
     
 } // MplusM
 
-#endif // ! defined(MpMWhereRequestHandler_H_)
+#endif // ! defined(MpMBridgeClient_H_)

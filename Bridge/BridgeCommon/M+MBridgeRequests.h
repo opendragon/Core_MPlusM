@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the address service.
+//  Contains:   The common macro definitions for requests and responses for the bridge service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,15 +46,15 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The common macro definitions for requests and responses for the address service. */
+ @brief The common macro definitions for requests and responses for the bridge service. */
 
-/*! @namespace MplusM::Address
+/*! @namespace MplusM::Bridge
  @brief The classes that support recording an IP address and port for later retrieval. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the address service. */
-# define MpM_ADDRESS_CANONICAL_NAME "Address"
+/*! @brief The channel-independent name of the bridge service. */
+# define MpM_BRIDGE_CANONICAL_NAME "Bridge"
 
 #endif // ! defined(MpMAddressRequests_H_)

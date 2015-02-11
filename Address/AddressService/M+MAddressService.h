@@ -58,7 +58,6 @@ namespace MplusM
 {
     namespace Address
     {
-        class AddressDefaultRequestHandler;
         class WhereRequestHandler;
         
         /*! @brief The request counter service. */
