@@ -7,3 +7,6 @@
 + on dragging, do an adjustSize() without repaint?
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
+
+>> for the bridge service, use the endpoint IP address to set the ‘listen’ socket; validate the IP address and port arguments (also for Address service) - note that the arguments are for the Vicon server (or other TCP/IP ‘raw’ port)
+>> the bridge client only needs to have the port that it will set its ‘listen’ socket to; the connection to the service will provide the IP address and port for the ‘raw’ socket to talk to, and the client only needs to connect, without specifying its own address
