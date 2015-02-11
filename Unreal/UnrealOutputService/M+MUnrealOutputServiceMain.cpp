@@ -340,7 +340,7 @@ int main(int      argc,
         
         if (ProcessStandardServiceOptions(argc, argv, T_(" [port [scale]]\n\n"
                                                          "  port       Optional port to use to "
-                                                         "connect"
+                                                         "connect\n"
                                                          "  scale      Optional translation scale"),
                                           DEFAULT_UNREALOUTPUT_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,

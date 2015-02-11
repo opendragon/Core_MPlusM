@@ -395,6 +395,7 @@ Services:\ & \\
 \\
 Service port:\ & /\dollarService\\
 Service name:\ & Registry\\
+Tag:\\
 Service kind:\ & Registry\\
 Description:\ & The Registry service\\
 Requests:\ & associate - associate a channel with another channel\\
@@ -415,6 +416,7 @@ Secondary outputs:\ & /\dollarService/status\textbraceleft{}protocol=s%
 \\
 Service port:\ & /\serviceName/input/randomburst\\
 Service name:\ & RandomBurst\\
+Tag:\\
 Service kind:\ & Input\\
 Description:\ & The random burst input service\\
 Requests:\ & \\
@@ -422,17 +424,9 @@ Path:\ & \textellipsis/mpmRandomBurstService\\
 Secondary outputs:\ & /\serviceName/input/randomburst/output\textbraceleft{}protocol=d+%
 \textbraceright\\
 \\
-Service port:\ & /\serviceName/output/recordintegers\\
-Service name:\ & RecordIntegers\\
-Service kind:\ & Output\\
-Description:\ & The record integers output service\\
-Requests:\ & \\
-Path:\ & \textellipsis/mpmRecordIntegersService\\
-Secondary inputs:\ & /\serviceName/output/recordintegers/input\textbraceleft{}protocol=i+%
-\textbraceright\\
-\\
 Service port:\ & /shorten\\
 Service name:\ & TruncateFloat\\
+Tag: & blort\\
 Service kind:\ & Filter\\
 Description:\ & The truncate float service\\
 Requests:\ & \\
@@ -447,7 +441,7 @@ Secondary outputs:\ & /shorten/output\textbraceleft{}protocol=i+%
 or, if JSON--formatted output is requested:
 \outputBegin{}
 \openSq{} \textbraceleft{} "ServicePort":\ "/\dollarService", "ServiceName":\
-"Registry", "ServiceKind":\ \\
+"Registry", "Tag":\ "", "ServiceKind":\ \\
 "Registry", "Description":\ "The Registry service", "Requests":\ \\
 "associate - associate a channel with another channel\textbackslash{}ndisassociate - 
 remove\\
@@ -463,24 +457,17 @@ information for a service on the given channel", "Path":\ \\
 \openSq{} \textbraceleft\\
 "Name":\ "/\dollarService/status", "Protocol":\ "s" \textbraceright{} \closeSq{}
 \textbraceright, \textbraceleft{} "ServicePort":\ \\
-"/\serviceName/input/randomburst", "ServiceName":\ "RandomBurst", "ServiceKind":\ \\
-"Input", "Description":\ "The random burst input service", "Requests":\ \\
-"", "Path":\ "\textellipsis/mpmRandomBurstService", "SecondaryInputs":\ \sqPair,\\
+"/\serviceName/input/randomburst", "ServiceName":\ "RandomBurst", "Tag":\ "",\\
+"ServiceKind":\ "Input", "Description":\ "The random burst input service",\\
+"Requests":\ "", "Path":\ "\textellipsis/mpmRandomBurstService", "SecondaryInputs":\
+\sqPair,\\
 "SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ 
 "/\serviceName/input/randomburst/output",\\
 "Protocol":\ "d+" \textbraceright{} \closeSq{} \textbraceright, \textbraceleft{}
-"ServicePort":\ "/\serviceName/output/recordintegers",\\
-"ServiceName":\ "RecordIntegers", "ServiceKind":\ "Output", "Description":\ \\
-"The record integers output service", "Requests":\ "", "Path":\ \\
-"\textellipsis/mpmRecordIntegersService", "SecondaryInputs":\ \openSq{} \textbraceleft{}
-"Name":\ \\
-"/\serviceName/output/recordintegers/input", "Protocol":\ "i+" \textbraceright{} %
-\closeSq,\\
-"SecondaryOutputs":\ \sqPair{} \textbraceright, \textbraceleft{} "ServicePort":\ 
-"/shorten", "ServiceName":\ \\
-"TruncateFloat", "ServiceKind":\ "Filter", "Description":\ \\
+"ServicePort":\  "/shorten", "ServiceName":\ \\
+"TruncateFloat", "Tag":\ "blort", "ServiceKind":\ "Filter", "Description":\ \\
 "The truncate float service", "Requests":\ "", "Path":\ \\
-"\textellipsis/mpmTruncateFilterService", "SecondaryInputs":\ \openSq{} \textbraceleft{}
+"\textellipsis/mpmTruncateFloatService", "SecondaryInputs":\ \openSq{} \textbraceleft{}
 "Name":\ \\
 "/shorten/input", "Protocol":\ "d+" \textbraceright{} \closeSq, "SecondaryOutputs":\ 
 \openSq{} \textbraceleft{} "Name":\ \\
@@ -489,8 +476,8 @@ information for a service on the given channel", "Path":\ \\
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
-/\dollarService\pseudotab{}Registry\pseudotab{}Registry\pseudotab{}The Registry service%
-\pseudotab{}associate - \\
+/\dollarService\pseudotab{}Registry\pseudotab{}Registry\pseudotab\pseudotab{}The Registry
+service\pseudotab{}associate - \\
 associate a channel with another channel\textbackslash{}ndisassociate - remove all\\
 associations for a channel\textbackslash{}ngetAssociates - return the associations of a\\
 channel\textbackslash{}nmatch - return the channels for services matching the criteria\\
@@ -502,18 +489,13 @@ information for a service on the given channel\pseudotab\textellipsis/%
 mpmRegistryService\pseudotwotabs\\
 /\dollarService/status\textbraceleft{}protocol=s\textbraceright\\
 
-/\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotab{}Input\pseudotab\\
+/\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotab\pseudotab{}Input
+\pseudotab\\
 The random burst input service\pseudotwotabs\textellipsis/mpmRandomBurstService%
 \pseudotwotabs\\
 /\serviceName/input/randomburst/output\textbraceleft{}protocol=d+\textbraceright\\
 
-/\serviceName/output/recordintegers\pseudotab{}RecordIntegers\pseudotab{}Output%
-\pseudotab\\
-The record integers output service\pseudotwotabs\textellipsis/%
-mpmRecordIntegersService\pseudotab\\
-/\serviceName/output/recordintegers/input\textbraceleft{}protocol=i+\textbraceright\\
-
-/shorten\pseudotab{}TruncateFloat\pseudotab{}Filter\pseudotab{}%
+/shorten\pseudotab{}TruncateFloat\pseudotab{}blort\pseudotab{}Filter\pseudotab{}%
 The truncate float service\pseudotwotabs\\
 \textellipsis/mpmTruncateFloatService\pseudotab{}/shorten/input\textbraceleft{}%
 protocol=d+\textbraceright\pseudotab\\
@@ -572,7 +554,6 @@ out:\ 17292,\\
 in:\ \\
 \hspace*{\uL}0, out:\ 0, messages in:\ 0, out:\ 0\closeSq
 \outputEnd{}
-\newpage
 or, if JSON--formatted output is requested:
 \outputBegin{}
 \openSq{} \openSq{} \textbraceleft{} "channel":\ "/\dollarService", "date":\
@@ -598,6 +579,7 @@ or, if JSON--formatted output is requested:
 "09:18:42", "inBytes":\ "0", "inMessages":\ "0", "outBytes":\ "0", "outMessages":\ \\
 "0" \textbraceright{} \closeSq{} \closeSq
 \outputEnd{}
+\newpage
 or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}11460%
@@ -631,27 +613,104 @@ No services found.
 \outputEnd{}
 and the JSON--formatted and tab--delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmServiceMetrics}}
-\newpage
 \tertiaryStart{\utilityNameP{mpmVersion}}
 The program \utilityNameX{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
 and ACE, the low--level networking layer used by \mplusm{} and \yarp{}.\\
 
 For example, the default output could be:
 \outputBegin{}
-Movement And Meaning Version:\ 1.4.14, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
+Movement And Meaning Version:\ 1.4.16, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
 \outputEnd{}
 or, if JSON--formatted output is requested:
 \outputBegin{}
-\textbraceleft{} "M+M":\ "1.4.14", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
+\textbraceleft{} "M+M":\ "1.4.16", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
 \outputEnd{}
 or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
-1.4.14\pseudotab{}2.3.61\pseudotab{}6.2.6
+1.4.16\pseudotab{}2.3.61\pseudotab{}6.2.6
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmVersion}}
 \secondaryEnd{}
 \newpage
 \secondaryStart[UtilityServicesAndClients]{Utility~Services~and~Clients}
+\tertiaryStart{\utilityNameP{mpmAddressService}}
+
+The \utilityNameX{mpmAddressService} application is a background service that is used to
+record an IP address and port that can be retrieved by the \utilityNameR{mpmAddressClient}
+application.\\
+
+It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent by the
+companion application \utilityNameR{mpmAddressClient} to retrieve the IP address and port
+that it is started with.\\
+
+The application has two arguments -- the IP address and port to be remembered.
+The application also has five optional parameters:
+\begin{itemize}
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\end{itemize}
+The tag is added to the standard name of the service, so that more than one copy of the
+service can execute -- an \mplusm{} installation can support multiple copies of each
+\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
+without a distinguishing `tag'.
+If the tag is not specified, the standard name of the service will be used.
+\tertiaryEnd{\utilityNameE{mpmAddressService}}
+\tertiaryStart{\utilityNameP{mpmAddressClient}}
+The \utilityNameX{mpmAddressClient} application is a command--line tool to
+retrieve an IP address and port from the\\
+\utilityNameR{mpmAddressService} application.\\
+
+It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to the
+\utilityNameR{mpmAddressService} application to get the IP address and port.\\
+
+The program can have one or more arguments:
+\begin{itemize}
+\item \makebox[4em][l]{\textbf{address}} Display just the retrieved IP address
+\item \makebox[4em][l]{\textbf{both}} Display the retrieved IP address and port
+\item \makebox[4em][l]{\textbf{port}} Display just the retrieved port
+\item \makebox[4em][l]{\textit{other}} Use \emph{other} as the tag for the
+\utilityNameR{mpmAddressService} application being connected to
+\end{itemize}
+Note that the last tag, \emph{other}, and the last of (\textbf{address}, \textbf{both} or
+\textbf{port}) are used by the application.
+\newpage
+If the \utilityNameR{mpmAddressService} is started via:
+\outputBegin{}
+mpmAddressService -t blurg 123.123.123.123 42 \&
+\outputEnd{}
+The output of:
+\outputBegin{}
+mpmAddressClient
+\outputEnd{}
+would be:
+\outputBegin{}
+Could not connect to the required service.
+\outputEnd{}
+since the service was started with a tag.\\
+
+For the command:
+\outputBegin{}
+mpmAddressClient blurg
+\outputEnd{}
+the output would be:
+\outputBegin{}
+Address:\ 123.123.123.123, Port:\ 42
+\outputEnd{}
+or, if JSON--formatted output is requested:
+\outputBegin{}
+\textbraceleft{} "Address":\ "123.123.123.123", "Address":\ "42" \textbraceright{}
+\outputEnd{}
+or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+\outputBegin{}
+123.123.123.123\pseudotab{}42
+\outputEnd{}
+The default output is \textbf{both}; if \textbf{address} is specified, the port is not
+displayed and, if \textbf{port} is specified, the IP address is not displayed.
+\tertiaryEnd{\utilityNameE{mpmAddressClient}}
 \tertiaryStart{\utilityNameP{mpmRequestCounterService}}
 The \utilityNameX{mpmRequestCounterService} application is a background service that is
 used to determine the average time to send a simple request, process it and return a

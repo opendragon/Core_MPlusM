@@ -1,15 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRequestCounterRequests.h
+//  File:       M+MAddressClient.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the request counter
-//              service.
+//  Contains:   The class declaration for the client of the address service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,35 +32,66 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2015-02-11
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRequestCounterRequests_H_))
-# define MpMRequestCounterRequests_H_ /* Header guard */
+#if (! defined(MpMAddressClient_H_))
+# define MpMAddressClient_H_ /* Header guard */
 
-# include <mpm/M+MRequests.h>
+# include <mpm/M+MBaseClient.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The common macro definitions for requests and responses for the request counter service. */
-
-/*! @namespace MplusM::RequestCounter
- @brief The classes that support measuring the time for service requests. */
+ @brief The class declaration for the client of the address service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the request counter service. */
-# define MpM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
+namespace MplusM
+{
+    namespace Address
+    {
+        /*! @brief A client for the request counter service. */
+        class AddressClient : public Common::BaseClient
+        {
+        public :
+            
+            /*! @brief The constructor. */
+            AddressClient(void);
+            
+            /*! @brief The destructor. */
+            virtual ~AddressClient(void);
+            
+            /*! @brief Get the address from the service.
+             @param address The remembered address.
+             @param port The remembered port.
+             @returns @c true if the address was retrieved successfully and @c false otherwise. */
+            bool getAddress(yarp::os::ConstString & address,
+                            int &                   port);
+            
+        protected :
+            
+        private :
+            
+            COPY_AND_ASSIGNMENT_(AddressClient);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+        }; // AddressClient
+        
+    } // Address
+    
+} // MplusM
 
-/*! @brief The name for the 'resetcounter' request. */
-# define MpM_RESETCOUNTER_REQUEST  "resetcounter"
-
-/*! @brief The name for the 'stats' request. */
-# define MpM_STATS_REQUEST  "stats"
-
-#endif // ! defined(MpMRequestCounterRequests_H_)
+#endif // ! defined(MpMAddressClient_H_)

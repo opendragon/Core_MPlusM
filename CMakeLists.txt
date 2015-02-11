@@ -145,7 +145,7 @@ else(WIN32)
     set(BONJOUR_LIB "")
 endif(WIN32)
 
-
+add_subdirectory(Address)
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)
 add_subdirectory(examples)

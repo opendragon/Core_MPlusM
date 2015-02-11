@@ -349,7 +349,7 @@ int main(int      argc,
         
         if (ProcessStandardServiceOptions(argc, argv, T_(" [hostname [port]]\n\n"
                                                          "  hostname   Optional hostname for the "
-                                                         "device server"
+                                                         "device server\n"
                                                          "  port       Optional port for the "
                                                          "device server"),
                                           DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME, nameWasSet,

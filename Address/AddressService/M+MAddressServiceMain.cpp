@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRequestCounterServiceMain.cpp
+//  File:       M+MAddressServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the request counter service.
+//  Contains:   The main application for the address service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2015-02-11
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRequestCounterService.h"
+#include "M+MAddressService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -49,24 +49,23 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the request counter service. */
+ @brief The main application for the address service. */
 
-/*! @dir RequestCounter
- @brief The set of files that support counting requests. */
+/*! @dir Address
+ @brief The set of files that support recording an IP address and port for later retrieval. */
 
-/*! @dir RequestCounterCommon
- @brief The set of files that are shared between the request counter client and request counter
- service. */
+/*! @dir AddressCommon
+ @brief The set of files that are shared between the address client and address service. */
 
-/*! @dir RequestCounterService
- @brief The set of files that implement the request counter service. */
+/*! @dir AddressService
+ @brief The set of files that implement the address service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
+using namespace MplusM::Address;
 using namespace MplusM::Common;
-using namespace MplusM::RequestCounter;
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -79,24 +78,30 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the environment and start the Request Counter service.
- @param argv The arguments to be used with the Request Counter service.
+/*! @brief Set up the environment and start the Address service.
+ @param hostName The host name for the Address server.
+ @param hostPort The port for the Address server.
+ @param argv The arguments to be used with the Address service.
+ @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(char * *                      argv,
+static void setUpAndGo(const yarp::os::ConstString & hostName,
+                       const int                     hostPort,
+                       char * *                      argv,
+                       const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
-               servicePortNumber); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    RequestCounterService * stuff = new RequestCounterService(*argv, serviceEndpointName,
-                                                              servicePortNumber);
+    AddressService * stuff = new AddressService(hostName, hostPort, *argv, tag, serviceEndpointName,
+                                                servicePortNumber);
     
     if (stuff)
     {
@@ -162,9 +167,9 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Request Counter service.
+/*! @brief The entry point for running the Address service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Request Counter service.
+ @param argv The arguments to be used with the Address service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -184,13 +189,19 @@ int main(int      argc,
     {
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
-        yarp::os::ConstString serviceEndpointName; // not used
+        int                   hostPort = -1;
+        yarp::os::ConstString hostName;
+        yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
-        yarp::os::ConstString tag; // not used
+        yarp::os::ConstString tag;
+        StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
-                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipEndpointAndTagOptions))
+        if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port\n\n"
+                                                         "  hostname   IP address to return\n"
+                                                         "  port       port to return"),
+                                          DEFAULT_ADDRESS_SERVICE_NAME, nameWasSet, reportOnExit,
+                                          tag, serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -201,8 +212,41 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                setUpAndGo(argv, DEFAULT_REQUESTCOUNTER_SERVICE_NAME, servicePortNumber,
-                           reportOnExit);
+                if (2 <= arguments.size())
+                {
+                    const char * startPtr = arguments[1].c_str();
+                    char *       endPtr;
+                    int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+
+                    hostName = arguments[0];
+                    OD_LOG_S1s("hostName <- ", hostName); //####
+                    if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                    {
+                        // Useable data.
+                        hostPort = tempInt;
+                    }
+                    if ((0 < hostPort) && (0 < hostName.size()))
+                    {
+                        setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
+                                   servicePortNumber, reportOnExit);
+                    }
+                    else
+                    {
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Invalid argument(s).");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Invalid argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
+                }
+                else
+                {
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Missing argument(s).");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Missing argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
             }
 #if CheckNetworkWorks_
             else

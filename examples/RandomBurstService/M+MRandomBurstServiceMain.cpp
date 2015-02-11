@@ -336,7 +336,7 @@ int main(int      argc,
         
         if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]\n\n"
                                                          "  period     Optional interval between "
-                                                         "bursts"
+                                                         "bursts\n"
                                                          "  size       Optional burst size"),
                                           DEFAULT_RANDOMBURST_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,

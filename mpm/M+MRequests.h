@@ -253,6 +253,9 @@
 /*! @brief Request/response dictionary key - keywords. */
 # define MpM_REQREP_DICT_KEYWORDS_KEY    "keywords"
 
+/*! @brief Request/response dictionary key - name. */
+# define MpM_REQREP_DICT_NAME_KEY        "name"
+
 /*! @brief Request/response dictionary key - output specification. */
 # define MpM_REQREP_DICT_OUTPUT_KEY      "output"
 

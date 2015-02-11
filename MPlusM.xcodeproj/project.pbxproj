@@ -7,6 +7,18 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		DF1BD31F1A8BA2DE0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1BD3211A8BA2FA0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/AddressClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1BD3221A8BA2FA0070A09C /* M+MAddressClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressClient.cpp"; path = "Address/AddressClient/M+MAddressClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD3231A8BA2FA0070A09C /* M+MAddressClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddressClient.h"; path = "Address/AddressClient/M+MAddressClient.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD3241A8BA2FA0070A09C /* M+MAddressClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressClientMain.cpp"; path = "Address/AddressClient/M+MAddressClientMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD3261A8BA3140070A09C /* M+MAddressRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddressRequests.h"; path = "Address/AddressCommon/M+MAddressRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD3281A8BA3310070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/AddressService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1BD32D1A8BA3310070A09C /* M+MAddressService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressService.cpp"; path = "Address/AddressService/M+MAddressService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD32E1A8BA3310070A09C /* M+MAddressService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddressService.h"; path = "Address/AddressService/M+MAddressService.h"; sourceTree = SOURCE_ROOT; };
+		DF1BD32F1A8BA3310070A09C /* M+MAddressServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressServiceMain.cpp"; path = "Address/AddressService/M+MAddressServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD3301A8BA3310070A09C /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Address/AddressService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1BD3311A8BA3310070A09C /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Address/AddressService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -481,6 +493,57 @@
 			);
 			name = SQLite3;
 			sourceTree = SOURCE_ROOT;
+		};
+		DF1BD31E1A8BA2D00070A09C /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD3201A8BA2E40070A09C /* AddressClient */,
+				DF1BD3251A8BA3000070A09C /* AddressCommon */,
+				DF1BD3271A8BA31A0070A09C /* AddressService */,
+				DF1BD31F1A8BA2DE0070A09C /* CMakeLists.txt */,
+			);
+			name = Address;
+			sourceTree = "<group>";
+		};
+		DF1BD3201A8BA2E40070A09C /* AddressClient */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD3211A8BA2FA0070A09C /* CMakeLists.txt */,
+				DF1BD3221A8BA2FA0070A09C /* M+MAddressClient.cpp */,
+				DF1BD3231A8BA2FA0070A09C /* M+MAddressClient.h */,
+				DF1BD3241A8BA2FA0070A09C /* M+MAddressClientMain.cpp */,
+			);
+			name = AddressClient;
+			sourceTree = "<group>";
+		};
+		DF1BD3251A8BA3000070A09C /* AddressCommon */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD3261A8BA3140070A09C /* M+MAddressRequests.h */,
+			);
+			name = AddressCommon;
+			sourceTree = "<group>";
+		};
+		DF1BD3271A8BA31A0070A09C /* AddressService */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD3281A8BA3310070A09C /* CMakeLists.txt */,
+				DF1BD32D1A8BA3310070A09C /* M+MAddressService.cpp */,
+				DF1BD32E1A8BA3310070A09C /* M+MAddressService.h */,
+				DF1BD32F1A8BA3310070A09C /* M+MAddressServiceMain.cpp */,
+				DF1BD3341A8BAEE10070A09C /* RequestHandlers */,
+			);
+			name = AddressService;
+			sourceTree = "<group>";
+		};
+		DF1BD3341A8BAEE10070A09C /* RequestHandlers */ = {
+			isa = PBXGroup;
+			children = (
+				DF1BD3301A8BA3310070A09C /* M+MWhereRequestHandler.cpp */,
+				DF1BD3311A8BA3310070A09C /* M+MWhereRequestHandler.h */,
+			);
+			name = RequestHandlers;
+			sourceTree = "<group>";
 		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
@@ -1009,6 +1072,7 @@
 		DFA3430618C91B4F0053B87C = {
 			isa = PBXGroup;
 			children = (
+				DF1BD31E1A8BA2D00070A09C /* Address */,
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
 				DFCB229718EF23D200358EA5 /* ClientList */,
 				DF38503D198ABBA000A0414E /* CommonTests */,

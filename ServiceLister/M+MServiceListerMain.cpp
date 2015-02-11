@@ -125,6 +125,7 @@ int main(int      argc,
                                 bool                  sawOutputs = false;
                                 yarp::os::ConstString description;
                                 yarp::os::ConstString inChannelNames;
+                                yarp::os::ConstString kind;
                                 yarp::os::ConstString outChannelNames;
                                 yarp::os::ConstString requests;
                                 yarp::os::ConstString serviceName;
@@ -251,6 +252,8 @@ int main(int      argc,
                                 {
                                     outChannelNames += " ]";
                                 }
+                                kind = SanitizeString(descriptor._kind,
+                                                      kOutputFlavourJSON != flavour);
                                 servicePortName = SanitizeString(*walker,
                                                                  kOutputFlavourJSON != flavour);
                                 serviceName = SanitizeString(descriptor._serviceName,
@@ -271,8 +274,7 @@ int main(int      argc,
                                                    CHAR_DOUBLEQUOTE) << tag.c_str() <<
                                                 T_(CHAR_DOUBLEQUOTE ", ");
                                         cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE
-                                                   ": " CHAR_DOUBLEQUOTE) <<
-                                                descriptor._kind.c_str() <<
+                                                   ": " CHAR_DOUBLEQUOTE) << kind.c_str() <<
                                                 T_(CHAR_DOUBLEQUOTE ", ");
                                         description = SanitizeString(descriptor._description);
                                         cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE
@@ -296,8 +298,7 @@ int main(int      argc,
                                     case kOutputFlavourTabs :
                                         cout << servicePortName.c_str() << "\t";
                                         cout << serviceName.c_str() << "\t";
-                                        cout << tag.c_str() << "\t";
-                                        cout << descriptor._kind.c_str() << "\t";
+                                        cout << tag.c_str() << "\t" << kind.c_str() << "\t";
                                         description = SanitizeString(descriptor._description, true);
                                         cout << description.c_str() << "\t";
                                         requests = SanitizeString(descriptor._requestsDescription,
@@ -314,8 +315,7 @@ int main(int      argc,
                                         cout << "Service name:      " << serviceName.c_str() <<
                                                 endl;
                                         cout << "Tag:               " << tag.c_str() << endl;
-                                        cout << "Service kind:      " << descriptor._kind.c_str() <<
-                                                endl;
+                                        cout << "Service kind:      " << kind.c_str() << endl;
                                         OutputDescription(cout, "Description:       ",
                                                           descriptor._description);
                                         OutputDescription(cout, "Requests:          ",

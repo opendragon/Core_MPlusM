@@ -95,14 +95,14 @@
  *
  * @par Changelog:
  * <b>Version 1.3:</b> Compatible with Microsoft Visual C++. @n
- * <b>Version 1.2:</b> Added @ref option::Option::namelen "Option::namelen" and removed the extraction
+ * <b>Version 1.2:</b> Added @ref Option_::Option::namelen "Option::namelen" and removed the extraction
  *                     of short option characters into a special buffer. @n
- *                     Changed @ref option::Arg::Optional "Arg::Optional" to accept arguments if they are attached
+ *                     Changed @ref Option_::Arg::Optional "Arg::Optional" to accept arguments if they are attached
  *                     rather than separate. This is what GNU getopt() does and how POSIX recommends
  *                     utilities should interpret their arguments.@n
  * <b>Version 1.1:</b> Optional mode with argument reordering as done by GNU getopt(), so that
  *                     options and non-options can be mixed. See
- *                     @ref option::Parser::parse() "Parser::parse()".
+ *                     @ref Option_::Parser::parse() "Parser::parse()".
  *
  * @par Feedback:
  * Send questions, bug reports, feature requests etc. to: <tt><b>optionparser-feedback<span id="antispam">&nbsp;(a)&nbsp;</span>lists.sourceforge.net</b></tt>
@@ -110,19 +110,19 @@
  *
  *
  * @par Example program:
- * (Note: @c option::* identifiers are links that take you to their documentation.)
+ * (Note: @c Option_::* identifiers are links that take you to their documentation.)
  * @code
  * #include <iostream>
  * #include "optionparser.h"
  *
  * enum  optionIndex { UNKNOWN, HELP, PLUS };
- * const option::Descriptor usage[] =
+ * const Option_::Descriptor usage[] =
  * {
- *  {UNKNOWN, 0,"" , ""    ,option::Arg::None, "USAGE: example [options]\n\n"
+ *  {UNKNOWN, 0,"" , ""    ,Option_::Arg::None, "USAGE: example [options]\n\n"
  *                                             "Options:" },
- *  {HELP,    0,"" , "help",option::Arg::None, "  --help  \tPrint usage and exit." },
- *  {PLUS,    0,"p", "plus",option::Arg::None, "  --plus, -p  \tIncrement count." },
- *  {UNKNOWN, 0,"" ,  ""   ,option::Arg::None, "\nExamples:\n"
+ *  {HELP,    0,"" , "help",Option_::Arg::None, "  --help  \tPrint usage and exit." },
+ *  {PLUS,    0,"p", "plus",Option_::Arg::None, "  --plus, -p  \tIncrement count." },
+ *  {UNKNOWN, 0,"" ,  ""   ,Option_::Arg::None, "\nExamples:\n"
  *                                             "  example --unknown -- --this_is_no_option\n"
  *                                             "  example -unk --plus -ppp file1 file2\n" },
  *  {0,0,0,0,0,0}
@@ -131,22 +131,22 @@
  * int main(int argc, char* argv[])
  * {
  *   argc-=(argc>0); argv+=(argc>0); // skip program name argv[0] if present
- *   option::Stats  stats(usage, argc, argv);
- *   option::Option options[stats.options_max], buffer[stats.buffer_max];
- *   option::Parser parse(usage, argc, argv, options, buffer);
+ *   Option_::Stats  stats(usage, argc, argv);
+ *   Option_::Option options[stats.options_max], buffer[stats.buffer_max];
+ *   Option_::Parser parse(usage, argc, argv, options, buffer);
  *
  *   if (parse.error())
  *     return 1;
  *
  *   if (options[HELP] || argc == 0) {
- *     option::printUsage(std::cout, usage);
+ *     Option_::printUsage(std::cout, usage);
  *     return 0;
  *   }
  *
  *   std::cout << "--plus count: " <<
  *     options[PLUS].count() << "\n";
  *
- *   for (option::Option* opt = options[UNKNOWN]; opt; opt = opt->next())
+ *   for (Option_::Option* opt = options[UNKNOWN]; opt; opt = opt->next())
  *     std::cout << "Unknown option: " << opt->name << "\n";
  *
  *   for (int i = 0; i < parse.nonOptionsCount(); ++i)
@@ -183,7 +183,7 @@
  * @li Arguments to both short and long options may start with a @c '-' character. E.g.
  *     <code> -X-X </code>, <code>-X -X</code> or <code> --long-X=-X </code>. If @c -X
  *     and @c --long-X take an argument, that argument will be @c "-X" in all 3 cases.
- * @li If using the built-in @ref option::Arg::Optional "Arg::Optional", optional arguments must
+ * @li If using the built-in @ref Option_::Arg::Optional "Arg::Optional", optional arguments must
  *     be attached.
  * @li the special option @c -- (i.e. without a name) terminates the list of
  *     options. Everything that follows is a non-option argument, even if it starts with
@@ -195,7 +195,7 @@
  *     NOTE: This behaviour is mandated by POSIX, but GNU getopt() only honours this if it is
  *     explicitly requested (e.g. by setting POSIXLY_CORRECT). @n
  *     You can enable the GNU behaviour by passing @c true as first argument to
- *     e.g. @ref option::Parser::parse() "Parser::parse()".
+ *     e.g. @ref Option_::Parser::parse() "Parser::parse()".
  * @li Arguments that look like options (i.e. @c '-' followed by at least 1 character) but
  *     aren't, are NOT treated as non-option arguments. They are treated as unknown options and
  *     are collected into a list of unknown options for error reporting. @n
@@ -207,7 +207,7 @@
  *     @endcode
  *     In this example, @c --strange-filename is a non-option argument. If the @c --
  *     were omitted, it would be treated as an unknown option. @n
- *     See @ref option::Descriptor::longopt for information on how to collect unknown options.
+ *     See @ref Option_::Descriptor::longopt for information on how to collect unknown options.
  *
  */
 
@@ -284,14 +284,14 @@ namespace Option_
     /**
      * @brief Describes an option, its help text (usage) and how it should be parsed.
      *
-     * The main input when constructing an option::Parser is an array of Descriptors.
+     * The main input when constructing an Option_::Parser is an array of Descriptors.
      
      * @par Example:
      * @code
      * enum OptionIndex {CREATE, ...};
      * enum OptionType {DISABLE, ENABLE, OTHER};
      *
-     * const option::Descriptor usage[] = {
+     * const Option_::Descriptor usage[] = {
      *   { CREATE,                                            // index
      *     OTHER,                                             // type
      *     "c",                                               // shortopt
@@ -398,12 +398,12 @@ namespace Option_
         /**
          * @brief The usage text associated with the options in this Descriptor.
          *
-         * You can use option::printUsage() to format your usage message based on
+         * You can use Option_::printUsage() to format your usage message based on
          * the @c help texts. You can use dummy Descriptors where
          * @ref shortopt and @ref longopt are both the empty string to add text to
          * the usage that is not related to a specific option.
          *
-         * See option::printUsage() for special formatting characters you can use in
+         * See Option_::printUsage() for special formatting characters you can use in
          * @c help to get a column layout.
          *
          * @attention
@@ -802,48 +802,48 @@ namespace Option_
      * The following example code
      * can serve as starting place for writing your own more complex CheckArg functions:
      * @code
-     * struct Arg: public option::Arg
+     * struct Arg: public Option_::Arg
      * {
-     *   static void printError(const char* msg1, const option::Option& opt, const char* msg2)
+     *   static void printError(const char* msg1, const Option_::Option& opt, const char* msg2)
      *   {
      *     fprintf(stderr, "ERROR: %s", msg1);
      *     fwrite(opt.name, opt.namelen, 1, stderr);
      *     fprintf(stderr, "%s", msg2);
      *   }
      *
-     *   static option::ArgStatus Unknown(const option::Option& option, bool msg)
+     *   static Option_::ArgStatus Unknown(const Option_::Option& option, bool msg)
      *   {
      *     if (msg) printError("Unknown option '", option, "'\n");
-     *     return option::ARG_ILLEGAL;
+     *     return Option_::ARG_ILLEGAL;
      *   }
      *
-     *   static option::ArgStatus Required(const option::Option& option, bool msg)
+     *   static Option_::ArgStatus Required(const Option_::Option& option, bool msg)
      *   {
      *     if (option.arg != 0)
-     *       return option::ARG_OK;
+     *       return Option_::ARG_OK;
      *
      *     if (msg) printError("Option '", option, "' requires an argument\n");
-     *     return option::ARG_ILLEGAL;
+     *     return Option_::ARG_ILLEGAL;
      *   }
      *
-     *   static option::ArgStatus NonEmpty(const option::Option& option, bool msg)
+     *   static Option_::ArgStatus NonEmpty(const Option_::Option& option, bool msg)
      *   {
      *     if (option.arg != 0 && option.arg[0] != 0)
-     *       return option::ARG_OK;
+     *       return Option_::ARG_OK;
      *
      *     if (msg) printError("Option '", option, "' requires a non-empty argument\n");
-     *     return option::ARG_ILLEGAL;
+     *     return Option_::ARG_ILLEGAL;
      *   }
      *
-     *   static option::ArgStatus Numeric(const option::Option& option, bool msg)
+     *   static Option_::ArgStatus Numeric(const Option_::Option& option, bool msg)
      *   {
      *     char* endptr = 0;
      *     if (option.arg != 0 && strtol(option.arg, &endptr, 10)){};
      *     if (endptr != option.arg && *endptr == 0)
-     *       return option::ARG_OK;
+     *       return Option_::ARG_OK;
      *
      *     if (msg) printError("Option '", option, "' requires a numeric argument\n");
-     *     return option::ARG_ILLEGAL;
+     *     return Option_::ARG_ILLEGAL;
      *   }
      * };
      * @endcode
@@ -1024,9 +1024,9 @@ namespace Option_
      * int main(int argc, char* argv[])
      * {
      *   argc-=(argc>0); argv+=(argc>0); // skip program name argv[0] if present
-     *   option::Stats  stats(usage, argc, argv);
-     *   option::Option options[stats.options_max], buffer[stats.buffer_max];
-     *   option::Parser parse(usage, argc, argv, options, buffer);
+     *   Option_::Stats  stats(usage, argc, argv);
+     *   Option_::Option options[stats.options_max], buffer[stats.buffer_max];
+     *   Option_::Parser parse(usage, argc, argv, options, buffer);
      *
      *   if (parse.error())
      *     return 1;
@@ -1435,7 +1435,7 @@ namespace Option_
     
     /**
      * @internal
-     * @brief The implementation of option::printUsage().
+     * @brief The implementation of Option_::printUsage().
      */
     struct PrintUsageImplementation
     {
@@ -1925,7 +1925,7 @@ namespace Option_
      * within a row.
      *
      * @code
-     * const option::Descriptor usage[] = {
+     * const Option_::Descriptor usage[] = {
      * {..., "-c, --create  \tCreates something." },
      * {..., "-k, --kill  \tDestroys something." }, ...
      * @endcode
@@ -1936,7 +1936,7 @@ namespace Option_
      * You can insert line breaks within cells by using \\v (vertical tab).
      *
      * @code
-     * const option::Descriptor usage[] = {
+     * const Option_::Descriptor usage[] = {
      * {..., "-c,\v--create  \tCreates\vsomething." },
      * {..., "-k,\v--kill  \tDestroys\vsomething." }, ...
      *
@@ -1953,7 +1953,7 @@ namespace Option_
      * be maintained even across these interjections.
      *
      * @code
-     * const option::Descriptor usage[] = {
+     * const Option_::Descriptor usage[] = {
      * {..., "-c, --create  \tCreates something." },
      * {..., "----------------------------------" },
      * {..., "-k, --kill  \tDestroys something." }, ...
@@ -1969,7 +1969,7 @@ namespace Option_
      * aligned independently. Simply insert a dummy Descriptor with @c help==0.
      *
      * @code
-     * const option::Descriptor usage[] = {
+     * const Option_::Descriptor usage[] = {
      * {..., "Long options:" },
      * {..., "--very-long-option  \tDoes something long." },
      * {..., "--ultra-super-mega-long-option  \tTakes forever to complete." },
