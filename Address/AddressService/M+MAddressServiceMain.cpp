@@ -189,8 +189,6 @@ int main(int      argc,
     {
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
-        int                   hostPort = -1;
-        yarp::os::ConstString hostName;
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
@@ -214,13 +212,17 @@ int main(int      argc,
                 Initialize(*argv);
                 if (2 <= arguments.size())
                 {
-                    const char * startPtr = arguments[1].c_str();
-                    char *       endPtr;
-                    int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                    struct in_addr        addrBuff;
+                    int                   hostPort = -1;
+                    yarp::os::ConstString hostName;
+                    const char *          startPtr = arguments[1].c_str();
+                    char *                endPtr;
+                    int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
 
                     hostName = arguments[0];
                     OD_LOG_S1s("hostName <- ", hostName); //####
-                    if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                    if ((0 < inet_pton(AF_INET, hostName.c_str(), &addrBuff)) &&
+                        (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
                         hostPort = tempInt;

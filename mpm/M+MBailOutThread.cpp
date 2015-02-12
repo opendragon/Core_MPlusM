@@ -69,7 +69,7 @@ using namespace MplusM::Common;
 
 #if defined(__APPLE__)
 # pragma mark Constructors and Destructors
-#endif // definullptrned(__APPLE__)
+#endif // defined(__APPLE__)
 
 BailOutThread::BailOutThread(const double timeToWait) :
     inherited(), _baseChannel(NULL), _timeToWait(timeToWait)

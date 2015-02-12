@@ -49,7 +49,7 @@
  @brief The common macro definitions for requests and responses for the bridge service. */
 
 /*! @namespace MplusM::Bridge
- @brief The classes that support recording an IP address and port for later retrieval. */
+ @brief The classes that support routing non-YARP data over a YARP network. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

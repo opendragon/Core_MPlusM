@@ -63,7 +63,7 @@ namespace MplusM
         class SetEmailRequestHandler;
         class StopDbRequestHandler;
         
-        /*! @brief The request counter service. */
+        /*! @brief The movement database service. */
         class MovementDbService : public Common::BaseService
         {
         public :

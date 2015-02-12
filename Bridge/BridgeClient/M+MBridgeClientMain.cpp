@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the client of the address service.
+//  Contains:   The main application for the client of the bridge service.
 //
 //  Written by: Norman Jaffe
 //
@@ -44,6 +44,18 @@
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
+
+#if (! MAC_OR_LINUX_)
+# pragma comment(lib, "ws2_32.lib")
+#endif // ! MAC_OR_LINUX_
+
+#if MAC_OR_LINUX_
+# include <sys/socket.h>
+# define SOCKET         int /* Standard socket type in *nix. */
+# define INVALID_SOCKET -1
+#else // ! MAC_OR_LINUX_
+# include <WinSock2.h>
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -95,31 +107,182 @@ static void processArguments(const StringVector &    arguments,
     OD_LOG_EXIT(); //####
 } // processArguments
 
+/*! @brief Create a 'listen' socket.
+ @param listenPort The network port to attach the new socket to.
+ @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+static SOCKET setUpListeningPost(const int listenPort)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_L1("listenPort = ", listenPort); //####
+    SOCKET  listenSocket;
+#if (! MAC_OR_LINUX_)
+    WORD    wVersionRequested = MAKEWORD(2, 2);
+    WSADATA ww;
+#endif // ! MAC_OR_LINUX_
+    
+#if MAC_OR_LINUX_
+    listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (INVALID_SOCKET != listenSocket)
+    {
+        struct sockaddr_in addr;
+        
+        memset(&addr, 0, sizeof(addr));
+        addr.sin_family = AF_INET;
+        addr.sin_port = htons(listenPort);
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
+        {
+            close(listenSocket);
+            listenSocket = INVALID_SOCKET;
+        }
+        else
+        {
+            listen(listenSocket, SOMAXCONN);
+        }
+    }
+#else // ! MAC_OR_LINUX_
+    if (WSAStartup(wVersionRequested, &ww))
+    {
+    }
+    else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
+    {
+        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (INVALID_SOCKET != listenSocket)
+        {
+            SOCKADDR_IN addr;
+            
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(listenPort);
+            addr.sin_addr.s_addr = htonl(INADDR_ANY);
+            int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+            
+            if (SOCKET_ERROR == res)
+            {
+                closesocket(listenSocket);
+                listenSocket = INVALID_SOCKET;
+            }
+            else
+            {
+                listen(listenSocket, SOMAXCONN);
+            }
+        }
+    }
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT_L(listenSocket); //####
+    return listenSocket;
+} // setUpListeningPost
+
+/*! @brief Connect to the Bridge service 'raw' network port.
+ @param serviceAddress The IP address to connect to.
+ @param servicePort The port number to connect to.
+ @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
+                              const int                     servicePort)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
+    OD_LOG_L1("servicePort = ", servicePort); //####
+    SOCKET         bridgeSocket = INVALID_SOCKET;
+    struct in_addr addrBuff;
+    
+    if (0 < inet_pton(AF_INET, serviceAddress.c_str(), &addrBuff))
+    {
+        bridgeSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+#if MAC_OR_LINUX_
+        if (INVALID_SOCKET != bridgeSocket)
+        {
+            struct sockaddr_in addr;
+            
+            memset(&addr, 0, sizeof(addr));
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(servicePort);
+            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+            if (connect(bridgeSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
+            {
+                close(bridgeSocket);
+                bridgeSocket = INVALID_SOCKET;
+            }
+        }
+#else // ! MAC_OR_LINUX_
+        if (INVALID_SOCKET != bridgeSocket)
+        {
+            SOCKADDR_IN addr;
+            
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(servicePort);
+            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+            int res = connect(bridgeSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+            
+            if (SOCKET_ERROR == res)
+            {
+                closesocket(bridgeSocket);
+                bridgeSocket = INVALID_SOCKET;
+            }
+        }
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_EXIT_L(bridgeSocket); //####
+    return bridgeSocket;
+} // connectToBridge
+
+/*! @brief Handle the network connections.
+ @param serviceAddress The IP address to connect to.
+ @param servicePort The port number to connect to. */
+static void handleConnections(SOCKET                        listenSocket,
+                              const yarp::os::ConstString & serviceAddress,
+                              const int                     servicePort)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_L2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
+    OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
+    SOCKET bridgeSocket = connectToBridge(serviceAddress, servicePort);
+    
+    if (INVALID_SOCKET != bridgeSocket)
+    {
+        bool   keepGoing = true;
+        char   buffer[10240];
+        SOCKET sinkSocket = accept(listenSocket, NULL, NULL);
+
+        for ( ; keepGoing; )
+        {
+            ssize_t inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
+            
+            if (0 < inSize)
+            {
+                if (send(sinkSocket, buffer, inSize, 0) != inSize)
+                {
+                    keepGoing = false;
+                }
+            }
+            else
+            {
+                keepGoing = false;
+            }
+        }
+        shutdown(bridgeSocket, SHUT_RDWR);
+        shutdown(sinkSocket, SHUT_RDWR);
+#if MAC_OR_LINUX_
+        close(bridgeSocket);
+        close(sinkSocket);
+#else // ! MAC_OR_LINUX_
+        closesocket(bridgeSocket);
+        closesocket(sinkSocket);
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_EXIT(); //####
+} // handleConnections
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-
-#if 0
-1) The new M+M Unreal service, Unreal2, starts up.
-2) Unreal2 creates a 'listen' port.
-3) Unreal2 connects to Vicon2.
-4) Unreal2 fetches the 'listen' port from Vicon2.
-5) Unreal2 opens a connection to the Vicon2 'listen' port.
-6) Unreal2 waits for a connection from Unreal.
-6a) If a connection from Unreal, set up an outgoing port.
-7) Repeat step 6 until there's a connection from Unreal.
-8) Unreal2 waits for data from Vicon2.
-9) Unreal2 sends the data through the outgoing port.
-10) Repeat steps 8 and 9 indefinitely.
-#endif//0
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-/*! @brief The entry point for communicating with the Address service.
+/*! @brief The entry point for communicating with the Bridge service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the address client.
+ @param argv The arguments to be used with the bridge client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -143,106 +306,130 @@ int main(int      argc,
         StringVector            arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
-                                                       " [tag]\n\n"
-                                                       "  tag        The tag for the service to be "
-                                                       "connnected to", flavour, &arguments))
+                                                       " port [tag]\n\n"
+                                                       "  port       The outgoing port"
+                                                       "  tag        Optional tag for the service "
+                                                       "to be connnected to", flavour, &arguments))
         {
-            try
+            yarp::os::ConstString namePattern(MpM_BRIDGE_CANONICAL_NAME);
+            int                   listenPort = -1;
+            
+            if (0 < arguments.size())
             {
-                Utilities::CheckForNameServerReporter();
-    #if CheckNetworkWorks_
-                if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-    #endif // CheckNetworkWorks_
-                {
-                    yarp::os::Network     yarp; // This is necessary to establish any connections to
-                                                // the YARP infrastructure
-                    yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-                    yarp::os::ConstString namePattern(MpM_BRIDGE_CANONICAL_NAME);
-                    
-                    Initialize(*argv);
-                    BridgeClient * stuff = new BridgeClient;
-                    
-                    if (stuff)
-                    {
-#if defined(MpM_ReportOnConnections)
-                        stuff->setReporter(reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                        if (0 < arguments.size())
-                        {
-                            yarp::os::ConstString tag(arguments[0]);
-                            
-                            if (0 < tag.length())
-                            {
-                                namePattern = "'" + namePattern + " " + tag + "'";
-                            }
-                        }
-                        channelNameRequest += namePattern;
-                        if (stuff->findService(channelNameRequest.c_str()))
-                        {
-                            if (stuff->connectToService())
-                            {
-                                yarp::os::ConstString address;
-                                int                   port;
-                                
-                                if (stuff->getAddress(address, port))
-                                {
+                const char * startPtr = arguments[0].c_str();
+                char *       endPtr;
+                int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
 
-                                    
-                                    //TBD!!!!
-                                    
-                                    
-                                    
-                                    
-                                }
-                                else
+                if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                {
+                    listenPort = tempInt;
+                }
+                if (1 < arguments.size())
+                {
+                    yarp::os::ConstString tag(arguments[1]);
+                    
+                    if (0 < tag.length())
+                    {
+                        namePattern = "'" + namePattern + " " + tag + "'";
+                    }
+                }
+            }
+            if (0 < listenPort)
+            {
+                try
+                {
+                    Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
+                    if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // CheckNetworkWorks_
+                    {
+                        yarp::os::Network     yarp; // This is necessary to establish any
+                                                    // connections to the YARP infrastructure
+                        yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+                        
+                        Initialize(*argv);
+                        BridgeClient * stuff = new BridgeClient;
+                        
+                        if (stuff)
+                        {
+#if defined(MpM_ReportOnConnections)
+                            stuff->setReporter(reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+                            channelNameRequest += namePattern;
+                            if (stuff->findService(channelNameRequest.c_str()))
+                            {
+                                SOCKET listenSocket = setUpListeningPost(listenPort);
+
+                                if (INVALID_SOCKET != listenSocket)
                                 {
-                                    OD_LOG("! (stuff->getAddress(address, port))"); //####
+                                    if (stuff->connectToService())
+                                    {
+                                        yarp::os::ConstString serviceAddress;
+                                        int                   servicePort;
+                                        
+                                        if (stuff->getAddress(serviceAddress, servicePort))
+                                        {
+                                            handleConnections(listenSocket, serviceAddress,
+                                                              servicePort);
+                                        }
+                                        else
+                                        {
+                                            OD_LOG("! (stuff->getAddress(serviceAddress, " //####
+                                                   "servicePort))"); //####
 #if MAC_OR_LINUX_
-                                    GetLogger().fail("Problem fetching the address information.");
-#endif // MAC_OR_LINUX_
+                                            GetLogger().fail("Problem fetching the address "
+                                                             "information.");
+#else // ! MAC_OR_LINUX_
+                                            cerr << "Problem fetching the address information." <<
+                                                    endl;
+#endif // ! MAC_OR_LINUX_
+                                        }
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                                        GetLogger().fail("Could not connect to the required "
+                                                         "service.");
+#else // ! MAC_OR_LINUX_
+                                        cerr << "Could not connect to the required service." <<
+                                                endl;
+#endif // ! MAC_OR_LINUX_
+                                    }
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (stuff->connectToService())"); //####
+                                OD_LOG("! (stuff->findService(channelNameRequest)"); //####
 #if MAC_OR_LINUX_
-                                GetLogger().fail("Could not connect to the required service.");
+                                GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
-                                cerr << "Could not connect to the required service." << endl;
+                                cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
                             }
+                            delete stuff;
                         }
                         else
                         {
-                            OD_LOG("! (stuff->findService(channelNameRequest)"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+                            OD_LOG("! (stuff)"); //####
                         }
-                        delete stuff;
                     }
+#if CheckNetworkWorks_
                     else
                     {
-                        OD_LOG("! (stuff)"); //####
+                        OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+# if MAC_OR_LINUX_
+                        GetLogger().fail("YARP network not running.");
+# else // ! MAC_OR_LINUX_
+                        cerr << "YARP network not running." << endl;
+# endif // ! MAC_OR_LINUX_
                     }
+#endif // CheckNetworkWorks_
                 }
-    #if CheckNetworkWorks_
-                else
+                catch (...)
                 {
-                    OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
-    # if MAC_OR_LINUX_
-                    GetLogger().fail("YARP network not running.");
-    # else // ! MAC_OR_LINUX_
-                    cerr << "YARP network not running." << endl;
-    # endif // ! MAC_OR_LINUX_
+                    OD_LOG("Exception caught"); //####
                 }
-    #endif // CheckNetworkWorks_
-            }
-            catch (...)
-            {
-                OD_LOG("Exception caught"); //####
             }
             yarp::os::Network::fini();
         }

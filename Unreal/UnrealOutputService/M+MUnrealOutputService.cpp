@@ -161,6 +161,7 @@ void UnrealOutputService::deactivateConnection(void)
     }
     if (INVALID_SOCKET != _networkSocket)
     {
+        shutdown(_networkSocket, SHUT_RDWR);
 #if MAC_OR_LINUX_
         close(_networkSocket);
 #else // ! MAC_OR_LINUX_
@@ -263,6 +264,7 @@ void UnrealOutputService::startStreams(void)
                 {
                     struct sockaddr_in addr;
                     
+                    memset(&addr, 0, sizeof(addr));
                     addr.sin_family = AF_INET;
                     addr.sin_port = htons(_outPort);
                     addr.sin_addr.s_addr = htonl(INADDR_ANY);
@@ -342,6 +344,7 @@ void UnrealOutputService::startStreams(void)
                                     setActive();
                                 }
                             }
+                            shutdown(listenSocket, SHUT_RDWR);
                             closesocket(listenSocket);
                         }
                     }
@@ -353,18 +356,16 @@ void UnrealOutputService::startStreams(void)
                 }
 #endif // ! MAC_OR_LINUX_
 			}
-			else
-			{
-				if (INVALID_SOCKET != _networkSocket)
-				{
+			else if (INVALID_SOCKET != _networkSocket)
+            {
+                shutdown(_networkSocket, SHUT_RDWR);
 #if MAC_OR_LINUX_
-                    close(_networkSocket);
+                close(_networkSocket);
 #else // ! MAC_OR_LINUX_
-                    closesocket(_networkSocket);
+                closesocket(_networkSocket);
 #endif // ! MAC_OR_LINUX_
-					_networkSocket = INVALID_SOCKET;
-				}
-			}
+                _networkSocket = INVALID_SOCKET;
+            }
 		}
     }
     catch (...)

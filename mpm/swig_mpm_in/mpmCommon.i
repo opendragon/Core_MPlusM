@@ -20,7 +20,6 @@
 #include "M+MChannelStatusReporter.h"
 #include "M+MClientChannel.h"
 #include "M+MCommon.h"
-#include "M+MCommon.h"    
 #include "M+MEndpoint.h"
 #include "M+MException.h"
 #include "M+MGeneralChannel.h"

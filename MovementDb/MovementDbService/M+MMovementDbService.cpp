@@ -84,7 +84,10 @@ MovementDbService::MovementDbService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
               "The Movement database service",
-              "reset - clear the request counter and the elapsed time" , serviceEndpointName,
+              "addfile - add a file to the database\n"
+              "setdatatrack - set the data track for the files being added\n"
+              "setemail - set the e-mail address for the files being added\n"
+              "stopdb - stop the database", serviceEndpointName,
               servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL),
     _setDataTrackHandler(NULL), _setEmailHandler(NULL), _stopDbHandler(NULL)
 {

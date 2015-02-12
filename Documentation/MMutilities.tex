@@ -634,7 +634,6 @@ or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
 \newpage
 \secondaryStart[UtilityServicesAndClients]{Utility~Services~and~Clients}
 \tertiaryStart{\utilityNameP{mpmAddressService}}
-
 The \utilityNameX{mpmAddressService} application is a background service that is used to
 record an IP address and port that can be retrieved by the \utilityNameR{mpmAddressClient}
 application.\\
@@ -654,9 +653,9 @@ desired}
 \item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
-without a distinguishing `tag'.
+service can execute -- an \mplusm{} installation can support multiple copies of 
+\utilityNameX{mpmAddressService} service, but the \emph{Channel Manager} application
+cannot display them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 \tertiaryEnd{\utilityNameE{mpmAddressService}}
 \tertiaryStart{\utilityNameP{mpmAddressClient}}
@@ -711,6 +710,44 @@ or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
 The default output is \textbf{both}; if \textbf{address} is specified, the port is not
 displayed and, if \textbf{port} is specified, the IP address is not displayed.
 \tertiaryEnd{\utilityNameE{mpmAddressClient}}
+\tertiaryStart{\utilityNameP{mpmBridgeService}}
+The \utilityNameX{mpmBridgeService} application is a background service that is used to
+route a non--\yarp{} network data source to a non--\yarp{} network data sink, via the
+\utilityNameR{mpmBridgeClient} application.\\
+
+It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent by the
+companion application \utilityNameR{mpmBridgeClient} to retrieve an IP address and port
+that the companion application should connect to.\\
+
+The application has two arguments -- the IP address and port for the network data source.
+The application also has five optional parameters:
+\begin{itemize}
+\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
+desired}
+\item \optItem{r}{report}{report the service metrics when the application exits}
+\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\end{itemize}
+The tag is added to the standard name of the service, so that more than one copy of the
+service can execute -- an \mplusm{} installation can support multiple copies of the
+\utilityNameX{mpmBridgeService} service, but the \emph{Channel Manager} application cannot
+display them without a distinguishing `tag'.
+If the tag is not specified, the standard name of the service will be used.
+\tertiaryEnd{\utilityNameE{mpmBridgeService}}
+\tertiaryStart{\utilityNameP{mpmBridgeClient}}
+The \utilityNameX{mpmBridgeClient} application is a command--line tool to route a
+non--\yarp{} network data source to a non--\yarp{} network data sink via the
+\utilityNameR{mpmBridgeService} application.\\
+
+It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to the
+\utilityNameR{mpmBridgeService} application to get the IP address and port to connect
+to.\\
+
+The program has one required argument, the network port to be opened for a network data
+sink to attach to, and one optional argument, the tag for the
+\utilityNameR{mpmBridgeService} application being connected to.
+\tertiaryEnd{\utilityNameE{mpmBridgeClient}}
 \tertiaryStart{\utilityNameP{mpmRequestCounterService}}
 The \utilityNameX{mpmRequestCounterService} application is a background service that is
 used to determine the average time to send a simple request, process it and return a

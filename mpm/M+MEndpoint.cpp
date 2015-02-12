@@ -536,6 +536,24 @@ void Endpoint::updateSendCounters(const size_t numBytes)
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::updateSendCounters
 
+yarp::os::Contact Endpoint::where(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    yarp::os::Contact result;
+    
+    if (_channel && isOpen())
+    {
+        result = _channel->where();
+    }
+    else
+    {
+        result = yarp::os::Contact::invalid();
+    }
+    OD_LOG_OBJEXIT(); //####
+    return result;
+} // Endpoint::where
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)

@@ -55,7 +55,7 @@ namespace MplusM
 {
     namespace MovementDb
     {
-        /*! @brief A client for the request counter service. */
+        /*! @brief A client for the movement database service. */
         class MovementDbClient : public Common::BaseClient
         {
         public :

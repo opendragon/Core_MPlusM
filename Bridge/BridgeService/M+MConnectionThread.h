@@ -1,15 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAbsorberInputHandler.h
+//  File:       M+MConnectionThread.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the input channel input handler used by the absorber
-//              output service.
+//  Contains:   The class declaration for a network connection handling thread.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,62 +32,72 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-30
+//  Created:    2015-02-12
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAbsorberInputHandler_H_))
-# define MpMAbsorberInputHandler_H_ /* Header guard */
+#if (! defined(MpMConnectionThread_H_))
+# define MpMConnectionThread_H_ /* Header guard */
 
-# include <mpm/M+MBaseInputHandler.h>
+# include <mpm/M+MCommon.h>
+
+# if MAC_OR_LINUX_
+#  include <sys/socket.h>
+#  define SOCKET         int /* Standard socket type in *nix. */
+#  define INVALID_SOCKET -1
+# else // ! MAC_OR_LINUX_
+#  include <WinSock2.h>
+# endif // ! MAC_OR_LINUX_
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the input channel input handler used by the absorber output
- service. */
+ @brief The class declaration for a network connection handling thread. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace Example
+    namespace Bridge
     {
-        class AbsorberService;
+        class BridgeService;
         
-        /*! @brief A handler for partially-structured input data.
-         
-         The data is expected to be in the form of a sequence of integer values. */
-        class AbsorberInputHandler : public Common::BaseInputHandler
+        /*! @brief A convenience class to handle network connections. */
+        class ConnectionThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
-             @param service The service that manages the message count. */
-            AbsorberInputHandler(AbsorberService & service);
+             @param timeToWait The number of seconds to delay before triggering. */
+            ConnectionThread(BridgeService & service);
             
             /*! @brief The destructor. */
-            virtual ~AbsorberInputHandler(void);
+            virtual ~ConnectionThread(void);
             
-            /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @param numBytes The number of bytes available on the connection.
-             @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const yarp::os::Bottle &      input,
-                                     const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism,
-                                     const size_t                  numBytes);
+            /*! @brief The thread main body. */
+            virtual void run(void);
+            
+            /*! @brief Set the address of the data source.
+             @param sourceName The data source address to be connected to.
+             @param sourcePort The data source port to be connected to. */
+            void setSourceAddress(const yarp::os::ConstString & sourceName,
+                                  const int                     sourcePort);
+
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void threadRelease(void);
             
         protected :
             
         private :
             
-            COPY_AND_ASSIGNMENT_(AbsorberInputHandler);
+            COPY_AND_ASSIGNMENT_(ConnectionThread);
             
         public :
         
@@ -97,15 +106,27 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
+            typedef yarp::os::Thread inherited;
             
-            /*! @brief The service that manages the message count. */
-            AbsorberService & _service;
+            /*! @brief The service that manages the connection information. */
+            BridgeService & _service;
             
-        }; // AbsorberInputHandler
+            /*! @brief The data source address. */
+            yarp::os::ConstString _sourceAddress;
+            
+            /*! @brief The data source port. */
+            int _sourcePort;
+            
+            /*! @brief The network socket that is to be listened to. */
+            SOCKET _listenSocket;
+            
+            /*! @brief The network socket that provides the source data. */
+            SOCKET _sourceSocket;
+            
+        }; // ConnectionThread
         
-    } // Example
+    } // Bridge
     
 } // MplusM
 
-#endif // ! defined(MpMAbsorberInputHandler_H_)
+#endif // ! defined(MpMConnectionThread_H_)

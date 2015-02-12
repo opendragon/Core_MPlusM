@@ -150,6 +150,11 @@ namespace MplusM
              @param numBytes The number of bytes sent. */
             void updateSendCounters(const size_t numBytes);
             
+            /*! @brief Returns information on how this endpoint can be reached.
+             @returns Connection information for the endpoint. */
+            yarp::os::Contact where(void)
+            const;
+            
         protected :
             
         private :

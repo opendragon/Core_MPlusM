@@ -1,0 +1,331 @@
+//--------------------------------------------------------------------------------------------------
+//
+//  File:       M+MConnectionThread.cpp
+//
+//  Project:    M+M
+//
+//  Contains:   The class definition for a network connection handling thread.
+//
+//  Written by: Norman Jaffe
+//
+//  Copyright:  (c) 2015 by HPlus Technologies Ltd. and Simon Fraser University.
+//
+//              All rights reserved. Redistribution and use in source and binary forms, with or
+//              without modification, are permitted provided that the following conditions are met:
+//                * Redistributions of source code must retain the above copyright notice, this list
+//                  of conditions and the following disclaimer.
+//                * Redistributions in binary form must reproduce the above copyright notice, this
+//                  list of conditions and the following disclaimer in the documentation and / or
+//                  other materials provided with the distribution.
+//                * Neither the name of the copyright holders nor the names of its contributors may
+//                  be used to endorse or promote products derived from this software without
+//                  specific prior written permission.
+//
+//              THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND ANY
+//              EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
+//              OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT
+//              SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT,
+//              INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+//              TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR
+//              BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
+//              CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+//              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
+//              DAMAGE.
+//
+//  Created:    2015-02-12
+//
+//--------------------------------------------------------------------------------------------------
+
+#include "M+MConnectionThread.h"
+#include "M+MBridgeService.h"
+
+//#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
+
+#if (! MAC_OR_LINUX_)
+# pragma comment(lib, "ws2_32.lib")
+#endif // ! MAC_OR_LINUX_
+
+#if defined(__APPLE__)
+# pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
+#endif // defined(__APPLE__)
+/*! @file
+ @brief The class definition for a network connection handling thread. */
+#if defined(__APPLE__)
+# pragma clang diagnostic pop
+#endif // defined(__APPLE__)
+
+using namespace MplusM;
+using namespace MplusM::Bridge;
+
+#if defined(__APPLE__)
+# pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Local functions
+#endif // defined(__APPLE__)
+
+/*! @brief Create a 'listen' socket.
+ @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+static SOCKET createListener(void)
+{
+    OD_LOG_ENTER(); //####
+    SOCKET  listenSocket;
+#if (! MAC_OR_LINUX_)
+    WORD    wVersionRequested = MAKEWORD(2, 2);
+    WSADATA ww;
+#endif // ! MAC_OR_LINUX_
+    
+#if MAC_OR_LINUX_
+    listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (INVALID_SOCKET != listenSocket)
+    {
+        struct sockaddr_in addr;
+        
+        memset(&addr, 0, sizeof(addr));
+        addr.sin_family = AF_INET;
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
+        {
+            close(listenSocket);
+            listenSocket = INVALID_SOCKET;
+        }
+        else
+        {
+            listen(listenSocket, SOMAXCONN);
+        }
+    }
+#else // ! MAC_OR_LINUX_
+    if (WSAStartup(wVersionRequested, &ww))
+    {
+    }
+    else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
+    {
+        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (INVALID_SOCKET != listenSocket)
+        {
+            SOCKADDR_IN addr;
+            
+            addr.sin_family = AF_INET;
+            addr.sin_addr.s_addr = htonl(INADDR_ANY);
+            int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+            
+            if (SOCKET_ERROR == res)
+            {
+                closesocket(listenSocket);
+                listenSocket = INVALID_SOCKET;
+            }
+            else
+            {
+                listen(listenSocket, SOMAXCONN);
+            }
+        }
+    }
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT_L(listenSocket); //####
+    return listenSocket;
+} // createListener
+
+/*! @brief Connect to the Bridge service 'raw' network port.
+ @param dataAddress The IP address to connect to.
+ @param dataPort The port number to connect to.
+ @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
+static SOCKET connectToSource(const yarp::os::ConstString & dataAddress,
+                              const int                     dataPort)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("dataAddress = ", dataAddress); //####
+    OD_LOG_L1("dataPort = ", dataPort); //####
+    SOCKET         dataSocket = INVALID_SOCKET;
+    struct in_addr addrBuff;
+    
+    if (0 < inet_pton(AF_INET, dataAddress.c_str(), &addrBuff))
+    {
+        dataSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+#if MAC_OR_LINUX_
+        if (INVALID_SOCKET != dataSocket)
+        {
+            struct sockaddr_in addr;
+            
+            memset(&addr, 0, sizeof(addr));
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(dataPort);
+            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+            if (connect(dataSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
+            {
+                close(dataSocket);
+                dataSocket = INVALID_SOCKET;
+            }
+        }
+#else // ! MAC_OR_LINUX_
+        if (INVALID_SOCKET != dataSocket)
+        {
+            SOCKADDR_IN addr;
+            
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(dataPort);
+            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+            int res = connect(dataSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+            
+            if (SOCKET_ERROR == res)
+            {
+                closesocket(dataSocket);
+                dataSocket = INVALID_SOCKET;
+            }
+        }
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_EXIT_L(dataSocket); //####
+    return dataSocket;
+} // connectToSource
+
+#if defined(__APPLE__)
+# pragma mark Class methods
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Constructors and Destructors
+#endif // defined(__APPLE__)
+
+ConnectionThread::ConnectionThread(BridgeService & service) :
+    inherited(), _service(service), _sourceAddress(""), _sourcePort(-1),
+    _listenSocket(INVALID_SOCKET), _sourceSocket(INVALID_SOCKET)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_EXIT_P(this); //####
+} // ConnectionThread::ConnectionThread
+
+ConnectionThread::~ConnectionThread(void)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // ConnectionThread::~ConnectionThread
+
+#if defined(__APPLE__)
+# pragma mark Actions and Accessors
+#endif // defined(__APPLE__)
+
+void ConnectionThread::run(void)
+{
+    OD_LOG_OBJENTER(); //####
+    SOCKET destinationSocket = accept(_listenSocket, 0, 0);
+    
+    if (INVALID_SOCKET == destinationSocket)
+    {
+        _service.setPort(-1);
+        shutdown(_listenSocket, SHUT_RDWR);
+        shutdown(_sourceSocket, SHUT_RDWR);
+#if MAC_OR_LINUX_
+        close(_listenSocket);
+        close(_sourceSocket);
+#else // ! MAC_OR_LINUX_
+        closesocket(_listenSocket);
+        closesocket(_sourceSocket);
+#endif // ! MAC_OR_LINUX_
+    }
+    else
+    {
+        char buffer[10240];
+        
+        for (bool keepGoing = true; keepGoing && (! isStopping()); )
+        {
+            ssize_t inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
+            
+            if (0 < inSize)
+            {
+                if (send(destinationSocket, buffer, inSize, 0) != inSize)
+                {
+                    keepGoing = false;
+                }
+            }
+            else
+            {
+                keepGoing = false;
+            }
+            yarp::os::Time::yield();
+        }
+        _service.setPort(-1);
+        shutdown(destinationSocket, SHUT_RDWR);
+        shutdown(_listenSocket, SHUT_RDWR);
+        shutdown(_sourceSocket, SHUT_RDWR);
+#if MAC_OR_LINUX_
+        close(destinationSocket);
+        close(_listenSocket);
+        close(_sourceSocket);
+#else // ! MAC_OR_LINUX_
+        closesocket(destinationSocket);
+        closesocket(_listenSocket);
+        closesocket(_sourceSocket);
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ConnectionThread::run
+
+void ConnectionThread::setSourceAddress(const yarp::os::ConstString & sourceName,
+                                        const int                     sourcePort)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("sourceName = ", sourceName); //####
+    OD_LOG_L1("sourcePort = ", sourcePort); //####
+    yarp::os::ConstString bridgeAddress;
+    int                   bridgePort;
+    struct in_addr        addrBuff;
+    
+    _sourceAddress = sourceName;
+    _sourcePort = sourcePort;
+    // We'll be determining the port to use, so the value returned for the port, here, is ignored.
+    _service.getAddress(bridgeAddress, bridgePort);
+    _listenSocket = createListener();
+    if (INVALID_SOCKET != _listenSocket)
+    {
+        struct sockaddr_in sin;
+        socklen_t          len = sizeof(sin);
+        
+        if ((! getsockname(_listenSocket, reinterpret_cast<struct sockaddr *>(&sin), &len)) &&
+            (sin.sin_family == AF_INET) && (sizeof(sin) == len))
+        {
+            _service.setPort(ntohs(sin.sin_port));
+        }
+        else
+        {
+#if MAC_OR_LINUX_
+            close(_listenSocket);
+            _listenSocket = INVALID_SOCKET;
+#else // ! MAC_OR_LINUX_
+            closesocket(_listenSocket);
+            _listenSocket = INVALID_SOCKET;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    _sourceSocket = connectToSource(_sourceAddress, _sourcePort);
+    if (INVALID_SOCKET == _sourceSocket)
+    {
+#if MAC_OR_LINUX_
+        close(_sourceSocket);
+#else // ! MAC_OR_LINUX_
+        closesocket(_sourceSocket);
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ConnectionThread::setSourceAddress
+
+bool ConnectionThread::threadInit(void)
+{
+    OD_LOG_OBJENTER(); //####
+    bool result = true;
+    
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ConnectionThread::threadInit
+
+void ConnectionThread::threadRelease(void)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // ConnectionThread::threadRelease
+
+#if defined(__APPLE__)
+# pragma mark Global functions
+#endif // defined(__APPLE__)

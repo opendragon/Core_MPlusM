@@ -45,6 +45,7 @@ set(THIS_TARGET mpmBridgeService)
 add_executable(${THIS_TARGET}
                M+MBridgeServiceMain.cpp
                M+MBridgeService.cpp
+               M+MConnectionThread.cpp
                M+MWhereRequestHandler.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

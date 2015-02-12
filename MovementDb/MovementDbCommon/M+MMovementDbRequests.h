@@ -62,7 +62,7 @@
 /*! @brief The name for the 'addfile' request. */
 # define MpM_ADDFILE_REQUEST  "addfile"
 
-/*! @brief The name for the 'setemail' request. */
+/*! @brief The name for the 'setdatatrack' request. */
 # define MpM_SETDATATRACK_REQUEST  "setdatatrack"
 
 /*! @brief The name for the 'setemail' request. */

@@ -31,6 +31,8 @@
 		DF1BD33F1A8C014F0070A09C /* M+MBridgeClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeClient.cpp"; path = "Bridge/BridgeClient/M+MBridgeClient.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1BD3401A8C014F0070A09C /* M+MBridgeClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBridgeClient.h"; path = "Bridge/BridgeClient/M+MBridgeClient.h"; sourceTree = SOURCE_ROOT; };
 		DF1BD3411A8C014F0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1BD3461A8D201D0070A09C /* M+MConnectionThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MConnectionThread.cpp"; path = "Bridge/BridgeService/M+MConnectionThread.cpp"; sourceTree = "<group>"; };
+		DF1BD3471A8D201D0070A09C /* M+MConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MConnectionThread.h"; path = "Bridge/BridgeService/M+MConnectionThread.h"; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -575,6 +577,8 @@
 				DF1BD3361A8C014F0070A09C /* M+MBridgeService.cpp */,
 				DF1BD3371A8C014F0070A09C /* M+MBridgeService.h */,
 				DF1BD3381A8C014F0070A09C /* M+MBridgeServiceMain.cpp */,
+				DF1BD3461A8D201D0070A09C /* M+MConnectionThread.cpp */,
+				DF1BD3471A8D201D0070A09C /* M+MConnectionThread.h */,
 				DF1BD3441A8C01A50070A09C /* RequestHandlers */,
 			);
 			name = BridgeService;

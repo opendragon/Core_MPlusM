@@ -49,10 +49,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the address service. */
+ @brief The main application for the bridge service. */
 
 /*! @dir Bridge
- @brief The set of files that support recording an IP address and port for later retrieval. */
+ @brief The set of files that support routing non-YARP data via YARP. */
 
 /*! @dir BridgeCommon
  @brief The set of files that are shared between the bridge client and bridge service. */
@@ -78,22 +78,9 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if 0
-1) The new M+M Vicon service - let's call it Vicon2 - starts up.
-2) Vicon2 creates a 'listen' port, which it records.
-3) Vicon2 connects to the Vicon Data Stream server.
-4) Vicon2 waits for a client request, or a connection from a client. Note that the client request is handled asynchronously.
-4a) If a client request, return the 'listen' port information.
-4b) If a connection request, set up an outgoing port.
-5) Repeat step 4 until connected to a client.
-6) Vicon2 waits for Vicon data.
-7) Vicon2 sends the data through the outgoing port.
-8) Repeat steps 6 and 7 indefinitely.
-#endif//0
-
-/*! @brief Set up the environment and start the Address service.
- @param hostName The host name for the Address server.
- @param hostPort The port for the Address server.
+/*! @brief Set up the environment and start the Bridge service.
+ @param hostName The host name for the network data source.
+ @param hostPort The port for the network data source.
  @param argv The arguments to be used with the Address service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -202,8 +189,6 @@ int main(int      argc,
     {
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
-        int                   hostPort = -1;
-        yarp::os::ConstString hostName;
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
@@ -227,13 +212,17 @@ int main(int      argc,
                 Initialize(*argv);
                 if (2 <= arguments.size())
                 {
-                    const char * startPtr = arguments[1].c_str();
-                    char *       endPtr;
-                    int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                    struct in_addr        addrBuff;
+                    int                   hostPort = -1;
+                    yarp::os::ConstString hostName;
+                    const char *          startPtr = arguments[1].c_str();
+                    char *                endPtr;
+                    int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
 
                     hostName = arguments[0];
                     OD_LOG_S1s("hostName <- ", hostName); //####
-                    if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                    if ((0 < inet_pton(AF_INET, hostName.c_str(), &addrBuff)) &&
+                        (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
                         hostPort = tempInt;

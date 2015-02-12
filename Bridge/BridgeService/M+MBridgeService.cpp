@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a service that returns an internet address upon request.
+//  Contains:   The class definition for a service that routes non-YARP data over a YARP network.
 //
 //  Written by: Norman Jaffe
 //
@@ -38,7 +38,10 @@
 
 #include "M+MBridgeService.h"
 #include "M+MBridgeRequests.h"
+#include "M+MConnectionThread.h"
 #include "M+MWhereRequestHandler.h"
+
+#include <mpm/M+MEndpoint.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for a service that returns an IP address and port upon request. */
+ @brief The class definition for a service that routes non-YARP data over a YARP network. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -73,8 +76,8 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BridgeService::BridgeService(const yarp::os::ConstString & hostName,
-                             const int                     hostPort,
+BridgeService::BridgeService(const yarp::os::ConstString & sourceName,
+                             const int                     sourcePort,
                              const yarp::os::ConstString & launchPath,
                              const yarp::os::ConstString & tag,
                              const yarp::os::ConstString & serviceEndpointName,
@@ -82,13 +85,15 @@ BridgeService::BridgeService(const yarp::os::ConstString & hostName,
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_BRIDGE_CANONICAL_NAME,
               "The bridge service",
               "where - return the matching internet address", serviceEndpointName,
-              servicePortNumber), _address(hostName), _whereHandler(NULL), _port(hostPort)
+              servicePortNumber), _listenAddress(""), _sourceAddress(sourceName),
+    _whereHandler(NULL), _connection(new ConnectionThread(*this)), _listenPort(-1),
+    _sourcePort(sourcePort)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("hostName = ", hostName, "launchPath = ", launchPath, "tag = ", tag, //####
+    OD_LOG_S4s("sourceName = ", sourceName, "launchPath = ", launchPath, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_L1("hostPort = ", hostPort); //####
+    OD_LOG_L1("sourcePort = ", sourcePort); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // BridgeService::BridgeService
@@ -97,6 +102,11 @@ BridgeService::~BridgeService(void)
 {
     OD_LOG_OBJENTER(); //####
     detachRequestHandlers();
+    if (_connection)
+    {
+        delete _connection;
+        _connection = NULL;
+    }
     OD_LOG_OBJEXIT(); //####
 } // BridgeService::~BridgeService
 
@@ -151,8 +161,8 @@ void BridgeService::getAddress(yarp::os::ConstString & address,
                                int &                   port)
 {
     OD_LOG_OBJENTER(); //####
-    address = _address;
-    port = _port;
+    address = _listenAddress;
+    port = _listenPort;
     OD_LOG_OBJEXIT(); //####
 } // BridgeService::getAddress
 
@@ -168,7 +178,20 @@ bool BridgeService::start(void)
             inherited::start();
             if (isStarted())
             {
+                yarp::os::Contact where = getEndpoint().where();
                 
+                _listenAddress = where.getHost();
+                _listenPort = -1;
+                if (_connection->isRunning())
+                {
+                    _connection->stop();
+                    for ( ; _connection->isRunning(); )
+                    {
+                        yarp::os::Time::delay(STANDARD_WAIT_TIME / 3.1);
+                    }
+                }
+                _connection->setSourceAddress(_sourceAddress, _sourcePort);
+                _connection->start();
             }
             else
             {
@@ -193,6 +216,14 @@ bool BridgeService::stop(void)
     
     try
     {
+        if (_connection)
+        {
+            _connection->stop();
+            for ( ; _connection->isRunning(); )
+            {
+                yarp::os::Time::delay(STANDARD_WAIT_TIME / 4.3);
+            }
+        }
         result = inherited::stop();
     }
     catch (...)

@@ -37,13 +37,13 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseInputOutputService.h>
-#include <mpm/M+MGeneralChannel.h>
-
 #include "M+MConfigureRequestHandler.h"
 #include "M+MRestartStreamsRequestHandler.h"
 #include "M+MStartStreamsRequestHandler.h"
 #include "M+MStopStreamsRequestHandler.h"
+
+#include <mpm/M+MBaseInputOutputService.h>
+#include <mpm/M+MGeneralChannel.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

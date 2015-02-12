@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a service that returns an internet address upon request.
+//  Contains:   The class declaration for a service that routes non-YARP data over a YARP network.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a service that returns an IP address and port upon request. */
+ @brief The class declaration for a service that routes non-YARP data over a YARP network. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,22 +58,23 @@ namespace MplusM
 {
     namespace Bridge
     {
+        class ConnectionThread;
         class WhereRequestHandler;
         
-        /*! @brief The request counter service. */
+        /*! @brief The bridge service. */
         class BridgeService : public Common::BaseService
         {
         public :
             
             /*! @brief The constructor.
-             @param hostName The host address to be returned.
-             @param hostPort The port to be returned.
+             @param sourceName The data source address to be connected to.
+             @param sourcePort The data source port to be connected to.
              @param launchPath The command-line name used to launch the service.
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            BridgeService(const yarp::os::ConstString & hostName,
-                          const int                     hostPort,
+            BridgeService(const yarp::os::ConstString & sourceName,
+                          const int                     sourcePort,
                           const yarp::os::ConstString & launchPath,
                           const yarp::os::ConstString & tag,
                           const yarp::os::ConstString & serviceEndpointName,
@@ -87,6 +88,13 @@ namespace MplusM
              @param port The remembered port. */
             void getAddress(yarp::os::ConstString & address,
                             int &                   port);
+            
+            /*! @brief Set the port that will be remembered.
+             @param port The port to be remembered. */
+            inline void setPort(const int port)
+            {
+                _listenPort = port;
+            } // setPort
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -118,14 +126,23 @@ namespace MplusM
             typedef BaseService inherited;
             
             /*! @brief The remembered address. */
-            yarp::os::ConstString _address;
+            yarp::os::ConstString _listenAddress;
+            
+            /*! @brief The data source address. */
+            yarp::os::ConstString _sourceAddress;
             
             /*! @brief The request handler for the 'where' request. */
             WhereRequestHandler * _whereHandler;
             
-            /*! @brief The remembered port. */
-            int _port;
+            /*! @brief The thread to handle the network connections. */
+            ConnectionThread * _connection;
             
+            /*! @brief The remembered port. */
+            int _listenPort;
+            
+            /*! @brief The data source port. */
+            int _sourcePort;
+
         }; // BridgeService
         
     } // Bridge
