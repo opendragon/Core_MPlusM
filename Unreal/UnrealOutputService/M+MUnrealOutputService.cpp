@@ -161,10 +161,11 @@ void UnrealOutputService::deactivateConnection(void)
     }
     if (INVALID_SOCKET != _networkSocket)
     {
-        shutdown(_networkSocket, SHUT_RDWR);
 #if MAC_OR_LINUX_
+        shutdown(_networkSocket, SHUT_RDWR);
         close(_networkSocket);
 #else // ! MAC_OR_LINUX_
+        shutdown(_networkSocket, SD_BOTH);
         closesocket(_networkSocket);
 #endif // ! MAC_OR_LINUX_
         _networkSocket = INVALID_SOCKET;
@@ -344,7 +345,7 @@ void UnrealOutputService::startStreams(void)
                                     setActive();
                                 }
                             }
-                            shutdown(listenSocket, SHUT_RDWR);
+                            shutdown(listenSocket, SD_BOTH);
                             closesocket(listenSocket);
                         }
                     }
@@ -358,10 +359,11 @@ void UnrealOutputService::startStreams(void)
 			}
 			else if (INVALID_SOCKET != _networkSocket)
             {
-                shutdown(_networkSocket, SHUT_RDWR);
 #if MAC_OR_LINUX_
+                shutdown(_networkSocket, SHUT_RDWR);
                 close(_networkSocket);
 #else // ! MAC_OR_LINUX_
+                shutdown(_networkSocket, SD_BOTH);
                 closesocket(_networkSocket);
 #endif // ! MAC_OR_LINUX_
                 _networkSocket = INVALID_SOCKET;

@@ -221,8 +221,13 @@ int main(int      argc,
 
                     hostName = arguments[0];
                     OD_LOG_S1s("hostName <- ", hostName); //####
-                    if ((0 < inet_pton(AF_INET, hostName.c_str(), &addrBuff)) &&
-                        (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+#if MAC_OR_LINUX_
+                    int res = inet_pton(AF_INET, hostName.c_str(), &addrBuff);
+#else // ! MAC_OR_LINUX_
+                    int res = InetPton(AF_INET, hostName.c_str(), &addrBuff);
+#endif // ! MAC_OR_LINUX_
+
+                    if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
                         hostPort = tempInt;

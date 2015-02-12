@@ -49,12 +49,17 @@
 # pragma comment(lib, "ws2_32.lib")
 #endif // ! MAC_OR_LINUX_
 
+#if (! MAC_OR_LINUX_)
+//# include <Windows.h>
+#endif //! MAC_OR_LINUX_
+
 #if MAC_OR_LINUX_
 # include <sys/socket.h>
 # define SOCKET         int /* Standard socket type in *nix. */
 # define INVALID_SOCKET -1
 #else // ! MAC_OR_LINUX_
 # include <WinSock2.h>
+# include <Ws2tcpip.h>
 #endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
@@ -184,8 +189,13 @@ static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
     OD_LOG_L1("servicePort = ", servicePort); //####
     SOCKET         bridgeSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
+#if MAC_OR_LINUX_
+    int            res = inet_pton(AF_INET, serviceAddress.c_str(), &addrBuff);
+#else // ! MAC_OR_LINUX_
+    int            res = InetPton(AF_INET, serviceAddress.c_str(), &addrBuff);
+#endif // ! MAC_OR_LINUX_
     
-    if (0 < inet_pton(AF_INET, serviceAddress.c_str(), &addrBuff))
+    if (0 < res)
     {
         bridgeSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 #if MAC_OR_LINUX_
@@ -245,7 +255,11 @@ static void handleConnections(SOCKET                        listenSocket,
 
         for ( ; keepGoing; )
         {
+#if MAC_OR_LINUX_
             ssize_t inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
+#else // ! MAC_OR_LINUX_
+            int     inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
+#endif // ! MAC_OR_LINUX_
             
             if (0 < inSize)
             {
@@ -259,12 +273,14 @@ static void handleConnections(SOCKET                        listenSocket,
                 keepGoing = false;
             }
         }
+#if MAC_OR_LINUX_
         shutdown(bridgeSocket, SHUT_RDWR);
         shutdown(sinkSocket, SHUT_RDWR);
-#if MAC_OR_LINUX_
         close(bridgeSocket);
         close(sinkSocket);
 #else // ! MAC_OR_LINUX_
+        shutdown(bridgeSocket, SD_BOTH);
+        shutdown(sinkSocket, SD_BOTH);
         closesocket(bridgeSocket);
         closesocket(sinkSocket);
 #endif // ! MAC_OR_LINUX_

@@ -42,10 +42,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_)
-# pragma comment(lib, "ws2_32.lib")
-#endif // ! MAC_OR_LINUX_
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
@@ -140,8 +136,13 @@ static SOCKET connectToSource(const yarp::os::ConstString & dataAddress,
     OD_LOG_L1("dataPort = ", dataPort); //####
     SOCKET         dataSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
+#if MAC_OR_LINUX_
+    int            res = inet_pton(AF_INET, dataAddress.c_str(), &addrBuff);
+#else // ! MAC_OR_LINUX_
+    int            res = InetPton(AF_INET, dataAddress.c_str(), &addrBuff);
+#endif // ! MAC_OR_LINUX_
     
-    if (0 < inet_pton(AF_INET, dataAddress.c_str(), &addrBuff))
+    if (0 < res)
     {
         dataSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 #if MAC_OR_LINUX_
@@ -215,12 +216,14 @@ void ConnectionThread::run(void)
     if (INVALID_SOCKET == destinationSocket)
     {
         _service.setPort(-1);
+#if MAC_OR_LINUX_
         shutdown(_listenSocket, SHUT_RDWR);
         shutdown(_sourceSocket, SHUT_RDWR);
-#if MAC_OR_LINUX_
         close(_listenSocket);
         close(_sourceSocket);
 #else // ! MAC_OR_LINUX_
+        shutdown(_listenSocket, SD_BOTH);
+        shutdown(_sourceSocket, SD_BOTH);
         closesocket(_listenSocket);
         closesocket(_sourceSocket);
 #endif // ! MAC_OR_LINUX_
@@ -231,7 +234,11 @@ void ConnectionThread::run(void)
         
         for (bool keepGoing = true; keepGoing && (! isStopping()); )
         {
+#if MAC_OR_LINUX_
             ssize_t inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
+#else // ! MAC_OR_LINUX_
+            int     inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
+#endif // ! MAC_OR_LINUX_
             
             if (0 < inSize)
             {
@@ -247,14 +254,17 @@ void ConnectionThread::run(void)
             yarp::os::Time::yield();
         }
         _service.setPort(-1);
+#if MAC_OR_LINUX_
         shutdown(destinationSocket, SHUT_RDWR);
         shutdown(_listenSocket, SHUT_RDWR);
         shutdown(_sourceSocket, SHUT_RDWR);
-#if MAC_OR_LINUX_
         close(destinationSocket);
         close(_listenSocket);
         close(_sourceSocket);
 #else // ! MAC_OR_LINUX_
+        shutdown(destinationSocket, SD_BOTH);
+        shutdown(_listenSocket, SD_BOTH);
+        shutdown(_sourceSocket, SD_BOTH);
         closesocket(destinationSocket);
         closesocket(_listenSocket);
         closesocket(_sourceSocket);
@@ -271,7 +281,6 @@ void ConnectionThread::setSourceAddress(const yarp::os::ConstString & sourceName
     OD_LOG_L1("sourcePort = ", sourcePort); //####
     yarp::os::ConstString bridgeAddress;
     int                   bridgePort;
-    struct in_addr        addrBuff;
     
     _sourceAddress = sourceName;
     _sourcePort = sourcePort;
