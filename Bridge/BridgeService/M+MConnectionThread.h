@@ -71,7 +71,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
-             @param timeToWait The number of seconds to delay before triggering. */
+             @param service The service that manages the network connection. */
             ConnectionThread(BridgeService & service);
             
             /*! @brief The destructor. */

@@ -236,6 +236,7 @@ static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
 } // connectToBridge
 
 /*! @brief Handle the network connections.
+ @param listenSocket The 'listen' socket to use.
  @param serviceAddress The IP address to connect to.
  @param servicePort The port number to connect to. */
 static void handleConnections(SOCKET                        listenSocket,
