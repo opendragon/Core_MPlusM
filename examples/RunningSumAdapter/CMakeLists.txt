@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the running sum adapter application.
+#  Contains:   The CMAKE definitions for the Running Sum adapter application.
 #
 #  Written by: Norman Jaffe
 #

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the random burst input service.
+//  Contains:   The main application for the Random Burst input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,10 +49,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the random burst input service. */
+ @brief The main application for the Random Burst input service. */
 
 /*! @dir RandomBurstService
- @brief The set of files that implement the random burst input service. */
+ @brief The set of files that implement the Random Burst input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -88,10 +88,10 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the random burst input service.
+/*! @brief Set up the environment and start the Random Burst input service.
  @param burstPeriod The burst period, in seconds.
  @param burstSize The number of random values to generate in each burst.
- @param argv The arguments to be used with the random burst input service.
+ @param argv The arguments to be used with the Random Burst input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -301,12 +301,12 @@ static void setUpAndGo(double &                      burstPeriod,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the random burst input service.
+/*! @brief The entry point for running the Random Burst input service.
  
  The second, optional, argument is the number of random values to generate in each burst and the
  first, optional, argument is the burst period, in seconds.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the random burst input service.
+ @param argv The arguments to be used with the Random Burst input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

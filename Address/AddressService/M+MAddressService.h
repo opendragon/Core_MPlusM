@@ -69,7 +69,7 @@ namespace MplusM
     {
         class WhereRequestHandler;
         
-        /*! @brief The address service. */
+        /*! @brief The Address service. */
         class AddressService : public Common::BaseService
         {
         public :

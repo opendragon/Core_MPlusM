@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the random number adapter.
+//  Contains:   The main application for the Random Number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,10 +51,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the random number adapter. */
+ @brief The main application for the Random Number adapter. */
 
 /*! @dir RandomNumberAdapter
- @brief The set of files that implement the random number adapter. */
+ @brief The set of files that implement the Random Number adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -78,7 +78,7 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating the random number adapter.
+/*! @brief The entry point for creating the Random Number adapter.
  
  The program creates two YARP ports: an output port and an input port. Integers received in the
  input port are sent to the service as the number of random numbers to generate, with zero

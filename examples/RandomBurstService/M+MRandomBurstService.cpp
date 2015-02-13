@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the random burst input service.
+//  Contains:   The class definition for the Random Burst input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the random burst input service. */
+ @brief The class definition for the Random Burst input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -80,7 +80,7 @@ RandomBurstService::RandomBurstService(const yarp::os::ConstString & launchPath,
                                        const yarp::os::ConstString & serviceEndpointName,
                                        const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RANDOMBURST_CANONICAL_NAME,
-              "The random burst input service", "", serviceEndpointName, servicePortNumber),
+              "The Random Burst input service", "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####

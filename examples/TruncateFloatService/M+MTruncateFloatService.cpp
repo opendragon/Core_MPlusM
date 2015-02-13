@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the truncate float service.
+//  Contains:   The class definition for the Truncate Float service.
 //
 //  Written by: Norman Jaffe
 //
@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the truncate float service. */
+ @brief The class definition for the Truncate Float service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -80,7 +80,7 @@ TruncateFloatService::TruncateFloatService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & serviceEndpointName,
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_TRUNCATEFLOAT_CANONICAL_NAME,
-              "The truncate float service", "", serviceEndpointName, servicePortNumber),
+              "The Truncate Float service", "", serviceEndpointName, servicePortNumber),
     _inHandler(new TruncateFloatInputHandler)
 {
     OD_LOG_ENTER(); //####

@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the running sum client application.
+#  Contains:   The CMAKE definitions for the Running Sum client application.
 #
 #  Written by: Norman Jaffe
 #

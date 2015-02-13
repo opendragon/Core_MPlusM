@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the absorber output
+//  Contains:   The common macro definitions for requests and responses for the Absorber output
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -47,13 +47,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the absorber output
+ @brief The common macro definitions for requests and responses for the Absorber output
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the absorber output service. */
+/*! @brief The channel-independent name of the Absorber output service. */
 # define MpM_ABSORBER_CANONICAL_NAME "Absorber"
 
 #endif // ! defined(MpMAbsorberRequests_H_)

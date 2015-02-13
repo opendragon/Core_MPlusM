@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the bridge applications.
+#  Contains:   The CMAKE definitions for the Bridge applications.
 #
 #  Written by: Norman Jaffe
 #

@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the bridge service application.
+#  Contains:   The CMAKE definitions for the Bridge service application.
 #
 #  Written by: Norman Jaffe
 #

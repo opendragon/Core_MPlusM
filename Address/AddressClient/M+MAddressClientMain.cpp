@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the client of the address service.
+//  Contains:   The main application for the client of the Address service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,10 +49,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the client of the address service. */
+ @brief The main application for the client of the Address service. */
 
 /*! @dir AddressClient
- @brief The set of files that implement the address client. */
+ @brief The set of files that implement the Address client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -129,7 +129,7 @@ static void processArguments(const StringVector &    arguments,
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Address service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the address client.
+ @param argv The arguments to be used with the Address client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the echo service application.
+#  Contains:   The CMAKE definitions for the Echo service application.
 #
 #  Written by: Norman Jaffe
 #

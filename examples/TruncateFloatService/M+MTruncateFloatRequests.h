@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the truncate float
+//  Contains:   The common macro definitions for requests and responses for the Truncate Float
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -47,12 +47,12 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the truncate float service. */
+ @brief The common macro definitions for requests and responses for the Truncate Float service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the truncate float service. */
+/*! @brief The channel-independent name of the Truncate Float service. */
 # define MpM_TRUNCATEFLOAT_CANONICAL_NAME "TruncateFloat"
 
 #endif // ! defined(MpMTruncateFloatRequests_H_)

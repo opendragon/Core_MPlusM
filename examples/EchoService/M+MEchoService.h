@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the echo service.
+//  Contains:   The class declaration for the Echo service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the echo service. */
+ @brief The class declaration for the Echo service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -60,7 +60,7 @@ namespace MplusM
     {
         class EchoRequestHandler;
         
-        /*! @brief The echo service. */
+        /*! @brief The Echo service. */
         class EchoService : public Common::BaseService
         {
         public :

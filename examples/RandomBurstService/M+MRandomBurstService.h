@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the random burst input service.
+//  Contains:   The class declaration for the Random Burst input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the random burst input service. */
+ @brief The class declaration for the Random Burst input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -61,7 +61,7 @@ namespace MplusM
     {
         class RandomBurstThread;
         
-        /*! @brief The random burst input service. */
+        /*! @brief The Random Burst input service. */
         class RandomBurstService : public Common::BaseInputService
         {
         public :

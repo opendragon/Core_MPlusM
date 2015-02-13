@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the client of the echo service.
+//  Contains:   The class declaration for the client of the Echo service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the client of the echo service. */
+ @brief The class declaration for the client of the Echo service. */
 
 /*! @dir examples
  @brief The set of files that demonstrate features of the M+M framework. */
@@ -58,7 +58,7 @@ namespace MplusM
 {
     namespace Example
     {
-        /*! @brief A client for the echo service. */
+        /*! @brief A client for the Echo service. */
         class EchoClient : public Common::BaseClient
         {
         public :

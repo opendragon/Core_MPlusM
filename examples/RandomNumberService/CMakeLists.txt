@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the random number service application.
+#  Contains:   The CMAKE definitions for the Random Number service application.
 #
 #  Written by: Norman Jaffe
 #

@@ -78,7 +78,7 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating the alternative running sum adapter.
+/*! @brief The entry point for creating the alternative Running Sum adapter.
  
  The program creates two YARP ports: an output port and an input port.
  

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the running sum service.
+//  Contains:   The class definition for the Running Sum service.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,7 +52,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the running sum service. */
+ @brief The class definition for the Running Sum service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -82,7 +82,7 @@ RunningSumService::RunningSumService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_RUNNINGSUM_CANONICAL_NAME,
-              "The running sum service",
+              "The Running Sum service",
               "add - add one or more values to the running sum and return the sum\n"
               "reset - clear the running sum\n"
               "start - start adding values to the running sum\n"

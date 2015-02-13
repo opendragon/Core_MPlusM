@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the random number client.
+//  Contains:   The main application for the Random Number client.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,10 +48,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the random number client. */
+ @brief The main application for the Random Number client. */
 
 /*! @dir RandomNumberClient
- @brief The set of files that implement the random number client. */
+ @brief The set of files that implement the Random Number client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -80,7 +80,7 @@ using std::endl;
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-/*! @brief The entry point for communicating with the random number service.
+/*! @brief The entry point for communicating with the Random Number service.
  
  Integers read from standard input will be sent to the service as the number of random numbers to
  generate. Entering a zero will exit the program.

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a simple M+M service.
+//  Contains:   The class definition for an M+M Chord Generator service.
 //
 //  Written by: Norman Jaffe, Johnty Wang
 //

@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the address client application.
+#  Contains:   The CMAKE definitions for the Address client application.
 #
 #  Written by: Norman Jaffe
 #

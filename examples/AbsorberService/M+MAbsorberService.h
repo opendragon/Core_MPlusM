@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the absorber output service.
+//  Contains:   The class declaration for the Absorber output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the absorber output service. */
+ @brief The class declaration for the Absorber output service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -61,7 +61,7 @@ namespace MplusM
     {
         class AbsorberInputHandler;
         
-        /*! @brief The absorber output service. */
+        /*! @brief The Absorber output service. */
         class AbsorberService : public Common::BaseOutputService
         {
         public :

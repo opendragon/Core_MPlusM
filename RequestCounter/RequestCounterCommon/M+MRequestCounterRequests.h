@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the request counter
+//  Contains:   The common macro definitions for requests and responses for the Request Counter
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The common macro definitions for requests and responses for the request counter service. */
+ @brief The common macro definitions for requests and responses for the Request Counter service. */
 
 /*! @namespace MplusM::RequestCounter
  @brief The classes that support measuring the time for service requests. */
@@ -55,7 +55,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the request counter service. */
+/*! @brief The channel-independent name of the Request Counter service. */
 # define MpM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
 
 /*! @brief The name for the 'resetcounter' request. */

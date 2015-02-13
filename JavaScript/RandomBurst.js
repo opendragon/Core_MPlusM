@@ -38,7 +38,7 @@
 
 var burstSize;
 
-var scriptDescription = 'A script that generates random blocks floating-point numbers';
+var scriptDescription = 'A script that generates random blocks of floating-point numbers';
 
 var scriptHelp = 'The first argument is the burst period and the second argument is the burst size';
 

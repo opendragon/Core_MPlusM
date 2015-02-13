@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the echo service.
+//  Contains:   The main application for the Echo service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,13 +49,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the echo service. */
+ @brief The main application for the Echo service. */
 
 /*! @dir EchoCommon
- @brief The set of files that are shared between the echo client and the echo service. */
+ @brief The set of files that are shared between the Echo client and the Echo service. */
 
 /*! @dir EchoService
- @brief The set of files that implement the echo service. */
+ @brief The set of files that implement the Echo service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -75,8 +75,8 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the environment and start the echo service.
- @param argv The arguments to be used with the echo service.
+/*! @brief Set up the environment and start the Echo service.
+ @param argv The arguments to be used with the Echo service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -159,9 +159,9 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the echo service. 
+/*! @brief The entry point for running the Echo service. 
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the echo service.
+ @param argv The arguments to be used with the Echo service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

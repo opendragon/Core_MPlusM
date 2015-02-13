@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the custom data channel input handler used by the random
-//              number adapter.
+//  Contains:   The class definition for the custom data channel input handler used by the Random
+//              Number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the custom data channel input handler used by the random number
+ @brief The class definition for the custom data channel input handler used by the Random Number
  adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

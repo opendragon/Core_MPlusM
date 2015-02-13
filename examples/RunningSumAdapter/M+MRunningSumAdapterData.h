@@ -5,7 +5,7 @@
 //  Project:    M+M
 //
 //  Contains:   The class declaration for the data shared between the input handlers and main thread
-//              of the running sum adapter.
+//              of the Running Sum adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,7 +48,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  @brief The class declaration for the data shared between the input handlers and main thread of the
- running sum adapter. */
+ Running Sum adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

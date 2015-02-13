@@ -84,7 +84,7 @@ AddressService::AddressService(const yarp::os::ConstString & hostName,
                                const yarp::os::ConstString & serviceEndpointName,
                                const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_ADDRESS_CANONICAL_NAME,
-              "The address service",
+              "The Address service",
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _address(hostName), _whereHandler(NULL), _port(hostPort)
 {

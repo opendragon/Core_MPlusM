@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the request counter client application.
+#  Contains:   The CMAKE definitions for the Request Counter client application.
 #
 #  Written by: Norman Jaffe
 #

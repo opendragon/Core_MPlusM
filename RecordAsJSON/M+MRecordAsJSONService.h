@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the record as JSON output service.
+//  Contains:   The class declaration for the Record As JSON output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the record integers output service. */
+ @brief The class declaration for the Record As JSON output service. */
 
 /*! @namespace MplusM::RecordAsJSON
  @brief The classes that support recording messages as JSON. */
@@ -64,7 +64,7 @@ namespace MplusM
     {
         class RecordAsJSONInputHandler;
         
-        /*! @brief The record integers output service. */
+        /*! @brief The Record As JSON output service. */
         class RecordAsJSONService : public Common::BaseOutputService
         {
         public :

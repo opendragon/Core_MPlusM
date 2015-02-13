@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a default request handler used by the request counter
+//  Contains:   The class declaration for a default request handler used by the Request Counter
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a default request handler used by the request counter service. */
+ @brief The class declaration for a default request handler used by the Request Counter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

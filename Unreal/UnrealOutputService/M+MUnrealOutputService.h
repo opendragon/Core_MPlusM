@@ -73,7 +73,7 @@ namespace MplusM
         class UnrealOutputLeapInputHandler;
         class UnrealOutputViconInputHandler;
 
-        /*! @brief The exemplar output service. */
+        /*! @brief The %Unreal output service. */
         class UnrealOutputService : public Common::BaseOutputService
         {
         public :

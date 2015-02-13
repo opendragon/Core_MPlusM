@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the address service.
+//  Contains:   The main application for the Address service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,16 +49,16 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the address service. */
+ @brief The main application for the Address service. */
 
 /*! @dir Address
  @brief The set of files that support recording an IP address and port for later retrieval. */
 
 /*! @dir AddressCommon
- @brief The set of files that are shared between the address client and address service. */
+ @brief The set of files that are shared between the Address client and Address service. */
 
 /*! @dir AddressService
- @brief The set of files that implement the address service. */
+ @brief The set of files that implement the Address service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

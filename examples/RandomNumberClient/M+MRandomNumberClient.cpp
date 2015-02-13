@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the random number client.
+//  Contains:   The class definition for the Random Number client.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,7 +49,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the random number client. */
+ @brief The class definition for the Random Number client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

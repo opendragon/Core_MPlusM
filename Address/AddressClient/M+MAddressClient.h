@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the client of the address service.
+//  Contains:   The class declaration for the client of the Address service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The class declaration for the client of the address service. */
+ @brief The class declaration for the client of the Address service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -55,7 +55,7 @@ namespace MplusM
 {
     namespace Address
     {
-        /*! @brief A client for the address service. */
+        /*! @brief A client for the Address service. */
         class AddressClient : public Common::BaseClient
         {
         public :

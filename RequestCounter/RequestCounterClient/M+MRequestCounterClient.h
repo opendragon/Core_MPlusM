@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the client of the request counter service.
+//  Contains:   The class declaration for the client of the Request Counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The class declaration for the client of the request counter service. */
+ @brief The class declaration for the client of the Request Counter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -55,7 +55,7 @@ namespace MplusM
 {
     namespace RequestCounter
     {
-        /*! @brief A client for the request counter service. */
+        /*! @brief A client for the Request Counter service. */
         class RequestCounterClient : public Common::BaseClient
         {
         public :

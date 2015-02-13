@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the record integers output service application.
+#  Contains:   The CMAKE definitions for the Record Integers output service application.
 #
 #  Written by: Norman Jaffe
 #

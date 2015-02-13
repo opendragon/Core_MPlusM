@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the record integers output service.
+//  Contains:   The class definition for the Record Integers output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the record integers output service. */
+ @brief The class definition for the Record Integers output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -81,7 +81,7 @@ RecordIntegersService::RecordIntegersService(const yarp::os::ConstString & launc
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RECORDINTEGERS_CANONICAL_NAME,
-              "The record integers output service", "", serviceEndpointName, servicePortNumber),
+              "The Record Integers output service", "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
 {
     OD_LOG_ENTER(); //####

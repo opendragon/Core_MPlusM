@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a context used with the running sum service.
+//  Contains:   The class declaration for a context used with the Running Sum service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a context used with the running sum service. */
+ @brief The class declaration for a context used with the Running Sum service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -55,7 +55,7 @@ namespace MplusM
 {
     namespace Example
     {
-        /*! @brief A convenience class to provide context objects for the running sum service. */
+        /*! @brief A convenience class to provide context objects for the Running Sum service. */
         class RunningSumContext : public Common::BaseContext
         {
         public :

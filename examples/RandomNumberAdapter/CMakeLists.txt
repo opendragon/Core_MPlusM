@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the random number adapter application.
+#  Contains:   The CMAKE definitions for the Random Number adapter application.
 #
 #  Written by: Norman Jaffe
 #

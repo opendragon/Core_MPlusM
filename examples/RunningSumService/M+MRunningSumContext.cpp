@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a contexts used with the running sum service.
+//  Contains:   The class definition for a contexts used with the Running Sum service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for a context used with the running sum service. */
+ @brief The class definition for a context used with the Running Sum service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

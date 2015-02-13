@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the input channel input handler used by the record
-//              integers output service.
+//  Contains:   The class declaration for the input channel input handler used by the Record
+//              Integers output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the input channel input handler used by the record integers output
+ @brief The class declaration for the input channel input handler used by the Record Integers output
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

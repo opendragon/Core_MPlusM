@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the echo service.
+//  Contains:   The class definition for the Echo service.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,7 +48,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the echo service. */
+ @brief The class definition for the Echo service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -78,7 +78,7 @@ EchoService::EchoService(const yarp::os::ConstString & launchPath,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_ECHO_CANONICAL_NAME,
-              "The echo service", "echo - send back any values given with the request",
+              "The Echo service", "echo - send back any values given with the request",
               serviceEndpointName, servicePortNumber), _echoHandler(NULL)
 {
     OD_LOG_ENTER(); //####

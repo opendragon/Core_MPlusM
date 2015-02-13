@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the random number service.
+//  Contains:   The class declaration for the Random Number service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the random number service. */
+ @brief The class declaration for the Random Number service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -60,7 +60,7 @@ namespace MplusM
     {
         class RandomRequestHandler;
         
-        /*! @brief The random number service. */
+        /*! @brief The Random Number service. */
         class RandomNumberService : public Common::BaseService
         {
         public :

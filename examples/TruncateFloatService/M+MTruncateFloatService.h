@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the truncate float service.
+//  Contains:   The class declaration for the Truncate Float service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the truncate float service. */
+ @brief The class declaration for the Truncate Float service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,7 +62,7 @@ namespace MplusM
         class TruncateFloatInputHandler;
         class TruncateFloatRequestHandler;
         
-        /*! @brief The truncate float service. */
+        /*! @brief The Truncate Float service. */
         class TruncateFloatService : public Common::BaseFilterService
         {
         public :

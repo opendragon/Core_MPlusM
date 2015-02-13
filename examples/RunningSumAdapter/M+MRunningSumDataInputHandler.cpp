@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the custom data channel input handler used by the running
-//              sum adapter.
+//  Contains:   The class definition for the custom data channel input handler used by the Running
+//              Sum adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,7 +52,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the custom data channel input handler used by the running sum
+ @brief The class definition for the custom data channel input handler used by the Running Sum
  adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

@@ -46,12 +46,12 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the random number service. */
+ @brief The common macro definitions for requests and responses for the Random Number service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the random number service. */
+/*! @brief The channel-independent name of the Random Number service. */
 # define MpM_CHORD_GENERATOR_NAME "Chords"
 
 /*! @brief The name for the 'random' request. */

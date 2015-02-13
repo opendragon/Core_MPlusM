@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the client of the request counter service.
+//  Contains:   The main application for the client of the Request Counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,10 +48,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the client of the request counter service. */
+ @brief The main application for the client of the Request Counter service. */
 
 /*! @dir RequestCounterClient
- @brief The set of files that implement the request counter client. */
+ @brief The set of files that implement the Request Counter client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

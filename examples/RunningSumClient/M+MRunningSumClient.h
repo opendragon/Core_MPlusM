@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the running sum client.
+//  Contains:   The class declaration for the Running Sum client.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the running sum client. */
+ @brief The class declaration for the Running Sum client. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -55,7 +55,7 @@ namespace MplusM
 {
     namespace Example
     {
-        /*! @brief The running sum client. */
+        /*! @brief The Running Sum client. */
         class RunningSumClient : public Common::BaseClient
         {
         public :

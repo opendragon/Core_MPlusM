@@ -5,7 +5,7 @@
 //  Project:    M+M
 //
 //  Contains:   The class declaration for the data shared between the input handlers and main thread
-//              of the random number adapter.
+//              of the Random Number adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,7 +48,7 @@
 # endif // defined(__APPLE__)
 /*! @file
  @brief The class declaration for the data shared between the input handlers and main thread of the
- random number adapter. */
+ Random Number adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -60,7 +60,7 @@ namespace MplusM
         class RandomNumberClient;
         
         /*! @brief The data shared between the input handlers and the main thread of
-         the random number adapter. */
+         the Random Number adapter. */
         class RandomNumberAdapterData : public Common::BaseAdapterData
         {
         public :

@@ -64,7 +64,7 @@ namespace MplusM
     {
         class ViconDataStreamEventThread;
         
-        /*! @brief The exemplar input service. */
+        /*! @brief The Vicon DataStream input service. */
         class  ViconDataStreamInputService : public Common::BaseInputService
         {
         public :

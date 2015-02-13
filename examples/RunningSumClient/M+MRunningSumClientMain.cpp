@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the running sum client.
+//  Contains:   The main application for the Running Sum client.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,9 +48,9 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the running sum client. */
+ @brief The main application for the Running Sum client. */
 /*! @dir RunningSumClient
- @brief The set of files that implement the running sum client. */
+ @brief The set of files that implement the Running Sum client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -92,7 +92,7 @@ static void displayCommands(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-/*! @brief The entry point for communicating with the running sum service.
+/*! @brief The entry point for communicating with the Running Sum service.
  
  Commands from standard input will be interpreted and will result in requests being sent to the
  service.

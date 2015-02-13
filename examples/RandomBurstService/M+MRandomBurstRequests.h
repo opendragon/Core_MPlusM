@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the random burst input
+//  Contains:   The common macro definitions for requests and responses for the Random Burst input
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -47,13 +47,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the random burst input
+ @brief The common macro definitions for requests and responses for the Random Burst input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the random burst input service. */
+/*! @brief The channel-independent name of the Random Burst input service. */
 # define MpM_RANDOMBURST_CANONICAL_NAME "RandomBurst"
 
 #endif // ! defined(MpMRandomBurstRequests_H_)

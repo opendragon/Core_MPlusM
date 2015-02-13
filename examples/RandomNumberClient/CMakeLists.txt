@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the random number client application.
+#  Contains:   The CMAKE definitions for the Random Number client application.
 #
 #  Written by: Norman Jaffe
 #

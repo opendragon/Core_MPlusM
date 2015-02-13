@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the address applications.
+#  Contains:   The CMAKE definitions for the Address applications.
 #
 #  Written by: Norman Jaffe
 #

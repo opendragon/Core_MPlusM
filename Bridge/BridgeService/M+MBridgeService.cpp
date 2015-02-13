@@ -87,7 +87,7 @@ BridgeService::BridgeService(const yarp::os::ConstString & sourceName,
                              const yarp::os::ConstString & serviceEndpointName,
                              const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_BRIDGE_CANONICAL_NAME,
-              "The bridge service",
+              "The Bridge service",
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _listenAddress(""), _sourceAddress(sourceName),
     _whereHandler(NULL), _connection(new ConnectionThread(*this)), _listenPort(-1),

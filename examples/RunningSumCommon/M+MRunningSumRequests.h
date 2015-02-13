@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the running sum service.
+//  Contains:   The common macro definitions for requests and responses for the Running Sum service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,12 +46,12 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the running sum service. */
+ @brief The common macro definitions for requests and responses for the Running Sum service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the running sum service. */
+/*! @brief The channel-independent name of the Running Sum service. */
 # define MpM_RUNNINGSUM_CANONICAL_NAME "RunningSum"
 
 /*! @brief The name for the 'addToSum' request. */

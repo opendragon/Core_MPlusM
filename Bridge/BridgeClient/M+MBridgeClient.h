@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the client of the bridge service.
+//  Contains:   The class declaration for the client of the Bridge service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The class declaration for the client of the bridge service. */
+ @brief The class declaration for the client of the Bridge service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -55,7 +55,7 @@ namespace MplusM
 {
     namespace Bridge
     {
-        /*! @brief A client for the bridge service. */
+        /*! @brief A client for the Bridge service. */
         class BridgeClient : public Common::BaseClient
         {
         public :

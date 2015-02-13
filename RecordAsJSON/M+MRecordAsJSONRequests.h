@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the record as JSON
+//  Contains:   The common macro definitions for requests and responses for the Record As JSON
 //              output service.
 //
 //  Written by: Norman Jaffe
@@ -47,13 +47,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the record as JSON output
+ @brief The common macro definitions for requests and responses for the Record As JSON output
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the record as JSON output service. */
+/*! @brief The channel-independent name of the Record As JSON output service. */
 # define MpM_RECORDASJSON_CANONICAL_NAME "RecordAsJSON"
 
 #endif // ! defined(MpMRecordAsJSONRequests_H_)

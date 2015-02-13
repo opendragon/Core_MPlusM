@@ -57,7 +57,7 @@ namespace MplusM
     {
         class BridgeService;
         
-        /*! @brief The 'where' request handler for the bridge service.
+        /*! @brief The 'where' request handler for the Bridge service.
          
          There is no input or output for the request. */
         class WhereRequestHandler : public Common::BaseRequestHandler

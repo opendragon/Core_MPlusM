@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the client of the echo service.
+//  Contains:   The main application for the client of the Echo service.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,10 +48,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the client of the echo service. */
+ @brief The main application for the client of the Echo service. */
 
 /*! @dir EchoClient
- @brief The set of files that implement the client for the echo service. */
+ @brief The set of files that implement the client for the Echo service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -80,7 +80,7 @@ using std::endl;
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-/*! @brief The entry point for communicating with the echo service.
+/*! @brief The entry point for communicating with the Echo service.
  
  Strings read from standard input will be sent to the service. Entering an end-of-file will exit the program.
  @param argc The number of arguments in 'argv'.

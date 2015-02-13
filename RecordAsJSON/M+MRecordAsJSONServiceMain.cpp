@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the record as JSON output service.
+//  Contains:   The main application for the Record As JSON output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,10 +49,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the record as JSON output service. */
+ @brief The main application for the Record As JSON output service. */
 
 /*! @dir RecordAsJSON
- @brief The set of files that implement the record as JSON output service. */
+ @brief The set of files that implement the Record As JSON output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -88,9 +88,9 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the record as JSON output service.
+/*! @brief Set up the environment and start the Record As JSON output service.
  @param recordPath The path to the file being written.
- @param argv The arguments to be used with the record as JSON output service.
+ @param argv The arguments to be used with the Record As JSON output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -287,11 +287,11 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the record as JSON output service.
+/*! @brief The entry point for running the Record As JSON output service.
  
  The first, optional, argument is the path to the file being written.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the record as JSON output service.
+ @param argv The arguments to be used with the Record As JSON output service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

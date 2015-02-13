@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the input channel input handler used by the truncate
-//              float service.
+//  Contains:   The class declaration for the input channel input handler used by the Truncate
+//              Float service.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the input channel input handler used by the truncate float
+ @brief The class declaration for the input channel input handler used by the Truncate Float
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

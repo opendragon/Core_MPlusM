@@ -70,7 +70,7 @@ namespace MplusM
         class ConnectionThread;
         class WhereRequestHandler;
         
-        /*! @brief The bridge service. */
+        /*! @brief The Bridge service. */
         class BridgeService : public Common::BaseService
         {
         public :

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the running sum adapter.
+//  Contains:   The main application for the Running Sum adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,10 +52,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the running sum adapter. */
+ @brief The main application for the Running Sum adapter. */
 
 /*! @dir RunningSumAdapter
- @brief The set of files that implement the running sum adapter. */
+ @brief The set of files that implement the Running Sum adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -79,7 +79,7 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating the running sum adapter.
+/*! @brief The entry point for creating the Running Sum adapter.
  
  The program creates three YARP ports: an output port and two input ports - a control port to
  receive commands and a data port to receive a sequence of numbers to be added. Commands are

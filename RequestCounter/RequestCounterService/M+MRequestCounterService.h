@@ -62,7 +62,7 @@ namespace MplusM
         class ResetCounterRequestHandler;
         class StatsRequestHandler;
         
-        /*! @brief The request counter service. */
+        /*! @brief The Request Counter service. */
         class RequestCounterService : public Common::BaseService
         {
         public :

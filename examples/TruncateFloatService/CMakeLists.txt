@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the truncate float service application.
+#  Contains:   The CMAKE definitions for the Truncate Float service application.
 #
 #  Written by: Norman Jaffe
 #

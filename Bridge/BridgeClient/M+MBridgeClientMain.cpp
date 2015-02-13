@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the client of the bridge service.
+//  Contains:   The main application for the client of the Bridge service.
 //
 //  Written by: Norman Jaffe
 //
@@ -62,10 +62,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the client of the bridge service. */
+ @brief The main application for the client of the Bridge service. */
 
 /*! @dir BridgeClient
- @brief The set of files that implement the bridge client. */
+ @brief The set of files that implement the Bridge client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -294,7 +294,7 @@ static void handleConnections(SOCKET                        listenSocket,
 #endif // ! MAC_OR_LINUX_
 /*! @brief The entry point for communicating with the Bridge service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the bridge client.
+ @param argv The arguments to be used with the Bridge client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

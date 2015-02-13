@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the running sum service.
+//  Contains:   The class declaration for the Running Sum service.
 //
 //  Written by: Norman Jaffe
 //
@@ -46,7 +46,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the running sum service. */
+ @brief The class declaration for the Running Sum service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -63,7 +63,7 @@ namespace MplusM
         class StartSumRequestHandler;
         class StopSumRequestHandler;
         
-        /*! @brief The running sum service. */
+        /*! @brief The Running Sum service. */
         class RunningSumService : public Common::BaseService
         {
         public :

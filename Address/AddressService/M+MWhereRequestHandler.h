@@ -57,7 +57,7 @@ namespace MplusM
     {
         class AddressService;
         
-        /*! @brief The 'where' request handler for the address service.
+        /*! @brief The 'where' request handler for the Address service.
          
          There is no input or output for the request. */
         class WhereRequestHandler : public Common::BaseRequestHandler

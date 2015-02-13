@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the echo
+//  Contains:   The common macro definitions for requests and responses for the Echo
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -51,12 +51,12 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the echo service. */
+ @brief The common macro definitions for requests and responses for the Echo service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the example echo service. */
+/*! @brief The channel-independent name of the example Echo service. */
 # define MpM_ECHO_CANONICAL_NAME "RGBLED"
 
 #endif // ! defined(MpMRGBLEDRequests_H_)

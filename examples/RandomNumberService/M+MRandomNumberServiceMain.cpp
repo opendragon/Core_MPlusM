@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the random number service.
+//  Contains:   The main application for the Random Number service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,14 +49,14 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the random number service. */
+ @brief The main application for the Random Number service. */
 
 /*! @dir RandomNumberCommon
- @brief The set of files that are shared between the random number client and the random
- number service. */
+ @brief The set of files that are shared between the Random Number client and the Random
+ Number service. */
 
 /*! @dir RandomNumberService
- @brief The set of files that implement the random number service. */
+ @brief The set of files that implement the Random Number service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -76,8 +76,8 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the environment and start the random number service.
- @param argv The arguments to be used with the random number service.
+/*! @brief Set up the environment and start the Random Number service.
+ @param argv The arguments to be used with the Random Number service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -161,9 +161,9 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the random number service.
+/*! @brief The entry point for running the Random Number service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the random number service.
+ @param argv The arguments to be used with the Random Number service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

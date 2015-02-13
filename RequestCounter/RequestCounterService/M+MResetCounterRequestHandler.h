@@ -57,7 +57,7 @@ namespace MplusM
     {
         class RequestCounterService;
         
-        /*! @brief The 'resetcounter' request handler for the request counter service.
+        /*! @brief The 'resetcounter' request handler for the Request Counter service.
          
          There is no input or output for the request. */
         class ResetCounterRequestHandler : public Common::BaseRequestHandler

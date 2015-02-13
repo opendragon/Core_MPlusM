@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the address service.
+//  Contains:   The main application for the Address service.
 //
 //  Written by: Norman Jaffe
 //
@@ -54,16 +54,16 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the bridge service. */
+ @brief The main application for the Bridge service. */
 
 /*! @dir Bridge
  @brief The set of files that support routing non-YARP data via YARP. */
 
 /*! @dir BridgeCommon
- @brief The set of files that are shared between the bridge client and bridge service. */
+ @brief The set of files that are shared between the Bridge client and Bridge service. */
 
 /*! @dir BridgeService
- @brief The set of files that implement the bridge service. */
+ @brief The set of files that implement the Bridge service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

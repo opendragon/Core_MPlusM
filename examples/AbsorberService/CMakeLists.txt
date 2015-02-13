@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the absorber output service application.
+#  Contains:   The CMAKE definitions for the Absorber output service application.
 #
 #  Written by: Norman Jaffe
 #

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the request counter service.
+//  Contains:   The main application for the Request Counter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,17 +49,17 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the request counter service. */
+ @brief The main application for the Request Counter service. */
 
 /*! @dir RequestCounter
  @brief The set of files that support counting requests. */
 
 /*! @dir RequestCounterCommon
- @brief The set of files that are shared between the request counter client and request counter
+ @brief The set of files that are shared between the Request Counter client and Request Counter
  service. */
 
 /*! @dir RequestCounterService
- @brief The set of files that implement the request counter service. */
+ @brief The set of files that implement the Request Counter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

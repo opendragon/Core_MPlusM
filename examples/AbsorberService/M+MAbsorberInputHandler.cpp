@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the input channel input handler used by the absorber output
+//  Contains:   The class definition for the input channel input handler used by the Absorber output
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -48,7 +48,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the input channel input handler used by the absorber output
+ @brief The class definition for the input channel input handler used by the Absorber output
  service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
