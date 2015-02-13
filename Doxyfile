@@ -908,7 +908,13 @@ EXCLUDE                = CMakeFiles \
                          mpm/swig_mpm_out \
                          odl/swig_odl_in \
                          odl/swig_odl_out \
-                         ViconDataStream/ViconDataStreamInputService/ViconLib
+                         ViconDataStream/ViconDataStreamInputService/ViconLib \
+                         Address/AddressClient/CMakeFiles \
+                         Address/AddressService/CMakeFiles \
+                         Address/CMakeFiles \
+                         Bridge/BridgeClient/CMakeFiles \
+                         Bridge/BridgeService/CMakeFiles \
+                         Bridge/CMakeFiles
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -1106,7 +1112,7 @@ VERBATIM_HEADERS       = YES
 # compiled with the --with-libclang option.
 # The default value is: NO.
 
-CLANG_ASSISTED_PARSING = NO
+CLANG_ASSISTED_PARSING = YES
 
 # If clang assisted parsing is enabled you can provide the compiler with command
 # line options that you would normally use when invoking the compiler. Note that
@@ -1114,7 +1120,7 @@ CLANG_ASSISTED_PARSING = NO
 # specified with INPUT and INCLUDE_PATH.
 # This tag requires that the tag CLANG_ASSISTED_PARSING is set to YES.
 
-CLANG_OPTIONS          = "-I../../unix -I../../include -I../common -I/usr/lib/clang/4.0/include"
+CLANG_OPTIONS          = "-I/opt/M+M/include -I../../unix -I../../include -I../common -I/usr/lib/clang/4.0/include"
 
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index

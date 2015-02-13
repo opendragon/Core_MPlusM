@@ -42,12 +42,14 @@
 #include "M+MRGBLEDService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MUtilities.h>
 
 //#include "ODEnableLogging.h"
 #include "ODLogging.h"
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -92,8 +94,7 @@ static void setUpAndGo(char * *                      argv,
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    RGBLEDService * stuff = new RGBLEDService(*argv, tag, serviceEndpointName, serviceHostName,
-                                              servicePortNumber);
+    RGBLEDService * stuff = new RGBLEDService(*argv, tag, serviceEndpointName, servicePortNumber);
     
     if (stuff)
     {
@@ -185,7 +186,7 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        if (s(argc, argv, "", DEFAULT_ECHO_SERVICE_NAME, nameWasSet,
+        if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_ECHO_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))
         {

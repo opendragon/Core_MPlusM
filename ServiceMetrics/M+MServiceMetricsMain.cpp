@@ -48,6 +48,7 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 
@@ -55,7 +56,7 @@
  @brief A utility application to display the metrics for one or more services. */
 
 /*! @dir ServiceMetrics
- @brief The set of files that implement the service metrics application. */
+ @brief The set of files that implement the Service Metrics application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

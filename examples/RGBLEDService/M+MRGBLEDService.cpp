@@ -48,6 +48,7 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -126,7 +127,7 @@ void RGBLEDService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // EchoService::attachRequestHandlers
 
-void EchoService::detachRequestHandlers(void)
+void RGBLEDService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
@@ -144,9 +145,9 @@ void EchoService::detachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // EchoService::detachRequestHandlers
+} // RGBLEDService::detachRequestHandlers
 
-bool EchoService::start(void)
+bool RGBLEDService::start(void)
 {
     OD_LOG_OBJENTER();//####
     try
@@ -171,9 +172,9 @@ bool EchoService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted());//####
     return isStarted();
-} // EchoService::start
+} // RGBLEDService::start
 
-bool EchoService::stop(void)
+bool RGBLEDService::stop(void)
 {
     OD_LOG_OBJENTER();//####
     bool result = false;
@@ -189,4 +190,4 @@ bool EchoService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // EchoService::stop
+} // RGBLEDService::stop

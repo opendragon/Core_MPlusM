@@ -45,13 +45,14 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
  @brief A utility application to list the available ports. */
 
 /*! @dir PortLister
- @brief The set of files that implement the port lister application. */
+ @brief The set of files that implement the Port Lister application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

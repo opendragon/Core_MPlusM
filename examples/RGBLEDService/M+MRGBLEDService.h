@@ -47,6 +47,7 @@
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
@@ -74,7 +75,7 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RGBLEDService(const char *                  launchPath,
+            RGBLEDService(const yarp::os::ConstString & launchPath,
                           const yarp::os::ConstString & tag,
                           const yarp::os::ConstString & serviceEndpointName,
                           const yarp::os::ConstString & servicePortNumber = "");

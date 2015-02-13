@@ -48,6 +48,7 @@
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
+# pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -131,8 +132,8 @@ void RGBLEDRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input\n"
                  "Input: R G B(floats between 0.0 and 1.0) for colour values"
                  "Output: 1 if ok");
-        yarp::os::Value   keywords;
-        Common::Package * asList = keywords.asList();
+        yarp::os::Value    keywords;
+        yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
@@ -150,7 +151,7 @@ void RGBLEDRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
 bool RGBLEDRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const Common::Package &       restOfInput,
+                                          const yarp::os::Bottle &      restOfInput,
                                           const yarp::os::ConstString & senderChannel,
                                           yarp::os::ConnectionWriter *  replyMechanism)
 {
@@ -169,7 +170,7 @@ bool RGBLEDRequestHandler::processRequest(const yarp::os::ConstString & request,
     {
         if (replyMechanism)
         {
-            Common::Package argsCopy(restOfInput);
+            yarp::os::Bottle argsCopy(restOfInput);
             
             sendResponse(argsCopy, replyMechanism);
         }
