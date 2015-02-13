@@ -246,6 +246,12 @@ void ConnectionThread::run(void)
                 {
                     keepGoing = false;
                 }
+                else
+                {
+                    Common::SendReceiveCounters newCount(1, inSize, 1, inSize);
+                    
+                    _service.incrementAuxiliaryCounters(newCount);
+                }
             }
             else
             {

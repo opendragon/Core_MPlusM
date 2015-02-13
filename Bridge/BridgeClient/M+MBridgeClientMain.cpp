@@ -48,10 +48,6 @@
 # pragma comment(lib, "ws2_32.lib")
 #endif // ! MAC_OR_LINUX_
 
-#if (! MAC_OR_LINUX_)
-//# include <Windows.h>
-#endif //! MAC_OR_LINUX_
-
 #if MAC_OR_LINUX_
 # include <sys/socket.h>
 # define SOCKET         int /* Standard socket type in *nix. */
