@@ -55,7 +55,7 @@ install(FILES "${MpM_SOURCE_DIR}/bonjoursdksetup.exe"
 # so VS external, preconfigured projects can find them
 
 set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers")
-set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp-2.3.61")
+set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../../yarp")
 
 #ACE HEADERS
 #install(DIRECTORY "${MpM_ACE_ROOT}/ace"
