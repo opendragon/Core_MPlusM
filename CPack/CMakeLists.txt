@@ -1,7 +1,7 @@
 #General Packaging Stuff
 set(CPACK_PACKAGE_NAME "M+M")
 set(CPACK_VENDOR "Movement and Meaning")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "M+M Test Package")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "M+M Package")
 set(CPACK_PACKAGE_VERSION "1.0.0")
 set(CPACK_PACKAGE_VERSION_MAJOR "1")
 set(CPACK_PACKAGE_VERSION_MINOR "0")
@@ -54,75 +54,78 @@ install(FILES "${MpM_SOURCE_DIR}/bonjoursdksetup.exe"
 # set env variables for MpM_YARP_DIR and MpM_ACE_ROOT
 # so VS external, preconfigured projects can find them
 
+set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers")
+set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp-2.3.61")
+
 #ACE HEADERS
-#install(DIRECTORY ${MpM_SOURCE_DIR}/../ACE_wrappers/ace
+#install(DIRECTORY "${MpM_ACE_ROOT}/ace"
 #		DESTINATION ACE_wrappers
 #		COMPONENT libraries)
 
 #ACE DLL
-install(FILES 	"${MpM_SOURCE_DIR}/../ACE_wrappers/lib/ACE.dll"
+install(FILES 	"${MpM_ACE_ROOT}/lib/ACE.dll"
             DESTINATION bin
             COMPONENT libraries)
 #ACE LIB
-install(FILES 	"${MpM_SOURCE_DIR}/../ACE_wrappers/lib/ACE.lib"
+install(FILES 	"${MpM_ACE_ROOT}/lib/ACE.lib"
             DESTINATION lib
             COMPONENT libraries)
 
 
 #YARP HEADERS
-install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/generated_include 
+install(DIRECTORY "${MpM_YARP_DIR}/generated_include" 
 		DESTINATION yarp 
 		COMPONENT libraries)
 		
-install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_OS/include
+install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_OS/include"
 		DESTINATION yarp/src/libYARP_OS/
 		COMPONENT libraries)
 
-install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_name/include
+install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_name/include"
 		DESTINATION yarp/src/libYARP_name/
 		COMPONENT libraries)
 
-install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_dev/include
+install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_dev/include"
 		DESTINATION yarp/src/libYARP_dev/
 		COMPONENT libraries)
 
-install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_math/include
+install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_math/include"
 		DESTINATION yarp/src/libYARP_math/
 		COMPONENT libraries)
 
-install(DIRECTORY ${MpM_SOURCE_DIR}/../yarp/src/libYARP_sig/include
+install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_sig/include"
 		DESTINATION yarp/src/libYARP_sig/
 		COMPONENT libraries)		
 
 #YARP EXES
-install(FILES 	"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarp.exe"
-				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarpserver.exe"
-				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarpserver2.exe"
-				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarpserver3.exe"
-				"${MpM_SOURCE_DIR}/../yarp/bin/Release/yarp-config.exe"
+install(FILES 	"${MpM_YARP_DIR}/bin/Release/yarp.exe"
+				"${MpM_YARP_DIR}/bin/Release/yarpserver.exe"
+				"${MpM_YARP_DIR}/bin/Release/yarpserver2.exe"
+				"${MpM_YARP_DIR}/bin/Release/yarpserver3.exe"
+				"${MpM_YARP_DIR}/bin/Release/yarp-config.exe"
             DESTINATION bin
             COMPONENT applications)
 		
 #YARP LIBS
-install(FILES 	"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_OS.lib"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_dev.lib"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_name.lib"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_init.lib"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_sig.lib"
+install(FILES 	"${MpM_YARP_DIR}/lib/Release/YARP_OS.lib"
+				"${MpM_YARP_DIR}/lib/Release/YARP_dev.lib"
+				"${MpM_YARP_DIR}/lib/Release/YARP_name.lib"
+				"${MpM_YARP_DIR}/lib/Release/YARP_init.lib"
+				"${MpM_YARP_DIR}/lib/Release/YARP_sig.lib"
             DESTINATION lib
             COMPONENT libraries)
 
 #YARP DLLS
-install(FILES 	"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_OS.dll"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_dev.dll"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_name.dll"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_init.dll"
-				"${MpM_SOURCE_DIR}/../yarp/lib/Release/YARP_sig.dll"
+install(FILES 	"${MpM_YARP_DIR}/lib/Release/YARP_OS.dll"
+				"${MpM_YARP_DIR}/lib/Release/YARP_dev.dll"
+				"${MpM_YARP_DIR}/lib/Release/YARP_name.dll"
+				"${MpM_YARP_DIR}/lib/Release/YARP_init.dll"
+				"${MpM_YARP_DIR}/lib/Release/YARP_sig.dll"
             DESTINATION bin
             COMPONENT libraries)
 			
 #OTHER EXES
-install(FILES 	"${MpM_SOURCE_DIR}/../Utilities/ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
+install(FILES 	"${MpM_SOURCE_DIR}/../ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
         DESTINATION bin
         COMPONENT applications)
 

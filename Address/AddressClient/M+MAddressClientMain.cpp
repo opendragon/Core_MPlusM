@@ -115,7 +115,9 @@ static void processArguments(const StringVector &    arguments,
     }
     if (0 < tag.length())
     {
-        namePattern = "'" + namePattern + " " + tag + "'";
+        yarp::os::ConstString singleQuote("'");
+
+        namePattern = singleQuote + namePattern + " " + tag + singleQuote;
     }
     OD_LOG_EXIT(); //####
 } // processArguments
