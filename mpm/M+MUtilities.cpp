@@ -127,7 +127,7 @@ static ChannelStatusReporter * lReporter = NULL;
 static const char * kLineMarker = "registration name ";
 
 /*! @brief The part name being used for probing connections. */
-static const char * kMagicName = "<!!!>";
+static const char * kMagicName = "<$probe>";
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -1127,95 +1127,104 @@ void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                                       void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("portName = ", portName); //####
     OD_LOG_P3("inputs = ", &inputs, "outputs = ", &outputs, "checkStuff = ", checkStuff); //####
     OD_LOG_L1("which = ", static_cast<int>(which)); //####
     OD_LOG_B1("quiet = ", quiet); //####
-    yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
-    
     inputs.clear();
     outputs.clear();
-    if (address.isValid())
+    try
     {
-        if ((address.getCarrier() == "tcp") || (address.getCarrier() == "fast_tcp") ||
-            (address.getCarrier() == "xmlrpc"))
+        yarp::os::Contact address = yarp::os::Network::queryName(portName.c_str());
+    
+        if (address.isValid())
         {
-            // Note that the following connect() call will hang indefinitely if the address given is
-            // for an 'output' port that is connected to another 'output' port. 'yarp ping /port'
-            // will hang as well.
-            yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
-            
-            if (out)
+            if ((address.getCarrier() == "tcp") || (address.getCarrier() == "fast_tcp") ||
+                (address.getCarrier() == "xmlrpc"))
             {
-                yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
-                
-                if (out->open(rr))
+                // Note that the following connect() call will hang indefinitely if the address given is
+                // for an 'output' port that is connected to another 'output' port. 'yarp ping /port'
+                // will hang as well.
+                yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
+            
+                if (out)
                 {
-                    yarp::os::Bottle                         resp;
-                    yarp::os::impl::BufferedConnectionWriter bw(out->getConnection().isTextMode());
-                    yarp::os::InputStream &                  is = out->getInputStream();
-                    yarp::os::OutputStream &                 os = out->getOutputStream();
-                    yarp::os::impl::PortCommand              pc(0, "*");
-                    yarp::os::impl::StreamConnectionReader   reader;
-                    
-                    pc.write(bw);
-                    bw.write(os);
-                    reader.reset(is, NULL, rr, 0, true);
-                    for (bool done = false; ! done; )
+                    yarp::os::Route rr(kMagicName, portName.c_str(), "text_ack");
+                
+                    if (out->open(rr))
                     {
-                        if (checker && checker(checkStuff))
+                        yarp::os::Bottle                         resp;
+                        yarp::os::impl::BufferedConnectionWriter bw(out->getConnection().isTextMode());
+                        yarp::os::InputStream &                  is = out->getInputStream();
+                        yarp::os::OutputStream &                 os = out->getOutputStream();
+                        yarp::os::impl::PortCommand              pc(0, "*");
+                        yarp::os::impl::StreamConnectionReader   reader;
+                    
+                        pc.write(bw);
+                        bw.write(os);
+                        reader.reset(is, NULL, rr, 0, true);
+                        for (bool done = false; ! done; )
                         {
-                            break;
-                        }
-                            
-                        resp.read(reader);
-                        yarp::os::ConstString checkString(resp.get(0).asString());
-                        
-                        if (checkString == "<ACK>")
-                        {
-                            done = true;
-                        }
-                        else if (checkString == "There")
-                        {
-                            if (static_cast<int>(which) &
-                                static_cast<int>(kInputAndOutputInput))
+                            if (checker && checker(checkStuff))
                             {
-                                checkForInputConnection(resp, inputs);
+                                break;
                             }
-                            if (static_cast<int>(which) &
-                                static_cast<int>(kInputAndOutputOutput))
+                            
+                            resp.read(reader);
+                            yarp::os::ConstString checkString(resp.get(0).asString());
+                        
+                            if (checkString == "<ACK>")
                             {
-                                checkForOutputConnection(resp, outputs);
+                                done = true;
+                            }
+                            else if (checkString == "There")
+                            {
+                                if (static_cast<int>(which) &
+                                    static_cast<int>(kInputAndOutputInput))
+                                {
+                                    checkForInputConnection(resp, inputs);
+                                }
+                                if (static_cast<int>(which) &
+                                    static_cast<int>(kInputAndOutputOutput))
+                                {
+                                    checkForOutputConnection(resp, outputs);
+                                }
                             }
                         }
                     }
+                    else if (! quiet)
+                    {
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Could not open route to port.");
+#endif // MAC_OR_LINUX_
+                    }
+                    delete out;
                 }
                 else if (! quiet)
                 {
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Could not open route to port.");
+                    GetLogger().fail("Could not connect to port.");
 #endif // MAC_OR_LINUX_
                 }
-                delete out;
             }
             else if (! quiet)
             {
 #if MAC_OR_LINUX_
-                GetLogger().fail("Could not connect to port.");
+                GetLogger().fail("Port not using recognized connection type.");
 #endif // MAC_OR_LINUX_
             }
         }
         else if (! quiet)
         {
 #if MAC_OR_LINUX_
-            GetLogger().fail("Port not using recognized connection type.");
+            GetLogger().fail("Port name not recognized.");
 #endif // MAC_OR_LINUX_
         }
     }
-    else if (! quiet)
+    catch (...)
     {
-#if MAC_OR_LINUX_
-        GetLogger().fail("Port name not recognized.");
-#endif // MAC_OR_LINUX_
+        OD_LOG("Exception caught"); //####
+        throw;
     }
     OD_LOG_EXIT(); //####
 } // Utilities::GatherPortConnections
@@ -1228,8 +1237,8 @@ bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
+    OD_LOG_P2("associates = ", &associates, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_P1("checkStuff = ", checkStuff); //####
     bool result = false;
     
     associates._inputs.clear();
