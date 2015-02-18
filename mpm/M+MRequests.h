@@ -50,7 +50,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The standard name for the Registry Service channel. */
+/*! @brief The standard name for the Registry Service request channel. */
 # define MpM_REGISTRY_ENDPOINT_NAME  "/$ervice"
 
 /*! @brief The channel-independent name of the Registry Service. */
