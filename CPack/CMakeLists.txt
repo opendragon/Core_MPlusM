@@ -55,7 +55,7 @@ install(FILES "${MpM_SOURCE_DIR}/bonjoursdksetup.exe"
 # so VS external, preconfigured projects can find them
 
 set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers")
-set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../../yarp")
+set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp")
 
 #ACE HEADERS
 #install(DIRECTORY "${MpM_ACE_ROOT}/ace"
@@ -125,7 +125,7 @@ install(FILES 	"${MpM_YARP_DIR}/lib/Release/YARP_OS.dll"
             COMPONENT libraries)
 			
 #OTHER EXES
-install(FILES 	"${MpM_SOURCE_DIR}/../ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
+install(FILES 	"${MpM_SOURCE_DIR}/../Utilities/ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
         DESTINATION bin
         COMPONENT applications)
 
@@ -143,7 +143,6 @@ set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS "
 set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS " 
 					DeleteRegValue HKCU 'Environment' 'MPM_YARP_DIR'
 					DeleteRegValue HKCU 'Environment' 'MPM_ACE_ROOT'
-
 					")						
 endif(WIN32)
 
