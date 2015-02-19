@@ -322,7 +322,7 @@ int main(int      argc,
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        " port [tag]\n\n"
-                                                       "  port       The outgoing port"
+                                                       "  port       The outgoing port\n"
                                                        "  tag        Optional tag for the service "
                                                        "to be connnected to", flavour, &arguments))
         {
