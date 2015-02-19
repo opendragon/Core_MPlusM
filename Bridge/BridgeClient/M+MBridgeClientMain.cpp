@@ -41,7 +41,7 @@
 
 #include <mpm/M+MUtilities.h>
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_)
@@ -111,36 +111,45 @@ static void processArguments(const StringVector &    arguments,
 } // processArguments
 
 /*! @brief Create a 'listen' socket.
+ @param listenName The network address to attach the new socket to.
  @param listenPort The network port to attach the new socket to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET setUpListeningPost(const int listenPort)
+static SOCKET setUpListeningPost(const yarp::os::ConstString & listenName,
+                                 const int                     listenPort)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("listenName = ", listenName); //####
     OD_LOG_L1("listenPort = ", listenPort); //####
-    SOCKET  listenSocket;
-#if (! MAC_OR_LINUX_)
-    WORD    wVersionRequested = MAKEWORD(2, 2);
-    WSADATA ww;
-#endif // ! MAC_OR_LINUX_
-    
+    SOCKET         listenSocket;
+    struct in_addr addrBuff;
 #if MAC_OR_LINUX_
-    listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-    if (INVALID_SOCKET != listenSocket)
+    int            res = inet_pton(AF_INET, listenName.c_str(), &addrBuff);
+#else // ! MAC_OR_LINUX_
+    WORD           wVersionRequested = MAKEWORD(2, 2);
+    WSADATA        ww;
+#endif // ! MAC_OR_LINUX_
+
+#if MAC_OR_LINUX_
+    if (0 < res)
     {
-        struct sockaddr_in addr;
+        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (INVALID_SOCKET != listenSocket)
+        {
+            struct sockaddr_in addr;
         
-        memset(&addr, 0, sizeof(addr));
-        addr.sin_family = AF_INET;
-        addr.sin_port = htons(listenPort);
-        addr.sin_addr.s_addr = htonl(INADDR_ANY);
-        if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
-        {
-            close(listenSocket);
-            listenSocket = INVALID_SOCKET;
-        }
-        else
-        {
-            listen(listenSocket, SOMAXCONN);
+            memset(&addr, 0, sizeof(addr));
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(listenPort);
+            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+            if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
+            {
+                close(listenSocket);
+                listenSocket = INVALID_SOCKET;
+            }
+            else
+            {
+                listen(listenSocket, SOMAXCONN);
+            }
         }
     }
 #else // ! MAC_OR_LINUX_
@@ -149,24 +158,29 @@ static SOCKET setUpListeningPost(const int listenPort)
     }
     else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
     {
-        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if (INVALID_SOCKET != listenSocket)
+        int res = InetPton(AF_INET, listenName.c_str(), &addrBuff);
+
+        if (0 < res)
         {
-            SOCKADDR_IN addr;
-            
-            addr.sin_family = AF_INET;
-            addr.sin_port = htons(listenPort);
-            addr.sin_addr.s_addr = htonl(INADDR_ANY);
-            int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
-            
-            if (SOCKET_ERROR == res)
+         listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+            if (INVALID_SOCKET != listenSocket)
             {
-                closesocket(listenSocket);
-                listenSocket = INVALID_SOCKET;
-            }
-            else
-            {
-                listen(listenSocket, SOMAXCONN);
+                SOCKADDR_IN addr;
+            
+                addr.sin_family = AF_INET;
+                addr.sin_port = htons(listenPort);
+                memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+                res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+                if (SOCKET_ERROR == res)
+                {
+                    OD_LOG("(SOCKET_ERROR == res)"); //####
+                    closesocket(listenSocket);
+                    listenSocket = INVALID_SOCKET;
+                }
+                else
+                {
+                    listen(listenSocket, SOMAXCONN);
+                }
             }
         }
     }
@@ -196,6 +210,7 @@ static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
     if (0 < res)
     {
         bridgeSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        OD_LOG_L1("bridgeSocket = ", bridgeSocket); //####
 #if MAC_OR_LINUX_
         if (INVALID_SOCKET != bridgeSocket)
         {
@@ -207,6 +222,8 @@ static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
             if (connect(bridgeSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
             {
+                OD_LOG("(connect(bridgeSocket, reinterpret_cast<struct sockaddr *>(&addr), " //####
+                       "sizeof(addr)))"); //####
                 close(bridgeSocket);
                 bridgeSocket = INVALID_SOCKET;
             }
@@ -223,6 +240,7 @@ static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
             
             if (SOCKET_ERROR == res)
             {
+                OD_LOG("(SOCKET_ERROR == res)"); //####
                 closesocket(bridgeSocket);
                 bridgeSocket = INVALID_SOCKET;
             }
@@ -248,10 +266,12 @@ static void handleConnections(SOCKET                        listenSocket,
     
     if (INVALID_SOCKET != bridgeSocket)
     {
+        OD_LOG("(INVALID_SOCKET != bridgeSocket)"); //####
         bool   keepGoing = true;
         char   buffer[10240];
         SOCKET sinkSocket = accept(listenSocket, NULL, NULL);
 
+        OD_LOG_L1("sinkSocket = ", sinkSocket); //####
         for ( ; keepGoing; )
         {
 #if MAC_OR_LINUX_
@@ -264,11 +284,13 @@ static void handleConnections(SOCKET                        listenSocket,
             {
                 if (send(sinkSocket, buffer, inSize, 0) != inSize)
                 {
+                    OD_LOG("(send(sinkSocket, buffer, inSize, 0) != inSize)"); //####
                     keepGoing = false;
                 }
             }
             else
             {
+                OD_LOG("! (0 < inSize)"); //####
                 keepGoing = false;
             }
         }
@@ -321,27 +343,34 @@ int main(int      argc,
         StringVector            arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
-                                                       " port [tag]\n\n"
+                                                       " address port [tag]\n\n"
+                                                       "  address    The outgoing address\n"
                                                        "  port       The outgoing port\n"
                                                        "  tag        Optional tag for the service "
                                                        "to be connnected to", flavour, &arguments))
         {
             yarp::os::ConstString namePattern(MpM_BRIDGE_CANONICAL_NAME);
+            yarp::os::ConstString listenName;
             int                   listenPort = -1;
             
-            if (0 < arguments.size())
+            if (2 <= arguments.size())
             {
-                const char * startPtr = arguments[0].c_str();
-                char *       endPtr;
-                int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                struct in_addr addrBuff;
+                const char *   startPtr = arguments[1].c_str();
+                char *         endPtr;
+                int            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
 
-                if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                listenName = arguments[0];
+                OD_LOG_S1s("listenName <- ", listenName); //####
+                if ((0 < inet_pton(AF_INET, listenName.c_str(), &addrBuff)) &&
+                    (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                 {
+                    // Useable data.
                     listenPort = tempInt;
                 }
-                if (1 < arguments.size())
+                if (2 < arguments.size())
                 {
-                    yarp::os::ConstString tag(arguments[1]);
+                    yarp::os::ConstString tag(arguments[2]);
                     
                     if (0 < tag.length())
                     {
@@ -349,7 +378,15 @@ int main(int      argc,
 
                         namePattern = singleQuote + namePattern + " " + tag + singleQuote;
                     }
-                }
+                }            
+            }
+            else
+            {
+#if MAC_OR_LINUX_
+                GetLogger().fail("Missing argument(s).");
+#else // ! MAC_OR_LINUX_
+                cerr << "Missing argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
             }
             if (0 < listenPort)
             {
@@ -375,10 +412,11 @@ int main(int      argc,
                             channelNameRequest += namePattern;
                             if (stuff->findService(channelNameRequest.c_str()))
                             {
-                                SOCKET listenSocket = setUpListeningPost(listenPort);
+                                SOCKET listenSocket = setUpListeningPost(listenName, listenPort);
 
                                 if (INVALID_SOCKET != listenSocket)
                                 {
+                                    OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
                                     if (stuff->connectToService())
                                     {
                                         yarp::os::ConstString serviceAddress;
@@ -447,6 +485,14 @@ int main(int      argc,
                 {
                     OD_LOG("Exception caught"); //####
                 }
+            }
+            else
+            {
+#if MAC_OR_LINUX_
+                GetLogger().fail("Invalid argument(s).");
+#else // ! MAC_OR_LINUX_
+                cerr << "Invalid argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
             }
             yarp::os::Network::fini();
         }

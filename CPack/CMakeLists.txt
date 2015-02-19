@@ -135,8 +135,8 @@ install(FILES 	"${MpM_SOURCE_DIR}/../Utilities/ChannelManager/Builds/VisualStudi
 #Finally, set some MpM Env variables (WINDOWS ONLY!)
 set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS " 
 					ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
-					WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR\\yarp'
-					WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR\\ACE_wrappers'
+					WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR/yarp'
+					WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR/ACE_wrappers'
 					Delete '$INSTDIR/support/bonjoursdksetup.exe'
 					")		
 #And, unset them when we uninstall!

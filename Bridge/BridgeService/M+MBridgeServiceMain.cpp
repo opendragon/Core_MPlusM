@@ -41,7 +41,7 @@
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if (! MAC_OR_LINUX_)

@@ -76,7 +76,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BridgeClient::BridgeClient(void) :
-    inherited("address_")
+    inherited("bridge_")
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

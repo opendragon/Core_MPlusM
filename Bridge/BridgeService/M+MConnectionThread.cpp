@@ -39,7 +39,7 @@
 #include "M+MConnectionThread.h"
 #include "M+MBridgeService.h"
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -231,6 +231,7 @@ void ConnectionThread::run(void)
     }
     else
     {
+        OD_LOG("! (INVALID_SOCKET == destinationSocket)"); //#####
         char buffer[10240];
         
         for (bool keepGoing = true; keepGoing && (! isStopping()); )
@@ -243,19 +244,21 @@ void ConnectionThread::run(void)
             
             if (0 < inSize)
             {
-                if (send(destinationSocket, buffer, inSize, 0) != inSize)
-                {
-                    keepGoing = false;
-                }
-                else
+                if (send(destinationSocket, buffer, inSize, 0) == inSize)
                 {
                     Common::SendReceiveCounters newCount(1, inSize, 1, inSize);
                     
                     _service.incrementAuxiliaryCounters(newCount);
                 }
+                else
+                {
+                    OD_LOG("! (send(destinationSocket, buffer, inSize, 0) == inSize)"); //####
+                    keepGoing = false;
+                }
             }
             else
             {
+                OD_LOG("! (0 < inSize)"); //####
                 keepGoing = false;
             }
             yarp::os::Time::yield();
