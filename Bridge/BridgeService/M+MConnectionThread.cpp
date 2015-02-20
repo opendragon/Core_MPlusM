@@ -39,7 +39,7 @@
 #include "M+MConnectionThread.h"
 #include "M+MBridgeService.h"
 
-#include <odl/ODEnableLogging.h>
+//#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
