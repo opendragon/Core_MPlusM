@@ -451,6 +451,13 @@ int main(int      argc,
                                                 endl;
 #endif // ! MAC_OR_LINUX_
                                     }
+#if MAC_OR_LINUX_
+                                    shutdown(listenSocket, SHUT_RDWR);
+                                    close(listenSocket);
+#else // ! MAC_OR_LINUX_
+                                    shutdown(listenSocket, SD_BOTH);
+                                    closesocket(listenSocket);
+#endif // ! MAC_OR_LINUX_
                                 }
                             }
                             else

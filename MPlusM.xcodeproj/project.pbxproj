@@ -482,6 +482,10 @@
 		DFFFBFDC19D9A4B900BBD7A7 /* M+MKinectV2InputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputService.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputService.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFDD19D9A4B900BBD7A7 /* M+MKinectV2InputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
+		F66CFB381A97561500168727 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestSink/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F66CFB391A97561500168727 /* M+MTestSinkMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestSinkMain.cpp"; path = "Bridge/TestSink/M+MTestSinkMain.cpp"; sourceTree = SOURCE_ROOT; };
+		F66CFB3A1A97562C00168727 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestSource/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F66CFB3B1A97562C00168727 /* M+MTestSourceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestSourceMain.cpp"; path = "Bridge/TestSource/M+MTestSourceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54581A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -566,6 +570,8 @@
 				DF1BD3431A8C01790070A09C /* BridgeCommon */,
 				DF1BD3421A8C01600070A09C /* BridgeService */,
 				DF1BD3411A8C014F0070A09C /* CMakeLists.txt */,
+				F66CFB351A9754FD00168727 /* TestSink */,
+				F66CFB371A97553A00168727 /* TestSource */,
 			);
 			name = Bridge;
 			sourceTree = "<group>";
@@ -1608,6 +1614,24 @@
 				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
 			);
 			name = KinectV2InputService;
+			sourceTree = "<group>";
+		};
+		F66CFB351A9754FD00168727 /* TestSink */ = {
+			isa = PBXGroup;
+			children = (
+				F66CFB381A97561500168727 /* CMakeLists.txt */,
+				F66CFB391A97561500168727 /* M+MTestSinkMain.cpp */,
+			);
+			name = TestSink;
+			sourceTree = "<group>";
+		};
+		F66CFB371A97553A00168727 /* TestSource */ = {
+			isa = PBXGroup;
+			children = (
+				F66CFB3A1A97562C00168727 /* CMakeLists.txt */,
+				F66CFB3B1A97562C00168727 /* M+MTestSourceMain.cpp */,
+			);
+			name = TestSource;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

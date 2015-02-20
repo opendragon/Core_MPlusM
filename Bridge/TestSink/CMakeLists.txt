@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       Bridge/CMakeLists.txt
+#  File:       TestSink/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Bridge applications.
+#  Contains:   The CMAKE definitions for the Test Sink application.
 #
 #  Written by: Norman Jaffe
 #
@@ -32,13 +32,34 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2015-02-11
+#  Created:    2015-02-20
 #
 #--------------------------------------------------------------------------------------------------
 
-add_subdirectory(BridgeClient)
-add_subdirectory(BridgeService)
-add_subdirectory(TestSink)
-add_subdirectory(TestSource)
+include_directories("${MpM_SOURCE_DIR}")
+
+set(THIS_TARGET mpmTestSink)
+
+# Set up our program
+add_executable(${THIS_TARGET}
+               M+MTestSinkMain.cpp)
+
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
+# processed once.
+target_link_libraries(${THIS_TARGET}
+                      mpmCommon
+                      odLogging)
+
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
+		DESTINATION bin
+		COMPONENT applications)
 
 enable_testing()

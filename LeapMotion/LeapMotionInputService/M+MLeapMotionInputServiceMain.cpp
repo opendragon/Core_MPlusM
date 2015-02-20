@@ -98,8 +98,7 @@ static void displayCommands(void)
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,

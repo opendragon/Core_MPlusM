@@ -84,8 +84,7 @@ using std::endl;
  @param argv The arguments to be used with the Request Counter service.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(char * *                      argv,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,

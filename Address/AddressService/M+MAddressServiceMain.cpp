@@ -86,8 +86,7 @@ using std::endl;
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(const yarp::os::ConstString & hostName,
                        const int                     hostPort,
                        char * *                      argv,

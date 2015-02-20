@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Address service.
+//  Contains:   The main application for the Bridge service.
 //
 //  Written by: Norman Jaffe
 //
@@ -91,8 +91,7 @@ using std::endl;
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
- */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(const yarp::os::ConstString & hostName,
                        const int                     hostPort,
                        char * *                      argv,
@@ -102,9 +101,10 @@ static void setUpAndGo(const yarp::os::ConstString & hostName,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+    OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_L1("hostPort = ", hostPort); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
     BridgeService * stuff = new BridgeService(hostName, hostPort, *argv, tag, serviceEndpointName,
                                               servicePortNumber);

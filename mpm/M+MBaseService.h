@@ -94,8 +94,11 @@ namespace MplusM
             /*! @brief Skip the 'tag' option. */
             kSkipTagOption             = 0x10,
             
-            /*! @brief Skipt the 'endpoint' and 'tag' options. */
-            kSkipEndpointAndTagOptions = (kSkipEndpointOption | kSkipTagOption)
+            /*! @brief Skip the 'endpoint' and 'tag' options. */
+            kSkipEndpointAndTagOptions = (kSkipEndpointOption | kSkipTagOption),
+
+            /*! @brief Skip all the options. */
+            kSkipAllOptions            = 0xFF
         }; // OptionsMask
         
         /*! @brief The minimal functionality required for an M+M service. */
