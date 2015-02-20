@@ -208,7 +208,11 @@ int main(int      argc,
                         }
                         for ( ; keepGoing; )
                         {
+#if MAC_OR_LINUX_
                             int outSize = std::max(1, rand() % OUTGOING_SIZE);
+#else // ! MAC_OR_LINUX_
+                            int outSize = max(1, rand() % OUTGOING_SIZE);
+#endif // ! MAC_OR_LINUX_
 
                             if (send(sourceSocket, outBuff, outSize, 0) != outSize)
                             {
