@@ -62,7 +62,7 @@
 /*! @file
  @brief The main application for the Test Sink utility. */
 
-/*! @dir BridgeSink
+/*! @dir TestSink
  @brief The set of files that implement the Test Sink utility. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

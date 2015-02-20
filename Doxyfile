@@ -914,7 +914,9 @@ EXCLUDE                = CMakeFiles \
                          Address/CMakeFiles \
                          Bridge/BridgeClient/CMakeFiles \
                          Bridge/BridgeService/CMakeFiles \
-                         Bridge/CMakeFiles
+                         Bridge/CMakeFiles \
+                         Bridge/TestSink/CMakeFiles \
+                         Bridge/TestSource/CMakeFiles
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -1112,7 +1114,7 @@ VERBATIM_HEADERS       = YES
 # compiled with the --with-libclang option.
 # The default value is: NO.
 
-CLANG_ASSISTED_PARSING = YES
+CLANG_ASSISTED_PARSING = NO
 
 # If clang assisted parsing is enabled you can provide the compiler with command
 # line options that you would normally use when invoking the compiler. Note that
@@ -1120,7 +1122,7 @@ CLANG_ASSISTED_PARSING = YES
 # specified with INPUT and INCLUDE_PATH.
 # This tag requires that the tag CLANG_ASSISTED_PARSING is set to YES.
 
-CLANG_OPTIONS          = "-I/opt/M+M/include -I../../unix -I../../include -I../common -I/usr/lib/clang/4.0/include"
+CLANG_OPTIONS          = "-I../../unix -I../../include -I../common -I/usr/lib/clang/4.0/include"
 
 #---------------------------------------------------------------------------
 # Configuration options related to the alphabetical class index
@@ -2102,7 +2104,9 @@ SEARCH_INCLUDES        = YES
 # preprocessor.
 # This tag requires that the tag SEARCH_INCLUDES is set to YES.
 
-INCLUDE_PATH           = 
+INCLUDE_PATH           = /opt/M+M/include \
+                         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/6.0/include \
+                         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the
