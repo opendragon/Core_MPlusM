@@ -346,10 +346,9 @@ int main(int      argc,
             
             if (1 <= arguments.size())
             {
-                struct in_addr addrBuff;
-                const char *   startPtr = arguments[0].c_str();
-                char *         endPtr;
-                int            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                const char * startPtr = arguments[0].c_str();
+                char *       endPtr;
+                int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
 
                 if ((startPtr != endPtr) && (! *endPtr) && (1024 <= tempInt))
                 {
