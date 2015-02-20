@@ -131,3 +131,5 @@ mpm/libmpmCommon.dylib
 odl/libodLogging.dylib
 mpmUnrealOutputService
 mpmJavaScriptService
+mpmTestSink
+mpmTestSource

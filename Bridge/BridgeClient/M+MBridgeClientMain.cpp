@@ -111,45 +111,36 @@ static void processArguments(const StringVector &    arguments,
 } // processArguments
 
 /*! @brief Create a 'listen' socket.
- @param listenName The network address to attach the new socket to.
  @param listenPort The network port to attach the new socket to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET setUpListeningPost(const yarp::os::ConstString & listenName,
-                                 const int                     listenPort)
+static SOCKET setUpListeningPost(const int listenPort)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S1s("listenName = ", listenName); //####
     OD_LOG_L1("listenPort = ", listenPort); //####
-    SOCKET         listenSocket;
-    struct in_addr addrBuff;
-#if MAC_OR_LINUX_
-    int            res = inet_pton(AF_INET, listenName.c_str(), &addrBuff);
-#else // ! MAC_OR_LINUX_
-    WORD           wVersionRequested = MAKEWORD(2, 2);
-    WSADATA        ww;
+    SOCKET  listenSocket;
+#if ! MAC_OR_LINUX_
+    WORD    wVersionRequested = MAKEWORD(2, 2);
+    WSADATA ww;
 #endif // ! MAC_OR_LINUX_
 
 #if MAC_OR_LINUX_
-    if (0 < res)
+    listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+    if (INVALID_SOCKET != listenSocket)
     {
-        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        if (INVALID_SOCKET != listenSocket)
+        struct sockaddr_in addr;
+    
+        memset(&addr, 0, sizeof(addr));
+        addr.sin_family = AF_INET;
+        addr.sin_port = htons(listenPort);
+        addr.sin_addr.s_addr = htonl(INADDR_ANY);
+        if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
         {
-            struct sockaddr_in addr;
-        
-            memset(&addr, 0, sizeof(addr));
-            addr.sin_family = AF_INET;
-            addr.sin_port = htons(listenPort);
-            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
-            if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
-            {
-                close(listenSocket);
-                listenSocket = INVALID_SOCKET;
-            }
-            else
-            {
-                listen(listenSocket, SOMAXCONN);
-            }
+            close(listenSocket);
+            listenSocket = INVALID_SOCKET;
+        }
+        else
+        {
+            listen(listenSocket, SOMAXCONN);
         }
     }
 #else // ! MAC_OR_LINUX_
@@ -158,29 +149,25 @@ static SOCKET setUpListeningPost(const yarp::os::ConstString & listenName,
     }
     else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
     {
-        int res = InetPton(AF_INET, listenName.c_str(), &addrBuff);
-
-        if (0 < res)
+        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        if (INVALID_SOCKET != listenSocket)
         {
-         listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-            if (INVALID_SOCKET != listenSocket)
-            {
-                SOCKADDR_IN addr;
+            SOCKADDR_IN addr;
             
-                addr.sin_family = AF_INET;
-                addr.sin_port = htons(listenPort);
-                memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
-                res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
-                if (SOCKET_ERROR == res)
-                {
-                    OD_LOG("(SOCKET_ERROR == res)"); //####
-                    closesocket(listenSocket);
-                    listenSocket = INVALID_SOCKET;
-                }
-                else
-                {
-                    listen(listenSocket, SOMAXCONN);
-                }
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(listenPort);
+            addr.sin_addr.s_addr = htonl(INADDR_ANY);
+            int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+            
+            if (SOCKET_ERROR == res)
+            {
+                OD_LOG("(SOCKET_ERROR == res)"); //####
+                closesocket(listenSocket);
+                listenSocket = INVALID_SOCKET;
+            }
+            else
+            {
+                listen(listenSocket, SOMAXCONN);
             }
         }
     }
@@ -343,34 +330,29 @@ int main(int      argc,
         StringVector            arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
-                                                       " address port [tag]\n\n"
-                                                       "  address    The outgoing address\n"
+                                                       " port [tag]\n\n"
                                                        "  port       The outgoing port\n"
                                                        "  tag        Optional tag for the service "
                                                        "to be connnected to", flavour, &arguments))
         {
             yarp::os::ConstString namePattern(MpM_BRIDGE_CANONICAL_NAME);
-            yarp::os::ConstString listenName;
             int                   listenPort = -1;
             
-            if (2 <= arguments.size())
+            if (1 <= arguments.size())
             {
                 struct in_addr addrBuff;
-                const char *   startPtr = arguments[1].c_str();
+                const char *   startPtr = arguments[0].c_str();
                 char *         endPtr;
                 int            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
 
-                listenName = arguments[0];
-                OD_LOG_S1s("listenName <- ", listenName); //####
-                if ((0 < inet_pton(AF_INET, listenName.c_str(), &addrBuff)) &&
-                    (startPtr != endPtr) && (! *endPtr) && (1024 <= tempInt))
+                if ((startPtr != endPtr) && (! *endPtr) && (1024 <= tempInt))
                 {
                     // Useable data.
                     listenPort = tempInt;
                 }
-                if (2 < arguments.size())
+                if (1 < arguments.size())
                 {
-                    yarp::os::ConstString tag(arguments[2]);
+                    yarp::os::ConstString tag(arguments[1]);
                     
                     if (0 < tag.length())
                     {
@@ -412,7 +394,7 @@ int main(int      argc,
                             channelNameRequest += namePattern;
                             if (stuff->findService(channelNameRequest.c_str()))
                             {
-                                SOCKET listenSocket = setUpListeningPost(listenName, listenPort);
+                                SOCKET listenSocket = setUpListeningPost(listenPort);
 
                                 if (INVALID_SOCKET != listenSocket)
                                 {

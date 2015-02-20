@@ -52,10 +52,24 @@ target_link_libraries(${THIS_TARGET}
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
 endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
