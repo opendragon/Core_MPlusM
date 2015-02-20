@@ -363,7 +363,7 @@ int main(int      argc,
                 listenName = arguments[0];
                 OD_LOG_S1s("listenName <- ", listenName); //####
                 if ((0 < inet_pton(AF_INET, listenName.c_str(), &addrBuff)) &&
-                    (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                    (startPtr != endPtr) && (! *endPtr) && (1024 <= tempInt))
                 {
                     // Useable data.
                     listenPort = tempInt;
