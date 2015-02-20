@@ -249,47 +249,53 @@ static void handleConnections(SOCKET                        listenSocket,
     OD_LOG_ENTER(); //####
     OD_LOG_L2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
     OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
-    SOCKET bridgeSocket = connectToBridge(serviceAddress, servicePort);
-    
-    if (INVALID_SOCKET != bridgeSocket)
-    {
-        OD_LOG("(INVALID_SOCKET != bridgeSocket)"); //####
-        bool   keepGoing = true;
-        char   buffer[10240];
-        SOCKET sinkSocket = accept(listenSocket, NULL, NULL);
+    bool   keepGoing = true;
+    char   buffer[10240];
+    SOCKET sinkSocket = accept(listenSocket, NULL, NULL);
 
-        OD_LOG_L1("sinkSocket = ", sinkSocket); //####
-        for ( ; keepGoing; )
+    OD_LOG_L1("sinkSocket = ", sinkSocket); //####
+    if (INVALID_SOCKET != sinkSocket)
+    {
+        SOCKET bridgeSocket = connectToBridge(serviceAddress, servicePort);
+        
+        if (INVALID_SOCKET != bridgeSocket)
         {
-#if MAC_OR_LINUX_
-            ssize_t inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
-#else // ! MAC_OR_LINUX_
-            int     inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
-#endif // ! MAC_OR_LINUX_
-            
-            if (0 < inSize)
+            OD_LOG("(INVALID_SOCKET != bridgeSocket)"); //####
+            for ( ; keepGoing; )
             {
-                if (send(sinkSocket, buffer, inSize, 0) != inSize)
+#if MAC_OR_LINUX_
+                ssize_t inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
+#else // ! MAC_OR_LINUX_
+                int     inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
+#endif // ! MAC_OR_LINUX_
+                
+                if (0 < inSize)
                 {
-                    OD_LOG("(send(sinkSocket, buffer, inSize, 0) != inSize)"); //####
+                    if (send(sinkSocket, buffer, inSize, 0) != inSize)
+                    {
+                        OD_LOG("(send(sinkSocket, buffer, inSize, 0) != inSize)"); //####
+                        keepGoing = false;
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (0 < inSize)"); //####
                     keepGoing = false;
                 }
             }
-            else
-            {
-                OD_LOG("! (0 < inSize)"); //####
-                keepGoing = false;
-            }
+#if MAC_OR_LINUX_
+            shutdown(bridgeSocket, SHUT_RDWR);
+            close(bridgeSocket);
+#else // ! MAC_OR_LINUX_
+            shutdown(bridgeSocket, SD_BOTH);
+            closesocket(bridgeSocket);
+#endif // ! MAC_OR_LINUX_
         }
 #if MAC_OR_LINUX_
-        shutdown(bridgeSocket, SHUT_RDWR);
         shutdown(sinkSocket, SHUT_RDWR);
-        close(bridgeSocket);
         close(sinkSocket);
 #else // ! MAC_OR_LINUX_
-        shutdown(bridgeSocket, SD_BOTH);
         shutdown(sinkSocket, SD_BOTH);
-        closesocket(bridgeSocket);
         closesocket(sinkSocket);
 #endif // ! MAC_OR_LINUX_
     }

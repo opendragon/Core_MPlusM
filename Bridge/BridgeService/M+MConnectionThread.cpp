@@ -219,66 +219,75 @@ void ConnectionThread::run(void)
         _service.setPort(-1);
 #if MAC_OR_LINUX_
         shutdown(_listenSocket, SHUT_RDWR);
-        shutdown(_sourceSocket, SHUT_RDWR);
         close(_listenSocket);
-        close(_sourceSocket);
 #else // ! MAC_OR_LINUX_
         shutdown(_listenSocket, SD_BOTH);
-        shutdown(_sourceSocket, SD_BOTH);
         closesocket(_listenSocket);
-        closesocket(_sourceSocket);
 #endif // ! MAC_OR_LINUX_
     }
     else
     {
         OD_LOG("! (INVALID_SOCKET == destinationSocket)"); //#####
-        char buffer[10240];
-        
-        for (bool keepGoing = true; keepGoing && (! isStopping()); )
+        _sourceSocket = connectToSource(_sourceAddress, _sourcePort);
+        if (INVALID_SOCKET == _sourceSocket)
         {
 #if MAC_OR_LINUX_
-            ssize_t inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
+            close(_sourceSocket);
 #else // ! MAC_OR_LINUX_
-            int     inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
+            closesocket(_sourceSocket);
 #endif // ! MAC_OR_LINUX_
+        }
+        else
+        {
+            char buffer[10240];
             
-            if (0 < inSize)
+            for (bool keepGoing = true; keepGoing && (! isStopping()); )
             {
-                if (send(destinationSocket, buffer, inSize, 0) == inSize)
+#if MAC_OR_LINUX_
+                ssize_t inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
+#else // ! MAC_OR_LINUX_
+                int     inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
+#endif // ! MAC_OR_LINUX_
+                
+                if (0 < inSize)
                 {
-                    Common::SendReceiveCounters newCount(1, inSize, 1, inSize);
-                    
-                    _service.incrementAuxiliaryCounters(newCount);
+                    if (send(destinationSocket, buffer, inSize, 0) == inSize)
+                    {
+                        Common::SendReceiveCounters newCount(1, inSize, 1, inSize);
+                        
+                        _service.incrementAuxiliaryCounters(newCount);
+                    }
+                    else
+                    {
+                        OD_LOG("! (send(destinationSocket, buffer, inSize, 0) == inSize)"); //####
+                        keepGoing = false;
+                    }
                 }
                 else
                 {
-                    OD_LOG("! (send(destinationSocket, buffer, inSize, 0) == inSize)"); //####
+                    OD_LOG("! (0 < inSize)"); //####
                     keepGoing = false;
                 }
+                yarp::os::Time::yield();
             }
-            else
-            {
-                OD_LOG("! (0 < inSize)"); //####
-                keepGoing = false;
-            }
-            yarp::os::Time::yield();
-        }
-        _service.setPort(-1);
+            _service.setPort(-1);
 #if MAC_OR_LINUX_
-        shutdown(destinationSocket, SHUT_RDWR);
-        shutdown(_listenSocket, SHUT_RDWR);
-        shutdown(_sourceSocket, SHUT_RDWR);
-        close(destinationSocket);
-        close(_listenSocket);
-        close(_sourceSocket);
+            shutdown(destinationSocket, SHUT_RDWR);
+            shutdown(_listenSocket, SHUT_RDWR);
+            shutdown(_sourceSocket, SHUT_RDWR);
+            close(destinationSocket);
+            close(_listenSocket);
+            close(_sourceSocket);
 #else // ! MAC_OR_LINUX_
-        shutdown(destinationSocket, SD_BOTH);
-        shutdown(_listenSocket, SD_BOTH);
-        shutdown(_sourceSocket, SD_BOTH);
-        closesocket(destinationSocket);
-        closesocket(_listenSocket);
-        closesocket(_sourceSocket);
+            shutdown(destinationSocket, SD_BOTH);
+            shutdown(_listenSocket, SD_BOTH);
+            shutdown(_sourceSocket, SD_BOTH);
+            closesocket(destinationSocket);
+            closesocket(_listenSocket);
+            closesocket(_sourceSocket);
 #endif // ! MAC_OR_LINUX_
+            StopRunning();
+        }
     }
     OD_LOG_OBJEXIT(); //####
 } // ConnectionThread::run
@@ -317,15 +326,6 @@ void ConnectionThread::setSourceAddress(const yarp::os::ConstString & sourceName
             _listenSocket = INVALID_SOCKET;
 #endif // ! MAC_OR_LINUX_
         }
-    }
-    _sourceSocket = connectToSource(_sourceAddress, _sourcePort);
-    if (INVALID_SOCKET == _sourceSocket)
-    {
-#if MAC_OR_LINUX_
-        close(_sourceSocket);
-#else // ! MAC_OR_LINUX_
-        closesocket(_sourceSocket);
-#endif // ! MAC_OR_LINUX_
     }
     OD_LOG_OBJEXIT(); //####
 } // ConnectionThread::setSourceAddress
