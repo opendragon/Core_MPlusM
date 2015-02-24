@@ -482,6 +482,12 @@
 		DFFFBFDC19D9A4B900BBD7A7 /* M+MKinectV2InputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MKinectV2InputService.h"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputService.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFDD19D9A4B900BBD7A7 /* M+MKinectV2InputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MKinectV2InputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/M+MKinectV2InputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
+		F64A5FE81A9BFB2D0015A21E /* M+MTwoFingersInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputListener.cpp"; sourceTree = SOURCE_ROOT; };
+		F64A5FE91A9BFB2D0015A21E /* M+MTwoFingersInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTwoFingersInputListener.h"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputListener.h"; sourceTree = SOURCE_ROOT; };
+		F64A5FEA1A9BFB2D0015A21E /* M+MTwoFingersInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTwoFingersInputRequests.h"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputRequests.h"; sourceTree = SOURCE_ROOT; };
+		F64A5FEB1A9BFB2D0015A21E /* M+MTwoFingersInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		F64A5FEC1A9BFB2D0015A21E /* M+MTwoFingersInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTwoFingersInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputService.h"; sourceTree = SOURCE_ROOT; };
+		F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		F66CFB381A97561500168727 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestSink/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		F66CFB391A97561500168727 /* M+MTestSinkMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestSinkMain.cpp"; path = "Bridge/TestSink/M+MTestSinkMain.cpp"; sourceTree = SOURCE_ROOT; };
 		F66CFB3A1A97562C00168727 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestSource/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -1138,6 +1144,12 @@
 				DF824BD119C8E4C5004D13AC /* M+MLeapMotionInputService.cpp */,
 				DF824BD219C8E4C5004D13AC /* M+MLeapMotionInputService.h */,
 				DF824BD319C8E4C5004D13AC /* M+MLeapMotionInputServiceMain.cpp */,
+				F64A5FE81A9BFB2D0015A21E /* M+MTwoFingersInputListener.cpp */,
+				F64A5FE91A9BFB2D0015A21E /* M+MTwoFingersInputListener.h */,
+				F64A5FEA1A9BFB2D0015A21E /* M+MTwoFingersInputRequests.h */,
+				F64A5FEB1A9BFB2D0015A21E /* M+MTwoFingersInputService.cpp */,
+				F64A5FEC1A9BFB2D0015A21E /* M+MTwoFingersInputService.h */,
+				F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */,
 			);
 			name = LeapMotionInputService;
 			sourceTree = "<group>";

@@ -263,6 +263,7 @@ static void handleConnections(SOCKET                        listenSocket,
             OD_LOG("(INVALID_SOCKET != bridgeSocket)"); //####
             for ( ; keepGoing; )
             {
+                yarp::os::Time::yield();
 #if MAC_OR_LINUX_
                 ssize_t inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
 #else // ! MAC_OR_LINUX_

@@ -243,6 +243,7 @@ void ConnectionThread::run(void)
             
             for (bool keepGoing = true; keepGoing && (! isStopping()); )
             {
+                yarp::os::Time::yield();
 #if MAC_OR_LINUX_
                 ssize_t inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
 #else // ! MAC_OR_LINUX_

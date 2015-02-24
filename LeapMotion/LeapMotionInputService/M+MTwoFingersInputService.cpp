@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLeapMotionInputService.cpp
+//  File:       M+MTwoFingersInputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the Leap Motion input service.
+//  Contains:   The class definition for the Two Fingers input service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by HPlus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,13 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-16
+//  Created:    2015-02-23
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLeapMotionInputService.h"
-#include "M+MLeapMotionInputListener.h"
-#include "M+MLeapMotionInputRequests.h"
+#include "M+MTwoFingersInputService.h"
+#include "M+MTwoFingersInputListener.h"
+#include "M+MTwoFingersInputRequests.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,14 +51,14 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the %Leap Motion input service. */
+ @brief The class definition for the Two Fingers input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::LeapMotion;
+using namespace MplusM::TwoFingers;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,21 +76,21 @@ using namespace MplusM::LeapMotion;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LeapMotionInputService::LeapMotionInputService(const yarp::os::ConstString & launchPath,
+TwoFingersInputService::TwoFingersInputService(const yarp::os::ConstString & launchPath,
                                                const yarp::os::ConstString & tag,
                                                const yarp::os::ConstString & serviceEndpointName,
                                                const yarp::os::ConstString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_LEAPMOTIONINPUT_CANONICAL_NAME,
-              "The Leap Motion input service", "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, tag, true, MpM_TWOFINGERSINPUT_CANONICAL_NAME,
+              "The Two Fingers input service", "", serviceEndpointName, servicePortNumber),
     _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
-} // LeapMotionInputService::LeapMotionInputService
+} // TwoFingersInputService::TwoFingersInputService
 
-LeapMotionInputService::~LeapMotionInputService(void)
+TwoFingersInputService::~TwoFingersInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
@@ -100,13 +100,13 @@ LeapMotionInputService::~LeapMotionInputService(void)
         _controller = NULL;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::~LeapMotionInputService
+} // TwoFingersInputService::~TwoFingersInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
+bool TwoFingersInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -124,9 +124,9 @@ bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapMotionInputService::configure
+} // TwoFingersInputService::configure
 
-void LeapMotionInputService::restartStreams(void)
+void TwoFingersInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -141,9 +141,9 @@ void LeapMotionInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::restartStreams
+} // TwoFingersInputService::restartStreams
 
-bool LeapMotionInputService::setUpStreamDescriptions(void)
+bool TwoFingersInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
@@ -152,16 +152,15 @@ bool LeapMotionInputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-    description._portProtocol = "LEAP";
-    description._protocolDescription = "A list of hands followed by a list of tools\n"
-                                        "Each hand being a dictionary with an arm and a list of fingers\n"
-                                        "Each finger being a dictionary with a list of bones";
+    description._portProtocol = "2FINGERS";
+    description._protocolDescription = "A flag for which hand has data followed by the tip positions\n"
+                                        "of the first finger of each hand, if present";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapMotionInputService::setUpStreamDescriptions
+} // TwoFingersInputService::setUpStreamDescriptions
 
-bool LeapMotionInputService::shutDownOutputStreams(void)
+bool TwoFingersInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -172,9 +171,9 @@ bool LeapMotionInputService::shutDownOutputStreams(void)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // LeapMotionInputService::shutDownOutputStreams
+} // TwoFingersInputService::shutDownOutputStreams
 
-bool LeapMotionInputService::start(void)
+bool TwoFingersInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -199,9 +198,9 @@ bool LeapMotionInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // LeapMotionInputService::start
+} // TwoFingersInputService::start
 
-void LeapMotionInputService::startStreams(void)
+void TwoFingersInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -210,7 +209,7 @@ void LeapMotionInputService::startStreams(void)
         {
             if (_controller)
             {
-                _listener = new LeapMotionInputListener(_outStreams.at(0));
+                _listener = new TwoFingersInputListener(_outStreams.at(0));
                 _controller->addListener(*_listener);
                 setActive();
             }
@@ -222,9 +221,9 @@ void LeapMotionInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::startStreams
+} // TwoFingersInputService::startStreams
 
-bool LeapMotionInputService::stop(void)
+bool TwoFingersInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -240,9 +239,9 @@ bool LeapMotionInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapMotionInputService::stop
+} // TwoFingersInputService::stop
 
-void LeapMotionInputService::stopStreams(void)
+void TwoFingersInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -264,7 +263,7 @@ void LeapMotionInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapMotionInputService::stopStreams
+} // TwoFingersInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions
