@@ -71,26 +71,6 @@ enum HandMask
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Put the three coordinates of a %Vector in a dictionary with the given tag.
- @param dictionary The dictionary to be added to.
- @param tag The name to be associated with the value.
- @param vectorToUse The %Vector containing the data to be added. */
-static void putVectorInDictionary(yarp::os::Property &          dictionary,
-                                  const yarp::os::ConstString & tag,
-                                  const Leap::Vector &          vectorToUse)
-{
-    yarp::os::Value    stuff;
-    yarp::os::Bottle * stuffList = stuff.asList();
-    
-    if (stuffList)
-    {
-        stuffList->addDouble(vectorToUse.x);
-        stuffList->addDouble(vectorToUse.y);
-        stuffList->addDouble(vectorToUse.z);
-        dictionary.put(tag, stuff);
-    }
-} // putVectorInDictionary
-
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)

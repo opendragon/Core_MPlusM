@@ -51,12 +51,6 @@
 #endif // defined(__APPLE__)
 /*! @file 
  @brief The main application for the Two Fingers input service. */
-
-/*! @dir TwoFingers
- @brief The set of files that implement the Two Fingers input service. */
-
-/*! @dir TwoFingersInputService
- @brief The set of files that implement the Two Fingers input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
