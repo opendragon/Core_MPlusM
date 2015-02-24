@@ -171,21 +171,23 @@ void TwoFingersInputListener::onFrame(const Leap::Controller & theController)
                 
                 if (aHand.isValid())
                 {
-                    int offset;
+                    HandMask thisHand;
+                    int      offset;
 
                     if (aHand.isLeft())
                     {
                         offset = 0;
-                        handsPresent = static_cast<HandMask>(handsPresent | kLeftHand);
+                        thisHand = kLeftHand;
                     }
                     else if (aHand.isRight())
                     {
                         offset = 3;
-                        handsPresent = static_cast<HandMask>(handsPresent | kRightHand);
+                        thisHand = kRightHand;
                     }
                     else
                     {
                         offset = -1;
+                        thisHand = kNoHands;
                     }
                     if (0 <= offset)
                     {
@@ -204,7 +206,10 @@ void TwoFingersInputListener::onFrame(const Leap::Controller & theController)
                                 fingerPositions[offset] = position.x;
                                 fingerPositions[offset + 1] = position.y;
                                 fingerPositions[offset + 2] = position.z;
+                                handsPresent = static_cast<HandMask>(handsPresent | thisHand);
+                                break;
                             }
+                            
                         }
                     }
                 }
