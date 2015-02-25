@@ -104,6 +104,32 @@
 //
 //   scriptThread():   a function that is repeatedly called by the output thread of the service
 //
+// Order of reference / execution:
+//
+//   1)  Script is loaded; all global statements are executed, in order, and the global functions
+//       are defined - functions and variables provided by the service are available, except for
+//       'sendToChannel'
+//   2)  'scriptDescription' is evaluated, if available
+//   3)  'scriptHelp' is evaluated, if available
+//   4)  'scriptThread' is retrieved, if available; this does not involve executing the function
+//   5)  'scriptInlets' is evaluated, if available
+//   6)  'scriptOutlets' is evaluated, if available
+//   7)  'scriptStarting' is retrieved, if available; this does not involve executing the function
+//   8)  'scriptStopping' is retrieved, if available; this does not involve executing the function
+//   9)  'scriptInterval' is evaluated, if available and 'scriptThread' was retrieved
+//  10)  ... configure the service ...; execute the 'scriptStarting' function, if available
+//  11)  ... start service ...; inlets and outlets are created and attached
+//  12)  'sendToChannel' can now be safely called
+//  12a) If 'scriptThread' was retrieved, start a separate thread that executes the 'scriptThread'
+//       function every 'scriptInterval' seconds
+//  12b) If 'scriptThread' was not retrieved, associate the handler function of the 'scriptInlets'
+//       value with its corresponding inlet, for all the inlets
+//  13)  ... service running ...
+//  14)  ... service stopping ...
+//  14a) If 'scriptThread' was retrieved, the thread launched earlier is stopped
+//  14b) If 'scriptThread' was not retrieved, the inlet stream handlers are deactivated
+//  15)  Execute the 'scriptStopping' function, if available; 'sendToChannel' can be called
+//  16)  ... inlet and outlet streams are destroyed, service is stopped ...
 
 // Some test JavaScript...
 
