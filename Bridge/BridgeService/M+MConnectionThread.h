@@ -39,7 +39,7 @@
 #if (! defined(MpMConnectionThread_H_))
 # define MpMConnectionThread_H_ /* Header guard */
 
-# include <mpm/M+MUtilities.h>
+# include <mpm/M+MCommon.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

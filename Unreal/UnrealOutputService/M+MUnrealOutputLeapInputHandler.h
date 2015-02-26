@@ -41,7 +41,6 @@
 # define MpMUnrealOutputLeapInputHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputHandler.h>
-# include <mpm/M+MUtilities.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
