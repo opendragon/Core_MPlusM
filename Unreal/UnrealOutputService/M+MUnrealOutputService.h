@@ -40,14 +40,7 @@
 # define MpMUnrealOutputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseOutputService.h>
-
-# if MAC_OR_LINUX_
-#  include <sys/socket.h>
-#  define SOCKET         int /* Standard socket type in *nix. */
-#  define INVALID_SOCKET -1
-# else // ! MAC_OR_LINUX_
-#  include <WinSock2.h>
-# endif // ! MAC_OR_LINUX_
+# include <mpm/M+MUtilities.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

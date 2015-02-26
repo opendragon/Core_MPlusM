@@ -47,10 +47,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_)
-# pragma comment(lib, "ws2_32.lib")
-#endif // ! MAC_OR_LINUX_
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"

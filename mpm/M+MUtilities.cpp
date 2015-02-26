@@ -47,6 +47,10 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if (! MAC_OR_LINUX_)
+# pragma comment(lib, "ws2_32.lib")
+#endif // ! MAC_OR_LINUX_
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -166,7 +170,7 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
-    //#  pragma unused(service,flags,context)
+//#  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
 #endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_ENTER(); //####
@@ -1142,9 +1146,9 @@ void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
             if ((address.getCarrier() == "tcp") || (address.getCarrier() == "fast_tcp") ||
                 (address.getCarrier() == "xmlrpc"))
             {
-                // Note that the following connect() call will hang indefinitely if the address given is
-                // for an 'output' port that is connected to another 'output' port. 'yarp ping /port'
-                // will hang as well.
+                // Note that the following connect() call will hang indefinitely if the address
+                // given is for an 'output' port that is connected to another 'output' port.
+                // 'yarp ping /port' will hang as well.
                 yarp::os::OutputProtocol * out = yarp::os::impl::Carriers::connect(address);
             
                 if (out)
@@ -1154,7 +1158,8 @@ void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                     if (out->open(rr))
                     {
                         yarp::os::Bottle                         resp;
-                        yarp::os::impl::BufferedConnectionWriter bw(out->getConnection().isTextMode());
+                        yarp::os::impl::BufferedConnectionWriter
+                                                            bw(out->getConnection().isTextMode());
                         yarp::os::InputStream &                  is = out->getInputStream();
                         yarp::os::OutputStream &                 os = out->getOutputStream();
                         yarp::os::impl::PortCommand              pc(0, "*");

@@ -38,7 +38,7 @@ int MSC_Builtin_CLZ::builtin_clz(const unsigned xx)
     unsigned long index;
     
     _BitScanReverse(&index, xx);
-    return (32 - index); // int is always 32bit on Windows, even for target x64
+    return (32 - index); // int is always 32 bit on Windows, even for target x64
 } // MSC_Builtin_CLZ::builtin_clz
 #endif // defined(_MSC_VER)
 

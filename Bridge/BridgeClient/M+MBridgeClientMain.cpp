@@ -44,19 +44,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if (! MAC_OR_LINUX_)
-# pragma comment(lib, "ws2_32.lib")
-#endif // ! MAC_OR_LINUX_
-
-#if MAC_OR_LINUX_
-# include <sys/socket.h>
-# define SOCKET         int /* Standard socket type in *nix. */
-# define INVALID_SOCKET -1
-#else // ! MAC_OR_LINUX_
-# include <WinSock2.h>
-# include <Ws2tcpip.h>
-#endif // ! MAC_OR_LINUX_
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"

@@ -8,10 +8,12 @@
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-* change Bridge Service and Client to keep their listen ports open, maintaining a set of connections - or threads - to handle the communication. Make bidirectional??
-
 * ‘touchShare’ protocol with iOS devices?
 
 * Python, Lua (, Common Lisp?) services
 
 * integrate Arduino sensors via Linux-based Arduino boards?
+
+* use ACE networking rather than native? [Unreal, Bridge] —> no, just too hairy
+
+* mpmTestLoopbackResponder, mpmTestLoopbackControl - Bridge needs to be bidirectional and should use nonblocking I/O
