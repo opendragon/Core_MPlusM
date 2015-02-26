@@ -58,6 +58,7 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using std::cerr;
+using std::cin;
 using std::cout;
 using std::endl;
 
@@ -249,7 +250,6 @@ int main(int      argc,
                     }
                     if ((0 < sourcePort) && (0 < sourceName.size()))
                     {
-                        char           buffer[BUFFER_SIZE];
                         int            res;
                         struct in_addr addrBuff;
                         SOCKET         talkSocket;
