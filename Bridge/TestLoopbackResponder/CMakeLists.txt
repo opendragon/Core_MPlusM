@@ -1,6 +1,6 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       TestLoopBackResponder/CMakeLists.txt
+#  File:       TestLoopbackResponder/CMakeLists.txt
 #
 #  Project:    M+M
 #
