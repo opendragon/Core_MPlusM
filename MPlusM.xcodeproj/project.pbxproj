@@ -391,6 +391,10 @@
 		DF824BD119C8E4C5004D13AC /* M+MLeapMotionInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapMotionInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputService.cpp"; sourceTree = SOURCE_ROOT; };
 		DF824BD219C8E4C5004D13AC /* M+MLeapMotionInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapMotionInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputService.h"; sourceTree = SOURCE_ROOT; };
 		DF824BD319C8E4C5004D13AC /* M+MLeapMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapMotionInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35401A9F92AA00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestLoopbackResponder/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D35411A9F92AA00322DDD /* M+MTestLoopbackResponderMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestLoopbackResponderMain.cpp"; path = "Bridge/TestLoopbackResponder/M+MTestLoopbackResponderMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35431A9F966B00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestLoopbackControl/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D35441A9F966B00322DDD /* M+MTestLoopbackControlMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestLoopbackControlMain.cpp"; path = "Bridge/TestLoopbackControl/M+MTestLoopbackControlMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -576,6 +580,8 @@
 				DF1BD3431A8C01790070A09C /* BridgeCommon */,
 				DF1BD3421A8C01600070A09C /* BridgeService */,
 				DF1BD3411A8C014F0070A09C /* CMakeLists.txt */,
+				DF8D35421A9F965100322DDD /* TestLoopbackControl */,
+				DF8D353F1A9F916300322DDD /* TesLoopbackResponder */,
 				F66CFB351A9754FD00168727 /* TestSink */,
 				F66CFB371A97553A00168727 /* TestSource */,
 			);
@@ -1152,6 +1158,24 @@
 				F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */,
 			);
 			name = LeapMotionInputService;
+			sourceTree = "<group>";
+		};
+		DF8D353F1A9F916300322DDD /* TesLoopbackResponder */ = {
+			isa = PBXGroup;
+			children = (
+				DF8D35401A9F92AA00322DDD /* CMakeLists.txt */,
+				DF8D35411A9F92AA00322DDD /* M+MTestLoopbackResponderMain.cpp */,
+			);
+			name = TesLoopbackResponder;
+			sourceTree = "<group>";
+		};
+		DF8D35421A9F965100322DDD /* TestLoopbackControl */ = {
+			isa = PBXGroup;
+			children = (
+				DF8D35431A9F966B00322DDD /* CMakeLists.txt */,
+				DF8D35441A9F966B00322DDD /* M+MTestLoopbackControlMain.cpp */,
+			);
+			name = TestLoopbackControl;
 			sourceTree = "<group>";
 		};
 		DFA3430618C91B4F0053B87C = {

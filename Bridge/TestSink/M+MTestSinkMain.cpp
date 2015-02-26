@@ -98,7 +98,8 @@ int main(int      argc,
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        T_(" hostname port\n\n"
                                                           "  hostname   IP address to connect to\n"
-                                                          "  port       port to connect to"), flavour, &arguments))
+                                                          "  port       port to connect to"),
+                                                       flavour, &arguments))
         {
             if (2 <= arguments.size())
             {
@@ -140,9 +141,11 @@ int main(int      argc,
                             memset(&addr, 0, sizeof(addr));
                             addr.sin_family = AF_INET;
                             addr.sin_port = htons(sourcePort);
-                            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+                            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
+                                   sizeof(addr.sin_addr.s_addr));
                             OD_LOG("connecting to source"); //####
-                            if (connect(sinkSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
+                            if (connect(sinkSocket, reinterpret_cast<struct sockaddr *>(&addr),
+                                        sizeof(addr)))
                             {
                                 close(sinkSocket);
                                 sinkSocket = INVALID_SOCKET;
@@ -165,9 +168,11 @@ int main(int      argc,
 
                                 addr.sin_family = AF_INET;
                                 addr.sin_port = htons(sourcePort);
-                                memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
+                                memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
+                                       sizeof(addr.sin_addr.s_addr));
                                 OD_LOG("connecting to source"); //####
-                                res = connect(sinkSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+                                res = connect(sinkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
+                                              sizeof(addr));
                                 if (SOCKET_ERROR == res)
                                 {
                                     closesocket(sinkSocket);

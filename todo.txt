@@ -14,6 +14,4 @@
 
 * integrate Arduino sensors via Linux-based Arduino boards?
 
-* use ACE networking rather than native? [Unreal, Bridge] —> no, just too hairy
-
-* mpmTestLoopbackResponder, mpmTestLoopbackControl - Bridge needs to be bidirectional and should use nonblocking I/O
+* Bridge Service and Client need to be bidirectional (use nonblocking I/O?)
