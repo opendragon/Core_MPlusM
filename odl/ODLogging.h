@@ -39,13 +39,15 @@
 #if (! defined(ODLOGGING_H_))
 # define ODLOGGING_H_ /* Header guard */
 
-# include <stdint.h>
-# if defined(__OBJC__)
-#  import <Foundation/Foundation.h>
-# endif // defined(__OBJC__)
-# if defined(__APPLE__)
-#  include <CoreGraphics/CGGeometry.h>
-# endif // defined(__APPLE__)
+# if (! defined(OD_DEFINITIONS_LOADED))
+#  include <stdint.h>
+#  if defined(__OBJC__)
+#   import <Foundation/Foundation.h>
+#  endif // defined(__OBJC__)
+#  if defined(__APPLE__)
+#   include <CoreGraphics/CGGeometry.h>
+#  endif // defined(__APPLE__)
+# endif // ! defined(OD_DEFINITIONS_LOADED)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -684,7 +686,8 @@
  @param text4 The caption for the fourth value to be written.
  @param ptr4 The fourth value to be written. */
 #  define OD_LOG_P4(text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4)  \
-        ODLogP4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4)
+        ODLogP4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, ptr1, text2, ptr2, text3, ptr3, text4,\
+                    ptr4)
 
 /*! @brief Write a region of memory to the log.
  @param caption The caption for the region to be written.
@@ -838,10 +841,11 @@
         ODLogXL4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (long int) (val1), text2, \
                     (long int) (val2), text3, (long int) (val3), text4, (long int) (val4))
 
-#  if defined(__cplusplus)
+#  if (! defined(OD_DEFINITIONS_LOADED))
+#   if defined(__cplusplus)
 extern "C"
 {
-#  endif // defined(__cplusplus)
+#   endif // defined(__cplusplus)
     
     /*! @brief Write a string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1145,7 +1149,7 @@ extern "C"
                       const int     lineNumber,
                       const int64_t val);
     
-#  if defined(__OBJC__)
+#   if defined(__OBJC__)
     /*! @brief Write an object function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1155,7 +1159,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const id     val);
-#  endif  // defined(__OBJC__)
+#   endif  // defined(__OBJC__)
     
     /*! @brief Write a pointer function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1167,7 +1171,7 @@ extern "C"
                      const int    lineNumber,
                      const void * val);
     
-#  if defined(__APPLE__)
+#   if defined(__APPLE__)
     /*! @brief Write a rectangle function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1177,7 +1181,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const CGRect val);
-#  endif  // defined(__APPLE__)
+#   endif  // defined(__APPLE__)
     
     /*! @brief Write a string function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1189,7 +1193,7 @@ extern "C"
                      const int    lineNumber,
                      const char * val);
 
-#  if defined(__APPLE__)
+#   if defined(__APPLE__)
     /*! @brief Write a size function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1199,7 +1203,7 @@ extern "C"
                       const char * funcName,
                       const int    lineNumber,
                       const CGSize val);
-#  endif // defined(__APPLE__)
+#   endif // defined(__APPLE__)
 
     /*! @brief Write a throw/long function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1433,7 +1437,7 @@ extern "C"
                   const char * text1,
                   const char * val1);
     
-#  if defined(__OBJC__)
+#   if defined(__OBJC__)
     /*! @brief Write an object value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1505,7 +1509,7 @@ extern "C"
                   const id     obj3,
                   const char * text4,
                   const id     obj4);
-#  endif  // defined(__OBJC__)
+#   endif  // defined(__OBJC__)
     
     /*! @brief Write a method entry string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1599,7 +1603,7 @@ extern "C"
                          const void *  objPtr,
                          const int64_t val);
     
-#  if defined(__OBJC__)
+#   if defined(__OBJC__)
     /*! @brief Write an object method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1611,7 +1615,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const id     val);
-#  endif // defined(__OBJC__)
+#   endif // defined(__OBJC__)
     
     /*! @brief Write a pointer method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1625,7 +1629,7 @@ extern "C"
                         const void * objPtr,
                         const void * val);
     
-#  if defined(__APPLE__)
+#   if defined(__APPLE__)
     /*! @brief Write a rectangle method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1637,7 +1641,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const CGRect val);
-#  endif // defined(__APPLE__)
+#   endif // defined(__APPLE__)
     
     /*! @brief Write a string method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1651,7 +1655,7 @@ extern "C"
                         const void * objPtr,
                         const char * val);
 
-#  if defined(__APPLE__)
+#   if defined(__APPLE__)
     /*! @brief Write a size method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1663,7 +1667,7 @@ extern "C"
                          const int    lineNumber,
                          const void * objPtr,
                          const CGSize val);
-#  endif // defined(__APPLE__)
+#   endif // defined(__APPLE__)
 
     /*! @brief Write a throw/long method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1811,7 +1815,7 @@ extern "C"
                       const char * buffer,
                       const int    size);
     
-#  if defined(__APPLE__)
+#   if defined(__APPLE__)
     /*! @brief Write a rectangle to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1823,7 +1827,7 @@ extern "C"
                     const int    lineNumber,
                     const char * caption,
                     const CGRect rect);
-#  endif // defined(__APPLE__)
+#   endif // defined(__APPLE__)
     
     /*! @brief Write a string value to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1897,7 +1901,7 @@ extern "C"
                   const char * text4,
                   const char * val4);
 
-#  if defined(__APPLE__)
+#   if defined(__APPLE__)
     /*! @brief Write a size to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1909,7 +1913,7 @@ extern "C"
                     const int    lineNumber,
                     const char * caption,
                     const CGSize size);
-#  endif // defined(__APPLE__)
+#   endif // defined(__APPLE__)
 
     /*! @brief Write a (possibly unterminated) string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1925,7 +1929,7 @@ extern "C"
                   const int    len,
                   const char * val);
     
-#  if MAC_OR_LINUX_
+#   if MAC_OR_LINUX_
     /*! @brief Write a time value to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1937,7 +1941,7 @@ extern "C"
                   const int              lineNumber,
                   const char *           text1,
                   const struct timeval * val1);
-#  endif  // MAC_OR_LINUX_
+#   endif  // MAC_OR_LINUX_
     
     /*! @brief Write a long hexadecimal value to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -2083,9 +2087,10 @@ extern "C"
                    const char *  text4,
                    const int64_t val4);
     
-#  if defined(__cplusplus)
+#   if defined(__cplusplus)
 }
-#  endif // defined(__cplusplus)
+#   endif // defined(__cplusplus)
+#  endif // ! defined(OD_DEFINITIONS_LOADED)
 # else // ! defined(OD_ENABLE_LOGGING)
 #  if defined(__OBJC__)
  /* Return the string description of an Objective-C object. */
@@ -2651,5 +2656,9 @@ extern "C"
 # define OD_LOG_S4s(text1, val1, text2, val2, text3, val3, text4, val4) \
         OD_LOG_S4(text1, val1.c_str(), text2, val2.c_str(), text3, val3.c_str(), text4,\
                     val4.c_str())
+
+/*! @brief A flag to suppress multiple includes / declarations, which are a problem with
+ Objective-C. */
+# define OD_DEFINITIONS_LOADED /* */
 
 #endif // ! defined(ODLOGGING_H_)
