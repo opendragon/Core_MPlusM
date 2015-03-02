@@ -12,10 +12,6 @@
 
 * Python, Lua (, Common Lisp?) services
 
-* integrate Arduino sensors via Linux-based Arduino boards?
+* integrate Arduino sensors via Linux-based Arduino boards? SmartTag via TouchShare?
 
-* Bridge Service and Client need to be bidirectional (use nonblocking I/O?)
-
-= debugging - function declarations and includes must be ‘guarded’
-
-* add time-of-flight measurement to loopback test
+* Tunnel Service and Client need to be bidirectional (use nonblocking I/O?)

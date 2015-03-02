@@ -173,18 +173,12 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
     }
     double beforeSend = getTimeNow();
 
-    if (send(talkSocket, outBuffer, sendSize, 0) != sendSize)
-    {
-        OD_LOG("(send(talkSocket, outBuffer, sendSize, 0) != sendSize)"); //####
-        StopRunning();
-    }
-    else
+    if (send(talkSocket, outBuffer, sendSize, 0) == sendSize)
     {
         double afterSend = getTimeNow();
         
         cout << "sent " << sendSize << " bytes." << endl;
-        double beforeReceive = getTimeNow();
-
+        double  beforeReceive = getTimeNow();
 #if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
 #else // ! MAC_OR_LINUX_
@@ -224,6 +218,11 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
             StopRunning();
         }
     }
+    else
+    {
+        OD_LOG("! (send(talkSocket, outBuffer, sendSize, 0) == sendSize)"); //####
+        StopRunning();
+    }
     OD_LOG_EXIT(); //####
 } // sendAndReceiveRandom
 
@@ -244,18 +243,12 @@ static void sendAndReceiveText(SOCKET              talkSocket,
 #endif // ! MAC_OR_LINUX_
     double       beforeSend = getTimeNow();
     
-    if (send(talkSocket, inChars, sendSize, 0) != sendSize)
-    {
-        OD_LOG("(send(talkSocket, inChars, sendSize, 0) != sendSize)"); //####
-        StopRunning();
-    }
-    else
+    if (send(talkSocket, inChars, sendSize, 0) == sendSize)
     {
         double afterSend = getTimeNow();
         
         cout << "sent " << sendSize << " bytes." << endl;
-        double beforeReceive = getTimeNow();
-        
+        double  beforeReceive = getTimeNow();
 #if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
 #else // ! MAC_OR_LINUX_
@@ -294,6 +287,11 @@ static void sendAndReceiveText(SOCKET              talkSocket,
             OD_LOG("! (0 < inSize)"); //####
             StopRunning();
         }
+    }
+    else
+    {
+        OD_LOG("! (send(talkSocket, inChars, sendSize, 0) == sendSize)"); //####
+        StopRunning();
     }
     OD_LOG_EXIT(); //####
 } // sendAndReceiveText
