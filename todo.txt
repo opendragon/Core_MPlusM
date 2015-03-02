@@ -15,3 +15,5 @@
 * integrate Arduino sensors via Linux-based Arduino boards?
 
 * Bridge Service and Client need to be bidirectional (use nonblocking I/O?)
+
+= debugging - function declarations and includes must be ‘guarded’
