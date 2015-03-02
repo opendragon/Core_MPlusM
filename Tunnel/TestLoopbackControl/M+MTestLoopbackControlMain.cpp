@@ -66,11 +66,58 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The size of the receive / send buffer. */
 #define BUFFER_SIZE 1024
 
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
+
+/*! @brief Write out a time value in a human-friendly form.
+ @param measurement The time value to write out. */
+static void reportTimeInReasonableUnits(const double measurement)
+{
+    double       newValue;
+    const char * tag;
+    
+    if (measurement < 1e-6)
+    {
+        // Less than a microsecond
+        newValue = (measurement * 1e6);
+        tag = " microseconds";
+    }
+    else if (measurement < 1e-3)
+    {
+        // Less than a millisecond
+        newValue = (measurement * 1e3);
+        tag = " milliseconds";
+    }
+    else if (measurement < 60.0)
+    {
+        // Less than a minute
+        newValue = measurement;
+        tag = " seconds";
+    }
+    else if (measurement < (60.0 * 60.0))
+    {
+        // Less than an hour
+        newValue = (measurement / 60.0);
+        tag = " minutes";
+    }
+    else if (measurement < (24.0 * 60.0 * 60.0))
+    {
+        // Less than a day
+        newValue = (measurement / (60.0 * 60.0));
+        tag = " hours";
+    }
+    else
+    {
+        // More than a day
+        newValue = (measurement / (24.0 * 60.0 * 60.0));
+        tag = " days";
+    }
+    cout << newValue << tag;
+} // reportTimeInReasonableUnits
 
 /*! @brief Display the available commands. */
 static void displayCommands(void)
@@ -101,6 +148,8 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
     {
         outBuffer[ii] = static_cast<char>(rand());
     }
+    double beforeSend = yarp::os::Time::now();
+
     if (send(talkSocket, outBuffer, sendSize, 0) != sendSize)
     {
         OD_LOG("(send(talkSocket, outBuffer, sendSize, 0) != sendSize)"); //####
@@ -108,7 +157,11 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
     }
     else
     {
+        double afterSend = yarp::os::Time::now();
+
         cout << "sent " << sendSize << " bytes." << endl;
+        double beforeReceive = yarp::os::Time::now();
+
 #if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
 #else // ! MAC_OR_LINUX_
@@ -117,7 +170,8 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
         
         if (0 < inSize)
         {
-            bool okSoFar = true;
+            bool   okSoFar = true;
+            double afterReceive = yarp::os::Time::now();
             
             cout << "received " << inSize << " bytes." << endl;
             for (int ii = 0; okSoFar && (ii < inSize); ++ii)
@@ -128,7 +182,15 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
                     okSoFar = false;
                 }
             }
-            if (! okSoFar)
+            if (okSoFar)
+            {
+                double elapsedTime = (afterReceive - beforeReceive) + (afterSend - beforeSend);
+                
+                cout << "Elapsed time = ";
+                reportTimeInReasonableUnits(elapsedTime);
+                cout << endl;
+            }
+            else
             {
                 StopRunning();
             }
@@ -157,6 +219,7 @@ static void sendAndReceiveText(SOCKET              talkSocket,
 #else // ! MAC_OR_LINUX_
     int          sendSize = min(inSize, BUFFER_SIZE);
 #endif // ! MAC_OR_LINUX_
+    double       beforeSend = yarp::os::Time::now();
     
     if (send(talkSocket, inChars, sendSize, 0) != sendSize)
     {
@@ -165,7 +228,11 @@ static void sendAndReceiveText(SOCKET              talkSocket,
     }
     else
     {
+        double afterSend = yarp::os::Time::now();
+        
         cout << "sent " << sendSize << " bytes." << endl;
+        double beforeReceive = yarp::os::Time::now();
+        
 #if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
 #else // ! MAC_OR_LINUX_
@@ -174,7 +241,8 @@ static void sendAndReceiveText(SOCKET              talkSocket,
         
         if (0 < inSize)
         {
-            bool okSoFar = true;
+            bool   okSoFar = true;
+            double afterReceive = yarp::os::Time::now();
             
             cout << "received " << inSize << " bytes." << endl;
             for (int ii = 0; okSoFar && (ii < inSize); ++ii)
@@ -185,7 +253,15 @@ static void sendAndReceiveText(SOCKET              talkSocket,
                     okSoFar = false;
                 }
             }
-            if (! okSoFar)
+            if (okSoFar)
+            {
+                double elapsedTime = (afterReceive - beforeReceive) + (afterSend - beforeSend);
+                
+                cout << "Elapsed time = ";
+                reportTimeInReasonableUnits(elapsedTime);
+                cout << endl;
+            }
+            else
             {
                 StopRunning();
             }

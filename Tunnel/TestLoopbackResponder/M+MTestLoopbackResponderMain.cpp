@@ -66,7 +66,10 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#define BUFFER_SIZE 1024
+/*! @brief The size of the receive / send buffer. */
+#define BUFFER_SIZE   1024
+
+//#define CHATTY_OUTPUT /* Write out information on activity. */
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -201,12 +204,16 @@ int main(int      argc,
                             
                             if (0 < inSize)
                             {
+#if defined(CHATTY_OUTPUT)
                                 cout << "received " << inSize << " bytes." << endl;
+#endif // defined(CHATTY_OUTPUT)
                                 if (send(loopSocket, theBuffer, inSize, 0) != inSize)
                                 {
                                     OD_LOG("(send(loopSocket, theBuffer, inSize, 0) != " //####
                                            "inSize)"); //####
+#if defined(CHATTY_OUTPUT)
                                     cout << "sent " << inSize << " bytes." << endl;
+#endif // defined(CHATTY_OUTPUT)
                                     keepGoing = false;
                                 }
                             }
