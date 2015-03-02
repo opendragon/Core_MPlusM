@@ -41,13 +41,6 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if MAC_OR_LINUX_
-# if defined(__APPLE__)
-# else // ! defined(__APPLE__)
-# endif // ! defined(__APPLE__)
-#else // ! MAC_OR_LINUX_
-#endif // ! MAC_OR_LINUX_
-
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -148,16 +141,12 @@ static void displayCommands(void)
 double getTimeNow(void)
 {
     double        result;
-#if MAC_OR_LINUX_
-#else // ! MAC_OR_LINUX_
+#if (! MAC_OR_LINUX_)
     LARGE_INTEGER now;
 #endif // ! MAC_OR_LINUX_
 
 #if MAC_OR_LINUX_
     result = yarp::os::Time::now();
-# if defined(__APPLE__)
-# else // ! defined(__APPLE__)
-# endif // ! defined(__APPLE__)
 #else // ! MAC_OR_LINUX_
     QueryPerformanceCounter(&now);
     result = ((1.0 * now.QuadPart) / lFrequency.QuadPart);
