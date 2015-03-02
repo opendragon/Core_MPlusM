@@ -1907,7 +1907,7 @@ extern "C"
      @param funcName The name of the calling function.
      @param lineNumber The line number in the source file where the call occurs.
      @param caption The caption for the value to be written.
-     @param rect The value to be written. */
+     @param size The value to be written. */
     void ODLogSize_(const char * fileName,
                     const char * funcName,
                     const int    lineNumber,
