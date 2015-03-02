@@ -41,6 +41,13 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if MAC_OR_LINUX_
+# if defined(__APPLE__)
+# else // ! defined(__APPLE__)
+# endif // ! defined(__APPLE__)
+#else // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -68,6 +75,11 @@ using std::endl;
 
 /*! @brief The size of the receive / send buffer. */
 #define BUFFER_SIZE 1024
+
+#if (! MAC_OR_LINUX_)
+/*! @brief The number of ticks per second. */
+static LARGE_INTEGER lFrequency;
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -131,6 +143,28 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
+/*! @brief Return the current epoch time in seconds.
+@returns The time in seconds. */
+double getTimeNow(void)
+{
+    double        result;
+#if MAC_OR_LINUX_
+#else // ! MAC_OR_LINUX_
+    LARGE_INTEGER now;
+#endif // ! MAC_OR_LINUX_
+
+#if MAC_OR_LINUX_
+    result = yarp::os::Time::now();
+# if defined(__APPLE__)
+# else // ! defined(__APPLE__)
+# endif // ! defined(__APPLE__)
+#else // ! MAC_OR_LINUX_
+    QueryPerformanceCounter(&now);
+    result = ((1.0 * now.QuadPart) / lFrequency.QuadPart);
+#endif // ! MAC_OR_LINUX_
+    return result;
+} // getTimeNow
+
 /*! @brief Send and receive a random byte sequence.
  @param talkSocket The socket to use for communication. */
 static void sendAndReceiveRandom(SOCKET talkSocket)
@@ -143,12 +177,12 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
 #else // ! MAC_OR_LINUX_
     int  sendSize = max(1, rand() % BUFFER_SIZE);
 #endif // ! MAC_OR_LINUX_
-    
+
     for (int ii = 0; ii < sendSize; ++ii)
     {
         outBuffer[ii] = static_cast<char>(rand());
     }
-    double beforeSend = yarp::os::Time::now();
+    double beforeSend = getTimeNow();
 
     if (send(talkSocket, outBuffer, sendSize, 0) != sendSize)
     {
@@ -157,10 +191,10 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
     }
     else
     {
-        double afterSend = yarp::os::Time::now();
-
+        double afterSend = getTimeNow();
+        
         cout << "sent " << sendSize << " bytes." << endl;
-        double beforeReceive = yarp::os::Time::now();
+        double beforeReceive = getTimeNow();
 
 #if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
@@ -171,7 +205,7 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
         if (0 < inSize)
         {
             bool   okSoFar = true;
-            double afterReceive = yarp::os::Time::now();
+            double afterReceive = getTimeNow();
             
             cout << "received " << inSize << " bytes." << endl;
             for (int ii = 0; okSoFar && (ii < inSize); ++ii)
@@ -219,7 +253,7 @@ static void sendAndReceiveText(SOCKET              talkSocket,
 #else // ! MAC_OR_LINUX_
     int          sendSize = min(inSize, BUFFER_SIZE);
 #endif // ! MAC_OR_LINUX_
-    double       beforeSend = yarp::os::Time::now();
+    double       beforeSend = getTimeNow();
     
     if (send(talkSocket, inChars, sendSize, 0) != sendSize)
     {
@@ -228,10 +262,10 @@ static void sendAndReceiveText(SOCKET              talkSocket,
     }
     else
     {
-        double afterSend = yarp::os::Time::now();
+        double afterSend = getTimeNow();
         
         cout << "sent " << sendSize << " bytes." << endl;
-        double beforeReceive = yarp::os::Time::now();
+        double beforeReceive = getTimeNow();
         
 #if MAC_OR_LINUX_
         ssize_t inSize = recv(talkSocket, inBuffer, sizeof(inBuffer), 0);
@@ -242,7 +276,7 @@ static void sendAndReceiveText(SOCKET              talkSocket,
         if (0 < inSize)
         {
             bool   okSoFar = true;
-            double afterReceive = yarp::os::Time::now();
+            double afterReceive = getTimeNow();
             
             cout << "received " << inSize << " bytes." << endl;
             for (int ii = 0; okSoFar && (ii < inSize); ++ii)
@@ -401,6 +435,10 @@ int main(int      argc,
                         }
                         else
                         {
+#if (! MAC_OR_LINUX_)
+                            QueryPerformanceFrequency(&lFrequency);
+                            cout << lFrequency.QuadPart << endl;
+#endif // ! MAC_OR_LINUX_
                             for (StartRunning(); IsRunning(); )
                             {
                                 char        inChar;
