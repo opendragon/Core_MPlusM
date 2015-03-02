@@ -136,3 +136,5 @@ mpmTestSource
 mpmTwoFingersInputService
 mpmTestLoopbackResponder
 mpmTestLoopbackControl
+mpmTunnelClient
+mpmTunnelService

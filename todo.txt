@@ -17,3 +17,5 @@
 * Bridge Service and Client need to be bidirectional (use nonblocking I/O?)
 
 = debugging - function declarations and includes must be ‘guarded’
+
+* add time-of-flight measurement to loopback test

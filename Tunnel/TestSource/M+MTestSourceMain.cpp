@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTestLoopbackResponderMain.cpp
+//  File:       M+MTestSourceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Test Loopback Responder utility.
+//  Contains:   The main application for the Test Source utility.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,7 +32,7 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-02-26
+//  Created:    2015-02-20
 //
 //--------------------------------------------------------------------------------------------------
 
@@ -47,10 +47,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the Test Loopback Responder utility. */
+ @brief The main application for the Test Source utility. */
 
-/*! @dir TestLoopbackResponder
- @brief The set of files that implement the Test Loopback Responder utility. */
+/*! @dir TestSource
+ @brief The set of files that implement the Test Source utility. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -66,7 +66,7 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-#define BUFFER_SIZE 1024
+#define OUTGOING_SIZE 10240
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -80,9 +80,9 @@ using std::endl;
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-/*! @brief The entry point for communicating with the Bridge service.
+/*! @brief The entry point for communicating with the Test Sink utility.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Bridge client.
+ @param argv The arguments to be used with the Test Source utility.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -186,46 +186,44 @@ int main(int      argc,
                     {
                         OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
                         bool   keepGoing = true;
-                        char   theBuffer[BUFFER_SIZE];
+                        char   outBuff[OUTGOING_SIZE];
                         OD_LOG("waiting for a connection"); //####
-                        SOCKET loopSocket = accept(listenSocket, NULL, NULL);
+                        SOCKET sourceSocket = accept(listenSocket, NULL, NULL);
 
-                        OD_LOG_L1("loopSocket = ", loopSocket); //####
+                        OD_LOG_L1("sourceSocket = ", sourceSocket); //####
+                        for (int ii = 0; ii < OUTGOING_SIZE; ++ii)
+                        {
+                            outBuff[ii] = static_cast<char>(rand());
+                        }
                         for ( ; keepGoing; )
                         {
 #if MAC_OR_LINUX_
-                            ssize_t inSize = recv(loopSocket, theBuffer, sizeof(theBuffer), 0);
+                            int outSize = std::max(1, rand() % OUTGOING_SIZE);
 #else // ! MAC_OR_LINUX_
-                            int     inSize = recv(loopSocket, theBuffer, sizeof(theBuffer), 0);
+                            int outSize = max(1, rand() % OUTGOING_SIZE);
 #endif // ! MAC_OR_LINUX_
-                            
-                            if (0 < inSize)
+
+                            if (send(sourceSocket, outBuff, outSize, 0) != outSize)
                             {
-                                cout << "received " << inSize << " bytes." << endl;
-                                if (send(loopSocket, theBuffer, inSize, 0) != inSize)
-                                {
-                                    OD_LOG("(send(loopSocket, theBuffer, inSize, 0) != " //####
-                                           "inSize)"); //####
-                                    cout << "sent " << inSize << " bytes." << endl;
-                                    keepGoing = false;
-                                }
+                                OD_LOG("(send(sourceSocket, outBuff, outSize, 0) != " //####
+                                       "outSize)"); //####
+                                keepGoing = false;
                             }
                             else
                             {
-                                OD_LOG("! (0 < inSize)"); //####
-                                keepGoing = false;
+                                cout << "sent " << outSize << " bytes." << endl;
                             }
                         }
 #if MAC_OR_LINUX_
                         shutdown(listenSocket, SHUT_RDWR);
-                        shutdown(loopSocket, SHUT_RDWR);
+                        shutdown(sourceSocket, SHUT_RDWR);
                         close(listenSocket);
-                        close(loopSocket);
+                        close(sourceSocket);
 #else // ! MAC_OR_LINUX_
                         shutdown(listenSocket, SD_BOTH);
-                        shutdown(loopSocket, SD_BOTH);
+                        shutdown(sourceSocket, SD_BOTH);
                         closesocket(listenSocket);
-                        closesocket(loopSocket);
+                        closesocket(sourceSocket);
 #endif // ! MAC_OR_LINUX_
                     }
                 }

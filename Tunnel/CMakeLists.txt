@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       Bridge/CMakeLists.txt
+#  File:       Tunnel/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Bridge applications.
+#  Contains:   The CMAKE definitions for the Tunnel applications.
 #
 #  Written by: Norman Jaffe
 #
@@ -36,11 +36,11 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-add_subdirectory(BridgeClient)
-add_subdirectory(BridgeService)
 add_subdirectory(TestLoopbackControl)
 add_subdirectory(TestLoopbackResponder)
 add_subdirectory(TestSink)
 add_subdirectory(TestSource)
+add_subdirectory(TunnelClient)
+add_subdirectory(TunnelService)
 
 enable_testing()

@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       BridgeClient/CMakeLists.txt
+#  File:       TunnelService/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Bridge client application.
+#  Contains:   The CMAKE definitions for the Tunnel service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -37,14 +37,16 @@
 #--------------------------------------------------------------------------------------------------
 
 include_directories("${MpM_SOURCE_DIR}"
-                    "../BridgeCommon")
+                    "../TunnelCommon")
 
-set(THIS_TARGET mpmBridgeClient)
+set(THIS_TARGET mpmTunnelService)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MBridgeClientMain.cpp
-               M+MBridgeClient.cpp)
+               M+MTunnelServiceMain.cpp
+               M+MConnectionThread.cpp
+               M+MTunnelService.cpp
+               M+MWhereRequestHandler.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

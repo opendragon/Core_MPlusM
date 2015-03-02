@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'resetcounter' request.
+//  Contains:   The class declaration for the request handler for a 'where' request.
 //
 //  Written by: Norman Jaffe
 //

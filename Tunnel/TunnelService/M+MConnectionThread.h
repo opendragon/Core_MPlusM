@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MWhereRequestHandler.h
+//  File:       M+MConnectionThread.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for a 'resetcounter' request.
+//  Contains:   The class declaration for a network connection handling thread.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-02-11
+//  Created:    2015-02-12
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMWhereRequestHandler_H_))
-# define MpMWhereRequestHandler_H_ /* Header guard */
+#if (! defined(MpMConnectionThread_H_))
+# define MpMConnectionThread_H_ /* Header guard */
 
-# include <mpm/M+MBaseRequestHandler.h>
+# include <mpm/M+MCommon.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,56 +47,50 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the request handler for a 'where' request. */
+ @brief The class declaration for a network connection handling thread. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace Bridge
+    namespace Tunnel
     {
-        class BridgeService;
+        class TunnelService;
         
-        /*! @brief The 'where' request handler for the Bridge service.
-         
-         There is no input or output for the request. */
-        class WhereRequestHandler : public Common::BaseRequestHandler
+        /*! @brief A convenience class to handle network connections. */
+        class ConnectionThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
-             @param service The service that has registered this request. */
-            WhereRequestHandler(BridgeService & service);
+             @param service The service that manages the network connection. */
+            ConnectionThread(TunnelService & service);
             
             /*! @brief The destructor. */
-            virtual ~WhereRequestHandler(void);
+            virtual ~ConnectionThread(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
+            /*! @brief The thread main body. */
+            virtual void run(void);
             
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
+            /*! @brief Set the address of the data source.
+             @param sourceName The data source address to be connected to.
+             @param sourcePort The data source port to be connected to. */
+            void setSourceAddress(const yarp::os::ConstString & sourceName,
+                                  const int                     sourcePort);
+
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool threadInit(void);
             
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &       restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+            /*! @brief The thread termination method. */
+            virtual void threadRelease(void);
             
         protected :
             
         private :
             
-            COPY_AND_ASSIGNMENT_(WhereRequestHandler);
+            COPY_AND_ASSIGNMENT_(ConnectionThread);
             
         public :
         
@@ -105,12 +99,27 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
+            typedef yarp::os::Thread inherited;
             
-        }; // WhereRequestHandler
+            /*! @brief The service that manages the connection information. */
+            TunnelService & _service;
+            
+            /*! @brief The data source address. */
+            yarp::os::ConstString _sourceAddress;
+            
+            /*! @brief The data source port. */
+            int _sourcePort;
+            
+            /*! @brief The network socket that is to be listened to. */
+            SOCKET _listenSocket;
+            
+            /*! @brief The network socket that provides the source data. */
+            SOCKET _sourceSocket;
+            
+        }; // ConnectionThread
         
-    } // Bridge
+    } // Tunnel
     
 } // MplusM
 
-#endif // ! defined(MpMWhereRequestHandler_H_)
+#endif // ! defined(MpMConnectionThread_H_)

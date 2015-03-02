@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MBridgeClient.h
+//  File:       M+MTunnelRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the client of the Bridge service.
+//  Contains:   The common macro definitions for requests and responses for the Tunnel service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMBridgeClient_H_))
-# define MpMBridgeClient_H_ /* Header guard */
+#if (! defined(MpMTunnelRequests_H_))
+# define MpMTunnelRequests_H_ /* Header guard */
 
-# include <mpm/M+MBaseClient.h>
+# include <mpm/M+MRequests.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,52 +47,15 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The class declaration for the client of the Bridge service. */
+ @brief The common macro definitions for requests and responses for the Tunnel service. */
+
+/*! @namespace MplusM::Tunnel
+ @brief The classes that support routing non-YARP data over a YARP network. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MplusM
-{
-    namespace Bridge
-    {
-        /*! @brief A client for the Bridge service. */
-        class BridgeClient : public Common::BaseClient
-        {
-        public :
-            
-            /*! @brief The constructor. */
-            BridgeClient(void);
-            
-            /*! @brief The destructor. */
-            virtual ~BridgeClient(void);
-            
-            /*! @brief Get the address from the service.
-             @param address The remembered address.
-             @param port The remembered port.
-             @returns @c true if the address was retrieved successfully and @c false otherwise. */
-            bool getAddress(yarp::os::ConstString & address,
-                            int &                   port);
-            
-        protected :
-            
-        private :
-            
-            COPY_AND_ASSIGNMENT_(BridgeClient);
-            
-        public :
-        
-        protected :
-        
-        private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
-            
-        }; // BridgeClient
-        
-    } // Bridge
-    
-} // MplusM
+/*! @brief The channel-independent name of the Tunnel service. */
+# define MpM_TUNNEL_CANONICAL_NAME "Tunnel"
 
-#endif // ! defined(MpMBridgeClient_H_)
+#endif // ! defined(MpMTunnelRequests_H_)

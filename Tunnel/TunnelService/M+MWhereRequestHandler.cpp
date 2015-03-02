@@ -37,8 +37,8 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MWhereRequestHandler.h"
-#include "M+MBridgeRequests.h"
-#include "M+MBridgeService.h"
+#include "M+MTunnelRequests.h"
+#include "M+MTunnelService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -55,7 +55,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Bridge;
+using namespace MplusM::Tunnel;
 using namespace MplusM::Common;
 
 #if defined(__APPLE__)
@@ -77,7 +77,7 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-WhereRequestHandler::WhereRequestHandler(BridgeService & service) :
+WhereRequestHandler::WhereRequestHandler(TunnelService & service) :
     inherited(MpM_WHERE_REQUEST, service)
 {
     OD_LOG_ENTER(); //####
@@ -167,7 +167,7 @@ bool WhereRequestHandler::processRequest(const yarp::os::ConstString & request,
         yarp::os::ConstString address;
         int                   port;
         
-        static_cast<BridgeService &>(_service).getAddress(address, port);
+        static_cast<TunnelService &>(_service).getAddress(address, port);
         response.addString(address);
         response.addInt(port);
         sendResponse(response, replyMechanism);

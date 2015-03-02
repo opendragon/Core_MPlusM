@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAddressRequests.h
+//  File:       M+MTunnelClient.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the Bridge service.
+//  Contains:   The class declaration for the client of the Tunnel service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAddressRequests_H_))
-# define MpMAddressRequests_H_ /* Header guard */
+#if (! defined(MpMTunnelClient_H_))
+# define MpMTunnelClient_H_ /* Header guard */
 
-# include <mpm/M+MRequests.h>
+# include <mpm/M+MBaseClient.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,15 +47,52 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The common macro definitions for requests and responses for the Bridge service. */
-
-/*! @namespace MplusM::Bridge
- @brief The classes that support routing non-YARP data over a YARP network. */
+ @brief The class declaration for the client of the Tunnel service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Bridge service. */
-# define MpM_BRIDGE_CANONICAL_NAME "Bridge"
+namespace MplusM
+{
+    namespace Tunnel
+    {
+        /*! @brief A client for the Tunnel service. */
+        class TunnelClient : public Common::BaseClient
+        {
+        public :
+            
+            /*! @brief The constructor. */
+            TunnelClient(void);
+            
+            /*! @brief The destructor. */
+            virtual ~TunnelClient(void);
+            
+            /*! @brief Get the address from the service.
+             @param address The remembered address.
+             @param port The remembered port.
+             @returns @c true if the address was retrieved successfully and @c false otherwise. */
+            bool getAddress(yarp::os::ConstString & address,
+                            int &                   port);
+            
+        protected :
+            
+        private :
+            
+            COPY_AND_ASSIGNMENT_(TunnelClient);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+        }; // TunnelClient
+        
+    } // Tunnel
+    
+} // MplusM
 
-#endif // ! defined(MpMAddressRequests_H_)
+#endif // ! defined(MpMTunnelClient_H_)

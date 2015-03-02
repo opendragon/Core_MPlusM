@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MBridgeService.cpp
+//  File:       M+MTunnelService.cpp
 //
 //  Project:    M+M
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MBridgeService.h"
-#include "M+MBridgeRequests.h"
+#include "M+MTunnelService.h"
 #include "M+MConnectionThread.h"
+#include "M+MTunnelRequests.h"
 #include "M+MWhereRequestHandler.h"
 
 #include <mpm/M+MEndpoint.h>
@@ -58,8 +58,8 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Bridge;
 using namespace MplusM::Common;
+using namespace MplusM::Tunnel;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -77,14 +77,14 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BridgeService::BridgeService(const yarp::os::ConstString & sourceName,
+TunnelService::TunnelService(const yarp::os::ConstString & sourceName,
                              const int                     sourcePort,
                              const yarp::os::ConstString & launchPath,
                              const yarp::os::ConstString & tag,
                              const yarp::os::ConstString & serviceEndpointName,
                              const yarp::os::ConstString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, tag, true, MpM_BRIDGE_CANONICAL_NAME,
-              "The Bridge service",
+    inherited(kServiceKindNormal, launchPath, tag, true, MpM_TUNNEL_CANONICAL_NAME,
+              "The Tunnel service",
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _listenAddress(""), _sourceAddress(sourceName),
     _whereHandler(NULL), _connection(new ConnectionThread(*this)), _listenPort(-1),
@@ -97,9 +97,9 @@ BridgeService::BridgeService(const yarp::os::ConstString & sourceName,
     OD_LOG_L1("sourcePort = ", sourcePort); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
-} // BridgeService::BridgeService
+} // TunnelService::TunnelService
 
-BridgeService::~BridgeService(void)
+TunnelService::~TunnelService(void)
 {
     OD_LOG_OBJENTER(); //####
     detachRequestHandlers();
@@ -109,13 +109,13 @@ BridgeService::~BridgeService(void)
         _connection = NULL;
     }
     OD_LOG_OBJEXIT(); //####
-} // BridgeService::~BridgeService
+} // TunnelService::~TunnelService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BridgeService::attachRequestHandlers(void)
+void TunnelService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -136,9 +136,9 @@ void BridgeService::attachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // BridgeService::attachRequestHandlers
+} // TunnelService::attachRequestHandlers
 
-void BridgeService::detachRequestHandlers(void)
+void TunnelService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -156,18 +156,18 @@ void BridgeService::detachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // BridgeService::detachRequestHandlers
+} // TunnelService::detachRequestHandlers
 
-void BridgeService::getAddress(yarp::os::ConstString & address,
+void TunnelService::getAddress(yarp::os::ConstString & address,
                                int &                   port)
 {
     OD_LOG_OBJENTER(); //####
     address = _listenAddress;
     port = _listenPort;
     OD_LOG_OBJEXIT(); //####
-} // BridgeService::getAddress
+} // TunnelService::getAddress
 
-bool BridgeService::start(void)
+bool TunnelService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -208,9 +208,9 @@ bool BridgeService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BridgeService::start
+} // TunnelService::start
 
-bool BridgeService::stop(void)
+bool TunnelService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -234,7 +234,7 @@ bool BridgeService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BridgeService::stop
+} // TunnelService::stop
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MBridgeClient.cpp
+//  File:       M+MTunnelClient.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the client of the Bridge service.
+//  Contains:   The class definition for the client of the Tunnel service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MBridgeClient.h"
-#include "M+MBridgeRequests.h"
+#include "M+MTunnelClient.h"
+#include "M+MTunnelRequests.h"
 
 #include <mpm/M+MServiceResponse.h>
 
@@ -50,14 +50,14 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The class definition for the client of the Bridge service. */
+ @brief The class definition for the client of the Tunnel service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Bridge;
 using namespace MplusM::Common;
+using namespace MplusM::Tunnel;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -75,24 +75,24 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BridgeClient::BridgeClient(void) :
-    inherited("bridge_")
+TunnelClient::TunnelClient(void) :
+    inherited("tunnel_")
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
-} // BridgeClient::BridgeClient
+} // TunnelClient::TunnelClient
 
-BridgeClient::~BridgeClient(void)
+TunnelClient::~TunnelClient(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // BridgeClient::~BridgeClient
+} // TunnelClient::~TunnelClient
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BridgeClient::getAddress(yarp::os::ConstString & address,
+bool TunnelClient::getAddress(yarp::os::ConstString & address,
                               int &                   port)
 {
     OD_LOG_OBJENTER(); //####
@@ -141,7 +141,7 @@ bool BridgeClient::getAddress(yarp::os::ConstString & address,
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
-} // BridgeClient::getAddress
+} // TunnelClient::getAddress
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MBridgeServiceMain.cpp
+//  File:       M+MTunnelServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Bridge service.
+//  Contains:   The main application for the Tunnel service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MBridgeService.h"
+#include "M+MTunnelService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -50,23 +50,23 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Bridge service. */
+ @brief The main application for the Tunnel service. */
 
-/*! @dir Bridge
+/*! @dir Tunnel
  @brief The set of files that support routing non-YARP data via YARP. */
 
-/*! @dir BridgeCommon
- @brief The set of files that are shared between the Bridge client and Bridge service. */
+/*! @dir TunnelCommon
+ @brief The set of files that are shared between the Tunnel client and Tunnel service. */
 
-/*! @dir BridgeService
- @brief The set of files that implement the Bridge service. */
+/*! @dir TunnelService
+ @brief The set of files that implement the Tunnel service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Bridge;
 using namespace MplusM::Common;
+using namespace MplusM::Tunnel;
 using std::cerr;
 using std::cout;
 using std::endl;
@@ -79,10 +79,10 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the environment and start the Bridge service.
+/*! @brief Set up the environment and start the Tunnel service.
  @param hostName The host name for the network data source.
  @param hostPort The port for the network data source.
- @param argv The arguments to be used with the Address service.
+ @param argv The arguments to be used with the Tunnel service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -96,12 +96,12 @@ static void setUpAndGo(const yarp::os::ConstString & hostName,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_L1("hostPort = ", hostPort); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    BridgeService * stuff = new BridgeService(hostName, hostPort, *argv, tag, serviceEndpointName,
+    TunnelService * stuff = new TunnelService(hostName, hostPort, *argv, tag, serviceEndpointName,
                                               servicePortNumber);
     
     if (stuff)
@@ -168,9 +168,9 @@ static void setUpAndGo(const yarp::os::ConstString & hostName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Bridge service.
+/*! @brief The entry point for running the Tunnel service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Bridge service.
+ @param argv The arguments to be used with the Tunnel service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -200,7 +200,7 @@ int main(int      argc,
                                                          "access to\n"
                                                          "  port       port to provide access "
                                                          "to"),
-                                          DEFAULT_ADDRESS_SERVICE_NAME, nameWasSet, reportOnExit,
+                                          DEFAULT_TUNNEL_SERVICE_NAME, nameWasSet, reportOnExit,
                                           tag, serviceEndpointName, servicePortNumber, kSkipNone,
                                           &arguments))
         {

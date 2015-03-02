@@ -710,13 +710,13 @@ or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
 The default output is \textbf{both}; if \textbf{address} is specified, the port is not
 displayed and, if \textbf{port} is specified, the IP address is not displayed.
 \tertiaryEnd{\utilityNameE{mpmAddressClient}}
-\tertiaryStart{\utilityNameP{mpmBridgeService}}
-The \utilityNameX{mpmBridgeService} application is a background service that is used to
+\tertiaryStart{\utilityNameP{mpmTunnelService}}
+The \utilityNameX{mpmTunnelService} application is a background service that is used to
 route a non--\yarp{} network data source to a non--\yarp{} network data sink, via the
-\utilityNameR{mpmBridgeClient} application.\\
+\utilityNameR{mpmTunnelClient} application.\\
 
 It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent by the
-companion application \utilityNameR{mpmBridgeClient} to retrieve an IP address and port
+companion application \utilityNameR{mpmTunnelClient} to retrieve an IP address and port
 that the companion application should connect to.\\
 
 The application has two arguments -- the IP address and port for the network data source.
@@ -731,23 +731,23 @@ desired}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute -- an \mplusm{} installation can support multiple copies of the
-\utilityNameX{mpmBridgeService} service, but the \emph{Channel Manager} application cannot
+\utilityNameX{mpmTunnelService} service, but the \emph{Channel Manager} application cannot
 display them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
-\tertiaryEnd{\utilityNameE{mpmBridgeService}}
-\tertiaryStart{\utilityNameP{mpmBridgeClient}}
-The \utilityNameX{mpmBridgeClient} application is a command--line tool to route a
+\tertiaryEnd{\utilityNameE{mpmTunnelService}}
+\tertiaryStart{\utilityNameP{mpmTunnelClient}}
+The \utilityNameX{mpmTunnelClient} application is a command--line tool to route a
 non--\yarp{} network data source to a non--\yarp{} network data sink via the
-\utilityNameR{mpmBridgeService} application.\\
+\utilityNameR{mpmTunnelService} application.\\
 
 It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to the
-\utilityNameR{mpmBridgeService} application to get the IP address and port to connect
+\utilityNameR{mpmTunnelService} application to get the IP address and port to connect
 to.\\
 
 The program has one required argument, the network port to be opened for a network data
 sink to attach to, and one optional argument, the tag for the
-\utilityNameR{mpmBridgeService} application being connected to.
-\tertiaryEnd{\utilityNameE{mpmBridgeClient}}
+\utilityNameR{mpmTunnelService} application being connected to.
+\tertiaryEnd{\utilityNameE{mpmTunnelClient}}
 \tertiaryStart{\utilityNameP{mpmRequestCounterService}}
 The \utilityNameX{mpmRequestCounterService} application is a background service that is
 used to determine the average time to send a simple request, process it and return a

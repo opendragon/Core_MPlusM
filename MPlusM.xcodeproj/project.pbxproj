@@ -19,20 +19,6 @@
 		DF1BD32F1A8BA3310070A09C /* M+MAddressServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressServiceMain.cpp"; path = "Address/AddressService/M+MAddressServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1BD3301A8BA3310070A09C /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Address/AddressService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1BD3311A8BA3310070A09C /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Address/AddressService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF1BD3361A8C014F0070A09C /* M+MBridgeService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeService.cpp"; path = "Bridge/BridgeService/M+MBridgeService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF1BD3371A8C014F0070A09C /* M+MBridgeService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBridgeService.h"; path = "Bridge/BridgeService/M+MBridgeService.h"; sourceTree = SOURCE_ROOT; };
-		DF1BD3381A8C014F0070A09C /* M+MBridgeServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeServiceMain.cpp"; path = "Bridge/BridgeService/M+MBridgeServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF1BD3391A8C014F0070A09C /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Bridge/BridgeService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF1BD33A1A8C014F0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/BridgeService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF1BD33B1A8C014F0070A09C /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Bridge/BridgeService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF1BD33C1A8C014F0070A09C /* M+MBridgeRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBridgeRequests.h"; path = "Bridge/BridgeCommon/M+MBridgeRequests.h"; sourceTree = SOURCE_ROOT; };
-		DF1BD33D1A8C014F0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/BridgeClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF1BD33E1A8C014F0070A09C /* M+MBridgeClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeClientMain.cpp"; path = "Bridge/BridgeClient/M+MBridgeClientMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF1BD33F1A8C014F0070A09C /* M+MBridgeClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBridgeClient.cpp"; path = "Bridge/BridgeClient/M+MBridgeClient.cpp"; sourceTree = SOURCE_ROOT; };
-		DF1BD3401A8C014F0070A09C /* M+MBridgeClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBridgeClient.h"; path = "Bridge/BridgeClient/M+MBridgeClient.h"; sourceTree = SOURCE_ROOT; };
-		DF1BD3411A8C014F0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF1BD3461A8D201D0070A09C /* M+MConnectionThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MConnectionThread.cpp"; path = "Bridge/BridgeService/M+MConnectionThread.cpp"; sourceTree = "<group>"; };
-		DF1BD3471A8D201D0070A09C /* M+MConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MConnectionThread.h"; path = "Bridge/BridgeService/M+MConnectionThread.h"; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -391,10 +377,28 @@
 		DF824BD119C8E4C5004D13AC /* M+MLeapMotionInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapMotionInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputService.cpp"; sourceTree = SOURCE_ROOT; };
 		DF824BD219C8E4C5004D13AC /* M+MLeapMotionInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapMotionInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputService.h"; sourceTree = SOURCE_ROOT; };
 		DF824BD319C8E4C5004D13AC /* M+MLeapMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapMotionInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF8D35401A9F92AA00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestLoopbackResponder/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF8D35411A9F92AA00322DDD /* M+MTestLoopbackResponderMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestLoopbackResponderMain.cpp"; path = "Bridge/TestLoopbackResponder/M+MTestLoopbackResponderMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF8D35431A9F966B00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestLoopbackControl/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF8D35441A9F966B00322DDD /* M+MTestLoopbackControlMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestLoopbackControlMain.cpp"; path = "Bridge/TestLoopbackControl/M+MTestLoopbackControlMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35451AA4B34300322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestLoopbackControl/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D35461AA4B34300322DDD /* M+MTestLoopbackControlMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestLoopbackControlMain.cpp"; path = "Tunnel/TestLoopbackControl/M+MTestLoopbackControlMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35471AA4B49B00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestLoopbackResponder/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D35481AA4B49B00322DDD /* M+MTestLoopbackResponderMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestLoopbackResponderMain.cpp"; path = "Tunnel/TestLoopbackResponder/M+MTestLoopbackResponderMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35491AA4B4BA00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestSink/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D354A1AA4B4BA00322DDD /* M+MTestSinkMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestSinkMain.cpp"; path = "Tunnel/TestSink/M+MTestSinkMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D354B1AA4B4D700322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestSource/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D354C1AA4B4D700322DDD /* M+MTestSourceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestSourceMain.cpp"; path = "Tunnel/TestSource/M+MTestSourceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D354D1AA4B4F500322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TunnelClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D354E1AA4B4F500322DDD /* M+MTunnelClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTunnelClient.cpp"; path = "Tunnel/TunnelClient/M+MTunnelClient.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D354F1AA4B4F500322DDD /* M+MTunnelClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTunnelClient.h"; path = "Tunnel/TunnelClient/M+MTunnelClient.h"; sourceTree = SOURCE_ROOT; };
+		DF8D35501AA4B4F500322DDD /* M+MTunnelClientMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTunnelClientMain.cpp"; path = "Tunnel/TunnelClient/M+MTunnelClientMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35511AA4B50C00322DDD /* M+MTunnelRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTunnelRequests.h"; path = "Tunnel/TunnelCommon/M+MTunnelRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF8D35521AA4B53300322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TunnelService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF8D35531AA4B53300322DDD /* M+MConnectionThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MConnectionThread.cpp"; path = "Tunnel/TunnelService/M+MConnectionThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35541AA4B53300322DDD /* M+MConnectionThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MConnectionThread.h"; path = "Tunnel/TunnelService/M+MConnectionThread.h"; sourceTree = SOURCE_ROOT; };
+		DF8D35551AA4B53300322DDD /* M+MTunnelService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTunnelService.cpp"; path = "Tunnel/TunnelService/M+MTunnelService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35561AA4B53300322DDD /* M+MTunnelService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTunnelService.h"; path = "Tunnel/TunnelService/M+MTunnelService.h"; sourceTree = SOURCE_ROOT; };
+		DF8D35571AA4B53300322DDD /* M+MTunnelServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTunnelServiceMain.cpp"; path = "Tunnel/TunnelService/M+MTunnelServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35581AA4B54900322DDD /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Tunnel/TunnelService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF8D35591AA4B54900322DDD /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Tunnel/TunnelService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF8D355A1AA4B56900322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -492,10 +496,6 @@
 		F64A5FEB1A9BFB2D0015A21E /* M+MTwoFingersInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputService.cpp"; sourceTree = SOURCE_ROOT; };
 		F64A5FEC1A9BFB2D0015A21E /* M+MTwoFingersInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTwoFingersInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputService.h"; sourceTree = SOURCE_ROOT; };
 		F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		F66CFB381A97561500168727 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestSink/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		F66CFB391A97561500168727 /* M+MTestSinkMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestSinkMain.cpp"; path = "Bridge/TestSink/M+MTestSinkMain.cpp"; sourceTree = SOURCE_ROOT; };
-		F66CFB3A1A97562C00168727 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Bridge/TestSource/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		F66CFB3B1A97562C00168727 /* M+MTestSourceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestSourceMain.cpp"; path = "Bridge/TestSource/M+MTestSourceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54581A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -531,7 +531,7 @@
 				DF1BD31F1A8BA2DE0070A09C /* CMakeLists.txt */,
 			);
 			name = Address;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF1BD3201A8BA2E40070A09C /* AddressClient */ = {
 			isa = PBXGroup;
@@ -542,7 +542,7 @@
 				DF1BD3241A8BA2FA0070A09C /* M+MAddressClientMain.cpp */,
 			);
 			name = AddressClient;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF1BD3251A8BA3000070A09C /* AddressCommon */ = {
 			isa = PBXGroup;
@@ -550,7 +550,7 @@
 				DF1BD3261A8BA3140070A09C /* M+MAddressRequests.h */,
 			);
 			name = AddressCommon;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF1BD3271A8BA31A0070A09C /* AddressService */ = {
 			isa = PBXGroup;
@@ -562,7 +562,7 @@
 				DF1BD3341A8BAEE10070A09C /* RequestHandlers */,
 			);
 			name = AddressService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF1BD3341A8BAEE10070A09C /* RequestHandlers */ = {
 			isa = PBXGroup;
@@ -571,64 +571,64 @@
 				DF1BD3311A8BA3310070A09C /* M+MWhereRequestHandler.h */,
 			);
 			name = RequestHandlers;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
-		DF1BD3351A8C010E0070A09C /* Bridge */ = {
+		DF1BD3351A8C010E0070A09C /* Tunnel */ = {
 			isa = PBXGroup;
 			children = (
-				DF1BD3451A8C01C70070A09C /* BridgeClient */,
-				DF1BD3431A8C01790070A09C /* BridgeCommon */,
-				DF1BD3421A8C01600070A09C /* BridgeService */,
-				DF1BD3411A8C014F0070A09C /* CMakeLists.txt */,
+				DF8D355A1AA4B56900322DDD /* CMakeLists.txt */,
 				DF8D35421A9F965100322DDD /* TestLoopbackControl */,
 				DF8D353F1A9F916300322DDD /* TesLoopbackResponder */,
 				F66CFB351A9754FD00168727 /* TestSink */,
 				F66CFB371A97553A00168727 /* TestSource */,
+				DF1BD3451A8C01C70070A09C /* TunnelClient */,
+				DF1BD3431A8C01790070A09C /* TunnelCommon */,
+				DF1BD3421A8C01600070A09C /* TunnelService */,
 			);
-			name = Bridge;
-			sourceTree = "<group>";
+			name = Tunnel;
+			sourceTree = SOURCE_ROOT;
 		};
-		DF1BD3421A8C01600070A09C /* BridgeService */ = {
+		DF1BD3421A8C01600070A09C /* TunnelService */ = {
 			isa = PBXGroup;
 			children = (
-				DF1BD33A1A8C014F0070A09C /* CMakeLists.txt */,
-				DF1BD3361A8C014F0070A09C /* M+MBridgeService.cpp */,
-				DF1BD3371A8C014F0070A09C /* M+MBridgeService.h */,
-				DF1BD3381A8C014F0070A09C /* M+MBridgeServiceMain.cpp */,
-				DF1BD3461A8D201D0070A09C /* M+MConnectionThread.cpp */,
-				DF1BD3471A8D201D0070A09C /* M+MConnectionThread.h */,
+				DF8D35521AA4B53300322DDD /* CMakeLists.txt */,
+				DF8D35531AA4B53300322DDD /* M+MConnectionThread.cpp */,
+				DF8D35541AA4B53300322DDD /* M+MConnectionThread.h */,
+				DF8D35551AA4B53300322DDD /* M+MTunnelService.cpp */,
+				DF8D35561AA4B53300322DDD /* M+MTunnelService.h */,
+				DF8D35571AA4B53300322DDD /* M+MTunnelServiceMain.cpp */,
 				DF1BD3441A8C01A50070A09C /* RequestHandlers */,
 			);
-			name = BridgeService;
-			sourceTree = "<group>";
+			name = TunnelService;
+			sourceTree = SOURCE_ROOT;
 		};
-		DF1BD3431A8C01790070A09C /* BridgeCommon */ = {
+		DF1BD3431A8C01790070A09C /* TunnelCommon */ = {
 			isa = PBXGroup;
 			children = (
-				DF1BD33C1A8C014F0070A09C /* M+MBridgeRequests.h */,
+				DF8D35511AA4B50C00322DDD /* M+MTunnelRequests.h */,
 			);
-			name = BridgeCommon;
-			sourceTree = "<group>";
+			name = TunnelCommon;
+			sourceTree = SOURCE_ROOT;
 		};
 		DF1BD3441A8C01A50070A09C /* RequestHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				DF1BD3391A8C014F0070A09C /* M+MWhereRequestHandler.cpp */,
-				DF1BD33B1A8C014F0070A09C /* M+MWhereRequestHandler.h */,
+				DF8D35581AA4B54900322DDD /* M+MWhereRequestHandler.cpp */,
+				DF8D35591AA4B54900322DDD /* M+MWhereRequestHandler.h */,
 			);
 			name = RequestHandlers;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
-		DF1BD3451A8C01C70070A09C /* BridgeClient */ = {
+		DF1BD3451A8C01C70070A09C /* TunnelClient */ = {
 			isa = PBXGroup;
 			children = (
-				DF1BD33D1A8C014F0070A09C /* CMakeLists.txt */,
-				DF1BD33F1A8C014F0070A09C /* M+MBridgeClient.cpp */,
-				DF1BD3401A8C014F0070A09C /* M+MBridgeClient.h */,
-				DF1BD33E1A8C014F0070A09C /* M+MBridgeClientMain.cpp */,
+				DF8D354D1AA4B4F500322DDD /* CMakeLists.txt */,
+				DF8D354E1AA4B4F500322DDD /* M+MTunnelClient.cpp */,
+				DF8D354F1AA4B4F500322DDD /* M+MTunnelClient.h */,
+				DF8D35501AA4B4F500322DDD /* M+MTunnelClientMain.cpp */,
 			);
-			name = BridgeClient;
-			sourceTree = "<group>";
+			name = TunnelClient;
+			sourceTree = SOURCE_ROOT;
 		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
@@ -795,7 +795,7 @@
 				DF385014198A9D6A00A0414E /* M+MStatsRequestHandler.h */,
 			);
 			name = RequestHandlers;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF36EEF41958E0C800E7D889 /* RequestHandlers */ = {
 			isa = PBXGroup;
@@ -958,7 +958,7 @@
 				DF6EAFA21A65C97000FC0085 /* TruncateFloat.js */,
 			);
 			name = JavaScript;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF4CCFD218FD903000713E54 /* RunningSumAltAdapter */ = {
 			isa = PBXGroup;
@@ -978,7 +978,7 @@
 				DF6DFCC01A0D261E00E8CEF5 /* ViconDataStreamInputService */,
 			);
 			name = ViconDataStream;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF6DFCC01A0D261E00E8CEF5 /* ViconDataStreamInputService */ = {
 			isa = PBXGroup;
@@ -993,7 +993,7 @@
 				DF6DFCC91A0D265000E8CEF5 /* stdafx.h */,
 			);
 			name = ViconDataStreamInputService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF7784F918ECA5EA00BDC5C1 /* EchoCommon */ = {
 			isa = PBXGroup;
@@ -1053,7 +1053,7 @@
 				DF824B9019C7535F004D13AC /* M+MExemplarInputHandler.h */,
 			);
 			name = ExemplarAdapter;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF824B9119C753F6004D13AC /* ExemplarClient */ = {
 			isa = PBXGroup;
@@ -1136,7 +1136,7 @@
 				DF824BBC19C8B0F2004D13AC /* LeapMotionInputService */,
 			);
 			name = LeapMotion;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF824BBC19C8B0F2004D13AC /* LeapMotionInputService */ = {
 			isa = PBXGroup;
@@ -1158,31 +1158,30 @@
 				F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */,
 			);
 			name = LeapMotionInputService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF8D353F1A9F916300322DDD /* TesLoopbackResponder */ = {
 			isa = PBXGroup;
 			children = (
-				DF8D35401A9F92AA00322DDD /* CMakeLists.txt */,
-				DF8D35411A9F92AA00322DDD /* M+MTestLoopbackResponderMain.cpp */,
+				DF8D35471AA4B49B00322DDD /* CMakeLists.txt */,
+				DF8D35481AA4B49B00322DDD /* M+MTestLoopbackResponderMain.cpp */,
 			);
 			name = TesLoopbackResponder;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DF8D35421A9F965100322DDD /* TestLoopbackControl */ = {
 			isa = PBXGroup;
 			children = (
-				DF8D35431A9F966B00322DDD /* CMakeLists.txt */,
-				DF8D35441A9F966B00322DDD /* M+MTestLoopbackControlMain.cpp */,
+				DF8D35451AA4B34300322DDD /* CMakeLists.txt */,
+				DF8D35461AA4B34300322DDD /* M+MTestLoopbackControlMain.cpp */,
 			);
 			name = TestLoopbackControl;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFA3430618C91B4F0053B87C = {
 			isa = PBXGroup;
 			children = (
 				DF1BD31E1A8BA2D00070A09C /* Address */,
-				DF1BD3351A8C010E0070A09C /* Bridge */,
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
 				DFCB229718EF23D200358EA5 /* ClientList */,
 				DF38503D198ABBA000A0414E /* CommonTests */,
@@ -1204,6 +1203,7 @@
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
+				DF1BD3351A8C010E0070A09C /* Tunnel */,
 				DFEF4B591A1CE6C300FBB838 /* Unreal */,
 				DFA4963A18FED31A005A7213 /* Version */,
 				DF6DFCBF1A0D25FC00E8CEF5 /* ViconDataStream */,
@@ -1466,7 +1466,7 @@
 				DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */,
 			);
 			name = AbsorberService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFCDE4F619E302530051D294 /* FindServices */ = {
 			isa = PBXGroup;
@@ -1475,7 +1475,7 @@
 				DFCDE4F819E3029B0051D294 /* M+MFindServicesMain.cpp */,
 			);
 			name = FindServices;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFCDE4FB19E6CE4C0051D294 /* RGBLEDService */ = {
 			isa = PBXGroup;
@@ -1489,7 +1489,7 @@
 				DFCDE50219E6CE710051D294 /* M+MRGBLEDServiceMain.cpp */,
 			);
 			name = RGBLEDService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFCDE50719E7393D0051D294 /* ServiceMetrics */ = {
 			isa = PBXGroup;
@@ -1498,7 +1498,7 @@
 				DFCDE50919E73A210051D294 /* M+MServiceMetricsMain.cpp */,
 			);
 			name = ServiceMetrics;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFE83ABA19B661EB003A7EDE /* MovementDb */ = {
 			isa = PBXGroup;
@@ -1521,7 +1521,7 @@
 				DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */,
 			);
 			name = MovementDbClient;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFE83ABC19B66206003A7EDE /* MovementDbCommon */ = {
 			isa = PBXGroup;
@@ -1529,7 +1529,7 @@
 				DFE83AD319B671D1003A7EDE /* M+MMovementDbRequests.h */,
 			);
 			name = MovementDbCommon;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFE83ABD19B66212003A7EDE /* MovementDbService */ = {
 			isa = PBXGroup;
@@ -1543,7 +1543,7 @@
 				DFE83AE219B8AB1A003A7EDE /* RequestHandlers */,
 			);
 			name = MovementDbService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFE83AE219B8AB1A003A7EDE /* RequestHandlers */ = {
 			isa = PBXGroup;
@@ -1571,7 +1571,7 @@
 				DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */,
 			);
 			name = MovementDbAdapter;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFEF4B591A1CE6C300FBB838 /* Unreal */ = {
 			isa = PBXGroup;
@@ -1580,7 +1580,7 @@
 				DFEF4B5B1A1CE6E300FBB838 /* UnrealOutputService */,
 			);
 			name = Unreal;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFEF4B5B1A1CE6E300FBB838 /* UnrealOutputService */ = {
 			isa = PBXGroup;
@@ -1596,7 +1596,7 @@
 				DFEF4B5E1A1CE6F900FBB838 /* M+MUnrealOutputViconInputHandler.h */,
 			);
 			name = UnrealOutputService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFEF4B631A24FC7900FBB838 /* swig_mpm_in */ = {
 			isa = PBXGroup;
@@ -1604,7 +1604,7 @@
 				DFEF4BBD1A2684D500FBB838 /* mpmCommon.i */,
 			);
 			name = swig_mpm_in;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFEF4B891A24FCAF00FBB838 /* swig_odl_in */ = {
 			isa = PBXGroup;
@@ -1612,7 +1612,7 @@
 				DFEF4BB01A24FE8800FBB838 /* ODLogging.i */,
 			);
 			name = swig_odl_in;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFEF4BB51A262AEC00FBB838 /* RecordAsJSON */ = {
 			isa = PBXGroup;
@@ -1626,7 +1626,7 @@
 				DFEF4BBC1A262B3500FBB838 /* M+MRecordAsJSONServiceMain.cpp */,
 			);
 			name = RecordAsJSON;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFFFBFD219D9A40600BBD7A7 /* KinectV2 */ = {
 			isa = PBXGroup;
@@ -1635,7 +1635,7 @@
 				DFFFBFD419D9A4A300BBD7A7 /* KinectV2InputService */,
 			);
 			name = KinectV2;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		DFFFBFD419D9A4A300BBD7A7 /* KinectV2InputService */ = {
 			isa = PBXGroup;
@@ -1650,25 +1650,25 @@
 				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
 			);
 			name = KinectV2InputService;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		F66CFB351A9754FD00168727 /* TestSink */ = {
 			isa = PBXGroup;
 			children = (
-				F66CFB381A97561500168727 /* CMakeLists.txt */,
-				F66CFB391A97561500168727 /* M+MTestSinkMain.cpp */,
+				DF8D35491AA4B4BA00322DDD /* CMakeLists.txt */,
+				DF8D354A1AA4B4BA00322DDD /* M+MTestSinkMain.cpp */,
 			);
 			name = TestSink;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 		F66CFB371A97553A00168727 /* TestSource */ = {
 			isa = PBXGroup;
 			children = (
-				F66CFB3A1A97562C00168727 /* CMakeLists.txt */,
-				F66CFB3B1A97562C00168727 /* M+MTestSourceMain.cpp */,
+				DF8D354B1AA4B4D700322DDD /* CMakeLists.txt */,
+				DF8D354C1AA4B4D700322DDD /* M+MTestSourceMain.cpp */,
 			);
 			name = TestSource;
-			sourceTree = "<group>";
+			sourceTree = SOURCE_ROOT;
 		};
 /* End PBXGroup section */
 

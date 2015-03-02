@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MBridgeService.h
+//  File:       M+MTunnelService.h
 //
 //  Project:    M+M
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMBridgeService_H_))
-# define MpMBridgeService_H_ /* Header guard */
+#if (! defined(MpMTunnelService_H_))
+# define MpMTunnelService_H_ /* Header guard */
 
 # include <mpm/M+MBaseService.h>
 
@@ -53,17 +53,17 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_ADDRESS_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "bridge")
+# define DEFAULT_TUNNEL_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "tunnel")
 
 namespace MplusM
 {
-    namespace Bridge
+    namespace Tunnel
     {
         class ConnectionThread;
         class WhereRequestHandler;
         
-        /*! @brief The Bridge service. */
-        class BridgeService : public Common::BaseService
+        /*! @brief The Tunnel service. */
+        class TunnelService : public Common::BaseService
         {
         public :
             
@@ -74,7 +74,7 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            BridgeService(const yarp::os::ConstString & sourceName,
+            TunnelService(const yarp::os::ConstString & sourceName,
                           const int                     sourcePort,
                           const yarp::os::ConstString & launchPath,
                           const yarp::os::ConstString & tag,
@@ -82,7 +82,7 @@ namespace MplusM
                           const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~BridgeService(void);
+            virtual ~TunnelService(void);
             
             /*! @brief Return the remembered address.
              @param address The remembered address.
@@ -109,7 +109,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(BridgeService);
+            COPY_AND_ASSIGNMENT_(TunnelService);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
@@ -144,10 +144,10 @@ namespace MplusM
             /*! @brief The data source port. */
             int _sourcePort;
 
-        }; // BridgeService
+        }; // TunnelService
         
-    } // Bridge
+    } // Tunnel
     
 } // MplusM
 
-#endif // ! defined(MpMBridgeService_H_)
+#endif // ! defined(MpMTunnelService_H_)

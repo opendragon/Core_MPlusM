@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MBridgeClientMain.cpp
+//  File:       M+MTunnelClientMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the client of the Bridge service.
+//  Contains:   The main application for the client of the Tunnel service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MBridgeClient.h"
-#include "M+MBridgeRequests.h"
+#include "M+MTunnelClient.h"
+#include "M+MTunnelRequests.h"
 
 #include <mpm/M+MUtilities.h>
 
@@ -50,17 +50,17 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the client of the Bridge service. */
+ @brief The main application for the client of the Tunnel service. */
 
-/*! @dir BridgeClient
- @brief The set of files that implement the Bridge client. */
+/*! @dir TunnelClient
+ @brief The set of files that implement the Tunnel client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Bridge;
 using namespace MplusM::Common;
+using namespace MplusM::Tunnel;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -163,17 +163,17 @@ static SOCKET setUpListeningPost(const int listenPort)
     return listenSocket;
 } // setUpListeningPost
 
-/*! @brief Connect to the Bridge service 'raw' network port.
+/*! @brief Connect to the Tunnel service 'raw' network port.
  @param serviceAddress The IP address to connect to.
  @param servicePort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
+static SOCKET connectToTunnel(const yarp::os::ConstString & serviceAddress,
                               const int                     servicePort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
     OD_LOG_L1("servicePort = ", servicePort); //####
-    SOCKET         bridgeSocket = INVALID_SOCKET;
+    SOCKET         tunnelSocket = INVALID_SOCKET;
     struct in_addr addrBuff;
 #if MAC_OR_LINUX_
     int            res = inet_pton(AF_INET, serviceAddress.c_str(), &addrBuff);
@@ -183,10 +183,10 @@ static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
     
     if (0 < res)
     {
-        bridgeSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-        OD_LOG_L1("bridgeSocket = ", bridgeSocket); //####
+        tunnelSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+        OD_LOG_L1("tunnelSocket = ", tunnelSocket); //####
 #if MAC_OR_LINUX_
-        if (INVALID_SOCKET != bridgeSocket)
+        if (INVALID_SOCKET != tunnelSocket)
         {
             struct sockaddr_in addr;
             
@@ -194,36 +194,36 @@ static SOCKET connectToBridge(const yarp::os::ConstString & serviceAddress,
             addr.sin_family = AF_INET;
             addr.sin_port = htons(servicePort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
-            if (connect(bridgeSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
+            if (connect(tunnelSocket, reinterpret_cast<struct sockaddr *>(&addr), sizeof(addr)))
             {
-                OD_LOG("(connect(bridgeSocket, reinterpret_cast<struct sockaddr *>(&addr), " //####
+                OD_LOG("(connect(tunnelSocket, reinterpret_cast<struct sockaddr *>(&addr), " //####
                        "sizeof(addr)))"); //####
-                close(bridgeSocket);
-                bridgeSocket = INVALID_SOCKET;
+                close(tunnelSocket);
+                tunnelSocket = INVALID_SOCKET;
             }
         }
 #else // ! MAC_OR_LINUX_
-        if (INVALID_SOCKET != bridgeSocket)
+        if (INVALID_SOCKET != tunnelSocket)
         {
             SOCKADDR_IN addr;
             
             addr.sin_family = AF_INET;
             addr.sin_port = htons(servicePort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
-            int res = connect(bridgeSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
+            int res = connect(tunnelSocket, reinterpret_cast<LPSOCKADDR>(&addr), sizeof(addr));
             
             if (SOCKET_ERROR == res)
             {
                 OD_LOG("(SOCKET_ERROR == res)"); //####
-                closesocket(bridgeSocket);
-                bridgeSocket = INVALID_SOCKET;
+                closesocket(tunnelSocket);
+                tunnelSocket = INVALID_SOCKET;
             }
         }
 #endif // ! MAC_OR_LINUX_
     }
-    OD_LOG_EXIT_L(bridgeSocket); //####
-    return bridgeSocket;
-} // connectToBridge
+    OD_LOG_EXIT_L(tunnelSocket); //####
+    return tunnelSocket;
+} // connectToTunnel
 
 /*! @brief Handle the network connections.
  @param listenSocket The 'listen' socket to use.
@@ -243,18 +243,18 @@ static void handleConnections(SOCKET                        listenSocket,
     OD_LOG_L1("sinkSocket = ", sinkSocket); //####
     if (INVALID_SOCKET != sinkSocket)
     {
-        SOCKET bridgeSocket = connectToBridge(serviceAddress, servicePort);
+        SOCKET tunnelSocket = connectToTunnel(serviceAddress, servicePort);
         
-        if (INVALID_SOCKET != bridgeSocket)
+        if (INVALID_SOCKET != tunnelSocket)
         {
-            OD_LOG("(INVALID_SOCKET != bridgeSocket)"); //####
+            OD_LOG("(INVALID_SOCKET != tunnelSocket)"); //####
             for ( ; keepGoing; )
             {
                 yarp::os::Time::yield();
 #if MAC_OR_LINUX_
-                ssize_t inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
+                ssize_t inSize = recv(tunnelSocket, buffer, sizeof(buffer), 0);
 #else // ! MAC_OR_LINUX_
-                int     inSize = recv(bridgeSocket, buffer, sizeof(buffer), 0);
+                int     inSize = recv(tunnelSocket, buffer, sizeof(buffer), 0);
 #endif // ! MAC_OR_LINUX_
                 
                 if (0 < inSize)
@@ -272,11 +272,11 @@ static void handleConnections(SOCKET                        listenSocket,
                 }
             }
 #if MAC_OR_LINUX_
-            shutdown(bridgeSocket, SHUT_RDWR);
-            close(bridgeSocket);
+            shutdown(tunnelSocket, SHUT_RDWR);
+            close(tunnelSocket);
 #else // ! MAC_OR_LINUX_
-            shutdown(bridgeSocket, SD_BOTH);
-            closesocket(bridgeSocket);
+            shutdown(tunnelSocket, SD_BOTH);
+            closesocket(tunnelSocket);
 #endif // ! MAC_OR_LINUX_
         }
 #if MAC_OR_LINUX_
@@ -298,9 +298,9 @@ static void handleConnections(SOCKET                        listenSocket,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-/*! @brief The entry point for communicating with the Bridge service.
+/*! @brief The entry point for communicating with the Tunnel service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Bridge client.
+ @param argv The arguments to be used with the Tunnel client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -329,7 +329,7 @@ int main(int      argc,
                                                        "  tag        Optional tag for the service "
                                                        "to be connnected to", flavour, &arguments))
         {
-            yarp::os::ConstString namePattern(MpM_BRIDGE_CANONICAL_NAME);
+            yarp::os::ConstString namePattern(MpM_TUNNEL_CANONICAL_NAME);
             int                   listenPort = -1;
             
             if (1 <= arguments.size())
@@ -377,7 +377,7 @@ int main(int      argc,
                         yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
                         
                         Initialize(*argv);
-                        BridgeClient * stuff = new BridgeClient;
+                        TunnelClient * stuff = new TunnelClient;
                         
                         if (stuff)
                         {

@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MConnectionThread.h"
-#include "M+MBridgeService.h"
+#include "M+MTunnelService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -54,7 +54,7 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Bridge;
+using namespace MplusM::Tunnel;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -125,7 +125,7 @@ static SOCKET createListener(void)
     return listenSocket;
 } // createListener
 
-/*! @brief Connect to the Bridge service 'raw' network port.
+/*! @brief Connect to the Tunnel service 'raw' network port.
  @param dataAddress The IP address to connect to.
  @param dataPort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
@@ -191,7 +191,7 @@ static SOCKET connectToSource(const yarp::os::ConstString & dataAddress,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ConnectionThread::ConnectionThread(BridgeService & service) :
+ConnectionThread::ConnectionThread(TunnelService & service) :
     inherited(), _service(service), _sourceAddress(""), _sourcePort(-1),
     _listenSocket(INVALID_SOCKET), _sourceSocket(INVALID_SOCKET)
 {
@@ -299,13 +299,13 @@ void ConnectionThread::setSourceAddress(const yarp::os::ConstString & sourceName
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("sourceName = ", sourceName); //####
     OD_LOG_L1("sourcePort = ", sourcePort); //####
-    yarp::os::ConstString bridgeAddress;
-    int                   bridgePort;
+    yarp::os::ConstString tunnelAddress;
+    int                   tunnelPort;
     
     _sourceAddress = sourceName;
     _sourcePort = sourcePort;
     // We'll be determining the port to use, so the value returned for the port, here, is ignored.
-    _service.getAddress(bridgeAddress, bridgePort);
+    _service.getAddress(tunnelAddress, tunnelPort);
     _listenSocket = createListener();
     if (INVALID_SOCKET != _listenSocket)
     {
