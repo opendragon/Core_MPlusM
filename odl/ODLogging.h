@@ -102,8 +102,8 @@
 #  undef OD_ENABLE_LOGGING
 # endif // defined(OD_DISABLE_LOGGING)
 
-# undef OD_OBJPOINTER
 # undef OD_OBJPRINTABLE_STRING
+# undef OD_SELF_OR_THIS_OR_NULL
 
 # undef OD_LOG
 # undef OD_LOG_B1
@@ -130,6 +130,7 @@
 # undef OD_LOG_EXIT_P
 # undef OD_LOG_EXIT_R
 # undef OD_LOG_EXIT_S
+# undef OD_LOG_EXIT_Si
 # undef OD_LOG_EXIT_THROW_L
 # undef OD_LOG_EXIT_THROW_S
 # undef OD_LOG_EXIT_THROW_X
@@ -162,6 +163,7 @@
 # undef OD_LOG_OBJEXIT_P
 # undef OD_LOG_OBJEXIT_R
 # undef OD_LOG_OBJEXIT_S
+# undef OD_LOG_OBJEXIT_Si
 # undef OD_LOG_OBJEXIT_THROW_L
 # undef OD_LOG_OBJEXIT_THROW_S
 # undef OD_LOG_OBJEXIT_THROW_X
@@ -181,6 +183,7 @@
 # undef OD_LOG_S3s
 # undef OD_LOG_S4
 # undef OD_LOG_S4s
+# undef OD_LOG_Si
 # undef OD_LOG_Sp
 # undef OD_LOG_Ti
 # undef OD_LOG_X1
@@ -194,14 +197,17 @@
 
 # if defined(OD_ENABLE_LOGGING)
 #  if defined(__OBJC__)
-#   define OD_OBJPOINTER               self  /* The pointer to the calling object for a method. */
-#   define OD_OBJPRINTABLE_STRING(xx)  (xx ? [[xx description] UTF8String] : "<>") \
-/* Return the string description for an Objective-C object. */
+/*! @brief The pointer to the calling object for a method. */
+#   define OD_SELF_OR_THIS_OR_NULL     (__bridge const void *) self
+/*! @brief Return the string description for an Objective-C object. */
+#   define OD_OBJPRINTABLE_STRING(xx)  (xx ? [[xx description] UTF8String] : "<>")
 #  elif defined(__cplusplus)
-#   define OD_OBJPOINTER               this  /* The pointer to the calling object for a method. */
-#  else  // ! defined(__cplusplus)
-#   define OD_OBJPOINTER               NULL  /* The pointer to the calling object for a method. */
-#  endif  // defined(__cplusplus)
+/*! @brief The pointer to the calling object for a method. */
+#   define OD_SELF_OR_THIS_OR_NULL     (const void *) this
+#  else // ! defined(__cplusplus)
+/*! @brief The pointer to the calling object for a method. */
+#   define OD_SELF_OR_THIS_OR_NULL     NULL
+#  endif // defined(__cplusplus)
 
 /*! @brief Write a string to the log.
  @param text The string to be written. */
@@ -372,7 +378,6 @@
         ODLogExitP_(__FILE__, OD_FUNC_NAME_, __LINE__, val)
 
 #  if defined(__APPLE__)
-
 /*! @brief Write a rectangle function exit string to the log.
  @param val The value being returned by the function. */
 #   define OD_LOG_EXIT_R(val) \
@@ -383,6 +388,13 @@
  @param val The value being returned by the function. */
 #  define OD_LOG_EXIT_S(val) \
         ODLogExitS_(__FILE__, OD_FUNC_NAME_, __LINE__, val)
+
+#  if defined(__APPLE__)
+/*! @brief Write a size function exit string to the log.
+ @param val The value being returned by the function. */
+#   define OD_LOG_EXIT_Si(val) \
+        ODLogExitSi_(__FILE__, OD_FUNC_NAME_, __LINE__, val)
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a throw/long function exit string to the log.
  @param val The value being thrown by the function. */
@@ -546,96 +558,103 @@
 
 /*! @brief Write a method entry string to the log. */
 #  define OD_LOG_OBJENTER()  \
-        ODLogObjEnter_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER)
+        ODLogObjEnter_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL)
 
 /*! @brief Write a void method exit string to the log. */
 #  define OD_LOG_OBJEXIT()  \
-        ODLogObjExit_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER)
+        ODLogObjExit_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL)
 
 /*! @brief Write a boolean method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_B(val) \
-        ODLogObjExitB_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitB_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a character method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_C(val) \
-        ODLogObjExitC_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitC_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a double method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_D(val) \
-        ODLogObjExitD_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitD_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write an exit method string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_EXIT(val) \
-        ODLogObjExitExit_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitExit_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a long method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_L(val) \
-        ODLogObjExitL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a long long method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_LL(val) \
-        ODLogObjExitLL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitLL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 #  if defined(__OBJC__)
 /*! @brief Write an object method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_O(val) \
-        ODLogObjExitO_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitO_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 #  endif  // defined(__OBJC__)
 
 /*! @brief Write a pointer method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_P(val) \
-        ODLogObjExitP_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitP_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 #  if defined(__APPLE__)
 /*! @brief Write a rectangle method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_R(val) \
-        ODLogObjExitR_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitR_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 #  endif  // defined(__APPLE__)
 
 /*! @brief Write a string method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_S(val) \
-        ODLogObjExitS_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitS_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
+
+#  if defined(__APPLE__)
+/*! @brief Write a size method exit string to the log.
+ @param val The value being returned by the method. */
+#   define OD_LOG_OBJEXIT_Si(val) \
+        ODLogObjExitSi_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a throw/long method exit string to the log.
  @param val The value being thrown by the method. */
 #  define OD_LOG_OBJEXIT_THROW_L(val) \
-        ODLogObjExitThrowL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitThrowL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a throw/string method exit string to the log.
  @param val The value being thrown by the method. */
 #  define OD_LOG_OBJEXIT_THROW_S(val) \
-        ODLogObjExitThrowS_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitThrowS_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a throw/long hexadecimal method exit string to the log.
  @param val The value being thrown by the method. */
 #  define OD_LOG_OBJEXIT_THROW_X(val) \
-        ODLogObjExitThrowX_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitThrowX_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a long hexadecimal method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_X(val) \
-        ODLogObjExitX_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitX_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a long long hexadecimal method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_XL(val) \
-        ODLogObjExitXL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_OBJPOINTER, val)
+        ODLogObjExitXL_(__FILE__, OD_FUNC_NAME_, __LINE__, OD_SELF_OR_THIS_OR_NULL, val)
 
 /*! @brief Write a pointer value to the log.
  @param text1 The caption for the value to be written.
  @param ptr1 The value to be written. */
 #  define OD_LOG_P1(text1, ptr1)  \
-        ODLogP1_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (const void *) (ptr1))
+        ODLogP1_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, ptr1)
 
 /*! @brief Write two pointer values to the log.
  @param text1 The caption for the first value to be written.
@@ -643,8 +662,7 @@
  @param text2 The caption for the second value to be written.
  @param ptr2 The second value to be written. */
 #  define OD_LOG_P2(text1, ptr1, text2, ptr2)  \
-        ODLogP2_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (const void *) (ptr1), text2, \
-                    (const void *) (ptr2))
+        ODLogP2_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, ptr1, text2, ptr2)
 
 /*! @brief Write three pointer values to the log.
  @param text1 The caption for the first value to be written.
@@ -654,8 +672,7 @@
  @param text3 The caption for the third value to be written.
  @param ptr3 The third value to be written. */
 #  define OD_LOG_P3(text1, ptr1, text2, ptr2, text3, ptr3)  \
-        ODLogP3_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (const void *) (ptr1), text2, \
-                    (const void *) (ptr2), text3, (const void *) (ptr3))
+        ODLogP3_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, ptr1, text2, ptr2, text3, ptr3)
 
 /*! @brief Write four pointer values to the log.
  @param text1 The caption for the first value to be written.
@@ -667,9 +684,7 @@
  @param text4 The caption for the fourth value to be written.
  @param ptr4 The fourth value to be written. */
 #  define OD_LOG_P4(text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4)  \
-        ODLogP4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, (const void *) (ptr1), text2, \
-                    (const void *) (ptr2), text3, (const void *) (ptr3), text4, \
-                    (const void *) (ptr4))
+        ODLogP4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, ptr1, text2, ptr2, text3, ptr3, text4, ptr4)
 
 /*! @brief Write a region of memory to the log.
  @param caption The caption for the region to be written.
@@ -722,6 +737,14 @@
 #  define OD_LOG_S4(text1, val1, text2, val2, text3, val3, text4, val4)  \
         ODLogS4_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, val1, text2, val2, text3, val3, text4,\
                     val4)
+
+#  if defined(__APPLE__)
+/*! @brief Write a size to the log.
+ @param caption The caption for the value to be written.
+ @param size The value to be written. */
+#   define OD_LOG_SIZE(caption, size)  \
+        ODLogSize_(__FILE__, OD_FUNC_NAME_,  __LINE__, caption, size)
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a (possibly unterminated) string to the log.
  @param text The caption for the value to be written.
@@ -818,7 +841,7 @@
 #  if defined(__cplusplus)
 extern "C"
 {
-#  endif  // defined(__cplusplus)
+#  endif // defined(__cplusplus)
     
     /*! @brief Write a string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1165,7 +1188,19 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const char * val);
-    
+
+#  if defined(__APPLE__)
+    /*! @brief Write a size function exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param val The value being returned by the function. */
+    void ODLogExitSi_(const char * fileName,
+                      const char * funcName,
+                      const int    lineNumber,
+                      const CGSize val);
+#  endif // defined(__APPLE__)
+
     /*! @brief Write a throw/long function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1576,7 +1611,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const id     val);
-#  endif  // defined(__OBJC__)
+#  endif // defined(__OBJC__)
     
     /*! @brief Write a pointer method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1602,7 +1637,7 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const CGRect val);
-#  endif  // defined(__APPLE__)
+#  endif // defined(__APPLE__)
     
     /*! @brief Write a string method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1615,7 +1650,21 @@ extern "C"
                         const int    lineNumber,
                         const void * objPtr,
                         const char * val);
-    
+
+#  if defined(__APPLE__)
+    /*! @brief Write a size method exit string to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param objPtr The this/self pointer for the caller.
+     @param val The value being returned by the method. */
+    void ODLogObjExitSi_(const char * fileName,
+                         const char * funcName,
+                         const int    lineNumber,
+                         const void * objPtr,
+                         const CGSize val);
+#  endif // defined(__APPLE__)
+
     /*! @brief Write a throw/long method exit string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -1774,7 +1823,7 @@ extern "C"
                     const int    lineNumber,
                     const char * caption,
                     const CGRect rect);
-#  endif  // defined(__APPLE__)
+#  endif // defined(__APPLE__)
     
     /*! @brief Write a string value to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1847,7 +1896,21 @@ extern "C"
                   const char * val3,
                   const char * text4,
                   const char * val4);
-    
+
+#  if defined(__APPLE__)
+    /*! @brief Write a size to the log.
+     @param fileName The name of the source file containing the call to this function.
+     @param funcName The name of the calling function.
+     @param lineNumber The line number in the source file where the call occurs.
+     @param caption The caption for the value to be written.
+     @param rect The value to be written. */
+    void ODLogSize_(const char * fileName,
+                    const char * funcName,
+                    const int    lineNumber,
+                    const char * caption,
+                    const CGSize size);
+#  endif // defined(__APPLE__)
+
     /*! @brief Write a (possibly unterminated) string to the log.
      @param fileName The name of the source file containing the call to this function.
      @param funcName The name of the calling function.
@@ -2022,12 +2085,12 @@ extern "C"
     
 #  if defined(__cplusplus)
 }
-#  endif  // defined(__cplusplus)
+#  endif // defined(__cplusplus)
 # else // ! defined(OD_ENABLE_LOGGING)
 #  if defined(__OBJC__)
  /* Return the string description of an Objective-C object. */
 #   define OD_OBJPRINTABLE_STRING(xx) ""
-#  endif  // defined(__OBJC__)
+#  endif // defined(__OBJC__)
 
 /*! @brief Write a string to the log.
  @param text The string to be written. */
@@ -2163,7 +2226,7 @@ extern "C"
 /*! @brief Write an object function exit string to the log.
  @param val The value being returned by the function. */
 #   define OD_LOG_EXIT_O(val) /* */
-#  endif  // defined(__OBJC__)
+#  endif // defined(__OBJC__)
 
 /*! @brief Write a pointer function exit string to the log.
  @param val The value being returned by the function. */
@@ -2173,7 +2236,7 @@ extern "C"
 /*! @brief Write a rectangle function exit string to the log.
  @param val The value being returned by the function. */
 #   define OD_LOG_EXIT_R(val) /* */
-#  endif  // defined(__APPLE__)
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a string function exit string to the log.
  @param val The value being returned by the function. */
@@ -2347,7 +2410,7 @@ extern "C"
 /*! @brief Write an object method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_O(val) /* */
-#  endif  // defined(__OBJC__)
+#  endif // defined(__OBJC__)
 
 /*! @brief Write a pointer method exit string to the log.
  @param val The value being returned by the method. */
@@ -2357,11 +2420,17 @@ extern "C"
 /*! @brief Write a rectangle method exit string to the log.
  @param val The value being returned by the method. */
 #   define OD_LOG_OBJEXIT_R(val) /* */
-#  endif  // defined(__APPLE__)
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a string method exit string to the log.
  @param val The value being returned by the method. */
 #  define OD_LOG_OBJEXIT_S(val) /* */
+
+#  if defined(__APPLE__)
+/*! @brief Write a size method exit string to the log.
+ @param val The value being returned by the method. */
+#   define OD_LOG_OBJEXIT_Si(val) /* */
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a throw/long method exit string to the log.
  @param val The value being thrown by the method. */
@@ -2426,7 +2495,7 @@ extern "C"
  @param caption The caption for the value to be written.
  @param rect The value to be written. */
 #   define OD_LOG_RECT(caption, rect) /* */
-#  endif  // defined(__APPLE__)
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a string value to the log.
  @param text1 The caption for the value to be written.
@@ -2459,6 +2528,13 @@ extern "C"
  @param text4 The caption for the fourth value to be written.
  @param val4 The fourth value to be written. */
 #  define OD_LOG_S4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
+
+#  if defined(__APPLE__)
+/*! @brief Write a size to the log.
+ @param caption The caption for the value to be written.
+ @param rect The value to be written. */
+#   define OD_LOG_SIZE(caption, size) /* */
+#  endif // defined(__APPLE__)
 
 /*! @brief Write a (possibly unterminated) string to the log.
  @param text The caption for the value to be written.
