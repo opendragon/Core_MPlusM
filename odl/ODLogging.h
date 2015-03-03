@@ -1159,7 +1159,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const id     val);
-#   endif  // defined(__OBJC__)
+#   endif // defined(__OBJC__)
     
     /*! @brief Write a pointer function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1181,7 +1181,7 @@ extern "C"
                      const char * funcName,
                      const int    lineNumber,
                      const CGRect val);
-#   endif  // defined(__APPLE__)
+#   endif // defined(__APPLE__)
     
     /*! @brief Write a string function exit string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1509,7 +1509,7 @@ extern "C"
                   const id     obj3,
                   const char * text4,
                   const id     obj4);
-#   endif  // defined(__OBJC__)
+#   endif // defined(__OBJC__)
     
     /*! @brief Write a method entry string to the log.
      @param fileName The name of the source file containing the call to this function.
@@ -1941,7 +1941,7 @@ extern "C"
                   const int              lineNumber,
                   const char *           text1,
                   const struct timeval * val1);
-#   endif  // MAC_OR_LINUX_
+#   endif // MAC_OR_LINUX_
     
     /*! @brief Write a long hexadecimal value to the log.
      @param fileName The name of the source file containing the call to this function.
