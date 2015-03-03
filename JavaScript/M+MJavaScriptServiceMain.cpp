@@ -46,7 +46,7 @@
 
 #if defined(MAC_OR_LINUX_)
 # include <libgen.h>
-#else  // ! defined(MAC_OR_LINUX_)
+#else // ! defined(MAC_OR_LINUX_)
 # include <stdlib.h>
 #endif // ! defined(MAC_OR_LINUX_)
 

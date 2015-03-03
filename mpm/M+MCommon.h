@@ -206,17 +206,16 @@
 
 /*! @brief The standard copy constructor and assignment operator declarations. */
 # define COPY_AND_ASSIGNMENT_(xx_) \
-    xx_(const xx_ & other);\
-    \
-    xx_ & operator =(const xx_ & other)
+    xx_(const xx_ & other_);\
+    xx_ & operator =(const xx_ & other_)
 
 /*! @brief @c TRUE if retry loops use timeouts and @c FALSE otherwise. */
 # if defined(MpM_UseTimeoutsInRetryLoops)
 #  if defined(MpM_DontUseTimeouts)
 #   define RETRY_LOOPS_USE_TIMEOUTS FALSE
-#  else  // ! defined(MpM_DontUseTimeouts)
+#  else // ! defined(MpM_DontUseTimeouts)
 #   define RETRY_LOOPS_USE_TIMEOUTS TRUE
-#  endif  // ! defined(MpM_DontUseTimeouts)
+#  endif // ! defined(MpM_DontUseTimeouts)
 # else // ! defined(MpM_UseTimeoutsInRetryLoops)
 #  define RETRY_LOOPS_USE_TIMEOUTS  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)

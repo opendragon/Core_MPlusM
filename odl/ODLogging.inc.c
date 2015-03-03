@@ -663,11 +663,11 @@ EXTERN_C void ODLogB3_(const char * fileName,
 #   endif // ! defined(__OBJC__)
 #  else // ! MAC_OR_LINUX_
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName), text1,
-                odBoolToString_(val1), text2, odBoolToString_(val2));
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B2_ "\n", OD_FUNC_PREFIX_(rootName),
+                text1, odBoolToString_(val1), text2, odBoolToString_(val2));
         odWriteTime_(OD_LOG_STREAM_);
-        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName), text3,
-                odBoolToString_(val3));
+        fprintf(OD_LOG_STREAM_, OD_FUNC_FORMAT_ OD_FORMAT_B1_ "\n", OD_FUNC_PREFIX_(rootName),
+                text3, odBoolToString_(val3));
         fflush(OD_LOG_STREAM_);
 #  endif // ! MAC_OR_LINUX_
     }
@@ -1444,10 +1444,10 @@ EXTERN_C void ODLogExitP_(const char * fileName,
 } // ODLogExitP_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogExitR_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const CGRect val)
+EXTERN_C void ODLogExitRect_(const char * fileName,
+                             const char * funcName,
+                             const int    lineNumber,
+                             const CGRect val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1473,7 +1473,7 @@ EXTERN_C void ODLogExitR_(const char * fileName,
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
-} // ODLogExitR_
+} // ODLogExitRect_
 #  endif // defined(__APPLE__)
 
 EXTERN_C void ODLogExitS_(const char * fileName,
@@ -1515,10 +1515,10 @@ EXTERN_C void ODLogExitS_(const char * fileName,
 } // ODLogExitS_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogExitSi_(const char * fileName,
-                           const char * funcName,
-                           const int    lineNumber,
-                           const CGSize val)
+EXTERN_C void ODLogExitSize_(const char * fileName,
+                             const char * funcName,
+                             const int    lineNumber,
+                             const CGSize val)
 {
     const char * rootName = odFileNameRoot_(fileName);
 
@@ -1528,22 +1528,23 @@ EXTERN_C void ODLogExitSi_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_ "\n", OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
-                val.height, val.width);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_ "\n", OD_FUNC_PREFIX_(rootName),
+                OD_EXIT_VALUE_, val.height, val.width);
         fflush(lOdLogFile_);
     }
     else
     {
 #   if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_, val.height, val.width);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
+              val.height, val.width);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName), OD_EXIT_VALUE_,
-               val.height, val.width);
+        syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName),
+               OD_EXIT_VALUE_, val.height, val.width);
 #   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
-} // ODLogExitSi_
+} // ODLogExitSize_
 #  endif // defined(__APPLE__)
 
 EXTERN_C void ODLogExitThrowL_(const char *  fileName,
@@ -2917,11 +2918,11 @@ EXTERN_C void ODLogObjExitP_(const char * fileName,
 } // ODLogObjExitP_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogObjExitR_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr,
-                             const CGRect val)
+EXTERN_C void ODLogObjExitRect_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const CGRect val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2947,7 +2948,7 @@ EXTERN_C void ODLogObjExitR_(const char * fileName,
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
-} // ODLogObjExitR_
+} // ODLogObjExitRect_
 #  endif // defined(__APPLE__)
 
 EXTERN_C void ODLogObjExitS_(const char * fileName,
@@ -2990,11 +2991,11 @@ EXTERN_C void ODLogObjExitS_(const char * fileName,
 } // ODLogObjExitS_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogObjExitSi_(const char * fileName,
-                              const char * funcName,
-                              const int    lineNumber,
-                              const void * objPtr,
-                              const CGSize val)
+EXTERN_C void ODLogObjExitSize_(const char * fileName,
+                                const char * funcName,
+                                const int    lineNumber,
+                                const void * objPtr,
+                                const CGSize val)
 {
     const char * rootName = odFileNameRoot_(fileName);
 
@@ -3004,22 +3005,23 @@ EXTERN_C void ODLogObjExitSi_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_SIZE_ "\n", OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-                val.height, val.width);
+        fprintf(lOdLogFile_, OD_METHOD_FORMAT_ OD_FORMAT_SIZE_ "\n", OD_METHOD_PREFIX_(rootName),
+                OD_EXIT_VALUE_, val.height, val.width);
         fflush(lOdLogFile_);
     }
     else
     {
 #   if defined(__OBJC__)
-        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_SIZE_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_, val.height, val.width);
+        NSLog(@OD_METHOD_FORMAT_ OD_FORMAT_SIZE_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
+              val.height, val.width);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_SIZE_, OD_METHOD_PREFIX_(rootName), OD_EXIT_VALUE_,
-               val.height, val.width);
+        syslog(OD_LOG_LOG_LEVEL_, OD_METHOD_FORMAT_ OD_FORMAT_SIZE_, OD_METHOD_PREFIX_(rootName),
+               OD_EXIT_VALUE_, val.height, val.width);
 #   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
-} // ODLogObjExitSi_
+} // ODLogObjExitSize_
 #  endif // defined(__APPLE__)
 
 EXTERN_C void ODLogObjExitThrowL_(const char *  fileName,
@@ -3720,17 +3722,18 @@ EXTERN_C void ODLogSize_(const char * fileName,
     if (lOdLogFile_)
     {
         odWriteTime_(lOdLogFile_);
-        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_ "\n", OD_FUNC_PREFIX_(rootName), caption, size.height,
-                size.width);
+        fprintf(lOdLogFile_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_ "\n", OD_FUNC_PREFIX_(rootName),
+                caption, size.height, size.width);
         fflush(lOdLogFile_);
     }
     else
     {
 #   if defined(__OBJC__)
-        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName), caption, size.height, size.width);
+        NSLog(@OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName), caption, size.height,
+              size.width);
 #   else // ! defined(__OBJC__)
-        syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName), caption, size.height,
-               size.width);
+        syslog(OD_LOG_LOG_LEVEL_, OD_FUNC_FORMAT_ OD_FORMAT_SIZE_, OD_FUNC_PREFIX_(rootName),
+               caption, size.height, size.width);
 #   endif // ! defined(__OBJC__)
     }
     OD_FREE_PREFIX_();
