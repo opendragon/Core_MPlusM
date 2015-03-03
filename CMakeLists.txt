@@ -8,7 +8,7 @@
 #
 #  Written by: Norman Jaffe & Johnty Wang
 #
-#  Copyright:  (c) 2014 by HPlus Technologies Ltd. and Simon Fraser University.
+#  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
 #
 #              All rights reserved. Redistribution and use in source and binary forms, with or
 #              without modification, are permitted provided that the following conditions are met:
@@ -44,7 +44,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
-set(MpM_VERSION_PATCH 19)
+set(MpM_VERSION_PATCH 20)
 
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
