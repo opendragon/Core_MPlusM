@@ -3780,11 +3780,11 @@ EXTERN_C void ODLogSp_(const char * fileName,
 } // ODLogSp_
 
 #  if MAC_OR_LINUX_
-EXTERN_C void ODLogTi_(const char *           fileName,
-                       const char *           funcName,
-                       const int              lineNumber,
-                       const char *           text1,
-                       const struct timeval * val1)
+EXTERN_C void ODLogTime_(const char *           fileName,
+                         const char *           funcName,
+                         const int              lineNumber,
+                         const char *           text1,
+                         const struct timeval * val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3809,7 +3809,7 @@ EXTERN_C void ODLogTi_(const char *           fileName,
     }
     OD_FREE_PREFIX_();
     OD_FREE_INDENT_();
-} // ODLogTi_
+} // ODLogTime_
 #  endif // MAC_OR_LINUX_
 
 EXTERN_C void ODLogX1_(const char *  fileName,

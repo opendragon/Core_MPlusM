@@ -187,7 +187,7 @@
 # undef OD_LOG_S4s
 # undef OD_LOG_SIZE
 # undef OD_LOG_Sp
-# undef OD_LOG_Ti
+# undef OD_LOG_TIME
 # undef OD_LOG_X1
 # undef OD_LOG_X2
 # undef OD_LOG_X3
@@ -760,8 +760,8 @@
 /*! @brief Write a time value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#   define OD_LOG_Ti(text1, val1) \
-        ODLogTi_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, val1)
+#   define OD_LOG_TIME(text1, val1) \
+        ODLogTime_(__FILE__, OD_FUNC_NAME_, __LINE__, text1, val1)
 #  endif // MAC_OR_LINUX_
 
 /*! @brief Write a long hexadecimal value to the log.
@@ -1936,11 +1936,11 @@ extern "C"
      @param lineNumber The line number in the source file where the call occurs.
      @param text1 The caption for the value to be written.
      @param val1 The value to be written. */
-    void ODLogTi_(const char *           fileName,
-                  const char *           funcName,
-                  const int              lineNumber,
-                  const char *           text1,
-                  const struct timeval * val1);
+    void ODLogTime_(const char *           fileName,
+                    const char *           funcName,
+                    const int              lineNumber,
+                    const char *           text1,
+                    const struct timeval * val1);
 #   endif // MAC_OR_LINUX_
     
     /*! @brief Write a long hexadecimal value to the log.
@@ -2557,7 +2557,7 @@ extern "C"
 /*! @brief Write a time value to the log.
  @param text1 The caption for the value to be written.
  @param val1 The value to be written. */
-#   define OD_LOG_Ti(text1, val1) /* */
+#   define OD_LOG_TIME(text1, val1) /* */
 #  endif // MAC_OR_LINUX_
 
 /*! @brief Write a long hexadecimal value to the log.
