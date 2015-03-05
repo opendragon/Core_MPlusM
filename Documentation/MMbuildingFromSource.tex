@@ -13,34 +13,34 @@ the \asCode{git} repositories where the source code is stored.
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Macintosh~OS~X}
 \begin{itemize}
-\item \asCode{Xcode} is available from the Macintosh App Store and provides the
+\item\asCode{Xcode} is available from the Macintosh App Store and provides the
 \compLang{C++} development environment for Macintosh OS~X
-\item The \asCode{Xcode} command--line tools must be installed, using the command
-`\asCode{xcode-select~{-}{-}install}'
-\item The \asCode{ccmake} and \asCode{cmake} command--line tools, which can be installed
-using \asCode{MacPorts} or directly from the web--page
+\item\exSp{} The \asCode{Xcode} command\longDash{}line tools must be installed, using the
+command `\asCode{xcode-select~{-}{-}install}'
+\item\exSp{} The \asCode{ccmake} and \asCode{cmake} command\longDash{}line tools, which
+can be installed using \asCode{MacPorts} or directly from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
-\item The \asCode{autoconf213} command--line tool, which can be installed using
-\asCode{MacPorts}; note that this is only needed if SpiderMonkey is being built
-\item The \asCode{Packages} GUI tool, from
+\item\exSp{} The \asCode{autoconf213} command\longDash{}line tool, which can be installed
+using \asCode{MacPorts}; note that this is only needed if SpiderMonkey is being built
+\item\exSp{} The \asCode{Packages} GUI tool, from
 \companyReference{http://s.sudre.free.fr/Software/Packages/about.html}{St\'ephane Sudre};
 this is only needed if you wish to create installer packages after building \mplusm
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Microsoft~Windows}
 \begin{itemize}
-\item \asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
+\item\asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
 development environment for Microsoft Windows; the version used for development is
 `\asCode{Visual Studio Express 2012 for Windows Desktop}', but newer versions should also
 work
-\item The \asCode{cmake} tool, which can be installed from the web--page
+\item\exSp{} The \asCode{cmake} tool, which can be installed from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
-\item An `\asCode{unzip}' program
+\item\exSp{} An `\asCode{unzip}' program
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Linux}
 \begin{itemize}
-\item \TBD{}
+\item\TBD{}
 \end{itemize}
 \tertiaryEnd{}
 \secondaryEnd{}
@@ -48,39 +48,41 @@ work
 \begin{itemize}
 \item Create a directory to hold the source code; we'll refer to it from now on as
 `\asCode{MPM}'
-\item Copy the desired \textbf{ZIP} files from their installation location
+\item\exSp{} Copy the desired \textbf{ZIP} files from their installation location
 (\asCode{/opt/M+M/src} on Macintosh OS~X, \TBD{} for Microsoft Windows and \TBD{} for
 Linux) to the new directory \asCode{MPM}
-\item \asCode{unzip} the \textbf{ZIP} files in the directory \asCode{MPM}
-\item Remove the \textbf{ZIP} files from the \asCode{MPM} directory
+\item\exSp\asCode{unzip} the \textbf{ZIP} files in the directory \asCode{MPM}
+\item\exSp{} Remove the \textbf{ZIP} files from the \asCode{MPM} directory
 \end{itemize}
 \secondaryEnd{}
 \secondaryStart{(Optional)~Building~\textbf{ACE}}
-\textbf{ACE} (The ADAPTIVE Communication Environment) provides the low--level networking
-support used within \mplusm{}; the files needed to compile and link with ACE are installed
-as part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
-ACE; the source code is provided in case there is an issue with the headers or libraries.
+\textbf{ACE} (The ADAPTIVE Communication Environment) provides the low\longDash{}level
+networking support used within \mplusm{}; the files needed to compile and link with ACE
+are installed as part of the normal \mplusm{} installation procedure, so it's not
+necessary to rebuild ACE; the source code is provided in case there is an issue with the
+headers or libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 Note that the file \asCode{ACE\fUS{}wrappers2/ace/config.h} will select the correct
 configuration file for Macintosh OS~X, Microsoft Windows or Linux, so it does not need to
 be modified.
 \begin{itemize}
-\item On the command--line, move to the directory containing the \mplusm{} source code,
-\asCode{MPM}
-\item Execute the command `\asCode{cd~ACE\fUS{}wrappers2}'
-\item Execute the command `\asCode{export~ACE\fUS{}ROOT=\$(pwd)}'
-\item Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 40 minutes
-\item If the build is successful, execute the command `\asCode{sudo~sh}'
-\item Execute the following commands within the new subshell:
+\item On the command\longDash{}line, move to the directory containing the \mplusm{} source
+code, \asCode{MPM}
+\item\exSp{} Execute the command `\asCode{cd~ACE\fUS{}wrappers2}'
+\item\exSp{} Execute the command `\asCode{export~ACE\fUS{}ROOT=\$(pwd)}'
+\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 40
+minutes
+\item\exSp{} If the build is successful, execute the command `\asCode{sudo~sh}'
+\item\exSp{} Execute the following commands within the new subshell:
 \begin{itemize}
-\item \asCode{export~ACE\fUS{}ROOT=\$(pwd)}
-\item \asCode{export~DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/M+M/lib:%
+\item\asCode{export~ACE\fUS{}ROOT=\$(pwd)}
+\item\exSp\asCode{export~DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/M+M/lib:%
 \$DYLD\fUS{}LIBRARY\fUS{}PATH}
-\item \asCode{make~install}
-\item \asCode{exit}
+\item\exSp\asCode{make~install}
+\item\exSp\asCode{exit}
 \end{itemize}
-\item Execute the command `\asCode{sudo~./after-install.sh}'; this removes some unneeded
-files
+\item\exSp{} Execute the command `\asCode{sudo~./after-install.sh}'; this removes some
+unneeded files
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
@@ -90,7 +92,8 @@ files
 \TBD{}
 \tertiaryEnd{}
 \secondaryEnd{}
-\secondaryStart{(Optional)~Building~\textbf{\yarp}}
+% Note that we can't use \yarp here, since an environment isn't legal here
+\secondaryStart{(Optional)~Building~\textbf{YARP}}
 \textbf{\yarp} (Yet Another Robot Platform) provides the connection management support
 used within \mplusm{}; the files needed to compile and link with \yarp{} are installed as
 part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
@@ -98,40 +101,43 @@ part of the normal \mplusm{} installation procedure, so it's not necessary to re
 libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item On the command--line, move to the directory containing the \mplusm{} source code,
-\asCode{MPM}
-\item Execute the command `\asCode{cd~yarp-master}'
-\item Execute the command `\asCode{mkdir~build}'
-\item Execute the command `\asCode{cd~build}'
-\item Execute the command `\asCode{ccmake~..}'; this will open a graphical interface to
-the makefile builder. If this is the first time that the command is executed within a
-directory, the text `\asCode{EMPTY~CACHE}' will be displayed -- press `\textbf{c}' to do
-the initial configuration; there may be some warnings for project developers, which can be
-cleared by pressing `\textbf{e}'
-\item Press `\textbf{t}' to show more options and `\textbf{Control-D}' to go to the second
-page of options
-\item Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
+\item On the command\longDash{}line, move to the directory containing the \mplusm{} source
+code, \asCode{MPM}
+\item\exSp{} Execute the command `\asCode{cd~yarp-master}'
+\item\exSp{} Execute the command `\asCode{mkdir~build}'
+\item\exSp{} Execute the command `\asCode{cd~build}'
+\item\exSp{} Execute the command `\asCode{ccmake~..}'; this will open a graphical
+interface to the makefile builder. If this is the first time that the command is executed
+within a directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
+`\textbf{c}' to do the initial configuration; there may be some warnings for project
+developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{} Press `\textbf{t}' to show more options and `\textbf{Control-D}' to go to the
+second page of options
+\item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
 \asCode{/opt/M+M/lib/libACE.dylib}
-\item Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to \asCode{/opt/M+M/include}
-\item Press `\textbf{t}' to show fewer options
-\item Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to \asCode{/opt/M+M}
-\item Change any other options that you are interested in applying; it is recommended that
-the option\\
+\item\exSp{} Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
+\asCode{/opt/M+M/include}
+\item\exSp{} Press `\textbf{t}' to show fewer options
+\item\exSp{} Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to
+\asCode{/opt/M+M}
+\item\exSp{} Change any other options that you are interested in applying; it is
+recommended that the option\\
 `\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
 `\textbf{CREATE\fUS{}YMANAGER}' and\\
 `\textbf{YARP\fUS{}USE\fUS{}READLINE}' should be disabled
-\item Press `\textbf{c}' to configure the makefiles; there may be some CMake warnings for
-project developers, which can be cleared by pressing `\textbf{e}'
-\item Press `\textbf{g}' to generate the makefiles; there may be some CMake warnings for
-project developers, which can be cleared by pressing `\textbf{e}'
-\item Execute the command `\asCode{cmake~.}'; again, there will be some project developer
-warnings, which can be safely ignored
-\item Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 8 minutes
-\item Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some linking
-issues with \yarp{} caused by installing it in a non--default location
-\item Execute the command `\asCode{sudo~make~install}'
-\item If desired, you can verify that \yarp{} is correctly built be executing the command
-`\asCode{make~test}'
+\item\exSp{} Press `\textbf{c}' to configure the makefiles; there may be some CMake
+warnings for project developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{} Press `\textbf{g}' to generate the makefiles; there may be some CMake
+warnings for project developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{} Execute the command `\asCode{cmake~.}'; again, there will be some project
+developer warnings, which can be safely ignored
+\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 8
+minutes
+\item\exSp{} Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some
+linking issues with \yarp{} caused by installing it in a non\longDash{}default location
+\item\exSp{} Execute the command `\asCode{sudo~make~install}'
+\item\exSp{} If desired, you can verify that \yarp{} is correctly built be executing the
+command `\asCode{make~test}'
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
@@ -149,12 +155,12 @@ rebuild OGDF; the source code is provided in case there is an issue with the hea
 libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item On the command--line, move to the directory containing the \mplusm{} source code,
-\asCode{MPM}
-\item Execute the command `\asCode{cd~OGDF}'
-\item Execute the command `\asCode{make~cleanrelease~\&\&~make~release}'; approximate time
-= 12 minutes
-\item Execute the command `\asCode{sudo~make~install}'
+\item On the command\longDash{}line, move to the directory containing the \mplusm{} source
+code, \asCode{MPM}
+\item\exSp{} Execute the command `\asCode{cd~OGDF}'
+\item\exSp{} Execute the command `\asCode{make~cleanrelease~\&\&~make~release}';
+approximate time = 12 minutes
+\item\exSp{} Execute the command `\asCode{sudo~make~install}'
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
@@ -170,28 +176,29 @@ libraries.
 the normal \mplusm{} installation procedure, so it's not necessary to rebuild
 SpiderMonkey.
 The source files are not provided with the \asCode{Developer} package, but can be obtained
-via the instructions on the web--page
+via the instructions on the web\longDash{}page
 \companyReference{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/%
 Getting\_SpiderMonkey\_source\_code}%
 {SpiderMonkey source code}, as \mplusm{} does not use a modified version of SpiderMonkey
-and does not depend on a particular version -- other than it must be at least SpiderMonkey
-\textbf{31}.
+and does not depend on a particular version \longDash{} other than it must be at least
+SpiderMonkey \textbf{31}.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item On the command--line, move to the directory containing the SpiderMonkey source code,
-which will be named `\asCode{spidermonkey}'
-\item Execute the command `\asCode{cd~js/src}'
-\item Execute the command `\asCode{autoconf213}'
-\item Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
-\item Execute the command `\asCode{cd~\fUS{}obj\fUS}'
-\item Execute the command `\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey
+\item On the command\longDash{}line, move to the directory containing the SpiderMonkey
+source code, which will be named `\asCode{spidermonkey}'
+\item\exSp{} Execute the command `\asCode{cd~js/src}'
+\item\exSp{} Execute the command `\asCode{autoconf213}'
+\item\exSp{} Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
+\item\exSp{} Execute the command `\asCode{cd~\fUS{}obj\fUS}'
+\item\exSp{} Execute the command `\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey
 {-}{-}with-system-icu\\
 {-}{-}enable-release {-}{-}enable-more-deterministic}'
-\item Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 8 minutes
-\item Execute the command `\asCode{sudo~make~install}'
-\item On the command--line, move to the directory containing the \mplusm{} source code,
-\asCode{MPM}
-\item Execute the command\\
+\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 8
+minutes
+\item\exSp{} Execute the command `\asCode{sudo~make~install}'
+\item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
+source code, \asCode{MPM}
+\item\exSp{} Execute the command\\
 `\asCode{sudo~Core\fUS{}MPlusM-master/replace-links.sh~/opt/M+M/spidermonkey/include/mozjs-}';
 this\\
 replaces symbolic links in the header directories for SpiderMonkey with the original
@@ -208,30 +215,31 @@ items, so that it is safe to distribute the resulting directories
 \secondaryStart{Building~Core~\mplusm}
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item On the command--line, move to the directory containing the \mplusm{} source code,
-\asCode{MPM}
-\item Execute the command `\asCode{cd~Core\fUS{}MPlusM-master}'
-\item Execute the command `\asCode{ccmake~.}'; this will open a graphical interface to the
-makefile builder. If this is the first time that the command is executed within a
-directory, the text `\asCode{EMPTY~CACHE}' will be displayed -- press `\textbf{c}' to do
-the initial configuration
-\item Change the `\textbf{CMAKE\fUS{}BUILD\fUS{}TYPE}' to \asCode{Release}
-\item Change any other options that you are interested in applying; the default options
-minimize the amount of text that is output when \mplusm{} command--line tools are
-executed
-\item Press `\textbf{c}' to configure the makefiles
-\item Press `\textbf{g}' to generate the makefiles
-\item Execute the command `\asCode{cmake~.}'
-\item Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 7 minutes
-\item To run the unit tests for \mplusm{}, do the following:
+\item On the command\longDash{}line, move to the directory containing the \mplusm{} source
+code, \asCode{MPM}
+\item\exSp{} Execute the command `\asCode{cd~Core\fUS{}MPlusM-master}'
+\item\exSp{} Execute the command `\asCode{ccmake~.}'; this will open a graphical interface
+to the makefile builder. If this is the first time that the command is executed within a
+directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
+`\textbf{c}' to do the initial configuration
+\item\exSp{} Change the `\textbf{CMAKE\fUS{}BUILD\fUS{}TYPE}' to \asCode{Release}
+\item\exSp{} Change any other options that you are interested in applying; the default
+options minimize the amount of text that is output when \mplusm{} command\longDash{}line
+tools are executed
+\item\exSp{} Press `\textbf{c}' to configure the makefiles
+\item\exSp{} Press `\textbf{g}' to generate the makefiles
+\item\exSp{} Execute the command `\asCode{cmake~.}'
+\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 7
+minutes
+\item\exSp{} To run the unit tests for \mplusm{}, do the following:
 \begin{itemize}
 \item Execute the command `\asCode{ps | grep yarp | grep -v grep}'; if there is a line
 similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}' then the \yarp{}
 server is already running
-\item If the \yarp{} server is not already running, start a separate terminal session and
-launch the \yarp{} server by executing the command `\asCode{yarp~server}'
-\item If you see something similar to the following, there is another process using the
-network port that \yarp{} uses by default:
+\item\exSp{} If the \yarp{} server is not already running, start a separate terminal
+session and launch the \yarp{} server by executing the command `\asCode{yarp~server}'
+\item\exSp{} If you see something similar to the following, there is another process using
+the network port that \yarp{} uses by default:
 \outputBegin{}
 \begin{verbatim}
 __   __ _    ____  ____  
@@ -240,7 +248,7 @@ __   __ _    ____  ____
   | |/ ___ \|  _ <|  __/ 
   |_/_/   \_\_| \_\_|    
 \end{verbatim}
-Call with --help for information on available options\\
+Call with \longDash{}help for information on available options\\
 Options can be set on command line or in /Users/M\textunderscore{}M/Library/Application\\
 \hspace*{5em}Support/yarp/config/yarpserver.conf\\
 Using port database:\ :memory:\\
@@ -250,27 +258,29 @@ Port number:\ 10000\\
 yarp:\ Port /root failed to activate at tcp://10.0.1.2:10000 (address conflict)\\
 Name server failed to open
 \outputEnd{}
-\item If you see the above error message, you will need to clear the \yarp{}
+\item\exSp{} If you see the above error message, you will need to clear the \yarp{}
 configuration by issuing the command `\asCode{yarp~conf~{-}{-}clean}'.
-\item Once the \yarp{} configuration is cleared, execute the command
-`\asCode{yarp server --socket 11223 --write}' to start the \yarp{} server, where
-`\asCode{11223}' is an arbitrary number greater than 1024.
-\item In the terminal session where \mplusm{} was built, execute the command
+\item\exSp{} Once the \yarp{} configuration is cleared, execute the command
+`\asCode{yarp server \longDash{}socket 11223 \longDash{}write}' to start the \yarp{}
+server, where `\asCode{11223}' is an arbitrary number greater than 1024.
+\item\exSp{} In the terminal session where \mplusm{} was built, execute the command
 `\asCode{make~test}'
-\item When the test completes, close the new terminal session if one was started for the
-test
+\item\exSp{} When the test completes, close the new terminal session if one was started
+for the test
 \end{itemize}
-\item To install the freshly--built \mplusm{} files, execute the command
+\item\exSp{} To install the freshly\longDash{}built \mplusm{} files, execute the command
 `\asCode{sudo~make~install}'
-\item To confirm the normal operation of \mplusm{}, do the following:
+\item\exSp{} To confirm the normal operation of \mplusm{}, do the following:
 \begin{itemize}
 \item Check that the \yarp{} server is running and start it if it is not, using the
 instructions above
-\item Execute the command `\asCode{mpmRegistryService~\&}'; this will launch the Registry
-Service in the background and return the \textbf{PID} that can be used to halt it later
-\item Execute the command `\asCode{mpmServiceLister}; this should display the properties
-of the Registry Service
-\item If you wish to halt the Registry Service, execute the command `\asCode{halt -s HUP}
+\item\exSp{} Execute the command `\asCode{mpmRegistryService~\&}'; this will launch the
+Registry Service in the background and return the \textbf{PID} that can be used to halt it
+later
+\item\exSp{} Execute the command `\asCode{mpmServiceLister}; this should display the
+properties of the Registry Service
+\item\exSp{} If you wish to halt the Registry Service, execute the command
+`\asCode{halt -s HUP}
 \#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was returned when the Registry
 Service was launched
 \end{itemize}
@@ -284,26 +294,28 @@ Service was launched
 \tertiaryEnd{}
 \secondaryEnd{}
 \secondaryStart{Building~\textit{Channel~Manager}}
-\textit{Channel~Manager} is not built from the command--line but, rather, from the IDE.
+\textit{Channel~Manager} is not built from the command\longDash{}line but, rather, from
+the IDE.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item In Finder, open the directory containing the \mplusm source code, \asCode{MPM}
-\item Open the directory `\asCode{Utilities\fUS{}ChannelManager-master}' within
+\item\exSp{} Open the directory `\asCode{Utilities\fUS{}ChannelManager-master}' within
 \asCode{MPM}
-\item Open the directory `\asCode{Builds/MacOSX}'
-\item Open the file `\asCode{Channel Manager.xcodeproj}' with Xcode
-\item Within Xcode, select either the `\asCode{Channel Manager Debug}' or
+\item\exSp{} Open the directory `\asCode{Builds/MacOSX}'
+\item\exSp{} Open the file `\asCode{Channel Manager.xcodeproj}' with Xcode
+\item\exSp{} Within Xcode, select either the `\asCode{Channel Manager Debug}' or
 `\asCode{Channel Manager Release}' Scheme
-\item Perform the menu item `\asCode{Product $\Rightarrow$ Build}' or
-`\asCode{Product $\Rightarrow$ Run}'
-\item To create an executable that can be placed in the `\asCode{/Applications}' folder,
-do an `\asCode{Archive $\Rightarrow$ Export $\Rightarrow$ Export as a Mac Application}'
+\item\exSp{} Perform the menu item `\asCode{Product \bigRightArrow{} Build}' or
+`\asCode{Product \bigRightArrow{} Run}'
+\item\exSp{} To create an executable that can be placed in the `\asCode{/Applications}'
+folder, do an `\asCode{Archive \bigRightArrow{} Export \bigRightArrow{} Export as a Mac
+Application}'
 and place the generated application in a writable location, like your home directory
-\item Exit from Xcode
-\item If the generated application is named \asCode{Channel Manager Debug}, rename it to
-\asCode{Channel Manager} and, if it is named \asCode{Channel Manager Release}, rename it
-to \asCode{Channel Manager}
-\item Copy the \asCode{Channel Manager} application to the \asCode{/Applications}
+\item\exSp{} Exit from Xcode
+\item\exSp{} If the generated application is named \asCode{Channel Manager Debug}, rename
+it to \asCode{Channel Manager} and, if it is named \asCode{Channel Manager Release},
+rename it to \asCode{Channel Manager}
+\item\exSp{} Copy the \asCode{Channel Manager} application to the \asCode{/Applications}
 directory
 \end{itemize}
 \tertiaryEnd{}
@@ -320,15 +332,16 @@ The distribution packages are standalone files that can be used to create a comp
 \tertiaryStart{Creating~on~Macintosh~OS~X}
 \begin{itemize}
 \item Launch the \asCode{Packages} GUI tool
-\item Open the \asCode{Developer} file, which is located in the
+\item\exSp{} Open the \asCode{Developer} file, which is located in the
 \asCode{Packages/Developer} directory within the directory containing the \mplusm{} source
 code, \asCode{MPM}
-\item Perform the menu item \asCode{Build $\Rightarrow$ Clean\textellipsis}
-\item Perform the menu item \asCode{Build $\Rightarrow$ Build}
-\item Open the \asCode{M+M} file, which is located in the \asCode{Packages} directory
-\item Perform the menu item \asCode{Build $\Rightarrow$ Clean\textellipsis}
-\item Perform the menu item \asCode{Build $\Rightarrow$ Build}
-\item The distribution package is the \asCode{M+M.pkg} file located in the
+\item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Clean\textellipsis}
+\item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Build}
+\item\exSp{} Open the \asCode{M+M} file, which is located in the \asCode{Packages}
+directory
+\item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Clean\textellipsis}
+\item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Build}
+\item\exSp{} The distribution package is the \asCode{M+M.pkg} file located in the
 \asCode{Packages/build} directory
 \end{itemize}
 \tertiaryEnd{}

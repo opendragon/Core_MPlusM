@@ -2,18 +2,18 @@
 \primaryStart[ClassesAndTheirInterfaces]{Classes~and~Their~Interfaces}
 The \mplusm{} classes are organized into seven namespaces:
 \begin{itemize}
-\item \textbf{\mplusm{}::Common} classes that support all the \mplusm{} activities
-\item \textbf{\mplusm{}::Example} classes that demonstrate features of \mplusm{}
-\item \textbf{\mplusm{}::Parser} classes that are used by the
+\item\textbf{\mplusm{}::Common} classes that support all the \mplusm{} activities
+\item\exSp\textbf{\mplusm{}::Example} classes that demonstrate features of \mplusm{}
+\item\exSp\textbf{\mplusm{}::Parser} classes that are used by the
 \requestsNameR{Registry~Service}{RegistryService}{match} request of the
 \serviceNameR[Registry~Service]{RegistryService}
-\item \textbf{\mplusm{}::Registry} classes that work with the internal database to manage
-the \mplusm{} services
-\item \textbf{\mplusm{}::RequestCounter} classes that support measuring the performance
-of an \mplusm{} installation
-\item \textbf{\mplusm{}::Test} classes that are used during unit--testing of the \mplusm{}
-source code
-\item \textbf{\mplusm{}::Utilities} classes that are used only with the \mplusm{}
+\item\exSp\textbf{\mplusm{}::Registry} classes that work with the internal database to
+manage the \mplusm{} services
+\item\exSp\textbf{\mplusm{}::RequestCounter} classes that support measuring the
+performance of an \mplusm{} installation
+\item\exSp\textbf{\mplusm{}::Test} classes that are used during unit\longDash{}testing of
+the \mplusm{} source code
+\item\exSp\textbf{\mplusm{}::Utilities} classes that are used only with the \mplusm{}
 utility programs
 \end{itemize}
 There are 38 classes or structures in the \textbf{\mplusm{}::Common} namespace, 27 in
@@ -21,8 +21,8 @@ There are 38 classes or structures in the \textbf{\mplusm{}::Common} namespace, 
 \textbf{\mplusm{}::Registry}, 6 in \textbf{\mplusm{}::RequestCounter}, 20 in
 \textbf{\mplusm{}::Test} and 3 in \textbf{\mplusm{}::Utilities}.
 The following sections describe the most critical of the classes in the
-\textbf{\mplusm{}::Common} namespace -- many of the other classes, in all the namespaces,
-derive from these classes. 
+\textbf{\mplusm{}::Common} namespace \longDash{} many of the other classes, in all the
+namespaces, derive from these classes. 
 \secondaryStart{BaseAdapterData}
 The class \secondaryRef{BaseAdapterData}{\classNameP{Common}{BaseAdapterData}} is used to
 provide common methods and variables for data that is shared between instances of
@@ -38,29 +38,29 @@ derived classes of \secondaryRef{BaseService}{BaseService}.\\
 
 The bulk of the mechanisms needed to perform this are provided by the
 \secondaryRef{BaseClient}{BaseClient} class itself, and the derived classes need only
-provide service--specific routines, such as \asCode{getOneRandomNumber()},
+provide service\longDash{}specific routines, such as \asCode{getOneRandomNumber()},
 which is a method of the \asCode{M+M::Example::RandomNumberClient} class.\\
 
 The following methods are available to code that uses
 \secondaryRef{BaseClient}{BaseClient} classes:
 \begin{itemize}
-\item \asBoldCode{FindMatchingService} This static function is provided for the use of
+\item\asBoldCode{FindMatchingService} This static function is provided for the use of
 utility programs that need to identify active services
-\item \asBoldCode{addAssociatedChannel} Adapter applications use this method to inform the
-\serviceNameR[Registry~Service]{RegistryService} about their input and output \yarp{}
+\item\exSp\asBoldCode{addAssociatedChannel} Adapter applications use this method to inform
+the \serviceNameR[Registry~Service]{RegistryService} about their input and output \yarp{}
 network connections
-\item \asBoldCode{connectToService} This method is use by clients to establish a
+\item\exSp\asBoldCode{connectToService} This method is use by clients to establish a
 connection to the endpoint of their companion service
-\item \asBoldCode{disconnectFromService} This method is used by clients to release the
+\item\exSp\asBoldCode{disconnectFromService} This method is used by clients to release the
 connection to their companion service
-\item \asBoldCode{findService} This method is used by clients to locate the channel to be
-used for communication with their companion service
-\item \asBoldCode{reconnectIfDisconnected} This method is used by clients to re--establish
-a dropped connection with their companion service
-\item \asBoldCode{removeAssociatedChannels} Adapter applications use this method to inform
-the \serviceNameR[Registry~Service]{RegistryService} that their input and output
+\item\exSp\asBoldCode{findService} This method is used by clients to locate the channel to
+be used for communication with their companion service
+\item\exSp\asBoldCode{reconnectIfDisconnected} This method is used by clients to
+re\longDash{}establish a dropped connection with their companion service
+\item\exSp\asBoldCode{removeAssociatedChannels} Adapter applications use this method to
+inform the \serviceNameR[Registry~Service]{RegistryService} that their input and output
 \yarp{} network connections are no longer available
-\item \asBoldCode{send} This method is used by clients to send a request to their
+\item\exSp\asBoldCode{send} This method is used by clients to send a request to their
 companion service
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseClient}}
@@ -95,25 +95,25 @@ message has been received on a connection.
 The \secondaryRef{BaseInputOutputService}{\classNameP{Common}{BaseInputOutputService}}
 class is designed to support easy access to multiple instances of the same service, each
 of which can be used to provide an interface to an external device or to a simple
-flow--through operation.\\
+flow\longDash{}through operation.\\
 
 Classes derived from \secondaryRef{BaseInputOutputService}{BaseInputOutputService} are
 required to provide implementations of the following methods:
 \begin{itemize}
-\item \asBoldCode{configure} This method is invoked when a
+\item\asBoldCode{configure} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{configure} request is sent to the service; it
 is responsible for setting attributes of the input and output streams of the service
-\item \asBoldCode{restartStreams} This method is invoked when a
+\item\exSp\asBoldCode{restartStreams} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request is sent to the
 service; it is responsible for stopping and then starting the input and output streams of
 the service
-\item \asBoldCode{setUpStreamDescriptions} This method is invoked when the service is
+\item\exSp\asBoldCode{setUpStreamDescriptions} This method is invoked when the service is
 started and it is responsible for providing a list of port names and protocols for use by
 the current instance of the service
-\item \asBoldCode{startStreams} This method is invoked when a
+\item\exSp\asBoldCode{startStreams} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request is sent to the service;
 it is responsible for starting the input and output streams of the service
-\item \asBoldCode{stopStreams} This method is invoked when a
+\item\exSp\asBoldCode{stopStreams} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request is sent to the service;
 it is responsible for stopping the input and output streams of the service
 \end{itemize}
@@ -135,12 +135,13 @@ The method \asCode{setUpStreamDescriptions} must be implemented in classes deriv
 \secondaryEnd{\classNameE{Common}{BaseInputService}}
 \secondaryStart{BaseMatcher}
 The \secondaryRef{BaseMatcher}{\classNameP{Common}{BaseMatcher}} class represents a
-`handle' to a top--down pattern matcher used by the
+`handle' to a top\longDash{}down pattern matcher used by the
 \serviceNameR[Registry~Service]{RegistryService} to convert the arguments of
 \requestsNameR{Registry~Service}{RegistryService}{match} requests into \asCode{SQL}
 operations.
 The `outermost' matcher that is parsed from the original request is used to generate the
-\asCode{SQL} -- the \secondaryRef{BaseMatcher}{BaseMatcher} class acts as a placeholder.
+\asCode{SQL} \longDash{} the \secondaryRef{BaseMatcher}{BaseMatcher} class acts as a
+placeholder.
 \secondaryEnd{\classNameE{Common}{BaseMatcher}}
 \secondaryStart{BaseOutputService}
 The \secondaryRef{BaseOutputService}{\classNameP{Common}{BaseOutputService}}
@@ -162,15 +163,16 @@ designed to provide a consistent request handling mechanism for \mplusm{} servic
 Classes derived from \secondaryRef{BaseRequestHandler}{BaseRequestHandler} are required to
 provide implementations of the following methods:
 \begin{itemize}
-\item \asBoldCode{fillInAliases} This method is invoked when a service is registering its
+\item\asBoldCode{fillInAliases} This method is invoked when a service is registering its
 request handlers; it is responsible for providing a list of alternative names for the
 request
-\item \asBoldCode{fillInDescription} This method is invoked when a service is responding
-to an \requestsNameR{Basic}{Basic}{info} or a
+\item\exSp\asBoldCode{fillInDescription} This method is invoked when a service is
+responding to an \requestsNameR{Basic}{Basic}{info} or a
 \requestsNameR{Basic}{Basic}{list} request; it is responsible for providing a detailed
 description of the request
-\item \asBoldCode{processRequest} This method is invoked with the request is seen by the
-service and it is responsible for performing the operations that correspond to the request
+\item\exSp\asBoldCode{processRequest} This method is invoked with the request is seen by
+the service and it is responsible for performing the operations that correspond to the
+request
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseRequestHandler}}
 \secondaryStart{BaseService}
@@ -189,42 +191,42 @@ handlers.\\
 Classes derived from \secondaryRef{BaseService}{BaseService} should implement the
 following methods:
 \begin{itemize}
-\item \asBoldCode{attachRequestHandlers} This method should be called in the constructor
+\item\asBoldCode{attachRequestHandlers} This method should be called in the constructor
 for the service class and should register handlers for its custom requests
-\item \asBoldCode{detachRequestHandlers} This method should be called in the destructor
-for the service class and should unregister handlers for its custom requests
-\item \asBoldCode{start} This method is invoked by the service application and should
+\item\exSp\asBoldCode{detachRequestHandlers} This method should be called in the
+destructor for the service class and should unregister handlers for its custom requests
+\item\exSp\asBoldCode{start} This method is invoked by the service application and should
 invoke the same method of its parent class; it should set up any special conditions that
 are needed by the service
-\item \asBoldCode{stop} This method is invoked by the service application and should
+\item\exSp\asBoldCode{stop} This method is invoked by the service application and should
 invoke the same method of its parent class; it should release any resources used by the
 service
 \end{itemize}
 The following methods are available to code that uses
 \secondaryRef{BaseService}{BaseService} classes:
 \begin{itemize}
-\item \asBoldCode{gatherMetrics} This method returns a list of the metrics for the
+\item\asBoldCode{gatherMetrics} This method returns a list of the metrics for the
 connections associated with the service
-\item \asBoldCode{getEndpoint} This method provides access to the
+\item\exSp\asBoldCode{getEndpoint} This method provides access to the
 \secondaryRef{Endpoint}{Endpoint} that is provided for the service and is useful for
 establishing a connection to an `embedded' service
 \end{itemize}
 The following convenience methods are available to derived classes of
 \secondaryRef{BaseService}{BaseService}:
 \begin{itemize}
-\item \asBoldCode{addContext} This method is used to record the data that holds the
+\item\asBoldCode{addContext} This method is used to record the data that holds the
 persistent state for a connection
-\item \asBoldCode{clearContexts} This method is used to remove all the persistent state
-for connections
-\item \asBoldCode{findContext} This method is used to retrieve the data that holds the
+\item\exSp\asBoldCode{clearContexts} This method is used to remove all the persistent
+state for connections
+\item\exSp\asBoldCode{findContext} This method is used to retrieve the data that holds the
 persistent state of a connection
-\item \asBoldCode{registerRequestHandler} This method is used to register the object that
-will handle a request
-\item \asBoldCode{removeContext} This method is used to remove the persistent state of a
-connection
-\item \asBoldCode{setDefaultRequestHandler} This method is used to register the object
+\item\exSp\asBoldCode{registerRequestHandler} This method is used to register the object
+that will handle a request
+\item\exSp\asBoldCode{removeContext} This method is used to remove the persistent state of
+a connection
+\item\exSp\asBoldCode{setDefaultRequestHandler} This method is used to register the object
 that will handle unknown requests
-\item \asBoldCode{unregisterRequestHandler} This method is used to unregister a request
+\item\exSp\asBoldCode{unregisterRequestHandler} This method is used to unregister a request
 handler
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseService}}
@@ -232,16 +234,17 @@ handler
 Instances of the \secondaryRef{Endpoint}{\classNameP{Common}{Endpoint}} class manage a
 \yarp{} network connection for a service.
 They are used to simplify the communication mechanisms that each service must provide and
-to standardize on the mid--level protocols that \mplusm{} services and clients share.
+to standardize on the mid\longDash{}level protocols that \mplusm{} services and clients
+share.
 \secondaryEnd{\classNameE{Common}{Endpoint}}
 \secondaryStart{ServiceRequest}
 Instances of the \secondaryRef{ServiceRequest}{\classNameP{Common}{ServiceRequest}} class
-are used to represent requests in the mid--level protocols of \mplusm{} services in a
-uniform format.
+are used to represent requests in the mid\longDash{}level protocols of \mplusm{} services
+in a uniform format.
 \secondaryEnd{\classNameE{Common}{ServiceRequest}}
 \secondaryStart{ServiceResponse}
 Instances of the \secondaryRef{ServiceResponse}{\classNameP{Common}{ServiceResponse}}
-class are used to represent responses in the mid--level protocols of \mplusm{} services in
-a uniform format.
+class are used to represent responses in the mid\longDash{}level protocols of \mplusm{}
+services in a uniform format.
 \secondaryEnd{\classNameE{Common}{ServiceResponse}}
 \primaryEnd{}

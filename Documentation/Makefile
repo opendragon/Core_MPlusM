@@ -16,9 +16,41 @@ MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMmpmDiagram.ps
 
 VDSpsfiles =
 
-# Input image files
+# Intermediate Encapsulated Postscript files
 
-CMimagefiles = images/afterAdd.eps images/backgroundMenu.eps images/beforeAdd.eps \
+CMepsfiles = CMcmDiagram.eps 
+
+IMepsfiles =
+
+JSepsfiles =
+
+KV2epsfiles =
+
+LMepsfiles =
+
+MMepsfiles = MMdbDiagram.eps MMmatchSyntaxrails.eps MMmpmDiagram.eps
+
+VDSepsfiles =
+
+# Intermediate Portable Network Graphics files
+
+CMpngfiles = CMcmDiagram.png 
+
+IMpngfiles =
+
+JSpngfiles =
+
+KV2pngfiles =
+
+LMpngfiles =
+
+MMpngfiles = MMdbDiagram.png MMmatchSyntaxrails.png MMmpmDiagram.png
+
+VDSpngfiles =
+
+# Input bitmap EPS files
+
+CMbitmapepsfiles = images/afterAdd.eps images/backgroundMenu.eps images/beforeAdd.eps \
 	images/beforeRemove.eps images/ChannelManager.eps images/dragAdd2.eps \
 	images/entityMenu.eps images/portMenu.eps \
 	images/regularChannelMenuMetricsDisabled.eps \
@@ -28,7 +60,7 @@ CMimagefiles = images/afterAdd.eps images/backgroundMenu.eps images/beforeAdd.ep
 	images/serviceMenuMetricsDisabled.eps \
 	images/serviceMenuMetricsEnabled.eps
 
-IMimagefiles = images/Installer01.eps images/Installer02.eps images/Installer03.eps \
+IMbitmapepsfiles = images/Installer01.eps images/Installer02.eps images/Installer03.eps \
 	images/Installer04.eps images/Installer05.eps images/Installer05a.eps \
 	images/Installer06.eps images/Installer06a.eps images/Installer06b.eps \
 	images/Installer07.eps images/Installer08.eps images/RunningChannelManager.eps \
@@ -37,15 +69,31 @@ IMimagefiles = images/Installer01.eps images/Installer02.eps images/Installer03.
 	images/win_install07.eps images/win_install08.eps images/win_install09.eps \
 	images/win_install10.eps images/win_install11.eps images/win_run01.eps
 
-JSimagefiles =
+JSbitmapepsfiles =
 
-KV2imagefiles =
+KV2bitmapepsfiles =
 
-LMimagefiles =
+LMbitmapepsfiles =
 
-MMimagefiles = 
+MMbitmapepsfiles = 
 
-VDSimagefiles =
+VDSbitmapepsfiles =
+
+# Input bitmap PNG files
+
+CMbitmappngfiles = $(CMbitmapepsfiles:.eps=.png)
+
+IMbitmappngfiles = $(IMbitmapepsfiles:.eps=.png)
+
+JSbitmappngfiles = $(JSbitmapepsfiles:.eps=.png)
+
+KV2bitmappngfiles = $(KV2bitmapepsfiles:.eps=.png)
+
+LMbitmappngfiles = $(LMbitmapepsfiles:.eps=.png)
+
+MMbitmappngfiles = $(MMbitmapepsfiles:.eps=.png)
+
+VDSbitmappngfiles = $(VDSbitmapepsfiles:.eps=.png)
 
 # Main source file
 
@@ -67,27 +115,27 @@ VDSmainsource = ViconDataStreamInput_Manual.tex
 
 Commonsources = boilerPlate.tex sharedSetup.tex
 
-CMsecondarysources = CMdocumentationHistory.tex CMfrontispiece.tex CMoverview.tex \
+CMsecondaryfiles = CMdocumentationHistory.tex CMfrontispiece.tex CMoverview.tex \
 	CMutility.tex $(Commonsources)
 	
-IMsecondarysources = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
+IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
 	IMprocedure.tex $(Commonsources)
 
-JSsecondarysources = JSdocumentationHistory.tex JSfrontispiece.tex JSoverview.tex \
+JSsecondaryfiles = JSdocumentationHistory.tex JSfrontispiece.tex JSoverview.tex \
 	JSfileFormat.tex JSservice.tex JSexamples.tex $(Commonsources)
 	
-KV2secondarysources = KV2documentationHistory.tex KV2frontispiece.tex \
+KV2secondaryfiles = KV2documentationHistory.tex KV2frontispiece.tex \
 	KV2messageFormat.tex KV2overview.tex KV2service.tex $(Commonsources)
 
-LMsecondarysources = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex \
+LMsecondaryfiles = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex \
 	LMoverview.tex LMservice.tex $(Commonsources)
 
-MMsecondarysources = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
+MMsecondaryfiles = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
 	MMdocumentationHistory.tex MMexamples.tex MMexemplars.tex MMfrontispiece.tex \
 	MMinternalDb.tex MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex \
 	MMservices.tex MMutilities.tex $(Commonsources)
 
-VDSsecondarysources = VDSdocumentationHistory.tex VDSfrontispiece.tex \
+VDSsecondaryfiles = VDSdocumentationHistory.tex VDSfrontispiece.tex \
 	VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources)
 
 # DVI files
@@ -138,6 +186,22 @@ MMmainps = $(MMmainsource:.tex=.ps)
 
 VDSmainps = $(VDSmainsource:.tex=.ps)
 
+# Output HTML files
+
+CMmainhtml = $(CMmainsource:.tex=.html)
+
+IMmainhtml = $(IMmainsource:.tex=.html)
+
+JSmainhtml = $(JSmainsource:.tex=.html)
+
+KV2mainhtml = $(KV2mainsource:.tex=.html)
+
+LMmainhtml = $(LMmainsource:.tex=.html)
+
+MMmainhtml = $(MMmainsource:.tex=.html)
+
+VDSmainhtml = $(VDSmainsource:.tex=.html)
+
 # Output PDF files
 
 CMmainpdf = $(CMmainsource:.tex=.pdf)
@@ -156,27 +220,33 @@ VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 
 # Target files
 
-CMtarget = $(HOME)/$(CMmainpdf)
+CMtarget = $(HOME)/$(CMmainpdf) $(CMmainhtml)
 
-IMtarget = $(HOME)/$(IMmainpdf)
+IMtarget = $(HOME)/$(IMmainpdf) $(IMmainhtml)
 
-JStarget = $(HOME)/$(JSmainpdf)
+JStarget = $(HOME)/$(JSmainpdf) $(JSmainhtml)
 
-KV2target = $(HOME)/$(KV2mainpdf)
+KV2target = $(HOME)/$(KV2mainpdf) $(KV2mainhtml)
 
-LMtarget = $(HOME)/$(LMmainpdf)
+LMtarget = $(HOME)/$(LMmainpdf) $(LMmainhtml)
 
-MMtarget = $(HOME)/$(MMmainpdf)
+MMtarget = $(HOME)/$(MMmainpdf) $(MMmainhtml)
 
-VDStarget = $(HOME)/$(VDSmainpdf)
+VDStarget = $(HOME)/$(VDSmainpdf) $(VDSmainhtml)
 
 # General rules
 
+%.eps: %.ps
+	ps2eps -f $<
+
+%.png: %.eps
+	convert -density 150 -transparent white $< $@
+
 %.ps: %.mp
-	mpost -interaction=batchmode $<
+	mpost -interaction=batchmode -file-line-error $<
 
 %.ps: %.dvi
-	dvips $< -o $@
+	dvips -o $@ $<
 
 %.pdf : %.ps
 	gs -dCompatibilityLevel=1.2 -dMaxSubsetPct=100 -dNOPAUSE -dBATCH \
@@ -186,66 +256,96 @@ VDStarget = $(HOME)/$(VDSmainpdf)
 $(HOME)/%.pdf : %.pdf
 	cp $< $@
 
-# Specific rules
+# Specific rules (DVI)
 
-$(CMmaindvi) : $(CMimagefiles) $(CMpsfiles) $(CMmainsource) $(CMsecondarysources)
+$(CMmaindvi) : $(CMbitmapepsfiles) $(CMepsfiles) $(CMmainsource) $(CMsecondaryfiles)
 	-latex -interaction=batchmode $(CMmainsource)
 	-latex -interaction=batchmode $(CMmainsource)
 	-latex -interaction=batchmode $(CMmainsource)
 	makeindex $(CMmainidx)
 	latex -interaction=batchmode $(CMmainsource)
 
-$(IMmaindvi) : $(IMimagefiles) $(IMpsfiles) $(IMmainsource) $(IMsecondarysources)
+$(IMmaindvi) : $(IMbitmapepsfiles) $(IMepsfiles) $(IMmainsource) $(IMsecondaryfiles)
 	-latex -interaction=batchmode $(IMmainsource)
 	-latex -interaction=batchmode $(IMmainsource)
 	-latex -interaction=batchmode $(IMmainsource)
 	makeindex $(IMmainidx)
 	latex -interaction=batchmode $(IMmainsource)
 
-$(JSmaindvi) : $(JSimagefiles) $(JSpsfiles) $(JSmainsource) $(JSsecondarysources)
+$(JSmaindvi) : $(JSbitmapepsfiles) $(JSepsfiles) $(JSmainsource) $(JSsecondaryfiles)
 	-latex -interaction=batchmode $(JSmainsource)
 	-latex -interaction=batchmode $(JSmainsource)
 	-latex -interaction=batchmode $(JSmainsource)
 	makeindex $(JSmainidx)
 	latex -interaction=batchmode $(JSmainsource)
 
-$(KV2maindvi) : $(KV2imagefiles) $(KV2psfiles) $(KV2mainsource) $(KV2secondarysources)
+$(KV2maindvi) : $(KV2bitmapepsfiles) $(KV2epsfiles) $(KV2mainsource) $(KV2secondaryfiles)
 	-latex -interaction=batchmode $(KV2mainsource)
 	-latex -interaction=batchmode $(KV2mainsource)
 	-latex -interaction=batchmode $(KV2mainsource)
 	makeindex $(KV2mainidx)
 	latex -interaction=batchmode $(KV2mainsource)
 
-$(LMmaindvi) : $(LMimagefiles) $(LMpsfiles) $(LMmainsource) $(LMsecondarysources)
+$(LMmaindvi) : $(LMbitmapepsfiles) $(LMepsfiles) $(LMmainsource) $(LMsecondaryfiles)
 	-latex -interaction=batchmode $(LMmainsource)
 	-latex -interaction=batchmode $(LMmainsource)
 	-latex -interaction=batchmode $(LMmainsource)
 	makeindex $(LMmainidx)
 	latex -interaction=batchmode $(LMmainsource)
 
-$(MMmaindvi) : $(MMimagefiles) $(MMpsfiles) $(MMmainsource) $(MMsecondarysources)
+$(MMmaindvi) : $(MMbitmapepsfiles) $(MMepsfiles) $(MMmainsource) $(MMsecondaryfiles)
 	-latex -interaction=batchmode $(MMmainsource)
 	-latex -interaction=batchmode $(MMmainsource)
 	-latex -interaction=batchmode $(MMmainsource)
 	makeindex $(MMmainidx)
 	latex -interaction=batchmode $(MMmainsource)
 
-$(VDSmaindvi) : $(VDSimagefiles) $(VDSpsfiles) $(VDSmainsource) $(VDSsecondarysources)
+$(VDSmaindvi) : $(VDSbitmapepsfiles) $(VDSepsfiles) $(VDSmainsource) $(VDSsecondaryfiles)
 	-latex -interaction=batchmode $(VDSmainsource)
 	-latex -interaction=batchmode $(VDSmainsource)
 	-latex -interaction=batchmode $(VDSmainsource)
 	makeindex $(VDSmainidx)
 	latex -interaction=batchmode $(VDSmainsource)
 
+# Specific rules (HTML)
+
+$(CMmainhtml) : $(CMbitmappngfiles) $(CMpngfiles) $(CMmainsource) $(CMsecondaryfiles)
+	-hevea -exec xxdate.exe $(CMmainsource)
+	-hevea -exec xxdate.exe $(CMmainsource)
+
+$(IMmainhtml) : $(IMbitmappngfiles) $(IMpngfiles) $(IMmainsource) $(IMsecondaryfiles)
+	-hevea -exec xxdate.exe $(IMmainsource)
+	-hevea -exec xxdate.exe $(IMmainsource)
+
+$(JSmainhtml) : $(JSbitmappngfiles) $(JSpngfiles) $(JSmainsource) $(JSsecondaryfiles)
+	-hevea -exec xxdate.exe $(JSmainsource)
+	-hevea -exec xxdate.exe $(JSmainsource)
+
+$(KV2mainhtml) : $(KV2bitmappngfiles) $(KV2pngfiles) $(KV2mainsource) $(KV2secondaryfiles)
+	-hevea -exec xxdate.exe $(KV2mainsource)
+	-hevea -exec xxdate.exe $(KV2mainsource)
+
+$(LMmainhtml) : $(LMbitmappngfiles) $(LMpngfiles) $(LMmainsource) $(LMsecondaryfiles)
+	-hevea -exec xxdate.exe $(LMmainsource)
+	-hevea -exec xxdate.exe $(LMmainsource)
+
+$(MMmainhtml) : $(MMbitmappngfiles) $(MMpngfiles) $(MMmainsource) $(MMsecondaryfiles)
+	-hevea -exec xxdate.exe $(MMmainsource)
+	-hevea -exec xxdate.exe $(MMmainsource)
+
+$(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecondaryfiles)
+	-hevea -exec xxdate.exe $(VDSmainsource)
+	-hevea -exec xxdate.exe $(VDSmainsource)
+
 # Top-level targets
 
 .PHONY : clean all
 
-.PRECIOUS : %.ps %.pdf
+.PRECIOUS : %.eps %.ps %.pdf
 
 clean :
-	-rm -f $(CMpsfiles) $(IMpsfiles) $(KV2psfiles) $(LMpsfiles) $(MMpsfiles) $(VDSpsfiles)
-	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.ps *.toc
+	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
+	-rm -f *.html *.toc *.htoc *.haux *.hind
 
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
 		$(VDStarget)

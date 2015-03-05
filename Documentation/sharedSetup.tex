@@ -1,5 +1,5 @@
 \ProvidesFile{sharedSetup.tex}[v1.0.0]
-\documentclass[letterpaper,titlepage,twoside]{report}
+\documentclass[letterpaper,titlepage,twoside]{book}
 
 \usepackage{times}
 \usepackage{amsmath}
@@ -62,7 +62,7 @@
 \newcommand{\MMV}{Version~1.4.20}
 \newcommand{\mplusm}{\textbf{M+M}}
 \newcommand{\nothing}{\ }
-\newcommand{\yarp}{\footnotesize\textsf{YARP}\normalsize}
+\newcommand{\yarp}{\begin{footnotesize}\textsf{YARP}\end{footnotesize}}
 
 % Set the float behaviour:
 \setcounter{bottomnumber}{2}
@@ -77,22 +77,76 @@
 \newcommand{\emphcorr}[1]{\emph{#1}\/}
 
 % Some commands to make examples match actual output more closely:
-\newcommand{\pseudotab}{\thinspace\boldmath{$\vdash$}\thinspace}
-\newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}\thinspace}
+\newcommand{\pseudotab}{%
+%HEVEA\textbf{->}
+%BEGIN LATEX
+\thinspace\boldmath{$\vdash$}\thinspace
+%END LATEX
+}
+\newcommand{\pseudotwotabs}{%
+%HEVEA\textbf{-> ->}
+%BEGIN LATEX
+\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}\thinspace
+%END LATEX
+}
 \newcommand{\clientName}{\textunderscore{}client\textunderscore}
 \newcommand{\dollarService}{\textdollar{}ervice}
 \newcommand{\serviceName}{\textunderscore{}service\textunderscore}
 \newcommand{\inputOutput}{Input~/~Output}
-\newcommand{\openSq}{\boldmath{$\lbrack$}}
-\newcommand{\closeSq}{\boldmath{$\rbrack$}}
-\newcommand{\sqPair}{\boldmath{$\lbrack{}\ \rbrack$}}
+\newcommand{\openSq}{%
+%HEVEA\textbf{[}%
+%BEGIN LATEX
+\boldmath{$\lbrack$}
+%END LATEX
+}
+\newcommand{\closeSq}{%
+%HEVEA\textbf{]}%
+%BEGIN LATEX
+\boldmath{$\rbrack$}
+%END LATEX
+}
+\newcommand{\sqPair}{%
+%HEVEA\textbf{[ ]}%
+%BEGIN LATEX
+\boldmath{$\lbrack\ \rbrack$}
+%END LATEX
+}
 \newcommand{\fUS}{\begin{Large}\textbf{\textunderscore}\end{Large}}
 \newcommand{\TBD}{\textbf{TBD}}
 \newlength{\uL}
 
-\newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} #2}
-\newcommand{\optItem}[3]{\makebox[1.25em][l]{\textbf{--#1}} \textbar{} %
-\makebox[5em][l]{\textbf{{-}{-}#2}} #3}
+\newcommand{\argItem}[2]{%
+%HEVEA\textbf{#1} #2%
+%BEGIN LATEX
+\makebox[4em][l]{\textbf{#1}} #2
+%END LATEX
+}
+
+\newcommand{\cmdItem}[2]{%
+%HEVEA\textbf{#1} #2%
+%BEGIN LATEX
+\makebox[1em][l]{\textbf{#1}} #2
+%END LATEX
+}
+\newcommand{\optItem}[3]{%
+%HEVEA\textbf{-#1} | \textbf{--#2} #3%
+%BEGIN LATEX
+\makebox[1.25em][l]{\textbf{--#1}} \textbar{} \makebox[5em][l]{\textbf{{-}{-}#2}} #3
+%END LATEX
+}
+
+%HEVEA\newcommand{\longDash}{-}%
+%BEGIN LATEX
+\newcommand{\longDash}{--}
+%END LATEX
+%HEVEA\newcommand{\bigRightArrow}{>>}%
+%BEGIN LATEX
+\newcommand{\bigRightArrow}{$\Rightarrow$}
+%END LATEX
+%HEVEA\newcommand{\exSp}{\ }%
+%BEGIN LATEX
+\newcommand{\exSp}{}
+%END LATEX
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
 
@@ -104,17 +158,41 @@
 %\centering\parbox[t]{#1\textwidth}{\begin{flushleft}\footnotesize\ttfamily #4%
 %\end{flushleft}}\caption{#2\ }\label{file:#3}\end{figure}}
 
-\newcommand*{\objPicture}[1]{\begin{center}\includegraphics{#1}\end{center}}
-\newcommand*{\objScaledPicture}[2]{\begin{center}\includegraphics[scale=#2]{#1}%
-\end{center}}
-\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\centering\includegraphics{#1}%
+% Use different graphics file formats for HTML versus PDF
+\newcommand*{\objImage}[1]{%
+%HEVEA\imgsrc{#1.png}%
+%BEGIN LATEX
+\includegraphics{#1.eps}
+%END LATEX
+}
+\newcommand*{\objScaledImage}[2]{%
+%HEVEA\imgsrc[scale=#1]{#2.png}%
+%BEGIN LATEX
+\includegraphics[scale=#1]{#2.eps}
+%END LATEX
+}
+\newcommand*{\objImageWithWidth}[2]{%
+%HEVEA\imgsrc[width=#1]{#2.png}%
+%BEGIN LATEX
+\includegraphics[width=#1]{#2.eps}
+%END LATEX
+}
+\newcommand{\mpmLogo}{%
+%HEVEA\objScaledImage{0.5}{images/m+m_tight_logo}%
+%BEGIN LATEX
+\objImageWithWidth{5em}{images/m+m_tight_logo}
+%END LATEX
+}
+
+\newcommand*{\objPicture}[1]{\begin{center}\objImage{#1}\end{center}}
+\newcommand*{\objScaledPicture}[2]{\begin{center}\objScaledImage{#2}{#1}\end{center}}
+\newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\centering\objImage{#1}%
 \caption{#3\ }\label{diagram:#2}\end{figure}}
 \newcommand*{\objScaledDiagram}[4]{\begin{figure}[!ht]\centering%
-\includegraphics[scale=#4]{#1}\caption{#3\ }\label{diagram:#2}\end{figure}}
+\objScaledImage{#4}{#1}\caption{#3\ }\label{diagram:#2}\end{figure}}
 \newcommand*{\objDoubleScaledDiagram}[5]{\begin{figure}[!ht]\centering%
-\includegraphics[scale=#5]{#1}\hspace{3em}\includegraphics[scale=#5]{#2}\caption{#4\ }%
+\objScaledImage{#5}{#1}\hspace{3em}\objScaledImage{#5}{#2}\caption{#4\ }%
 \label{diagram:#3}\end{figure}}
-\newcommand{\mpmLogo}{\includegraphics[width=5em]{images/m+m_tight_logo}}
 \newcommand{\stdAuthor}{H~Plus~Technologies~Ltd. and Simon~Fraser~University\\
 Vancouver, British~Columbia, Canada}
 
@@ -124,7 +202,7 @@ Vancouver, British~Columbia, Canada}
 % Fourth argument: index name
 % Fifth argument: index suffix 
 \newcommand{\multiindex}[5]{%
-  \ifthenelse{\equal{#2}{\default{}}}%
+  \ifthenelse{\equal{#2}{\default}}%
     {\index{#1!#4#5}}%
     {\index{#1!#2!#4#5}}}
 
@@ -133,7 +211,7 @@ Vancouver, British~Columbia, Canada}
 % Third argument: alternate label subcategory
 % Fourth argument: label name
 \newcommand{\multilabel}[4]{%
-  \ifthenelse{\equal{#3}{\default{}}}%
+  \ifthenelse{\equal{#3}{\default}}%
     {\label{#1:#4}}%
     {\label{#1:#3:#4}}}
 
@@ -142,7 +220,7 @@ Vancouver, British~Columbia, Canada}
 % Third argument: alternate reference subcategory
 % Fourth argument: reference name
 \newcommand{\multiref}[4]{%
-  \ifthenelse{\equal{#3}{\default{}}}%
+  \ifthenelse{\equal{#3}{\default}}%
     {\ref{#1:#4}}%
     {\ref{#1:#3:#4}}}
 
@@ -193,7 +271,7 @@ Vancouver, British~Columbia, Canada}
 % Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameA}[5]{%
   \genTarget{#1}{#4}%
-  \ifthenelse{\equal{#5}{\default{}}}%
+  \ifthenelse{\equal{#5}{\default}}%
     {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|textbf}}%
     {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|textbf}}%
   \multilabel{#1}{#2}{#3}{#4}}
@@ -205,7 +283,7 @@ Vancouver, British~Columbia, Canada}
 % Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameD}[5]{%
   \genTarget{#1}{#4}%
-  \ifthenelse{\equal{#5}{\default{}}}%
+  \ifthenelse{\equal{#5}{\default}}%
     {\textitcorr{\color{webgreen}#4}\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
     {\textitcorr{\color{webgreen}#5}\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
   \multilabel{#1}{#2}{#3}{#4}}
@@ -218,7 +296,7 @@ Vancouver, British~Columbia, Canada}
 \newcommand{\entityNameE}[5]{%
   \ifthenelse{\equal{#1}{#4}}%
     {}% if first and fourth argument match
-    {\ifthenelse{\equal{#5}{\default{}}}%
+    {\ifthenelse{\equal{#5}{\default}}%
       {\multiindex{#1}{#2}{#3}{#4}{|)textbf}}%
       {\multiindex{#1}{#2}{#3}{#5}{|)textbf}}}}
 
@@ -229,7 +307,7 @@ Vancouver, British~Columbia, Canada}
 % Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameM}[5]{%  command if not generatingHyperPDF
   \genTarget{#1}{#4}%
-  \ifthenelse{\equal{#5}{\default{}}}%
+  \ifthenelse{\equal{#5}{\default}}%
     {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
     {\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
   \multilabel{#1}{#2}{#3}{#4}}
@@ -241,7 +319,7 @@ Vancouver, British~Columbia, Canada}
 % Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameP}[5]{%  command if generatingHyperPDF
   \genTarget{#1}{#4}%
-  \ifthenelse{\equal{#5}{\default{}}}%
+  \ifthenelse{\equal{#5}{\default}}%
 	{#4\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
 	{#5\multiindex{#1}{#2}{#3}{#5}{|(textbf}}%
   \multilabel{#1}{#2}{#3}{#4}}
@@ -252,7 +330,7 @@ Vancouver, British~Columbia, Canada}
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameR}[5]{%  command if generatingHyperPDF
-  \ifthenelse{\equal{#5}{\default{}}}%
+  \ifthenelse{\equal{#5}{\default}}%
     {\genTag{#1}{#4}{#4}%
     \ifthenelse{\equal{#1}{#4}}%
       {}% if first and fourth argument match
@@ -269,7 +347,7 @@ Vancouver, British~Columbia, Canada}
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameS}[5]{%
-  \ifthenelse{\equal{#5}{\default{}}}%
+  \ifthenelse{\equal{#5}{\default}}%
 	{\textitcorr{#4}}%
 	{\textitcorr{#5}}%
   \ifthenelse{\equal{#1}{#4}}%
@@ -282,7 +360,7 @@ Vancouver, British~Columbia, Canada}
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
 \newcommand{\entityNameX}[5]{%  command if generatingHyperPDF
-  \ifthenelse{\equal{#5}{\default{}}}%
+  \ifthenelse{\equal{#5}{\default}}%
     {\genTag{#1}{#4}{#4}}%
     {\genTag{#1}{#4}{#5}}}%
 
@@ -294,7 +372,7 @@ Vancouver, British~Columbia, Canada}
   
 % Use \entityReference, rather than \entityName, for the first mention of an object within
 % another object, so that page ranges will be present.
-\newcommand{\entityReference}[2]{\entityNameR{#1}{\default{}}{\default{}}{#2}{\default{}}%
+\newcommand{\entityReference}[2]{\entityNameR{#1}{\default}{\default}{#2}{\default}%
 \doVpage{#1}{#2}}%  command if generatingHyperPDF
 
 \ifthenelse{\boolean{generatingHyperPDF}}%
@@ -303,85 +381,85 @@ Vancouver, British~Columbia, Canada}
 
 % First argument [optional]: alternate name
 % Second argument: entity name
-\newcommand{\clientNameA}[2][\default{}]{\entityNameA{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\clientNameD}[2][\default{}]{\entityNameD{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\clientNameE}[2][\default{}]{\entityNameE{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\clientNameM}[2][\default{}]{\entityNameM{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\clientNameP}[2][\default{}]{\entityNameP{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\clientNameR}[2][\default{}]{\entityNameR{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\clientNameS}[2][\default{}]{\entityNameS{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\clientNameX}[2][\default{}]{\entityNameX{Clients}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\clientNameA}[2][\default]{\entityNameA{Clients}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\clientNameD}[2][\default]{\entityNameD{Clients}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\clientNameE}[2][\default]{\entityNameE{Clients}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\clientNameM}[2][\default]{\entityNameM{Clients}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\clientNameP}[2][\default]{\entityNameP{Clients}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\clientNameR}[2][\default]{\entityNameR{Clients}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\clientNameS}[2][\default]{\entityNameS{Clients}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\clientNameX}[2][\default]{\entityNameX{Clients}{\default}{\default}{#2}{#1}}% shortcut
 
 % First argument [optional]: alternate name
 % Second argument: entity name
-\newcommand{\serviceNameA}[2][\default{}]{\entityNameA{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\serviceNameD}[2][\default{}]{\entityNameD{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\serviceNameE}[2][\default{}]{\entityNameE{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\serviceNameM}[2][\default{}]{\entityNameM{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\serviceNameP}[2][\default{}]{\entityNameP{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\serviceNameR}[2][\default{}]{\entityNameR{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\serviceNameS}[2][\default{}]{\entityNameS{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\serviceNameX}[2][\default{}]{\entityNameX{Services}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\serviceNameA}[2][\default]{\entityNameA{Services}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\serviceNameD}[2][\default]{\entityNameD{Services}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\serviceNameE}[2][\default]{\entityNameE{Services}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\serviceNameM}[2][\default]{\entityNameM{Services}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\serviceNameP}[2][\default]{\entityNameP{Services}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\serviceNameR}[2][\default]{\entityNameR{Services}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\serviceNameS}[2][\default]{\entityNameS{Services}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\serviceNameX}[2][\default]{\entityNameX{Services}{\default}{\default}{#2}{#1}}% shortcut
 
 % First argument [optional]: alternate name
 % Second argument: entity name
-\newcommand{\utilityNameA}[2][\default{}]{\entityNameA{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\utilityNameD}[2][\default{}]{\entityNameD{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\utilityNameE}[2][\default{}]{\entityNameE{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\utilityNameM}[2][\default{}]{\entityNameM{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\utilityNameP}[2][\default{}]{\entityNameP{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\utilityNameR}[2][\default{}]{\entityNameR{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\utilityNameS}[2][\default{}]{\entityNameS{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\utilityNameX}[2][\default{}]{\entityNameX{Utilities}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\utilityNameA}[2][\default]{\entityNameA{Utilities}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\utilityNameD}[2][\default]{\entityNameD{Utilities}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\utilityNameE}[2][\default]{\entityNameE{Utilities}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\utilityNameM}[2][\default]{\entityNameM{Utilities}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\utilityNameP}[2][\default]{\entityNameP{Utilities}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\utilityNameR}[2][\default]{\entityNameR{Utilities}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\utilityNameS}[2][\default]{\entityNameS{Utilities}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\utilityNameX}[2][\default]{\entityNameX{Utilities}{\default}{\default}{#2}{#1}}% shortcut
 
 % First argument [optional]: alternate name
 % Second argument: Subcategory
 % Third argument: entity name
-\newcommand{\examplesNameA}[3][\default{}]{\entityNameA{Examples}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\examplesNameD}[3][\default{}]{\entityNameD{Examples}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\examplesNameE}[3][\default{}]{\entityNameE{Examples}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\examplesNameM}[3][\default{}]{\entityNameM{Examples}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\examplesNameP}[3][\default{}]{\entityNameP{Examples}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\examplesNameR}[3][\default{}]{\entityNameR{Examples}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\examplesNameS}[3][\default{}]{\entityNameS{Examples}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\examplesNameX}[3][\default{}]{\entityNameX{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameA}[3][\default]{\entityNameA{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameD}[3][\default]{\entityNameD{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameE}[3][\default]{\entityNameE{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameM}[3][\default]{\entityNameM{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameP}[3][\default]{\entityNameP{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameR}[3][\default]{\entityNameR{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameS}[3][\default]{\entityNameS{Examples}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\examplesNameX}[3][\default]{\entityNameX{Examples}{#2}{#2}{#3}{#1}}% shortcut
 
 % First argument [optional]: alternate name
 % Second argument: Subcategory
 % Third argument: Alternate subcategory name
 % Fourth argument: entity name
-\newcommand{\requestsNameA}[4][\default{}]{\entityNameA{Requests}{#2}{#3}{#4}{#1}}% shortcut
-\newcommand{\requestsNameD}[4][\default{}]{\entityNameD{Requests}{#2}{#3}{#4}{#1}}% shortcut
-\newcommand{\requestsNameE}[4][\default{}]{\entityNameE{Requests}{#2}{#3}{#4}{#1}}% shortcut
-\newcommand{\requestsNameM}[4][\default{}]{\entityNameM{Requests}{#2}{#3}{#4}{#1}}% shortcut
-\newcommand{\requestsNameP}[4][\default{}]{\entityNameP{Requests}{#2}{#3}{#4}{#1}}% shortcut
-\newcommand{\requestsNameR}[4][\default{}]{\entityNameR{Requests}{#2}{#3}{#4}{#1}}% shortcut
-\newcommand{\requestsNameS}[4][\default{}]{\entityNameS{Requests}{#2}{#3}{#4}{#1}}% shortcut
-\newcommand{\requestsNameX}[4][\default{}]{\entityNameX{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameA}[4][\default]{\entityNameA{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameD}[4][\default]{\entityNameD{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameE}[4][\default]{\entityNameE{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameM}[4][\default]{\entityNameM{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameP}[4][\default]{\entityNameP{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameR}[4][\default]{\entityNameR{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameS}[4][\default]{\entityNameS{Requests}{#2}{#3}{#4}{#1}}% shortcut
+\newcommand{\requestsNameX}[4][\default]{\entityNameX{Requests}{#2}{#3}{#4}{#1}}% shortcut
 
 % First argument [optional]: alternate name
 % Second argument: Subcategory
 % Third argument: entity name
-\newcommand{\exemplarsNameA}[2][\default{}]{\entityNameA{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\exemplarsNameD}[2][\default{}]{\entityNameD{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\exemplarsNameE}[2][\default{}]{\entityNameE{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\exemplarsNameM}[2][\default{}]{\entityNameM{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\exemplarsNameP}[2][\default{}]{\entityNameP{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\exemplarsNameR}[2][\default{}]{\entityNameR{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\exemplarsNameS}[2][\default{}]{\entityNameS{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
-\newcommand{\exemplarsNameX}[2][\default{}]{\entityNameX{Exemplars}{\default{}}{\default{}}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameA}[2][\default]{\entityNameA{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameD}[2][\default]{\entityNameD{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameE}[2][\default]{\entityNameE{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameM}[2][\default]{\entityNameM{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameP}[2][\default]{\entityNameP{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameR}[2][\default]{\entityNameR{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameS}[2][\default]{\entityNameS{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
+\newcommand{\exemplarsNameX}[2][\default]{\entityNameX{Exemplars}{\default}{\default}{#2}{#1}}% shortcut
 
 % First argument [optional]: alternate name
 % Second argument: Subcategory
 % Third argument: entity name
-\newcommand{\classNameA}[3][\default{}]{\entityNameA{Classes}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\classNameD}[3][\default{}]{\entityNameD{Classes}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\classNameE}[3][\default{}]{\entityNameE{Classes}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\classNameM}[3][\default{}]{\entityNameM{Classes}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\classNameP}[3][\default{}]{\entityNameP{Classes}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\classNameR}[3][\default{}]{\entityNameR{Classes}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\classNameS}[3][\default{}]{\entityNameS{Classes}{#2}{#2}{#3}{#1}}% shortcut
-\newcommand{\classNameX}[3][\default{}]{\entityNameX{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameA}[3][\default]{\entityNameA{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameD}[3][\default]{\entityNameD{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameE}[3][\default]{\entityNameE{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameM}[3][\default]{\entityNameM{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameP}[3][\default]{\entityNameP{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameR}[3][\default]{\entityNameR{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameS}[3][\default]{\entityNameS{Classes}{#2}{#2}{#3}{#1}}% shortcut
+\newcommand{\classNameX}[3][\default]{\entityNameX{Classes}{#2}{#2}{#3}{#1}}% shortcut
 
 \newcommand*{\insertpart}[2]{\clearpage\renewcommand{\mymark}{#1}#2}
 
@@ -391,12 +469,12 @@ Vancouver, British~Columbia, Canada}
 % Fourth argument: simplified version of title
 % Fifth argument: prefix to display before title
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand*{\sectionStart}[5][\default{}]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
+  {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
    \renewcommand{\mymark}{#4}%
-   \ifthenelse{\equal{#1}{\default{}}}%
+   \ifthenelse{\equal{#1}{\default}}%
     {\hypertarget{hyper.#3.#4}{}}%
     {\hypertarget{hyper.#3.#1}{}}}}%
-  {\newcommand*{\sectionStart}[5][\default{}]{\clearpage\section{#5#2}\renewcommand{\mymark}{#4}}}
+  {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5#2}\renewcommand{\mymark}{#4}}}
 
 \newcommand*{\sectionEnd}[1]{#1} % just a notational convenience
 
@@ -412,11 +490,11 @@ Vancouver, British~Columbia, Canada}
 % Third argument: hypertarget section
 % Fourth argument: simplified version of title
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand*{\subsectionStart}[4][\default{}]{\subsection{\texorpdfstring{#2}{#4}}%
-   \ifthenelse{\equal{#1}{\default{}}}%
+  {\newcommand*{\subsectionStart}[4][\default]{\subsection{\texorpdfstring{#2}{#4}}%
+   \ifthenelse{\equal{#1}{\default}}%
     {\hypertarget{hyper.#3.#4}{}}%
     {\hypertarget{hyper.#3.#1}{}}}}%
-  {\newcommand*{\subsectionStart}[4][\default{}]{\subsection{#2}}}
+  {\newcommand*{\subsectionStart}[4][\default]{\subsection{#2}}}
     
 \newcommand*{\subsectionEnd}[1]{#1} % just a notational convenience
 
@@ -425,17 +503,17 @@ Vancouver, British~Columbia, Canada}
 % Third argument: hypertarget section
 % Fourth argument: simplified version of title
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand*{\subsubsectionStart}[4][\default{}]{\subsubsection{\texorpdfstring{#2}{#4}}%
-   \ifthenelse{\equal{#1}{\default{}}}%
+  {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{\texorpdfstring{#2}{#4}}%
+   \ifthenelse{\equal{#1}{\default}}%
     {\hypertarget{hyper.#3.#4}{}}%
     {\hypertarget{hyper.#3.#1}{}}}}%
-  {\newcommand*{\subsubsectionStart}[4][\default{}]{\subsubsection{#2}\index{#2}}}
+  {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{#2}\index{#2}}}
     
 \newcommand*{\subsubsectionEnd}[1]{#1} % just a notational convenience
 
 % First argument: [optional] alternate section name
 % Second argument: section title
-\newcommand*{\primaryStart}[2][\default{}]{%
+\newcommand*{\primaryStart}[2][\default]{%
   \sectionStart[#1]{#2}{Primary}{#2}{}}
 
 \newcommand*{\primaryEnd}[1]{#1} % just a notational convenience
@@ -446,7 +524,7 @@ Vancouver, British~Columbia, Canada}
 
 % First argument: [optional] alternate subsection name
 % Second argument: subsection title
-\newcommand*{\secondaryStart}[2][\default{}]{%
+\newcommand*{\secondaryStart}[2][\default]{%
   \subsectionStart[#1]{#2}{Secondary}{#2}}
 
 \newcommand*{\secondaryEnd}[1]{#1} % just a notational convenience
@@ -457,7 +535,7 @@ Vancouver, British~Columbia, Canada}
 
 % First argument: [optional] alternate subsubsection name
 % Second argument: subsubsection title
-\newcommand*{\tertiaryStart}[2][\default{}]{%
+\newcommand*{\tertiaryStart}[2][\default]{%
   \subsubsectionStart[#1]{#2}{Tertiary}{#2}}
 
 \newcommand*{\tertiaryEnd}[1]{#1} % just a notational convenience
@@ -468,7 +546,7 @@ Vancouver, British~Columbia, Canada}
 
 % First argument: [optional] alternate appendix name
 % Second argument: appendix title
-\newcommand*{\appendixStart}[2][\default{}]{%
+\newcommand*{\appendixStart}[2][\default]{%
   \sectionStart[#1]{#2}{Appendix}{#2}{\appendixname{}:~}}
 
 \newcommand*{\appendixEnd}[1]{#1} % just a notational convenience
@@ -484,7 +562,10 @@ Vancouver, British~Columbia, Canada}
     \setlength{\leftmargin}{\labelwidth+\labelsep}
     \setlength{\rightmargin}{36pt}% 0.5"
     \setlength{\parsep}{0ex}
-    \renewcommand{\makelabel}[1]{\textbf{##1}\hfill}
+    %HEVEA\renewcommand{\makelabel}[1]{\textbf{##1}}%
+    %BEGIN LATEX
+    \renewcommand{\makelabel}[1]{\textbf{##1}\hspace\fill}
+    %END LATEX
     }}
   {\end{list}}
 \newcommand*{\histListBegin}{\begin{histList}}
@@ -495,10 +576,15 @@ Vancouver, British~Columbia, Canada}
 \newcommand*{\outputEnd}{\end{small}\end{ttfamily}\end{quote}}
 \newcommand*{\codeBegin}{\begin{ttfamily}\begin{small}}
 \newcommand*{\codeEnd}{\end{small}\end{ttfamily}}
-\newcommand*{\asCode}[1]{\codeBegin{}#1\codeEnd{}}
+\newcommand*{\asCode}[1]{\codeBegin{}#1\codeEnd}
 \newcommand*{\asBoldCode}[1]{\textbf{\asCode{#1}}}
 \newcommand*{\asEmphCode}[1]{\textit{\asCode{#1}}}
-\newcommand{\tabSymbol}{\texttt{\boldmath{$\vdash$}}}
+\newcommand{\tabSymbol}{\texttt{%
+%HEVEA\textbf{->}%
+%BEGIN LATEX
+\boldmath{$\vdash$}
+%END LATEX
+}}
 \newcommand{\tS}{\hspace*{10pt}}
 
 \newenvironment{tightItems}%

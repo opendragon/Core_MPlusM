@@ -2,24 +2,24 @@
 \primaryStart{Utilities}
 The utility programs that are provided with \mplusm{} provide access to the processes that
 are running in the \mplusm{} installation.
-Although command--line \yarp{} commands can also be used to manage the network
+Although command\longDash{}line \yarp{} commands can also be used to manage the network
 connections, it is recommended that the more specialized \mplusm{} tools be used, to avoid
 inconsistencies.
-\secondaryStart[CommandLineUtilities]{Command--Line~Utilities}
-\mplusm{} includes a number of command--line tools that provide some of the functionality
-of the GUI--based tool, \emph{Channel Manager}.
-As well, the native \yarp{} command--line tools to create and remove connections can be
-used with \mplusm{}, but it is very easy to create a non--functional installation if care
-is not taken.\\
+\secondaryStart[CommandLineUtilities]{Command\longDash{}Line~Utilities}
+\mplusm{} includes a number of command\longDash{}line tools that provide some of the
+functionality of the GUI\longDash{}based tool, \emph{Channel Manager}.
+As well, the native \yarp{} command\longDash{}line tools to create and remove connections
+can be used with \mplusm{}, but it is very easy to create a non\longDash{}functional
+installation if care is not taken.\\
 
-The command--line tools all have three optional parameters:
+The command\longDash{}line tools all have three optional parameters:
 \begin{itemize}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{j}{json}{generate JSON--formatted output}
-\item \optItem{t}{tabs}{generate output in a tab--delimited format}
+\item\optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{j}{json}{generate JSON\longDash{}formatted output}
+\item\exSp\optItem{t}{tabs}{generate output in a tab\longDash{}delimited format}
 \end{itemize}
-If neither JSON format nor tab--delimited format are specified, the output is written as
-simple text.
+If neither JSON format nor tab\longDash{}delimited format are specified, the output is
+written as simple text.
 \tertiaryStart{\utilityNameP{mpmClientList}}
 The program \utilityNameX{mpmClientList} displays the clients for services that have
 \yarp{} network connections with persistent state.
@@ -41,17 +41,17 @@ Service:\ /\serviceName/examples/runningSum\\
 Clients:\\
 \hspace*{\uL}/\clientName/examples/runningsum\textunderscore{}4896162
 \outputEnd{}
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \openSq{} \textbraceleft{} "Service":\ "/\serviceName/examples/runningSum", "Client":\ \\
 "/\clientName/examples/runningsum\textunderscore{}4896162" \textbraceright{} \closeSq
 \outputEnd{}
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\serviceName/examples/runningSum\pseudotab{}%
 /\clientName/examples/runningsum\textunderscore{}4896162
 \outputEnd{}
-Note that, if no clients are found, the JSON--formatted output would be:
+Note that, if no clients are found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
 \sqPair
 \outputEnd{}
@@ -59,40 +59,41 @@ while the default output would be:
 \outputBegin{}
 No client connections found.
 \outputEnd{}
-and the tab--delimited output would be empty.
+and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
 \outputBegin{}
 No services found.
 \outputEnd{}
-and the JSON--formatted and tab--delimited outputs would be empty.
+and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmClientList}}
 \tertiaryStart{\utilityNameP{mpmFindServices}}
 The program \utilityNameX{mpmFindServices} displays the primary channels belonging to
-services that match a criteria provided on the command--line or interactively.\\
+services that match a criteria provided on the command\longDash{}line or interactively.\\
 
 The program takes an optional argument for the matching criteria to be used; if no
-criteria is provided on the command--line, the program enters a loop, asking for an
-operation to do:
+criteria is provided on the command\longDash{}line, the program enters a loop, asking for
+an operation to do:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{f}{request the matching criteria and process it}
-\item \cmdItem{q}{quit the application}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{f}{request the matching criteria and process it}
+\item\exSp\cmdItem{q}{quit the application}
 \end{itemize}
-An example execution of the program, with the command--line argument \asCode{'tag!blurt'}
-provided, would have the following output if default formatting is used:
+An example execution of the program, with the command\longDash{}line argument
+\asCode{'tag!blurt'} provided, would have the following output if default formatting is
+used:
 \outputBegin{}
 /\dollarService, /\serviceName/filter/truncatefloat, /blort
 \outputEnd{}
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \openSq{} "/\dollarService", "/\serviceName/filter/truncatefloat", "/blort" \closeSq
 \outputEnd{}
-of, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+of, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort
 \outputEnd{}
-If no criteria is provided on the command--line, and default formatting is used, with
-user input shown in bold, an example execution of the program could be:
+If no criteria is provided on the command\longDash{}line, and default formatting is used,
+with user input shown in bold, an example execution of the program could be:
 \outputBegin{}
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
@@ -102,17 +103,17 @@ Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
-or, it JSON--formatted output is requested:
+or, it JSON\longDash{}formatted output is requested:
 \outputBegin{}
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
-\openSq{} "/\dollarService", "/\serviceName/filter/truncatefloat", "/blort" \closeSq{}\\
+\openSq{} "/\dollarService", "/\serviceName/filter/truncatefloat", "/blort" \closeSq\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
-\openSq{} "/\serviceName/input/randomburst/blurt" \closeSq{}\\
+\openSq{} "/\serviceName/input/randomburst/blurt" \closeSq\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
@@ -162,7 +163,7 @@ Ports:\\
 /writer2:\ Standard port at 10.0.1.2:10004.\\
 \hspace*{\uL}Output to /reader via TCP.
 \outputEnd{}
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \openSq{} \textbraceleft{} "PortName":\ "/\dollarService", "PortClass":\
 "Service~registry~port~for~'Registry'", "Inputs":\ \sqPair, "Outputs":\
@@ -186,7 +187,7 @@ or, if JSON--formatted output is requested:
 \textbraceleft{} "Port":\ \\
 "/reader", "Mode":\ "TCP" \textbraceright{} \closeSq{} \textbraceright{} \closeSq
 \outputEnd{}
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}Service~registry~port~for~'Registry'\\		
 /\dollarService/status\pseudotab{}Standard~port~at~10.0.1.2:10008\pseudotab/%
@@ -197,7 +198,7 @@ reader~UDP\\
 /writer\pseudotab{}Standard~port~at~10.0.1.2:10002\pseudotab/reader~TCP\\
 /writer2\pseudotab{}Standard~port~at~10.0.1.2:10004\pseudotab/reader~TCP
 \outputEnd{}
-Note that, if no ports are found, the JSON--formatted output would be:
+Note that, if no ports are found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
 \sqPair
 \outputEnd{}
@@ -207,7 +208,7 @@ Ports:\\
 \settowidth{\uL}{Por}%
 \hspace*{\uL}No ports found.
 \outputEnd{}
-and the tab--delimited output would be empty.
+and the tab\longDash{}delimited output would be empty.
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
 \tertiaryStart{\utilityNameP{mpmRecordAsJSONService}}
 The \utilityNameX{mpmRecordAsJSONService} application is an Output
@@ -216,7 +217,7 @@ The application responds to the standard Output service requests and can be used
 standalone data generator, without the need for a client connection.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has a single argument,
-the file--system path to use for the output file.
+the file\longDash{}system path to use for the output file.
 The path will be used when the input stream is started or restarted.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
@@ -231,20 +232,21 @@ file that is being used.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has one optional argument -- the output file path to be used.
+The application has one optional argument \longDash{} the output file path to be used.
 The application also has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
-without a distinguishing `tag'.
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of
+each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
+them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the input stream name is modified if a tag is specified and
 the default endpoint is being used.\\
@@ -258,16 +260,16 @@ running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{b}{start the input stream, using the specified output file path to record
-the input data}
-\item \cmdItem{c}{configure the service by providing the output file path to be used}
-\item \cmdItem{e}{stop the input stream, which will close the output file}
-\item \cmdItem{q}{quit the application}
-\item \cmdItem{r}{restart the input stream, which will cause the output file to be closed
-and a new output file to be opened}
-\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
-stream is restarted}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
+record the input data}
+\item\exSp\cmdItem{c}{configure the service by providing the output file path to be used}
+\item\exSp\cmdItem{e}{stop the input stream, which will close the output file}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the input stream, which will cause the output file to be
+closed and a new output file to be opened}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+input stream is restarted}
 \end{itemize}
 \tertiaryEnd{\utilityNameE{mpmRecordAsJSONService}}
 \tertiaryStart{\utilityNameP{mpmRequestInfo}}
@@ -288,9 +290,9 @@ its inputs and outputs.\\
 The input and output formats have a symbolic representation, which is currently used for
 descriptive purposes and not actually validated by the services.\\
 
-An `i' represents an integer value, a `d' represents a floating--point (`double') value,
-an `n' represents a numeric value (either an integer or a floating--point number), an `s'
-represents a string and a `.' represents an arbitrary value.\\
+An `i' represents an integer value, a `d' represents a floating\longDash{}point (`double')
+value, an `n' represents a numeric value (either an integer or a floating\longDash{}point
+number), an `s' represents a string and a `.' represents an arbitrary value.\\
 
 Values can be grouped in lists by being preceded by a `(' and followed by a `)';
 concatenation of values indicates sequential appearance of the values.
@@ -320,7 +322,7 @@ Inputs:\ & s\\
 Outputs:\ & s\\
 \end{tabular}
 \outputEnd{}
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \openSq{} \textbraceleft{} "Port":\ "/\dollarService", "Request":\ "register",
 "Version":\ "1.0", "Details":\ \\
@@ -330,7 +332,7 @@ encountered", "Keywords":\ \openSq{} "register", "add" \closeSq, "Inputs":\ "s",
 "Outputs":\ \\
 "s" \textbraceright{} \closeSq
 \outputEnd{}
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}register\pseudotab{}1.0\pseudotab{}Register the service and its
 requests\textbackslash{}nInput:\ the\\
@@ -339,9 +341,9 @@ the\\
 problem encountered\pseudotab{}register add\pseudotab{}s\pseudotab{}s
 \outputEnd{}
 For the default output, multiple entries will be separated by a blank line; for
-tab--delimited output each entry is on a line by itself and for JSON--formatted output,
-the entries are objects within an array.
-Note that, if no matching request is found, the JSON--formatted output would be:
+tab\longDash{}delimited output each entry is on a line by itself and for
+JSON\longDash{}formatted output, the entries are objects within an array.
+Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
 \sqPair
 \outputEnd{}
@@ -350,12 +352,12 @@ while the default output would be:
 \outputBegin{}
 No matching request found.
 \outputEnd{}
-and the tab--delimited output would be empty.
+and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
 \outputBegin{}
 No services found.
 \outputEnd{}
-and the JSON--formatted and tab--delimited outputs would be empty.
+and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmRequestInfo}}
 \tertiaryStart{\utilityNameP{mpmServiceLister}}
 The program \utilityNameX{mpmServiceLister} displays the active services in the \mplusm{}
@@ -377,8 +379,8 @@ requests.\\
 
 For each secondary input or output \yarp{} network port, the protocol supported by the
 port is shown.
-Note that secondary port protocols have no specific format -- they are simple strings that
-must match in order for a connection to be established with the port.
+Note that secondary port protocols have no specific format \longDash{} they are simple
+strings that must match in order for a connection to be established with the port.
 By convention, protocol strings can have formats similar to the input and output formats
 for requests, but there is no requirement that the protocol strings have any particular
 structure.\\
@@ -398,7 +400,7 @@ Service name:\ & Registry\\
 Tag:\\
 Service kind:\ & Registry\\
 Description:\ & The Registry service\\
-Requests:\ & associate - associate a channel with another channel\\
+Requests:\ & associate \longDash{} associate a channel with another channel\\
  & disassociate - remove all associations for a channel\\
  & getAssociates - return the associations of a channel\\
  & match - return the channels for services matching the\\
@@ -438,7 +440,7 @@ Secondary outputs:\ & /shorten/output\textbraceleft{}protocol=i+%
 \end{tabular}
 \outputEnd{}
 \newpage
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \openSq{} \textbraceleft{} "ServicePort":\ "/\dollarService", "ServiceName":\
 "Registry", "Tag":\ "", "ServiceKind":\ \\
@@ -474,7 +476,7 @@ information for a service on the given channel", "Path":\ \\
 "/shorten/output", "Protocol":\ "i+" \textbraceright{} \closeSq{} \textbraceright{}
 \closeSq
 \outputEnd{}
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}Registry\pseudotab{}Registry\pseudotab\pseudotab{}The Registry
 service\pseudotab{}associate - \\
@@ -554,7 +556,7 @@ out:\ 17292,\\
 in:\ \\
 \hspace*{\uL}0, out:\ 0, messages in:\ 0, out:\ 0\closeSq
 \outputEnd{}
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \openSq{} \openSq{} \textbraceleft{} "channel":\ "/\dollarService", "date":\
 "2014-10-10", "time":\ "09:18:42", "inBytes":\ \\
@@ -580,7 +582,7 @@ or, if JSON--formatted output is requested:
 "0" \textbraceright{} \closeSq{} \closeSq
 \outputEnd{}
 \newpage
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}11460%
 \pseudotab{}54313\pseudotab{}271\pseudotab{}270\\
@@ -596,9 +598,9 @@ auxiliary\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}39\pseudotab{}200
 \pseudotab{}0\pseudotab{}0\pseudotab{}0\pseudotab{}0
 \outputEnd{}
 For the default output, multiple entries will be separated by a blank line; for
-tab--delimited output each entry is on a line by itself and for JSON--formatted output,
-the entries are objects within an array.
-Note that, if no matching request is found, the JSON--formatted output would be:
+tab\longDash{}delimited output each entry is on a line by itself and for
+JSON\longDash{}formatted output, the entries are objects within an array.
+Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
 \sqPair
 \outputEnd{}
@@ -606,26 +608,26 @@ while the default output would be:
 \outputBegin{}
 No matching request found.
 \outputEnd{}
-and the tab--delimited output would be empty.
+and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
 \outputBegin{}
 No services found.
 \outputEnd{}
-and the JSON--formatted and tab--delimited outputs would be empty.
+and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmServiceMetrics}}
 \tertiaryStart{\utilityNameP{mpmVersion}}
 The program \utilityNameX{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
-and ACE, the low--level networking layer used by \mplusm{} and \yarp{}.\\
+and ACE, the low\longDash{}level networking layer used by \mplusm{} and \yarp{}.\\
 
 For example, the default output could be:
 \outputBegin{}
 Movement And Meaning Version:\ 1.4.16, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
 \outputEnd{}
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \textbraceleft{} "M+M":\ "1.4.16", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
 \outputEnd{}
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 1.4.16\pseudotab{}2.3.61\pseudotab{}6.2.6
 \outputEnd{}
@@ -642,24 +644,25 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request s
 companion application \utilityNameR{mpmAddressClient} to retrieve the IP address and port
 that it is started with.\\
 
-The application has two arguments -- the IP address and port to be remembered.
+The application has two arguments \longDash{} the IP address and port to be remembered.
 The application also has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of 
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of 
 \utilityNameX{mpmAddressService} service, but the \emph{Channel Manager} application
 cannot display them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 \tertiaryEnd{\utilityNameE{mpmAddressService}}
 \tertiaryStart{\utilityNameP{mpmAddressClient}}
-The \utilityNameX{mpmAddressClient} application is a command--line tool to
+The \utilityNameX{mpmAddressClient} application is a command\longDash{}line tool to
 retrieve an IP address and port from the\\
 \utilityNameR{mpmAddressService} application.\\
 
@@ -668,11 +671,11 @@ It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to 
 
 The program can have one or more arguments:
 \begin{itemize}
-\item \makebox[4em][l]{\textbf{address}} Display just the retrieved IP address
-\item \makebox[4em][l]{\textbf{both}} Display the retrieved IP address and port
-\item \makebox[4em][l]{\textbf{port}} Display just the retrieved port
-\item \makebox[4em][l]{\textit{other}} Use \emph{other} as the tag for the
-\utilityNameR{mpmAddressService} application being connected to
+\item\argItem{address}{Display just the retrieved IP address}
+\item\exSp\argItem{both}{Display the retrieved IP address and port}
+\item\exSp\argItem{port}{Display just the retrieved port}
+\item\exSp\argItem{other}{Use \emph{other} as the tag for the
+\utilityNameR{mpmAddressService} application being connected to}
 \end{itemize}
 Note that the last tag, \emph{other}, and the last of (\textbf{address}, \textbf{both} or
 \textbf{port}) are used by the application.
@@ -699,11 +702,11 @@ the output would be:
 \outputBegin{}
 Address:\ 123.123.123.123, Port:\ 42
 \outputEnd{}
-or, if JSON--formatted output is requested:
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 \textbraceleft{} "Address":\ "123.123.123.123", "Address":\ "42" \textbraceright{}
 \outputEnd{}
-or, if tab--delimited output is requested, with tabs shown as `\tabSymbol':
+or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 123.123.123.123\pseudotab{}42
 \outputEnd{}
@@ -712,33 +715,35 @@ displayed and, if \textbf{port} is specified, the IP address is not displayed.
 \tertiaryEnd{\utilityNameE{mpmAddressClient}}
 \tertiaryStart{\utilityNameP{mpmTunnelService}}
 The \utilityNameX{mpmTunnelService} application is a background service that is used to
-route a non--\yarp{} network data source to a non--\yarp{} network data sink, via the
-\utilityNameR{mpmTunnelClient} application.\\
+route a non\longDash\yarp{} network data source to a non\longDash\yarp{} network data
+sink, via the \utilityNameR{mpmTunnelClient} application.\\
 
 It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent by the
 companion application \utilityNameR{mpmTunnelClient} to retrieve an IP address and port
 that the companion application should connect to.\\
 
-The application has two arguments -- the IP address and port for the network data source.
+The application has two arguments \longDash{} the IP address and port for the network data
+source.
 The application also has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of the
-\utilityNameX{mpmTunnelService} service, but the \emph{Channel Manager} application cannot
-display them without a distinguishing `tag'.
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of
+the \utilityNameX{mpmTunnelService} service, but the \emph{Channel Manager} application
+cannot display them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 \tertiaryEnd{\utilityNameE{mpmTunnelService}}
 \tertiaryStart{\utilityNameP{mpmTunnelClient}}
-The \utilityNameX{mpmTunnelClient} application is a command--line tool to route a
-non--\yarp{} network data source to a non--\yarp{} network data sink via the
-\utilityNameR{mpmTunnelService} application.\\
+The \utilityNameX{mpmTunnelClient} application is a command\longDash{}line tool to route a
+non\longDash\yarp{} network data source to a non\longDash\yarp{} network data sink via
+the \utilityNameR{mpmTunnelService} application.\\
 
 It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to the
 \utilityNameR{mpmTunnelService} application to get the IP address and port to connect
@@ -760,16 +765,16 @@ that it gathers.\\
 
 The application has three optional parameters:
 \begin{itemize}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
+\item\optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed endpoint name.
 \tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
 \tertiaryStart{\utilityNameP{mpmRequestCounterClient}}
-The \utilityNameX{mpmRequestCounterClient} application is a command--line tool to
+The \utilityNameX{mpmRequestCounterClient} application is a command\longDash{}line tool to
 measure the average time to process a simple request.\\
 
 It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} and

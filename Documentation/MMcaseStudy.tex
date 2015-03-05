@@ -11,13 +11,13 @@ OS X, so implementing an Input Service for a Leap Motion Controller should be
 straightforward.\\
 
 With the Leap Motion API, there are two approaches to gathering the data from the
-controller -- polling or responding to an event.
-As well, if the event--handling mechanism is chosen, the service can either use multiple
-inheritance with \asCode{Leap::Listener} on the Input service class, or use a separate
-\asCode{Leap::Listener} subclass to respond to the events.\\
+controller \longDash{} polling or responding to an event.
+As well, if the event\longDash{}handling mechanism is chosen, the service can either use
+multiple inheritance with \asCode{Leap::Listener} on the Input service class, or use a
+separate \asCode{Leap::Listener} subclass to respond to the events.\\
 
-For simplicity, we will use event--handling with a separate \asCode{Leap::Listener}
-subclass, and a namespace of\\
+For simplicity, we will use event\longDash{}handling with a separate
+\asCode{Leap::Listener} subclass, and a namespace of\\
 \asCode{LeapMotion}.
 The steps being described are for Macintosh~OS~X; the section
 \appendixRef{UsingExemplars}{Using~the~Exemplar~Files} describes the steps that would be
@@ -47,7 +47,7 @@ commands again will verify that we are linking properly with the dynamic library
 
 Since we've decided to use a separate \asCode{Leap::Listener} subclass, rather than
 polling the Leap Motion controller, we no longer need the \asCode{LeapMotionInputThread}
-class or it's files -- the files should be removed from the project and the
+class or it's files \longDash{} the files should be removed from the project and the
 \asCode{LeapMotionInputService/CMakeLists.txt} file; the references to the
 \asCode{LeapMotionInputThread} class in the \asCode{LeapMotionInputService} should be
 commented out, as they will be replaced soon.\\
@@ -62,7 +62,7 @@ Make sure to delete it in the class destructor.\\
 
 In the \asCode{LeapMotionInputService::startStreams} and
 \asCode{LeapMotionInputService::stopStreams} methods, add `\asCode{if}' statements to
-check for the non--\asCode{NULL} state of the new member variable.\\
+check for the non\longDash\asCode{NULL} state of the new member variable.\\
 
 In the \asCode{LeapMotionInputService::setUpStreamDescriptions} method, change the
 port protocol string to\\
@@ -71,7 +71,7 @@ port protocol string to\\
 \tertiaryStart{Fifth~step}
 We now create a new \compLang{C++} class, \asCode{LeapMotionInputListener}, that derives
 from \asCode{Leap::Listener} and add the source file to the
-\asCode{LeapMotionInputService/CMakeLists.txt} file -- the class should be in the
+\asCode{LeapMotionInputService/CMakeLists.txt} file \longDash{} the class should be in the
 \asCode{LeapMotion} namespace.\\
 
 Add the header file \asCode{M+MLeapMotionInputListener.h} to the file
@@ -80,8 +80,8 @@ Add the header file \asCode{M+MLeapMotionInputListener.h} to the file
 \asCode{LeapMotionInputService} that were commented out.\\
 
 In the \asCode{LeapMotionInputListener} class, add `placeholder' functions for, at least,
-the virtual method `\asCode{onFrame}' -- this will receive the motion events from the
-Leap Motion controller.
+the virtual method `\asCode{onFrame}' \longDash{} this will receive the motion events from
+the Leap Motion controller.
 Add a private member variable of type\\
 \asCode{Common::GeneralChannel~*} to the class, which will be used to connect to one of
 the Input service output channels.

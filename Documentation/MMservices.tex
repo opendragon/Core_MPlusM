@@ -33,13 +33,13 @@ All services and clients utilize a request~/~response protocol that is defined b
 
 The standard requests are in 4 groups:
 \begin{itemize}
-\item \textbf{\secondaryRef{BasicRequests}{Basic~Requests:}} requests that support the
+\item\textbf{\secondaryRef{BasicRequests}{Basic~Requests:}} requests that support the
 fundamental \mplusm{} service mechanisms
-\item \textbf{\secondaryRef{RegistryServiceRequests}{Registry~Service~Requests:}} requests
-that are specific to the \serviceNameR[Registry~Service]{RegistryService}
-\item \textbf{\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests:}} requests that
-are specific to \inputOutput{} services
-\item \textbf{\secondaryRef{MiscellaneousRequests}{Miscellaneous~Requests:}} other
+\item\exSp\textbf{\secondaryRef{RegistryServiceRequests}{Registry~Service~Requests:}}
+requests that are specific to the \serviceNameR[Registry~Service]{RegistryService}
+\item\exSp\textbf{\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests:}} requests
+that are specific to \inputOutput{} services
+\item\exSp\textbf{\secondaryRef{MiscellaneousRequests}{Miscellaneous~Requests:}} other
 requests
 \end{itemize}
 Requests are handled by derived classes of the base class for request handlers,
@@ -70,10 +70,10 @@ It responds to the requests in the
 
 The application has three optional parameters:
 \begin{itemize}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
+\item\optItem{h}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
 \end{itemize}
 Note that only one copy of the \serviceNameX[Registry~Service]{RegistryService}
 application can be running at a time in an \mplusm{} installation, due to its fixed
@@ -226,7 +226,7 @@ Sending a \requestsNameX{Registry~Service}{RegistryService}{ping} request result
 sequence of requests being sent from the \serviceNameR[Registry~Service]{RegistryService}
 to the active service if the information on the service is no longer in the internal
 database.
-This will happen if the service is considered to be `stale' -- it has not sent a
+This will happen if the service is considered to be `stale' \longDash{} it has not sent a
 \requestsNameX{Registry~Service}{RegistryService}{ping} request often enough to be
 remembered.
 The sequence of requests sent to the active service is described in the 
@@ -261,16 +261,17 @@ These requests are implemented in all \mplusm{} \inputOutput{} services, via the
 \tertiaryStart{\requestsNameD{\inputOutput{}}{InputOutput}{configure}}
 The \requestsNameX{\inputOutput{}}{InputOutput}{configure} request is available for
 \inputOutput{} services that require special setup information, such as a device
-identifier or file--system path.
+identifier or file\longDash{}system path.
 It is the responsibility of derived classes of the
 \secondaryRef{BaseInputOutputService}{BaseInputOutputService} class to provide a method
 that handles the data provided in the
 \requestsNameX{\inputOutput{}}{InputOutput}{configure} request.\\
 
 For the \examplesNameR{Services}{mpmRandomBurstService} application, the configuration
-data consists of a floating--point number (the burst period) and an integer (the burst
-size); for the \examplesNameR{Services}{mpmRecordIntegersService} application, the
-configuration data consists of the file--system path for the service output file.\\
+data consists of a floating\longDash{}point number (the burst period) and an integer (the
+burst size); for the \examplesNameR{Services}{mpmRecordIntegersService} application, the
+configuration data consists of the file\longDash{}system path for the service output
+file.\\
 
 \requestsNameX{\inputOutput{}}{InputOutput}{configure} requests should be sent by
 client applications before sending

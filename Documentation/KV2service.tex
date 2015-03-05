@@ -20,31 +20,32 @@ Note that the application will exit if the \emph{Registry Service} is not runnin
 
 The application has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
-without a distinguishing `tag'.
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of
+each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
+them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the output stream name is modified if a tag is specified and
 the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{b}{start the output stream, sending body data}
-\item \cmdItem{c}{configure the service; this has no effect, as the service has no
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the output stream, sending body data}
+\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
 configurable parameters}
-\item \cmdItem{e}{stop the output stream}
-\item \cmdItem{q}{quit the application}
-\item \cmdItem{r}{restart the output stream}
-\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the output
-stream is restarted}
+\item\exSp\cmdItem{e}{stop the output stream}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the output stream}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+output stream is restarted}
 \end{itemize}
 \primaryEnd{}

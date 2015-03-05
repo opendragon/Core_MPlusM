@@ -43,32 +43,33 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
-without a distinguishing `tag'.\\
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of
+each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
+them without a distinguishing `tag'.\\
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the input stream name is modified if a tag is specified and
 the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{b}{start the input stream}
-\item \cmdItem{c}{configure the service; this has no effect, as the service has no
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the input stream}
+\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
 configurable parameters}
-\item \cmdItem{e}{stop the input stream}
-\item \cmdItem{q}{quit the application}
-\item \cmdItem{r}{restart the input stream}
-\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
-stream is restarted}
+\item\exSp\cmdItem{e}{stop the input stream}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the input stream}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+input stream is restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmAbsorberService}}
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
@@ -82,12 +83,13 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute.
@@ -96,14 +98,15 @@ connection to the service.
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomBurstService}}
 The \examplesNameX{Services}{mpmRandomBurstService} application is an Input service,
-generating a stream of random floating--point values, with a given `burst size' -- the
-number of values sent in a group, and a `burst period' -- the number of seconds between
-groups.
+generating a stream of random floating\longDash{}point values, with a given `burst size'
+\longDash{} the number of values sent in a group, and a `burst period' \longDash{} the
+number of seconds between groups.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has two arguments -- a
-floating--point value for the `burst period' and an integer value for the `burst size'.
+The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has two arguments
+\longDash{} a floating\longDash{}point value for the `burst period' and an integer value
+for the `burst size'.
 These values will be applied when the random number generator is started or restarted.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
@@ -113,8 +116,8 @@ connection.\\
 The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request starts a random
 number generator for the output stream, using the configured `burst period' and
 `burst size'.
-Once started, the random number generator will send groups of random floating--point
-values via the output \yarp{} network connection.\\
+Once started, the random number generator will send groups of random
+floating\longDash{}point values via the output \yarp{} network connection.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request stops the random
 number generator, which stops the output \yarp{} network connection.\\ 
@@ -122,21 +125,22 @@ number generator, which stops the output \yarp{} network connection.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has two optional arguments -- the burst period, in seconds and the number
-of random values to generate in each burst.
+The application has two optional arguments \longDash{} the burst period, in seconds and
+the number of random values to generate in each burst.
 The application also has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
-without a distinguishing `tag'.
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of
+each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
+them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the output stream name is modified if a tag is specified and
 the default endpoint is being used.\\
@@ -148,15 +152,15 @@ running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{b}{start the output stream, sending bursts of data of the specified size
-and period}
-\item \cmdItem{c}{configure the service by providing the burst size and period}
-\item \cmdItem{e}{stop the output stream}
-\item \cmdItem{q}{quit the application}
-\item \cmdItem{r}{restart the output stream}
-\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the output
-stream is restarted}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the output stream, sending bursts of data of the specified
+size and period}
+\item\exSp\cmdItem{c}{configure the service by providing the burst size and period}
+\item\exSp\cmdItem{e}{stop the output stream}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the output stream}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+output stream is restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
@@ -170,12 +174,13 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute.
@@ -183,7 +188,8 @@ The matching client application does not directly use the endpoint name to estab
 connection to the service.\\
 
 The \requestsNameD{Examples}{Examples}{random} request has an argument of the
-count of floating--point random numbers to be returned as a response to the request.
+count of floating\longDash{}point random numbers to be returned as a response to the
+request.
 \requestsNameE{Examples}{Examples}{random}%
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersService}}
@@ -193,7 +199,7 @@ The application responds to the standard Output service requests and can be used
 standalone data generator, without the need for a client connection.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has a single argument,
-the file--system path to use for the output file.
+the file\longDash{}system path to use for the output file.
 The path will be used when the input stream is started or restarted.\\
 
 The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
@@ -208,20 +214,21 @@ file that is being used.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has one optional argument -- the output file path to be used.
+The application has one optional argument \longDash{} the output file path to be used.
 The application also has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
-without a distinguishing `tag'.
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of
+each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
+them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the input stream name is modified if a tag is specified and
 the default endpoint is being used.\\
@@ -235,16 +242,16 @@ running from a terminal.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{b}{start the input stream, using the specified output file path to record
-the input data}
-\item \cmdItem{c}{configure the service by providing the output file path to be used}
-\item \cmdItem{e}{stop the input stream, which will close the output file}
-\item \cmdItem{q}{quit the application}
-\item \cmdItem{r}{restart the input stream, which will cause the current output file to be
-closed and a new output file to be opened}
-\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
-stream is restarted}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
+record the input data}
+\item\exSp\cmdItem{c}{configure the service by providing the output file path to be used}
+\item\exSp\cmdItem{e}{stop the input stream, which will close the output file}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the input stream, which will cause the current output file
+to be closed and a new output file to be opened}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+input stream is restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
@@ -259,12 +266,13 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
 service can execute.
@@ -293,7 +301,7 @@ calculation for the requesting application or adapter.
 \tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
 \tertiaryStart{\examplesNameP{Services}{mpmTruncateFloatService}}
 The \examplesNameX{Services}{mpmTruncateFloatService} application is a Filter
-service, converting a stream of floating--point values into a stream of integers.
+service, converting a stream of floating\longDash{}point values into a stream of integers.
 The application responds to the standard Filter service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
@@ -315,37 +323,38 @@ Note that the application will exit if the
 
 The application has five optional parameters:
 \begin{itemize}
-\item \optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item \optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item \optItem{p}{port}{specifies the port number to be used, if a non--default port is
-desired}
-\item \optItem{r}{report}{report the service metrics when the application exits}
-\item \optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
 \end{itemize}
 The tag is added to the standard name of the service, so that more than one copy of the
-service can execute -- an \mplusm{} installation can support multiple copies of each
-\inputOutput{} service, but the \emph{Channel Manager} application cannot display them
-without a distinguishing `tag'.\\
+service can execute \longDash{} an \mplusm{} installation can support multiple copies of
+each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
+them without a distinguishing `tag'.\\
 If the tag is not specified, the standard name of the service will be used.
 As well as the service name, the input and output stream names are modified if a tag is
 specified and the default endpoint is being used.\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{b}{start the input and output streams}
-\item \cmdItem{c}{configure the service; this has no effect, as the service has no
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the input and output streams}
+\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
 configurable parameters}
-\item \cmdItem{e}{stop the input and output streams}
-\item \cmdItem{q}{quit the application}
-\item \cmdItem{r}{restart the input and output streams}
-\item \cmdItem{u}{reset the configuration so that it will be reprocessed when the input
-and output streams are restarted}
+\item\exSp\cmdItem{e}{stop the input and output streams}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the input and output streams}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+input and output streams are restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatService}}
 \secondaryEnd{}
 \secondaryStart{Example~Clients}
-The example client applications provided use simple terminal--based interfaces to
+The example client applications provided use simple terminal\longDash{}based interfaces to
 generate requests for their matching service applications.
 \tertiaryStart{\examplesNameP{Clients}{mpmEchoClient}}
 The \examplesNameX{Clients}{mpmEchoClient} application reads input from a terminal and
@@ -376,16 +385,16 @@ terminal and sends corresponding requests to the
 
 The commands are:
 \begin{itemize}
-\item \cmdItem{?}{display a list of the available commands}
-\item \cmdItem{+}{read a number from the terminal and send it to the service via an
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{+}{read a number from the terminal and send it to the service via an
 \requestsNameR{Examples}{Examples}{addtosum} request, to update the running sum for this
 client}
-\item \cmdItem{q}{send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+\item\exSp\cmdItem{q}{send a \requestsNameR{Examples}{Examples}{stopsum} request to the
 service so that it will stop calculating the running sum for this client and then exit the
 application}
-\item \cmdItem{r}{send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+\item\exSp\cmdItem{r}{send a \requestsNameR{Examples}{Examples}{resetsum} request to the
 service so that it will reset the running sum for this client}
-\item \cmdItem{s}{send a \requestsNameR{Examples}{Examples}{startsum} request to the
+\item\exSp\cmdItem{s}{send a \requestsNameR{Examples}{Examples}{startsum} request to the
 service so that it will start calculating the running sum for this client}
 \end{itemize}
 Note that the application will also exit if the
@@ -432,12 +441,12 @@ running sum for this adapter.
 If a string is read from the `control' input \yarp{} network connection, it is considered
 to be one of the following commands:
 \begin{itemize}
-\item \textbf{q:} exit the application.
-\item \textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+\item\textbf{q:} exit the application.
+\item\exSp\textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
 service so that it will reset the running sum for this adapter.
-\item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
+\item\exSp\textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
 service so that it will start calculating the running sum for this adapter.
-\item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+\item\exSp\textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
 service so that it will stop calculating the running sum for this adapter.
 \end{itemize}
 The running sums returned from the service are sent out an output \yarp{} network
@@ -458,12 +467,12 @@ sum for this adapter.
 If a string is read from the input \yarp{} network connection, is is considered to be one
 of the following commands:
 \begin{itemize}
-\item \textbf{q:} exit the application.
-\item \textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+\item\textbf{q:} exit the application.
+\item\exSp\textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
 service so that it will reset the running sum for this adapter.
-\item \textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
+\item\exSp\textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
 service so that it will start calculating the running sum for this adapter.
-\item \textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+\item\exSp\textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
 service so that it will stop calculating the running sum for this adapter.
 \end{itemize}
 The running sums returned from the service are sent out an output \yarp{} network

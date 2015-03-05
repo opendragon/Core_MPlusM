@@ -2,8 +2,8 @@
 \appendixStart[Examples]{\textitcorr{JavaScript~Examples}}%
 \secondaryStart{TruncateFloat.js}
 This script reproduces the behaviour of the example service,
-\emph{mpmTruncateFloatService}; it processes sequences of floating--point numbers and
-sends the corresponding integral values.\\
+\emph{mpmTruncateFloatService}; it processes sequences of floating\longDash{}point numbers
+and sends the corresponding integral values.\\
 
 \codeBegin{}
 function doTruncateFloat(portNumber, incomingData)\\
@@ -13,7 +13,7 @@ function doTruncateFloat(portNumber, incomingData)\\
     
 \tS{}if (Array.isArray(incomingData))\\
 \tS\{\\
-\tS\tS{}outValues = \openSq{}\closeSq;\\
+\tS\tS{}outValues = \openSq\closeSq;\\
 \tS\tS{}for (var ii = 0, mm = incomingData.length;\ mm > ii;\ ++ii)\\
 \tS\tS\{\\
 \tS\tS\tS{}aValue = Number(incomingData\openSq{}ii\closeSq);\\
@@ -103,7 +103,7 @@ function doRunningSum(portNumber, incomingData)\\
 \tS\}\\
 \tS{}else\\
 \tS\{\\
-\tS\tS{}doCommand(String(incomingData), \openSq{}\closeSq);\\
+\tS\tS{}doCommand(String(incomingData), \openSq\closeSq);\\
 \tS\}\\
 \tS{}sendToChannel(0, runningSum);\\
 \} // doRunningSum\\
@@ -210,7 +210,7 @@ size';\\
 function scriptInterval()\\
 \{\\
 \tS{}var interval;\\
-\tS{}var inlets = \openSq{}\closeSq;\\
+\tS{}var inlets = \openSq\closeSq;\\
     
 \tS{}if (1 < argv.length)\\
 \tS\{\\
@@ -246,7 +246,7 @@ var scriptOutlets = \openSq{} \{ name:\ 'output', protocol:\ 'd+',\\
 \newpage
 function scriptThread()\\
 \{\\
-\tS{}var outList = \openSq{}\closeSq;\\
+\tS{}var outList = \openSq\closeSq;\\
     
 \tS{}for (var ii = 0;\ burstSize > ii;\ ++ii)\\
 \tS\{\\

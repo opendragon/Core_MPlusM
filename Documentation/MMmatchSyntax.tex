@@ -33,7 +33,7 @@ The following BNF statements describe the syntax in more precise terms:
 <FieldName> ::= description | details | executable | input | keyword |\\
 \hspace*{\uL}name | output | channelname | request |\\
 \hspace*{\uL}requestsdescription | tag | version\\
-;; The field names are case-insensitive and correspond to the columns in\\
+;; The field names are case\longDash{}insensitive and correspond to the columns in\\
 ;; the internal database.\\
 
 \settowidth{\uL}{<SingleValue> ::= }%
@@ -59,10 +59,10 @@ The following BNF statements describe the syntax in more precise terms:
 \hspace*{\uL}<WildSingle> | <Escape>\\
 <WildSpan> ::= '*'\\
 <WildSingle> ::= '?'\\
-<Normal> ::= a non-reserved character\\
+<Normal> ::= a non\longDash{}reserved character\\
 ;; Strings consist of one or more characters. The 'wild span' character\\
 ;; will match zero or more characters and the 'wild single' character\\
 ;; will match a single character.
 \outputEnd{}
-\objDiagram{MMmatchSyntaxrails.ps}{matchSyntaxrails}{Service~Match~syntax~diagram}
+\objDiagram{MMmatchSyntaxrails}{matchSyntaxrails}{Service~Match~syntax~diagram}
 \appendixEnd{}

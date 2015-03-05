@@ -12,26 +12,27 @@ An \mplusm{} installation consists of a set of programs that interconnect using 
 protocols, along with libraries that can be linked to applications to provide access to
 the \mplusm{} features.\\
 
-There are three main classes of programs in the set -- services, clients and utilities.
+There are three main classes of programs in the set \longDash{} services, clients and
+utilities.
 Clients use a formalized protocol to connect to services and utilities manage or monitor
 the aggregate state of an \mplusm{} configuration.
 There is a unique service, the \serviceNameR[Registry~Service]{RegistryService}, that
 maintains information on all the active services that are accessible to clients within an
 \mplusm{} installation.
 The primary utility is the \emph{Channel Manager} application, which provides a
-GUI--based view of the state of connections, services and clients within the
+GUI\longDash{}based view of the state of connections, services and clients within the
 installation.
 It is described in its own manual, \emph{ChannelManagerUtility\_Manual.pdf}.\\
 
 Each service can support multiple client connections, and the client functionality can be
-embedded in command--line tools, GUI--based applications or headless background
-processes.\\
+embedded in command\longDash{}line tools, GUI\longDash{}based applications or headless
+background processes.\\
 
 There are subtypes of services as well as of clients, distinguished by the presence of
 additional \yarp{} network connections and their characteristics.\\
 
 Basic services have only the client~/~service \yarp{} connection and provide a central
-resource--sharing facility; simple services, such as the
+resource\longDash{}sharing facility; simple services, such as the
 \serviceNameR[Registry~Service]{RegistryService}, have one or more additional \yarp{}
 network connections that have no special properties and \inputOutput{} services have one
 or more additional \yarp{} network connections with specific protocols.
@@ -44,7 +45,7 @@ Note that connections to services or clients that don't involve the \yarp{} netw
 considered to be intrinsic to the process involved and are not `visible' to \mplusm{}
 applications.\\
 
-Adapters provide a mechanism for non--\mplusm{} applications to make requests of \mplusm{}
-services via \yarp{} network connections.
-\objDiagram{MMmpmDiagram.ps}{mpmDiagram}{\mplusm{} structure}
+Adapters provide a mechanism for non\longDash\mplusm{} applications to make requests of
+\mplusm{} services via \yarp{} network connections.
+\objDiagram{MMmpmDiagram}{mpmDiagram}{\mplusm{} structure}
 \primaryEnd{}
