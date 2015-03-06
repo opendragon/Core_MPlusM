@@ -18,7 +18,7 @@ VDSpsfiles =
 
 # Intermediate Encapsulated Postscript files
 
-CMepsfiles = CMcmDiagram.eps 
+CMepsfiles = mpm_images/CMcmDiagram.eps 
 
 IMepsfiles =
 
@@ -28,46 +28,51 @@ KV2epsfiles =
 
 LMepsfiles =
 
-MMepsfiles = MMdbDiagram.eps MMmatchSyntaxrails.eps MMmpmDiagram.eps
+MMepsfiles = mpm_images/MMdbDiagram.eps mpm_images/MMmatchSyntaxrails.eps \
+	mpm_images/MMmpmDiagram.eps
 
 VDSepsfiles =
 
 # Intermediate Portable Network Graphics files
 
-CMpngfiles = CMcmDiagram.png 
+Commonpngfiles = mpm_images/m+m_tight_logo.png
 
-IMpngfiles =
+CMpngfiles = $(Commonpngfiles) mpm_images/CMcmDiagram.png 
 
-JSpngfiles =
+IMpngfiles = $(Commonpngfiles)
 
-KV2pngfiles =
+JSpngfiles = $(Commonpngfiles)
 
-LMpngfiles =
+KV2pngfiles = $(Commonpngfiles)
 
-MMpngfiles = MMdbDiagram.png MMmatchSyntaxrails.png MMmpmDiagram.png
+LMpngfiles = $(Commonpngfiles)
+
+MMpngfiles = $(Commonpngfiles) mpm_images/MMdbDiagram.png \
+	mpm_images/MMmatchSyntaxrails.png mpm_images/MMmpmDiagram.png
 
 VDSpngfiles =
 
 # Input bitmap EPS files
 
-CMbitmapepsfiles = images/afterAdd.eps images/backgroundMenu.eps images/beforeAdd.eps \
-	images/beforeRemove.eps images/ChannelManager.eps images/dragAdd2.eps \
-	images/entityMenu.eps images/portMenu.eps \
-	images/regularChannelMenuMetricsDisabled.eps \
-	images/regularChannelMenuMetricsEnabled.eps \
-	images/serviceChannelMenuMetricsDisabled.eps \
-	images/serviceChannelMenuMetricsEnabled.eps \
-	images/serviceMenuMetricsDisabled.eps \
-	images/serviceMenuMetricsEnabled.eps
+CMbitmapepsfiles = mpm_images/afterAdd.eps mpm_images/backgroundMenu.eps \
+	mpm_images/beforeAdd.eps mpm_images/beforeRemove.eps mpm_images/ChannelManager.eps \
+	mpm_images/dragAdd2.eps mpm_images/entityMenu.eps mpm_images/portMenu.eps \
+	mpm_images/regularChannelMenuMetricsDisabled.eps \
+	mpm_images/regularChannelMenuMetricsEnabled.eps \
+	mpm_images/serviceChannelMenuMetricsDisabled.eps \
+	mpm_images/serviceChannelMenuMetricsEnabled.eps \
+	mpm_images/serviceMenuMetricsDisabled.eps mpm_images/serviceMenuMetricsEnabled.eps
 
-IMbitmapepsfiles = images/Installer01.eps images/Installer02.eps images/Installer03.eps \
-	images/Installer04.eps images/Installer05.eps images/Installer05a.eps \
-	images/Installer06.eps images/Installer06a.eps images/Installer06b.eps \
-	images/Installer07.eps images/Installer08.eps images/RunningChannelManager.eps \
-	images/win_install01.eps images/win_install02.eps images/win_install03.eps \
-	images/win_install04.eps images/win_install05.eps images/win_install06.eps \
-	images/win_install07.eps images/win_install08.eps images/win_install09.eps \
-	images/win_install10.eps images/win_install11.eps images/win_run01.eps
+IMbitmapepsfiles = mpm_images/Installer01.eps mpm_images/Installer02.eps \
+	mpm_images/Installer03.eps mpm_images/Installer04.eps mpm_images/Installer05.eps \
+	mpm_images/Installer05a.eps mpm_images/Installer06.eps mpm_images/Installer06a.eps \
+	mpm_images/Installer06b.eps mpm_images/Installer07.eps mpm_images/Installer08.eps \
+	mpm_images/RunningChannelManager.eps mpm_images/win_install01.eps \
+	mpm_images/win_install02.eps mpm_images/win_install03.eps \
+	mpm_images/win_install04.eps mpm_images/win_install05.eps \
+	mpm_images/win_install06.eps mpm_images/win_install07.eps \
+	mpm_images/win_install08.eps mpm_images/win_install09.eps \
+	mpm_images/win_install10.eps mpm_images/win_install11.eps mpm_images/win_run01.eps
 
 JSbitmapepsfiles =
 
@@ -220,19 +225,19 @@ VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 
 # Target files
 
-CMtarget = $(HOME)/$(CMmainpdf) $(CMmainhtml)
+CMtarget = $(HOME)/$(CMmainpdf) $(HOME)/$(CMmainhtml)
 
-IMtarget = $(HOME)/$(IMmainpdf) $(IMmainhtml)
+IMtarget = $(HOME)/$(IMmainpdf) $(HOME)/$(IMmainhtml)
 
-JStarget = $(HOME)/$(JSmainpdf) $(JSmainhtml)
+JStarget = $(HOME)/$(JSmainpdf) $(HOME)/$(JSmainhtml)
 
-KV2target = $(HOME)/$(KV2mainpdf) $(KV2mainhtml)
+KV2target = $(HOME)/$(KV2mainpdf) $(HOME)/$(KV2mainhtml)
 
-LMtarget = $(HOME)/$(LMmainpdf) $(LMmainhtml)
+LMtarget = $(HOME)/$(LMmainpdf) $(HOME)/$(LMmainhtml)
 
-MMtarget = $(HOME)/$(MMmainpdf) $(MMmainhtml)
+MMtarget = $(HOME)/$(MMmainpdf) $(HOME)/$(MMmainhtml)
 
-VDStarget = $(HOME)/$(VDSmainpdf) $(VDSmainhtml)
+VDStarget = $(HOME)/$(VDSmainpdf) $(HOME)/$(VDSmainhtml)
 
 # General rules
 
@@ -253,8 +258,16 @@ VDStarget = $(HOME)/$(VDSmainpdf) $(VDSmainhtml)
 		-sDEVICE=pdfwrite -sPAPERSIZE=letter -sOutputFile=$@ \
 		-c save pop -f $< -sFONTPATH=.
 
+mpm_images/%.eps: %.eps
+	cp -f $< $@
+
 $(HOME)/%.pdf : %.pdf
-	cp $< $@
+	cp -f $< $@
+
+$(HOME)/%.html : %.html
+	cp -f $< $@
+	-mkdir $(HOME)/mpm_images
+	cp -f mpm_images/*.png $(HOME)/mpm_images
 
 # Specific rules (DVI)
 
@@ -338,7 +351,7 @@ $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecon
 
 clean :
 	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
-	-rm -f *.html *.toc *.htoc *.haux *.hind
+	-rm -f *.html *.toc *.htoc *.haux *.hind mpm_images/*.png
 
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
 		$(VDStarget)

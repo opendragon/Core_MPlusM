@@ -478,6 +478,22 @@
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../ChannelManagerUtility_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
 													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../ChannelManagerUtility_Manual.pdf</string>
@@ -489,6 +505,22 @@
 													<integer>3</integer>
 													<key>UID</key>
 													<integer>0</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../Installation_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
@@ -510,6 +542,22 @@
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../JavaScript_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
 													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../JavaScript_Manual.pdf</string>
@@ -521,6 +569,22 @@
 													<integer>3</integer>
 													<key>UID</key>
 													<integer>0</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../KinectV2Input_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
@@ -542,6 +606,22 @@
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../LeapMotionInput_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
 													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../LeapMotionInput_Manual.pdf</string>
@@ -558,6 +638,38 @@
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../mpm_images</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>493</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../MpM_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
 													<integer>0</integer>
 													<key>PATH</key>
 													<string>../../../../MpM_Manual.pdf</string>
@@ -569,6 +681,22 @@
 													<integer>3</integer>
 													<key>UID</key>
 													<integer>0</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../ViconDataStreamInput_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>

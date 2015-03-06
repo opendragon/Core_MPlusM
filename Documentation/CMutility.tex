@@ -6,7 +6,7 @@ are running in the \mplusm{} installation.\\
 Currently there is one GUI\longDash{}based tool, the \emph{Channel Manager} application,
 which provides a view of the state of connections within an \mplusm{} installation, as
 well as managing non\longDash\mplusm{} \yarp{} network connections.
-\objDiagram{CMcmDiagram}{cmDiagram}{Channel~Manager structure}
+\objDiagram{mpm_images/CMcmDiagram}{cmDiagram}{Channel~Manager structure}
 
 The \emph{Channel Manager} application displays a single window view of the connections
 within a \yarp{} network, with features designed to make management of an \mplusm{}
@@ -60,13 +60,13 @@ Note that it is not possible to add a connection from an input\longDash{}only po
 client port to a non\longDash{}service port, or from an output\longDash{}only port of an
 \inputOutput{} service to an input\longDash{}only port of another \inputOutput{} service
 if the ports do not have matching protocols.
-\objScaledDiagram{images/beforeAdd}{beforeAdd}{Before adding a connection}{0.8}
+\objScaledDiagram{mpm_images/beforeAdd}{beforeAdd}{Before adding a connection}{0.8}
 
-\objScaledDiagram{images/clickAdd}{clickAdd}{Clicking to add a connection}{0.8}
+\objScaledDiagram{mpm_images/clickAdd}{clickAdd}{Clicking to add a connection}{0.8}
 
-\objScaledDiagram{images/afterAdd}{afterAdd}{After adding a connection}{0.8}
+\objScaledDiagram{mpm_images/afterAdd}{afterAdd}{After adding a connection}{0.8}
 \clearpage
-\objScaledDiagram{images/dragAdd2}{dragAdd}{Adding a connection via drag}{0.8}
+\objScaledDiagram{mpm_images/dragAdd2}{dragAdd}{Adding a connection via drag}{0.8}
 
 To remove a connection between two ports, click on the source port with the `Command' key
 held down and then click on the destination port.
@@ -75,7 +75,7 @@ hollow yellow circle.
 To clear a pending `remove' operation, either click on the source port a second time or
 click on a port that is not connected to the source port or somewhere other than a port.
 Note that is is not possible to remove a connection from a client to a service.
-\objScaledDiagram{images/beforeRemove}{beforeRemove}{Removing a connection}{0.8}
+\objScaledDiagram{mpm_images/beforeRemove}{beforeRemove}{Removing a connection}{0.8}
 
 Clicking on a rectangular object with no modifier key held down allows the user to drag
 the object around in the window.
@@ -91,7 +91,7 @@ a \textbf{Cmd\longDash{}I} command
 \item\exSp\textbf{White background} switch between a black~/~white background and a
 gradient; this can also be triggered via a \textbf{Cmd\longDash{}B} command
 \end{itemize}
-\objScaledDiagram{images/backgroundMenu}{backgroundMenu}{Background menu}{0.7}
+\objScaledDiagram{mpm_images/backgroundMenu}{backgroundMenu}{Background menu}{0.7}
 Doing a right\longDash{}mouse click on the title of a rectangle that does not represent a
 service displays a popup menu with two choices:
 \begin{itemize}
@@ -99,7 +99,7 @@ service displays a popup menu with two choices:
 \item\exSp\textbf{Display detailed entity information} display information about the
 entity
 \end{itemize}
-\objScaledDiagram{images/entityMenu}{entityMenu}{Entity menu}{0.7}
+\objScaledDiagram{mpm_images/entityMenu}{entityMenu}{Entity menu}{0.7}
 \clearpage
 Doing a right\longDash{}mouse click on the title of a rectangle representing a service
 displays a popup menu with four choices, which depend on whether the `Service metrics
@@ -116,8 +116,8 @@ port of the service \longDash{} the number of bytes and number of messages sent 
 from the port; the category `auxiliary' represents the anonymous ports used by the service
 during its operation
 \end{itemize}
-\objDoubleScaledDiagram{images/serviceMenuMetricsDisabled}%
-{images/serviceMenuMetricsEnabled}{serviceMenu}%
+\objDoubleScaledDiagram{mpm_images/serviceMenuMetricsDisabled}%
+{mpm_images/serviceMenuMetricsEnabled}{serviceMenu}%
 {Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.7}
 
 Doing a right\longDash{}mouse click on the primary channel of a service displays a popup
@@ -131,8 +131,8 @@ tab\longDash{}delimited form
 channel \longDash{} the number of bytes and the number of messages sent to and from the
 channel
 \end{itemize}
-\objDoubleScaledDiagram{images/serviceChannelMenuMetricsDisabled}%
-{images/serviceChannelMenuMetricsEnabled}%
+\objDoubleScaledDiagram{mpm_images/serviceChannelMenuMetricsDisabled}%
+{mpm_images/serviceChannelMenuMetricsEnabled}%
 {serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service
 metrics enabled)}%
 {0.7}
@@ -143,7 +143,7 @@ choices:
 \item\textbf{Display port information} display information about the port
 \item\exSp\textbf{Display detailed port information} display information about the port
 \end{itemize}
-\objScaledDiagram{images/portMenu}{portMenu}{Regular port menu}{0.7}
+\objScaledDiagram{mpm_images/portMenu}{portMenu}{Regular port menu}{0.7}
 
 Doing a right\longDash{}mouse click on a non\longDash{}primary channel of a service
 displays a popup menu with five choices, which depend on whether the `Service metrics
@@ -161,8 +161,8 @@ implemented, so it is disabled
 \item\exSp\textbf{Add scrolling monitor} \longDash{} this is currently not implemented, so
 it is disabled
 \end{itemize}
-\objDoubleScaledDiagram{images/regularChannelMenuMetricsDisabled}%
-{images/regularChannelMenuMetricsEnabled}%
+\objDoubleScaledDiagram{mpm_images/regularChannelMenuMetricsDisabled}%
+{mpm_images/regularChannelMenuMetricsEnabled}%
 {regularChannelMenu}%
 {Non\longDash{}primary channel menu (Left=Service metrics disabled, Right=Service metrics
 enabled)}{0.7}

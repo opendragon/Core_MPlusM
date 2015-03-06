@@ -67,6 +67,7 @@
 % Set the float behaviour:
 \setcounter{bottomnumber}{2}
 \setcounter{totalnumber}{4}
+\renewcommand{\thefigure}{\arabic{figure}} % This fixes a 'glitch' with Hevea!
 
 % Suppress the normal numbering of sections, et cetera:
 \setcounter{secnumdepth}{-3}
@@ -156,14 +157,6 @@
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
 
-%\newcommand{\objCaption}[1]{\caption{#1\ }}
-% Create a framed box as a figure, centred horizontally (note that we can't use
-% \textttt{}, as the third argument could be quite large):
-%\newcommand{\objFileDescription}[4][0.75]{\begin{figure}[!ht]%
-%\setlength{\fboxsep}{3pt}\setlength{\fboxrule}{0.75bp}%
-%\centering\parbox[t]{#1\textwidth}{\begin{flushleft}\footnotesize\ttfamily #4%
-%\end{flushleft}}\caption{#2\ }\label{file:#3}\end{figure}}
-
 % Use different graphics file formats for HTML versus PDF
 %HEVEA\newcommand*{\objImage}[1]{\imgsrc{#1.png}}%
 %BEGIN LATEX
@@ -180,16 +173,16 @@
 \newcommand*{\objImageWithWidth}[2]{\includegraphics[width=#1]{#2.eps}}
 %END LATEX
 
-%HEVEA\newcommand{\mpmLogo}{\objImageWithWidth{150}{images/m+m_tight_logo}}%
+%HEVEA\newcommand{\mpmLogo}{\objImageWithWidth{150}{mpm_images/m+m_tight_logo}}%
 %BEGIN LATEX
-\newcommand{\mpmLogo}{\objImageWithWidth{5em}{images/m+m_tight_logo}}
+\newcommand{\mpmLogo}{\objImageWithWidth{5em}{mpm_images/m+m_tight_logo}}
 %END LATEX
 
 \newcommand*{\objPicture}[1]{\begin{center}\objImage{#1}\end{center}}
 \newcommand*{\objScaledPicture}[2]{\begin{center}\objScaledImage{#2}{#1}\end{center}}
 \newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\centering\objImage{#1}%
 \caption{#3\ }\label{diagram:#2}\end{figure}}
-\newcommand*{\objScaledDiagram}[4]{\begin{figure}[!ht]\centering%
+\newcommand{\objScaledDiagram}[4]{\begin{figure}[!ht]\centering%
 \objScaledImage{#4}{#1}\caption{#3\ }\label{diagram:#2}\end{figure}}
 \newcommand*{\objDoubleScaledDiagram}[5]{\begin{figure}[!ht]\centering%
 \objScaledImage{#5}{#1}\hspace{3em}\objScaledImage{#5}{#2}\caption{#4\ }%
