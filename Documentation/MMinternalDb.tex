@@ -2,50 +2,51 @@
 \appendixStart[InternalDatabaseStructure]{\textitcorr{Internal~Database~Structure}}%
 Here are the SQL statements used to construct the internal database:
 \outputBegin{}
-\settowidth{\uL}{CREATE }%
-CREATE TABLE IF NOT EXISTS Services(\\
-\hspace*{\uL}channelname Text NOT NULL DEFAULT \fUS{} PRIMARY KEY ON CONFLICT REPLACE,\\
-\hspace*{\uL}name Text NOT NULL DEFAULT \fUS,\\
-\hspace*{\uL}description Text NOT NULL DEFAULT \fUS,\\
-\hspace*{\uL}executable Text NOT NULL DEFAULT \fUS,\\
-\hspace*{\uL}requestsdescription Text NOT NULL DEFAULT \fUS,\\
-\hspace*{\uL}tag Text NOT NULL DEFAULT  \fUS);\\
-CREATE INDEX IF NOT EXISTS Services\_name\_idx ON Services(name);\\
-CREATE TABLE IF NOT EXISTS Keywords(\\
-\hspace*{\uL}keyword Text NOT NULL DEFAULT \fUS{} PRIMARY KEY ON CONFLICT IGNORE;\\
-CREATE TABLE IF NOT EXISTS Requests(\\
-\hspace*{\uL}channelname Text NOT NULL DEFAULT \fUS{} REFERENCES Services(channelname),\\
-\hspace*{\uL}request Text NOT NULL DEFAULT \fUS,\\
-\hspace*{\uL}input Text,\\
-\hspace*{\uL}output Text,\\
-\hspace*{\uL}version Text,\\
-\hspace*{\uL}details Text,\\
-\hspace*{\uL}key Integer PRIMARY KEY);\\
-CREATE INDEX IF NOT EXISTS Requests\_request\_idx ON Requests(request);\\
-CREATE INDEX IF NOT EXISTS Requests\_channelname\_idx ON Requests(channelname);\\
-CREATE TABLE IF NOT EXISTS RequestsKeywords(\\
-\hspace*{\uL}keywords\_id Text REFERENCES Keywords(keyword),\\
-\hspace*{\uL}requests\_id Integer REFERENCES Requests(key));\\
-CREATE INDEX IF NOT EXISTS RequestsKeywords\_Keywords\_id\_idx ON\\
-\hspace*{\uL}RequestsKeywords(keywords\_id);\\
-CREATE INDEX IF NOT EXISTS RequestsKeywords\_Requests\_id\_idx ON\\
-\hspace*{\uL}RequestsKeywords(requests\_id);\\
-CREATE TABLE IF NOT EXISTS Channels(\\
-\hspace*{\uL}channelname Text NOT NULL UNIQUE DEFAULT \fUS,\\
-\hspace*{\uL}key Integer PRIMARY KEY);\\
-CREATE INDEX IF NOT EXISTS Channels\_channelname\_idx ON Channels(channelname);\\
-CREATE TABLE IF NOT EXISTS Associates(\\
-\hspace*{\uL}associate Text NOT NULL DEFAULT \fUS{} PRIMARY KEY ON CONFLICT IGNORE);\\
-CREATE TABLE IF NOT EXISTS ChannelsAssociates(\\
-\hspace*{\uL}channels\_id Integer REFERENCES Channels(key),\\
-\hspace*{\uL}associates\_id Text REFERENCES Associates(associate),\\
-\hspace*{\uL}direction Integer);\\
-CREATE INDEX IF NOT EXISTS ChannelsAssociates\_Associates\_id\_idx ON\\
-\hspace*{\uL}ChannelsAssociates(associates\_id);\\
-CREATE INDEX IF NOT EXISTS ChannelsAssociates\_Channels\_id\_idx ON\\
-\hspace*{\uL}ChannelsAssociates(channels\_id);
+\begin{verbatim}
+CREATE TABLE IF NOT EXISTS Services(
+       channelname Text NOT NULL DEFAULT _{} PRIMARY KEY ON CONFLICT REPLACE,
+       name Text NOT NULL DEFAULT _,
+       description Text NOT NULL DEFAULT _,
+       executable Text NOT NULL DEFAULT _,
+       requestsdescription Text NOT NULL DEFAULT _,
+       tag Text NOT NULL DEFAULT  _);
+CREATE INDEX IF NOT EXISTS Services_name_idx ON Services(name);
+CREATE TABLE IF NOT EXISTS Keywords(
+       keyword Text NOT NULL DEFAULT _{} PRIMARY KEY ON CONFLICT IGNORE;
+CREATE TABLE IF NOT EXISTS Requests(
+       channelname Text NOT NULL DEFAULT _{} REFERENCES Services(channelname),
+       request Text NOT NULL DEFAULT _,
+       input Text,
+       output Text,
+       version Text,
+       details Text,
+       key Integer PRIMARY KEY);
+CREATE INDEX IF NOT EXISTS Requests_request_idx ON Requests(request);
+CREATE INDEX IF NOT EXISTS Requests_channelname_idx ON Requests(channelname);
+CREATE TABLE IF NOT EXISTS RequestsKeywords(
+       keywords_id Text REFERENCES Keywords(keyword),
+       requests_id Integer REFERENCES Requests(key));
+CREATE INDEX IF NOT EXISTS RequestsKeywords_Keywords_id_idx ON
+       RequestsKeywords(keywords_id);
+CREATE INDEX IF NOT EXISTS RequestsKeywords_Requests_id_idx ON
+       RequestsKeywords(requests_id);
+CREATE TABLE IF NOT EXISTS Channels(
+       channelname Text NOT NULL UNIQUE DEFAULT _,
+       key Integer PRIMARY KEY);
+CREATE INDEX IF NOT EXISTS Channels_channelname_idx ON Channels(channelname);
+CREATE TABLE IF NOT EXISTS Associates(
+       associate Text NOT NULL DEFAULT _{} PRIMARY KEY ON CONFLICT IGNORE);
+CREATE TABLE IF NOT EXISTS ChannelsAssociates(
+       channels_id Integer REFERENCES Channels(key),
+       associates_id Text REFERENCES Associates(associate),
+       direction Integer);
+CREATE INDEX IF NOT EXISTS ChannelsAssociates_Associates_id_idx ON
+       ChannelsAssociates(associates_id);
+CREATE INDEX IF NOT EXISTS ChannelsAssociates_Channels_id_idx ON
+       ChannelsAssociates(channels_id);
+\end{verbatim}
 \outputEnd{}
-\newpage
+\condPage{}
 And here is the internal database, in graphical form:\\
 \objDiagram{MMdbDiagram}{dbDiagram}{Database layout}
 \appendixEnd{}

@@ -9,24 +9,11 @@
 
 \input{sharedSetup.tex}
 
-% Set up the page layout:
-\pagestyle{fancyplain}
-\newcommand{\mymark}{}
-\lhead[]{\fancyplain{}{\textsc{\mymark}}}
-\chead[]{}
-\rhead[\fancyplain{}{\textsc{\mymark}}]{}
-\lfoot[Page \thepage]{\today}
-\cfoot[\MMM]{\MMM}
-\rfoot[\today]{Page \thepage}
-\renewcommand{\headrulewidth}{0.5bp}
-\pagenumbering{roman}
+% Customize the page layout:
 
-\date{\MMV: \today}
+\cfoot[\MMM]{\MMM}
 \title{\mpmLogo\\
 \vspace{0.5ex}\cal\Huge\textitcorr{\MMM}}
-\author{\stdAuthor}
-
-\makeindex
 
 % End Preamble
 
@@ -72,6 +59,8 @@
 
 % End of contents
 
+%BEGIN LATEX
 \insertpart{Index}{\printindex}
+%END LATEX
 \end{document}
 \end

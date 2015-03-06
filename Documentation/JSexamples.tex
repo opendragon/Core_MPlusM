@@ -6,254 +6,270 @@ This script reproduces the behaviour of the example service,
 and sends the corresponding integral values.\\
 
 \codeBegin{}
-function doTruncateFloat(portNumber, incomingData)\\
-\{\\
-\tS{}var aValue;\\
-\tS{}var outValues;\\
+\begin{verbatim}
+function doTruncateFloat(portNumber, incomingData)
+{
+    var aValue;
+    var outValues;
     
-\tS{}if (Array.isArray(incomingData))\\
-\tS\{\\
-\tS\tS{}outValues = \openSq\closeSq;\\
-\tS\tS{}for (var ii = 0, mm = incomingData.length;\ mm > ii;\ ++ii)\\
-\tS\tS\{\\
-\tS\tS\tS{}aValue = Number(incomingData\openSq{}ii\closeSq);\\
-\tS\tS\tS{}if (! isNaN(aValue))\\
-\tS\tS\tS\{\\
-\tS\tS\tS\tS{}outValues.push(Math.floor(aValue));\\
-\tS\tS\tS\}\\
-\tS\tS\}\\
-\tS\}\\
-\tS{}else\\
-\tS\{\\
-\tS\tS{}aValue = Number(incomingData);\\
-\tS\tS{}if (! isNaN(aValue))\\
-\tS\tS\{\\
-\tS\tS\tS{}outValues = Math.floor(aValue);\\
-\tS\tS\}\\
-\tS\}\\
-\tS{}sendToChannel(0, outValues);\\
-\} // doTruncateFloat\\
+    if (Array.isArray(incomingData))
+    {
+        outValues = [];
+        for (var ii = 0, mm = incomingData.length; mm > ii; ++ii)
+        {
+            aValue = Number(incomingData[ii]);
+            if (! isNaN(aValue))
+            {
+                outValues.push(Math.floor(aValue));
+            }
+        }
+    }
+    else
+    {
+        aValue = Number(incomingData);
+        if (! isNaN(aValue))
+        {
+            outValues = Math.floor(aValue);
+        }
+    }
+    sendToChannel(0, outValues);
+} // doTruncateFloat
 
-var scriptDescription = 'A script that truncates floating-point numbers';\\
+var scriptDescription = 'A script that truncates floating-point numbers';
 
-var scriptInlets = \openSq{} \{ name:\ 'incoming', protocol:\ 'd*',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}protocolDescription:\
-'A sequence of floating-point numbers',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}handler:\ doTruncateFloat \} \closeSq;\\
+var scriptInlets = [ { name: 'incoming', protocol: 'd*',
+                        protocolDescription: 'A sequence of floating-point numbers',
+                        handler: doTruncateFloat } ];
 
-var scriptOutlets = \openSq{} \{ name:\ 'outgoing', protocol:\ 'i*',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}protocolDescription:\ 'A sequence of integers' \}
-\closeSq;\\
+var scriptOutlets = [ { name: 'outgoing', protocol: 'i*',
+                        protocolDescription: 'A sequence of integers' } ];
+\end{verbatim}
 \codeEnd{}
 \secondaryEnd{}
-\newpage
+\condPage{}
 \secondaryStart{RunningSum.js}
 This script reproduces the behaviour of the example service,
 \emph{mpmRunningSumService}; it accepts commands (`\asBoldCode{add}' and
 `\asBoldCode{reset}') and tallies up the values coming from its inlet.\\
 
 \codeBegin{}
-var runningSum = 0;\\
+\begin{verbatim}
+var runningSum = 0;
 
-function doCommand(aCommand, itsArgs)\\
-\{\\
-\tS{}var aValue;\\
+function doCommand(aCommand, itsArgs)
+{
+    var aValue;
     
-\tS{}switch (aCommand)\\
-\tS\{\\
-\tS\tS{}case 'add' :\\
-\tS\tS\tS{}if (Array.isArray(itsArgs))\\
-\tS\tS\tS\{\\
-\tS\tS\tS\tS{}for (var ii = 0, mm = itsArgs.length;\ mm > ii;\ ++ii)\\
-\tS\tS\tS\tS\{\\
-\tS\tS\tS\tS\tS{}aValue = Number(itsArgs\openSq{}ii\closeSq);\\
-\tS\tS\tS\tS\tS{}if (! isNaN(aValue))\\
-\tS\tS\tS\tS\tS\{\\
-\tS\tS\tS\tS\tS\tS{}runningSum += Number(aValue);\\
-\tS\tS\tS\tS\tS\}\\
-\tS\tS\tS\tS\}\\
-\tS\tS\tS\}\\
-\tS\tS\tS{}else\\
-\tS\tS\tS\{\\
-\tS\tS\tS\tS{}aValue = Number(itsArgs);\\
-\tS\tS\tS\tS{}if (! isNaN(aValue))\\
-\tS\tS\tS\tS\{\\
-\tS\tS\tS\tS\tS{}runningSum += Number(aValue);\\
-\tS\tS\tS\tS\}\\
-\tS\tS\tS\}\\
-\tS\tS\tS{}break;\\
+    switch (aCommand)
+    {
+        case 'add' :
+            if (Array.isArray(itsArgs))
+            {
+                for (var ii = 0, mm = itsArgs.length; mm > ii; ++ii)
+                {
+                    aValue = Number(itsArgs[ii]);
+                    if (! isNaN(aValue))
+                    {
+                        runningSum += Number(aValue);
+                    }
+                }
+            }
+            else
+            {
+                aValue = Number(itsArgs);
+                if (! isNaN(aValue))
+                {
+                    runningSum += Number(aValue);
+                }
+            }
+            break;
             
-\tS\tS{}case 'reset' :\\
-\tS\tS\tS{}runningSum = 0;\\
-\tS\tS\tS{}break;\\
+        case 'reset' :
+            runningSum = 0;
+            break;
             
-\tS\tS{}default :\\
-\tS\tS\tS{}break;\\
+        default :
+            break;
             
-\tS\}\\
-\} // doCommand\\
-\newpage
-function doRunningSum(portNumber, incomingData)\\
-\{\\
-\tS{}if (Array.isArray(incomingData))\\
-\tS\{\\
-\tS\tS{}var cmd = String(incomingData.shift());\\
+    }
+} // doCommand
+
+function doRunningSum(portNumber, incomingData)
+{
+    if (Array.isArray(incomingData))
+    {
+        var cmd = String(incomingData.shift());
         
-\tS\tS{}doCommand(cmd, incomingData);\\
-\tS\}\\
-\tS{}else\\
-\tS\{\\
-\tS\tS{}doCommand(String(incomingData), \openSq\closeSq);\\
-\tS\}\\
-\tS{}sendToChannel(0, runningSum);\\
-\} // doRunningSum\\
+        doCommand(cmd, incomingData);
+    }
+    else
+    {
+        doCommand(String(incomingData), []);
+    }
+    sendToChannel(0, runningSum);
+} // doRunningSum
 
-var scriptDescription = 'A script that calculates running sums';\\
+var scriptDescription = 'A script that calculates running sums';
 
-var scriptInlets = \openSq{} \{ name:\ 'incoming', protocol:\ 'sd*',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}protocolDescription:\ 'A command and data',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}handler:\ doRunningSum \} \closeSq;\\
+var scriptInlets = [ { name: 'incoming', protocol: 'sd*',
+                        protocolDescription: 'A command and data',
+                        handler: doRunningSum } ];
 
-var scriptOutlets = \openSq{} \{ name:\ 'outgoing', protocol:\ 'd',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}protocolDescription:\ 'The running sum' \} \closeSq;\\
+var scriptOutlets = [ { name: 'outgoing', protocol: 'd',
+                        protocolDescription: 'The running sum' } ];
+\end{verbatim}
 \codeEnd{}
 \secondaryEnd{}
-\newpage
+\condPage{}
 \secondaryStart{RecordIntegers.js}
 This script reproduces the behaviour of the example service,
 \emph{mpmRecordIntegersService}; it writes out the integer values from its inlet to a text
 file.\\
 
 \codeBegin{}
-var outStream = null;\\
+\begin{verbatim}
+var outStream = null;
 
-function doRecordIntegers(portNumber, incomingData)\\
-\{\\
-\tS{}var aValue;\\
+function doRecordIntegers(portNumber, incomingData)
+{
+    var aValue;
     
-\tS{}if (Array.isArray(incomingData))\\
-\tS\{\\
-\tS\tS{}var mm = incomingData.length;\\
+    if (Array.isArray(incomingData))
+    {
+        var mm = incomingData.length;
         
-\tS\tS{}for (var ii = 0;\ mm > ii;\ ++ii)\\
-\tS\tS\{\\
-\tS\tS\tS{}if (0 < ii)\\
-\tS\tS\tS\{\\
-\tS\tS\tS\tS{}outStream.write(' ');\\
-\tS\tS\tS\}\\
-\tS\tS\tS{}aValue = Number(incomingData\openSq{}ii\closeSq);\\
-\tS\tS\tS{}if (! isNaN(aValue))\\
-\tS\tS\tS\{\\
-\tS\tS\tS\tS{}outStream.write(aValue);\\
-\tS\tS\tS\}\\
-\tS\tS\}\\
-\tS\tS{}if (0 < mm)\\
-\tS\tS\{\\
-\tS\tS\tS{}outStream.writeLine('');\\
-\tS\tS\}\\
-\tS\}\\
-\tS{}else\\
-\tS\{\\
-\tS\tS{}aValue = Number(incomingData);\\
-\tS\tS{}if (! isNaN(aValue))\\
-\tS\tS\{\\
-\tS\tS\tS{}outStream.writeLine(aValue);\\
-\tS\tS\}\\
-\tS\}\\
-\} // doRecordIntegers\\
+        for (var ii = 0; mm > ii; ++ii)
+        {
+            if (0 < ii)
+            {
+                outStream.write(' ');
+            }
+            aValue = Number(incomingData[ii]);
+            if (! isNaN(aValue))
+            {
+                outStream.write(aValue);
+            }
+        }
+        if (0 < mm)
+        {
+            outStream.writeLine('');
+        }
+    }
+    else
+    {
+        aValue = Number(incomingData);
+        if (! isNaN(aValue))
+        {
+            outStream.writeLine(aValue);
+        }
+    }
+} // doRecordIntegers
 
-var scriptDescription = 'A script that writes integer values to a file';\\
+var scriptDescription = 'A script that writes integer values to a file';
 
-var scriptHelp = 'The first argument is the path to the output file';\\
+var scriptHelp = 'The first argument is the path to the output file';
 
-var scriptInlets = \openSq{} \{ name:\ 'incoming', protocol:\ 'i*',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}protocolDescription:\ 'A sequence of integer values',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}handler:\ doRecordIntegers \} \closeSq;\\
-\newpage
-function scriptStarting()\\
-\{\\
-\tS{}var okSoFar = false;\\
+var scriptInlets = [ { name: 'incoming', protocol: 'i*',
+                        protocolDescription: 'A sequence of integer values',
+                        handler: doRecordIntegers } ];
+
+function scriptStarting()
+{
+    var okSoFar = false;
     
-\tS{}if (1 < argv.length)\\
-\tS\{\\
-\tS\tS{}var path = argv\openSq{}1\closeSq;\\
+    writeLineToStdout('script starting');
+    dumpObjectToStdout('argv:', argv);
+    if (1 < argv.length)
+    {
+        var path = argv[1];
         
-\tS\tS{}outStream = new Stream();\\
-\tS\tS{}outStream.open(path, "w");\\
-\tS\tS{}okSoFar = true;\\
-\tS\}\\
-\tS{}return okSoFar;\\
-\} // scriptStarting\\
+        writeLineToStdout('path = ' + path);
+        outStream = new Stream();
+        outStream.open(path, "w");
+        dumpObjectToStdout('outStream:', outStream);
+        if (outStream.isOpen())
+        {
+            writeLineToStdout('outStream isOpen = true');
+            writeLineToStdout('outStream atEof = ' + outStream.atEof());
+            writeLineToStdout('outStream hasError = ' + outStream.hasError());
+        }
+        okSoFar = true;
+    }
+    return okSoFar;
+} // scriptStarting
 
-function scriptStopping()\\
-\{\\
-\tS{}outStream.close();\\
-\tS{}outStream = null;\\
-\} // scriptStopping
+function scriptStopping()
+{
+    writeLineToStdout('script stopping');
+    outStream.close();
+    outStream = null;
+} // scriptStopping
+\end{verbatim}
 \codeEnd{}
 \secondaryEnd{}
-\newpage
+\condPage{}
 \secondaryStart{RandomBurst.js}
 This script reproduces the behaviour of the example service, \emph{mpmRandomBurstService};
 it generates lists of random numbers and sends them to its outlet.\\
 
 \codeBegin{}
-var burstSize;\\
+\begin{verbatim}
+var burstSize;
 
-var scriptDescription = 'A script that generates random blocks floating-point numbers';\\
+var scriptDescription = 'A script that generates random blocks of floating-point numbers';
 
-var scriptHelp = 'The first argument is the burst period and the second argument is the
-size';\\
+var scriptHelp = 'Argument 1 is the burst period and argument 2 is the burst size';
 
-// Note that the following function processes both arguments, since it will be called at\\
-// a specific point in the execution sequence.\\
-function scriptInterval()\\
-\{\\
-\tS{}var interval;\\
-\tS{}var inlets = \openSq\closeSq;\\
+// Note that the following function processes both arguments, since it will be called at
+// a specific point in the execution sequence.
+function scriptInterval()
+{
+    var interval;
+    var inlets = [];
     
-\tS{}if (1 < argv.length)\\
-\tS\{\\
-\tS\tS{}interval = parseInt(argv\openSq{}1\closeSq);\\
-\tS\tS{}if (isNaN(interval))\\
-\tS\tS\{\\
-\tS\tS\tS{}interval = 1;\\
-\tS\tS\}\\
-\tS\tS{}if (2 < argv.length)\\
-\tS\tS\{\\
-\tS\tS\tS{}burstSize = parseInt(argv\openSq{}2\closeSq);\\
-\tS\tS\tS{}if (isNaN(burstSize))\\
-\tS\tS\tS\{\\
-\tS\tS\tS\tS{}burstSize = 1;\\
-\tS\tS\tS\}\\
-\tS\tS\}\\
-\tS\tS{}else\\
-\tS\tS\{\\
-\tS\tS\tS{}burstSize = 1;\\
-\tS\tS\}\\
-\tS\}\\
-\tS{}else\\
-\tS\{\\
-\tS\tS{}burstSize = 1;\\
-\tS\tS{}interval = 1;\\
-\tS\}\\
-\tS{}return interval;\\
-\} // scriptInterval\\
+    if (1 < argv.length)
+    {
+        interval = parseInt(argv[1]);
+        if (isNaN(interval))
+        {
+            interval = 1;
+        }
+        if (2 < argv.length)
+        {
+            burstSize = parseInt(argv[2]);
+            if (isNaN(burstSize))
+            {
+                burstSize = 1;
+            }
+        }
+        else
+        {
+            burstSize = 1;
+        }
+    }
+    else
+    {
+        burstSize = 1;
+        interval = 1;
+    }
+    writeLineToStdout('burst interval is ' + interval + ' and burst size is ' + burstSize);
+    return interval;
+} // scriptInterval
 
-var scriptOutlets = \openSq{} \{ name:\ 'output', protocol:\ 'd+',\\
-\tS\tS\tS\tS\tS\tS\tS\tS\tS\tS{}protocolDescription:\ 'One or more numeric values' \}
-\closeSq;\\
-\newpage
-function scriptThread()\\
-\{\\
-\tS{}var outList = \openSq\closeSq;\\
+var scriptOutlets = [ { name: 'output', protocol: 'd+',
+                        protocolDescription: 'One or more numeric values' } ];
+
+function scriptThread()
+{
+    var outList = [];
     
-\tS{}for (var ii = 0;\ burstSize > ii;\ ++ii)\\
-\tS\{\\
-\tS\tS{}outList\openSq{}ii\closeSq = (10000 * Math.random());\\
-\tS\}\\
-\tS{}sendToChannel(0, outList);\\
-\} // scriptThread
+    for (var ii = 0; burstSize > ii; ++ii)
+    {
+        outList[ii] = (10000 * Math.random());
+    }
+    sendToChannel(0, outList);
+} // scriptThread
+\end{verbatim}
 \codeEnd{}
 \secondaryEnd{}
 \appendixEnd{}

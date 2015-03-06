@@ -61,7 +61,7 @@ files\\
 \secondaryEnd{}
 \secondaryStart{Exemplar~classes}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarAdapterData}}
-The \classNameR{Exemplar}{ExemplarAdapterData} class is a subclass of
+The \classNameX{Exemplar}{ExemplarAdapterData} class is a subclass of
 \classNameR{Common}{BaseAdapterData} and is used to provide a linkage between instances of
 the \classNameR{Exemplar}{ExemplarInputHandler} class and instances of the
 \classNameR{Exemplar}{ExemplarService} class; it does not have any methods or variables
@@ -69,39 +69,39 @@ in addition to those provided by its superclass and primarily serves as a placeh
 customization.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarAdapterData}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarClient}}
-The \classNameR{Exemplar}{ExemplarClient} class is a subclass of
+The \classNameX{Exemplar}{ExemplarClient} class is a subclass of
 \classNameR{Common}{BaseClient} and has two `placeholder' methods,
 \asCode{getOneRandomNumber} and \asCode{getRandomNumbers}, which should be replaced when
 developing custom applications.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarClient}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarFilterInputHandler}}
-The \classNameR{Exemplar}{ExemplarFilterInputHandler} class is a subclass of
+The \classNameX{Exemplar}{ExemplarFilterInputHandler} class is a subclass of
 \classNameR{Common}{BaseInputHandler} and implements the \asCode{handleInput} method,
 processing floating\longDash{}point and integer data; this should be changed when
 developing a custom application.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarFilterInputHandler}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarFilterService}}
-The \classNameR{Exemplar}{ExemplarFilterService} class is a subclass of
+The \classNameX{Exemplar}{ExemplarFilterService} class is a subclass of
 \classNameR{Common}{BaseFilterService} and implements the minimal functionality necessary
 to support its behaviour.
 In particular, the stream descriptions provided in the method\\
 \asCode{setUpStreamDescriptions} should be replaced in a custom application.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarFilterService}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarInputHandler}}
-The \classNameR{Exemplar}{ExemplarInputHandler} class is a subclass of
+The \classNameX{Exemplar}{ExemplarInputHandler} class is a subclass of
 \classNameR{Common}{BaseInputHandler} and invokes the `placeholder' methods of the\\
 \classNameR{Exemplar}{ExemplarClient} within the \asCode{handleInput} method, which should
 be replaced when developing custom applications.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarInputHandler}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarInputService}}
-The \classNameR{Exemplar}{ExemplarInputService} is a subclass of
+The \classNameX{Exemplar}{ExemplarInputService} is a subclass of
 \classNameR{Common}{BaseInputService} and implements the minimal functionality necessary
 to support its behaviour.
 In particular, the stream description provided in the method
 \asCode{setUpStreamDescriptions} should be replaced in a custom application.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarInputService}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarInputThread}}
-The \classNameR{Exemplar}{ExemplarInputThread} class is a subclass of
+The \classNameX{Exemplar}{ExemplarInputThread} class is a subclass of
 \asCode{yarp::os::Thread} and implements the \asCode{run} method to generate a stream of
 random numbers \longDash{} this behaviour should be changed when developing a custom
 application.
@@ -110,19 +110,19 @@ Note that the method \asCode{clearOutputChannel} provides a mechanism for the
 stop \longDash{} this may not be sufficient in a custom application.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarInputThread}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarOutputInputHandler}}
-The \classNameR{Exemplar}{ExemplarOutputInputHandler} class is a subclass of
+The \classNameX{Exemplar}{ExemplarOutputInputHandler} class is a subclass of
 \classNameR{Common}{BaseInputHandler} and simply writes out the data received by the
 \asCode{handleInput} method; this should be replaced when developing a custom application.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarOutputInputHandler}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarOutputService}}
-The \classNameR{Exemplar}{ExemplarOutputService} class is a subclass of
+The \classNameX{Exemplar}{ExemplarOutputService} class is a subclass of
 \classNameR{Common}{BaseOutputService} and implements the minimal functionality necessary
 to support its behaviour.
 In particular, the stream description provided in the method
 \asCode{setUpStreamDescriptions} should be replaced in a custom application.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarOutputService}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarService}}
-The \classNameR{Exemplar}{ExemplarService} class is a subclass of
+The \classNameX{Exemplar}{ExemplarService} class is a subclass of
 \classNameR{Common}{BaseService} and depends on the
 \classNameR{Exemplar}{SimpleRequestHandler} class to provide the service functionality.
 When developing a custom application, the methods \asCode{attachRequestHandlers} and
@@ -130,7 +130,7 @@ When developing a custom application, the methods \asCode{attachRequestHandlers}
 service.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarService}}
 \tertiaryStart{\classNameD{Exemplar}{SimpleRequestHandler}}
-The \classNameR{Exemplar}{SimpleRequestHandler} class is a subclass of
+The \classNameX{Exemplar}{SimpleRequestHandler} class is a subclass of
 \classNameR{Common}{BaseRequestHandler} and implements the `get a random number' and
 `get several random numbers' requests sent by the \classNameR{Exemplar}{ExemplarClient}
 client application; a custom application should replace this class with one or more

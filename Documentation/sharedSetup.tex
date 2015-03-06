@@ -77,75 +77,81 @@
 \newcommand{\emphcorr}[1]{\emph{#1}\/}
 
 % Some commands to make examples match actual output more closely:
-\newcommand{\pseudotab}{%
-%HEVEA\textbf{->}
+%HEVEA\newcommand{\pseudotab}{\textbf{->}}%
 %BEGIN LATEX
-\thinspace\boldmath{$\vdash$}\thinspace
+\newcommand{\pseudotab}{\thinspace\boldmath{$\vdash$}\thinspace}
 %END LATEX
-}
-\newcommand{\pseudotwotabs}{%
-%HEVEA\textbf{-> ->}
+
+%HEVEA\newcommand{\pseudotwotabs}{\textbf{-> ->}}%
 %BEGIN LATEX
-\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}\thinspace
+\newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}%
+\thinspace}
 %END LATEX
-}
-\newcommand{\clientName}{\textunderscore{}client\textunderscore}
-\newcommand{\dollarService}{\textdollar{}ervice}
-\newcommand{\serviceName}{\textunderscore{}service\textunderscore}
-\newcommand{\inputOutput}{Input~/~Output}
-\newcommand{\openSq}{%
-%HEVEA\textbf{[}%
+%HEVEA\newcommand{\fUS}{\textunderscore}%
 %BEGIN LATEX
-\boldmath{$\lbrack$}
-%END LATEX
-}
-\newcommand{\closeSq}{%
-%HEVEA\textbf{]}%
-%BEGIN LATEX
-\boldmath{$\rbrack$}
-%END LATEX
-}
-\newcommand{\sqPair}{%
-%HEVEA\textbf{[ ]}%
-%BEGIN LATEX
-\boldmath{$\lbrack\ \rbrack$}
-%END LATEX
-}
 \newcommand{\fUS}{\begin{Large}\textbf{\textunderscore}\end{Large}}
+%END LATEX
+\newcommand{\clientName}{\fUS{}client\fUS}
+\newcommand{\dollarService}{\textdollar{}ervice}
+\newcommand{\serviceName}{\fUS{}service\fUS}
+\newcommand{\inputOutput}{Input~/~Output}
+
+%HEVEA\newcommand{\openSq}{\textbf{[}}%
+%BEGIN LATEX
+\newcommand{\openSq}{\boldmath{$\lbrack$}}
+%END LATEX
+
+%HEVEA\newcommand{\closeSq}{\textbf{]}}%
+%BEGIN LATEX
+\newcommand{\closeSq}{\boldmath{$\rbrack$}}
+%END LATEX
+
+%HEVEA\newcommand{\sqPair}{\textbf{[ ]}}%
+%BEGIN LATEX
+\newcommand{\sqPair}{\boldmath{$\lbrack\ \rbrack$}}
+%END LATEX
 \newcommand{\TBD}{\textbf{TBD}}
 \newlength{\uL}
 
-\newcommand{\argItem}[2]{%
-%HEVEA\textbf{#1} #2%
+%HEVEA\newcommand{\argItem}[2]{\textbf{#1} #2}%
 %BEGIN LATEX
-\makebox[4em][l]{\textbf{#1}} #2
+\newcommand{\argItem}[2]{\makebox[4em][l]{\textbf{#1}} #2}
 %END LATEX
-}
 
-\newcommand{\cmdItem}[2]{%
-%HEVEA\textbf{#1} #2%
+%HEVEA\newcommand{\cmdItem}[2]{\textbf{#1} #2}%
 %BEGIN LATEX
-\makebox[1em][l]{\textbf{#1}} #2
+\newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} #2}
 %END LATEX
-}
-\newcommand{\optItem}[3]{%
-%HEVEA\textbf{-#1} | \textbf{--#2} #3%
+
+%HEVEA\newcommand{\optItem}[3]{\textbf{-#1} | \textbf{--#2} #3}%
 %BEGIN LATEX
-\makebox[1.25em][l]{\textbf{--#1}} \textbar{} \makebox[5em][l]{\textbf{{-}{-}#2}} #3
+\newcommand{\optItem}[3]{\makebox[1.25em][l]{\textbf{--#1}} \textbar{} %
+\makebox[5em][l]{\textbf{{-}{-}#2}} #3}
 %END LATEX
-}
 
 %HEVEA\newcommand{\longDash}{-}%
 %BEGIN LATEX
 \newcommand{\longDash}{--}
 %END LATEX
+
 %HEVEA\newcommand{\bigRightArrow}{>>}%
 %BEGIN LATEX
 \newcommand{\bigRightArrow}{$\Rightarrow$}
 %END LATEX
+
+%HEVEA\newcommand{\tabSymbol}{\texttt{\textbf{->}}}%
+%BEGIN LATEX
+\newcommand{\tabSymbol}{\texttt{\boldmath{$\vdash$}}}
+%END LATEX
+
 %HEVEA\newcommand{\exSp}{\ }%
 %BEGIN LATEX
 \newcommand{\exSp}{}
+%END LATEX
+
+%HEVEA\newcommand{\condPage}{}%
+%BEGIN LATEX
+\newcommand{\condPage}{\newpage}
 %END LATEX
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
@@ -159,30 +165,25 @@
 %\end{flushleft}}\caption{#2\ }\label{file:#3}\end{figure}}
 
 % Use different graphics file formats for HTML versus PDF
-\newcommand*{\objImage}[1]{%
-%HEVEA\imgsrc{#1.png}%
+%HEVEA\newcommand*{\objImage}[1]{\imgsrc{#1.png}}%
 %BEGIN LATEX
-\includegraphics{#1.eps}
+\newcommand*{\objImage}[1]{\includegraphics{#1.eps}}
 %END LATEX
-}
-\newcommand*{\objScaledImage}[2]{%
-%HEVEA\imgsrc[scale=#1]{#2.png}%
+
+%HEVEA\newcommand*{\objScaledImage}[2]{\imgsrc[scale=#1]{#2.png}}%
 %BEGIN LATEX
-\includegraphics[scale=#1]{#2.eps}
+\newcommand*{\objScaledImage}[2]{\includegraphics[scale=#1]{#2.eps}}
 %END LATEX
-}
-\newcommand*{\objImageWithWidth}[2]{%
-%HEVEA\imgsrc[width=#1]{#2.png}%
+
+%HEVEA\newcommand*{\objImageWithWidth}[2]{\imgsrc[width=#1]{#2.png}}%
 %BEGIN LATEX
-\includegraphics[width=#1]{#2.eps}
+\newcommand*{\objImageWithWidth}[2]{\includegraphics[width=#1]{#2.eps}}
 %END LATEX
-}
-\newcommand{\mpmLogo}{%
-%HEVEA\objScaledImage{0.5}{images/m+m_tight_logo}%
+
+%HEVEA\newcommand{\mpmLogo}{\objImageWithWidth{150}{images/m+m_tight_logo}}%
 %BEGIN LATEX
-\objImageWithWidth{5em}{images/m+m_tight_logo}
+\newcommand{\mpmLogo}{\objImageWithWidth{5em}{images/m+m_tight_logo}}
 %END LATEX
-}
 
 \newcommand*{\objPicture}[1]{\begin{center}\objImage{#1}\end{center}}
 \newcommand*{\objScaledPicture}[2]{\begin{center}\objScaledImage{#2}{#1}\end{center}}
@@ -200,29 +201,38 @@ Vancouver, British~Columbia, Canada}
 % Second argument: index subcategory
 % Third argument: alternate index subcategory
 % Fourth argument: index name
-% Fifth argument: index suffix 
+% Fifth argument: index suffix
+%HEVEA\newcommand{\multiindex}[5]{}%
+%BEGIN LATEX 
 \newcommand{\multiindex}[5]{%
   \ifthenelse{\equal{#2}{\default}}%
     {\index{#1!#4#5}}%
     {\index{#1!#2!#4#5}}}
+%END LATEX
 
 % First argument: label category
 % Second argument: label subcategory
 % Third argument: alternate label subcategory
 % Fourth argument: label name
+%HEVEA\newcommand{\multilabel}[4]{}%
+%BEGIN LATEX
 \newcommand{\multilabel}[4]{%
   \ifthenelse{\equal{#3}{\default}}%
     {\label{#1:#4}}%
     {\label{#1:#3:#4}}}
+%END LATEX
 
 % First argument: reference category
 % Second argument: reference subcategory
 % Third argument: alternate reference subcategory
 % Fourth argument: reference name
+%HEVEA\newcommand{\multiref}[4]{}%
+%BEGIN LATEX
 \newcommand{\multiref}[4]{%
   \ifthenelse{\equal{#3}{\default}}%
     {\ref{#1:#4}}%
     {\ref{#1:#3:#4}}}
+%END LATEX
 
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index name
@@ -468,6 +478,8 @@ Vancouver, British~Columbia, Canada}
 % Third argument: hyperlink section
 % Fourth argument: simplified version of title
 % Fifth argument: prefix to display before title
+%HEVEA\newcommand*{\sectionStart}[5][\default]{\section{#5\texorpdfstring{#2}{#4}}\renewcommand{\mymark}{#4}}%
+%BEGIN LATEX
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
    \renewcommand{\mymark}{#4}%
@@ -475,6 +487,7 @@ Vancouver, British~Columbia, Canada}
     {\hypertarget{hyper.#3.#4}{}}%
     {\hypertarget{hyper.#3.#1}{}}}}%
   {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5#2}\renewcommand{\mymark}{#4}}}
+%END LATEX
 
 \newcommand*{\sectionEnd}[1]{#1} % just a notational convenience
 
@@ -489,26 +502,32 @@ Vancouver, British~Columbia, Canada}
 % Second argument: subsection title
 % Third argument: hypertarget section
 % Fourth argument: simplified version of title
+%HEVEA\newcommand*{\subsectionStart}[4][\default]{\subsection{\texorpdfstring{#2}{#4}}}%
+%BEGIN LATEX
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand*{\subsectionStart}[4][\default]{\subsection{\texorpdfstring{#2}{#4}}%
    \ifthenelse{\equal{#1}{\default}}%
     {\hypertarget{hyper.#3.#4}{}}%
     {\hypertarget{hyper.#3.#1}{}}}}%
   {\newcommand*{\subsectionStart}[4][\default]{\subsection{#2}}}
-    
+%END LATEX
+
 \newcommand*{\subsectionEnd}[1]{#1} % just a notational convenience
 
 % First argument: [optional] alternate hypertarget name
 % Second argument: subsubsection title
 % Third argument: hypertarget section
 % Fourth argument: simplified version of title
+%HEVEA\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{\texorpdfstring{#2}{#4}}}%
+%BEGIN LATEX
 \ifthenelse{\boolean{generatingHyperPDF}}%
   {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{\texorpdfstring{#2}{#4}}%
    \ifthenelse{\equal{#1}{\default}}%
     {\hypertarget{hyper.#3.#4}{}}%
     {\hypertarget{hyper.#3.#1}{}}}}%
   {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{#2}\index{#2}}}
-    
+%END LATEX
+
 \newcommand*{\subsubsectionEnd}[1]{#1} % just a notational convenience
 
 % First argument: [optional] alternate section name
@@ -579,13 +598,6 @@ Vancouver, British~Columbia, Canada}
 \newcommand*{\asCode}[1]{\codeBegin{}#1\codeEnd}
 \newcommand*{\asBoldCode}[1]{\textbf{\asCode{#1}}}
 \newcommand*{\asEmphCode}[1]{\textit{\asCode{#1}}}
-\newcommand{\tabSymbol}{\texttt{%
-%HEVEA\textbf{->}%
-%BEGIN LATEX
-\boldmath{$\vdash$}
-%END LATEX
-}}
-\newcommand{\tS}{\hspace*{10pt}}
 
 \newenvironment{tightItems}%
 {\begin{itemize}%
@@ -594,3 +606,23 @@ Vancouver, British~Columbia, Canada}
 \setlength{\parsep}{0pt}%
 \setlength{\parskip}{0pt}}%
 {\end{itemize}}
+
+% Common layout stuff:
+
+% Set up the page layout:
+\pagestyle{fancyplain}
+\newcommand{\mymark}{}
+\lhead[]{\fancyplain{}{\textsc{\mymark}}}
+\chead[]{}
+\rhead[\fancyplain{}{\textsc{\mymark}}]{}
+\lfoot[Page \thepage]{\today}
+\rfoot[\today]{Page \thepage}
+%BEGIN LATEX
+\renewcommand{\headrulewidth}{0.5bp}
+%END LATEX
+\pagenumbering{roman}
+
+\date{\MMV: \today}
+\author{\stdAuthor}
+
+\makeindex

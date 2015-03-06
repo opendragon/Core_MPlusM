@@ -23,26 +23,26 @@ There are 38 classes or structures in the \textbf{\mplusm{}::Common} namespace, 
 The following sections describe the most critical of the classes in the
 \textbf{\mplusm{}::Common} namespace \longDash{} many of the other classes, in all the
 namespaces, derive from these classes. 
-\secondaryStart{BaseAdapterData}
-The class \secondaryRef{BaseAdapterData}{\classNameP{Common}{BaseAdapterData}} is used to
-provide common methods and variables for data that is shared between instances of
-derived classes of \secondaryRef{BaseService}{BaseService} and instances of derived
-classes of \classNameR{Common}{BaseInputHandler}.
+\secondaryStart{\classNameP{Common}{BaseAdapterData}}
+The class \classNameX{Common}{BaseAdapterData} is used to provide common methods and
+variables for data that is shared between instances of derived classes of
+\classNameR{Common}{BaseService} and instances of derived classes of
+\classNameR{Common}{BaseInputHandler}.
 In particular, the shared data includes the activation state of the input stream and the
 primary output stream to use when responding to input data.
 \secondaryEnd{\classNameE{Common}{BaseAdapterData}}
-\secondaryStart{BaseClient}
-Instances of derived classes of \secondaryRef{BaseClient}{\classNameP{Common}{BaseClient}}
-are responsible for mediating \mplusm{} communication with corresponding instances of
-derived classes of \secondaryRef{BaseService}{BaseService}.\\
+\secondaryStart{\classNameP{Common}{BaseClient}}
+Instances of derived classes of \classNameX{Common}{BaseClient} are responsible for
+mediating \mplusm{} communication with corresponding instances of derived classes of
+\classNameR{Common}{BaseService}.\\
 
 The bulk of the mechanisms needed to perform this are provided by the
-\secondaryRef{BaseClient}{BaseClient} class itself, and the derived classes need only
-provide service\longDash{}specific routines, such as \asCode{getOneRandomNumber()},
-which is a method of the \asCode{M+M::Example::RandomNumberClient} class.\\
+\classNameX{Common}{BaseClient} class itself, and the derived classes need only provide
+service\longDash{}specific routines, such as \asCode{getOneRandomNumber()}, which is a
+method of the \asCode{M+M::Example::RandomNumberClient} class.\\
 
-The following methods are available to code that uses
-\secondaryRef{BaseClient}{BaseClient} classes:
+The following methods are available to code that uses \classNameX{Common}{BaseClient}
+classes:
 \begin{itemize}
 \item\asBoldCode{FindMatchingService} This static function is provided for the use of
 utility programs that need to identify active services
@@ -64,41 +64,39 @@ inform the \serviceNameR[Registry~Service]{RegistryService} that their input and
 companion service
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseClient}}
-\secondaryStart{BaseContext}
-Instances of derived classes of \secondaryRef{BaseService}{BaseService} that have \yarp{}
+\secondaryStart{\classNameP{Common}{BaseContext}}
+Instances of derived classes of \classNameR{Common}{BaseService} that have \yarp{}
 network connections with persistent state use instances of
-derived classes of \secondaryRef{BaseContext}{\classNameP{Common}{BaseContext}} to track
-the information that is retained from each request for the following request.
-The \secondaryRef{BaseContext}{BaseContext} class itself provides no functionality.
+derived classes of \classNameX{Common}{BaseContext} to track the information that is
+retained from each request for the following request.
+The \classNameX{Common}{BaseContext} class itself provides no functionality.
 \secondaryEnd{\classNameE{Common}{BaseContext}}
-\secondaryStart{BaseFilterService}
-The \secondaryRef{BaseFilterService}{\classNameP{Common}{BaseFilterService}}
-class is a subclass of \secondaryRef{BaseInputOutputService}{BaseInputOutputService}
-that provides implementations of several of the required methods of its superclass.\\
+\secondaryStart{\classNameP{Common}{BaseFilterService}}
+The \classNameX{Common}{BaseFilterService} class is a subclass of
+\classNameR{Common}{BaseInputOutputService} that provides implementations of several of
+the required methods of its superclass.\\
 
-Classes derived from \secondaryRef{BaseFilterService}{BaseFilterService} are expected to
-fill in the `protected' member variables \asCode{\textunderscore{}inDescriptions} and
+Classes derived from \classNameX{Common}{BaseFilterService} are expected to fill in the
+`protected' member variables \asCode{\textunderscore{}inDescriptions} and
 \asCode{\textunderscore{}outDescriptions}, which are used by the methods
 \asCode{setUpInputStreams} and \asCode{setUpOutputStreams}, respectively.
 The method \asCode{setUpStreamDescriptions} must be implemented in classes derived from
-\secondaryRef{BaseFilterService}{BaseFilterService} and should fill in
+\classNameX{Common}{BaseFilterService} and should fill in
 \asCode{\textunderscore{}inDescriptions} and \asCode{\textunderscore{}outDescriptions}.
 \secondaryEnd{\classNameE{Common}{BaseFilterService}}
-\secondaryStart{BaseInputHandler}
-Instances of derived classes of
-\secondaryRef{BaseService}{\classNameP{Common}{BaseInputHandler}} are responsible for
+\secondaryStart{\classNameP{Common}{BaseInputHandler}}
+Instances of derived classes of \classNameX{Common}{BaseInputHandler} are responsible for
 responding to input data on \yarp{} network connections.
 They must implement the method \asCode{handleInput}, which is called when a complete
 message has been received on a connection.
 \secondaryEnd{\classNameE{Common}{BaseInputHandler}}
-\secondaryStart{BaseInputOutputService}
-The \secondaryRef{BaseInputOutputService}{\classNameP{Common}{BaseInputOutputService}}
-class is designed to support easy access to multiple instances of the same service, each
-of which can be used to provide an interface to an external device or to a simple
-flow\longDash{}through operation.\\
+\secondaryStart{\classNameP{Common}{BaseInputOutputService}}
+The \classNameX{Common}{BaseInputOutputService} class is designed to support easy access
+to multiple instances of the same service, each of which can be used to provide an
+interface to an external device or to a simple flow\longDash{}through operation.\\
 
-Classes derived from \secondaryRef{BaseInputOutputService}{BaseInputOutputService} are
-required to provide implementations of the following methods:
+Classes derived from \classNameX{Common}{BaseInputOutputService} are required to provide
+implementations of the following methods:
 \begin{itemize}
 \item\asBoldCode{configure} This method is invoked when a
 \requestsNameR{\inputOutput{}}{InputOutput}{configure} request is sent to the service; it
@@ -120,48 +118,46 @@ it is responsible for stopping the input and output streams of the service
 The \asCode{configure}, \asCode{restartStreams}, \asCode{startStreams} and
 \asCode{stopStreams} methods can also be invoked by code that instantiates the service.
 \secondaryEnd{\classNameE{Common}{BaseInputOutputService}}
-\secondaryStart{BaseInputService}
-The \secondaryRef{BaseInputService}{\classNameP{Common}{BaseInputService}}
-class is a subclass of \secondaryRef{BaseInputOutputService}{BaseInputOutputService}
-that provides implementations of several of the required methods of its superclass and is
-specialized to only support output streams.\\
+\secondaryStart{\classNameP{Common}{BaseInputService}}
+The \classNameX{Common}{BaseInputService} class is a subclass of
+\classNameR{Common}{BaseInputOutputService} that provides implementations of several of
+the required methods of its superclass and is specialized to only support output
+streams.\\
 
-Classes derived from \secondaryRef{BaseFilterService}{BaseInputService} are expected to
-fill in the `protected' member variable \asCode{\textunderscore{}outDescriptions}, which
+Classes derived from \classNameX{Common}{BaseInputService} are expected to fill in the
+`protected' member variable \asCode{\textunderscore{}outDescriptions}, which
 is used by the method \asCode{setUpOutputStreams}.
 The method \asCode{setUpStreamDescriptions} must be implemented in classes derived from
-\secondaryRef{BaseInputService}{BaseInputService} and should fill in
+\classNameX{Common}{BaseInputService} and should fill in
 \asCode{\textunderscore{}outDescriptions}.
 \secondaryEnd{\classNameE{Common}{BaseInputService}}
-\secondaryStart{BaseMatcher}
-The \secondaryRef{BaseMatcher}{\classNameP{Common}{BaseMatcher}} class represents a
-`handle' to a top\longDash{}down pattern matcher used by the
-\serviceNameR[Registry~Service]{RegistryService} to convert the arguments of
-\requestsNameR{Registry~Service}{RegistryService}{match} requests into \asCode{SQL}
-operations.
+\secondaryStart{\classNameP{Common}{BaseMatcher}}
+The \classNameX{Common}{BaseMatcher} class represents a `handle' to a top\longDash{}down
+pattern matcher used by the \serviceNameR[Registry~Service]{RegistryService} to convert
+the arguments of \requestsNameR{Registry~Service}{RegistryService}{match} requests into
+\asCode{SQL} operations.
 The `outermost' matcher that is parsed from the original request is used to generate the
-\asCode{SQL} \longDash{} the \secondaryRef{BaseMatcher}{BaseMatcher} class acts as a
+\asCode{SQL} \longDash{} the \classNameX{Common}{BaseMatcher} class acts as a
 placeholder.
 \secondaryEnd{\classNameE{Common}{BaseMatcher}}
-\secondaryStart{BaseOutputService}
-The \secondaryRef{BaseOutputService}{\classNameP{Common}{BaseOutputService}}
-class is a subclass of \secondaryRef{BaseInputOutputService}{BaseInputOutputService}
-that provides implementations of several of the required methods of its superclass and is
-specialized to only support input streams.\\
+\secondaryStart{\classNameP{Common}{BaseOutputService}}
+The \classNameX{Common}{BaseOutputService} class is a subclass of
+\classNameR{Common}{BaseInputOutputService} that provides implementations of several of
+the required methods of its superclass and is specialized to only support input streams.\\
 
-Classes derived from \secondaryRef{BaseOutputService}{BaseOutputService} are expected to
-fill in the `protected' member variable \asCode{\textunderscore{}inDescriptions}, which is
-used by the method \asCode{setUpInputStreams}.
+Classes derived from \classNameX{Common}{BaseOutputService} are expected to fill in the
+`protected' member variable \asCode{\textunderscore{}inDescriptions}, which is used by the
+method \asCode{setUpInputStreams}.
 The method \asCode{setUpStreamDescriptions} must be implemented in classes derived from
-\secondaryRef{BaseOutputService}{BaseOutputService} and should fill in
+\classNameX{Common}{BaseOutputService} and should fill in
 \asCode{\textunderscore{}inDescriptions}.
 \secondaryEnd{\classNameE{Common}{BaseOutputService}}
-\secondaryStart{BaseRequestHandler}
-The \secondaryRef{BaseRequestHandler}{\classNameP{Common}{BaseRequestHandler}} class is
-designed to provide a consistent request handling mechanism for \mplusm{} services.\\
+\secondaryStart{\classNameP{Common}{BaseRequestHandler}}
+The \classNameX{Common}{BaseRequestHandler} class is designed to provide a consistent
+request handling mechanism for \mplusm{} services.\\
 
-Classes derived from \secondaryRef{BaseRequestHandler}{BaseRequestHandler} are required to
-provide implementations of the following methods:
+Classes derived from \classNameX{Common}{BaseRequestHandler} are required to provide
+implementations of the following methods:
 \begin{itemize}
 \item\asBoldCode{fillInAliases} This method is invoked when a service is registering its
 request handlers; it is responsible for providing a list of alternative names for the
@@ -175,20 +171,19 @@ the service and it is responsible for performing the operations that correspond 
 request
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseRequestHandler}}
-\secondaryStart{BaseService}
-Instances of derived classes of
-\secondaryRef{BaseService}{\classNameP{Common}{BaseService}} are responsible for
+\secondaryStart{\classNameP{Common}{BaseService}}
+Instances of derived classes of \classNameX{Common}{BaseService} are responsible for
 responding to requests from corresponding instances of derived classes of
-\secondaryRef{BaseClient}{BaseClient}.
+\classNameR{Common}{BaseClient}.
 As well, they can respond on their secondary \yarp{} network connections to requests or
 process data from the secondary connections.
 
 Requests are mainly handled by instances of derived classes of the
-\secondaryRef{BaseRequestHandler}{BaseRequestHandler} class that are owned by the service
-instance; the \secondaryRef{BaseService}{BaseService} class manages the standard request
+\classNameR{Common}{BaseRequestHandler} class that are owned by the service
+instance; the \classNameX{Common}{BaseService} class manages the standard request
 handlers.\\
 
-Classes derived from \secondaryRef{BaseService}{BaseService} should implement the
+Classes derived from \classNameX{Common}{BaseService} should implement the
 following methods:
 \begin{itemize}
 \item\asBoldCode{attachRequestHandlers} This method should be called in the constructor
@@ -202,17 +197,17 @@ are needed by the service
 invoke the same method of its parent class; it should release any resources used by the
 service
 \end{itemize}
-The following methods are available to code that uses
-\secondaryRef{BaseService}{BaseService} classes:
+The following methods are available to code that uses \classNameX{Common}{BaseService}
+classes:
 \begin{itemize}
 \item\asBoldCode{gatherMetrics} This method returns a list of the metrics for the
 connections associated with the service
 \item\exSp\asBoldCode{getEndpoint} This method provides access to the
-\secondaryRef{Endpoint}{Endpoint} that is provided for the service and is useful for
+\classNameR{Common}{Endpoint} that is provided for the service and is useful for
 establishing a connection to an `embedded' service
 \end{itemize}
 The following convenience methods are available to derived classes of
-\secondaryRef{BaseService}{BaseService}:
+\classNameX{Common}{BaseService}:
 \begin{itemize}
 \item\asBoldCode{addContext} This method is used to record the data that holds the
 persistent state for a connection
@@ -230,21 +225,19 @@ that will handle unknown requests
 handler
 \end{itemize}
 \secondaryEnd{\classNameE{Common}{BaseService}}
-\secondaryStart{Endpoint}
-Instances of the \secondaryRef{Endpoint}{\classNameP{Common}{Endpoint}} class manage a
-\yarp{} network connection for a service.
+\secondaryStart{\classNameP{Common}{Endpoint}}
+Instances of the \classNameX{Common}{Endpoint} class manage a \yarp{} network connection
+for a service.
 They are used to simplify the communication mechanisms that each service must provide and
 to standardize on the mid\longDash{}level protocols that \mplusm{} services and clients
 share.
 \secondaryEnd{\classNameE{Common}{Endpoint}}
-\secondaryStart{ServiceRequest}
-Instances of the \secondaryRef{ServiceRequest}{\classNameP{Common}{ServiceRequest}} class
-are used to represent requests in the mid\longDash{}level protocols of \mplusm{} services
-in a uniform format.
+\secondaryStart{\classNameP{Common}{ServiceRequest}}
+Instances of the \classNameX{Common}{ServiceRequest} class are used to represent requests
+in the mid\longDash{}level protocols of \mplusm{} services in a uniform format.
 \secondaryEnd{\classNameE{Common}{ServiceRequest}}
-\secondaryStart{ServiceResponse}
-Instances of the \secondaryRef{ServiceResponse}{\classNameP{Common}{ServiceResponse}}
-class are used to represent responses in the mid\longDash{}level protocols of \mplusm{}
-services in a uniform format.
+\secondaryStart{\classNameP{Common}{ServiceResponse}}
+Instances of the \classNameX{Common}{ServiceResponse} class are used to represent
+responses in the mid\longDash{}level protocols of \mplusm{} services in a uniform format.
 \secondaryEnd{\classNameE{Common}{ServiceResponse}}
 \primaryEnd{}

@@ -36,15 +36,18 @@ The output specifies the \yarp{} network port of a service with persistent state
 
 For example, the default output could be:
 \outputBegin{}
-Service:\ /\serviceName/examples/runningSum\\
-\settowidth{\uL}{Cli}%
-Clients:\\
-\hspace*{\uL}/\clientName/examples/runningsum\textunderscore{}4896162
+\begin{verbatim}
+Service: /_service_/examples/runningSum
+Clients:
+   /_client_/examples/runningsum_4896162
+\end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\openSq{} \textbraceleft{} "Service":\ "/\serviceName/examples/runningSum", "Client":\ \\
-"/\clientName/examples/runningsum\textunderscore{}4896162" \textbraceright{} \closeSq
+\begin{verbatim}
+[ { "Service": "/_service_/examples/runningSum", "Client":
+"/_client_/examples/runningsum_4896162" } ]
+\end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
@@ -53,16 +56,22 @@ or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymb
 \outputEnd{}
 Note that, if no clients are found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
-\sqPair
+\begin{verbatim}
+[ ]
+\end{verbatim}
 \outputEnd{}
 while the default output would be:
 \outputBegin{}
+\begin{verbatim}
 No client connections found.
+\end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
 \outputBegin{}
+\begin{verbatim}
 No services found.
+\end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmClientList}}
@@ -82,11 +91,15 @@ An example execution of the program, with the command\longDash{}line argument
 \asCode{'tag!blurt'} provided, would have the following output if default formatting is
 used:
 \outputBegin{}
-/\dollarService, /\serviceName/filter/truncatefloat, /blort
+\begin{verbatim}
+/$ervice, /_service_/filter/truncatefloat, /blort
+\end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\openSq{} "/\dollarService", "/\serviceName/filter/truncatefloat", "/blort" \closeSq
+\begin{verbatim}
+[ "/$ervice", "/_service_/filter/truncatefloat", "/blort" ]
+\end{verbatim}
 \outputEnd{}
 of, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
@@ -103,7 +116,8 @@ Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
-or, it JSON\longDash{}formatted output is requested:
+\condPage{}
+or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
@@ -124,7 +138,6 @@ Match criteria:\ \textbf{tag:blurt}\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmFindServices}}
-\newpage
 \tertiaryStart{\utilityNameP{mpmPortLister}}
 The program \utilityNameX{mpmPortLister} displays the active \yarp{} ports and \mplusm{}
 entities.
@@ -148,44 +161,37 @@ of the connection, such as TCP or UDP.\\
 
 For example, the default output could be:
 \outputBegin{}
-Ports:\\
-\settowidth{\uL}{Por}%
-/\dollarService:\ Service registry port for 'Registry'.\\
-\hspace*{\uL}No active connections.\\
-/\dollarService/status:\ Standard port at 10.0.1.2:10008.\\
-\hspace*{\uL}Output to /reader via UDP.\\
-/reader:\ Standard port at 10.0.1.2:10003.\\
-\hspace*{\uL}Input from /writer2 via TCP.\\
-\hspace*{\uL}Input from /writer via TCP.\\
-\hspace*{\uL}Input from /\dollarService/status via UDP.\\
-/writer:\ Standard port at 10.0.1.2:10002.\\
-\hspace*{\uL}Output to /reader via TCP.\\
-/writer2:\ Standard port at 10.0.1.2:10004.\\
-\hspace*{\uL}Output to /reader via TCP.
+\begin{verbatim}
+Ports:
+/$ervice: Service registry port for 'Registry'.
+   No active connections.
+/$ervice/status: Standard port at 10.0.1.2:10008.
+   Output to /reader via UDP.
+/reader: Standard port at 10.0.1.2:10003.
+   Input from /writer2 via TCP.
+   Input from /writer via TCP.
+   Input from /$ervice/status via UDP.
+/writer: Standard port at 10.0.1.2:10002.
+   Output to /reader via TCP.
+/writer2: Standard port at 10.0.1.2:10004.
+   Output to /reader via TCP.
+\end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\openSq{} \textbraceleft{} "PortName":\ "/\dollarService", "PortClass":\
-"Service~registry~port~for~'Registry'", "Inputs":\ \sqPair, "Outputs":\
-\sqPair{} \textbraceright{}, \textbraceleft{} "PortName":\ "/\dollarService/status",
-"PortClass":\ \\
-"Standard~port~at~10.0.1.2:10008", "Inputs":\ \sqPair, "Outputs":\ \openSq{}
-\textbraceleft{} "Port":\ \\
-"/reader", "Mode":\ "UDP" \textbraceright{} \closeSq{} \textbraceright{},
-\textbraceleft{} "PortName":\ "/reader", "PortClass":\ \\
-"Standard~port~at~10.0.1.2:10003", "Inputs":\ \openSq{} \textbraceleft{} "Port":\
-"/writer2", "Mode":\ \\
-"TCP" \textbraceright{}, \textbraceleft{} "Port":\ "/writer", "Mode":\ "TCP"
-\textbraceright, \textbraceleft{} "Port":\ "/\dollarService/status",\\
-"Mode":\ "UDP" \textbraceright{} \closeSq, "Outputs":\ \sqPair{} \textbraceright,
-\textbraceleft{} "PortName":\ "/writer", "PortClass":\ \\
-"Standard~port~at~10.0.1.2:10002", "Inputs":\ \sqPair, "Outputs":\ \openSq{}
-\textbraceleft{} "Port":\ \\
-"/reader", "Mode":\ "TCP" \textbraceright{} \closeSq{} \textbraceright{},
-\textbraceleft{} "PortName":\ "/writer2", "PortClass":\ \\
-"Standard~port~at~10.0.1.2:10004", "Inputs":\ \sqPair, "Outputs":\ \openSq{}
-\textbraceleft{} "Port":\ \\
-"/reader", "Mode":\ "TCP" \textbraceright{} \closeSq{} \textbraceright{} \closeSq
+\begin{verbatim}
+[ { "PortName": "/$ervice", "PortClass": "Service registry port for 'Registry'",
+"Inputs": [ ], "Outputs": [ ] }, { "PortName":\ "/$ervice/status", "PortClass":
+"Standard port at 10.0.1.2:10008", "Inputs": [ ], "Outputs": [ { "Port":
+"/reader", "Mode": "UDP" } ] }, { "PortName": "/reader", "PortClass":
+"Standard port at 10.0.1.2:10003", "Inputs": [ { "Port": "/writer2", "Mode":
+"TCP" }, { "Port": "/writer", "Mode": "TCP" }, { "Port": "/$ervice/status",
+"Mode": "UDP" } ], "Outputs": [] }, { "PortName": "/writer", "PortClass":
+"Standard port at 10.0.1.2:10002", "Inputs": [ ], "Outputs": [ { "Port":
+"/reader", "Mode": "TCP" } ] }, { "PortName": "/writer2", "PortClass":
+"Standard port at 10.0.1.2:10004", "Inputs": [ ], "Outputs": [ { "Port":
+"/reader", "Mode": "TCP" } ] } ]
+\end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
@@ -200,13 +206,16 @@ reader~UDP\\
 \outputEnd{}
 Note that, if no ports are found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
-\sqPair
+\begin{verbatim}
+[ ]
+\end{verbatim}
 \outputEnd{}
 while the default output would be:
 \outputBegin{}
-Ports:\\
-\settowidth{\uL}{Por}%
-\hspace*{\uL}No ports found.
+\begin{verbatim}
+Ports:
+   No ports found.
+\end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
@@ -309,28 +318,28 @@ one or more times.\\
 For example, the default output when both the service and the request are specified could
 be:
 \outputBegin{}
-\begin{tabular}{l@{\ }p{12.8cm}}
-Service Port:\ & /\dollarService\\
-Request:\ & register\\
-Version:\ & 1.0\\
-Details:\ & Register the service and its requests\\
- & Input:\ the channel used by the service\\
- & Output:\ OK or FAILED, with a description of the problem\\
- & encountered\\
-Keywords:\ & register add\\
-Inputs:\ & s\\
-Outputs:\ & s\\
-\end{tabular}
+\begin{verbatim}
+Service Port: /$ervice
+Request:      register
+Version:      1.0
+Details:      Register the service and its requests
+              Input: the channel used by the service
+              Output: OK or FAILED, with a description of the problem
+              encountered
+Keywords:     register add
+Inputs:       s
+Outputs:      s
+\end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\openSq{} \textbraceleft{} "Port":\ "/\dollarService", "Request":\ "register",
-"Version":\ "1.0", "Details":\ \\
-"Register the service and its requests\textbackslash{}nInput:\ the channel used by the\\
-service\textbackslash{}nOutput:\ OK or FAILED, with a description of the problem\\
-encountered", "Keywords":\ \openSq{} "register", "add" \closeSq, "Inputs":\ "s",
-"Outputs":\ \\
-"s" \textbraceright{} \closeSq
+\begin{verbatim}
+[ { "Port": "/$ervice", "Request": "register", "Version": "1.0", "Details":
+"Register the service and its requests\nInput: the channel used by the
+service\nOutput: OK or FAILED, with a description of the problem
+encountered", "Keywords": [ "register", "add" ], "Inputs": "s", "Outputs":
+"s" } ]
+\end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
@@ -345,17 +354,23 @@ tab\longDash{}delimited output each entry is on a line by itself and for
 JSON\longDash{}formatted output, the entries are objects within an array.
 Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
-\sqPair
+\begin{verbatim}
+[ ]
+\end{verbatim}
 \outputEnd{}
-\newpage
+\condPage{}
 while the default output would be:
 \outputBegin{}
+\begin{verbatim}
 No matching request found.
+\end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
 \outputBegin{}
+\begin{verbatim}
 No services found.
+\end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmRequestInfo}}
@@ -389,92 +404,78 @@ If a protocol is not specified for a secondary input port, then it will accept a
 if no protocol is specified for a secondary output port, then its output data has no
 particular structure and can only be connected to a \yarp{} network port that has no
 protocol.
-\newpage
+\condPage{}
 For example, the default output could be:
 \outputBegin{}
-\begin{tabular}{l@{\ }p{12.8cm}}
-Services:\ & \\
-\\
-Service port:\ & /\dollarService\\
-Service name:\ & Registry\\
-Tag:\\
-Service kind:\ & Registry\\
-Description:\ & The Registry service\\
-Requests:\ & associate \longDash{} associate a channel with another channel\\
- & disassociate - remove all associations for a channel\\
- & getAssociates - return the associations of a channel\\
- & match - return the channels for services matching the\\
- & criteria provided\\
- & ping - update the last-pinged information for a channel\\
- & or record the information for a service on the given\\
- & channel\\
- & register - record the information for a service on the\\
- & given channel\\
- & unregister - remove the information for a service on the\\
- & given channel\\
-Path:\ & \textellipsis/mpmRegistryService\\
-Secondary outputs:\ & /\dollarService/status\textbraceleft{}protocol=s%
-\textbraceright\\
-\\
-Service port:\ & /\serviceName/input/randomburst\\
-Service name:\ & RandomBurst\\
-Tag:\\
-Service kind:\ & Input\\
-Description:\ & The random burst input service\\
-Requests:\ & \\
-Path:\ & \textellipsis/mpmRandomBurstService\\
-Secondary outputs:\ & /\serviceName/input/randomburst/output\textbraceleft{}protocol=d+%
-\textbraceright\\
-\\
-Service port:\ & /shorten\\
-Service name:\ & TruncateFloat\\
-Tag: & blort\\
-Service kind:\ & Filter\\
-Description:\ & The truncate float service\\
-Requests:\ & \\
-Path:\ & \textellipsis/mpmTruncateFloatService\\
-Secondary inputs:\ & /shorten/input\textbraceleft{}protocol=d+%
-\textbraceright\\
-Secondary outputs:\ & /shorten/output\textbraceleft{}protocol=i+%
-\textbraceright
-\end{tabular}
+\begin{verbatim}
+Services:
+
+Service port:      /$ervice
+Service name:      Registry
+Tag:
+Service kind:      Registry
+Description:       The Registry service
+Requests:          associate - associate a channel with another channel
+                   disassociate - remove all associations for a channel
+                   getAssociates - return the associations of a channel
+                   match - return the channels for services matching the
+                   criteria provided
+                   ping - update the last-pinged information for a channel
+                   or record the information for a service on the given
+                   channel
+                   register - record the information for a service on the
+                   given channel
+                   unregister - remove the information for a service on the
+                   given channel
+Path:              .../mpmRegistryService
+Secondary outputs: /$ervice/status{protocol=s}
+
+Service port:      /_service_/input/randomburst
+Service name:      RandomBurst
+Tag:
+Service kind:      Input
+Description:       The random burst input service
+Requests:
+Path:              .../mpmRandomBurstService
+Secondary outputs: /_service_/input/randomburst/output{protocol=d+}
+
+Service port:      /shorten
+Service name:      TruncateFloat
+Tag:               blort
+Service kind:      Filter
+Description:       The truncate float service
+Requests:
+Path:              .../mpmTruncateFloatService
+Secondary inputs:  /shorten/input{protocol=d+}
+Secondary outputs: /shorten/output{protocol=i+}
+\end{verbatim}
 \outputEnd{}
-\newpage
+\condPage{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\openSq{} \textbraceleft{} "ServicePort":\ "/\dollarService", "ServiceName":\
-"Registry", "Tag":\ "", "ServiceKind":\ \\
-"Registry", "Description":\ "The Registry service", "Requests":\ \\
-"associate - associate a channel with another channel\textbackslash{}ndisassociate - 
-remove\\
-all associations for a channel\textbackslash{}ngetAssociates - return the associations of
-a\\
-channel\textbackslash{}nmatch - return the channels for services matching the criteria\\
-provided\textbackslash{}nping - update the last-pinged information for a channel or
-record\\
-the information for a service on the given channel\textbackslash{}nregister - record the\\
-information for a service on the given channel\textbackslash{}nunregister - remove the\\
-information for a service on the given channel", "Path":\ \\
-"\textellipsis/mpmRegistryService", "SecondaryInputs":\ \sqPair, "SecondaryOutputs":\
-\openSq{} \textbraceleft\\
-"Name":\ "/\dollarService/status", "Protocol":\ "s" \textbraceright{} \closeSq{}
-\textbraceright, \textbraceleft{} "ServicePort":\ \\
-"/\serviceName/input/randomburst", "ServiceName":\ "RandomBurst", "Tag":\ "",\\
-"ServiceKind":\ "Input", "Description":\ "The random burst input service",\\
-"Requests":\ "", "Path":\ "\textellipsis/mpmRandomBurstService", "SecondaryInputs":\
-\sqPair,\\
-"SecondaryOutputs":\ \openSq{} \textbraceleft{} "Name":\ 
-"/\serviceName/input/randomburst/output",\\
-"Protocol":\ "d+" \textbraceright{} \closeSq{} \textbraceright, \textbraceleft{}
-"ServicePort":\  "/shorten", "ServiceName":\ \\
-"TruncateFloat", "Tag":\ "blort", "ServiceKind":\ "Filter", "Description":\ \\
-"The truncate float service", "Requests":\ "", "Path":\ \\
-"\textellipsis/mpmTruncateFloatService", "SecondaryInputs":\ \openSq{} \textbraceleft{}
-"Name":\ \\
-"/shorten/input", "Protocol":\ "d+" \textbraceright{} \closeSq, "SecondaryOutputs":\ 
-\openSq{} \textbraceleft{} "Name":\ \\
-"/shorten/output", "Protocol":\ "i+" \textbraceright{} \closeSq{} \textbraceright{}
-\closeSq
+\begin{verbatim}
+[ { "ServicePort": "/$ervice", "ServiceName": "Registry", "Tag": "", "ServiceKind":
+"Registry", "Description": "The Registry service", "Requests":
+"associate - associate a channel with another channel\ndisassociate - remove
+all associations for a channel\ngetAssociates - return the associations of a
+channel\nmatch - return the channels for services matching the criteria
+provided\nping - update the last-pinged information for a channel or record
+the information for a service on the given channel\nregister - record the
+information for a service on the given channel\nunregister - remove the
+information for a service on the given channel", "Path":
+".../mpmRegistryService", "SecondaryInputs": [ ], "SecondaryOutputs": [ {
+"Name": "/$ervice/status", "Protocol": "s" } ] }, { "ServicePort":
+"/_service_/input/randomburst", "ServiceName": "RandomBurst", "Tag": "",
+"ServiceKind": "Input", "Description": "The random burst input service",
+"Requests": "", "Path": ".../mpmRandomBurstService", "SecondaryInputs": [ ],
+"SecondaryOutputs": [ { "Name": "/_service_/input/randomburst/output",
+"Protocol": "d+" } ] }, { "ServicePort":  "/shorten", "ServiceName":
+"TruncateFloat", "Tag": "blort", "ServiceKind": "Filter", "Description":
+"The truncate float service", "Requests": "", "Path":
+".../mpmTruncateFloatService", "SecondaryInputs": [ { "Name":
+"/shorten/input", "Protocol": "d+" } ], "SecondaryOutputs": [ { "Name":
+"/shorten/output", "Protocol": "i+" } ] } ]
+\end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
@@ -527,61 +528,43 @@ All services use transient \yarp{} network ports to, at least, register themselv
 
 For example, the default output could be (with the lines wrapped for clarity):
 \outputBegin{}
-/\dollarService\\
-\settowidth{\uL}{/status}%
-\hspace*{\uL}/\dollarService:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32,
-bytes in:\ 11221, out:\ 52535,\\
-\settowidth{\uL}{/Service/status: }%
-\hspace*{\uL}messages in:\ 265, out:\ 264\closeSq\\
-\settowidth{\uL}{/servi}%
-\hspace*{\uL}auxiliary:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes in:\ 0,
-out:\ 0, messages\\
-\settowidth{\uL}{/Service/status: }%
-\hspace*{\uL}in:\ 0, out:\ 0\closeSq\\
-/\dollarService/status:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes in:\ 0,
-out:\ 17292,\\
-\hspace*{\uL}messages in:\ 0, out:\ 176\closeSq\\
+\begin{verbatim}
+/$ervice
+       /$ervice: [date: 2014-10-10, time: 09:16:32, bytes in: 11221, out: 52535,
+                  messages in: 265, out: 264]
+      auxiliary: [date: 2014-10-10, time: 09:16:32, bytes in: 0, out: 0, messages
+                  in: 0, out: 0]
+/$ervice/status: [date: 2014-10-10, time: 09:16:32, bytes in: 0, out: 17292,
+                  messages in: 0, out: 176]
 
-/\serviceName/input/leapmotion\\
-\settowidth{\uL}{/output}%
-\hspace*{\uL}/\serviceName/input/leapmotion:\ \openSq{}date:\ 2014-10-10, time:\
-09:16:32, bytes in:\ \\
-\settowidth{\uL}{/xservicx/input/leapmotion/output: }%
-\hspace*{\uL}54, out:\ 4842, messages in:\ 3, out:\ 2\closeSq\\
-\settowidth{\uL}{/xservicx/input/leapmoti}%
-\hspace*{\uL}auxiliary:\ \openSq{}date: 2014-10-10, time: 09:16:32, bytes in:\ \\
-\settowidth{\uL}{/xservicx/input/leapmotion/output: }%
-\hspace*{\uL}15, out:\ 53, messages in:\ 1, out:\ 1\closeSq\\
-/\serviceName/input/leapmotion/output:\ \openSq{}date:\ 2014-10-10, time:\ 09:16:32, bytes
-in:\ \\
-\hspace*{\uL}0, out:\ 0, messages in:\ 0, out:\ 0\closeSq
+/_service_/input/leapmotion
+       /_service_/input/leapmotion: [date: 2014-10-10, time: 09:16:32, bytes in:
+                                     54, out: 4842, messages in: 3, out: 2]
+                         auxiliary: [date: 2014-10-10, time: 09:16:32, bytes in:
+                                     15, out: 53, messages in: 1, out: 1]
+/_service_/input/leapmotion/output: [date: 2014-10-10, time: 09:16:32, bytes in:
+                                     0, out: 0, messages in: 0, out: 0]
+\end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\openSq{} \openSq{} \textbraceleft{} "channel":\ "/\dollarService", "date":\
-"2014-10-10", "time":\ "09:18:42", "inBytes":\ \\
-"12091", "inMessages":\ "285", "outBytes":\ "56155", "outMessages":\ "284"
-\textbraceright, \textbraceleft\\
-"channel":\ "auxiliary", "date":\ "2014-10-10", "time":\ "09:18:42", "inBytes":\ "0",\\
-"inMessages":\ "0", "outBytes":\ "0", "outMessages":\ "0" \textbraceright,
-\textbraceleft{} "channel":\ \\
-"/\dollarService/status", "date":\ "2014-10-10", "time":\ "09:18:42", "inBytes":\
-"0",\\
-"inMessages":\ "0", "outBytes":\ "18678", "outMessages":\ "190" \textbraceright{}
-\closeSq,\\
-\openSq{} \textbraceleft{} "channel":\ "/\serviceName/input/leapmotion", "date":\
-"2014-10-10", "time":\ \\
-"09:18:42", "inBytes":\ "94", "inMessages":\ "5", "outBytes":\ "6600", "outMessages":\ \\
-"4" \textbraceright, \textbraceleft{} "channel":\ "auxiliary", "date":\ "2014-10-10",
-"time":\ "09:18:42",\\
-"inBytes":\ "127", "inMessages":\ "15", "outBytes":\ "739", "outMessages":\ "15"
-\textbraceright,\\
-\textbraceleft{} "channel":\ "/\serviceName/input/leapmotion/output", "date":\
-"2014-10-10", "time":\ \\
-"09:18:42", "inBytes":\ "0", "inMessages":\ "0", "outBytes":\ "0", "outMessages":\ \\
-"0" \textbraceright{} \closeSq{} \closeSq
+\begin{verbatim}
+[ [ { "channel": "/$ervice", "date": "2014-10-10", "time": "09:18:42", "inBytes":
+"12091", "inMessages": "285", "outBytes": "56155", "outMessages": "284" }, {
+"channel": "auxiliary", "date": "2014-10-10", "time": "09:18:42", "inBytes": "0",
+"inMessages": "0", "outBytes": "0", "outMessages": "0" }, { "channel":
+"/$ervice/status", "date": "2014-10-10", "time": "09:18:42", "inBytes": "0",
+"inMessages": "0", "outBytes": "18678", "outMessages": "190" } ],
+[ { "channel": "/_service_/input/leapmotion", "date": "2014-10-10", "time":
+"09:18:42", "inBytes": "94", "inMessages": "5", "outBytes": "6600", "outMessages":
+"4" }, { "channel": "auxiliary", "date": "2014-10-10", "time": "09:18:42",
+"inBytes": "127", "inMessages": "15", "outBytes": "739", "outMessages": "15" },
+{ "channel": "/_service_/input/leapmotion/output", "date": "2014-10-10", "time":
+"09:18:42", "inBytes": "0", "inMessages": "0", "outBytes": "0", "outMessages":
+"0" } ] ]
+\end{verbatim}
 \outputEnd{}
-\newpage
+\condPage{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}11460%
@@ -602,16 +585,22 @@ tab\longDash{}delimited output each entry is on a line by itself and for
 JSON\longDash{}formatted output, the entries are objects within an array.
 Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
 \outputBegin{}
-\sqPair
+\begin{verbatim}
+[ ]
+\end{verbatim}
 \outputEnd{}
 while the default output would be:
 \outputBegin{}
+\begin{verbatim}
 No matching request found.
+\end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
 \outputBegin{}
+\begin{verbatim}
 No services found.
+\end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmServiceMetrics}}
@@ -621,11 +610,15 @@ and ACE, the low\longDash{}level networking layer used by \mplusm{} and \yarp{}.
 
 For example, the default output could be:
 \outputBegin{}
-Movement And Meaning Version:\ 1.4.16, YARP Version:\ 2.3.61, ACE Version:\ 6.2.6
+\begin{verbatim}
+Movement And Meaning Version: 1.4.16, YARP Version: 2.3.61, ACE Version: 6.2.6
+\end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\textbraceleft{} "M+M":\ "1.4.16", "YARP":\ "2.3.61", "ACE":\ "6.2.6" \textbraceright
+\begin{verbatim}
+{ "M+M": "1.4.16", "YARP": "2.3.61", "ACE": "6.2.6" }
+\end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
@@ -633,7 +626,7 @@ or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymb
 \outputEnd{}
 \tertiaryEnd{\utilityNameE{mpmVersion}}
 \secondaryEnd{}
-\newpage
+\condPage{}
 \secondaryStart[UtilityServicesAndClients]{Utility~Services~and~Clients}
 \tertiaryStart{\utilityNameP{mpmAddressService}}
 The \utilityNameX{mpmAddressService} application is a background service that is used to
@@ -679,32 +672,44 @@ The program can have one or more arguments:
 \end{itemize}
 Note that the last tag, \emph{other}, and the last of (\textbf{address}, \textbf{both} or
 \textbf{port}) are used by the application.
-\newpage
+\condPage{}
 If the \utilityNameR{mpmAddressService} is started via:
 \outputBegin{}
-mpmAddressService -t blurg 123.123.123.123 42 \&
+\begin{verbatim}
+mpmAddressService -t blurg 123.123.123.123 42 &
+\end{verbatim}
 \outputEnd{}
 The output of:
 \outputBegin{}
+\begin{verbatim}
 mpmAddressClient
+\end{verbatim}
 \outputEnd{}
 would be:
 \outputBegin{}
+\begin{verbatim}
 Could not connect to the required service.
+\end{verbatim}
 \outputEnd{}
 since the service was started with a tag.\\
 
 For the command:
 \outputBegin{}
+\begin{verbatim}
 mpmAddressClient blurg
+\end{verbatim}
 \outputEnd{}
 the output would be:
 \outputBegin{}
-Address:\ 123.123.123.123, Port:\ 42
+\begin{verbatim}
+Address: 123.123.123.123, Port: 42
+\end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
-\textbraceleft{} "Address":\ "123.123.123.123", "Address":\ "42" \textbraceright{}
+\begin{verbatim}
+{ "Address": "123.123.123.123", "Address": "42" }
+\end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
@@ -785,7 +790,9 @@ It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} and
 The program has no arguments or options; it asks for the number of requests to send via
 the prompt:
 \outputBegin{}
+\begin{verbatim}
 How many requests?
+\end{verbatim}
 \outputEnd{}
 Entering a zero value will exit the program.
 An example execution of the program, with the \utilityNameR{mpmRequestCounterService}

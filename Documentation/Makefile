@@ -310,32 +310,25 @@ $(VDSmaindvi) : $(VDSbitmapepsfiles) $(VDSepsfiles) $(VDSmainsource) $(VDSsecond
 # Specific rules (HTML)
 
 $(CMmainhtml) : $(CMbitmappngfiles) $(CMpngfiles) $(CMmainsource) $(CMsecondaryfiles)
-	-hevea -exec xxdate.exe $(CMmainsource)
-	-hevea -exec xxdate.exe $(CMmainsource)
+	-hevea -O -fix -exec xxdate.exe $(CMmainsource) -o $@
 
 $(IMmainhtml) : $(IMbitmappngfiles) $(IMpngfiles) $(IMmainsource) $(IMsecondaryfiles)
-	-hevea -exec xxdate.exe $(IMmainsource)
-	-hevea -exec xxdate.exe $(IMmainsource)
+	-hevea -O -fix -exec xxdate.exe $(IMmainsource) -o $@
 
 $(JSmainhtml) : $(JSbitmappngfiles) $(JSpngfiles) $(JSmainsource) $(JSsecondaryfiles)
-	-hevea -exec xxdate.exe $(JSmainsource)
-	-hevea -exec xxdate.exe $(JSmainsource)
+	-hevea -O -fix -exec xxdate.exe $(JSmainsource) -o $@
 
 $(KV2mainhtml) : $(KV2bitmappngfiles) $(KV2pngfiles) $(KV2mainsource) $(KV2secondaryfiles)
-	-hevea -exec xxdate.exe $(KV2mainsource)
-	-hevea -exec xxdate.exe $(KV2mainsource)
+	-hevea -O -fix -exec xxdate.exe $(KV2mainsource) -o $@
 
 $(LMmainhtml) : $(LMbitmappngfiles) $(LMpngfiles) $(LMmainsource) $(LMsecondaryfiles)
-	-hevea -exec xxdate.exe $(LMmainsource)
-	-hevea -exec xxdate.exe $(LMmainsource)
+	-hevea -O -fix -exec xxdate.exe $(LMmainsource) -o $@
 
 $(MMmainhtml) : $(MMbitmappngfiles) $(MMpngfiles) $(MMmainsource) $(MMsecondaryfiles)
-	-hevea -exec xxdate.exe $(MMmainsource)
-	-hevea -exec xxdate.exe $(MMmainsource)
+	-hevea -O -fix -exec xxdate.exe $(MMmainsource) -o $@
 
 $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecondaryfiles)
-	-hevea -exec xxdate.exe $(VDSmainsource)
-	-hevea -exec xxdate.exe $(VDSmainsource)
+	-hevea -O -fix -exec xxdate.exe $(VDSmainsource) -o $@
 
 # Top-level targets
 

@@ -11,58 +11,58 @@ described in the\\
 
 The following BNF statements describe the syntax in more precise terms:
 \outputBegin{}
-<Expression> ::= <Constraint> ',' <Expression> | <Constraint>\\
-;; Expressions are the union of the constraints.\\
+\begin{verbatim}
+<Expression> ::= <Constraint> ',' <Expression> | <Constraint>
+;; Expressions are the union of the constraints.
 
-<Constraint> ::= <FieldWithValues> '\&' <Constraint> | <FieldWithValues>\\
-;; Constraints are the 'AND' or intersection of the field matches.\\
+<Constraint> ::= <FieldWithValues> '&' <Constraint> | <FieldWithValues>
+;; Constraints are the 'AND' or intersection of the field matches.
 
-<FieldWithValues> ::= <FieldName> <Separator> <MatchValue>\\
-<Separator> ::= ':'\ | '!'\\
-;; Whitespace is optional between elements. If an exclamation mark is used as\\
-;; the separator, then the matching is negated.\\
+<FieldWithValues> ::= <FieldName> <Separator> <MatchValue>
+<Separator> ::= ':' | '!'
+;; Whitespace is optional between elements. If an exclamation mark is used as
+;; the separator, then the matching is negated.
 
-<MatchValue> ::= <SingleValue> | '(' <ValueList> ')'\\
-<ValueList> ::= <SingleValue> ',' <ValueList> | <SingleValue>\\
-;; The comma used to separate values doesn't get confused with the comma\\
-;; used between constraints. A value list is the 'OR' or union of the\\
-;; values within the list. A negated value list is the complement of the values\\
-;; within the list.\\
+<MatchValue> ::= <SingleValue> | '(' <ValueList> ')'
+<ValueList> ::= <SingleValue> ',' <ValueList> | <SingleValue>
+;; The comma used to separate values doesn't get confused with the comma
+;; used between constraints. A value list is the 'OR' or union of the
+;; values within the list. A negated value list is the complement of the values
+;; within the list.
 
-\settowidth{\uL}{<FieldName> ::= }%
-<FieldName> ::= description | details | executable | input | keyword |\\
-\hspace*{\uL}name | output | channelname | request |\\
-\hspace*{\uL}requestsdescription | tag | version\\
-;; The field names are case\longDash{}insensitive and correspond to the columns in\\
-;; the internal database.\\
+<FieldName> ::= description | details | executable | input | keyword |
+                name | output | channelname | request |
+                requestsdescription | tag | version
+;; The field names are case-insensitive and correspond to the columns in
+;; the internal database.
 
-\settowidth{\uL}{<SingleValue> ::= }%
-<SingleValue> ::= <DoubleQuote> <String> <DoubleQuote> |\\
-\hspace*{\uL}<SingleQuote> <String> <SingleQuote> | <String>\\
-<DoubleQuote> ::= '"'\\
-<SingleQuote> ::= "'"\\
-;; If the matching value includes an unescaped double quote character, it\\
-;; should be surrounded by single quote characters and, if it includes an\\
-;; unescaped single quote character, it should be surrounded by double\\
-;; quote characters. Otherwise, the use of quote characters is optional.\\
-;; Note that, if white space is part of the matching value, the white\\
-;; space needs to be escaped or the matching value should be surrounded by\\
-;; quote characters.\\
-\newpage
-<String> ::= <Character> <String> | <Character>\\
-\settowidth{\uL}{<Character> ::= }%
-<Character> ::= <Escape> <Reserved> | <WildSpan> | <WildSingle> |\\
-\hspace*{\uL}<Normal>\\
-<Escape> ::= '\textbackslash'\\
-\settowidth{\uL}{<Reserved> ::= }%
-<Reserved> ::= <DoubleQuote> | <SingleQuote> | <WildSpan> |\\
-\hspace*{\uL}<WildSingle> | <Escape>\\
-<WildSpan> ::= '*'\\
-<WildSingle> ::= '?'\\
-<Normal> ::= a non\longDash{}reserved character\\
-;; Strings consist of one or more characters. The 'wild span' character\\
-;; will match zero or more characters and the 'wild single' character\\
+<SingleValue> ::= <DoubleQuote> <String> <DoubleQuote> |
+                  <SingleQuote> <String> <SingleQuote> | <String>
+<DoubleQuote> ::= '"'
+<SingleQuote> ::= "'"
+;; If the matching value includes an unescaped double quote character, it
+;; should be surrounded by single quote characters and, if it includes an
+;; unescaped single quote character, it should be surrounded by double
+;; quote characters. Otherwise, the use of quote characters is optional.
+;; Note that, if white space is part of the matching value, the white
+;; space needs to be escaped or the matching value should be surrounded by
+;; quote characters.
+\end{verbatim}
+\condPage{}
+\begin{verbatim}
+<String> ::= <Character> <String> | <Character>
+<Character> ::= <Escape> <Reserved> | <WildSpan> | <WildSingle> |
+                <Normal>
+<Escape> ::= '\'
+<Reserved> ::= <DoubleQuote> | <SingleQuote> | <WildSpan> |
+               <WildSingle> | <Escape>
+<WildSpan> ::= '*'
+<WildSingle> ::= '?'
+<Normal> ::= a non-reserved character
+;; Strings consist of one or more characters. The 'wild span' character
+;; will match zero or more characters and the 'wild single' character
 ;; will match a single character.
+\end{verbatim}
 \outputEnd{}
 \objDiagram{MMmatchSyntaxrails}{matchSyntaxrails}{Service~Match~syntax~diagram}
 \appendixEnd{}
