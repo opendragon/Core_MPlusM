@@ -6,7 +6,7 @@ This script reproduces the behaviour of the example service,
 and sends the corresponding integral values.\\
 
 \codeBegin{}
-\begin{verbatim}
+\begin{listing}[5]{1}
 function doTruncateFloat(portNumber, incomingData)
 {
     var aValue;
@@ -43,7 +43,7 @@ var scriptInlets = [ { name: 'incoming', protocol: 'd*',
 
 var scriptOutlets = [ { name: 'outgoing', protocol: 'i*',
                         protocolDescription: 'A sequence of integers' } ];
-\end{verbatim}
+\end{listing}
 \codeEnd{}
 \secondaryEnd{}
 \condPage{}
@@ -53,7 +53,7 @@ This script reproduces the behaviour of the example service,
 `\asBoldCode{reset}') and tallies up the values coming from its inlet.\\
 
 \codeBegin{}
-\begin{verbatim}
+\begin{listing}[5]{1}
 var runningSum = 0;
 
 function doCommand(aCommand, itsArgs)
@@ -117,7 +117,7 @@ var scriptInlets = [ { name: 'incoming', protocol: 'sd*',
 
 var scriptOutlets = [ { name: 'outgoing', protocol: 'd',
                         protocolDescription: 'The running sum' } ];
-\end{verbatim}
+\end{listing}
 \codeEnd{}
 \secondaryEnd{}
 \condPage{}
@@ -127,7 +127,7 @@ This script reproduces the behaviour of the example service,
 file.\\
 
 \codeBegin{}
-\begin{verbatim}
+\begin{listing}[5]{1}
 var outStream = null;
 
 function doRecordIntegers(portNumber, incomingData)
@@ -204,7 +204,7 @@ function scriptStopping()
     outStream.close();
     outStream = null;
 } // scriptStopping
-\end{verbatim}
+\end{listing}
 \codeEnd{}
 \secondaryEnd{}
 \condPage{}
@@ -213,7 +213,7 @@ This script reproduces the behaviour of the example service, \emph{mpmRandomBurs
 it generates lists of random numbers and sends them to its outlet.\\
 
 \codeBegin{}
-\begin{verbatim}
+\begin{listing}[5]{1}
 var burstSize;
 
 var scriptDescription = 'A script that generates random blocks of floating-point numbers';
@@ -269,7 +269,7 @@ function scriptThread()
     }
     sendToChannel(0, outList);
 } // scriptThread
-\end{verbatim}
+\end{listing}
 \codeEnd{}
 \secondaryEnd{}
 \appendixEnd{}

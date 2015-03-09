@@ -11,7 +11,7 @@ described in the\\
 
 The following BNF statements describe the syntax in more precise terms:
 \outputBegin{}
-\begin{verbatim}
+\begin{listing}[5]{1}
 <Expression> ::= <Constraint> ',' <Expression> | <Constraint>
 ;; Expressions are the union of the constraints.
 
@@ -20,36 +20,34 @@ The following BNF statements describe the syntax in more precise terms:
 
 <FieldWithValues> ::= <FieldName> <Separator> <MatchValue>
 <Separator> ::= ':' | '!'
-;; Whitespace is optional between elements. If an exclamation mark is used as
-;; the separator, then the matching is negated.
+;; Whitespace is optional between elements. If an exclamation mark is
+;; used as the separator, then the matching is negated.
 
 <MatchValue> ::= <SingleValue> | '(' <ValueList> ')'
 <ValueList> ::= <SingleValue> ',' <ValueList> | <SingleValue>
-;; The comma used to separate values doesn't get confused with the comma
-;; used between constraints. A value list is the 'OR' or union of the
-;; values within the list. A negated value list is the complement of the values
-;; within the list.
+;; The comma used to separate values doesn't get confused with the
+;; comma used between constraints. A value list is the 'OR' or union
+;; of the values within the list. A negated value list is the
+;; complement of the values within the list.
 
 <FieldName> ::= description | details | executable | input | keyword |
                 name | output | channelname | request |
                 requestsdescription | tag | version
-;; The field names are case-insensitive and correspond to the columns in
-;; the internal database.
+;; The field names are case-insensitive and correspond to the columns
+;; in the internal database.
 
 <SingleValue> ::= <DoubleQuote> <String> <DoubleQuote> |
                   <SingleQuote> <String> <SingleQuote> | <String>
 <DoubleQuote> ::= '"'
 <SingleQuote> ::= "'"
-;; If the matching value includes an unescaped double quote character, it
-;; should be surrounded by single quote characters and, if it includes an
-;; unescaped single quote character, it should be surrounded by double
-;; quote characters. Otherwise, the use of quote characters is optional.
-;; Note that, if white space is part of the matching value, the white
-;; space needs to be escaped or the matching value should be surrounded by
-;; quote characters.
-\end{verbatim}
-\condPage{}
-\begin{verbatim}
+;; If the matching value includes an unescaped double quote character,
+;; it should be surrounded by single quote characters and, if it
+;; includes an unescaped single quote character, it should be
+;; surrounded by double quote characters. Otherwise, the use of quote
+;; characters is optional. Note that, if white space is part of the
+;; matching value, the white space needs to be escaped or the matching
+;; value should be surrounded by quote characters.
+
 <String> ::= <Character> <String> | <Character>
 <Character> ::= <Escape> <Reserved> | <WildSpan> | <WildSingle> |
                 <Normal>
@@ -62,7 +60,7 @@ The following BNF statements describe the syntax in more precise terms:
 ;; Strings consist of one or more characters. The 'wild span' character
 ;; will match zero or more characters and the 'wild single' character
 ;; will match a single character.
-\end{verbatim}
+\end{listing}
 \outputEnd{}
 \objDiagram{mpm_images/MMmatchSyntaxrails}{matchSyntaxrails}{Service~Match~syntax~diagram}
 \appendixEnd{}

@@ -2,7 +2,7 @@
 \appendixStart[InternalDatabaseStructure]{\textitcorr{Internal~Database~Structure}}%
 Here are the SQL statements used to construct the internal database:
 \outputBegin{}
-\begin{verbatim}
+\begin{listing}[5]{1}
 CREATE TABLE IF NOT EXISTS Services(
        channelname Text NOT NULL DEFAULT _{} PRIMARY KEY ON CONFLICT REPLACE,
        name Text NOT NULL DEFAULT _,
@@ -44,7 +44,7 @@ CREATE INDEX IF NOT EXISTS ChannelsAssociates_Associates_id_idx ON
        ChannelsAssociates(associates_id);
 CREATE INDEX IF NOT EXISTS ChannelsAssociates_Channels_id_idx ON
        ChannelsAssociates(channels_id);
-\end{verbatim}
+\end{listing}
 \outputEnd{}
 \condPage{}
 And here is the internal database, in graphical form:\\
