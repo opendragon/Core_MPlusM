@@ -78,20 +78,22 @@
 \newcommand{\emphcorr}[1]{\emph{#1}\/}
 
 % Some commands to make examples match actual output more closely:
-%HEVEA\newcommand{\pseudotab}{\textbf{->}}%
+
+%HEVEA\newcommand{\pseudotab}{\textbf{ $\vdash$} }%
+%HEVEA\newcommand{\tabSymbol}{\texttt{\textbf{$\vdash$}}}%
+%HEVEA\newcommand{\pseudotwotabs}{\textbf{ $\vdash$ $\vdash$ }}%
 %BEGIN LATEX
 \newcommand{\pseudotab}{\thinspace\boldmath{$\vdash$}\thinspace}
-%END LATEX
-
-%HEVEA\newcommand{\pseudotwotabs}{\textbf{-> ->}}%
-%BEGIN LATEX
+\newcommand{\tabSymbol}{\texttt{\boldmath{$\vdash$}}}
 \newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}%
 \thinspace}
 %END LATEX
+
 %HEVEA\newcommand{\fUS}{\textunderscore}%
 %BEGIN LATEX
 \newcommand{\fUS}{\begin{Large}\textbf{\textunderscore}\end{Large}}
 %END LATEX
+
 \newcommand{\clientName}{\fUS{}client\fUS}
 \newcommand{\dollarService}{\textdollar{}ervice}
 \newcommand{\serviceName}{\fUS{}service\fUS}
@@ -135,15 +137,7 @@
 \newcommand{\longDash}{--}
 %END LATEX
 
-%HEVEA\newcommand{\bigRightArrow}{>>}%
-%BEGIN LATEX
 \newcommand{\bigRightArrow}{$\Rightarrow$}
-%END LATEX
-
-%HEVEA\newcommand{\tabSymbol}{\texttt{\textbf{->}}}%
-%BEGIN LATEX
-\newcommand{\tabSymbol}{\texttt{\boldmath{$\vdash$}}}
-%END LATEX
 
 %HEVEA\newcommand{\exSp}{\ }%
 %BEGIN LATEX
