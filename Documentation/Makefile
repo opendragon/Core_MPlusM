@@ -1,5 +1,7 @@
 # File: Makefile
 
+IMAGE_ARCHIVE = mpm_images.tar.gz
+
 IMAGE_DIR = mpm_images
 
 # Intermediate Postscript files
@@ -31,7 +33,7 @@ KV2epsfiles =
 LMepsfiles =
 
 MMepsfiles = $(IMAGE_DIR)/MMdbDiagram.eps $(IMAGE_DIR)/MMmatchSyntaxrails.eps \
-	$(IMAGE_DIR)/MMmpmDiagram.eps
+		$(IMAGE_DIR)/MMmpmDiagram.eps
 
 VDSepsfiles =
 
@@ -39,45 +41,46 @@ VDSepsfiles =
 
 Commonpngfiles = $(IMAGE_DIR)/m+m_tight_logo.png
 
-CMpngfiles = $(IMAGE_DIR)/CMcmDiagram.png $(Commonpngfiles)
+CMpngfiles = $(IMAGE_DIR)/CMcmDiagram.png
 
-IMpngfiles = $(Commonpngfiles)
+IMpngfiles = 
 
-JSpngfiles = $(Commonpngfiles)
+JSpngfiles = 
 
-KV2pngfiles = $(Commonpngfiles)
+KV2pngfiles = 
 
-LMpngfiles = $(Commonpngfiles)
+LMpngfiles = 
 
 MMpngfiles = $(IMAGE_DIR)/MMdbDiagram.png $(IMAGE_DIR)/MMmatchSyntaxrails.png \
-	$(IMAGE_DIR)/MMmpmDiagram.png $(Commonpngfiles) 
+	$(IMAGE_DIR)/MMmpmDiagram.png 
 
 VDSpngfiles =
 
 # Input bitmap EPS files
 
 CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/backgroundMenu.eps \
-	$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
-	$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/dragAdd2.eps \
-	$(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/portMenu.eps \
-	$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
-	$(IMAGE_DIR)/regularChannelMenuMetricsEnabled.eps \
-	$(IMAGE_DIR)/serviceChannelMenuMetricsDisabled.eps \
-	$(IMAGE_DIR)/serviceChannelMenuMetricsEnabled.eps \
-	$(IMAGE_DIR)/serviceMenuMetricsDisabled.eps $(IMAGE_DIR)/serviceMenuMetricsEnabled.eps
+		$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
+		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/clickAdd.eps \
+		$(IMAGE_DIR)/dragAdd2.eps $(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/portMenu.eps \
+		$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
+		$(IMAGE_DIR)/regularChannelMenuMetricsEnabled.eps \
+		$(IMAGE_DIR)/serviceChannelMenuMetricsDisabled.eps \
+		$(IMAGE_DIR)/serviceChannelMenuMetricsEnabled.eps \
+		$(IMAGE_DIR)/serviceMenuMetricsDisabled.eps \
+		$(IMAGE_DIR)/serviceMenuMetricsEnabled.eps
 
 IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
-	$(IMAGE_DIR)/Installer03.eps $(IMAGE_DIR)/Installer04.eps \
-	$(IMAGE_DIR)/Installer05.eps $(IMAGE_DIR)/Installer05a.eps \
-	$(IMAGE_DIR)/Installer06.eps $(IMAGE_DIR)/Installer06a.eps \
-	$(IMAGE_DIR)/Installer06b.eps $(IMAGE_DIR)/Installer07.eps \
-	$(IMAGE_DIR)/Installer08.eps $(IMAGE_DIR)/RunningChannelManager.eps \
-	$(IMAGE_DIR)/win_install01.eps $(IMAGE_DIR)/win_install02.eps \
-	$(IMAGE_DIR)/win_install03.eps $(IMAGE_DIR)/win_install04.eps \
-	$(IMAGE_DIR)/win_install05.eps $(IMAGE_DIR)/win_install06.eps \
-	$(IMAGE_DIR)/win_install07.eps $(IMAGE_DIR)/win_install08.eps \
-	$(IMAGE_DIR)/win_install09.eps $(IMAGE_DIR)/win_install10.eps \
-	$(IMAGE_DIR)/win_install11.eps $(IMAGE_DIR)/win_run01.eps
+		$(IMAGE_DIR)/Installer03.eps $(IMAGE_DIR)/Installer04.eps \
+		$(IMAGE_DIR)/Installer05.eps $(IMAGE_DIR)/Installer05a.eps \
+		$(IMAGE_DIR)/Installer06.eps $(IMAGE_DIR)/Installer06a.eps \
+		$(IMAGE_DIR)/Installer06b.eps $(IMAGE_DIR)/Installer07.eps \
+		$(IMAGE_DIR)/Installer08.eps $(IMAGE_DIR)/RunningChannelManager.eps \
+		$(IMAGE_DIR)/win_install01.eps $(IMAGE_DIR)/win_install02.eps \
+		$(IMAGE_DIR)/win_install03.eps $(IMAGE_DIR)/win_install04.eps \
+		$(IMAGE_DIR)/win_install05.eps $(IMAGE_DIR)/win_install06.eps \
+		$(IMAGE_DIR)/win_install07.eps $(IMAGE_DIR)/win_install08.eps \
+		$(IMAGE_DIR)/win_install09.eps $(IMAGE_DIR)/win_install10.eps \
+		$(IMAGE_DIR)/win_install11.eps $(IMAGE_DIR)/win_run01.eps
 
 JSbitmapepsfiles =
 
@@ -126,27 +129,29 @@ VDSmainsource = ViconDataStreamInput_Manual.tex
 Commonsources = boilerPlate.tex sharedSetup.tex
 
 CMsecondaryfiles = CMdocumentationHistory.tex CMfrontispiece.tex CMoverview.tex \
-	CMutility.tex $(Commonsources)
+		CMutility.tex $(Commonsources) $(Commonpngfiles)
 	
 IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
-	IMprocedure.tex $(Commonsources)
+		IMprocedure.tex $(Commonsources) $(Commonpngfiles)
 
 JSsecondaryfiles = JSdocumentationHistory.tex JSfrontispiece.tex JSoverview.tex \
-	JSfileFormat.tex JSservice.tex JSexamples.tex $(Commonsources)
+		JSfileFormat.tex JSservice.tex JSexamples.tex $(Commonsources) $(Commonpngfiles)
 	
 KV2secondaryfiles = KV2documentationHistory.tex KV2frontispiece.tex \
-	KV2messageFormat.tex KV2overview.tex KV2service.tex $(Commonsources)
+		KV2messageFormat.tex KV2overview.tex KV2service.tex $(Commonsources) \
+		$(Commonpngfiles)
 
 LMsecondaryfiles = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex \
-	LMoverview.tex LMservice.tex $(Commonsources)
+		LMoverview.tex LMservice.tex $(Commonsources) $(Commonpngfiles)
 
 MMsecondaryfiles = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
-	MMdocumentationHistory.tex MMexamples.tex MMexemplars.tex MMfrontispiece.tex \
-	MMinternalDb.tex MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex \
-	MMservices.tex MMutilities.tex $(Commonsources)
+		MMdocumentationHistory.tex MMexamples.tex MMexemplars.tex MMfrontispiece.tex \
+		MMinternalDb.tex MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex \
+		MMservices.tex MMutilities.tex $(Commonsources) $(Commonpngfiles)
 
 VDSsecondaryfiles = VDSdocumentationHistory.tex VDSfrontispiece.tex \
-	VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources)
+		VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources) \
+		$(Commonpngfiles)
 
 # DVI files
 
@@ -230,6 +235,8 @@ VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 
 # Target files
 
+ARCHIVEtarget = $(HOME)/$(IMAGE_ARCHIVE)
+
 CMtarget = $(HOME)/$(CMmainpdf) $(HOME)/$(CMmainhtml)
 
 IMtarget = $(HOME)/$(IMmainpdf) $(HOME)/$(IMmainhtml)
@@ -273,6 +280,9 @@ $(HOME)/%.html : %.html
 	cp -f $< $@
 	-mkdir $(HOME)/$(IMAGE_DIR)
 	cp -f $(IMAGE_DIR)/*.png $(HOME)/$(IMAGE_DIR)
+	
+$(HOME)/%.gz: %.gz
+	cp -f $< $@
 
 # Specific rules (DVI)
 
@@ -348,6 +358,12 @@ $(MMmainhtml) : $(MMbitmappngfiles) $(MMpngfiles) $(MMmainsource) $(MMsecondaryf
 $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(VDSmainsource) -o $@
 
+$(IMAGE_ARCHIVE) : $(CMbitmappngfiles) $(IMbitmappngfiles) $(JSbitmappngfiles) \
+		$(KV2bitmappngfiles) $(LMbitmappngfiles) $(VDSbitmappngfiles) $(Commonpngfiles) \
+		$(CMpngfiles) $(IMpngfiles) $(JSpngfiles) $(KV2pngfiles) $(LMpngfiles) \
+		$(MMpngfiles) $(VDSpngfiles)
+	tar -czf $(IMAGE_ARCHIVE) $(IMAGE_DIR)
+
 # Top-level targets
 
 .PHONY : clean all
@@ -356,7 +372,7 @@ $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecon
 
 clean :
 	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
-	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png
+	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
-		$(VDStarget)
+		$(VDStarget) $(ARCHIVEtarget)
