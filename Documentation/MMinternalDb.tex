@@ -4,22 +4,22 @@ Here are the SQL statements used to construct the internal database:
 \outputBegin{}
 \begin{listing}[5]{1}
 CREATE TABLE IF NOT EXISTS Services(
-       channelname Text NOT NULL DEFAULT _{} PRIMARY KEY ON CONFLICT REPLACE,
-       name Text NOT NULL DEFAULT _,
-       description Text NOT NULL DEFAULT _,
-       executable Text NOT NULL DEFAULT _,
-       requestsdescription Text NOT NULL DEFAULT _,
+       channelname Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT REPLACE,
+       name Text NOT NULL DEFAULT _ COLLATE NOCASE,
+       description Text NOT NULL DEFAULT _ COLLATE NOCASE,
+       executable Text NOT NULL DEFAULT _ COLLATE_NOCASE,
+       requestsdescription Text NOT NULL DEFAULT _ COLLATE NOCASE,
        tag Text NOT NULL DEFAULT  _);
 CREATE INDEX IF NOT EXISTS Services_name_idx ON Services(name);
 CREATE TABLE IF NOT EXISTS Keywords(
-       keyword Text NOT NULL DEFAULT _{} PRIMARY KEY ON CONFLICT IGNORE;
+       keyword Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE;
 CREATE TABLE IF NOT EXISTS Requests(
-       channelname Text NOT NULL DEFAULT _{} REFERENCES Services(channelname),
+       channelname Text NOT NULL DEFAULT _ REFERENCES Services(channelname),
        request Text NOT NULL DEFAULT _,
        input Text,
        output Text,
-       version Text,
-       details Text,
+       version Text COLLATE NOCASE,
+       details Text COLLATE NOCASE,
        key Integer PRIMARY KEY);
 CREATE INDEX IF NOT EXISTS Requests_request_idx ON Requests(request);
 CREATE INDEX IF NOT EXISTS Requests_channelname_idx ON Requests(channelname);
@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS Channels(
        key Integer PRIMARY KEY);
 CREATE INDEX IF NOT EXISTS Channels_channelname_idx ON Channels(channelname);
 CREATE TABLE IF NOT EXISTS Associates(
-       associate Text NOT NULL DEFAULT _{} PRIMARY KEY ON CONFLICT IGNORE);
+       associate Text NOT NULL DEFAULT _ PRIMARY KEY ON CONFLICT IGNORE);
 CREATE TABLE IF NOT EXISTS ChannelsAssociates(
        channels_id Integer REFERENCES Channels(key),
        associates_id Text REFERENCES Associates(associate),

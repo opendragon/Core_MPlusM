@@ -115,6 +115,7 @@ MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inS
                         if (workPos < inLength)
                         {
                             char scanChar = inString[workPos];
+                            
                             if (kRoundCloseBracket == scanChar)
                             {
                                 // We've seen the end of the value list.
