@@ -15,5 +15,3 @@
 * integrate Arduino sensors via Linux-based Arduino boards? SmartTag via TouchShare?
 
 * Tunnel Service and Client need to be bidirectional (use nonblocking I/O?)
-
-+ generate Windows icon for Channel Manager?

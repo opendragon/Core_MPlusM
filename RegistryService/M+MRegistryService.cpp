@@ -134,6 +134,9 @@ using namespace MplusM::Registry;
 /*! @brief A shortcut for the standard format for a 'Text' column. */
 #define TEXTNOTNULL_                        "Text NOT NULL DEFAULT _"
 
+/*! @brief A shortcut for the case-sensitive form of a 'Text' column. */
+#define BINARY_                             "COLLATE BINARY"
+
 /*! @brief A shortcut for the case-insensitive form of a 'Text' column. */
 #define NOCASE_                             "COLLATE NOCASE"
 
@@ -913,40 +916,40 @@ static bool constructTables(sqlite3 * database)
                     T_("DROP TABLE IF EXISTS " SERVICES_T_),
 #endif // defined(MpM_UseTestDatabase)
                     T_("CREATE TABLE IF NOT EXISTS " SERVICES_T_ "( " CHANNELNAME_C_ " "
-                       TEXTNOTNULL_ " PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_ " " TEXTNOTNULL_
-                       " " NOCASE_ ", " DESCRIPTION_C_ " " TEXTNOTNULL_ " " NOCASE_ ", "
-                       EXECUTABLE_C_ " " TEXTNOTNULL_ " " NOCASE_ ", " REQUESTSDESCRIPTION_C_ " "
-                       TEXTNOTNULL_ " " NOCASE_ ", " TAG_C_ " " TEXTNOTNULL_ ")"),
+                       TEXTNOTNULL_ " " BINARY_ " PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_ " "
+                       TEXTNOTNULL_ " " NOCASE_ ", " DESCRIPTION_C_ " " TEXTNOTNULL_ " " NOCASE_
+                       ", " EXECUTABLE_C_ " " TEXTNOTNULL_ " " NOCASE_ ", " REQUESTSDESCRIPTION_C_
+                       " " TEXTNOTNULL_ " " NOCASE_ ", " TAG_C_ " " TEXTNOTNULL_ " " BINARY_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "("
                        NAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "( " KEYWORD_C_ " " TEXTNOTNULL_
-                       " PRIMARY KEY ON CONFLICT IGNORE)"),
+                       " " BINARY_ " PRIMARY KEY ON CONFLICT IGNORE)"),
                     T_("CREATE TABLE IF NOT EXISTS " REQUESTS_T_ "( " CHANNELNAME_C_ " "
-                       TEXTNOTNULL_ " REFERENCES " SERVICES_T_ "(" CHANNELNAME_C_ "), " REQUEST_C_
-                       " " TEXTNOTNULL_ ", " INPUT_C_ " Text, " OUTPUT_C_ " Text, " VERSION_C_
-                       " Text " NOCASE_ ", " DETAILS_C_ " Text " NOCASE_ ", " KEY_C_
-                       " Integer PRIMARY KEY)"),
+                       TEXTNOTNULL_ " " BINARY_ " REFERENCES " SERVICES_T_ "(" CHANNELNAME_C_ "), "
+                       REQUEST_C_ " " TEXTNOTNULL_ " " BINARY_ ", " INPUT_C_ " Text " BINARY_ ", "
+                       OUTPUT_C_ " Text " BINARY_ ", " VERSION_C_ " Text " NOCASE_ ", " DETAILS_C_
+                       " Text " NOCASE_ ", " KEY_C_ " Integer PRIMARY KEY)"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTS_REQUEST_I_ " ON " REQUESTS_T_ "("
                        REQUEST_C_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTS_CHANNELNAME_I_ " ON " REQUESTS_T_ "("
                        CHANNELNAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " REQUESTSKEYWORDS_T_ "( " KEYWORDS_ID_C_
-                       " Text REFERENCES " KEYWORDS_T_ "(" KEYWORD_C_ "), " REQUESTS_ID_C_
-                       " Integer REFERENCES " REQUESTS_T_ "(" KEY_C_ "))"),
+                       " Text " BINARY_ " REFERENCES " KEYWORDS_T_ "(" KEYWORD_C_ "), "
+                       REQUESTS_ID_C_ " Integer REFERENCES " REQUESTS_T_ "(" KEY_C_ "))"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_ " ON "
                        REQUESTSKEYWORDS_T_ "(" KEYWORDS_ID_C_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_ " ON "
                        REQUESTSKEYWORDS_T_ "(" REQUESTS_ID_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " CHANNELS_T_ "( " CHANNELNAME_C_ " "
-                       TEXTNOTNULL_ " UNIQUE, " KEY_C_ " Integer PRIMARY KEY)"),
+                       TEXTNOTNULL_ " " BINARY_ " UNIQUE, " KEY_C_ " Integer PRIMARY KEY)"),
                     T_("CREATE INDEX IF NOT EXISTS " CHANNELS_CHANNELNAME_I_ " ON " CHANNELS_T_ "("
                        CHANNELNAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " ASSOCIATES_T_ "( " ASSOCIATE_C_ " "
-                       TEXTNOTNULL_ " PRIMARY KEY ON CONFLICT IGNORE)"),
+                       TEXTNOTNULL_ " " BINARY_ " PRIMARY KEY ON CONFLICT IGNORE)"),
                     T_("CREATE TABLE IF NOT EXISTS " CHANNELSASSOCIATES_T_ "( " CHANNELS_ID_C_
                        " Integer REFERENCES " CHANNELS_T_ "(" KEY_C_ "), " ASSOCIATES_ID_C_
-                       " Text REFERENCES " ASSOCIATES_T_ "(" ASSOCIATE_C_ "), " DIRECTION_C_
-                       " Integer)"),
+                       " Text " BINARY_" REFERENCES " ASSOCIATES_T_ "(" ASSOCIATE_C_ "), "
+                       DIRECTION_C_ " Integer)"),
                     T_("CREATE INDEX IF NOT EXISTS " CHANNELSASSOCIATES_ASSOCIATES_ID_I_ " ON "
                        CHANNELSASSOCIATES_T_ "(" ASSOCIATES_ID_C_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " CHANNELSASSOCIATES_CHANNELS_ID_I_ " ON "
