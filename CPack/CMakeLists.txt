@@ -1,17 +1,17 @@
 #General Packaging Stuff
-set(CPACK_CREATE_DESKTOP_LINKS "$INSTDIR/bin/Channel Manager.exe")
+set(CPACK_CREATE_DESKTOP_LINKS "Channel Manager")
+set(CPACK_DISPLAY_NAME "Movement + Meaning")
 set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "M+M Package")
-set(CPACK_PACKAGE_EXECUTABLES "Channale Manager.exe;Channel Manager")
-set(CPACK_PACKAGE_ICON "${MpM_SOURCE_DIR}/InstallerIcon.ico")
+set(CPACK_PACKAGE_EXECUTABLES "Channel Manager" "Channel Manager")
 set(CPACK_PACKAGE_INSTALL_DIRECTORY "M+M")
+set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY "M+M")
 set(CPACK_PACKAGE_NAME "M+M")
-set(CPACK_PACKAGE_VERSION MpM_VERSION_STRING)
-set(CPACK_PACKAGE_VERSION_MAJOR MpM_VERSION_MAJOR)
-set(CPACK_PACKAGE_VERSION_MINOR MpM_VERSION_MINOR)
-set(CPACK_PACKAGE_VERSION_PATCH MpM_VERSION_PATCH)
-set(CPACK_RESOURCE_FILE_LICENSE ${MpM_SOURCE_DIR}/license.txt)
-set(CPACK_RESOURCE_FILE_README ${MpM_SOURCE_DIR}/README.txt)
-set(CPACK_VENDOR "Movement and Meaning")
+set(CPACK_PACKAGE_VERSION_MAJOR "${MpM_VERSION_MAJOR}")
+set(CPACK_PACKAGE_VERSION_MINOR "${MpM_VERSION_MINOR}")
+set(CPACK_PACKAGE_VERSION_PATCH "${MpM_VERSION_PATCH}")
+set(CPACK_RESOURCE_FILE_LICENSE "${MpM_SOURCE_DIR}/license.txt")
+set(CPACK_RESOURCE_FILE_README "${MpM_SOURCE_DIR}/README.txt")
+set(CPACK_VENDOR "H Plus Technologies Ltd. and Simon Fraser University")
 
 #display name for our components
 set(CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Core Applications")
@@ -142,22 +142,28 @@ if(WIN32)
             DESTINATION bin
             COMPONENT applications)
 
+    set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/Channel Manager.exe")
     set(CPACK_NSIS_MODIFY_PATH ON)
-    set(CPACK_NSIS_MUI_FINISHPAGE_RUN "yarp server")
     set(CPACK_NSIS_MUI_ICON "${MpM_SOURCE_DIR}/InstallerIcon.ico")
     set(CPACK_NSIS_URL_INFO_ABOUT "http://www.mplusm.ca")
 
-    #Finally, set some MpM Env variables (WINDOWS ONLY!)
+    #Finally, set some MpM Environment variables (WINDOWS ONLY!)
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
-        "ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
+        "
+		ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
         WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR/yarp'
         WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR/ACE_wrappers'
-        Delete '$INSTDIR/support/bonjoursdksetup.exe'")
+        Delete '$INSTDIR/support/bonjoursdksetup.exe'
+		CreateShortCut \\\"$DESKTOP\\\\Channel Manager.lnk\\\" \\\"$INSTDIR\\\\bin\\\\Channel Manager.exe\\\"
+		")
 
     #And, unset them when we uninstall!
     set(CPACK_NSIS_EXTRA_UNINSTALL_COMMANDS
-        DeleteRegValue HKCU 'Environment' 'MPM_YARP_DIR'
-        DeleteRegValue HKCU 'Environment' 'MPM_ACE_ROOT'")
+        "
+		DeleteRegValue HKCU 'Environment' 'MPM_YARP_DIR'
+        DeleteRegValue HKCU 'Environment' 'MPM_ACE_ROOT'
+		Delete \\\"$DESKTOP\\\\Channel Manager.lnk\\\"
+		")
 
 endif(WIN32)
 

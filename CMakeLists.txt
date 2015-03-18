@@ -178,4 +178,3 @@ endif(WIN32 AND MpM_VICON)
 add_subdirectory(CPack)
 
 enable_testing()
-
