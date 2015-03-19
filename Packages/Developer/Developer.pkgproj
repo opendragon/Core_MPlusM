@@ -459,9 +459,9 @@
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>0</integer>
+												<integer>20</integer>
 												<key>PATH</key>
-												<string>../../../yarp2.zip</string>
+												<string>../../../yarp_MPlusM-master.zip</string>
 												<key>PATH_TYPE</key>
 												<integer>1</integer>
 												<key>PERMISSIONS</key>
@@ -469,7 +469,7 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>0</integer>
+												<integer>502</integer>
 											</dict>
 										</array>
 										<key>GID</key>

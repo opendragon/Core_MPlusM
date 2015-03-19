@@ -8,8 +8,8 @@ done if the \asCode{Developer} package has also been installed.
 \tertiaryStart{General~prerequisites}
 At a minimum, the source files from the \asCode{Developer} package must be present on the
 system, along with a \compLang{C++} development environment.
-Note that the source files are provided as \textbf{ZIP} files that contain a snapshot of
-the \asCode{git} repositories where the source code is stored.
+Note that the source files are provided as \textbf{ZIP} archive files that contain a
+snapshot of the \asCode{git} repositories where the source code is stored.
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Macintosh~OS~X}
 \begin{itemize}
@@ -21,7 +21,8 @@ command `\asCode{xcode-select~{-}{-}install}'
 can be installed using \asCode{MacPorts} or directly from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
 \item\exSp{} The \asCode{autoconf213} command\longDash{}line tool, which can be installed
-using \asCode{MacPorts}; note that this is only needed if SpiderMonkey is being built
+using \asCode{MacPorts}; note that this is only needed if \textbf{SpiderMonkey} is being
+built
 \item\exSp{} The \asCode{Packages} GUI tool, from
 \companyReference{http://s.sudre.free.fr/Software/Packages/about.html}{St\'ephane Sudre};
 this is only needed if you wish to create installer packages after building \mplusm
@@ -46,13 +47,14 @@ work
 \secondaryEnd{}
 \secondaryStart{Initial~Steps}
 \begin{itemize}
-\item Create a directory to hold the source code; we'll refer to it from now on as
-`\asCode{MPM}'
-\item\exSp{} Copy the desired \textbf{ZIP} files from their installation location
+\item Create a directory to hold the source code, where the build will be performed; we'll
+refer to it from now on as `\asCode{devel}'
+\item\exSp{} Copy the desired \textbf{ZIP} archive files from their installation location
 (\asCode{/opt/M+M/src} on Macintosh OS~X, \TBD{} for Microsoft Windows and \TBD{} for
-Linux) to the new directory \asCode{MPM}
-\item\exSp\asCode{unzip} the \textbf{ZIP} files in the directory \asCode{MPM}
-\item\exSp{} Remove the \textbf{ZIP} files from the \asCode{MPM} directory
+Linux) to the new directory \asCode{devel}
+\item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory \asCode{devel}
+\item\exSp{} Rename the new directories, stripping off the `\asCode{-master}' suffix, if
+present
 \end{itemize}
 \secondaryEnd{}
 \secondaryStart{(Optional)~Building~\textbf{ACE}}
@@ -67,7 +69,7 @@ configuration file for Macintosh OS~X, Microsoft Windows or Linux, so it does no
 be modified.
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{MPM}
+code, \asCode{devel}
 \item\exSp{} Execute the command `\asCode{cd~ACE\fUS{}wrappers2}'
 \item\exSp{} Execute the command `\asCode{export~ACE\fUS{}ROOT=\$(pwd)}'
 \item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 40
@@ -102,8 +104,8 @@ libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{MPM}
-\item\exSp{} Execute the command `\asCode{cd~yarp-master}'
+code, \asCode{devel}
+\item\exSp{} Execute the command `\asCode{cd~yarp\fUS{}MPlusM}'
 \item\exSp{} Execute the command `\asCode{mkdir~build}'
 \item\exSp{} Execute the command `\asCode{cd~build}'
 \item\exSp{} Execute the command `\asCode{ccmake~..}'; this will open a graphical
@@ -111,10 +113,11 @@ interface to the makefile builder. If this is the first time that the command is
 within a directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
 `\textbf{c}' to do the initial configuration; there may be some warnings for project
 developers, which can be cleared by pressing `\textbf{e}'
-\item\exSp{} Press `\textbf{t}' to show more options and `\textbf{Control-D}' to go to the
-second page of options
+\item\exSp{} Press `\textbf{t}' to show more options
 \item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
-\asCode{/opt/M+M/lib/libACE.dylib}
+\asCode{/opt/M+M/lib/libACE.dylib}; if the option is not visible, press
+`\textbf{Control-D}' to go to the next page of options and `\textbf{Control-U}' to go to
+the previous page of options
 \item\exSp{} Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
 \asCode{/opt/M+M/include}
 \item\exSp{} Press `\textbf{t}' to show fewer options
@@ -136,7 +139,7 @@ minutes
 \item\exSp{} Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some
 linking issues with \yarp{} caused by installing it in a non\longDash{}default location
 \item\exSp{} Execute the command `\asCode{sudo~make~install}'
-\item\exSp{} If desired, you can verify that \yarp{} is correctly built be executing the
+\item\exSp{} If desired, you can verify that \yarp{} was correctly built be executing the
 command `\asCode{make~test}'
 \end{itemize}
 \tertiaryEnd{}
@@ -156,7 +159,7 @@ libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{MPM}
+code, \asCode{devel}
 \item\exSp{} Execute the command `\asCode{cd~OGDF}'
 \item\exSp{} Execute the command `\asCode{make~cleanrelease~\&\&~make~release}';
 approximate time = 12 minutes
@@ -171,21 +174,21 @@ approximate time = 12 minutes
 \tertiaryEnd{}
 \secondaryEnd{}
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
-\textbf{SpiderMonkey}, is the JavaScript engine used with the JavaScript service or
-\mplusm{}; the files needed to compile and link with SpiderMonkey are installed as part of
-the normal \mplusm{} installation procedure, so it's not necessary to rebuild
-SpiderMonkey.
+\textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript
+service or \mplusm{}; the files needed to compile and link with \textbf{SpiderMonkey} are
+installed as part of the normal \mplusm{} installation procedure, so it's not necessary to
+rebuild \textbf{SpiderMonkey}.
 The source files are not provided with the \asCode{Developer} package, but can be obtained
 via the instructions on the web\longDash{}page
 \companyReference{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/%
 Getting\_SpiderMonkey\_source\_code}%
-{SpiderMonkey source code}, as \mplusm{} does not use a modified version of SpiderMonkey
-and does not depend on a particular version \longDash{} other than it must be at least
-SpiderMonkey \textbf{31}.
+{\textbf{SpiderMonkey} source code}, as \mplusm{} does not use a modified version of
+\textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
+it must be at least \textbf{SpiderMonkey} \textbf{31}.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item On the command\longDash{}line, move to the directory containing the SpiderMonkey
-source code, which will be named `\asCode{spidermonkey}'
+\item On the command\longDash{}line, move to the directory containing the
+\textbf{SpiderMonkey} source code, which will be named `\asCode{spidermonkey}'
 \item\exSp{} Execute the command `\asCode{cd~js/src}'
 \item\exSp{} Execute the command `\asCode{autoconf213}'
 \item\exSp{} Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
@@ -197,12 +200,12 @@ source code, which will be named `\asCode{spidermonkey}'
 minutes
 \item\exSp{} Execute the command `\asCode{sudo~make~install}'
 \item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
-source code, \asCode{MPM}
+source code, \asCode{devel}
 \item\exSp{} Execute the command\\
-`\asCode{sudo~Core\fUS{}MPlusM-master/replace-links.sh~/opt/M+M/spidermonkey/include/mozjs-}';
+`\asCode{sudo~Core\fUS{}MPlusM/replace-links.sh~/opt/M+M/spidermonkey/include/mozjs-}';
 this\\
-replaces symbolic links in the header directories for SpiderMonkey with the original
-items, so that it is safe to distribute the resulting directories
+replaces symbolic links in the header directories for \textbf{SpiderMonkey} with the
+original items, so that it is safe to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
@@ -216,8 +219,8 @@ items, so that it is safe to distribute the resulting directories
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{MPM}
-\item\exSp{} Execute the command `\asCode{cd~Core\fUS{}MPlusM-master}'
+code, \asCode{devel}
+\item\exSp{} Execute the command `\asCode{cd~Core\fUS{}MPlusM}'
 \item\exSp{} Execute the command `\asCode{ccmake~.}'; this will open a graphical interface
 to the makefile builder. If this is the first time that the command is executed within a
 directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
@@ -299,12 +302,12 @@ Service was launched
 the IDE.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item In Finder, open the directory containing the \mplusm source code, \asCode{MPM}
-\item\exSp{} Open the directory `\asCode{Utilities\fUS{}ChannelManager-master}' within
-\asCode{MPM}
+\item In Finder, open the directory containing the \mplusm{} source code, \asCode{devel}
+\item\exSp{} Open the directory `\asCode{Utilities\fUS{}ChannelManager}' within
+\asCode{devel}
 \item\exSp{} Open the directory `\asCode{Builds/MacOSX}'
-\item\exSp{} Open the file `\asCode{Channel Manager.xcodeproj}' with Xcode
-\item\exSp{} Within Xcode, select either the `\asCode{Channel Manager Debug}' or
+\item\exSp{} Open the file `\asCode{Channel Manager.xcodeproj}' with \asCode{Xcode}
+\item\exSp{} Within \asCode{Xcode}, select either the `\asCode{Channel Manager Debug}' or
 `\asCode{Channel Manager Release}' Scheme
 \item\exSp{} Perform the menu item `\asCode{Product \bigRightArrow{} Build}' or
 `\asCode{Product \bigRightArrow{} Run}'
@@ -312,7 +315,7 @@ the IDE.
 folder, do an `\asCode{Archive \bigRightArrow{} Export \bigRightArrow{} Export as a Mac
 Application}'
 and place the generated application in a writable location, like your home directory
-\item\exSp{} Exit from Xcode
+\item\exSp{} Exit from \asCode{Xcode}
 \item\exSp{} If the generated application is named \asCode{Channel Manager Debug}, rename
 it to \asCode{Channel Manager} and, if it is named \asCode{Channel Manager Release},
 rename it to \asCode{Channel Manager}
@@ -332,10 +335,21 @@ The distribution packages are standalone files that can be used to create a comp
 \mplusm{} installation.
 \tertiaryStart{Creating~on~Macintosh~OS~X}
 \begin{itemize}
-\item Launch the \asCode{Packages} GUI tool
+\item If any source files have been modified in the `\asCode{Core\fUS{}MPlusM}' or
+`\asCode{Utilities\fUS{}ChannelManager}' directories, commit the changes to the
+\asCode{git} repositories
+\item\exSp{} Download the latest versions of the \asCode{git} repositories as \asCode{ZIP}
+archive files, to make sure that the generated distribution package is consistent
+\item\exSp{} Copy the downloaded \asCode{ZIP} archive files to the directory containing
+the \mplusm{} source code, \asCode{devel}; the archives\\
+\asCode{ACE\fUS{}wrappers.zip}, \asCode{Core\fUS{}MPlusM-master.zip},
+\asCode{JUCE.zip}, \asCode{OGDF.zip},\\
+\asCode{Utilities\fUS{}ChannelManager-master.zip} and \asCode{yarp\fUS{}MPlusM.zip} must
+all be present in the \asCode{devel} directory in order to construct the distribution
+packages successfully
+\item\exSp{} Launch the \asCode{Packages} GUI tool
 \item\exSp{} Open the \asCode{Developer} file, which is located in the
-\asCode{Packages/Developer} directory within the directory containing the \mplusm{} source
-code, \asCode{MPM}
+\asCode{Core\fUS{}MPlusM/Packages/Developer} directory within the \asCode{devel} directory
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Clean\textellipsis}
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Build}
 \item\exSp{} Open the \asCode{M+M} file, which is located in the \asCode{Packages}
@@ -343,7 +357,7 @@ directory
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Clean\textellipsis}
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Build}
 \item\exSp{} The distribution package is the \asCode{M+M.pkg} file located in the
-\asCode{Packages/build} directory
+\asCode{Core\fUS{}MPlusM/Packages/build} directory
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Creating~on~Microsoft~Windows}
