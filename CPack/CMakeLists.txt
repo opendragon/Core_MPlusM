@@ -145,6 +145,7 @@ if(WIN32)
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/Channel Manager.exe")
     set(CPACK_NSIS_MODIFY_PATH ON)
     set(CPACK_NSIS_MUI_ICON "${MpM_SOURCE_DIR}/InstallerIcon.ico")
+    set(CPACK_NSIS_MUI_UNIICON "${MpM_SOURCE_DIR}/InstallerIcon.ico")
     set(CPACK_NSIS_URL_INFO_ABOUT "http://www.mplusm.ca")
 
     #Finally, set some MpM Environment variables (WINDOWS ONLY!)
