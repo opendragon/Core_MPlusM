@@ -116,6 +116,7 @@ ViconDataStream/ViconDataStreamInputService/Release/mpmViconDataStreamInputServi
 CPackConfig.cmake
 CPackSourceConfig.cmake
 !bonjoursdksetup.exe
+!ViconDataStream/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib
 
 MplusM/build/M+M.mpkg/Contents/distribution.dist
 MplusM/build/M+M.mpkg/Contents/Packages/Core.pkg
