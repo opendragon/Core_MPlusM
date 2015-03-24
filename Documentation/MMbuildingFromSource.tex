@@ -32,8 +32,8 @@ this is only needed if you wish to create installer packages after building \mpl
 \begin{itemize}
 \item\asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
 development environment for Microsoft Windows; the version used for development is
-`\asCode{Visual Studio Express 2012 for Windows Desktop}', but newer versions should also
-work
+`\asCode{Visual Studio Community 2013}', but newer versions should also work. Note that
+older versions are not supported with \textbf{SpiderMonkey}
 \item\exSp{} The \asCode{cmake} tool, which can be installed from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
 \item\exSp{} An `\asCode{unzip}' program; the free program \asCode{Stuffit Expander}, from
@@ -44,9 +44,12 @@ work
 version, not a version \textbf{3} or newer, and make sure that the install directory for
 the executable is added to the system \asCode{Path} variable
 \item\exSp{} The \asCode{MozillaBuild} environment, from
-\companyReference{https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe}{Mozilla}
+\companyReference{https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe}%
+{Mozilla};
+note that this is only needed if \textbf{SpiderMonkey} is being built
 \item\exSp{} The \asCode{git} tool, from
-\companyReference{http://git-scm.com/download/win}{git}
+\companyReference{http://git-scm.com/download/win}{git}; needed if \textbf{SpiderMonkey}
+is being built
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Linux}
@@ -117,8 +120,8 @@ tab
 \item\exSp{} Select the \asCode{ACE\fUS{}ROOT} system variable and click on the
 \asCode{Edit} button 
 \item\exSp{} Edit the variable value to be
-`\asCode{devel\textbackslash{}ACE\fUS{}wrappers2}', where \asCode{devel} is the directory
-containing the \mplusm{} source code, and click on the \asCode{OK} button
+`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers2}', where \asCode{\textbf{devel}}
+is the directory containing the \mplusm{} source code, and click on the \asCode{OK} button
 \item\exSp{} Select the \asCode{ACE\fUS{}INCLUDE\fUS{}DIR} system variable and click on
 the \asCode{Edit} button 
 \item\exSp{} Edit the variable value to be
@@ -188,35 +191,38 @@ command `\asCode{make~test}'
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
-\item\exSp{} Set the source code directory to `\asCode{devel/yarp\fUS{}MPlusM}', where
-\asCode{devel} is the directory containing the \mplusm{} source code
-\item\exSp{} Set the build directory to `\asCode{devel/yarp\fUS{}MPlusM}
+\item\exSp{} Set the source code directory to `\asCode{\textbf{devel}/yarp\fUS{}MPlusM}',
+where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source code
+\item\exSp{} Set the build directory to `\asCode{\textbf{devel}/yarp\fUS{}MPlusM}
 \item\exSp{} Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{} Click on the `\asCode{Configure}' button; make sure that the generator
-setting is for \asCode{Visual Studio} and that `\asCode{default native compilers}' is
+setting is for \asCode{Visual Studio 12} and that `\asCode{default native compilers}' is
 selected
 \item\exSp{} Click on the `\asCode{Finish}' button
 \item\exSp{} Turn on the `\asCode{Advanced}' option once the configuration step completes
 \item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
-\asCode{devel/ACE\fUS{}wrappers2/lib/ACEd.lib}
+\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACEd.lib}
 \item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
-\asCode{devel/ACE\fUS{}wrappers2/lib/ACE.lib}
-\item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}INCLUDE\fUS{}DIR}' value to
-\asCode{devel/ACE\fUS{}wrappers2}
+\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACE.lib}
+\item\exSp{} Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
+\asCode{\textbf{devel}/ACE\fUS{}wrappers2}
 \item\exSp{} Turn off the `\asCode{Advanced}' option
 \item\exSp{} Turn off the `\asCode{CREATE\fUS{}YMANAGER}' option
-\item\exSp{} Turn on the `\asCode{ENABLE\fUS{}YARPRUN\fUS{}LOG}' option
+\item\exSp{} Click on the `\asCode{Configure}' button
 \item\exSp{} Click on the `\asCode{Generate}' button
 \item\exSp{} Exit from the \asCode{CMake} GUI application
 \item In Explorer, open the directory containing the \mplusm{} source code, \asCode{devel}
 \item\exSp{} Open the directory `\asCode{yarp\fUS{}MPlusM}' within \asCode{devel}
-\item\exSp{} Open the project file `\asCode{YARP.sln}' with \asCode{Visual Studio}
+\item\exSp{} Open the project file `\asCode{YARP.sln}' with \asCode{Visual Studio},
+running as Administrator
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
+the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
+INSTALL}'
 \item\exSp{} Exit from \asCode{Visual Studio}
-
 \item\exSp{} Open the \asCode{System} Control Panel
 \item\exSp{} Click on the \asCode{Advanced system settings} button
 \item\exSp{} Click on the \asCode{Environment Variables} button on the \asCode{Advanced}
@@ -224,8 +230,8 @@ tab
 \item\exSp{} Select the \asCode{YARP\fUS{}DIR} system variable and click on the
 \asCode{Edit} button 
 \item\exSp{} Edit the variable value to be
-`\asCode{devel\textbackslash{}yarp\fUS{}mplusm}', where \asCode{devel} is the directory
-containing the \mplusm{} source code, and click on the \asCode{OK} button
+`\asCode{\textbf{devel}\textbackslash{}yarp\fUS{}MPlusM}', and click on the \asCode{OK}
+button
 \item\exSp{} Click on the \asCode{OK} button to close the \asCode{Environment Variables}
 panel
 \item\exSp{} Click on the \asCode{OK} button to close the \asCode{System Properties}
@@ -265,8 +271,8 @@ source code, \asCode{devel}
 \item\exSp{} Execute the command `\asCode{python~makeVCXProj.py}'
 \item In Explorer, open the \asCode{devel} directory
 \item\exSp{} Open the directory `\asCode{OGDF}' within \asCode{devel}
-\item\exSp{} Open the project file `\asCode{ACE\fUS{}wrappers\fUS{}vc11.sln}' with
-\asCode{Visual Studio}
+\item\exSp{} Open the project file `\asCode{ogdf.sln}' with \asCode{Visual Studio},
+running as Administrator
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
@@ -294,8 +300,12 @@ Getting\_SpiderMonkey\_source\_code}%
 it must be at least \textbf{SpiderMonkey} \textbf{31}.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item On the command\longDash{}line, move to the directory containing the
-\textbf{SpiderMonkey} source code, which will be named `\asCode{spidermonkey}'
+\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
+referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
+\asCode{devel} directory, but it need not be
+\item\exSp{} On the command\longDash{}line, execute the command\\
+`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
+\item\exSp{} Execute the command `\asCode{cd~\textbf{spidermonkey}}'
 \item\exSp{} Execute the command `\asCode{cd~js/src}'
 \item\exSp{} Execute the command `\asCode{autoconf213}'
 \item\exSp{} Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
@@ -317,8 +327,40 @@ original items, so that it is safe to distribute the resulting directories
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
+\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
+referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
+\asCode{devel} directory, but it need not be
+\item\exSp{} Open a Command Prompt window and execute the command\\
+`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
+\item\exSp{} Move to the directory where the \asCode{MozillaBuild} environment was
+installed
+\item\exSp{} Execute the command `\asCode{start-shell-msvc2013.bat}'; this will launch
+an environment in which \textbf{SpiderMonkey} can be built; note that the initial
+directory will be the `home' directory of the user, on the system drive
+\item\exSp{} If necessary, switch to the drive containing \asCode{\textbf{spidermonkey}},
+using the `\asCode{cd /\textbf{drive-letter}/}', replacing `\textbf{drive-letter}' with
+the lower-case form of the drive letter for the drive containing
+\asCode{\textbf{spidermonkey}}
+\item\exSp{} Execute the command `\asCode{cd~\textbf{spidermonkey}}'
+\item\exSp{} Execute the command `\asCode{cd~js/src}'
+\item\exSp{} Execute the command `\asCode{/usr/local/bin/autoconf-2.13}'
+\item\exSp{} Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
+\item\exSp{} Execute the command `\asCode{cd~\fUS{}obj\fUS}'
+\item\exSp{} Execute the command\\
+`\asCode{../configure {-}{-}enable-release {-}{-}enable-more-deterministic {-}{-}enable-build-nspr}'
+\item\exSp{} Execute the command `\asCode{mozmake}'
+\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript}', where
+\textbf{devel} is the directory containing the \mplusm{} source code
+\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/bin}'
+\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/include}'
+\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/lib}'
+\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/nspr-include}'
+\item\exSp{} Execute the command `\asCode{cd dist}'
+\item\exSp{} Execute the command `\asCode{cp bin/*.dll \textbf{devel}/javascript/bin}'
+\item\exSp{} Execute the command `\asCode{cp lib/* \textbf{devel}/javascript/lib}'
+\item\exSp{} Execute the command `\asCode{cp -R include/* \textbf{devel}/javascript/include}'
+\item\exSp{} Execute the command `\asCode{cp -R nspr-include/* \textbf{devel}/javascript/nspr-include}'
 
-\item\TBD{}
 
 \end{itemize}
 \tertiaryEnd{}
@@ -405,7 +447,45 @@ Service was launched
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
-\item\TBD{}
+\item Launch the \asCode{CMake} GUI application
+\item\exSp{} Set the source code directory to `\asCode{\textbf{devel}/Core\fUS{}MPlusM}',
+where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source code
+\item\exSp{} Set the build directory to `\asCode{\textbf{devel}/Core\fUS{}MPlusM}
+\item\exSp{} Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
+\item\exSp{} Click on the `\asCode{Configure}' button; make sure that the generator
+setting is for \asCode{Visual Studio 12} and that `\asCode{default native compilers}' is
+selected
+\item\exSp{} Click on the `\asCode{Finish}' button
+\item\exSp{} Turn on the `\asCode{Advanced}' option once the configuration step completes
+%\item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
+%\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACEd.lib}
+%\item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
+%\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACE.lib}
+%\item\exSp{} Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
+%\asCode{\textbf{devel}/ACE\fUS{}wrappers2}
+%\item\exSp{} Turn off the `\asCode{Advanced}' option
+%\item\exSp{} Turn off the `\asCode{CREATE\fUS{}YMANAGER}' option
+%\item\exSp{} Turn on the `\asCode{ENABLE\fUS{}YARPRUN\fUS{}LOG}' option
+\item\exSp{} Click on the `\asCode{Configure}' button
+\item\exSp{} Click on the `\asCode{Generate}' button
+\item\exSp{} Exit from the \asCode{CMake} GUI application
+\item In Explorer, open the directory containing the \mplusm{} source code, \asCode{devel}
+\item\exSp{} Open the directory `\asCode{Core\fUS{}MPlusM}' within \asCode{devel}
+\item\exSp{} Open the project file `\asCode{M+M.sln}' with \asCode{Visual Studio}, running
+as Administrator
+\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
+build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
+`\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
+the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
+INSTALL}'; note that this will fail the first time, since it attempts to install Channel
+Manager, which has not been built yet
+\item\exSp{} Exit from \asCode{Visual Studio}
+
+
+
+
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}

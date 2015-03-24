@@ -62,8 +62,8 @@ if(WIN32)
     # set env variables for MpM_YARP_DIR and MpM_ACE_ROOT
     # so VS external, preconfigured projects can find them
 
-    set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers")
-    set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp")
+    set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers2")
+    set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp_MPlusM")
 
     #ACE HEADERS
     #install(DIRECTORY "${MpM_ACE_ROOT}/ace"
@@ -138,7 +138,7 @@ if(WIN32)
 
     #OTHER EXES
     install(FILES
-            "${MpM_SOURCE_DIR}/../Utilities/ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
+            "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
             DESTINATION bin
             COMPONENT applications)
 
