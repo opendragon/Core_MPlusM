@@ -44,8 +44,8 @@ older versions are not supported with \textbf{SpiderMonkey}
 version, not a version \textbf{3} or newer, and make sure that the install directory for
 the executable is added to the system \asCode{Path} variable
 \item\exSp{} The \asCode{MozillaBuild} environment, from
-\companyReference{https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-Latest.exe}%
-{Mozilla};
+\companyReference{https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/%
+MozillaBuildSetup-Latest.exe}{Mozilla};
 note that this is only needed if \textbf{SpiderMonkey} is being built
 \item\exSp{} The \asCode{git} tool, from
 \companyReference{http://git-scm.com/download/win}{git}; needed if \textbf{SpiderMonkey}
@@ -85,10 +85,12 @@ be modified.
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{devel}
-\item\exSp{} Execute the command `\asCode{cd~ACE\fUS{}wrappers2}'
-\item\exSp{} Execute the command `\asCode{export~ACE\fUS{}ROOT=\$(pwd)}'
-\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 40
-minutes
+\item\exSp{} Execute the following commands:
+\begin{itemize}
+\item\asCode{cd~ACE\fUS{}wrappers2}
+\item\exSp\asCode{export~ACE\fUS{}ROOT=\$(pwd)}
+\item\exSp\asCode{make~clean~\&\&~make}
+\end{itemize}
 \item\exSp{} If the build is successful, execute the command `\asCode{sudo~sh}'
 \item\exSp{} Execute the following commands within the new subshell:
 \begin{itemize}
@@ -104,9 +106,9 @@ unneeded files
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
-\item In Explorer, open the directory containing the \mplusm{} source code, \asCode{devel}
-\item\exSp{} Open the directory `\asCode{ACE\fUS{}wrappers2}' within \asCode{devel}
-\item\exSp{} Open the project file `\asCode{ACE\fUS{}wrappers\fUS{}vc11.sln}' with
+\item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{} Open the project file
+`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers\fUS{}vc11.sln}' with
 \asCode{Visual Studio}
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
@@ -150,9 +152,12 @@ libraries.
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{devel}
-\item\exSp{} Execute the command `\asCode{cd~yarp\fUS{}MPlusM}'
-\item\exSp{} Execute the command `\asCode{mkdir~build}'
-\item\exSp{} Execute the command `\asCode{cd~build}'
+\item\exSp{} Execute the following commands:
+\begin{itemize}
+\item\asCode{cd~yarp\fUS{}MPlusM}
+\item\exSp\asCode{mkdir~build}
+\item\exSp\asCode{cd~build}
+\end{itemize}
 \item\exSp{} Execute the command `\asCode{ccmake~..}'; this will open a graphical
 interface to the makefile builder. If this is the first time that the command is executed
 within a directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
@@ -179,8 +184,7 @@ warnings for project developers, which can be cleared by pressing `\textbf{e}'
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
 \item\exSp{} Execute the command `\asCode{cmake~.}'; again, there will be some project
 developer warnings, which can be safely ignored
-\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 8
-minutes
+\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'
 \item\exSp{} Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some
 linking issues with \yarp{} caused by installing it in a non\longDash{}default location
 \item\exSp{} Execute the command `\asCode{sudo~make~install}'
@@ -211,10 +215,10 @@ selected
 \item\exSp{} Click on the `\asCode{Configure}' button
 \item\exSp{} Click on the `\asCode{Generate}' button
 \item\exSp{} Exit from the \asCode{CMake} GUI application
-\item In Explorer, open the directory containing the \mplusm{} source code, \asCode{devel}
-\item\exSp{} Open the directory `\asCode{yarp\fUS{}MPlusM}' within \asCode{devel}
-\item\exSp{} Open the project file `\asCode{YARP.sln}' with \asCode{Visual Studio},
-running as Administrator
+\item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{} Open the project file
+`\asCode{\textbf{devel}\textbackslash{}yarp\fUS{}MPlusM\textbackslash{}YARP.sln}' with
+\asCode{Visual Studio}
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
@@ -257,10 +261,12 @@ libraries.
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{devel}
-\item\exSp{} Execute the command `\asCode{cd~OGDF}'
-\item\exSp{} Execute the command `\asCode{make~cleanrelease~\&\&~make~release}';
-approximate time = 12 minutes
-\item\exSp{} Execute the command `\asCode{sudo~make~install}'
+\item\exSp{} Execute the following commands:
+\begin{itemize}
+\item\asCode{cd~OGDF}
+\item\exSp\asCode{make~cleanrelease~\&\&~make~release}
+\item\exSp\asCode{sudo~make~install}
+\end{itemize}
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
@@ -269,15 +275,27 @@ approximate time = 12 minutes
 source code, \asCode{devel}
 \item\exSp{} Execute the command `\asCode{cd~OGDF}'
 \item\exSp{} Execute the command `\asCode{python~makeVCXProj.py}'
-\item In Explorer, open the \asCode{devel} directory
-\item\exSp{} Open the directory `\asCode{OGDF}' within \asCode{devel}
-\item\exSp{} Open the project file `\asCode{ogdf.sln}' with \asCode{Visual Studio},
-running as Administrator
+\item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{} Open the project file
+`\asCode{\textbf{devel}\textbackslash{}OGDF\textbackslash{}ogdf.sln}' with
+\asCode{Visual Studio}
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Exit from \asCode{Visual Studio}
+\item\exSp{} Open the \asCode{System} Control Panel
+\item\exSp{} Click on the \asCode{Advanced system settings} button
+\item\exSp{} Click on the \asCode{Environment Variables} button on the \asCode{Advanced}
+tab
+\item\exSp{} Select the \asCode{OGDF} system variable and click on the \asCode{Edit}
+button 
+\item\exSp{} Edit the variable value to be `\asCode{\textbf{devel}\textbackslash{}OGDF}',
+and click on the \asCode{OK} button
+\item\exSp{} Click on the \asCode{OK} button to close the \asCode{Environment Variables}
+panel
+\item\exSp{} Click on the \asCode{OK} button to close the \asCode{System Properties}
+window
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}
@@ -303,19 +321,20 @@ it must be at least \textbf{SpiderMonkey} \textbf{31}.
 \item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
 referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \asCode{devel} directory, but it need not be
-\item\exSp{} On the command\longDash{}line, execute the command\\
-`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
-\item\exSp{} Execute the command `\asCode{cd~\textbf{spidermonkey}}'
-\item\exSp{} Execute the command `\asCode{cd~js/src}'
-\item\exSp{} Execute the command `\asCode{autoconf213}'
-\item\exSp{} Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
-\item\exSp{} Execute the command `\asCode{cd~\fUS{}obj\fUS}'
-\item\exSp{} Execute the command `\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey
-{-}{-}with-system-icu\\
-{-}{-}enable-release {-}{-}enable-more-deterministic}'
-\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 8
-minutes
-\item\exSp{} Execute the command `\asCode{sudo~make~install}'
+\item\exSp{} On the command\longDash{}line, execute the following commands:
+\begin{itemize}
+\item\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}
+\item\exSp\asCode{cd~\textbf{spidermonkey}}
+\item\exSp\asCode{cd~js/src}
+\item\exSp\asCode{autoconf213}
+\item\exSp\asCode{mkdir~\fUS{}obj\fUS}
+\item\exSp\asCode{cd~\fUS{}obj\fUS}
+\item\exSp\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey {-}{-}with-system-icu
+\textbackslash\\
+{-}{-}enable-release {-}{-}enable-more-deterministic}
+\item\exSp\asCode{make~clean~\&\&~make}
+\item\exSp\asCode{sudo~make~install}
+\end{itemize}
 \item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
 source code, \asCode{devel}
 \item\exSp{} Execute the command\\
@@ -341,27 +360,27 @@ directory will be the `home' directory of the user, on the system drive
 using the `\asCode{cd /\textbf{drive-letter}/}', replacing `\textbf{drive-letter}' with
 the lower-case form of the drive letter for the drive containing
 \asCode{\textbf{spidermonkey}}
-\item\exSp{} Execute the command `\asCode{cd~\textbf{spidermonkey}}'
-\item\exSp{} Execute the command `\asCode{cd~js/src}'
-\item\exSp{} Execute the command `\asCode{/usr/local/bin/autoconf-2.13}'
-\item\exSp{} Execute the command `\asCode{mkdir~\fUS{}obj\fUS}'
-\item\exSp{} Execute the command `\asCode{cd~\fUS{}obj\fUS}'
-\item\exSp{} Execute the command\\
-`\asCode{../configure {-}{-}enable-release {-}{-}enable-more-deterministic {-}{-}enable-build-nspr}'
-\item\exSp{} Execute the command `\asCode{mozmake}'
-\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript}', where
-\textbf{devel} is the directory containing the \mplusm{} source code
-\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/bin}'
-\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/include}'
-\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/lib}'
-\item\exSp{} Execute the command `\asCode{mkdir \textbf{devel}/javascript/nspr-include}'
-\item\exSp{} Execute the command `\asCode{cd dist}'
-\item\exSp{} Execute the command `\asCode{cp bin/*.dll \textbf{devel}/javascript/bin}'
-\item\exSp{} Execute the command `\asCode{cp lib/* \textbf{devel}/javascript/lib}'
-\item\exSp{} Execute the command `\asCode{cp -R include/* \textbf{devel}/javascript/include}'
-\item\exSp{} Execute the command `\asCode{cp -R nspr-include/* \textbf{devel}/javascript/nspr-include}'
-
-
+\item\exSp{} Execute the following commands:
+\begin{itemize}
+\item\asCode{cd~\textbf{spidermonkey}}
+\item\exSp\asCode{cd~js/src}
+\item\exSp\asCode{/usr/local/bin/autoconf-2.13}
+\item\exSp\asCode{mkdir~\fUS{}obj\fUS}
+\item\exSp\asCode{cd~\fUS{}obj\fUS}
+\item\exSp\asCode{../configure {-}{-}enable-release {-}{-}enable-more-deterministic
+{-}{-}enable-build-nspr}
+\item\exSp\asCode{mozmake}
+\item\exSp\asCode{mkdir \textbf{devel}/javascript}
+\item\exSp\asCode{mkdir \textbf{devel}/javascript/bin}
+\item\exSp\asCode{mkdir \textbf{devel}/javascript/include}
+\item\exSp\asCode{mkdir \textbf{devel}/javascript/lib}
+\item\exSp\asCode{mkdir \textbf{devel}/javascript/nspr-include}
+\item\exSp\asCode{cd dist}
+\item\exSp\asCode{cp bin/*.dll \textbf{devel}/javascript/bin}
+\item\exSp\asCode{cp lib/* \textbf{devel}/javascript/lib}
+\item\exSp\asCode{cp -R include/* \textbf{devel}/javascript/include}
+\item\exSp\asCode{cp -R nspr-include/* \textbf{devel}/javascript/nspr-include}
+\end{itemize}
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}
@@ -387,8 +406,7 @@ tools are executed
 \item\exSp{} Press `\textbf{c}' to configure the makefiles
 \item\exSp{} Press `\textbf{g}' to generate the makefiles
 \item\exSp{} Execute the command `\asCode{cmake~.}'
-\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'; approximate time = 7
-minutes
+\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'
 \item\exSp{} To run the unit tests for \mplusm{}, do the following:
 \begin{itemize}
 \item Execute the command `\asCode{ps | grep yarp | grep -v grep}'; if there is a line
@@ -456,36 +474,23 @@ where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source c
 setting is for \asCode{Visual Studio 12} and that `\asCode{default native compilers}' is
 selected
 \item\exSp{} Click on the `\asCode{Finish}' button
-\item\exSp{} Turn on the `\asCode{Advanced}' option once the configuration step completes
-%\item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
-%\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACEd.lib}
-%\item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
-%\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACE.lib}
-%\item\exSp{} Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
-%\asCode{\textbf{devel}/ACE\fUS{}wrappers2}
-%\item\exSp{} Turn off the `\asCode{Advanced}' option
-%\item\exSp{} Turn off the `\asCode{CREATE\fUS{}YMANAGER}' option
-%\item\exSp{} Turn on the `\asCode{ENABLE\fUS{}YARPRUN\fUS{}LOG}' option
-\item\exSp{} Click on the `\asCode{Configure}' button
+\item\exSp{} Click on the `\asCode{Configure}' button once the configuration step
+completes
 \item\exSp{} Click on the `\asCode{Generate}' button
 \item\exSp{} Exit from the \asCode{CMake} GUI application
-\item In Explorer, open the directory containing the \mplusm{} source code, \asCode{devel}
-\item\exSp{} Open the directory `\asCode{Core\fUS{}MPlusM}' within \asCode{devel}
-\item\exSp{} Open the project file `\asCode{M+M.sln}' with \asCode{Visual Studio}, running
-as Administrator
+\item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{} Open the project file
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}M+M.sln}' with
+\asCode{Visual Studio}
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
 the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
-INSTALL}'; note that this will fail the first time, since it attempts to install Channel
-Manager, which has not been built yet
+INSTALL}'; note that this will fail the first time, since it attempts to install
+\textit{Channel~Manager}, which has not been built yet
 \item\exSp{} Exit from \asCode{Visual Studio}
-
-
-
-
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}
@@ -522,7 +527,15 @@ directory
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
-\item\TBD{}
+\item Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{} Open the project file
+`\asCode{\textbf{devel}\textbackslash{}Utilities\fUS{}ChannelManager\textbackslash{}%
+Builds\textbackslash{}VisualStudio2013\textbackslash{}Channel Manager.sln}' with
+\asCode{Visual Studio}
+\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
+build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
+`\asCode{Build \bigRightArrow{} Build Solution}'
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}
