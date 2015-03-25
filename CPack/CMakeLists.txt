@@ -138,7 +138,7 @@ if(WIN32)
 
     #OTHER EXES
     install(FILES
-            "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2012/Release/Channel Manager.exe"
+            "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2013/Release/Channel Manager.exe"
             DESTINATION bin
             COMPONENT applications)
 
