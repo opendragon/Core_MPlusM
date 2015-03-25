@@ -636,6 +636,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     
             }
             Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME);
+            reportAssociates(flavour, associates);
         }
         else
         {
@@ -693,7 +694,6 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     
             }
         }
-        reportAssociates(flavour, associates);
         switch (flavour)
         {
             case kOutputFlavourTabs :
