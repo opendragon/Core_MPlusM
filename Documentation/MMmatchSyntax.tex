@@ -30,9 +30,9 @@ The following BNF statements describe the syntax in more precise terms:
 ;; of the values within the list. A negated value list is the
 ;; complement of the values within the list.
 
-<FieldName> ::= description | details | executable | input | keyword |
-                name | output | channelname | request |
-                requestsdescription | tag | version
+<FieldName> ::= 'description' | 'details' | 'executable' | 'input' |
+                'keyword' | 'name' | 'output' | 'channelname' |
+                'request' | 'requestsdescription' | 'tag' | 'version'
 ;; The field names are case-insensitive and correspond to the columns
 ;; in the internal database.
 
@@ -56,7 +56,7 @@ The following BNF statements describe the syntax in more precise terms:
                <WildSingle> | <Escape>
 <WildSpan> ::= '*'
 <WildSingle> ::= '?'
-<Normal> ::= a non-reserved character
+<Normal> ::= <a non-reserved character>
 ;; Strings consist of one or more characters. The 'wild span' character
 ;; will match zero or more characters and the 'wild single' character
 ;; will match a single character.
