@@ -63,7 +63,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-class JSContext;
+struct JSContext;
 
 namespace MplusM
 {

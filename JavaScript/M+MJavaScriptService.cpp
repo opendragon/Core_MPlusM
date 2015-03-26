@@ -419,7 +419,7 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
     OD_LOG_L1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
     
-    if ((0 <= channelSlot) && (channelSlot < getOutletCount()))
+    if ((0 <= channelSlot) && (channelSlot < static_cast<int32_t>(getOutletCount())))
     {
         Common::GeneralChannel * outChannel = _outStreams.at(channelSlot);
         yarp::os::Bottle         outBottle;

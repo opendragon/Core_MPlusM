@@ -429,7 +429,7 @@ static bool streamAtEofForJs(JSContext * jct,
         
         if (aFile)
         {
-            args.rval().setBoolean(feof(aFile));
+            args.rval().setBoolean(0 != feof(aFile));
         }
         else
         {
@@ -537,7 +537,7 @@ static bool streamHasErrorForJs(JSContext * jct,
         
         if (aFile)
         {
-            args.rval().setBoolean(feof(aFile));
+            args.rval().setBoolean(0 != feof(aFile));
         }
         else
         {

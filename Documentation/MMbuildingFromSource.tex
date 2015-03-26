@@ -32,8 +32,8 @@ this is only needed if you wish to create installer packages after building \mpl
 \begin{itemize}
 \item\asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
 development environment for Microsoft Windows; the version used for development is
-`\asCode{Visual Studio Community 2013}', but newer versions should also work. Note that
-older versions are not supported with \textbf{SpiderMonkey}
+`\asCode{Visual Studio Community 2013}', but newer versions should also work
+%; note that older versions are not supported with \textbf{SpiderMonkey}
 \item\exSp{} The \asCode{cmake} tool, which can be installed from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
 \item\exSp{} An `\asCode{unzip}' program; the free program \asCode{Stuffit Expander}, from
@@ -43,13 +43,13 @@ older versions are not supported with \textbf{SpiderMonkey}
 \companyReference{https://www.python.org/downloads}{Python.org}; install a \textbf{2.7.x}
 version, not a version \textbf{3} or newer, and make sure that the install directory for
 the executable is added to the system \asCode{Path} variable
-\item\exSp{} The \asCode{MozillaBuild} environment, from
-\companyReference{https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/%
-MozillaBuildSetup-Latest.exe}{Mozilla};
-note that this is only needed if \textbf{SpiderMonkey} is being built
-\item\exSp{} The \asCode{git} tool, from
-\companyReference{http://git-scm.com/download/win}{git}; needed if \textbf{SpiderMonkey}
-is being built
+%\item\exSp{} The \asCode{MozillaBuild} environment, from
+%\companyReference{https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/%
+%MozillaBuildSetup-Latest.exe}{Mozilla};
+%note that this is only needed if \textbf{SpiderMonkey} is being built
+%\item\exSp{} The \asCode{git} tool, from
+%\companyReference{http://git-scm.com/download/win}{git}; needed if \textbf{SpiderMonkey}
+%is being built
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Prerequisites~for~Linux}
@@ -317,6 +317,8 @@ Getting\_SpiderMonkey\_source\_code}%
 \textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
 it must be at least \textbf{SpiderMonkey} \textbf{31}.
 \tertiaryStart{Building~on~Macintosh~OS~X}
+Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
+that manual steps be performed that should be part of the `make install' process.
 \begin{itemize}
 \item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
 referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
@@ -349,48 +351,51 @@ original items, so that it is safe to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
-\begin{itemize}
-\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
-referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
-\asCode{devel} directory, but it need not be
-\item\exSp{} Open a Command Prompt window, running as Administrator
-\item\exSp{} Execute the command
-`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
-\item\exSp{} Move to the directory where the \asCode{MozillaBuild} environment was
-installed
-\item\exSp{} Execute the command `\asCode{start-shell-msvc2013.bat}'; this will launch
-an environment in which \textbf{SpiderMonkey} can be built; note that the initial
-directory will be the `home' directory of the user, on the system drive
-\item\exSp{} If necessary, switch to the drive containing \asCode{\textbf{spidermonkey}},
-using the `\asCode{cd /\textbf{drive-letter}/}', replacing `\textbf{drive-letter}' with
-the lower-case form of the drive letter for the drive containing
-\asCode{\textbf{spidermonkey}}
-\item\exSp{} Execute the following commands:
-\begin{itemize}
-\item\asCode{cd~\textbf{spidermonkey}}
-\item\exSp\asCode{cd~js/src}
-\item\exSp\asCode{/usr/local/bin/autoconf-2.13}
-\item\exSp\asCode{mkdir~\fUS{}obj\fUS}
-\item\exSp\asCode{cd~\fUS{}obj\fUS}
-\item\exSp\asCode{../configure {-}{-}enable-release {-}{-}enable-more-deterministic
-{-}{-}enable-build-nspr \textbackslash\\
-{-}{-}prefix="\textbackslash{}"/c/Program Files (x86)/M+M/spidermonkey\textbackslash{}""}
-\item\exSp\asCode{mozmake}
-\item\exSp\asCode{mozmake install}
-\item\exSp\asCode{exit}
-%\item\exSp\asCode{mkdir \textbf{devel}/javascript}
-%\item\exSp\asCode{mkdir \textbf{devel}/javascript/bin}
-%\item\exSp\asCode{mkdir \textbf{devel}/javascript/include}
-%\item\exSp\asCode{mkdir \textbf{devel}/javascript/lib}
-%\item\exSp\asCode{mkdir \textbf{devel}/javascript/nspr-include}
-%\item\exSp\asCode{cd dist}
-%\item\exSp\asCode{cp bin/*.dll \textbf{devel}/javascript/bin}
-%\item\exSp\asCode{cp lib/* \textbf{devel}/javascript/lib}
-%\item\exSp\asCode{cp -R include/* \textbf{devel}/javascript/include}
-%\item\exSp\asCode{cp -R nspr-include/* \textbf{devel}/javascript/nspr-include}
-\end{itemize}
-\item\exSp{} Close the Command Prompt window
-\end{itemize}
+The most recent version of \textbf{SpiderMonkey} can be built on Microsoft Windows with
+the `\asCode{Visual Studio Community 2013}' version of \asCode{Visual Studio} - there are
+no scripts that support newer versions than this, and older versions are not supported at
+all, even though the scripts exist.\\
+
+Unfortunately, the generated header files from the build process aren't compatible with
+the GUI version of \asCode{Visual Studio} and appear to either require an older or much
+newer version of \asCode{Visual Studio}.\\
+
+As a consequence, it is currently not possible to build a version of \textbf{SpiderMonkey}
+that is useable as the basis for the JavaScript Input /Output service; at some time in
+the future it is hoped that \textbf{SpiderMonkey} will be stable enough to permit using it
+with Microsoft Windows applications other than browsers.
+%\begin{itemize}
+%\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
+%referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
+%\asCode{devel} directory, but it need not be
+%\item\exSp{} Open a Command Prompt window, running as Administrator
+%\item\exSp{} Execute the command
+%`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
+%\item\exSp{} Move to the directory where the \asCode{MozillaBuild} environment was
+%installed
+%\item\exSp{} Execute the command `\asCode{start-shell-msvc2013.bat}'; this will launch
+%an environment in which \textbf{SpiderMonkey} can be built; note that the initial
+%directory will be the `home' directory of the user, on the system drive
+%\item\exSp{} If necessary, switch to the drive containing \asCode{\textbf{spidermonkey}},
+%using the `\asCode{cd /\textbf{drive-letter}/}', replacing `\textbf{drive-letter}' with
+%the lower-case form of the drive letter for the drive containing
+%\asCode{\textbf{spidermonkey}}
+%\item\exSp{} Execute the following commands:
+%\begin{itemize}
+%\item\asCode{cd~\textbf{spidermonkey}}
+%\item\exSp\asCode{cd~js/src}
+%\item\exSp\asCode{/usr/local/bin/autoconf-2.13}
+%\item\exSp\asCode{mkdir~\fUS{}obj\fUS}
+%\item\exSp\asCode{cd~\fUS{}obj\fUS}
+%\item\exSp\asCode{../configure {-}{-}enable-release {-}{-}enable-more-deterministic
+%{-}{-}enable-build-nspr \textbackslash\\
+%{-}{-}prefix="\textbackslash{}"/c/Program Files (x86)/M+M/spidermonkey\textbackslash{}""}
+%\item\exSp\asCode{mozmake}
+%\item\exSp\asCode{mozmake install}
+%\item\exSp\asCode{exit}
+%\end{itemize}
+%\item\exSp{} Close the Command Prompt window
+%\end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}

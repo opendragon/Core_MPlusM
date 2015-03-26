@@ -71,7 +71,7 @@
 # define DEFAULT_JAVASCRIPT_SERVICE_NAME T_( \
         DEFAULT_SERVICE_NAME_BASE "filter/javascript")
 
-class JSContext;
+struct JSContext;
 
 namespace MplusM
 {
