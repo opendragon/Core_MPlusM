@@ -44,11 +44,11 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
 # include <libgen.h>
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
 # include <stdlib.h>
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -2237,22 +2237,22 @@ static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFil
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inFileName = ", inFileName); //####
     yarp::os::ConstString result;
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     char * nameCopy = strdup(inFileName.c_str());
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     char   baseFileName[_MAX_FNAME + 10];
     char   baseExtension[_MAX_EXT + 10];
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     
-#if defined(MAC_OR_LINUX_)
+#if MAC_OR_LINUX_
     result = basename(nameCopy);
     free(nameCopy);
-#else // ! defined(MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     _splitpath(inFileName.c_str(), NULL, NULL, baseFileName, baseExtension);
     result = baseFileName;
     result += ".";
     result += baseExtension;
-#endif // ! defined(MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_S(result.c_str()); //####
     return result;
 } // getFileNamePart
