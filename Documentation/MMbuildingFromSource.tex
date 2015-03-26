@@ -334,6 +334,10 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 {-}{-}enable-release {-}{-}enable-more-deterministic}
 \item\exSp\asCode{make~clean~\&\&~make}
 \item\exSp\asCode{sudo~make~install}
+\item\exSp\asCode{sudo cp dist/lib/libmozglue.dylib /opt/M+M/spidermonkey/lib}
+\item\exSp\asCode{sudo install\fUS{}name\fUS{}tool -change
+"@executable\fUS{}path/libmozglue.dylib" \textbackslash\\
+"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/libmozjs-.dylib}
 \end{itemize}
 \item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
 source code, \asCode{devel}
@@ -349,7 +353,8 @@ original items, so that it is safe to distribute the resulting directories
 \item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
 referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \asCode{devel} directory, but it need not be
-\item\exSp{} Open a Command Prompt window and execute the command\\
+\item\exSp{} Open a Command Prompt window, running as Administrator
+\item\exSp{} Execute the command
 `\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
 \item\exSp{} Move to the directory where the \asCode{MozillaBuild} environment was
 installed
@@ -368,19 +373,23 @@ the lower-case form of the drive letter for the drive containing
 \item\exSp\asCode{mkdir~\fUS{}obj\fUS}
 \item\exSp\asCode{cd~\fUS{}obj\fUS}
 \item\exSp\asCode{../configure {-}{-}enable-release {-}{-}enable-more-deterministic
-{-}{-}enable-build-nspr}
+{-}{-}enable-build-nspr \textbackslash\\
+{-}{-}prefix="\textbackslash{}"/c/Program Files (x86)/M+M/spidermonkey\textbackslash{}""}
 \item\exSp\asCode{mozmake}
-\item\exSp\asCode{mkdir \textbf{devel}/javascript}
-\item\exSp\asCode{mkdir \textbf{devel}/javascript/bin}
-\item\exSp\asCode{mkdir \textbf{devel}/javascript/include}
-\item\exSp\asCode{mkdir \textbf{devel}/javascript/lib}
-\item\exSp\asCode{mkdir \textbf{devel}/javascript/nspr-include}
-\item\exSp\asCode{cd dist}
-\item\exSp\asCode{cp bin/*.dll \textbf{devel}/javascript/bin}
-\item\exSp\asCode{cp lib/* \textbf{devel}/javascript/lib}
-\item\exSp\asCode{cp -R include/* \textbf{devel}/javascript/include}
-\item\exSp\asCode{cp -R nspr-include/* \textbf{devel}/javascript/nspr-include}
+\item\exSp\asCode{mozmake install}
+\item\exSp\asCode{exit}
+%\item\exSp\asCode{mkdir \textbf{devel}/javascript}
+%\item\exSp\asCode{mkdir \textbf{devel}/javascript/bin}
+%\item\exSp\asCode{mkdir \textbf{devel}/javascript/include}
+%\item\exSp\asCode{mkdir \textbf{devel}/javascript/lib}
+%\item\exSp\asCode{mkdir \textbf{devel}/javascript/nspr-include}
+%\item\exSp\asCode{cd dist}
+%\item\exSp\asCode{cp bin/*.dll \textbf{devel}/javascript/bin}
+%\item\exSp\asCode{cp lib/* \textbf{devel}/javascript/lib}
+%\item\exSp\asCode{cp -R include/* \textbf{devel}/javascript/include}
+%\item\exSp\asCode{cp -R nspr-include/* \textbf{devel}/javascript/nspr-include}
 \end{itemize}
+\item\exSp{} Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}

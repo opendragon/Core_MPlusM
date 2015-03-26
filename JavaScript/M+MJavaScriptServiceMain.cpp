@@ -1199,7 +1199,6 @@ static bool addCustomObjects(JSContext *                   jct,
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
     OD_LOG_S1s("tag = ", tag); //####
-    OD_LOG_L1("argc = ", argc); //####
     bool okSoFar = addCustomFunctions(jct, global);
     
     if (okSoFar)
@@ -1220,19 +1219,17 @@ static bool addCustomObjects(JSContext *                   jct,
 
 /*! @brief Load a script into the %JavaScript environment.
  @param jct The %JavaScript engine context.
- @param global The %JavaScript global object.
  @param options The compile options used to retain the compiled script.
  @param script The %JavaScript source code to be executed.
  @param scriptPath The path to the script file.
  @returns @c true on success and @c false otherwise. */
 static bool loadScript(JSContext *                   jct,
-                       JS::RootedObject &            global,
                        JS::OwningCompileOptions &    options,
                        const yarp::os::ConstString & script,
                        const yarp::os::ConstString & scriptPath)
 {
     OD_LOG_ENTER();
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    OD_LOG_P1("jct = ", jct); //####
     OD_LOG_S1s("scriptPath = ", scriptPath); //####
     bool            okSoFar;
     JS::RootedValue result(jct);
@@ -1241,7 +1238,7 @@ static bool loadScript(JSContext *                   jct,
     // We can ignore the returned result, since we are only interested in setting up the functions
     // and variables in the environment. The documentation states that NULL can be passed as the
     // last argument, but compiles fail if this is done.
-    okSoFar = JS::Evaluate(jct, global, options, script.c_str(), script.size(), &result);
+    okSoFar = JS::Evaluate(jct, options, script.c_str(), script.size(), &result);
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
 } // loadScript
@@ -1554,10 +1551,9 @@ static bool getLoadedFunctionRef(JSContext *        jct,
             if (result.isObject())
             {
                 JS::RootedObject asObject(jct);
-                JS::RootedValue  asFunctionValue(jct);
                 
-                if (JS_ConvertValue(jct, result, JSTYPE_FUNCTION, &asFunctionValue) &&
-                    JS_ValueToObject(jct, asFunctionValue, &asObject) && JS::IsCallable(asObject))
+                if (JS_ValueToObject(jct, result, &asObject) &&
+                    JS_ObjectIsFunction(jct, asObject) && JS::IsCallable(asObject))
                 {
                     JSFunction * asFunction = JS_ValueToFunction(jct, result);
                     
@@ -1963,7 +1959,6 @@ static void setUpAndGo(JSContext *                   jct,
     OD_LOG_P2("jct = ", jct, "argv = ", &argv); //####
     OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_L1("argc = ", argc); //####
     OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
     // Enter a request before running anything in the context. In particular, the request is needed
     // in order for JS_InitStandardClasses to work properly.
@@ -2011,9 +2006,9 @@ static void setUpAndGo(JSContext *                   jct,
         }
         if (okSoFar)
         {
-            if (! loadScript(jct, global, options, script, scriptPath))
+            if (! loadScript(jct, options, script, scriptPath))
             {
-                OD_LOG("(! loadScript(jct, global, options, script, scriptPath))"); //####
+                OD_LOG("(! loadScript(jct, options, script, scriptPath))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
                 GetLogger().fail("Script could not be loaded.");

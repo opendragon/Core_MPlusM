@@ -91,7 +91,7 @@ static void convertDictionary(JSContext *                jct,
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "inputValue = ", &inputValue, "inputAsList = ", &inputAsList); //####
     JS::RootedObject empty(jct);
-    JSObject *       valueObject = JS_NewObject(jct, NULL, empty, empty);
+    JSObject *       valueObject = JS_NewObject(jct, NULL);
 
     if (valueObject)
     {

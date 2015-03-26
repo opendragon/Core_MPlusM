@@ -48,6 +48,7 @@
 # include <js/RequiredDefines.h>
 # include <jsapi.h>
 # include <js/CallArgs.h>
+# include <js/Conversions.h>
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
