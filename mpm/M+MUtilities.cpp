@@ -1339,17 +1339,19 @@ void Utilities::GetDateAndTime(char *       dateBuffer,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("dateBuffer = ", dateBuffer, "timeBuffer = ", timeBuffer); //####
     OD_LOG_L2("dateBufferSize = ", dateBufferSize, "timeBufferSize = ", timeBufferSize); //####
-    time_t rawtime;
+    time_t    rawtime;
+    struct tm locTime;
     
     time(&rawtime);
-    struct tm * locTime = localtime(&rawtime);
-    
+    memset(&locTime, 0, sizeof(locTime));
 #if MAC_OR_LINUX_
-    strftime(dateBuffer, dateBufferSize, "%F", locTime);
-    strftime(timeBuffer, timeBufferSize, "%T", locTime);
+    localtime_r(&rawtime, &locTime);
+    strftime(dateBuffer, dateBufferSize, "%F", &locTime);
+    strftime(timeBuffer, timeBufferSize, "%T", &locTime);
 #else // ! MAC_OR_LINUX_
-    strftime(dateBuffer, dateBufferSize, "%x", locTime);
-    strftime(timeBuffer, timeBufferSize, "%X", locTime);
+    localtime_s(&locTime, &rawtime);
+    strftime(dateBuffer, dateBufferSize, "%x", &locTime);
+    strftime(timeBuffer, timeBufferSize, "%X", &locTime);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
 } // Utilities::GetDateAndTime
