@@ -152,7 +152,7 @@ static const char * kMagicName = "<$probe>";
  @param interfaceIndex The interface on which the service was resolved.
  @param errorCode @c kDNSServiceErr_NoError on success.
  @param fullname The full service domain name.
- @param hosttarget The target hostname of the machine providing the service.
+ @param hostTarget The target hostname of the machine providing the service.
  @param port The port, in network byte order, on which connections are accepted for this service.
  @param txtLen The length of the txt record, in bytes.
  @param txtRecord The service's primary txt record, in standard txt record format.
@@ -162,7 +162,7 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
                                       uint32_t              interfaceIndex,
                                       DNSServiceErrorType   errorCode,
                                       const char *          fullname,
-                                      const char *          hosttarget,
+                                      const char *          hostTarget,
                                       uint16_t              port, /* In network byte order */
                                       uint16_t              txtLen,
                                       const unsigned char * txtRecord,
@@ -178,7 +178,7 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
     OD_LOG_L4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ",//####
               errorCode, "port = ", port); //####
     OD_LOG_L1("txtLen = ", txtLen); //####
-    OD_LOG_S2("fullname = ", fullname, "hosttarget = ", hosttarget); //####
+    OD_LOG_S2("fullname = ", fullname, "hostTarget = ", hostTarget); //####
     bool okToUse = false;
 
     if (TXTRecordContainsKey(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY))
@@ -203,27 +203,36 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
     lSawResolve = true;
     if ((kDNSServiceErr_NoError == errorCode) && okToUse)
     {
-        struct hostent * hostAddress = gethostbyname(hosttarget);
-
-        if (hostAddress)
+        addrinfo   hints;
+        addrinfo * res = NULL;
+        
+        memset(&hints, 0, sizeof(hints));
+        hints.ai_family = AF_INET;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_flags = 0;
+        hints.ai_protocol = 0;
+        hints.ai_canonname = NULL;
+        hints.ai_addr = NULL;
+        hints.ai_next = NULL;
+        if (! getaddrinfo("10.0.1.2", NULL, &hints, &res))
         {
-            in_addr * anAddress = reinterpret_cast<in_addr *>(hostAddress->h_addr_list[0]);
+            // Just use the first entry, as we aren't asking for a specific service.
+            sockaddr_in *              asIP4 = reinterpret_cast<sockaddr_in *>(res->ai_addr);
+            char                       buffer[INET_ADDRSTRLEN + 1];
+            const char *               addressAsString = inet_ntop(res->ai_family, &asIP4->sin_addr,
+                                                                   buffer, sizeof(buffer));
+            yarp::os::impl::NameConfig nc;
+#if defined(CONFIG_FILE_AVAILABLE_)
+            yarp::os::Contact          address(addressAsString, ntohs(port));
+#endif // ! defined(CONFIG_FILE_AVAILABLE_)
             
-            if (anAddress)
-            {
-                const char *               addressAsString = inet_ntoa(*anAddress);
-                yarp::os::impl::NameConfig nc;
 #if defined(CONFIG_FILE_AVAILABLE_)
-                yarp::os::Contact          address(addressAsString, ntohs(port));
-#endif // ! defined(CONFIG_FILE_AVAILABLE_)
-
-#if defined(CONFIG_FILE_AVAILABLE_)
-                nc.setAddress(address);
-                nc.toFile();
+            nc.setAddress(address);
+            nc.toFile();
 #else // ! defined(CONFIG_FILE_AVAILABLE_)
-                nc.setManualConfig(addressAsString, ntohs(port));
+            nc.setManualConfig(addressAsString, ntohs(port));
 #endif // ! defined(CONFIG_FILE_AVAILABLE_)
-            }
+            freeaddrinfo(res);
         }
     }
     DNSServiceRefDeallocate(service);
@@ -590,7 +599,11 @@ static void processNameServerResponse(const yarp::os::ConstString & received,
             {
                 char *                channelName = NULL;
                 yarp::os::ConstString chopped(workingCopy.substr(0, chopPos));
+#if MAC_OR_LINUX_
                 char *                choppedAsChars = strdup(chopped.c_str());
+#else // ! MAC_OR_LINUX_
+                char *                choppedAsChars = _strdup(chopped.c_str());
+#endif // ! MAC_OR_LINUX_
                 char *                ipAddress = NULL;
                 char *                saved;
                 char *                pp = strtok_r(choppedAsChars, " ", &saved);
