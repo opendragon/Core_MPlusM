@@ -16,7 +16,6 @@
 
 * Tunnel Service and Client need to be bidirectional (use nonblocking I/O?)
 
-— enable logging, see if access violation can be located
 — check if older compiler works OK
 — check if linker can be told to ignore duplicates
 — if new compiler is ‘just broken’, change documentation back to old compiler, don’t build JavaScript for Windows
