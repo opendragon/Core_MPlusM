@@ -68,6 +68,10 @@ if(APPLE)
     cmake_policy(SET CMP0042 OLD)
 endif(APPLE)
 
+if(WIN32)
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS}" "/NOFAULTLIB:libcmt")
+endif(WIN32)
+
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
 
 option(MpM_ChattyStart "Report the version numbers when launching an executable")
