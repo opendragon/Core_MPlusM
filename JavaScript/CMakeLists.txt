@@ -83,7 +83,7 @@ target_link_libraries(${THIS_TARGET}
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "@executable_path/libmozjs-.dylib" "@rpath/libmozjs-.dylib"
+                        "@executable_path/libmozjs-39a1.dylib" "@rpath/libmozjs-39a1.dylib"
                         ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         "@executable_path/libmozglue.dylib" "@rpath/libmozglue.dylib"
