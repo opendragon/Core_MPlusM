@@ -43,16 +43,18 @@
 # include <mpm/M+MBaseInputHandler.h>
 # include <mpm/M+MGeneralChannel.h>
 
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Winvalid-offsetof"
-#endif // defined(__APPLE__)
-#include <js/RequiredDefines.h>
-#include <jsapi.h>
-#include <js/CallArgs.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Winvalid-offsetof"
+# endif // defined(__APPLE__)
+# if MAC_OR_LINUX_
+#  include <js/RequiredDefines.h>
+# endif // MAC_OR_LINUX_
+# include <jsapi.h>
+# include <js/CallArgs.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

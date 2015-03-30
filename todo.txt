@@ -10,12 +10,12 @@
 
 * ‘touchShare’ protocol with iOS devices?
 
-* Python, Lua (, Common Lisp?) services
+* Python, Lua, Tcl (, Common Lisp?) services
 
 * integrate Arduino sensors via Linux-based Arduino boards? SmartTag via TouchShare?
 
 * Tunnel Service and Client need to be bidirectional (use nonblocking I/O?)
 
-— check if older compiler works OK
-— check if linker can be told to ignore duplicates
+— check if older compiler works OK —> no, not compatible with current Spidermonkey
+— check if linker can be told to ignore duplicates —> can’t build JavaScript service on Windows, so moot
 — if new compiler is ‘just broken’, change documentation back to old compiler, don’t build JavaScript for Windows
