@@ -51,15 +51,16 @@ endif(APPLE)
 
 if(WIN32)
     add_library(JS SHARED IMPORTED)
-    include_directories("C:/Program Files (x86)/M+M/spidermonkey/include/mozjs-")
+    include_directories("C:/Program Files (x86)/M+M/spidermonkey/include/mozjs-39a1")
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
-                    "C:/Program Files (x86)/M+M/spidermonkey/lib/mozjs-.dll")
+                    "C:/Program Files (x86)/M+M/spidermonkey/lib/mozjs-39a1.dll")
     set(SPIDERMONKEY "")
 endif(WIN32)
 if(APPLE)
     add_library(JS SHARED IMPORTED)
-    include_directories("/opt/M+M/spidermonkey/include/mozjs-")
-    set_property(TARGET JS PROPERTY IMPORTED_LOCATION "/opt/M+M/spidermonkey/lib/libmozjs-.dylib")
+    include_directories("/opt/M+M/spidermonkey/include/mozjs-39a1")
+    set_property(TARGET JS PROPERTY IMPORTED_LOCATION
+                    "/opt/M+M/spidermonkey/lib/libmozjs-39a1.dylib")
     set(SPIDERMONKEY "JS")
 endif(APPLE)
 

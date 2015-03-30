@@ -16,7 +16,7 @@ snapshot of the \asCode{git} repositories where the source code is stored.
 \item\asCode{Xcode} is available from the Macintosh App Store and provides the
 \compLang{C++} development environment for Macintosh OS~X
 \item\exSp{} The \asCode{Xcode} command\longDash{}line tools must be installed, using the
-command `\asCode{xcode-select~{-}{-}install}'
+command `\asCode{xcode-select {-}{-}install}'
 \item\exSp{} The \asCode{ccmake} and \asCode{cmake} command\longDash{}line tools, which
 can be installed using \asCode{MacPorts} or directly from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
@@ -87,20 +87,20 @@ be modified.
 code, \asCode{devel}
 \item\exSp{} Execute the following commands:
 \begin{itemize}
-\item\asCode{cd~ACE\fUS{}wrappers2}
-\item\exSp\asCode{export~ACE\fUS{}ROOT=\$(pwd)}
-\item\exSp\asCode{make~clean~\&\&~make}
+\item\asCode{cd ACE\fUS{}wrappers2}
+\item\exSp\asCode{export ACE\fUS{}ROOT=\$(pwd)}
+\item\exSp\asCode{make clean \&\& make}
 \end{itemize}
 \item\exSp{} If the build is successful, execute the command `\asCode{sudo~sh}'
 \item\exSp{} Execute the following commands within the new subshell:
 \begin{itemize}
-\item\asCode{export~ACE\fUS{}ROOT=\$(pwd)}
-\item\exSp\asCode{export~DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/M+M/lib:%
+\item\asCode{export ACE\fUS{}ROOT=\$(pwd)}
+\item\exSp\asCode{export DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/M+M/lib:%
 \$DYLD\fUS{}LIBRARY\fUS{}PATH}
-\item\exSp\asCode{make~install}
+\item\exSp\asCode{make install}
 \item\exSp\asCode{exit}
 \end{itemize}
-\item\exSp{} Execute the command `\asCode{sudo~./after-install.sh}'; this removes some
+\item\exSp{} Execute the command `\asCode{sudo ./after-install.sh}'; this removes some
 unneeded files
 \end{itemize}
 \tertiaryEnd{}
@@ -154,11 +154,11 @@ libraries.
 code, \asCode{devel}
 \item\exSp{} Execute the following commands:
 \begin{itemize}
-\item\asCode{cd~yarp\fUS{}MPlusM}
-\item\exSp\asCode{mkdir~build}
-\item\exSp\asCode{cd~build}
+\item\asCode{cd yarp\fUS{}MPlusM}
+\item\exSp\asCode{mkdir build}
+\item\exSp\asCode{cd build}
 \end{itemize}
-\item\exSp{} Execute the command `\asCode{ccmake~..}'; this will open a graphical
+\item\exSp{} Execute the command `\asCode{ccmake ..}'; this will open a graphical
 interface to the makefile builder. If this is the first time that the command is executed
 within a directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
 `\textbf{c}' to do the initial configuration; there may be some warnings for project
@@ -182,12 +182,12 @@ recommended that the option\\
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
 \item\exSp{} Press `\textbf{g}' to generate the makefiles; there may be some CMake
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
-\item\exSp{} Execute the command `\asCode{cmake~.}'; again, there will be some project
+\item\exSp{} Execute the command `\asCode{cmake .}'; again, there will be some project
 developer warnings, which can be safely ignored
-\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'
-\item\exSp{} Execute the command `\asCode{sudo~../after-build.sh}'; this corrects some
+\item\exSp{} Execute the command `\asCode{make clean \&\& make}'
+\item\exSp{} Execute the command `\asCode{sudo ../after-build.sh}'; this corrects some
 linking issues with \yarp{} caused by installing it in a non\longDash{}default location
-\item\exSp{} Execute the command `\asCode{sudo~make~install}'
+\item\exSp{} Execute the command `\asCode{sudo make install}'
 \item\exSp{} If desired, you can verify that \yarp{} was correctly built be executing the
 command `\asCode{make~test}'
 \end{itemize}
@@ -263,9 +263,9 @@ libraries.
 code, \asCode{devel}
 \item\exSp{} Execute the following commands:
 \begin{itemize}
-\item\asCode{cd~OGDF}
-\item\exSp\asCode{make~cleanrelease~\&\&~make~release}
-\item\exSp\asCode{sudo~make~install}
+\item\asCode{cd OGDF}
+\item\exSp\asCode{make cleanrelease \&\& make release}
+\item\exSp\asCode{sudo make install}
 \end{itemize}
 \end{itemize}
 \tertiaryEnd{}
@@ -273,8 +273,8 @@ code, \asCode{devel}
 \begin{itemize}
 \item Open a Command Prompt window and move to the directory containing the \mplusm{}
 source code, \asCode{devel}
-\item\exSp{} Execute the command `\asCode{cd~OGDF}'
-\item\exSp{} Execute the command `\asCode{python~makeVCXProj.py}'
+\item\exSp{} Execute the command `\asCode{cd OGDF}'
+\item\exSp{} Execute the command `\asCode{python makeVCXProj.py}'
 \item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{} Open the project file
 `\asCode{\textbf{devel}\textbackslash{}OGDF\textbackslash{}ogdf.sln}' with
@@ -326,28 +326,28 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \item\exSp{} On the command\longDash{}line, execute the following commands:
 \begin{itemize}
 \item\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}
-\item\exSp\asCode{cd~\textbf{spidermonkey}}
-\item\exSp\asCode{cd~js/src}
+\item\exSp\asCode{cd \textbf{spidermonkey}}
+\item\exSp\asCode{cd js/src}
 \item\exSp\asCode{autoconf213}
-\item\exSp\asCode{mkdir~\fUS{}obj\fUS}
-\item\exSp\asCode{cd~\fUS{}obj\fUS}
+\item\exSp\asCode{mkdir \fUS{}obj\fUS}
+\item\exSp\asCode{cd \fUS{}obj\fUS}
 \item\exSp\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey {-}{-}with-system-icu
 \textbackslash\\
 {-}{-}enable-release {-}{-}enable-more-deterministic}
-\item\exSp\asCode{make~clean~\&\&~make}
-\item\exSp\asCode{sudo~make~install}
-\item\exSp\asCode{sudo cp dist/lib/libmozglue.dylib /opt/M+M/spidermonkey/lib}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo make install}
+\item\exSp\asCode{sudo cp dist/bin/libmozglue.dylib /opt/M+M/spidermonkey/lib}
 \item\exSp\asCode{sudo install\fUS{}name\fUS{}tool -change
 "@executable\fUS{}path/libmozglue.dylib" \textbackslash\\
-"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/libmozjs-.dylib}
+"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/lib/libmozjs-39a1.dylib}
 \end{itemize}
 \item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
 source code, \asCode{devel}
-\item\exSp{} Execute the command\\
-`\asCode{sudo~Core\fUS{}MPlusM/replace-links.sh~/opt/M+M/spidermonkey/include/mozjs-}';
-this\\
-replaces symbolic links in the header directories for \textbf{SpiderMonkey} with the
-original items, so that it is safe to distribute the resulting directories
+\item\exSp{} Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
+\textbackslash\\
+/opt/M+M/spidermonkey/include/mozjs-39a1}'; this replaces symbolic links in the header
+directories for \textbf{SpiderMonkey} with the original items, so that it is safe to
+distribute the resulting directories
 \end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Microsoft~Windows}
@@ -364,38 +364,48 @@ As a consequence, it is currently not possible to build a version of \textbf{Spi
 that is useable as the basis for the JavaScript Input /Output service; at some time in
 the future it is hoped that \textbf{SpiderMonkey} will be stable enough to permit using it
 with Microsoft Windows applications other than browsers.
-%\begin{itemize}
-%\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
-%referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
-%\asCode{devel} directory, but it need not be
-%\item\exSp{} Open a Command Prompt window, running as Administrator
-%\item\exSp{} Execute the command
-%`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
-%\item\exSp{} Move to the directory where the \asCode{MozillaBuild} environment was
-%installed
-%\item\exSp{} Execute the command `\asCode{start-shell-msvc2013.bat}'; this will launch
-%an environment in which \textbf{SpiderMonkey} can be built; note that the initial
-%directory will be the `home' directory of the user, on the system drive
-%\item\exSp{} If necessary, switch to the drive containing \asCode{\textbf{spidermonkey}},
-%using the `\asCode{cd /\textbf{drive-letter}/}', replacing `\textbf{drive-letter}' with
-%the lower-case form of the drive letter for the drive containing
-%\asCode{\textbf{spidermonkey}}
-%\item\exSp{} Execute the following commands:
-%\begin{itemize}
-%\item\asCode{cd~\textbf{spidermonkey}}
-%\item\exSp\asCode{cd~js/src}
-%\item\exSp\asCode{/usr/local/bin/autoconf-2.13}
-%\item\exSp\asCode{mkdir~\fUS{}obj\fUS}
-%\item\exSp\asCode{cd~\fUS{}obj\fUS}
-%\item\exSp\asCode{../configure {-}{-}enable-release {-}{-}enable-more-deterministic
-%{-}{-}enable-build-nspr \textbackslash\\
-%{-}{-}prefix="\textbackslash{}"/c/Program Files (x86)/M+M/spidermonkey\textbackslash{}""}
-%\item\exSp\asCode{mozmake}
-%\item\exSp\asCode{mozmake install}
-%\item\exSp\asCode{exit}
-%\end{itemize}
-%\item\exSp{} Close the Command Prompt window
-%\end{itemize}
+\begin{itemize}
+\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
+referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
+\asCode{devel} directory, but it need not be
+\item\exSp{} Open a Command Prompt window, running as Administrator
+\item\exSp{} Execute the command
+`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
+\item\exSp{} Move to the directory where the \asCode{MozillaBuild} environment was
+installed
+\item\exSp{} Execute the command `\asCode{start-shell-msvc2013.bat}'; this will launch
+an environment in which \textbf{SpiderMonkey} can be built; note that the initial
+directory will be the `home' directory of the user, on the system drive
+\item\exSp{} If necessary, switch to the drive containing \asCode{\textbf{spidermonkey}},
+using the `\asCode{cd /\textbf{drive-letter}/}', replacing `\textbf{drive-letter}' with
+the lower-case form of the drive letter for the drive containing
+\asCode{\textbf{spidermonkey}}
+\item\exSp{} Execute the following commands:
+\begin{itemize}
+\item\asCode{cd \textbf{spidermonkey}}
+\item\exSp\asCode{cd js/src}
+\item\exSp\asCode{/usr/local/bin/autoconf-2.13}
+\item\exSp\asCode{mkdir \fUS{}obj\fUS}
+\item\exSp\asCode{cd \fUS{}obj\fUS}
+\end{itemize}
+\item\exSp{} Execute the command `\asCode{../configure {-}{-}enable-release
+{-}{-}enable-more-deterministic\\
+{-}{-}enable-build-nspr {-}{-}prefix=c:/spidermonkey}'; note that the build environment has problems with the
+standard Windows paths for program files, so the target directory is not the final one
+\item\exSp{} Execute the following commands:
+\begin{itemize}
+\item \asCode{mozmake}
+\item\exSp\asCode{mozmake install}
+\item\exSp\asCode{cd /c/}
+\item\exSp\asCode{cd /Program\textbackslash{} Files\textbackslash{}
+\textbackslash{}(x86\textbackslash{})}
+\item\exSp\asCode{cd M+M}
+\item\exSp\asCode{rm -rf spidermonkey}
+\item\exSp\asCode{mv /c/spidermonkey .}
+\item\exSp\asCode{exit}
+\end{itemize}
+\item\exSp{} Close the Command Prompt window
+\end{itemize}
 \tertiaryEnd{}
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
@@ -408,8 +418,8 @@ with Microsoft Windows applications other than browsers.
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{devel}
-\item\exSp{} Execute the command `\asCode{cd~Core\fUS{}MPlusM}'
-\item\exSp{} Execute the command `\asCode{ccmake~.}'; this will open a graphical interface
+\item\exSp{} Execute the command `\asCode{cd Core\fUS{}MPlusM}'
+\item\exSp{} Execute the command `\asCode{ccmake .}'; this will open a graphical interface
 to the makefile builder. If this is the first time that the command is executed within a
 directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
 `\textbf{c}' to do the initial configuration
@@ -419,8 +429,8 @@ options minimize the amount of text that is output when \mplusm{} command\longDa
 tools are executed
 \item\exSp{} Press `\textbf{c}' to configure the makefiles
 \item\exSp{} Press `\textbf{g}' to generate the makefiles
-\item\exSp{} Execute the command `\asCode{cmake~.}'
-\item\exSp{} Execute the command `\asCode{make~clean~\&\&~make}'
+\item\exSp{} Execute the command `\asCode{cmake .}'
+\item\exSp{} Execute the command `\asCode{make clean \&\& make}'
 \item\exSp{} To run the unit tests for \mplusm{}, do the following:
 \begin{itemize}
 \item Execute the command `\asCode{ps | grep yarp | grep -v grep}'; if there is a line
@@ -465,7 +475,7 @@ for the test
 \begin{itemize}
 \item Check that the \yarp{} server is running and start it if it is not, using the
 instructions above
-\item\exSp{} Execute the command `\asCode{mpmRegistryService~\&}'; this will launch the
+\item\exSp{} Execute the command `\asCode{mpmRegistryService \&}'; this will launch the
 Registry Service in the background and return the \textbf{PID} that can be used to halt it
 later
 \item\exSp{} Execute the command `\asCode{mpmServiceLister}; this should display the
