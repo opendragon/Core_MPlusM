@@ -69,8 +69,10 @@ if(APPLE)
 endif(APPLE)
 
 if(WIN32)
-    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmt" CACHE STRING
-            "Flags used by the linker." FORCE)
+    if(NOT ("${CMAKE_EXE_LINKER_FLAGS}" MATCHES ".*NODEFAULTLIB:libcmt.*"))
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} /NODEFAULTLIB:libcmt" CACHE STRING
+                "Flags used by the linker." FORCE)
+    endif(MATCHES)
 endif(WIN32)
 
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")

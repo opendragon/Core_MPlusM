@@ -54,7 +54,7 @@ if(WIN32)
     include_directories("C:/Program Files (x86)/M+M/spidermonkey/include/mozjs-39a1")
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
                     "C:/Program Files (x86)/M+M/spidermonkey/lib/mozjs-39a1.dll")
-    set(SPIDERMONKEY "")
+    set(SPIDERMONKEY "JS")
 endif(WIN32)
 if(APPLE)
     add_library(JS SHARED IMPORTED)
