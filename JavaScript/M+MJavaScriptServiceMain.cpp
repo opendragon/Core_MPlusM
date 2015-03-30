@@ -2332,11 +2332,11 @@ int main(int      argc,
                     
                     if (! nameWasSet)
                     {
-                        serviceEndpointName += "/" + tagModifier;
+                        serviceEndpointName += yarp::os::ConstString("/") + tagModifier;
                     }
                     if (0 < tag.length())
                     {
-                        tag += ":" + tagModifier;
+                        tag += yarp::os::ConstString(":") + tagModifier;
                     }
                     else
                     {
