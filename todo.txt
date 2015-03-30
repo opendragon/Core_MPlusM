@@ -19,3 +19,5 @@
 — check if older compiler works OK —> no, not compatible with current Spidermonkey
 — check if linker can be told to ignore duplicates —> can’t build JavaScript service on Windows, so moot
 — if new compiler is ‘just broken’, change documentation back to old compiler, don’t build JavaScript for Windows
+
+- add M+MJavaScriptCommon.h to separate out the #includes of JS files; same for KinectV2 and Leap Motion?
