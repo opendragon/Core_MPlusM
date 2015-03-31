@@ -399,6 +399,7 @@
 		DF8D35581AA4B54900322DDD /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Tunnel/TunnelService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF8D35591AA4B54900322DDD /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Tunnel/TunnelService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF8D355A1AA4B56900322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF91F18D1ACAEA57003D9F6D /* M+MJavaScriptCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptCommon.h"; path = "JavaScript/M+MJavaScriptCommon.h"; sourceTree = "<group>"; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -942,6 +943,7 @@
 			isa = PBXGroup;
 			children = (
 				DF45F2201A5AF9500090E161 /* CMakeLists.txt */,
+				DF91F18D1ACAEA57003D9F6D /* M+MJavaScriptCommon.h */,
 				DF45F21A1A5AF9500090E161 /* M+MJavaScriptInputHandler.cpp */,
 				DF45F21B1A5AF9500090E161 /* M+MJavaScriptInputHandler.h */,
 				DF45F21C1A5AF9500090E161 /* M+MJavaScriptRequests.h */,

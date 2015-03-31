@@ -153,8 +153,8 @@ bool TwoFingersInputService::setUpStreamDescriptions(void)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "2FINGERS";
-    description._protocolDescription = "A flag for which hand has data followed by the tip positions\n"
-                                        "of the first finger of each hand, if present";
+    description._protocolDescription = "A flag for which hand has data followed by the tip "
+                                        "positions\nof the first finger of each hand, if present";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

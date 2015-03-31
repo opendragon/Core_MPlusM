@@ -39,20 +39,9 @@
 #if (! defined(MpMJavaScriptThread_H_))
 # define MpMJavaScriptThread_H_ /* Header guard */
 
-# include <mpm/M+MGeneralChannel.h>
+# include "M+MJavaScriptCommon.h"
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Winvalid-offsetof"
-# endif // defined(__APPLE__)
-# if MAC_OR_LINUX_
-#  include <js/RequiredDefines.h>
-# endif // MAC_OR_LINUX_
-# include <jsapi.h>
-# include <js/CallArgs.h>
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

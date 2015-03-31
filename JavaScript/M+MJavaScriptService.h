@@ -39,21 +39,9 @@
 #if (! defined(MpMJavaScriptService_H_))
 # define MpMJavaScriptService_H_ /* Header guard */
 
-# include <mpm/M+MBaseFilterService.h>
+# include "M+MJavaScriptCommon.h"
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Winvalid-offsetof"
-# endif // defined(__APPLE__)
-# if MAC_OR_LINUX_
-#  include <js/RequiredDefines.h>
-# endif // MAC_OR_LINUX_
-# include <jsapi.h>
-# include <js/CallArgs.h>
-# include <js/Conversions.h>
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+# include <mpm/M+MBaseFilterService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

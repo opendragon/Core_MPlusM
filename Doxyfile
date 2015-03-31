@@ -38,7 +38,7 @@ PROJECT_NAME           = M+M
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.4.22
+PROJECT_NUMBER         = 1.4.23
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -918,7 +918,8 @@ EXCLUDE                = CMakeFiles \
                          Tunnel/TestSink/CMakeFiles \
                          Tunnel/TestSource/CMakeFiles \
                          Tunnel/TunnelClient/CMakeFiles \
-                         Tunnel/TunnelService/CMakeFiles
+                         Tunnel/TunnelService/CMakeFiles \
+                         JavaScript/CMakeFiles
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
@@ -2108,7 +2109,8 @@ SEARCH_INCLUDES        = YES
 
 INCLUDE_PATH           = /opt/M+M/include \
                          /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/6.0/include \
-                         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1
+                         /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include/c++/v1 \
+                         /opt/M+M/spidermonkey/include
 
 # You can use the INCLUDE_FILE_PATTERNS tag to specify one or more wildcard
 # patterns (like *.h and *.hpp) to filter out the header-files in the

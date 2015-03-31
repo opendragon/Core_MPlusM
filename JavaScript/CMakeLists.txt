@@ -38,6 +38,15 @@
 
 set(THIS_TARGET mpmJavaScriptService)
 
+set(SPIDER_VERSION "39a1")
+
+if(WIN32)
+    set(SPIDER_PATH "C:/Program Files (x86)/M+M/spidermonkey")
+endif(WIN32)
+if(APPLE)
+    set(SPIDER_PATH "/opt/M+M/spidermonkey")
+endif(APPLE)
+
 if(APPLE)
 # There's a problem with building V8 / SpiderMonkey as a Universal - it acts as if we're building
 # for Solaris and adds a '-KPIC' flag?!?!?
@@ -45,25 +54,26 @@ if(APPLE)
     set(OLD_CMAKE_OSX_ARCHITECTURES "${CMAKE_OSX_ARCHITECTURES}")
     set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(OLD_CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}")
-    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};/opt/M+M/spidermonkey/lib" CACHE STRING
+    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};${SPIDER_PATH}/lib" CACHE STRING
         "Fixes rpath" FORCE)
 endif(APPLE)
 
+add_library(JS SHARED IMPORTED)
+
 if(WIN32)
-    add_library(JS SHARED IMPORTED)
-    include_directories("C:/Program Files (x86)/M+M/spidermonkey/include/mozjs-39a1")
+include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
-                    "C:/Program Files (x86)/M+M/spidermonkey/lib/mozjs-39a1.dll")
+                "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll")
     set_property(TARGET JS PROPERTY IMPORTED_IMPLIB
-                    "C:/Program Files (x86)/M+M/spidermonkey/lib/mozjs-39a1.lib")
-    set(SPIDERMONKEY "JS")
+                "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.lib")
+    install(FILES "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll"
+            DESTINATION bin
+            COMPONENT applications)
 endif(WIN32)
 if(APPLE)
-    add_library(JS SHARED IMPORTED)
-    include_directories("/opt/M+M/spidermonkey/include/mozjs-39a1")
+    include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
-                    "/opt/M+M/spidermonkey/lib/libmozjs-39a1.dylib")
-    set(SPIDERMONKEY "JS")
+                "${SPIDER_PATH}/lib/libmozjs-${SPIDER_VERSION}.dylib")
 endif(APPLE)
 
 # Set up our program
@@ -78,15 +88,15 @@ add_executable(${THIS_TARGET}
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
                       odLogging
-                      ${SPIDERMONKEY}
+                      JS
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
                       ${BONJOUR_LIB})
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "@executable_path/libmozjs-39a1.dylib" "@rpath/libmozjs-39a1.dylib"
-                        ${THIS_TARGET})
+                        "@executable_path/libmozjs-${SPIDER_VERSION}.dylib"
+                        "@rpath/libmozjs-${SPIDER_VERSION}.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         "@executable_path/libmozglue.dylib" "@rpath/libmozglue.dylib"
                         ${THIS_TARGET})
