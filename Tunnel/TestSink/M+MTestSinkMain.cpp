@@ -95,13 +95,14 @@ int main(int      argc,
         OutputFlavour flavour; // ignored
         StringVector  arguments;
 
-        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
+		if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        T_(" hostname port\n\n"
                                                           "  hostname   IP address to connect to\n"
                                                           "  port       port to connect to"),
                                                        flavour, &arguments))
         {
-            if (2 <= arguments.size())
+			Utilities::SetUpGlobalStatusReporter();
+			if (2 <= arguments.size())
             {
                 struct in_addr        addrBuff;
                 int                   sourcePort = -1;
@@ -217,7 +218,8 @@ int main(int      argc,
             {
                 cerr << "Missing argument(s)." << endl;
             }
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

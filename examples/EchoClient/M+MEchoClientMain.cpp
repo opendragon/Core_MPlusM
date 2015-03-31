@@ -101,20 +101,19 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        Utilities::SetUpGlobalStatusReporter();
-#if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-
         if (CanReadFromStandardInput())
         {
-            Utilities::CheckForNameServerReporter();
+			Utilities::SetUpGlobalStatusReporter();
+			Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+#if defined(MpM_ReportOnConnections)
+				ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+				yarp::os::Network       yarp; // This is necessary to establish any connections
+				                              // to the YARP infrastructure
                 
                 Initialize(*argv);
                 EchoClient * stuff = new EchoClient;
@@ -126,7 +125,7 @@ int main(int      argc,
                     if (stuff->findService("details: Echo*"))
                     {
 #if defined(MpM_ReportOnConnections)
-                        stuff->setReporter(reporter, true);
+                        stuff->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                         if (stuff->connectToService())
                         {
@@ -205,8 +204,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
-        }
-        Utilities::ShutDownGlobalStatusReporter();
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

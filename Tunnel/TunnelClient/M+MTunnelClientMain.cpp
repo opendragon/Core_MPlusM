@@ -316,14 +316,10 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        Utilities::SetUpGlobalStatusReporter();
-#if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-        OutputFlavour           flavour; // ignored
-        StringVector            arguments;
+        OutputFlavour flavour; // ignored
+        StringVector  arguments;
         
-        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
+		if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        " port [tag]\n\n"
                                                        "  port       The outgoing port\n"
                                                        "  tag        Optional tag for the service "
@@ -367,14 +363,18 @@ int main(int      argc,
             {
                 try
                 {
-                    Utilities::CheckForNameServerReporter();
+					Utilities::SetUpGlobalStatusReporter();
+					Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
                     if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
                     {
-                        yarp::os::Network     yarp; // This is necessary to establish any
+#if defined(MpM_ReportOnConnections)
+						ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+						yarp::os::Network       yarp; // This is necessary to establish any
                                                     // connections to the YARP infrastructure
-                        yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+                        yarp::os::ConstString   channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
                         
                         Initialize(*argv);
                         TunnelClient * stuff = new TunnelClient;
@@ -382,7 +382,7 @@ int main(int      argc,
                         if (stuff)
                         {
 #if defined(MpM_ReportOnConnections)
-                            stuff->setReporter(reporter, true);
+                            stuff->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                             channelNameRequest += namePattern;
                             if (stuff->findService(channelNameRequest.c_str()))
@@ -462,7 +462,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
                     }
 #endif // CheckNetworkWorks_
-                }
+					Utilities::ShutDownGlobalStatusReporter();
+				}
                 catch (...)
                 {
                     OD_LOG("Exception caught"); //####
@@ -478,7 +479,6 @@ int main(int      argc,
             }
             yarp::os::Network::fini();
         }
-        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

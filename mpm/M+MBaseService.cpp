@@ -617,8 +617,8 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
                 newChannel->disableMetrics();
             }
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
-            newChannel->getReport(reporter);
+            newChannel->setReporter(*reporter);
+            newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -990,8 +990,8 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                 newChannel->disableMetrics();
             }
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
-            newChannel->getReport(reporter);
+            newChannel->setReporter(*reporter);
+            newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {
@@ -1105,8 +1105,8 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                 newChannel->disableMetrics();
             }
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
-            newChannel->getReport(reporter);
+            newChannel->setReporter(*reporter);
+            newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
             {

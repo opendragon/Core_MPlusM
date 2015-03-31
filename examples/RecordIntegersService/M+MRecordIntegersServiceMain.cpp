@@ -319,13 +319,14 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
+		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
                                                          "  filePath   Optional output file path"),
                                           DEFAULT_RECORDINTEGERS_SERVICE_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipNone, &arguments))
         {
-            Utilities::CheckForNameServerReporter();
+			Utilities::SetUpGlobalStatusReporter();
+			Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
@@ -368,7 +369,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

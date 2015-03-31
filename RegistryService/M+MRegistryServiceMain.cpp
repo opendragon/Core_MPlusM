@@ -110,12 +110,13 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag; // not used
         
-        if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME, nameWasSet,
+		if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipEndpointAndTagOptions))
         {
             // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up
             // the NameServerReporter!
+			Utilities::SetUpGlobalStatusReporter();
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
@@ -189,7 +190,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

@@ -214,7 +214,7 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
         hints.ai_canonname = NULL;
         hints.ai_addr = NULL;
         hints.ai_next = NULL;
-        if (! getaddrinfo("10.0.1.2", NULL, &hints, &res))
+        if (! getaddrinfo(hostTarget, NULL, &hints, &res))
         {
             // Just use the first entry, as we aren't asking for a specific service.
             sockaddr_in *              asIP4 = reinterpret_cast<sockaddr_in *>(res->ai_addr);
@@ -1274,7 +1274,7 @@ bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(reporter);
+            newChannel->setReporter(*reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {
@@ -1424,6 +1424,8 @@ bool Utilities::GetDetectedPortList(PortVector & ports,
 
 ChannelStatusReporter * Utilities::GetGlobalStatusReporter(void)
 {
+	OD_LOG_ENTER(); //####
+	OD_LOG_EXIT_P(lReporter); //####
     return lReporter;
 } // Utilities::GetGlobalStatusReporter
 
@@ -2458,14 +2460,18 @@ bool Utilities::SetMetricsStateForService(const yarp::os::ConstString & serviceC
 
 void Utilities::SetUpGlobalStatusReporter(void)
 {
+	OD_LOG_ENTER(); //####
     if (! lReporter)
     {
         lReporter = new ChannelStatusReporter;
     }
+	OD_LOG_ENTER(); //####
 } // Utilities::SetUpGlobalStatusReporter
 
 void Utilities::ShutDownGlobalStatusReporter(void)
 {
+	OD_LOG_ENTER(); //####
     delete lReporter;
     lReporter = NULL;
+	OD_LOG_EXIT(); //####
 } // Utilities::ShutDownGlobalStatusReporter

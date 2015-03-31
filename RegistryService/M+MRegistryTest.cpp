@@ -638,6 +638,7 @@ int main(int      argc,
     {
         // We normally call CheckForNameServerReporter() here, but we should only run the tests with
         // a valid YARP configuration.
+		Utilities::SetUpGlobalStatusReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
@@ -695,7 +696,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
         }
 #endif // CheckNetworkWorks_
-    }
+		Utilities::ShutDownGlobalStatusReporter();
+	}
     catch (...)
     {
         OD_LOG("Exception caught"); //####

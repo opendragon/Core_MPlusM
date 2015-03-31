@@ -3116,8 +3116,8 @@ bool RegistryService::setUpStatusChannel(void)
 #endif // defined(MpM_ReportOnConnections)
             
 #if defined(MpM_ReportOnConnections)
-            _statusChannel->setReporter(reporter);
-            _statusChannel->getReport(reporter);
+            _statusChannel->setReporter(*reporter);
+            _statusChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
             if (metricsAreEnabled())
             {

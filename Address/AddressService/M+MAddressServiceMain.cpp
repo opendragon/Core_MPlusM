@@ -194,14 +194,15 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port\n\n"
+		if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port\n\n"
                                                          "  hostname   IP address to return\n"
                                                          "  port       port to return"),
                                           DEFAULT_ADDRESS_SERVICE_NAME, nameWasSet, reportOnExit,
                                           tag, serviceEndpointName, servicePortNumber, kSkipNone,
                                           &arguments))
         {
-            Utilities::CheckForNameServerReporter();
+			Utilities::SetUpGlobalStatusReporter();
+			Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
@@ -266,7 +267,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

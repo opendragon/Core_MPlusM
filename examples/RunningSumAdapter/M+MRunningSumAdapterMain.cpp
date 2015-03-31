@@ -114,17 +114,16 @@ int main(int      argc,
     try
     {
         Utilities::SetUpGlobalStatusReporter();
-#if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-
         Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
         if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
+#if defined(MpM_ReportOnConnections)
+			ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+			yarp::os::Network       yarp; // This is necessary to establish any connections to the
+                                          // YARP infrastructure
             
             Initialize(*argv);
             RunningSumClient * stuff = new RunningSumClient;
@@ -136,7 +135,7 @@ int main(int      argc,
                 if (stuff->findService("Name: RunningSum"))
                 {
 #if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(reporter, true);
+                    stuff->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                     if (stuff->connectToService())
                     {
@@ -172,12 +171,12 @@ int main(int      argc,
                                 }
                             }
 #if defined(MpM_ReportOnConnections)
-                            controlChannel->setReporter(reporter);
-                            controlChannel->getReport(reporter);
-                            dataChannel->setReporter(reporter);
-                            dataChannel->getReport(reporter);
-                            outputChannel->setReporter(reporter);
-                            outputChannel->getReport(reporter);
+                            controlChannel->setReporter(*reporter);
+                            controlChannel->getReport(*reporter);
+                            dataChannel->setReporter(*reporter);
+                            dataChannel->getReport(*reporter);
+                            outputChannel->setReporter(*reporter);
+                            outputChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
                             if (controlChannel->openWithRetries(controlName, STANDARD_WAIT_TIME) &&
                                 dataChannel->openWithRetries(dataName, STANDARD_WAIT_TIME) &&

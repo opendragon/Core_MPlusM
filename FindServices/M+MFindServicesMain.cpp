@@ -224,7 +224,8 @@ int main(int      argc,
     {
         try
         {
-            Utilities::CheckForNameServerReporter();
+			Utilities::SetUpGlobalStatusReporter();
+			Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
@@ -301,7 +302,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
         catch (...)
         {
             OD_LOG("Exception caught"); //####

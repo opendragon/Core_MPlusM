@@ -98,14 +98,15 @@ int main(int      argc,
         OutputFlavour flavour; // ignored
         StringVector  arguments;
         
-        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
+		if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        " port\n\n"
                                                        "  port       The outgoing port", flavour,
                                                        &arguments))
         {
             int listenPort = -1;
             
-            if (1 <= arguments.size())
+			Utilities::SetUpGlobalStatusReporter();
+			if (1 <= arguments.size())
             {
                 const char * startPtr = arguments[0].c_str();
                 char *       endPtr;
@@ -232,7 +233,8 @@ int main(int      argc,
                     OD_LOG("Exception caught"); //####
                 }
             }
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

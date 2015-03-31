@@ -74,6 +74,9 @@ using namespace MplusM::Common;
 static bool checkHostPort(int &                         realPort,
                           const yarp::os::ConstString & portNumber)
 {
+	OD_LOG_ENTER(); //####
+	OD_LOG_P1("realPort = ", &realPort); //####
+	OD_LOG_S1s("portNumber = ", portNumber); //####
     bool result = true;
     
     try
@@ -102,6 +105,7 @@ static bool checkHostPort(int &                         realPort,
         OD_LOG("Exception caught"); //####
         throw;
     }
+	OD_LOG_EXIT_B(result); //####
     return result;
 } // checkHostPort
 
@@ -114,6 +118,10 @@ static bool setEndpointIPAddress(yarp::os::Contact &           workingContact,
                                  const yarp::os::ConstString & endpointName,
                                  const int                     portNumber)
 {
+	OD_LOG_ENTER(); //####
+	OD_LOG_P1("workingContact = ", &workingContact); //####
+	OD_LOG_S1s("endpointName = ", endpointName); //####
+	OD_LOG_L1("portNumber = ", portNumber); //####
 #if defined(MpM_ReportContactDetails)
     DumpContactToLog("enter setEndpointIPAddress", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
@@ -137,6 +145,7 @@ static bool setEndpointIPAddress(yarp::os::Contact &           workingContact,
         OD_LOG("Exception caught"); //####
         throw;
     }
+	OD_LOG_EXIT_B(result); //####
     return result;
 } // setEndpointIPAddress
 
@@ -362,7 +371,11 @@ bool Endpoint::open(const double timeToWait)
         {
             if (_channel)
             {
-                if (0 < _contact.getHost().length())
+				OD_LOG("(_channel)"); //!!!!
+#if defined(MpM_ReportContactDetails)
+				DumpContactToLog("after registerContact", _contact); //####
+#endif // defined(MpM_ReportContactDetails)
+				if (0 < _contact.getHost().length())
                 {
                     OD_LOG("(0 < _contact.getHost().length())"); //####
                     _contact = yarp::os::Network::registerContact(_contact);

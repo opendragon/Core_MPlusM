@@ -148,12 +148,8 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        Utilities::SetUpGlobalStatusReporter();
-#if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-        OutputFlavour           flavour;
-        StringVector            arguments;
+        OutputFlavour flavour;
+        StringVector  arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        " ['address' | 'port' | 'both' | tag]\n\n"
@@ -168,15 +164,19 @@ int main(int      argc,
         {
             try
             {
-                Utilities::CheckForNameServerReporter();
-    #if CheckNetworkWorks_
+				Utilities::SetUpGlobalStatusReporter();
+				Utilities::CheckForNameServerReporter();
+#if CheckNetworkWorks_
                 if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-    #endif // CheckNetworkWorks_
+#endif // CheckNetworkWorks_
                 {
-                    yarp::os::Network     yarp; // This is necessary to establish any connections to
-                                                // the YARP infrastructure
-                    yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-                    yarp::os::ConstString namePattern(MpM_ADDRESS_CANONICAL_NAME);
+#if defined(MpM_ReportOnConnections)
+					ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+					yarp::os::Network       yarp; // This is necessary to establish any connections
+												  // to the YARP infrastructure
+                    yarp::os::ConstString   channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+                    yarp::os::ConstString   namePattern(MpM_ADDRESS_CANONICAL_NAME);
                     
                     Initialize(*argv);
                     AddressClient * stuff = new AddressClient;
@@ -187,7 +187,7 @@ int main(int      argc,
                         bool needsPort;
                         
 #if defined(MpM_ReportOnConnections)
-                        stuff->setReporter(reporter, true);
+                        stuff->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
                         processArguments(arguments, namePattern, needsAddress, needsPort);
                         channelNameRequest += namePattern;
@@ -295,25 +295,25 @@ int main(int      argc,
                         OD_LOG("! (stuff)"); //####
                     }
                 }
-    #if CheckNetworkWorks_
+#if CheckNetworkWorks_
                 else
                 {
                     OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
-    # if MAC_OR_LINUX_
+# if MAC_OR_LINUX_
                     GetLogger().fail("YARP network not running.");
-    # else // ! MAC_OR_LINUX_
+# else // ! MAC_OR_LINUX_
                     cerr << "YARP network not running." << endl;
-    # endif // ! MAC_OR_LINUX_
+# endif // ! MAC_OR_LINUX_
                 }
-    #endif // CheckNetworkWorks_
-            }
+#endif // CheckNetworkWorks_
+				Utilities::ShutDownGlobalStatusReporter();
+			}
             catch (...)
             {
                 OD_LOG("Exception caught"); //####
             }
             yarp::os::Network::fini();
         }
-        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

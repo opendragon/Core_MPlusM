@@ -2243,7 +2243,8 @@ static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFil
     result = basename(nameCopy);
     free(nameCopy);
 #else // ! MAC_OR_LINUX_
-    _splitpath(inFileName.c_str(), NULL, NULL, baseFileName, baseExtension);
+	_splitpath_s(inFileName.c_str(), NULL, 0, NULL, 0, baseFileName, sizeof(baseFileName),
+					baseExtension, sizeof(baseExtension));
     result = baseFileName;
     result += ".";
     result += baseExtension;
@@ -2308,13 +2309,14 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
                 
-        if (ProcessStandardServiceOptions(argc, argv, T_(" filePath\n\n"
+		if (ProcessStandardServiceOptions(argc, argv, T_(" filePath\n\n"
                                                          "  filePath   Path to script file to use"),
                                           DEFAULT_JAVASCRIPT_SERVICE_NAME, nameWasSet, reportOnExit,
                                           tag, serviceEndpointName, servicePortNumber, kSkipNone,
                                           &arguments))
         {
-            Utilities::CheckForNameServerReporter();
+			Utilities::SetUpGlobalStatusReporter();
+			Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
@@ -2330,6 +2332,16 @@ int main(int      argc,
                     yarp::os::ConstString scriptSource;
                     yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
                     
+					if (0 < tagModifier.length())
+					{
+						char lastChar = tagModifier[tagModifier.length() - 1];
+
+						// Drop a trailing period, if present.
+						if ('.' == lastChar)
+						{
+							tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
+						}
+					}
                     if (! nameWasSet)
                     {
                         serviceEndpointName += yarp::os::ConstString("/") + tagModifier;
@@ -2454,7 +2466,8 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

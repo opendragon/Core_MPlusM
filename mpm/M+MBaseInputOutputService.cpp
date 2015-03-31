@@ -43,7 +43,9 @@
 #include "M+MStopStreamsRequestHandler.h"
 
 #include <mpm/M+MBaseInputOutputService.h>
+#include <mpm/M+MChannelStatusReporter.h>
 #include <mpm/M+MGeneralChannel.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -141,8 +143,8 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
                     ChannelDescription aDescription(*walker);
                     
 #if defined(MpM_ReportOnConnections)
-                    newChannel->setReporter(reporter);
-                    newChannel->getReport(reporter);
+                    newChannel->setReporter(*reporter);
+                    newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
                     {
@@ -211,8 +213,8 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
                     ChannelDescription aDescription(*walker);
                     
 #if defined(MpM_ReportOnConnections)
-                    newChannel->setReporter(reporter);
-                    newChannel->getReport(reporter);
+                    newChannel->setReporter(*reporter);
+                    newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
                     if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
                     {
