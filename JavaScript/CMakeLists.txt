@@ -69,7 +69,8 @@ include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
     install(FILES "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll"
             DESTINATION bin
             COMPONENT applications)
-    install(FILES "${SPIDER_PATH}/lib/mozglue.dll" DESTINATION bin
+    install(FILES "${SPIDER_PATH}/lib/mozglue.dll" "${SPIDER_PATH}/lib/nspr4.dll"
+            "${SPIDER_PATH}/lib/plds4.dll" "${SPIDER_PATH}/lib/plc4.dll" DESTINATION bin
             COMPONENT applications)
 endif(WIN32)
 if(APPLE)
