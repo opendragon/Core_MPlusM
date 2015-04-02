@@ -17,5 +17,3 @@
 * Tunnel Service and Client need to be bidirectional (use nonblocking I/O?)
 
 - check if the SpiderMonkey library can be statically linked on Windows and if this resolves the exit issue; if so, check if it can be statically linked on OS X
-
-@ document the Two Fingers input service as a variation of the Leap Motion input service

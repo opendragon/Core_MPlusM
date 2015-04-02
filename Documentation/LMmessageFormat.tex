@@ -1,5 +1,5 @@
 \ProvidesFile{LMmessageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format}
+\primaryStart{The~Message~Format: \LMI}
 Each time that the Leap Motion controller reports that there is information available,
 the \asCode{LeapMotionInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
@@ -90,5 +90,19 @@ from its previous position
 \item\exSp\textbf{direction} \longDash{} the direction in which the tool is pointing, as a
 unit three\longDash{}dimensional vector
 \item\exSp\textbf{length} \longDash{} the length of the tool in millimetres
+\end{itemize}
+\primaryEnd{}
+\primaryStart{The~Message~Format: \TFI}
+Each time that the Leap Motion controller reports that there is information available,
+the \asCode{TwoFingersInputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing the following:
+\begin{itemize}
+\item A flag value indicating which finger positions are present; the value \asCode{1} if
+the left hand is present, the value \asCode{2} if the right hand is present and the value
+\asCode{3} if both hands are present
+\item\exSp{}The three\longDash{}dimensional coordinates of the tip of the first detected
+finger of the left hand, or zeroes if the left hand is not detected
+\item\exSp{}The three\longDash{}dimensional coordinates of the tip of the first detected
+finger of the right hand, or zeroes if the right hand is not detected
 \end{itemize}
 \primaryEnd{}
