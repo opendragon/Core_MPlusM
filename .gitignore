@@ -146,3 +146,4 @@ mpmTestLoopbackControl
 mpmTunnelClient
 mpmTunnelService
 mpm_images.tar.gz
+*.xccheckout
