@@ -69,7 +69,7 @@ set(MpMKINECTV2_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
 include_directories("${MpMKINECTV2_SOURCE_DIR}")
 
-# Add the subdirectories for input / output services
+# Add the subdirectories for the input service
 add_subdirectory(KinectV2InputService)
 
 enable_testing()

@@ -1,14 +1,14 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       LeapMotion/CMakeLists.txt
+#  File:       NaturalPoint/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The common CMAKE definitions for the M+M Leap Motion input service files.
+#  Contains:   The common CMAKE definitions for the M+M NaturalPoint input service files.
 #
 #  Written by: Norman Jaffe
 #
-#  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+#  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 #
 #              All rights reserved. Redistribution and use in source and binary forms, with or
 #              without modification, are permitted provided that the following conditions are met:
@@ -32,14 +32,14 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2014-09-16
+#  Created:    2015-04-13
 #
 #--------------------------------------------------------------------------------------------------
 
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(M+MLeapMotion)
+project(M+MNaturalPoint)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -65,11 +65,11 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-set(MpMLEAPMOTION_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+set(MpMNATURALPOINT_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
-include_directories("${MpMLEAPMOTION_SOURCE_DIR}")
+include_directories("${MpMNATURALPOINT_SOURCE_DIR}")
 
 # Add the subdirectories for the input service
-add_subdirectory(LeapMotionInputService)
+add_subdirectory(NaturalPointInputService)
 
 enable_testing()

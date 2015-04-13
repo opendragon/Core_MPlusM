@@ -44,7 +44,7 @@ project(M+M)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
-set(MpM_VERSION_PATCH 23)
+set(MpM_VERSION_PATCH 24)
 set(MpM_VERSION_STRING "${MpM_VERSION_MAJOR}.${MpM_VERSION_MINOR}.${MpM_VERSION_PATCH}")
 
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
@@ -102,7 +102,8 @@ mark_as_advanced(MpM_UseDiskDatabase)
 mark_as_advanced(MpM_UseTestDatabase)
 mark_as_advanced(MpM_UseTimeoutsInRetryLoops)
 
-option(MpM_VICON "Build the Vicon Service" ON)
+option(MpM_NATURALPOINT "Build the NaturalPoint service" ON)
+option(MpM_VICON "Build the Vicon Input service" ON)
 option(MpM_DO_SWIG "Build the SWIG files" OFF)
 
 # Add the M+M target path so that YARP and ACE can be found
@@ -166,6 +167,9 @@ if(WIN32)
     add_subdirectory(KinectV2)
 endif(WIN32)
 add_subdirectory(mpm)
+if(WIN32 AND MpM_NATURALPOINT)
+    add_subdirectory(NaturalPoint)
+endif(WIN32 AND MpM_NATURALPOINT)
 add_subdirectory(odl)
 add_subdirectory(ParserTest)
 add_subdirectory(PortLister)
