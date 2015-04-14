@@ -48,8 +48,8 @@ endif(WIN32)
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MNaturalPointInputServiceMain.cpp
-               M+MNaturalPointEventThread.cpp
-               M+MNaturalPointInputService.cpp)
+               M+MNaturalPointInputService.cpp
+               M+MNaturalPointInputThread.cpp)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

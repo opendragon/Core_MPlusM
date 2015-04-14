@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the NaturalPoint input service. */
-# define MpM_EXEMPLARINPUT_CANONICAL_NAME "NaturalPointInput"
+# define MpM_NATURALPOINTINPUT_CANONICAL_NAME "NaturalPointInput"
 
 #endif // ! defined(MpMNaturalPointInputRequests_H_)
