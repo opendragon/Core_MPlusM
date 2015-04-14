@@ -41,10 +41,19 @@ include_directories("${MpM_SOURCE_DIR}"
 
 set(THIS_TARGET mpmRunningSumClient)
 
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MRunningSumClientMain.cpp
-               M+MRunningSumClient.cpp)
+               M+MRunningSumClient.cpp
+               ${VERS_RESOURE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

@@ -40,11 +40,20 @@ include_directories("../ExemplarCommon")
 
 set(THIS_TARGET mpmExemplarService)
 
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MExemplarServiceMain.cpp
                M+MSimpleRequestHandler.cpp
-               M+MExemplarService.cpp)
+               M+MExemplarService.cpp
+               ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

@@ -39,6 +39,14 @@
 set(THIS_TARGET mpmNaturalPointInputService)
 
 if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
+if(WIN32)
 	#include_directories(${MpMNATURALPOINT_SOURCE_DIR}/NaturalPointInputService/KinectLib/inc)
 	#add_library(Kinect SHARED IMPORTED)
 	#set_property(TARGET NaturalPoint PROPERTY IMPORTED_IMPLIB
@@ -49,7 +57,8 @@ endif(WIN32)
 add_executable(${THIS_TARGET}
                M+MNaturalPointInputServiceMain.cpp
                M+MNaturalPointInputService.cpp
-               M+MNaturalPointInputThread.cpp)
+               M+MNaturalPointInputThread.cpp
+               ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

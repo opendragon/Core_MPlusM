@@ -38,11 +38,20 @@
 
 set(THIS_TARGET mpmLeapMotionInputService)
 
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MLeapMotionInputServiceMain.cpp
                M+MLeapMotionInputListener.cpp
-               M+MLeapMotionInputService.cpp)
+               M+MLeapMotionInputService.cpp
+               ${VERS_RESOURCE})
 
 add_library(Leap SHARED IMPORTED)
 
@@ -104,11 +113,20 @@ install(TARGETS ${THIS_TARGET}
 
 set(THIS_TARGET mpmTwoFingersInputService)
 
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
 # Set up our program
 add_executable(${THIS_TARGET}
                 M+MTwoFingersInputServiceMain.cpp
                 M+MTwoFingersInputListener.cpp
-                M+MTwoFingersInputService.cpp)
+                M+MTwoFingersInputService.cpp
+                ${VERS_RESOURCE})
 
 #add_library(Leap SHARED IMPORTED)
 

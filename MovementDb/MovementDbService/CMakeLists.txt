@@ -40,6 +40,14 @@ include_directories("../MovementDbCommon")
 
 set(THIS_TARGET mpmMovementDbService)
 
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MMovementDbServiceMain.cpp
@@ -48,7 +56,8 @@ add_executable(${THIS_TARGET}
                M+MMovementDbService.cpp
                M+MSetDataTrackRequestHandler.cpp
                M+MSetEmailRequestHandler.cpp
-               M+MStopDbRequestHandler.cpp)
+               M+MStopDbRequestHandler.cpp
+               ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

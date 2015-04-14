@@ -40,6 +40,14 @@ include_directories("${MpM_SOURCE_DIR}")
 
 set(THIS_TARGET mpmCommonTest)
 
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
 add_library(mpmCommonTestSupport
             M+MTest03Handler.cpp
             M+MTest04Handler.cpp
@@ -58,7 +66,8 @@ add_library(mpmCommonTestSupport
 enable_testing()
 
 add_executable(${THIS_TARGET}
-               M+MCommonTest.cpp)
+               M+MCommonTest.cpp
+               ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

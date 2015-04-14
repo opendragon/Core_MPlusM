@@ -43,6 +43,14 @@ cmake_minimum_required(VERSION 2.8)
 
 set(THIS_TARGET mpmRGBLEDService)
 
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
@@ -74,7 +82,8 @@ include_directories(${ACE_INCLUDE_DIRS})
 add_executable(${THIS_TARGET}
                M+MRGBLEDServiceMain.cpp
 			   M+MRGBLEDRequestHandler.cpp
-               M+MRGBLEDService.cpp)
+               M+MRGBLEDService.cpp
+               ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
