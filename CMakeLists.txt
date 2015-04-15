@@ -46,6 +46,7 @@ set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 4)
 set(MpM_VERSION_PATCH 24)
 set(MpM_VERSION_STRING "${MpM_VERSION_MAJOR}.${MpM_VERSION_MINOR}.${MpM_VERSION_PATCH}")
+set(MpM_COMPANY "H Plus Technologies Ltd. and Simon Fraser University")
 
 set(MpM_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
@@ -139,8 +140,7 @@ set(MpM_SERVICE_BASE_NAME "/_service_/")
 
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
-configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in"
-                "${MpM_SOURCE_DIR}/mpm/M+MConfig.h")
+configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in" "${MpM_SOURCE_DIR}/mpm/M+MConfig.h")
 
 include_directories("${MpM_SOURCE_DIR}")
 
