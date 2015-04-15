@@ -107,11 +107,10 @@ target_link_libraries(${THIS_TARGET}
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "@executable_path/libmozjs-${SPIDER_VERSION}.dylib"
+                        "${E_PATH}/libmozjs-${SPIDER_VERSION}.dylib"
                         "@rpath/libmozjs-${SPIDER_VERSION}.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        "@executable_path/libmozglue.dylib" "@rpath/libmozglue.dylib"
-                        ${THIS_TARGET})
+                        "${E_PATH}/libmozglue.dylib" "@rpath/libmozglue.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})

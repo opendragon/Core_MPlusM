@@ -56,12 +56,13 @@ mark_as_advanced(SET CMAKE_INSTALL_RPATH)
 mark_as_advanced(SET CMAKE_BUILD_WITH_INSTALL_RPATH)
 
 if(APPLE)
+    set(E_PATH "@executable_path")
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
 	set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
         "Fixes linking error for M+M/ACE" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
     set(CMAKE_INSTALL_RPATH
-"@executable_path/../lib;@executable_path/../mpm;@executable_path/../odl;@executable_path/../../mpm;@executable_path/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
+"${E_PATH}/../lib;${E_PATH}/../mpm;${E_PATH}/../odl;${E_PATH}/../../mpm;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
         CACHE STRING "Fixes rpath" FORCE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
