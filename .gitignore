@@ -81,6 +81,8 @@ mpmFindServices
 mpmFindServices.rc
 mpmJavaScriptService
 mpmJavaScriptService.rc
+mpmKinectV2InputService
+mpmKinectV2InputService.rc
 mpmLeapMotionInputService
 mpmLeapMotionInputService.rc
 mpmMovementDbAdapter
@@ -157,6 +159,8 @@ mpmUnrealOutputService
 mpmUnrealOutputService.rc
 mpmVersion
 mpmVersion.rc
+mpmViconDataStreamInputService
+mpmViconDataStreamInputService.rc
 
 UserInterfaceState.xcuserstate
 Breakpoints_v2.xcbkptlist
