@@ -2182,19 +2182,22 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
                                                 char * *                argv,
                                                 const char *            argList,
+                                                const int               year,
+                                                const char *            copyrightHolder,
                                                 Common::OutputFlavour & flavour,
                                                 Common::StringVector *  arguments)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_L1("argc = ", argc); //####
+    OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P3("argv = ", argv, "flavour = ", &flavour, "arguments = ", arguments); //####
-    OD_LOG_S1("argList = ", argList); //####
+    OD_LOG_S2("argList = ", argList, "copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
         UNKNOWN,
         HELP,
         JSON,
-        TABS
+        TABS,
+        VERSION
     }; // optionIndex
     
     bool                  keepGoing = true;
@@ -2206,8 +2209,11 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     Option_::Descriptor   tabsDescriptor(TABS, 0, "t", "tabs", Option_::Arg::None,
                                          T_("  --tabs, -t    Generate output in tab-delimited "
                                             "format"));
+    Option_::Descriptor   versionDescriptor(VERSION, 0, "v", "vers", Option_::Arg::None,
+                                            T_("  --vers, -v    Print version information and "
+                                               "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[5];
+    Option_::Descriptor   usage[6];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -2223,11 +2229,12 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
 #else // ! MAC_OR_LINUX_
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
-    memcpy(usageWalker++, &firstDescriptor, sizeof(Option_::Descriptor));
-    memcpy(usageWalker++, &helpDescriptor, sizeof(Option_::Descriptor));
-    memcpy(usageWalker++, &jsonDescriptor, sizeof(Option_::Descriptor));
-    memcpy(usageWalker++, &tabsDescriptor, sizeof(Option_::Descriptor));
-    memcpy(usageWalker++, &lastDescriptor, sizeof(Option_::Descriptor));
+    memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+    memcpy(usageWalker++, &jsonDescriptor, sizeof(jsonDescriptor));
+    memcpy(usageWalker++, &tabsDescriptor, sizeof(tabsDescriptor));
+    memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
+    memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
     argcWork -= (argc > 0);
     argvWork += (argc > 0); // skip program name argv[0] if present
     Option_::Stats    stats(usage, argcWork, argvWork);
@@ -2239,9 +2246,18 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     {
         keepGoing = false;
     }
-    else if (options[HELP])
+    else if (options[HELP] || options[UNKNOWN])
     {
         Option_::printUsage(cout, usage);
+        keepGoing = false;
+    }
+    else if (options[VERSION])
+    {
+        yarp::os::ConstString mpmVersionString;
+
+        mpmVersionString = SanitizeString(MpM_VERSION, true);
+        cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
+                copyrightHolder << "." << endl;
         keepGoing = false;
     }
     else

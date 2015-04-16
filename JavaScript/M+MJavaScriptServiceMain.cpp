@@ -2311,8 +2311,9 @@ int main(int      argc,
                 
 		if (ProcessStandardServiceOptions(argc, argv, T_(" filePath\n\n"
                                                          "  filePath   Path to script file to use"),
-                                          DEFAULT_JAVASCRIPT_SERVICE_NAME, nameWasSet, reportOnExit,
-                                          tag, serviceEndpointName, servicePortNumber, kSkipNone,
+                                          DEFAULT_JAVASCRIPT_SERVICE_NAME, 2015,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
                                           &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();

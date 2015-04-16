@@ -323,7 +323,9 @@ int main(int      argc,
                                                        " port [tag]\n\n"
                                                        "  port       The outgoing port\n"
                                                        "  tag        Optional tag for the service "
-                                                       "to be connnected to", flavour, &arguments))
+                                                       "to be connnected to", 2015,
+                                                       STANDARD_COPYRIGHT_NAME, flavour,
+                                                       &arguments))
         {
             yarp::os::ConstString namePattern(MpM_TUNNEL_CANONICAL_NAME);
             int                   listenPort = -1;

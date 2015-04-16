@@ -321,9 +321,10 @@ int main(int      argc,
         if (ProcessStandardServiceOptions(argc, argv, T_(" [filepath]\n\n"
                                                          "  filepath   Optional path to output "
                                                          "file"),
-                                          DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipNone, &arguments))
+                                          DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME, 2014,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

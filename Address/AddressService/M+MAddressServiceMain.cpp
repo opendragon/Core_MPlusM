@@ -197,8 +197,9 @@ int main(int      argc,
 		if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port\n\n"
                                                          "  hostname   IP address to return\n"
                                                          "  port       port to return"),
-                                          DEFAULT_ADDRESS_SERVICE_NAME, nameWasSet, reportOnExit,
-                                          tag, serviceEndpointName, servicePortNumber, kSkipNone,
+                                          DEFAULT_ADDRESS_SERVICE_NAME, 2015,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
                                           &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();

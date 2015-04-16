@@ -7,6 +7,16 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		DF0C7A921AE007F600E8FB15 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ProComp/CMakeLists.txt; sourceTree = "<group>"; };
+		DF0C7A941AE0082300E8FB15 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ProComp/ProCompInputService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF0C7A951AE0082300E8FB15 /* M+MProCompInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProCompInputRequests.h"; path = "ProComp/ProCompInputService/M+MProCompInputRequests.h"; sourceTree = "<group>"; };
+		DF0C7A961AE0082300E8FB15 /* M+MProCompInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProCompInputService.cpp"; path = "ProComp/ProCompInputService/M+MProCompInputService.cpp"; sourceTree = "<group>"; };
+		DF0C7A971AE0082300E8FB15 /* M+MProCompInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProCompInputService.h"; path = "ProComp/ProCompInputService/M+MProCompInputService.h"; sourceTree = "<group>"; };
+		DF0C7A981AE0082300E8FB15 /* M+MProCompInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProCompInputServiceMain.cpp"; path = "ProComp/ProCompInputService/M+MProCompInputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF0C7A991AE0082300E8FB15 /* M+MProCompInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProCompInputThread.cpp"; path = "ProComp/ProCompInputService/M+MProCompInputThread.cpp"; sourceTree = "<group>"; };
+		DF0C7A9A1AE0082300E8FB15 /* M+MProCompInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProCompInputThread.h"; path = "ProComp/ProCompInputService/M+MProCompInputThread.h"; sourceTree = "<group>"; };
+		DF0C7A9C1AE0082300E8FB15 /* mpmProCompInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmProCompInputService.rc.in; path = ProComp/ProCompInputService/mpmProCompInputService.rc.in; sourceTree = "<group>"; };
+		DF0C7A9D1AE0082300E8FB15 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ProComp/ProCompInputService/resource.h; sourceTree = "<group>"; };
 		DF1BD31F1A8BA2DE0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF1BD3211A8BA2FA0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/AddressClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF1BD3221A8BA2FA0070A09C /* M+MAddressClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressClient.cpp"; path = "Address/AddressClient/M+MAddressClient.cpp"; sourceTree = SOURCE_ROOT; };
@@ -400,111 +410,58 @@
 		DF8D35591AA4B54900322DDD /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Tunnel/TunnelService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF8D355A1AA4B56900322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF91F18D1ACAEA57003D9F6D /* M+MJavaScriptCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptCommon.h"; path = "JavaScript/M+MJavaScriptCommon.h"; sourceTree = "<group>"; };
-		DFA7D0BA1ADD90E700A17BD6 /* mpmAddressClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAddressClient.rc; path = Address/AddressClient/mpmAddressClient.rc; sourceTree = "<group>"; };
 		DFA7D0BB1ADD90E700A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Address/AddressClient/resource.h; sourceTree = "<group>"; };
-		DFA7D0BC1ADD910300A17BD6 /* mpmAddressService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAddressService.rc; path = Address/AddressService/mpmAddressService.rc; sourceTree = "<group>"; };
 		DFA7D0BD1ADD910300A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Address/AddressService/resource.h; sourceTree = "<group>"; };
-		DFA7D0BE1ADD91F300A17BD6 /* mpmClientList.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmClientList.rc; path = ClientList/mpmClientList.rc; sourceTree = "<group>"; };
 		DFA7D0BF1ADD91F300A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ClientList/resource.h; sourceTree = "<group>"; };
-		DFA7D0C01ADD925100A17BD6 /* mpmAbsorberService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAbsorberService.rc; path = examples/AbsorberService/mpmAbsorberService.rc; sourceTree = "<group>"; };
 		DFA7D0C11ADD925100A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/AbsorberService/resource.h; sourceTree = "<group>"; };
-		DFA7D0C21ADD928200A17BD6 /* mpmChordGeneratorService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmChordGeneratorService.rc; path = examples/ChordGeneratorService/mpmChordGeneratorService.rc; sourceTree = "<group>"; };
 		DFA7D0C31ADD928200A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/ChordGeneratorService/resource.h; sourceTree = "<group>"; };
-		DFA7D0C41ADD92B200A17BD6 /* mpmEchoClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmEchoClient.rc; path = examples/EchoClient/mpmEchoClient.rc; sourceTree = "<group>"; };
 		DFA7D0C51ADD92B200A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/EchoClient/resource.h; sourceTree = "<group>"; };
-		DFA7D0C61ADD934100A17BD6 /* mpmEchoService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmEchoService.rc; path = examples/EchoService/mpmEchoService.rc; sourceTree = "<group>"; };
 		DFA7D0C71ADD934100A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/EchoService/resource.h; sourceTree = "<group>"; };
-		DFA7D0C81ADD936E00A17BD6 /* mpmRandomBurstService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomBurstService.rc; path = examples/RandomBurstService/mpmRandomBurstService.rc; sourceTree = "<group>"; };
 		DFA7D0C91ADD936E00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RandomBurstService/resource.h; sourceTree = "<group>"; };
-		DFA7D0CA1ADD939B00A17BD6 /* mpmRandomNumberAdapter.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomNumberAdapter.rc; path = examples/RandomNumberAdapter/mpmRandomNumberAdapter.rc; sourceTree = "<group>"; };
 		DFA7D0CB1ADD939B00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RandomNumberAdapter/resource.h; sourceTree = "<group>"; };
-		DFA7D0CC1ADD93C900A17BD6 /* mpmRandomNumberClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomNumberClient.rc; path = examples/RandomNumberClient/mpmRandomNumberClient.rc; sourceTree = "<group>"; };
 		DFA7D0CD1ADD93C900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RandomNumberClient/resource.h; sourceTree = "<group>"; };
-		DFA7D0CE1ADD93F900A17BD6 /* mpmRandomNumberService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomNumberService.rc; path = examples/RandomNumberService/mpmRandomNumberService.rc; sourceTree = "<group>"; };
 		DFA7D0CF1ADD93F900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RandomNumberService/resource.h; sourceTree = "<group>"; };
-		DFA7D0D01ADD94CF00A17BD6 /* mpmRecordIntegersService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordIntegersService.rc; path = examples/RecordIntegersService/mpmRecordIntegersService.rc; sourceTree = "<group>"; };
 		DFA7D0D11ADD94CF00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RecordIntegersService/resource.h; sourceTree = "<group>"; };
-		DFA7D0D21ADD958E00A17BD6 /* mpmRGBLEDService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRGBLEDService.rc; path = examples/RGBLEDService/mpmRGBLEDService.rc; sourceTree = "<group>"; };
 		DFA7D0D31ADD958E00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RGBLEDService/resource.h; sourceTree = "<group>"; };
-		DFA7D0D41ADD95A600A17BD6 /* mpmRunningSumAdapter.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRunningSumAdapter.rc; path = examples/RunningSumAdapter/mpmRunningSumAdapter.rc; sourceTree = "<group>"; };
 		DFA7D0D51ADD95A600A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RunningSumAdapter/resource.h; sourceTree = "<group>"; };
-		DFA7D0D61ADD95CF00A17BD6 /* mpmRunningSumAltAdapter.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRunningSumAltAdapter.rc; path = examples/RunningSumAltAdapter/mpmRunningSumAltAdapter.rc; sourceTree = "<group>"; };
 		DFA7D0D71ADD95CF00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RunningSumAltAdapter/resource.h; sourceTree = "<group>"; };
-		DFA7D0D81ADD95F400A17BD6 /* mpmRunningSumClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRunningSumClient.rc; path = examples/RunningSumClient/mpmRunningSumClient.rc; sourceTree = "<group>"; };
 		DFA7D0D91ADD95F400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RunningSumClient/resource.h; sourceTree = "<group>"; };
-		DFA7D0DA1ADD962700A17BD6 /* mpmRunningSumService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRunningSumService.rc; path = examples/RunningSumService/mpmRunningSumService.rc; sourceTree = "<group>"; };
 		DFA7D0DB1ADD962700A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RunningSumService/resource.h; sourceTree = "<group>"; };
-		DFA7D0DC1ADD964F00A17BD6 /* mpmTruncateFloatService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTruncateFloatService.rc; path = examples/TruncateFloatService/mpmTruncateFloatService.rc; sourceTree = "<group>"; };
 		DFA7D0DD1ADD964F00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/TruncateFloatService/resource.h; sourceTree = "<group>"; };
-		DFA7D0DE1ADD98CF00A17BD6 /* mpmExemplarAdapter.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarAdapter.rc; path = Exemplars/ExemplarAdapter/mpmExemplarAdapter.rc; sourceTree = "<group>"; };
 		DFA7D0DF1ADD98CF00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Exemplars/ExemplarAdapter/resource.h; sourceTree = "<group>"; };
-		DFA7D0E01ADD98F200A17BD6 /* mpmExemplarClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarClient.rc; path = Exemplars/ExemplarClient/mpmExemplarClient.rc; sourceTree = "<group>"; };
 		DFA7D0E11ADD98F200A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Exemplars/ExemplarClient/resource.h; sourceTree = "<group>"; };
-		DFA7D0E21ADD991700A17BD6 /* mpmExemplarFilterService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarFilterService.rc; path = Exemplars/ExemplarFilterService/mpmExemplarFilterService.rc; sourceTree = "<group>"; };
 		DFA7D0E31ADD991700A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Exemplars/ExemplarFilterService/resource.h; sourceTree = "<group>"; };
-		DFA7D0E41ADD993B00A17BD6 /* mpmExemplarInputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarInputService.rc; path = Exemplars/ExemplarInputService/mpmExemplarInputService.rc; sourceTree = "<group>"; };
 		DFA7D0E51ADD993B00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Exemplars/ExemplarInputService/resource.h; sourceTree = "<group>"; };
-		DFA7D0E61ADD995800A17BD6 /* mpmExemplarOutputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarOutputService.rc; path = Exemplars/ExemplarOutputService/mpmExemplarOutputService.rc; sourceTree = "<group>"; };
 		DFA7D0E71ADD995800A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Exemplars/ExemplarOutputService/resource.h; sourceTree = "<group>"; };
-		DFA7D0E81ADD997A00A17BD6 /* mpmExemplarService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarService.rc; path = Exemplars/ExemplarService/mpmExemplarService.rc; sourceTree = "<group>"; };
 		DFA7D0E91ADD997A00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Exemplars/ExemplarService/resource.h; sourceTree = "<group>"; };
-		DFA7D0EA1ADD999E00A17BD6 /* mpmFindServices.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmFindServices.rc; path = FindServices/mpmFindServices.rc; sourceTree = "<group>"; };
 		DFA7D0EB1ADD999E00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = FindServices/resource.h; sourceTree = "<group>"; };
-		DFA7D0EC1ADD99C900A17BD6 /* mpmJavaScriptService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmJavaScriptService.rc; path = JavaScript/mpmJavaScriptService.rc; sourceTree = "<group>"; };
 		DFA7D0ED1ADD99C900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = JavaScript/resource.h; sourceTree = "<group>"; };
-		DFA7D0EE1ADD99FB00A17BD6 /* mpmKinectV2InputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmKinectV2InputService.rc; path = KinectV2/KinectV2InputService/mpmKinectV2InputService.rc; sourceTree = "<group>"; };
 		DFA7D0EF1ADD99FB00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = KinectV2/KinectV2InputService/resource.h; sourceTree = "<group>"; };
-		DFA7D0F01ADD9A3400A17BD6 /* mpmLeapMotionInputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmLeapMotionInputService.rc; path = LeapMotion/LeapMotionInputService/mpmLeapMotionInputService.rc; sourceTree = "<group>"; };
-		DFA7D0F11ADD9A3400A17BD6 /* mpmTwoFingersInputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTwoFingersInputService.rc; path = LeapMotion/LeapMotionInputService/mpmTwoFingersInputService.rc; sourceTree = "<group>"; };
 		DFA7D0F21ADD9A3400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = LeapMotion/LeapMotionInputService/resource.h; sourceTree = "<group>"; };
 		DFA7D0F31ADD9A3400A17BD6 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = LeapMotion/LeapMotionInputService/resource1.h; sourceTree = "<group>"; };
-		DFA7D0F41ADD9A8300A17BD6 /* mpmMovementDbAdapter.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbAdapter.rc; path = MovementDb/MovementDbAdapter/mpmMovementDbAdapter.rc; sourceTree = "<group>"; };
 		DFA7D0F51ADD9A8300A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = MovementDb/MovementDbAdapter/resource.h; sourceTree = "<group>"; };
-		DFA7D0F61ADD9AA800A17BD6 /* mpmMovementDbClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbClient.rc; path = MovementDb/MovementDbClient/mpmMovementDbClient.rc; sourceTree = "<group>"; };
 		DFA7D0F71ADD9AA800A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = MovementDb/MovementDbClient/resource.h; sourceTree = "<group>"; };
-		DFA7D0F81ADD9AC900A17BD6 /* mpmMovementDbService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbService.rc; path = MovementDb/MovementDbService/mpmMovementDbService.rc; sourceTree = "<group>"; };
 		DFA7D0F91ADD9AC900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = MovementDb/MovementDbService/resource.h; sourceTree = "<group>"; };
-		DFA7D0FA1ADD9B1900A17BD6 /* mpmCommonTest.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmCommonTest.rc; path = CommonTests/mpmCommonTest.rc; sourceTree = "<group>"; };
 		DFA7D0FB1ADD9B1900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = CommonTests/resource.h; sourceTree = "<group>"; };
-		DFA7D0FC1ADD9B4C00A17BD6 /* mpmNaturalPointInputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmNaturalPointInputService.rc; path = NaturalPoint/NaturalPointInputService/mpmNaturalPointInputService.rc; sourceTree = SOURCE_ROOT; };
 		DFA7D0FD1ADD9B4C00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = NaturalPoint/NaturalPointInputService/resource.h; sourceTree = SOURCE_ROOT; };
-		DFA7D0FE1ADD9B7500A17BD6 /* mpmParserTest.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmParserTest.rc; path = ParserTest/mpmParserTest.rc; sourceTree = "<group>"; };
 		DFA7D0FF1ADD9B7500A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ParserTest/resource.h; sourceTree = "<group>"; };
-		DFA7D1001ADD9B9400A17BD6 /* mpmPortLister.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmPortLister.rc; path = PortLister/mpmPortLister.rc; sourceTree = "<group>"; };
 		DFA7D1011ADD9B9400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = PortLister/resource.h; sourceTree = "<group>"; };
-		DFA7D1021ADD9BB600A17BD6 /* mpmRecordAsJSONService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordAsJSONService.rc; path = RecordAsJSON/mpmRecordAsJSONService.rc; sourceTree = "<group>"; };
 		DFA7D1031ADD9BB600A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RecordAsJSON/resource.h; sourceTree = "<group>"; };
-		DFA7D1041ADD9BE000A17BD6 /* mpmRegistryService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRegistryService.rc; path = RegistryService/mpmRegistryService.rc; sourceTree = "<group>"; };
-		DFA7D1051ADD9BE000A17BD6 /* mpmRegistryTest.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRegistryTest.rc; path = RegistryService/mpmRegistryTest.rc; sourceTree = "<group>"; };
 		DFA7D1061ADD9BE000A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RegistryService/resource.h; sourceTree = "<group>"; };
 		DFA7D1071ADD9BE000A17BD6 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = RegistryService/resource1.h; sourceTree = "<group>"; };
-		DFA7D1081ADD9C2B00A17BD6 /* mpmRequestCounterClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRequestCounterClient.rc; path = RequestCounter/RequestCounterClient/mpmRequestCounterClient.rc; sourceTree = "<group>"; };
 		DFA7D1091ADD9C2B00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestCounter/RequestCounterClient/resource.h; sourceTree = "<group>"; };
-		DFA7D10A1ADD9C5400A17BD6 /* mpmRequestCounterService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRequestCounterService.rc; path = RequestCounter/RequestCounterService/mpmRequestCounterService.rc; sourceTree = "<group>"; };
 		DFA7D10B1ADD9C5400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestCounter/RequestCounterService/resource.h; sourceTree = "<group>"; };
-		DFA7D10C1ADD9C8200A17BD6 /* mpmRequestInfo.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRequestInfo.rc; path = RequestInfo/mpmRequestInfo.rc; sourceTree = "<group>"; };
 		DFA7D10D1ADD9C8200A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestInfo/resource.h; sourceTree = "<group>"; };
-		DFA7D10E1ADD9CA100A17BD6 /* mpmServiceLister.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmServiceLister.rc; path = ServiceLister/mpmServiceLister.rc; sourceTree = "<group>"; };
 		DFA7D10F1ADD9CA100A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ServiceLister/resource.h; sourceTree = "<group>"; };
-		DFA7D1101ADD9CC000A17BD6 /* mpmServiceMetrics.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmServiceMetrics.rc; path = ServiceMetrics/mpmServiceMetrics.rc; sourceTree = "<group>"; };
 		DFA7D1111ADD9CC000A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ServiceMetrics/resource.h; sourceTree = "<group>"; };
-		DFA7D1121ADD9CEB00A17BD6 /* mpmTestLoopbackControl.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTestLoopbackControl.rc; path = Tunnel/TestLoopbackControl/mpmTestLoopbackControl.rc; sourceTree = "<group>"; };
 		DFA7D1131ADD9CEB00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TestLoopbackControl/resource.h; sourceTree = "<group>"; };
-		DFA7D1141ADD9D0800A17BD6 /* mpmTestLoopbackResponder.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTestLoopbackResponder.rc; path = Tunnel/TestLoopbackResponder/mpmTestLoopbackResponder.rc; sourceTree = "<group>"; };
 		DFA7D1151ADD9D0800A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TestLoopbackResponder/resource.h; sourceTree = "<group>"; };
-		DFA7D1161ADD9D3100A17BD6 /* mpmTestSink.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTestSink.rc; path = Tunnel/TestSink/mpmTestSink.rc; sourceTree = "<group>"; };
 		DFA7D1171ADD9D3100A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TestSink/resource.h; sourceTree = "<group>"; };
-		DFA7D1181ADD9D5400A17BD6 /* mpmTestSource.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTestSource.rc; path = Tunnel/TestSource/mpmTestSource.rc; sourceTree = "<group>"; };
 		DFA7D1191ADD9D5400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TestSource/resource.h; sourceTree = "<group>"; };
-		DFA7D11A1ADD9D7500A17BD6 /* mpmTunnelClient.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTunnelClient.rc; path = Tunnel/TunnelClient/mpmTunnelClient.rc; sourceTree = "<group>"; };
 		DFA7D11B1ADD9D7500A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TunnelClient/resource.h; sourceTree = "<group>"; };
-		DFA7D11C1ADD9D9300A17BD6 /* mpmTunnelService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTunnelService.rc; path = Tunnel/TunnelService/mpmTunnelService.rc; sourceTree = "<group>"; };
 		DFA7D11D1ADD9D9300A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TunnelService/resource.h; sourceTree = "<group>"; };
-		DFA7D11E1ADD9DC000A17BD6 /* mpmUnrealOutputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmUnrealOutputService.rc; path = Unreal/UnrealOutputService/mpmUnrealOutputService.rc; sourceTree = "<group>"; };
 		DFA7D11F1ADD9DC000A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Unreal/UnrealOutputService/resource.h; sourceTree = "<group>"; };
-		DFA7D1201ADD9E4900A17BD6 /* mpmVersion.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmVersion.rc; path = Version/mpmVersion.rc; sourceTree = "<group>"; };
 		DFA7D1211ADD9E4900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Version/resource.h; sourceTree = "<group>"; };
-		DFA7D1221ADD9E7000A17BD6 /* mpmViconDataStreamInputService.rc */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmViconDataStreamInputService.rc; path = ViconDataStream/ViconDataStreamInputService/mpmViconDataStreamInputService.rc; sourceTree = "<group>"; };
 		DFA7D1231ADD9E7000A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ViconDataStream/ViconDataStreamInputService/resource.h; sourceTree = "<group>"; };
 		DFA7D1241ADDA10F00A17BD6 /* mpmClientList.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmClientList.rc.in; path = ClientList/mpmClientList.rc.in; sourceTree = "<group>"; };
 		DFA7D1251ADDB5CF00A17BD6 /* mpmAddressClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAddressClient.rc.in; path = Address/AddressClient/mpmAddressClient.rc.in; sourceTree = "<group>"; };
@@ -691,6 +648,31 @@
 			name = SQLite3;
 			sourceTree = SOURCE_ROOT;
 		};
+		DF0C7A911AE006C000E8FB15 /* ProComp */ = {
+			isa = PBXGroup;
+			children = (
+				DF0C7A921AE007F600E8FB15 /* CMakeLists.txt */,
+				DF0C7A931AE0080500E8FB15 /* ProCompInputService */,
+			);
+			name = ProComp;
+			sourceTree = "<group>";
+		};
+		DF0C7A931AE0080500E8FB15 /* ProCompInputService */ = {
+			isa = PBXGroup;
+			children = (
+				DF0C7A941AE0082300E8FB15 /* CMakeLists.txt */,
+				DF0C7A951AE0082300E8FB15 /* M+MProCompInputRequests.h */,
+				DF0C7A961AE0082300E8FB15 /* M+MProCompInputService.cpp */,
+				DF0C7A971AE0082300E8FB15 /* M+MProCompInputService.h */,
+				DF0C7A981AE0082300E8FB15 /* M+MProCompInputServiceMain.cpp */,
+				DF0C7A991AE0082300E8FB15 /* M+MProCompInputThread.cpp */,
+				DF0C7A9A1AE0082300E8FB15 /* M+MProCompInputThread.h */,
+				DF0C7A9C1AE0082300E8FB15 /* mpmProCompInputService.rc.in */,
+				DF0C7A9D1AE0082300E8FB15 /* resource.h */,
+			);
+			name = ProCompInputService;
+			sourceTree = "<group>";
+		};
 		DF1BD31E1A8BA2D00070A09C /* Address */ = {
 			isa = PBXGroup;
 			children = (
@@ -709,7 +691,6 @@
 				DF1BD3221A8BA2FA0070A09C /* M+MAddressClient.cpp */,
 				DF1BD3231A8BA2FA0070A09C /* M+MAddressClient.h */,
 				DF1BD3241A8BA2FA0070A09C /* M+MAddressClientMain.cpp */,
-				DFA7D0BA1ADD90E700A17BD6 /* mpmAddressClient.rc */,
 				DFA7D1251ADDB5CF00A17BD6 /* mpmAddressClient.rc.in */,
 				DFA7D0BB1ADD90E700A17BD6 /* resource.h */,
 			);
@@ -731,7 +712,6 @@
 				DF1BD32D1A8BA3310070A09C /* M+MAddressService.cpp */,
 				DF1BD32E1A8BA3310070A09C /* M+MAddressService.h */,
 				DF1BD32F1A8BA3310070A09C /* M+MAddressServiceMain.cpp */,
-				DFA7D0BC1ADD910300A17BD6 /* mpmAddressService.rc */,
 				DFA7D1261ADDB5DD00A17BD6 /* mpmAddressService.rc.in */,
 				DF1BD3341A8BAEE10070A09C /* RequestHandlers */,
 				DFA7D0BD1ADD910300A17BD6 /* resource.h */,
@@ -772,7 +752,6 @@
 				DF8D35551AA4B53300322DDD /* M+MTunnelService.cpp */,
 				DF8D35561AA4B53300322DDD /* M+MTunnelService.h */,
 				DF8D35571AA4B53300322DDD /* M+MTunnelServiceMain.cpp */,
-				DFA7D11C1ADD9D9300A17BD6 /* mpmTunnelService.rc */,
 				DFA7D1551ADDB91800A17BD6 /* mpmTunnelService.rc.in */,
 				DF1BD3441A8C01A50070A09C /* RequestHandlers */,
 				DFA7D11D1ADD9D9300A17BD6 /* resource.h */,
@@ -804,7 +783,6 @@
 				DF8D354E1AA4B4F500322DDD /* M+MTunnelClient.cpp */,
 				DF8D354F1AA4B4F500322DDD /* M+MTunnelClient.h */,
 				DF8D35501AA4B4F500322DDD /* M+MTunnelClientMain.cpp */,
-				DFA7D11A1ADD9D7500A17BD6 /* mpmTunnelClient.rc */,
 				DFA7D1541ADDB90C00A17BD6 /* mpmTunnelClient.rc.in */,
 				DFA7D11B1ADD9D7500A17BD6 /* resource.h */,
 			);
@@ -816,7 +794,6 @@
 			children = (
 				DF385017198A9DBE00A0414E /* CMakeLists.txt */,
 				DF385018198A9DBE00A0414E /* M+MServiceListerMain.cpp */,
-				DFA7D10E1ADD9CA100A17BD6 /* mpmServiceLister.rc */,
 				DFA7D14E1ADDB8B900A17BD6 /* mpmServiceLister.rc.in */,
 				DFA7D10F1ADD9CA100A17BD6 /* resource.h */,
 			);
@@ -828,7 +805,6 @@
 			children = (
 				DF385015198A9DA800A0414E /* CMakeLists.txt */,
 				DF385016198A9DA800A0414E /* M+MRequestInfoMain.cpp */,
-				DFA7D10C1ADD9C8200A17BD6 /* mpmRequestInfo.rc */,
 				DFA7D14D1ADDB8AC00A17BD6 /* mpmRequestInfo.rc.in */,
 				DFA7D10D1ADD9C8200A17BD6 /* resource.h */,
 			);
@@ -844,7 +820,6 @@
 				DF38500E198A9D6A00A0414E /* M+MRequestCounterService.cpp */,
 				DF38500F198A9D6A00A0414E /* M+MRequestCounterService.h */,
 				DF385010198A9D6A00A0414E /* M+MRequestCounterServiceMain.cpp */,
-				DFA7D10A1ADD9C5400A17BD6 /* mpmRequestCounterService.rc */,
 				DFA7D14C1ADDB89B00A17BD6 /* mpmRequestCounterService.rc.in */,
 				DF36EEF31958E0A500E7D889 /* RequestHandlers */,
 				DFA7D10B1ADD9C5400A17BD6 /* resource.h */,
@@ -879,7 +854,6 @@
 				DF385005198A9D4A00A0414E /* M+MRequestCounterClient.cpp */,
 				DF385006198A9D4A00A0414E /* M+MRequestCounterClient.h */,
 				DF385007198A9D4A00A0414E /* M+MRequestCounterClientMain.cpp */,
-				DFA7D1081ADD9C2B00A17BD6 /* mpmRequestCounterClient.rc */,
 				DFA7D14B1ADDB88C00A17BD6 /* mpmRequestCounterClient.rc.in */,
 				DFA7D1091ADD9C2B00A17BD6 /* resource.h */,
 			);
@@ -895,7 +869,6 @@
 				DF384FB2198A9C0500A0414E /* M+MRunningSumService.cpp */,
 				DF384FB3198A9C0500A0414E /* M+MRunningSumService.h */,
 				DF384FB4198A9C0500A0414E /* M+MRunningSumServiceMain.cpp */,
-				DFA7D0DA1ADD962700A17BD6 /* mpmRunningSumService.rc */,
 				DFA7D1351ADDB6AE00A17BD6 /* mpmRunningSumService.rc.in */,
 				DFA7D0DB1ADD962700A17BD6 /* resource.h */,
 				DF36EEF51958E11B00E7D889 /* RequestHandlers */,
@@ -910,7 +883,6 @@
 				DF384FA7198A9BE800A0414E /* M+MRunningSumClient.cpp */,
 				DF384FA8198A9BE800A0414E /* M+MRunningSumClient.h */,
 				DF384FA9198A9BE800A0414E /* M+MRunningSumClientMain.cpp */,
-				DFA7D0D81ADD95F400A17BD6 /* mpmRunningSumClient.rc */,
 				DFA7D1341ADDB6A200A17BD6 /* mpmRunningSumClient.rc.in */,
 				DFA7D0D91ADD95F400A17BD6 /* resource.h */,
 			);
@@ -924,7 +896,6 @@
 				DF38507B198AC50200A0414E /* M+MParserTest.cpp */,
 				DF38507C198AC50200A0414E /* M+MTestNameValidator.cpp */,
 				DF38507D198AC50200A0414E /* M+MTestNameValidator.h */,
-				DFA7D0FE1ADD9B7500A17BD6 /* mpmParserTest.rc */,
 				DFA7D1461ADDB7B600A17BD6 /* mpmParserTest.rc.in */,
 				DFA7D0FF1ADD9B7500A17BD6 /* resource.h */,
 			);
@@ -940,7 +911,6 @@
 				DF384F85198A9B3100A0414E /* M+MRandomNumberAdapterMain.cpp */,
 				DF384F86198A9B3100A0414E /* M+MRandomNumberInputHandler.cpp */,
 				DF384F87198A9B3100A0414E /* M+MRandomNumberInputHandler.h */,
-				DFA7D0CA1ADD939B00A17BD6 /* mpmRandomNumberAdapter.rc */,
 				DFA7D12D1ADDB65A00A17BD6 /* mpmRandomNumberAdapter.rc.in */,
 				DFA7D0CB1ADD939B00A17BD6 /* resource.h */,
 			);
@@ -952,7 +922,6 @@
 			children = (
 				DF384FDD198A9CA600A0414E /* CMakeLists.txt */,
 				DF384FDE198A9CA600A0414E /* M+MPortListerMain.cpp */,
-				DFA7D1001ADD9B9400A17BD6 /* mpmPortLister.rc */,
 				DFA7D1471ADDB7C300A17BD6 /* mpmPortLister.rc.in */,
 				DFA7D1011ADD9B9400A17BD6 /* resource.h */,
 			);
@@ -1078,7 +1047,6 @@
 				DF824B8719C7460C004D13AC /* M+MRandomBurstServiceMain.cpp */,
 				DF824B8819C7460C004D13AC /* M+MRandomBurstThread.cpp */,
 				DF824B8919C7460C004D13AC /* M+MRandomBurstThread.h */,
-				DFA7D0C81ADD936E00A17BD6 /* mpmRandomBurstService.rc */,
 				DFA7D12C1ADDB64F00A17BD6 /* mpmRandomBurstService.rc.in */,
 				DFA7D0C91ADD936E00A17BD6 /* resource.h */,
 			);
@@ -1095,7 +1063,6 @@
 				DF824B8019C744CC004D13AC /* M+MRecordIntegersService.cpp */,
 				DF824B8119C744CC004D13AC /* M+MRecordIntegersService.h */,
 				DF824B8219C744CC004D13AC /* M+MRecordIntegersServiceMain.cpp */,
-				DFA7D0D01ADD94CF00A17BD6 /* mpmRecordIntegersService.rc */,
 				DFA7D1301ADDB67800A17BD6 /* mpmRecordIntegersService.rc.in */,
 				DFA7D0D11ADD94CF00A17BD6 /* resource.h */,
 			);
@@ -1112,7 +1079,6 @@
 				DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatService.cpp */,
 				DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatService.h */,
 				DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatServiceMain.cpp */,
-				DFA7D0DC1ADD964F00A17BD6 /* mpmTruncateFloatService.rc */,
 				DFA7D1361ADDB6BB00A17BD6 /* mpmTruncateFloatService.rc.in */,
 				DFA7D0DD1ADD964F00A17BD6 /* resource.h */,
 			);
@@ -1150,7 +1116,6 @@
 				DF385056198ABBBB00A0414E /* M+MTest12EchoRequestHandler.h */,
 				DF385057198ABBBB00A0414E /* M+MTest12Service.cpp */,
 				DF385058198ABBBB00A0414E /* M+MTest12Service.h */,
-				DFA7D0FA1ADD9B1900A17BD6 /* mpmCommonTest.rc */,
 				DFA7D1271ADDB5FB00A17BD6 /* mpmCommonTest.rc.in */,
 				DFA7D0FB1ADD9B1900A17BD6 /* resource.h */,
 			);
@@ -1170,7 +1135,6 @@
 				DF45F21F1A5AF9500090E161 /* M+MJavaScriptServiceMain.cpp */,
 				DF6EAFA51A68255E00FC0085 /* M+MJavaScriptThread.cpp */,
 				DF6EAFA61A68255E00FC0085 /* M+MJavaScriptThread.h */,
-				DFA7D0EC1ADD99C900A17BD6 /* mpmJavaScriptService.rc */,
 				DFA7D13E1ADDB72B00A17BD6 /* mpmJavaScriptService.rc.in */,
 				DF4179A11A60596F006552F0 /* MergeChannels.js */,
 				DF6EAFA71A68274C00FC0085 /* RandomBurst.js */,
@@ -1191,7 +1155,6 @@
 				DF384FA3198A9BCF00A0414E /* M+MRunningSumAltAdapterMain.cpp */,
 				DF384FA4198A9BCF00A0414E /* M+MRunningSumInputHandler.cpp */,
 				DF384FA5198A9BCF00A0414E /* M+MRunningSumInputHandler.h */,
-				DFA7D0D61ADD95CF00A17BD6 /* mpmRunningSumAltAdapter.rc */,
 				DFA7D1331ADDB69800A17BD6 /* mpmRunningSumAltAdapter.rc.in */,
 				DFA7D0D71ADD95CF00A17BD6 /* resource.h */,
 			);
@@ -1217,7 +1180,6 @@
 				DF6DFCC61A0D265000E8CEF5 /* M+MViconDataStreamInputService.cpp */,
 				DF6DFCC71A0D265000E8CEF5 /* M+MViconDataStreamInputService.h */,
 				DF6DFCC81A0D265000E8CEF5 /* M+MViconDataStreamInputServiceMain.cpp */,
-				DFA7D1221ADD9E7000A17BD6 /* mpmViconDataStreamInputService.rc */,
 				DFA7D1581ADDB94700A17BD6 /* mpmViconDataStreamInputService.rc.in */,
 				DFA7D1231ADD9E7000A17BD6 /* resource.h */,
 				DF6DFCC91A0D265000E8CEF5 /* stdafx.h */,
@@ -1281,7 +1243,6 @@
 				DF824B8E19C7535F004D13AC /* M+MExemplarAdapterMain.cpp */,
 				DF824B8F19C7535F004D13AC /* M+MExemplarInputHandler.cpp */,
 				DF824B9019C7535F004D13AC /* M+MExemplarInputHandler.h */,
-				DFA7D0DE1ADD98CF00A17BD6 /* mpmExemplarAdapter.rc */,
 				DFA7D1371ADDB6D100A17BD6 /* mpmExemplarAdapter.rc.in */,
 				DFA7D0DF1ADD98CF00A17BD6 /* resource.h */,
 			);
@@ -1295,7 +1256,6 @@
 				DF824B9819C7545A004D13AC /* M+MExemplarClient.cpp */,
 				DF824B9919C7545A004D13AC /* M+MExemplarClient.h */,
 				DF824B9A19C7545A004D13AC /* M+MExemplarClientMain.cpp */,
-				DFA7D0E01ADD98F200A17BD6 /* mpmExemplarClient.rc */,
 				DFA7D1381ADDB6DC00A17BD6 /* mpmExemplarClient.rc.in */,
 				DFA7D0E11ADD98F200A17BD6 /* resource.h */,
 			);
@@ -1320,7 +1280,6 @@
 				DF824BA019C7554B004D13AC /* M+MExemplarFilterService.cpp */,
 				DF824BA119C7554B004D13AC /* M+MExemplarFilterService.h */,
 				DF824BA219C7554B004D13AC /* M+MExemplarFilterServiceMain.cpp */,
-				DFA7D0E21ADD991700A17BD6 /* mpmExemplarFilterService.rc */,
 				DFA7D1391ADDB6E500A17BD6 /* mpmExemplarFilterService.rc.in */,
 				DFA7D0E31ADD991700A17BD6 /* resource.h */,
 			);
@@ -1337,7 +1296,6 @@
 				DF824BA719C7556C004D13AC /* M+MExemplarInputServiceMain.cpp */,
 				DF824BA819C7556C004D13AC /* M+MExemplarInputThread.cpp */,
 				DF824BA919C7556C004D13AC /* M+MExemplarInputThread.h */,
-				DFA7D0E41ADD993B00A17BD6 /* mpmExemplarInputService.rc */,
 				DFA7D13A1ADDB6F000A17BD6 /* mpmExemplarInputService.rc.in */,
 				DFA7D0E51ADD993B00A17BD6 /* resource.h */,
 			);
@@ -1354,7 +1312,6 @@
 				DF824BAE19C75591004D13AC /* M+MExemplarOutputService.cpp */,
 				DF824BAF19C75591004D13AC /* M+MExemplarOutputService.h */,
 				DF824BB019C75591004D13AC /* M+MExemplarOutputServiceMain.cpp */,
-				DFA7D0E61ADD995800A17BD6 /* mpmExemplarOutputService.rc */,
 				DFA7D13B1ADDB6FA00A17BD6 /* mpmExemplarOutputService.rc.in */,
 				DFA7D0E71ADD995800A17BD6 /* resource.h */,
 			);
@@ -1370,7 +1327,6 @@
 				DF824BB419C755AD004D13AC /* M+MExemplarServiceMain.cpp */,
 				DF824BB519C755AD004D13AC /* M+MSimpleRequestHandler.cpp */,
 				DF824BB619C755AD004D13AC /* M+MSimpleRequestHandler.h */,
-				DFA7D0E81ADD997A00A17BD6 /* mpmExemplarService.rc */,
 				DFA7D13C1ADDB70600A17BD6 /* mpmExemplarService.rc.in */,
 				DFA7D0E91ADD997A00A17BD6 /* resource.h */,
 			);
@@ -1404,9 +1360,7 @@
 				F64A5FEB1A9BFB2D0015A21E /* M+MTwoFingersInputService.cpp */,
 				F64A5FEC1A9BFB2D0015A21E /* M+MTwoFingersInputService.h */,
 				F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */,
-				DFA7D0F01ADD9A3400A17BD6 /* mpmLeapMotionInputService.rc */,
 				DFA7D1401ADDB74800A17BD6 /* mpmLeapMotionInputService.rc.in */,
-				DFA7D0F11ADD9A3400A17BD6 /* mpmTwoFingersInputService.rc */,
 				DFA7D1411ADDB74800A17BD6 /* mpmTwoFingersInputService.rc.in */,
 				DFA7D0F21ADD9A3400A17BD6 /* resource.h */,
 				DFA7D0F31ADD9A3400A17BD6 /* resource1.h */,
@@ -1419,7 +1373,6 @@
 			children = (
 				DF8D35471AA4B49B00322DDD /* CMakeLists.txt */,
 				DF8D35481AA4B49B00322DDD /* M+MTestLoopbackResponderMain.cpp */,
-				DFA7D1141ADD9D0800A17BD6 /* mpmTestLoopbackResponder.rc */,
 				DFA7D1511ADDB8E500A17BD6 /* mpmTestLoopbackResponder.rc.in */,
 				DFA7D1151ADD9D0800A17BD6 /* resource.h */,
 			);
@@ -1431,7 +1384,6 @@
 			children = (
 				DF8D35451AA4B34300322DDD /* CMakeLists.txt */,
 				DF8D35461AA4B34300322DDD /* M+MTestLoopbackControlMain.cpp */,
-				DFA7D1121ADD9CEB00A17BD6 /* mpmTestLoopbackControl.rc */,
 				DFA7D1501ADDB8D800A17BD6 /* mpmTestLoopbackControl.rc.in */,
 				DFA7D1131ADD9CEB00A17BD6 /* resource.h */,
 			);
@@ -1458,6 +1410,7 @@
 				DFA3432618C91C1C0053B87C /* odl */,
 				DF27F42718CA357400E93C95 /* ParserTest */,
 				DF30063718E605D400B51C22 /* PortLister */,
+				DF0C7A911AE006C000E8FB15 /* ProComp */,
 				DFEF4BB51A262AEC00FBB838 /* RecordAsJSON */,
 				DFA3431418C91B8B0053B87C /* RegistryService */,
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
@@ -1486,9 +1439,7 @@
 				DF384FF1198A9CC500A0414E /* M+MRegistryService.h */,
 				DF384FF2198A9CC500A0414E /* M+MRegistryServiceMain.cpp */,
 				DF384FF3198A9CC500A0414E /* M+MRegistryTest.cpp */,
-				DFA7D1041ADD9BE000A17BD6 /* mpmRegistryService.rc */,
 				DFA7D1491ADDB87400A17BD6 /* mpmRegistryService.rc.in */,
-				DFA7D1051ADD9BE000A17BD6 /* mpmRegistryTest.rc */,
 				DFA7D14A1ADDB87400A17BD6 /* mpmRegistryTest.rc.in */,
 				DF2092A118D360DE0093D3DC /* RegistryTests */,
 				DF36EEF41958E0C800E7D889 /* RequestHandlers */,
@@ -1505,7 +1456,6 @@
 				DF384F78198A9ACC00A0414E /* M+MEchoService.cpp */,
 				DF384F79198A9ACC00A0414E /* M+MEchoService.h */,
 				DF384F7A198A9ACC00A0414E /* M+MEchoServiceMain.cpp */,
-				DFA7D0C61ADD934100A17BD6 /* mpmEchoService.rc */,
 				DFA7D12B1ADDB64400A17BD6 /* mpmEchoService.rc.in */,
 				DF36EEF71958E15100E7D889 /* RequestHandlers */,
 				DFA7D0C71ADD934100A17BD6 /* resource.h */,
@@ -1520,7 +1470,6 @@
 				DF384F71198A9AAA00A0414E /* M+MEchoClient.cpp */,
 				DF384F72198A9AAA00A0414E /* M+MEchoClient.h */,
 				DF384F73198A9AAA00A0414E /* M+MEchoClientMain.cpp */,
-				DFA7D0C41ADD92B200A17BD6 /* mpmEchoClient.rc */,
 				DFA7D12A1ADDB63900A17BD6 /* mpmEchoClient.rc.in */,
 				DFA7D0C51ADD92B200A17BD6 /* resource.h */,
 			);
@@ -1640,7 +1589,6 @@
 				DF384F89198A9B4B00A0414E /* M+MRandomNumberClient.cpp */,
 				DF384F8A198A9B4B00A0414E /* M+MRandomNumberClient.h */,
 				DF384F8B198A9B4B00A0414E /* M+MRandomNumberClientMain.cpp */,
-				DFA7D0CC1ADD93C900A17BD6 /* mpmRandomNumberClient.rc */,
 				DFA7D12E1ADDB66400A17BD6 /* mpmRandomNumberClient.rc.in */,
 				DFA7D0CD1ADD93C900A17BD6 /* resource.h */,
 			);
@@ -1654,7 +1602,6 @@
 				DF384F8E198A9B6800A0414E /* M+MRandomNumberService.cpp */,
 				DF384F8F198A9B6800A0414E /* M+MRandomNumberService.h */,
 				DF384F90198A9B6800A0414E /* M+MRandomNumberServiceMain.cpp */,
-				DFA7D0CE1ADD93F900A17BD6 /* mpmRandomNumberService.rc */,
 				DFA7D12F1ADDB66F00A17BD6 /* mpmRandomNumberService.rc.in */,
 				DF36EEF61958E13B00E7D889 /* RequestHandlers */,
 				DFA7D0CF1ADD93F900A17BD6 /* resource.h */,
@@ -1667,7 +1614,6 @@
 			children = (
 				DF38501C198A9DEB00A0414E /* CMakeLists.txt */,
 				DF38501D198A9DEB00A0414E /* M+MVersionMain.cpp */,
-				DFA7D1201ADD9E4900A17BD6 /* mpmVersion.rc */,
 				DFA7D1571ADDB93900A17BD6 /* mpmVersion.rc.in */,
 				DFA7D1211ADD9E4900A17BD6 /* resource.h */,
 			);
@@ -1685,7 +1631,6 @@
 				DF384F9F198A9BB400A0414E /* M+MRunningSumControlInputHandler.h */,
 				DF384FA0198A9BB400A0414E /* M+MRunningSumDataInputHandler.cpp */,
 				DF384FA1198A9BB400A0414E /* M+MRunningSumDataInputHandler.h */,
-				DFA7D0D41ADD95A600A17BD6 /* mpmRunningSumAdapter.rc */,
 				DFA7D1321ADDB68D00A17BD6 /* mpmRunningSumAdapter.rc.in */,
 				DFA7D0D51ADD95A600A17BD6 /* resource.h */,
 			);
@@ -1726,7 +1671,6 @@
 				DF384F6B198A9A5A00A0414E /* M+MChordGeneratorService.cpp */,
 				DF384F6C198A9A5A00A0414E /* M+MChordGeneratorService.h */,
 				DF384F6D198A9A5A00A0414E /* M+MChordGeneratorServiceMain.cpp */,
-				DFA7D0C21ADD928200A17BD6 /* mpmChordGeneratorService.rc */,
 				DFA7D1291ADDB62E00A17BD6 /* mpmChordGeneratorService.rc.in */,
 				DFA7D0C31ADD928200A17BD6 /* resource.h */,
 				DF36EEF81958E16400E7D889 /* RequestHandlers */,
@@ -1754,7 +1698,6 @@
 				DFCB01F81ADC418C00A5ACBA /* M+MNaturalPointInputServiceMain.cpp */,
 				DFCB01F91ADC418C00A5ACBA /* M+MNaturalPointInputThread.cpp */,
 				DFCB01FA1ADC418C00A5ACBA /* M+MNaturalPointInputThread.h */,
-				DFA7D0FC1ADD9B4C00A17BD6 /* mpmNaturalPointInputService.rc */,
 				DFA7D1451ADDB7A800A17BD6 /* mpmNaturalPointInputService.rc.in */,
 				DFA7D0FD1ADD9B4C00A17BD6 /* resource.h */,
 			);
@@ -1766,7 +1709,6 @@
 			children = (
 				DFCB229818EF23DF00358EA5 /* CMakeLists.txt */,
 				DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */,
-				DFA7D0BE1ADD91F300A17BD6 /* mpmClientList.rc */,
 				DFA7D1241ADDA10F00A17BD6 /* mpmClientList.rc.in */,
 				DFA7D0BF1ADD91F300A17BD6 /* resource.h */,
 			);
@@ -1783,7 +1725,6 @@
 				DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */,
 				DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */,
 				DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */,
-				DFA7D0C01ADD925100A17BD6 /* mpmAbsorberService.rc */,
 				DFA7D1281ADDB61F00A17BD6 /* mpmAbsorberService.rc.in */,
 				DFA7D0C11ADD925100A17BD6 /* resource.h */,
 			);
@@ -1795,7 +1736,6 @@
 			children = (
 				DFCDE4F719E3029B0051D294 /* CMakeLists.txt */,
 				DFCDE4F819E3029B0051D294 /* M+MFindServicesMain.cpp */,
-				DFA7D0EA1ADD999E00A17BD6 /* mpmFindServices.rc */,
 				DFA7D13D1ADDB71E00A17BD6 /* mpmFindServices.rc.in */,
 				DFA7D0EB1ADD999E00A17BD6 /* resource.h */,
 			);
@@ -1812,7 +1752,6 @@
 				DFCDE50019E6CE710051D294 /* M+MRGBLEDService.cpp */,
 				DFCDE50119E6CE710051D294 /* M+MRGBLEDService.h */,
 				DFCDE50219E6CE710051D294 /* M+MRGBLEDServiceMain.cpp */,
-				DFA7D0D21ADD958E00A17BD6 /* mpmRGBLEDService.rc */,
 				DFA7D1311ADDB68200A17BD6 /* mpmRGBLEDService.rc.in */,
 				DFA7D0D31ADD958E00A17BD6 /* resource.h */,
 			);
@@ -1824,7 +1763,6 @@
 			children = (
 				DFCDE50819E73A210051D294 /* CMakeLists.txt */,
 				DFCDE50919E73A210051D294 /* M+MServiceMetricsMain.cpp */,
-				DFA7D1101ADD9CC000A17BD6 /* mpmServiceMetrics.rc */,
 				DFA7D14F1ADDB8C500A17BD6 /* mpmServiceMetrics.rc.in */,
 				DFA7D1111ADD9CC000A17BD6 /* resource.h */,
 			);
@@ -1858,7 +1796,6 @@
 				DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */,
 				DFE83AD119B671D1003A7EDE /* M+MMovementDbClient.h */,
 				DFE83AD219B671D1003A7EDE /* M+MMovementDbClientMain.cpp */,
-				DFA7D0F61ADD9AA800A17BD6 /* mpmMovementDbClient.rc */,
 				DFA7D1431ADDB76D00A17BD6 /* mpmMovementDbClient.rc.in */,
 				DFA7D0F71ADD9AA800A17BD6 /* resource.h */,
 			);
@@ -1882,7 +1819,6 @@
 				DFE83AD819B671D1003A7EDE /* M+MMovementDbService.cpp */,
 				DFE83AD919B671D1003A7EDE /* M+MMovementDbService.h */,
 				DFE83ADA19B671D1003A7EDE /* M+MMovementDbServiceMain.cpp */,
-				DFA7D0F81ADD9AC900A17BD6 /* mpmMovementDbService.rc */,
 				DFA7D1441ADDB77C00A17BD6 /* mpmMovementDbService.rc.in */,
 				DFE83AE219B8AB1A003A7EDE /* RequestHandlers */,
 				DFA7D0F91ADD9AC900A17BD6 /* resource.h */,
@@ -1914,7 +1850,6 @@
 				DFE83AED19B8C58B003A7EDE /* M+MMovementDbAdapterMain.cpp */,
 				DFE83AEE19B8C58B003A7EDE /* M+MMovementDbInputHandler.cpp */,
 				DFE83AEF19B8C58B003A7EDE /* M+MMovementDbInputHandler.h */,
-				DFA7D0F41ADD9A8300A17BD6 /* mpmMovementDbAdapter.rc */,
 				DFA7D1421ADDB76000A17BD6 /* mpmMovementDbAdapter.rc.in */,
 				DFA7D0F51ADD9A8300A17BD6 /* resource.h */,
 			);
@@ -1942,7 +1877,6 @@
 				DFEF4B621A1CE6F900FBB838 /* M+MUnrealOutputServiceMain.cpp */,
 				DFEF4B5D1A1CE6F900FBB838 /* M+MUnrealOutputViconInputHandler.cpp */,
 				DFEF4B5E1A1CE6F900FBB838 /* M+MUnrealOutputViconInputHandler.h */,
-				DFA7D11E1ADD9DC000A17BD6 /* mpmUnrealOutputService.rc */,
 				DFA7D1561ADDB92900A17BD6 /* mpmUnrealOutputService.rc.in */,
 				DFA7D11F1ADD9DC000A17BD6 /* resource.h */,
 			);
@@ -1975,7 +1909,6 @@
 				DFEF4BBA1A262B3500FBB838 /* M+MRecordAsJSONService.cpp */,
 				DFEF4BBB1A262B3500FBB838 /* M+MRecordAsJSONService.h */,
 				DFEF4BBC1A262B3500FBB838 /* M+MRecordAsJSONServiceMain.cpp */,
-				DFA7D1021ADD9BB600A17BD6 /* mpmRecordAsJSONService.rc */,
 				DFA7D1481ADDB7D200A17BD6 /* mpmRecordAsJSONService.rc.in */,
 				DFA7D1031ADD9BB600A17BD6 /* resource.h */,
 			);
@@ -2001,7 +1934,6 @@
 				DFFFBFDB19D9A4B900BBD7A7 /* M+MKinectV2InputService.cpp */,
 				DFFFBFDC19D9A4B900BBD7A7 /* M+MKinectV2InputService.h */,
 				DFFFBFDD19D9A4B900BBD7A7 /* M+MKinectV2InputServiceMain.cpp */,
-				DFA7D0EE1ADD99FB00A17BD6 /* mpmKinectV2InputService.rc */,
 				DFA7D13F1ADDB73700A17BD6 /* mpmKinectV2InputService.rc.in */,
 				DFA7D0EF1ADD99FB00A17BD6 /* resource.h */,
 				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
@@ -2014,7 +1946,6 @@
 			children = (
 				DF8D35491AA4B4BA00322DDD /* CMakeLists.txt */,
 				DF8D354A1AA4B4BA00322DDD /* M+MTestSinkMain.cpp */,
-				DFA7D1161ADD9D3100A17BD6 /* mpmTestSink.rc */,
 				DFA7D1521ADDB8F200A17BD6 /* mpmTestSink.rc.in */,
 				DFA7D1171ADD9D3100A17BD6 /* resource.h */,
 			);
@@ -2026,7 +1957,6 @@
 			children = (
 				DF8D354B1AA4B4D700322DDD /* CMakeLists.txt */,
 				DF8D354C1AA4B4D700322DDD /* M+MTestSourceMain.cpp */,
-				DFA7D1181ADD9D5400A17BD6 /* mpmTestSource.rc */,
 				DFA7D1531ADDB8FF00A17BD6 /* mpmTestSource.rc.in */,
 				DFA7D1191ADD9D5400A17BD6 /* resource.h */,
 			);

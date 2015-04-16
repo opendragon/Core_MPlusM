@@ -160,7 +160,9 @@ int main(int      argc,
                                                        "  'both'     Return the internet address "
                                                        "and port\n"
                                                        "  tag        The tag for the service to be "
-                                                       "connnected to", flavour, &arguments))
+                                                       "connnected to", 2015,
+                                                       STANDARD_COPYRIGHT_NAME, flavour,
+                                                       &arguments))
         {
             try
             {

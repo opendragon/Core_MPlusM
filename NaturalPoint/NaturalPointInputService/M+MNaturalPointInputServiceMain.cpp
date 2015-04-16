@@ -347,9 +347,10 @@ int main(int      argc,
                                                          "  period     Optional interval between "
                                                          "bursts\n"
                                                          "  size       Optional burst size"),
-                                          DEFAULT_NATURALPOINTINPUT_SERVICE_NAME, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipNone, &arguments))
+                                          DEFAULT_NATURALPOINTINPUT_SERVICE_NAME, 2015,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

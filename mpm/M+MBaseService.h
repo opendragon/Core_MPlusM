@@ -457,16 +457,20 @@ namespace MplusM
         
         /*! @brief Process the standard options for service executables.
          The option '-e' / '--endpoint' specifies the endpoint name to be used.
-         The option '-h' / '--help' displays the list of optional parameters and arguments, returns
-         @c false.
+         The option '-h' / '--help' displays the list of optional parameters and arguments and
+         returns @c false.
          The option '-p' / '--port' specifie the port number to be used.
          The option '-r' / '--report' indicates that the service metrics are to be reported on exit.
          The option '-t' / '--tag' specifies the tag modifier, which is applied to the name of the
          channel, if the name was not specified. It is also applied to the service name as a suffix.
+         The option '-v' / '--vers'displays the version and copyright information and returns
+         @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the service.
          @param argList The command-line options and arguments for the service.
          @param defaultEndpointNameRoot The default endpoint root name.
+         @param year The copyright year for the calling application.
+         @param copyrightHolder The name of the entity holding the copyright to the utility.
          @param nameWasSet Set to @c true if the service endpoint option appeared.
          @param reportOnExit Set to @c true if the -r option is seen.
          @param tag Set to the argument of the last -t option seen.
@@ -480,6 +484,8 @@ namespace MplusM
                                            char * *                      argv,
                                            const char *                  argList,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           const int                     year,
+                                           const char *                  copyrightHolder,
                                            bool &                        nameWasSet,
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,

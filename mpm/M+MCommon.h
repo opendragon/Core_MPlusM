@@ -134,6 +134,18 @@
 /*! @brief The carrier type to be used for M+M connections. */
 # define CHANNEL_CARRIER_          "tcp"
 
+/*! @brief A TAB character. */
+# define CHAR_TAB                  "\t"
+
+/*! @brief A NEWLINE character. */
+# define CHAR_NEWLINE              "\n"
+
+/*! @brief A BACKSLASH character. */
+# define CHAR_BACKSLASH            "\\"
+
+/*! @brief A DOUBLEQUOTE character. */
+# define CHAR_DOUBLEQUOTE          "\""
+
 /*! @brief The base of the channel name to use for a client if not provided. */
 # define CLIENT_PORT_NAME_BASE     MpM_CLIENT_BASE_NAME
 
@@ -179,17 +191,8 @@
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER          1.21
 
-/*! @brief A TAB character. */
-# define CHAR_TAB                  "\t"
-
-/*! @brief A NEWLINE character. */
-# define CHAR_NEWLINE              "\n"
-
-/*! @brief A BACKSLASH character. */
-# define CHAR_BACKSLASH            "\\"
-
-/*! @brief A DOUBLEQUOTE character. */
-# define CHAR_DOUBLEQUOTE          "\""
+/*! @brief The standard copyright holder name to use for M+M-created executables. */
+# define STANDARD_COPYRIGHT_NAME   "H Plus Technologies Ltd. and Simon Fraser University"
 
 /*! @brief The signal to use for internally-detected timeouts. */
 # if MAC_OR_LINUX_

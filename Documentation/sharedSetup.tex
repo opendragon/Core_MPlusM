@@ -595,6 +595,31 @@ Vancouver, British~Columbia, Canada}
 \setlength{\parskip}{0pt}}%
 {\end{itemize}}
 
+\newcommand{\insertAppParameters}{The application has six optional parameters:
+\begin{itemize}
+\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
+\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
+\item\exSp\optItem{v}{vers}{display the version and copyright information and leave}
+\end{itemize}}
+
+\newcommand{\insertTagDescription}[1]{The tag is added to the standard name of the
+#1 service, so that more than one copy of the service can execute \longDash{} an \mplusm{}
+installation can support multiple copies of the #1 service, but the \emph{Channel Manager}
+application cannot display them without a distinguishing `tag'.
+If the tag is not specified, the standard name of the service will be used.}
+
+\newcommand{\insertFilterServiceComment}{As well as the service name, the input and output
+stream names are modified if a tag is specified and the default endpoint is being used.}
+\newcommand{\insertInputServiceComment}{As well as the service name, the output stream
+name is modified if a tag is specified and the default endpoint is being used.}
+\newcommand{\insertOutputServiceComment}{As well as the service name, the input stream
+name is modified if a tag is specified and the default endpoint is being used.}
+
 % Common layout stuff:
 
 % Set up the page layout:

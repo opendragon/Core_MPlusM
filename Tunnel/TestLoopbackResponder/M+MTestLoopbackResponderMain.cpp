@@ -103,7 +103,8 @@ int main(int      argc,
         
 		if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        " port\n\n"
-                                                       "  port       The outgoing port", flavour,
+                                                       "  port       The outgoing port", 2015,
+                                                       STANDARD_COPYRIGHT_NAME, flavour,
                                                        &arguments))
         {
             int listenPort = -1;

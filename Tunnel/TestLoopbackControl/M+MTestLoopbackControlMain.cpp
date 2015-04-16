@@ -323,8 +323,9 @@ int main(int      argc,
 		if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        T_(" hostname port\n\n"
                                                           "  hostname   IP address to connect to\n"
-                                                          "  port       port to connect to"),
-                                                       flavour, &arguments))
+                                                          "  port       port to connect to"), 2015,
+                                                       STANDARD_COPYRIGHT_NAME, flavour,
+                                                       &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			if (2 <= arguments.size())

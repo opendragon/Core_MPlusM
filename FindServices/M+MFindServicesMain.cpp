@@ -220,7 +220,8 @@ int main(int      argc,
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [criteria]\n\n"
                                                    "  criteria   Matching criteria for service",
-                                                   flavour, &arguments))
+                                                   2014, STANDARD_COPYRIGHT_NAME, flavour,
+                                                   &arguments))
     {
         try
         {

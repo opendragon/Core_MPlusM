@@ -12,11 +12,12 @@ As well, the native \yarp{} command\longDash{}line tools to create and remove co
 can be used with \mplusm{}, but it is very easy to create a non\longDash{}functional
 installation if care is not taken.\\
 
-The command\longDash{}line tools all have three optional parameters:
+The command\longDash{}line tools all have four optional parameters:
 \begin{itemize}
 \item\optItem{h}{help}{display the list of optional parameters and arguments and leave}
 \item\exSp\optItem{j}{json}{generate JSON\longDash{}formatted output}
 \item\exSp\optItem{t}{tabs}{generate output in a tab\longDash{}delimited format}
+\item\exSp\optItem{v}{vers}{display the version and copyright information and leave}
 \end{itemize}
 If neither JSON format nor tab\longDash{}delimited format are specified, the output is
 written as simple text.
@@ -242,23 +243,9 @@ Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has one optional argument \longDash{} the output file path to be used.
-The application also has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute \longDash{} an \mplusm{} installation can support multiple copies of
-each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
-them without a distinguishing `tag'.
-If the tag is not specified, the standard name of the service will be used.
-As well as the service name, the input stream name is modified if a tag is specified and
-the default endpoint is being used.\\
+\insertAppParameters{}
+\insertTagDescription{Record as JSON Output}
+\insertOutputServiceComment{}\\
 
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
@@ -638,21 +625,8 @@ companion application \utilityNameR{mpmAddressClient} to retrieve the IP address
 that it is started with.\\
 
 The application has two arguments \longDash{} the IP address and port to be remembered.
-The application also has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute \longDash{} an \mplusm{} installation can support multiple copies of 
-\utilityNameX{mpmAddressService} service, but the \emph{Channel Manager} application
-cannot display them without a distinguishing `tag'.
-If the tag is not specified, the standard name of the service will be used.
+\insertAppParameters{}
+\insertTagDescription{Address}
 \tertiaryEnd{\utilityNameE{mpmAddressService}}
 \tertiaryStart{\utilityNameP{mpmAddressClient}}
 The \utilityNameX{mpmAddressClient} application is a command\longDash{}line tool to
@@ -729,21 +703,8 @@ that the companion application should connect to.\\
 
 The application has two arguments \longDash{} the IP address and port for the network data
 source.
-The application also has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute \longDash{} an \mplusm{} installation can support multiple copies of
-the \utilityNameX{mpmTunnelService} service, but the \emph{Channel Manager} application
-cannot display them without a distinguishing `tag'.
-If the tag is not specified, the standard name of the service will be used.
+\insertAppParameters{}
+\insertTagDescription{Tunnel Service}
 \tertiaryEnd{\utilityNameE{mpmTunnelService}}
 \tertiaryStart{\utilityNameP{mpmTunnelClient}}
 The \utilityNameX{mpmTunnelClient} application is a command\longDash{}line tool to route a
@@ -768,12 +729,13 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} an
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
 
-The application has three optional parameters:
+The application has four optional parameters:
 \begin{itemize}
 \item\optItem{h}{help}{display the list of optional parameters and arguments and leave}
 \item\exSp\optItem{p}{port}{specifies the port number to be used, if a
 non\longDash{}default port is desired}
 \item\exSp\optItem{r}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{v}{vers}{display the version and copyright information and leave}
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed endpoint name.

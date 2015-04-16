@@ -110,9 +110,10 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag; // not used
         
-		if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipEndpointAndTagOptions))
+		if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME, 2014,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber,
+                                          kSkipEndpointAndTagOptions))
         {
             // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up
             // the NameServerReporter!

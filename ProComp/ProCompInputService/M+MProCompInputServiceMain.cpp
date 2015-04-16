@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTruncateFloatServiceMain.cpp
+//  File:       M+MProCompInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Truncate Float service.
+//  Contains:   The main application for the ProComp input service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2015-04-16
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTruncateFloatService.h"
+#include "M+MProCompInputService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -50,17 +50,20 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Truncate Float service. */
+ @brief The main application for the ProComp input service. */
 
-/*! @dir TruncateFloatService
- @brief The set of files that implement the Truncate Float service. */
+/*! @dir ProComp
+ @brief The set of files that implement the ProComp input service. */
+
+/*! @dir ProCompInputService
+ @brief The set of files that implement the ProComp input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::ProComp;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -80,23 +83,27 @@ static void displayCommands(void)
     OD_LOG_ENTER(); //####
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
-    cout << "  b - start (begin) the input and output streams" << endl;
-    cout << "  c - configure the service; this has no effect as service has no parameters" << endl;
-    cout << "  e - stop (end) the input and output streams" << endl;
+    cout << "  b - start (begin) the output stream," << endl;
+    cout << "  c - configure the service" << endl;
+    cout << "  e - stop (end) the output stream" << endl;
     cout << "  q - quit the application" << endl;
-    cout << "  r - restart the input and output streams" << endl;
+    cout << "  r - restart the output stream" << endl;
     cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the Truncate Float service.
- @param argv The arguments to be used with the Truncate Float service.
+/*! @brief Set up the environment and start the ProComp input service.
+ @param burstPeriod The burst period in seconds.
+ @param burstSize The number of random values to generate in each burst.
+ @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(char * *                      argv,
+static void setUpAndGo(double &                      burstPeriod,
+                       int &                         burstSize,
+                       char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
@@ -104,15 +111,20 @@ static void setUpAndGo(char * *                      argv,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_D1("burstPeriod = ", burstPeriod); //####
+    OD_LOG_L1("burstSize = ", burstSize); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
-    TruncateFloatService * stuff = new TruncateFloatService(*argv, tag, serviceEndpointName,
+    ProCompInputService * stuff = new ProCompInputService(*argv, tag, serviceEndpointName,
                                                             servicePortNumber);
-    
+
     if (stuff)
     {
+        double tempDouble;
+        int    tempInt;
+        
         if (stuff->start())
         {
             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
@@ -128,6 +140,8 @@ static void setUpAndGo(char * *                      argv,
                 stuff->startPinger();
                 if (! stdinAvailable)
                 {
+                    configureData.addDouble(burstPeriod);
+                    configureData.addInt(burstSize);
                     if (stuff->configure(configureData))
                     {
                         stuff->startStreams();
@@ -154,6 +168,9 @@ static void setUpAndGo(char * *                      argv,
                                 // Start streams
                                 if (! configured)
                                 {
+                                    configureData.clear();
+                                    configureData.addDouble(burstPeriod);
+                                    configureData.addInt(burstSize);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -167,10 +184,28 @@ static void setUpAndGo(char * *                      argv,
                                 
                             case 'c' :
                             case 'C' :
-                                // Configure - nothing to do for a Truncate Float filter.
-                                if (stuff->configure(configureData))
+                                // Configure
+                                cout << "Burst size: ";
+                                cout.flush();
+                                cin >> tempInt;
+                                cout << "Burst period: ";
+                                cout.flush();
+                                cin >> tempDouble;
+                                if ((0 < tempInt) && (0 < tempDouble))
                                 {
-                                    configured = true;
+                                    burstPeriod = tempDouble;
+                                    burstSize = tempInt;
+                                    configureData.clear();
+                                    configureData.addDouble(burstPeriod);
+                                    configureData.addInt(burstSize);
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                else
+                                {
+                                    cout << "One or both values out of range." << endl;
                                 }
                                 break;
                                 
@@ -191,6 +226,9 @@ static void setUpAndGo(char * *                      argv,
                                 // Restart streams
                                 if (! configured)
                                 {
+                                    configureData.clear();
+                                    configureData.addDouble(burstPeriod);
+                                    configureData.addInt(burstSize);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -267,9 +305,17 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Truncate Float filter service.
+/*! @brief The entry point for running the ProComp input service.
+ 
+ The second, optional, argument is the port number to be used and the first, optional, argument is
+ the name of the channel to be used. There is no output.
+ The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of
+ random values to generate in each burst.
+ The option 'r' indicates that the service metrics are to be reported on exit.
+ The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
+ name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Truncate Float filter service.
+ @param argv The arguments to be used with the exemplar input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -287,19 +333,26 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                  nameWasSet; // not used
+        bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
+        double                burstPeriod = 1;
+        int                   burstSize = 1;
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
+        StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_TRUNCATEFLOAT_SERVICE_NAME, 2014,
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]\n\n"
+                                                         "  period     Optional interval between "
+                                                         "bursts\n"
+                                                         "  size       Optional burst size"),
+                                          DEFAULT_PROCOMPINPUT_SERVICE_NAME, 2015,
                                           STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber))
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
             if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
 #endif // CheckNetworkWorks_
@@ -308,8 +361,35 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, stdinAvailable,
-                           reportOnExit);
+                if (0 < arguments.size())
+                {
+                    const char * startPtr = arguments[0].c_str();
+                    char *       endPtr;
+                    double       tempDouble;
+                    
+                    // 1 or more arguments
+                    tempDouble = strtod(startPtr, &endPtr);
+                    if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
+                    {
+                        // Useable data.
+                        burstPeriod = tempDouble;
+                    }
+                    if (1 < arguments.size())
+                    {
+                        int tempInt;
+                        
+                        // 2 or more arguments
+                        startPtr = arguments[1].c_str();
+                        tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                        {
+                            // Useable data.
+                            burstSize = tempInt;
+                        }
+                    }
+                }
+                setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName,
+                           servicePortNumber, stdinAvailable, reportOnExit);
             }
 #if CheckNetworkWorks_
             else
@@ -322,8 +402,7 @@ int main(int      argc,
 # endif // ! MAC_OR_LINUX_
             }
 #endif // CheckNetworkWorks_
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+        }
     }
     catch (...)
     {

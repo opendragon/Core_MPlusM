@@ -97,6 +97,8 @@ mpmParserTest
 mpmParserTest.rc
 mpmPortLister
 mpmPortLister.rc
+mpmProComp
+mpmProComp.rc
 mpmRandomBurstService
 mpmRandomBurstService.rc
 mpmRandomBurstStreamService

@@ -352,9 +352,10 @@ int main(int      argc,
                                                          "device server\n"
                                                          "  port       Optional port for the "
                                                          "device server"),
-                                          DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipNone, &arguments))
+                                          DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME, 2014,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

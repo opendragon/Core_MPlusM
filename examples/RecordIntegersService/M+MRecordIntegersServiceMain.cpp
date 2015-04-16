@@ -321,9 +321,10 @@ int main(int      argc,
         
 		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
                                                          "  filePath   Optional output file path"),
-                                          DEFAULT_RECORDINTEGERS_SERVICE_NAME, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipNone, &arguments))
+                                          DEFAULT_RECORDINTEGERS_SERVICE_NAME, 2014,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

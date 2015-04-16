@@ -18,6 +18,10 @@ LMpsfiles =
 
 MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMmpmDiagram.ps
 
+NPpsfiles =
+
+PCpsfiles =
+
 VDSpsfiles =
 
 # Intermediate Encapsulated Postscript files
@@ -34,6 +38,10 @@ LMepsfiles =
 
 MMepsfiles = $(IMAGE_DIR)/MMdbDiagram.eps $(IMAGE_DIR)/MMmatchSyntaxrails.eps \
 		$(IMAGE_DIR)/MMmpmDiagram.eps
+
+NPepsfiles =
+
+PCepsfiles =
 
 VDSepsfiles =
 
@@ -53,6 +61,10 @@ LMpngfiles =
 
 MMpngfiles = $(IMAGE_DIR)/MMdbDiagram.png $(IMAGE_DIR)/MMmatchSyntaxrails.png \
 	$(IMAGE_DIR)/MMmpmDiagram.png 
+
+NPpngfiles =
+
+PCpngfiles =
 
 VDSpngfiles =
 
@@ -90,6 +102,10 @@ LMbitmapepsfiles =
 
 MMbitmapepsfiles = 
 
+NPbitmapepsfiles =
+
+PCbitmapepsfiles =
+
 VDSbitmapepsfiles =
 
 # Input bitmap PNG files
@@ -106,6 +122,10 @@ LMbitmappngfiles = $(LMbitmapepsfiles:.eps=.png)
 
 MMbitmappngfiles = $(MMbitmapepsfiles:.eps=.png)
 
+NPbitmappngfiles = $(NPbitmapepsfiles:.eps=.png)
+
+PCbitmappngfiles = $(PCbitmapepsfiles:.eps=.png)
+
 VDSbitmappngfiles = $(VDSbitmapepsfiles:.eps=.png)
 
 # Main source file
@@ -121,6 +141,10 @@ KV2mainsource = KinectV2Input_Manual.tex
 LMmainsource = LeapMotionInput_Manual.tex
 
 MMmainsource = MpM_Manual.tex
+
+NPmainsource =
+
+PCmainsource =
 
 VDSmainsource = ViconDataStreamInput_Manual.tex
 
@@ -149,6 +173,10 @@ MMsecondaryfiles = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
 		MMinternalDb.tex MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex \
 		MMservices.tex MMutilities.tex $(Commonsources) $(Commonpngfiles)
 
+NPsecondaryfiles =
+
+PCsecondaryfiles =
+
 VDSsecondaryfiles = VDSdocumentationHistory.tex VDSfrontispiece.tex \
 		VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources) \
 		$(Commonpngfiles)
@@ -167,6 +195,10 @@ LMmaindvi = $(LMmainsource:.tex=.dvi)
 
 MMmaindvi = $(MMmainsource:.tex=.dvi)
 
+NPmaindvi = $(NPmainsource:.tex=.dvi)
+
+PCmaindvi = $(PCmainsource:.tex=.dvi)
+
 VDSmaindvi = $(VDSmainsource:.tex=.dvi)
 
 # Index files
@@ -182,6 +214,10 @@ KV2mainidx = $(KV2mainsource:.tex=.idx)
 LMmainidx = $(LMmainsource:.tex=.idx)
 
 MMmainidx = $(MMmainsource:.tex=.idx)
+
+NPmainidx = $(NPmainsource:.tex=.idx)
+
+PCmainidx = $(PCmainsource:.tex=.idx)
 
 VDSmainidx = $(VDSmainsource:.tex=.idx)
 
@@ -199,6 +235,10 @@ LMmainps = $(LMmainsource:.tex=.ps)
 
 MMmainps = $(MMmainsource:.tex=.ps)
 
+NPmainps = $(NPmainsource:.tex=.ps)
+
+PCmainps = $(PCmainsource:.tex=.ps)
+
 VDSmainps = $(VDSmainsource:.tex=.ps)
 
 # Output HTML files
@@ -215,6 +255,10 @@ LMmainhtml = $(LMmainsource:.tex=.html)
 
 MMmainhtml = $(MMmainsource:.tex=.html)
 
+NPmainhtml = $(NPmainsource:.tex=.html)
+
+PCmainhtml = $(PCmainsource:.tex=.html)
+
 VDSmainhtml = $(VDSmainsource:.tex=.html)
 
 # Output PDF files
@@ -230,6 +274,10 @@ KV2mainpdf = $(KV2mainsource:.tex=.pdf)
 LMmainpdf = $(LMmainsource:.tex=.pdf)
 
 MMmainpdf = $(MMmainsource:.tex=.pdf)
+
+NPmainpdf = $(NPmainsource:.tex=.pdf)
+
+PCmainpdf = $(PCmainsource:.tex=.pdf)
 
 VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 
@@ -248,6 +296,10 @@ KV2target = $(HOME)/$(KV2mainpdf) $(HOME)/$(KV2mainhtml)
 LMtarget = $(HOME)/$(LMmainpdf) $(HOME)/$(LMmainhtml)
 
 MMtarget = $(HOME)/$(MMmainpdf) $(HOME)/$(MMmainhtml)
+
+NPtarget = $(HOME)/$(NPmainpdf) $(HOME)/$(NPmainhtml)
+
+PCtarget = $(HOME)/$(PCmainpdf) $(HOME)/$(PCmainhtml)
 
 VDStarget = $(HOME)/$(VDSmainpdf) $(HOME)/$(VDSmainhtml)
 
@@ -328,6 +380,20 @@ $(MMmaindvi) : $(MMbitmapepsfiles) $(MMepsfiles) $(MMmainsource) $(MMsecondaryfi
 	makeindex $(MMmainidx)
 	latex -interaction=batchmode $(MMmainsource)
 
+$(NPmaindvi) : $(NPbitmapepsfiles) $(NPepsfiles) $(NPmainsource) $(NPsecondaryfiles)
+	-latex -interaction=batchmode $(NPmainsource)
+	-latex -interaction=batchmode $(NPmainsource)
+	-latex -interaction=batchmode $(NPmainsource)
+	makeindex $(NPmainidx)
+	latex -interaction=batchmode $(NPmainsource)
+
+$(PCmaindvi) : $(PCbitmapepsfiles) $(PCepsfiles) $(PCmainsource) $(PCsecondaryfiles)
+	-latex -interaction=batchmode $(PCmainsource)
+	-latex -interaction=batchmode $(PCmainsource)
+	-latex -interaction=batchmode $(PCmainsource)
+	makeindex $(PCmainidx)
+	latex -interaction=batchmode $(PCmainsource)
+
 $(VDSmaindvi) : $(VDSbitmapepsfiles) $(VDSepsfiles) $(VDSmainsource) $(VDSsecondaryfiles)
 	-latex -interaction=batchmode $(VDSmainsource)
 	-latex -interaction=batchmode $(VDSmainsource)
@@ -355,13 +421,20 @@ $(LMmainhtml) : $(LMbitmappngfiles) $(LMpngfiles) $(LMmainsource) $(LMsecondaryf
 $(MMmainhtml) : $(MMbitmappngfiles) $(MMpngfiles) $(MMmainsource) $(MMsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(MMmainsource) -o $@
 
+$(NPmainhtml) : $(NPbitmappngfiles) $(NPpngfiles) $(NPmainsource) $(NPsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(NPmainsource) -o $@
+
+$(PCmainhtml) : $(PCbitmappngfiles) $(PCpngfiles) $(PCmainsource) $(PCsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(PCmainsource) -o $@
+
 $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(VDSmainsource) -o $@
 
 $(IMAGE_ARCHIVE) : $(CMbitmappngfiles) $(IMbitmappngfiles) $(JSbitmappngfiles) \
-		$(KV2bitmappngfiles) $(LMbitmappngfiles) $(VDSbitmappngfiles) $(Commonpngfiles) \
+		$(KV2bitmappngfiles) $(LMbitmappngfiles) $(NPbitmappngfiles) $(PCbitmappngfiles) \
+		$(VDSbitmappngfiles) $(Commonpngfiles) \
 		$(CMpngfiles) $(IMpngfiles) $(JSpngfiles) $(KV2pngfiles) $(LMpngfiles) \
-		$(MMpngfiles) $(VDSpngfiles)
+		$(MMpngfiles) $(NPpngfiles) $(PCpngfiles) $(VDSpngfiles)
 	tar -czf $(IMAGE_ARCHIVE) $(IMAGE_DIR)
 
 # Top-level targets
@@ -376,3 +449,4 @@ clean :
 
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
 		$(VDStarget) $(ARCHIVEtarget)
+# $(NPtarget) $(PCtarget) $(VDStarget) $(ARCHIVEtarget)

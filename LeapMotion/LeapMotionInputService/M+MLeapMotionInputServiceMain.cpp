@@ -298,8 +298,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
         
 		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME,
-                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          2014, STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit,
+                                          tag, serviceEndpointName, servicePortNumber))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

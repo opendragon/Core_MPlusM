@@ -342,9 +342,10 @@ int main(int      argc,
                                                          "  port       Optional port to use to "
                                                          "connect\n"
                                                          "  scale      Optional translation scale"),
-                                          DEFAULT_UNREALOUTPUT_SERVICE_NAME, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipNone, &arguments))
+                                          DEFAULT_UNREALOUTPUT_SERVICE_NAME, 2014,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

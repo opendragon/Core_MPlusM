@@ -200,8 +200,9 @@ int main(int      argc,
                                                          "access to\n"
                                                          "  port       port to provide access "
                                                          "to"),
-                                          DEFAULT_TUNNEL_SERVICE_NAME, nameWasSet, reportOnExit,
-                                          tag, serviceEndpointName, servicePortNumber, kSkipNone,
+                                          DEFAULT_TUNNEL_SERVICE_NAME, 2015,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
                                           &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();

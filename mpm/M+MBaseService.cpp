@@ -825,6 +825,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
                                            const char *                  argList,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           const int                     year,
+                                           const char *                  copyrightHolder,
                                            bool &                        nameWasSet,
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,
@@ -834,10 +836,10 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            StringVector *                arguments)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_L1("argc = ", argc); //####
+    OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P4("argv = ", argv, "nameWasSet = ", &nameWasSet, "reportOnExit = ",//####
               &reportOnExit, "arguments = ", arguments); //####
-    OD_LOG_S1("argList = ", argList); //####
+    OD_LOG_S2("argList = ", argList, "copyrightHolder = ", copyrightHolder); //####
     OD_LOG_S1s("defaultEndpointNameRoot = ", defaultEndpointNameRoot); //####
     enum optionIndex
     {
@@ -846,7 +848,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         HELP,
         PORT,
         REPORT,
-        TAG
+        TAG,
+        VERSION
     }; // optionIndex
     
     bool                  keepGoing = true;
@@ -865,8 +868,11 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Descriptor   tagDescriptor(TAG, 0, "t", "tag", Option_::Arg::Required,
                                         T_("  --tag, -t         Specify the tag to be used as part "
                                            "of the service name"));
+    Option_::Descriptor   versionDescriptor(VERSION, 0, "v", "vers", Option_::Arg::None,
+                                            T_("  --vers, -v        Print version information and "
+                                               "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[7];
+    Option_::Descriptor   usage[8];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -907,9 +913,18 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     {
         keepGoing = false;
     }
-    else if (options[HELP])
+    else if (options[HELP] || options[UNKNOWN])
     {
         Option_::printUsage(cout, usage);
+        keepGoing = false;
+    }
+    else if (options[VERSION])
+    {
+        yarp::os::ConstString mpmVersionString;
+        
+        mpmVersionString = SanitizeString(MpM_VERSION, true);
+        cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
+                copyrightHolder << "." << endl;
         keepGoing = false;
     }
     else

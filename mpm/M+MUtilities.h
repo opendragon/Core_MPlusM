@@ -392,19 +392,25 @@ namespace MplusM
                                           void *                        checkStuff = NULL);
         
         /*! @brief Process the standard options for utility executables.
-         The option '-h' / '--help' displays the list of optional parameters and arguments, returns
-         @c false.
+         The option '-h' / '--help' displays the list of optional parameters and arguments and
+         returns @c false.
          The option '-j' / '--json' specifies that output is to be in JSON format.
          The option '-t' / '--tabs' specifies that output is to be in tab-delimited format.
+         The option '-v' / '--vers'displays the version and copyright information and returns
+         @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the utility.
          @param argList The command-line options and arguments for the utility.
+         @param year The copyright year for the calling application.
+         @param copyrightHolder The name of the entity holding the copyright to the utility.
          @param flavour Set if the -j or -t options are seen.
          @param arguments If non-@c NULL, returns the arguments for the utility.
          @returns @c true if the program should continue and @c false if it should leave. */
         bool ProcessStandardUtilitiesOptions(const int               argc,
                                              char * *                argv,
                                              const char *            argList,
+                                             const int               year,
+                                             const char *            copyrightHolder,
                                              Common::OutputFlavour & flavour,
                                              Common::StringVector *  arguments = NULL);
         

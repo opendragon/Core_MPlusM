@@ -295,9 +295,9 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_KINECTV2INPUT_SERVICE_NAME,
-                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_KINECTV2INPUT_SERVICE_NAME, 2014,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

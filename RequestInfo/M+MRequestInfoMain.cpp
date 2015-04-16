@@ -310,7 +310,8 @@ int main(int      argc,
                                                    "  channel    Optional channel name for "
                                                    "service\n"
                                                    "  request    Optional request name",
-                                                   flavour, &arguments))
+                                                   2014, STANDARD_COPYRIGHT_NAME, flavour,
+                                                   &arguments))
     {
         try
         {

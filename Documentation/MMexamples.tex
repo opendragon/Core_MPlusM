@@ -41,23 +41,9 @@ on the input stream.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute \longDash{} an \mplusm{} installation can support multiple copies of
-each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
-them without a distinguishing `tag'.\\
-If the tag is not specified, the standard name of the service will be used.
-As well as the service name, the input stream name is modified if a tag is specified and
-the default endpoint is being used.\\
+\insertAppParameters{}
+\insertTagDescription{Absorber Output}
+\insertOutputServiceComment{}\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}
@@ -81,18 +67,8 @@ sent with the request.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute.
+\insertAppParameters{}
+\insertTagDescription{Echo}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
@@ -127,23 +103,9 @@ Note that the application will exit if the
 
 The application has two optional arguments \longDash{} the burst period, in seconds and
 the number of random values to generate in each burst.
-The application also has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute \longDash{} an \mplusm{} installation can support multiple copies of
-each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
-them without a distinguishing `tag'.
-If the tag is not specified, the standard name of the service will be used.
-As well as the service name, the output stream name is modified if a tag is specified and
-the default endpoint is being used.\\
+\insertAppParameters{}
+\insertTagDescription{Random Burst Input}
+\insertInputServiceComment{}\\
 
 The other parameters provide the initial burst period and size; if not specified, a burst
 period of 1 second and burst size of 1 will be used.
@@ -172,18 +134,8 @@ numbers to the client.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute.
+\insertAppParameters{}
+\insertTagDescription{Random Number Input}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.\\
 
@@ -215,23 +167,9 @@ Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has one optional argument \longDash{} the output file path to be used.
-The application also has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute \longDash{} an \mplusm{} installation can support multiple copies of
-each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
-them without a distinguishing `tag'.
-If the tag is not specified, the standard name of the service will be used.
-As well as the service name, the input stream name is modified if a tag is specified and
-the default endpoint is being used.\\
+\insertAppParameters{}
+\insertTagDescription{Record Integers Output}
+\insertOutputServiceComment{}\\
 
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
@@ -264,18 +202,8 @@ associated with the requesting application or adapter.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute.
+\insertAppParameters{}
+\insertTagDescription{Running Sum}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.\\
 
@@ -321,23 +249,9 @@ on the input stream, which will cause sending on the output stream to cease as w
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-The application has five optional parameters:
-\begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
-leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
-non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\end{itemize}
-The tag is added to the standard name of the service, so that more than one copy of the
-service can execute \longDash{} an \mplusm{} installation can support multiple copies of
-each \inputOutput{} service, but the \emph{Channel Manager} application cannot display
-them without a distinguishing `tag'.\\
-If the tag is not specified, the standard name of the service will be used.
-As well as the service name, the input and output stream names are modified if a tag is
-specified and the default endpoint is being used.\\
+\insertAppParameters{}
+\insertTagDescription{Truncate Float Filter}
+\insertFilterServiceComment{}\\
 
 If the application is running from a terminal, the following commands are available:
 \begin{itemize}

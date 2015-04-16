@@ -338,9 +338,10 @@ int main(int      argc,
                                                          "  period     Optional interval between "
                                                          "bursts\n"
                                                          "  size       Optional burst size"),
-                                          DEFAULT_RANDOMBURST_SERVICE_NAME, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipNone, &arguments))
+                                          DEFAULT_RANDOMBURST_SERVICE_NAME, 2014,
+                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipNone,
+                                          &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

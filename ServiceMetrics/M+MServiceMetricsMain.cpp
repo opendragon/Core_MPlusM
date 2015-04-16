@@ -101,7 +101,8 @@ int main(int      argc,
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [channel]\n\n"
                                                    "  channel    Optional channel name for "
-                                                   "service", flavour, &arguments))
+                                                   "service", 2014, STANDARD_COPYRIGHT_NAME,
+                                                   flavour, &arguments))
     {
         try
         {
