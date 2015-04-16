@@ -1,0 +1,53 @@
+\ProvidesFile{ProCompInput_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{ProComp Input}
+\newcommand{\docKeywords}{ProComp,middleware,input}
+\newcommand{\docSubject}{Input Service}
+\newcommand{\PCI}{ProComp~Input}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\PCI, \MMV]{\PCI, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\PCI}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%BEGIN LATEX
+%\insertpart{List~of~Figures}{\listoffigures}
+%END LATEX
+
+\input{PCdocumentationHistory.tex}
+\input{PCfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{PCoverview.tex}
+
+%% section for the service
+
+\input{PCservice.tex}
+
+%% section for the message format
+
+\input{PCmessageFormat.tex}
+
+% End of contents
+
+\end{document}
+\end

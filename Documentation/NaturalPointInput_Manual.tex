@@ -1,0 +1,53 @@
+\ProvidesFile{NaturalPointInput_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{NaturalPoint Input}
+\newcommand{\docKeywords}{NaturalPoint,NatNet,middleware,input}
+\newcommand{\docSubject}{Input Service}
+\newcommand{\NPI}{NaturalPoint~Input}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\NPI, \MMV]{\NPI, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\NPI}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%BEGIN LATEX
+%\insertpart{List~of~Figures}{\listoffigures}
+%END LATEX
+
+\input{NPdocumentationHistory.tex}
+\input{NPfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{NPoverview.tex}
+
+%% section for the service
+
+\input{NPservice.tex}
+
+%% section for the message format
+
+\input{NPmessageFormat.tex}
+
+% End of contents
+
+\end{document}
+\end

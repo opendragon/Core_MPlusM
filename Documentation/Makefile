@@ -60,7 +60,7 @@ KV2pngfiles =
 LMpngfiles = 
 
 MMpngfiles = $(IMAGE_DIR)/MMdbDiagram.png $(IMAGE_DIR)/MMmatchSyntaxrails.png \
-	$(IMAGE_DIR)/MMmpmDiagram.png 
+		$(IMAGE_DIR)/MMmpmDiagram.png 
 
 NPpngfiles =
 
@@ -142,9 +142,9 @@ LMmainsource = LeapMotionInput_Manual.tex
 
 MMmainsource = MpM_Manual.tex
 
-NPmainsource =
+NPmainsource = NaturalPointInput_Manual.tex
 
-PCmainsource =
+PCmainsource = ProCompInput_Manual.tex
 
 VDSmainsource = ViconDataStreamInput_Manual.tex
 
@@ -173,9 +173,13 @@ MMsecondaryfiles = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
 		MMinternalDb.tex MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex \
 		MMservices.tex MMutilities.tex $(Commonsources) $(Commonpngfiles)
 
-NPsecondaryfiles =
+NPsecondaryfiles = NPdocumentationHistory.tex NPfrontispiece.tex \
+		NPmessageFormat.tex NPoverview.tex NPservice.tex $(Commonsources) \
+		$(Commonpngfiles)
 
-PCsecondaryfiles =
+PCsecondaryfiles = PCdocumentationHistory.tex PCfrontispiece.tex \
+		PCmessageFormat.tex PCoverview.tex PCservice.tex $(Commonsources) \
+		$(Commonpngfiles)
 
 VDSsecondaryfiles = VDSdocumentationHistory.tex VDSfrontispiece.tex \
 		VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources) \
@@ -448,5 +452,4 @@ clean :
 	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
-		$(VDStarget) $(ARCHIVEtarget)
-# $(NPtarget) $(PCtarget) $(VDStarget) $(ARCHIVEtarget)
+		$(NPtarget) $(PCtarget) $(VDStarget) $(ARCHIVEtarget)

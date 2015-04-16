@@ -1,0 +1,38 @@
+\ProvidesFile{NPservice.tex}[v1.0.0]
+\primaryStart[TheNPIService]{The~\NPI{}~Service}
+The \asCode{mpmNaturalPointInputService} application is an Input service,
+generating a stream of information on the position and orientation of one or more bodies.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \emph{configure} request request has no arguments and does nothing.\\
+
+The \emph{restartStreams} request stops and then starts the output stream.\\
+
+The \emph{startStreams} request request initiates listening to the NaturalPoint
+controller.
+Once started, the service will send groups of body data via the output \yarp{} network
+connection.\\
+
+The \emph{stopStreams} request stops the NaturalPoint controller listener, which stops the
+output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \emph{Registry Service} is not running.\\
+
+\insertAppParameters{}
+\insertTagDescription{\NPI}
+\insertInputServiceComment{}\\
+
+If the application is running from a terminal, the following commands are available:
+\begin{itemize}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the output stream, sending body data}
+\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
+configurable parameters}
+\item\exSp\cmdItem{e}{stop the output stream}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the output stream}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+output stream is restarted}
+\end{itemize}
+\primaryEnd{}
