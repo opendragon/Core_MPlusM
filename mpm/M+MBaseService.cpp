@@ -889,19 +889,20 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
 #else // ! MAC_OR_LINUX_
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
-    memcpy(usageWalker++, &firstDescriptor, sizeof(Option_::Descriptor));
+	memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
     if (! (skipOptions & kSkipEndpointOption))
     {
-        memcpy(usageWalker++, &endpointDescriptor, sizeof(Option_::Descriptor));
+		memcpy(usageWalker++, &endpointDescriptor, sizeof(endpointDescriptor));
     }
-    memcpy(usageWalker++, &helpDescriptor, sizeof(Option_::Descriptor));
-    memcpy(usageWalker++, &portDescriptor, sizeof(Option_::Descriptor));
-    memcpy(usageWalker++, &reportDescriptor, sizeof(Option_::Descriptor));
+	memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+	memcpy(usageWalker++, &portDescriptor, sizeof(portDescriptor));
+	memcpy(usageWalker++, &reportDescriptor, sizeof(reportDescriptor));
     if (! (skipOptions & kSkipTagOption))
     {
-        memcpy(usageWalker++, &tagDescriptor, sizeof(Option_::Descriptor));
+		memcpy(usageWalker++, &tagDescriptor, sizeof(tagDescriptor));
     }
-    memcpy(usageWalker++, &lastDescriptor, sizeof(Option_::Descriptor));
+	memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
+	memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
     argcWork -= (argc > 0);
     argvWork += (argc > 0); // skip program name argv[0] if present
     Option_::Stats    stats(usage, argcWork, argvWork);

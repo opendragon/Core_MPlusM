@@ -25,6 +25,7 @@ _CPack_Packages/
 *.pdb
 *.cache
 *.exe
+*.res
 *.so
 *.aps
 *CSHARP_wrap.cxx
@@ -97,8 +98,8 @@ mpmParserTest
 mpmParserTest.rc
 mpmPortLister
 mpmPortLister.rc
-mpmProComp
-mpmProComp.rc
+mpmProCompInputService
+mpmProCompInputService.rc
 mpmRandomBurstService
 mpmRandomBurstService.rc
 mpmRandomBurstStreamService
