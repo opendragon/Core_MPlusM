@@ -189,6 +189,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false; // not used
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         yarp::os::ConstString serviceEndpointName;
@@ -200,9 +201,9 @@ int main(int      argc,
                                                          "  dbAddress  Network address for "
                                                          "database"),
                                           DEFAULT_MOVEMENTDB_SERVICE_NAME, 2014,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipNone,
-                                          &arguments))
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipAutostartOption, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

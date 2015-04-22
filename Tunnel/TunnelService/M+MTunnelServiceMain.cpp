@@ -188,6 +188,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false; // not used
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         yarp::os::ConstString serviceEndpointName;
@@ -201,9 +202,9 @@ int main(int      argc,
                                                          "  port       port to provide access "
                                                          "to"),
                                           DEFAULT_TUNNEL_SERVICE_NAME, 2015,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipNone,
-                                          &arguments))
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipAutostartOption, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

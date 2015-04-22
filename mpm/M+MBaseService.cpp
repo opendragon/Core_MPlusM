@@ -827,6 +827,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
                                            const int                     year,
                                            const char *                  copyrightHolder,
+                                           bool &                        autostartWasSet,
                                            bool &                        nameWasSet,
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,
@@ -844,6 +845,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     enum optionIndex
     {
         UNKNOWN,
+        AUTOSTART,
         ENDPOINT,
         HELP,
         PORT,
@@ -854,6 +856,9 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     
     bool                  keepGoing = true;
     Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   autostartDescriptor(AUTOSTART, 0, "a", "autostart", Option_::Arg::None,
+                                              T_("  --autostart, -a   Start the service "
+                                                 "immediately"));
     Option_::Descriptor   endpointDescriptor(ENDPOINT, 0, "e", "endpoint", Option_::Arg::Required,
                                              T_("  --endpoint, -e    Specify an alternative "
                                                 "endpoint name to be used"));
@@ -872,7 +877,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[8];
+    Option_::Descriptor   usage[9];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -890,13 +895,26 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
 	memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    if (! (skipOptions & kSkipAutostartOption))
+    {
+        memcpy(usageWalker++, &autostartDescriptor, sizeof(autostartDescriptor));        
+    }
     if (! (skipOptions & kSkipEndpointOption))
     {
 		memcpy(usageWalker++, &endpointDescriptor, sizeof(endpointDescriptor));
     }
-	memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
-	memcpy(usageWalker++, &portDescriptor, sizeof(portDescriptor));
-	memcpy(usageWalker++, &reportDescriptor, sizeof(reportDescriptor));
+    if (! (skipOptions & kSkipHelpOption))
+    {
+        memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+    }
+    if (! (skipOptions & kSkipPortOption))
+    {
+        memcpy(usageWalker++, &portDescriptor, sizeof(portDescriptor));
+    }
+    if (! (skipOptions & kSkipReportOption))
+    {
+        memcpy(usageWalker++, &reportDescriptor, sizeof(reportDescriptor));
+    }
     if (! (skipOptions & kSkipTagOption))
     {
 		memcpy(usageWalker++, &tagDescriptor, sizeof(tagDescriptor));
@@ -930,6 +948,10 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else
     {
+        if (options[AUTOSTART])
+        {
+            autostartWasSet = true;
+        }
         if (options[REPORT])
         {
             reportOnExit = true;

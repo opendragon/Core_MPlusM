@@ -183,6 +183,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false; // not used
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         yarp::os::ConstString serviceEndpointName;
@@ -190,8 +191,9 @@ int main(int      argc,
         yarp::os::ConstString tag;
         
         if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_EXEMPLAR_SERVICE_NAME, 2014,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber))
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber, kSkipAutostartOption))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_

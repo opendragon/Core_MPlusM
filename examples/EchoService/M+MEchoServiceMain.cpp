@@ -179,16 +179,18 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false; // not used
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
-        bool                  stdinAvailable = CanReadFromStandardInput();
+        bool                  stdinAvailable = CanReadFromStandardInput(); // not used
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
 		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_ECHO_SERVICE_NAME, 2014,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber))
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber, kSkipAutostartOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

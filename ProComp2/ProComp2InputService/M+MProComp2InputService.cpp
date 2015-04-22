@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MProCompInputService.cpp
+//  File:       M+MProComp2InputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the ProComp input service.
+//  Contains:   The class definition for the ProComp2 input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MProCompInputService.h"
-#include "M+MProCompInputRequests.h"
-#include "M+MProCompInputThread.h"
+#include "M+MProComp2InputService.h"
+#include "M+MProComp2InputRequests.h"
+#include "M+MProComp2InputThread.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,14 +51,14 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the ProComp input service. */
+ @brief The class definition for the ProComp2 input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::ProComp;
+using namespace MplusM::ProComp2;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -76,34 +76,32 @@ using namespace MplusM::ProComp;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ProCompInputService::ProCompInputService(const yarp::os::ConstString & launchPath,
-                                                   const yarp::os::ConstString & tag,
-                                                   const yarp::os::ConstString &
-                                                                                serviceEndpointName,
-                                                   const yarp::os::ConstString &
-                                                                                servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_PROCOMPINPUT_CANONICAL_NAME,
-              "The ProComp input service", "", serviceEndpointName, servicePortNumber),
+ProComp2InputService::ProComp2InputService(const yarp::os::ConstString & launchPath,
+                                           const yarp::os::ConstString & tag,
+                                           const yarp::os::ConstString & serviceEndpointName,
+                                           const yarp::os::ConstString & servicePortNumber) :
+    inherited(launchPath, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME,
+              "The ProComp2 input service", "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_EXIT_P(this); //####
-} // ProCompInputService::ProCompInputService
+} // ProComp2InputService::ProComp2InputService
 
-ProCompInputService::~ProCompInputService(void)
+ProComp2InputService::~ProComp2InputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputService::~ProCompInputService
+} // ProComp2InputService::~ProComp2InputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool ProCompInputService::configure(const yarp::os::Bottle & details)
+bool ProComp2InputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -140,9 +138,9 @@ bool ProCompInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ProCompInputService::configure
+} // ProComp2InputService::configure
 
-void ProCompInputService::restartStreams(void)
+void ProComp2InputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -157,9 +155,9 @@ void ProCompInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputService::restartStreams
+} // ProComp2InputService::restartStreams
 
-bool ProCompInputService::setUpStreamDescriptions(void)
+bool ProComp2InputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool                  result = true;
@@ -173,9 +171,9 @@ bool ProCompInputService::setUpStreamDescriptions(void)
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ProCompInputService::setUpStreamDescriptions
+} // ProComp2InputService::setUpStreamDescriptions
 
-bool ProCompInputService::shutDownOutputStreams(void)
+bool ProComp2InputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -186,9 +184,9 @@ bool ProCompInputService::shutDownOutputStreams(void)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // ProCompInputService::shutDownOutputStreams
+} // ProComp2InputService::shutDownOutputStreams
 
-bool ProCompInputService::start(void)
+bool ProComp2InputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -213,16 +211,16 @@ bool ProCompInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // ProCompInputService::start
+} // ProComp2InputService::start
 
-void ProCompInputService::startStreams(void)
+void ProComp2InputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            _generator = new ProCompInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator = new ProComp2InputThread(_outStreams.at(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }
@@ -233,9 +231,9 @@ void ProCompInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputService::startStreams
+} // ProComp2InputService::startStreams
 
-bool ProCompInputService::stop(void)
+bool ProComp2InputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -251,9 +249,9 @@ bool ProCompInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ProCompInputService::stop
+} // ProComp2InputService::stop
 
-void ProCompInputService::stopStreams(void)
+void ProComp2InputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -276,7 +274,7 @@ void ProCompInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputService::stopStreams
+} // ProComp2InputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

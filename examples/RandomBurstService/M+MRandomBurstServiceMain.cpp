@@ -96,6 +96,7 @@ static void displayCommands(void)
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
+ @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(double &                      burstPeriod,
@@ -104,6 +105,7 @@ static void setUpAndGo(double &                      burstPeriod,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
+                       const bool                    autostartWasSet,
                        const bool                    stdinAvailable,
                        const bool                    reportOnExit)
 {
@@ -113,7 +115,8 @@ static void setUpAndGo(double &                      burstPeriod,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
+    OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
+              "reportOnExit = ", reportOnExit); //####
     RandomBurstService * stuff = new RandomBurstService(*argv, tag, serviceEndpointName,
                                                         servicePortNumber);
     
@@ -134,7 +137,7 @@ static void setUpAndGo(double &                      burstPeriod,
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 stuff->startPinger();
-                if (! stdinAvailable)
+                if (autostartWasSet || (! stdinAvailable))
                 {
                     configureData.addDouble(burstPeriod);
                     configureData.addInt(burstSize);
@@ -145,7 +148,7 @@ static void setUpAndGo(double &                      burstPeriod,
                 }
                 for ( ; IsRunning(); )
                 {
-                    if (stdinAvailable)
+                    if ((! autostartWasSet) && stdinAvailable)
                     {
                         char inChar;
                         
@@ -324,6 +327,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false;
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
@@ -339,9 +343,9 @@ int main(int      argc,
                                                          "bursts\n"
                                                          "  size       Optional burst size"),
                                           DEFAULT_RANDOMBURST_SERVICE_NAME, 2014,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipNone,
-                                          &arguments))
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipNone, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -380,8 +384,8 @@ int main(int      argc,
                         }
                     }
                 }
-                setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName, servicePortNumber,
-                           stdinAvailable, reportOnExit);
+                setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName,
+                           servicePortNumber, autostartWasSet, stdinAvailable, reportOnExit);
             }
 #if CheckNetworkWorks_
             else

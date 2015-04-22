@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       ProCompInputService/CMakeLists.txt
+#  File:       ProComp2InputService/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the ProComp input service application.
+#  Contains:   The CMAKE definitions for the ProComp2 input service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmProCompInputService)
+set(THIS_TARGET mpmProComp2InputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -47,17 +47,17 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
-	#include_directories(${MpMPROCOMP_SOURCE_DIR}/ProCompInputService/KinectLib/inc)
+	#include_directories(${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/KinectLib/inc)
 	#add_library(Kinect SHARED IMPORTED)
-	#set_property(TARGET ProComp PROPERTY IMPORTED_IMPLIB
-        #        ${MpMPROCOMP_SOURCE_DIR}/ProCompInputService/KinectLib/Lib/x86/Kinect20.lib)
+	#set_property(TARGET ProComp2 PROPERTY IMPORTED_IMPLIB
+        #        ${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/KinectLib/Lib/x86/Kinect20.lib)
 endif(WIN32)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MProCompInputServiceMain.cpp
-               M+MProCompInputService.cpp
-               M+MProCompInputThread.cpp
+               M+MProComp2InputServiceMain.cpp
+               M+MProComp2InputService.cpp
+               M+MProComp2InputThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

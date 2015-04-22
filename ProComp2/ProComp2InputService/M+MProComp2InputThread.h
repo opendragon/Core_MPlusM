@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MProCompInputThread.h
+//  File:       M+MProComp2InputThread.h
 //
 //  Project:    M+M
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMProCompInputThread_H_))
-# define MpMProCompInputThread_H_ /* Header guard */
+#if (! defined(MpMProComp2InputThread_H_))
+# define MpMProComp2InputThread_H_ /* Header guard */
 
 # include <mpm/M+MGeneralChannel.h>
 
@@ -54,10 +54,10 @@
 
 namespace MplusM
 {
-    namespace ProComp
+    namespace ProComp2
     {
         /*! @brief A convenience class to generate output. */
-        class ProCompInputThread : public yarp::os::Thread
+        class ProComp2InputThread : public yarp::os::Thread
         {
         public :
             
@@ -65,12 +65,12 @@ namespace MplusM
              @param outChannel The channel to send data bursts to.
              @param timeToWait The number of seconds to delay before triggering.
              @param numValues The number of values to send in each burst. */
-            ProCompInputThread(Common::GeneralChannel * outChannel,
-                                    const double             timeToWait,
-                                    const int                numValues);
+            ProComp2InputThread(Common::GeneralChannel * outChannel,
+                                const double             timeToWait,
+                                const int                numValues);
             
             /*! @brief The destructor. */
-            virtual ~ProCompInputThread(void);
+            virtual ~ProComp2InputThread(void);
             
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
@@ -89,7 +89,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(ProCompInputThread);
+            COPY_AND_ASSIGNMENT_(ProComp2InputThread);
             
         public :
         
@@ -132,10 +132,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // ProCompInputThread
+        }; // ProComp2InputThread
         
-    } // ProComp
+    } // ProComp2
     
 } // MplusM
 
-#endif // ! defined(MpMProCompInputThread_H_)
+#endif // ! defined(MpMProComp2InputThread_H_)

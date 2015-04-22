@@ -1,6 +1,6 @@
-\ProvidesFile{PCservice.tex}[v1.0.0]
-\primaryStart[ThePCIService]{The~\PCI{}~Service}
-The \asCode{mpmProCompInputService} application is an Input service,
+\ProvidesFile{PC2service.tex}[v1.0.0]
+\primaryStart[ThePCtwoI2Service]{The~\PCtwoI{}~Service}
+The \asCode{mpmProComp2InputService} application is an Input service,
 generating a stream of information on the position and orientation of one or more bodies.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -9,20 +9,21 @@ The \emph{configure} request request has no arguments and does nothing.\\
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the ProComp controller.
+The \emph{startStreams} request request initiates listening to the ProComp2 controller.
 Once started, the service will send groups of body data via the output \yarp{} network
 connection.\\
 
-The \emph{stopStreams} request stops the ProComp controller listener, which stops the
+The \emph{stopStreams} request stops the ProComp2 controller listener, which stops the
 output \yarp{} network connection.\\ 
 
 Note that the application will exit if the \emph{Registry Service} is not running.\\
 
 \insertAppParameters{}
-\insertTagDescription{\PCI}
+\insertTagDescription{\PCtwoI}
 \insertInputServiceComment{}\\
 
-If the application is running from a terminal, the following commands are available:
+If the application is running from a terminal and has not been autostarted, the following
+commands are available:
 \begin{itemize}
 \item\cmdItem{?}{display a list of the available commands}
 \item\exSp\cmdItem{b}{start the output stream, sending body data}

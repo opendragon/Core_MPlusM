@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MProCompInputServiceMain.cpp
+//  File:       M+MProComp2InputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the ProComp input service.
+//  Contains:   The main application for the ProComp2 input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MProCompInputService.h"
+#include "M+MProComp2InputService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -50,20 +50,20 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the ProComp input service. */
+ @brief The main application for the ProComp2 input service. */
 
-/*! @dir ProComp
- @brief The set of files that implement the ProComp input service. */
+/*! @dir ProComp2
+ @brief The set of files that implement the ProComp2 input service. */
 
-/*! @dir ProCompInputService
- @brief The set of files that implement the ProComp input service. */
+/*! @dir ProComp2InputService
+ @brief The set of files that implement the ProComp2 input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::ProComp;
+using namespace MplusM::ProComp2;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -92,13 +92,14 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the ProComp input service.
+/*! @brief Set up the environment and start the ProComp2 input service.
  @param burstPeriod The burst period in seconds.
  @param burstSize The number of random values to generate in each burst.
  @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
+ @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(double &                      burstPeriod,
@@ -107,6 +108,7 @@ static void setUpAndGo(double &                      burstPeriod,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
+                       const bool                    autostartWasSet,
                        const bool                    stdinAvailable,
                        const bool                    reportOnExit)
 {
@@ -116,8 +118,9 @@ static void setUpAndGo(double &                      burstPeriod,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
-    ProCompInputService * stuff = new ProCompInputService(*argv, tag, serviceEndpointName,
+    OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
+              "reportOnExit = ", reportOnExit); //####
+    ProComp2InputService * stuff = new ProComp2InputService(*argv, tag, serviceEndpointName,
                                                             servicePortNumber);
 
     if (stuff)
@@ -138,7 +141,7 @@ static void setUpAndGo(double &                      burstPeriod,
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 stuff->startPinger();
-                if (! stdinAvailable)
+                if (autostartWasSet || (! stdinAvailable))
                 {
                     configureData.addDouble(burstPeriod);
                     configureData.addInt(burstSize);
@@ -149,7 +152,7 @@ static void setUpAndGo(double &                      burstPeriod,
                 }
                 for ( ; IsRunning(); )
                 {
-                    if (stdinAvailable)
+                    if ((! autostartWasSet) && stdinAvailable)
                     {
                         char inChar;
                         
@@ -305,7 +308,7 @@ static void setUpAndGo(double &                      burstPeriod,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the ProComp input service.
+/*! @brief The entry point for running the ProComp2 input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -333,6 +336,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false;
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
@@ -347,10 +351,10 @@ int main(int      argc,
                                                          "  period     Optional interval between "
                                                          "bursts\n"
                                                          "  size       Optional burst size"),
-                                          DEFAULT_PROCOMPINPUT_SERVICE_NAME, 2015,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipNone,
-                                          &arguments))
+                                          DEFAULT_PROCOMP2INPUT_SERVICE_NAME, 2015,
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipNone, &arguments))
         {
             Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -389,7 +393,7 @@ int main(int      argc,
                     }
                 }
                 setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName,
-                           servicePortNumber, stdinAvailable, reportOnExit);
+                           servicePortNumber, autostartWasSet, stdinAvailable, reportOnExit);
             }
 #if CheckNetworkWorks_
             else

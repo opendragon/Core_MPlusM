@@ -95,6 +95,7 @@ static void displayCommands(void)
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
+ @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(yarp::os::ConstString &       recordPath,
@@ -102,6 +103,7 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
+                       const bool                    autostartWasSet,
                        const bool                    stdinAvailable,
                        const bool                    reportOnExit)
 {
@@ -109,7 +111,8 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
     OD_LOG_S4s("recordPath = ", recordPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
+    OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
+              "reportOnExit = ", reportOnExit); //####
     RecordAsJSONService * stuff = new RecordAsJSONService(*argv, tag, serviceEndpointName,
                                                           servicePortNumber);
     
@@ -129,7 +132,7 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 stuff->startPinger();
-                if (! stdinAvailable)
+                if (autostartWasSet || (! stdinAvailable))
                 {
                     configureData.addString(recordPath);
                     if (stuff->configure(configureData))
@@ -139,7 +142,7 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
                 }
                 for ( ; IsRunning(); )
                 {
-                    if (stdinAvailable)
+                    if ((! autostartWasSet) && stdinAvailable)
                     {
                         char inChar;
                         
@@ -309,6 +312,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false;
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
@@ -321,9 +325,9 @@ int main(int      argc,
 		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
                                                          "  filePath   Optional output file path"),
                                           DEFAULT_RECORDASJSON_SERVICE_NAME, 2014,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipNone,
-                                          &arguments))
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipNone, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -356,7 +360,7 @@ int main(int      argc,
                     OD_LOG_S1s("recordPath <- ", recordPath); //####
                 }
                 setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
-                           stdinAvailable, reportOnExit);
+                           autostartWasSet, stdinAvailable, reportOnExit);
             }
 #if CheckNetworkWorks_
             else

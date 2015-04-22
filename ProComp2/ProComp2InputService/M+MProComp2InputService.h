@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MProCompInputService.h
+//  File:       M+MProComp2InputService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the ProComp input service.
+//  Contains:   The class declaration for the ProComp2 input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMProCompInputService_H_))
-# define MpMProCompInputService_H_ /* Header guard */
+#if (! defined(MpMProComp2InputService_H_))
+# define MpMProComp2InputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
 
@@ -47,23 +47,23 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the ProComp input service. */
+ @brief The class declaration for the ProComp2 input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_PROCOMPINPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "input/procompinput")
+# define DEFAULT_PROCOMP2INPUT_SERVICE_NAME T_( \
+        DEFAULT_SERVICE_NAME_BASE "input/procomp2input")
 
 namespace MplusM
 {
-    namespace ProComp
+    namespace ProComp2
     {
-        class ProCompInputThread;
+        class ProComp2InputThread;
         
-        /*! @brief The ProComp input service. */
-        class ProCompInputService : public Common::BaseInputService
+        /*! @brief The ProComp2 input service. */
+        class ProComp2InputService : public Common::BaseInputService
         {
         public :
             
@@ -72,13 +72,13 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            ProCompInputService(const yarp::os::ConstString & launchPath,
-                                     const yarp::os::ConstString & tag,
-                                     const yarp::os::ConstString & serviceEndpointName,
-                                     const yarp::os::ConstString & servicePortNumber = "");
+            ProComp2InputService(const yarp::os::ConstString & launchPath,
+                                 const yarp::os::ConstString & tag,
+                                 const yarp::os::ConstString & serviceEndpointName,
+                                 const yarp::os::ConstString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~ProCompInputService(void);
+            virtual ~ProComp2InputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -110,7 +110,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(ProCompInputService);
+            COPY_AND_ASSIGNMENT_(ProComp2InputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
@@ -126,7 +126,7 @@ namespace MplusM
             typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
-            ProCompInputThread * _generator;
+            ProComp2InputThread * _generator;
             
             /*! @brief The number of seconds between data bursts. */
             double _burstPeriod;
@@ -144,10 +144,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // ProCompInputService
+        }; // ProComp2InputService
         
-    } // ProComp
+    } // ProComp2
     
 } // MplusM
 
-#endif // ! defined(MpMProCompInputService_H_)
+#endif // ! defined(MpMProComp2InputService_H_)

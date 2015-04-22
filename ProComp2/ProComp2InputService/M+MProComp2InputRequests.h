@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MProCompInputRequests.h
+//  File:       M+MProComp2InputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the ProComp input
+//  Contains:   The common macro definitions for requests and responses for the ProComp2 input
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMProCompInputRequests_H_))
-# define MpMProCompInputRequests_H_ /* Header guard */
+#if (! defined(MpMProComp2InputRequests_H_))
+# define MpMProComp2InputRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the ProComp input
+ @brief The common macro definitions for requests and responses for the ProComp2 input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the ProComp input service. */
-# define MpM_PROCOMPINPUT_CANONICAL_NAME "ProCompInput"
+/*! @brief The channel-independent name of the ProComp2 input service. */
+# define MpM_PROCOMP2INPUT_CANONICAL_NAME "ProComp2Input"
 
-#endif // ! defined(MpMProCompInputRequests_H_)
+#endif // ! defined(MpMProComp2InputRequests_H_)

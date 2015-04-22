@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MProCompInputThread.cpp
+//  File:       M+MProComp2InputThread.cpp
 //
 //  Project:    M+M
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MProCompInputThread.h"
+#include "M+MProComp2InputThread.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -54,7 +54,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::ProComp;
+using namespace MplusM::ProComp2;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -72,9 +72,9 @@ using namespace MplusM::ProComp;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ProCompInputThread::ProCompInputThread(GeneralChannel * outChannel,
-                                                 const double     timeToWait,
-                                                 const int        numValues) :
+ProComp2InputThread::ProComp2InputThread(GeneralChannel * outChannel,
+                                         const double     timeToWait,
+                                         const int        numValues) :
     inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
 {
     OD_LOG_ENTER(); //####
@@ -82,26 +82,26 @@ ProCompInputThread::ProCompInputThread(GeneralChannel * outChannel,
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_LL1("numValues = ", numValues); //####
     OD_LOG_EXIT_P(this); //####
-} // ProCompInputThread::ProCompInputThread
+} // ProComp2InputThread::ProComp2InputThread
 
-ProCompInputThread::~ProCompInputThread(void)
+ProComp2InputThread::~ProComp2InputThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputThread::~ProCompInputThread
+} // ProComp2InputThread::~ProComp2InputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ProCompInputThread::clearOutputChannel(void)
+void ProComp2InputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputThread::clearOutputChannel
+} // ProComp2InputThread::clearOutputChannel
 
-void ProCompInputThread::run(void)
+void ProComp2InputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -130,9 +130,9 @@ void ProCompInputThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputThread::run
+} // ProComp2InputThread::run
 
-bool ProCompInputThread::threadInit(void)
+bool ProComp2InputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -140,13 +140,13 @@ bool ProCompInputThread::threadInit(void)
     _nextTime = yarp::os::Time::now() + _timeToWait;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ProCompInputThread::threadInit
+} // ProComp2InputThread::threadInit
 
-void ProCompInputThread::threadRelease(void)
+void ProComp2InputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ProCompInputThread::threadRelease
+} // ProComp2InputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

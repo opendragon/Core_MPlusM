@@ -79,24 +79,24 @@ namespace MplusM
             /*! @brief Skip no options. */
             kSkipNone                  = 0x00,
             
+            /*! @brief Skip the 'autostart' option. */
+            kSkipAutostartOption       = 0x01,
+            
             /*! @brief Skip the 'endpoint' option. */
-            kSkipEndpointOption        = 0x01,
+            kSkipEndpointOption        = 0x02,
             
             /*! @brief Skip the 'help' option. */
-            kSkipHelpOption            = 0x02,
+            kSkipHelpOption            = 0x04,
             
             /*! @brief Skip the 'port' option. */
-            kSkipPortOption            = 0x04,
+            kSkipPortOption            = 0x08,
             
             /*! @brief Skip the 'report' option. */
-            kSkipReportOption          = 0x08,
+            kSkipReportOption          = 0x10,
             
             /*! @brief Skip the 'tag' option. */
-            kSkipTagOption             = 0x10,
+            kSkipTagOption             = 0x20,
             
-            /*! @brief Skip the 'endpoint' and 'tag' options. */
-            kSkipEndpointAndTagOptions = (kSkipEndpointOption | kSkipTagOption),
-
             /*! @brief Skip all the options. */
             kSkipAllOptions            = 0xFF
         }; // OptionsMask
@@ -456,6 +456,7 @@ namespace MplusM
         }; // BaseService
         
         /*! @brief Process the standard options for service executables.
+         The option '-a' / '--autostart' indicates that the service is to be started immediately.
          The option '-e' / '--endpoint' specifies the endpoint name to be used.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
@@ -471,6 +472,7 @@ namespace MplusM
          @param defaultEndpointNameRoot The default endpoint root name.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
+         @param autostartWasSet Set to @c true if the service is to be started immediately.
          @param nameWasSet Set to @c true if the service endpoint option appeared.
          @param reportOnExit Set to @c true if the -r option is seen.
          @param tag Set to the argument of the last -t option seen.
@@ -486,6 +488,7 @@ namespace MplusM
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
                                            const int                     year,
                                            const char *                  copyrightHolder,
+                                           bool &                        autostartWasSet,
                                            bool &                        nameWasSet,
                                            bool &                        reportOnExit,
                                            yarp::os::ConstString &       tag,

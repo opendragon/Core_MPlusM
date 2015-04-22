@@ -1943,6 +1943,7 @@ static bool validateLoadedScript(JSContext *             jct,
  @param argv The arguments to be used with the %JavaScript input / output service.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
+ @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(JSContext *                   jct,
@@ -1952,6 +1953,7 @@ static void setUpAndGo(JSContext *                   jct,
                        StringVector &                argv,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
+                       const bool                    autostartWasSet,
                        const bool                    stdinAvailable,
                        const bool                    reportOnExit)
 {
@@ -1959,7 +1961,8 @@ static void setUpAndGo(JSContext *                   jct,
     OD_LOG_P2("jct = ", jct, "argv = ", &argv); //####
     OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B2("stdinAvailable = ", stdinAvailable, "reportOnExit = ", reportOnExit); //####
+    OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
+              "reportOnExit = ", reportOnExit); //####
     // Enter a request before running anything in the context. In particular, the request is needed
     // in order for JS_InitStandardClasses to work properly.
     JSAutoRequest    ar(jct);
@@ -2074,7 +2077,7 @@ static void setUpAndGo(JSContext *                   jct,
                         StartRunning();
                         SetSignalHandlers(SignalRunningStop);
                         stuff->startPinger();
-                        if (! stdinAvailable)
+                        if (autostartWasSet || (! stdinAvailable))
                         {
                             if (stuff->configure(configureData))
                             {
@@ -2083,7 +2086,7 @@ static void setUpAndGo(JSContext *                   jct,
                         }
                         for ( ; IsRunning(); )
                         {
-                            if (stdinAvailable)
+                            if ((! autostartWasSet) && stdinAvailable)
                             {
                                 char inChar;
                                 
@@ -2301,6 +2304,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        bool                  autostartWasSet = false;
         bool                  nameWasSet = false;
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
@@ -2312,9 +2316,9 @@ int main(int      argc,
 		if (ProcessStandardServiceOptions(argc, argv, T_(" filePath\n\n"
                                                          "  filePath   Path to script file to use"),
                                           DEFAULT_JAVASCRIPT_SERVICE_NAME, 2015,
-                                          STANDARD_COPYRIGHT_NAME, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipNone,
-                                          &arguments))
+                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipNone, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -2420,8 +2424,8 @@ int main(int      argc,
                             if (jrt && jct)
                             {
                                 setUpAndGo(jct, scriptSource, scriptPath, rawTag, arguments,
-                                           serviceEndpointName, servicePortNumber, stdinAvailable,
-                                           reportOnExit);
+                                           serviceEndpointName, servicePortNumber, autostartWasSet,
+                                           stdinAvailable, reportOnExit);
                                 JS_DestroyContext(jct);
                                 JS_DestroyRuntime(jrt);
                             }

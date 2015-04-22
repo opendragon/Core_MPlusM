@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmProCompInputService.rc
+// Used by mpmProComp2InputService.rc
 
 // Next default values for new objects
 // 

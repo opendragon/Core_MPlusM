@@ -7,16 +7,6 @@
 	objects = {
 
 /* Begin PBXFileReference section */
-		DF0C7A921AE007F600E8FB15 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ProComp/CMakeLists.txt; sourceTree = "<group>"; };
-		DF0C7A941AE0082300E8FB15 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ProComp/ProCompInputService/CMakeLists.txt; sourceTree = "<group>"; };
-		DF0C7A951AE0082300E8FB15 /* M+MProCompInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProCompInputRequests.h"; path = "ProComp/ProCompInputService/M+MProCompInputRequests.h"; sourceTree = "<group>"; };
-		DF0C7A961AE0082300E8FB15 /* M+MProCompInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProCompInputService.cpp"; path = "ProComp/ProCompInputService/M+MProCompInputService.cpp"; sourceTree = "<group>"; };
-		DF0C7A971AE0082300E8FB15 /* M+MProCompInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProCompInputService.h"; path = "ProComp/ProCompInputService/M+MProCompInputService.h"; sourceTree = "<group>"; };
-		DF0C7A981AE0082300E8FB15 /* M+MProCompInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProCompInputServiceMain.cpp"; path = "ProComp/ProCompInputService/M+MProCompInputServiceMain.cpp"; sourceTree = "<group>"; };
-		DF0C7A991AE0082300E8FB15 /* M+MProCompInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProCompInputThread.cpp"; path = "ProComp/ProCompInputService/M+MProCompInputThread.cpp"; sourceTree = "<group>"; };
-		DF0C7A9A1AE0082300E8FB15 /* M+MProCompInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProCompInputThread.h"; path = "ProComp/ProCompInputService/M+MProCompInputThread.h"; sourceTree = "<group>"; };
-		DF0C7A9C1AE0082300E8FB15 /* mpmProCompInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmProCompInputService.rc.in; path = ProComp/ProCompInputService/mpmProCompInputService.rc.in; sourceTree = "<group>"; };
-		DF0C7A9D1AE0082300E8FB15 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ProComp/ProCompInputService/resource.h; sourceTree = "<group>"; };
 		DF1BD31F1A8BA2DE0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF1BD3211A8BA2FA0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/AddressClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF1BD3221A8BA2FA0070A09C /* M+MAddressClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressClient.cpp"; path = "Address/AddressClient/M+MAddressClient.cpp"; sourceTree = SOURCE_ROOT; };
@@ -558,6 +548,16 @@
 		DFCDE50819E73A210051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceMetrics/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCDE50919E73A210051D294 /* M+MServiceMetricsMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MServiceMetricsMain.cpp"; path = "ServiceMetrics/M+MServiceMetricsMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFD016B81AB9E78200777451 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = CPack/CMakeLists.txt; sourceTree = "<group>"; };
+		DFDAF5CE1AE7F93F009FD326 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ProComp2/CMakeLists.txt; sourceTree = "<group>"; };
+		DFDAF5CF1AE7F950009FD326 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ProComp2/ProComp2InputService/CMakeLists.txt; sourceTree = "<group>"; };
+		DFDAF5D01AE7F950009FD326 /* M+MProComp2InputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProComp2InputRequests.h"; path = "ProComp2/ProComp2InputService/M+MProComp2InputRequests.h"; sourceTree = "<group>"; };
+		DFDAF5D11AE7F950009FD326 /* M+MProComp2InputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProComp2InputService.cpp"; path = "ProComp2/ProComp2InputService/M+MProComp2InputService.cpp"; sourceTree = "<group>"; };
+		DFDAF5D21AE7F950009FD326 /* M+MProComp2InputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProComp2InputService.h"; path = "ProComp2/ProComp2InputService/M+MProComp2InputService.h"; sourceTree = "<group>"; };
+		DFDAF5D31AE7F950009FD326 /* M+MProComp2InputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProComp2InputServiceMain.cpp"; path = "ProComp2/ProComp2InputService/M+MProComp2InputServiceMain.cpp"; sourceTree = "<group>"; };
+		DFDAF5D41AE7F950009FD326 /* M+MProComp2InputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MProComp2InputThread.cpp"; path = "ProComp2/ProComp2InputService/M+MProComp2InputThread.cpp"; sourceTree = "<group>"; };
+		DFDAF5D51AE7F950009FD326 /* M+MProComp2InputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MProComp2InputThread.h"; path = "ProComp2/ProComp2InputService/M+MProComp2InputThread.h"; sourceTree = "<group>"; };
+		DFDAF5D61AE7F950009FD326 /* mpmProComp2InputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmProComp2InputService.rc.in; path = ProComp2/ProComp2InputService/mpmProComp2InputService.rc.in; sourceTree = "<group>"; };
+		DFDAF5D71AE7F950009FD326 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ProComp2/ProComp2InputService/resource.h; sourceTree = "<group>"; };
 		DFDC7E501A7FF07200BE0557 /* optionparser.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = optionparser.cpp; path = mpm/optionparser.cpp; sourceTree = "<group>"; };
 		DFDC7E511A7FF07200BE0557 /* optionparser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = optionparser.h; path = mpm/optionparser.h; sourceTree = "<group>"; };
 		DFE83AD019B671D1003A7EDE /* M+MMovementDbClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MMovementDbClient.cpp"; path = "MovementDb/MovementDbClient/M+MMovementDbClient.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -648,29 +648,29 @@
 			name = SQLite3;
 			sourceTree = SOURCE_ROOT;
 		};
-		DF0C7A911AE006C000E8FB15 /* ProComp */ = {
+		DF0C7A911AE006C000E8FB15 /* ProComp2 */ = {
 			isa = PBXGroup;
 			children = (
-				DF0C7A921AE007F600E8FB15 /* CMakeLists.txt */,
-				DF0C7A931AE0080500E8FB15 /* ProCompInputService */,
+				DFDAF5CE1AE7F93F009FD326 /* CMakeLists.txt */,
+				DF0C7A931AE0080500E8FB15 /* ProComp2InputService */,
 			);
-			name = ProComp;
+			name = ProComp2;
 			sourceTree = "<group>";
 		};
-		DF0C7A931AE0080500E8FB15 /* ProCompInputService */ = {
+		DF0C7A931AE0080500E8FB15 /* ProComp2InputService */ = {
 			isa = PBXGroup;
 			children = (
-				DF0C7A941AE0082300E8FB15 /* CMakeLists.txt */,
-				DF0C7A951AE0082300E8FB15 /* M+MProCompInputRequests.h */,
-				DF0C7A961AE0082300E8FB15 /* M+MProCompInputService.cpp */,
-				DF0C7A971AE0082300E8FB15 /* M+MProCompInputService.h */,
-				DF0C7A981AE0082300E8FB15 /* M+MProCompInputServiceMain.cpp */,
-				DF0C7A991AE0082300E8FB15 /* M+MProCompInputThread.cpp */,
-				DF0C7A9A1AE0082300E8FB15 /* M+MProCompInputThread.h */,
-				DF0C7A9C1AE0082300E8FB15 /* mpmProCompInputService.rc.in */,
-				DF0C7A9D1AE0082300E8FB15 /* resource.h */,
+				DFDAF5CF1AE7F950009FD326 /* CMakeLists.txt */,
+				DFDAF5D01AE7F950009FD326 /* M+MProComp2InputRequests.h */,
+				DFDAF5D11AE7F950009FD326 /* M+MProComp2InputService.cpp */,
+				DFDAF5D21AE7F950009FD326 /* M+MProComp2InputService.h */,
+				DFDAF5D31AE7F950009FD326 /* M+MProComp2InputServiceMain.cpp */,
+				DFDAF5D41AE7F950009FD326 /* M+MProComp2InputThread.cpp */,
+				DFDAF5D51AE7F950009FD326 /* M+MProComp2InputThread.h */,
+				DFDAF5D61AE7F950009FD326 /* mpmProComp2InputService.rc.in */,
+				DFDAF5D71AE7F950009FD326 /* resource.h */,
 			);
-			name = ProCompInputService;
+			name = ProComp2InputService;
 			sourceTree = "<group>";
 		};
 		DF1BD31E1A8BA2D00070A09C /* Address */ = {
@@ -1410,7 +1410,7 @@
 				DFA3432618C91C1C0053B87C /* odl */,
 				DF27F42718CA357400E93C95 /* ParserTest */,
 				DF30063718E605D400B51C22 /* PortLister */,
-				DF0C7A911AE006C000E8FB15 /* ProComp */,
+				DF0C7A911AE006C000E8FB15 /* ProComp2 */,
 				DFEF4BB51A262AEC00FBB838 /* RecordAsJSON */,
 				DFA3431418C91B8B0053B87C /* RegistryService */,
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,

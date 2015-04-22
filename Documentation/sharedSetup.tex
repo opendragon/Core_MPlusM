@@ -60,7 +60,7 @@
 % Define some common strings:
 \newcommand{\default}{!-!-!}
 \newcommand{\MMM}{Movement~and~Meaning~Middleware}
-\newcommand{\MMV}{Version~1.4.24}
+\newcommand{\MMV}{Version~1.4.25}
 \newcommand{\mplusm}{\textbf{M+M}}
 \newcommand{\nothing}{\ }
 \newcommand{\yarp}{\begin{footnotesize}\textsf{YARP}\end{footnotesize}}
@@ -127,10 +127,10 @@
 \newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} #2}
 %END LATEX
 
-%HEVEA\newcommand{\optItem}[3]{\textbf{-#1} | \textbf{--#2} #3}%
+%HEVEA\newcommand{\optItem}[4]{\textbf{-#1} \textit{#2} | \textbf{--#3} \textit{#2} #4}%
 %BEGIN LATEX
-\newcommand{\optItem}[3]{\makebox[1.25em][l]{\textbf{--#1}} \textbar{} %
-\makebox[5em][l]{\textbf{{-}{-}#2}} #3}
+\newcommand{\optItem}[4]{\makebox[1.75em][l]{\textbf{--#1} \textit{#2}} %
+\textbar{} \makebox[5.5em][l]{\textbf{{-}{-}#3} \textit{#2}} #4}
 %END LATEX
 
 %HEVEA\newcommand{\longDash}{-}%
@@ -595,16 +595,33 @@ Vancouver, British~Columbia, Canada}
 \setlength{\parskip}{0pt}}%
 {\end{itemize}}
 
-\newcommand{\insertAppParameters}{The application has six optional parameters:
+\newcommand{\insertAppParameters}{The application has seven optional parameters:
 \begin{itemize}
-\item\optItem{e}{endpoint}{specifies an alternative endpoint name to be used}
-\item\exSp\optItem{h}{help}{display the list of optional parameters and arguments and
+\item\optItem{a}{}{autostart}{indicates that the service is to be started immediately}
+\item\exSp\optItem{e}{v}{endpoint}{specifies an alternative endpoint name `\textit{v}' to
+be used}
+\item\exSp\optItem{h}{}{help}{display the list of optional parameters and arguments and
 leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+\item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{t}{tag}{specifies the tag to be used as part of the service name}
-\item\exSp\optItem{v}{vers}{display the version and copyright information and leave}
+\item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{v}{tag}{specifies the tag `\textit{v}' to be used as part of the
+service name}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
+\end{itemize}}
+
+\newcommand{\insertAutoAppParameters}{The application has six optional parameters:
+\begin{itemize}
+\item\optItem{e}{v}{endpoint}{specifies an alternative endpoint name `\textit{v}' to be
+used}
+\item\exSp\optItem{h}{}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{t}{v}{tag}{specifies the tag `\textit{v}' to be used as part of the
+service name}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}}
 
 \newcommand{\insertTagDescription}[1]{The tag is added to the standard name of the

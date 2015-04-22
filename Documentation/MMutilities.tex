@@ -14,10 +14,10 @@ installation if care is not taken.\\
 
 The command\longDash{}line tools all have four optional parameters:
 \begin{itemize}
-\item\optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item\exSp\optItem{j}{json}{generate JSON\longDash{}formatted output}
-\item\exSp\optItem{t}{tabs}{generate output in a tab\longDash{}delimited format}
-\item\exSp\optItem{v}{vers}{display the version and copyright information and leave}
+\item\optItem{h}{}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{j}{}{json}{generate JSON\longDash{}formatted output}
+\item\exSp\optItem{t}{}{tabs}{generate output in a tab\longDash{}delimited format}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}
 If neither JSON format nor tab\longDash{}delimited format are specified, the output is
 written as simple text.
@@ -254,7 +254,8 @@ while, for Macintosh OS X, it will be ``/tmp'' and, for Linux, it is \TBD.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
 
-If the application is running from a terminal, the following commands are available:
+If the application is running from a terminal and has not been autostarted, the following
+commands are available:
 \begin{itemize}
 \item\cmdItem{?}{display a list of the available commands}
 \item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
@@ -625,7 +626,7 @@ companion application \utilityNameR{mpmAddressClient} to retrieve the IP address
 that it is started with.\\
 
 The application has two arguments \longDash{} the IP address and port to be remembered.
-\insertAppParameters{}
+\insertAutoAppParameters{}
 \insertTagDescription{Address}
 \tertiaryEnd{\utilityNameE{mpmAddressService}}
 \tertiaryStart{\utilityNameP{mpmAddressClient}}
@@ -703,7 +704,7 @@ that the companion application should connect to.\\
 
 The application has two arguments \longDash{} the IP address and port for the network data
 source.
-\insertAppParameters{}
+\insertAutoAppParameters{}
 \insertTagDescription{Tunnel Service}
 \tertiaryEnd{\utilityNameE{mpmTunnelService}}
 \tertiaryStart{\utilityNameP{mpmTunnelClient}}
@@ -731,11 +732,12 @@ that it gathers.\\
 
 The application has four optional parameters:
 \begin{itemize}
-\item\optItem{h}{help}{display the list of optional parameters and arguments and leave}
-\item\exSp\optItem{p}{port}{specifies the port number to be used, if a
+\item\optItem{h}{}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
-\item\exSp\optItem{r}{report}{report the service metrics when the application exits}
-\item\exSp\optItem{v}{vers}{display the version and copyright information and leave}
+\item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed endpoint name.
