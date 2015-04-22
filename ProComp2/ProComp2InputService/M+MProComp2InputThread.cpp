@@ -41,6 +41,13 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#define _WIN32_DCOM			// for using CoInitializeEx
+
+#define USING_WRAPPER_CLASS
+#include "ttllive.h"
+
+#define REAL_POINTER(vv) reinterpret_cast<ITTLLive2Ptr *>(vv)
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -55,6 +62,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::ProComp2;
+using std::cerr;
+using std::cout;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -64,6 +74,12 @@ using namespace MplusM::ProComp2;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+static void show_error(_com_error & ee)
+{
+	cerr << "(0x" << std::hex << ee.Error() << std::dec << ")" << endl;
+	cerr << static_cast<char *>(ee.Description()) << endl;
+} // show_error
+
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
@@ -72,22 +88,24 @@ using namespace MplusM::ProComp2;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ProComp2InputThread::ProComp2InputThread(GeneralChannel * outChannel,
+ProComp2InputThread::ProComp2InputThread(GeneralChannel * outChannel/*,
                                          const double     timeToWait,
-                                         const int        numValues) :
-    inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
+                                         const int        numValues*/) :
+    inherited(), _outChannel(outChannel), _TTLLive(nullptr)//, _timeToWait(timeToWait), _numValues(numValues)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_LL1("numValues = ", numValues); //####
+    //OD_LOG_D1("timeToWait = ", timeToWait); //####
+    //OD_LOG_LL1("numValues = ", numValues); //####
+	_TTLLive = new ITTLLive2Ptr;
     OD_LOG_EXIT_P(this); //####
 } // ProComp2InputThread::ProComp2InputThread
 
 ProComp2InputThread::~ProComp2InputThread(void)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+	delete _TTLLive;
+	OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::~ProComp2InputThread
 
 #if defined(__APPLE__)
@@ -106,6 +124,7 @@ void ProComp2InputThread::run(void)
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
+#if 0
         if (_nextTime <= yarp::os::Time::now())
         {
             OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
@@ -127,25 +146,69 @@ void ProComp2InputThread::run(void)
             }
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
+#endif//0
         yarp::os::Time::yield();
     }
-    OD_LOG_OBJEXIT(); //####
+	OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::run
 
 bool ProComp2InputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool result = true;
-    
-    _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
+    bool    result = true;
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+	
+	if (SUCCEEDED(hr))
+	{
+		//    _nextTime = yarp::os::Time::now() + _timeToWait;
+		hr = REAL_POINTER(_TTLLive)->CreateInstance(CLSID_TTLLive);
+		if (SUCCEEDED(hr))
+		{
+			try
+			{
+				T_Version sV;
+
+				sV.liVersion = (*REAL_POINTER(_TTLLive))->Version;
+				cout << "TTL Version = " << static_cast<int>(sV.byMajor) << "." << static_cast<int>(sV.byMinor) << "." << static_cast<int>(sV.woBuild) << endl;
+			}
+			catch (_com_error & ee)
+			{
+				OD_LOG("_com_error caught"); //####
+				show_error(ee);
+				result = false;
+			}
+			catch (...)
+			{
+				OD_LOG("Exception caught"); //####
+				throw;
+			}
+		}
+		else
+		{
+			OD_LOG("! (SUCCEEDED(hr))"); //####
+			CheckHRESULT(hr);
+			result = false;
+		}
+	}
+	else
+	{
+		OD_LOG("! (SUCCEEDED(hr)"); //####
+		CheckHRESULT(hr);
+#if MAC_OR_LINUX_
+		GetLogger().fail("CoInitializeEx() failed.");
+#else // ! MAC_OR_LINUX_
+		cerr << "CoInitializeEx() failed." << endl;
+#endif // ! MAC_OR_LINUX_
+	}
+	OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ProComp2InputThread::threadInit
 
 void ProComp2InputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_OBJEXIT(); //####
+	CoUninitialize();
+	OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::threadRelease
 
 #if defined(__APPLE__)

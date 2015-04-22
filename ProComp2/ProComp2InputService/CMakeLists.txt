@@ -46,13 +46,6 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
-if(WIN32)
-	#include_directories(${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/KinectLib/inc)
-	#add_library(Kinect SHARED IMPORTED)
-	#set_property(TARGET ProComp2 PROPERTY IMPORTED_IMPLIB
-        #        ${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/KinectLib/Lib/x86/Kinect20.lib)
-endif(WIN32)
-
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MProComp2InputServiceMain.cpp
@@ -60,11 +53,25 @@ add_executable(${THIS_TARGET}
                M+MProComp2InputThread.cpp
                ${VERS_RESOURCE})
 
+#add_library(TTLLiveCtrl SHARED IMPORTED)
+
+if(WIN32)
+#	set_property(TARGET TTLLiveCtrl PROPERTY IMPORTED_LOCATION
+#                    "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll")
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                       "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
+                       $<TARGET_FILE_DIR:mpmProComp2InputService>)
+    install(FILES "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll"
+            DESTINATION bin
+            COMPONENT applications)
+	include_directories(${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/inc)
+endif(WIN32)
+
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-#Kinect
+#					  TTLLiveCtrl
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}

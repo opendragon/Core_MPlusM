@@ -220,7 +220,7 @@ void ProComp2InputService::startStreams(void)
     {
         if (! isActive())
         {
-            _generator = new ProComp2InputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+			_generator = new ProComp2InputThread(_outStreams.at(0));// , _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }

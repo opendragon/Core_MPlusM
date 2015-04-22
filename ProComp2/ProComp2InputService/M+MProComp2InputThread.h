@@ -41,6 +41,11 @@
 
 # include <mpm/M+MGeneralChannel.h>
 
+//# define _WIN32_DCOM			// for using CoInitializeEx
+
+//# define USING_WRAPPER_CLASS
+//# include "ttllive.h"
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -65,9 +70,9 @@ namespace MplusM
              @param outChannel The channel to send data bursts to.
              @param timeToWait The number of seconds to delay before triggering.
              @param numValues The number of values to send in each burst. */
-            ProComp2InputThread(Common::GeneralChannel * outChannel,
+            ProComp2InputThread(Common::GeneralChannel * outChannel/*,
                                 const double             timeToWait,
-                                const int                numValues);
+                                const int                numValues*/);
             
             /*! @brief The destructor. */
             virtual ~ProComp2InputThread(void);
@@ -113,15 +118,17 @@ namespace MplusM
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
             
-            /*! @brief The time at which the thread will send data. */
-            double _nextTime;
-            
-            /*! @brief The number of seconds to delay before triggering. */
-            double _timeToWait;
-            
-            /*! @brief The number of values to send in each burst. */
-            int _numValues;
-            
+			void * _TTLLive;
+			
+			///*! @brief The time at which the thread will send data. */
+            //double _nextTime;
+            //
+            ///*! @brief The number of seconds to delay before triggering. */
+            //double _timeToWait;
+            //
+            ///*! @brief The number of values to send in each burst. */
+            //int _numValues;
+            //
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
