@@ -119,6 +119,7 @@ void ProComp2InputThread::readChannelData(const DWORD time)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("time = ", time); //####
+    bool                 sawData = false;
     char                 tag[2];
     LONG                 samplesAvailable;
     yarp::os::Bottle     message;
@@ -131,7 +132,6 @@ void ProComp2InputThread::readChannelData(const DWORD time)
 #endif // ! defined(USE_VARIANT_READ_METHOD)
 
     memset(tag, '\0', sizeof(tag));
-    props.put("time", static_cast<double>(time));
 #if defined(USE_VARIANT_READ_METHOD)
     for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
          channelHND = lTTLLive->GetNextChannelHND())
@@ -167,6 +167,7 @@ void ProComp2InputThread::readChannelData(const DWORD time)
                 
                 ::SafeArrayUnlock(pSA);
                 tag[0] = static_cast<char>('A' + channelHND);
+                sawData = true;
                 props.put(tag, data[0]);
             }
         }
@@ -184,12 +185,14 @@ void ProComp2InputThread::readChannelData(const DWORD time)
         if (samplesAvailable)
         {
             tag[0] = static_cast<char>('A' + channelHND);
+            sawData = true;
             props.put(tag, buffer[0]);
         }
     }
 #endif // ! defined(USE_VARIANT_READ_METHOD)
-    if (_outChannel)
+    if (sawData && _outChannel)
     {
+        props.put("time", static_cast<double>(time));
         if (! _outChannel->write(message))
         {
             OD_LOG("(! _outChannel->write(message))"); //####
