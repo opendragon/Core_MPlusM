@@ -93,8 +93,6 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the ProComp2 input service.
- @param burstPeriod The burst period in seconds.
- @param burstSize The number of random values to generate in each burst.
  @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -102,9 +100,7 @@ static void displayCommands(void)
  @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(double &                      burstPeriod,
-                       int &                         burstSize,
-                       char * *                      argv,
+static void setUpAndGo(char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
@@ -113,8 +109,6 @@ static void setUpAndGo(double &                      burstPeriod,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_D1("burstPeriod = ", burstPeriod); //####
-    OD_LOG_L1("burstSize = ", burstSize); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
@@ -125,176 +119,150 @@ static void setUpAndGo(double &                      burstPeriod,
 
     if (stuff)
     {
-			double tempDouble;
-			int    tempInt;
-
-			if (stuff->start())
-			{
-				yarp::os::ConstString channelName(stuff->getEndpoint().getName());
-
-				OD_LOG_S1s("channelName = ", channelName); //####
-				if (RegisterLocalService(channelName, *stuff))
-				{
-					bool             configured = false;
-					yarp::os::Bottle configureData;
-
-					StartRunning();
-					SetSignalHandlers(SignalRunningStop);
-					stuff->startPinger();
-					if (autostartWasSet || (!stdinAvailable))
-					{
-						configureData.addDouble(burstPeriod);
-						configureData.addInt(burstSize);
-						if (stuff->configure(configureData))
-						{
-							stuff->startStreams();
-						}
-					}
-					for (; IsRunning();)
-					{
-						if ((!autostartWasSet) && stdinAvailable)
-						{
-							char inChar;
-
-							cout << "Operation: [? b c e q r u]? ";
-							cout.flush();
-							cin >> inChar;
-							switch (inChar)
-							{
-							case '?':
-								// Help
-								displayCommands();
-								break;
-
-							case 'b':
-							case 'B':
-								// Start streams
-								if (!configured)
-								{
-									configureData.clear();
-									configureData.addDouble(burstPeriod);
-									configureData.addInt(burstSize);
-									if (stuff->configure(configureData))
-									{
-										configured = true;
-									}
-								}
-								if (configured)
-								{
-									stuff->startStreams();
-								}
-								break;
-
-							case 'c':
-							case 'C':
-								// Configure
-								cout << "Burst size: ";
-								cout.flush();
-								cin >> tempInt;
-								cout << "Burst period: ";
-								cout.flush();
-								cin >> tempDouble;
-								if ((0 < tempInt) && (0 < tempDouble))
-								{
-									burstPeriod = tempDouble;
-									burstSize = tempInt;
-									configureData.clear();
-									configureData.addDouble(burstPeriod);
-									configureData.addInt(burstSize);
-									if (stuff->configure(configureData))
-									{
-										configured = true;
-									}
-								}
-								else
-								{
-									cout << "One or both values out of range." << endl;
-								}
-								break;
-
-							case 'e':
-							case 'E':
-								// Stop streams
-								stuff->stopStreams();
-								break;
-
-							case 'q':
-							case 'Q':
-								// Quit
-								StopRunning();
-								break;
-
-							case 'r':
-							case 'R':
-								// Restart streams
-								if (!configured)
-								{
-									configureData.clear();
-									configureData.addDouble(burstPeriod);
-									configureData.addInt(burstSize);
-									if (stuff->configure(configureData))
-									{
-										configured = true;
-									}
-								}
-								if (configured)
-								{
-									stuff->restartStreams();
-								}
-								break;
-
-							case 'u':
-							case 'U':
-								// Unconfigure
-								configured = false;
-								break;
-
-							default:
-								cout << "Unrecognized request '" << inChar << "'." << endl;
-								break;
-
-							}
-						}
-						else
-						{
+        if (stuff->start())
+        {
+            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            
+            OD_LOG_S1s("channelName = ", channelName); //####
+            if (RegisterLocalService(channelName, *stuff))
+            {
+                bool             configured = false;
+                yarp::os::Bottle configureData;
+                
+                StartRunning();
+                SetSignalHandlers(SignalRunningStop);
+                stuff->startPinger();
+                if (autostartWasSet || (!stdinAvailable))
+                {
+                    if (stuff->configure(configureData))
+                    {
+                        stuff->startStreams();
+                    }
+                }
+                for ( ; IsRunning(); )
+                {
+                    if ((!autostartWasSet) && stdinAvailable)
+                    {
+                        char inChar;
+                        
+                        cout << "Operation: [? b c e q r u]? ";
+                        cout.flush();
+                        cin >> inChar;
+                        switch (inChar)
+                        {
+                            case '?':
+                                // Help
+                                displayCommands();
+                                break;
+                                
+                            case 'b':
+                            case 'B':
+                                // Start streams
+                                if (! configured)
+                                {
+                                    configureData.clear();
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                if (configured)
+                                {
+                                    stuff->startStreams();
+                                }
+                                break;
+                                
+                            case 'c':
+                            case 'C':
+                                // Configure
+                                configureData.clear();
+                                if (stuff->configure(configureData))
+                                {
+                                    configured = true;
+                                }
+                                break;
+                                
+                            case 'e':
+                            case 'E':
+                                // Stop streams
+                                stuff->stopStreams();
+                                break;
+                                
+                            case 'q':
+                            case 'Q':
+                                // Quit
+                                StopRunning();
+                                break;
+                                
+                            case 'r':
+                            case 'R':
+                                // Restart streams
+                                if (! configured)
+                                {
+                                    configureData.clear();
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                if (configured)
+                                {
+                                    stuff->restartStreams();
+                                }
+                                break;
+                                
+                            case 'u':
+                            case 'U':
+                                // Unconfigure
+                                configured = false;
+                                break;
+                                
+                            default:
+                                cout << "Unrecognized request '" << inChar << "'." << endl;
+                                break;
+                                
+                        }
+                    }
+                    else
+                    {
 #if defined(MpM_MainDoesDelayNotYield)
-							yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-							yarp::os::Time::yield();
+                        yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
-						}
-					}
-					UnregisterLocalService(channelName, *stuff);
-					if (reportOnExit)
-					{
-						yarp::os::Bottle metrics;
-
-						stuff->gatherMetrics(metrics);
-						yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
-
-						cout << converted.c_str() << endl;
-					}
-					stuff->stop();
-				}
-				else
-				{
-					OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+                    }
+                }
+                UnregisterLocalService(channelName, *stuff);
+                if (reportOnExit)
+                {
+                    yarp::os::Bottle metrics;
+                    
+                    stuff->gatherMetrics(metrics);
+                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                    
+                    cout << converted.c_str() << endl;
+                }
+                stuff->stop();
+            }
+            else
+            {
+                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
 #if MAC_OR_LINUX_
-					GetLogger().fail("Service could not be registered.");
+                GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_
-					cerr << "Service could not be registered." << endl;
+                cerr << "Service could not be registered." << endl;
 #endif // ! MAC_OR_LINUX_
-				}
-			}
-			else
-			{
-				OD_LOG("! (stuff->start())"); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->start())"); //####
 #if MAC_OR_LINUX_
-				GetLogger().fail("Service could not be started.");
+            GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
-				cerr << "Service could not be started." << endl;
+            cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
-			}
+        }
         delete stuff;
     }
     else
@@ -344,21 +312,20 @@ int main(int      argc,
 			bool                  nameWasSet = false; // not used
 			bool                  reportOnExit = false;
 			bool                  stdinAvailable = CanReadFromStandardInput();
-			double                burstPeriod = 1;
-			int                   burstSize = 1;
 			yarp::os::ConstString serviceEndpointName;
 			yarp::os::ConstString servicePortNumber;
 			yarp::os::ConstString tag;
 			StringVector          arguments;
 
-			if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]\n\n"
-				"  period     Optional interval between "
-				"bursts\n"
-				"  size       Optional burst size"),
-				DEFAULT_PROCOMP2INPUT_SERVICE_NAME, 2015,
-				STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
-				reportOnExit, tag, serviceEndpointName, servicePortNumber,
-				kSkipNone, &arguments))
+            if (ProcessStandardServiceOptions(argc, argv,
+                                              T_(" [period [size]]\n\n"
+                                                 "  period     Optional interval between "
+                                                 "bursts\n"
+                                                 "  size       Optional burst size"),
+                                              DEFAULT_PROCOMP2INPUT_SERVICE_NAME, 2015,
+                                              STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                              reportOnExit, tag, serviceEndpointName,
+                                              servicePortNumber, kSkipNone, &arguments))
 			{
 				Utilities::CheckForNameServerReporter();
 #if CheckNetworkWorks_
@@ -366,38 +333,11 @@ int main(int      argc,
 #endif // CheckNetworkWorks_
 				{
 					yarp::os::Network yarp; // This is necessary to establish any connections to the
-					// YARP infrastructure
+                                            // YARP infrastructure
 
 					Initialize(*argv);
-					if (0 < arguments.size())
-					{
-						const char * startPtr = arguments[0].c_str();
-						char *       endPtr;
-						double       tempDouble;
-
-						// 1 or more arguments
-						tempDouble = strtod(startPtr, &endPtr);
-						if ((startPtr != endPtr) && (!*endPtr) && (0 < tempDouble))
-						{
-							// Useable data.
-							burstPeriod = tempDouble;
-						}
-						if (1 < arguments.size())
-						{
-							int tempInt;
-
-							// 2 or more arguments
-							startPtr = arguments[1].c_str();
-							tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-							if ((startPtr != endPtr) && (!*endPtr) && (0 < tempInt))
-							{
-								// Useable data.
-								burstSize = tempInt;
-							}
-						}
-					}
-					setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName,
-						servicePortNumber, autostartWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, autostartWasSet,
+                               stdinAvailable, reportOnExit);
 				}
 #if CheckNetworkWorks_
 				else

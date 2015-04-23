@@ -688,6 +688,38 @@
 													<key>GID</key>
 													<integer>20</integer>
 													<key>PATH</key>
+													<string>../../../../ProComp2Input_Manual.html</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>../../../../ProComp2Input_Manual.pdf</string>
+													<key>PATH_TYPE</key>
+													<integer>1</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
 													<string>../../../../ViconDataStreamInput_Manual.html</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
@@ -962,7 +994,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.4.23</string>
+				<string>1.4.25</string>
 			</dict>
 			<key>UUID</key>
 			<string>A96E4410-5B5D-4A7C-A567-7F3468558EA0</string>

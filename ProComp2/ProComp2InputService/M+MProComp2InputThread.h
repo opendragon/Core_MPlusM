@@ -41,11 +41,6 @@
 
 # include <mpm/M+MGeneralChannel.h>
 
-//# define _WIN32_DCOM			// for using CoInitializeEx
-
-//# define USING_WRAPPER_CLASS
-//# include "ttllive.h"
-
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -67,12 +62,8 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param numValues The number of values to send in each burst. */
-            ProComp2InputThread(Common::GeneralChannel * outChannel/*,
-                                const double             timeToWait,
-                                const int                numValues*/);
+             @param outChannel The channel to send data bursts to. */
+            ProComp2InputThread(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
             virtual ~ProComp2InputThread(void);
@@ -93,6 +84,14 @@ namespace MplusM
         protected :
             
         private :
+            
+            /*! @brief Extract the data for all channels and send it.
+             @param time The time at which the channels are processed. */
+            void readChannelData(const DWORD time);
+            
+            /*! @brief Prepare any attached encoders for use.
+             @returns @c true if at least one encoder was set up. */
+            bool setupEncoders(void);
             
             COPY_AND_ASSIGNMENT_(ProComp2InputThread);
             
@@ -117,27 +116,6 @@ namespace MplusM
             
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
-            
-			void * _TTLLive;
-			
-			///*! @brief The time at which the thread will send data. */
-            //double _nextTime;
-            //
-            ///*! @brief The number of seconds to delay before triggering. */
-            //double _timeToWait;
-            //
-            ///*! @brief The number of values to send in each burst. */
-            //int _numValues;
-            //
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
             
         }; // ProComp2InputThread
         

@@ -41,12 +41,12 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#define _WIN32_DCOM			// for using CoInitializeEx
+#define _WIN32_DCOM // for using CoInitializeEx
 
 #define USING_WRAPPER_CLASS
 #include "ttllive.h"
 
-#define REAL_POINTER(vv) reinterpret_cast<ITTLLive2Ptr *>(vv)
+#define USE_VARIANT_READ_METHOD
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -70,6 +70,8 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+static ITTLLive2Ptr lTTLLive;
+
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
@@ -88,23 +90,17 @@ static void show_error(_com_error & ee)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ProComp2InputThread::ProComp2InputThread(GeneralChannel * outChannel/*,
-                                         const double     timeToWait,
-                                         const int        numValues*/) :
-    inherited(), _outChannel(outChannel), _TTLLive(nullptr)//, _timeToWait(timeToWait), _numValues(numValues)
+ProComp2InputThread::ProComp2InputThread(GeneralChannel * outChannel) :
+    inherited(), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
-    //OD_LOG_D1("timeToWait = ", timeToWait); //####
-    //OD_LOG_LL1("numValues = ", numValues); //####
-	_TTLLive = new ITTLLive2Ptr;
     OD_LOG_EXIT_P(this); //####
 } // ProComp2InputThread::ProComp2InputThread
 
 ProComp2InputThread::~ProComp2InputThread(void)
 {
     OD_LOG_OBJENTER(); //####
-	delete _TTLLive;
 	OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::~ProComp2InputThread
 
@@ -119,38 +115,160 @@ void ProComp2InputThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::clearOutputChannel
 
+void ProComp2InputThread::readChannelData(const DWORD time)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("time = ", time); //####
+    char                 tag[2];
+    LONG                 samplesAvailable;
+    yarp::os::Bottle     message;
+    yarp::os::Property & props = message.addDict();
+#if defined(USE_VARIANT_READ_METHOD)
+    _variant_t           variant;
+    SAFEARRAY *          pSA = NULL;
+#else // ! defined(USE_VARIANT_READ_METHOD)
+    FLOAT                buffer[4096];
+#endif // ! defined(USE_VARIANT_READ_METHOD)
+
+    memset(tag, '\0', sizeof(tag));
+    props.put("time", static_cast<double>(time));
+#if defined(USE_VARIANT_READ_METHOD)
+    for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
+         channelHND = lTTLLive->GetNextChannelHND())
+    {
+        samplesAvailable = lTTLLive->SamplesAvailable[channelHND];
+        if (samplesAvailable)
+        {
+            variant = lTTLLive->ReadChannelDataVT(channelHND, samplesAvailable);
+            
+            if (VT_ARRAY == (variant.vt & VT_ARRAY))
+            {
+                if (VT_R4 == (variant.vt & VT_R4))
+                {
+                    pSA = ((variant.vt & VT_BYREF) ? *(variant.pparray) : variant.parray);
+                    if (S_OK == ::SafeArrayLock(pSA))
+                    {
+                        samplesAvailable = pSA->rgsabound[0].cElements;
+                        ::SafeArrayUnlock(pSA);
+                    }
+                    else
+                    {
+                        samplesAvailable = 0;
+                    }
+                }
+            }
+        }
+        // If any samples available, we simply print out value of the first one
+        if (samplesAvailable)
+        {
+            if (S_OK == ::SafeArrayLock(pSA))
+            {
+                FLOAT * data = reinterpret_cast<FLOAT *>(pSA->pvData);
+                
+                ::SafeArrayUnlock(pSA);
+                tag[0] = static_cast<char>('A' + channelHND);
+                props.put(tag, data[0]);
+            }
+        }
+    }
+#else // ! defined(USE_VARIANT_READ_METHOD)
+    for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
+         channelHND = lTTLLive->GetNextChannelHND())
+    {
+        samplesAvailable = lTTLLive->SamplesAvailable[channelHND];
+        if (samplesAvailable)
+        {
+            lTTLLive->ReadChannelData(channelHND, buffer, &samplesAvailable);
+        }
+        // If any samples available, we simply print out value of the first one
+        if (samplesAvailable)
+        {
+            tag[0] = static_cast<char>('A' + channelHND);
+            props.put(tag, buffer[0]);
+        }
+    }
+#endif // ! defined(USE_VARIANT_READ_METHOD)
+    if (_outChannel)
+    {
+        if (! _outChannel->write(message))
+        {
+            OD_LOG("(! _outChannel->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+            Stall();
+#endif // defined(MpM_StallOnSendProblem)
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ProComp2InputThread::readChannelData
+
 void ProComp2InputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
+    MSG      aMessage;
+    UINT_PTR aTimer = NULL;
+    
+    memset(&aMessage, 0, sizeof(aMessage));
+    if (0 < lTTLLive->EncoderCount)
+    {
+        lTTLLive->StartChannels();
+        // Set up a Windows timer for a 200 millisecond interval.
+        aTimer = ::SetTimer(NULL, 0, 200, NULL);
+    }
     for ( ; ! isStopping(); )
     {
-#if 0
-        if (_nextTime <= yarp::os::Time::now())
+        while (PeekMessage(&aMessage, NULL, 0, 0, PM_REMOVE))
         {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            yarp::os::Bottle message;
-            
-            for (int ii = 0; ii < _numValues; ++ii)
+            if (WM_TIMER == aMessage.message)
             {
-                message.addDouble(10000 * yarp::os::Random::uniform());
-            }
-            if (_outChannel)
-            {
-                if (! _outChannel->write(message))
+                if (aMessage.wParam == aTimer)
                 {
-                    OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                    Stall();
-#endif // defined(MpM_StallOnSendProblem)
+                    readChannelData(aMessage.time);
                 }
             }
-            _nextTime = yarp::os::Time::now() + _timeToWait;
+            DispatchMessage(&aMessage);
         }
-#endif//0
         yarp::os::Time::yield();
+    }
+    lTTLLive->StopChannels();
+    ::KillTimer(NULL, aTimer);
+    if (lTTLLive)
+    {
+        lTTLLive.Release();
     }
 	OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::run
+
+bool ProComp2InputThread::setupEncoders(void)
+{
+    OD_LOG_OBJENTER(); //####
+    bool result = true;
+    
+    OD_LOG("Autodetecting encoders"); //####
+    try
+    {
+        lTTLLive->OpenConnections(TTLAPI_OCCMD_AUTODETECT, 1000, NULL, NULL);
+        OD_LOG("Setting up channels"); //####
+        lTTLLive->AutoSetupChannels();
+        for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
+             channelHND = lTTLLive->GetNextChannelHND())
+        {
+            // Setting up channels with arbitrary configuration, turning-off channel notification,
+            // pluggin-in sensor ID into sensor type and set channels to output raw COUNTS.
+            lTTLLive->Notification[channelHND] = 0;
+            lTTLLive->ForceSensor[channelHND] = false;
+            lTTLLive->SensorType[channelHND] = lTTLLive->SensorID[channelHND];
+            lTTLLive->UnitType[channelHND] = TTLAPI_UT_COUNT;
+        }
+        result = (0 < lTTLLive->EncoderCount);
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        result = false;
+    }
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ProComp2InputThread::setupEncoders
 
 bool ProComp2InputThread::threadInit(void)
 {
@@ -160,17 +278,20 @@ bool ProComp2InputThread::threadInit(void)
 	
 	if (SUCCEEDED(hr))
 	{
-		//    _nextTime = yarp::os::Time::now() + _timeToWait;
-		hr = REAL_POINTER(_TTLLive)->CreateInstance(CLSID_TTLLive);
+        OD_LOG("Creating instance"); //####
+		hr = lTTLLive.CreateInstance(CLSID_TTLLive);
 		if (SUCCEEDED(hr))
 		{
 			try
 			{
-				T_Version sV;
-
-				sV.liVersion = (*REAL_POINTER(_TTLLive))->Version;
-				cout << "TTL Version = " << static_cast<int>(sV.byMajor) << "." << static_cast<int>(sV.byMinor) << "." << static_cast<int>(sV.woBuild) << endl;
-			}
+                T_Version sV;
+             
+                OD_LOG("Getting version"); //####
+                sV.liVersion = lTTLLive->Version;
+                cout << "TTL Version = " << static_cast<int>(sV.byMajor) << "." <<
+                        static_cast<int>(sV.byMinor) << "." << static_cast<int>(sV.woBuild) << endl;
+                result = setupEncoders();
+            }
 			catch (_com_error & ee)
 			{
 				OD_LOG("_com_error caught"); //####
