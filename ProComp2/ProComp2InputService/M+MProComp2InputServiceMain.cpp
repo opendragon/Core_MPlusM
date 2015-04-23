@@ -141,7 +141,7 @@ static void setUpAndGo(char * *                      argv,
                 }
                 for ( ; IsRunning(); )
                 {
-                    if ((!autostartWasSet) && stdinAvailable)
+                    if ((! autostartWasSet) && stdinAvailable)
                     {
                         char inChar;
                         

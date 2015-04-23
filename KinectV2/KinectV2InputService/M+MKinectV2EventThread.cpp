@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for an output-generating thread for M+M.
+//  Contains:   The class definition for a thread that generates output from Kinect V2 data.
 //
 //  Written by: Norman Jaffe
 //
@@ -47,7 +47,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for an output-generating thread for M+M. */
+ @brief The class definition for a thread that generates output from Kinect V2 data. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

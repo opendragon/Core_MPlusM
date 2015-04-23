@@ -82,7 +82,7 @@ ProComp2InputService::ProComp2InputService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME,
               "The ProComp2 input service", "", serviceEndpointName, servicePortNumber),
-    _generator(NULL)
+			  _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -109,27 +109,7 @@ bool ProComp2InputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
-        {
-            if (2 == details.size())
-            {
-                yarp::os::Value firstValue(details.get(0));
-                yarp::os::Value secondValue(details.get(1));
-                
-                if (firstValue.isDouble() && secondValue.isInt())
-                {
-                    double firstNumber = firstValue.asDouble();
-                    int    secondNumber = secondValue.asInt();
-                    
-                    if ((0 < firstNumber) && (0 < secondNumber))
-                    {
-                        _burstPeriod = firstNumber;
-                        _burstSize = secondNumber;
-                        result = true;
-                    }
-                }
-            }
-        }
+		result = true;
     }
     catch (...)
     {
@@ -166,8 +146,8 @@ bool ProComp2InputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-    description._portProtocol = "d+";
-    description._protocolDescription = "One or more numeric values";
+    description._portProtocol = "PROCOMP2";
+    description._protocolDescription = "A dictionary with time and sensor values";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -178,9 +158,9 @@ bool ProComp2InputService::shutDownOutputStreams(void)
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    if (_generator)
+	if (_eventThread)
     {
-        _generator->clearOutputChannel();
+		_eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -220,8 +200,8 @@ void ProComp2InputService::startStreams(void)
     {
         if (! isActive())
         {
-			_generator = new ProComp2InputThread(_outStreams.at(0));// , _burstPeriod, _burstSize);
-            _generator->start();
+			_eventThread = new ProComp2InputThread(_outStreams.at(0));
+			_eventThread->start();
             setActive();
         }
     }
@@ -258,13 +238,13 @@ void ProComp2InputService::stopStreams(void)
     {
         if (isActive())
         {
-            _generator->stop();
-            for ( ; _generator->isRunning(); )
+            _eventThread->stop();
+			for (; _eventThread->isRunning();)
             {
-                yarp::os::Time::delay(_burstSize / 3.9);
+                yarp::os::Time::delay(ONE_SECOND_DELAY / 3.9);
             }
-            delete _generator;
-            _generator = NULL;
+			delete _eventThread;
+			_eventThread = NULL;
             clearActive();
         }
     }

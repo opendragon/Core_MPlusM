@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a Two Fingers listener.
+//  Contains:   The class declaration for a Leap Motion listener.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,7 +49,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a Two Fingers listener. */
+ @brief The class declaration for a %Leap Motion listener. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,7 +58,7 @@ namespace MplusM
 {
     namespace TwoFingers
     {
-        /*! @brief A listener for Two Fingers devices. */
+        /*! @brief A listener for %Leap Motion devices. */
         class TwoFingersInputListener : public Leap::Listener
         {
         public :

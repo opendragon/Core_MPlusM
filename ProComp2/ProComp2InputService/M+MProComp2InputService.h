@@ -126,7 +126,7 @@ namespace MplusM
             typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
-            ProComp2InputThread * _generator;
+            ProComp2InputThread * _eventThread;
             
         }; // ProComp2InputService
         

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for an output-generating thread for M+M.
+//  Contains:   The class declaration for a thread that generates output from Kinect V2 data.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,7 +49,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for an output-generating thread for M+M. */
+ @brief The class declaration for a thread that generates output from Kinect V2 data. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,7 +58,7 @@ namespace MplusM
 {
     namespace KinectV2
     {
-        /*! @brief A convenience class to generate output. */
+        /*! @brief A class to generate output from Kinect V2 data. */
         class KinectV2EventThread : public yarp::os::Thread
         {
         public :
