@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a thread that generates output from ProComp2 data. */
+ @brief The class declaration for a thread that generates output from %ProComp2 data. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -56,7 +56,7 @@ namespace MplusM
 {
     namespace ProComp2
     {
-        /*! @brief A class to generate output from ProComp2 data. */
+        /*! @brief A class to generate output from %ProComp2 data. */
         class ProComp2InputThread : public yarp::os::Thread
         {
         public :

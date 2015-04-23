@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the ProComp2 input
+ @brief The common macro definitions for requests and responses for the %ProComp2 input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the ProComp2 input service. */
+/*! @brief The channel-independent name of the %ProComp2 input service. */
 # define MpM_PROCOMP2INPUT_CANONICAL_NAME "ProComp2Input"
 
 #endif // ! defined(MpMProComp2InputRequests_H_)

@@ -50,13 +50,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the NaturalPoint input service. */
+ @brief The main application for the %NaturalPoint input service. */
 
 /*! @dir NaturalPoint
- @brief The set of files that implement the NaturalPoint input service. */
+ @brief The set of files that implement the %NaturalPoint input service. */
 
 /*! @dir NaturalPointInputService
- @brief The set of files that implement the NaturalPoint input service. */
+ @brief The set of files that implement the %NaturalPoint input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -92,7 +92,7 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the NaturalPoint input service.
+/*! @brief Set up the environment and start the %NaturalPoint input service.
  @param burstPeriod The burst period in seconds.
  @param burstSize The number of random values to generate in each burst.
  @param argv The arguments to be used with the exemplar input service.
@@ -308,7 +308,7 @@ static void setUpAndGo(double &                      burstPeriod,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the NaturalPoint input service.
+/*! @brief The entry point for running the %NaturalPoint input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.

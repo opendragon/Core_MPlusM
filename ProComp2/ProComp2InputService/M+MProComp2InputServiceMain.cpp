@@ -50,13 +50,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the ProComp2 input service. */
+ @brief The main application for the %ProComp2 input service. */
 
 /*! @dir ProComp2
- @brief The set of files that implement the ProComp2 input service. */
+ @brief The set of files that implement the %ProComp2 input service. */
 
 /*! @dir ProComp2InputService
- @brief The set of files that implement the ProComp2 input service. */
+ @brief The set of files that implement the %ProComp2 input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -92,7 +92,7 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the ProComp2 input service.
+/*! @brief Set up the environment and start the %ProComp2 input service.
  @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -276,7 +276,7 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the ProComp2 input service.
+/*! @brief The entry point for running the %ProComp2 input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.

@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the NaturalPoint input service. */
+ @brief The class declaration for the %NaturalPoint input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,7 +62,7 @@ namespace MplusM
     {
         class NaturalPointInputThread;
         
-        /*! @brief The NaturalPoint input service. */
+        /*! @brief The %NaturalPoint input service. */
         class NaturalPointInputService : public Common::BaseInputService
         {
         public :
