@@ -46,7 +46,10 @@
 #define USING_WRAPPER_CLASS
 #include "ttllive.h"
 
-#define USE_VARIANT_READ_METHOD
+/*! @brief The sample timer interval. */
+#define PROCOMP2_TIMER_INTERVAL 100
+
+#define USE_VARIANT_READ_METHOD /* if defined, use a Variant-based read. */
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -214,8 +217,8 @@ void ProComp2InputThread::run(void)
     if (0 < lTTLLive->EncoderCount)
     {
         lTTLLive->StartChannels();
-        // Set up a Windows timer for a 200 millisecond interval.
-        aTimer = ::SetTimer(NULL, 0, 200, NULL);
+        // Set up a Windows time.
+        aTimer = ::SetTimer(NULL, 0, PROCOMP2_TIMER_INTERVAL, NULL);
     }
     for ( ; ! isStopping(); )
     {
