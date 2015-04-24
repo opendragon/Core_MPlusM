@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the ProComp2 input service. */
+ @brief The class declaration for the %ProComp2 input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -62,7 +62,7 @@ namespace MplusM
     {
         class ProComp2InputThread;
         
-        /*! @brief The ProComp2 input service. */
+        /*! @brief The %ProComp2 input service. */
         class ProComp2InputService : public Common::BaseInputService
         {
         public :

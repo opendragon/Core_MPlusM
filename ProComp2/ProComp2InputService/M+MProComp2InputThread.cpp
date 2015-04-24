@@ -57,7 +57,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for a thread that generates output from ProComp2 data. */
+ @brief The class definition for a thread that generates output from %ProComp2 data. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the NaturalPoint input
+ @brief The common macro definitions for requests and responses for the %NaturalPoint input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the NaturalPoint input service. */
+/*! @brief The channel-independent name of the %NaturalPoint input service. */
 # define MpM_NATURALPOINTINPUT_CANONICAL_NAME "NaturalPointInput"
 
 #endif // ! defined(MpMNaturalPointInputRequests_H_)
