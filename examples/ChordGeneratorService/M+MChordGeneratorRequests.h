@@ -58,4 +58,7 @@
 /*! @brief The name for the 'random' request. */
 # define MpM_CHORD_REQUEST "chords"
 
+/*! @brief The number of elements expected in the output of a 'chord' request. */
+# define MpM_EXPECTED_CHORD_RESPONSE_SIZE 1
+
 #endif // ! defined(MpMRandomNumberRequests_H_)

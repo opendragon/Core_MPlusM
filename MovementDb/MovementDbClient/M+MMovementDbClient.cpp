@@ -111,7 +111,7 @@ bool MovementDbClient::addFileToDb(const yarp::os::ConstString & filePath)
         if (send(MpM_ADDFILE_REQUEST, parameters, &response))
         {
             // Check that we got a successful add!
-            if (1 == response.count())
+            if (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
                 
@@ -126,7 +126,7 @@ bool MovementDbClient::addFileToDb(const yarp::os::ConstString & filePath)
             }
             else
             {
-                OD_LOG("! (1 == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
@@ -160,7 +160,7 @@ bool MovementDbClient::setDataTrackForDb(const yarp::os::ConstString & dataTrack
         if (send(MpM_SETDATATRACK_REQUEST, parameters, &response))
         {
             // Check that we got a successful set!
-            if (1 == response.count())
+            if (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
                 
@@ -175,7 +175,7 @@ bool MovementDbClient::setDataTrackForDb(const yarp::os::ConstString & dataTrack
             }
             else
             {
-                OD_LOG("! (1 == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
@@ -209,7 +209,7 @@ bool MovementDbClient::setEmailAddressForDb(const yarp::os::ConstString & emailA
         if (send(MpM_SETEMAIL_REQUEST, parameters, &response))
         {
             // Check that we got a successful set!
-            if (1 == response.count())
+            if (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
                 
@@ -224,7 +224,7 @@ bool MovementDbClient::setEmailAddressForDb(const yarp::os::ConstString & emailA
             }
             else
             {
-                OD_LOG("! (1 == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }

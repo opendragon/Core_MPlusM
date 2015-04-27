@@ -126,49 +126,64 @@
 # define MpM_UNREGISTER_REQUEST      "unregister"
 
 /*! @brief The name for a 'where' request. */
-# define MpM_WHERE_REQUEST  "where"
-
-/*! @brief The number of elements expected in the output of an 'associate' request. */
-# define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE      1
+# define MpM_WHERE_REQUEST           "where"
 
 /*! @brief The number of elements expected in a channel description. */
-# define MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE      3
+# define MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE 3
+
+/*! @brief The number of elements expected in the output of an 'associate' request. */
+# define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE       1
 
 /*! @brief The number of elements expected in the output of a 'channels' request. */
-# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE       2
+# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE        2
 
 /*! @brief The number of elements expected in the output of a 'configure' request. */
-# define MpM_EXPECTED_CONFIGURE_RESPONSE_SIZE      1
+# define MpM_EXPECTED_CONFIGURE_RESPONSE_SIZE       1
+
+/*! @brief The number of elements expected in the output of a 'detach' request. */
+# define MpM_EXPECTED_DETACH_RESPONSE_SIZE          1
 
 /*! @brief The number of elements expected in the output of a 'disassociate' request. */
-# define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE   1
+# define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE    1
 
 /*! @brief The number of elements expected in the output of a 'getAssociates' request. */
-# define MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE  4
+# define MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE   4
+
+/*! @brief The number of elements expected in the output of a 'getMetricsState' request. */
+# define MpM_EXPECTED_GETMETRICSSTATE_RESPONSE_SIZE 1
 
 /*! @brief The number of elements expected in the output of a 'match' request. */
-# define MpM_EXPECTED_MATCH_RESPONSE_SIZE          2
+# define MpM_EXPECTED_MATCH_RESPONSE_SIZE           2
 
 /*! @brief The number of elements expected in the output of a 'name' request. */
-# define MpM_EXPECTED_NAME_RESPONSE_SIZE           6
+# define MpM_EXPECTED_NAME_RESPONSE_SIZE            6
+
+/*! @brief The number of elements expected in the output of a 'ping' request. */
+# define MpM_EXPECTED_PING_RESPONSE_SIZE            1
 
 /*! @brief The number of elements expected in the output of a 'register' request. */
-# define MpM_EXPECTED_REGISTER_RESPONSE_SIZE       1
+# define MpM_EXPECTED_REGISTER_RESPONSE_SIZE        1
 
 /*! @brief The number of elements expected in the output of a 'restartStreams' request. */
-# define MpM_EXPECTED_RESTARTSTREAMS_RESPONSE_SIZE 1
+# define MpM_EXPECTED_RESTARTSTREAMS_RESPONSE_SIZE  1
+
+/*! @brief The number of elements expected in the output of a 'setMetricsState' request. */
+# define MpM_EXPECTED_SETMETRICSSTATE_RESPONSE_SIZE 1
 
 /*! @brief The number of elements expected in the output of a 'startStreams' request. */
-# define MpM_EXPECTED_STARTSTREAMS_RESPONSE_SIZE   1
+# define MpM_EXPECTED_STARTSTREAMS_RESPONSE_SIZE    1
 
 /*! @brief The number of elements expected in the output of a 'stop' request. */
-# define MpM_EXPECTED_STOP_RESPONSE_SIZE           1
+# define MpM_EXPECTED_STOP_RESPONSE_SIZE            1
 
 /*! @brief The number of elements expected in the output of a 'stopStreams' request. */
-# define MpM_EXPECTED_STOPSTREAMS_RESPONSE_SIZE    1
+# define MpM_EXPECTED_STOPSTREAMS_RESPONSE_SIZE     1
 
 /*! @brief The number of elements expected in the output of an 'unregister' request. */
-# define MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE     1
+# define MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE      1
+
+/*! @brief The number of elements expected in the output of an 'where' request. */
+# define MpM_EXPECTED_WHERE_RESPONSE_SIZE           2
 
 /*! @brief The standard response to an invalid Registry Service request. */
 # define MpM_FAILED_RESPONSE "FAILED"

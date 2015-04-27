@@ -108,7 +108,7 @@ bool RunningSumClient::addToSum(const double value,
         reconnectIfDisconnected();
         if (send(MpM_ADDTOSUM_REQUEST, parameters, &response))
         {
-            if (1 == response.count())
+            if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
@@ -129,7 +129,7 @@ bool RunningSumClient::addToSum(const double value,
             }
             else
             {
-                OD_LOG("! (1 == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
@@ -171,7 +171,7 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
             reconnectIfDisconnected();
             if (send(MpM_ADDTOSUM_REQUEST, parameters, &response))
             {
-                if (1 == response.count())
+                if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())
                 {
                     yarp::os::Value retrieved(response.element(0));
                     
@@ -192,7 +192,7 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
                 }
                 else
                 {
-                    OD_LOG("! (1 == response.count())"); //####
+                    OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())"); //####
                     OD_LOG_S1s("response = ", response.asString()); //####
                 }
             }

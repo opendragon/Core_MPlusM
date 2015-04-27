@@ -107,7 +107,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         reconnectIfDisconnected();
         if (send(MpM_STATS_REQUEST, parameters, &response))
         {
-            if (2 == response.count())
+            if (MpM_EXPECTED_STATS_RESPONSE_SIZE == response.count())
             {
                 yarp::os::Value retrievedCounter(response.element(0));
                 yarp::os::Value retrievedElapsed(response.element(1));
@@ -125,7 +125,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
             }
             else
             {
-                OD_LOG("! (2 == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_STATS_RESPONSE_SIZE == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }

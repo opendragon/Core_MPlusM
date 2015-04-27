@@ -1529,7 +1529,7 @@ bool Utilities::GetMetricsStateForService(const yarp::os::ConstString & serviceC
                 if (request.send(*newChannel, &response))
                 {
                     OD_LOG_S1s("response <- ", response.asString()); //####
-                    if (1 == response.count())
+                    if (MpM_EXPECTED_GETMETRICSSTATE_RESPONSE_SIZE == response.count())
                     {
                         yarp::os::Value responseValue = response.element(0);
                         
@@ -1597,205 +1597,224 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
     OD_LOG_P2("descriptor = ", &descriptor, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    bool                  result = false;
-    yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicelister_/"
-                                                     DEFAULT_CHANNEL_ROOT));
-    ClientChannel *       newChannel = new ClientChannel;
+    bool result = false;
     
-    if (newChannel)
+    try
     {
-        if (newChannel->openWithRetries(aName, timeToWait))
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicelister_/"
+                                                         DEFAULT_CHANNEL_ROOT));
+        ClientChannel *       newChannel = new ClientChannel;
+        
+        if (newChannel)
         {
-            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
-                                          checkStuff))
+            if (newChannel->openWithRetries(aName, timeToWait))
             {
-                yarp::os::Bottle parameters1;
-                ServiceRequest   request1(MpM_NAME_REQUEST, parameters1);
-                ServiceResponse  response1;
-                
-                if (request1.send(*newChannel, &response1))
+                if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                              checkStuff))
                 {
-                    OD_LOG_S1s("response1 <- ", response1.asString()); //####
-                    if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
+                    yarp::os::Bottle parameters1;
+                    ServiceRequest   request1(MpM_NAME_REQUEST, parameters1);
+                    ServiceResponse  response1;
+                    
+                    if (request1.send(*newChannel, &response1))
                     {
-                        yarp::os::Value theCanonicalName(response1.element(0));
-                        yarp::os::Value theDescription(response1.element(1));
-                        yarp::os::Value theKind(response1.element(2));
-                        yarp::os::Value thePath(response1.element(3));
-                        yarp::os::Value theRequestsDescription(response1.element(4));
-                        yarp::os::Value theTag(response1.element(5));
-                        
-                        OD_LOG_S4s("theCanonicalName <- ", theCanonicalName.toString(), //####
-                                   "theDescription <- ", theDescription.toString(), //####
-                                   "theKind <- ", theKind.toString(), "thePath <- ", //####
-                                   thePath.toString()); //####
-                        OD_LOG_S2s("theRequestsDescription = ", //####
-                                   theRequestsDescription.toString(), "theTag = ", //####
-                                   theTag.toString()); //####
-                        if (theCanonicalName.isString() && theDescription.isString() &&
-                            theKind.isString() && thePath.isString() &&
-                            theRequestsDescription.isString() && theTag.isString())
+                        OD_LOG_S1s("response1 <- ", response1.asString()); //####
+                        if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
                         {
-                            descriptor._channelName = serviceChannelName;
-                            descriptor._serviceName = theCanonicalName.toString();
-                            descriptor._description = theDescription.toString();
-                            descriptor._kind = theKind.toString();
-                            descriptor._path = thePath.toString();
-                            descriptor._requestsDescription = theRequestsDescription.toString();
-                            descriptor._tag = theTag.toString();
-                            result = true;
+                            yarp::os::Value theCanonicalName(response1.element(0));
+                            yarp::os::Value theDescription(response1.element(1));
+                            yarp::os::Value theKind(response1.element(2));
+                            yarp::os::Value thePath(response1.element(3));
+                            yarp::os::Value theRequestsDescription(response1.element(4));
+                            yarp::os::Value theTag(response1.element(5));
+                            
+                            OD_LOG_S4s("theCanonicalName <- ", theCanonicalName.toString(), //####
+                                       "theDescription <- ", theDescription.toString(), //####
+                                       "theKind <- ", theKind.toString(), "thePath <- ", //####
+                                       thePath.toString()); //####
+                            OD_LOG_S2s("theRequestsDescription = ", //####
+                                       theRequestsDescription.toString(), "theTag = ", //####
+                                       theTag.toString()); //####
+                            if (theCanonicalName.isString() && theDescription.isString() &&
+                                theKind.isString() && thePath.isString() &&
+                                theRequestsDescription.isString() && theTag.isString())
+                            {
+                                descriptor._channelName = serviceChannelName;
+                                descriptor._serviceName = theCanonicalName.toString();
+                                descriptor._description = theDescription.toString();
+                                descriptor._kind = theKind.toString();
+                                descriptor._path = thePath.toString();
+                                descriptor._requestsDescription = theRequestsDescription.toString();
+                                descriptor._tag = theTag.toString();
+                                result = true;
+                            }
+                            else
+                            {
+                                OD_LOG("! (theCanonicalName.isString() && " //####
+                                       "theDescription.isString() && " //####
+                                       "theKind.isString() && thePath.isString() && " //####
+                                       "theRequestsDescription.isString() && " //####
+                                       "theTag.isString())"); //####
+                            }
                         }
                         else
                         {
-                            OD_LOG("! (theCanonicalName.isString() && " //####
-                                   "theDescription.isString() && " //####
-                                   "theKind.isString() && thePath.isString() && " //####
-                                   "theRequestsDescription.isString() && " //####
-                                   "theTag.isString())"); //####
+                            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == " //####
+                                   "response1.count())"); //####
+                            OD_LOG_S1s("response1 = ", response1.asString()); //####
                         }
                     }
                     else
                     {
-                        OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())"); //####
-                        OD_LOG_S1s("response1 = ", response1.asString()); //####
+                        OD_LOG("! (request1.send(*newChannel, &response1))"); //####
                     }
-                }
-                else
-                {
-                    OD_LOG("! (request1.send(*newChannel, &response1))"); //####
-                }
-                if (result)
-                {
-                    yarp::os::Bottle parameters2;
-                    ServiceRequest   request2(MpM_CHANNELS_REQUEST, parameters2);
-                    ServiceResponse  response2;
-                    
-                    if (request2.send(*newChannel, &response2))
+                    if (result)
                     {
-                        if (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == response2.count())
+                        yarp::os::Bottle parameters2;
+                        ServiceRequest   request2(MpM_CHANNELS_REQUEST, parameters2);
+                        ServiceResponse  response2;
+                        
+                        if (request2.send(*newChannel, &response2))
                         {
-                            yarp::os::Value theInputChannels(response2.element(0));
-                            yarp::os::Value theOutputChannels(response2.element(1));
-                            
-                            OD_LOG_S2s("theInputChannels <- ", theInputChannels.toString(), //####
-                                       "theOutputChannels <- ", //####
-                                       theOutputChannels.toString()); //####
-                            if (theInputChannels.isList() && theOutputChannels.isList())
+                            if (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == response2.count())
                             {
-                                yarp::os::Bottle * inputChannelsAsList = theInputChannels.asList();
-                                yarp::os::Bottle * outputChannelsAsList =
-                                                                        theOutputChannels.asList();
+                                yarp::os::Value theInputChannels(response2.element(0));
+                                yarp::os::Value theOutputChannels(response2.element(1));
                                 
-                                for (int ii = 0, howMany = inputChannelsAsList->size();
-                                     ii < howMany; ++ii)
+                                OD_LOG_S2s("theInputChannels <- ", //####
+                                           theInputChannels.toString(), //####
+                                           "theOutputChannels <- ", //####
+                                           theOutputChannels.toString()); //####
+                                if (theInputChannels.isList() && theOutputChannels.isList())
                                 {
-                                    yarp::os::Value element(inputChannelsAsList->get(ii));
+                                    yarp::os::Bottle * inputChannelsAsList =
+                                                                        theInputChannels.asList();
+                                    yarp::os::Bottle * outputChannelsAsList =
+                                                                        theOutputChannels.asList();
                                     
-                                    if (element.isList())
+                                    for (int ii = 0, howMany = inputChannelsAsList->size();
+                                         ii < howMany; ++ii)
                                     {
-                                        yarp::os::Bottle * inputChannelAsList = element.asList();
+                                        yarp::os::Value element(inputChannelsAsList->get(ii));
                                         
-                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
-                                                                        inputChannelAsList->size())
+                                        if (element.isList())
                                         {
-                                            yarp::os::Value firstValue(inputChannelAsList->get(0));
-                                            yarp::os::Value secondValue(inputChannelAsList->get(1));
-                                            yarp::os::Value thirdValue(inputChannelAsList->get(2));
+                                            yarp::os::Bottle * inputChannelAsList =
+                                                                                element.asList();
                                             
-                                            if (firstValue.isString() && secondValue.isString() &&
-                                                thirdValue.isString())
+                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                                inputChannelAsList->size())
                                             {
-                                                ChannelDescription aChannel;
+                                                yarp::os::Value firstValue =
+                                                                        inputChannelAsList->get(0);
+                                                yarp::os::Value secondValue =
+                                                                        inputChannelAsList->get(1);
+                                                yarp::os::Value thirdValue =
+                                                                        inputChannelAsList->get(2);
                                                 
-                                                aChannel._portName = firstValue.asString();
-                                                aChannel._portProtocol = secondValue.asString();
-                                                aChannel._portMode = kChannelModeOther;
-                                                aChannel._protocolDescription =
-                                                                            thirdValue.asString();
-                                                descriptor._inputChannels.push_back(aChannel);
+                                                if (firstValue.isString() &&
+                                                    secondValue.isString() && thirdValue.isString())
+                                                {
+                                                    ChannelDescription aChannel;
+                                                    
+                                                    aChannel._portName = firstValue.asString();
+                                                    aChannel._portProtocol = secondValue.asString();
+                                                    aChannel._portMode = kChannelModeOther;
+                                                    aChannel._protocolDescription =
+                                                    thirdValue.asString();
+                                                    descriptor._inputChannels.push_back(aChannel);
+                                                }
+                                            }
+                                        }
+                                    }
+                                    for (int ii = 0, howMany = outputChannelsAsList->size();
+                                         ii < howMany; ++ii)
+                                    {
+                                        yarp::os::Value element(outputChannelsAsList->get(ii));
+                                        
+                                        if (element.isList())
+                                        {
+                                            yarp::os::Bottle * outputChannelAsList =
+                                                                                element.asList();
+                                            
+                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                                outputChannelAsList->size())
+                                            {
+                                                yarp::os::Value firstValue =
+                                                                        outputChannelAsList->get(0);
+                                                yarp::os::Value secondValue =
+                                                                        outputChannelAsList->get(1);
+                                                yarp::os::Value thirdValue =
+                                                                        outputChannelAsList->get(2);
+                                                
+                                                if (firstValue.isString() &&
+                                                    secondValue.isString() && thirdValue.isString())
+                                                {
+                                                    ChannelDescription aChannel;
+                                                    
+                                                    aChannel._portName = firstValue.asString();
+                                                    aChannel._portProtocol = secondValue.asString();
+                                                    aChannel._portMode = kChannelModeOther;
+                                                    aChannel._protocolDescription =
+                                                    thirdValue.asString();
+                                                    descriptor._outputChannels.push_back(aChannel);
+                                                }
                                             }
                                         }
                                     }
                                 }
-                                for (int ii = 0, howMany = outputChannelsAsList->size();
-                                     ii < howMany; ++ii)
+                                else
                                 {
-                                    yarp::os::Value element(outputChannelsAsList->get(ii));
-                                    
-                                    if (element.isList())
-                                    {
-                                        yarp::os::Bottle * outputChannelAsList = element.asList();
-                                        
-                                        if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
-                                                                    outputChannelAsList->size())
-                                        {
-                                            yarp::os::Value firstValue(outputChannelAsList->get(0));
-                                            yarp::os::Value secondValue =
-                                                                        outputChannelAsList->get(1);
-                                            yarp::os::Value thirdValue(outputChannelAsList->get(2));
-                                            
-                                            if (firstValue.isString() && secondValue.isString() &&
-                                                thirdValue.isString())
-                                            {
-                                                ChannelDescription aChannel;
-                                                
-                                                aChannel._portName = firstValue.asString();
-                                                aChannel._portProtocol = secondValue.asString();
-                                                aChannel._portMode = kChannelModeOther;
-                                                aChannel._protocolDescription =
-                                                                            thirdValue.asString();
-                                                descriptor._outputChannels.push_back(aChannel);
-                                            }
-                                        }
-                                    }
+                                    OD_LOG("! (theInputChannels.isList() && " //####
+                                           "theOutputChannels.isList())");
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (theInputChannels.isList() && " //####
-                                       "theOutputChannels.isList())");
+                                OD_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == " //####
+                                       "response2.count())"); //####
+                                OD_LOG_S1s("response2 = ", response2.asString()); //####
                             }
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == " //####
-                                   "response2.count())"); //####
-                            OD_LOG_S1s("response2 = ", response2.asString()); //####
+                            OD_LOG("! (request2.send(*newChannel, &response2))"); //####
+                            result = false;
                         }
                     }
-                    else
-                    {
-                        OD_LOG("! (request2.send(*newChannel, &response2))"); //####
-                        result = false;
-                    }
-                }
 #if defined(MpM_DoExplicitDisconnect)
-                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
-                                                   checkStuff))
-                {
-                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
-                           "timeToWait, checker, checkStuff))"); //####
-                }
+                    if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait,
+                                                       checker, checkStuff))
+                    {
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
+                               "timeToWait, checker, checkStuff))"); //####
+                    }
 #endif // defined(MpM_DoExplicitDisconnect)
+                }
+                else
+                {
+                    OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, "
+                           "timetoWait, false, checker, checkStuff))"); //####
+                }
+#if defined(MpM_DoExplicitClose)
+                newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
             }
             else
             {
-                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
-                       "false, checker, checkStuff))"); //####
+                OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
             }
-#if defined(MpM_DoExplicitClose)
-            newChannel->close();
-#endif // defined(MpM_DoExplicitClose)
+            delete newChannel;
         }
         else
         {
-            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
+            OD_LOG("! (newChannel)"); //####
         }
-        delete newChannel;
     }
-    else
+    catch (...)
     {
-        OD_LOG("! (newChannel)"); //####
+        OD_LOG("Exception caught"); //####
+        throw;
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -2492,9 +2511,17 @@ void Utilities::ShutDownGlobalStatusReporter(void)
 	OD_LOG_EXIT(); //####
 } // Utilities::ShutDownGlobalStatusReporter
 
-void Utilities::StopTheRegistryService(void)
+bool Utilities::StopAService(const yarp::os::ConstString & serviceChannelName,
+                             const double                  timeToWait,
+                             Common::CheckFunction         checker,
+                             void *                        checkStuff)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    OD_LOG_P1("checkStuff = ", checkStuff); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    bool result = false;
+    
     try
     {
         yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "stop_/"
@@ -2506,36 +2533,31 @@ void Utilities::StopTheRegistryService(void)
 #if defined(MpM_ReportOnConnections)
             newChannel->setReporter(*Utilities::GetGlobalStatusReporter());
 #endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            if (newChannel->openWithRetries(aName, timeToWait))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                         STANDARD_WAIT_TIME))
+                if (Utilities::NetworkConnectWithRetries(aName, serviceChannelName, timeToWait,
+                                                         false, checker, checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     ServiceRequest   request(MpM_STOP_REQUEST, parameters);
-                    ServiceResponse  response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (! request.send(*newChannel))
                     {
-                        OD_LOG_S1s("response <- ", response.asString()); //####
-                    }
-                    else
-                    {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                  STANDARD_WAIT_TIME))
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, serviceChannelName,
+                                                                  timeToWait, checker, checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME))"); //####
+                               "serviceChannelName, timeToWait, checker, checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME))"); //####
+                           "serviceChannelName, timeToWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -2543,7 +2565,7 @@ void Utilities::StopTheRegistryService(void)
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
             }
             BaseChannel::RelinquishChannel(newChannel);
         }
@@ -2553,5 +2575,13 @@ void Utilities::StopTheRegistryService(void)
         OD_LOG("Exception caught"); //####
         throw;
     }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::StopAService
+
+void Utilities::StopTheRegistryService(void)
+{
+    OD_LOG_ENTER(); //####
+    StopAService(MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME);
     OD_LOG_EXIT(); //####
 } // Utilities::StopTheRegistryService

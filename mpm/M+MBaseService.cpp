@@ -643,7 +643,7 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
                     if (request.send(*newChannel, &response))
                     {
                         // Check that we got a successful ping!
-                        if (1 == response.count())
+                        if (MpM_EXPECTED_PING_RESPONSE_SIZE == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
                             
@@ -658,7 +658,8 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
                         }
                         else
                         {
-                            OD_LOG("! (1 == response.count())"); //####
+                            OD_LOG("! (MpM_EXPECTED_PING_RESPONSE_SIZE == " //####
+                                   "response.count())"); //####
                             OD_LOG_S1s("response = ", response.asString()); //####
                         }
                     }

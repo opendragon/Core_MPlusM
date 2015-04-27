@@ -61,15 +61,27 @@
 # define MpM_MOVEMENTDB_CANONICAL_NAME "MovementDb"
 
 /*! @brief The name for the 'addfile' request. */
-# define MpM_ADDFILE_REQUEST  "addfile"
+# define MpM_ADDFILE_REQUEST       "addfile"
 
 /*! @brief The name for the 'setdatatrack' request. */
 # define MpM_SETDATATRACK_REQUEST  "setdatatrack"
 
 /*! @brief The name for the 'setemail' request. */
-# define MpM_SETEMAIL_REQUEST  "setemail"
+# define MpM_SETEMAIL_REQUEST      "setemail"
 
 /*! @brief The name for the 'stopdb' request. */
-# define MpM_STOPDB_REQUEST  "stopdb"
+# define MpM_STOPDB_REQUEST        "stopdb"
+
+/*! @brief The number of elements expected in the output of an 'addfile' request. */
+# define MpM_EXPECTED_ADDFILE_RESPONSE_SIZE      1
+
+/*! @brief The number of elements expected in the output of a 'setdatatrack' request. */
+# define MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE 1
+
+/*! @brief The number of elements expected in the output of a 'setemail' request. */
+# define MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE     1
+
+/*! @brief The number of elements expected in the output of a 'stopdb' request. */
+# define MpM_EXPECTED_STOPDB_RESPONSE_SIZE       1
 
 #endif // ! defined(MpMMovementDbRequests_H_)

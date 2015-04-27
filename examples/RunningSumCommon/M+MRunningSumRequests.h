@@ -56,10 +56,10 @@
 # define MpM_RUNNINGSUM_CANONICAL_NAME "RunningSum"
 
 /*! @brief The name for the 'addToSum' request. */
-# define MpM_ADDTOSUM_REQUEST   "addToSum"
+# define MpM_ADDTOSUM_REQUEST "addToSum"
 
 /*! @brief The name for the 'quit' request. */
-# define MpM_QUIT_REQUEST  "quit"
+# define MpM_QUIT_REQUEST     "quit"
 
 /*! @brief The name for the 'resetSum' request. */
 # define MpM_RESETSUM_REQUEST "resetSum"
@@ -69,5 +69,20 @@
 
 /*! @brief The name for the 'stopSum' request. */
 # define MpM_STOPSUM_REQUEST  "stopSum"
+
+/*! @brief The number of elements expected in the output of an 'addToSum' request. */
+# define MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE 1
+
+/*! @brief The number of elements expected in the output of a 'quit' request. */
+# define MpM_EXPECTED_QUIT_RESPONSE_SIZE     1
+
+/*! @brief The number of elements expected in the output of a 'resetSum' request. */
+# define MpM_EXPECTED_RESETSUM_RESPONSE_SIZE 1
+
+/*! @brief The number of elements expected in the output of a 'startSum' request. */
+# define MpM_EXPECTED_STARTSUM_RESPONSE_SIZE 1
+
+/*! @brief The number of elements expected in the output of a 'stopSum' request. */
+# define MpM_EXPECTED_STOPSUM_RESPONSE_SIZE  1
 
 #endif // ! defined(MpMRunningSumRequests_H_)

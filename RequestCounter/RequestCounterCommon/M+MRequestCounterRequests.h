@@ -60,9 +60,15 @@
 # define MpM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
 
 /*! @brief The name for the 'resetcounter' request. */
-# define MpM_RESETCOUNTER_REQUEST  "resetcounter"
+# define MpM_RESETCOUNTER_REQUEST "resetcounter"
 
 /*! @brief The name for the 'stats' request. */
-# define MpM_STATS_REQUEST  "stats"
+# define MpM_STATS_REQUEST        "stats"
+
+/*! @brief The number of elements expected in the output of a 'resetcounter' request. */
+# define MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE 1
+
+/*! @brief The number of elements expected in the output of a 'stats' request. */
+# define MpM_EXPECTED_STATS_RESPONSE_SIZE        2
 
 #endif // ! defined(MpMRequestCounterRequests_H_)

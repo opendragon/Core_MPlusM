@@ -449,6 +449,17 @@ namespace MplusM
         /*! @brief Shut down the global status reporter. */
         void ShutDownGlobalStatusReporter(void);
         
+        /*! @brief Shut down a service.
+         @param serviceChannelName The channel for the service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service was stopped and @c false otherwise. */
+        bool StopAService(const yarp::os::ConstString & serviceChannelName,
+                          const double                  timeToWait,
+                          Common::CheckFunction         checker = NULL,
+                          void *                        checkStuff = NULL);
+        
         /*! @brief Shut down the Registry service. */
         void StopTheRegistryService(void);
         
