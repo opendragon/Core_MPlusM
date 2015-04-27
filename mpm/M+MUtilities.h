@@ -215,8 +215,9 @@ namespace MplusM
         void CheckForNameServerReporter(void);
 
         /*! @brief Check if the YARP network is available.
+         @param quiet @c true if nothing should be reported on failure and @c false otherwise.
          @returns @c true if the YARP network is available and @c false otherwise. */
-        bool CheckForValidNetwork(void);
+        bool CheckForValidNetwork(const bool quiet = false);
         
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.

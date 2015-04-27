@@ -877,9 +877,10 @@ bool Utilities::CheckForRegistryService(const PortVector & ports)
     return result;
 } // Utilities::CheckForRegistryService
 
-bool Utilities::CheckForValidNetwork(void)
+bool Utilities::CheckForValidNetwork(const bool quiet)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_B1("quiet =", quiet); //####
     bool result;
     
 #if MAC_OR_LINUX_
@@ -906,7 +907,7 @@ bool Utilities::CheckForValidNetwork(void)
         // is a secondary check to see if there really is a YARP network available.
         result = getNameServerPortList(response);
     }
-    if (! result)
+    if ((! result) && (! quiet))
     {
 #if MAC_OR_LINUX_
         GetLogger().fail("YARP network not running.");

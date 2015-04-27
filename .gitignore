@@ -138,6 +138,8 @@ mpmServiceLister
 mpmServiceLister.rc
 mpmServiceMetrics
 mpmServiceMetrics.rc
+mpmStopRegistry
+mpmStopRegistry.rc
 mpmTestLoopbackControl
 mpmTestLoopbackControl.rc
 mpmTestLoopbackResponder
