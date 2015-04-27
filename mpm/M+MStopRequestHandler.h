@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MNameRequestHandler.h
+//  File:       mpm/M+MStopRequestHandler.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the request handler for the standard 'name' request.
+//  Contains:   The class declaration for the request handler for a 'stop' request.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-14
+//  Created:    2015-04-27
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMNameRequestHandler_H_))
-# define MpMNameRequestHandler_H_ /* Header guard */
+#if (! defined(MpMStopRequestHandler_H_))
+# define MpMStopRequestHandler_H_ /* Header guard */
 
 # include <mpm/M+MBaseRequestHandler.h>
 
@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the request handler for the standard 'name' request. */
+ @brief The class declaration for the request handler for a 'stop' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -56,23 +56,23 @@ namespace MplusM
 {
     namespace Common
     {
-        /*! @brief The standard 'name' request handler.
+        /*! @brief The standard 'stopStreams' request handler.
          
-         There is no input for the request and the output is the canonical name of the service. */
-        class NameRequestHandler : public BaseRequestHandler
+         There is no input for the request and there is no output. */
+        class StopRequestHandler : public BaseRequestHandler
         {
         public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            NameRequestHandler(BaseService & service);
+            StopRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~NameRequestHandler(void);
+            virtual ~StopRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(StringVector & alternateNames);
+            virtual void fillInAliases(Common::StringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
@@ -94,7 +94,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(NameRequestHandler);
+            COPY_AND_ASSIGNMENT_(StopRequestHandler);
             
         public :
         
@@ -105,10 +105,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-        }; // NameRequestHandler
+        }; // StopRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMNameRequestHandler_H_)
+#endif // ! defined(MpMStopRequestHandler_H_)

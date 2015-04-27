@@ -449,6 +449,9 @@ namespace MplusM
         /*! @brief Shut down the global status reporter. */
         void ShutDownGlobalStatusReporter(void);
         
+        /*! @brief Shut down the Registry service. */
+        void StopTheRegistryService(void);
+        
     } // Utilities
     
 } // MplusM

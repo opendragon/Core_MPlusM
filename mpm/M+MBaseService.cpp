@@ -46,6 +46,7 @@
 #include "M+MNameRequestHandler.h"
 #include "M+MPingThread.h"
 #include "M+MSetMetricsStateRequestHandler.h"
+#include "M+MStopRequestHandler.h"
 
 #include <mpm/M+MBaseService.h>
 #include <mpm/M+MBaseContext.h>
@@ -118,9 +119,9 @@ BaseService::BaseService(const ServiceKind             theKind,
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
     _auxCounters(), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
     _getMetricsHandler(NULL), _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
-    _nameHandler(NULL), _setMetricsStateHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON),
-    _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _nameHandler(NULL), _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL),
+    _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind),
+    _metricsEnabled(MEASUREMENTS_ON), _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -166,9 +167,9 @@ BaseService::BaseService(const ServiceKind             theKind,
     _serviceName(canonicalName), _tag(), _auxCounters(), _channelsHandler(NULL),
     _clientsHandler(NULL), _detachHandler(NULL), _getMetricsHandler(NULL),
     _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-    _setMetricsStateHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-    _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON), _started(false),
-    _useMultipleHandlers(useMultipleHandlers)
+    _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON),
+    _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -263,9 +264,10 @@ void BaseService::attachRequestHandlers(void)
         _listHandler = new ListRequestHandler(*this);
         _nameHandler = new NameRequestHandler(*this);
         _setMetricsStateHandler = new SetMetricsStateRequestHandler(*this);
+        _stopHandler = new StopRequestHandler(*this);
         if (_channelsHandler && _clientsHandler && _detachHandler && _getMetricsHandler &&
             _getMetricsStateHandler && _infoHandler && _listHandler && _nameHandler &&
-            _setMetricsStateHandler)
+            _setMetricsStateHandler && _stopHandler)
         {
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
@@ -276,12 +278,14 @@ void BaseService::attachRequestHandlers(void)
             _requestHandlers.registerRequestHandler(_listHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
             _requestHandlers.registerRequestHandler(_setMetricsStateHandler);
+            _requestHandlers.registerRequestHandler(_stopHandler);
         }
         else
         {
             OD_LOG("! (_channelsHandler && _clientsHandler && _detachHandler && " //####
                    "_getMetricsHandler && _getMetricsStateHandler && _infoHandler && " //####
-                   "_listHandler && _nameHandler && _setMetricsStateHandler)"); //####
+                   "_listHandler && _nameHandler && _setMetricsStateHandler && " //####
+                   "_stopHandler)"); //####
         }
     }
     catch (...)
@@ -388,6 +392,12 @@ void BaseService::detachRequestHandlers(void)
             _requestHandlers.unregisterRequestHandler(_setMetricsStateHandler);
             delete _setMetricsStateHandler;
             _setMetricsStateHandler = NULL;
+        }
+        if (_stopHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_stopHandler);
+            delete _stopHandler;
+            _stopHandler = NULL;
         }
     }
     catch (...)

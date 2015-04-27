@@ -72,33 +72,34 @@ namespace MplusM
         class ServiceInputHandler;
         class ServiceInputHandlerCreator;
         class SetMetricsStateRequestHandler;
+        class StopRequestHandler;
         
         /*! @brief The command-line options to skip. */
         enum OptionsMask
         {
             /*! @brief Skip no options. */
-            kSkipNone                  = 0x00,
+            kSkipNone            = 0x00,
             
             /*! @brief Skip the 'autostart' option. */
-            kSkipAutostartOption       = 0x01,
+            kSkipAutostartOption = 0x01,
             
             /*! @brief Skip the 'endpoint' option. */
-            kSkipEndpointOption        = 0x02,
+            kSkipEndpointOption  = 0x02,
             
             /*! @brief Skip the 'help' option. */
-            kSkipHelpOption            = 0x04,
+            kSkipHelpOption      = 0x04,
             
             /*! @brief Skip the 'port' option. */
-            kSkipPortOption            = 0x08,
+            kSkipPortOption      = 0x08,
             
             /*! @brief Skip the 'report' option. */
-            kSkipReportOption          = 0x10,
+            kSkipReportOption    = 0x10,
             
             /*! @brief Skip the 'tag' option. */
-            kSkipTagOption             = 0x20,
+            kSkipTagOption       = 0x20,
             
             /*! @brief Skip all the options. */
-            kSkipAllOptions            = 0xFF
+            kSkipAllOptions      = 0xFF
         }; // OptionsMask
         
         /*! @brief The minimal functionality required for an M+M service. */
@@ -416,6 +417,9 @@ namespace MplusM
             
             /*! @brief The request handler for the 'setMetricsState' request. */
             SetMetricsStateRequestHandler * _setMetricsStateHandler;
+            
+            /*! @brief The request handler for the 'stop' request. */
+            StopRequestHandler * _stopHandler;
             
             /*! @brief The connection point for the service. */
             Endpoint * _endpoint;

@@ -56,8 +56,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class BaseService;
-        
         /*! @brief The standard 'channels' request handler.
          
          There is no input for the request and the output is a list of secondary channels for the

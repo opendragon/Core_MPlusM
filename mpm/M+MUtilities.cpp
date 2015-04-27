@@ -2491,3 +2491,67 @@ void Utilities::ShutDownGlobalStatusReporter(void)
     lReporter = NULL;
 	OD_LOG_EXIT(); //####
 } // Utilities::ShutDownGlobalStatusReporter
+
+void Utilities::StopTheRegistryService(void)
+{
+    OD_LOG_ENTER(); //####
+    try
+    {
+        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "stop_/"
+                                                         DEFAULT_CHANNEL_ROOT));
+        ClientChannel *       newChannel = new ClientChannel;
+        
+        if (newChannel)
+        {
+#if defined(MpM_ReportOnConnections)
+            newChannel->setReporter(*Utilities::GetGlobalStatusReporter());
+#endif // defined(MpM_ReportOnConnections)
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            {
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
+                                                         STANDARD_WAIT_TIME))
+                {
+                    yarp::os::Bottle parameters;
+                    ServiceRequest   request(MpM_STOP_REQUEST, parameters);
+                    ServiceResponse  response;
+                    
+                    if (request.send(*newChannel, &response))
+                    {
+                        OD_LOG_S1s("response <- ", response.asString()); //####
+                    }
+                    else
+                    {
+                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                    }
+#if defined(MpM_DoExplicitDisconnect)
+                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
+                                                                  STANDARD_WAIT_TIME))
+                    {
+                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME))"); //####
+                    }
+#endif // defined(MpM_DoExplicitDisconnect)
+                }
+                else
+                {
+                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
+                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME))"); //####
+                }
+#if defined(MpM_DoExplicitClose)
+                newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+            }
+            BaseChannel::RelinquishChannel(newChannel);
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_EXIT(); //####
+} // Utilities::StopTheRegistryService

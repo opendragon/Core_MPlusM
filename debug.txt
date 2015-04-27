@@ -6,3 +6,5 @@ QGDict::hashAsciiKey: Invalid null key
 QGDict::hashAsciiKey: Invalid null key
 QGDict::hashAsciiKey: Invalid null key
 QGDict::hashAsciiKey: Invalid null key
+QGDict::hashAsciiKey: Invalid null key
+QGDict::hashAsciiKey: Invalid null key

@@ -57,8 +57,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class BaseService;
-        
         /*! @brief The standard 'getMetricsState' request handler.
          
          There is no input for the request and the output is a @c 0 if metrics are disabled and @c 1

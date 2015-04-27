@@ -56,8 +56,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class BaseService;
-        
         /*! @brief The standard 'detach' request handler.
          
          There is no input or output for the request. */

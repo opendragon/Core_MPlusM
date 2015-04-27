@@ -116,6 +116,9 @@
 /*! @brief The name for a 'startStreams' request. */
 # define MpM_STARTSTREAMS_REQUEST    "startStreams"
 
+/*! @brief The name for a 'stop' request. */
+# define MpM_STOP_REQUEST            "stop"
+
 /*! @brief The name for a 'stopStreams' request. */
 # define MpM_STOPSTREAMS_REQUEST     "stopStreams"
 
@@ -149,9 +152,6 @@
 /*! @brief The number of elements expected in the output of a 'name' request. */
 # define MpM_EXPECTED_NAME_RESPONSE_SIZE           6
 
-/*! @brief The number of elements expected in the output of a 'quit' request. */
-# define MpM_EXPECTED_QUIT_RESPONSE_SIZE           1
-
 /*! @brief The number of elements expected in the output of a 'register' request. */
 # define MpM_EXPECTED_REGISTER_RESPONSE_SIZE       1
 
@@ -160,6 +160,9 @@
 
 /*! @brief The number of elements expected in the output of a 'startStreams' request. */
 # define MpM_EXPECTED_STARTSTREAMS_RESPONSE_SIZE   1
+
+/*! @brief The number of elements expected in the output of a 'stop' request. */
+# define MpM_EXPECTED_STOP_RESPONSE_SIZE           1
 
 /*! @brief The number of elements expected in the output of a 'stopStreams' request. */
 # define MpM_EXPECTED_STOPSTREAMS_RESPONSE_SIZE    1

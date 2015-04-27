@@ -19,3 +19,11 @@
 - check if the SpiderMonkey library can be statically linked on Windows and if this resolves the exit issue; if so, check if it can be statically linked on OS X
 
 = to determine whether a Windows executable is 32-bit or 64-bit, do “c:\Program Files (x86)\Microsoft Visual Studio 12.0\vc\bin\dumpbin.exe /headers the-program-file.exe”
+
+@ add appendix about setting up Hamachi for use with M+M
+
+* add ‘remote stop’ to services and Channel Manager
+
++ add menus to Channel Manager
+
++ add ‘hide’ / ‘unhide all’ services mechanism to Channel Manager

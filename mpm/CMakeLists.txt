@@ -101,6 +101,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/M+MServiceResponse.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MSetMetricsStateRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MStartStreamsRequestHandler.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MStopRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MStopStreamsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MUtilities.cpp")
 

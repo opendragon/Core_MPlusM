@@ -56,8 +56,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class BaseService;
-        
         /*! @brief The standard 'getMetrics' request handler.
          
          There is no input for the request and the output is a list of measurements for the channels

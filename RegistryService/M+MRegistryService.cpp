@@ -2338,7 +2338,7 @@ bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P3("isPrimary = ", isPrimary, "inputs = ", &inputs, "outputs = ", &outputs); //####
+    OD_LOG_P3("isPrimary = ", &isPrimary, "inputs = ", &inputs, "outputs = ", &outputs); //####
     bool okSoFar = false;
     
     try

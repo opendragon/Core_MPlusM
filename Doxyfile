@@ -793,7 +793,8 @@ INPUT                  = ClientList \
                          Address \
                          Tunnel \
                          NaturalPoint \
-                         ProComp2
+                         ProComp2 \
+                         StopRegistry
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -923,7 +924,8 @@ EXCLUDE                = CMakeFiles \
                          Tunnel/TunnelService/CMakeFiles \
                          JavaScript/CMakeFiles \
                          NaturalPoint/CMakeFiles \
-                         ProComp2/CMakeFiles
+                         ProComp2/CMakeFiles \
+                         StopRegistry/CMakeFiles
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded
