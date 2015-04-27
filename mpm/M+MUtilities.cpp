@@ -883,19 +883,15 @@ bool Utilities::CheckForValidNetwork(const bool quiet)
     OD_LOG_B1("quiet =", quiet); //####
     bool result;
     
-#if MAC_OR_LINUX_
     if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // MAC_OR_LINUX_
     {
         result = true;
     }
-#if MAC_OR_LINUX_
     else
     {
         OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
         result = false;
     }
-#endif // MAC_OR_LINUX_
     if (result)
     {
         // Make a test probe of the network, just to double-check
