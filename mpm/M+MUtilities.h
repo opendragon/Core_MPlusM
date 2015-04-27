@@ -212,7 +212,7 @@ namespace MplusM
         
         /*! @brief Check for the NameServerReporter mDNS entry and update the YARP information if
          found. */
-        void CheckForNameServerReporter(void);
+		void CheckForNameServerReporter(void);
 
         /*! @brief Check if the YARP network is available.
          @param quiet @c true if nothing should be reported on failure and @c false otherwise.

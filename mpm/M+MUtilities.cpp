@@ -763,7 +763,7 @@ bool Utilities::CheckConnection(const yarp::os::ConstString & fromPortName,
 void Utilities::CheckForNameServerReporter(void)
 {
     OD_LOG_ENTER(); //####
-    bool                       skipNameServerScan = false;
+	bool                       skipNameServerScan = false;
     yarp::os::impl::NameConfig nc;
 
     // First, see if there is a configuration file and it points to a real server.

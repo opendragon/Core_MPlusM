@@ -121,7 +121,8 @@ int main(int      argc,
             // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up
             // the NameServerReporter!
 			Utilities::SetUpGlobalStatusReporter();
-            if (Utilities::CheckForValidNetwork())
+			Utilities::CheckForNameServerReporter();
+			if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
