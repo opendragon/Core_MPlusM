@@ -119,9 +119,7 @@ int main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
 
         Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-        if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+        if (Utilities::CheckForValidNetwork())
         {
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
                                     // infrastructure
@@ -260,17 +258,6 @@ int main(int      argc,
                 OD_LOG("! (stuff)"); //####
             }
         }
-#if CheckNetworkWorks_
-        else
-        {
-            OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
-# if MAC_OR_LINUX_
-            GetLogger().fail("YARP network not running.");
-# else // ! MAC_OR_LINUX_
-            cerr << "YARP network not running." << endl;
-# endif // ! MAC_OR_LINUX_
-        }
-#endif // CheckNetworkWorks_
         Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)

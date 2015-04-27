@@ -214,6 +214,10 @@ namespace MplusM
          found. */
         void CheckForNameServerReporter(void);
 
+        /*! @brief Check if the YARP network is available.
+         @returns @c true if the YARP network is available and @c false otherwise. */
+        bool CheckForValidNetwork(void);
+        
         /*! @brief Check if the Registry Service is active.
          @param ports The set of detected ports.
          @returns @c true if the Registry Service port is present and @c false otherwise. */

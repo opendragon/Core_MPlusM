@@ -127,9 +127,7 @@ int main(int      argc,
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
-#if CheckNetworkWorks_
-            if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
-#endif // CheckNetworkWorks_
+            if (Utilities::CheckForValidNetwork())
             {
 #if defined(MpM_ReportOnConnections)
 				ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
@@ -262,17 +260,6 @@ int main(int      argc,
                     OD_LOG("! (stuff)"); //####
                 }
             }
-#if CheckNetworkWorks_
-            else
-            {
-                OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
-# if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-# else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-# endif // ! MAC_OR_LINUX_
-            }
-#endif // CheckNetworkWorks_
 			Utilities::ShutDownGlobalStatusReporter();
 		}
     }

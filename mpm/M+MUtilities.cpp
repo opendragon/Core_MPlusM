@@ -137,6 +137,49 @@ static const char * kMagicName = "<$probe>";
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*@ brief Get the port names from the YARP name server.
+ @param response The list returned from the YARP name server.
+ @returns @c true if the list was successfully retrieved and @c false otherwise. */
+static bool getNameServerPortList(yarp::os::Bottle & response)
+{
+    OD_LOG_ENTER(); //####
+    bool                   okSoFar;
+    yarp::os::Bottle       request;
+    yarp::os::ContactStyle contactInfo;
+    
+    request.addString("list");
+    contactInfo.timeout = 5.0;
+    if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
+    {
+        okSoFar = (1 == response.size());
+        OD_LOG_B1("okSoFar <- ", okSoFar); //####
+        OD_LOG_S1s("response = ", response.toString()); //####
+    }
+    else
+    {
+        OD_LOG("! (yarp::os::Network::writeToNameServer(request, response, contactInfo))"); //####
+        okSoFar = false;
+    }
+    if (! okSoFar)
+    {
+        // Try again, in case of a network 'glitch'.
+        response.clear();
+        if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
+        {
+            okSoFar = (1 == response.size());
+            OD_LOG_B1("okSoFar <- ", okSoFar); //####
+            OD_LOG_S1s("response = ", response.toString()); //####
+        }
+        else
+        {
+            OD_LOG("! (yarp::os::Network::writeToNameServer(request, response, " //####
+                   "contactInfo))"); //####
+        }
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // getNameServerPortList
+
 #if (! MAC_OR_LINUX_)
 //ASSUME WINDOWS
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
@@ -834,6 +877,47 @@ bool Utilities::CheckForRegistryService(const PortVector & ports)
     return result;
 } // Utilities::CheckForRegistryService
 
+bool Utilities::CheckForValidNetwork(void)
+{
+    OD_LOG_ENTER(); //####
+    bool result;
+    
+#if MAC_OR_LINUX_
+    if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+#endif // MAC_OR_LINUX_
+    {
+        result = true;
+    }
+#if MAC_OR_LINUX_
+    else
+    {
+        OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+        result = false;
+    }
+#endif // MAC_OR_LINUX_
+    if (result)
+    {
+        // Make a test probe of the network, just to double-check
+        yarp::os::Bottle  response;
+        yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                // infrastructure
+        
+        // Ask the YARP name server for a list of ports - we don't care about the actual list, this
+        // is a secondary check to see if there really is a YARP network available.
+        result = getNameServerPortList(response);
+    }
+    if (! result)
+    {
+#if MAC_OR_LINUX_
+        GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+        cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::CheckForValidNetwork
+
 /*! @brief Add a service metrics property to a string.
  @param propList The dictionary to process.
  @param flavour The output format to be used.
@@ -1362,40 +1446,10 @@ bool Utilities::GetDetectedPortList(PortVector & ports,
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ports = ", &ports); //####
     OD_LOG_B1("includeHiddenPorts = ", includeHiddenPorts); //####
-    bool                   okSoFar = false;
-    yarp::os::Bottle       request;
-    yarp::os::Bottle       response;
-    yarp::os::ContactStyle contactInfo;
+    yarp::os::Bottle response;
+    bool             okSoFar = getNameServerPortList(response);
     
     ports.clear();
-    request.addString("list");
-    contactInfo.timeout = 5.0;
-    if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
-    {
-        okSoFar = (1 == response.size());
-        OD_LOG_B1("okSoFar <- ", okSoFar); //####
-        OD_LOG_S1s("response = ", response.toString()); //####
-    }
-    else
-    {
-        OD_LOG("! (yarp::os::Network::writeToNameServer(request, response, contactInfo))"); //####
-    }
-    if (! okSoFar)
-    {
-        // Try again, in case of a network 'glitch'.
-        response.clear();
-        if (yarp::os::Network::writeToNameServer(request, response, contactInfo))
-        {
-            okSoFar = (1 == response.size());
-            OD_LOG_B1("okSoFar <- ", okSoFar); //####
-            OD_LOG_S1s("response = ", response.toString()); //####
-        }
-        else
-        {
-            OD_LOG("! (yarp::os::Network::writeToNameServer(request, response, " //####
-                   "contactInfo))"); //####
-        }
-    }
     if (okSoFar)
     {
         yarp::os::Value responseValue(response.get(0));

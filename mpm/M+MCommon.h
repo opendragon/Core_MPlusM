@@ -47,9 +47,6 @@
 #  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__))
 # endif // ! defined(MAC_OR_LINUX_)
 
-/*! @brief @c TRUE if NetworkBase::checkNetwork() can be trusted and @c FALSE otherwise. */
-# define CheckNetworkWorks_ MAC_OR_LINUX_
-
 # include <cctype>
 # include <csignal>
 # include <cstdlib>
