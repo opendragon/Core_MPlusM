@@ -81,7 +81,7 @@ Clicking on a rectangular object with no modifier key held down allows the user 
 the object around in the window.
 Note that connections cannot be selected by clicking on the line that represents them.
 \clearpage
-Doing a right\longDash{}mouse click in the background, displays a popup menu with three
+Doing a right\longDash{}mouse click in the background, displays a popup menu with four
 choices:
 \begin{itemize}
 \item\textbf{Repaint} force a repaint, in case there's a `glitch' of the display; this
@@ -90,19 +90,26 @@ can also be triggered via a \textbf{Cmd\longDash{}R} command
 a \textbf{Cmd\longDash{}I} command
 \item\exSp\textbf{White background} switch between a black~/~white background and a
 gradient; this can also be triggered via a \textbf{Cmd\longDash{}B} command
+\item\exSp\textbf{Unhide entities} make all hidden entities visible; this can also be
+triggered via a \textbf{Cmd\longDash{}U} command
 \end{itemize}
-\objScaledDiagram{mpm_images/backgroundMenu}{backgroundMenu}{Background menu}{0.7}
+\objDoubleScaledDiagram{mpm_images/backgroundMenuNoHidden}%
+{mpm_images/backgroundMenuWithHidden}%
+{backgroundMenu}{Background menu (Left=No hidden entities, Right=Hidden
+entities present)}%
+{1.0}
 Doing a right\longDash{}mouse click on the title of a rectangle that does not represent a
-service displays a popup menu with two choices:
+service displays a popup menu with three choices:
 \begin{itemize}
 \item\textbf{Display entity information} display information about the entity
 \item\exSp\textbf{Display detailed entity information} display information about the
 entity
+\item\exSp\textbf{Hide the entity} make the entity invisible
 \end{itemize}
-\objScaledDiagram{mpm_images/entityMenu}{entityMenu}{Entity menu}{0.7}
+\objScaledDiagram{mpm_images/entityMenu}{entityMenu}{Entity menu}{1.0}
 \clearpage
 Doing a right\longDash{}mouse click on the title of a rectangle representing a service
-displays a popup menu with four choices, which depend on whether the `Service metrics
+displays a popup menu with six choices, which depend on whether the `Service metrics
 collection' menu item is enabled:
 \begin{itemize}
 \item\textbf{Display service information} display information about the service
@@ -115,11 +122,13 @@ channel metrics' menu items
 port of the service \longDash{} the number of bytes and number of messages sent to and
 from the port; the category `auxiliary' represents the anonymous ports used by the service
 during its operation
+\item\exSp\textbf{Hide the service} make the service invisible
+\item\exSp\textbf{Stop the service} stop the service
 \end{itemize}
 \objDoubleScaledDiagram{mpm_images/serviceMenuMetricsDisabled}%
 {mpm_images/serviceMenuMetricsEnabled}{serviceMenu}%
-{Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.7}
-
+{Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.9}
+\clearpage
 Doing a right\longDash{}mouse click on the primary channel of a service displays a popup
 menu with three choices, which depend on whether the `Service metrics collection' menu
 item is enabled:
@@ -135,16 +144,16 @@ channel
 {mpm_images/serviceChannelMenuMetricsEnabled}%
 {serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service
 metrics enabled)}%
-{0.7}
-\clearpage
+{0.9}
+
 Doing a right\longDash{}mouse click on a regular port displays a popup menu with two
 choices:
 \begin{itemize}
 \item\textbf{Display port information} display information about the port
 \item\exSp\textbf{Display detailed port information} display information about the port
 \end{itemize}
-\objScaledDiagram{mpm_images/portMenu}{portMenu}{Regular port menu}{0.7}
-
+\objScaledDiagram{mpm_images/portMenu}{portMenu}{Regular port menu}{1.0}
+\clearpage
 Doing a right\longDash{}mouse click on a non\longDash{}primary channel of a service
 displays a popup menu with five choices, which depend on whether the `Service metrics
 collection' menu item is enabled:
@@ -165,8 +174,8 @@ it is disabled
 {mpm_images/regularChannelMenuMetricsEnabled}%
 {regularChannelMenu}%
 {Non\longDash{}primary channel menu (Left=Service metrics disabled, Right=Service metrics
-enabled)}{0.7}
-\clearpage
+enabled)}{0.9}
+
 The positions of the objects within the window are stored in the file
 `\asCode{settings.txt}' within the `\asCode{Channel Manager}' directory inside the
 user\longDash{}specific application data directory.

@@ -70,7 +70,8 @@ VDSpngfiles =
 
 # Input bitmap EPS files
 
-CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/backgroundMenu.eps \
+CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/backgroundMenuNoHidden.eps \
+		$(IMAGE_DIR)/backgroundMenuWithHidden.eps \
 		$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
 		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/clickAdd.eps \
 		$(IMAGE_DIR)/dragAdd2.eps $(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/portMenu.eps \
