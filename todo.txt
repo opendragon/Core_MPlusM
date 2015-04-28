@@ -21,5 +21,3 @@
 = to determine whether a Windows executable is 32-bit or 64-bit, do “c:\Program Files (x86)\Microsoft Visual Studio 12.0\vc\bin\dumpbin.exe /headers the-program-file.exe”
 
 @ add appendix about setting up Hamachi for use with M+M
-
-+ add menus to Channel Manager
