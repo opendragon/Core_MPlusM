@@ -22,8 +22,6 @@
 
 @ add appendix about setting up Hamachi for use with M+M
 
-* add ‘remote stop’ to services and Channel Manager
-
 + add menus to Channel Manager
 
 + add ‘hide’ / ‘unhide all’ services mechanism to Channel Manager

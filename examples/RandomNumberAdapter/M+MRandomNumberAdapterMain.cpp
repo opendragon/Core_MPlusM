@@ -89,7 +89,7 @@ using std::endl;
  the input port will be named ADAPTER_PORT_NAME_BASE+input/randomnumber and if the second argument
  is missing, the output port will be named ADAPTER_PORT_NAME_BASE+output/randomnumber.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

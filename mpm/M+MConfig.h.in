@@ -79,6 +79,8 @@
 
 #cmakedefine MpM_ChattyStart /* Report the version numbers when launching an executable. */
 
+#cmakedefine MpM_DoExplicitCheckForOK /* Check OK responses for validity */
+
 #cmakedefine MpM_DoExplicitClose /* Perform a CloseChannel() prior to freeing a dynamically-allocated channel. */
 
 #cmakedefine MpM_DoExplicitDisconnect /* Perform a disconnect() prior to closing a channel. */

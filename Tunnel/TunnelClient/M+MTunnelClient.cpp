@@ -105,7 +105,7 @@ bool TunnelClient::getAddress(yarp::os::ConstString & address,
         ServiceResponse  response;
         
         reconnectIfDisconnected();
-        if (send(MpM_WHERE_REQUEST, parameters, &response))
+        if (send(MpM_WHERE_REQUEST, parameters, response))
         {
             if (MpM_EXPECTED_WHERE_RESPONSE_SIZE == response.count())
             {
@@ -131,7 +131,7 @@ bool TunnelClient::getAddress(yarp::os::ConstString & address,
         }
         else
         {
-            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, response))"); //####
         }
     }
     catch (...)

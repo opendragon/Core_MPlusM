@@ -133,13 +133,21 @@ namespace MplusM
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
              @param parameters The required parameters for the request.
-             @param response If non-@c NULL, where to store any response received.
+             @returns @c true on a successful communication with the service and @c false
+             otherwise. */
+            bool send(const char *             request,
+                      const yarp::os::Bottle & parameters);
+            
+            /*! @brief Send a request to the service associated with the client.
+             @param request The name of the request.
+             @param parameters The required parameters for the request.
+             @param response The response from the request.
              @returns @c true on a successful communication with the service and @c false
              otherwise. */
             bool send(const char *             request,
                       const yarp::os::Bottle & parameters,
-                      ServiceResponse *        response = NULL);
-            
+                      ServiceResponse &        response);
+
         private :
             
             COPY_AND_ASSIGNMENT_(BaseClient);

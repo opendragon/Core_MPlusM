@@ -379,10 +379,10 @@
 		DF824BD319C8E4C5004D13AC /* M+MLeapMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapMotionInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapMotionInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF8888131AEE791B001320EB /* M+MStopRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopRequestHandler.cpp"; path = "mpm/M+MStopRequestHandler.cpp"; sourceTree = "<group>"; };
 		DF8888141AEE791B001320EB /* M+MStopRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStopRequestHandler.h"; path = "mpm/M+MStopRequestHandler.h"; sourceTree = "<group>"; };
-		DF88881A1AEE7FC9001320EB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = StopRegistry/CMakeLists.txt; sourceTree = "<group>"; };
-		DF88881B1AEE7FCA001320EB /* M+MStopRegistryMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopRegistryMain.cpp"; path = "StopRegistry/M+MStopRegistryMain.cpp"; sourceTree = "<group>"; };
-		DF88881C1AEE7FCA001320EB /* mpmStopRegistry.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmStopRegistry.rc.in; path = StopRegistry/mpmStopRegistry.rc.in; sourceTree = "<group>"; };
-		DF88881D1AEE7FCA001320EB /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = StopRegistry/resource.h; sourceTree = "<group>"; };
+		DF88881E1AEFD2B7001320EB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = StopService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF88881F1AEFD2B7001320EB /* M+MStopServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStopServiceMain.cpp"; path = "StopService/M+MStopServiceMain.cpp"; sourceTree = "<group>"; };
+		DF8888201AEFD2B7001320EB /* mpmStopService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmStopService.rc.in; path = StopService/mpmStopService.rc.in; sourceTree = "<group>"; };
+		DF8888211AEFD2B7001320EB /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = StopService/resource.h; sourceTree = "<group>"; };
 		DF8D35451AA4B34300322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestLoopbackControl/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF8D35461AA4B34300322DDD /* M+MTestLoopbackControlMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestLoopbackControlMain.cpp"; path = "Tunnel/TestLoopbackControl/M+MTestLoopbackControlMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF8D35471AA4B49B00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestLoopbackResponder/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -1376,15 +1376,15 @@
 			name = LeapMotionInputService;
 			sourceTree = SOURCE_ROOT;
 		};
-		DF8888151AEE7EAF001320EB /* StopRegistry */ = {
+		DF8888151AEE7EAF001320EB /* StopService */ = {
 			isa = PBXGroup;
 			children = (
-				DF88881A1AEE7FC9001320EB /* CMakeLists.txt */,
-				DF88881B1AEE7FCA001320EB /* M+MStopRegistryMain.cpp */,
-				DF88881C1AEE7FCA001320EB /* mpmStopRegistry.rc.in */,
-				DF88881D1AEE7FCA001320EB /* resource.h */,
+				DF88881E1AEFD2B7001320EB /* CMakeLists.txt */,
+				DF88881F1AEFD2B7001320EB /* M+MStopServiceMain.cpp */,
+				DF8888201AEFD2B7001320EB /* mpmStopService.rc.in */,
+				DF8888211AEFD2B7001320EB /* resource.h */,
 			);
-			name = StopRegistry;
+			name = StopService;
 			sourceTree = "<group>";
 		};
 		DF8D353F1A9F916300322DDD /* TesLoopbackResponder */ = {
@@ -1437,7 +1437,7 @@
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
-				DF8888151AEE7EAF001320EB /* StopRegistry */,
+				DF8888151AEE7EAF001320EB /* StopService */,
 				DF1BD3351A8C010E0070A09C /* Tunnel */,
 				DFEF4B591A1CE6C300FBB838 /* Unreal */,
 				DFA4963A18FED31A005A7213 /* Version */,

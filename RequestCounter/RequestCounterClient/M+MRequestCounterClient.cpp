@@ -105,7 +105,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         ServiceResponse  response;
         
         reconnectIfDisconnected();
-        if (send(MpM_STATS_REQUEST, parameters, &response))
+        if (send(MpM_STATS_REQUEST, parameters, response))
         {
             if (MpM_EXPECTED_STATS_RESPONSE_SIZE == response.count())
             {
@@ -131,7 +131,7 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         }
         else
         {
-            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, response))"); //####
         }
     }
     catch (...)
@@ -178,8 +178,38 @@ bool RequestCounterClient::resetServiceCounters(void)
     try
     {
         yarp::os::Bottle parameters;
+#if defined(MpM_DoExplicitCheckForOK)
+        ServiceResponse  response;
+#endif // defined(MpM_DoExplicitCheckForOK)
         
         reconnectIfDisconnected();
+#if defined(MpM_DoExplicitCheckForOK)
+        if (send(MpM_RESETCOUNTER_REQUEST, parameters, response))
+        {
+            if (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE == response.count())
+            {
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isString())
+                {
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (retrieved.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST, parameters, response))"); //####
+        }
+#else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_RESETCOUNTER_REQUEST, parameters))
         {
             okSoFar = true;
@@ -188,6 +218,7 @@ bool RequestCounterClient::resetServiceCounters(void)
         {
             OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST, parameters))"); //####
         }
+#endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {

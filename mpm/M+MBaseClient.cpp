@@ -252,14 +252,14 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
                     ServiceRequest  request(MpM_ASSOCIATE_REQUEST, parameters);
                     ServiceResponse response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (request.send(*newChannel, response))
                     {
                         OD_LOG_S1s("response <- ", response.asString()); //####
                         validateAssociateResponse(response.values());
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
@@ -364,22 +364,61 @@ bool BaseClient::disconnectFromService(CheckFunction checker,
     OD_LOG_P1("checkStuff = ", checkStuff); //####
     if (_connected)
     {
+        bool             okSoFar = false;
         yarp::os::Bottle parameters;
-        
+#if defined(MpM_DoExplicitCheckForOK)
+        ServiceResponse  response;
+#endif // defined(MpM_DoExplicitCheckForOK)
+
         reconnectIfDisconnected(checker, checkStuff);
-        if (! send(MpM_DETACH_REQUEST, parameters))
+#if defined(MpM_DoExplicitCheckForOK)
+        if (send(MpM_DETACH_REQUEST, parameters, response))
         {
-            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))"); //####
-        }
-        if (Utilities::NetworkDisconnectWithRetries(_channelName, _serviceChannelName,
-                                                    STANDARD_WAIT_TIME, checker, checkStuff))
-        {
-            _connected = false;
+            if (MpM_EXPECTED_DETACH_RESPONSE_SIZE == response.count())
+            {
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isString())
+                {
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (retrieved.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (MpM_EXPECTED_DETACH_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
         }
         else
         {
-            OD_LOG("! (Utilities::NetworkDisconnectWithRetries(_channelName, " //####
-                   "_serviceChannelName, STANDARD_WAIT_TIME, checker, checkStuff))"); //####
+            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters, response))"); //####
+        }
+#else // ! defined(MpM_DoExplicitCheckForOK)
+        if (send(MpM_DETACH_REQUEST, parameters))
+        {
+            okSoFar = true;
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))"); //####
+        }
+#endif // ! defined(MpM_DoExplicitCheckForOK)
+        if (okSoFar)
+        {
+            if (Utilities::NetworkDisconnectWithRetries(_channelName, _serviceChannelName,
+                                                        STANDARD_WAIT_TIME, checker, checkStuff))
+            {
+                _connected = false;
+            }
+            else
+            {
+                OD_LOG("! (Utilities::NetworkDisconnectWithRetries(_channelName, " //####
+                       "_serviceChannelName, STANDARD_WAIT_TIME, checker, checkStuff))"); //####
+            }
         }
     }
     OD_LOG_OBJEXIT_B(! _connected); //####
@@ -506,14 +545,14 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
                     ServiceRequest  request(MpM_DISASSOCIATE_REQUEST, parameters);
                     ServiceResponse response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (request.send(*newChannel, response))
                     {
                         OD_LOG_S1s("response <- ", response.asString()); //####
                         validateAssociateResponse(response.values());
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
@@ -552,12 +591,48 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
 } // BaseClient::removeAssociatedChannels
 
 bool BaseClient::send(const char *             request,
-                      const yarp::os::Bottle & parameters,
-                      ServiceResponse *        response)
+                      const yarp::os::Bottle & parameters)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2("request = ", request, "parameters = ", parameters.toString().c_str()); //####
-    OD_LOG_P1("response = ", response); //####
+    bool result = false;
+    
+    try
+    {
+        if (_connected)
+        {
+            if (0 < _serviceChannelName.length())
+            {
+                ServiceRequest actualRequest(request, parameters);
+                
+                result = actualRequest.send(*_channel);
+            }
+            else
+            {
+                OD_LOG("! (0 < _serviceChannelName.length())"); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (_connected)"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // BaseClient::send
+
+bool BaseClient::send(const char *             request,
+                      const yarp::os::Bottle & parameters,
+                      ServiceResponse &        response)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S2("request = ", request, "parameters = ", parameters.toString().c_str()); //####
+    OD_LOG_P1("response = ", &response); //####
     bool result = false;
     
     try
@@ -639,14 +714,14 @@ yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & crit
                     ServiceRequest  request(MpM_MATCH_REQUEST, parameters);
                     ServiceResponse response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (request.send(*newChannel, response))
                     {
                         OD_LOG_S1s("response <- ", response.asString()); //####
                         result = validateMatchResponse(response.values());
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,

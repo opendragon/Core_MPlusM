@@ -592,10 +592,16 @@ No services found.
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmServiceMetrics}}
-\tertiaryStart{\utilityNameP{mpmStopRegistry}}
-The program \utilityNameX{mpmStopRegistry} tells the
-\serviceNameR[Registry~Service]{RegistryService} to stop running.
-\tertiaryEnd{\utilityNameE{mpmStopRegistry}}
+\tertiaryStart{\utilityNameP{mpmStopService}}
+The program \utilityNameX{mpmStopService} tells a particular active service to stop
+running.
+The program takes an argument for the \yarp{} network port of the service and produces no
+output.\\
+
+Note that, in order to specify the \serviceNameR[Registry~Service]{RegistryService}, it
+must be quoted with single quotes, as the network port contains a character that is
+special to the Unix shell program.
+\tertiaryEnd{\utilityNameE{mpmStopService}}
 \tertiaryStart{\utilityNameP{mpmVersion}}
 The program \utilityNameX{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
 and ACE, the low\longDash{}level networking layer used by \mplusm{} and \yarp{}.\\

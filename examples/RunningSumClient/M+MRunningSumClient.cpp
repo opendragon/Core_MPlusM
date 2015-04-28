@@ -106,7 +106,7 @@ bool RunningSumClient::addToSum(const double value,
         
         parameters.addDouble(value);
         reconnectIfDisconnected();
-        if (send(MpM_ADDTOSUM_REQUEST, parameters, &response))
+        if (send(MpM_ADDTOSUM_REQUEST, parameters, response))
         {
             if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())
             {
@@ -135,7 +135,7 @@ bool RunningSumClient::addToSum(const double value,
         }
         else
         {
-            OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, response))"); //####
         }
     }
     catch (...)
@@ -169,7 +169,7 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
         if (1 <= parameters.size())
         {
             reconnectIfDisconnected();
-            if (send(MpM_ADDTOSUM_REQUEST, parameters, &response))
+            if (send(MpM_ADDTOSUM_REQUEST, parameters, response))
             {
                 if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())
                 {
@@ -198,7 +198,7 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
             }
             else
             {
-                OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, &response))"); //####
+                OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, response))"); //####
             }
         }
         else
@@ -223,8 +223,38 @@ bool RunningSumClient::resetSum(void)
     try
     {
         yarp::os::Bottle parameters;
+#if defined(MpM_DoExplicitCheckForOK)
+        ServiceResponse  response;
+#endif // defined(MpM_DoExplicitCheckForOK)
         
         reconnectIfDisconnected();
+#if defined(MpM_DoExplicitCheckForOK)
+        if (send(MpM_RESETSUM_REQUEST, parameters, response))
+        {
+            if (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE == response.count())
+            {
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isString())
+                {
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (retrieved.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_RESETSUM_REQUEST, parameters, response))"); //####
+        }
+#else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_RESETSUM_REQUEST, parameters))
         {
             okSoFar = true;
@@ -233,6 +263,7 @@ bool RunningSumClient::resetSum(void)
         {
             OD_LOG("! (send(MpM_RESETSUM_REQUEST, parameters))"); //####
         }
+#endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {
@@ -251,8 +282,38 @@ bool RunningSumClient::startSum(void)
     try
     {
         yarp::os::Bottle parameters;
+#if defined(MpM_DoExplicitCheckForOK)
+        ServiceResponse  response;
+#endif // defined(MpM_DoExplicitCheckForOK)
         
         reconnectIfDisconnected();
+#if defined(MpM_DoExplicitCheckForOK)
+        if (send(MpM_STARTSUM_REQUEST, parameters, response))
+        {
+            if (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE == response.count())
+            {
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isString())
+                {
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (retrieved.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_STARTSUM_REQUEST, parameters, response))"); //####
+        }
+#else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STARTSUM_REQUEST, parameters))
         {
             okSoFar = true;
@@ -261,6 +322,7 @@ bool RunningSumClient::startSum(void)
         {
             OD_LOG("! (send(MpM_STARTSUM_REQUEST, parameters))"); //####
         }
+#endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {
@@ -279,8 +341,38 @@ bool RunningSumClient::stopSum(void)
     try
     {
         yarp::os::Bottle parameters;
+#if defined(MpM_DoExplicitCheckForOK)
+        ServiceResponse  response;
+#endif // defined(MpM_DoExplicitCheckForOK)
         
         reconnectIfDisconnected();
+#if defined(MpM_DoExplicitCheckForOK)
+        if (send(MpM_STOPSUM_REQUEST, parameters, response))
+        {
+            if (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE == response.count())
+            {
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isString())
+                {
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (retrieved.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_STOPSUM_REQUEST, parameters, response))"); //####
+        }
+#else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STOPSUM_REQUEST, parameters))
         {
             okSoFar = true;
@@ -289,6 +381,7 @@ bool RunningSumClient::stopSum(void)
         {
             OD_LOG("! (send(MpM_STOPSUM_REQUEST, parameters))"); //####
         }
+#endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {

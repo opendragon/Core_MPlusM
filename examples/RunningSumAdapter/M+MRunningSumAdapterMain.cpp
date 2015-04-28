@@ -86,13 +86,14 @@ using std::endl;
  receive commands and a data port to receive a sequence of numbers to be added. Commands are
  case-sensitive and will result in requests being sent to the service. The commands are:
  
- quit Ask the service to stop calculating the running sum and exit from the program.
+ @c quit Ask the service to stop calculating the running sum and exit from the program.
  
- reset Ask the service to reset its running sum.
+ @c reset Ask the service to reset its running sum.
  
- start Ask the service to start calculating the running sum.
+ @c start Ask the service to start calculating the running sum.
  
- stop Ask the service to stop calculating the running sum.
+ @c stop Ask the service to stop calculating the running sum.
+ 
  The first, optional, argument is the port name to be used for the control port, the second,
  optional, argument is the name to be used for the data port and the third, optional, argument is
  the name to be used for the output port. If the first argument is missing, the control port will be
@@ -100,7 +101,7 @@ using std::endl;
  will be named ADAPTER_PORT_NAME_BASE+data/randomnumber and if the third argument is missing the
  output port will be named ADAPTER_PORT_NAME_BASE+output/runningsum.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

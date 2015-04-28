@@ -145,7 +145,7 @@ static void reportTimeInReasonableUnits(const double measurement)
  Integers read from standard input will be sent to the service as the number of requests to
  simulate. Entering a zero will exit the program.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

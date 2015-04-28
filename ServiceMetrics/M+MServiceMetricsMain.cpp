@@ -85,7 +85,7 @@ using std::endl;
  specified, all service channels will be reported. Standard output will receive a list of the
  specified metrics.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

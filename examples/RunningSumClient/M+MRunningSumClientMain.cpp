@@ -99,15 +99,18 @@ static void displayCommands(void)
  service.
  Commands are not case-sensitive. The commands are:
  
- + Read a number from standard input and send it to the service.
+ @c ? Display the list of commands.
  
- r Ask the service to reset its running sum.
+ @c + Read a number from standard input and send it to the service.
  
- s Ask the service to start calculating the running sum.
+ @c r Ask the service to reset its running sum.
  
- x Ask the service to stop calculating the running sum and exit from the program.
+ @c s Ask the service to start calculating the running sum.
+ 
+ @c x Ask the service to stop calculating the running sum and exit from the program.
+ 
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

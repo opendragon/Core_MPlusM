@@ -106,14 +106,14 @@ bool EchoClient::sendAndReceive(const yarp::os::ConstString & outgoing,
         ServiceResponse  response;
         
         reconnectIfDisconnected();
-        if (send(MpM_ECHO_REQUEST, parameters, &response))
+        if (send(MpM_ECHO_REQUEST, parameters, response))
         {
             incoming = response.asString();
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_ECHO_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_ECHO_REQUEST, parameters, response))"); //####
         }
     }
     catch (...)

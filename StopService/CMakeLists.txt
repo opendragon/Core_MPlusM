@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       StopRegistry/CMakeLists.txt
+#  File:       StopService/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the StopRegistry application.
+#  Contains:   The CMAKE definitions for the StopService application.
 #
 #  Written by: Norman Jaffe
 #
@@ -38,7 +38,7 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET mpmStopRegistry)
+set(THIS_TARGET mpmStopService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,7 +50,7 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MStopRegistryMain.cpp
+               M+MStopServiceMain.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

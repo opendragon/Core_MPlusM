@@ -81,11 +81,17 @@ namespace MplusM
             /*! @brief Send the request to an endpoint for processing.
              @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
              channel is to be used.
-             @param response The response from the request, @c NULL if none is expected.
+             @returns @c true if the request was successfully transmitted. */
+            bool send(ClientChannel & usingChannel);
+            
+            /*! @brief Send the request to an endpoint for processing.
+             @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
+             channel is to be used.
+             @param response The response from the request.
              @returns @c true if the request was successfully transmitted. */
             bool send(ClientChannel &   usingChannel,
-                      ServiceResponse * response = NULL);
-            
+                      ServiceResponse & response);
+
         protected :
             
         private :

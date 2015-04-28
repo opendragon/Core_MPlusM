@@ -108,7 +108,7 @@ bool MovementDbClient::addFileToDb(const yarp::os::ConstString & filePath)
         
         reconnectIfDisconnected();
         parameters.addString(filePath);
-        if (send(MpM_ADDFILE_REQUEST, parameters, &response))
+        if (send(MpM_ADDFILE_REQUEST, parameters, response))
         {
             // Check that we got a successful add!
             if (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE == response.count())
@@ -132,7 +132,7 @@ bool MovementDbClient::addFileToDb(const yarp::os::ConstString & filePath)
         }
         else
         {
-            OD_LOG("! (send(MpM_ADDFILE_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_ADDFILE_REQUEST, parameters, response))"); //####
         }
     }
     catch (...)
@@ -157,7 +157,7 @@ bool MovementDbClient::setDataTrackForDb(const yarp::os::ConstString & dataTrack
         
         reconnectIfDisconnected();
         parameters.addString(dataTrack);
-        if (send(MpM_SETDATATRACK_REQUEST, parameters, &response))
+        if (send(MpM_SETDATATRACK_REQUEST, parameters, response))
         {
             // Check that we got a successful set!
             if (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE == response.count())
@@ -181,7 +181,7 @@ bool MovementDbClient::setDataTrackForDb(const yarp::os::ConstString & dataTrack
         }
         else
         {
-            OD_LOG("! (send(MpM_SETDATATRACK_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_SETDATATRACK_REQUEST, parameters, response))"); //####
         }
     }
     catch (...)
@@ -206,7 +206,7 @@ bool MovementDbClient::setEmailAddressForDb(const yarp::os::ConstString & emailA
         
         reconnectIfDisconnected();
         parameters.addString(emailAddress);
-        if (send(MpM_SETEMAIL_REQUEST, parameters, &response))
+        if (send(MpM_SETEMAIL_REQUEST, parameters, response))
         {
             // Check that we got a successful set!
             if (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE == response.count())
@@ -230,7 +230,7 @@ bool MovementDbClient::setEmailAddressForDb(const yarp::os::ConstString & emailA
         }
         else
         {
-            OD_LOG("! (send(MpM_SETEMAIL_REQUEST, parameters, &response))"); //####
+            OD_LOG("! (send(MpM_SETEMAIL_REQUEST, parameters, response))"); //####
         }
     }
     catch (...)
@@ -250,8 +250,38 @@ bool MovementDbClient::stopDbConnection(void)
     try
     {
         yarp::os::Bottle parameters;
+#if defined(MpM_DoExplicitCheckForOK)
+        ServiceResponse  response;
+#endif // defined(MpM_DoExplicitCheckForOK)
         
         reconnectIfDisconnected();
+#if defined(MpM_DoExplicitCheckForOK)
+        if (send(MpM_STOPDB_REQUEST, parameters, response))
+        {
+            if (MpM_EXPECTED_STOPDB_RESPONSE_SIZE == response.count())
+            {
+                yarp::os::Value retrieved(response.element(0));
+                
+                if (retrieved.isString())
+                {
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                }
+                else
+                {
+                    OD_LOG("! (retrieved.isString())"); //####
+                }
+            }
+            else
+            {
+                OD_LOG("! (MpM_EXPECTED_STOPDB_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG_S1s("response = ", response.asString()); //####
+            }
+        }
+        else
+        {
+            OD_LOG("! (send(MpM_STOPDB_REQUEST, parameters, response))"); //####
+        }
+#else // ! defined(MpM_DoExplicitCheckForOK)
         if (send(MpM_STOPDB_REQUEST, parameters))
         {
             okSoFar = true;
@@ -260,6 +290,7 @@ bool MovementDbClient::stopDbConnection(void)
         {
             OD_LOG("! (send(MpM_STOPDB_REQUEST, parameters))"); //####
         }
+#endif // ! defined(MpM_DoExplicitCheckForOK)
     }
     catch (...)
     {

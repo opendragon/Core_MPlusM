@@ -640,7 +640,7 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
                     ServiceRequest   request(MpM_PING_REQUEST, parameters);
                     ServiceResponse  response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful ping!
                         if (MpM_EXPECTED_PING_RESPONSE_SIZE == response.count())
@@ -665,7 +665,7 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
@@ -1052,7 +1052,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                     ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
                     ServiceResponse  response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful self-registration!
                         if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())
@@ -1077,7 +1077,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
@@ -1167,7 +1167,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                     ServiceRequest   request(MpM_UNREGISTER_REQUEST, parameters);
                     ServiceResponse  response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful self-deregistration!
                         if (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE == response.count())
@@ -1192,7 +1192,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,

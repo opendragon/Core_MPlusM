@@ -105,11 +105,10 @@ ServiceRequest::~ServiceRequest(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool ServiceRequest::send(ClientChannel &   usingChannel,
-                          ServiceResponse * response)
+bool ServiceRequest::send(ClientChannel & usingChannel)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("usingChannel = ", &usingChannel, "response = ", response); //####
+    OD_LOG_P1("usingChannel = ", &usingChannel); //####
     bool result = false;
     
     try
@@ -124,37 +123,59 @@ bool ServiceRequest::send(ClientChannel &   usingChannel,
         message.addString(_name);
         message.append(_parameters);
         OD_LOG_S1s("message <- ", message.toString()); //####
-        if (response)
+        if (usingChannel.write(message))
         {
-            yarp::os::Bottle holder;
-            
-            if (usingChannel.write(message, holder))
-            {
-                OD_LOG_S1s("got ", holder.toString()); //####
-                *response = holder;
-                result = true;
-            }
-            else
-            {
-                OD_LOG("! (usingChannel.write(message, _holder))"); //####
-#if defined(MpM_StallOnSendProblem)
-                Stall();
-#endif // defined(MpM_StallOnSendProblem)
-            }
+            result = true;
         }
         else
         {
-            if (usingChannel.write(message))
-            {
-                result = true;
-            }
-            else
-            {
-                OD_LOG("(! usingChannel.write(message))"); //####
+            OD_LOG("(! usingChannel.write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                Stall();
+            Stall();
 #endif // defined(MpM_StallOnSendProblem)
-            }
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ServiceRequest::send
+
+bool ServiceRequest::send(ClientChannel &   usingChannel,
+                          ServiceResponse & response)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P2("usingChannel = ", &usingChannel, "response = ", &response); //####
+    bool result = false;
+    
+    try
+    {
+        yarp::os::Bottle holder;        
+        yarp::os::Bottle message;
+        
+        OD_LOG_LL1("parameter size = ", _parameters.size()); //####
+        for (int ii = 0; ii < _parameters.size(); ++ii)
+        {
+            OD_LOG_S1s("parameter = ", _parameters.get(ii).asString()); //####
+        }
+        message.addString(_name);
+        message.append(_parameters);
+        OD_LOG_S1s("message <- ", message.toString()); //####
+        if (usingChannel.write(message, holder))
+        {
+            OD_LOG_S1s("got ", holder.toString()); //####
+            response = holder;
+            result = true;
+        }
+        else
+        {
+            OD_LOG("! (usingChannel.write(message, holder))"); //####
+#if defined(MpM_StallOnSendProblem)
+            Stall();
+#endif // defined(MpM_StallOnSendProblem)
         }
     }
     catch (...)

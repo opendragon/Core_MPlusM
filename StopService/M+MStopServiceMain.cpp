@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MStopRegistryMain.cpp
+//  File:       M+MStopServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   A utility application to stop the Registry service.
+//  Contains:   A utility application to stop a service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
+#include <mpm/M+MRequests.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -47,10 +48,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief A utility application to stop the Registry service. */
+ @brief A utility application to stop a service. */
 
 /*! @dir StopRegistry
- @brief The set of files that implement the Stop Registry application. */
+ @brief The set of files that implement the Stop Service application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -73,11 +74,12 @@ using std::endl;
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for stopping the Registry service.
+/*! @brief The entry point for stopping a service.
  
- There are no input arguments and standard output will receive a list of the available services.
+ The first argument is the name of the primary channel for the service.
+ Nothing is written to standard output.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -89,9 +91,12 @@ int main(int      argc,
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
     OutputFlavour flavour;
+    StringVector  arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", 2015, STANDARD_COPYRIGHT_NAME,
-                                                   flavour))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " channel\n\n"
+                                                   "  channel    Channel name for service", 2015,
+                                                   STANDARD_COPYRIGHT_NAME, flavour, &arguments))
+    
     {
         try
         {
@@ -99,11 +104,19 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
+                yarp::os::ConstString channelName;
                 
                 Initialize(*argv);
-                Utilities::StopTheRegistryService();
+                if (0 < arguments.size())
+                {
+                    channelName = arguments[0];
+                }
+                if (0 < channelName.size())
+                {
+                    Utilities::StopAService(channelName, STANDARD_WAIT_TIME);
+                }
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

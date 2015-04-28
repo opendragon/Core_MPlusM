@@ -746,7 +746,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
  There is no input and the output consists of a list of ports and what, if anything, is connected to
  them.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

@@ -292,7 +292,7 @@ static bool processResponse(const OutputFlavour           flavour,
  will be listed and if the channel is not specified, all service channels will be reported. Standard
  output will receive a list of the specified requests.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -413,7 +413,7 @@ int main(int      argc,
                                                     ServiceRequest request(MpM_INFO_REQUEST,
                                                                            parameters);
                                                     
-                                                    if (request.send(*newChannel, &response))
+                                                    if (request.send(*newChannel, response))
                                                     {
                                                         if (0 < response.count())
                                                         {
@@ -428,7 +428,7 @@ int main(int      argc,
                                                     else
                                                     {
                                                         OD_LOG("! (request.send(*new" //####
-                                                               "Channel, &response))"); //####
+                                                               "Channel, response))"); //####
 #if MAC_OR_LINUX_
                                                         yarp::os::impl::Logger & theLogger =
                                                         GetLogger();
@@ -445,7 +445,7 @@ int main(int      argc,
                                                     ServiceRequest request(MpM_LIST_REQUEST,
                                                                            parameters);
                                                     
-                                                    if (request.send(*newChannel, &response))
+                                                    if (request.send(*newChannel, response))
                                                     {
                                                         if (0 < response.count())
                                                         {
@@ -460,7 +460,7 @@ int main(int      argc,
                                                     else
                                                     {
                                                         OD_LOG("! (request.send(" //####
-                                                               "*newChannel, &response))"); //####
+                                                               "*newChannel, response))"); //####
 #if MAC_OR_LINUX_
                                                         yarp::os::impl::Logger & theLogger =
                                                         GetLogger();

@@ -1368,14 +1368,14 @@ bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
                     ServiceRequest  request(MpM_GETASSOCIATES_REQUEST, parameters);
                     ServiceResponse response;
                     
-                    if (request.send(*newChannel, &response))
+                    if (request.send(*newChannel, response))
                     {
                         OD_LOG_S1s("response <- ", response.asString()); //####
                         result = processGetAssociatesResponse(response.values(), associates);
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*newChannel, &response))"); //####
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
                     if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
@@ -1506,7 +1506,7 @@ bool Utilities::GetMetricsForService(const yarp::os::ConstString & serviceChanne
                 ServiceRequest   request(MpM_GETMETRICS_REQUEST, parameters);
                 ServiceResponse  response;
                 
-                if (request.send(*newChannel, &response))
+                if (request.send(*newChannel, response))
                 {
                     OD_LOG_S1s("response <- ", response.asString()); //####
                     metrics = response.values();
@@ -1514,7 +1514,7 @@ bool Utilities::GetMetricsForService(const yarp::os::ConstString & serviceChanne
                 }
                 else
                 {
-                    OD_LOG("! (request.send(*newChannel, &response))"); //####
+                    OD_LOG("! (request.send(*newChannel, response))"); //####
                 }
                 if (result)
                 {
@@ -1577,7 +1577,7 @@ bool Utilities::GetMetricsStateForService(const yarp::os::ConstString & serviceC
                 ServiceRequest   request(MpM_GETMETRICSSTATE_REQUEST, parameters);
                 ServiceResponse  response;
                 
-                if (request.send(*newChannel, &response))
+                if (request.send(*newChannel, response))
                 {
                     OD_LOG_S1s("response <- ", response.asString()); //####
                     if (MpM_EXPECTED_GETMETRICSSTATE_RESPONSE_SIZE == response.count())
@@ -1601,7 +1601,7 @@ bool Utilities::GetMetricsStateForService(const yarp::os::ConstString & serviceC
                 }
                 else
                 {
-                    OD_LOG("! (request.send(*newChannel, &response))"); //####
+                    OD_LOG("! (request.send(*newChannel, response))"); //####
                 }
                 if (result)
                 {
@@ -1667,7 +1667,7 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                     ServiceRequest   request1(MpM_NAME_REQUEST, parameters1);
                     ServiceResponse  response1;
                     
-                    if (request1.send(*newChannel, &response1))
+                    if (request1.send(*newChannel, response1))
                     {
                         OD_LOG_S1s("response1 <- ", response1.asString()); //####
                         if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
@@ -1717,7 +1717,7 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                     }
                     else
                     {
-                        OD_LOG("! (request1.send(*newChannel, &response1))"); //####
+                        OD_LOG("! (request1.send(*newChannel, response1))"); //####
                     }
                     if (result)
                     {
@@ -1725,7 +1725,7 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                         ServiceRequest   request2(MpM_CHANNELS_REQUEST, parameters2);
                         ServiceResponse  response2;
                         
-                        if (request2.send(*newChannel, &response2))
+                        if (request2.send(*newChannel, response2))
                         {
                             if (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == response2.count())
                             {
@@ -1829,7 +1829,7 @@ bool Utilities::GetNameAndDescriptionForService(const yarp::os::ConstString & se
                         }
                         else
                         {
-                            OD_LOG("! (request2.send(*newChannel, &response2))"); //####
+                            OD_LOG("! (request2.send(*newChannel, response2))"); //####
                             result = false;
                         }
                     }
@@ -2500,14 +2500,14 @@ bool Utilities::SetMetricsStateForService(const yarp::os::ConstString & serviceC
                 ServiceRequest  request(MpM_SETMETRICSSTATE_REQUEST, parameters);
                 ServiceResponse response;
                 
-                if (request.send(*newChannel, &response))
+                if (request.send(*newChannel, response))
                 {
                     OD_LOG_S1s("response <- ", response.asString()); //####
                     result = true;
                 }
                 else
                 {
-                    OD_LOG("! (request.send(*newChannel, &response))"); //####
+                    OD_LOG("! (request.send(*newChannel, response))"); //####
                 }
                 if (result)
                 {
@@ -2591,11 +2591,21 @@ bool Utilities::StopAService(const yarp::os::ConstString & serviceChannelName,
                 {
                     yarp::os::Bottle parameters;
                     ServiceRequest   request(MpM_STOP_REQUEST, parameters);
+#if defined(MpM_DoExplicitCheckForOK)
+                    ServiceResponse  response;
+#endif // defined(MpM_DoExplicitCheckForOK)
                     
+#if defined(MpM_DoExplicitCheckForOK)
+                    if (! request.send(*newChannel, response))
+                    {
+                        OD_LOG("! (request.send(*newChannel, response))"); //####
+                    }
+#else // ! defined(MpM_DoExplicitCheckForOK)
                     if (! request.send(*newChannel))
                     {
                         OD_LOG("! (request.send(*newChannel))"); //####
                     }
+#endif // ! defined(MpM_DoExplicitCheckForOK)
 #if defined(MpM_DoExplicitDisconnect)
                     if (! Utilities::NetworkDisconnectWithRetries(aName, serviceChannelName,
                                                                   timeToWait, checker, checkStuff))
@@ -2629,10 +2639,3 @@ bool Utilities::StopAService(const yarp::os::ConstString & serviceChannelName,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::StopAService
-
-void Utilities::StopTheRegistryService(void)
-{
-    OD_LOG_ENTER(); //####
-    StopAService(MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME);
-    OD_LOG_EXIT(); //####
-} // Utilities::StopTheRegistryService

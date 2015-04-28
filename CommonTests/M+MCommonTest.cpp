@@ -928,7 +928,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
                     ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse  response;
                     
-                    if (request.send(*outChannel, &response))
+                    if (request.send(*outChannel, response))
                     {
                         OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -939,7 +939,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))"); //####
+                        OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(stuff->getName(), outChannel);
                     outChannel = NULL;
@@ -1010,7 +1010,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                     ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse  response;
                     
-                    if (request.send(*outChannel, &response))
+                    if (request.send(*outChannel, response))
                     {
                         OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -1021,7 +1021,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))"); //####
+                        OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;
@@ -1089,7 +1089,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                     ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse  response;
                     
-                    if (request.send(*outChannel, &response))
+                    if (request.send(*outChannel, response))
                     {
                         OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -1100,7 +1100,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))"); //####
+                        OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;
@@ -1167,7 +1167,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                     ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
                     ServiceResponse  response;
                     
-                    if (request.send(*outChannel, &response))
+                    if (request.send(*outChannel, response))
                     {
                         if (3 == response.count())
                         {
@@ -1195,7 +1195,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))"); //####
+                        OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;
@@ -1530,7 +1530,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                     ServiceRequest  request(MpM_LIST_REQUEST);
                     ServiceResponse response;
                     
-                    if (request.send(*outChannel, &response))
+                    if (request.send(*outChannel, response))
                     {
                         OD_LOG_LL1("response size = ", response.count()); //####
                         for (int ii = 0; ii < response.count(); ++ii)
@@ -1549,7 +1549,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                     }
                     else
                     {
-                        OD_LOG("! (request.send(*outChannel, &response))"); //####
+                        OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(stuff->getEndpoint(), outChannel);
                     outChannel = NULL;

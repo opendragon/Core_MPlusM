@@ -3189,7 +3189,7 @@ bool RegistryService::start(void)
                             ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
                             ServiceResponse  response;
                             
-                            if (request.send(*newChannel, &response))
+                            if (request.send(*newChannel, response))
                             {
                                 // Check that we got a successful self-registration!
                                 if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())
@@ -3216,7 +3216,7 @@ bool RegistryService::start(void)
                             }
                             else
                             {
-                                OD_LOG("! (request.send(*newChannel, &response))"); //####
+                                OD_LOG("! (request.send(*newChannel, response))"); //####
                             }
                         }
                         else

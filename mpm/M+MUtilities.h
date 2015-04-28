@@ -465,9 +465,6 @@ namespace MplusM
                           Common::CheckFunction         checker = NULL,
                           void *                        checkStuff = NULL);
         
-        /*! @brief Shut down the Registry service. */
-        void StopTheRegistryService(void);
-        
     } // Utilities
     
 } // MplusM

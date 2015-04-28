@@ -150,7 +150,7 @@ static bool processResponse(OutputFlavour                 flavour,
  all service channels will be reported. Standard output will receive a list of the specified
  clients.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example client.
+ @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -244,10 +244,10 @@ int main(int      argc,
                                                                         parameters);
                                                 ServiceResponse response;
                                                 
-                                                if (request.send(*newChannel, &response))
+                                                if (request.send(*newChannel, response))
                                                 {
                                                     OD_LOG("(request.send(*newChannel, " //####
-                                                           "&response))"); //####
+                                                           "response))"); //####
                                                     if (0 < response.count())
                                                     {
                                                         OD_LOG("(0 < response.count())"); //####
@@ -262,7 +262,7 @@ int main(int      argc,
                                                 else
                                                 {
                                                     OD_LOG("! (request.send(*newChannel, " //####
-                                                           "&response))"); //####
+                                                           "response))"); //####
 #if MAC_OR_LINUX_
                                                     yarp::os::impl::Logger & theLogger =
                                                                                         GetLogger();
