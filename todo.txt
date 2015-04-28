@@ -23,5 +23,3 @@
 @ add appendix about setting up Hamachi for use with M+M
 
 + add menus to Channel Manager
-
-+ add ‘hide’ / ‘unhide all’ services mechanism to Channel Manager
