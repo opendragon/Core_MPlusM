@@ -73,9 +73,10 @@ VDSpngfiles =
 CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/backgroundMenuNoHidden.eps \
 		$(IMAGE_DIR)/backgroundMenuWithHidden.eps \
 		$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
-		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/clickAdd.eps \
-		$(IMAGE_DIR)/dragAdd.eps $(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/portMenu.eps \
-		$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
+		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/channelManagerMenu.eps \
+		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/displayMenu.eps $(IMAGE_DIR)/dragAdd.eps \
+		$(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/operationMenu.eps \
+		$(IMAGE_DIR)/portMenu.eps $(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsEnabled.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsEnabled.eps \

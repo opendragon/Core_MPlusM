@@ -81,6 +81,13 @@ Clicking on a rectangular object with no modifier key held down allows the user 
 the object around in the window.
 Note that connections cannot be selected by clicking on the line that represents them.
 \clearpage
+Selecting the \textbf{Channel Manager} menu item displays a list with one choice:
+\begin{itemize}
+\item\textbf{Quit} exit from the program
+\end{itemize}
+\objScaledDiagram{mpm_images/channelManagerMenu}{channelManagerMenu}%
+{Channel Manager menu}{1.0}
+\clearpage
 Doing a right\longDash{}mouse click in the background, displays a popup menu with four
 choices:
 \begin{itemize}
@@ -98,6 +105,10 @@ triggered via a \textbf{Cmd\longDash{}U} command
 {backgroundMenu}{Background menu (Left=No hidden entities, Right=Hidden
 entities present)}%
 {1.0}
+Selecting the \textbf{Display} menu item displays a list with the same choices as the
+background menu.\\
+\objScaledDiagram{mpm_images/displayMenu}{displayMenu}{Display menu}{1.0}
+\clearpage
 Doing a right\longDash{}mouse click on the title of a rectangle that does not represent a
 service displays a popup menu with three choices:
 \begin{itemize}
@@ -129,6 +140,10 @@ during its operation
 {mpm_images/serviceMenuMetricsEnabled}{serviceMenu}%
 {Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.9}
 \clearpage
+Selecting the \textbf{Operation} menu item displays a list with the same choices as the
+service or entity menus, depending on what was last selected.\\
+\objScaledDiagram{mpm_images/operationMenu}{operationMenu}{Operation menu}{1.0}
+
 Doing a right\longDash{}mouse click on the primary channel of a service displays a popup
 menu with three choices, which depend on whether the `Service metrics collection' menu
 item is enabled:
@@ -145,7 +160,7 @@ channel
 {serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service
 metrics enabled)}%
 {0.9}
-
+\clearpage
 Doing a right\longDash{}mouse click on a regular port displays a popup menu with two
 choices:
 \begin{itemize}
@@ -153,7 +168,7 @@ choices:
 \item\exSp\textbf{Display detailed port information} display information about the port
 \end{itemize}
 \objScaledDiagram{mpm_images/portMenu}{portMenu}{Regular port menu}{1.0}
-\clearpage
+
 Doing a right\longDash{}mouse click on a non\longDash{}primary channel of a service
 displays a popup menu with five choices, which depend on whether the `Service metrics
 collection' menu item is enabled:
