@@ -74,7 +74,7 @@ CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/backgroundMenuNoHidden
 		$(IMAGE_DIR)/backgroundMenuWithHidden.eps \
 		$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
 		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/clickAdd.eps \
-		$(IMAGE_DIR)/dragAdd2.eps $(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/portMenu.eps \
+		$(IMAGE_DIR)/dragAdd.eps $(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/portMenu.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsEnabled.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsDisabled.eps \
