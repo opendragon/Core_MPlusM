@@ -454,5 +454,7 @@ clean :
 	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
 	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
+#all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
+#		$(NPtarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
-		$(NPtarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
+		$(PC2target) $(VDStarget) $(ARCHIVEtarget)
