@@ -137,7 +137,7 @@ bool ViconDataStreamEventThread::initializeConnection(void)
 		else
 		{
 			_viconClient.Connect(_nameAndPort.c_str());
-			Sleep(kLittleSleep);
+            Utilities::GoToSleep(kLittleSleep);
 		}
     }
 	if (result)
@@ -300,7 +300,7 @@ void ViconDataStreamEventThread::run(void)
 		}
 		else
 		{
-			Sleep(kLittleSleep);
+			Utilities::GoToSleep(kLittleSleep);
 		}
         yarp::os::Time::yield();
     }

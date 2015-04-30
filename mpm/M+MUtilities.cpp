@@ -2006,6 +2006,17 @@ bool Utilities::GetServiceNamesFromCriteria(const yarp::os::ConstString & criter
     return okSoFar;
 } // Utilities::GetServiceNamesFromCriteria
 
+void Utilities::GoToSleep(const int amount)
+{
+    OD_LOG_ENTER(); //####
+#if MAC_OR_LINUX_
+    sleep(amount);
+#else // ! MAC_OR_LINUX_
+    Sleep(amount);
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT(); //####
+} // Utilities::GoToSleep
+
 const char * Utilities::MapServiceKindToString(const ServiceKind kind)
 {
     OD_LOG_ENTER(); //####

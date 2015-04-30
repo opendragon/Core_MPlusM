@@ -140,9 +140,11 @@ during its operation
 {mpm_images/serviceMenuMetricsEnabled}{serviceMenu}%
 {Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.9}
 \clearpage
-Selecting the \textbf{Operation} menu item displays a list with the same choices as the
-service or entity menus, depending on what was last selected.\\
-\objScaledDiagram{mpm_images/operationMenu}{operationMenu}{Operation menu}{1.0}
+Selecting the \textbf{Operation} menu item with a service or entity as the last thing
+clicked on, displays a list with the same choices as the service or entity menus,
+depending on what was last clicked on.\\
+\objScaledDiagram{mpm_images/operationMenuService}{operationMenuService}%
+{Operation menu (service or entity)}{1.0}
 
 Doing a right\longDash{}mouse click on the primary channel of a service displays a popup
 menu with three choices, which depend on whether the `Service metrics collection' menu
@@ -190,6 +192,12 @@ it is disabled
 {regularChannelMenu}%
 {Non\longDash{}primary channel menu (Left=Service metrics disabled, Right=Service metrics
 enabled)}{0.9}
+\clearpage
+Selecting the \textbf{Operation} menu item with a channel as the last thing clicked on,
+displays a list with the same choices as the channel menus, depending on what was last
+clicked on.\\
+\objScaledDiagram{mpm_images/operationMenuChannel}{operationMenuChannel}%
+{Operation menu for channels}{1.0}
 
 The positions of the objects within the window are stored in the file
 `\asCode{settings.txt}' within the `\asCode{Channel Manager}' directory inside the

@@ -358,6 +358,10 @@ namespace MplusM
                                          Common::CheckFunction         checker = NULL,
                                          void *                        checkStuff = NULL);
 
+        /*! @brief Put the active thread to sleep for a number of milliseconds.
+         @param amount The number of milliseconds to sleep. */
+        void GoToSleep(const int amount);
+        
         /*! @brief Return a string representation of a service kind.
          @param kind The value to be converted.
          @returns A string representation of the service kind. */

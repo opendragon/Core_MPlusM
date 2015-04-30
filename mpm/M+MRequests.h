@@ -191,6 +191,9 @@
 /*! @brief The standard response to a valid Registry Service request. */
 # define MpM_OK_RESPONSE     "OK"
 
+/*! @brief The number of elements expected in the Registry Service status message. */
+# define MpM_EXPECTED_REGISTRY_STATUS_SIZE 4
+
 /*! @brief A service is being added to the registry. */
 # define MpM_REGISTRY_STATUS_ADDING        "adding"
 
