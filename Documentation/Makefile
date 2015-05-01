@@ -70,11 +70,14 @@ VDSpngfiles =
 
 # Input bitmap EPS files
 
-CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/backgroundMenuNoHidden.eps \
+CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps \
+		$(IMAGE_DIR)/backgroundMenuNoHiddenNoSelection.eps \
 		$(IMAGE_DIR)/backgroundMenuWithHidden.eps \
+		$(IMAGE_DIR)/backgroundMenuWithSelection.eps \
 		$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
 		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/channelManagerMenu.eps \
-		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/displayMenu.eps $(IMAGE_DIR)/dragAdd.eps \
+		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/displayMenuNoSelection.eps \
+		$(IMAGE_DIR)/displayMenuWithSelection.eps $(IMAGE_DIR)/dragAdd.eps \
 		$(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/operationMenuChannel.eps \
 		$(IMAGE_DIR)/operationMenuService.eps $(IMAGE_DIR)/portMenu.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
