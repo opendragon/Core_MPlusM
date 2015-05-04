@@ -190,7 +190,7 @@ static bool getNameServerPortList(yarp::os::Bottle & response)
 #if (! MAC_OR_LINUX_)
 // ASSUME WINDOWS
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
-#endif // (! MAC_OR_LINUX_)
+#endif // ! MAC_OR_LINUX_
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
@@ -1234,11 +1234,11 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
 #if MAC_OR_LINUX_
     realExecName = "/";
     realExecName += execName;
-#else // (! MAC_OR_LINUX_)
+#else // ! MAC_OR_LINUX_
     // ASSUME WINDOWS
     realExecName = "\\";
-    realExecName += exeName + ".exe";
-#endif // (! MAC_OR_LINUX_)
+    realExecName += execName + ".exe";
+#endif // ! MAC_OR_LINUX_
     if (! pathVar.isNull())
     {
         yarp::os::Value & pathValue(pathVar.get(0));
@@ -1265,7 +1265,12 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
                     pathToCheck = pathValueAsString.substr(0, indx) + realExecName;
                     pathValueAsString = pathValueAsString.substr(indx + 1);
                 }
-                if (! access(pathToCheck.c_str(), X_OK))
+#if MAC_OR_LINUX_
+				if (! access(pathToCheck.c_str(), X_OK))
+#else // ! MAC_OR_LINUX_
+				// ASSUME WINDOWS
+				if (! _access(pathToCheck.c_str(), 0)) // Note that there's no explicit check for execute permission
+#endif // ! MAC_OR_LINUX_
                 {
                     // We've found an executable that we can use!
                     result = pathToCheck;
