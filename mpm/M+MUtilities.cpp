@@ -1227,7 +1227,7 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("execName = ", execName); //####
-    yarp::os::Bottle      pathVar(GetSystemEnvironmentVar("PATH"));
+	yarp::os::Bottle      pathVar(GetSystemEnvironmentVar("PATH"));
     yarp::os::ConstString realExecName;
     yarp::os::ConstString result;
     
@@ -1239,20 +1239,24 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
     realExecName = "\\";
     realExecName += execName + ".exe";
 #endif // ! MAC_OR_LINUX_
-    if (! pathVar.isNull())
+    if (0 < pathVar.size())
     {
         yarp::os::Value & pathValue(pathVar.get(0));
         
-        if (pathValue.isString())
+		if (pathValue.isString())
         {
             // Convert the value of the PATH environment variable into a sequence of values.
             yarp::os::ConstString pathValueAsString(pathValue.toString());
             
+			std::cerr << pathValueAsString.c_str() << std::endl;
             for ( ; 0 < pathValueAsString.length(); )
-            {
-                
-                
-                size_t                indx = pathValueAsString.find(":");
+            {                
+#if MAC_OR_LINUX_
+				size_t                indx = pathValueAsString.find(":");
+#else // ! MAC_OR_LINUX_
+				// ASSUME WINDOWS
+				size_t                indx = pathValueAsString.find(";");
+#endif // ! MAC_OR_LINUX_
                 yarp::os::ConstString pathToCheck;
                 
                 if (yarp::os::ConstString::npos == indx)
