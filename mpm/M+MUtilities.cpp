@@ -188,9 +188,9 @@ static bool getNameServerPortList(yarp::os::Bottle & response)
 } // getNameServerPortList
 
 #if (! MAC_OR_LINUX_)
-//ASSUME WINDOWS
+// ASSUME WINDOWS
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
-#endif // defined (! MAC_OR_LINUX_)
+#endif // (! MAC_OR_LINUX_)
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
@@ -1223,6 +1223,62 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
     return result.str();
 } // Utilities::ConvertMetricsToString
 
+yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstString & execName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("execName = ", execName); //####
+    yarp::os::Bottle      pathVar(GetSystemEnvironmentVar("PATH"));
+    yarp::os::ConstString realExecName;
+    yarp::os::ConstString result;
+    
+#if MAC_OR_LINUX_
+    realExecName = "/";
+    realExecName += execName;
+#else // (! MAC_OR_LINUX_)
+    // ASSUME WINDOWS
+    realExecName = "\\";
+    realExecName += exeName + ".exe";
+#endif // (! MAC_OR_LINUX_)
+    if (! pathVar.isNull())
+    {
+        yarp::os::Value & pathValue(pathVar.get(0));
+        
+        if (pathValue.isString())
+        {
+            // Convert the value of the PATH environment variable into a sequence of values.
+            yarp::os::ConstString pathValueAsString(pathValue.toString());
+            
+            for ( ; 0 < pathValueAsString.length(); )
+            {
+                
+                
+                size_t                indx = pathValueAsString.find(":");
+                yarp::os::ConstString pathToCheck;
+                
+                if (yarp::os::ConstString::npos == indx)
+                {
+                    pathToCheck = pathValueAsString + realExecName;
+                    pathValueAsString = "";
+                }
+                else
+                {
+                    pathToCheck = pathValueAsString.substr(0, indx) + realExecName;
+                    pathValueAsString = pathValueAsString.substr(indx + 1);
+                }
+                if (! access(pathToCheck.c_str(), X_OK))
+                {
+                    // We've found an executable that we can use!
+                    result = pathToCheck;
+                    break;
+                }
+                
+            }
+        }
+    }
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // Utilities::FindPathToExecutable
+
 void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                                       ChannelVector &               inputs,
                                       ChannelVector &               outputs,
@@ -2012,6 +2068,22 @@ bool Utilities::GetServiceNamesFromCriteria(const yarp::os::ConstString & criter
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // Utilities::GetServiceNamesFromCriteria
+
+yarp::os::Bottle Utilities::GetSystemEnvironmentVar(const yarp::os::ConstString & varName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("varName = ", varName); //####
+    yarp::os::Bottle   result;
+    yarp::os::Property envVars(GetSystemEnvironmentVars());
+    yarp::os::Value &  found(envVars.find(varName));
+    
+    if (! found.isNull())
+    {
+        result.add(found);
+    }
+    OD_LOG_EXIT(); //####
+    return result;
+} // Utilities::GetSystemEnvironmentVar
 
 yarp::os::Property Utilities::GetSystemEnvironmentVars(void)
 {

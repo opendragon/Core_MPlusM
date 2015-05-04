@@ -223,6 +223,12 @@ namespace MplusM
                                                      const Common::OutputFlavour flavour =
                                                                     Common::kOutputFlavourNormal);
         
+        /*! @brief Determine the path to an executable, using the system PATH environment variable.
+         @param execName The short name of the executable.
+         @returns The full path to the first executable found in the system PATH environment
+         variable. */
+        yarp::os::ConstString FindPathToExecutable(const yarp::os::ConstString & execName);
+        
         /*! @brief Collect the input and output connections for a port.
          @param portName The port to be inspected.
          @param inputs The collected inputs for the port.
@@ -349,6 +355,11 @@ namespace MplusM
                                          Common::CheckFunction         checker = NULL,
                                          void *                        checkStuff = NULL);
 
+        /*! @brief Return the value of a system environment variable.
+         @param varName The name of the system environment variable.
+         @returns The value of the system environment variable, or an empty value. */
+        yarp::os::Bottle GetSystemEnvironmentVar(const yarp::os::ConstString & varName);
+        
         /*! @brief Return the set of system environment variables.
          @returns The set of system environment variables. */
         yarp::os::Property GetSystemEnvironmentVars(void);
