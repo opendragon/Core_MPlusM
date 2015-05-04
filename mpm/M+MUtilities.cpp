@@ -72,6 +72,7 @@
 #include <yarp/os/impl/PortCommand.h>
 #include <yarp/os/impl/Protocol.h>
 #include <yarp/os/impl/String.h>
+#include <yarp/os/impl/SystemInfo.h>
 #include <yarp/os/impl/TcpFace.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -91,6 +92,8 @@
 
 #if MAC_OR_LINUX_
 # include <netdb.h>
+# include <pwd.h>
+# include <uuid/uuid.h>
 #endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
@@ -110,6 +113,10 @@ using namespace MplusM::Utilities;
 using std::cerr;
 using std::cout;
 using std::endl;
+
+#if defined(__APPLE__)
+extern char ** environ;
+#endif // __APPLE__
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -976,7 +983,7 @@ static void convertMetricPropertyToString(yarp::os::Property &        propList,
         if (theInBytes.isList())
         {
             theInBytesAsList = theInBytes.asList();
-            if (2 == theInBytesAsList->size())
+            if (theInBytesAsList && (2 == theInBytesAsList->size()))
             {
                 yarp::os::Value firstValue(theInBytesAsList->get(0));
                 yarp::os::Value secondValue(theInBytesAsList->get(1));
@@ -996,7 +1003,7 @@ static void convertMetricPropertyToString(yarp::os::Property &        propList,
         if (theInMessages.isList())
         {
             theInMessagesAsList = theInMessages.asList();
-            if (2 == theInMessagesAsList->size())
+            if (theInMessagesAsList && (2 == theInMessagesAsList->size()))
             {
                 yarp::os::Value firstValue(theInMessagesAsList->get(0));
                 yarp::os::Value secondValue(theInMessagesAsList->get(1));
@@ -1016,7 +1023,7 @@ static void convertMetricPropertyToString(yarp::os::Property &        propList,
         if (theOutBytes.isList())
         {
             theOutBytesAsList = theOutBytes.asList();
-            if (2 == theOutBytesAsList->size())
+            if (theOutBytesAsList && (2 == theOutBytesAsList->size()))
             {
                 yarp::os::Value firstValue(theOutBytesAsList->get(0));
                 yarp::os::Value secondValue(theOutBytesAsList->get(1));
@@ -1036,7 +1043,7 @@ static void convertMetricPropertyToString(yarp::os::Property &        propList,
         if (theOutMessages.isList())
         {
             theOutMessagesAsList = theOutMessages.asList();
-            if (2 == theOutMessagesAsList->size())
+            if (theOutMessagesAsList && (2 == theOutMessagesAsList->size()))
             {
                 yarp::os::Value firstValue(theOutMessagesAsList->get(0));
                 yarp::os::Value secondValue(theOutMessagesAsList->get(1));
@@ -2005,6 +2012,138 @@ bool Utilities::GetServiceNamesFromCriteria(const yarp::os::ConstString & criter
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // Utilities::GetServiceNamesFromCriteria
+
+yarp::os::Property Utilities::GetSystemEnvironmentVars(void)
+{
+    OD_LOG_ENTER(); //####
+    yarp::os::Property result;
+    
+    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
+#if defined(__APPLE__)
+    char * varChar = *environ;
+    
+    for (int ii = 0; varChar; ++ii)
+    {
+        std::string tmpVariable(varChar);
+        size_t      equalsSign = tmpVariable.find("=");
+        
+        if (equalsSign != std::string::npos)
+        {
+            result.put(tmpVariable.substr(0, equalsSign), tmpVariable.substr(equalsSign + 1));
+        }
+        varChar = *(environ + ii);
+    }
+#else // ! defined(__APPLE__)
+    result = yarp::os::impl::SystemInfo::getPlatformInfo().environmentVars;
+#endif // ! defined(__APPLE__)
+    OD_LOG_EXIT(); //####
+    return result;
+} // Utilities::GetSystemEnvironmentVars
+
+yarp::os::ConstString Utilities::GetSystemHomeDir(void)
+{
+    OD_LOG_ENTER(); //####
+    yarp::os::ConstString result;
+#if defined(__APPLE__)
+    struct passwd         pwd;
+    struct passwd *       pwdPtr = NULL;
+    char *                buf;
+    size_t                bufSize = sysconf(_SC_GETPW_R_SIZE_MAX);
+#endif // defined(__APPLE__)
+    
+    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
+#if defined(__APPLE__)
+    if (-1 == bufSize)
+    {
+        // Value was indeterminate.
+        bufSize = 16384; // Should be more than enough.
+    }
+    buf = static_cast<char *>(malloc(bufSize));
+    if (buf)
+    {
+        getpwuid_r(getuid(), &pwd, buf, bufSize, &pwdPtr);
+        if (pwdPtr)
+        {
+            result = pwd.pw_dir;
+        }
+        free(buf);
+    }
+#else // ! defined(__APPLE__)
+    result = yarp::os::impl::SystemInfo::getUserInfo().homeDir;
+#endif // ! defined(__APPLE__)
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // Utilities::GetSystemHomeDir
+
+yarp::os::ConstString Utilities::GetSystemRealName(void)
+{
+    OD_LOG_ENTER(); //####
+    yarp::os::ConstString result;
+#if defined(__APPLE__)
+    struct passwd         pwd;
+    struct passwd *       pwdPtr = NULL;
+    char *                buf;
+    size_t                bufSize = sysconf(_SC_GETPW_R_SIZE_MAX);
+#endif // defined(__APPLE__)
+    
+    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
+#if defined(__APPLE__)
+    if (-1 == bufSize)
+    {
+        // Value was indeterminate.
+        bufSize = 16384; // Should be more than enough.
+    }
+    buf = static_cast<char *>(malloc(bufSize));
+    if (buf)
+    {
+        getpwuid_r(getuid(), &pwd, buf, bufSize, &pwdPtr);
+        if (pwdPtr)
+        {
+            result = pwd.pw_gecos;
+        }
+        free(buf);
+    }
+#else // ! defined(__APPLE__)
+    result = yarp::os::impl::SystemInfo::getUserInfo().realName;
+#endif // ! defined(__APPLE__)
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // Utilities::GetSystemRealName
+
+yarp::os::ConstString Utilities::GetSystemUserName(void)
+{
+    OD_LOG_ENTER(); //####
+    yarp::os::ConstString result;
+#if defined(__APPLE__)
+    struct passwd         pwd;
+    struct passwd *       pwdPtr = NULL;
+    char *                buf;
+    size_t                bufSize = sysconf(_SC_GETPW_R_SIZE_MAX);
+#endif // defined(__APPLE__)
+    
+    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
+#if defined(__APPLE__)
+    if (-1 == bufSize)
+    {
+        // Value was indeterminate.
+        bufSize = 16384; // Should be more than enough.
+    }
+    buf = static_cast<char *>(malloc(bufSize));
+    if (buf)
+    {
+        getpwuid_r(getuid(), &pwd, buf, bufSize, &pwdPtr);
+        if (pwdPtr)
+        {
+            result = pwd.pw_name;
+        }
+        free(buf);
+    }
+#else // ! defined(__APPLE__)
+    result = yarp::os::impl::SystemInfo::getUserInfo().userName;
+#endif // ! defined(__APPLE__)
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // Utilities::GetSystemUserName
 
 void Utilities::GoToSleep(const int amount)
 {

@@ -143,5 +143,36 @@ int main(int      argc,
                 
         }
     }
+    std::cerr << "home dir = " << Utilities::GetSystemHomeDir().c_str() << std::endl;
+    std::cerr << "real name = " << Utilities::GetSystemRealName().c_str() << std::endl;
+    std::cerr << "user name = " << Utilities::GetSystemUserName().c_str() << std::endl;
+    
+    yarp::os::Property envVars(Utilities::GetSystemEnvironmentVars());
+    yarp::os::Bottle   envAsList(envVars.toString());
+    
+    for (int ee = 0, mm = envAsList.size(); mm > ee; ++ee)
+    {
+        yarp::os::Value anEntry(envAsList.get(ee));
+        
+        if (anEntry.isList())
+        {
+            yarp::os::Bottle * entryAsList = anEntry.asList();
+            
+            if (entryAsList && (2 == entryAsList->size()))
+            {
+                yarp::os::ConstString aKey(entryAsList->get(0).toString());
+                yarp::os::ConstString aValue(entryAsList->get(1).toString());
+                
+                std::cerr << "'" << aKey.c_str() << "' -> '" << aValue.c_str() << "'" << std::endl;
+            }
+        }
+    }
+    
+#if 0
+    Property::find()
+#endif//0
+    
+    
+    
     return 0;
 } // main

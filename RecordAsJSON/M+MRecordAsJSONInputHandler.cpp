@@ -146,18 +146,15 @@ static void processDictionary(FILE *                     outFile,
         {
             yarp::os::Bottle * entryAsList = anEntry.asList();
             
-            if (entryAsList)
+            if (entryAsList && (2 == entryAsList->size()))
             {
-                if (2 == entryAsList->size())
+                if (0 < ii)
                 {
-                    if (0 < ii)
-                    {
-                        fputs(", ", outFile);
-                    }
-                    processString(outFile, entryAsList->get(0).toString());
-                    fputs(" : ", outFile);
-                    processValue(outFile, entryAsList->get(1));
+                    fputs(", ", outFile);
                 }
+                processString(outFile, entryAsList->get(0).toString());
+                fputs(" : ", outFile);
+                processValue(outFile, entryAsList->get(1));
             }
         }
     }

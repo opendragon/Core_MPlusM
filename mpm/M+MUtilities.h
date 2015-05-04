@@ -41,15 +41,6 @@
 
 # include <mpm/M+MChannelStatusReporter.h>
 
-//# if MAC_OR_LINUX_
-//#  include <sys/socket.h>
-//#  define SOCKET         int /* Standard socket type in *nix. */
-//#  define INVALID_SOCKET -1
-//# else // ! MAC_OR_LINUX_
-//#  include <WinSock2.h>
-//#  include <Ws2tcpip.h>
-//# endif // ! MAC_OR_LINUX_
-//
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -358,6 +349,22 @@ namespace MplusM
                                          Common::CheckFunction         checker = NULL,
                                          void *                        checkStuff = NULL);
 
+        /*! @brief Return the set of system environment variables.
+         @returns The set of system environment variables. */
+        yarp::os::Property GetSystemEnvironmentVars(void);
+
+        /*! @brief Return the home directory of the current user.
+         @returns The home directory of the current user. */
+        yarp::os::ConstString GetSystemHomeDir(void);
+
+        /*! @brief Return the real name of the current user.
+         @returns The real name of the current user. */
+        yarp::os::ConstString GetSystemRealName(void);
+
+        /*! @brief Return the name of the current user.
+         @returns The set of name of the current user. */
+        yarp::os::ConstString GetSystemUserName(void);
+        
         /*! @brief Put the active thread to sleep for a number of milliseconds.
          @param amount The number of milliseconds to sleep. */
         void GoToSleep(const int amount);
