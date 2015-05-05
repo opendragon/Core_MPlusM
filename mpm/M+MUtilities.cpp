@@ -1252,7 +1252,6 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
             // Convert the value of the PATH environment variable into a sequence of values.
             yarp::os::ConstString pathValueAsString(pathValue.toString());
             
-			std::cerr << pathValueAsString.c_str() << std::endl;
             for ( ; 0 < pathValueAsString.length(); )
             {                
 #if MAC_OR_LINUX_
