@@ -107,6 +107,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Utilities;
@@ -115,6 +119,7 @@ using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
+/*! @brief The system environment variable table. */
 extern char ** environ;
 #endif // __APPLE__
 
@@ -139,6 +144,10 @@ static const char * kLineMarker = "registration name ";
 
 /*! @brief The part name being used for probing connections. */
 static const char * kMagicName = "<$probe>";
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -188,7 +197,6 @@ static bool getNameServerPortList(yarp::os::Bottle & response)
 } // getNameServerPortList
 
 #if (! MAC_OR_LINUX_)
-// ASSUME WINDOWS
 # define strtok_r strtok_s /* Equivalent routine for Windows. */
 #endif // ! MAC_OR_LINUX_
 
@@ -1228,16 +1236,12 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("execName = ", execName); //####
 	yarp::os::Bottle      pathVar(GetSystemEnvironmentVar("PATH"));
-    yarp::os::ConstString realExecName;
+    yarp::os::ConstString realExecName(kDirectorySeparator);
     yarp::os::ConstString result;
     
-#if MAC_OR_LINUX_
-    realExecName = "/";
     realExecName += execName;
-#else // ! MAC_OR_LINUX_
-    // ASSUME WINDOWS
-    realExecName = "\\";
-    realExecName += execName + ".exe";
+#if (! MAC_OR_LINUX_)
+    realExecName += ".exe";
 #endif // ! MAC_OR_LINUX_
     if (0 < pathVar.size())
     {
@@ -1254,7 +1258,6 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
 #if MAC_OR_LINUX_
 				size_t                indx = pathValueAsString.find(":");
 #else // ! MAC_OR_LINUX_
-				// ASSUME WINDOWS
 				size_t                indx = pathValueAsString.find(";");
 #endif // ! MAC_OR_LINUX_
                 yarp::os::ConstString pathToCheck;
@@ -1272,8 +1275,8 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
 #if MAC_OR_LINUX_
 				if (! access(pathToCheck.c_str(), X_OK))
 #else // ! MAC_OR_LINUX_
-				// ASSUME WINDOWS
-				if (! _access(pathToCheck.c_str(), 0)) // Note that there's no explicit check for execute permission
+				if (! _access(pathToCheck.c_str(), 0)) // Note that there's no explicit check for
+                                                       // execute permission
 #endif // ! MAC_OR_LINUX_
                 {
                     // We've found an executable that we can use!

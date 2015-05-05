@@ -55,15 +55,22 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::JavaScript;
 using std::cerr;
-using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
@@ -238,7 +245,7 @@ static void createValueFromBottle(JSContext *              jct,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
-//    cout << "'" << aBottle.toString().c_str() << "'" << endl << endl;
+//    cerr << "'" << aBottle.toString().c_str() << "'" << endl << endl;
     convertList(jct, theData, aBottle);
     OD_LOG_EXIT(); //####
 } // createValueFromBottle

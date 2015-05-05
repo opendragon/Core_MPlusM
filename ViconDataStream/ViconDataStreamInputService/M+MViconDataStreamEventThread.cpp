@@ -54,25 +54,28 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::ViconDataStream;
 using namespace ViconDataStreamSDK;
 using std::cerr;
-using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-//#define VICON_Y_UP
+//#define VICON_Y_UP /* */
 
-#define VICON_Z_UP
+#define VICON_Z_UP /* */
 
-//#define USE_SEGMENT_LOCAL_DATA
+//#define USE_SEGMENT_LOCAL_DATA /* */
 
-//#define VICON_STREAM_MODE CPP::StreamMode::ClientPullPreFetch
-#define VICON_STREAM_MODE CPP::StreamMode::ServerPush
+//#define VICON_STREAM_MODE CPP::StreamMode::ClientPullPreFetch /* */
+#define VICON_STREAM_MODE CPP::StreamMode::ServerPush /* */
 
 /*! @brief The number of times we attempt to connect to the Vicon device server. */
 static const int kNumConnectTries = 17;
@@ -81,6 +84,10 @@ static const int kNumConnectTries = 17;
 static const int kLittleSleep = 200;
 
 //#define REPORT_EVENT_COUNT_ /* */
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions

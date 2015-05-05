@@ -54,12 +54,20 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::RecordAsJSON;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
@@ -91,28 +99,33 @@ static void processString(FILE *                        outFile,
             case '\\' :
             case '"' :
             case '/' :
-                fputc('\\', outFile);
+                fputc(kEscapeChar, outFile);
                 fputc(aChar, outFile);
                 break;
                 
             case '\b' :
-                fputs("\\b", outFile);
+                fputc(kEscapeChar, outFile);
+                fputc('b', outFile);
                 break;
                 
             case '\f' :
-                fputs("\\f", outFile);
+                fputc(kEscapeChar, outFile);
+                fputc('f', outFile);
                 break;
                 
             case '\n' :
-                fputs("\\n", outFile);
+                fputc(kEscapeChar, outFile);
+                fputc('n', outFile);
                 break;
                 
             case '\r' :
-                fputs("\\r", outFile);
+                fputc(kEscapeChar, outFile);
+                fputc('r', outFile);
                 break;
                 
             case '\t' :
-                fputs("\\t", outFile);
+                fputc(kEscapeChar, outFile);
+                fputc('t', outFile);
                 break;
                 
             default :

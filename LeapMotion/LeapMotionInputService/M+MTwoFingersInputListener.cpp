@@ -52,6 +52,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::TwoFingers;
@@ -60,12 +64,23 @@ using namespace MplusM::TwoFingers;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief A bitmask for what data is present in a message. */
 enum HandMask
 {
+    /*! @brief No data for either hand is present. */
     kNoHands   = 0x00,
+    
+    /*! @brief Data for the left hand is present. */
     kLeftHand  = 0x01,
+    
+    /*! @brief Data for the right hand is present. */
     kRightHand = 0x02
+    
 }; // HandMask
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions

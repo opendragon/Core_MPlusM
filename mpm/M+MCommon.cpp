@@ -80,6 +80,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using std::endl;
@@ -98,6 +102,18 @@ static bool lKeepRunning = false;
 /*! @brief The logger to use for reporting problems. */
 static yarp::os::impl::Logger * lLogger = NULL;
 #endif // MAC_OR_LINUX_
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
+
+const char MplusM::kEscapeChar = '\\';
+
+#if MAC_OR_LINUX_
+const yarp::os::ConstString MplusM::kDirectorySeparator = "/";
+#else // ! MAC_OR_LINUX_
+const yarp::os::ConstString MplusM::kDirectorySeparator = "\\";
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -618,7 +634,6 @@ const char * MplusM::NameOfSignal(const int theSignal)
             
     }
 #else // ! MAC_OR_LINUX_
-      //ASSUME WINDOWS
     switch (theSignal)
     {
 	    case SIGINT :
@@ -681,23 +696,23 @@ yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inStr
             switch (cc)
             {
                 case '\t' :
-                    outString += '\\';
+                    outString += kEscapeChar;
                     cc = 't';
                     break;
                     
                 case '\n' :
-                    outString += '\\';
+                    outString += kEscapeChar;
                     cc = 'n';
                     break;
                     
                 case '\\' :
-                    outString += '\\';
+                    outString += kEscapeChar;
                     break;
                     
                 case '"' :
                     if (! allowDoubleQuotes)
                     {
-                        outString += '\\';
+                        outString += kEscapeChar;
                     }
                     break;
                     

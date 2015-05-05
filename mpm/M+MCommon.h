@@ -137,9 +137,6 @@
 /*! @brief A NEWLINE character. */
 # define CHAR_NEWLINE              "\n"
 
-/*! @brief A BACKSLASH character. */
-# define CHAR_BACKSLASH            "\\"
-
 /*! @brief A DOUBLEQUOTE character. */
 # define CHAR_DOUBLEQUOTE          "\""
 
@@ -428,6 +425,12 @@ namespace MplusM
     /*! @brief Indicate that the executable should stop running. */
     void StopRunning(void);
     
+    /*! @brief The escapre character. */
+    extern const char kEscapeChar;
+    
+    /*! @brief The directory separator string; */
+    extern const yarp::os::ConstString kDirectorySeparator;
+
 } // MplusM
 
 #endif // ! defined(MpMCommon_H_)

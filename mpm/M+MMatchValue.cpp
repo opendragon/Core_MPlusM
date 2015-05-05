@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MMatchValue.h>
+//#include <mpm/M+MCommon.h>
 #include <mpm/M+MMatchConstraint.h>
 #include <mpm/M+MMatchExpression.h>
 #include <mpm/M+MMatchValueList.h>
@@ -55,6 +56,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Parser;
@@ -69,9 +74,6 @@ static const char kAsterisk = '*';
 /*! @brief The double quote character. */
 static const char kDoubleQuote = '"';
 
-/*! @brief The 'escape' character - a backslash. */
-static const char kEscapeCharacter = '\\';
-
 /*! @brief The percent character, which is an SQL pattern character. */
 static const char kPercent = '%';
 
@@ -83,6 +85,10 @@ static const char kSingleQuote = '\'';
 
 /*! @brief The underscore character, which is an SQL pattern character. */
 static const char kUnderscore = '_';
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -136,7 +142,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                 workPos = inLength;
                 delimiter = '\1';
             }
-            else if (kEscapeCharacter == scanChar)
+            else if (kEscapeChar == scanChar)
             {
                 // The first character needed to be escaped.
                 delimiter = '\0';
@@ -156,13 +162,13 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
                     escapeNextChar = false;
                     // If the escaped character is one that will still need to be escaped when
                     // converted to SQL, retain the escape character.
-                    if ((kEscapeCharacter == scanChar) || (kAsterisk == scanChar) ||
+                    if ((kEscapeChar == scanChar) || (kAsterisk == scanChar) ||
                         (kQuestionMark == scanChar))
                     {
-                        assembled += kEscapeCharacter;
+                        assembled += kEscapeChar;
                     }
                 }
-                else if (kEscapeCharacter == scanChar)
+                else if (kEscapeChar == scanChar)
                 {
                     escapeNextChar = true;
                     continue;
@@ -242,7 +248,7 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
         
         if (! escapeNextChar)
         {
-            if (kEscapeCharacter == walker)
+            if (kEscapeChar == walker)
             {
                 escapeNextChar = true;
             }
@@ -271,7 +277,7 @@ MatchValue::MatchValue(const yarp::os::ConstString & inString) :
             
             if (! escapeNextChar)
             {
-                if (kEscapeCharacter == walker)
+                if (kEscapeChar == walker)
                 {
                     escapeNextChar = true;
                 }
@@ -329,7 +335,7 @@ const
                         if (_hasWildcards)
                         {
                             wasEscaped = true;
-                            converted += kEscapeCharacter;
+                            converted += kEscapeChar;
                         }
                         else if (kSingleQuote == walker)
                         {
@@ -342,7 +348,7 @@ const
                         converted += walker;
                     }
                 }
-                else if (kEscapeCharacter == walker)
+                else if (kEscapeChar == walker)
                 {
                     escapeNextChar = true;
                 }
@@ -351,7 +357,7 @@ const
                     if (_hasWildcards)
                     {
                         wasEscaped = true;
-                        converted += kEscapeCharacter;
+                        converted += kEscapeChar;
                     }
                     converted += walker;
                 }
@@ -380,7 +386,7 @@ const
                 converted += kSingleQuote;
                 converted += " ESCAPE ";
                 converted += kSingleQuote;
-                converted += kEscapeCharacter;
+                converted += kEscapeChar;
             }
         }
         else
@@ -390,7 +396,7 @@ const
             {
                 char walker = _matchingString[ii];
                 
-                if (kEscapeCharacter != walker)
+                if (kEscapeChar != walker)
                 {
                     converted += walker;
                 }
@@ -450,7 +456,7 @@ const
                     
                     if (kDoubleQuote == walker)
                     {
-                        converted += kEscapeCharacter;
+                        converted += kEscapeChar;
                     }
                     converted += walker;
                 }

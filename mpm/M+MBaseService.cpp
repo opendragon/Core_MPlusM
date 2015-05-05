@@ -75,6 +75,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using std::cout;
@@ -93,6 +97,10 @@ using std::endl;
 
 /*! @brief The accepted command line arguments for services. */
 #define STANDARD_SERVICE_OPTIONS "e:hp:rt:"
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions

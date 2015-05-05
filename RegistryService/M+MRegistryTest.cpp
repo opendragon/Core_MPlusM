@@ -65,12 +65,13 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Test;
-using std::cerr;
-using std::cout;
-using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -78,6 +79,10 @@ using std::endl;
 
 /*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
 #define TEST_INMEMORY true
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions

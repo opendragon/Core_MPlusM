@@ -58,6 +58,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
@@ -68,6 +72,10 @@ using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
+#endif // defined(__APPLE__)
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
 #endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
@@ -349,11 +357,7 @@ int main(int      argc,
                     int               randNumb = yarp::os::Random::uniform(0, 10000);
                     std::stringstream buff;
                     
-#if MAC_OR_LINUX_
-                    buff << "/tmp/record_";
-#else // ! MAC_OR_LINUX_
-                    buff << "\\tmp\\record_";
-#endif // ! MAC_OR_LINUX_
+                    buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
                     buff << std::hex << randNumb;
                     recordPath = buff.str();
                     OD_LOG_S1s("recordPath <- ", recordPath); //####

@@ -52,10 +52,13 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::KinectV2;
 using std::cerr;
-using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -65,6 +68,10 @@ using std::endl;
 //#define REPORT_EVENT_COUNT_ /* */
 
 //#define GENERATE_BONES_ /* */
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions

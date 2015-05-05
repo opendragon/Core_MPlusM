@@ -55,6 +55,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using std::cerr;
@@ -70,6 +74,10 @@ using std::endl;
 #define BUFFER_SIZE   1024
 
 //#define CHATTY_OUTPUT /* Write out information on activity. */
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions

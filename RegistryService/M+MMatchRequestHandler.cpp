@@ -56,6 +56,10 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
+#if defined(__APPLE__)
+# pragma mark Namespace references
+#endif // defined(__APPLE__)
+
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Parser;
@@ -67,6 +71,10 @@ using namespace MplusM::Registry;
 
 /*! @brief The protocol version number for the 'match' request. */
 #define MATCH_REQUEST_VERSION_NUMBER "1.0"
+
+#if defined(__APPLE__)
+# pragma mark Global constants and variables
+#endif // defined(__APPLE__)
 
 #if defined(__APPLE__)
 # pragma mark Local functions
