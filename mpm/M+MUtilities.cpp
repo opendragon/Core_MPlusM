@@ -1593,14 +1593,12 @@ void Utilities::GetMachineIPs(Common::StringVector & result)
         
         if (yarp::os::ConstString::npos == indx)
         {
-            std::cerr << ipString.c_str() << endl;
             result.push_back(ipString);
             ipString = "";
         }
         else
         {
             result.push_back(ipString.substr(0, indx));
-            std::cerr << ipString.substr(0, indx).c_str() << endl;
             ipString = ipString.substr(indx + 1);
         }
     }
