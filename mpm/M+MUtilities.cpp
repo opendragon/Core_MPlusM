@@ -1494,9 +1494,6 @@ bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
     bool                       okSoFar = false;
     yarp::os::impl::NameConfig nc;
 
-    cerr << "getConfigFileName() = " << nc.getConfigFileName().c_str() << endl;
-    cerr << "getConfigFileName(YARP_CONFIG_NAMESPACE_FILENAME) = " << nc.getConfigFileName(YARP_CONFIG_NAMESPACE_FILENAME).c_str() << endl;
-    
     if (nc.fromFile())
     {
         yarp::os::Contact     aContact(nc.getAddress());
