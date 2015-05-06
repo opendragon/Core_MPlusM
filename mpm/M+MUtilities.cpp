@@ -127,6 +127,10 @@ extern char ** environ;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# define strtok_r strtok_s /* Equivalent routine for Windows. */
+#endif // ! MAC_OR_LINUX_
+
 /*! @brief The number of seconds to wait on a select() for mDNS operatios. */
 static const int kDNSWaitTime = 3;
 
@@ -195,10 +199,6 @@ static bool getNameServerPortList(yarp::os::Bottle & response)
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // getNameServerPortList
-
-#if (! MAC_OR_LINUX_)
-# define strtok_r strtok_s /* Equivalent routine for Windows. */
-#endif // ! MAC_OR_LINUX_
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
