@@ -31,3 +31,7 @@
 + configuration file should have ‘enabled’, ‘name’, ‘arguments’, where ‘enabled’ is 0 if disabled, non-0 if enabled, ‘name’ is the executable name, et cetera - tab-separated
 
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
+
++ get a list of valid IP addresses and present this as the choice for the server address
+
++ save the old YARP configuration and restore it on exit from Channel Manager, if a private network was set up - this can be done by the thread exit code for the YARP server
