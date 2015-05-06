@@ -66,7 +66,6 @@ using namespace MplusM;
 using namespace MplusM::Address;
 using namespace MplusM::Common;
 using std::cerr;
-using std::cin;
 using std::cout;
 using std::endl;
 

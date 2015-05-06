@@ -258,6 +258,13 @@ namespace MplusM
                                 Common::CheckFunction         checker = NULL,
                                 void *                        checkStuff = NULL);
         
+        /*! @brief Get the configured server address and port.
+         @param serverAddress The configured server address.
+         @param serverPort The configured server port.
+         @returns @c true if the returned values are valid and @c false otherwise. */
+        bool GetCurrentYarpConfiguration(struct in_addr & serverAddress,
+                                         int &            serverPort);
+        
         /*! @brief Fill buffers with the current date and time as strings.
          @param dateBuffer The buffer to fill with the date.
          @param dateBufferSize The size of the buffer for the date.
@@ -280,6 +287,10 @@ namespace MplusM
          @returns The global status reporter. */
         Common::ChannelStatusReporter * GetGlobalStatusReporter(void);
         
+        /*! @brief Retrieve the list of available IP addresses for the machine.
+         @param result The list of available IP addresses. */
+        void GetMachineIPs(Common::StringVector & result);
+
         /*! @brief Retrieve the channel metrics for a service.
          @param serviceChannelName The channel for the service.
          @param metrics The metrics for the channels of a service.

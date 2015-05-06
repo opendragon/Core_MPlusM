@@ -149,12 +149,16 @@ void Common::DumpContactToLog(const char *              tag,
 #if MAC_OR_LINUX_
     if (lLogger)
     {
+        std::stringstream buff;
+        
+        buff << aContact.getPort();
         lLogger->info(yarp::os::ConstString("tag = ") + tag);
-        lLogger->info(yarp::os::ConstString("contact.name = ") + aContact.getName());
-        lLogger->info(yarp::os::ConstString("contact.host = ") + aContact.getHost());
         lLogger->info(yarp::os::ConstString("contact.carrier = ") + aContact.getCarrier());
+        lLogger->info(yarp::os::ConstString("contact.host = ") + aContact.getHost());
         lLogger->info(yarp::os::ConstString("contact.isValid = ") +
                       (aContact.isValid() ? "true" : "false"));
+        lLogger->info(yarp::os::ConstString("contact.name = ") + aContact.getName());
+        lLogger->info(yarp::os::ConstString("contact.port = ") + buff.str());
         lLogger->info(yarp::os::ConstString("contact.toString = ") + aContact.toString());
     }
 #endif // MAC_OR_LINUX_

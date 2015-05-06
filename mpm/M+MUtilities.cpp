@@ -1486,6 +1486,34 @@ bool Utilities::GetAssociatedPorts(const yarp::os::ConstString & portName,
     return result;
 } // Utilities::GetAssociatedPorts
 
+bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
+                                            int &            serverPort)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("serverAddress = ", &serverAddress, "serverPort = ", &serverPort); //####
+    bool                       okSoFar = false;
+    yarp::os::impl::NameConfig nc;
+
+    cerr << "getConfigFileName() = " << nc.getConfigFileName().c_str() << endl;
+    cerr << "getConfigFileName(YARP_CONFIG_NAMESPACE_FILENAME) = " << nc.getConfigFileName(YARP_CONFIG_NAMESPACE_FILENAME).c_str() << endl;
+    
+    if (nc.fromFile())
+    {
+        yarp::os::Contact     aContact(nc.getAddress());
+        yarp::os::ConstString hostName(aContact.getHost());
+#if MAC_OR_LINUX_
+        int                   res = inet_pton(AF_INET, hostName.c_str(), &serverAddress);
+#else // ! MAC_OR_LINUX_
+        int                   res = InetPton(AF_INET, hostName.c_str(), &serverAddress);
+#endif // ! MAC_OR_LINUX_
+
+        serverPort = aContact.getPort();
+        okSoFar = (0 < res);
+    }
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // Utilities::GetCurrentYarpConfiguration
+
 void Utilities::GetDateAndTime(char *       dateBuffer,
                                const size_t dateBufferSize,
                                char *       timeBuffer,
@@ -1553,6 +1581,34 @@ ChannelStatusReporter * Utilities::GetGlobalStatusReporter(void)
 	OD_LOG_EXIT_P(lReporter); //####
     return lReporter;
 } // Utilities::GetGlobalStatusReporter
+
+void Utilities::GetMachineIPs(Common::StringVector & result)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("result = ", result); //####
+    yarp::os::ConstString ipString(yarp::os::impl::NameConfig::getIps());
+    
+    OD_LOG_S1s("ipString <- ", ipString); //####
+    result.clear();
+    for ( ; 0 < ipString.length(); )
+    {
+        size_t indx = ipString.find(" ");
+        
+        if (yarp::os::ConstString::npos == indx)
+        {
+            std::cerr << ipString.c_str() << endl;
+            result.push_back(ipString);
+            ipString = "";
+        }
+        else
+        {
+            result.push_back(ipString.substr(0, indx));
+            std::cerr << ipString.substr(0, indx).c_str() << endl;
+            ipString = ipString.substr(indx + 1);
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // Utilities::GetMachineIPs
 
 bool Utilities::GetMetricsForService(const yarp::os::ConstString & serviceChannelName,
                                      yarp::os::Bottle &            metrics,

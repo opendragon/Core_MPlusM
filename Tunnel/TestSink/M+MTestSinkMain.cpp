@@ -114,44 +114,61 @@ int main(int      argc,
 			Utilities::SetUpGlobalStatusReporter();
 			if (2 <= arguments.size())
             {
-                struct in_addr        addrBuff;
-                int                   sourcePort = -1;
-                yarp::os::ConstString sourceName;
-                const char *          startPtr = arguments[1].c_str();
-                char *                endPtr;
-                int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-
-                sourceName = arguments[0];
-                OD_LOG_S1s("sourceName <- ", sourceName); //####
-                if ((0 < inet_pton(AF_INET, sourceName.c_str(), &addrBuff)) &&
-                    (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
-                {
-                    // Useable data.
-                    sourcePort = tempInt;
-                }
-                if ((0 < sourcePort) && (0 < sourceName.size()))
-                {
-                    char           buffer[INCOMING_SIZE + 100];
-                    int            res;
-                    struct in_addr addrBuff;
-                    SOCKET         sinkSocket;
+                bool                  okSoFar;
+                yarp::os::ConstString sourceName(arguments[0]);
 #if (! MAC_OR_LINUX_)
-                    WORD           wVersionRequested = MAKEWORD(2, 2);
-                    WSADATA        ww;
+                WORD                  wVersionRequested = MAKEWORD(2, 2);
+                WSADATA               ww;
 #endif // ! MAC_OR_LINUX_
-
+                
+                OD_LOG_S1s("sourceName <- ", sourceName); //####
 #if MAC_OR_LINUX_
-                    res = inet_pton(AF_INET, sourceName.c_str(), &addrBuff);
-                    if (0 < res)
+                okSoFar = true;
+#else // ! MAC_OR_LINUX_
+                if (WSAStartup(wVersionRequested, &ww))
+                {
+                    okSoFar = false;
+                }
+                else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
+                {
+                    okSoFar = true;
+                }
+                else
+                {
+                    okSoFar = false;
+                }
+#endif // ! MAC_OR_LINUX_
+                if (okSoFar)
+                {
+                    struct in_addr addrBuff;
+                    const char *   startPtr = arguments[1].c_str();
+                    char *         endPtr;
+#if MAC_OR_LINUX_
+                    int            res = inet_pton(AF_INET, sourceName.c_str(), &addrBuff);
+#else // ! MAC_OR_LINUX_
+                    int            res = InetPton(AF_INET, sourceName.c_str(), &addrBuff);
+#endif // ! MAC_OR_LINUX_
+                    int            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                    
+                    if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
+                        // Useable data.
+                        char    buffer[INCOMING_SIZE + 100];
+                        SOCKET  sinkSocket;
+                        
                         sinkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                         if (INVALID_SOCKET != sinkSocket)
                         {
+#if MAC_OR_LINUX_
                             struct sockaddr_in addr;
-
+#else // ! MAC_OR_LINUX_
+                            SOCKADDR_IN        addr;
+#endif // ! MAC_OR_LINUX_
+                            
+#if MAC_OR_LINUX_
                             memset(&addr, 0, sizeof(addr));
                             addr.sin_family = AF_INET;
-                            addr.sin_port = htons(sourcePort);
+                            addr.sin_port = htons(tempInt);
                             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
                                    sizeof(addr.sin_addr.s_addr));
                             OD_LOG("connecting to source"); //####
@@ -161,67 +178,51 @@ int main(int      argc,
                                 close(sinkSocket);
                                 sinkSocket = INVALID_SOCKET;
                             }
-                        }
-                    }
 #else // ! MAC_OR_LINUX_
-                    if (WSAStartup(wVersionRequested, &ww))
-                    {
-                    }
-                    else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
-                    {
-                        res = InetPton(AF_INET, sourceName.c_str(), &addrBuff);
-                        if (0 < res)
-                        {
-                            sinkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-                            if (INVALID_SOCKET != sinkSocket)
+                            addr.sin_family = AF_INET;
+                            addr.sin_port = htons(tempInt);
+                            memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
+                                   sizeof(addr.sin_addr.s_addr));
+                            OD_LOG("connecting to source"); //####
+                            res = connect(sinkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
+                                          sizeof(addr));
+                            if (SOCKET_ERROR == res)
                             {
-                                SOCKADDR_IN addr;
-
-                                addr.sin_family = AF_INET;
-                                addr.sin_port = htons(sourcePort);
-                                memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
-                                       sizeof(addr.sin_addr.s_addr));
-                                OD_LOG("connecting to source"); //####
-                                res = connect(sinkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
-                                              sizeof(addr));
-                                if (SOCKET_ERROR == res)
-                                {
-                                    closesocket(sinkSocket);
-                                    sinkSocket = INVALID_SOCKET;
-                                }
+                                closesocket(sinkSocket);
+                                sinkSocket = INVALID_SOCKET;
+                            }
+#endif // ! MAC_OR_LINUX_
+                        }
+                        for (bool keepGoing = true; keepGoing; )
+                        {
+#if MAC_OR_LINUX_
+                            ssize_t inSize = recv(sinkSocket, buffer, sizeof(buffer), 0);
+#else // ! MAC_OR_LINUX_
+                            int     inSize = recv(sinkSocket, buffer, sizeof(buffer), 0);
+#endif // ! MAC_OR_LINUX_
+                            
+                            if (0 < inSize)
+                            {
+                                cout << "received " << inSize << " bytes." << endl;
+                            }
+                            else
+                            {
+                                OD_LOG("! (0 < inSize)"); //####
+                                keepGoing = false;
                             }
                         }
-                    }
+#if MAC_OR_LINUX_
+                        shutdown(sinkSocket, SHUT_RDWR);
+                        close(sinkSocket);
+#else // ! MAC_OR_LINUX_
+                        shutdown(sinkSocket, SD_BOTH);
+                        closesocket(sinkSocket);
 #endif // ! MAC_OR_LINUX_
-                    for (bool keepGoing = true; keepGoing; )
+                    }
+                    else
                     {
-#if MAC_OR_LINUX_
-                        ssize_t inSize = recv(sinkSocket, buffer, sizeof(buffer), 0);
-#else // ! MAC_OR_LINUX_
-                        int     inSize = recv(sinkSocket, buffer, sizeof(buffer), 0);
-#endif // ! MAC_OR_LINUX_
-                        
-                        if (0 < inSize)
-                        {
-                            cout << "received " << inSize << " bytes." << endl;
-                        }
-                        else
-                        {
-                            OD_LOG("! (0 < inSize)"); //####
-                            keepGoing = false;
-                        }
+                        cerr << "Invalid argument(s)." << endl;
                     }
-#if MAC_OR_LINUX_
-                    shutdown(sinkSocket, SHUT_RDWR);
-                    close(sinkSocket);
-#else // ! MAC_OR_LINUX_
-                    shutdown(sinkSocket, SD_BOTH);
-                    closesocket(sinkSocket);
-#endif // ! MAC_OR_LINUX_
-                }
-                else
-                {
-                    cerr << "Invalid argument(s)." << endl;
                 }
             }
             else

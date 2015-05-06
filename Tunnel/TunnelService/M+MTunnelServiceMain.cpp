@@ -225,7 +225,6 @@ int main(int      argc,
                 if (2 <= arguments.size())
                 {
                     struct in_addr        addrBuff;
-                    int                   hostPort = -1;
                     yarp::os::ConstString hostName;
                     const char *          startPtr = arguments[1].c_str();
                     char *                endPtr;
@@ -237,11 +236,7 @@ int main(int      argc,
                         (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                     {
                         // Useable data.
-                        hostPort = tempInt;
-                    }
-                    if ((0 < hostPort) && (0 < hostName.size()))
-                    {
-                        setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
+                        setUpAndGo(hostName, tempInt, argv, tag, serviceEndpointName,
                                    servicePortNumber, reportOnExit);
                     }
                     else

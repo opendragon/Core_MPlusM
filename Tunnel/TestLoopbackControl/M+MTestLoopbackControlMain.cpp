@@ -340,43 +340,59 @@ int main(int      argc,
             {
                 if (CanReadFromStandardInput())
                 {
-                    struct in_addr        addrBuff;
-                    int                   sourcePort = -1;
-                    yarp::os::ConstString sourceName;
-                    const char *          startPtr = arguments[1].c_str();
-                    char *                endPtr;
-                    int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-                    
-                    sourceName = arguments[0];
-                    OD_LOG_S1s("sourceName <- ", sourceName); //####
-                    if ((0 < inet_pton(AF_INET, sourceName.c_str(), &addrBuff)) &&
-                        (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
-                    {
-                        // Useable data.
-                        sourcePort = tempInt;
-                    }
-                    if ((0 < sourcePort) && (0 < sourceName.size()))
-                    {
-                        int            res;
-                        struct in_addr addrBuff;
-                        SOCKET         talkSocket;
+                    bool                  okSoFar;
+                    yarp::os::ConstString sourceName(arguments[0]);
 #if (! MAC_OR_LINUX_)
-                        WORD           wVersionRequested = MAKEWORD(2, 2);
-                        WSADATA        ww;
+                    WORD                  wVersionRequested = MAKEWORD(2, 2);
+                    WSADATA               ww;
+#endif // ! MAC_OR_LINUX_
+                    
+                    OD_LOG_S1s("sourceName <- ", sourceName); //####
+#if MAC_OR_LINUX_
+                    okSoFar = true;
+#else // ! MAC_OR_LINUX_
+                    if (WSAStartup(wVersionRequested, &ww))
+                    {
+                        okSoFar = false;
+                    }
+                    else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
+                    {
+                        okSoFar = true;
+                    }
+                    else
+                    {
+                        okSoFar = false;
+                    }
+#endif // ! MAC_OR_LINUX_
+                    if (okSoFar)
+                    {
+                        struct in_addr addrBuff;
+                        const char *   startPtr = arguments[1].c_str();
+                        char *         endPtr;
+                        int            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+#if MAC_OR_LINUX_
+                        int            res = inet_pton(AF_INET, sourceName.c_str(), &addrBuff);
+#else // ! MAC_OR_LINUX_
+                        int            res = InetPton(AF_INET, sourceName.c_str(), &addrBuff);
 #endif // ! MAC_OR_LINUX_
                         
-#if MAC_OR_LINUX_
-                        res = inet_pton(AF_INET, sourceName.c_str(), &addrBuff);
-                        if (0 < res)
+                        if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
                         {
-                            talkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+                            // Useable data.
+                            SOCKET talkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+                            
                             if (INVALID_SOCKET != talkSocket)
                             {
+#if MAC_OR_LINUX_
                                 struct sockaddr_in addr;
+#else // ! MAC_OR_LINUX_
+                                SOCKADDR_IN        addr;
+#endif // ! MAC_OR_LINUX_
                                 
+#if MAC_OR_LINUX_
                                 memset(&addr, 0, sizeof(addr));
                                 addr.sin_family = AF_INET;
-                                addr.sin_port = htons(sourcePort);
+                                addr.sin_port = htons(tempInt);
                                 memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
                                        sizeof(addr.sin_addr.s_addr));
                                 OD_LOG("connecting to source"); //####
@@ -390,124 +406,108 @@ int main(int      argc,
                                 {
                                     OD_LOG("connected"); //####
                                 }
-                            }
-                        }
 #else // ! MAC_OR_LINUX_
-                        if (WSAStartup(wVersionRequested, &ww))
-                        {
-                        }
-                        else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
-                        {
-                            res = InetPton(AF_INET, sourceName.c_str(), &addrBuff);
-                            if (0 < res)
-                            {
-                                talkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-                                if (INVALID_SOCKET != talkSocket)
+                                addr.sin_family = AF_INET;
+                                addr.sin_port = htons(tempInt);
+                                memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
+                                       sizeof(addr.sin_addr.s_addr));
+                                OD_LOG("connecting to source"); //####
+                                res = connect(talkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
+                                              sizeof(addr));
+                                if (SOCKET_ERROR == res)
                                 {
-                                    SOCKADDR_IN addr;
-                                    
-                                    addr.sin_family = AF_INET;
-                                    addr.sin_port = htons(sourcePort);
-                                    memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
-                                           sizeof(addr.sin_addr.s_addr));
-                                    OD_LOG("connecting to source"); //####
-                                    res = connect(talkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
-                                                  sizeof(addr));
-                                    if (SOCKET_ERROR == res)
-                                    {
-                                        closesocket(talkSocket);
-                                        talkSocket = INVALID_SOCKET;
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("connected"); //####
-                                    }
-                                }
-                            }
-                        }
-#endif // ! MAC_OR_LINUX_
-                        if (INVALID_SOCKET == talkSocket)
-                        {
-                            cerr << "Problem connecting to provided IP address or port." << endl;
-                        }
-                        else
-                        {
-#if (! MAC_OR_LINUX_)
-                            QueryPerformanceFrequency(&lFrequency);
-                            cout << lFrequency.QuadPart << endl;
-#endif // ! MAC_OR_LINUX_
-                            for (StartRunning(); IsRunning(); )
-                            {
-                                char        inChar;
-                                std::string inputLine;
-                                
-                                cout << "Operation: [? + q r t]? ";
-                                cout.flush();
-                                if (getline(cin, inputLine))
-                                {
-                                    inChar = 0;
-                                    for (int ii = 0, len = inputLine.size(); ii < len; ++ii)
-                                    {
-                                        char aChar = inputLine[ii];
-
-                                        if (! isspace(aChar))
-                                        {
-                                            inChar = aChar;
-                                            break;
-                                        }
-                                        
-                                    }
-                                    switch (inChar)
-                                    {
-                                        case '?' :
-                                            // Help
-                                            displayCommands();
-                                            break;
-                                            
-                                        case 'q' :
-                                        case 'Q' :
-                                            cout << "Exiting" << endl;
-                                            StopRunning();
-                                            break;
-                                            
-                                        case 'r' :
-                                        case 'R' :
-                                            sendAndReceiveRandom(talkSocket);
-                                            break;
-                                            
-                                        case 't' :
-                                        case 'T' :
-                                            cout << "Type something to be echoed: ";
-                                            cout.flush();
-                                            if (getline(cin, inputLine))
-                                            {
-                                                sendAndReceiveText(talkSocket, inputLine);
-                                            }
-                                            else
-                                            {
-                                                StopRunning();
-                                            }
-                                            break;
-                                            
-                                    }
+                                    closesocket(talkSocket);
+                                    talkSocket = INVALID_SOCKET;
                                 }
                                 else
                                 {
-                                    StopRunning();
+                                    OD_LOG("connected"); //####
+                                }
+#endif // ! MAC_OR_LINUX_
+                            }
+                            if (INVALID_SOCKET == talkSocket)
+                            {
+                                cerr << "Problem connecting to provided IP address or port." << endl;
+                            }
+                            else
+                            {
+#if (! MAC_OR_LINUX_)
+                                QueryPerformanceFrequency(&lFrequency);
+                                cout << lFrequency.QuadPart << endl;
+#endif // ! MAC_OR_LINUX_
+                                for (StartRunning(); IsRunning(); )
+                                {
+                                    char        inChar;
+                                    std::string inputLine;
+                                    
+                                    cout << "Operation: [? + q r t]? ";
+                                    cout.flush();
+                                    if (getline(cin, inputLine))
+                                    {
+                                        inChar = 0;
+                                        for (int ii = 0, len = inputLine.size(); ii < len; ++ii)
+                                        {
+                                            char aChar = inputLine[ii];
+                                            
+                                            if (! isspace(aChar))
+                                            {
+                                                inChar = aChar;
+                                                break;
+                                            }
+                                            
+                                        }
+                                        switch (inChar)
+                                        {
+                                            case '?' :
+                                                // Help
+                                                displayCommands();
+                                                break;
+                                                
+                                            case 'q' :
+                                            case 'Q' :
+                                                cout << "Exiting" << endl;
+                                                StopRunning();
+                                                break;
+                                                
+                                            case 'r' :
+                                            case 'R' :
+                                                sendAndReceiveRandom(talkSocket);
+                                                break;
+                                                
+                                            case 't' :
+                                            case 'T' :
+                                                cout << "Type something to be echoed: ";
+                                                cout.flush();
+                                                if (getline(cin, inputLine))
+                                                {
+                                                    sendAndReceiveText(talkSocket, inputLine);
+                                                }
+                                                else
+                                                {
+                                                    StopRunning();
+                                                }
+                                                break;
+                                                
+                                        }
+                                    }
+                                    else
+                                    {
+                                        StopRunning();
+                                    }
                                 }
                             }
-                        }
 #if MAC_OR_LINUX_
-                        shutdown(talkSocket, SHUT_RDWR);
-                        close(talkSocket);
+                            shutdown(talkSocket, SHUT_RDWR);
+                            close(talkSocket);
 #else // ! MAC_OR_LINUX_
-                        shutdown(talkSocket, SD_BOTH);
-                        closesocket(talkSocket);
+                            shutdown(talkSocket, SD_BOTH);
+                            closesocket(talkSocket);
 #endif // ! MAC_OR_LINUX_
-                    }
-                    else
-                    {
-                        cerr << "Invalid argument(s)." << endl;
+                        }
+                        else
+                        {
+                            cerr << "Invalid argument(s)." << endl;
+                        }
                     }
                 }
             }

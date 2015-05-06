@@ -66,7 +66,6 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Tunnel;
 using std::cerr;
-using std::cin;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -192,11 +191,15 @@ static SOCKET connectToTunnel(const yarp::os::ConstString & serviceAddress,
     {
         tunnelSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
         OD_LOG_L1("tunnelSocket = ", tunnelSocket); //####
-#if MAC_OR_LINUX_
         if (INVALID_SOCKET != tunnelSocket)
         {
+#if MAC_OR_LINUX_
             struct sockaddr_in addr;
+#else // ! MAC_OR_LINUX_
+            SOCKADDR_IN        addr;
+#endif // ! MAC_OR_LINUX_
             
+#if MAC_OR_LINUX_
             memset(&addr, 0, sizeof(addr));
             addr.sin_family = AF_INET;
             addr.sin_port = htons(servicePort);
@@ -208,12 +211,7 @@ static SOCKET connectToTunnel(const yarp::os::ConstString & serviceAddress,
                 close(tunnelSocket);
                 tunnelSocket = INVALID_SOCKET;
             }
-        }
 #else // ! MAC_OR_LINUX_
-        if (INVALID_SOCKET != tunnelSocket)
-        {
-            SOCKADDR_IN addr;
-            
             addr.sin_family = AF_INET;
             addr.sin_port = htons(servicePort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
@@ -225,8 +223,8 @@ static SOCKET connectToTunnel(const yarp::os::ConstString & serviceAddress,
                 closesocket(tunnelSocket);
                 tunnelSocket = INVALID_SOCKET;
             }
-        }
 #endif // ! MAC_OR_LINUX_
+        }
     }
     OD_LOG_EXIT_L(tunnelSocket); //####
     return tunnelSocket;

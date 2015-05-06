@@ -154,11 +154,15 @@ static SOCKET connectToSource(const yarp::os::ConstString & dataAddress,
     if (0 < res)
     {
         dataSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-#if MAC_OR_LINUX_
         if (INVALID_SOCKET != dataSocket)
         {
+#if MAC_OR_LINUX_
             struct sockaddr_in addr;
+#else // ! MAC_OR_LINUX_
+            SOCKADDR_IN        addr;
+#endif // ! MAC_OR_LINUX_
             
+#if MAC_OR_LINUX_
             memset(&addr, 0, sizeof(addr));
             addr.sin_family = AF_INET;
             addr.sin_port = htons(dataPort);
@@ -168,12 +172,7 @@ static SOCKET connectToSource(const yarp::os::ConstString & dataAddress,
                 close(dataSocket);
                 dataSocket = INVALID_SOCKET;
             }
-        }
 #else // ! MAC_OR_LINUX_
-        if (INVALID_SOCKET != dataSocket)
-        {
-            SOCKADDR_IN addr;
-            
             addr.sin_family = AF_INET;
             addr.sin_port = htons(dataPort);
             memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr, sizeof(addr.sin_addr.s_addr));
@@ -184,8 +183,8 @@ static SOCKET connectToSource(const yarp::os::ConstString & dataAddress,
                 closesocket(dataSocket);
                 dataSocket = INVALID_SOCKET;
             }
-        }
 #endif // ! MAC_OR_LINUX_
+        }
     }
     OD_LOG_EXIT_L(dataSocket); //####
     return dataSocket;
