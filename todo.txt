@@ -32,8 +32,6 @@
 
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
 
-+ save the old YARP configuration and restore it on exit from Channel Manager, if a private network was set up - this can be done by the thread exit code for the YARP server
-
 + install a list of available services in ~/M+M/standardServices.txt; populate any services menu from this as well as ~/M+M/customServices.txt, if it exists and is readable - each file consists of a list of executable names, that will be matched against PATH or treated as an absolute file path, that will then be interrogated for the service characteristics
 
 @ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running

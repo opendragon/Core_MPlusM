@@ -120,7 +120,7 @@ using std::endl;
 
 #if defined(__APPLE__)
 /*! @brief The system environment variable table. */
-extern char ** environ;
+extern char * * environ;
 #endif // __APPLE__
 
 #if defined(__APPLE__)
@@ -540,6 +540,196 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
     OD_LOG_EXIT(); //####
 } // checkForOutputConnection
 
+/*! @brief Add a service metrics property to a string.
+ @param propList The dictionary to process.
+ @param flavour The output format to be used.
+ @param channelWidth The width used for output alignment.
+ @param sawSome @c true if some output has been generated and @c false otherwise.
+ @param result The string to be added to. */
+static void convertMetricPropertyToString(yarp::os::Property &        propList,
+                                          const Common::OutputFlavour flavour,
+                                          const int                   channelWidth,
+                                          bool &                      sawSome,
+                                          std::stringstream &         result)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("propList = ", &propList, "sawSome = ", &sawSome, "result = ", &result); //####
+    OD_LOG_L1("channelWidth = ", channelWidth); //####
+    yarp::os::Bottle *    theInBytesAsList = NULL;
+    yarp::os::Bottle *    theInMessagesAsList = NULL;
+    yarp::os::Bottle *    theOutBytesAsList = NULL;
+    yarp::os::Bottle *    theOutMessagesAsList = NULL;
+    yarp::os::ConstString theChannelAsString;
+    yarp::os::ConstString theDateAsString;
+    yarp::os::ConstString theTimeAsString;
+    int64_t               inByteCount = 0;
+    int64_t               inMessageCount = 0;
+    int64_t               outByteCount = 0;
+    int64_t               outMessageCount = 0;
+    
+    if (propList.check(MpM_SENDRECEIVE_CHANNEL_))
+    {
+        yarp::os::Value theChannel = propList.find(MpM_SENDRECEIVE_CHANNEL_);
+        
+        if (theChannel.isString())
+        {
+            theChannelAsString = theChannel.toString();
+        }
+    }
+    if (propList.check(MpM_SENDRECEIVE_DATE_))
+    {
+        yarp::os::Value theDate = propList.find(MpM_SENDRECEIVE_DATE_);
+        
+        if (theDate.isString())
+        {
+            theDateAsString = theDate.toString();
+        }
+    }
+    if (propList.check(MpM_SENDRECEIVE_TIME_))
+    {
+        yarp::os::Value theTime = propList.find(MpM_SENDRECEIVE_TIME_);
+        
+        if (theTime.isString())
+        {
+            theTimeAsString = theTime.toString();
+        }
+    }
+    if (propList.check(MpM_SENDRECEIVE_INBYTES_))
+    {
+        yarp::os::Value theInBytes = propList.find(MpM_SENDRECEIVE_INBYTES_);
+        
+        if (theInBytes.isList())
+        {
+            theInBytesAsList = theInBytes.asList();
+            if (theInBytesAsList && (2 == theInBytesAsList->size()))
+            {
+                yarp::os::Value firstValue(theInBytesAsList->get(0));
+                yarp::os::Value secondValue(theInBytesAsList->get(1));
+                
+                if (firstValue.isInt() && secondValue.isInt())
+                {
+                    inByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                    secondValue.asInt();
+                }
+            }
+        }
+    }
+    if (propList.check(MpM_SENDRECEIVE_INMESSAGES_))
+    {
+        yarp::os::Value theInMessages = propList.find(MpM_SENDRECEIVE_INMESSAGES_);
+        
+        if (theInMessages.isList())
+        {
+            theInMessagesAsList = theInMessages.asList();
+            if (theInMessagesAsList && (2 == theInMessagesAsList->size()))
+            {
+                yarp::os::Value firstValue(theInMessagesAsList->get(0));
+                yarp::os::Value secondValue(theInMessagesAsList->get(1));
+                
+                if (firstValue.isInt() && secondValue.isInt())
+                {
+                    inMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                    secondValue.asInt();
+                }
+            }
+        }
+    }
+    if (propList.check(MpM_SENDRECEIVE_OUTBYTES_))
+    {
+        yarp::os::Value theOutBytes = propList.find(MpM_SENDRECEIVE_OUTBYTES_);
+        
+        if (theOutBytes.isList())
+        {
+            theOutBytesAsList = theOutBytes.asList();
+            if (theOutBytesAsList && (2 == theOutBytesAsList->size()))
+            {
+                yarp::os::Value firstValue(theOutBytesAsList->get(0));
+                yarp::os::Value secondValue(theOutBytesAsList->get(1));
+                
+                if (firstValue.isInt() && secondValue.isInt())
+                {
+                    outByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                    secondValue.asInt();
+                }
+            }
+        }
+    }
+    if (propList.check(MpM_SENDRECEIVE_OUTMESSAGES_))
+    {
+        yarp::os::Value theOutMessages = propList.find(MpM_SENDRECEIVE_OUTMESSAGES_);
+        
+        if (theOutMessages.isList())
+        {
+            theOutMessagesAsList = theOutMessages.asList();
+            if (theOutMessagesAsList && (2 == theOutMessagesAsList->size()))
+            {
+                yarp::os::Value firstValue(theOutMessagesAsList->get(0));
+                yarp::os::Value secondValue(theOutMessagesAsList->get(1));
+                
+                if (firstValue.isInt() && secondValue.isInt())
+                {
+                    outMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
+                    secondValue.asInt();
+                }
+            }
+        }
+    }
+    if (theInBytesAsList && theInMessagesAsList && theOutBytesAsList && theOutMessagesAsList)
+    {
+        switch (flavour)
+        {
+            case kOutputFlavourTabs :
+                if (sawSome)
+                {
+                    result << endl;
+                }
+                result << theChannelAsString.c_str() << "\t" << theDateAsString.c_str() << "\t" <<
+                theTimeAsString.c_str() << "\t" << inByteCount << "\t" <<
+                outByteCount << "\t" << inMessageCount << "\t" << outMessageCount;
+                break;
+                
+            case kOutputFlavourJSON :
+                if (sawSome)
+                {
+                    result << ", ";
+                }
+                result << T_("{ " CHAR_DOUBLEQUOTE "channel" CHAR_DOUBLEQUOTE ": "
+                             CHAR_DOUBLEQUOTE) << SanitizeString(theChannelAsString).c_str() <<
+                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "date" CHAR_DOUBLEQUOTE ": "
+                   CHAR_DOUBLEQUOTE) << theDateAsString.c_str() <<
+                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "time" CHAR_DOUBLEQUOTE ": "
+                   CHAR_DOUBLEQUOTE) << theTimeAsString.c_str() <<
+                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes" CHAR_DOUBLEQUOTE
+                   ": " CHAR_DOUBLEQUOTE) << inByteCount <<
+                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages" CHAR_DOUBLEQUOTE
+                   ": " CHAR_DOUBLEQUOTE) << inMessageCount <<
+                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outBytes" CHAR_DOUBLEQUOTE
+                   ": " CHAR_DOUBLEQUOTE) << outByteCount <<
+                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages" CHAR_DOUBLEQUOTE
+                   ": " CHAR_DOUBLEQUOTE) << outMessageCount <<
+                T_(CHAR_DOUBLEQUOTE " }");
+                break;
+                
+            case kOutputFlavourNormal :
+                if (sawSome)
+                {
+                    result << endl;
+                }
+                result.width(channelWidth);
+                result << theChannelAsString.c_str() << ": [date: " << theDateAsString.c_str() <<
+                ", time: " << theTimeAsString.c_str() << ", bytes in: " <<
+                inByteCount << ", out: " << outByteCount << ", messages in: " <<
+                inMessageCount << ", out: " << outMessageCount << "]";
+                break;
+                
+            default :
+                break;
+                
+        }
+        sawSome = true;
+    }
+} // convertMetricPropertyToString
+
 /*! @brief Check the response to the 'getAssociates' request for validity.
  @param response The response to be checked.
  @param associates The associated ports for the port.
@@ -870,24 +1060,11 @@ void Utilities::CheckForNameServerReporter(void)
     OD_LOG_EXIT(); //####
 } // Utilities::CheckForNameServerReporter
 
-bool Utilities::CheckForRegistryService(const PortVector & ports)
+bool Utilities::CheckForRegistryService(void)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("ports = ", &ports); //####
-    bool result = false;
+    bool result = yarp::os::Network::exists(MpM_REGISTRY_ENDPOINT_NAME);
     
-    if (0 < ports.size())
-    {
-        for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
-        {
-            if (walker->_portName == MpM_REGISTRY_ENDPOINT_NAME)
-            {
-                result = true;
-                break;
-            }
-            
-        }
-    }
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::CheckForRegistryService
@@ -930,195 +1107,27 @@ bool Utilities::CheckForValidNetwork(const bool quiet)
     return result;
 } // Utilities::CheckForValidNetwork
 
-/*! @brief Add a service metrics property to a string.
- @param propList The dictionary to process.
- @param flavour The output format to be used.
- @param channelWidth The width used for output alignment.
- @param sawSome @c true if some output has been generated and @c false otherwise.
- @param result The string to be added to. */
-static void convertMetricPropertyToString(yarp::os::Property &        propList,
-                                          const Common::OutputFlavour flavour,
-                                          const int                   channelWidth,
-                                          bool &                      sawSome,
-                                          std::stringstream &         result)
+bool Utilities::CheckListForRegistryService(const PortVector & ports)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("propList = ", &propList, "sawSome = ", &sawSome, "result = ", &result); //####
-    OD_LOG_L1("channelWidth = ", channelWidth); //####
-    yarp::os::Bottle *    theInBytesAsList = NULL;
-    yarp::os::Bottle *    theInMessagesAsList = NULL;
-    yarp::os::Bottle *    theOutBytesAsList = NULL;
-    yarp::os::Bottle *    theOutMessagesAsList = NULL;
-    yarp::os::ConstString theChannelAsString;
-    yarp::os::ConstString theDateAsString;
-    yarp::os::ConstString theTimeAsString;
-    int64_t               inByteCount = 0;
-    int64_t               inMessageCount = 0;
-    int64_t               outByteCount = 0;
-    int64_t               outMessageCount = 0;
+    OD_LOG_P1("ports = ", &ports); //####
+    bool result = false;
     
-    if (propList.check(MpM_SENDRECEIVE_CHANNEL_))
+    if (0 < ports.size())
     {
-        yarp::os::Value theChannel = propList.find(MpM_SENDRECEIVE_CHANNEL_);
-        
-        if (theChannel.isString())
+        for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
         {
-            theChannelAsString = theChannel.toString();
-        }
-    }
-    if (propList.check(MpM_SENDRECEIVE_DATE_))
-    {
-        yarp::os::Value theDate = propList.find(MpM_SENDRECEIVE_DATE_);
-        
-        if (theDate.isString())
-        {
-            theDateAsString = theDate.toString();
-        }
-    }
-    if (propList.check(MpM_SENDRECEIVE_TIME_))
-    {
-        yarp::os::Value theTime = propList.find(MpM_SENDRECEIVE_TIME_);
-        
-        if (theTime.isString())
-        {
-            theTimeAsString = theTime.toString();
-        }
-    }
-    if (propList.check(MpM_SENDRECEIVE_INBYTES_))
-    {
-        yarp::os::Value theInBytes = propList.find(MpM_SENDRECEIVE_INBYTES_);
-        
-        if (theInBytes.isList())
-        {
-            theInBytesAsList = theInBytes.asList();
-            if (theInBytesAsList && (2 == theInBytesAsList->size()))
+            if (walker->_portName == MpM_REGISTRY_ENDPOINT_NAME)
             {
-                yarp::os::Value firstValue(theInBytesAsList->get(0));
-                yarp::os::Value secondValue(theInBytesAsList->get(1));
-                
-                if (firstValue.isInt() && secondValue.isInt())
-                {
-                    inByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                                    secondValue.asInt();
-                }
-            }
-        }
-    }
-    if (propList.check(MpM_SENDRECEIVE_INMESSAGES_))
-    {
-        yarp::os::Value theInMessages = propList.find(MpM_SENDRECEIVE_INMESSAGES_);
-        
-        if (theInMessages.isList())
-        {
-            theInMessagesAsList = theInMessages.asList();
-            if (theInMessagesAsList && (2 == theInMessagesAsList->size()))
-            {
-                yarp::os::Value firstValue(theInMessagesAsList->get(0));
-                yarp::os::Value secondValue(theInMessagesAsList->get(1));
-                
-                if (firstValue.isInt() && secondValue.isInt())
-                {
-                    inMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                                        secondValue.asInt();
-                }
-            }
-        }
-    }
-    if (propList.check(MpM_SENDRECEIVE_OUTBYTES_))
-    {
-        yarp::os::Value theOutBytes = propList.find(MpM_SENDRECEIVE_OUTBYTES_);
-        
-        if (theOutBytes.isList())
-        {
-            theOutBytesAsList = theOutBytes.asList();
-            if (theOutBytesAsList && (2 == theOutBytesAsList->size()))
-            {
-                yarp::os::Value firstValue(theOutBytesAsList->get(0));
-                yarp::os::Value secondValue(theOutBytesAsList->get(1));
-                
-                if (firstValue.isInt() && secondValue.isInt())
-                {
-                    outByteCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                                    secondValue.asInt();
-                }
-            }
-        }
-    }
-    if (propList.check(MpM_SENDRECEIVE_OUTMESSAGES_))
-    {
-        yarp::os::Value theOutMessages = propList.find(MpM_SENDRECEIVE_OUTMESSAGES_);
-        
-        if (theOutMessages.isList())
-        {
-            theOutMessagesAsList = theOutMessages.asList();
-            if (theOutMessagesAsList && (2 == theOutMessagesAsList->size()))
-            {
-                yarp::os::Value firstValue(theOutMessagesAsList->get(0));
-                yarp::os::Value secondValue(theOutMessagesAsList->get(1));
-                
-                if (firstValue.isInt() && secondValue.isInt())
-                {
-                    outMessageCount = (static_cast<int64_t>(firstValue.asInt()) << 32) +
-                                        secondValue.asInt();
-                }
-            }
-        }
-    }
-    if (theInBytesAsList && theInMessagesAsList && theOutBytesAsList && theOutMessagesAsList)
-    {
-        switch (flavour)
-        {
-            case kOutputFlavourTabs :
-                if (sawSome)
-                {
-                    result << endl;
-                }
-                result << theChannelAsString.c_str() << "\t" << theDateAsString.c_str() << "\t" <<
-                            theTimeAsString.c_str() << "\t" << inByteCount << "\t" <<
-                            outByteCount << "\t" << inMessageCount << "\t" << outMessageCount;
+                result = true;
                 break;
-                
-            case kOutputFlavourJSON :
-                if (sawSome)
-                {
-                    result << ", ";
-                }
-                result << T_("{ " CHAR_DOUBLEQUOTE "channel" CHAR_DOUBLEQUOTE ": "
-                             CHAR_DOUBLEQUOTE) << SanitizeString(theChannelAsString).c_str() <<
-                            T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "date" CHAR_DOUBLEQUOTE ": "
-                               CHAR_DOUBLEQUOTE) << theDateAsString.c_str() <<
-                            T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "time" CHAR_DOUBLEQUOTE ": "
-                               CHAR_DOUBLEQUOTE) << theTimeAsString.c_str() <<
-                            T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes" CHAR_DOUBLEQUOTE
-                               ": " CHAR_DOUBLEQUOTE) << inByteCount <<
-                            T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages" CHAR_DOUBLEQUOTE
-                               ": " CHAR_DOUBLEQUOTE) << inMessageCount <<
-                            T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outBytes" CHAR_DOUBLEQUOTE
-                               ": " CHAR_DOUBLEQUOTE) << outByteCount <<
-                            T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages" CHAR_DOUBLEQUOTE
-                               ": " CHAR_DOUBLEQUOTE) << outMessageCount <<
-                            T_(CHAR_DOUBLEQUOTE " }");
-                break;
-                
-            case kOutputFlavourNormal :
-                if (sawSome)
-                {
-                    result << endl;
-                }
-                result.width(channelWidth);
-                result << theChannelAsString.c_str() << ": [date: " << theDateAsString.c_str() <<
-                            ", time: " << theTimeAsString.c_str() << ", bytes in: " <<
-                            inByteCount << ", out: " << outByteCount << ", messages in: " <<
-                            inMessageCount << ", out: " << outMessageCount << "]";
-                break;
-                
-            default :
-                break;
-                
+            }
+            
         }
-        sawSome = true;
     }
-} // convertMetricPropertyToString
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::CheckListForRegistryService
 
 yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &    metrics,
                                                         const Common::OutputFlavour flavour)
@@ -1275,7 +1284,7 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
 				if (! access(pathToCheck.c_str(), X_OK))
 #else // ! MAC_OR_LINUX_
 				if (! _access(pathToCheck.c_str(), 0)) // Note that there's no explicit check for
-                                                       // execute permission
+                                                       // execute permission in Windows
 #endif // ! MAC_OR_LINUX_
                 {
                     // We've found an executable that we can use!
@@ -1284,6 +1293,24 @@ yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstStrin
                 }
                 
             }
+        }
+    }
+    if (! result.length())
+    {
+        // If nothing else works, try the name without a prefix, since it might be an absolute path.
+        realExecName = execName;
+#if (! MAC_OR_LINUX_)
+        realExecName += ".exe";
+#endif // ! MAC_OR_LINUX_
+#if MAC_OR_LINUX_
+        if (! access(realExecName.c_str(), X_OK))
+#else // ! MAC_OR_LINUX_
+        if (! _access(realExecName.c_str(), 0)) // Note that there's no explicit check for
+                                                // execute permission in Windows
+#endif // ! MAC_OR_LINUX_
+        {
+            // We've found an executable that we can use!
+            result = realExecName;
         }
     }
     OD_LOG_EXIT_S(result.c_str()); //####
@@ -2532,6 +2559,78 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
+
+bool Utilities::ProcessStandardAdapterOptions(const int    argc,
+                                              char * *     argv,
+                                              const int    year,
+                                              const char * copyrightHolder)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_L2("argc = ", argc, "year = ", year); //####
+    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
+    enum optionIndex
+    {
+        UNKNOWN,
+        HELP,
+        VERSION
+    }; // optionIndex
+    
+    bool                  keepGoing = true;
+    Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   helpDescriptor(HELP, 0, "h", "help", Option_::Arg::None,
+                                         T_("  --help, -h    Print usage and exit"));
+    Option_::Descriptor   versionDescriptor(VERSION, 0, "v", "vers", Option_::Arg::None,
+                                            T_("  --vers, -v    Print version information and "
+                                               "exit"));
+    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
+    Option_::Descriptor   usage[4];
+    Option_::Descriptor * usageWalker = usage;
+    int                   argcWork = argc;
+    char * *              argvWork = argv;
+    yarp::os::ConstString usageString("USAGE: ");
+    
+    usageString += *argv;
+    usageString += " [options]\n\nOptions:";
+#if MAC_OR_LINUX_
+    firstDescriptor.help = strdup(usageString.c_str());
+#else // ! MAC_OR_LINUX_
+    firstDescriptor.help = _strdup(usageString.c_str());
+#endif // ! MAC_OR_LINUX_
+    memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+    memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
+    memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
+    argcWork -= (argc > 0);
+    argvWork += (argc > 0); // skip program name argv[0] if present
+    Option_::Stats    stats(usage, argcWork, argvWork);
+    Option_::Option * options = new Option_::Option[stats.options_max];
+    Option_::Option * buffer = new Option_::Option[stats.buffer_max];
+    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
+    
+    if (parse.error())
+    {
+        keepGoing = false;
+    }
+    else if (options[HELP] || options[UNKNOWN])
+    {
+        Option_::printUsage(cout, usage);
+        keepGoing = false;
+    }
+    else if (options[VERSION])
+    {
+        yarp::os::ConstString mpmVersionString;
+        
+        mpmVersionString = SanitizeString(MpM_VERSION, true);
+        cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
+                copyrightHolder << "." << endl;
+        keepGoing = false;
+    }
+    delete[] options;
+    delete[] buffer;
+    OD_LOG_EXIT_B(keepGoing); //####
+    return keepGoing;
+} // Utilities::ProcessStandardAdapterOptions
 
 bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
                                                 char * *                argv,

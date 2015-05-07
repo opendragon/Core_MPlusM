@@ -81,6 +81,95 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Set up the environment and perform the operation. */
+#if defined(MpM_ReportOnConnections)
+static void setUpAndGo(ChannelStatusReporter * reporter)
+#else // ! defined(MpM_ReportOnConnections)
+static void setUpAndGo(void)
+#endif // ! defined(MpM_ReportOnConnections)
+{
+    OD_LOG_ENTER(); //####
+#if defined(MpM_ReportOnConnections)
+    OD_LOG_P1("reporter = ", reporter); //####
+#endif // defined(MpM_ReportOnConnections)
+    EchoClient * stuff = new EchoClient;
+    
+    if (stuff)
+    {
+        StartRunning();
+        SetSignalHandlers(SignalRunningStop);
+        if (stuff->findService("details: Echo*"))
+        {
+#if defined(MpM_ReportOnConnections)
+            stuff->setReporter(*reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+            if (stuff->connectToService())
+            {
+                for ( ; IsRunning(); )
+                {
+                    yarp::os::ConstString incoming;
+                    std::string           inputLine;
+                    
+                    cout << "Type something to be echoed: ";
+                    cout.flush();
+                    if (getline(cin, inputLine))
+                    {
+                        yarp::os::ConstString outgoing(inputLine.c_str());
+                        
+                        if (stuff->sendAndReceive(outgoing, incoming))
+                        {
+                            cout << "Received: '" << incoming.c_str() << "'." << endl;
+                        }
+                        else
+                        {
+                            OD_LOG("! (stuff->sendAndReceive(outgoing, incoming))"); //####
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Problem communicating with the service.");
+#endif // MAC_OR_LINUX_
+                        }
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
+                }
+                if (! stuff->disconnectFromService())
+                {
+                    OD_LOG("(! stuff->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem disconnecting from the service.");
+#endif // MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->findService(\"details: Echo*\"))"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Could not find the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -123,82 +212,32 @@ int main(int      argc,
 				                              // to the YARP infrastructure
                 
                 Initialize(*argv);
-                EchoClient * stuff = new EchoClient;
-                
-                if (stuff)
+                if (Utilities::CheckForRegistryService())
                 {
-                    StartRunning();
-                    SetSignalHandlers(SignalRunningStop);
-                    if (stuff->findService("details: Echo*"))
-                    {
 #if defined(MpM_ReportOnConnections)
-                        stuff->setReporter(*reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                        if (stuff->connectToService())
-                        {
-                            for ( ; IsRunning(); )
-                            {
-                                yarp::os::ConstString incoming;
-                                std::string           inputLine;
-                                
-                                cout << "Type something to be echoed: ";
-                                cout.flush();
-                                if (getline(cin, inputLine))
-                                {
-                                    yarp::os::ConstString outgoing(inputLine.c_str());
-                                    
-                                    if (stuff->sendAndReceive(outgoing, incoming))
-                                    {
-                                        cout << "Received: '" << incoming.c_str() << "'." << endl;
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (stuff->sendAndReceive(outgoing, " //####
-                                               "incoming))"); //####
-#if MAC_OR_LINUX_
-                                        GetLogger().fail("Problem communicating with the service.");
-#endif // MAC_OR_LINUX_
-                                    }
-                                }
-                                else
-                                {
-                                    break;
-                                }
-                                
-                            }
-                            if (! stuff->disconnectFromService())
-                            {
-                                OD_LOG("(! stuff->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (stuff->findService(\"details: Echo*\"))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                    delete stuff;
+                    setUpAndGo(reporter);
+#else // ! defined(MpM_ReportOnConnections)
+                    setUpAndGo();
+#endif // ! defined(MpM_ReportOnConnections)
                 }
                 else
                 {
-                    OD_LOG("! (stuff)"); //####
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

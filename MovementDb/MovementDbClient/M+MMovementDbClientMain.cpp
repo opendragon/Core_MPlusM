@@ -140,6 +140,173 @@ static void reportTimeInReasonableUnits(const double measurement)
     cout << newValue << tag;
 } // reportTimeInReasonableUnits
 
+/*! @brief Set up the environment and perform the operation. */
+#if defined(MpM_ReportOnConnections)
+static void setUpAndGo(ChannelStatusReporter * reporter)
+#else // ! defined(MpM_ReportOnConnections)
+static void setUpAndGo(void)
+#endif // ! defined(MpM_ReportOnConnections)
+{
+    OD_LOG_ENTER(); //####
+#if defined(MpM_ReportOnConnections)
+    OD_LOG_P1("reporter = ", reporter); //####
+#endif // defined(MpM_ReportOnConnections)
+    MovementDbClient * stuff = new MovementDbClient;
+    
+    if (stuff)
+    {
+#if defined(MpM_ReportOnConnections)
+        stuff->setReporter(reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+        StartRunning();
+        SetSignalHandlers(SignalRunningStop);
+        if (stuff->findService("name:MovementDb"))
+        {
+            if (stuff->connectToService())
+            {
+                for ( ; IsRunning(); )
+                {
+                    char                  inChar;
+                    std::string           inputLine;
+                    yarp::os::ConstString inputString;
+                    
+                    cout << "Operation: [? + d e q]? ";
+                    cout.flush();
+                    if (getline(cin, inputLine))
+                    {
+                        inChar = inputLine[0];
+                        switch (inChar)
+                        {
+                            case '+' :
+                                cout << "add file: ";
+                                cout.flush();
+                                if (getline(cin, inputLine))
+                                {
+                                    inputString = inputLine.c_str();
+                                    if (stuff->addFileToDb(inputString))
+                                    {
+                                        cout << "File added to database." << endl;
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (stuff->addFileToDb(inputString))"); //####
+#if MAC_OR_LINUX_
+                                        GetLogger().fail("Problem adding file to database.");
+#endif // MAC_OR_LINUX_
+                                        cout << "File not added to database." << endl;
+                                    }
+                                }
+                                else
+                                {
+                                    cout << "Empty file path provided." << endl;
+                                }
+                                break;
+                                
+                            case 'd' :
+                            case 'D' :
+                                cout << "set data track: ";
+                                cout.flush();
+                                getline(cin, inputLine);
+                                inputString = inputLine.c_str();
+                                if (stuff->setDataTrackForDb(inputString))
+                                {
+                                    cout << "Data track set for database." << endl;
+                                }
+                                else
+                                {
+                                    OD_LOG("! (stuff->setDataTrackForDb(inputString))"); //####
+#if MAC_OR_LINUX_
+                                    GetLogger().fail("Problem setting data track for database.");
+#endif // MAC_OR_LINUX_
+                                    cout << "Data track not set for database." << endl;
+                                }
+                                break;
+                                
+                            case 'e' :
+                            case 'E' :
+                                cout << "set e-mail address: ";
+                                cout.flush();
+                                getline(cin, inputLine);
+                                inputString = inputLine.c_str();
+                                if (stuff->setEmailAddressForDb(inputString))
+                                {
+                                    cout << "E-mail address set for database." << endl;
+                                }
+                                else
+                                {
+                                    OD_LOG("! (stuff->setEmailAddressForDb(inputString))"); //####
+#if MAC_OR_LINUX_
+                                    GetLogger().fail("Problem setting e-mail address for "
+                                                     "database.");
+#endif // MAC_OR_LINUX_
+                                    cout << "E-mail address not set for database." <<
+                                    endl;
+                                }
+                                break;
+                                
+                            case 'q' :
+                            case 'Q' :
+                                cout << "Exiting" << endl;
+                                cout.flush();
+                                if (! stuff->stopDbConnection())
+                                {
+                                    OD_LOG("(! stuff->stopDbConnection())"); //####
+#if MAC_OR_LINUX_
+                                    GetLogger().fail("Problem stopping the database connection.");
+#endif // MAC_OR_LINUX_
+                                }
+                                StopRunning();
+                                break;
+                                
+                            case '?' :
+                                // Help
+                                displayCommands();
+                                break;
+                                
+                            default :
+                                cout << "Unrecognized request '" << inChar << "'." << endl;
+                                cout.flush();
+                                break;
+                                
+                        }
+                    }
+                }
+                if (! stuff->disconnectFromService())
+                {
+                    OD_LOG("(! stuff->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem disconnecting from the service.");
+#endif // MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->findService(\"name:MovementDb\"))"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Could not find the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -183,169 +350,35 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                MovementDbClient * stuff = new MovementDbClient;
-                
-                if (stuff)
+                if (Utilities::CheckForRegistryService())
                 {
 #if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                    StartRunning();
-                    SetSignalHandlers(SignalRunningStop);
-                    if (stuff->findService("name:MovementDb"))
-                    {
-                        if (stuff->connectToService())
-                        {
-                            for ( ; IsRunning(); )
-                            {
-                                char                  inChar;
-                                std::string           inputLine;
-                                yarp::os::ConstString inputString;
-                                
-                                cout << "Operation: [? + d e q]? ";
-                                cout.flush();
-                                if (getline(cin, inputLine))
-                                {
-                                    inChar = inputLine[0];
-                                    switch (inChar)
-                                    {
-                                        case '+' :
-                                            cout << "add file: ";
-                                            cout.flush();
-                                            if (getline(cin, inputLine))
-                                            {
-                                                inputString = inputLine.c_str();
-                                                if (stuff->addFileToDb(inputString))
-                                                {
-                                                    cout << "File added to database." << endl;
-                                                }
-                                                else
-                                                {
-                                                    OD_LOG("! (stuff->addFileToDb(" //####
-                                                           "inputString))"); //####
-#if MAC_OR_LINUX_
-                                                    GetLogger().fail("Problem adding file to "
-                                                                     "database.");
-#endif // MAC_OR_LINUX_
-                                                    cout << "File not added to database." << endl;
-                                                }
-                                            }
-                                            else
-                                            {
-                                                cout << "Empty file path provided." << endl;
-                                            }
-                                            break;
-                                            
-                                        case 'd' :
-                                        case 'D' :
-                                            cout << "set data track: ";
-                                            cout.flush();
-                                            getline(cin, inputLine);
-                                            inputString = inputLine.c_str();
-                                            if (stuff->setDataTrackForDb(inputString))
-                                            {
-                                                cout << "Data track set for database." << endl;
-                                            }
-                                            else
-                                            {
-                                                OD_LOG("! (stuff->setDataTrackForDb(" //####
-                                                       "inputString))"); //####
-#if MAC_OR_LINUX_
-                                                GetLogger().fail("Problem setting data track for "
-                                                                 "database.");
-#endif // MAC_OR_LINUX_
-                                                cout << "Data track not set for database." << endl;
-                                            }
-                                            break;
-                                            
-                                        case 'e' :
-                                        case 'E' :
-                                            cout << "set e-mail address: ";
-                                            cout.flush();
-                                            getline(cin, inputLine);
-                                            inputString = inputLine.c_str();
-                                            if (stuff->setEmailAddressForDb(inputString))
-                                            {
-                                                cout << "E-mail address set for database." << endl;
-                                            }
-                                            else
-                                            {
-                                                OD_LOG("! (stuff->setEmailAddressForDb(" //####
-                                                       "inputString))"); //####
-#if MAC_OR_LINUX_
-                                                GetLogger().fail("Problem setting e-mail address "
-                                                                 "for database.");
-#endif // MAC_OR_LINUX_
-                                                cout << "E-mail address not set for database." <<
-                                                        endl;
-                                            }
-                                            break;
-                                            
-                                        case 'q' :
-                                        case 'Q' :
-                                            cout << "Exiting" << endl;
-                                            cout.flush();
-                                            if (! stuff->stopDbConnection())
-                                            {
-                                                OD_LOG("(! stuff->stopDbConnection())"); //####
-#if MAC_OR_LINUX_
-                                                GetLogger().fail("Problem stopping the database "
-                                                                 "connection.");
-#endif // MAC_OR_LINUX_
-                                            }
-                                            StopRunning();
-                                            break;
-                                            
-                                        case '?' :
-                                            // Help
-                                            displayCommands();
-                                            break;
-                                            
-                                        default :
-                                            cout << "Unrecognized request '" << inChar << "'." <<
-                                                    endl;
-                                            cout.flush();
-                                            break;
-                                            
-                                    }
-                                }
-                            }
-                            if (! stuff->disconnectFromService())
-                            {
-                                OD_LOG("(! stuff->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (stuff->findService(\"name:MovementDb\"))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                    delete stuff;
+                    setUpAndGo(reporter);
+#else // ! defined(MpM_ReportOnConnections)
+                    setUpAndGo();
+#endif // ! defined(MpM_ReportOnConnections)
                 }
                 else
                 {
-                    OD_LOG("! (stuff)"); //####
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
             }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+            Utilities::ShutDownGlobalStatusReporter();
         }
-        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

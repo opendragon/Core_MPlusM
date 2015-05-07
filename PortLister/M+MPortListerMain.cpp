@@ -785,7 +785,7 @@ int main(int      argc,
                 Utilities::RemoveStalePorts();
                 if (Utilities::GetDetectedPortList(ports, true))
                 {
-                    bool serviceRegistryPresent = Utilities::CheckForRegistryService(ports);
+                    bool serviceRegistryPresent = Utilities::CheckListForRegistryService(ports);
                     
                     switch (flavour)
                     {
@@ -871,6 +871,15 @@ int main(int      argc,
                     GetLogger().fail("Could not get port list.");
 #endif // MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

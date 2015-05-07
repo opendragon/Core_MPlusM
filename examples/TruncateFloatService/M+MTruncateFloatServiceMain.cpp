@@ -319,8 +319,29 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, autostartWasSet,
-                           stdinAvailable, reportOnExit);
+                if (Utilities::CheckForRegistryService())
+                {
+                    setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, autostartWasSet,
+                               stdinAvailable, reportOnExit);
+                }
+                else
+                {
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

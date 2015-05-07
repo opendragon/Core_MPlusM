@@ -98,7 +98,7 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the exemplar output service.
- @param recordPath The path to the file being written.
+ @param arguments The arguments to analyze.
  @param argv The arguments to be used with the exemplar output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -106,7 +106,7 @@ static void displayCommands(void)
  @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(yarp::os::ConstString &       recordPath,
+static void setUpAndGo(const StringVector &          arguments,
                        char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
@@ -116,11 +116,29 @@ static void setUpAndGo(yarp::os::ConstString &       recordPath,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("recordPath = ", recordPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
+    yarp::os::ConstString recordPath;
+
+    // Note that we can't use Random::uniform until after the seed has been set
+    if (0 < arguments.size())
+    {
+        recordPath = arguments[0];
+        OD_LOG_S1s("recordPath <- ", recordPath); //####
+    }
+    if (0 == recordPath.size())
+    {
+        int               randNumb = yarp::os::Random::uniform(0, 10000);
+        std::stringstream buff;
+        
+        buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
+        buff << std::hex << randNumb;
+        recordPath = buff.str();
+        OD_LOG_S1s("recordPath <- ", recordPath); //####
+    }
     ExemplarOutputService * stuff = new ExemplarOutputService(*argv, tag, serviceEndpointName,
                                                               servicePortNumber);
     
@@ -345,24 +363,29 @@ int main(int      argc,
                                         // infrastructure
                 
                 Initialize(*argv);
-                // Note that we can't use Random::uniform until after the seed has been set
-                if (0 < arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    recordPath = arguments[0];
-                    OD_LOG_S1s("recordPath <- ", recordPath); //####
+                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
+                               autostartWasSet, stdinAvailable, reportOnExit);
                 }
-                if (0 == recordPath.size())
+                else
                 {
-                    int               randNumb = yarp::os::Random::uniform(0, 10000);
-                    std::stringstream buff;
-                    
-                    buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
-                    buff << std::hex << randNumb;
-                    recordPath = buff.str();
-                    OD_LOG_S1s("recordPath <- ", recordPath); //####
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
-                setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
-                           autostartWasSet, stdinAvailable, reportOnExit);
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
         }
     }

@@ -295,6 +295,136 @@ static void handleConnections(SOCKET                        listenSocket,
     OD_LOG_EXIT(); //####
 } // handleConnections
 
+/*! @brief Set up the environment and start the %Unreal output service.
+ @param arguments The arguments to analyze. */
+#if defined(MpM_ReportOnConnections)
+static void setUpAndGo(ChannelStatusReporter * reporter,
+                       const StringVector &    arguments)
+#else // ! defined(MpM_ReportOnConnections)
+static void setUpAndGo(const StringVector & arguments)
+#endif // ! defined(MpM_ReportOnConnections)
+{
+    OD_LOG_ENTER(); //####
+#if defined(MpM_ReportOnConnections)
+    OD_LOG_P2("reporter = ", reporter, "arguments = ", &arguments); //####
+#else // ! defined(MpM_ReportOnConnections)
+    OD_LOG_P1("arguments = ", &arguments); //####
+#endif // ! defined(MpM_ReportOnConnections)
+    if (1 <= arguments.size())
+    {
+        yarp::os::ConstString namePattern(MpM_TUNNEL_CANONICAL_NAME);
+        int                   listenPort = -1;
+        const char *          startPtr = arguments[0].c_str();
+        char *                endPtr;
+        int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+        
+        if ((startPtr != endPtr) && (! *endPtr) && (1024 <= tempInt))
+        {
+            // Useable data.
+            listenPort = tempInt;
+        }
+        if (1 < arguments.size())
+        {
+            yarp::os::ConstString tag(arguments[1]);
+            
+            if (0 < tag.length())
+            {
+                yarp::os::ConstString singleQuote("'");
+                
+                namePattern = singleQuote + namePattern + " " + tag + singleQuote;
+            }
+        }
+        if (0 < listenPort)
+        {
+            yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+            TunnelClient *        stuff = new TunnelClient;
+            
+            if (stuff)
+            {
+#if defined(MpM_ReportOnConnections)
+                stuff->setReporter(*reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+                channelNameRequest += namePattern;
+                if (stuff->findService(channelNameRequest.c_str()))
+                {
+                    SOCKET listenSocket = setUpListeningPost(listenPort);
+                    
+                    if (INVALID_SOCKET != listenSocket)
+                    {
+                        OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
+                        if (stuff->connectToService())
+                        {
+                            yarp::os::ConstString serviceAddress;
+                            int                   servicePort;
+                            
+                            if (stuff->getAddress(serviceAddress, servicePort))
+                            {
+                                handleConnections(listenSocket, serviceAddress, servicePort);
+                            }
+                            else
+                            {
+                                OD_LOG("! (stuff->getAddress(serviceAddress, servicePort))"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem fetching the address information.");
+#else // ! MAC_OR_LINUX_
+                                cerr << "Problem fetching the address information." << endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                            cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+#if MAC_OR_LINUX_
+                        shutdown(listenSocket, SHUT_RDWR);
+                        close(listenSocket);
+#else // ! MAC_OR_LINUX_
+                        shutdown(listenSocket, SD_BOTH);
+                        closesocket(listenSocket);
+#endif // ! MAC_OR_LINUX_
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (stuff->findService(channelNameRequest)"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Could not find the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+                delete stuff;
+            }
+            else
+            {
+                OD_LOG("! (stuff)"); //####
+            }
+        }
+        else
+        {
+#if MAC_OR_LINUX_
+            GetLogger().fail("Invalid argument(s).");
+#else // ! MAC_OR_LINUX_
+            cerr << "Invalid argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    else
+    {
+#if MAC_OR_LINUX_
+        GetLogger().fail("Missing argument(s).");
+#else // ! MAC_OR_LINUX_
+        cerr << "Missing argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -332,144 +462,51 @@ int main(int      argc,
                                                        STANDARD_COPYRIGHT_NAME, flavour,
                                                        &arguments))
         {
-            yarp::os::ConstString namePattern(MpM_TUNNEL_CANONICAL_NAME);
-            int                   listenPort = -1;
-            
-            if (1 <= arguments.size())
+            try
             {
-                const char * startPtr = arguments[0].c_str();
-                char *       endPtr;
-                int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-
-                if ((startPtr != endPtr) && (! *endPtr) && (1024 <= tempInt))
+                Utilities::SetUpGlobalStatusReporter();
+                Utilities::CheckForNameServerReporter();
+                if (Utilities::CheckForValidNetwork())
                 {
-                    // Useable data.
-                    listenPort = tempInt;
-                }
-                if (1 < arguments.size())
-                {
-                    yarp::os::ConstString tag(arguments[1]);
+#if defined(MpM_ReportOnConnections)
+                    ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+                    yarp::os::Network       yarp; // This is necessary to establish any
+                                                  // connections to the YARP infrastructure
                     
-                    if (0 < tag.length())
-                    {
-                        yarp::os::ConstString singleQuote("'");
-
-                        namePattern = singleQuote + namePattern + " " + tag + singleQuote;
-                    }
-                }            
-            }
-            else
-            {
-#if MAC_OR_LINUX_
-                GetLogger().fail("Missing argument(s).");
-#else // ! MAC_OR_LINUX_
-                cerr << "Missing argument(s)." << endl;
-#endif // ! MAC_OR_LINUX_
-            }
-            if (0 < listenPort)
-            {
-                try
-                {
-					Utilities::SetUpGlobalStatusReporter();
-					Utilities::CheckForNameServerReporter();
-                    if (Utilities::CheckForValidNetwork())
+                    Initialize(*argv);
+                    if (Utilities::CheckForRegistryService())
                     {
 #if defined(MpM_ReportOnConnections)
-						ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-						yarp::os::Network       yarp; // This is necessary to establish any
-                                                    // connections to the YARP infrastructure
-                        yarp::os::ConstString   channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-                        
-                        Initialize(*argv);
-                        TunnelClient * stuff = new TunnelClient;
-                        
-                        if (stuff)
-                        {
-#if defined(MpM_ReportOnConnections)
-                            stuff->setReporter(*reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                            channelNameRequest += namePattern;
-                            if (stuff->findService(channelNameRequest.c_str()))
-                            {
-                                SOCKET listenSocket = setUpListeningPost(listenPort);
-
-                                if (INVALID_SOCKET != listenSocket)
-                                {
-                                    OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
-                                    if (stuff->connectToService())
-                                    {
-                                        yarp::os::ConstString serviceAddress;
-                                        int                   servicePort;
-                                        
-                                        if (stuff->getAddress(serviceAddress, servicePort))
-                                        {
-                                            handleConnections(listenSocket, serviceAddress,
-                                                              servicePort);
-                                        }
-                                        else
-                                        {
-                                            OD_LOG("! (stuff->getAddress(serviceAddress, " //####
-                                                   "servicePort))"); //####
-#if MAC_OR_LINUX_
-                                            GetLogger().fail("Problem fetching the address "
-                                                             "information.");
-#else // ! MAC_OR_LINUX_
-                                            cerr << "Problem fetching the address information." <<
-                                                    endl;
-#endif // ! MAC_OR_LINUX_
-                                        }
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                                        GetLogger().fail("Could not connect to the required "
-                                                         "service.");
-#else // ! MAC_OR_LINUX_
-                                        cerr << "Could not connect to the required service." <<
-                                                endl;
-#endif // ! MAC_OR_LINUX_
-                                    }
-#if MAC_OR_LINUX_
-                                    shutdown(listenSocket, SHUT_RDWR);
-                                    close(listenSocket);
-#else // ! MAC_OR_LINUX_
-                                    shutdown(listenSocket, SD_BOTH);
-                                    closesocket(listenSocket);
-#endif // ! MAC_OR_LINUX_
-                                }
-                            }
-                            else
-                            {
-                                OD_LOG("! (stuff->findService(channelNameRequest)"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                            }
-                            delete stuff;
-                        }
-                        else
-                        {
-                            OD_LOG("! (stuff)"); //####
-                        }
+                        setUpAndGo(reporter, arguments);
+#else // ! defined(MpM_ReportOnConnections)
+                        setUpAndGo(arguments);
+#endif // ! defined(MpM_ReportOnConnections)
                     }
-					Utilities::ShutDownGlobalStatusReporter();
-				}
-                catch (...)
-                {
-                    OD_LOG("Exception caught"); //####
+                    else
+                    {
+                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
                 }
-            }
-            else
-            {
+                else
+                {
+                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
 #if MAC_OR_LINUX_
-                GetLogger().fail("Invalid argument(s).");
+                    GetLogger().fail("YARP network not running.");
 #else // ! MAC_OR_LINUX_
-                cerr << "Invalid argument(s)." << endl;
+                    cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
+                }
+                Utilities::ShutDownGlobalStatusReporter();
+            }
+            catch (...)
+            {
+                OD_LOG("Exception caught"); //####
             }
             yarp::os::Network::fini();
         }

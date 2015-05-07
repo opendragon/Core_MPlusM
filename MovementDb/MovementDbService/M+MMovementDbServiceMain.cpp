@@ -220,21 +220,40 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (0 < arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    yarp::os::ConstString databaseAddress(arguments[0]);
-                    
-                    setUpAndGo(databaseAddress, argv, tag, serviceEndpointName, servicePortNumber,
-                               reportOnExit);
+                    if (0 < arguments.size())
+                    {
+                        setUpAndGo(arguments[0], argv, tag, serviceEndpointName, servicePortNumber,
+                                   reportOnExit);
+                    }
+                    else
+                    {
+# if MAC_OR_LINUX_
+                        GetLogger().fail("Missing database network address.");
+# else // ! MAC_OR_LINUX_
+                        cerr << "Missing database network address." << endl;
+# endif // ! MAC_OR_LINUX_
+                    }                
                 }
                 else
                 {
-# if MAC_OR_LINUX_
-                    GetLogger().fail("Missing database network address.");
-# else // ! MAC_OR_LINUX_
-                    cerr << "Missing database network address." << endl;
-# endif // ! MAC_OR_LINUX_
-                }                
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
         }
     }

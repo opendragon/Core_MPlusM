@@ -101,8 +101,7 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the Vicon DataStream input service.
- @param hostName The host name for the Vicon device server.
- @param hostPort The port for the Vicon device server.
+ @param arguments The arguments to analyze.
  @param argv The arguments to be used with the Vicon DataStream input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -110,8 +109,7 @@ static void displayCommands(void)
  @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(yarp::os::ConstString &       hostName,
-                       int &                         hostPort,
+static void setUpAndGo(const StringVector &          arguments,
                        char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
@@ -121,12 +119,36 @@ static void setUpAndGo(yarp::os::ConstString &       hostName,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_L1("hostPort = ", hostPort); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
+    yarp::os::ConstString hostName;
+    int                   hostPort = 801;
+    
+    if (0 < arguments.size())
+    {
+        hostName = arguments[0];
+        OD_LOG_S1s("hostName <- ", hostName); //####
+        if (1 < arguments.size())
+        {
+            const char * startPtr = arguments[1].c_str();
+            char *       endPtr;
+            int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+            
+            if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+            {
+                // Useable data.
+                hostPort = tempInt;
+            }
+        }
+    }
+    if (0 == hostName.size())
+    {
+        hostName = "localhost";
+        OD_LOG_S1s("hostName <- ", hostName); //####
+    }
     ViconDataStreamInputService * stuff = new ViconDataStreamInputService(*argv, tag,
                                                                           serviceEndpointName,
                                                                           servicePortNumber);
@@ -352,8 +374,6 @@ int main(int      argc,
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
-        int                   hostPort = 801;
-        yarp::os::ConstString hostName;
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
@@ -377,30 +397,29 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (0 < arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    hostName = arguments[0];
-                    OD_LOG_S1s("hostName <- ", hostName); //####
-                    if (1 < arguments.size())
-                    {
-                        const char * startPtr = arguments[1].c_str();
-                        char *       endPtr;
-                        int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-                        
-                        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
-                        {
-                            // Useable data.
-                            hostPort = tempInt;
-                        }
-                    }
+                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
+                               autostartWasSet, stdinAvailable, reportOnExit);
                 }
-                if (0 == hostName.size())
+                else
                 {
-                    hostName = "localhost";
-                    OD_LOG_S1s("hostName <- ", hostName); //####
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
-                setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName, servicePortNumber,
-                           autostartWasSet, stdinAvailable, reportOnExit);
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

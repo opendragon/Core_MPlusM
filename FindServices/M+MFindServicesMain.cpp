@@ -200,6 +200,75 @@ static void getMatchingChannels(const yarp::os::ConstString & criteria,
     OD_LOG_EXIT(); //####
 } // getMatchingChannels
 
+/*! @brief Set up the environment and perform the operation.
+ @param arguments The arguments to analyze.
+ @param flavour The format for the output. */
+static void setUpAndGo(const StringVector & arguments,
+                       const OutputFlavour  flavour)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("arguments = ", &arguments); //####
+    yarp::os::ConstString criteria;
+
+    if (0 < arguments.size())
+    {
+        criteria = arguments[0];
+        OD_LOG_S1s("criteria <- ", criteria); //####
+    }
+    if (0 < criteria.size())
+    {
+        getMatchingChannels(criteria, flavour);
+    }
+    else if (CanReadFromStandardInput())
+    {
+        StartRunning();
+        for ( ; IsRunning(); )
+        {
+            char        inChar;
+            std::string inputLine;
+            
+            cout << "Operation: [? f q]? ";
+            cout.flush();
+            cin >> inChar;
+            switch (inChar)
+            {
+                case '?' :
+                    // Help
+                    displayCommands();
+                    break;
+                    
+                case 'f' :
+                case 'F' :
+                    cout << "Match criteria: ";
+                    cout.flush();
+                    cin >> inChar;
+                    if (getline(cin, inputLine))
+                    {
+                        inputLine = inChar + inputLine;
+                        criteria = inputLine.c_str();
+                        if (0 < criteria.size())
+                        {
+                            getMatchingChannels(criteria, flavour);
+                        }
+                    }
+                    break;
+                    
+                case 'q' :
+                case 'Q' :
+                    // Quit
+                    StopRunning();
+                    break;
+                    
+                default :
+                    cout << "Unrecognized request '" << inChar << "'." << endl;
+                    break;
+                    
+            }
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -221,9 +290,8 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    yarp::os::ConstString criteria;
-    OutputFlavour         flavour;
-    StringVector          arguments;
+    OutputFlavour flavour;
+    StringVector  arguments;
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [criteria]\n\n"
                                                    "  criteria   Matching criteria for service",
@@ -240,62 +308,28 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (0 < arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    criteria = arguments[0];
-                    OD_LOG_S1s("criteria <- ", criteria); //####
+                    setUpAndGo(arguments, flavour);
                 }
-                if (0 < criteria.size())
+                else
                 {
-                    getMatchingChannels(criteria, flavour);
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
-                else if (CanReadFromStandardInput())
-                {
-                    StartRunning();
-                    for ( ; IsRunning(); )
-                    {
-                        char        inChar;
-                        std::string inputLine;
-                        
-                        cout << "Operation: [? f q]? ";
-                        cout.flush();
-                        cin >> inChar;
-                        switch (inChar)
-                        {
-                            case '?' :
-                                // Help
-                                displayCommands();
-                                break;
-                                
-                            case 'f' :
-                            case 'F' :
-                                cout << "Match criteria: ";
-                                cout.flush();
-                                cin >> inChar;
-                                if (getline(cin, inputLine))
-                                {
-                                    inputLine = inChar + inputLine;
-                                    criteria = inputLine.c_str();
-                                    if (0 < criteria.size())
-                                    {
-                                        getMatchingChannels(criteria, flavour);
-                                    }
-                                }
-                                break;
-                                
-                            case 'q' :
-                            case 'Q' :
-                                // Quit
-                                StopRunning();
-                                break;
-                                
-                            default :
-                                cout << "Unrecognized request '" << inChar << "'." << endl;
-                                break;
-                                
-                        }
-                    }
-                }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

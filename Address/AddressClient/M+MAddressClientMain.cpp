@@ -129,6 +129,144 @@ static void processArguments(const StringVector &    arguments,
     OD_LOG_EXIT(); //####
 } // processArguments
 
+/*! @brief Set up the environment and perform the operation.
+ @param arguments The arguments to analyze.
+ @param flavour The format for the output. */
+#if defined(MpM_ReportOnConnections)
+static void setUpAndGo(ChannelStatusReporter * reporter,
+                       const StringVector &    arguments,
+                       const OutputFlavour     flavour)
+#else // ! defined(MpM_ReportOnConnections)
+static void setUpAndGo(const StringVector & arguments,
+                       const OutputFlavour  flavour)
+#endif // ! defined(MpM_ReportOnConnections)
+{
+    OD_LOG_ENTER(); //####
+#if defined(MpM_ReportOnConnections)
+    OD_LOG_P2("reporter = ", reporter, "arguments = ", &arguments); //####
+#else // ! defined(MpM_ReportOnConnections)
+    OD_LOG_P1("arguments = ", &arguments); //####
+#endif // ! defined(MpM_ReportOnConnections)
+    yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+    yarp::os::ConstString namePattern(MpM_ADDRESS_CANONICAL_NAME);
+    AddressClient *       stuff = new AddressClient;
+    
+    if (stuff)
+    {
+        bool needsAddress;
+        bool needsPort;
+        
+#if defined(MpM_ReportOnConnections)
+        stuff->setReporter(*reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+        processArguments(arguments, namePattern, needsAddress, needsPort);
+        channelNameRequest += namePattern;
+        if (stuff->findService(channelNameRequest.c_str()))
+        {
+            if (stuff->connectToService())
+            {
+                yarp::os::ConstString address;
+                int                   port;
+                
+                if (stuff->getAddress(address, port))
+                {
+                    switch (flavour)
+                    {
+                        case kOutputFlavourJSON :
+                            cout << "{ ";
+                            if (needsAddress)
+                            {
+                                cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE);
+                                cout << SanitizeString(address).c_str() << T_(CHAR_DOUBLEQUOTE);
+                            }
+                            if (needsPort)
+                            {
+                                if (needsAddress)
+                                {
+                                    cout << ", ";
+                                }
+                                cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
+                                           CHAR_DOUBLEQUOTE);
+                                cout << port << T_(CHAR_DOUBLEQUOTE);
+                            }
+                            cout << " }" << endl;
+                            break;
+                            
+                        case kOutputFlavourTabs :
+                            if (needsAddress)
+                            {
+                                cout << address.c_str();
+                            }
+                            if (needsPort)
+                            {
+                                if (needsAddress)
+                                {
+                                    cout << "\t";
+                                }
+                                cout << port;
+                            }
+                            cout << endl;
+                            break;
+                            
+                        case kOutputFlavourNormal :
+                            if (needsAddress)
+                            {
+                                cout << "Address: " << address.c_str();
+                            }
+                            if (needsPort)
+                            {
+                                if (needsAddress)
+                                {
+                                    cout << ", ";
+                                }
+                                cout << "Port: " << port;
+                            }
+                            cout << endl;
+                            break;
+                            
+                        default :
+                            break;
+                            
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (stuff->getAddress(address, port))"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem fetching the address "
+                                     "information.");
+#endif // MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->findService(channelNameRequest)"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Could not find the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -182,125 +320,34 @@ int main(int      argc,
 #endif // defined(MpM_ReportOnConnections)
 					yarp::os::Network       yarp; // This is necessary to establish any connections
 												  // to the YARP infrastructure
-                    yarp::os::ConstString   channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-                    yarp::os::ConstString   namePattern(MpM_ADDRESS_CANONICAL_NAME);
                     
                     Initialize(*argv);
-                    AddressClient * stuff = new AddressClient;
-                    
-                    if (stuff)
+                    if (Utilities::CheckForRegistryService())
                     {
-                        bool needsAddress;
-                        bool needsPort;
-                        
 #if defined(MpM_ReportOnConnections)
-                        stuff->setReporter(*reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                        processArguments(arguments, namePattern, needsAddress, needsPort);
-                        channelNameRequest += namePattern;
-                        if (stuff->findService(channelNameRequest.c_str()))
-                        {
-                            if (stuff->connectToService())
-                            {
-                                yarp::os::ConstString address;
-                                int                   port;
-                                
-                                if (stuff->getAddress(address, port))
-                                {
-                                    switch (flavour)
-                                    {
-                                        case kOutputFlavourJSON :
-                                            cout << "{ ";
-                                            if (needsAddress)
-                                            {
-                                                cout << T_(CHAR_DOUBLEQUOTE "Address"
-                                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
-                                                cout << SanitizeString(address).c_str() <<
-                                                        T_(CHAR_DOUBLEQUOTE);
-                                            }
-                                            if (needsPort)
-                                            {
-                                                if (needsAddress)
-                                                {
-                                                    cout << ", ";
-                                                }
-                                                cout << T_(CHAR_DOUBLEQUOTE "Address"
-                                                           CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
-                                                cout << port << T_(CHAR_DOUBLEQUOTE);
-                                            }
-                                            cout << " }" << endl;
-                                            break;
-                                            
-                                        case kOutputFlavourTabs :
-                                            if (needsAddress)
-                                            {
-                                                cout << address.c_str();
-                                            }
-                                            if (needsPort)
-                                            {
-                                                if (needsAddress)
-                                                {
-                                                    cout << "\t";
-                                                }
-                                                cout << port;
-                                            }
-                                            cout << endl;
-                                            break;
-                                            
-                                        case kOutputFlavourNormal :
-                                            if (needsAddress)
-                                            {
-                                                cout << "Address: " << address.c_str();
-                                            }
-                                            if (needsPort)
-                                            {
-                                                if (needsAddress)
-                                                {
-                                                    cout << ", ";
-                                                }
-                                                cout << "Port: " << port;
-                                            }
-                                            cout << endl;
-                                            break;
-                                            
-                                        default :
-                                            break;
-                                            
-                                    }
-                                }
-                                else
-                                {
-                                    OD_LOG("! (stuff->getAddress(address, port))"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("Problem fetching the address information.");
-#endif // MAC_OR_LINUX_
-                                }
-                            }
-                            else
-                            {
-                                OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (stuff->findService(channelNameRequest)"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                        delete stuff;
+                        setUpAndGo(reporter, arguments, flavour);
+#else // ! defined(MpM_ReportOnConnections)
+                        setUpAndGo(arguments, flavour);
+#endif // ! defined(MpM_ReportOnConnections)
                     }
                     else
                     {
-                        OD_LOG("! (stuff)"); //####
+                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                     }
+                }
+                else
+                {
+                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
 				Utilities::ShutDownGlobalStatusReporter();
 			}

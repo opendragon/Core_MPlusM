@@ -138,6 +138,7 @@ set(MpM_ADAPTER_BASE_NAME "/_adapter_/")
 set(MpM_CLIENT_BASE_NAME "/_client_/")
 set(MpM_INPUT_BASE_NAME "/_input_/")
 set(MpM_OUTPUT_BASE_NAME "/_output_/")
+set(MpM_REGISTRY_EXECUTABLE_NAME "mpmRegistryService")
 set(MpM_SERVICE_BASE_NAME "/_service_/")
 
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")

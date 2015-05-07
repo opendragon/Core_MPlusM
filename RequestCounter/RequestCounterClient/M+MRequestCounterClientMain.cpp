@@ -127,6 +127,125 @@ static void reportTimeInReasonableUnits(const double measurement)
     cout << newValue << tag;
 } // reportTimeInReasonableUnits
 
+/*! @brief Set up the environment and perform the operation. */
+#if defined(MpM_ReportOnConnections)
+static void setUpAndGo(ChannelStatusReporter * reporter)
+#else // ! defined(MpM_ReportOnConnections)
+static void setUpAndGo(void)
+#endif // ! defined(MpM_ReportOnConnections)
+{
+    OD_LOG_ENTER(); //####
+#if defined(MpM_ReportOnConnections)
+    OD_LOG_P1("reporter = ", reporter); //####
+#endif // defined(MpM_ReportOnConnections)
+    RequestCounterClient * stuff = new RequestCounterClient;
+    
+    if (stuff)
+    {
+#if defined(MpM_ReportOnConnections)
+        stuff->setReporter(*reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+        StartRunning();
+        SetSignalHandlers(SignalRunningStop);
+        for ( ; IsRunning(); )
+        {
+            int count;
+            
+            cout << "How many requests? ";
+            cout.flush();
+            cin >> count;
+            if (0 >= count)
+            {
+                break;
+            }
+            
+            if (stuff->findService("name:RequestCounter"))
+            {
+                if (stuff->connectToService())
+                {
+                    if (stuff->resetServiceCounters())
+                    {
+                        for (int ii = 0; ii < count; ++ii)
+                        {
+                            if (! stuff->pokeService())
+                            {
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem poking the service.");
+#endif // MAC_OR_LINUX_
+                                break;
+                            }
+                            
+                        }
+                        long   counter;
+                        double elapsedTime;
+                        
+                        if (stuff->getServiceStatistics(counter, elapsedTime))
+                        {
+                            if (0 < counter)
+                            {
+                                cout << "count = " << counter << ", elapsed time = ";
+                                reportTimeInReasonableUnits(elapsedTime);
+                                cout << ", average time = ";
+                                reportTimeInReasonableUnits(elapsedTime / counter);
+                                cout << "." << endl;
+                            }
+                            else
+                            {
+                                cout << "Service reports zero requests." << endl;
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (stuff->getServiceStatistics(counter, elapsedTime))"); //####
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Problem getting statistics from the service.");
+#endif // MAC_OR_LINUX_
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (stuff->resetServiceCounters())"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Problem resetting the service counters.");
+#endif // MAC_OR_LINUX_
+                    }
+                    if (! stuff->disconnectFromService())
+                    {
+                        OD_LOG("(! stuff->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Problem disconnecting from the service.");
+#endif // MAC_OR_LINUX_
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (stuff->findService(\"name:RequestCounter\"))"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Could not find the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -169,113 +288,32 @@ int main(int      argc,
 											  // to the YARP infrastructure
                 
                 Initialize(*argv);
-                RequestCounterClient * stuff = new RequestCounterClient;
-                
-                if (stuff)
+                if (Utilities::CheckForRegistryService())
                 {
 #if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(*reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                    StartRunning();
-                    SetSignalHandlers(SignalRunningStop);
-                    for ( ; IsRunning(); )
-                    {
-                        int count;
-                        
-                        cout << "How many requests? ";
-                        cout.flush();
-                        cin >> count;
-                        if (0 >= count)
-                        {
-                            break;
-                        }
-                        
-                        if (stuff->findService("name:RequestCounter"))
-                        {
-                            if (stuff->connectToService())
-                            {
-                                if (stuff->resetServiceCounters())
-                                {
-                                    for (int ii = 0; ii < count; ++ii)
-                                    {
-                                        if (! stuff->pokeService())
-                                        {
-#if MAC_OR_LINUX_
-                                            GetLogger().fail("Problem poking the service.");
-#endif // MAC_OR_LINUX_
-                                            break;
-                                        }
-                                        
-                                    }
-                                    long   counter;
-                                    double elapsedTime;
-                                    
-                                    if (stuff->getServiceStatistics(counter, elapsedTime))
-                                    {
-                                        if (0 < counter)
-                                        {
-                                            cout << "count = " << counter << ", elapsed time = ";
-                                            reportTimeInReasonableUnits(elapsedTime);
-                                            cout << ", average time = ";
-                                            reportTimeInReasonableUnits(elapsedTime / counter);
-                                            cout << "." << endl;
-                                        }
-                                        else
-                                        {
-                                            cout << "Service reports zero requests." << endl;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (stuff->getServiceStatistics(counter, " //####
-                                               "elapsedTime))"); //####
-#if MAC_OR_LINUX_
-                                        GetLogger().fail("Problem getting statistics from the "
-                                                         "service.");
-#endif // MAC_OR_LINUX_
-                                    }
-                                }
-                                else
-                                {
-                                    OD_LOG("! (stuff->resetServiceCounters())"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("Problem resetting the service counters.");
-#endif // MAC_OR_LINUX_
-                                }
-                                if (! stuff->disconnectFromService())
-                                {
-                                    OD_LOG("(! stuff->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
-                                }
-                            }
-                            else
-                            {
-                                OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (stuff->findService(\"name:RequestCounter\"))"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    delete stuff;
+                    setUpAndGo(reporter);
+#else // ! defined(MpM_ReportOnConnections)
+                    setUpAndGo();
+#endif // ! defined(MpM_ReportOnConnections)
                 }
                 else
                 {
-                    OD_LOG("! (stuff)"); //####
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

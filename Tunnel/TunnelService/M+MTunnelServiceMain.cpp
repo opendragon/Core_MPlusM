@@ -222,40 +222,62 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (2 <= arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    struct in_addr        addrBuff;
-                    yarp::os::ConstString hostName;
-                    const char *          startPtr = arguments[1].c_str();
-                    char *                endPtr;
-                    int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-
-                    hostName = arguments[0];
-                    OD_LOG_S1s("hostName <- ", hostName); //####
-                    if ((0 < inet_pton(AF_INET, hostName.c_str(), &addrBuff)) &&
-                        (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                    if (2 <= arguments.size())
                     {
-                        // Useable data.
-                        setUpAndGo(hostName, tempInt, argv, tag, serviceEndpointName,
-                                   servicePortNumber, reportOnExit);
+                        struct in_addr        addrBuff;
+                        yarp::os::ConstString hostName;
+                        const char *          startPtr = arguments[1].c_str();
+                        char *                endPtr;
+                        int                   hostPort = static_cast<int>(strtol(startPtr, &endPtr,
+                                                                                 10));
+                        
+                        hostName = arguments[0];
+                        OD_LOG_S1s("hostName <- ", hostName); //####
+                        if ((0 < inet_pton(AF_INET, hostName.c_str(), &addrBuff)) &&
+                            (startPtr != endPtr) && (! *endPtr) && (0 < hostPort))
+                        {
+                            // Useable data.
+                            setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
+                                       servicePortNumber, reportOnExit);
+                        }
+                        else
+                        {
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Invalid argument(s).");
+#else // ! MAC_OR_LINUX_
+                            cerr << "Invalid argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
                     }
                     else
                     {
 #if MAC_OR_LINUX_
-                        GetLogger().fail("Invalid argument(s).");
+                        GetLogger().fail("Missing argument(s).");
 #else // ! MAC_OR_LINUX_
-                        cerr << "Invalid argument(s)." << endl;
+                        cerr << "Missing argument(s)." << endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
                 else
                 {
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Missing argument(s).");
+                    GetLogger().fail("Registry Service not running.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Missing argument(s)." << endl;
+                    cerr << "Registry Service not running." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

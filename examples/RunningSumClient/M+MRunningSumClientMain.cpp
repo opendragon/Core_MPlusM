@@ -93,6 +93,143 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
+/*! @brief Set up the environment and perform the operation. */
+#if defined(MpM_ReportOnConnections)
+static void setUpAndGo(ChannelStatusReporter * reporter)
+#else // ! defined(MpM_ReportOnConnections)
+static void setUpAndGo(void)
+#endif // ! defined(MpM_ReportOnConnections)
+{
+    OD_LOG_ENTER(); //####
+#if defined(MpM_ReportOnConnections)
+    OD_LOG_P1("reporter = ", reporter); //####
+#endif // defined(MpM_ReportOnConnections)
+    RunningSumClient * stuff = new RunningSumClient;
+    
+    if (stuff)
+    {
+        StartRunning();
+        SetSignalHandlers(SignalRunningStop);
+        if (stuff->findService("Name: RunningSum"))
+        {
+#if defined(MpM_ReportOnConnections)
+            stuff->setReporter(*reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+            if (stuff->connectToService())
+            {
+                for ( ; IsRunning(); )
+                {
+                    char   inChar;
+                    double newSum;
+                    double value;
+                    
+                    cout << "Operation: [? + q r s]? ";
+                    cout.flush();
+                    cin >> inChar;
+                    switch (inChar)
+                    {
+                        case '?' :
+                            // Help
+                            displayCommands();
+                            break;
+                            
+                        case '+' :
+                            cout << "add: ";
+                            cout.flush();
+                            cin >> value;
+                            cout << "adding " << value << endl;
+                            if (stuff->addToSum(value, newSum))
+                            {
+                                cout << "running sum = " << newSum << endl;
+                            }
+                            else
+                            {
+                                OD_LOG("! (stuff->addToSum(value, newSum))"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem adding to the sum.");
+#endif // MAC_OR_LINUX_
+                            }
+                            break;
+                            
+                        case 'q' :
+                        case 'Q' :
+                            cout << "Exiting" << endl;
+                            if (! stuff->stopSum())
+                            {
+                                OD_LOG("(! stuff->stopSum())"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem stopping the sum.");
+#endif // MAC_OR_LINUX_
+                            }
+                            StopRunning();
+                            break;
+                            
+                        case 'r' :
+                        case 'R' :
+                            cout << "Resetting" << endl;
+                            if (! stuff->resetSum())
+                            {
+                                OD_LOG("(! stuff->resetSum())"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem resetting the sum.");
+#endif // MAC_OR_LINUX_
+                            }
+                            break;
+                            
+                        case 's' :
+                        case 'S' :
+                            cout << "Starting" << endl;
+                            if (! stuff->startSum())
+                            {
+                                OD_LOG("(! stuff->startSum())"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem starting the sum.");
+#endif // MAC_OR_LINUX_
+                            }
+                            break;
+                            
+                        default :
+                            cout << "Unrecognized request '" << inChar << "'." << endl;
+                            break;
+                            
+                    }
+                }
+                if (! stuff->disconnectFromService())
+                {
+                    OD_LOG("(! stuff->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem disconnecting from the service.");
+#endif // MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->findService(\"Name: RunningSum\")"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Could not find the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -147,129 +284,32 @@ int main(int      argc,
 											  // to the YARP infrastructure
                 
                 Initialize(*argv);
-                RunningSumClient * stuff = new RunningSumClient;
-                
-                if (stuff)
+                if (Utilities::CheckForRegistryService())
                 {
-                    StartRunning();
-                    SetSignalHandlers(SignalRunningStop);
-                    if (stuff->findService("Name: RunningSum"))
-                    {
 #if defined(MpM_ReportOnConnections)
-                        stuff->setReporter(*reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                        if (stuff->connectToService())
-                        {
-                            for ( ; IsRunning(); )
-                            {
-                                char   inChar;
-                                double newSum;
-                                double value;
-                                
-                                cout << "Operation: [? + q r s]? ";
-                                cout.flush();
-                                cin >> inChar;
-                                switch (inChar)
-                                {
-                                    case '?' :
-                                        // Help
-                                        displayCommands();
-                                        break;
-                                        
-                                    case '+' :
-                                        cout << "add: ";
-                                        cout.flush();
-                                        cin >> value;
-                                        cout << "adding " << value << endl;
-                                        if (stuff->addToSum(value, newSum))
-                                        {
-                                            cout << "running sum = " << newSum << endl;
-                                        }
-                                        else
-                                        {
-                                            OD_LOG("! (stuff->addToSum(value, newSum))"); //####
-#if MAC_OR_LINUX_
-                                            GetLogger().fail("Problem adding to the sum.");
-#endif // MAC_OR_LINUX_
-                                        }
-                                        break;
-                                        
-                                    case 'q' :
-                                    case 'Q' :
-                                        cout << "Exiting" << endl;
-                                        if (! stuff->stopSum())
-                                        {
-                                            OD_LOG("(! stuff->stopSum())"); //####
-#if MAC_OR_LINUX_
-                                            GetLogger().fail("Problem stopping the sum.");
-#endif // MAC_OR_LINUX_
-                                        }
-                                        StopRunning();
-                                        break;
-                                        
-                                    case 'r' :
-                                    case 'R' :
-                                        cout << "Resetting" << endl;
-                                        if (! stuff->resetSum())
-                                        {
-                                            OD_LOG("(! stuff->resetSum())"); //####
-#if MAC_OR_LINUX_
-                                            GetLogger().fail("Problem resetting the sum.");
-#endif // MAC_OR_LINUX_
-                                        }
-                                        break;
-                                        
-                                    case 's' :
-                                    case 'S' :
-                                        cout << "Starting" << endl;
-                                        if (! stuff->startSum())
-                                        {
-                                            OD_LOG("(! stuff->startSum())"); //####
-#if MAC_OR_LINUX_
-                                            GetLogger().fail("Problem starting the sum.");
-#endif // MAC_OR_LINUX_
-                                        }
-                                        break;
-                                        
-                                    default :
-                                        cout << "Unrecognized request '" << inChar << "'." << endl;
-                                        break;
-                                        
-                                }
-                            }
-                            if (! stuff->disconnectFromService())
-                            {
-                                OD_LOG("(! stuff->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (stuff->findService(\"Name: RunningSum\")"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                    delete stuff;
+                    setUpAndGo(reporter);
+#else // ! defined(MpM_ReportOnConnections)
+                    setUpAndGo();
+#endif // ! defined(MpM_ReportOnConnections)
                 }
                 else
                 {
-                    OD_LOG("! (stuff)"); //####
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

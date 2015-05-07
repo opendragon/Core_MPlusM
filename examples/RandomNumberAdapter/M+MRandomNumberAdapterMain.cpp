@@ -82,6 +82,160 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Set up the environment and perform the operation.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the application. */
+#if defined(MpM_ReportOnConnections)
+static void setUpAndGo(const int               argc,
+                       char * *                argv,
+                       ChannelStatusReporter * reporter)
+#else // ! defined(MpM_ReportOnConnections)
+static void setUpAndGo(int      argc,
+                       char * * argv)
+#endif // ! defined(MpM_ReportOnConnections)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_LL1("argc = ", argc); //####
+#if defined(MpM_ReportOnConnections)
+    OD_LOG_P2("argv = ", argv, "reporter = ", reporter); //####
+#else // ! defined(MpM_ReportOnConnections)
+    OD_LOG_P1("argv = ", argv); //####
+#endif // defined(MpM_ReportOnConnections)
+    RandomNumberClient * stuff = new RandomNumberClient;
+    
+    if (stuff)
+    {
+        StartRunning();
+        SetSignalHandlers(SignalRunningStop);
+        if (stuff->findService("keyword: random"))
+        {
+#if defined(MpM_ReportOnConnections)
+            stuff->setReporter(*reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+            if (stuff->connectToService())
+            {
+                Common::AdapterChannel *   inputChannel = new Common::AdapterChannel(false);
+                Common::AdapterChannel *   outputChannel = new Common::AdapterChannel(true);
+                RandomNumberAdapterData    sharedData(stuff, outputChannel);
+                RandomNumberInputHandler * inputHandler = new RandomNumberInputHandler(sharedData);
+                
+                if (inputChannel && outputChannel && inputHandler)
+                {
+                    yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE "input/randomnumber"));
+                    yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE
+                                                        "output/randomnumber"));
+                    
+                    if (argc > 1)
+                    {
+                        inputName = argv[1];
+                        if (argc > 2)
+                        {
+                            outputName = argv[2];
+                        }
+                    }
+#if defined(MpM_ReportOnConnections)
+                    inputChannel->setReporter(*reporter);
+                    inputChannel->getReport(*reporter);
+                    outputChannel->setReporter(*reporter);
+                    outputChannel->getReport(*reporter);
+#endif // defined(MpM_ReportOnConnections)
+                    if (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) &&
+                        outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
+                    {
+                        double announcedTime = yarp::os::Time::now();
+                        
+                        stuff->addAssociatedChannel(inputChannel);
+                        stuff->addAssociatedChannel(outputChannel);
+                        sharedData.activate();
+                        inputChannel->setReader(*inputHandler);
+                        for ( ; IsRunning() && sharedData.isActive(); )
+                        {
+#if defined(MpM_MainDoesDelayNotYield)
+                            yarp::os::Time::delay(ONE_SECOND_DELAY);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                            yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                            if (IsRunning())
+                            {
+                                double now = yarp::os::Time::now();
+                                
+                                if ((announcedTime + ANNOUNCE_INTERVAL) <= now)
+                                {
+                                    // Report associated channels again, in case the
+                                    // Registry Service has been restarted.
+                                    announcedTime = now;
+                                    stuff->addAssociatedChannel(inputChannel);
+                                    stuff->addAssociatedChannel(outputChannel);
+                                }
+                            }
+                            else
+                            {
+                                sharedData.deactivate();
+                            }
+                        }
+                        stuff->removeAssociatedChannels();
+                    }
+                    else
+                    {
+                        OD_LOG("! (inputChannel->openWithRetries(inputName, " //####
+                               "STANDARD_WAIT_TIME) && " //####
+                               "outputChannel->openWithRetries(outputName, " //####
+                               "STANDARD_WAIT_TIME))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Problem opening a channel.");
+#endif // MAC_OR_LINUX_
+                    }
+#if defined(MpM_DoExplicitClose)
+                    inputChannel->close();
+                    outputChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+                }
+                else
+                {
+                    OD_LOG("! (controlChannel && inputChannel && outputChannel && " //####
+                           "controlHandler && inputHandler)"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem creating a channel.");
+#endif // MAC_OR_LINUX_
+                }
+                BaseChannel::RelinquishChannel(inputChannel);
+                BaseChannel::RelinquishChannel(outputChannel);
+                if (! stuff->disconnectFromService())
+                {
+                    OD_LOG("(! stuff->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Problem disconnecting from the service.");
+#endif // MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (stuff->connectToService())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (stuff->findService(\"keyword: random\"))"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Could not find the required service.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Could not find the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -109,153 +263,48 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        Utilities::SetUpGlobalStatusReporter();
-        Utilities::CheckForNameServerReporter();
-        if (Utilities::CheckForValidNetwork())
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, 2014, STANDARD_COPYRIGHT_NAME))
         {
-#if defined(MpM_ReportOnConnections)
-			ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-			yarp::os::Network       yarp; // This is necessary to establish any connections to
-									      // the YARP infrastructure
-            
-            Initialize(*argv);
-            RandomNumberClient * stuff = new RandomNumberClient;
-            
-            if (stuff)
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
+            if (Utilities::CheckForValidNetwork())
             {
-                StartRunning();
-                SetSignalHandlers(SignalRunningStop);
-                if (stuff->findService("keyword: random"))
+#if defined(MpM_ReportOnConnections)
+                ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+                yarp::os::Network       yarp; // This is necessary to establish any connections to
+                                              // the YARP infrastructure
+                
+                Initialize(*argv);
+                if (Utilities::CheckForRegistryService())
                 {
 #if defined(MpM_ReportOnConnections)
-                    stuff->setReporter(*reporter, true);
-#endif // defined(MpM_ReportOnConnections)
-                    if (stuff->connectToService())
-                    {
-                        Common::AdapterChannel *   inputChannel = new Common::AdapterChannel(false);
-                        Common::AdapterChannel *   outputChannel = new Common::AdapterChannel(true);
-                        RandomNumberAdapterData    sharedData(stuff, outputChannel);
-                        RandomNumberInputHandler * inputHandler =
-                                                        new RandomNumberInputHandler(sharedData);
-                        
-                        if (inputChannel && outputChannel && inputHandler)
-                        {
-                            yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE
-                                                               "input/randomnumber"));
-                            yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE
-                                                                "output/randomnumber"));
-                            
-                            if (argc > 1)
-                            {
-                                inputName = argv[1];
-                                if (argc > 2)
-                                {
-                                    outputName = argv[2];
-                                }
-                            }
-#if defined(MpM_ReportOnConnections)
-                            inputChannel->setReporter(*reporter);
-                            inputChannel->getReport(*reporter);
-                            outputChannel->setReporter(*reporter);
-                            outputChannel->getReport(*reporter);
-#endif // defined(MpM_ReportOnConnections)
-                            if (inputChannel->openWithRetries(inputName, STANDARD_WAIT_TIME) &&
-                                outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
-                            {
-                                double announcedTime = yarp::os::Time::now();
-                                
-                                stuff->addAssociatedChannel(inputChannel);
-                                stuff->addAssociatedChannel(outputChannel);
-                                sharedData.activate();
-                                inputChannel->setReader(*inputHandler);
-                                for ( ; IsRunning() && sharedData.isActive(); )
-                                {
-#if defined(MpM_MainDoesDelayNotYield)
-                                    yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                                    yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                                    if (IsRunning())
-                                    {
-                                        double now = yarp::os::Time::now();
-                                        
-                                        if ((announcedTime + ANNOUNCE_INTERVAL) <= now)
-                                        {
-                                            // Report associated channels again, in case the
-                                            // Registry Service has been restarted.
-                                            announcedTime = now;
-                                            stuff->addAssociatedChannel(inputChannel);
-                                            stuff->addAssociatedChannel(outputChannel);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        sharedData.deactivate();
-                                    }
-                                }
-                                stuff->removeAssociatedChannels();
-                            }
-                            else
-                            {
-                                OD_LOG("! (inputChannel->openWithRetries(inputName, " //####
-                                       "STANDARD_WAIT_TIME) && " //####
-                                       "outputChannel->openWithRetries(outputName, " //####
-                                       "STANDARD_WAIT_TIME))"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Problem opening a channel.");
-#endif // MAC_OR_LINUX_
-                            }
-#if defined(MpM_DoExplicitClose)
-                            inputChannel->close();
-                            outputChannel->close();
-#endif // defined(MpM_DoExplicitClose)
-                        }
-                        else
-                        {
-                            OD_LOG("! (controlChannel && inputChannel && outputChannel && " //####
-                                   "controlHandler && inputHandler)"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Problem creating a channel.");
-#endif // MAC_OR_LINUX_
-                        }
-                        BaseChannel::RelinquishChannel(inputChannel);
-                        BaseChannel::RelinquishChannel(outputChannel);
-                        if (! stuff->disconnectFromService())
-                        {
-                            OD_LOG("(! stuff->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
+                    setUpAndGo(argc, argv, reporter);
+#else // ! defined(MpM_ReportOnConnections)
+                    setUpAndGo(argc, argv);
+#endif // ! defined(MpM_ReportOnConnections)
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(\"keyword: random\"))"); //####
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Could not find the required service.");
+                    GetLogger().fail("Registry Service not running.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Could not find the required service." << endl;
+                    cerr << "Registry Service not running." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
-                delete stuff;
             }
             else
             {
-                OD_LOG("! (stuff)"); //####
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
+            Utilities::ShutDownGlobalStatusReporter();
         }
-        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

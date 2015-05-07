@@ -88,15 +88,13 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the Address service.
- @param hostName The host name for the Address server.
- @param hostPort The port for the Address server.
+ @param arguments The arguments to analyze.
  @param argv The arguments to be used with the Address service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const yarp::os::ConstString & hostName,
-                       const int                     hostPort,
+static void setUpAndGo(const StringVector &          arguments,
                        char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
@@ -104,69 +102,105 @@ static void setUpAndGo(const yarp::os::ConstString & hostName,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    AddressService * stuff = new AddressService(hostName, hostPort, *argv, tag, serviceEndpointName,
-                                                servicePortNumber);
-    
-    if (stuff)
+    if (2 <= arguments.size())
     {
-        if (stuff->start())
+        struct in_addr        addrBuff;
+        yarp::os::ConstString hostName(arguments[0]);
+        OD_LOG_S1s("hostName <- ", hostName); //####
+        const char *          startPtr = arguments[1].c_str();
+        char *                endPtr;
+        int                   hostPort = static_cast<int>(strtol(startPtr, &endPtr, 10));
+#if MAC_OR_LINUX_
+        int                   res = inet_pton(AF_INET, hostName.c_str(), &addrBuff);
+#else // ! MAC_OR_LINUX_
+        int                   res = InetPton(AF_INET, hostName.c_str(), &addrBuff);
+#endif // ! MAC_OR_LINUX_
+        
+        if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < hostPort))
         {
-            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            // Useable data.
+            AddressService * stuff = new AddressService(hostName, hostPort, *argv, tag,
+                                                        serviceEndpointName, servicePortNumber);
             
-            OD_LOG_S1s("channelName = ", channelName); //####
-            if (RegisterLocalService(channelName, *stuff))
+            if (stuff)
             {
-                StartRunning();
-                SetSignalHandlers(SignalRunningStop);
-                stuff->startPinger();
-                for ( ; IsRunning(); )
+                if (stuff->start())
                 {
+                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+                    
+                    OD_LOG_S1s("channelName = ", channelName); //####
+                    if (RegisterLocalService(channelName, *stuff))
+                    {
+                        StartRunning();
+                        SetSignalHandlers(SignalRunningStop);
+                        stuff->startPinger();
+                        for ( ; IsRunning(); )
+                        {
 #if defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::yield();
+                            yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+                        }
+                        UnregisterLocalService(channelName, *stuff);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            stuff->gatherMetrics(metrics);
+                            yarp::os::ConstString converted =
+                                                        Utilities::ConvertMetricsToString(metrics);
+                            
+                            cout << converted.c_str() << endl;
+                        }
+                        stuff->stop();
+                    }
+                    else
+                    {
+                        OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Service could not be registered." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
                 }
-                UnregisterLocalService(channelName, *stuff);
-                if (reportOnExit)
+                else
                 {
-                    yarp::os::Bottle metrics;
-                    
-                    stuff->gatherMetrics(metrics);
-                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
-                    
-                    cout << converted.c_str() << endl;
+                    OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Service could not be started." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
-                stuff->stop();
+                delete stuff;
             }
             else
             {
-                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Service could not be registered." << endl;
-#endif // ! MAC_OR_LINUX_
+                OD_LOG("! (stuff)"); //####
             }
         }
         else
         {
-            OD_LOG("! (stuff->start())"); //####
 #if MAC_OR_LINUX_
-            GetLogger().fail("Service could not be started.");
+            GetLogger().fail("Invalid argument(s).");
 #else // ! MAC_OR_LINUX_
-            cerr << "Service could not be started." << endl;
+            cerr << "Invalid argument(s)." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        delete stuff;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+#if MAC_OR_LINUX_
+        GetLogger().fail("Missing argument(s).");
+#else // ! MAC_OR_LINUX_
+        cerr << "Missing argument(s)." << endl;
+#endif // ! MAC_OR_LINUX_
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -219,45 +253,29 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (2 <= arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    struct in_addr        addrBuff;
-                    yarp::os::ConstString hostName;
-                    const char *          startPtr = arguments[1].c_str();
-                    char *                endPtr;
-                    int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-
-                    hostName = arguments[0];
-                    OD_LOG_S1s("hostName <- ", hostName); //####
-#if MAC_OR_LINUX_
-                    int res = inet_pton(AF_INET, hostName.c_str(), &addrBuff);
-#else // ! MAC_OR_LINUX_
-                    int res = InetPton(AF_INET, hostName.c_str(), &addrBuff);
-#endif // ! MAC_OR_LINUX_
-
-                    if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
-                    {
-                        // Useable data.
-                        setUpAndGo(hostName, tempInt, argv, tag, serviceEndpointName,
-                                   servicePortNumber, reportOnExit);
-                    }
-                    else
-                    {
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Invalid argument(s).");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Invalid argument(s)." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
+                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
+                               reportOnExit);
                 }
                 else
                 {
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Missing argument(s).");
+                    GetLogger().fail("Registry Service not running.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Missing argument(s)." << endl;
+                    cerr << "Registry Service not running." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

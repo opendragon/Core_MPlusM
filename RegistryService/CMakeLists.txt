@@ -38,7 +38,7 @@
 
 add_subdirectory(RegistryTests)
 
-set(THIS_TARGET mpmRegistryService)
+set(THIS_TARGET ${MpM_REGISTRY_EXECUTABLE_NAME})
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)

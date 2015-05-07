@@ -1943,327 +1943,6 @@ static bool validateLoadedScript(JSContext *             jct,
     return okSoFar;
 } // validateLoadedScript
 
-/*! @brief Set up the %JavaScript environment and start the %JavaScript input / output service.
- @param jct The %JavaScript engine context.
- @param script The %JavaScript source code to be executed.
- @param scriptPath The path to the script file.
- @param tag The modifier for the service name and port names.
- @param argv The arguments to be used with the %JavaScript input / output service.
- @param serviceEndpointName The YARP name to be assigned to the new service.
- @param servicePortNumber The port being used by the service.
- @param autostartWasSet @c true if the service is to be started immediately.
- @param stdinAvailable @c true if running in the foreground and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(JSContext *                   jct,
-                       const yarp::os::ConstString & script,
-                       const yarp::os::ConstString & scriptPath,
-                       const yarp::os::ConstString & tag,
-                       StringVector &                argv,
-                       const yarp::os::ConstString & serviceEndpointName,
-                       const yarp::os::ConstString & servicePortNumber,
-                       const bool                    autostartWasSet,
-                       const bool                    stdinAvailable,
-                       const bool                    reportOnExit)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "argv = ", &argv); //####
-    OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
-              "reportOnExit = ", reportOnExit); //####
-    // Enter a request before running anything in the context. In particular, the request is needed
-    // in order for JS_InitStandardClasses to work properly.
-    JSAutoRequest    ar(jct);
-    JS::RootedObject global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
-                                                    JS::FireOnNewGlobalHook));
-    
-    if (global)
-    {
-        // Enter the new global object's compartment.
-        bool                     okSoFar;
-        JSAutoCompartment        ac(jct, global);
-        JS::OwningCompileOptions options(jct); // this is used so that script objects persist
-        yarp::os::ConstString    description;
-        
-        // Populate the global object with the standard globals, like Object and Array.
-        if (JS_InitStandardClasses(jct, global))
-        {
-            okSoFar = true;
-        }
-        else
-        {
-            OD_LOG("! (JS_InitStandardClasses(jct, global))"); //####
-            okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("JavaScript global object could not be initialized.");
-#else // ! MAC_OR_LINUX_
-            cerr << "JavaScript global object could not be initialized." << endl;
-#endif // ! MAC_OR_LINUX_
-        }
-        if (okSoFar)
-        {
-            if (! addCustomObjects(jct, global, tag, argv))
-            {
-                OD_LOG("(! addCustomObjects(jct, global, tag, argv))"); //####
-                okSoFar = false;
-#if MAC_OR_LINUX_
-                GetLogger().fail("Custom objects could not be added to the JavaScript global "
-                                 "object.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Custom objects could not be added to the JavaScript global object." <<
-                endl;
-#endif // ! MAC_OR_LINUX_
-            }
-        }
-        if (okSoFar)
-        {
-            if (! loadScript(jct, options, script, scriptPath))
-            {
-                OD_LOG("(! loadScript(jct, options, script, scriptPath))"); //####
-                okSoFar = false;
-#if MAC_OR_LINUX_
-                GetLogger().fail("Script could not be loaded.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Script could not be loaded." << endl;
-#endif // ! MAC_OR_LINUX_
-            }
-        }
-        bool                  sawThread;
-        yarp::os::ConstString helpText;
-        ChannelVector         loadedInletDescriptions;
-        ChannelVector         loadedOutletDescriptions;
-        double                loadedInterval;
-        JS::AutoValueVector   loadedInletHandlers(jct);
-        JS::RootedValue       loadedStartingFunction(jct);
-        JS::RootedValue       loadedStoppingFunction(jct);
-        JS::RootedValue       loadedThreadFunction(jct);
-        
-        if (okSoFar)
-        {
-            if (! validateLoadedScript(jct, global, sawThread, description, helpText,
-                                       loadedInletDescriptions, loadedOutletDescriptions,
-                                       loadedInletHandlers, loadedStartingFunction,
-                                       loadedStoppingFunction, loadedThreadFunction,
-                                       loadedInterval))
-            {
-                OD_LOG("(! validateLoadedScript(jct, global, sawThread, description, " //####
-                       "inStreamDescriptions, outStreamDescriptions, " //####
-                       "loadedInletHandlers, loadedThreadFunction, loadedInterval))"); //####
-                okSoFar = false;
-#if MAC_OR_LINUX_
-                GetLogger().fail("Script is missing one or more functions or variables.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Script is missing one or more functions or variables." << endl;
-#endif // ! MAC_OR_LINUX_
-            }
-        }
-        if (okSoFar)
-        {
-            JavaScriptService * stuff = new JavaScriptService(jct, global, argv[0], tag,
-                                                              description, loadedInletDescriptions,
-                                                              loadedOutletDescriptions,
-                                                              loadedInletHandlers,
-                                                              loadedStartingFunction,
-                                                              loadedStoppingFunction,
-                                                              sawThread, loadedThreadFunction,
-                                                              loadedInterval,
-                                                              serviceEndpointName,
-                                                              servicePortNumber);
-            
-            if (stuff)
-            {
-                if (stuff->start())
-                {
-                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
-                    
-                    OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName, *stuff))
-                    {
-                        bool             configured = false;
-                        yarp::os::Bottle configureData;
-                        
-                        StartRunning();
-                        SetSignalHandlers(SignalRunningStop);
-                        stuff->startPinger();
-                        if (autostartWasSet || (! stdinAvailable))
-                        {
-                            if (stuff->configure(configureData))
-                            {
-                                stuff->startStreams();
-                            }
-                        }
-                        for ( ; IsRunning(); )
-                        {
-                            if ((! autostartWasSet) && stdinAvailable)
-                            {
-                                char inChar;
-                                
-                                cout << "Operation: [? b c e q r u]? ";
-                                cout.flush();
-                                cin >> inChar;
-                                switch (inChar)
-                                {
-                                    case '?' :
-                                        // Help
-                                        displayCommands(helpText);
-                                        break;
-                                        
-                                    case 'b' :
-                                    case 'B' :
-                                        // Start streams
-                                        if (! configured)
-                                        {
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        if (configured)
-                                        {
-                                            stuff->startStreams();
-                                        }
-                                        break;
-                                        
-                                    case 'c' :
-                                    case 'C' :
-                                        // Configure - nothing to do for the JavaScript input /
-                                        // output service.
-                                        if (stuff->configure(configureData))
-                                        {
-                                            configured = true;
-                                        }
-                                        break;
-                                        
-                                    case 'e' :
-                                    case 'E' :
-                                        // Stop streams
-                                        stuff->stopStreams();
-                                        break;
-                                        
-                                    case 'q' :
-                                    case 'Q' :
-                                        // Quit
-                                        StopRunning();
-                                        break;
-                                        
-                                    case 'r' :
-                                    case 'R' :
-                                        // Restart streams
-                                        if (! configured)
-                                        {
-                                            if (stuff->configure(configureData))
-                                            {
-                                                configured = true;
-                                            }
-                                        }
-                                        if (configured)
-                                        {
-                                            stuff->restartStreams();
-                                        }
-                                        break;
-                                        
-                                    case 'u' :
-                                    case 'U' :
-                                        // Unconfigure
-                                        configured = false;
-                                        break;
-                                        
-                                    default :
-                                        cout << "Unrecognized request '" << inChar << "'." << endl;
-                                        break;
-                                        
-                                }
-                            }
-                            else
-                            {
-#if defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                                yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                            }
-                        }
-                        UnregisterLocalService(channelName, *stuff);
-                        if (reportOnExit)
-                        {
-                            yarp::os::Bottle metrics;
-                            
-                            stuff->gatherMetrics(metrics);
-                            yarp::os::ConstString converted =
-                            Utilities::ConvertMetricsToString(metrics);
-                            
-                            cout << converted.c_str() << endl;
-                        }
-                        stuff->stop();
-                    }
-                    else
-                    {
-                        OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Service could not be registered." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (stuff->start())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Service could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
-                }
-                delete stuff;
-            }
-            else
-            {
-                OD_LOG("! (stuff)"); //####
-            }
-        }
-    }
-    else
-    {
-        OD_LOG("! (global)"); //####
-#if MAC_OR_LINUX_
-        GetLogger().fail("JavaScript global object could not be created.");
-#else // ! MAC_OR_LINUX_
-        cerr << "JavaScript global object could not be created." << endl;
-#endif // ! MAC_OR_LINUX_
-    }
-    OD_LOG_EXIT(); //####
-} // setUpAndGo
-
-/*! @brief Return the file name part of a path.
- @param inFileName The file path to be processed.
- @returns The file name part of a path. */
-static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFileName)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inFileName = ", inFileName); //####
-    yarp::os::ConstString result;
-#if MAC_OR_LINUX_
-    char * nameCopy = strdup(inFileName.c_str());
-#else // ! MAC_OR_LINUX_
-    char   baseFileName[_MAX_FNAME + 10];
-    char   baseExtension[_MAX_EXT + 10];
-#endif // ! MAC_OR_LINUX_
-    
-#if MAC_OR_LINUX_
-    result = basename(nameCopy);
-    free(nameCopy);
-#else // ! MAC_OR_LINUX_
-	_splitpath_s(inFileName.c_str(), NULL, 0, NULL, 0, baseFileName, sizeof(baseFileName),
-					baseExtension, sizeof(baseExtension));
-    result = baseFileName;
-    result += ".";
-    result += baseExtension;
-#endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT_S(result.c_str()); //####
-    return result;
-} // getFileNamePart
-
 /*! @brief Return the base name of a file name.
  @param inFileName The file name to be processed.
  @returns The base name of a file name. */
@@ -2285,6 +1964,459 @@ static yarp::os::ConstString getFileNameBase(const yarp::os::ConstString & inFil
     OD_LOG_EXIT_S(result.c_str()); //####
     return result;
 } // getFileNameBase
+
+/*! @brief Return the file name part of a path.
+ @param inFileName The file path to be processed.
+ @returns The file name part of a path. */
+static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFileName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inFileName = ", inFileName); //####
+    yarp::os::ConstString result;
+#if MAC_OR_LINUX_
+    char * nameCopy = strdup(inFileName.c_str());
+#else // ! MAC_OR_LINUX_
+    char   baseFileName[_MAX_FNAME + 10];
+    char   baseExtension[_MAX_EXT + 10];
+#endif // ! MAC_OR_LINUX_
+    
+#if MAC_OR_LINUX_
+    result = basename(nameCopy);
+    free(nameCopy);
+#else // ! MAC_OR_LINUX_
+    _splitpath_s(inFileName.c_str(), NULL, 0, NULL, 0, baseFileName, sizeof(baseFileName),
+                 baseExtension, sizeof(baseExtension));
+    result = baseFileName;
+    result += ".";
+    result += baseExtension;
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT_S(result.c_str()); //####
+    return result;
+} // getFileNamePart
+
+/*! @brief Set up the environment and start the JavaScript service.
+ @param arguments The arguments to analyze.
+ @param tag The modifier for the service name and port names.
+ @param autostartWasSet @c true if the service is to be started immediately.
+ @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
+static void setUpAndGo(StringVector &                arguments,
+                       yarp::os::ConstString &       tag,
+                       yarp::os::ConstString &       serviceEndpointName,
+                       const yarp::os::ConstString & servicePortNumber,
+                       const bool                    autostartWasSet,
+                       const bool                    nameWasSet,
+                       const bool                    reportOnExit,
+                       const bool                    stdinAvailable)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("arguments = ", &arguments); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_B4("autostartWasSet = ", autostartWasSet, "nameWasSet = ", nameWasSet, //####
+              "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
+    if (0 < arguments.size())
+    {
+        yarp::os::ConstString rawTag(tag);
+        yarp::os::ConstString scriptPath(arguments[0]);
+        yarp::os::ConstString scriptSource;
+        yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
+        
+        if (0 < tagModifier.length())
+        {
+            char lastChar = tagModifier[tagModifier.length() - 1];
+            
+            // Drop a trailing period, if present.
+            if ('.' == lastChar)
+            {
+                tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
+            }
+        }
+        if (! nameWasSet)
+        {
+            serviceEndpointName += yarp::os::ConstString("/") + tagModifier;
+        }
+        if (0 < tag.length())
+        {
+            tag += yarp::os::ConstString(":") + tagModifier;
+        }
+        else
+        {
+            tag = tagModifier;
+        }
+        // Make sure that the scriptPath is valid and construct the modified 'tag' and (optional)
+        // endpoint name.
+        FILE * scratch = fopen(scriptPath.c_str(), "r");
+        
+        if (scratch)
+        {
+            // The path given is a readable file, so read it in and prepare to start
+            // the service by filling in the scriptSource.
+            char   buffer[10240];
+            size_t numRead;
+            
+            for ( ; ! feof(scratch); )
+            {
+                numRead = fread(buffer, 1, sizeof(buffer) - 1, scratch);
+                if (numRead)
+                {
+                    buffer[numRead] = '\0';
+                    scriptSource += buffer;
+                }
+            }
+            fclose(scratch);
+        }
+        if (0 < scriptSource.size())
+        {
+            if (JS_Init())
+            {
+                JSContext * jct = NULL;
+                JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE * 1024 * 1024);
+                
+                if (jrt)
+                {
+                    // Avoid ambiguity between 'var x = ...' and 'x = ...'.
+                    JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
+                    JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
+                    jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
+                    if (jct)
+                    {
+                        JS::ContextOptionsRef(jct).setDontReportUncaught(true);
+                        JS::ContextOptionsRef(jct).setAutoJSAPIOwnsErrorReporting(true);
+                        JS_SetErrorReporter(jrt, reportJavaScriptError);
+                    }
+                    else
+                    {
+                        OD_LOG("! (jct)"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("JavaScript context could not be allocated.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "JavaScript context could not be allocated." << endl;
+#endif // ! MAC_OR_LINUX_
+                        JS_DestroyRuntime(jrt);
+                        jrt = NULL;
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (jrt)"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("JavaScript runtime could not be allocated.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "JavaScript runtime could not be allocated." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+                if (jrt && jct)
+                {
+                    // Enter a request before running anything in the context. In particular, the
+                    // request is needed in order for JS_InitStandardClasses to work properly.
+                    JSAutoRequest    ar(jct);
+                    JS::RootedObject global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
+                                                                    JS::FireOnNewGlobalHook));
+                    
+                    if (global)
+                    {
+                        // Enter the new global object's compartment.
+                        bool                     okSoFar;
+                        JSAutoCompartment        ac(jct, global);
+                        JS::OwningCompileOptions options(jct); // this is used so that script
+                                                               // objects persist
+                        yarp::os::ConstString    description;
+                        
+                        // Populate the global object with the standard globals, like Object and
+                        // Array.
+                        if (JS_InitStandardClasses(jct, global))
+                        {
+                            okSoFar = true;
+                        }
+                        else
+                        {
+                            OD_LOG("! (JS_InitStandardClasses(jct, global))"); //####
+                            okSoFar = false;
+#if MAC_OR_LINUX_
+                            GetLogger().fail("JavaScript global object could not be initialized.");
+#else // ! MAC_OR_LINUX_
+                            cerr << "JavaScript global object could not be initialized." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+                        if (okSoFar)
+                        {
+                            if (! addCustomObjects(jct, global, tag, arguments))
+                            {
+                                OD_LOG("(! addCustomObjects(jct, global, tag, arguments))"); //####
+                                okSoFar = false;
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Custom objects could not be added to the "
+                                                 "JavaScript global object.");
+#else // ! MAC_OR_LINUX_
+                                cerr << "Custom objects could not be added to the JavaScript "
+                                        "global object." << endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                        }
+                        if (okSoFar)
+                        {
+                            if (! loadScript(jct, options, scriptSource, scriptPath))
+                            {
+                                OD_LOG("(! loadScript(jct, options, scriptSource, " //####
+                                       "scriptPath))"); //####
+                                okSoFar = false;
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Script could not be loaded.");
+#else // ! MAC_OR_LINUX_
+                                cerr << "Script could not be loaded." << endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                        }
+                        bool                  sawThread;
+                        yarp::os::ConstString helpText;
+                        ChannelVector         loadedInletDescriptions;
+                        ChannelVector         loadedOutletDescriptions;
+                        double                loadedInterval;
+                        JS::AutoValueVector   loadedInletHandlers(jct);
+                        JS::RootedValue       loadedStartingFunction(jct);
+                        JS::RootedValue       loadedStoppingFunction(jct);
+                        JS::RootedValue       loadedThreadFunction(jct);
+                        
+                        if (okSoFar)
+                        {
+                            if (! validateLoadedScript(jct, global, sawThread, description,
+                                                       helpText, loadedInletDescriptions,
+                                                       loadedOutletDescriptions,
+                                                       loadedInletHandlers, loadedStartingFunction,
+                                                       loadedStoppingFunction, loadedThreadFunction,
+                                                       loadedInterval))
+                            {
+                                OD_LOG("(! validateLoadedScript(jct, global, sawThread, " //####
+                                       "description, inStreamDescriptions, " //####
+                                       "outStreamDescriptions, loadedInletHandlers, " //####
+                                       "loadedThreadFunction, loadedInterval))"); //####
+                                okSoFar = false;
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Script is missing one or more functions or "
+                                                 "variables.");
+#else // ! MAC_OR_LINUX_
+                                cerr << "Script is missing one or more functions or variables." <<
+                                        endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                        }
+                        if (okSoFar)
+                        {
+                            JavaScriptService * stuff = new JavaScriptService(jct, global,
+                                                                              arguments[0], tag,
+                                                                              description,
+                                                                          loadedInletDescriptions,
+                                                                          loadedOutletDescriptions,
+                                                                              loadedInletHandlers,
+                                                                          loadedStartingFunction,
+                                                                          loadedStoppingFunction,
+                                                                              sawThread,
+                                                                              loadedThreadFunction,
+                                                                              loadedInterval,
+                                                                              serviceEndpointName,
+                                                                              servicePortNumber);
+                            
+                            if (stuff)
+                            {
+                                if (stuff->start())
+                                {
+                                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+                                    
+                                    OD_LOG_S1s("channelName = ", channelName); //####
+                                    if (RegisterLocalService(channelName, *stuff))
+                                    {
+                                        bool             configured = false;
+                                        yarp::os::Bottle configureData;
+                                        
+                                        StartRunning();
+                                        SetSignalHandlers(SignalRunningStop);
+                                        stuff->startPinger();
+                                        if (autostartWasSet || (! stdinAvailable))
+                                        {
+                                            if (stuff->configure(configureData))
+                                            {
+                                                stuff->startStreams();
+                                            }
+                                        }
+                                        for ( ; IsRunning(); )
+                                        {
+                                            if ((! autostartWasSet) && stdinAvailable)
+                                            {
+                                                char inChar;
+                                                
+                                                cout << "Operation: [? b c e q r u]? ";
+                                                cout.flush();
+                                                cin >> inChar;
+                                                switch (inChar)
+                                                {
+                                                    case '?' :
+                                                        // Help
+                                                        displayCommands(helpText);
+                                                        break;
+                                                        
+                                                    case 'b' :
+                                                    case 'B' :
+                                                        // Start streams
+                                                        if (! configured)
+                                                        {
+                                                            if (stuff->configure(configureData))
+                                                            {
+                                                                configured = true;
+                                                            }
+                                                        }
+                                                        if (configured)
+                                                        {
+                                                            stuff->startStreams();
+                                                        }
+                                                        break;
+                                                        
+                                                    case 'c' :
+                                                    case 'C' :
+                                                        // Configure - nothing to do for the
+                                                        // JavaScript input / output service.
+                                                        if (stuff->configure(configureData))
+                                                        {
+                                                            configured = true;
+                                                        }
+                                                        break;
+                                                        
+                                                    case 'e' :
+                                                    case 'E' :
+                                                        // Stop streams
+                                                        stuff->stopStreams();
+                                                        break;
+                                                        
+                                                    case 'q' :
+                                                    case 'Q' :
+                                                        // Quit
+                                                        StopRunning();
+                                                        break;
+                                                        
+                                                    case 'r' :
+                                                    case 'R' :
+                                                        // Restart streams
+                                                        if (! configured)
+                                                        {
+                                                            if (stuff->configure(configureData))
+                                                            {
+                                                                configured = true;
+                                                            }
+                                                        }
+                                                        if (configured)
+                                                        {
+                                                            stuff->restartStreams();
+                                                        }
+                                                        break;
+                                                        
+                                                    case 'u' :
+                                                    case 'U' :
+                                                        // Unconfigure
+                                                        configured = false;
+                                                        break;
+                                                        
+                                                    default :
+                                                        cout << "Unrecognized request '" <<
+                                                                inChar << "'." << endl;
+                                                        break;
+                                                        
+                                                }
+                                            }
+                                            else
+                                            {
+#if defined(MpM_MainDoesDelayNotYield)
+                                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                                                yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                                            }
+                                        }
+                                        UnregisterLocalService(channelName, *stuff);
+                                        if (reportOnExit)
+                                        {
+                                            yarp::os::Bottle metrics;
+                                            
+                                            stuff->gatherMetrics(metrics);
+                                            yarp::os::ConstString converted =
+                                                        Utilities::ConvertMetricsToString(metrics);
+                                            
+                                            cout << converted.c_str() << endl;
+                                        }
+                                        stuff->stop();
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (RegisterLocalService(channelName, " //####
+                                               "*stuff))"); //####
+#if MAC_OR_LINUX_
+                                        GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                                        cerr << "Service could not be registered." << endl;
+#endif // ! MAC_OR_LINUX_
+                                    }
+                                }
+                                else
+                                {
+                                    OD_LOG("! (stuff->start())"); //####
+#if MAC_OR_LINUX_
+                                    GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+                                    cerr << "Service could not be started." << endl;
+#endif // ! MAC_OR_LINUX_
+                                }
+                                delete stuff;
+                            }
+                            else
+                            {
+                                OD_LOG("! (stuff)"); //####
+                            }
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (global)"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("JavaScript global object could not be created.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "JavaScript global object could not be created." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
+                    JS_DestroyContext(jct);
+                    JS_DestroyRuntime(jrt);
+                }
+                JS_ShutDown();
+            }
+            else
+            {
+                OD_LOG("! (JS_Init())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("JavaScript engine could not be started.");
+#else // ! MAC_OR_LINUX_
+                cerr << "JavaScript engine could not be started." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        else
+        {
+            OD_LOG("! (0 < scriptSource.size())"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Empty script file.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Empty script file." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    else
+    {
+# if MAC_OR_LINUX_
+        GetLogger().fail("Missing script file path.");
+# else // ! MAC_OR_LINUX_
+        cerr << "Missing script file path." << endl;
+# endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -2336,135 +2468,29 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (0 < arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    yarp::os::ConstString rawTag(tag);
-                    yarp::os::ConstString scriptPath(arguments[0]);
-                    yarp::os::ConstString scriptSource;
-                    yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
-                    
-					if (0 < tagModifier.length())
-					{
-						char lastChar = tagModifier[tagModifier.length() - 1];
-
-						// Drop a trailing period, if present.
-						if ('.' == lastChar)
-						{
-							tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
-						}
-					}
-                    if (! nameWasSet)
-                    {
-                        serviceEndpointName += yarp::os::ConstString("/") + tagModifier;
-                    }
-                    if (0 < tag.length())
-                    {
-                        tag += yarp::os::ConstString(":") + tagModifier;
-                    }
-                    else
-                    {
-                        tag = tagModifier;
-                    }
-                    // Make sure that the scriptPath is valid and construct the modified 'tag' and
-                    // (optional) endpoint name.
-                    FILE * scratch = fopen(scriptPath.c_str(), "r");
-                    
-                    if (scratch)
-                    {
-                        // The path given is a readable file, so read it in and prepare to start the
-                        // service by filling in the scriptSource.
-                        char   buffer[10240];
-                        size_t numRead;
-                        
-                        for ( ; ! feof(scratch); )
-                        {
-                            numRead = fread(buffer, 1, sizeof(buffer) - 1, scratch);
-                            if (numRead)
-                            {
-                                buffer[numRead] = '\0';
-                                scriptSource += buffer;
-                            }
-                        }
-                        fclose(scratch);
-                    }
-                    if (0 < scriptSource.size())
-                    {
-                        if (JS_Init())
-                        {
-                            JSContext * jct = NULL;
-                            JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE * 1024 * 1024);
-                            
-                            if (jrt)
-                            {
-                                // Avoid ambiguity between 'var x = ...' and 'x = ...'.
-                                JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
-                                JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
-                                jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
-                                if (jct)
-                                {
-                                    JS::ContextOptionsRef(jct).setDontReportUncaught(true);
-                                    JS::ContextOptionsRef(jct).setAutoJSAPIOwnsErrorReporting(true);
-                                    JS_SetErrorReporter(jrt, reportJavaScriptError);
-                                }
-                                else
-                                {
-                                    OD_LOG("! (jct)"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("JavaScript context could not be allocated.");
-#else // ! MAC_OR_LINUX_
-                                    cerr << "JavaScript context could not be allocated." << endl;
-#endif // ! MAC_OR_LINUX_
-                                    JS_DestroyRuntime(jrt);
-                                    jrt = NULL;
-                                }
-                            }
-                            else
-                            {
-                                OD_LOG("! (jrt)"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("JavaScript runtime could not be allocated.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "JavaScript runtime could not be allocated." << endl;
-#endif // ! MAC_OR_LINUX_
-                            }
-                            if (jrt && jct)
-                            {
-                                setUpAndGo(jct, scriptSource, scriptPath, rawTag, arguments,
-                                           serviceEndpointName, servicePortNumber, autostartWasSet,
-                                           stdinAvailable, reportOnExit);
-                                JS_DestroyContext(jct);
-                                JS_DestroyRuntime(jrt);
-                            }
-                            JS_ShutDown();
-                        }
-                        else
-                        {
-                            OD_LOG("! (JS_Init())"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("JavaScript engine could not be started.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "JavaScript engine could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (0 < scriptSource.size())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Empty script file.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Empty script file." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
+                    setUpAndGo(arguments, tag, serviceEndpointName, servicePortNumber,
+                               autostartWasSet, nameWasSet, reportOnExit, stdinAvailable);
                 }
                 else
                 {
-# if MAC_OR_LINUX_
-                    GetLogger().fail("Missing script file path.");
-# else // ! MAC_OR_LINUX_
-                    cerr << "Missing script file path." << endl;
-# endif // ! MAC_OR_LINUX_
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

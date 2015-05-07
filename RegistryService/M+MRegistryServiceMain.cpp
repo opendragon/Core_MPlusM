@@ -87,6 +87,74 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Set up the environment and perform the operation.
+ @param argv The arguments to be used with the Registry service.
+ @param servicePortNumber The port being used by the service.
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false
+ otherwise. */
+static void setUpAndGo(char * *                      argv,
+                       const yarp::os::ConstString & servicePortNumber,
+                       const bool                    reportOnExit)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_B1("reportOnExit = ", reportOnExit); //####
+    Registry::RegistryService * stuff = new Registry::RegistryService(*argv, USE_INMEMORY,
+                                                                      servicePortNumber);
+
+    if (stuff)
+    {
+        stuff->enableMetrics();
+        if (stuff->start())
+        {
+            // Note that the Registry Service is self-registering... so we don't
+            // need to call RegisterLocalService() _or_ start a 'pinger'.
+            Registry::NameServerReportingThread * reporter =
+                                                            new Registry::NameServerReportingThread;
+            
+            StartRunning();
+            SetSignalHandlers(SignalRunningStop);
+            stuff->startChecker();
+            reporter->start();
+            for ( ; IsRunning(); )
+            {
+#if defined(MpM_MainDoesDelayNotYield)
+                yarp::os::Time::delay(ONE_SECOND_DELAY);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+            }
+            reporter->stop();
+            for ( ; reporter->isRunning(); )
+            {
+                yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
+            }
+            delete reporter;
+            if (reportOnExit)
+            {
+                yarp::os::Bottle metrics;
+                
+                stuff->gatherMetrics(metrics);
+                yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                
+                cout << converted.c_str() << endl;
+            }
+            stuff->stop();
+        }
+        else
+        {
+            OD_LOG("! (stuff->start())"); //####
+        }
+        delete stuff;
+    }
+    else
+    {
+        OD_LOG("! (stuff)"); //####
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -125,8 +193,6 @@ int main(int      argc,
                                                                    kSkipEndpointOption |
                                                                    kSkipTagOption)))
         {
-            // Note - no call to Utilities::CheckForNameServerReporter(), since this code sets up
-            // the NameServerReporter!
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
 			if (Utilities::CheckForValidNetwork())
@@ -135,59 +201,28 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                Registry::RegistryService * stuff = new Registry::RegistryService(*argv,
-                                                                                  USE_INMEMORY,
-                                                                              servicePortNumber);
-                if (stuff)
+                if (Utilities::CheckForRegistryService())
                 {
-                    stuff->enableMetrics();
-                    if (stuff->start())
-                    {
-                        // Note that the Registry Service is self-registering... so we don't need to
-                        // call RegisterLocalService() _or_ start a 'pinger'.
-                        Registry::NameServerReportingThread * reporter = new
-                        Registry::NameServerReportingThread;
-                        
-                        StartRunning();
-                        SetSignalHandlers(SignalRunningStop);
-                        stuff->startChecker();
-                        reporter->start();
-                        for ( ; IsRunning(); )
-                        {
-#if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                        }
-                        reporter->stop();
-                        for ( ; reporter->isRunning(); )
-                        {
-                            yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
-                        }
-                        delete reporter;
-                        if (reportOnExit)
-                        {
-                            yarp::os::Bottle metrics;
-                            
-                            stuff->gatherMetrics(metrics);
-                            yarp::os::ConstString converted =
-                                                        Utilities::ConvertMetricsToString(metrics);
-                            
-                            cout << converted.c_str() << endl;
-                        }
-                        stuff->stop();
-                    }
-                    else
-                    {
-                        OD_LOG("! (stuff->start())"); //####
-                    }
-                    delete stuff;
+                    OD_LOG("Utilities::CheckForRegistryService()"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service already running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service already running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
                 else
                 {
-                    OD_LOG("! (stuff)"); //####
+                    setUpAndGo(argv, servicePortNumber, reportOnExit);
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

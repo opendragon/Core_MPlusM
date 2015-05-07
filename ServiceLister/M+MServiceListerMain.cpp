@@ -76,6 +76,263 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Set up the environment and perform the operation.
+ @param flavour The format for the output. */
+static void setUpAndGo(const OutputFlavour flavour)
+{
+    OD_LOG_ENTER(); //####
+    bool         reported = false;
+    StringVector services;
+    
+    if (Utilities::GetServiceNames(services))
+    {
+        if (kOutputFlavourJSON == flavour)
+        {
+            cout << "[ ";
+        }
+        if (0 < services.size())
+        {
+            for (StringVector::const_iterator walker(services.begin()); services.end() != walker;
+                 ++walker)
+            {
+                Utilities::ServiceDescriptor descriptor;
+                
+                if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
+                                                               STANDARD_WAIT_TIME))
+                {
+                    bool                  sawInputs = false;
+                    bool                  sawOutputs = false;
+                    yarp::os::ConstString description;
+                    yarp::os::ConstString inChannelNames;
+                    yarp::os::ConstString kind;
+                    yarp::os::ConstString outChannelNames;
+                    yarp::os::ConstString requests;
+                    yarp::os::ConstString serviceName;
+                    yarp::os::ConstString servicePortName;
+                    yarp::os::ConstString tag;
+                    
+                    switch (flavour)
+                    {
+                        case kOutputFlavourTabs :
+                            if (reported)
+                            {
+                                cout << endl;
+                            }
+                            break;
+                            
+                        case kOutputFlavourJSON :
+                            if (reported)
+                            {
+                                cout << "," << endl;
+                            }
+                            cout << "{ ";
+                            break;
+                            
+                        case kOutputFlavourNormal :
+                            if (! reported)
+                            {
+                                cout << "Services: " << endl;
+                            }
+                            cout << endl;
+                            break;
+                            
+                        default :
+                            break;
+                            
+                    }
+                    reported = true;
+                    if (kOutputFlavourJSON == flavour)
+                    {
+                        inChannelNames = "[ ";
+                        outChannelNames = "[ ";
+                    }
+                    ChannelVector & inChannels = descriptor._inputChannels;
+                    
+                    for (ChannelVector::const_iterator iWalker(inChannels.begin());
+                         inChannels.end() != iWalker; ++iWalker)
+                    {
+                        ChannelDescription iDescriptor(*iWalker);
+                        
+                        if (kOutputFlavourJSON == flavour)
+                        {
+                            if (sawInputs)
+                            {
+                                inChannelNames += ", ";
+                            }
+                            inChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": "
+                                                 CHAR_DOUBLEQUOTE);
+                            inChannelNames += SanitizeString(iDescriptor._portName);
+                            inChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol"
+                                                 CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                            inChannelNames += SanitizeString(iDescriptor._portProtocol);
+                            inChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                        }
+                        else
+                        {
+                            if (sawInputs)
+                            {
+                                inChannelNames += " ";
+                            }
+                            inChannelNames += iDescriptor._portName;
+                            if (0 < iDescriptor._portProtocol.size())
+                            {
+                                inChannelNames += "{protocol=";
+                                inChannelNames += iDescriptor._portProtocol + "}";
+                            }
+                        }
+                        sawInputs = true;
+                    }
+                    if (kOutputFlavourJSON == flavour)
+                    {
+                        inChannelNames += " ]";
+                    }
+                    ChannelVector & outChannels = descriptor._outputChannels;
+                    
+                    for (ChannelVector::const_iterator oWalker(outChannels.begin());
+                         outChannels.end() != oWalker; ++oWalker)
+                    {
+                        ChannelDescription oDescriptor(*oWalker);
+                        
+                        if (kOutputFlavourJSON == flavour)
+                        {
+                            if (sawOutputs)
+                            {
+                                outChannelNames += ", ";
+                            }
+                            outChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": "
+                                                  CHAR_DOUBLEQUOTE);
+                            outChannelNames += SanitizeString(oDescriptor._portName);
+                            outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol"
+                                                  CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                            outChannelNames +=
+                            SanitizeString(oDescriptor._portProtocol);
+                            outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                        }
+                        else
+                        {
+                            if (sawOutputs)
+                            {
+                                outChannelNames += " ";
+                            }
+                            outChannelNames += oDescriptor._portName;
+                            if (0 < oDescriptor._portProtocol.size())
+                            {
+                                outChannelNames += "{protocol=";
+                                outChannelNames += oDescriptor._portProtocol + "}";
+                            }
+                        }
+                        sawOutputs = true;
+                    }
+                    if (kOutputFlavourJSON == flavour)
+                    {
+                        outChannelNames += " ]";
+                    }
+                    kind = SanitizeString(descriptor._kind, kOutputFlavourJSON != flavour);
+                    servicePortName = SanitizeString(*walker, kOutputFlavourJSON != flavour);
+                    serviceName = SanitizeString(descriptor._serviceName,
+                                                 kOutputFlavourJSON != flavour);
+                    tag = SanitizeString(descriptor._tag, kOutputFlavourJSON != flavour);
+                    switch (flavour)
+                    {
+                        case kOutputFlavourJSON :
+                            cout << T_(CHAR_DOUBLEQUOTE "ServicePort" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << servicePortName.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << serviceName.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE "Tag" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << tag.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << kind.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            description = SanitizeString(descriptor._description);
+                            cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << description.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            requests = SanitizeString(descriptor._requestsDescription);
+                            cout << T_(CHAR_DOUBLEQUOTE "Requests" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << requests.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE "Path" CHAR_DOUBLEQUOTE ": "
+                                       CHAR_DOUBLEQUOTE) << descriptor._path.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryInputs" CHAR_DOUBLEQUOTE ": ") <<
+                                    inChannelNames.c_str() << ", ";
+                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryOutputs" CHAR_DOUBLEQUOTE ": ") <<
+                                    outChannelNames.c_str() << " }";
+                            break;
+                            
+                        case kOutputFlavourTabs :
+                            cout << servicePortName.c_str() << "\t";
+                            cout << serviceName.c_str() << "\t";
+                            cout << tag.c_str() << "\t" << kind.c_str() << "\t";
+                            description = SanitizeString(descriptor._description, true);
+                            cout << description.c_str() << "\t";
+                            requests = SanitizeString(descriptor._requestsDescription, true);
+                            cout << requests.c_str() << "\t" << descriptor._path.c_str() << "\t" <<
+                                    inChannelNames.c_str() << "\t" << outChannelNames.c_str();
+                            break;
+                            
+                        case kOutputFlavourNormal :
+                            cout << "Service port:      " << servicePortName.c_str() << endl;
+                            cout << "Service name:      " << serviceName.c_str() << endl;
+                            cout << "Tag:               " << tag.c_str() << endl;
+                            cout << "Service kind:      " << kind.c_str() << endl;
+                            OutputDescription(cout, "Description:       ", descriptor._description);
+                            OutputDescription(cout, "Requests:          ",
+                                              descriptor._requestsDescription);
+                            cout << "Path:              " << descriptor._path.c_str() << endl;
+                            if (0 < inChannelNames.size())
+                            {
+                                OutputDescription(cout, "Secondary inputs:  ", inChannelNames);
+                            }
+                            if (0 < outChannelNames.size())
+                            {
+                                OutputDescription(cout, "Secondary outputs: ", outChannelNames);
+                            }
+                            break;
+                            
+                        default :
+                            break;
+                            
+                    }
+                }
+            }
+        }
+        switch (flavour)
+        {
+            case kOutputFlavourTabs :
+                if (reported)
+                {
+                    cout << endl;
+                }
+                break;
+                
+            case kOutputFlavourJSON :
+                cout << " ]" << endl;
+                break;
+                
+            case kOutputFlavourNormal :
+                if (reported)
+                {
+                    cout << endl;
+                }
+                else
+                {
+                    cout << "No services found." << endl;
+                }
+                break;
+                
+            default :
+                break;
+                
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -110,274 +367,28 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                bool         reported = false;
-                StringVector services;
-                
-                if (Utilities::GetServiceNames(services))
+                if (Utilities::CheckForRegistryService())
                 {
-                    if (kOutputFlavourJSON == flavour)
-                    {
-                        cout << "[ ";
-                    }
-                    if (0 < services.size())
-                    {
-                        for (StringVector::const_iterator walker(services.begin());
-                             services.end() != walker; ++walker)
-                        {
-                            Utilities::ServiceDescriptor descriptor;
-                            
-                            if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
-                                                                           STANDARD_WAIT_TIME))
-                            {
-                                bool                  sawInputs = false;
-                                bool                  sawOutputs = false;
-                                yarp::os::ConstString description;
-                                yarp::os::ConstString inChannelNames;
-                                yarp::os::ConstString kind;
-                                yarp::os::ConstString outChannelNames;
-                                yarp::os::ConstString requests;
-                                yarp::os::ConstString serviceName;
-                                yarp::os::ConstString servicePortName;
-                                yarp::os::ConstString tag;
-                                
-                                switch (flavour)
-                                {
-                                    case kOutputFlavourTabs :
-                                        if (reported)
-                                        {
-                                            cout << endl;
-                                        }
-                                        break;
-                                        
-                                    case kOutputFlavourJSON :
-                                        if (reported)
-                                        {
-                                            cout << "," << endl;
-                                        }
-                                        cout << "{ ";
-                                        break;
-                                        
-                                    case kOutputFlavourNormal :
-                                        if (! reported)
-                                        {
-                                            cout << "Services: " << endl;
-                                        }
-                                        cout << endl;
-                                        break;
-                                        
-                                    default :
-                                        break;
-                                        
-                                }
-                                reported = true;
-                                if (kOutputFlavourJSON == flavour)
-                                {
-                                    inChannelNames = "[ ";
-                                    outChannelNames = "[ ";
-                                }
-                                ChannelVector & inChannels = descriptor._inputChannels;
-                                
-                                for (ChannelVector::const_iterator iWalker(inChannels.begin());
-                                     inChannels.end() != iWalker; ++iWalker)
-                                {
-                                    ChannelDescription iDescriptor(*iWalker);
-                                    
-                                    if (kOutputFlavourJSON == flavour)
-                                    {
-                                        if (sawInputs)
-                                        {
-                                            inChannelNames += ", ";
-                                        }
-                                        inChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name"
-                                                             CHAR_DOUBLEQUOTE ": "
-                                                             CHAR_DOUBLEQUOTE);
-                                        inChannelNames += SanitizeString(iDescriptor._portName);
-                                        inChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
-                                                             "Protocol" CHAR_DOUBLEQUOTE ": "
-                                                             CHAR_DOUBLEQUOTE);
-                                        inChannelNames += SanitizeString(iDescriptor._portProtocol);
-                                        inChannelNames += T_(CHAR_DOUBLEQUOTE " }");
-                                    }
-                                    else
-                                    {
-                                        if (sawInputs)
-                                        {
-                                            inChannelNames += " ";
-                                        }
-                                        inChannelNames += iDescriptor._portName;
-                                        if (0 < iDescriptor._portProtocol.size())
-                                        {
-                                            inChannelNames += "{protocol=";
-                                            inChannelNames += iDescriptor._portProtocol + "}";
-                                        }
-                                    }
-                                    sawInputs = true;
-                                }
-                                if (kOutputFlavourJSON == flavour)
-                                {
-                                    inChannelNames += " ]";
-                                }
-                                ChannelVector & outChannels = descriptor._outputChannels;
-                                
-                                for (ChannelVector::const_iterator oWalker(outChannels.begin());
-                                     outChannels.end() != oWalker; ++oWalker)
-                                {
-                                    ChannelDescription oDescriptor(*oWalker);
-                                    
-                                    if (kOutputFlavourJSON == flavour)
-                                    {
-                                        if (sawOutputs)
-                                        {
-                                            outChannelNames += ", ";
-                                        }
-                                        outChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name"
-                                                              CHAR_DOUBLEQUOTE ": "
-                                                              CHAR_DOUBLEQUOTE);
-                                        outChannelNames += SanitizeString(oDescriptor._portName);
-                                        outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
-                                                              "Protocol" CHAR_DOUBLEQUOTE ": "
-                                                              CHAR_DOUBLEQUOTE);
-                                        outChannelNames +=
-                                                        SanitizeString(oDescriptor._portProtocol);
-                                        outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
-                                    }
-                                    else
-                                    {
-                                        if (sawOutputs)
-                                        {
-                                            outChannelNames += " ";
-                                        }
-                                        outChannelNames += oDescriptor._portName;
-                                        if (0 < oDescriptor._portProtocol.size())
-                                        {
-                                            outChannelNames += "{protocol=";
-                                            outChannelNames += oDescriptor._portProtocol + "}";
-                                        }
-                                    }
-                                    sawOutputs = true;
-                                }
-                                if (kOutputFlavourJSON == flavour)
-                                {
-                                    outChannelNames += " ]";
-                                }
-                                kind = SanitizeString(descriptor._kind,
-                                                      kOutputFlavourJSON != flavour);
-                                servicePortName = SanitizeString(*walker,
-                                                                 kOutputFlavourJSON != flavour);
-                                serviceName = SanitizeString(descriptor._serviceName,
-                                                             kOutputFlavourJSON != flavour);
-                                tag = SanitizeString(descriptor._tag,
-                                                     kOutputFlavourJSON != flavour);
-                                switch (flavour)
-                                {
-                                    case kOutputFlavourJSON :
-                                        cout << T_(CHAR_DOUBLEQUOTE "ServicePort" CHAR_DOUBLEQUOTE
-                                                   ": " CHAR_DOUBLEQUOTE) <<
-                                                servicePortName.c_str() <<
-                                                T_(CHAR_DOUBLEQUOTE ", ");
-                                        cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE
-                                                   ": " CHAR_DOUBLEQUOTE) << serviceName.c_str() <<
-                                                T_(CHAR_DOUBLEQUOTE ", ");
-                                        cout << T_(CHAR_DOUBLEQUOTE "Tag" CHAR_DOUBLEQUOTE ": "
-                                                   CHAR_DOUBLEQUOTE) << tag.c_str() <<
-                                                T_(CHAR_DOUBLEQUOTE ", ");
-                                        cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE
-                                                   ": " CHAR_DOUBLEQUOTE) << kind.c_str() <<
-                                                T_(CHAR_DOUBLEQUOTE ", ");
-                                        description = SanitizeString(descriptor._description);
-                                        cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE
-                                                   ": " CHAR_DOUBLEQUOTE) << description.c_str() <<
-                                                T_(CHAR_DOUBLEQUOTE ", ");
-                                        requests = SanitizeString(descriptor._requestsDescription);
-                                        cout << T_(CHAR_DOUBLEQUOTE "Requests" CHAR_DOUBLEQUOTE
-                                                   ": " CHAR_DOUBLEQUOTE) << requests.c_str() <<
-                                                T_(CHAR_DOUBLEQUOTE ", ");
-                                        cout << T_(CHAR_DOUBLEQUOTE "Path" CHAR_DOUBLEQUOTE ": "
-                                                   CHAR_DOUBLEQUOTE) << descriptor._path.c_str() <<
-                                                T_(CHAR_DOUBLEQUOTE ", ");
-                                        cout << T_(CHAR_DOUBLEQUOTE "SecondaryInputs"
-                                                   CHAR_DOUBLEQUOTE ": ") <<
-                                                inChannelNames.c_str() << ", ";
-                                        cout << T_(CHAR_DOUBLEQUOTE "SecondaryOutputs"
-                                                   CHAR_DOUBLEQUOTE ": ") <<
-                                                outChannelNames.c_str() << " }";
-                                        break;
-                                        
-                                    case kOutputFlavourTabs :
-                                        cout << servicePortName.c_str() << "\t";
-                                        cout << serviceName.c_str() << "\t";
-                                        cout << tag.c_str() << "\t" << kind.c_str() << "\t";
-                                        description = SanitizeString(descriptor._description, true);
-                                        cout << description.c_str() << "\t";
-                                        requests = SanitizeString(descriptor._requestsDescription,
-                                                                  true);
-                                        cout << requests.c_str() << "\t" <<
-                                                descriptor._path.c_str() << "\t" <<
-                                                inChannelNames.c_str() << "\t" <<
-                                        outChannelNames.c_str();
-                                        break;
-                                        
-                                    case kOutputFlavourNormal :
-                                        cout << "Service port:      " << servicePortName.c_str() <<
-                                                endl;
-                                        cout << "Service name:      " << serviceName.c_str() <<
-                                                endl;
-                                        cout << "Tag:               " << tag.c_str() << endl;
-                                        cout << "Service kind:      " << kind.c_str() << endl;
-                                        OutputDescription(cout, "Description:       ",
-                                                          descriptor._description);
-                                        OutputDescription(cout, "Requests:          ",
-                                                          descriptor._requestsDescription);
-                                        cout << "Path:              " << descriptor._path.c_str() <<
-                                                endl;
-                                        if (0 < inChannelNames.size())
-                                        {
-                                            OutputDescription(cout, "Secondary inputs:  ",
-                                                              inChannelNames);
-                                        }
-                                        if (0 < outChannelNames.size())
-                                        {
-                                            OutputDescription(cout, "Secondary outputs: ",
-                                                              outChannelNames);
-                                        }
-                                        break;
-                                        
-                                    default :
-                                        break;
-                                        
-                                }
-                            }
-                        }
-                    }
-                    switch (flavour)
-                    {
-                        case kOutputFlavourTabs :
-                            if (reported)
-                            {
-                                cout << endl;
-                            }
-                            break;
-                            
-                        case kOutputFlavourJSON :
-                            cout << " ]" << endl;
-                            break;
-                            
-                        case kOutputFlavourNormal :
-                            if (reported)
-                            {
-                                cout << endl;
-                            }
-                            else
-                            {
-                                cout << "No services found." << endl;
-                            }
-                            break;
-                            
-                        default :
-                            break;
-                            
-                    }
+                    setUpAndGo(flavour);
                 }
+                else
+                {
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

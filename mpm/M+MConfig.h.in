@@ -63,19 +63,22 @@
 # define MpM_VERSION "@MpM_VERSION_STRING@"
 
 /*! @brief The base of the channel name to use for an adapter. */
-# define MpM_ADAPTER_BASE_NAME "@MpM_ADAPTER_BASE_NAME@"
+# define MpM_ADAPTER_BASE_NAME        "@MpM_ADAPTER_BASE_NAME@"
 
 /*! @brief The base of the channel name to use for a client. */
-# define MpM_CLIENT_BASE_NAME  "@MpM_CLIENT_BASE_NAME@"
+# define MpM_CLIENT_BASE_NAME         "@MpM_CLIENT_BASE_NAME@"
 
 /*! @brief The base name of the channel name to use for an input. */
-# define MpM_INPUT_BASE_NAME   "@MpM_INPUT_BASE_NAME@"
+# define MpM_INPUT_BASE_NAME          "@MpM_INPUT_BASE_NAME@"
 
 /*! @brief The base name of the channel name to use for an output. */
-# define MpM_OUTPUT_BASE_NAME  "@MpM_OUTPUT_BASE_NAME@"
+# define MpM_OUTPUT_BASE_NAME         "@MpM_OUTPUT_BASE_NAME@"
+
+/*! @brief The name of the Registry service executable. */
+# define MpM_REGISTRY_EXECUTABLE_NAME "@MpM_REGISTRY_EXECUTABLE_NAME"
 
 /*! @brief The base of the channel name to use for a service. */
-# define MpM_SERVICE_BASE_NAME "@MpM_SERVICE_BASE_NAME@"
+# define MpM_SERVICE_BASE_NAME        "@MpM_SERVICE_BASE_NAME@"
 
 #cmakedefine MpM_ChattyStart /* Report the version numbers when launching an executable. */
 

@@ -205,15 +205,19 @@ namespace MplusM
          found. */
 		void CheckForNameServerReporter(void);
 
+        /*! @brief Check if the Registry Service is active.
+         @returns @c true if the Registry Service port is present and @c false otherwise. */
+        bool CheckForRegistryService(void);
+        
         /*! @brief Check if the YARP network is available.
          @param quiet @c true if nothing should be reported on failure and @c false otherwise.
          @returns @c true if the YARP network is available and @c false otherwise. */
         bool CheckForValidNetwork(const bool quiet = false);
         
-        /*! @brief Check if the Registry Service is active.
+        /*! @brief Check if the Registry Service is present in a list.
          @param ports The set of detected ports.
          @returns @c true if the Registry Service port is present and @c false otherwise. */
-        bool CheckForRegistryService(const PortVector & ports);
+        bool CheckListForRegistryService(const PortVector & ports);
         
         /*! @brief Convert the service metrics into a string.
          @param metrics The metrics to convert.
@@ -429,6 +433,21 @@ namespace MplusM
                                           Common::CheckFunction         checker = NULL,
                                           void *                        checkStuff = NULL);
         
+        /*! @brief Process the standard options for adapter executables.
+         The option '-h' / '--help' displays the list of optional parameters and arguments and
+         returns @c false.
+         The option '-v' / '--vers'displays the version and copyright information and returns
+         @c false.
+         @param argc The number of arguments in 'argv'.
+         @param argv The arguments to be used with the utility.
+         @param year The copyright year for the calling application.
+         @param copyrightHolder The name of the entity holding the copyright to the utility.
+         @returns @c true if the program should continue and @c false if it should leave. */
+        bool ProcessStandardAdapterOptions(const int    argc,
+                                           char * *     argv,
+                                           const int    year,
+                                           const char * copyrightHolder);
+
         /*! @brief Process the standard options for utility executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.

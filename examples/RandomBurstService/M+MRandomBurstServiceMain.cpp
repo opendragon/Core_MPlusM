@@ -98,8 +98,7 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the Random Burst input service.
- @param burstPeriod The burst period, in seconds.
- @param burstSize The number of random values to generate in each burst.
+ @param arguments The arguments to analyze.
  @param argv The arguments to be used with the Random Burst input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -107,8 +106,7 @@ static void displayCommands(void)
  @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(double &                      burstPeriod,
-                       int &                         burstSize,
+static void setUpAndGo(const StringVector &          arguments,
                        char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
@@ -118,13 +116,40 @@ static void setUpAndGo(double &                      burstPeriod,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_D1("burstPeriod = ", burstPeriod); //####
-    OD_LOG_L1("burstSize = ", burstSize); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
+    double burstPeriod = 1;
+    int    burstSize = 1;
+    
+    if (0 < arguments.size())
+    {
+        // 1 or more arguments
+        const char * startPtr = arguments[0].c_str();
+        char *       endPtr;
+        double       tempDouble = strtod(startPtr, &endPtr);
+        
+        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
+        {
+            // Useable data.
+            burstPeriod = tempDouble;
+        }
+        if (1 < arguments.size())
+        {
+            int tempInt;
+            
+            // 2 or more arguments
+            startPtr = arguments[1].c_str();
+            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+            if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+            {
+                // Useable data.
+                burstSize = tempInt;
+            }
+        }
+    }
     RandomBurstService * stuff = new RandomBurstService(*argv, tag, serviceEndpointName,
                                                         servicePortNumber);
     
@@ -339,8 +364,6 @@ int main(int      argc,
         bool                  nameWasSet = false; // not used
         bool                  reportOnExit = false;
         bool                  stdinAvailable = CanReadFromStandardInput();
-        double                burstPeriod = 1;
-        int                   burstSize = 1;
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
@@ -363,35 +386,29 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(*argv);
-                if (0 < arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    const char * startPtr = arguments[0].c_str();
-                    char *       endPtr;
-                    double       tempDouble;
-                    
-                    // 1 or more arguments
-                    tempDouble = strtod(startPtr, &endPtr);
-                    if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
-                    {
-                        // Useable data.
-                        burstPeriod = tempDouble;
-                    }
-                    if (1 < arguments.size())
-                    {
-                        int tempInt;
-                        
-                        // 2 or more arguments
-                        startPtr = arguments[1].c_str();
-                        tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-                        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
-                        {
-                            // Useable data.
-                            burstSize = tempInt;
-                        }
-                    }
+                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
+                               autostartWasSet, stdinAvailable, reportOnExit);
                 }
-                setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName,
-                           servicePortNumber, autostartWasSet, stdinAvailable, reportOnExit);
+                else
+                {
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}

@@ -75,6 +75,25 @@ using namespace MplusM::Common;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Set up the environment and perform the operation.
+ @param arguments The arguments to analyze. */
+static void setUpAndGo(const StringVector & arguments)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("arguments = ", &arguments); //####
+    yarp::os::ConstString channelName;
+    
+    if (0 < arguments.size())
+    {
+        channelName = arguments[0];
+    }
+    if (0 < channelName.size())
+    {
+        Utilities::StopAService(channelName, STANDARD_WAIT_TIME);
+    }
+    OD_LOG_EXIT(); //####
+} // setUpAndGo
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -109,19 +128,32 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                            // YARP infrastructure
-                yarp::os::ConstString channelName;
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
                 Initialize(*argv);
-                if (0 < arguments.size())
+                if (Utilities::CheckForRegistryService())
                 {
-                    channelName = arguments[0];
+                    setUpAndGo(arguments);
                 }
-                if (0 < channelName.size())
+                else
                 {
-                    Utilities::StopAService(channelName, STANDARD_WAIT_TIME);
+                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
+            }
+            else
+            {
+                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("YARP network not running.");
+#else // ! MAC_OR_LINUX_
+                cerr << "YARP network not running." << endl;
+#endif // ! MAC_OR_LINUX_
             }
 			Utilities::ShutDownGlobalStatusReporter();
 		}
