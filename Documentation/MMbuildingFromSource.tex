@@ -315,7 +315,7 @@ via the instructions on the web\longDash{}page
 Getting\_SpiderMonkey\_source\_code}%
 {\textbf{SpiderMonkey} source code}, as \mplusm{} does not use a modified version of
 \textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
-it must be at least \textbf{SpiderMonkey} \textbf{31}.
+it must be at least \textbf{SpiderMonkey} \textbf{39}.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `make install' process.
@@ -339,13 +339,13 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \item\exSp\asCode{sudo cp dist/bin/libmozglue.dylib /opt/M+M/spidermonkey/lib}
 \item\exSp\asCode{sudo install\fUS{}name\fUS{}tool -change
 "@executable\fUS{}path/libmozglue.dylib" \textbackslash\\
-"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/lib/libmozjs-39a1.dylib}
+"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/lib/libmozjs-40a1.dylib}
 \end{itemize}
 \item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
 source code, \asCode{devel}
 \item\exSp{} Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
 \textbackslash\\
-/opt/M+M/spidermonkey/include/mozjs-39a1}'; this replaces symbolic links in the header
+/opt/M+M/spidermonkey/include/mozjs-40a1}'; this replaces symbolic links in the header
 directories for \textbf{SpiderMonkey} with the original items, so that it is safe to
 distribute the resulting directories
 \end{itemize}

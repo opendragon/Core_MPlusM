@@ -595,12 +595,16 @@ Vancouver, British~Columbia, Canada}
 \setlength{\parskip}{0pt}}%
 {\end{itemize}}
 
-\newcommand{\insertAppParameters}{The application has seven optional parameters:
+\newcommand{\insertAppParameters}{The application has nine optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{autostart}{indicates that the service is to be started immediately}
+\item\exSp\optItem{c}{}{channel}{display the endpoint name after applying all other
+options and leave}
 \item\exSp\optItem{e}{v}{endpoint}{specifies an alternative endpoint name `\textit{v}' to
 be used}
 \item\exSp\optItem{h}{}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable and the valid options and
 leave}
 \item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
@@ -610,11 +614,15 @@ service name}
 \item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}}
 
-\newcommand{\insertAutoAppParameters}{The application has six optional parameters:
+\newcommand{\insertAutoAppParameters}{The application has eight optional parameters:
 \begin{itemize}
+\item\exSp\optItem{c}{}{channel}{display the endpoint name after applying the `tag' and
+`endpoint' options, if present, and leave}
 \item\optItem{e}{v}{endpoint}{specifies an alternative endpoint name `\textit{v}' to be
 used}
 \item\exSp\optItem{h}{}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable and the valid options and
 leave}
 \item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}

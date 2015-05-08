@@ -89,20 +89,8 @@ using std::cerr;
 /*! @brief The class of the global object. */
 static JSClass lGlobalClass =
 {
-    "global",                // name
-    JSCLASS_GLOBAL_FLAGS,    // flags
-    NULL,                    // addProperty
-    NULL,                    // delProperty
-    NULL,                    // getProperty
-    NULL,                    // setProperty
-    NULL,                    // enumerate
-    NULL,                    // resolve
-    NULL,                    // convert
-    NULL,                    // finalize
-    NULL,                    // call
-    NULL,                    // hasInstance
-    NULL,                    // construct
-    JS_GlobalObjectTraceHook // trace
+    "global",            // name
+    JSCLASS_GLOBAL_FLAGS // flags
 }; // lGlobalClass
 
 #if defined(__APPLE__)
@@ -346,22 +334,19 @@ static void cleanupStreamObject(JSFreeOp * freeOp,
 /*! @brief The class of the global object. */
 static JSClass lStreamClass =
 {
-    "Stream",                // name
-    JSCLASS_HAS_PRIVATE,     // flags
-    NULL,                    // addProperty
-    NULL,                    // delProperty
-    NULL,                    // getProperty
-    NULL,                    // setProperty
-    NULL,                    // enumerate
-    NULL,                    // resolve
-    NULL,                    // convert
-    cleanupStreamObject      // finalize
-#if 0
-    NULL,                    // call
-    NULL,                    // hasInstance
-    NULL,                    // construct
-    JS_GlobalObjectTraceHook // trace
-#endif//0
+    "Stream",            // name
+    JSCLASS_HAS_PRIVATE, // flags
+    NULL,                // addProperty
+    NULL,                // delProperty
+    NULL,                // getProperty
+    NULL,                // setProperty
+    NULL,                // enumerate
+    NULL,                // resolve
+#if (39 < MOZJS_MAJOR_VERSION)
+    NULL,                // mayResolve
+#endif // 39 < MOZJS_MAJOR_VERSION
+    NULL,                // convert
+    cleanupStreamObject  // finalize
 }; // lStreamClass
 
 static void cleanupStreamObject(JSFreeOp * freeOp,

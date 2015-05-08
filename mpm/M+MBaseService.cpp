@@ -863,40 +863,51 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     OD_LOG_S1s("defaultEndpointNameRoot = ", defaultEndpointNameRoot); //####
     enum optionIndex
     {
-        UNKNOWN,
-        AUTOSTART,
-        ENDPOINT,
-        HELP,
-        PORT,
-        REPORT,
-        TAG,
-        VERSION
+        kOptionUNKNOWN,
+        kOptionAUTOSTART,
+        kOptionCHANNEL,
+        kOptionENDPOINT,
+        kOptionHELP,
+        kOptionINFO,
+        kOptionPORT,
+        kOptionREPORT,
+        kOptionTAG,
+        kOptionVERSION
     }; // optionIndex
     
     bool                  keepGoing = true;
-    Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
-    Option_::Descriptor   autostartDescriptor(AUTOSTART, 0, "a", "autostart", Option_::Arg::None,
+    bool                  reportEndpoint = false;
+    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   autostartDescriptor(kOptionAUTOSTART, 0, "a", "autostart",
+                                              Option_::Arg::None,
                                               T_("  --autostart, -a   Start the service "
                                                  "immediately"));
-    Option_::Descriptor   endpointDescriptor(ENDPOINT, 0, "e", "endpoint", Option_::Arg::Required,
+    Option_::Descriptor   channelDescriptor(kOptionCHANNEL, 0, "c", "channel", Option_::Arg::None,
+                                            T_("  --channel, -c     Report the actual endpoint "
+                                               "name"));
+    Option_::Descriptor   endpointDescriptor(kOptionENDPOINT, 0, "e", "endpoint",
+                                             Option_::Arg::Required,
                                              T_("  --endpoint, -e    Specify an alternative "
                                                 "endpoint name to be used"));
-    Option_::Descriptor   helpDescriptor(HELP, 0, "h", "help", Option_::Arg::None,
+    Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h        Print usage and exit"));
-    Option_::Descriptor   portDescriptor(PORT, 0, "p", "port", Option_::Arg::Required,
+    Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
+                                         T_("  --info, -i        Print supported service options "
+                                            "and type and exit"));
+    Option_::Descriptor   portDescriptor(kOptionPORT, 0, "p", "port", Option_::Arg::Required,
                                          T_("  --port, -p        Specify a non-default port to be "
                                             "used"));
-    Option_::Descriptor   reportDescriptor(REPORT, 0, "r", "report", Option_::Arg::None,
+    Option_::Descriptor   reportDescriptor(kOptionREPORT, 0, "r", "report", Option_::Arg::None,
                                            T_("  --report, -r      Report the service metrics when "
                                               "the application exits"));
-    Option_::Descriptor   tagDescriptor(TAG, 0, "t", "tag", Option_::Arg::Required,
+    Option_::Descriptor   tagDescriptor(kOptionTAG, 0, "t", "tag", Option_::Arg::Required,
                                         T_("  --tag, -t         Specify the tag to be used as part "
                                            "of the service name"));
-    Option_::Descriptor   versionDescriptor(VERSION, 0, "v", "vers", Option_::Arg::None,
+    Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[9];
+    Option_::Descriptor   usage[11];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -918,13 +929,18 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     {
         memcpy(usageWalker++, &autostartDescriptor, sizeof(autostartDescriptor));        
     }
+    if (! (skipOptions & kSkipChannelOption))
+    {
+        memcpy(usageWalker++, &channelDescriptor, sizeof(channelDescriptor));
+    }
     if (! (skipOptions & kSkipEndpointOption))
     {
 		memcpy(usageWalker++, &endpointDescriptor, sizeof(endpointDescriptor));
     }
-    if (! (skipOptions & kSkipHelpOption))
+    memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+    if (! (skipOptions & kSkipInfoOption))
     {
-        memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+        memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
     }
     if (! (skipOptions & kSkipPortOption))
     {
@@ -951,12 +967,12 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     {
         keepGoing = false;
     }
-    else if (options[HELP] || options[UNKNOWN])
+    else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
         Option_::printUsage(cout, usage);
         keepGoing = false;
     }
-    else if (options[VERSION])
+    else if (options[kOptionVERSION])
     {
         yarp::os::ConstString mpmVersionString;
         
@@ -965,24 +981,101 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                 copyrightHolder << "." << endl;
         keepGoing = false;
     }
+    else if (options[kOptionINFO])
+    {
+        bool needTab = true;
+        
+        // Note that we don't report the 'h' and 'v' options, as they are not involved in
+        // determining what choices to offer when launching a service.
+        cout << "Service";
+        if (! (skipOptions & kSkipAutostartOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "a";
+        }
+        if (! (skipOptions & kSkipChannelOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "c";
+        }
+        if (! (skipOptions & kSkipEndpointOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "e";
+        }
+        if (! (skipOptions & kSkipInfoOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "i";
+        }
+        if (! (skipOptions & kSkipPortOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "p";
+        }
+        if (! (skipOptions & kSkipReportOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "r";
+        }
+        if (! (skipOptions & kSkipTagOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "t";
+        }
+        cout << endl;
+        keepGoing = false;
+    }
     else
     {
-        if (options[AUTOSTART])
+        if (options[kOptionAUTOSTART])
         {
             autostartWasSet = true;
         }
-        if (options[REPORT])
+        if (options[kOptionCHANNEL])
+        {
+            reportEndpoint = true;
+        }
+        if (options[kOptionREPORT])
         {
             reportOnExit = true;
         }
-        if (options[ENDPOINT])
+        if (options[kOptionENDPOINT])
         {
-            serviceEndpointName = options[ENDPOINT].arg;
+            serviceEndpointName = options[kOptionENDPOINT].arg;
             OD_LOG_S1s("serviceEndpointName <- ", serviceEndpointName); //####
         }
-        if (options[PORT])
+        if (options[kOptionPORT])
         {
-            servicePortNumber = options[PORT].arg;
+            servicePortNumber = options[kOptionPORT].arg;
             OD_LOG_S1s("servicePortNumber <- ", servicePortNumber); //####
             if (0 < servicePortNumber.length())
             {
@@ -997,9 +1090,9 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                 }
             }
         }
-        if (options[TAG])
+        if (options[kOptionTAG])
         {
-            tag = options[TAG].arg;
+            tag = options[kOptionTAG].arg;
             OD_LOG_S1s("tag <- ", tag); //####
         }
         if (arguments)
@@ -1024,6 +1117,11 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     else
     {
         serviceEndpointName = defaultEndpointNameRoot;
+    }
+    if (reportEndpoint)
+    {
+        cout << serviceEndpointName.c_str() << endl;
+        keepGoing = false;
     }
     OD_LOG_EXIT_B(keepGoing); //####
     return keepGoing;

@@ -69,7 +69,7 @@ endif(APPLE)
 add_library(JS SHARED IMPORTED)
 
 if(WIN32)
-include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
+    include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
                 "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll")
     set_property(TARGET JS PROPERTY IMPORTED_IMPLIB

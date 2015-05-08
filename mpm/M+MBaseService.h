@@ -74,32 +74,36 @@ namespace MplusM
         class SetMetricsStateRequestHandler;
         class StopRequestHandler;
         
-        /*! @brief The command-line options to skip. */
+        /*! @brief The command-line options to skip.
+         Note that the 'help' and 'version' options are always present. */
         enum OptionsMask
         {
             /*! @brief Skip no options. */
-            kSkipNone            = 0x00,
+            kSkipNone            = 0x0000,
             
             /*! @brief Skip the 'autostart' option. */
-            kSkipAutostartOption = 0x01,
+            kSkipAutostartOption = 0x0001,
+            
+            /*! @brief Skip the 'channel' option. */
+            kSkipChannelOption   = 0x0002,
             
             /*! @brief Skip the 'endpoint' option. */
-            kSkipEndpointOption  = 0x02,
+            kSkipEndpointOption  = 0x0004,
             
-            /*! @brief Skip the 'help' option. */
-            kSkipHelpOption      = 0x04,
+            /*! @brief Skip the 'info' option. */
+            kSkipInfoOption      = 0x0008,
             
             /*! @brief Skip the 'port' option. */
-            kSkipPortOption      = 0x08,
+            kSkipPortOption      = 0x0010,
             
             /*! @brief Skip the 'report' option. */
-            kSkipReportOption    = 0x10,
+            kSkipReportOption    = 0x0020,
             
             /*! @brief Skip the 'tag' option. */
-            kSkipTagOption       = 0x20,
+            kSkipTagOption       = 0x0040,
             
             /*! @brief Skip all the options. */
-            kSkipAllOptions      = 0xFF
+            kSkipAllOptions      = 0xFFFF
         }; // OptionsMask
         
         /*! @brief The minimal functionality required for an M+M service. */
@@ -461,9 +465,13 @@ namespace MplusM
         
         /*! @brief Process the standard options for service executables.
          The option '-a' / '--autostart' indicates that the service is to be started immediately.
+         The option '-c' / '--channel' displays the endpoint name after applying all other
+         options and retunrs @c false.
          The option '-e' / '--endpoint' specifies the endpoint name to be used.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
+         The option '-i' / '--info' displays the type of the executable and the available options
+         and returns @c false.
          The option '-p' / '--port' specifie the port number to be used.
          The option '-r' / '--report' indicates that the service metrics are to be reported on exit.
          The option '-t' / '--tag' specifies the tag modifier, which is applied to the name of the

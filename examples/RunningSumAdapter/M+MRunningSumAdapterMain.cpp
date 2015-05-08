@@ -115,16 +115,14 @@ static void setUpAndGo(int      argc,
 #endif // defined(MpM_ReportOnConnections)
             if (stuff->connectToService())
             {
-                AdapterChannel *                controlChannel =
-                new AdapterChannel(false);
+                AdapterChannel *                controlChannel = new AdapterChannel(false);
                 AdapterChannel *                dataChannel = new AdapterChannel(false);
-                AdapterChannel *                outputChannel =
-                new AdapterChannel(true);
+                AdapterChannel *                outputChannel = new AdapterChannel(true);
                 RunningSumAdapterData           sharedData(stuff, outputChannel);
                 RunningSumControlInputHandler * controlHandler =
-                new RunningSumControlInputHandler(sharedData);
+                                                    new RunningSumControlInputHandler(sharedData);
                 RunningSumDataInputHandler *    dataHandler =
-                new RunningSumDataInputHandler(sharedData);
+                                                        new RunningSumDataInputHandler(sharedData);
                 
                 if (controlChannel && dataChannel && outputChannel && controlHandler &&
                     dataHandler)

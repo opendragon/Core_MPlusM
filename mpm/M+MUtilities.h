@@ -436,6 +436,7 @@ namespace MplusM
         /*! @brief Process the standard options for adapter executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
+         The option '-i' / '--info' displays the type of the executable.
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
          @param argc The number of arguments in 'argv'.

@@ -2571,20 +2571,23 @@ bool Utilities::ProcessStandardAdapterOptions(const int    argc,
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
-        UNKNOWN,
-        HELP,
-        VERSION
+        kOptionUNKNOWN,
+        kOptionHELP,
+        kOptionINFO,
+        kOptionVERSION
     }; // optionIndex
     
     bool                  keepGoing = true;
-    Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
-    Option_::Descriptor   helpDescriptor(HELP, 0, "h", "help", Option_::Arg::None,
+    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
-    Option_::Descriptor   versionDescriptor(VERSION, 0, "v", "vers", Option_::Arg::None,
+    Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
+                                         T_("  --info, -i        Print type and exit"));
+    Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[4];
+    Option_::Descriptor   usage[5];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -2599,6 +2602,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int    argc,
 #endif // ! MAC_OR_LINUX_
     memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
     memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+    memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
     memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
     memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
     argcWork -= (argc > 0);
@@ -2612,18 +2616,23 @@ bool Utilities::ProcessStandardAdapterOptions(const int    argc,
     {
         keepGoing = false;
     }
-    else if (options[HELP] || options[UNKNOWN])
+    else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
         Option_::printUsage(cout, usage);
         keepGoing = false;
     }
-    else if (options[VERSION])
+    else if (options[kOptionVERSION])
     {
         yarp::os::ConstString mpmVersionString;
         
         mpmVersionString = SanitizeString(MpM_VERSION, true);
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
                 copyrightHolder << "." << endl;
+        keepGoing = false;
+    }
+    else if (options[kOptionINFO])
+    {
+        cout << "Adapter" << endl;
         keepGoing = false;
     }
     delete[] options;
@@ -2646,23 +2655,23 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     OD_LOG_S2("argList = ", argList, "copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
-        UNKNOWN,
-        HELP,
-        JSON,
-        TABS,
-        VERSION
+        kOptionUNKNOWN,
+        kOptionHELP,
+        kOptionJSON,
+        kOptionTABS,
+        kOptionVERSION
     }; // optionIndex
     
     bool                  keepGoing = true;
-    Option_::Descriptor   firstDescriptor(UNKNOWN, 0, "", "", Option_::Arg::None, NULL);
-    Option_::Descriptor   helpDescriptor(HELP, 0, "h", "help", Option_::Arg::None,
+    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
-    Option_::Descriptor   jsonDescriptor(JSON, 0, "j", "json", Option_::Arg::None,
+    Option_::Descriptor   jsonDescriptor(kOptionJSON, 0, "j", "json", Option_::Arg::None,
                                          T_("  --json, -j    Generate output in JSON format") );
-    Option_::Descriptor   tabsDescriptor(TABS, 0, "t", "tabs", Option_::Arg::None,
+    Option_::Descriptor   tabsDescriptor(kOptionTABS, 0, "t", "tabs", Option_::Arg::None,
                                          T_("  --tabs, -t    Generate output in tab-delimited "
                                             "format"));
-    Option_::Descriptor   versionDescriptor(VERSION, 0, "v", "vers", Option_::Arg::None,
+    Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
@@ -2699,12 +2708,12 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     {
         keepGoing = false;
     }
-    else if (options[HELP] || options[UNKNOWN])
+    else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
         Option_::printUsage(cout, usage);
         keepGoing = false;
     }
-    else if (options[VERSION])
+    else if (options[kOptionVERSION])
     {
         yarp::os::ConstString mpmVersionString;
 
@@ -2715,11 +2724,11 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     }
     else
     {
-        if (options[JSON])
+        if (options[kOptionJSON])
         {
             flavour = kOutputFlavourJSON;
         }
-        else if (options[TABS])
+        else if (options[kOptionTABS])
         {
             flavour = kOutputFlavourTabs;
         }
