@@ -312,6 +312,16 @@
 		DF6EAFA51A68255E00FC0085 /* M+MJavaScriptThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MJavaScriptThread.cpp"; path = "JavaScript/M+MJavaScriptThread.cpp"; sourceTree = SOURCE_ROOT; };
 		DF6EAFA61A68255E00FC0085 /* M+MJavaScriptThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MJavaScriptThread.h"; path = "JavaScript/M+MJavaScriptThread.h"; sourceTree = SOURCE_ROOT; };
 		DF6EAFA71A68274C00FC0085 /* RandomBurst.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RandomBurst.js; path = JavaScript/RandomBurst.js; sourceTree = SOURCE_ROOT; };
+		DF7623561AFD01A0002BDC49 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Emotiv/CMakeLists.txt; sourceTree = "<group>"; };
+		DF7623581AFD01C4002BDC49 /* M+MEmotivInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEmotivInputServiceMain.cpp"; path = "Emotiv/EmotivInputService/M+MEmotivInputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF7623591AFD01C4002BDC49 /* M+MEmotivInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEmotivInputService.cpp"; path = "Emotiv/EmotivInputService/M+MEmotivInputService.cpp"; sourceTree = "<group>"; };
+		DF76235A1AFD01C4002BDC49 /* M+MEmotivInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MEmotivInputThread.cpp"; path = "Emotiv/EmotivInputService/M+MEmotivInputThread.cpp"; sourceTree = "<group>"; };
+		DF76235B1AFD01C4002BDC49 /* M+MEmotivInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEmotivInputRequests.h"; path = "Emotiv/EmotivInputService/M+MEmotivInputRequests.h"; sourceTree = "<group>"; };
+		DF76235C1AFD01C4002BDC49 /* M+MEmotivInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEmotivInputService.h"; path = "Emotiv/EmotivInputService/M+MEmotivInputService.h"; sourceTree = "<group>"; };
+		DF76235D1AFD01C4002BDC49 /* mpmEmotivInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmEmotivInputService.rc.in; path = Emotiv/EmotivInputService/mpmEmotivInputService.rc.in; sourceTree = "<group>"; };
+		DF76235E1AFD01C4002BDC49 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Emotiv/EmotivInputService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF76235F1AFD01C4002BDC49 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Emotiv/EmotivInputService/resource.h; sourceTree = "<group>"; };
+		DF7623601AFD01C4002BDC49 /* M+MEmotivInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEmotivInputThread.h"; path = "Emotiv/EmotivInputService/M+MEmotivInputThread.h"; sourceTree = "<group>"; };
 		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -1195,6 +1205,31 @@
 			name = ViconDataStreamInputService;
 			sourceTree = SOURCE_ROOT;
 		};
+		DF7623551AFD0189002BDC49 /* Emotiv */ = {
+			isa = PBXGroup;
+			children = (
+				DF7623561AFD01A0002BDC49 /* CMakeLists.txt */,
+				DF7623571AFD01AA002BDC49 /* EmotivInputService */,
+			);
+			name = Emotiv;
+			sourceTree = "<group>";
+		};
+		DF7623571AFD01AA002BDC49 /* EmotivInputService */ = {
+			isa = PBXGroup;
+			children = (
+				DF76235E1AFD01C4002BDC49 /* CMakeLists.txt */,
+				DF76235B1AFD01C4002BDC49 /* M+MEmotivInputRequests.h */,
+				DF7623591AFD01C4002BDC49 /* M+MEmotivInputService.cpp */,
+				DF76235C1AFD01C4002BDC49 /* M+MEmotivInputService.h */,
+				DF76235D1AFD01C4002BDC49 /* mpmEmotivInputService.rc.in */,
+				DF7623581AFD01C4002BDC49 /* M+MEmotivInputServiceMain.cpp */,
+				DF76235A1AFD01C4002BDC49 /* M+MEmotivInputThread.cpp */,
+				DF7623601AFD01C4002BDC49 /* M+MEmotivInputThread.h */,
+				DF76235F1AFD01C4002BDC49 /* resource.h */,
+			);
+			name = EmotivInputService;
+			sourceTree = "<group>";
+		};
 		DF7784F918ECA5EA00BDC5C1 /* EchoCommon */ = {
 			isa = PBXGroup;
 			children = (
@@ -1417,6 +1452,7 @@
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
 				DF38503D198ABBA000A0414E /* CommonTests */,
 				DFD016B71AB9E76B00777451 /* CPack */,
+				DF7623551AFD0189002BDC49 /* Emotiv */,
 				DFA86D2518E1D13300A22941 /* examples */,
 				DF824B1719C7304F004D13AC /* Exemplars */,
 				DFCDE4F619E302530051D294 /* FindServices */,

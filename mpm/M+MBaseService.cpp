@@ -984,6 +984,18 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         {
             servicePortNumber = options[PORT].arg;
             OD_LOG_S1s("servicePortNumber <- ", servicePortNumber); //####
+            if (0 < servicePortNumber.length())
+            {
+                const char * startPtr = servicePortNumber.c_str();
+                char *       endPtr;
+                int          aPort = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                
+                if ((startPtr == endPtr) || *endPtr || (! Utilities::ValidPortNumber(aPort)))
+                {
+                    cout << "Bad port number." << endl;
+                    keepGoing = false;
+                }
+            }
         }
         if (options[TAG])
         {

@@ -120,7 +120,8 @@ static void setUpAndGo(const StringVector &          arguments,
         int                   res = InetPton(AF_INET, hostName.c_str(), &addrBuff);
 #endif // ! MAC_OR_LINUX_
         
-        if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < hostPort))
+        if ((0 < res) && (startPtr != endPtr) && (! *endPtr) &&
+            Utilities::ValidPortNumber(hostPort))
         {
             // Useable data.
             AddressService * stuff = new AddressService(hostName, hostPort, *argv, tag,

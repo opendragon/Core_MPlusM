@@ -318,7 +318,7 @@ static void setUpAndGo(const StringVector & arguments)
         char *                endPtr;
         int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
         
-        if ((startPtr != endPtr) && (! *endPtr) && (1024 <= tempInt))
+        if ((startPtr != endPtr) && (! *endPtr) && Utilities::ValidPortNumber(tempInt))
         {
             // Useable data.
             listenPort = tempInt;

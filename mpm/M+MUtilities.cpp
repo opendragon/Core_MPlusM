@@ -2310,7 +2310,7 @@ void Utilities::GoToSleep(const int amount)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    sleep(amount);
+    usleep(amount * 1000);
 #else // ! MAC_OR_LINUX_
     Sleep(amount);
 #endif // ! MAC_OR_LINUX_

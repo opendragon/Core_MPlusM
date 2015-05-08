@@ -517,6 +517,16 @@ namespace MplusM
                           Common::CheckFunction         checker = NULL,
                           void *                        checkStuff = NULL);
         
+        /*! @brief Checks a network port number for validity.
+         @param aPort The port number to be checked.
+         @param systemAllowed @c true if system port numbers are valid and @c false otherwise.
+         @returns @c true if the port number is valid and @c false otherwise. */
+        inline bool ValidPortNumber(const int  aPort,
+                                    const bool systemAllowed = false)
+        {
+            return (((systemAllowed ? 0 : 1024) <= aPort) && (65535 >= aPort));
+        } // ValidPortNumber
+        
     } // Utilities
     
 } // MplusM

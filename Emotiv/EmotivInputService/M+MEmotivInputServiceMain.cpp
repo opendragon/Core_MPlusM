@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAbsorberServiceMain.cpp
+//  File:       M+MEmotivInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Absorber output service.
+//  Contains:   The main application for the Emotiv input service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-09-30
+//  Created:    2015-05-08
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MAbsorberService.h"
+#include "M+MEmotivInputService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -50,10 +50,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Absorber output service. */
+ @brief The main application for the %Emotiv input service. */
 
-/*! @dir AbsorberService
- @brief The set of files that implement the Absorber output service. */
+/*! @dir Emotiv
+ @brief The set of files that implement the %Emotiv input service. */
+
+/*! @dir EmotivInputService
+ @brief The set of files that implement the %Emotiv input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -64,7 +67,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::Emotiv;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -88,24 +91,26 @@ static void displayCommands(void)
     OD_LOG_ENTER(); //####
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
-    cout << "  b - start (begin) the input stream" << endl;
+    cout << "  b - start (begin) the output stream," << endl;
     cout << "  c - configure the service" << endl;
-    cout << "  e - stop (end) the input stream" << endl;
+    cout << "  e - stop (end) the output stream" << endl;
     cout << "  q - quit the application" << endl;
-    cout << "  r - restart the input stream" << endl;
+    cout << "  r - restart the output stream" << endl;
     cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the Absorber environment and start the Absorber output service.
- @param argv The arguments to be used with the Absorber output service.
+/*! @brief Set up the environment and start the %Emotiv input service.
+ @param arguments The arguments to analyze.
+ @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(char * *                      argv,
+static void setUpAndGo(const StringVector &          arguments,
+                       char * *                      argv,
                        const yarp::os::ConstString & tag,
                        const yarp::os::ConstString & serviceEndpointName,
                        const yarp::os::ConstString & servicePortNumber,
@@ -114,16 +119,49 @@ static void setUpAndGo(char * *                      argv,
                        const bool                    reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    AbsorberService * stuff = new AbsorberService(*argv, tag, serviceEndpointName,
-                                                  servicePortNumber);
-    
+    double burstPeriod = 1;
+    int    burstSize = 1;
+
+    if (0 < arguments.size())
+    {
+        const char * startPtr = arguments[0].c_str();
+        char *       endPtr;
+        double       tempDouble;
+        
+        // 1 or more arguments
+        tempDouble = strtod(startPtr, &endPtr);
+        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
+        {
+            // Useable data.
+            burstPeriod = tempDouble;
+        }
+        if (1 < arguments.size())
+        {
+            int tempInt;
+            
+            // 2 or more arguments
+            startPtr = arguments[1].c_str();
+            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+            if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+            {
+                // Useable data.
+                burstSize = tempInt;
+            }
+        }
+    }
+    EmotivInputService * stuff = new EmotivInputService(*argv, tag, serviceEndpointName,
+                                                        servicePortNumber);
+
     if (stuff)
     {
+        double tempDouble;
+        int    tempInt;
+        
         if (stuff->start())
         {
             yarp::os::ConstString channelName(stuff->getEndpoint().getName());
@@ -133,13 +171,14 @@ static void setUpAndGo(char * *                      argv,
             {
                 bool             configured = false;
                 yarp::os::Bottle configureData;
-                std::string      inputLine;
                 
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 stuff->startPinger();
                 if (autostartWasSet || (! stdinAvailable))
                 {
+                    configureData.addDouble(burstPeriod);
+                    configureData.addInt(burstSize);
                     if (stuff->configure(configureData))
                     {
                         stuff->startStreams();
@@ -167,6 +206,8 @@ static void setUpAndGo(char * *                      argv,
                                 if (! configured)
                                 {
                                     configureData.clear();
+                                    configureData.addDouble(burstPeriod);
+                                    configureData.addInt(burstSize);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -181,10 +222,27 @@ static void setUpAndGo(char * *                      argv,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                configureData.clear();
-                                if (stuff->configure(configureData))
+                                cout << "Burst size: ";
+                                cout.flush();
+                                cin >> tempInt;
+                                cout << "Burst period: ";
+                                cout.flush();
+                                cin >> tempDouble;
+                                if ((0 < tempInt) && (0 < tempDouble))
                                 {
-                                    configured = true;
+                                    burstPeriod = tempDouble;
+                                    burstSize = tempInt;
+                                    configureData.clear();
+                                    configureData.addDouble(burstPeriod);
+                                    configureData.addInt(burstSize);
+                                    if (stuff->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                else
+                                {
+                                    cout << "One or both values out of range." << endl;
                                 }
                                 break;
                                 
@@ -206,6 +264,8 @@ static void setUpAndGo(char * *                      argv,
                                 if (! configured)
                                 {
                                     configureData.clear();
+                                    configureData.addDouble(burstPeriod);
+                                    configureData.addInt(burstSize);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -282,9 +342,17 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Absorber output service.
+/*! @brief The entry point for running the %Emotiv input service.
+ 
+ The second, optional, argument is the port number to be used and the first, optional, argument is
+ the name of the channel to be used. There is no output.
+ The option 'p' specifies the burst period, in seconds, while the option 's' specifies the number of
+ random values to generate in each burst.
+ The option 'r' indicates that the service metrics are to be reported on exit.
+ The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
+ name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Absorber output service.
+ @param argv The arguments to be used with the exemplar input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -309,14 +377,18 @@ int main(int      argc,
         yarp::os::ConstString serviceEndpointName;
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
-
-		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_ABSORBER_SERVICE_NAME, 2014,
+        StringVector          arguments;
+        
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]\n\n"
+                                                         "  period     Optional interval between "
+                                                         "bursts\n"
+                                                         "  size       Optional burst size"),
+                                          DEFAULT_EMOTIVINPUT_SERVICE_NAME, 2015,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipNone, &arguments))
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -325,8 +397,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, autostartWasSet,
-                               stdinAvailable, reportOnExit);                    
+                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
+                               autostartWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {
@@ -347,8 +419,7 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+        }
     }
     catch (...)
     {

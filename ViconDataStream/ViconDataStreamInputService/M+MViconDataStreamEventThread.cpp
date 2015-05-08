@@ -80,7 +80,8 @@ using std::endl;
 /*! @brief The number of times we attempt to connect to the Vicon device server. */
 static const int kNumConnectTries = 17;
 
-/*! @brief The amount of time to sleep between network operations that need to be retried. */
+/*! @brief The amount of time in milliseconds to sleep between network operations that need to be
+ retried. */
 static const int kLittleSleep = 200;
 
 //#define REPORT_EVENT_COUNT_ /* */

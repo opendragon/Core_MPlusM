@@ -376,7 +376,8 @@ int main(int      argc,
                         int            res = InetPton(AF_INET, sourceName.c_str(), &addrBuff);
 #endif // ! MAC_OR_LINUX_
                         
-                        if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                        if ((0 < res) && (startPtr != endPtr) && (! *endPtr) &&
+                            Utilities::ValidPortNumber(tempInt))
                         {
                             // Useable data.
                             SOCKET talkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

@@ -236,7 +236,8 @@ int main(int      argc,
                         hostName = arguments[0];
                         OD_LOG_S1s("hostName <- ", hostName); //####
                         if ((0 < inet_pton(AF_INET, hostName.c_str(), &addrBuff)) &&
-                            (startPtr != endPtr) && (! *endPtr) && (0 < hostPort))
+                            (startPtr != endPtr) && (! *endPtr) &&
+                            Utilities::ValidPortNumber(hostPort))
                         {
                             // Useable data.
                             setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,

@@ -150,7 +150,8 @@ int main(int      argc,
 #endif // ! MAC_OR_LINUX_
                     int            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
                     
-                    if ((0 < res) && (startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
+                    if ((0 < res) && (startPtr != endPtr) && (! *endPtr) &&
+                        Utilities::ValidPortNumber(tempInt))
                     {
                         // Useable data.
                         char    buffer[INCOMING_SIZE + 100];
