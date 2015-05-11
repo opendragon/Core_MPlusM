@@ -187,7 +187,8 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag; // not used
         
-		if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME, 2014,
+		if (ProcessStandardServiceOptions(argc, argv, "", MpM_REGISTRY_ENDPOINT_NAME,
+                                          REGISTRY_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           static_cast<OptionsMask>(kSkipAutostartOption |

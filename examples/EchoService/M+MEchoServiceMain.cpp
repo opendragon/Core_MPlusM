@@ -195,10 +195,11 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_ECHO_SERVICE_NAME, 2014,
-                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipAutostartOption))
+		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_ECHO_SERVICE_NAME,
+                                          ECHO_SERVICE_DESCRIPTION, 2014, STANDARD_COPYRIGHT_NAME,
+                                          autostartWasSet, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber,
+                                          kSkipAutostartOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

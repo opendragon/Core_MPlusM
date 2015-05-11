@@ -89,7 +89,7 @@ RandomBurstService::RandomBurstService(const yarp::os::ConstString & launchPath,
                                        const yarp::os::ConstString & serviceEndpointName,
                                        const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RANDOMBURST_CANONICAL_NAME,
-              "The Random Burst input service", "", serviceEndpointName, servicePortNumber),
+              RANDOMBURSTINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####

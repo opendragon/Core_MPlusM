@@ -436,18 +436,21 @@ namespace MplusM
         /*! @brief Process the standard options for adapter executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
-         The option '-i' / '--info' displays the type of the executable.
+         The option '-i' / '--info' displays the type of the executable and the description of the
+         executable and returns @c false.
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the utility.
+         @param adapterDescription A description of the adapter.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @returns @c true if the program should continue and @c false if it should leave. */
-        bool ProcessStandardAdapterOptions(const int    argc,
-                                           char * *     argv,
-                                           const int    year,
-                                           const char * copyrightHolder);
+        bool ProcessStandardAdapterOptions(const int                     argc,
+                                           char * *                      argv,
+                                           const yarp::os::ConstString & adapterDescription,
+                                           const int                     year,
+                                           const char *                  copyrightHolder);
 
         /*! @brief Process the standard options for utility executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and

@@ -241,10 +241,10 @@ int main(int      argc,
 		if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port\n\n"
                                                          "  hostname   IP address to return\n"
                                                          "  port       port to return"),
-                                          DEFAULT_ADDRESS_SERVICE_NAME, 2015,
-                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipAutostartOption, &arguments))
+                                          DEFAULT_ADDRESS_SERVICE_NAME, ADDRESS_SERVICE_DESCRIPTION,
+                                          2015, STANDARD_COPYRIGHT_NAME, autostartWasSet,
+                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber, kSkipAutostartOption, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

@@ -209,10 +209,10 @@ int main(int      argc,
                                                          "access to\n"
                                                          "  port       port to provide access "
                                                          "to"),
-                                          DEFAULT_TUNNEL_SERVICE_NAME, 2015,
-                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipAutostartOption, &arguments))
+                                          DEFAULT_TUNNEL_SERVICE_NAME, TUNNEL_SERVICE_DESCRIPTION,
+                                          2015, STANDARD_COPYRIGHT_NAME, autostartWasSet,
+                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber, kSkipAutostartOption, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

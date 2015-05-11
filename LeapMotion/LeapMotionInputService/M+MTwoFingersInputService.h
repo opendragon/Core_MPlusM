@@ -58,8 +58,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_TWOFINGERSINPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "input/twofingers")
+# define DEFAULT_TWOFINGERSINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/twofingers")
+
+/*! @brief The description of the service. */
+# define TWOFINGERSINPUT_SERVICE_DESCRIPTION T_("The Two Fingers input service")
 
 namespace MplusM
 {

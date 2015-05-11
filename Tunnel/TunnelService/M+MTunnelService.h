@@ -55,6 +55,9 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_TUNNEL_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "tunnel")
 
+/*! @brief The description of the service. */
+# define TUNNEL_SERVICE_DESCRIPTION T_("The Tunnel service")
+
 namespace MplusM
 {
     namespace Tunnel

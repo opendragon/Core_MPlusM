@@ -330,7 +330,8 @@ int main(int      argc,
                                                  "  period     Optional interval between "
                                                  "bursts\n"
                                                  "  size       Optional burst size"),
-                                              DEFAULT_PROCOMP2INPUT_SERVICE_NAME, 2015,
+                                              DEFAULT_PROCOMP2INPUT_SERVICE_NAME,
+                                              PROCOMP2INPUT_SERVICE_DESCRIPTION, 2015,
                                               STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                               reportOnExit, tag, serviceEndpointName,
                                               servicePortNumber, kSkipNone, &arguments))

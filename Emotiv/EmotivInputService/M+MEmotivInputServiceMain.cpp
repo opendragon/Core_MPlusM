@@ -383,7 +383,8 @@ int main(int      argc,
                                                          "  period     Optional interval between "
                                                          "bursts\n"
                                                          "  size       Optional burst size"),
-                                          DEFAULT_EMOTIVINPUT_SERVICE_NAME, 2015,
+                                          DEFAULT_EMOTIVINPUT_SERVICE_NAME,
+                                          EMOTIVINPUT_SERVICE_DESCRIPTION, 2015,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

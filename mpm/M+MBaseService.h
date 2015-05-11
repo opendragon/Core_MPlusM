@@ -470,8 +470,8 @@ namespace MplusM
          The option '-e' / '--endpoint' specifies the endpoint name to be used.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
-         The option '-i' / '--info' displays the type of the executable and the available options
-         and returns @c false.
+         The option '-i' / '--info' displays the type of the executable, the available options and
+         the description of the executable and returns @c false.
          The option '-p' / '--port' specifie the port number to be used.
          The option '-r' / '--report' indicates that the service metrics are to be reported on exit.
          The option '-t' / '--tag' specifies the tag modifier, which is applied to the name of the
@@ -482,6 +482,7 @@ namespace MplusM
          @param argv The arguments to be used with the service.
          @param argList The command-line options and arguments for the service.
          @param defaultEndpointNameRoot The default endpoint root name.
+         @param serviceDescription A description of the service.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @param autostartWasSet Set to @c true if the service is to be started immediately.
@@ -498,6 +499,7 @@ namespace MplusM
                                            char * *                      argv,
                                            const char *                  argList,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           const yarp::os::ConstString & serviceDescription,
                                            const int                     year,
                                            const char *                  copyrightHolder,
                                            bool &                        autostartWasSet,

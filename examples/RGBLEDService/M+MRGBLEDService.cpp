@@ -89,10 +89,10 @@ RGBLEDService::RGBLEDService(const yarp::os::ConstString & launchPath,
                              const yarp::os::ConstString & tag,
                              const yarp::os::ConstString & serviceEndpointName,
                              const yarp::os::ConstString & servicePortNumber) :
-        inherited(kServiceKindNormal, launchPath, tag, true, MpM_ECHO_CANONICAL_NAME,
+        inherited(kServiceKindNormal, launchPath, tag, true, MpM_RGBLED_CANONICAL_NAME,
                   "An example RGB LED service",
                   "echo - send back any values given with the request", serviceEndpointName,
-                  servicePortNumber), _echoHandler(NULL)
+                  servicePortNumber), _rgbledHandler(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -117,14 +117,14 @@ void RGBLEDService::attachRequestHandlers(void)
     OD_LOG_OBJENTER();//####
     try
     {
-        _echoHandler = new RGBLEDRequestHandler(*this);
-        if (_echoHandler)
+        _rgbledHandler = new RGBLEDRequestHandler(*this);
+        if (_rgbledHandler)
         {
-            registerRequestHandler(_echoHandler);
+            registerRequestHandler(_rgbledHandler);
         }
         else
         {
-            OD_LOG("! (_echoHandler)");//####
+            OD_LOG("! (_rgbledHandler)");//####
         }
     }
     catch (...)
@@ -133,18 +133,18 @@ void RGBLEDService::attachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT();//####
-} // EchoService::attachRequestHandlers
+} // RGBLEDService::attachRequestHandlers
 
 void RGBLEDService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
     {
-        if (_echoHandler)
+        if (_rgbledHandler)
         {
-            unregisterRequestHandler(_echoHandler);
-            delete _echoHandler;
-            _echoHandler = NULL;
+            unregisterRequestHandler(_rgbledHandler);
+            delete _rgbledHandler;
+            _rgbledHandler = NULL;
         }
     }
     catch (...)

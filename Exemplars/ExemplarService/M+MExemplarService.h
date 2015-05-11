@@ -55,6 +55,9 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_EXEMPLAR_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "exemplar/service")
 
+/*! @brief The description of the service. */
+# define EXEMPLAR_SERVICE_DESCRIPTION T_("The exemplar service")
+
 namespace MplusM
 {
     namespace Exemplar

@@ -55,6 +55,9 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_ECHO_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/echo")
 
+/*! @brief The description of the service. */
+# define ECHO_SERVICE_DESCRIPTION T_("The Echo service")
+
 namespace MplusM
 {
     namespace Example

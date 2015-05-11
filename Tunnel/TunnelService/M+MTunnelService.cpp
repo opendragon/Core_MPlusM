@@ -92,7 +92,7 @@ TunnelService::TunnelService(const yarp::os::ConstString & sourceName,
                              const yarp::os::ConstString & serviceEndpointName,
                              const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_TUNNEL_CANONICAL_NAME,
-              "The Tunnel service",
+              TUNNEL_SERVICE_DESCRIPTION,
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _listenAddress(""), _sourceAddress(sourceName),
     _whereHandler(NULL), _connection(new ConnectionThread(*this)), _listenPort(-1),

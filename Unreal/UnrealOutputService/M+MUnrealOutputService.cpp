@@ -93,7 +93,7 @@ UnrealOutputService::UnrealOutputService(const yarp::os::ConstString & launchPat
                                          const yarp::os::ConstString & serviceEndpointName,
                                          const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME,
-              "The Unreal output service", "", serviceEndpointName, servicePortNumber),
+              UNREALOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
 	_translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
     _inLeapHandler(new UnrealOutputLeapInputHandler(*this)),
     _inViconHandler(new UnrealOutputViconInputHandler(*this))

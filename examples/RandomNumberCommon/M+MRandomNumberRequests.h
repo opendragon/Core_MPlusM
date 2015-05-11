@@ -54,7 +54,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Random Number service. */
-# define MpM_RANDOM_CANONICAL_NAME "Random"
+# define MpM_RANDOMNUMBER_CANONICAL_NAME "RandomNumber"
 
 /*! @brief The name for the 'random' request. */
 # define MpM_RANDOM_REQUEST "random"

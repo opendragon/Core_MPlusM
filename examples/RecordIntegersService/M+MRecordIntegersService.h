@@ -53,8 +53,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_RECORDINTEGERS_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "output/recordintegers")
+# define DEFAULT_RECORDINTEGERSOUTPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE \
+                                                        "output/recordintegers")
+
+/*! @brief The description of the service. */
+# define RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION T_("The Record Integers output service")
 
 namespace MplusM
 {

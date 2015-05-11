@@ -844,6 +844,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
                                            const char *                  argList,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
+                                           const yarp::os::ConstString & serviceDescription,
                                            const int                     year,
                                            const char *                  copyrightHolder,
                                            bool &                        autostartWasSet,
@@ -860,7 +861,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     OD_LOG_P4("argv = ", argv, "nameWasSet = ", &nameWasSet, "reportOnExit = ",//####
               &reportOnExit, "arguments = ", arguments); //####
     OD_LOG_S2("argList = ", argList, "copyrightHolder = ", copyrightHolder); //####
-    OD_LOG_S1s("defaultEndpointNameRoot = ", defaultEndpointNameRoot); //####
+    OD_LOG_S2s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
+               "serviceDescription = ", serviceDescription); //####
     enum optionIndex
     {
         kOptionUNKNOWN,
@@ -1051,7 +1053,11 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
             }
             cout << "t";
         }
-        cout << endl;
+        if (needTab)
+        {
+            cout << "\t";
+        }
+        cout << "\t" << serviceDescription.c_str() << endl;
         keepGoing = false;
     }
     else

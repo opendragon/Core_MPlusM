@@ -89,7 +89,7 @@ TwoFingersInputService::TwoFingersInputService(const yarp::os::ConstString & lau
                                                const yarp::os::ConstString & serviceEndpointName,
                                                const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_TWOFINGERSINPUT_CANONICAL_NAME,
-              "The Two Fingers input service", "", serviceEndpointName, servicePortNumber),
+              TWOFINGERSINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####

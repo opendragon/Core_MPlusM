@@ -92,7 +92,7 @@ MovementDbService::MovementDbService(const yarp::os::ConstString & launchPath,
                                      const yarp::os::ConstString & serviceEndpointName,
                                      const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
-              "The Movement database service",
+              MOVEMENTDB_SERVICE_DESCRIPTION,
               "addfile - add a file to the database\n"
               "setdatatrack - set the data track for the files being added\n"
               "setemail - set the e-mail address for the files being added\n"

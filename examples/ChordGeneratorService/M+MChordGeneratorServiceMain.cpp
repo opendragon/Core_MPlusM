@@ -193,7 +193,8 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_CHORDGENERATOR_SERVICE_NAME, 2014,
+		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_CHORDGENERATOR_SERVICE_NAME,
+                                          CHORDGENERATOR_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipAutostartOption))

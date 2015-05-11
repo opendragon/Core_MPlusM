@@ -384,7 +384,8 @@ int main(int      argc,
                                                          "device server\n"
                                                          "  port       Optional port for the "
                                                          "device server"),
-                                          DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME, 2014,
+                                          DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME,
+                                          VICONDATASTREAMINPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

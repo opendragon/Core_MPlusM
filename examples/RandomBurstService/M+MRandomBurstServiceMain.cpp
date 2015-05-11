@@ -373,7 +373,8 @@ int main(int      argc,
                                                          "  period     Optional interval between "
                                                          "bursts\n"
                                                          "  size       Optional burst size"),
-                                          DEFAULT_RANDOMBURST_SERVICE_NAME, 2014,
+                                          DEFAULT_RANDOMBURSTINPUT_SERVICE_NAME,
+                                          RANDOMBURSTINPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

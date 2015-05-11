@@ -123,8 +123,8 @@ AbsorberService::AbsorberService(const yarp::os::ConstString & launchPath,
                                  const yarp::os::ConstString & tag,
                                  const yarp::os::ConstString & serviceEndpointName,
                                  const yarp::os::ConstString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_ABSORBER_CANONICAL_NAME, "The Absorber output service",
-              "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, tag, true, MpM_ABSORBER_CANONICAL_NAME,
+              ABSORDEROUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _inHandler(new AbsorberInputHandler(*this)), _count(0), _totalBytes(0)
 {
     OD_LOG_ENTER(); //####

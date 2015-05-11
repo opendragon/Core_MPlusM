@@ -272,7 +272,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, 2014, STANDARD_COPYRIGHT_NAME))
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv,
+                                                     "The Running Sum alternative adapter", 2014,
+                                                     STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();

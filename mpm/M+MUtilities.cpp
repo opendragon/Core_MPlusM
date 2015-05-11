@@ -2560,14 +2560,16 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool Utilities::ProcessStandardAdapterOptions(const int    argc,
-                                              char * *     argv,
-                                              const int    year,
-                                              const char * copyrightHolder)
+bool Utilities::ProcessStandardAdapterOptions(const int                     argc,
+                                              char * *                      argv,
+                                              const yarp::os::ConstString & adapterDescription,
+                                              const int                     year,
+                                              const char *                  copyrightHolder)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S1s("adapterDescription = ", adapterDescription); //####
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
@@ -2582,7 +2584,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int    argc,
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         T_("  --info, -i        Print type and exit"));
+                                         T_("  --info, -i        Print type and description and "
+                                            "exit"));
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
@@ -2632,7 +2635,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int    argc,
     }
     else if (options[kOptionINFO])
     {
-        cout << "Adapter" << endl;
+        cout << "Adapter\t" << adapterDescription.c_str() << endl;
         keepGoing = false;
     }
     delete[] options;

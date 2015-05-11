@@ -55,6 +55,9 @@
 /*! @brief The channel name to use for the service if not provided. */
 # define DEFAULT_REQUESTCOUNTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "requestcounter")
 
+/*! @brief The description of the service. */
+# define REQUESTCOUNTER_SERVICE_DESCRIPTION T_("The Request Counter service")
+
 namespace MplusM
 {
     namespace RequestCounter

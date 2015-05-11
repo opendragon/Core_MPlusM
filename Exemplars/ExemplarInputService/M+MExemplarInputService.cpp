@@ -89,7 +89,7 @@ ExemplarInputService::ExemplarInputService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & serviceEndpointName,
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_EXEMPLARINPUT_CANONICAL_NAME,
-              "The exemplar input service", "", serviceEndpointName, servicePortNumber),
+              EXEMPLARINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####

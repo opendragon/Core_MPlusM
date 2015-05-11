@@ -351,7 +351,8 @@ int main(int      argc,
         if (ProcessStandardServiceOptions(argc, argv, T_(" [filepath]\n\n"
                                                          "  filepath   Optional path to output "
                                                          "file"),
-                                          DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME, 2014,
+                                          DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME,
+                                          EXEMPLAROUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

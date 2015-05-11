@@ -167,9 +167,9 @@ static void setUpAndGo(char * *                      argv,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the example Echo service. 
+/*! @brief The entry point for running the example RGBLED service. 
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the example Echo service.
+ @param argv The arguments to be used with the example RGBLED service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -194,7 +194,8 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-        if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_ECHO_SERVICE_NAME, 2014,
+        if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_RGBLED_SERVICE_NAME,
+                                          RGBLED_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipAutostartOption))

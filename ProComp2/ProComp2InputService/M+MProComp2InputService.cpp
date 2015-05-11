@@ -89,7 +89,7 @@ ProComp2InputService::ProComp2InputService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & serviceEndpointName,
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME,
-              "The ProComp2 input service", "", serviceEndpointName, servicePortNumber),
+              PROCOMP2INPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
 			  _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####

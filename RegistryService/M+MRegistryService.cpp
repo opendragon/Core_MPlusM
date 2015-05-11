@@ -1846,7 +1846,7 @@ RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
                                  const bool                    useInMemoryDb,
                                  const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
-              "The Registry Service",
+              REGISTRY_SERVICE_DESCRIPTION,
               "associate - associate a channel with another channel\n"
               "disassociate - remove all associations for a channel\n"
               "getAssociates - return the associations of a channel\n"

@@ -91,7 +91,7 @@ NaturalPointInputService::NaturalPointInputService(const yarp::os::ConstString &
                                                    const yarp::os::ConstString &
                                                                                 servicePortNumber) :
     inherited(launchPath, tag, true, MpM_NATURALPOINTINPUT_CANONICAL_NAME,
-              "The NaturalPoint input service", "", serviceEndpointName, servicePortNumber),
+              NATURALPOINTINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####

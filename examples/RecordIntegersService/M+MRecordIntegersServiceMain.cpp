@@ -350,7 +350,8 @@ int main(int      argc,
         
 		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
                                                          "  filePath   Optional output file path"),
-                                          DEFAULT_RECORDINTEGERS_SERVICE_NAME, 2014,
+                                          DEFAULT_RECORDINTEGERSOUTPUT_SERVICE_NAME,
+                                          RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

@@ -271,7 +271,8 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, 2014, STANDARD_COPYRIGHT_NAME))
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, "The Movement database adapter",
+                                                     2014, STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
 #if defined(MpM_ReportOnConnections)

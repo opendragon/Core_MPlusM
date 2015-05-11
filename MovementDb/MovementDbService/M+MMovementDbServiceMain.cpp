@@ -208,7 +208,8 @@ int main(int      argc,
         if (ProcessStandardServiceOptions(argc, argv, T_(" dbAddress\n\n"
                                                          "  dbAddress  Network address for "
                                                          "database"),
-                                          DEFAULT_MOVEMENTDB_SERVICE_NAME, 2014,
+                                          DEFAULT_MOVEMENTDB_SERVICE_NAME,
+                                          MOVEMENTDB_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipAutostartOption, &arguments))

@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for an 'echo' request.
+//  Contains:   The class definition for the request handler for an 'rgbled' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -52,7 +52,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the request handler for an 'echo' request. */
+ @brief The class definition for the request handler for an 'rgbled' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -69,8 +69,8 @@ using namespace MplusM::Example;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'echo' request. */
-#define ECHO_REQUEST_VERSION_NUMBER "1.0"
+/*! @brief The protocol version number for the 'rgbled' request. */
+#define RGBLED_REQUEST_VERSION_NUMBER "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -89,7 +89,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RGBLEDRequestHandler::RGBLEDRequestHandler(RGBLEDService & service) :
-        inherited(MpM_ECHO_REQUEST, service)
+        inherited(MpM_RGBLED_REQUEST, service)
 {
     OD_LOG_ENTER();//####
     OD_LOG_P1("service = ", &service); //####
@@ -136,9 +136,9 @@ void RGBLEDRequestHandler::fillInDescription(const yarp::os::ConstString & reque
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_ANYTHING MpM_REQREP_0_OR_MORE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, ECHO_REQUEST_VERSION_NUMBER);
+        info.put(MpM_REQREP_DICT_VERSION_KEY, RGBLED_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Echo back any input\n"
-                 "Input: R G B(floats between 0.0 and 1.0) for colour values"
+                 "Input: R G B (floats between 0.0 and 1.0) for colour values"
                  "Output: 1 if ok");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();

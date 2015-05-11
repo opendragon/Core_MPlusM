@@ -57,7 +57,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_ECHO_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/echo")
+# define DEFAULT_RGBLED_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/rgbled")
+
+/*! @brief The description of the service. */
+# define RGBLED_SERVICE_DESCRIPTION T_("An example RGB LED service")
 
 namespace MplusM
 {
@@ -65,7 +68,7 @@ namespace MplusM
     {
         class RGBLEDRequestHandler;
         
-        /*! @brief An example M+M service, handling 'echo' requests. */
+        /*! @brief An example M+M service, handling 'rgbled' requests. */
         class RGBLEDService : public Common::BaseService
         {
         public :
@@ -112,10 +115,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
             
-            /*! @brief The request handler for the 'echo' request. */
-            RGBLEDRequestHandler * _echoHandler;
+            /*! @brief The request handler for the 'rgbled' request. */
+            RGBLEDRequestHandler * _rgbledHandler;
             
-        }; // EchoService
+        }; // RGBLEDService
         
     } // Example
     

@@ -349,7 +349,8 @@ int main(int      argc,
         
 		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
                                                          "  filePath   Optional output file path"),
-                                          DEFAULT_RECORDASJSON_SERVICE_NAME, 2014,
+                                          DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME,
+                                          RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

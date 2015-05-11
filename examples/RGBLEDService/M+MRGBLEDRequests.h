@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the Echo
+//  Contains:   The common macro definitions for requests and responses for the RGBLED
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -52,12 +52,15 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Echo service. */
+ @brief The common macro definitions for requests and responses for the RGBLED service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the example Echo service. */
-# define MpM_ECHO_CANONICAL_NAME "RGBLED"
+/*! @brief The channel-independent name of the example RGBLED service. */
+# define MpM_RGBLED_CANONICAL_NAME "RGBLED"
+
+/*! @brief The name for the 'rgbled' request. */
+# define MpM_RGBLED_REQUEST "rgbled"
 
 #endif // ! defined(MpMRGBLEDRequests_H_)

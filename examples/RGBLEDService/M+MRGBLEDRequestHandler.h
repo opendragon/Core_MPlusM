@@ -50,7 +50,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the request handler for an 'echo' request. */
+ @brief The class declaration for the request handler for an 'rgbled' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -61,7 +61,7 @@ namespace MplusM
     {
         class RGBLEDService;
         
-        /*! @brief The example 'echo' request handler.
+        /*! @brief The example 'rgbled' request handler.
          
          The input is a list of strings and the output is the same list of strings. */
         class RGBLEDRequestHandler : public Common::BaseRequestHandler

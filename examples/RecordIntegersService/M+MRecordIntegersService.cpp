@@ -90,7 +90,7 @@ RecordIntegersService::RecordIntegersService(const yarp::os::ConstString & launc
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RECORDINTEGERS_CANONICAL_NAME,
-              "The Record Integers output service", "", serviceEndpointName, servicePortNumber),
+              RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
 {
     OD_LOG_ENTER(); //####

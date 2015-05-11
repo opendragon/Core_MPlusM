@@ -89,7 +89,7 @@ TruncateFloatService::TruncateFloatService(const yarp::os::ConstString & launchP
                                            const yarp::os::ConstString & serviceEndpointName,
                                            const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_TRUNCATEFLOAT_CANONICAL_NAME,
-              "The Truncate Float service", "", serviceEndpointName, servicePortNumber),
+              TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _inHandler(new TruncateFloatInputHandler)
 {
     OD_LOG_ENTER(); //####

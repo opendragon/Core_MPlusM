@@ -377,7 +377,8 @@ int main(int      argc,
                                                          "  port       Optional port to use to "
                                                          "connect\n"
                                                          "  scale      Optional translation scale"),
-                                          DEFAULT_UNREALOUTPUT_SERVICE_NAME, 2014,
+                                          DEFAULT_UNREALOUTPUT_SERVICE_NAME,
+                                          UNREALOUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

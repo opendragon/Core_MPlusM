@@ -89,7 +89,7 @@ ExemplarFilterService::ExemplarFilterService(const yarp::os::ConstString & launc
                                              const yarp::os::ConstString & serviceEndpointName,
                                              const yarp::os::ConstString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_EXEMPLARFILTER_CANONICAL_NAME,
-              "The exemplar filter service", "", serviceEndpointName, servicePortNumber),
+              EXEMPLARFILTER_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _inHandler(new ExemplarFilterInputHandler)
 {
     OD_LOG_ENTER(); //####

@@ -58,8 +58,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME T_( \
-        DEFAULT_SERVICE_NAME_BASE "input/leapmotion")
+# define DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/leapmotion")
+
+/*! @brief The description of the service. */
+# define LEAPMOTIONINPUT_SERVICE_DESCRIPTION T_("The Leap Motion input service")
 
 namespace MplusM
 {

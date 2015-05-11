@@ -87,7 +87,7 @@ ExemplarService::ExemplarService(const yarp::os::ConstString & launchPath,
                                  const yarp::os::ConstString & serviceEndpointName,
                                  const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_EXEMPLAR_CANONICAL_NAME,
-              "The exemplar service", "simple - return the number of random values requested",
+              EXEMPLAR_SERVICE_DESCRIPTION, "simple - return the number of random values requested",
               serviceEndpointName, servicePortNumber), _simpleHandler(NULL)
 {
     OD_LOG_ENTER(); //####

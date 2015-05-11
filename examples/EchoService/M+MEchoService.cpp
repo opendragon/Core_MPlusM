@@ -87,7 +87,7 @@ EchoService::EchoService(const yarp::os::ConstString & launchPath,
                          const yarp::os::ConstString & serviceEndpointName,
                          const yarp::os::ConstString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_ECHO_CANONICAL_NAME,
-              "The Echo service", "echo - send back any values given with the request",
+              ECHO_SERVICE_DESCRIPTION, "echo - send back any values given with the request",
               serviceEndpointName, servicePortNumber), _echoHandler(NULL)
 {
     OD_LOG_ENTER(); //####

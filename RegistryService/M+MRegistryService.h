@@ -58,6 +58,9 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The description of the service. */
+# define REGISTRY_SERVICE_DESCRIPTION T_("The Registry Service")
+
 struct sqlite3;
 
 namespace MplusM
