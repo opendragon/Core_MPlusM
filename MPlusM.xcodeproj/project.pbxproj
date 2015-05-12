@@ -322,6 +322,7 @@
 		DF76235E1AFD01C4002BDC49 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Emotiv/EmotivInputService/CMakeLists.txt; sourceTree = "<group>"; };
 		DF76235F1AFD01C4002BDC49 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Emotiv/EmotivInputService/resource.h; sourceTree = "<group>"; };
 		DF7623601AFD01C4002BDC49 /* M+MEmotivInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEmotivInputThread.h"; path = "Emotiv/EmotivInputService/M+MEmotivInputThread.h"; sourceTree = "<group>"; };
+		DF7623641B029130002BDC49 /* standardApplications.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = standardApplications.txt; sourceTree = "<group>"; };
 		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -1473,6 +1474,7 @@
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
+				DF7623641B029130002BDC49 /* standardApplications.txt */,
 				DF8888151AEE7EAF001320EB /* StopService */,
 				DF1BD3351A8C010E0070A09C /* Tunnel */,
 				DFEF4B591A1CE6C300FBB838 /* Unreal */,
