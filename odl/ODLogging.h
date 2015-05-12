@@ -132,6 +132,7 @@
 # undef OD_LOG_EXIT_P
 # undef OD_LOG_EXIT_RECT
 # undef OD_LOG_EXIT_S
+# undef OD_LOG_EXIT_s
 # undef OD_LOG_EXIT_SIZE
 # undef OD_LOG_EXIT_THROW_L
 # undef OD_LOG_EXIT_THROW_S
@@ -165,6 +166,7 @@
 # undef OD_LOG_OBJEXIT_P
 # undef OD_LOG_OBJEXIT_RECT
 # undef OD_LOG_OBJEXIT_S
+# undef OD_LOG_OBJEXIT_s
 # undef OD_LOG_OBJEXIT_SIZE
 # undef OD_LOG_OBJEXIT_THROW_L
 # undef OD_LOG_OBJEXIT_THROW_S
@@ -2625,6 +2627,16 @@ extern "C"
 #  define OD_LOG_XL4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 
 # endif // ! defined(OD_ENABLE_LOGGING)
+
+/*! @brief Write a string function exit string to the log.
+ @param val The value being returned by the function. */
+#  define OD_LOG_EXIT_s(val) \
+        OD_LOG_EXIT_S(val.c_str())
+
+/*! @brief Write a string method exit string to the log.
+ @param val The value being returned by the method. */
+#  define OD_LOG_OBJEXIT_s(val) \
+        OD_LOG_OBJEXIT_S(val.c_str())
 
 /*! @brief Write a string value to the log.
  @param text1 The caption for the value to be written.

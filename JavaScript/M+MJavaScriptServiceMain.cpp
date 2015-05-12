@@ -1946,7 +1946,7 @@ static yarp::os::ConstString getFileNameBase(const yarp::os::ConstString & inFil
     {
         result = inFileName.substr(0, index);
     }
-    OD_LOG_EXIT_S(result.c_str()); //####
+    OD_LOG_EXIT_s(result); //####
     return result;
 } // getFileNameBase
 
@@ -1975,7 +1975,7 @@ static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFil
     result += ".";
     result += baseExtension;
 #endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT_S(result.c_str()); //####
+    OD_LOG_EXIT_s(result); //####
     return result;
 } // getFileNamePart
 

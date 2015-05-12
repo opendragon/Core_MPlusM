@@ -72,7 +72,6 @@
 #include <yarp/os/impl/PortCommand.h>
 #include <yarp/os/impl/Protocol.h>
 #include <yarp/os/impl/String.h>
-#include <yarp/os/impl/SystemInfo.h>
 #include <yarp/os/impl/TcpFace.h>
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -117,11 +116,6 @@ using namespace MplusM::Utilities;
 using std::cerr;
 using std::cout;
 using std::endl;
-
-#if defined(__APPLE__)
-/*! @brief The system environment variable table. */
-extern char * * environ;
-#endif // __APPLE__
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -1236,86 +1230,9 @@ yarp::os::ConstString Utilities::ConvertMetricsToString(const yarp::os::Bottle &
     {
         result << " ]";
     }
-    OD_LOG_EXIT_S(result.str().c_str()); //####
+    OD_LOG_EXIT_s(result.str()); //####
     return result.str();
 } // Utilities::ConvertMetricsToString
-
-yarp::os::ConstString Utilities::FindPathToExecutable(const yarp::os::ConstString & execName)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("execName = ", execName); //####
-	yarp::os::Bottle      pathVar(GetSystemEnvironmentVar("PATH"));
-    yarp::os::ConstString realExecName(kDirectorySeparator);
-    yarp::os::ConstString result;
-    
-    realExecName += execName;
-#if (! MAC_OR_LINUX_)
-    realExecName += ".exe";
-#endif // ! MAC_OR_LINUX_
-    if (0 < pathVar.size())
-    {
-        yarp::os::Value & pathValue(pathVar.get(0));
-        
-		if (pathValue.isString())
-        {
-            // Convert the value of the PATH environment variable into a sequence of values.
-            yarp::os::ConstString pathValueAsString(pathValue.toString());
-            
-            for ( ; 0 < pathValueAsString.length(); )
-            {                
-#if MAC_OR_LINUX_
-				size_t                indx = pathValueAsString.find(":");
-#else // ! MAC_OR_LINUX_
-				size_t                indx = pathValueAsString.find(";");
-#endif // ! MAC_OR_LINUX_
-                yarp::os::ConstString pathToCheck;
-                
-                if (yarp::os::ConstString::npos == indx)
-                {
-                    pathToCheck = pathValueAsString + realExecName;
-                    pathValueAsString = "";
-                }
-                else
-                {
-                    pathToCheck = pathValueAsString.substr(0, indx) + realExecName;
-                    pathValueAsString = pathValueAsString.substr(indx + 1);
-                }
-#if MAC_OR_LINUX_
-				if (! access(pathToCheck.c_str(), X_OK))
-#else // ! MAC_OR_LINUX_
-				if (! _access(pathToCheck.c_str(), 0)) // Note that there's no explicit check for
-                                                       // execute permission in Windows
-#endif // ! MAC_OR_LINUX_
-                {
-                    // We've found an executable that we can use!
-                    result = pathToCheck;
-                    break;
-                }
-                
-            }
-        }
-    }
-    if (! result.length())
-    {
-        // If nothing else works, try the name without a prefix, since it might be an absolute path.
-        realExecName = execName;
-#if (! MAC_OR_LINUX_)
-        realExecName += ".exe";
-#endif // ! MAC_OR_LINUX_
-#if MAC_OR_LINUX_
-        if (! access(realExecName.c_str(), X_OK))
-#else // ! MAC_OR_LINUX_
-        if (! _access(realExecName.c_str(), 0)) // Note that there's no explicit check for
-                                                // execute permission in Windows
-#endif // ! MAC_OR_LINUX_
-        {
-            // We've found an executable that we can use!
-            result = realExecName;
-        }
-    }
-    OD_LOG_EXIT_S(result.c_str()); //####
-    return result;
-} // Utilities::FindPathToExecutable
 
 void Utilities::GatherPortConnections(const yarp::os::ConstString & portName,
                                       ChannelVector &               inputs,
@@ -2072,7 +1989,7 @@ yarp::os::ConstString Utilities::GetPortLocation(const yarp::os::ConstString & p
     {
         result = "<unknown>";
     }
-    OD_LOG_EXIT_S(result.c_str()); //####
+    OD_LOG_EXIT_s(result); //####
     return result;
 } // Utilities::GetPortLocation
 
@@ -2157,154 +2074,6 @@ bool Utilities::GetServiceNamesFromCriteria(const yarp::os::ConstString & criter
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // Utilities::GetServiceNamesFromCriteria
-
-yarp::os::Bottle Utilities::GetSystemEnvironmentVar(const yarp::os::ConstString & varName)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("varName = ", varName); //####
-    yarp::os::Bottle   result;
-    yarp::os::Property envVars(GetSystemEnvironmentVars());
-    yarp::os::Value &  found(envVars.find(varName));
-    
-    if (! found.isNull())
-    {
-        result.add(found);
-    }
-    OD_LOG_EXIT(); //####
-    return result;
-} // Utilities::GetSystemEnvironmentVar
-
-yarp::os::Property Utilities::GetSystemEnvironmentVars(void)
-{
-    OD_LOG_ENTER(); //####
-    yarp::os::Property result;
-    
-    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
-#if defined(__APPLE__)
-    char * varChar = *environ;
-    
-    for (int ii = 0; varChar; ++ii)
-    {
-        std::string tmpVariable(varChar);
-        size_t      equalsSign = tmpVariable.find("=");
-        
-        if (equalsSign != std::string::npos)
-        {
-            result.put(tmpVariable.substr(0, equalsSign), tmpVariable.substr(equalsSign + 1));
-        }
-        varChar = *(environ + ii);
-    }
-#else // ! defined(__APPLE__)
-    result = yarp::os::impl::SystemInfo::getPlatformInfo().environmentVars;
-#endif // ! defined(__APPLE__)
-    OD_LOG_EXIT(); //####
-    return result;
-} // Utilities::GetSystemEnvironmentVars
-
-yarp::os::ConstString Utilities::GetSystemHomeDir(void)
-{
-    OD_LOG_ENTER(); //####
-    yarp::os::ConstString result;
-#if defined(__APPLE__)
-    struct passwd         pwd;
-    struct passwd *       pwdPtr = NULL;
-    char *                buf;
-    size_t                bufSize = sysconf(_SC_GETPW_R_SIZE_MAX);
-#endif // defined(__APPLE__)
-    
-    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
-#if defined(__APPLE__)
-    if (-1 == bufSize)
-    {
-        // Value was indeterminate.
-        bufSize = 16384; // Should be more than enough.
-    }
-    buf = static_cast<char *>(malloc(bufSize));
-    if (buf)
-    {
-        getpwuid_r(getuid(), &pwd, buf, bufSize, &pwdPtr);
-        if (pwdPtr)
-        {
-            result = pwd.pw_dir;
-        }
-        free(buf);
-    }
-#else // ! defined(__APPLE__)
-    result = yarp::os::impl::SystemInfo::getUserInfo().homeDir;
-#endif // ! defined(__APPLE__)
-    OD_LOG_EXIT_S(result.c_str()); //####
-    return result;
-} // Utilities::GetSystemHomeDir
-
-yarp::os::ConstString Utilities::GetSystemRealName(void)
-{
-    OD_LOG_ENTER(); //####
-    yarp::os::ConstString result;
-#if defined(__APPLE__)
-    struct passwd         pwd;
-    struct passwd *       pwdPtr = NULL;
-    char *                buf;
-    size_t                bufSize = sysconf(_SC_GETPW_R_SIZE_MAX);
-#endif // defined(__APPLE__)
-    
-    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
-#if defined(__APPLE__)
-    if (-1 == bufSize)
-    {
-        // Value was indeterminate.
-        bufSize = 16384; // Should be more than enough.
-    }
-    buf = static_cast<char *>(malloc(bufSize));
-    if (buf)
-    {
-        getpwuid_r(getuid(), &pwd, buf, bufSize, &pwdPtr);
-        if (pwdPtr)
-        {
-            result = pwd.pw_gecos;
-        }
-        free(buf);
-    }
-#else // ! defined(__APPLE__)
-    result = yarp::os::impl::SystemInfo::getUserInfo().realName;
-#endif // ! defined(__APPLE__)
-    OD_LOG_EXIT_S(result.c_str()); //####
-    return result;
-} // Utilities::GetSystemRealName
-
-yarp::os::ConstString Utilities::GetSystemUserName(void)
-{
-    OD_LOG_ENTER(); //####
-    yarp::os::ConstString result;
-#if defined(__APPLE__)
-    struct passwd         pwd;
-    struct passwd *       pwdPtr = NULL;
-    char *                buf;
-    size_t                bufSize = sysconf(_SC_GETPW_R_SIZE_MAX);
-#endif // defined(__APPLE__)
-    
-    // Note that yarp::os::impl::SystemInfo::getUserInfo() does nothing in Mac OS X!
-#if defined(__APPLE__)
-    if (-1 == bufSize)
-    {
-        // Value was indeterminate.
-        bufSize = 16384; // Should be more than enough.
-    }
-    buf = static_cast<char *>(malloc(bufSize));
-    if (buf)
-    {
-        getpwuid_r(getuid(), &pwd, buf, bufSize, &pwdPtr);
-        if (pwdPtr)
-        {
-            result = pwd.pw_name;
-        }
-        free(buf);
-    }
-#else // ! defined(__APPLE__)
-    result = yarp::os::impl::SystemInfo::getUserInfo().userName;
-#endif // ! defined(__APPLE__)
-    OD_LOG_EXIT_S(result.c_str()); //####
-    return result;
-} // Utilities::GetSystemUserName
 
 void Utilities::GoToSleep(const int milliseconds)
 {

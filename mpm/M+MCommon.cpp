@@ -210,7 +210,7 @@ yarp::os::ConstString Common::GetRandomChannelName(const char * channelRoot)
         OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_S(result.c_str()); //####
+    OD_LOG_EXIT_s(result); //####
     return result;
 } // Common::GetRandomChannelName
 
@@ -732,7 +732,7 @@ yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inStr
         OD_LOG("Exception caught"); //####
         throw;
     }
-    OD_LOG_EXIT_S(outString.c_str()); //####
+    OD_LOG_EXIT_s(outString); //####
     return outString;
 } // MplusM::SanitizeString
 
