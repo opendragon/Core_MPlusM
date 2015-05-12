@@ -313,7 +313,7 @@ int main(int      argc,
         yarp::os::ConstString tag;
         
         if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_EXEMPLARFILTER_SERVICE_NAME,
-                                          EXAMPLARFILTER_SERVICE_DESCRIPTION, 2014,
+                                          EXEMPLARFILTER_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

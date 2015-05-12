@@ -75,6 +75,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The criteria used by the adapter to find its service. */
+#define MATCHING_CRITERIA "Name: RunningSum"
+
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -108,7 +111,7 @@ static void setUpAndGo(int      argc,
     {
         StartRunning();
         SetSignalHandlers(SignalRunningStop);
-        if (stuff->findService("Name: RunningSum"))
+        if (stuff->findService(MATCHING_CRITERIA))
         {
 #if defined(MpM_ReportOnConnections)
             stuff->setReporter(*reporter, true);
@@ -297,7 +300,8 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, "The Running Sum adapter", 2014,
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, "The Running Sum adapter",
+                                                     MATCHING_CRITERIA, 2014,
                                                      STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();

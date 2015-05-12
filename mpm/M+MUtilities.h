@@ -392,8 +392,8 @@ namespace MplusM
         yarp::os::ConstString GetSystemUserName(void);
         
         /*! @brief Put the active thread to sleep for a number of milliseconds.
-         @param amount The number of milliseconds to sleep. */
-        void GoToSleep(const int amount);
+         @param milliseconds The number of milliseconds to sleep. */
+        void GoToSleep(const int milliseconds);
         
         /*! @brief Return a string representation of a service kind.
          @param kind The value to be converted.
@@ -443,12 +443,15 @@ namespace MplusM
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the utility.
          @param adapterDescription A description of the adapter.
+         @param matchingCriteria The criteria used to locate the service that the adapter attaches
+         to.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @returns @c true if the program should continue and @c false if it should leave. */
         bool ProcessStandardAdapterOptions(const int                     argc,
                                            char * *                      argv,
                                            const yarp::os::ConstString & adapterDescription,
+                                           const yarp::os::ConstString & matchingCriteria,
                                            const int                     year,
                                            const char *                  copyrightHolder);
 

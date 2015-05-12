@@ -2306,13 +2306,13 @@ yarp::os::ConstString Utilities::GetSystemUserName(void)
     return result;
 } // Utilities::GetSystemUserName
 
-void Utilities::GoToSleep(const int amount)
+void Utilities::GoToSleep(const int milliseconds)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    usleep(amount * 1000);
+    usleep(milliseconds * 1000);
 #else // ! MAC_OR_LINUX_
-    Sleep(amount);
+    Sleep(milliseconds);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
 } // Utilities::GoToSleep
@@ -2563,13 +2563,15 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 bool Utilities::ProcessStandardAdapterOptions(const int                     argc,
                                               char * *                      argv,
                                               const yarp::os::ConstString & adapterDescription,
+                                              const yarp::os::ConstString & matchingCriteria,
                                               const int                     year,
                                               const char *                  copyrightHolder)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S1s("adapterDescription = ", adapterDescription); //####
+    OD_LOG_S2s("adapterDescription = ", adapterDescription, "matchingCriteria = ", //####
+               matchingCriteria); //####
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
@@ -2584,8 +2586,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         T_("  --info, -i        Print type and description and "
-                                            "exit"));
+                                         T_("  --info, -i        Print type, matching criteria and "
+                                            "description and exit"));
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
@@ -2635,7 +2637,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     }
     else if (options[kOptionINFO])
     {
-        cout << "Adapter\t" << adapterDescription.c_str() << endl;
+        cout << "Adapter\t" << matchingCriteria.c_str() << "\t" << adapterDescription.c_str() <<
+                endl;
         keepGoing = false;
     }
     delete[] options;
