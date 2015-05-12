@@ -339,6 +339,14 @@ namespace MplusM
          @returns The kind of the port. */
         PortKind GetPortKind(const yarp::os::ConstString & portName);
         
+        /*! @brief Return @c true if the port name is for the Registry Service.
+         @param portName the name of the port.
+         @returns @c true if the port name is for the Registry Service main port. */
+        inline bool PortIsRegistryService(const yarp::os::ConstString & portName)
+        {
+            return (kPortKindRegistryService == GetPortKind(portName));
+        } // PortIsRegistryService
+        
         /*! @brief Return the IP address and port number for a port.
          @param portName The port to be located.
          @returns The IP address and port number of the port. */
