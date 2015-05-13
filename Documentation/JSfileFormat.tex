@@ -123,15 +123,15 @@ The following sequence of actions occur when a \JS{} file is loaded and run:
 \item\exSp{} The \asCode{scriptHelp} value is retrieved, if it is present
 \item\exSp{} The \asCode{scriptThread}() function is located, if present
 \item\exSp{} If there was no \asCode{scriptThread}() function defined, the
-\asCode{scriptInlets} value\exSp{} is retrieved (or the \asCode{scriptInlets}() function
-is executed to get a value)
+\asCode{scriptInlets} value\exSp{} is retrieved (or the\\
+\asCode{scriptInlets}() function is executed to get a value)
 \item\exSp{} The \asCode{scriptOutlets} value is retrieved (or the
 \asCode{scriptOutlets}() function is executed to get a value)
-\item\exSp{} The \asCode{scriptStarting} function is located, if present
-\item\exSp{} The \asCode{scriptStopping} function is located, if present
+\item\exSp{} The \asCode{scriptStarting}() function is located, if present
+\item\exSp{} The \asCode{scriptStopping}() function is located, if present
 \item\exSp{} If there was a \asCode{scriptThread}() function defined, the
-\asCode{scriptInterval} value\exSp{} is retrieved (or the \asCode{scriptInterval}()
-function is executed to get a value)
+\asCode{scriptInterval} value is retrieved (or the\\
+\asCode{scriptInterval}() function is executed to get a value)
 \item\exSp{} The required inlets and outlets are created
 \item\exSp{} The service is started
 \begin{itemize}

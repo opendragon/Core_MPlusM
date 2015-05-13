@@ -63,7 +63,8 @@
 \newcommand{\MMV}{Version~1.5.0}
 \newcommand{\mplusm}{\textbf{M+M}}
 \newcommand{\nothing}{\ }
-\newcommand{\yarp}{\footnotesize{\textsf{YARP}}}
+%\newcommand{\yarp}{\footnotesize{\textsf{YARP}}}
+\newcommand{\yarp}{\textsf{YARP}}
 
 % Set the float behaviour:
 \setcounter{bottomnumber}{2}
@@ -124,13 +125,13 @@
 
 %HEVEA\newcommand{\cmdItem}[2]{\textbf{#1} #2}%
 %BEGIN LATEX
-\newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} #2}
+\newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} \parbox{40em}{#2}}
 %END LATEX
 
 %HEVEA\newcommand{\optItem}[4]{\textbf{-#1} \textit{#2} | \textbf{--#3} \textit{#2} #4}%
 %BEGIN LATEX
 \newcommand{\optItem}[4]{\makebox[1.75em][l]{\textbf{--#1} \textit{#2}} %
-\textbar{} \makebox[5.5em][l]{\textbf{{-}{-}#3} \textit{#2}} #4}
+\textbar{} \makebox[5.5em][l]{\textbf{{-}{-}#3} \textit{#2}} \parbox{35em}{#4}}
 %END LATEX
 
 %HEVEA\newcommand{\longDash}{-}%

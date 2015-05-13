@@ -47,10 +47,10 @@ commands again will verify that we are linking properly with the dynamic library
 
 Since we've decided to use a separate \asCode{Leap::Listener} subclass, rather than
 polling the Leap Motion controller, we no longer need the \asCode{LeapMotionInputThread}
-class or it's files \longDash{} the files should be removed from the project and the
+class or it's files \longDash{} the files should be removed from the project and the\\
 \asCode{LeapMotionInputService/CMakeLists.txt} file; the references to the
-\asCode{LeapMotionInputThread} class in the \asCode{LeapMotionInputService} should be
-commented out, as they will be replaced soon.\\
+\asCode{LeapMotionInputThread} class in the\\
+\asCode{LeapMotionInputService} should be commented out, as they will be replaced soon.\\
 
 Now we should confirm that the Input service builds.
 \tertiaryEnd{}

@@ -13,7 +13,7 @@ will use a unique namespace.
 The files in \exemplarsNameX{ExemplarAdapter} are based on the source files for the
 \examplesNameR{Adapters}{mpmRandomNumberAdapter} example application.
 The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
-\asCode{M+MExemplarXXX.YYY}, where \asCode{XXX} is \asCode{AdapterData},
+\asCode{M+MExemplarXXX.YYY}, where \asCode{XXX} is \asCode{AdapterData},\\
 \asCode{AdapterMain} or \asCode{BaseInputHandler}.
 \tertiaryEnd{\exemplarsNameE{ExemplarAdapter}}
 \tertiaryStart{\exemplarsNameD{ExemplarClient}}
@@ -32,8 +32,8 @@ The file \asCode{M+MRandomNumberRequests.h} corresponds to the file
 The files in \exemplarsNameX{ExemplarFilterService} are based on the source files for the
 \examplesNameR{Services}{mpmTruncateFloatService} example application.
 The files \asCode{M+MTruncateFilterXXX.YYY} correspond to the files
-\asCode{M+MExemplarFilterXXX.YYY}, where \asCode{XXX} is \asCode{InputHandler},
-\asCode{Requests}, \asCode{Service} or \asCode{ServiceMain}.
+\asCode{M+MExemplarFilterXXX.YYY}, where \asCode{XXX} is\\
+\asCode{InputHandler}, \asCode{Requests}, \asCode{Service} or \asCode{ServiceMain}.
 \tertiaryEnd{\exemplarsNameE{ExemplarFilterService}}
 \tertiaryStart{\exemplarsNameD{ExemplarInputService}}
 The files in \exemplarsNameX{ExemplarInputService} are based on the source files for the
@@ -71,8 +71,8 @@ customization.
 \tertiaryStart{\classNameD{Exemplar}{ExemplarClient}}
 The \classNameX{Exemplar}{ExemplarClient} class is a subclass of
 \classNameR{Common}{BaseClient} and has two `placeholder' methods,
-\asCode{getOneRandomNumber} and \asCode{getRandomNumbers}, which should be replaced when
-developing custom applications.
+\asCode{getOneRandomNumber} and\\
+\asCode{getRandomNumbers}, which should be replaced when developing custom applications.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarClient}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarFilterInputHandler}}
 The \classNameX{Exemplar}{ExemplarFilterInputHandler} class is a subclass of
@@ -190,14 +190,15 @@ directory.
 comments with `\asCode{foo}' \longDash{} note that the copyright notice at the beginning
 of each file includes the word `\asCode{EXEMPLARY}', which should not be changed
 \item\exSp{} In the main files for each application (\asCode{M+MFooAdapterMain.cpp},
-\asCode{M+MFooClientMain.cpp}, et cetera),\\
+\asCode{M+MFooClientMain.cpp}, et cetera),
 change any text strings that contain `\asCode{exemplar}' to contain `\asCode{foo}' or that
 contain `\asCode{Exemplar}' to contain `\asCode{Foo}' \longDash{} these will most often be
 the names of \yarp{} network connections and must not conflict with the ports from other
 services and clients
 \item\exSp{} In the files \asCode{M+MFooRequests.h} and \asCode{M+MFooService.cpp},
 replace
-\asCode{MpM\textunderscore{}EXEMPLAR\textunderscore{}CANONICAL\textunderscore{}NAME} with
+\asCode{MpM\textunderscore{}EXEMPLAR\textunderscore{}CANONICAL\textunderscore{}NAME}
+with\\
 \asCode{MpM\textunderscore{}FOO\textunderscore{}CANONICAL\textunderscore{}NAME}
 \item\exSp{} In the files \asCode{M+MFooXXXService.h} and
 \asCode{M+MFooXXXServiceMain.cpp}, replace\\
@@ -213,7 +214,8 @@ with \asCode{DEFAULT\textunderscore{}FOO\textunderscore{}SERVICE\textunderscore{
 replace\\
 \asCode{MpM\textunderscore{}EXEMPLARXXX\textunderscore{}CANONICAL\textunderscore{}NAME}
 with \asCode{MpM\textunderscore{}FOOXXX\textunderscore{}CANONICAL\textunderscore{}NAME},
-where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
+where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or\\
+\asCode{OUTPUT}
 \item\exSp{} In the file \asCode{M+MFooXXXServiceMain.cpp}, replace
 \asCode{EXEMPLARXXX\textunderscore{}OPTIONS} with \asCode{FOOXXX\textunderscore{}OPTIONS},
 where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
