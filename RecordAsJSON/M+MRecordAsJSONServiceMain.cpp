@@ -347,8 +347,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
         
-		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]\n\n"
-                                                         "  filePath   Optional output file path"),
+		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]"),
+                                          T_("  filePath   Optional output file path"),
                                           DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME,
                                           RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,

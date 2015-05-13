@@ -259,9 +259,9 @@ int main(int      argc,
     OutputFlavour flavour;
     StringVector  arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [channel]\n\n"
-                                                   "  channel    Optional channel name for "
-                                                   "service", 2014, STANDARD_COPYRIGHT_NAME,
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [channel]"),
+                                                   T_("  channel    Optional channel name for "
+                                                      "service"), 2014, STANDARD_COPYRIGHT_NAME,
                                                    flavour, &arguments))
     {
         try

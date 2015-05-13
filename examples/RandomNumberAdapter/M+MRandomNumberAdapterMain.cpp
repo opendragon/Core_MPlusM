@@ -264,11 +264,25 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
+#if 0
+    if (argc > 1)
+    {
+        inputName = argv[1];
+        if (argc > 2)
+        {
+            outputName = argv[2];
+        }
+    }
+#endif//0
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, "The Random Number adapter",
-                                                     MATCHING_CRITERIA, 2014,
-                                                     STANDARD_COPYRIGHT_NAME))
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, T_(" [inputName [outputName]]"),
+                                                     T_("  inputName  Optional name for the input "
+                                                        "channel\n"
+                                                        "  outputName Optional name for the output "
+                                                        "channel"),
+                                                     "The Random Number adapter", MATCHING_CRITERIA,
+                                                     2014, STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();

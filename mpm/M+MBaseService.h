@@ -480,7 +480,8 @@ namespace MplusM
          @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the service.
-         @param argList The command-line options and arguments for the service.
+         @param argList The command-line arguments for the service.
+         @param argDescription A description of the command-line arguments for the service.
          @param defaultEndpointNameRoot The default endpoint root name.
          @param serviceDescription A description of the service.
          @param year The copyright year for the calling application.
@@ -498,6 +499,7 @@ namespace MplusM
         bool ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
                                            const char *                  argList,
+                                           const char *                  argDescription,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
                                            const yarp::os::ConstString & serviceDescription,
                                            const int                     year,

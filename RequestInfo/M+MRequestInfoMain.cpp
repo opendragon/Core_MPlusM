@@ -551,12 +551,11 @@ int main(int      argc,
     OutputFlavour flavour;
     StringVector  arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [channel [request]]\n\n"
-                                                   "  channel    Optional channel name for "
-                                                   "service\n"
-                                                   "  request    Optional request name",
-                                                   2014, STANDARD_COPYRIGHT_NAME, flavour,
-                                                   &arguments))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [channel [request]]"),
+                                                   T_("  channel    Optional channel name for "
+                                                      "service\n"
+                                                      "  request    Optional request name"), 2014,
+                                                   STANDARD_COPYRIGHT_NAME, flavour, &arguments))
     {
         try
         {

@@ -297,15 +297,15 @@ int main(int      argc,
         StringVector  arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
-                                                       " ['address' | 'port' | 'both' | tag]\n\n"
-                                                       "  'address'  Return just the internet "
-                                                       "address\n"
-                                                       "  'port'     Return just the internet "
-                                                       "port\n"
-                                                       "  'both'     Return the internet address "
-                                                       "and port\n"
-                                                       "  tag        The tag for the service to be "
-                                                       "connnected to", 2015,
+                                                       T_(" ['address' | 'port' | 'both' | tag]"),
+                                                       T_("  'address'  Return just the internet "
+                                                          "address\n"
+                                                          "  'port'     Return just the internet "
+                                                          "port\n"
+                                                          "  'both'     Return the internet "
+                                                          "address and port\n"
+                                                          "  tag        The tag for the service to "
+                                                          "be connnected to"), 2015,
                                                        STANDARD_COPYRIGHT_NAME, flavour,
                                                        &arguments))
         {

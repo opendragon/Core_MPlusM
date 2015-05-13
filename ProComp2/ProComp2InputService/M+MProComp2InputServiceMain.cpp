@@ -325,10 +325,8 @@ int main(int      argc,
 			yarp::os::ConstString tag;
 			StringVector          arguments;
 
-            if (ProcessStandardServiceOptions(argc, argv,
-                                              T_(" [period [size]]\n\n"
-                                                 "  period     Optional interval between "
-                                                 "bursts\n"
+            if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]"),
+                                              T_("  period     Optional interval between bursts\n"
                                                  "  size       Optional burst size"),
                                               DEFAULT_PROCOMP2INPUT_SERVICE_NAME,
                                               PROCOMP2INPUT_SERVICE_DESCRIPTION, 2015,

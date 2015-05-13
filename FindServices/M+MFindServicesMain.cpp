@@ -294,8 +294,8 @@ int main(int      argc,
     OutputFlavour flavour;
     StringVector  arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " [criteria]\n\n"
-                                                   "  criteria   Matching criteria for service",
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [criteria]"),
+                                                   T_("  criteria   Matching criteria for service"),
                                                    2014, STANDARD_COPYRIGHT_NAME, flavour,
                                                    &arguments))
     {

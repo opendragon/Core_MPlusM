@@ -238,9 +238,9 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
         
-		if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port\n\n"
-                                                         "  hostname   IP address to return\n"
-                                                         "  port       port to return"),
+		if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port"),
+                                          T_("  hostname   IP address to return\n"
+                                             "  port       port to return"),
                                           DEFAULT_ADDRESS_SERVICE_NAME, ADDRESS_SERVICE_DESCRIPTION,
                                           2015, STANDARD_COPYRIGHT_NAME, autostartWasSet,
                                           nameWasSet, reportOnExit, tag, serviceEndpointName,

@@ -2331,6 +2331,8 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 
 bool Utilities::ProcessStandardAdapterOptions(const int                     argc,
                                               char * *                      argv,
+                                              const char *                  argList,
+                                              const char *                  argDescription,
                                               const yarp::os::ConstString & adapterDescription,
                                               const yarp::os::ConstString & matchingCriteria,
                                               const int                     year,
@@ -2339,9 +2341,10 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S3("argList = ", argList, "argDescription = ", argDescription, //####
+              "copyrightHolder = ", copyrightHolder); //####
     OD_LOG_S2s("adapterDescription = ", adapterDescription, "matchingCriteria = ", //####
                matchingCriteria); //####
-    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
         kOptionUNKNOWN,
@@ -2355,8 +2358,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         T_("  --info, -i        Print type, matching criteria and "
-                                            "description and exit"));
+                                         T_("  --info, -i        Print type, matching criteria, "
+                                            "argument list and description and exit"));
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
@@ -2368,7 +2371,14 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     yarp::os::ConstString usageString("USAGE: ");
     
     usageString += *argv;
-    usageString += " [options]\n\nOptions:";
+    usageString += " [options]";
+    if (argList && (0 < strlen(argList)))
+    {
+        usageString += argList;
+        usageString += "\n\n";
+        usageString += argDescription;
+    }
+    usageString += "\n\nOptions:";
 #if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
 #else // ! MAC_OR_LINUX_
@@ -2406,8 +2416,12 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     }
     else if (options[kOptionINFO])
     {
-        cout << "Adapter\t" << matchingCriteria.c_str() << "\t" << adapterDescription.c_str() <<
-                endl;
+        cout << "Adapter\t" << matchingCriteria.c_str() << "\t";
+        if (argList)
+        {
+            cout << argList;
+        }
+        cout << "\t" << adapterDescription.c_str() << endl;
         keepGoing = false;
     }
     delete[] options;
@@ -2419,6 +2433,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
 bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
                                                 char * *                argv,
                                                 const char *            argList,
+                                                const char *            argDescription,
                                                 const int               year,
                                                 const char *            copyrightHolder,
                                                 Common::OutputFlavour & flavour,
@@ -2427,7 +2442,8 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P3("argv = ", argv, "flavour = ", &flavour, "arguments = ", arguments); //####
-    OD_LOG_S2("argList = ", argList, "copyrightHolder = ", copyrightHolder); //####
+    OD_LOG_S3("argList = ", argList, "argDescription = ", argDescription, //####
+              "copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
         kOptionUNKNOWN,
@@ -2459,7 +2475,12 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     flavour = kOutputFlavourNormal;
     usageString += *argv;
     usageString += " [options]";
-    usageString += argList;
+    if (argList && (0 < strlen(argList)))
+    {
+        usageString += argList;
+        usageString += "\n\n";
+        usageString += argDescription;
+    }
     usageString += "\n\nOptions:";
  #if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());

@@ -423,6 +423,8 @@ namespace MplusM
          @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the utility.
+         @param argList The command-line arguments for the service.
+         @param argDescription A description of the command-line arguments for the service.
          @param adapterDescription A description of the adapter.
          @param matchingCriteria The criteria used to locate the service that the adapter attaches
          to.
@@ -431,6 +433,8 @@ namespace MplusM
          @returns @c true if the program should continue and @c false if it should leave. */
         bool ProcessStandardAdapterOptions(const int                     argc,
                                            char * *                      argv,
+                                           const char *                  argList,
+                                           const char *                  argDescription,
                                            const yarp::os::ConstString & adapterDescription,
                                            const yarp::os::ConstString & matchingCriteria,
                                            const int                     year,
@@ -445,7 +449,8 @@ namespace MplusM
          @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the utility.
-         @param argList The command-line options and arguments for the utility.
+         @param argList The command-line arguments for the utility.
+         @param argDescription A description of the command-line arguments for the service.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @param flavour Set if the -j or -t options are seen.
@@ -454,6 +459,7 @@ namespace MplusM
         bool ProcessStandardUtilitiesOptions(const int               argc,
                                              char * *                argv,
                                              const char *            argList,
+                                             const char *            argDescription,
                                              const int               year,
                                              const char *            copyrightHolder,
                                              Common::OutputFlavour & flavour,

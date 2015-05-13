@@ -111,8 +111,8 @@ int main(int      argc,
     yarp::os::ConstString mpmVersionString;
     yarp::os::ConstString yarpVersionString;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", 2014, STANDARD_COPYRIGHT_NAME,
-                                                   flavour))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", "", 2014,
+                                                   STANDARD_COPYRIGHT_NAME, flavour))
     {
         switch (flavour)
         {

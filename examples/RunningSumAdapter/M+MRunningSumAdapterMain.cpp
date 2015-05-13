@@ -132,8 +132,7 @@ static void setUpAndGo(int      argc,
                 {
                     yarp::os::ConstString controlName(T_(ADAPTER_PORT_NAME_BASE
                                                          "control/runningsum"));
-                    yarp::os::ConstString dataName(T_(ADAPTER_PORT_NAME_BASE
-                                                      "data/runningsum"));
+                    yarp::os::ConstString dataName(T_(ADAPTER_PORT_NAME_BASE "data/runningsum"));
                     yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE
                                                         "output/runningsum"));
                     
@@ -300,9 +299,16 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, "The Running Sum adapter",
-                                                     MATCHING_CRITERIA, 2014,
-                                                     STANDARD_COPYRIGHT_NAME))
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv,
+                                                     T_(" [controlName [dataName [outputName]]]"),
+                                                     T_("  controlName Optional name for the "
+                                                        "control channel\n"
+                                                        "  dataName    Optional name for the data "
+                                                        "channel"
+                                                        "  outputName  Optional name for the "
+                                                        "output channel"),
+                                                     "The Running Sum adapter", MATCHING_CRITERIA,
+                                                     2014, STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();

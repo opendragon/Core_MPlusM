@@ -348,9 +348,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [filepath]\n\n"
-                                                         "  filepath   Optional path to output "
-                                                         "file"),
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [filepath]"),
+                                          T_("  filepath   Optional path to output file"),
                                           DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME,
                                           EXEMPLAROUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,

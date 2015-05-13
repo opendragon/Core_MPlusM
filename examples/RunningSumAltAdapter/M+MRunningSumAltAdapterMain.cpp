@@ -127,6 +127,7 @@ static void setUpAndGo(int      argc,
                     yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE "input/runningsum"));
                     yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE
                                                         "output/runningsum"));
+
                     if (argc > 1)
                     {
                         inputName = argv[1];
@@ -275,7 +276,11 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv,
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, T_(" [inputName [outputName]]"),
+                                                     T_("  inputName  Optional name for the input "
+                                                        "channel\n"
+                                                        "  outputName Optional name for the output "
+                                                        "channel"),
                                                      "The Running Sum alternative adapter",
                                                      MATCHING_CRITERIA, 2014,
                                                      STANDARD_COPYRIGHT_NAME))

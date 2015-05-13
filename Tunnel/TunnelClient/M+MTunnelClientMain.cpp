@@ -454,11 +454,10 @@ int main(int      argc,
         OutputFlavour flavour; // ignored
         StringVector  arguments;
         
-		if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
-                                                       " port [tag]\n\n"
-                                                       "  port       The outgoing port\n"
-                                                       "  tag        Optional tag for the service "
-                                                       "to be connnected to", 2015,
+        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" port [tag]"),
+                                                       T_("  port       The outgoing port\n"
+                                                          "  tag        Optional tag for the "
+                                                          "service to be connnected to"), 2015,
                                                        STANDARD_COPYRIGHT_NAME, flavour,
                                                        &arguments))
         {

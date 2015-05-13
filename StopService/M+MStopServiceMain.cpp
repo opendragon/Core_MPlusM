@@ -119,9 +119,10 @@ int main(int      argc,
     OutputFlavour flavour;
     StringVector  arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, " channel\n\n"
-                                                   "  channel    Channel name for service", 2015,
-                                                   STANDARD_COPYRIGHT_NAME, flavour, &arguments))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" channel"),
+                                                   T_("  channel    Channel name for service"),
+                                                   2015, STANDARD_COPYRIGHT_NAME, flavour,
+                                                   &arguments))
     
     {
         try

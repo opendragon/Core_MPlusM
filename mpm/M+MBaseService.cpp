@@ -843,6 +843,7 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
                                            const char *                  argList,
+                                           const char *                  argDescription,
                                            const yarp::os::ConstString & defaultEndpointNameRoot,
                                            const yarp::os::ConstString & serviceDescription,
                                            const int                     year,
@@ -860,7 +861,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P4("argv = ", argv, "nameWasSet = ", &nameWasSet, "reportOnExit = ",//####
               &reportOnExit, "arguments = ", arguments); //####
-    OD_LOG_S2("argList = ", argList, "copyrightHolder = ", copyrightHolder); //####
+    OD_LOG_S3("argList = ", argList, "argDescription = ", argDescription, //####
+              "copyrightHolder = ", copyrightHolder); //####
     OD_LOG_S2s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
                "serviceDescription = ", serviceDescription); //####
     enum optionIndex
@@ -894,8 +896,9 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         T_("  --info, -i        Print supported service options "
-                                            "and type and exit"));
+                                         T_("  --info, -i        Print executable type, supported "
+                                            "service options, argument list, and description and "
+                                            "exit"));
     Option_::Descriptor   portDescriptor(kOptionPORT, 0, "p", "port", Option_::Arg::Required,
                                          T_("  --port, -p        Specify a non-default port to be "
                                             "used"));
@@ -919,7 +922,12 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     tag = serviceEndpointName = serviceEndpointName = "";
     usageString += *argv;
     usageString += " [options]";
-    usageString += argList;
+    if (argList && (0 < strlen(argList)))
+    {
+        usageString += argList;
+        usageString += "\n\n";
+        usageString += argDescription;
+    }
     usageString += "\n\nOptions:";
 #if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
@@ -1056,6 +1064,11 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         if (needTab)
         {
             cout << "\t";
+        }
+        cout << "\t";
+        if (argList)
+        {
+            cout << argList;
         }
         cout << "\t" << serviceDescription.c_str() << endl;
         keepGoing = false;

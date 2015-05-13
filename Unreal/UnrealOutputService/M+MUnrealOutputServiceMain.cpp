@@ -373,10 +373,9 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;        
         
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [port [scale]]\n\n"
-                                                         "  port       Optional port to use to "
-                                                         "connect\n"
-                                                         "  scale      Optional translation scale"),
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [port [scale]]"),
+                                          T_("  port       Optional port to use to connect\n"
+                                             "  scale      Optional translation scale"),
                                           DEFAULT_UNREALOUTPUT_SERVICE_NAME,
                                           UNREALOUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,

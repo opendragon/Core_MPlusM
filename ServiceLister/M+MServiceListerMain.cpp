@@ -355,8 +355,8 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     OutputFlavour flavour;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", 2014, STANDARD_COPYRIGHT_NAME,
-                                                   flavour))
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", "", 2014,
+                                                   STANDARD_COPYRIGHT_NAME, flavour))
     {
         try
         {

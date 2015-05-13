@@ -104,9 +104,8 @@ int main(int      argc,
         OutputFlavour flavour; // ignored
         StringVector  arguments;
 
-		if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
-                                                       T_(" hostname port\n\n"
-                                                          "  hostname   IP address to connect to\n"
+        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" hostname port"),
+                                                       T_("  hostname   IP address to connect to\n"
                                                           "  port       port to connect to"), 2015,
                                                        STANDARD_COPYRIGHT_NAME, flavour,
                                                        &arguments))

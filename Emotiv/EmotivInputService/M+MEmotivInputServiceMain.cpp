@@ -379,10 +379,9 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]\n\n"
-                                                         "  period     Optional interval between "
-                                                         "bursts\n"
-                                                         "  size       Optional burst size"),
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]"),
+                                          T_("  period     Optional interval between bursts\n"
+                                             "  size       Optional burst size"),
                                           DEFAULT_EMOTIVINPUT_SERVICE_NAME,
                                           EMOTIVINPUT_SERVICE_DESCRIPTION, 2015,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,

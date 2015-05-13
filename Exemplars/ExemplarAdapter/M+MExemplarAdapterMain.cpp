@@ -265,7 +265,11 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, "The exemplar adapter",
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, T_(" [inputName [outputName]]"),
+                                                     T_("  inputName  Optional name for the input "
+                                                        "channel\n"
+                                                        "  outputName Optional name for the output "
+                                                        "channel"), "The exemplar adapter",
                                                      MATCHING_CRITERIA, 2014,
                                                      STANDARD_COPYRIGHT_NAME))
         {

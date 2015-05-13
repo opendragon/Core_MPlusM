@@ -309,7 +309,7 @@ int main(int      argc,
         yarp::os::ConstString servicePortNumber;
         yarp::os::ConstString tag;
         
-		if (ProcessStandardServiceOptions(argc, argv, "", DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME,
+		if (ProcessStandardServiceOptions(argc, argv, "", "", DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME,
                                           LEAPMOTIONINPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,

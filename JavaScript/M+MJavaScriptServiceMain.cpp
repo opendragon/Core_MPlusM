@@ -2438,8 +2438,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
                 
-		if (ProcessStandardServiceOptions(argc, argv, T_(" filePath\n\n"
-                                                         "  filePath   Path to script file to use"),
+		if (ProcessStandardServiceOptions(argc, argv, T_(" filePath"),
+                                          T_("  filePath   Path to script file to use"),
                                           DEFAULT_JAVASCRIPT_SERVICE_NAME,
                                           JAVASCRIPTFILTER_SERVICE_DESCRIPTION, 2015,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,

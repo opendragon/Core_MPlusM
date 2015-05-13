@@ -205,9 +205,8 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;
         
-        if (ProcessStandardServiceOptions(argc, argv, T_(" dbAddress\n\n"
-                                                         "  dbAddress  Network address for "
-                                                         "database"),
+        if (ProcessStandardServiceOptions(argc, argv, T_(" dbAddress"),
+                                          T_("  dbAddress  Network address for database"),
                                           DEFAULT_MOVEMENTDB_SERVICE_NAME,
                                           MOVEMENTDB_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,

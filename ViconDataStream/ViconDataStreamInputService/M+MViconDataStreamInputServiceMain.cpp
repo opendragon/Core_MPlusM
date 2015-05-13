@@ -379,11 +379,10 @@ int main(int      argc,
         yarp::os::ConstString tag;
         StringVector          arguments;        
         
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [hostname [port]]\n\n"
-                                                         "  hostname   Optional hostname for the "
-                                                         "device server\n"
-                                                         "  port       Optional port for the "
-                                                         "device server"),
+        if (ProcessStandardServiceOptions(argc, argv, T_(" [hostname [port]]"),
+                                          T_("  hostname   Optional hostname for the device "
+                                             "server\n"
+                                             "  port       Optional port for the device server"),
                                           DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME,
                                           VICONDATASTREAMINPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
