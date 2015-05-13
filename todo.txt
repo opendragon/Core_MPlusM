@@ -22,16 +22,10 @@
 
 @ add appendix about setting up Hamachi for use with M+M
 
-* add ‘-c’/‘—channel’ command-line option to report the final channel name, given all arguments
-
-* add ‘arguments’ request to return the command-line arguments that invoked a service, less the path to the service
-
-* use a system-neutral path delimiter when constructing the path to the executable
-
 + configuration file should have ‘enabled’, ‘name’, ‘arguments’, where ‘enabled’ is 0 if disabled, non-0 if enabled, ‘name’ is the executable name, et cetera - tab-separated
 
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
 
-+ install a list of available services in ~/M+M/standardServices.txt; populate any services menu from this as well as ~/M+M/customServices.txt, if it exists and is readable - each file consists of a list of executable names, that will be matched against PATH or treated as an absolute file path, that will then be interrogated for the service characteristics
-
 @ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running
+
+* ProcessStandardAdapterOptions should have an argument of ‘ChannelArguments’ (virtual reference), ’TwoChannelArguments’ or ‘ThreeChannelArguments’ - object that holds two or three channel arguments, validates them, returns an appropriate string for the ‘-c’ option, initialized with the default channel names - remove the StringVector argument; this way the ‘-c’ option returns the actual channel names that will be used, not just the default ones
