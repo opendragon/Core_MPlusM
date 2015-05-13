@@ -87,24 +87,26 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application. */
+ @param controlName The name to be used for the control channel.
+ @param dataName The name to be used for the data channel.
+ @param outputName The name to be used for the output channel. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(const int               argc,
-                       char * *                argv,
-                       ChannelStatusReporter * reporter)
+static void setUpAndGo(const yarp::os::ConstString & controlName,
+                       const yarp::os::ConstString & dataName,
+                       const yarp::os::ConstString & outputName,
+                       ChannelStatusReporter *       reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(int      argc,
-                       char * * argv)
+static void setUpAndGo(const yarp::os::ConstString & controlName,
+                       const yarp::os::ConstString & dataName,
+                       const yarp::os::ConstString & outputName)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_LL1("argc = ", argc); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P2("argv = ", argv, "reporter = ", reporter); //####
-#else // ! defined(MpM_ReportOnConnections)
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
+    OD_LOG_S3s("controlName = ", controlName, "dataName = ", dataName, "outputName = ", //####
+               outputName); //####
     RunningSumClient * stuff = new RunningSumClient;
     
     if (stuff)
@@ -130,24 +132,6 @@ static void setUpAndGo(int      argc,
                 if (controlChannel && dataChannel && outputChannel && controlHandler &&
                     dataHandler)
                 {
-                    yarp::os::ConstString controlName(T_(ADAPTER_PORT_NAME_BASE
-                                                         "control/runningsum"));
-                    yarp::os::ConstString dataName(T_(ADAPTER_PORT_NAME_BASE "data/runningsum"));
-                    yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE
-                                                        "output/runningsum"));
-                    
-                    if (argc > 1)
-                    {
-                        controlName = argv[1];
-                        if (argc > 2)
-                        {
-                            dataName = argv[2];
-                            if (argc > 3)
-                            {
-                                outputName = argv[3];
-                            }
-                        }
-                    }
 #if defined(MpM_ReportOnConnections)
                     controlChannel->setReporter(*reporter);
                     controlChannel->getReport(*reporter);
@@ -299,6 +283,26 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        yarp::os::ConstString controlName(T_(ADAPTER_PORT_NAME_BASE "control/runningsum"));
+        yarp::os::ConstString dataName(T_(ADAPTER_PORT_NAME_BASE "data/runningsum"));
+        yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE "output/runningsum"));
+        Common::StringVector  defaultChannelNames;
+        
+        defaultChannelNames.push_back(controlName);
+        defaultChannelNames.push_back(dataName);
+        defaultChannelNames.push_back(outputName);
+        if (argc > 1)
+        {
+            controlName = argv[1];
+            if (argc > 2)
+            {
+                dataName = argv[2];
+                if (argc > 3)
+                {
+                    outputName = argv[3];
+                }
+            }
+        }
         if (Utilities::ProcessStandardAdapterOptions(argc, argv,
                                                      T_(" [controlName [dataName [outputName]]]"),
                                                      T_("  controlName Optional name for the "
@@ -308,7 +312,8 @@ int main(int      argc,
                                                         "  outputName  Optional name for the "
                                                         "output channel"),
                                                      "The Running Sum adapter", MATCHING_CRITERIA,
-                                                     2014, STANDARD_COPYRIGHT_NAME))
+                                                     defaultChannelNames, 2014,
+                                                     STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();
@@ -324,9 +329,9 @@ int main(int      argc,
                 if (Utilities::CheckForRegistryService())
                 {
 #if defined(MpM_ReportOnConnections)
-                    setUpAndGo(argc, argv, reporter);
+                    setUpAndGo(controlName, dataName, outputName, reporter);
 #else // ! defined(MpM_ReportOnConnections)
-                    setUpAndGo(argc, argv);
+                    setUpAndGo(controlName, dataName, outputName);
 #endif // ! defined(MpM_ReportOnConnections)
                 }
                 else

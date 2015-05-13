@@ -86,24 +86,22 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application. */
+ @param inputName The name to be used for the input channel.
+ @param outputName The name to be used for the output channel. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(const int               argc,
-                       char * *                argv,
-                       ChannelStatusReporter * reporter)
+static void setUpAndGo(const yarp::os::ConstString & inputName,
+                       const yarp::os::ConstString & outputName,
+                       ChannelStatusReporter *       reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(int      argc,
-                       char * * argv)
+static void setUpAndGo(const yarp::os::ConstString & inputName,
+                       const yarp::os::ConstString & outputName)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_LL1("argc = ", argc); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P2("argv = ", argv, "reporter = ", reporter); //####
-#else // ! defined(MpM_ReportOnConnections)
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
+    OD_LOG_S2s("inputName = ", inputName, "outputName = ", outputName); //####
     ExemplarClient * stuff = new ExemplarClient;
     
     if (stuff)
@@ -124,17 +122,6 @@ static void setUpAndGo(int      argc,
                 
                 if (inputChannel && outputChannel && inputHandler)
                 {
-                    yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE "input/exemplar"));
-                    yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE "output/exemplar"));
-                    
-                    if (argc > 1)
-                    {
-                        inputName = argv[1];
-                        if (argc > 2)
-                        {
-                            outputName = argv[2];
-                        }
-                    }
 #if defined(MpM_ReportOnConnections)
                     inputChannel->setReporter(reporter);
                     inputChannel->getReport(reporter);
@@ -265,12 +252,26 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE "input/exemplar"));
+        yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE "output/exemplar"));
+        Common::StringVector  defaultChannelNames;
+        
+        defaultChannelNames.push_back(inputName);
+        defaultChannelNames.push_back(outputName);
+        if (argc > 1)
+        {
+            inputName = argv[1];
+            if (argc > 2)
+            {
+                outputName = argv[2];
+            }
+        }
         if (Utilities::ProcessStandardAdapterOptions(argc, argv, T_(" [inputName [outputName]]"),
                                                      T_("  inputName  Optional name for the input "
                                                         "channel\n"
                                                         "  outputName Optional name for the output "
                                                         "channel"), "The exemplar adapter",
-                                                     MATCHING_CRITERIA, 2014,
+                                                     MATCHING_CRITERIA, defaultChannelNames, 2014,
                                                      STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
@@ -288,9 +289,9 @@ int main(int      argc,
                 if (Utilities::CheckForRegistryService())
                 {
 #if defined(MpM_ReportOnConnections)
-                    setUpAndGo(argc, argv, reporter);
+                    setUpAndGo(inputName, outputName, reporter);
 #else // ! defined(MpM_ReportOnConnections)
-                    setUpAndGo(argc, argv);
+                    setUpAndGo(inputName, outputName);
 #endif // ! defined(MpM_ReportOnConnections)
                 }
                 else

@@ -428,6 +428,7 @@ namespace MplusM
          @param adapterDescription A description of the adapter.
          @param matchingCriteria The criteria used to locate the service that the adapter attaches
          to.
+         @param defaultChannelNames The default names for the channels created by the adapter.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @returns @c true if the program should continue and @c false if it should leave. */
@@ -437,6 +438,7 @@ namespace MplusM
                                            const char *                  argDescription,
                                            const yarp::os::ConstString & adapterDescription,
                                            const yarp::os::ConstString & matchingCriteria,
+                                           const Common::StringVector &  defaultChannelNames,
                                            const int                     year,
                                            const char *                  copyrightHolder);
 

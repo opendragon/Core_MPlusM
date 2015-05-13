@@ -2335,12 +2335,13 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
                                               const char *                  argDescription,
                                               const yarp::os::ConstString & adapterDescription,
                                               const yarp::os::ConstString & matchingCriteria,
+                                              const Common::StringVector &  defaultChannelNames,
                                               const int                     year,
                                               const char *                  copyrightHolder)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("argv = ", argv, "defaultChannelNames = ", defaultChannelNames); //####
     OD_LOG_S3("argList = ", argList, "argDescription = ", argDescription, //####
               "copyrightHolder = ", copyrightHolder); //####
     OD_LOG_S2s("adapterDescription = ", adapterDescription, "matchingCriteria = ", //####
@@ -2348,6 +2349,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     enum optionIndex
     {
         kOptionUNKNOWN,
+        kOptionCHANNELS,
         kOptionHELP,
         kOptionINFO,
         kOptionVERSION
@@ -2355,6 +2357,9 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     
     bool                  keepGoing = true;
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   channelsDescriptor(kOptionCHANNELS, 0, "c", "channel", Option_::Arg::None,
+                                             T_("  --channels, -c    Report the channels created "
+                                                "by the adapter and exit"));
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
@@ -2364,7 +2369,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[5];
+    Option_::Descriptor   usage[6];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -2385,6 +2390,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
     memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    memcpy(usageWalker++, &channelsDescriptor, sizeof(channelsDescriptor));
     memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
     memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
     memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
@@ -2422,6 +2428,17 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
             cout << argList;
         }
         cout << "\t" << adapterDescription.c_str() << endl;
+        keepGoing = false;
+    }
+    else if (options[kOptionCHANNELS])
+    {
+        cout << "Channels";
+        for (Common::StringVector::const_iterator walker(defaultChannelNames.begin());
+             defaultChannelNames.end() != walker; ++walker)
+        {
+            cout << "\t" << walker->c_str();
+        }
+        cout << endl;
         keepGoing = false;
     }
     delete[] options;
