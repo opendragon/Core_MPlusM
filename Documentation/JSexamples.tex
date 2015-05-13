@@ -44,11 +44,11 @@ var scriptOutlets = [ { name: 'outgoing', protocol: 'i*',
                         protocolDescription: 'A sequence of integers' } ];
 \end{listing}
 \codeEnd{}
-The function \asCode{doTruncateFloat}, defined on lines \asCode{1}\longDash\asCode{27},
+The function \asCode{doTruncateFloat}(), defined on lines \asCode{1}\longDash\asCode{27},
 acts as the input handler for the inlet stream, defined on lines
 \asCode{31}\longDash\asCode{33}.
-The function \asCode{isNaN} is used to protect against invalid data received by the input
-handler.
+The function \asCode{isNaN}() is used to protect against invalid data received by the
+input handler.
 \secondaryEnd{}
 \condPage{}
 \secondaryStart{RunningSum.js}
@@ -122,14 +122,14 @@ var scriptOutlets = [ { name: 'outgoing', protocol: 'd',
                         protocolDescription: 'The running sum' } ];
 \end{listing}
 \codeEnd{}
-The function \asCode{doRunningSum}, defined on lines \asCode{41}\longDash\asCode{54},
+The function \asCode{doRunningSum}(), defined on lines \asCode{41}\longDash\asCode{54},
 acts as the input handler for the inlet stream, defined on lines
 \asCode{58}\longDash\asCode{60}.\\
 
-The function \asCode{doCommand}, defined on lines \asCode{3}\longDash\asCode{39}, parses
+The function \asCode{doCommand}(), defined on lines \asCode{3}\longDash\asCode{39}, parses
 the commands sent to the script \longDash{} note the use of string values as \asCode{case}
 expressions to simplify the command interpretation and the use of the function
-\asCode{isNaN} to protect against invalid data received by the input handler.
+\asCode{isNaN}() to protect against invalid data received by the input handler.
 \secondaryEnd{}
 \condPage{}
 \secondaryStart{RecordIntegers.js}
@@ -216,17 +216,17 @@ function scriptStopping()
 } // scriptStopping
 \end{listing}
 \codeEnd{}
-The function \asCode{doRecordIntegers}, defined on lines \asCode{3}\longDash\asCode{36},
+The function \asCode{doRecordIntegers}(), defined on lines \asCode{3}\longDash\asCode{36},
 acts as the input handler for the inlet stream, defined on lines
 \asCode{42}\longDash\asCode{44}.\\
 
-The function \asCode{scriptStarting}, defined on lines \asCode{46}\longDash\asCode{69},
-is executed as soon as the script is loaded, and the function \asCode{scriptStopping},
+The function \asCode{scriptStarting}(), defined on lines \asCode{46}\longDash\asCode{69},
+is executed as soon as the script is loaded, and the function \asCode{scriptStopping}(),
 defined on lines \asCode{71}\longDash\asCode{76}, is executed after the main function of
 the script stops.\\
 
-Note the use of the function \asCode{writeLineToStdout} as a means of communicating the
-script status to the user, the use of the function \asCode{isNaN} to protect
+Note the use of the function \asCode{writeLineToStdout}() as a means of communicating the
+script status to the user, the use of the function \asCode{isNaN}() to protect
 against invalid data received by the input handler and the presence of a
 \asCode{scriptHelp} string, defined on line \asCode{40}, which is used with the \textbf{?}
 application command.
@@ -294,11 +294,11 @@ function scriptThread()
 } // scriptThread
 \end{listing}
 \codeEnd{}
-The function \asCode{scriptThread}, defined on lines \asCode{46}\longDash\asCode{55}, is
+The function \asCode{scriptThread}(), defined on lines \asCode{46}\longDash\asCode{55}, is
 executed repetitively, at an interval defined by the output of the function
-\asCode{scriptInterval}, defined on lines \asCode{9}\longDash\asCode{41}.\\
+\asCode{scriptInterval}(), defined on lines \asCode{9}\longDash\asCode{41}.\\
 
-Note that the \asCode{scriptInterval} function processes the arguments to the script and
+Note that the \asCode{scriptInterval}() function processes the arguments to the script and
 records the size of the burst as well as the burst period, before returning the burst
 period as its result.
 \secondaryEnd{}
