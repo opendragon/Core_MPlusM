@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
+#include <mpm/M+MAdapterArguments.h>
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
@@ -2331,21 +2332,18 @@ bool Utilities::NetworkDisconnectWithRetries(const yarp::os::ConstString & sourc
 
 bool Utilities::ProcessStandardAdapterOptions(const int                     argc,
                                               char * *                      argv,
-                                              const char *                  argList,
-                                              const char *                  argDescription,
+                                              Common::AdapterArguments &    argumentHandler,
                                               const yarp::os::ConstString & adapterDescription,
                                               const yarp::os::ConstString & matchingCriteria,
-                                              const Common::StringVector &  defaultChannelNames,
                                               const int                     year,
                                               const char *                  copyrightHolder)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P2("argv = ", argv, "defaultChannelNames = ", defaultChannelNames); //####
-    OD_LOG_S3("argList = ", argList, "argDescription = ", argDescription, //####
-              "copyrightHolder = ", copyrightHolder); //####
+    OD_LOG_P2("argv = ", argv, "argumentHandler = ", &argumentHandler); //####
     OD_LOG_S2s("adapterDescription = ", adapterDescription, "matchingCriteria = ", //####
                matchingCriteria); //####
+    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
         kOptionUNKNOWN,
@@ -2361,12 +2359,12 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
                                              T_("  --channels, -c    Report the channels created "
                                                 "by the adapter and exit"));
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
-                                         T_("  --help, -h    Print usage and exit"));
+                                         T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
                                          T_("  --info, -i        Print type, matching criteria, "
                                             "argument list and description and exit"));
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
-                                            T_("  --vers, -v    Print version information and "
+                                            T_("  --vers, -v        Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
     Option_::Descriptor   usage[6];
@@ -2374,14 +2372,14 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     int                   argcWork = argc;
     char * *              argvWork = argv;
     yarp::os::ConstString usageString("USAGE: ");
+    yarp::os::ConstString argDescription(argumentHandler.argumentDescription());
+    yarp::os::ConstString argList(argumentHandler.argumentList());
     
     usageString += *argv;
     usageString += " [options]";
-    if (argList && (0 < strlen(argList)))
+    if (0 < argList.length())
     {
-        usageString += argList;
-        usageString += "\n\n";
-        usageString += argDescription;
+        usageString += argList + "\n\n" + argDescription;
     }
     usageString += "\n\nOptions:";
 #if MAC_OR_LINUX_
@@ -2408,7 +2406,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
-        Option_::printUsage(cout, usage);
+        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])
@@ -2423,22 +2421,17 @@ bool Utilities::ProcessStandardAdapterOptions(const int                     argc
     else if (options[kOptionINFO])
     {
         cout << "Adapter\t" << matchingCriteria.c_str() << "\t";
-        if (argList)
+        if (0 < argList.length())
         {
-            cout << argList;
+            cout << argList.c_str();
         }
         cout << "\t" << adapterDescription.c_str() << endl;
         keepGoing = false;
     }
     else if (options[kOptionCHANNELS])
     {
-        cout << "Channels";
-        for (Common::StringVector::const_iterator walker(defaultChannelNames.begin());
-             defaultChannelNames.end() != walker; ++walker)
-        {
-            cout << "\t" << walker->c_str();
-        }
-        cout << endl;
+        argumentHandler.processArguments(parse);
+        cout << "Channels\t" << argumentHandler.combineArguments("\t").c_str() << endl;
         keepGoing = false;
     }
     delete[] options;
@@ -2523,7 +2516,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int               argc,
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
-        Option_::printUsage(cout, usage);
+        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])

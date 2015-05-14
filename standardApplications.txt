@@ -1,3 +1,4 @@
+# Services
 mpmAbsorberService
 mpmAddressService
 mpmEchoService
@@ -8,16 +9,17 @@ mpmLeapMotionInputService
 mpmNaturalPointInputService
 mpmProComp2InputService
 mpmRandomBurstService
-mpmRandomNumberAdapter
 mpmRandomNumberService
 mpmRecordAsJSONService
 mpmRecordIntegersService
 mpmRequestCounterService
-mpmRunningSumAdapter
-mpmRunningSumAltAdapter
 mpmRunningSumService
 mpmTruncateFloatService
 mpmTunnelService
 mpmTwoFingersInputService
 mpmUnrealOutputService
 mpmViconDataStreamInputService
+# Adapters
+mpmRandomNumberAdapter
+mpmRunningSumAdapter
+mpmRunningSumAltAdapter

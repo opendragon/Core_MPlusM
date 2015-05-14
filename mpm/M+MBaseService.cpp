@@ -979,7 +979,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
-        Option_::printUsage(cout, usage);
+        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])

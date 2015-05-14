@@ -57,6 +57,11 @@
 
 namespace MplusM
 {
+    namespace Common
+    {
+        class AdapterArguments;
+    } // Common
+    
     namespace Utilities
     {
         /*! @brief Which combination of input and output to use. */
@@ -422,23 +427,19 @@ namespace MplusM
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
          @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used with the utility.
-         @param argList The command-line arguments for the service.
-         @param argDescription A description of the command-line arguments for the service.
+         @param argv The arguments to be used with the adapter.
+         @param argumentHandler The argument processor.
          @param adapterDescription A description of the adapter.
          @param matchingCriteria The criteria used to locate the service that the adapter attaches
          to.
-         @param defaultChannelNames The default names for the channels created by the adapter.
          @param year The copyright year for the calling application.
-         @param copyrightHolder The name of the entity holding the copyright to the utility.
+         @param copyrightHolder The name of the entity holding the copyright to the adapter.
          @returns @c true if the program should continue and @c false if it should leave. */
         bool ProcessStandardAdapterOptions(const int                     argc,
                                            char * *                      argv,
-                                           const char *                  argList,
-                                           const char *                  argDescription,
+                                           Common::AdapterArguments &    argumentHandler,
                                            const yarp::os::ConstString & adapterDescription,
                                            const yarp::os::ConstString & matchingCriteria,
-                                           const Common::StringVector &  defaultChannelNames,
                                            const int                     year,
                                            const char *                  copyrightHolder);
 

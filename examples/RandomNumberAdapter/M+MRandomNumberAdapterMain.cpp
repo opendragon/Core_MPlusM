@@ -40,6 +40,7 @@
 #include "M+MRandomNumberClient.h"
 #include "M+MRandomNumberInputHandler.h"
 
+#include <mpm/M+MAdapterArguments.h>
 #include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MUtilities.h>
 
@@ -250,30 +251,22 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    yarp::os::ConstString inputName(T_(ADAPTER_PORT_NAME_BASE "input/randomnumber"));
-    yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE "output/randomnumber"));
-    Common::StringVector  defaultChannelNames;
-    
-    defaultChannelNames.push_back(inputName);
-    defaultChannelNames.push_back(outputName);
-    if (argc > 1)
-    {
-        inputName = argv[1];
-        if (argc > 2)
-        {
-            outputName = argv[2];
-        }
-    }
     try
     {
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, T_(" [inputName [outputName]]"),
-                                                     T_("  inputName  Optional name for the input "
-                                                        "channel\n"
-                                                        "  outputName Optional name for the output "
-                                                        "channel"),
+        yarp::os::ConstString       inputName;
+        yarp::os::ConstString       outputName;
+        Common::AdapterTwoArguments argsHandler(T_(" [inputName [outputName]]"),
+                                                T_("  inputName  Optional name for the input "
+                                                   "channel\n"
+                                                   "  outputName Optional name for the output "
+                                                   "channel"),
+                                                T_(ADAPTER_PORT_NAME_BASE "input/randomnumber"),
+                                                T_(ADAPTER_PORT_NAME_BASE "output/randomnumber"),
+                                                inputName, outputName);
+        
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, argsHandler,
                                                      "The Random Number adapter", MATCHING_CRITERIA,
-                                                     defaultChannelNames, 2014,
-                                                     STANDARD_COPYRIGHT_NAME))
+                                                     2014, STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();

@@ -52,6 +52,7 @@ endif(APPLE)
 add_library(${THIS_TARGET}
             "${DO_SHARED}"
             "${MpM_SOURCE_DIR}/mpm/optionparser.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MAdapterArguments.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
@@ -136,6 +137,7 @@ install(TARGETS ${THIS_TARGET}
 
 install(FILES
         "${MpM_SOURCE_DIR}/mpm/optionparser.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MAdapterArguments.h"
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"
@@ -180,6 +182,7 @@ install(FILES
 
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_mpm_in/mpmCommon.i
+        M+MAdapterArguments.cpp M+MAdapterArguments.h
         M+MAdapterChannel.h M+MAdapterChannel.cpp
         M+MBailOut.h M+MBailOut.cpp
         M+MBailOutThread.h M+MBailOutThread.cpp

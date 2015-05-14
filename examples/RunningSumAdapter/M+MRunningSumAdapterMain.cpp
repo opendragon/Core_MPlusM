@@ -41,6 +41,7 @@
 #include "M+MRunningSumControlInputHandler.h"
 #include "M+MRunningSumDataInputHandler.h"
 
+#include <mpm/M+MAdapterArguments.h>
 #include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MUtilities.h>
 
@@ -283,37 +284,24 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        yarp::os::ConstString controlName(T_(ADAPTER_PORT_NAME_BASE "control/runningsum"));
-        yarp::os::ConstString dataName(T_(ADAPTER_PORT_NAME_BASE "data/runningsum"));
-        yarp::os::ConstString outputName(T_(ADAPTER_PORT_NAME_BASE "output/runningsum"));
-        Common::StringVector  defaultChannelNames;
+        yarp::os::ConstString         controlName;
+        yarp::os::ConstString         dataName;
+        yarp::os::ConstString         outputName;
+        Common::AdapterThreeArguments argsHandler(T_(" [controlName [dataName [outputName]]]"),
+                                                  T_("  controlName Optional name for the "
+                                                     "control channel\n"
+                                                     "  dataName    Optional name for the data "
+                                                     "channel"
+                                                     "  outputName  Optional name for the "
+                                                     "output channel"),
+                                                  T_(ADAPTER_PORT_NAME_BASE "control/runningsum"),
+                                                  T_(ADAPTER_PORT_NAME_BASE "data/runningsum"),
+                                                  T_(ADAPTER_PORT_NAME_BASE "output/runningsum"),
+                                                  controlName, dataName, outputName);
         
-        defaultChannelNames.push_back(controlName);
-        defaultChannelNames.push_back(dataName);
-        defaultChannelNames.push_back(outputName);
-        if (argc > 1)
-        {
-            controlName = argv[1];
-            if (argc > 2)
-            {
-                dataName = argv[2];
-                if (argc > 3)
-                {
-                    outputName = argv[3];
-                }
-            }
-        }
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv,
-                                                     T_(" [controlName [dataName [outputName]]]"),
-                                                     T_("  controlName Optional name for the "
-                                                        "control channel\n"
-                                                        "  dataName    Optional name for the data "
-                                                        "channel"
-                                                        "  outputName  Optional name for the "
-                                                        "output channel"),
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, argsHandler,
                                                      "The Running Sum adapter", MATCHING_CRITERIA,
-                                                     defaultChannelNames, 2014,
-                                                     STANDARD_COPYRIGHT_NAME))
+                                                     2014, STANDARD_COPYRIGHT_NAME))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();

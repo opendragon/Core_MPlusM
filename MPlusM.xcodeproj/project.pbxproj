@@ -323,6 +323,8 @@
 		DF76235F1AFD01C4002BDC49 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Emotiv/EmotivInputService/resource.h; sourceTree = "<group>"; };
 		DF7623601AFD01C4002BDC49 /* M+MEmotivInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEmotivInputThread.h"; path = "Emotiv/EmotivInputService/M+MEmotivInputThread.h"; sourceTree = "<group>"; };
 		DF7623641B029130002BDC49 /* standardApplications.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = standardApplications.txt; sourceTree = "<group>"; };
+		DF7623651B04DC91002BDC49 /* M+MAdapterArguments.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterArguments.cpp"; path = "mpm/M+MAdapterArguments.cpp"; sourceTree = "<group>"; };
+		DF7623661B04DC91002BDC49 /* M+MAdapterArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterArguments.h"; path = "mpm/M+MAdapterArguments.h"; sourceTree = "<group>"; };
 		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -1553,6 +1555,8 @@
 			isa = PBXGroup;
 			children = (
 				DF3850BE198ACCFE00A0414E /* CMakeLists.txt */,
+				DF7623651B04DC91002BDC49 /* M+MAdapterArguments.cpp */,
+				DF7623661B04DC91002BDC49 /* M+MAdapterArguments.h */,
 				DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */,
 				DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */,
 				DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */,
