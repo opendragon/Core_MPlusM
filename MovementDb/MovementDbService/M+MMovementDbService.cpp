@@ -86,11 +86,11 @@ using namespace MplusM::MovementDb;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-MovementDbService::MovementDbService(const yarp::os::ConstString & launchPath,
-                                     const yarp::os::ConstString & tag,
-                                     const yarp::os::ConstString & databaseServerAddress,
-                                     const yarp::os::ConstString & serviceEndpointName,
-                                     const yarp::os::ConstString & servicePortNumber) :
+MovementDbService::MovementDbService(const YarpString & launchPath,
+                                     const YarpString & tag,
+                                     const YarpString & databaseServerAddress,
+                                     const YarpString & serviceEndpointName,
+                                     const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
               MOVEMENTDB_SERVICE_DESCRIPTION,
               "addfile - add a file to the database\n"
@@ -119,8 +119,8 @@ MovementDbService::~MovementDbService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool MovementDbService::addFileToDb(const yarp::os::ConstString & key,
-                                    const yarp::os::ConstString & filePath)
+bool MovementDbService::addFileToDb(const YarpString & key,
+                                    const YarpString & filePath)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("key = ", key, "filePath = ", filePath); //####
@@ -216,8 +216,8 @@ void MovementDbService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // MovementDbService::detachRequestHandlers
 
-bool MovementDbService::setDataTrack(const yarp::os::ConstString & key,
-                                     const yarp::os::ConstString & dataTrack)
+bool MovementDbService::setDataTrack(const YarpString & key,
+                                     const YarpString & dataTrack)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("key = ", key, "dataTrack = ", dataTrack); //####
@@ -244,8 +244,8 @@ bool MovementDbService::setDataTrack(const yarp::os::ConstString & key,
     return okSoFar;
 } // MovementDbService::setDataTrack
 
-bool MovementDbService::setEmailAddress(const yarp::os::ConstString & key,
-                                        const yarp::os::ConstString & emailAddress)
+bool MovementDbService::setEmailAddress(const YarpString & key,
+                                        const YarpString & emailAddress)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("key = ", key, "emailAddress = ", emailAddress); //####

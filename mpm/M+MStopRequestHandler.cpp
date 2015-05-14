@@ -107,7 +107,7 @@ StopRequestHandler::~StopRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void StopRequestHandler::fillInAliases(StringVector & alternateNames)
+void StopRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -122,8 +122,8 @@ void StopRequestHandler::fillInAliases(StringVector & alternateNames)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
+void StopRequestHandler::fillInDescription(const YarpString &   request,
+                                           yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -153,10 +153,10 @@ void StopRequestHandler::fillInDescription(const yarp::os::ConstString & request
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool StopRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
+bool StopRequestHandler::processRequest(const YarpString &           request,
+                                        const yarp::os::Bottle &     restOfInput,
+                                        const YarpString &           senderChannel,
+                                        yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

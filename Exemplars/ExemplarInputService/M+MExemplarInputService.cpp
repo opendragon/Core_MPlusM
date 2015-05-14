@@ -84,10 +84,10 @@ using namespace MplusM::Exemplar;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ExemplarInputService::ExemplarInputService(const yarp::os::ConstString & launchPath,
-                                           const yarp::os::ConstString & tag,
-                                           const yarp::os::ConstString & serviceEndpointName,
-                                           const yarp::os::ConstString & servicePortNumber) :
+ExemplarInputService::ExemplarInputService(const YarpString & launchPath,
+                                           const YarpString & tag,
+                                           const YarpString & serviceEndpointName,
+                                           const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_EXEMPLARINPUT_CANONICAL_NAME,
               EXEMPLARINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
@@ -168,9 +168,9 @@ void ExemplarInputService::restartStreams(void)
 bool ExemplarInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _outDescriptions.clear();
     description._portName = rootName + "output";

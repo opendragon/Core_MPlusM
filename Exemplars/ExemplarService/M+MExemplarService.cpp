@@ -82,10 +82,10 @@ using namespace MplusM::Exemplar;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ExemplarService::ExemplarService(const yarp::os::ConstString & launchPath,
-                                 const yarp::os::ConstString & tag,
-                                 const yarp::os::ConstString & serviceEndpointName,
-                                 const yarp::os::ConstString & servicePortNumber) :
+ExemplarService::ExemplarService(const YarpString & launchPath,
+                                 const YarpString & tag,
+                                 const YarpString & serviceEndpointName,
+                                 const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_EXEMPLAR_CANONICAL_NAME,
               EXEMPLAR_SERVICE_DESCRIPTION, "simple - return the number of random values requested",
               serviceEndpointName, servicePortNumber), _simpleHandler(NULL)

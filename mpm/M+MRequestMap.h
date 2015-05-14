@@ -77,14 +77,14 @@ namespace MplusM
             /*! @brief Construct the response to an 'info' request.
              @param reply The package to hold the reply.
              @param requestName The name of the request that is being looked at. */
-            void fillInRequestInfo(yarp::os::Bottle &            reply,
-                                   const yarp::os::ConstString & requestName);
+            void fillInRequestInfo(yarp::os::Bottle & reply,
+                                   const YarpString & requestName);
             
             /*! @brief Return the function corresponding to a particular request.
              @param request The requested operation.
              @returns A pointer to the function to be invoked for the request, or @c NULL if it is
              not recognized. */
-            BaseRequestHandler * lookupRequestHandler(const yarp::os::ConstString & request);
+            BaseRequestHandler * lookupRequestHandler(const YarpString & request);
             
             /*! @brief Remember the function to be used to handle a particular request.
              @param handler The function to be called for the request. */
@@ -130,7 +130,7 @@ namespace MplusM
         private :
             
             /*! @brief A mapping from strings to requests. */
-            typedef std::map<yarp::os::ConstString, BaseRequestHandler *> RequestHandlerMap;
+            typedef std::map<YarpString, BaseRequestHandler *> RequestHandlerMap;
             
             /*! @brief The entry-type for the mapping. */
             typedef RequestHandlerMap::value_type RequestHandlerMapValue;

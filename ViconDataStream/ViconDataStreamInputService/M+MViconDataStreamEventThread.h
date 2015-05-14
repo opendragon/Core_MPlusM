@@ -68,8 +68,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
 			 @param nameAndPort The host name and port to connect to the Vicon server. */
-            ViconDataStreamEventThread(Common::GeneralChannel *      outChannel,
-				                       const yarp::os::ConstString & nameAndPort);
+            ViconDataStreamEventThread(Common::GeneralChannel *   outChannel,
+				                       const Common::YarpString & nameAndPort);
             
             /*! @brief The destructor. */
             virtual ~ViconDataStreamEventThread(void);
@@ -114,7 +114,7 @@ namespace MplusM
 			ViconDataStreamSDK::CPP::Client _viconClient;
 
 			/* @brief The host name and port to connect to the Vicon server. */
-			yarp::os::ConstString _nameAndPort;
+			Common::YarpString _nameAndPort;
 
 			/*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;

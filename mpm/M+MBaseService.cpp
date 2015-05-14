@@ -114,15 +114,15 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseService::BaseService(const ServiceKind             theKind,
-                         const yarp::os::ConstString & launchPath,
-                         const yarp::os::ConstString & tag,
-                         const bool                    useMultipleHandlers,
-                         const yarp::os::ConstString & canonicalName,
-                         const yarp::os::ConstString & description,
-                         const yarp::os::ConstString & requestsDescription,
-                         const yarp::os::ConstString & serviceEndpointName,
-                         const yarp::os::ConstString & servicePortNumber) :
+BaseService::BaseService(const ServiceKind  theKind,
+                         const YarpString & launchPath,
+                         const YarpString & tag,
+                         const bool         useMultipleHandlers,
+                         const YarpString & canonicalName,
+                         const YarpString & description,
+                         const YarpString & requestsDescription,
+                         const YarpString & serviceEndpointName,
+                         const YarpString & servicePortNumber) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
     _auxCounters(), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
@@ -162,14 +162,14 @@ BaseService::BaseService(const ServiceKind             theKind,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-BaseService::BaseService(const ServiceKind             theKind,
-                         const yarp::os::ConstString & launchPath,
-                         const bool                    useMultipleHandlers,
-                         const yarp::os::ConstString & canonicalName,
-                         const yarp::os::ConstString & description,
-                         const yarp::os::ConstString & requestsDescription,
-                         const int                     argc,
-                         char * *                      argv) :
+BaseService::BaseService(const ServiceKind  theKind,
+                         const YarpString & launchPath,
+                         const bool         useMultipleHandlers,
+                         const YarpString & canonicalName,
+                         const YarpString & description,
+                         const YarpString & requestsDescription,
+                         const int          argc,
+                         char * *           argv) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
     _serviceName(canonicalName), _tag(), _auxCounters(), _channelsHandler(NULL),
@@ -235,8 +235,8 @@ BaseService::~BaseService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseService::addContext(const yarp::os::ConstString & key,
-                             BaseContext *                 context)
+void BaseService::addContext(const YarpString & key,
+                             BaseContext *      context)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -326,7 +326,7 @@ void BaseService::clearContexts(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::clearContexts
 
-void BaseService::detachClient(const yarp::os::ConstString & key)
+void BaseService::detachClient(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -438,7 +438,7 @@ void BaseService::enableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::enableMetrics
 
-void BaseService::fillInClientList(StringVector & clients)
+void BaseService::fillInClientList(YarpStringVector & clients)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("clients = ", &clients); //####
@@ -471,7 +471,7 @@ void BaseService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInSecondaryOutputChannelsList
 
-BaseContext * BaseService::findContext(const yarp::os::ConstString & key)
+BaseContext * BaseService::findContext(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -520,10 +520,10 @@ void BaseService::incrementAuxiliaryCounters(const SendReceiveCounters & additio
     OD_LOG_OBJEXIT(); //####
 } // BaseService::incrementAuxiliaryCounters
 
-bool BaseService::processRequest(const yarp::os::ConstString & request,
-                                 const yarp::os::Bottle &      restOfInput,
-                                 const yarp::os::ConstString & senderChannel,
-                                 yarp::os::ConnectionWriter *  replyMechanism)
+bool BaseService::processRequest(const YarpString &           request,
+                                 const yarp::os::Bottle &     restOfInput,
+                                 const YarpString &           senderChannel,
+                                 yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
@@ -577,7 +577,7 @@ void BaseService::registerRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::registerRequestHandler
 
-void BaseService::removeContext(const yarp::os::ConstString & key)
+void BaseService::removeContext(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -606,9 +606,9 @@ void BaseService::removeContext(const yarp::os::ConstString & key)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::removeContext
 
-bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
-                                     CheckFunction                 checker,
-                                     void *                        checkStuff)
+bool BaseService::sendPingForChannel(const YarpString & channelName,
+                                     CheckFunction      checker,
+                                     void *             checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -617,7 +617,7 @@ bool BaseService::sendPingForChannel(const yarp::os::ConstString & channelName,
     
     try
     {
-        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
                                                            DEFAULT_CHANNEL_ROOT));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
@@ -840,22 +840,22 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool Common::ProcessStandardServiceOptions(const int                     argc,
-                                           char * *                      argv,
-                                           const char *                  argList,
-                                           const char *                  argDescription,
-                                           const yarp::os::ConstString & defaultEndpointNameRoot,
-                                           const yarp::os::ConstString & serviceDescription,
-                                           const int                     year,
-                                           const char *                  copyrightHolder,
-                                           bool &                        autostartWasSet,
-                                           bool &                        nameWasSet,
-                                           bool &                        reportOnExit,
-                                           yarp::os::ConstString &       tag,
-                                           yarp::os::ConstString &       serviceEndpointName,
-                                           yarp::os::ConstString &       servicePortNumber,
-                                           const OptionsMask             skipOptions,
-                                           StringVector *                arguments)
+bool Common::ProcessStandardServiceOptions(const int          argc,
+                                           char * *           argv,
+                                           const char *       argList,
+                                           const char *       argDescription,
+                                           const YarpString & defaultEndpointNameRoot,
+                                           const YarpString & serviceDescription,
+                                           const int          year,
+                                           const char *       copyrightHolder,
+                                           bool &             autostartWasSet,
+                                           bool &             nameWasSet,
+                                           bool &             reportOnExit,
+                                           YarpString &       tag,
+                                           YarpString &       serviceEndpointName,
+                                           YarpString &       servicePortNumber,
+                                           const OptionsMask  skipOptions,
+                                           YarpStringVector * arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
@@ -916,7 +916,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
-    yarp::os::ConstString usageString("USAGE: ");
+    YarpString            usageString("USAGE: ");
     
     reportOnExit = nameWasSet = false;
     tag = serviceEndpointName = serviceEndpointName = "";
@@ -984,9 +984,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionVERSION])
     {
-        yarp::os::ConstString mpmVersionString;
+        YarpString mpmVersionString(SanitizeString(MpM_VERSION, true));
         
-        mpmVersionString = SanitizeString(MpM_VERSION, true);
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
                 copyrightHolder << "." << endl;
         keepGoing = false;
@@ -1146,10 +1145,10 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     return keepGoing;
 } // Common::ProcessStandardServiceOptions
 
-bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
-                                  BaseService &                 service,
-                                  CheckFunction                 checker,
-                                  void *                        checkStuff)
+bool Common::RegisterLocalService(const YarpString & channelName,
+                                  BaseService &      service,
+                                  CheckFunction      checker,
+                                  void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -1158,7 +1157,7 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
     
     try
     {
-        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/"
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/"
                                                            DEFAULT_CHANNEL_ROOT));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
@@ -1261,10 +1260,10 @@ bool Common::RegisterLocalService(const yarp::os::ConstString & channelName,
     return result;
 } // Common::RegisterLocalService
 
-bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
-                                    BaseService &                 service,
-                                    CheckFunction                 checker,
-                                    void *                        checkStuff)
+bool Common::UnregisterLocalService(const YarpString & channelName,
+                                    BaseService &      service,
+                                    CheckFunction      checker,
+                                    void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -1273,7 +1272,7 @@ bool Common::UnregisterLocalService(const yarp::os::ConstString & channelName,
     
     try
     {
-        yarp::os::ConstString   aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "unregisterlocal_/"
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "unregisterlocal_/"
                                                            DEFAULT_CHANNEL_ROOT));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)

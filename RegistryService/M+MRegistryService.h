@@ -81,22 +81,22 @@ namespace MplusM
         struct RequestDescription
         {
             /*! @brief The details of the request. */
-            yarp::os::ConstString _details;
+            Common::YarpString _details;
             
             /*! @brief The inputs descriptor for the request. */
-            yarp::os::ConstString _inputs;
+            Common::YarpString _inputs;
             
             /*! @brief The outputs descriptor for the request. */
-            yarp::os::ConstString _outputs;
+            Common::YarpString _outputs;
             
             /*! @brief The service channel for the request. */
-            yarp::os::ConstString _channel;
+            Common::YarpString _channel;
             
             /*! @brief The name of the request. */
-            yarp::os::ConstString _request;
+            Common::YarpString _request;
             
             /*! @brief The version of the request. */
-            yarp::os::ConstString _version;
+            Common::YarpString _version;
             
         }; // RequestDescription
         
@@ -154,9 +154,9 @@ namespace MplusM
              @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary
              disk file is to be used.
              @param servicePortNumber The port being used by the service. */
-            RegistryService(const yarp::os::ConstString & launchPath,
-                            const bool                    useInMemoryDb = false,
-                            const yarp::os::ConstString & servicePortNumber = "");
+            RegistryService(const Common::YarpString & launchPath,
+                            const bool                 useInMemoryDb = false,
+                            const Common::YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~RegistryService(void);
@@ -166,21 +166,21 @@ namespace MplusM
              @param isOutput @c true if the secondary channel is an output and @c false otherwise.
              @param secondaryChannelName The name of the associated channel.
              @returns @c true if the association can be added and @c false otherwise.*/
-            bool addAssociation(const yarp::os::ConstString & primaryChannelName,
-                                const bool                    isOutput,
-                                const yarp::os::ConstString & secondaryChannelName);
+            bool addAssociation(const Common::YarpString & primaryChannelName,
+                                const bool                 isOutput,
+                                const Common::YarpString & secondaryChannelName);
             
             /*! @brief Check if an association between channels is already in the registry.
              @param primaryChannelName The name of the primary channel.
              @param secondaryChannelName The name of the associated channel.
              @returns @c true if the association is present and @c false otherwise.*/
-            bool checkForExistingAssociation(const yarp::os::ConstString & primaryChannelName,
-                                             const yarp::os::ConstString & secondaryChannelName);
+            bool checkForExistingAssociation(const Common::YarpString & primaryChannelName,
+                                             const Common::YarpString & secondaryChannelName);
             
             /*! @brief Check if a service is already in the registry.
              @param channelName The service channel for the service.
              @returns @c true if the service is present and @c false otherwise. */
-            bool checkForExistingService(const yarp::os::ConstString & channelName);
+            bool checkForExistingService(const Common::YarpString & channelName);
             
             /*! @brief Check for expired services. */
             void checkServiceTimes(void);
@@ -199,10 +199,10 @@ namespace MplusM
              @param inputs The associated list of input channels to be filled in.
              @param outputs The associated list of output channels to be filled in.
              @returns @c true if the lists were successfully filled and @c false otherwise. */
-            bool fillInAssociates(const yarp::os::ConstString & channelName,
-                                  bool &                        isPrimary,
-                                  Common::StringVector &        inputs,
-                                  Common::StringVector &        outputs);
+            bool fillInAssociates(const Common::YarpString & channelName,
+                                  bool &                     isPrimary,
+                                  Common::YarpStringVector & inputs,
+                                  Common::YarpStringVector & outputs);
             
             /*! @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
@@ -225,7 +225,7 @@ namespace MplusM
              @param response The response to be analyzed.
              @returns @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
-            bool processListResponse(const yarp::os::ConstString &   channelName,
+            bool processListResponse(const Common::YarpString &      channelName,
                                      const Common::ServiceResponse & response);
             
             /*! @brief Convert a match expression into SQL and process it.
@@ -244,30 +244,30 @@ namespace MplusM
              @param response The response to be analyzed.
              @returns @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
-            bool processNameResponse(const yarp::os::ConstString &   channelName,
+            bool processNameResponse(const Common::YarpString &      channelName,
                                      const Common::ServiceResponse & response);
             
             /*! @brief Remove all associations for a channel.
              @param primaryChannelName The name of the primary channel.
              @returns @c true if the associations were removed and @c false otherwise.*/
-            bool removeAllAssociations(const yarp::os::ConstString & primaryChannelName);
+            bool removeAllAssociations(const Common::YarpString & primaryChannelName);
             
             /*! @brief Remove the last checked time for a service channel.
              @param serviceChannelName The service channel that is being removed. */
-            void removeCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName);
+            void removeCheckedTimeForChannel(const Common::YarpString & serviceChannelName);
             
             /*! @brief Remove a service entry from the registry.
              @param serviceChannelName The service channel that is being removed.
              @returns @c true if the service was successfully removed and @c false otherwise. */
-            bool removeServiceRecord(const yarp::os::ConstString & serviceChannelName);
+            bool removeServiceRecord(const Common::YarpString & serviceChannelName);
             
             /*! @brief Report a change to a service.
              @param channelName The service channel for the service.
              @param newStatus The updated state of the service.
              @param details Details on the change. */
-            void reportStatusChange(const yarp::os::ConstString & channelName,
-                                    const ServiceStatus           newStatus,
-                                    const yarp::os::ConstString & details = "");
+            void reportStatusChange(const Common::YarpString & channelName,
+                                    const ServiceStatus        newStatus,
+                                    const Common::YarpString & details = "");
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -282,7 +282,7 @@ namespace MplusM
             
             /*! @brief Update the last checked time for a service channel.
              @param serviceChannelName The service channel that is being updated. */
-            void updateCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName);
+            void updateCheckedTimeForChannel(const Common::YarpString & serviceChannelName);
             
         protected :
             
@@ -311,12 +311,12 @@ namespace MplusM
              @param executable The path to the executable for the service.
              @param requestsDescription The description of the requests for the service.
              @returns @c true if the request was successfully added and @c false otherwise. */
-            bool addServiceRecord(const yarp::os::ConstString & channelName,
-                                  const yarp::os::ConstString & name,
-                                  const yarp::os::ConstString & tag,
-                                  const yarp::os::ConstString & description,
-                                  const yarp::os::ConstString & executable,
-                                  const yarp::os::ConstString & requestsDescription);
+            bool addServiceRecord(const Common::YarpString & channelName,
+                                  const Common::YarpString & name,
+                                  const Common::YarpString & tag,
+                                  const Common::YarpString & description,
+                                  const Common::YarpString & executable,
+                                  const Common::YarpString & requestsDescription);
             
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
@@ -328,8 +328,8 @@ namespace MplusM
              @param asDict The dictionary to be checked.
              @param channelName The channel that sent the response.
              @returns @c false if an unexpected value appears and @c true otherwise. */
-            bool processDictionaryEntry(yarp::os::Property &          asDict,
-                                        const yarp::os::ConstString & channelName);
+            bool processDictionaryEntry(yarp::os::Property &       asDict,
+                                        const Common::YarpString & channelName);
             
             /*! @brief Set up the Registry Service database.
              @returns @c true if the database was set up and @c false otherwise. */
@@ -349,7 +349,7 @@ namespace MplusM
             typedef BaseService inherited;
             
             /*! @brief A mapping from strings to time values. */
-            typedef std::map<yarp::os::ConstString, double> TimeMap;
+            typedef std::map<Common::YarpString, double> TimeMap;
             
             /*! @brief The last time that a channel 'checked-in'. */
             TimeMap _lastCheckedTime;

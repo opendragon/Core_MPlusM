@@ -83,8 +83,8 @@ static void processValue(FILE *                   outFile,
 /*! @brief Convert a YARP string into a JSON string.
  @param outFile The file to be written to.
  @param inputString The string to be processed. */
-static void processString(FILE *                        outFile,
-                          const yarp::os::ConstString & inputString)
+static void processString(FILE *             outFile,
+                          const YarpString & inputString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outFile = ", outFile, "inputString = ", &inputString); //####
@@ -219,7 +219,7 @@ static void processValue(FILE *                   outFile,
     }
     else if (inputValue.isString())
     {
-        yarp::os::ConstString value = inputValue.asString();
+        YarpString value = inputValue.asString();
         
         processString(outFile, value);
     }
@@ -293,10 +293,10 @@ RecordAsJSONInputHandler::~RecordAsJSONInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RecordAsJSONInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                           const yarp::os::ConstString & senderChannel,
-                                           yarp::os::ConnectionWriter *  replyMechanism,
-                                           const size_t                  numBytes)
+bool RecordAsJSONInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                           const YarpString &           senderChannel,
+                                           yarp::os::ConnectionWriter * replyMechanism,
+                                           const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

@@ -98,8 +98,8 @@ GeneralChannel::~GeneralChannel(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void GeneralChannel::setProtocol(const yarp::os::ConstString & newProtocol,
-                                 const yarp::os::ConstString & description)
+void GeneralChannel::setProtocol(const YarpString & newProtocol,
+                                 const YarpString & description)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("newProtocol = ", newProtocol, "description = ", description); //####

@@ -107,7 +107,7 @@ AddFileRequestHandler::~AddFileRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void AddFileRequestHandler::fillInAliases(StringVector & alternateNames)
+void AddFileRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -122,8 +122,8 @@ void AddFileRequestHandler::fillInAliases(StringVector & alternateNames)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                              yarp::os::Property &          info)
+void AddFileRequestHandler::fillInDescription(const YarpString &   request,
+                                              yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -154,10 +154,10 @@ void AddFileRequestHandler::fillInDescription(const yarp::os::ConstString & requ
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                           const yarp::os::Bottle &      restOfInput,
-                                           const yarp::os::ConstString & senderChannel,
-                                           yarp::os::ConnectionWriter *  replyMechanism)
+bool AddFileRequestHandler::processRequest(const YarpString &           request,
+                                           const yarp::os::Bottle &     restOfInput,
+                                           const YarpString &           senderChannel,
+                                           yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -181,8 +181,8 @@ bool AddFileRequestHandler::processRequest(const yarp::os::ConstString & request
             
             if (firstValue.isString())
             {
-                yarp::os::ConstString filePath(firstValue.toString());
-                MovementDbService &   theService = static_cast<MovementDbService &>(_service);
+                YarpString          filePath(firstValue.toString());
+                MovementDbService & theService = static_cast<MovementDbService &>(_service);
 
                 if (theService.addFileToDb(senderChannel, filePath))
                 {

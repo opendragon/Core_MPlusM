@@ -86,20 +86,20 @@ using std::endl;
  @param namePattern The generated search value.
  @param needsAddress @c true if the IP address is requested and @c false otherwise.
  @param needsPort @c true if the port is requested and @c false otherwise. */
-static void processArguments(const StringVector &    arguments,
-                             yarp::os::ConstString & namePattern,
-                             bool &                  needsAddress,
-                             bool &                  needsPort)
+static void processArguments(const YarpStringVector & arguments,
+                             YarpString &             namePattern,
+                             bool &                   needsAddress,
+                             bool &                   needsPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("arguments = ", &arguments, "namePattern = ", &namePattern, "needsAddress = ", //####
               &needsAddress, "needsPort = ", &needsPort); //####
-    yarp::os::ConstString tag;
+    YarpString tag;
     
     needsAddress = needsPort = true;
     for (int ii = 0, argc = arguments.size(); argc > ii; ++ii)
     {
-        yarp::os::ConstString anArg = arguments[ii];
+        YarpString anArg = arguments[ii];
         
         if (anArg == "address")
         {
@@ -122,7 +122,7 @@ static void processArguments(const StringVector &    arguments,
     }
     if (0 < tag.length())
     {
-        yarp::os::ConstString singleQuote("'");
+        YarpString singleQuote("'");
 
         namePattern = singleQuote + namePattern + " " + tag + singleQuote;
     }
@@ -133,12 +133,12 @@ static void processArguments(const StringVector &    arguments,
  @param arguments The arguments to analyze.
  @param flavour The format for the output. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(ChannelStatusReporter * reporter,
-                       const StringVector &    arguments,
-                       const OutputFlavour     flavour)
+static void setUpAndGo(ChannelStatusReporter *  reporter,
+                       const YarpStringVector & arguments,
+                       const OutputFlavour      flavour)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const StringVector & arguments,
-                       const OutputFlavour  flavour)
+static void setUpAndGo(const YarpStringVector & arguments,
+                       const OutputFlavour      flavour)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -147,9 +147,9 @@ static void setUpAndGo(const StringVector & arguments,
 #else // ! defined(MpM_ReportOnConnections)
     OD_LOG_P1("arguments = ", &arguments); //####
 #endif // ! defined(MpM_ReportOnConnections)
-    yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-    yarp::os::ConstString namePattern(MpM_ADDRESS_CANONICAL_NAME);
-    AddressClient *       stuff = new AddressClient;
+    YarpString      channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+    YarpString      namePattern(MpM_ADDRESS_CANONICAL_NAME);
+    AddressClient * stuff = new AddressClient;
     
     if (stuff)
     {
@@ -165,8 +165,8 @@ static void setUpAndGo(const StringVector & arguments,
         {
             if (stuff->connectToService())
             {
-                yarp::os::ConstString address;
-                int                   port;
+                YarpString address;
+                int        port;
                 
                 if (stuff->getAddress(address, port))
                 {
@@ -293,8 +293,8 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        OutputFlavour flavour;
-        StringVector  arguments;
+        OutputFlavour    flavour;
+        YarpStringVector arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
                                                        T_(" ['address' | 'port' | 'both' | tag]"),

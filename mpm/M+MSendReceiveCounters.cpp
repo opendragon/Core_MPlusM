@@ -76,9 +76,9 @@ using namespace MplusM::Common;
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the value.
  @param bigValue The value to be added. */
-static void addLargeValueToDictionary(yarp::os::Property &          dictionary,
-                                      const yarp::os::ConstString & tag,
-                                      const int64_t                 bigValue)
+static void addLargeValueToDictionary(yarp::os::Property & dictionary,
+                                      const YarpString &   tag,
+                                      const int64_t        bigValue)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
@@ -114,8 +114,8 @@ SendReceiveCounters::SendReceiveCounters(const int64_t initialInBytes,
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void SendReceiveCounters::addToList(yarp::os::Bottle &            counterList,
-                                    const yarp::os::ConstString & channel)
+void SendReceiveCounters::addToList(yarp::os::Bottle & counterList,
+                                    const YarpString & channel)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("counterList = ", &counterList); //####

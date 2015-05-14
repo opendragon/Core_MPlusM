@@ -184,8 +184,8 @@ static void convertValue(JSContext *             jct,
     }
     else if (inputValue.isString())
     {
-        yarp::os::ConstString value = inputValue.asString();
-        JSString *            aString = JS_NewStringCopyZ(jct, value.c_str());
+        YarpString value = inputValue.asString();
+        JSString * aString = JS_NewStringCopyZ(jct, value.c_str());
         
         if (aString)
         {
@@ -283,10 +283,10 @@ JavaScriptInputHandler::~JavaScriptInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism,
-                                         const size_t                  numBytes)
+bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                         const YarpString &           senderChannel,
+                                         yarp::os::ConnectionWriter * replyMechanism,
+                                         const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -336,8 +336,8 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &      input,
                     {
                         JS_ClearPendingException(jct);
                         std::stringstream     buff;
-                        yarp::os::ConstString message("Exception occurred while executing "
-                                                      "handler function for inlet ");
+                        YarpString message("Exception occurred while executing handler function "
+                                           "for inlet ");
                         
                         buff << _slotNumber;
                         message += buff.str();

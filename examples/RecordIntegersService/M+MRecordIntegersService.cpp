@@ -85,10 +85,10 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RecordIntegersService::RecordIntegersService(const yarp::os::ConstString & launchPath,
-                                             const yarp::os::ConstString & tag,
-                                             const yarp::os::ConstString & serviceEndpointName,
-                                             const yarp::os::ConstString & servicePortNumber) :
+RecordIntegersService::RecordIntegersService(const YarpString & launchPath,
+                                             const YarpString & tag,
+                                             const YarpString & serviceEndpointName,
+                                             const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RECORDINTEGERS_CANONICAL_NAME,
               RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
@@ -163,9 +163,9 @@ void RecordIntegersService::restartStreams(void)
 bool RecordIntegersService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
     description._portName = rootName + "input";

@@ -91,15 +91,15 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseInputOutputService::BaseInputOutputService(const ServiceKind             theKind,
-                                               const yarp::os::ConstString & launchPath,
-                                               const yarp::os::ConstString & tag,
-                                               const bool                    useMultipleHandlers,
-                                               const yarp::os::ConstString & canonicalName,
-                                               const yarp::os::ConstString & description,
-                                               const yarp::os::ConstString & requestsDescription,
-                                               const yarp::os::ConstString & serviceEndpointName,
-                                               const yarp::os::ConstString & servicePortNumber) :
+BaseInputOutputService::BaseInputOutputService(const ServiceKind  theKind,
+                                               const YarpString & launchPath,
+                                               const YarpString & tag,
+                                               const bool         useMultipleHandlers,
+                                               const YarpString & canonicalName,
+                                               const YarpString & description,
+                                               const YarpString & requestsDescription,
+                                               const YarpString & serviceEndpointName,
+                                               const YarpString & servicePortNumber) :
     inherited(theKind, launchPath, tag, useMultipleHandlers, canonicalName, description,
               requestsDescription, serviceEndpointName, servicePortNumber), _active(false)
 {

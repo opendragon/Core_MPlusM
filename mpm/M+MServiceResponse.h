@@ -77,7 +77,7 @@ namespace MplusM
             
             /*! @brief Return a printable version of the response.
              @returns A printable version of the response. */
-            yarp::os::ConstString asString(void)
+            YarpString asString(void)
             const;
             
             /*! @brief The number of values in the response.

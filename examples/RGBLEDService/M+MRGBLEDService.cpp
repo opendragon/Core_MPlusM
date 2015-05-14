@@ -85,10 +85,10 @@ using namespace MplusM::Example;
 # pragma mark Constructors and destructors
 #endif // defined(__APPLE__)
 
-RGBLEDService::RGBLEDService(const yarp::os::ConstString & launchPath,
-                             const yarp::os::ConstString & tag,
-                             const yarp::os::ConstString & serviceEndpointName,
-                             const yarp::os::ConstString & servicePortNumber) :
+RGBLEDService::RGBLEDService(const YarpString & launchPath,
+                             const YarpString & tag,
+                             const YarpString & serviceEndpointName,
+                             const YarpString & servicePortNumber) :
         inherited(kServiceKindNormal, launchPath, tag, true, MpM_RGBLED_CANONICAL_NAME,
                   "An example RGB LED service",
                   "echo - send back any values given with the request", serviceEndpointName,

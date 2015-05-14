@@ -117,11 +117,11 @@ ServiceResponse & ServiceResponse::operator =(const yarp::os::Bottle & values)
 
 /*! @brief Return a printable version of the response.
  @returns A printable version of the response. */
-yarp::os::ConstString ServiceResponse::asString(void)
+YarpString ServiceResponse::asString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString result(_values.toString());
+    YarpString result(_values.toString());
     
     OD_LOG_OBJEXIT_S(result.c_str()); //####
     return result;

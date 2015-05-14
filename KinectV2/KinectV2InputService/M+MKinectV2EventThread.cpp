@@ -81,9 +81,9 @@ using std::endl;
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
  @param position The vector to be added. */
-static void add3VectorToDictionary(yarp::os::Property &          dictionary,
-                                   const yarp::os::ConstString & tag,
-                                   const CameraSpacePoint &      position)
+static void add3VectorToDictionary(yarp::os::Property &     dictionary,
+                                   const YarpString &       tag,
+                                   const CameraSpacePoint & position)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
@@ -101,9 +101,9 @@ static void add3VectorToDictionary(yarp::os::Property &          dictionary,
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
  @param orientation The vector to be added. */
-static void add4VectorToDictionary(yarp::os::Property &          dictionary,
-                                   const yarp::os::ConstString & tag,
-                                   const Vector4 &               orientation)
+static void add4VectorToDictionary(yarp::os::Property & dictionary,
+                                   const YarpString &   tag,
+                                   const Vector4 &      orientation)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
@@ -126,12 +126,12 @@ static void add4VectorToDictionary(yarp::os::Property &          dictionary,
  @param endJoint The ending joint of the bone.
  @param startOrientation The orientation of the beginning joint of the bone.
  @param endOrientation The orientation of the ending joint of the bone. */
-static void addBoneToList(yarp::os::Bottle &            listToUpdate,
-                          const yarp::os::ConstString & jointTag,
-                          const Joint &                 startJoint,
-                          const Joint &                 endJoint,
-                          const JointOrientation &      startOrientation,
-                          const JointOrientation &      endOrientation)
+static void addBoneToList(yarp::os::Bottle &       listToUpdate,
+                          const YarpString &       jointTag,
+                          const Joint &            startJoint,
+                          const Joint &            endJoint,
+                          const JointOrientation & startOrientation,
+                          const JointOrientation & endOrientation)
 {
     // If we can't find either of these joints, exit
     if ((TrackingState_NotTracked != startJoint.TrackingState) &&
@@ -157,10 +157,10 @@ static void addBoneToList(yarp::os::Bottle &            listToUpdate,
  @param jointTag The name of the bone.
  @param jointData The joint position.
  @param orientationData The orientation of the joint. */
-static void addJointToList(yarp::os::Bottle &            listToUpdate,
-                           const yarp::os::ConstString & jointTag,
-                           const Joint &                 jointData,
-                           const JointOrientation &      orientationData)
+static void addJointToList(yarp::os::Bottle &       listToUpdate,
+                           const YarpString &       jointTag,
+                           const Joint &            jointData,
+                           const JointOrientation & orientationData)
 {
     // If we can't find either of these joints, exit
     if (TrackingState_NotTracked != jointData.TrackingState)

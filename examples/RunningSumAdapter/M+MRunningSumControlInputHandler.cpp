@@ -107,10 +107,10 @@ RunningSumControlInputHandler::~RunningSumControlInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                                const yarp::os::ConstString & senderChannel,
-                                                yarp::os::ConnectionWriter *  replyMechanism,
-                                                const size_t                  numBytes)
+bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                                const YarpString &           senderChannel,
+                                                yarp::os::ConnectionWriter * replyMechanism,
+                                                const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -136,7 +136,7 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &      in
                 
                 if (argValue.isString())
                 {
-                    yarp::os::ConstString argString(argValue.asString());
+                    YarpString argString(argValue.asString());
                     
                     if (argString == MpM_RESETSUM_REQUEST)
                     {

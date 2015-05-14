@@ -88,17 +88,16 @@ using std::endl;
  @param response The response to be processed.
  @param sawResponse @c true if there was already a response output and @c false if this is the first.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(OutputFlavour                 flavour,
-                            const yarp::os::ConstString & serviceName,
-                            const ServiceResponse &       response,
-                            const bool                    sawResponse)
+static bool processResponse(const OutputFlavour     flavour,
+                            const YarpString &      serviceName,
+                            const ServiceResponse & response,
+                            const bool              sawResponse)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceName = ", serviceName); //####
     OD_LOG_P1("response = ", &response); //####
-    bool                  result = false;
-    yarp::os::ConstString cleanServiceName(SanitizeString(serviceName,
-                                                          kOutputFlavourJSON != flavour));
+    bool       result = false;
+    YarpString cleanServiceName(SanitizeString(serviceName, kOutputFlavourJSON != flavour));
     
     OD_LOG_S1s("response = ", response.asString()); //####
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
@@ -107,7 +106,7 @@ static bool processResponse(OutputFlavour                 flavour,
         
         if (element.isString())
         {
-            yarp::os::ConstString clientString(element.toString());
+            YarpString clientString(element.toString());
             
             switch (flavour)
             {
@@ -151,12 +150,12 @@ static bool processResponse(OutputFlavour                 flavour,
 /*! @brief Set up the environment and perform the operation.
  @param arguments The arguments to analyze.
  @param flavour The format for the output. */
-static void setUpAndGo(const StringVector & arguments,
-                       const OutputFlavour  flavour)
+static void setUpAndGo(const YarpStringVector & arguments,
+                       const OutputFlavour      flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
-    yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+    YarpString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
     
     if (0 < arguments.size())
     {
@@ -171,15 +170,15 @@ static void setUpAndGo(const StringVector & arguments,
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
     {
         // First, check if the search succeeded.
-        yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+        YarpString matchesFirstString(matches.get(0).toString());
         
         if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
         {
             OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
 #if MAC_OR_LINUX_
-            yarp::os::ConstString reason(matches.get(1).toString());
+            YarpString reason(matches.get(1).toString());
             
-            GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
+            GetLogger().fail(YarpString("Failed: ") + reason + ".");
 #endif // MAC_OR_LINUX_
         }
         else
@@ -193,10 +192,10 @@ static void setUpAndGo(const StringVector & arguments,
                 
                 if (matchesCount)
                 {
-                    yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                       "clientlist_/"
-                                                                       DEFAULT_CHANNEL_ROOT);
-                    ClientChannel *       newChannel = new ClientChannel;
+                    YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                 "clientlist_/"
+                                                                 DEFAULT_CHANNEL_ROOT);
+                    ClientChannel * newChannel = new ClientChannel;
                     
                     if (newChannel)
                     {
@@ -211,8 +210,7 @@ static void setUpAndGo(const StringVector & arguments,
                             }
                             for (int ii = 0; ii < matchesCount; ++ii)
                             {
-                                yarp::os::ConstString aMatch =
-                                matchesList->get(ii).toString();
+                                YarpString aMatch(matchesList->get(ii).toString());
                                 
                                 if (Utilities::NetworkConnectWithRetries(aName, aMatch,
                                                                          STANDARD_WAIT_TIME))
@@ -239,10 +237,8 @@ static void setUpAndGo(const StringVector & arguments,
 #if MAC_OR_LINUX_
                                         yarp::os::impl::Logger & theLogger = GetLogger();
                                         
-                                        theLogger.fail(yarp::os::ConstString("Problem "
-                                                                             "communicating "
-                                                                             "with ") + aMatch +
-                                                       ".");
+                                        theLogger.fail(YarpString("Problem communicating with ") +
+                                                       aMatch + ".");
 #endif // MAC_OR_LINUX_
                                     }
 #if defined(MpM_DoExplicitDisconnect)
@@ -352,8 +348,8 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour;
-    StringVector  arguments;
+    OutputFlavour    flavour;
+    YarpStringVector arguments;
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [channel]"),
                                                    T_("  channel    Optional channel name for "

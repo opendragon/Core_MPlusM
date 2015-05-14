@@ -96,9 +96,9 @@ namespace MplusM
              @param servicePortNumber The port being used by the service. */
             JavaScriptService(JSContext *                   context,
                               JS::RootedObject &            global,
-                              const yarp::os::ConstString & launchPath,
-                              const yarp::os::ConstString & tag,
-                              const yarp::os::ConstString & description,
+                              const Common::YarpString &    launchPath,
+                              const Common::YarpString &    tag,
+                              const Common::YarpString &    description,
                               const Common::ChannelVector & loadedInletDescriptions,
                               const Common::ChannelVector & loadedOutletDescriptions,
                               const JS::AutoValueVector &   loadedInletHandlers,
@@ -107,8 +107,8 @@ namespace MplusM
                               const bool                    sawThread,
                               const JS::RootedValue &       loadedThreadFunction,
                               const double                  loadedInterval,
-                              const yarp::os::ConstString & serviceEndpointName,
-                              const yarp::os::ConstString & servicePortNumber = "");
+                              const Common::YarpString &    serviceEndpointName,
+                              const Common::YarpString &    servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~JavaScriptService(void);

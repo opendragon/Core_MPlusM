@@ -100,8 +100,8 @@ TunnelClient::~TunnelClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool TunnelClient::getAddress(yarp::os::ConstString & address,
-                              int &                   port)
+bool TunnelClient::getAddress(YarpString & address,
+                              int &        port)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P2("address = ", &address, "port = ", &port); //####

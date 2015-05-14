@@ -96,7 +96,7 @@ static bool validateAssociateResponse(const yarp::os::Bottle & response)
             
             if (responseFirst.isString())
             {
-                yarp::os::ConstString responseFirstAsString(responseFirst.toString());
+                YarpString responseFirstAsString(responseFirst.toString());
                 
                 if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
                 {
@@ -145,7 +145,7 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
             
             if (responseFirst.isString())
             {
-                yarp::os::ConstString responseFirstAsString(responseFirst.toString());
+                YarpString responseFirstAsString(responseFirst.toString());
                 
                 if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
                 {
@@ -237,9 +237,9 @@ void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
     OD_LOG_P2("aChannel = ", aChannel, "checkStuff = ", checkStuff); //####
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "associate_/"
-                                                         DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "associate_/"
+                                                   DEFAULT_CHANNEL_ROOT));
+        ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
         {
@@ -452,7 +452,7 @@ bool BaseClient::findService(const char *  criteria,
         if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
         {
             // First, check if the search succeeded.
-            yarp::os::ConstString candidatesFirstString(candidates.get(0).toString());
+            YarpString candidatesFirstString(candidates.get(0).toString());
             
             if (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))
             {
@@ -532,9 +532,9 @@ void BaseClient::removeAssociatedChannels(CheckFunction checker,
     OD_LOG_OBJENTER(); //####
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "disassociate_/"
-                                                         DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "disassociate_/"
+                                                   DEFAULT_CHANNEL_ROOT));
+        ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
         {
@@ -687,10 +687,10 @@ void BaseClient::setReporter(ChannelStatusReporter & reporter,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & criteria,
-                                              const bool                    getNames,
-                                              CheckFunction                 checker,
-                                              void *                        checkStuff)
+yarp::os::Bottle Common::FindMatchingServices(const YarpString & criteria,
+                                              const bool         getNames,
+                                              CheckFunction      checker,
+                                              void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("criteria = ", criteria); //####
@@ -700,9 +700,9 @@ yarp::os::Bottle Common::FindMatchingServices(const yarp::os::ConstString & crit
     
     try
     {
-        yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "findmatch_/"
-                                                         DEFAULT_CHANNEL_ROOT));
-        ClientChannel *       newChannel = new ClientChannel;
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "findmatch_/"
+                                                   DEFAULT_CHANNEL_ROOT));
+        ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
         {

@@ -160,10 +160,10 @@ namespace MplusM
         struct ChannelAssociateData
         {
             /*! @brief The primary channel. */
-            yarp::os::ConstString _channel;
+            YarpString _channel;
             
             /*! @brief The channel to be associated. */
-            yarp::os::ConstString _associate;
+            YarpString _associate;
             
             /*! @brief The direction of the associate channel. */
             int _direction;
@@ -184,13 +184,13 @@ namespace MplusM
         struct RequestKeywordData
         {
             /*! @brief The name of the request. */
-            yarp::os::ConstString _request;
+            YarpString _request;
             
             /*! @brief The service channel for the request. */
-            yarp::os::ConstString _channel;
+            YarpString _channel;
             
             /*! @brief A keyword for the request. */
-            yarp::os::ConstString _key;
+            YarpString _key;
             
         }; // RequestKeywordData
         
@@ -198,22 +198,22 @@ namespace MplusM
         struct ServiceData
         {
             /*! @brief The service channel for the service. */
-            yarp::os::ConstString _channel;
+            YarpString _channel;
             
             /*! @brief The description of the service. */
-            yarp::os::ConstString _description;
+            YarpString _description;
             
             /*! @brief The path to the executable for the service. */
-            yarp::os::ConstString _executable;
+            YarpString _executable;
             
             /*! @brief The name for the service. */
-            yarp::os::ConstString _name;
+            YarpString _name;
             
             /*! @brief The description of the requests for the service. */
-            yarp::os::ConstString _requestsDescription;
+            YarpString _requestsDescription;
             
             /*! @brief The tag modifier for the service. */
-            yarp::os::ConstString _tag;
+            YarpString _tag;
             
         }; // ServiceData
         
@@ -1842,9 +1842,9 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RegistryService::RegistryService(const yarp::os::ConstString & launchPath,
-                                 const bool                    useInMemoryDb,
-                                 const yarp::os::ConstString & servicePortNumber) :
+RegistryService::RegistryService(const YarpString & launchPath,
+                                 const bool         useInMemoryDb,
+                                 const YarpString & servicePortNumber) :
     inherited(kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
               REGISTRY_SERVICE_DESCRIPTION,
               "associate - associate a channel with another channel\n"
@@ -1893,9 +1893,9 @@ RegistryService::~RegistryService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RegistryService::addAssociation(const yarp::os::ConstString & primaryChannelName,
-                                     const bool                    isOutput,
-                                     const yarp::os::ConstString & secondaryChannelName)
+bool RegistryService::addAssociation(const YarpString & primaryChannelName,
+                                     const bool         isOutput,
+                                     const YarpString & secondaryChannelName)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("primaryChannelName = ", primaryChannelName, "secondaryChannelName = ", //####
@@ -2043,12 +2043,12 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     return okSoFar;
 } // RegistryService::addRequestRecord
 
-bool RegistryService::addServiceRecord(const yarp::os::ConstString & channelName,
-                                       const yarp::os::ConstString & name,
-                                       const yarp::os::ConstString & tag,
-                                       const yarp::os::ConstString & description,
-                                       const yarp::os::ConstString & executable,
-                                       const yarp::os::ConstString & requestsDescription)
+bool RegistryService::addServiceRecord(const YarpString & channelName,
+                                       const YarpString & name,
+                                       const YarpString & tag,
+                                       const YarpString & description,
+                                       const YarpString & executable,
+                                       const YarpString & requestsDescription)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S4s("channelName = ", channelName, "name = ", name, "description = ", description, //####
@@ -2135,9 +2135,8 @@ void RegistryService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::attachRequestHandlers
 
-bool RegistryService::checkForExistingAssociation(const yarp::os::ConstString & primaryChannelName,
-                                                  const yarp::os::ConstString &
-                                                                            secondaryChannelName)
+bool RegistryService::checkForExistingAssociation(const YarpString & primaryChannelName,
+                                                  const YarpString & secondaryChannelName)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("primaryChannelName = ", primaryChannelName); //####
@@ -2185,7 +2184,7 @@ bool RegistryService::checkForExistingAssociation(const yarp::os::ConstString & 
     return okSoFar;
 } // RegistryService::checkForExistingAssociation
 
-bool RegistryService::checkForExistingService(const yarp::os::ConstString & channelName)
+bool RegistryService::checkForExistingService(const YarpString & channelName)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -2225,8 +2224,8 @@ bool RegistryService::checkForExistingService(const yarp::os::ConstString & chan
 void RegistryService::checkServiceTimes(void)
 {
     OD_LOG_OBJENTER(); //####
-    double       now = yarp::os::Time::now();
-    StringVector expired;
+    double           now = yarp::os::Time::now();
+    YarpStringVector expired;
     
     // Build a list of expired services.
     _checkedTimeLock.lock();
@@ -2246,10 +2245,10 @@ void RegistryService::checkServiceTimes(void)
     _checkedTimeLock.unlock();
     if (0 < expired.size())
     {
-        for (StringVector::const_iterator walker(expired.begin()); expired.end() != walker;
+        for (YarpStringVector::const_iterator walker(expired.begin()); expired.end() != walker;
              ++walker)
         {
-            yarp::os::ConstString channelName(*walker);
+            YarpString channelName(*walker);
             
             reportStatusChange(channelName, kRegistryStaleService);
             if (removeServiceRecord(channelName))
@@ -2339,10 +2338,10 @@ void RegistryService::enableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::enableMetrics
 
-bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName,
-                                       bool &                        isPrimary,
-                                       StringVector &                inputs,
-                                       StringVector &                outputs)
+bool RegistryService::fillInAssociates(const YarpString & channelName,
+                                       bool &             isPrimary,
+                                       YarpStringVector & inputs,
+                                       YarpStringVector & outputs)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -2402,10 +2401,8 @@ bool RegistryService::fillInAssociates(const yarp::os::ConstString & channelName
                                     
                                     if (associateName.isString() && associateDirection.isString())
                                     {
-                                        yarp::os::ConstString nameAsString =
-                                                                        associateName.toString();
-                                        yarp::os::ConstString directionAsString =
-                                                                    associateDirection.toString();
+                                        YarpString nameAsString(associateName.toString());
+                                        YarpString directionAsString(associateDirection.toString());
                                         
                                         if (directionAsString == "0")
                                         {
@@ -2514,8 +2511,8 @@ void RegistryService::gatherMetrics(yarp::os::Bottle & metrics)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::gatherMetrics
 
-bool RegistryService::processDictionaryEntry(yarp::os::Property &          asDict,
-                                             const yarp::os::ConstString & channelName)
+bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
+                                             const YarpString &   channelName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("asDict = ", &asDict); //####
@@ -2524,9 +2521,9 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property &          asDic
 
     if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
     {
-        yarp::os::ConstString theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
-        yarp::os::Bottle      keywordList;
-        RequestDescription    requestDescriptor;
+        YarpString         theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        yarp::os::Bottle   keywordList;
+        RequestDescription requestDescriptor;
         
         OD_LOG_S1s("theRequest <- ", theRequest); //####
         if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY))
@@ -2633,8 +2630,8 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property &          asDic
     return result;
 } // RegistryService::processDictionaryEntry
 
-bool RegistryService::processListResponse(const yarp::os::ConstString & channelName,
-                                          const ServiceResponse &       response)
+bool RegistryService::processListResponse(const YarpString &      channelName,
+                                          const ServiceResponse & response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
@@ -2720,16 +2717,16 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
         {
             if (doBeginTransaction(_db))
             {
-                yarp::os::Bottle &    subList = reply.addList();
-                static const char *   sqlStartGetNames = T_("SELECT DISTINCT " NAME_C_ " FROM "
-                                                            SERVICES_T_ " WHERE " CHANNELNAME_C_
-                                                            " IN (SELECT DISTINCT " CHANNELNAME_C_
-                                                            " FROM " REQUESTS_T_ " WHERE ");
-                static const char *   sqlStartNoNames = T_("SELECT DISTINCT " CHANNELNAME_C_
-                                                           " FROM " REQUESTS_T_ " WHERE ");
-                const char *          sqlStart = (getNames ?  sqlStartGetNames : sqlStartNoNames);
-                const char *          sqlEnd = (getNames ? T_(")") : T_(""));
-                yarp::os::ConstString requestAsSQL(matcher->asSQLString(sqlStart, sqlEnd));
+                yarp::os::Bottle &  subList = reply.addList();
+                static const char * sqlStartGetNames = T_("SELECT DISTINCT " NAME_C_ " FROM "
+                                                          SERVICES_T_ " WHERE " CHANNELNAME_C_
+                                                          " IN (SELECT DISTINCT " CHANNELNAME_C_
+                                                          " FROM " REQUESTS_T_ " WHERE ");
+                static const char * sqlStartNoNames = T_("SELECT DISTINCT " CHANNELNAME_C_
+                                                         " FROM " REQUESTS_T_ " WHERE ");
+                const char *        sqlStart = (getNames ?  sqlStartGetNames : sqlStartNoNames);
+                const char *        sqlEnd = (getNames ? T_(")") : T_(""));
+                YarpString          requestAsSQL(matcher->asSQLString(sqlStart, sqlEnd));
                 
                 OD_LOG_S1s("requestAsSQL <- ", requestAsSQL); //####
                 okSoFar = performSQLstatementWithSingleColumnResults(_db, subList,
@@ -2751,8 +2748,8 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
     return okSoFar;
 } // RegistryService::processMatchRequest
 
-bool RegistryService::processNameResponse(const yarp::os::ConstString & channelName,
-                                          const ServiceResponse &       response)
+bool RegistryService::processNameResponse(const YarpString &      channelName,
+                                          const ServiceResponse & response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
@@ -2806,7 +2803,7 @@ bool RegistryService::processNameResponse(const yarp::os::ConstString & channelN
     return result;
 } // RegistryService::processNameResponse
 
-bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primaryChannelName)
+bool RegistryService::removeAllAssociations(const YarpString & primaryChannelName)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("primaryChannelName = ", primaryChannelName); //####
@@ -2888,7 +2885,7 @@ bool RegistryService::removeAllAssociations(const yarp::os::ConstString & primar
     return okSoFar;
 } // RegistryService::::removeAllAssociations
 
-void RegistryService::removeCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName)
+void RegistryService::removeCheckedTimeForChannel(const YarpString & serviceChannelName)
 {
     OD_LOG_OBJENTER(); //####
     _checkedTimeLock.lock();
@@ -2897,7 +2894,7 @@ void RegistryService::removeCheckedTimeForChannel(const yarp::os::ConstString & 
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::removeCheckedTimeForChannel
 
-bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceChannelName)
+bool RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -2950,9 +2947,9 @@ bool RegistryService::removeServiceRecord(const yarp::os::ConstString & serviceC
     return okSoFar;
 } // RegistryService::removeServiceRecord
 
-void RegistryService::reportStatusChange(const yarp::os::ConstString & channelName,
-                                         const ServiceStatus           newStatus,
-                                         const yarp::os::ConstString & details)
+void RegistryService::reportStatusChange(const YarpString &  channelName,
+                                         const ServiceStatus newStatus,
+                                         const YarpString &  details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "details = ", details); //####
@@ -3118,7 +3115,7 @@ bool RegistryService::setUpStatusChannel(void)
         _statusChannel = new GeneralChannel(true);
         if (_statusChannel)
         {
-            yarp::os::ConstString   outputName(MpM_REGISTRY_STATUS_NAME);
+            YarpString              outputName(MpM_REGISTRY_STATUS_NAME);
 #if defined(MpM_ReportOnConnections)
             ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
@@ -3173,10 +3170,9 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
-                yarp::os::ConstString aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                 "temp_"
-                                                                 MpM_REGISTRY_ENDPOINT_NAME));
-                ClientChannel *       newChannel = new ClientChannel;
+                YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "temp_"
+                                                           MpM_REGISTRY_ENDPOINT_NAME));
+                ClientChannel * newChannel = new ClientChannel;
                 
                 if (newChannel)
                 {
@@ -3314,7 +3310,7 @@ bool RegistryService::stop(void)
     return result;
 } // RegistryService::stop
 
-void RegistryService::updateCheckedTimeForChannel(const yarp::os::ConstString & serviceChannelName)
+void RegistryService::updateCheckedTimeForChannel(const YarpString & serviceChannelName)
 {
     OD_LOG_OBJENTER(); //####
     _checkedTimeLock.lock();

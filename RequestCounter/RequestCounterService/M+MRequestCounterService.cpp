@@ -85,9 +85,9 @@ using namespace MplusM::RequestCounter;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RequestCounterService::RequestCounterService(const yarp::os::ConstString & launchPath,
-                                             const yarp::os::ConstString & serviceEndpointName,
-                                             const yarp::os::ConstString & servicePortNumber) :
+RequestCounterService::RequestCounterService(const YarpString & launchPath,
+                                             const YarpString & serviceEndpointName,
+                                             const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, "", true, MpM_REQUESTCOUNTER_CANONICAL_NAME,
               REQUESTCOUNTER_SERVICE_DESCRIPTION,
               "reset - clear the Request Counter and the elapsed time\n"
@@ -141,7 +141,7 @@ void RequestCounterService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::attachRequestHandlers
 
-void RequestCounterService::countRequest(const yarp::os::ConstString & key)
+void RequestCounterService::countRequest(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -195,9 +195,9 @@ void RequestCounterService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::detachRequestHandlers
 
-void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
-                                          long &                        counter,
-                                          double &                      elapsedTime)
+void RequestCounterService::getStatistics(const YarpString & key,
+                                          long &             counter,
+                                          double &           elapsedTime)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -220,7 +220,7 @@ void RequestCounterService::getStatistics(const yarp::os::ConstString & key,
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::getStatistics
 
-void RequestCounterService::resetCounters(const yarp::os::ConstString & key)
+void RequestCounterService::resetCounters(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     try

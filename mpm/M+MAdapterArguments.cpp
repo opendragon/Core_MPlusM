@@ -108,10 +108,10 @@ AdapterArguments::~AdapterArguments(void)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AdapterOneArgument::AdapterOneArgument(const char *                  argList,
-                                       const char *                  argDescription,
-                                       const yarp::os::ConstString & defaultFirstArgument,
-                                       yarp::os::ConstString &       firstArgument) :
+AdapterOneArgument::AdapterOneArgument(const char *       argList,
+                                       const char *       argDescription,
+                                       const YarpString & defaultFirstArgument,
+                                       YarpString &       firstArgument) :
     inherited(argList, argDescription), _firstArgument(firstArgument)
 {
     OD_LOG_ENTER(); //####
@@ -132,10 +132,10 @@ AdapterOneArgument::~AdapterOneArgument(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString AdapterOneArgument::combineArguments(const yarp::os::ConstString & sep)
+YarpString AdapterOneArgument::combineArguments(const YarpString & sep)
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString result(_firstArgument);
+    YarpString result(_firstArgument);
     
     OD_LOG_EXIT_s(result); //####
     return result;
@@ -160,12 +160,12 @@ void AdapterOneArgument::processArguments(Option_::Parser & parseResult)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AdapterTwoArguments::AdapterTwoArguments(const char *                  argList,
-                                         const char *                  argDescription,
-                                         const yarp::os::ConstString & defaultFirstArgument,
-                                         const yarp::os::ConstString & defaultSecondArgument,
-                                         yarp::os::ConstString &       firstArgument,
-                                         yarp::os::ConstString &       secondArgument) :
+AdapterTwoArguments::AdapterTwoArguments(const char *       argList,
+                                         const char *       argDescription,
+                                         const YarpString & defaultFirstArgument,
+                                         const YarpString & defaultSecondArgument,
+                                         YarpString &       firstArgument,
+                                         YarpString &       secondArgument) :
     inherited(argList, argDescription), _firstArgument(firstArgument),
     _secondArgument(secondArgument)
 {
@@ -189,10 +189,10 @@ AdapterTwoArguments::~AdapterTwoArguments(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString AdapterTwoArguments::combineArguments(const yarp::os::ConstString & sep)
+YarpString AdapterTwoArguments::combineArguments(const YarpString & sep)
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString result(_firstArgument + sep + _secondArgument);
+    YarpString result(_firstArgument + sep + _secondArgument);
     
     OD_LOG_EXIT_s(result); //####
     return result;
@@ -221,14 +221,14 @@ void AdapterTwoArguments::processArguments(Option_::Parser & parseResult)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AdapterThreeArguments::AdapterThreeArguments(const char *                  argList,
-                                             const char *                  argDescription,
-                                             const yarp::os::ConstString & defaultFirstArgument,
-                                             const yarp::os::ConstString & defaultSecondArgument,
-                                             const yarp::os::ConstString & defaultThirdArgument,
-                                             yarp::os::ConstString &       firstArgument,
-                                             yarp::os::ConstString &       secondArgument,
-                                             yarp::os::ConstString &       thirdArgument) :
+AdapterThreeArguments::AdapterThreeArguments(const char *       argList,
+                                             const char *       argDescription,
+                                             const YarpString & defaultFirstArgument,
+                                             const YarpString & defaultSecondArgument,
+                                             const YarpString & defaultThirdArgument,
+                                             YarpString &       firstArgument,
+                                             YarpString &       secondArgument,
+                                             YarpString &       thirdArgument) :
     inherited(argList, argDescription), _firstArgument(firstArgument),
     _secondArgument(secondArgument), _thirdArgument(thirdArgument)
 {
@@ -254,10 +254,10 @@ AdapterThreeArguments::~AdapterThreeArguments(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString AdapterThreeArguments::combineArguments(const yarp::os::ConstString & sep)
+YarpString AdapterThreeArguments::combineArguments(const YarpString & sep)
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString result(_firstArgument + sep + _secondArgument + sep + _thirdArgument);
+    YarpString result(_firstArgument + sep + _secondArgument + sep + _thirdArgument);
     
     OD_LOG_EXIT_s(result); //####
     return result;
@@ -290,16 +290,16 @@ void AdapterThreeArguments::processArguments(Option_::Parser & parseResult)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AdapterFourArguments::AdapterFourArguments(const char *                  argList,
-                                           const char *                  argDescription,
-                                           const yarp::os::ConstString & defaultFirstArgument,
-                                           const yarp::os::ConstString & defaultSecondArgument,
-                                           const yarp::os::ConstString & defaultThirdArgument,
-                                           const yarp::os::ConstString & defaultFourthArgument,
-                                           yarp::os::ConstString &       firstArgument,
-                                           yarp::os::ConstString &       secondArgument,
-                                           yarp::os::ConstString &       thirdArgument,
-                                           yarp::os::ConstString &       fourthArgument) :
+AdapterFourArguments::AdapterFourArguments(const char *       argList,
+                                           const char *       argDescription,
+                                           const YarpString & defaultFirstArgument,
+                                           const YarpString & defaultSecondArgument,
+                                           const YarpString & defaultThirdArgument,
+                                           const YarpString & defaultFourthArgument,
+                                           YarpString &       firstArgument,
+                                           YarpString &       secondArgument,
+                                           YarpString &       thirdArgument,
+                                           YarpString &       fourthArgument) :
     inherited(argList, argDescription), _firstArgument(firstArgument),
     _secondArgument(secondArgument), _thirdArgument(thirdArgument), _fourthArgument(fourthArgument)
 {
@@ -327,11 +327,11 @@ AdapterFourArguments::~AdapterFourArguments(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString AdapterFourArguments::combineArguments(const yarp::os::ConstString & sep)
+YarpString AdapterFourArguments::combineArguments(const YarpString & sep)
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString result(_firstArgument + sep + _secondArgument + sep + _thirdArgument +
-                                 sep + _fourthArgument);
+    YarpString result(_firstArgument + sep + _secondArgument + sep + _thirdArgument + sep +
+                      _fourthArgument);
 
     OD_LOG_EXIT_s(result); //####
     return result;

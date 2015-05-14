@@ -103,7 +103,7 @@ ClientsRequestHandler::~ClientsRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void ClientsRequestHandler::fillInAliases(StringVector & alternateNames)
+void ClientsRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -111,8 +111,8 @@ void ClientsRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_OBJEXIT(); //####
 } // ClientsRequestHandler::fillInAliases
 
-void ClientsRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                              yarp::os::Property &          info)
+void ClientsRequestHandler::fillInDescription(const YarpString &   request,
+                                              yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -144,10 +144,10 @@ void ClientsRequestHandler::fillInDescription(const yarp::os::ConstString & requ
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                           const yarp::os::Bottle &      restOfInput,
-                                           const yarp::os::ConstString & senderChannel,
-                                           yarp::os::ConnectionWriter *  replyMechanism)
+bool ClientsRequestHandler::processRequest(const YarpString &           request,
+                                           const yarp::os::Bottle &     restOfInput,
+                                           const YarpString &           senderChannel,
+                                           yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -166,12 +166,12 @@ bool ClientsRequestHandler::processRequest(const yarp::os::ConstString & request
         {
             OD_LOG("(replyMechanism)"); //####
             yarp::os::Bottle reply;
-            StringVector     clients;
+            YarpStringVector clients;
             
             _service.fillInClientList(clients);
             for (size_t ii = 0, mm = clients.size(); mm > ii; ++ii)
             {
-                const yarp::os::ConstString & aString = clients.at(ii);
+                const YarpString & aString = clients.at(ii);
                 
                 reply.addString(aString.c_str());
             }

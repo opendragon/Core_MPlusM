@@ -97,8 +97,8 @@ namespace MplusM
             /*! @brief Add a dictionary to a list from the send / receive counters.
              @param counterList The list to be modified.
              @param channel The channel associated with the counters. */
-            void addToList(yarp::os::Bottle &            counterList,
-                           const yarp::os::ConstString & channel);
+            void addToList(yarp::os::Bottle & counterList,
+                           const YarpString & channel);
             
             /*! @brief Reset the send / receive counters. */
             void clearCounters(void);

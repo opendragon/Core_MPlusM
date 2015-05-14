@@ -82,12 +82,12 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AddressService::AddressService(const yarp::os::ConstString & hostName,
-                               const int                     hostPort,
-                               const yarp::os::ConstString & launchPath,
-                               const yarp::os::ConstString & tag,
-                               const yarp::os::ConstString & serviceEndpointName,
-                               const yarp::os::ConstString & servicePortNumber) :
+AddressService::AddressService(const YarpString & hostName,
+                               const int          hostPort,
+                               const YarpString & launchPath,
+                               const YarpString & tag,
+                               const YarpString & serviceEndpointName,
+                               const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_ADDRESS_CANONICAL_NAME,
               ADDRESS_SERVICE_DESCRIPTION,
               "where - return the matching internet address", serviceEndpointName,
@@ -156,8 +156,8 @@ void AddressService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // AddressService::detachRequestHandlers
 
-void AddressService::getAddress(yarp::os::ConstString & address,
-                                int &                   port)
+void AddressService::getAddress(YarpString & address,
+                                int &        port)
 {
     OD_LOG_OBJENTER(); //####
     address = _address;

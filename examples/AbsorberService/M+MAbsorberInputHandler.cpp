@@ -104,10 +104,10 @@ AbsorberInputHandler::~AbsorberInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool AbsorberInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                       const yarp::os::ConstString & senderChannel,
-                                       yarp::os::ConnectionWriter *  replyMechanism,
-                                       const size_t                  numBytes)
+bool AbsorberInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                       const YarpString &           senderChannel,
+                                       yarp::os::ConnectionWriter * replyMechanism,
+                                       const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

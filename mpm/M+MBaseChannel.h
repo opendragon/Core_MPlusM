@@ -91,7 +91,7 @@ namespace MplusM
             
             /*! @brief Returns the name associated with the channel.
              @returns The name associated with the channel. */
-            inline yarp::os::ConstString name(void)
+            inline YarpString name(void)
             const
             {
                 return _name;
@@ -101,8 +101,8 @@ namespace MplusM
              @param theChannelName The name to be associated with the channel.
              @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(const yarp::os::ConstString & theChannelName,
-                                 const double                  timeToWait);
+            bool openWithRetries(const YarpString & theChannelName,
+                                 const double       timeToWait);
 
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param theContactInfo The connection information to be associated with the channel.
@@ -151,7 +151,7 @@ namespace MplusM
             typedef yarp::os::Port inherited;
             
             /*! @brief The name associated with the channel. */
-            yarp::os::ConstString _name;
+            YarpString _name;
             
             /*! @brief The send / receive counters. */
             SendReceiveCounters _counters;

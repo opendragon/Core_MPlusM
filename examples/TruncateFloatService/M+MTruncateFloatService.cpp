@@ -84,10 +84,10 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-TruncateFloatService::TruncateFloatService(const yarp::os::ConstString & launchPath,
-                                           const yarp::os::ConstString & tag,
-                                           const yarp::os::ConstString & serviceEndpointName,
-                                           const yarp::os::ConstString & servicePortNumber) :
+TruncateFloatService::TruncateFloatService(const YarpString & launchPath,
+                                           const YarpString & tag,
+                                           const YarpString & serviceEndpointName,
+                                           const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_TRUNCATEFLOAT_CANONICAL_NAME,
               TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _inHandler(new TruncateFloatInputHandler)
@@ -162,9 +162,9 @@ void TruncateFloatService::restartStreams(void)
 bool TruncateFloatService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
     description._portName = rootName + "input";

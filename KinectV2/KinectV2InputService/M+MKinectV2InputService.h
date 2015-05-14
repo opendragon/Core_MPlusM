@@ -77,10 +77,10 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            KinectV2InputService(const yarp::os::ConstString & launchPath,
-                                 const yarp::os::ConstString & tag,
-                                 const yarp::os::ConstString & serviceEndpointName,
-                                 const yarp::os::ConstString & servicePortNumber = "");
+            KinectV2InputService(const Common::YarpString & launchPath,
+                                 const Common::YarpString & tag,
+                                 const Common::YarpString & serviceEndpointName,
+                                 const Common::YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~KinectV2InputService(void);

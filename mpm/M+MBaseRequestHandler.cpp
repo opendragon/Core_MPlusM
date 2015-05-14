@@ -81,8 +81,8 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseRequestHandler::BaseRequestHandler(const yarp::os::ConstString & request,
-                                       BaseService &                 service) :
+BaseRequestHandler::BaseRequestHandler(const YarpString & request,
+                                       BaseService &      service) :
     _owner(NULL), _name(request), _service(service)
 {
     OD_LOG_ENTER(); //####
@@ -131,8 +131,8 @@ void BaseRequestHandler::sendResponse(yarp::os::Bottle &           reply,
     OD_LOG_OBJEXIT(); //####
 } // BaseRequestHandler::sendResponse
 
-void BaseRequestHandler::sendResponse(const yarp::os::ConstString & reply,
-                                      yarp::os::ConnectionWriter *  replyMechanism)
+void BaseRequestHandler::sendResponse(const YarpString &           reply,
+                                      yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("reply = ", reply); //####

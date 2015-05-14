@@ -84,12 +84,10 @@ using namespace MplusM::ViconDataStream;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ViconDataStreamInputService::ViconDataStreamInputService(const yarp::os::ConstString & launchPath,
-                                                         const yarp::os::ConstString & tag,
-                                                         const yarp::os::ConstString &
-                                                                                serviceEndpointName,
-                                                         const yarp::os::ConstString &
-                                                                                servicePortNumber) :
+ViconDataStreamInputService::ViconDataStreamInputService(const YarpString & launchPath,
+                                                         const YarpString & tag,
+                                                         const YarpString & serviceEndpointName,
+                                                         const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_VICONDATASTREAMINPUT_CANONICAL_NAME,
               VICONDATASTREAMINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _eventThread(NULL), _hostName("localhost"), _hostPort(801)
@@ -171,9 +169,9 @@ void ViconDataStreamInputService::restartStreams(void)
 bool ViconDataStreamInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _outDescriptions.clear();
     description._portName = rootName + "output";

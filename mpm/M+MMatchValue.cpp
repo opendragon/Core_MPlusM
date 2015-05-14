@@ -98,10 +98,10 @@ static const char kUnderscore = '_';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
-                                       const size_t                  inLength,
-                                       const size_t                  startPos,
-                                       size_t &                      endPos)
+MatchValue * MatchValue::CreateMatcher(const YarpString & inString,
+                                       const size_t       inLength,
+                                       const size_t       startPos,
+                                       size_t &           endPos)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -115,18 +115,16 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
         if (workPos < inLength)
         {
             // Remember where we began.
-            bool                  escapeNextChar = false;
-            char                  delimiter;
-            char                  scanChar = inString[workPos];
-            const char            constraintSeparator =
-                                                    MatchConstraint::ConstraintSeparatorCharacter();
-            const char            expressionSeparator =
-                                                    MatchExpression::ExpressionSeparatorCharacter();
-            const char            listInitiator = MatchValueList::ListInitiatorCharacter();
-            const char            listSeparator = MatchValueList::ListSeparatorCharacter();
-            const char            listTerminator = MatchValueList::ListTerminatorCharacter();
-            yarp::os::ConstString assembled;
-            size_t                startSubPos = workPos;
+            bool       escapeNextChar = false;
+            char       delimiter;
+            char       scanChar = inString[workPos];
+            const char constraintSeparator = MatchConstraint::ConstraintSeparatorCharacter();
+            const char expressionSeparator = MatchExpression::ExpressionSeparatorCharacter();
+            const char listInitiator = MatchValueList::ListInitiatorCharacter();
+            const char listSeparator = MatchValueList::ListSeparatorCharacter();
+            const char listTerminator = MatchValueList::ListTerminatorCharacter();
+            YarpString assembled;
+            size_t     startSubPos = workPos;
             
             // If we have a quote character, scan for the matching character. If we have an illegal
             // starting character, reject the string.
@@ -232,7 +230,7 @@ MatchValue * MatchValue::CreateMatcher(const yarp::os::ConstString & inString,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-MatchValue::MatchValue(const yarp::os::ConstString & inString) :
+MatchValue::MatchValue(const YarpString & inString) :
     inherited(), _matchingString(inString), _hasSingleQuotes(false), _hasWildcards(false),
     _needsEscaping(false)
 {
@@ -307,11 +305,11 @@ MatchValue::~MatchValue(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchValue::asSQLString(void)
+YarpString MatchValue::asSQLString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString converted;
+    YarpString converted;
     
     try
     {
@@ -413,10 +411,10 @@ const
     return converted;
 } // MatchValue::asSQLString
 
-yarp::os::ConstString MatchValue::asString(void)
+YarpString MatchValue::asString(void)
 const
 {
-    yarp::os::ConstString converted;
+    YarpString converted;
     
     try
     {

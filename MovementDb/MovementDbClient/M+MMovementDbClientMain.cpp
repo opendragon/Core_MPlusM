@@ -166,9 +166,9 @@ static void setUpAndGo(void)
             {
                 for ( ; IsRunning(); )
                 {
-                    char                  inChar;
-                    std::string           inputLine;
-                    yarp::os::ConstString inputString;
+                    char        inChar;
+                    std::string inputLine;
+                    YarpString  inputString;
                     
                     cout << "Operation: [? + d e q]? ";
                     cout.flush();

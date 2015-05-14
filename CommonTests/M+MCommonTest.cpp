@@ -133,12 +133,12 @@ static Endpoint * doCreateEndpointForTest(const int argc,
  @param destinationName The name of the channel to be connected to.
  @param channelPath The root path for the new temporary channel.
  @returns A pointer to a newly-allocated temporary channel. */
-static ClientChannel * doCreateTestChannel(const yarp::os::ConstString & destinationName,
-                                           const char *                  channelPath)
+static ClientChannel * doCreateTestChannel(const YarpString & destinationName,
+                                           const char *       channelPath)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath); //####
-    yarp::os::ConstString   aName(GetRandomChannelName(channelPath));
+    YarpString              aName(GetRandomChannelName(channelPath));
     ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
     ChannelStatusReporter & reporter = *Utilities::GetGlobalStatusReporter();
@@ -194,8 +194,8 @@ static ClientChannel * doCreateTestChannel(Endpoint &   anEndpoint,
 /*! @brief Destroy a temporary channel that was used with a test.
  @param destinationName The name of the channel that the temporary channel was connected to.
  @param theChannel A pointer to the temporary channel. */
-static void doDestroyTestChannel(const yarp::os::ConstString & destinationName,
-                                 ClientChannel *               theChannel)
+static void doDestroyTestChannel(const YarpString & destinationName,
+                                 ClientChannel *    theChannel)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -331,8 +331,8 @@ static int doTestConnectToEndpoint(const char * launchPath,
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("_test_/connecttoendpoint_"));
-                ClientChannel *       outChannel = new ClientChannel;
+                YarpString      aName(GetRandomChannelName("_test_/connecttoendpoint_"));
+                ClientChannel * outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
@@ -440,8 +440,8 @@ static int doTestWriteToEndpoint(const char * launchPath,
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("_test_/writetoendpoint_"));
-                ClientChannel *       outChannel = new ClientChannel;
+                YarpString      aName(GetRandomChannelName("_test_/writetoendpoint_"));
+                ClientChannel * outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
@@ -564,9 +564,8 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpoint"
-                                                                 "withreader_"));
-                ClientChannel *       outChannel = new ClientChannel;
+                YarpString      aName(GetRandomChannelName("_test_/echofromendpointwithreader_"));
+                ClientChannel * outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
@@ -690,9 +689,9 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
-                yarp::os::ConstString aName(GetRandomChannelName("_test_/echofromendpoint"
-                                                                 "withreadercreator_"));
-                ClientChannel *       outChannel = new ClientChannel;
+                YarpString      aName(GetRandomChannelName("_test_/echofromendpointwithreader"
+                                                           "creator_"));
+                ClientChannel * outChannel = new ClientChannel;
                 
                 if (outChannel)
                 {
@@ -1176,7 +1175,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                     {
                         if (3 == response.count())
                         {
-                            yarp::os::ConstString expected[] =
+                            YarpString expected[] =
                             {
                                 "some", "to", "send"
                             };
@@ -1273,7 +1272,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
     
     if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
     {
-        yarp::os::ConstString aName(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        YarpString aName(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
         
         if (aName == MpM_CHANNELS_REQUEST)
         {
@@ -1283,7 +1282,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                 
                 sawChannels = (itsOutput == "(s*)(s*)");
             }
@@ -1296,7 +1295,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                 
                 sawClients = (itsOutput == "(s*)");
             }
@@ -1320,8 +1319,8 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if (hasInput && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
-                yarp::os::ConstString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
                 
                 sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
             }
@@ -1334,8 +1333,8 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if (hasInput && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
-                yarp::os::ConstString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
                 
                 sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
             }
@@ -1348,7 +1347,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                 
                 sawList = (itsOutput == "([]+)");
             }
@@ -1361,7 +1360,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                 
                 sawGetMetrics = (itsOutput == "([]+)");
             }
@@ -1374,7 +1373,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                 
                 sawGetMetricsState = (itsOutput == "i");
             }
@@ -1387,7 +1386,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                yarp::os::ConstString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                 
                 sawName = (itsOutput == "ssssss");
             }
@@ -1400,7 +1399,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if (hasInput && (! hasOutput))
             {
-                yarp::os::ConstString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
                 
                 sawSetMetricsState = (itsInput == "i");
             }
@@ -1597,8 +1596,8 @@ static void catchSignal(int signal)
     
 #if MAC_OR_LINUX_
     buff << signal;
-    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + buff.str() +
-                      yarp::os::ConstString(" = ") + NameOfSignal(signal));
+    GetLogger().error(YarpString("Exiting due to signal ") + buff.str() + YarpString(" = ") +
+                      NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_EXIT(1); //####

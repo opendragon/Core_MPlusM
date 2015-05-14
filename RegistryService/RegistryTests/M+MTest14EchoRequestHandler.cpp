@@ -110,7 +110,7 @@ Test14EchoRequestHandler::~Test14EchoRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void Test14EchoRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void Test14EchoRequestHandler::fillInAliases(Common::YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -125,8 +125,8 @@ void Test14EchoRequestHandler::fillInAliases(Common::StringVector & alternateNam
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void Test14EchoRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                 yarp::os::Property &          info)
+void Test14EchoRequestHandler::fillInDescription(const YarpString &   request,
+                                                 yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -156,10 +156,10 @@ void Test14EchoRequestHandler::fillInDescription(const yarp::os::ConstString & r
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool Test14EchoRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                              const yarp::os::Bottle &      restOfInput,
-                                              const yarp::os::ConstString & senderChannel,
-                                              yarp::os::ConnectionWriter *  replyMechanism)
+bool Test14EchoRequestHandler::processRequest(const YarpString &           request,
+                                              const yarp::os::Bottle &     restOfInput,
+                                              const YarpString &           senderChannel,
+                                              yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

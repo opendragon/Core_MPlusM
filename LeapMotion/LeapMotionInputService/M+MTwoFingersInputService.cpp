@@ -84,10 +84,10 @@ using namespace MplusM::TwoFingers;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-TwoFingersInputService::TwoFingersInputService(const yarp::os::ConstString & launchPath,
-                                               const yarp::os::ConstString & tag,
-                                               const yarp::os::ConstString & serviceEndpointName,
-                                               const yarp::os::ConstString & servicePortNumber) :
+TwoFingersInputService::TwoFingersInputService(const YarpString & launchPath,
+                                               const YarpString & tag,
+                                               const YarpString & serviceEndpointName,
+                                               const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_TWOFINGERSINPUT_CANONICAL_NAME,
               TWOFINGERSINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _controller(new Leap::Controller), _listener(NULL)
@@ -154,9 +154,9 @@ void TwoFingersInputService::restartStreams(void)
 bool TwoFingersInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _outDescriptions.clear();
     description._portName = rootName + "output";

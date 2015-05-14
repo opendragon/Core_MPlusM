@@ -86,11 +86,11 @@ char MatchConstraint::ConstraintSeparatorCharacter(void)
     return kAmpersand;
 } // MatchConstraint::ConstraintSeparatorCharacter
 
-MatchConstraint * MatchConstraint::CreateMatcher(const yarp::os::ConstString & inString,
-                                                 const size_t                  inLength,
-                                                 const size_t                  startPos,
-                                                 size_t &                      endPos,
-                                                 BaseNameValidator *           validator)
+MatchConstraint * MatchConstraint::CreateMatcher(const YarpString &  inString,
+                                                 const size_t        inLength,
+                                                 const size_t        startPos,
+                                                 size_t &            endPos,
+                                                 BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -205,11 +205,11 @@ MatchConstraint::~MatchConstraint(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchConstraint::asSQLString(void)
+YarpString MatchConstraint::asSQLString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {
@@ -233,10 +233,10 @@ const
     return result;
 } // MatchConstraint::asSQLString
 
-yarp::os::ConstString MatchConstraint::asString(void)
+YarpString MatchConstraint::asString(void)
 const
 {
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {

@@ -81,7 +81,7 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName) :
+ServiceRequest::ServiceRequest(const YarpString & requestName) :
 _name(requestName), _parameters()
 {
     OD_LOG_ENTER(); //####
@@ -89,8 +89,8 @@ _name(requestName), _parameters()
     OD_LOG_EXIT_P(this); //####
 } // ServiceRequest::ServiceRequest
 
-ServiceRequest::ServiceRequest(const yarp::os::ConstString & requestName,
-                               const yarp::os::Bottle &      parameters) :
+ServiceRequest::ServiceRequest(const YarpString &       requestName,
+                               const yarp::os::Bottle & parameters) :
     _name(requestName), _parameters(parameters)
 {
     OD_LOG_ENTER(); //####

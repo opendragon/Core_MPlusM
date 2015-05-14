@@ -75,10 +75,10 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RecordIntegersService(const yarp::os::ConstString & launchPath,
-                                  const yarp::os::ConstString & tag,
-                                  const yarp::os::ConstString & serviceEndpointName,
-                                  const yarp::os::ConstString & servicePortNumber = "");
+            RecordIntegersService(const Common::YarpString & launchPath,
+                                  const Common::YarpString & tag,
+                                  const Common::YarpString & serviceEndpointName,
+                                  const Common::YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~RecordIntegersService(void);
@@ -125,7 +125,7 @@ namespace MplusM
             typedef BaseOutputService inherited;
             
             /*! @brief The path to the output file used for recording. */
-            yarp::os::ConstString _outPath;
+            Common::YarpString _outPath;
             
             /*! @brief The file output to be written to. */
             FILE * _outFile;

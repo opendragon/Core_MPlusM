@@ -67,9 +67,9 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
-            Test15Service(const yarp::os::ConstString & launchPath,
-                          const int                     argc,
-                          char * *                      argv);
+            Test15Service(const Common::YarpString & launchPath,
+                          const int                  argc,
+                          char * *                   argv);
             
             /*! @brief The destructor. */
             virtual ~Test15Service(void);

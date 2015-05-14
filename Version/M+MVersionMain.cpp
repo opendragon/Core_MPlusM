@@ -106,10 +106,10 @@ using std::endl;
 int main(int      argc,
          char * * argv)
 {
-    OutputFlavour         flavour;
-    yarp::os::ConstString aceVersionString;
-    yarp::os::ConstString mpmVersionString;
-    yarp::os::ConstString yarpVersionString;
+    OutputFlavour flavour;
+    YarpString    aceVersionString;
+    YarpString    mpmVersionString;
+    YarpString    yarpVersionString;
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", "", 2014,
                                                    STANDARD_COPYRIGHT_NAME, flavour))

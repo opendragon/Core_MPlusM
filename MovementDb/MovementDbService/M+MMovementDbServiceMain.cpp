@@ -95,12 +95,12 @@ using std::endl;
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const yarp::os::ConstString & databaseAddress,
-                       char * *                      argv,
-                       const yarp::os::ConstString & tag,
-                       const yarp::os::ConstString & serviceEndpointName,
-                       const yarp::os::ConstString & servicePortNumber,
-                       const bool                    reportOnExit)
+static void setUpAndGo(const YarpString & databaseAddress,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("argv = ", argv); //####
@@ -115,7 +115,7 @@ static void setUpAndGo(const yarp::os::ConstString & databaseAddress,
     {
         if (stuff->start())
         {
-            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            YarpString channelName(stuff->getEndpoint().getName());
             
             OD_LOG_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *stuff))
@@ -137,7 +137,7 @@ static void setUpAndGo(const yarp::os::ConstString & databaseAddress,
                     yarp::os::Bottle metrics;
                     
                     stuff->gatherMetrics(metrics);
-                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                    YarpString converted(Utilities::ConvertMetricsToString(metrics));
                     
                     cout << converted.c_str() << endl;
                 }
@@ -197,13 +197,13 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                  autostartWasSet = false; // not used
-        bool                  nameWasSet = false; // not used
-        bool                  reportOnExit = false;
-        yarp::os::ConstString serviceEndpointName;
-        yarp::os::ConstString servicePortNumber;
-        yarp::os::ConstString tag;
-        StringVector          arguments;
+        bool             autostartWasSet = false; // not used
+        bool             nameWasSet = false; // not used
+        bool             reportOnExit = false;
+        YarpString       serviceEndpointName;
+        YarpString       servicePortNumber;
+        YarpString       tag;
+        YarpStringVector arguments;
         
         if (ProcessStandardServiceOptions(argc, argv, T_(" dbAddress"),
                                           T_("  dbAddress  Network address for database"),

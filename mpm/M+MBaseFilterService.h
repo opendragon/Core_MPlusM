@@ -72,14 +72,14 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
-            BaseFilterService(const yarp::os::ConstString & launchPath,
-                              const yarp::os::ConstString & tag,
-                              const bool                    useMultipleHandlers,
-                              const yarp::os::ConstString & canonicalName,
-                              const yarp::os::ConstString & description,
-                              const yarp::os::ConstString & requestsDescription,
-                              const yarp::os::ConstString & serviceEndpointName,
-                              const yarp::os::ConstString & servicePortNumber = "");
+            BaseFilterService(const YarpString & launchPath,
+                              const YarpString & tag,
+                              const bool         useMultipleHandlers,
+                              const YarpString & canonicalName,
+                              const YarpString & description,
+                              const YarpString & requestsDescription,
+                              const YarpString & serviceEndpointName,
+                              const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~BaseFilterService(void);

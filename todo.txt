@@ -27,5 +27,3 @@
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
 
 @ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running
-
-* ProcessStandardAdapterOptions should have an argument of ‘ChannelArguments’ (virtual reference), ’TwoChannelArguments’ or ‘ThreeChannelArguments’ - object that holds two or three channel arguments, validates them, returns an appropriate string for the ‘-c’ option, initialized with the default channel names - remove the StringVector argument; this way the ‘-c’ option returns the actual channel names that will be used, not just the default ones

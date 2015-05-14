@@ -92,13 +92,13 @@ static void displayCommands(void)
 /*! @brief Produce a list of matching channel names from the given criteria.
  @param criteria The matching criteria to use.
  @param flavour The output format to be used. */
-static void getMatchingChannels(const yarp::os::ConstString & criteria,
-                                const OutputFlavour           flavour)
+static void getMatchingChannels(const YarpString &  criteria,
+                                const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("criteria = ", criteria); //####
-    bool         reported = false;
-    StringVector services;
+    bool             reported = false;
+    YarpStringVector services;
     
     if (Utilities::GetServiceNamesFromCriteria(criteria, services, true))
     {
@@ -108,8 +108,8 @@ static void getMatchingChannels(const yarp::os::ConstString & criteria,
         }
         if (0 < services.size())
         {
-            for (StringVector::const_iterator walker(services.begin()); services.end() != walker;
-                 ++walker)
+            for (YarpStringVector::const_iterator walker(services.begin());
+                 services.end() != walker; ++walker)
             {
                 switch (flavour)
                 {
@@ -204,12 +204,12 @@ static void getMatchingChannels(const yarp::os::ConstString & criteria,
 /*! @brief Set up the environment and perform the operation.
  @param arguments The arguments to analyze.
  @param flavour The format for the output. */
-static void setUpAndGo(const StringVector & arguments,
-                       const OutputFlavour  flavour)
+static void setUpAndGo(const YarpStringVector & arguments,
+                       const OutputFlavour      flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
-    yarp::os::ConstString criteria;
+    YarpString criteria;
 
     if (0 < arguments.size())
     {
@@ -291,8 +291,8 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour;
-    StringVector  arguments;
+    OutputFlavour    flavour;
+    YarpStringVector arguments;
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [criteria]"),
                                                    T_("  criteria   Matching criteria for service"),

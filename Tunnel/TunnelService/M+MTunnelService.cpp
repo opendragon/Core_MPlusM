@@ -85,12 +85,12 @@ using namespace MplusM::Tunnel;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-TunnelService::TunnelService(const yarp::os::ConstString & sourceName,
-                             const int                     sourcePort,
-                             const yarp::os::ConstString & launchPath,
-                             const yarp::os::ConstString & tag,
-                             const yarp::os::ConstString & serviceEndpointName,
-                             const yarp::os::ConstString & servicePortNumber) :
+TunnelService::TunnelService(const YarpString & sourceName,
+                             const int          sourcePort,
+                             const YarpString & launchPath,
+                             const YarpString & tag,
+                             const YarpString & serviceEndpointName,
+                             const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_TUNNEL_CANONICAL_NAME,
               TUNNEL_SERVICE_DESCRIPTION,
               "where - return the matching internet address", serviceEndpointName,
@@ -166,8 +166,8 @@ void TunnelService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // TunnelService::detachRequestHandlers
 
-void TunnelService::getAddress(yarp::os::ConstString & address,
-                               int &                   port)
+void TunnelService::getAddress(YarpString & address,
+                               int &        port)
 {
     OD_LOG_OBJENTER(); //####
     address = _listenAddress;

@@ -105,15 +105,15 @@ AssociateRequestHandler::~AssociateRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AssociateRequestHandler::fillInAliases(StringVector & alternateNames)
+void AssociateRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // AssociateRequestHandler::fillInAliases
 
-void AssociateRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                yarp::os::Property &          info)
+void AssociateRequestHandler::fillInDescription(const YarpString &   request,
+                                                yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -147,10 +147,10 @@ void AssociateRequestHandler::fillInDescription(const yarp::os::ConstString & re
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                             const yarp::os::Bottle &      restOfInput,
-                                             const yarp::os::ConstString & senderChannel,
-                                             yarp::os::ConnectionWriter *  replyMechanism)
+bool AssociateRequestHandler::processRequest(const YarpString &           request,
+                                             const yarp::os::Bottle &     restOfInput,
+                                             const YarpString &           senderChannel,
+                                             yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -179,8 +179,8 @@ bool AssociateRequestHandler::processRequest(const yarp::os::ConstString & reque
                 
                 if (primary.isString() && direction.isInt() && secondary.isString())
                 {
-                    yarp::os::ConstString primaryAsString(primary.toString());
-                    yarp::os::ConstString secondaryAsString(secondary.toString());
+                    YarpString primaryAsString(primary.toString());
+                    YarpString secondaryAsString(secondary.toString());
                     
                     if (Endpoint::CheckEndpointName(primaryAsString) &&
                         Endpoint::CheckEndpointName(secondaryAsString))

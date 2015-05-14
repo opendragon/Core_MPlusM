@@ -282,17 +282,20 @@ namespace MplusM
             
         }; // ServiceKind
         
+        /*! @brief An alias for a YARP-type string. */
+        typedef yarp::os::ConstString YarpString;
+        
         /*! @brief A description of a channel. */
         struct ChannelDescription
         {
             /*! @brief The name of the port being connected to. */
-            yarp::os::ConstString _portName;
+            YarpString _portName;
             
             /*! @brief The protocol of the port. */
-            yarp::os::ConstString _portProtocol;
+            YarpString _portProtocol;
             
             /*! @brief The protocol description. */
-            yarp::os::ConstString _protocolDescription;
+            YarpString _protocolDescription;
             
             /*! @brief The mode of the connection. */
             ChannelMode _portMode;
@@ -316,7 +319,7 @@ namespace MplusM
         typedef std::vector<double> DoubleVector;
         
         /*! @brief A sequence of strings. */
-        typedef std::vector<yarp::os::ConstString> StringVector;
+        typedef std::vector<YarpString> YarpStringVector;
         
         /*! @brief A function that checks for early exit from loops.
          @param stuff Private data for the function.
@@ -338,11 +341,11 @@ namespace MplusM
 
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
-        yarp::os::ConstString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
+        YarpString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
         
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
-        yarp::os::ConstString GetRandomChannelName(const yarp::os::ConstString & channelRoot);
+        YarpString GetRandomChannelName(const YarpString & channelRoot);
         
         /*! @brief Perform initialization of internal resources.
          @param progName The name of the executing program.
@@ -407,20 +410,20 @@ namespace MplusM
      @param outStream The stream to write to.
      @param heading The text to appear on the first line before the beginning of the description.
      @param description The description, which may contain multiple newlines. */
-    void OutputDescription(std::ostream &                outStream,
-                           const char *                  heading,
-                           const yarp::os::ConstString & description);
+    void OutputDescription(std::ostream &             outStream,
+                           const char *               heading,
+                           const Common::YarpString & description);
     
     /*! @brief Return a string with special characters escaped.
      @param inString The string to be processed.
      @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
      @returns A string with special characters escaped. */
-    yarp::os::ConstString SanitizeString(const yarp::os::ConstString & inString,
-                                         const bool                    allowDoubleQuotes = false);
+    Common::YarpString SanitizeString(const Common::YarpString & inString,
+                                      const bool                 allowDoubleQuotes = false);
     
     /*! @brief The signal handler to catch requests to stop the service.
      @param signal The signal being handled. */
-    void SignalRunningStop(int signal);
+    void SignalRunningStop(const int signal);
     
     /*! @brief Mark the executable as running or ready-to-run. */
     void StartRunning(void);
@@ -432,7 +435,7 @@ namespace MplusM
     extern const char kEscapeChar;
     
     /*! @brief The directory separator string; */
-    extern const yarp::os::ConstString kDirectorySeparator;
+    extern const Common::YarpString kDirectorySeparator;
 
 } // MplusM
 

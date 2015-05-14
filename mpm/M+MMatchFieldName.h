@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
-            const yarp::os::ConstString & asSQLString(void)
+            const Common::YarpString & asSQLString(void)
             const
             {
                 return _matchingString;
@@ -76,7 +76,7 @@ namespace MplusM
             
             /*! @brief Return the match value.
              @returns The matching substring. */
-            const yarp::os::ConstString & asString(void)
+            const Common::YarpString & asString(void)
             const
             {
                 return _matchingString;
@@ -91,11 +91,11 @@ namespace MplusM
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchFieldName * CreateMatcher(const yarp::os::ConstString & inString,
-                                                  const size_t                  inLength,
-                                                  const size_t                  startPos,
-                                                  size_t &                      endPos,
-                                                  BaseNameValidator *           validator = NULL);
+            static MatchFieldName * CreateMatcher(const Common::YarpString & inString,
+                                                  const size_t               inLength,
+                                                  const size_t               startPos,
+                                                  size_t &                   endPos,
+                                                  BaseNameValidator *        validator = NULL);
             
             /*! @brief Return whether or not the field name was followed by the negation character.
              @returns @c true if the field name was followed by the negation character and @c false
@@ -114,8 +114,8 @@ namespace MplusM
              @param inString The matching segment of the original string.
              @param negationSeen @c true if the field name was followed by the negation character
              and @c false otherwise. */
-            MatchFieldName(const yarp::os::ConstString & inString,
-                           const bool                    negationSeen);
+            MatchFieldName(const Common::YarpString & inString,
+                           const bool                 negationSeen);
             
             COPY_AND_ASSIGNMENT_(MatchFieldName);
             
@@ -129,7 +129,7 @@ namespace MplusM
             typedef BaseMatcher inherited;
             
             /*! @brief The subtring that (maximally) matched as a value. */
-            yarp::os::ConstString _matchingString;
+            Common::YarpString _matchingString;
             
             /*! @brief The field name was followed by the negation character (an exclamation
              mark). */

@@ -71,8 +71,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param endpointName The YARP name to be assigned to the new endpoint.
              @param portNumber The port being used by the endpoint. */
-            Endpoint(const yarp::os::ConstString & endpointName,
-                     const yarp::os::ConstString & portNumber = "");
+            Endpoint(const YarpString & endpointName,
+                     const YarpString & portNumber = "");
             
             /*! @brief The destructor. */
             virtual ~Endpoint(void);
@@ -80,7 +80,7 @@ namespace MplusM
             /*! @brief Check the format of an endpoint name.
              @param channelName The name to be checked.
              @returns @c true if the name is a valid endpoint name and @c false otherwise. */
-            static bool CheckEndpointName(const yarp::os::ConstString & channelName);
+            static bool CheckEndpointName(const YarpString & channelName);
             
             /*! @brief Stop processing input. */
             void close(void);
@@ -93,7 +93,7 @@ namespace MplusM
             
             /*! @brief Return the YARP name for the endpoint.
              @returns The YARP name for the endpoint. */
-            yarp::os::ConstString getName(void)
+            YarpString getName(void)
             const;
             
             /*! @brief Return the send / receive counters.

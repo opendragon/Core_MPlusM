@@ -74,8 +74,8 @@ namespace MplusM
              @param outgoing The string to send to the service.
              @param incoming The returned string from the service.
              @returns @c true if the string was retrieved successfully and @c false otherwise. */
-            bool sendAndReceive(const yarp::os::ConstString & outgoing,
-                                yarp::os::ConstString &       incoming);
+            bool sendAndReceive(const Common::YarpString & outgoing,
+                                Common::YarpString &       incoming);
             
         protected :
             

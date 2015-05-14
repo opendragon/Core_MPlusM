@@ -100,8 +100,8 @@ AddressClient::~AddressClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool AddressClient::getAddress(yarp::os::ConstString & address,
-                               int &                   port)
+bool AddressClient::getAddress(YarpString & address,
+                               int &        port)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P2("address = ", &address, "port = ", &port); //####

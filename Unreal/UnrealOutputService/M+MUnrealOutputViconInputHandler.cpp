@@ -110,8 +110,8 @@ static bool dumpSegments(std::stringstream & outBuffer,
                     
                     if (keyValue.isString() && valueValue.isList())
                     {
-                        yarp::os::ConstString keyString = keyValue.asString();
-                        yarp::os::Bottle *    valueList = valueValue.asList();
+                        YarpString         keyString = keyValue.asString();
+                        yarp::os::Bottle * valueList = valueValue.asList();
                         
                         outBuffer << keyString.c_str();
                         if (valueList && (7 == valueList->size()))
@@ -211,10 +211,10 @@ UnrealOutputViconInputHandler::~UnrealOutputViconInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                                const yarp::os::ConstString & senderChannel,
-                                                yarp::os::ConnectionWriter *  replyMechanism,
-                                                const size_t                  numBytes)
+bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                                const YarpString &           senderChannel,
+                                                yarp::os::ConnectionWriter * replyMechanism,
+                                                const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -262,8 +262,8 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
                                     
                                     if (firstValue.isString())
                                     {
-                                        yarp::os::ConstString subjName = firstValue.asString();
-                                        yarp::os::Value &     secondValue = asBottle->get(1);
+                                        YarpString        subjName = firstValue.asString();
+                                        yarp::os::Value & secondValue = asBottle->get(1);
                                         
                                         if (secondValue.isDict())
                                         {
@@ -272,10 +272,10 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
 //                                            cerr << subjName.c_str() << endl; //!!!!
                                             if (segments)
                                             {
-                                                yarp::os::ConstString segmentsAsString =
+                                                YarpString       segmentsAsString =
                                                                             segments->toString();
 //                                                cerr << ":" << segments->toString() << ":" << endl; //!!!!
-                                                yarp::os::Bottle      segmentsAsBottle =
+                                                yarp::os::Bottle segmentsAsBottle =
                                                                                 segmentsAsString;
                                                 
                                                 cerr << ":" << segmentsAsBottle.size() << ":" <<
@@ -303,11 +303,11 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &      in
                                                 
                                                 if (ListIsReallyDictionary(*asList, segments))
                                                 {
-                                                    yarp::os::ConstString segmentsAsString =
+                                                    YarpString       segmentsAsString =
                                                                                 segments.toString();
 //                                                    cerr << ":" << segments->toString() << ":" <<
 //                                                            endl; //!!!!
-                                                    yarp::os::Bottle      segmentsAsBottle =
+                                                    yarp::os::Bottle segmentsAsBottle =
                                                                                 segmentsAsString;
                                                     
                                                     cerr << ":" << segmentsAsBottle.size() << ":" <<

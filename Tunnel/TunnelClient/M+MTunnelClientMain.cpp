@@ -83,12 +83,12 @@ using std::endl;
 /*! @brief Process the argument list for the application.
  @param arguments The arguments to analyze.
  @param namePattern The generated search value. */
-static void processArguments(const StringVector &    arguments,
-                             yarp::os::ConstString & namePattern)
+static void processArguments(const YarpStringVector & arguments,
+                             YarpString &             namePattern)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "namePattern = ", &namePattern); //####
-    yarp::os::ConstString tag;
+    YarpString tag;
     
     for (int ii = 0, argc = arguments.size(); argc > ii; ++ii)
     {
@@ -96,7 +96,7 @@ static void processArguments(const StringVector &    arguments,
     }
     if (0 < tag.length())
     {
-        yarp::os::ConstString singleQuote("'");
+        YarpString singleQuote("'");
 
         namePattern = singleQuote + namePattern + " " + tag + singleQuote;
     }
@@ -173,8 +173,8 @@ static SOCKET setUpListeningPost(const int listenPort)
  @param serviceAddress The IP address to connect to.
  @param servicePort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET connectToTunnel(const yarp::os::ConstString & serviceAddress,
-                              const int                     servicePort)
+static SOCKET connectToTunnel(const YarpString & serviceAddress,
+                              const int          servicePort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
@@ -234,9 +234,9 @@ static SOCKET connectToTunnel(const yarp::os::ConstString & serviceAddress,
  @param listenSocket The 'listen' socket to use.
  @param serviceAddress The IP address to connect to.
  @param servicePort The port number to connect to. */
-static void handleConnections(SOCKET                        listenSocket,
-                              const yarp::os::ConstString & serviceAddress,
-                              const int                     servicePort)
+static void handleConnections(SOCKET             listenSocket,
+                              const YarpString & serviceAddress,
+                              const int          servicePort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
@@ -298,10 +298,10 @@ static void handleConnections(SOCKET                        listenSocket,
 /*! @brief Set up the environment and start the %Unreal output service.
  @param arguments The arguments to analyze. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(ChannelStatusReporter * reporter,
-                       const StringVector &    arguments)
+static void setUpAndGo(ChannelStatusReporter *  reporter,
+                       const YarpStringVector & arguments)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const StringVector & arguments)
+static void setUpAndGo(const YarpStringVector & arguments)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -312,11 +312,11 @@ static void setUpAndGo(const StringVector & arguments)
 #endif // ! defined(MpM_ReportOnConnections)
     if (1 <= arguments.size())
     {
-        yarp::os::ConstString namePattern(MpM_TUNNEL_CANONICAL_NAME);
-        int                   listenPort = -1;
-        const char *          startPtr = arguments[0].c_str();
-        char *                endPtr;
-        int                   tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
+        YarpString   namePattern(MpM_TUNNEL_CANONICAL_NAME);
+        int          listenPort = -1;
+        const char * startPtr = arguments[0].c_str();
+        char *       endPtr;
+        int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
         
         if ((startPtr != endPtr) && (! *endPtr) && Utilities::ValidPortNumber(tempInt))
         {
@@ -325,19 +325,19 @@ static void setUpAndGo(const StringVector & arguments)
         }
         if (1 < arguments.size())
         {
-            yarp::os::ConstString tag(arguments[1]);
+            YarpString tag(arguments[1]);
             
             if (0 < tag.length())
             {
-                yarp::os::ConstString singleQuote("'");
+                YarpString singleQuote("'");
                 
                 namePattern = singleQuote + namePattern + " " + tag + singleQuote;
             }
         }
         if (0 < listenPort)
         {
-            yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-            TunnelClient *        stuff = new TunnelClient;
+            YarpString     channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+            TunnelClient * stuff = new TunnelClient;
             
             if (stuff)
             {
@@ -354,8 +354,8 @@ static void setUpAndGo(const StringVector & arguments)
                         OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
                         if (stuff->connectToService())
                         {
-                            yarp::os::ConstString serviceAddress;
-                            int                   servicePort;
+                            YarpString serviceAddress;
+                            int        servicePort;
                             
                             if (stuff->getAddress(serviceAddress, servicePort))
                             {
@@ -451,8 +451,8 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        OutputFlavour flavour; // ignored
-        StringVector  arguments;
+        OutputFlavour    flavour; // ignored
+        YarpStringVector arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" port [tag]"),
                                                        T_("  port       The outgoing port\n"

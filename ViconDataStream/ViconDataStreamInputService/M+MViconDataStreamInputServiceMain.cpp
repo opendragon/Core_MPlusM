@@ -109,14 +109,14 @@ static void displayCommands(void)
  @param autostartWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const StringVector &          arguments,
-                       char * *                      argv,
-                       const yarp::os::ConstString & tag,
-                       const yarp::os::ConstString & serviceEndpointName,
-                       const yarp::os::ConstString & servicePortNumber,
-                       const bool                    autostartWasSet,
-                       const bool                    stdinAvailable,
-                       const bool                    reportOnExit)
+static void setUpAndGo(const YarpStringVector & arguments,
+                       char * *                 argv,
+                       const YarpString &       tag,
+                       const YarpString &       serviceEndpointName,
+                       const YarpString &       servicePortNumber,
+                       const bool               autostartWasSet,
+                       const bool               stdinAvailable,
+                       const bool               reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
@@ -124,8 +124,8 @@ static void setUpAndGo(const StringVector &          arguments,
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    yarp::os::ConstString hostName;
-    int                   hostPort = 801;
+    YarpString hostName;
+    int        hostPort = 801;
     
     if (0 < arguments.size())
     {
@@ -157,7 +157,7 @@ static void setUpAndGo(const StringVector &          arguments,
     {
         if (stuff->start())
         {
-            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            YarpString channelName(stuff->getEndpoint().getName());
             
             OD_LOG_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *stuff))
@@ -226,7 +226,7 @@ static void setUpAndGo(const StringVector &          arguments,
                                     cin >> tempInt;
                                     if (0 < tempInt)
                                     {
-                                        hostName = yarp::os::ConstString(1, inChar);
+                                        hostName = YarpString(1, inChar);
                                         hostName += inputLine.c_str();
                                         OD_LOG_S1s("hostName <-", hostName); //####
                                         hostPort = tempInt;
@@ -307,7 +307,7 @@ static void setUpAndGo(const StringVector &          arguments,
                     yarp::os::Bottle metrics;
                     
                     stuff->gatherMetrics(metrics);
-                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                    YarpString converted(Utilities::ConvertMetricsToString(metrics));
                     
                     cout << converted.c_str() << endl;
                 }
@@ -370,14 +370,14 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                  autostartWasSet = false;
-        bool                  nameWasSet = false; // not used
-        bool                  reportOnExit = false;
-        bool                  stdinAvailable = CanReadFromStandardInput();
-        yarp::os::ConstString serviceEndpointName;
-        yarp::os::ConstString servicePortNumber;
-        yarp::os::ConstString tag;
-        StringVector          arguments;        
+        bool             autostartWasSet = false;
+        bool             nameWasSet = false; // not used
+        bool             reportOnExit = false;
+        bool             stdinAvailable = CanReadFromStandardInput();
+        YarpString       serviceEndpointName;
+        YarpString       servicePortNumber;
+        YarpString       tag;
+        YarpStringVector arguments;
         
         if (ProcessStandardServiceOptions(argc, argv, T_(" [hostname [port]]"),
                                           T_("  hostname   Optional hostname for the device "

@@ -105,15 +105,15 @@ DisassociateRequestHandler::~DisassociateRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void DisassociateRequestHandler::fillInAliases(StringVector & alternateNames)
+void DisassociateRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // DisassociateRequestHandler::fillInAliases
 
-void DisassociateRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                   yarp::os::Property &          info)
+void DisassociateRequestHandler::fillInDescription(const YarpString &   request,
+                                                   yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -146,10 +146,10 @@ void DisassociateRequestHandler::fillInDescription(const yarp::os::ConstString &
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                const yarp::os::Bottle &      restOfInput,
-                                                const yarp::os::ConstString & senderChannel,
-                                                yarp::os::ConnectionWriter *  replyMechanism)
+bool DisassociateRequestHandler::processRequest(const YarpString &           request,
+                                                const yarp::os::Bottle &     restOfInput,
+                                                const YarpString &           senderChannel,
+                                                yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -176,7 +176,7 @@ bool DisassociateRequestHandler::processRequest(const yarp::os::ConstString & re
                 
                 if (argument.isString())
                 {
-                    yarp::os::ConstString argAsString(argument.toString());
+                    YarpString argAsString(argument.toString());
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {

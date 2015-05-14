@@ -110,9 +110,9 @@ static yarp::os::impl::Logger * lLogger = NULL;
 const char MplusM::kEscapeChar = '\\';
 
 #if MAC_OR_LINUX_
-const yarp::os::ConstString MplusM::kDirectorySeparator = "/";
+const YarpString MplusM::kDirectorySeparator = "/";
 #else // ! MAC_OR_LINUX_
-const yarp::os::ConstString MplusM::kDirectorySeparator = "\\";
+const YarpString MplusM::kDirectorySeparator = "\\";
 #endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
@@ -131,8 +131,8 @@ static void localCatcher(int signal)
         std::stringstream buff;
         
         buff << signal;
-        lLogger->error(yarp::os::ConstString("Exiting due to signal ") + buff.str() +
-                       yarp::os::ConstString(" = ") + NameOfSignal(signal));
+        lLogger->error(YarpString("Exiting due to signal ") + buff.str() + YarpString(" = ") +
+                       NameOfSignal(signal));
     }
     OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);
@@ -152,14 +152,13 @@ void Common::DumpContactToLog(const char *              tag,
         std::stringstream buff;
         
         buff << aContact.getPort();
-        lLogger->info(yarp::os::ConstString("tag = ") + tag);
-        lLogger->info(yarp::os::ConstString("contact.carrier = ") + aContact.getCarrier());
-        lLogger->info(yarp::os::ConstString("contact.host = ") + aContact.getHost());
-        lLogger->info(yarp::os::ConstString("contact.isValid = ") +
-                      (aContact.isValid() ? "true" : "false"));
-        lLogger->info(yarp::os::ConstString("contact.name = ") + aContact.getName());
-        lLogger->info(yarp::os::ConstString("contact.port = ") + buff.str());
-        lLogger->info(yarp::os::ConstString("contact.toString = ") + aContact.toString());
+        lLogger->info(YarpString("tag = ") + tag);
+        lLogger->info(YarpString("contact.carrier = ") + aContact.getCarrier());
+        lLogger->info(YarpString("contact.host = ") + aContact.getHost());
+        lLogger->info(YarpString("contact.isValid = ") + (aContact.isValid() ? "true" : "false"));
+        lLogger->info(YarpString("contact.name = ") + aContact.getName());
+        lLogger->info(YarpString("contact.port = ") + buff.str());
+        lLogger->info(YarpString("contact.toString = ") + aContact.toString());
     }
 #endif // MAC_OR_LINUX_
 } // Common::DumpContactToLog
@@ -173,11 +172,11 @@ yarp::os::impl::Logger & Common::GetLogger(void)
 } // Common::GetLogger
 #endif // MAC_OR_LINUX_
 
-yarp::os::ConstString Common::GetRandomChannelName(const char * channelRoot)
+YarpString Common::GetRandomChannelName(const char * channelRoot)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("channelRoot = ", channelRoot); //####
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {
@@ -214,7 +213,7 @@ yarp::os::ConstString Common::GetRandomChannelName(const char * channelRoot)
     return result;
 } // Common::GetRandomChannelName
 
-yarp::os::ConstString Common::GetRandomChannelName(const yarp::os::ConstString & channelRoot)
+YarpString Common::GetRandomChannelName(const YarpString & channelRoot)
 {
     return GetRandomChannelName(channelRoot.c_str());
 } // Common::GetRandomChannelName
@@ -248,7 +247,7 @@ void Common::Initialize(const char * progName)
 # if MAC_OR_LINUX_
         if (lLogger)
         {
-            lLogger->info(yarp::os::ConstString("Program ") + progName);
+            lLogger->info(YarpString("Program ") + progName);
             lLogger->info("Movement And Meaning Version: " MpM_VERSION ", YARP Version: "
                           YARP_VERSION_STRING ", ACE Version: " ACE_VERSION);
         }
@@ -458,7 +457,7 @@ bool MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
                     
                     if (key.isString())
                     {
-                        yarp::os::ConstString keyAsString(key.toString());
+                        YarpString keyAsString(key.toString());
                         
                         if (aDictionary.check(keyAsString))
                         {
@@ -657,39 +656,39 @@ const char * MplusM::NameOfSignal(const int theSignal)
     return result;
 } // MplusM::NameOfSignal
 
-void MplusM::OutputDescription(std::ostream &                outStream,
-                               const char *                  heading,
-                               const yarp::os::ConstString & description)
+void MplusM::OutputDescription(std::ostream &     outStream,
+                               const char *       heading,
+                               const YarpString & description)
 {
-    size_t                descriptionLength = description.size();
-    size_t                indentSize = strlen(heading);
-    size_t                pieceStart = 0;
-    yarp::os::ConstString blanks(indentSize, ' ');
-    yarp::os::ConstString indent(heading);
+    size_t     descriptionLength = description.size();
+    size_t     indentSize = strlen(heading);
+    size_t     pieceStart = 0;
+    YarpString blanks(indentSize, ' ');
+    YarpString indent(heading);
     
     for (size_t ii = 0; ii < descriptionLength; ++ii)
     {
         if ('\n' == description[ii])
         {
-            yarp::os::ConstString piece(description.substr(pieceStart, ii - pieceStart));
+            YarpString piece(description.substr(pieceStart, ii - pieceStart));
             
             outStream << indent << piece.c_str() << endl;
             pieceStart = ii + 1;
             indent = blanks;
         }
     }
-    yarp::os::ConstString piece(description.substr(pieceStart, descriptionLength - pieceStart));
+    YarpString piece(description.substr(pieceStart, descriptionLength - pieceStart));
     
     outStream << indent << piece.c_str() << endl;
 } // MplusM::OutputDescription
 
-yarp::os::ConstString MplusM::SanitizeString(const yarp::os::ConstString & inString,
-                                             const bool                    allowDoubleQuotes)
+YarpString MplusM::SanitizeString(const YarpString & inString,
+                                  const bool         allowDoubleQuotes)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelRoot = ", inString); //####
     OD_LOG_B1("allowDoubleQuotes = ", allowDoubleQuotes); //####
-    yarp::os::ConstString outString;
+    YarpString outString;
     
     try
     {
@@ -754,7 +753,7 @@ void MplusM::StopRunning(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void MplusM::SignalRunningStop(int signal)
+void MplusM::SignalRunningStop(const int signal)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

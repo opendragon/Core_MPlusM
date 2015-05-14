@@ -123,7 +123,7 @@ static void fillBottleFromValue(JSContext *        jct,
         JSString * asString = theData.toString();
         char *     asChars = JS_EncodeString(jct, asString);
         
-        aBottle.addString(yarp::os::ConstString(asChars));
+        aBottle.addString(YarpString(asChars));
         JS_free(jct, asChars);
     }
     else if (theData.isObject())
@@ -196,10 +196,10 @@ static void fillBottleFromValue(JSContext *        jct,
                             if (JS_IdToValue(jct, ids[ii], &key) &&
                                 JS_GetPropertyById(jct, asObject, aRootedId, &result))
                             {
-                                JSString *            keyString = key.toString();
-                                char *                keyAsChars = JS_EncodeString(jct, keyString);
-                                yarp::os::ConstString keyToUse(keyAsChars);
-                                yarp::os::Bottle      convertedResult;
+                                JSString *       keyString = key.toString();
+                                char *           keyAsChars = JS_EncodeString(jct, keyString);
+                                YarpString       keyToUse(keyAsChars);
+                                yarp::os::Bottle convertedResult;
                                 
                                 JS_free(jct, keyAsChars);
                                 fillBottleFromValue(jct, convertedResult, result, false);
@@ -242,21 +242,21 @@ static void fillBottleFromValue(JSContext *        jct,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptService::JavaScriptService(JSContext *                   context,
-                                     JS::RootedObject &            global,
-                                     const yarp::os::ConstString & launchPath,
-                                     const yarp::os::ConstString & tag,
-                                     const yarp::os::ConstString & description,
-                                     const Common::ChannelVector & loadedInletDescriptions,
-                                     const Common::ChannelVector & loadedOutletDescriptions,
-                                     const JS::AutoValueVector &   loadedInletHandlers,
-                                     const JS::RootedValue &       loadedStartingFunction,
-                                     const JS::RootedValue &       loadedStoppingFunction,
-                                     const bool                    sawThread,
-                                     const JS::RootedValue &       loadedThreadFunction,
-                                     const double                  loadedInterval,
-                                     const yarp::os::ConstString & serviceEndpointName,
-                                     const yarp::os::ConstString & servicePortNumber) :
+JavaScriptService::JavaScriptService(JSContext *                 context,
+                                     JS::RootedObject &          global,
+                                     const YarpString &          launchPath,
+                                     const YarpString &          tag,
+                                     const YarpString &          description,
+                                     const ChannelVector &       loadedInletDescriptions,
+                                     const ChannelVector &       loadedOutletDescriptions,
+                                     const JS::AutoValueVector & loadedInletHandlers,
+                                     const JS::RootedValue &     loadedStartingFunction,
+                                     const JS::RootedValue &     loadedStoppingFunction,
+                                     const bool                  sawThread,
+                                     const JS::RootedValue &     loadedThreadFunction,
+                                     const double                loadedInterval,
+                                     const YarpString &          serviceEndpointName,
+                                     const YarpString &          servicePortNumber) :
     inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
               serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
     _generator(NULL), _context(context), _global(global),
@@ -461,9 +461,9 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
 bool JavaScriptService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
     for (ChannelVector::const_iterator walker(_loadedInletDescriptions.begin());

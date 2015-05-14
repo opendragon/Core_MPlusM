@@ -82,12 +82,12 @@ using std::endl;
 /*! @brief Convert a positive numeric value into a comma-separated string.
  @param aNumber The number to convert.
  @returns A string representation of the number with commas between each triple digit group. */
-static yarp::os::ConstString convertToCommaSplitNumber(const size_t aNumber)
+static YarpString convertToCommaSplitNumber(const size_t aNumber)
 {
     // Note that the function 'convertToCommaSplitNumber' was used because the locale
     // mechanism in C++ for OS X is very, very broken - so we can't use 'std::imbue'!
-    yarp::os::ConstString result;
-    size_t                work = aNumber;
+    YarpString result;
+    size_t     work = aNumber;
     
     do
     {
@@ -100,11 +100,11 @@ static yarp::os::ConstString convertToCommaSplitNumber(const size_t aNumber)
             buff.fill('0');
         }
         buff << bottom;
-        result = yarp::os::ConstString(buff.str()) + result;
+        result = YarpString(buff.str()) + result;
         work /= 1000;
         if (0 < work)
         {
-            result = yarp::os::ConstString(",") + result;
+            result = YarpString(",") + result;
         }
     }
     while (0 < work);
@@ -119,10 +119,10 @@ static yarp::os::ConstString convertToCommaSplitNumber(const size_t aNumber)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AbsorberService::AbsorberService(const yarp::os::ConstString & launchPath,
-                                 const yarp::os::ConstString & tag,
-                                 const yarp::os::ConstString & serviceEndpointName,
-                                 const yarp::os::ConstString & servicePortNumber) :
+AbsorberService::AbsorberService(const YarpString & launchPath,
+                                 const YarpString & tag,
+                                 const YarpString & serviceEndpointName,
+                                 const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_ABSORBER_CANONICAL_NAME,
               ABSORDEROUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _inHandler(new AbsorberInputHandler(*this)), _count(0), _totalBytes(0)
@@ -185,9 +185,9 @@ void AbsorberService::restartStreams(void)
 bool AbsorberService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
     description._portName = rootName + "input";

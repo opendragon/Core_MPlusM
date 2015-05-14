@@ -81,8 +81,8 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-PingThread::PingThread(const yarp::os::ConstString & channelName,
-                       BaseService &                 service) :
+PingThread::PingThread(const YarpString & channelName,
+                       BaseService &      service) :
     inherited(), _channelName(channelName), _service(service)
 {
     OD_LOG_ENTER(); //####

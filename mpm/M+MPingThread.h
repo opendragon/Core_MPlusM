@@ -66,8 +66,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param channelName The channel that we are acting on the behalf of.
              @param service The service associated with the request. */
-            PingThread(const yarp::os::ConstString & channelName,
-                       BaseService &                 service);
+            PingThread(const YarpString & channelName,
+                       BaseService &      service);
             
             /*! @brief The destructor. */
             virtual ~PingThread(void);
@@ -108,7 +108,7 @@ namespace MplusM
 # endif // defined(__APPLE__)
             
             /*! @brief The name of the service channel to report. */
-            yarp::os::ConstString _channelName;
+            YarpString _channelName;
             
             /*! @brief The service that is associated with the request. */
             BaseService & _service;

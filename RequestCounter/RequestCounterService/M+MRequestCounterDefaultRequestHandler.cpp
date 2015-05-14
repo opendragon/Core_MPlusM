@@ -106,7 +106,7 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void RequestCounterDefaultRequestHandler::fillInAliases(StringVector & alternateNames)
+void RequestCounterDefaultRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -125,8 +125,8 @@ void RequestCounterDefaultRequestHandler::fillInAliases(StringVector & alternate
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                            yarp::os::Property &          info)
+void RequestCounterDefaultRequestHandler::fillInDescription(const YarpString &   request,
+                                                            yarp::os::Property & info)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -146,10 +146,9 @@ void RequestCounterDefaultRequestHandler::fillInDescription(const yarp::os::Cons
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RequestCounterDefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                         const yarp::os::Bottle &      restOfInput,
-                                                         const yarp::os::ConstString &
-                                                                                    senderChannel,
+bool RequestCounterDefaultRequestHandler::processRequest(const YarpString &           request,
+                                                         const yarp::os::Bottle &     restOfInput,
+                                                         const YarpString &           senderChannel,
                                                          yarp::os::ConnectionWriter *
                                                                                     replyMechanism)
 {

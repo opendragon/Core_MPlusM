@@ -125,8 +125,8 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
     OD_LOG_OBJEXIT(); //####
 } // RequestMap::fillInListReply
 
-void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
-                                   const yarp::os::ConstString & requestName)
+void RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
+                                   const YarpString & requestName)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -155,7 +155,7 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle &            reply,
     OD_LOG_OBJEXIT(); //####
 } // RequestMap::fillInRequestInfo
 
-BaseRequestHandler * RequestMap::lookupRequestHandler(const yarp::os::ConstString & request)
+BaseRequestHandler * RequestMap::lookupRequestHandler(const YarpString & request)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -195,15 +195,15 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
     {
         if (handler)
         {
-            StringVector aliases;
+            YarpStringVector aliases;
             
             handler->fillInAliases(aliases);
             lock();
             _handlers.insert(RequestHandlerMapValue(handler->name(), handler));
             if (0 < aliases.size())
             {
-                for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
-                     ++walker)
+                for (YarpStringVector::const_iterator walker(aliases.begin());
+                     aliases.end() != walker; ++walker)
                 {
                     _handlers.insert(RequestHandlerMapValue(*walker, handler));
                 }
@@ -238,15 +238,15 @@ void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
     {
         if (handler)
         {
-            StringVector aliases;
+            YarpStringVector aliases;
             
             handler->fillInAliases(aliases);
             lock();
             _handlers.erase(handler->name());
             if (0 < aliases.size())
             {
-                for (StringVector::const_iterator walker(aliases.begin()); aliases.end() != walker;
-                     ++walker)
+                for (YarpStringVector::const_iterator walker(aliases.begin());
+                     aliases.end() != walker; ++walker)
                 {
                     _handlers.erase(*walker);
                 }

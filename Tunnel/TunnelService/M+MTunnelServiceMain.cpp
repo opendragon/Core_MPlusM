@@ -95,13 +95,13 @@ using std::endl;
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const yarp::os::ConstString & hostName,
-                       const int                     hostPort,
-                       char * *                      argv,
-                       const yarp::os::ConstString & tag,
-                       const yarp::os::ConstString & serviceEndpointName,
-                       const yarp::os::ConstString & servicePortNumber,
-                       const bool                    reportOnExit)
+static void setUpAndGo(const YarpString & hostName,
+                       const int          hostPort,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", //####
@@ -116,7 +116,7 @@ static void setUpAndGo(const yarp::os::ConstString & hostName,
     {
         if (stuff->start())
         {
-            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+            YarpString channelName(stuff->getEndpoint().getName());
             
             OD_LOG_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *stuff))
@@ -138,7 +138,7 @@ static void setUpAndGo(const yarp::os::ConstString & hostName,
                     yarp::os::Bottle metrics;
                     
                     stuff->gatherMetrics(metrics);
-                    yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                    YarpString converted(Utilities::ConvertMetricsToString(metrics));
                     
                     cout << converted.c_str() << endl;
                 }
@@ -196,13 +196,13 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                  autostartWasSet = false; // not used
-        bool                  nameWasSet = false; // not used
-        bool                  reportOnExit = false;
-        yarp::os::ConstString serviceEndpointName;
-        yarp::os::ConstString servicePortNumber;
-        yarp::os::ConstString tag;
-        StringVector          arguments;
+        bool             autostartWasSet = false; // not used
+        bool             nameWasSet = false; // not used
+        bool             reportOnExit = false;
+        YarpString       serviceEndpointName;
+        YarpString       servicePortNumber;
+        YarpString       tag;
+        YarpStringVector arguments;
         
         if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port"),
                                           T_("  hostname   IP address to provide access to\n"
@@ -224,12 +224,11 @@ int main(int      argc,
                 {
                     if (2 <= arguments.size())
                     {
-                        struct in_addr        addrBuff;
-                        yarp::os::ConstString hostName;
-                        const char *          startPtr = arguments[1].c_str();
-                        char *                endPtr;
-                        int                   hostPort = static_cast<int>(strtol(startPtr, &endPtr,
-                                                                                 10));
+                        struct in_addr addrBuff;
+                        YarpString     hostName;
+                        const char *   startPtr = arguments[1].c_str();
+                        char *         endPtr;
+                        int            hostPort = static_cast<int>(strtol(startPtr, &endPtr, 10));
                         
                         hostName = arguments[0];
                         OD_LOG_S1s("hostName <- ", hostName); //####

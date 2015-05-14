@@ -92,14 +92,14 @@ using std::endl;
  @param dataName The name to be used for the data channel.
  @param outputName The name to be used for the output channel. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(const yarp::os::ConstString & controlName,
-                       const yarp::os::ConstString & dataName,
-                       const yarp::os::ConstString & outputName,
-                       ChannelStatusReporter *       reporter)
+static void setUpAndGo(const YarpString &      controlName,
+                       const YarpString &      dataName,
+                       const YarpString &      outputName,
+                       ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const yarp::os::ConstString & controlName,
-                       const yarp::os::ConstString & dataName,
-                       const yarp::os::ConstString & outputName)
+static void setUpAndGo(const YarpString & controlName,
+                       const YarpString & dataName,
+                       const YarpString & outputName)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -284,20 +284,17 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        yarp::os::ConstString         controlName;
-        yarp::os::ConstString         dataName;
-        yarp::os::ConstString         outputName;
-        Common::AdapterThreeArguments argsHandler(T_(" [controlName [dataName [outputName]]]"),
-                                                  T_("  controlName Optional name for the "
-                                                     "control channel\n"
-                                                     "  dataName    Optional name for the data "
-                                                     "channel"
-                                                     "  outputName  Optional name for the "
-                                                     "output channel"),
-                                                  T_(ADAPTER_PORT_NAME_BASE "control/runningsum"),
-                                                  T_(ADAPTER_PORT_NAME_BASE "data/runningsum"),
-                                                  T_(ADAPTER_PORT_NAME_BASE "output/runningsum"),
-                                                  controlName, dataName, outputName);
+        YarpString            controlName;
+        YarpString            dataName;
+        YarpString            outputName;
+        AdapterThreeArguments argsHandler(T_(" [controlName [dataName [outputName]]]"),
+                                          T_("  controlName Optional name for the control channel\n"
+                                             "  dataName    Optional name for the data channel\n"
+                                             "  outputName  Optional name for the output channel"),
+                                          T_(ADAPTER_PORT_NAME_BASE "control/runningsum"),
+                                          T_(ADAPTER_PORT_NAME_BASE "data/runningsum"),
+                                          T_(ADAPTER_PORT_NAME_BASE "output/runningsum"),
+                                          controlName, dataName, outputName);
         
         if (Utilities::ProcessStandardAdapterOptions(argc, argv, argsHandler,
                                                      "The Running Sum adapter", MATCHING_CRITERIA,

@@ -81,10 +81,10 @@ namespace MplusM
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @param numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const yarp::os::Bottle &      input,
-                                     const yarp::os::ConstString & senderChannel,
-                                     yarp::os::ConnectionWriter *  replyMechanism,
-                                     const size_t                  numBytes) = 0;
+            virtual bool handleInput(const yarp::os::Bottle &     input,
+                                     const YarpString &           senderChannel,
+                                     yarp::os::ConnectionWriter * replyMechanism,
+                                     const size_t                 numBytes) = 0;
             
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false

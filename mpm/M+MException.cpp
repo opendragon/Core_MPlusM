@@ -83,7 +83,7 @@ using namespace MplusM::Common;
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-Exception::Exception(const yarp::os::ConstString & reason)
+Exception::Exception(const YarpString & reason)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

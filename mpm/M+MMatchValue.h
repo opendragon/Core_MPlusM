@@ -66,12 +66,12 @@ namespace MplusM
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
-            yarp::os::ConstString asSQLString(void)
+            Common::YarpString asSQLString(void)
             const;
             
             /*! @brief Return the match value as a printable string.
              @returns The matching substring as a printable string. */
-            yarp::os::ConstString asString(void)
+            Common::YarpString asString(void)
             const;
             
             /*! @brief Create a pattern matcher if the next substring would be a valid value.
@@ -81,10 +81,10 @@ namespace MplusM
              @param endPos Where the scan terminated, if successful.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchValue * CreateMatcher(const yarp::os::ConstString & inString,
-                                              const size_t                  inLength,
-                                              const size_t                  startPos,
-                                              size_t &                      endPos);
+            static MatchValue * CreateMatcher(const Common::YarpString & inString,
+                                              const size_t               inLength,
+                                              const size_t               startPos,
+                                              size_t &                   endPos);
             
             /*! @brief Return @c true if the string has wildcard characters.
              @returns @c true if there are wildcard characters in the string and @c false
@@ -101,7 +101,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param inString The matching segment of the original string. */
-            MatchValue(const yarp::os::ConstString & inString);
+            MatchValue(const Common::YarpString & inString);
             
             COPY_AND_ASSIGNMENT_(MatchValue);
             
@@ -115,7 +115,7 @@ namespace MplusM
             typedef BaseMatcher inherited;
             
             /*! @brief The subtring that (maximally) matched as a value. */
-            yarp::os::ConstString _matchingString;
+            Common::YarpString _matchingString;
             
             /*! @brief @c true if the string has single quote characters and @c false otherwise. */
             bool _hasSingleQuotes;

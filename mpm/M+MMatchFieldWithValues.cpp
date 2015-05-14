@@ -80,11 +80,11 @@ using namespace MplusM::Parser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const yarp::os::ConstString & inString,
-                                                           const size_t                  inLength,
-                                                           const size_t                  startPos,
-                                                           size_t &                      endPos,
-                                                           BaseNameValidator *           validator)
+MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
+                                                           const size_t        inLength,
+                                                           const size_t        startPos,
+                                                           size_t &            endPos,
+                                                           BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -198,19 +198,19 @@ MatchFieldWithValues::~MatchFieldWithValues(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchFieldWithValues::asSQLString(void)
+YarpString MatchFieldWithValues::asSQLString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::ConstString converted;
+    YarpString converted;
     
     try
     {
-        bool                  negated = _fieldName->isNegated();
-        yarp::os::ConstString field(_fieldName->asString());
-        const char *          prefixString = NULL;
-        const char *          suffixString = NULL;
-        const char *          trueName;
+        bool         negated = _fieldName->isNegated();
+        YarpString   field(_fieldName->asString());
+        const char * prefixString = NULL;
+        const char * suffixString = NULL;
+        const char * trueName;
         
         if (_validator)
         {
@@ -264,10 +264,10 @@ const
     return converted;
 } // MatchFieldWithValues::asSQLString
 
-yarp::os::ConstString MatchFieldWithValues::asString(void)
+YarpString MatchFieldWithValues::asString(void)
 const
 {
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {

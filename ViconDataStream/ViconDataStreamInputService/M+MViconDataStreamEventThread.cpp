@@ -102,8 +102,8 @@ static const int kLittleSleep = 200;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ViconDataStreamEventThread::ViconDataStreamEventThread(Common::GeneralChannel *      outChannel,
-				                                       const yarp::os::ConstString & nameAndPort) :
+ViconDataStreamEventThread::ViconDataStreamEventThread(Common::GeneralChannel * outChannel,
+				                                       const YarpString &       nameAndPort) :
 	inherited(), _viconClient(), _nameAndPort(nameAndPort), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####

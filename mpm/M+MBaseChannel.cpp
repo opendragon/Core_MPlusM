@@ -76,8 +76,8 @@ using namespace MplusM::Common;
  @param workingContact The connection information that is to be filled in.
  @param channelName The desired endpoint name.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
-static bool setChannelIPAddress(yarp::os::Contact &           workingContact,
-                                const yarp::os::ConstString & channelName)
+static bool setChannelIPAddress(yarp::os::Contact & workingContact,
+                                const YarpString &  channelName)
 {
 #if defined(MpM_ReportContactDetails)
     DumpContactToLog("enter setIPAddress", workingContact); //####
@@ -86,8 +86,8 @@ static bool setChannelIPAddress(yarp::os::Contact &           workingContact,
     
     try
     {
-        yarp::os::Contact     aContact = yarp::os::Network::registerName(channelName);
-        yarp::os::ConstString ipAddress = aContact.getHost();
+        yarp::os::Contact aContact = yarp::os::Network::registerName(channelName);
+        YarpString        ipAddress = aContact.getHost();
         
         OD_LOG_S1s("ipAddress = ", ipAddress); //####
         yarp::os::Network::unregisterName(channelName);
@@ -213,8 +213,8 @@ void BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool BaseChannel::openWithRetries(const yarp::os::ConstString & theChannelName,
-                                  const double                  timeToWait)
+bool BaseChannel::openWithRetries(const YarpString & theChannelName,
+                                  const double       timeToWait)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_

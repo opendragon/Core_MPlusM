@@ -86,10 +86,10 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RunningSumService::RunningSumService(const yarp::os::ConstString & launchPath,
-                                     const yarp::os::ConstString & tag,
-                                     const yarp::os::ConstString & serviceEndpointName,
-                                     const yarp::os::ConstString & servicePortNumber) :
+RunningSumService::RunningSumService(const YarpString & launchPath,
+                                     const YarpString & tag,
+                                     const YarpString & serviceEndpointName,
+                                     const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_RUNNINGSUM_CANONICAL_NAME,
               RUNNINGSUM_SERVICE_DESCRIPTION,
               "add - add one or more values to the running sum and return the sum\n"
@@ -117,8 +117,8 @@ RunningSumService::~RunningSumService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-double RunningSumService::addToSum(const yarp::os::ConstString & key,
-                                   const double                  value)
+double RunningSumService::addToSum(const YarpString & key,
+                                   const double       value)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -214,7 +214,7 @@ void RunningSumService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumService::detachRequestHandlers
 
-void RunningSumService::resetSum(const yarp::os::ConstString & key)
+void RunningSumService::resetSum(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -267,7 +267,7 @@ bool RunningSumService::start(void)
     return result;
 } // RunningSumService::start
 
-void RunningSumService::startSum(const yarp::os::ConstString & key)
+void RunningSumService::startSum(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####

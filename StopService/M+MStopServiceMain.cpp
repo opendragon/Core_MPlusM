@@ -79,11 +79,11 @@ using std::endl;
 
 /*! @brief Set up the environment and perform the operation.
  @param arguments The arguments to analyze. */
-static void setUpAndGo(const StringVector & arguments)
+static void setUpAndGo(const YarpStringVector & arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
-    yarp::os::ConstString channelName;
+    YarpString channelName;
     
     if (0 < arguments.size())
     {
@@ -116,8 +116,8 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour;
-    StringVector  arguments;
+    OutputFlavour    flavour;
+    YarpStringVector arguments;
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" channel"),
                                                    T_("  channel    Channel name for service"),

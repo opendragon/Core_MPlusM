@@ -110,7 +110,7 @@ PingRequestHandler::~PingRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void PingRequestHandler::fillInAliases(StringVector & alternateNames)
+void PingRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -125,8 +125,8 @@ void PingRequestHandler::fillInAliases(StringVector & alternateNames)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void PingRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info)
+void PingRequestHandler::fillInDescription(const YarpString &   request,
+                                           yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -159,10 +159,10 @@ void PingRequestHandler::fillInDescription(const yarp::os::ConstString & request
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism)
+bool PingRequestHandler::processRequest(const YarpString &           request,
+                                        const yarp::os::Bottle &     restOfInput,
+                                        const YarpString &           senderChannel,
+                                        yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -189,7 +189,7 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                 
                 if (argument.isString())
                 {
-                    yarp::os::ConstString argAsString(argument.toString());
+                    YarpString argAsString(argument.toString());
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
@@ -211,10 +211,10 @@ bool PingRequestHandler::processRequest(const yarp::os::ConstString & request,
                         else
                         {
                             // Send a 'name' request to the channel
-                            yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                               "ping_/"
-                                                                           DEFAULT_CHANNEL_ROOT);
-                            ClientChannel *       outChannel = new ClientChannel;
+                            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                         "ping_/"
+                                                                         DEFAULT_CHANNEL_ROOT);
+                            ClientChannel * outChannel = new ClientChannel;
                             
                             if (outChannel)
                             {

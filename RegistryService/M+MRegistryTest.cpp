@@ -204,7 +204,7 @@ static int doTestRequestRegistryService(const char * launchPath,
                     {
                         if (stuff->start())
                         {
-                            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+                            YarpString channelName(stuff->getEndpoint().getName());
                             
                             if (RegisterLocalService(channelName, *stuff))
                             {
@@ -307,7 +307,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
                     {
                         if (stuff->start())
                         {
-                            yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+                            YarpString channelName(stuff->getEndpoint().getName());
                             
                             if (RegisterLocalService(channelName, *stuff))
                             {
@@ -407,7 +407,7 @@ static int doTestRequestSearchService(const char * launchPath,
                             if (stuff->start())
                             {
                                 OD_LOG("(stuff->start())"); //####
-                                yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+                                YarpString channelName(stuff->getEndpoint().getName());
                                 
                                 if (RegisterLocalService(channelName, *stuff))
                                 {
@@ -434,9 +434,9 @@ static int doTestRequestSearchService(const char * launchPath,
                                         if (expectedFirst.isString())
                                         {
                                             OD_LOG("(expectedFirst.isString())"); //####
-                                            yarp::os::ConstString matchesFirstAsString =
+                                            YarpString matchesFirstAsString =
                                                                             matchesFirst.toString();
-                                            yarp::os::ConstString expectedFirstAsString =
+                                            YarpString expectedFirstAsString =
                                                                         expectedFirst.toString();
                                             
                                             if (matchesFirstAsString == expectedFirstAsString)
@@ -494,7 +494,7 @@ static int doTestRequestSearchService(const char * launchPath,
                                                         bool            didFind = false;
                                                         yarp::os::Value expectedSecondValue =
                                                                     expectedSecondAsList->get(ii);
-                                                        yarp::os::ConstString expectedString =
+                                                        YarpString      expectedString =
                                                                     expectedSecondValue.toString();
                                                         
                                                         for (int jj = 0; jj < expectedSecondCount;
@@ -502,7 +502,7 @@ static int doTestRequestSearchService(const char * launchPath,
                                                         {
                                                             yarp::os::Value matchesSecondValue =
                                                                     matchesSecondAsList->get(jj);
-                                                            yarp::os::ConstString matchesString =
+                                                            YarpString      matchesString =
                                                                     matchesSecondValue.toString();
                                                             
                                                             if (expectedString == matchesString)
@@ -607,8 +607,8 @@ static void catchSignal(int signal)
 
 #if MAC_OR_LINUX_
     buff << signal;
-    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + buff.str() +
-                      yarp::os::ConstString(" = ") + NameOfSignal(signal));
+    GetLogger().error(YarpString("Exiting due to signal ") + buff.str() + YarpString(" = ") +
+                      NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_EXIT(1); //####

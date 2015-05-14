@@ -103,15 +103,15 @@ SimpleRequestHandler::~SimpleRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void SimpleRequestHandler::fillInAliases(StringVector & alternateNames)
+void SimpleRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // SimpleRequestHandler::fillInAliases
 
-void SimpleRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                             yarp::os::Property &          info)
+void SimpleRequestHandler::fillInDescription(const YarpString &   request,
+                                             yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -143,10 +143,10 @@ void SimpleRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool SimpleRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const yarp::os::Bottle &      restOfInput,
-                                          const yarp::os::ConstString & senderChannel,
-                                          yarp::os::ConnectionWriter *  replyMechanism)
+bool SimpleRequestHandler::processRequest(const YarpString &           request,
+                                          const yarp::os::Bottle &     restOfInput,
+                                          const YarpString &           senderChannel,
+                                          yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

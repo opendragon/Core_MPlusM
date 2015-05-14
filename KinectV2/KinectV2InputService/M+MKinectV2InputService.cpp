@@ -84,10 +84,10 @@ using namespace MplusM::KinectV2;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-KinectV2InputService::KinectV2InputService(const yarp::os::ConstString & launchPath,
-                                           const yarp::os::ConstString & tag,
-                                           const yarp::os::ConstString & serviceEndpointName,
-                                           const yarp::os::ConstString & servicePortNumber) :
+KinectV2InputService::KinectV2InputService(const YarpString & launchPath,
+                                           const YarpString & tag,
+                                           const YarpString & serviceEndpointName,
+                                           const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_KINECTV2INPUT_CANONICAL_NAME,
               KINECTV2INPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _eventThread(NULL)
@@ -148,9 +148,9 @@ void KinectV2InputService::restartStreams(void)
 bool KinectV2InputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _outDescriptions.clear();
     description._portName = rootName + "output";

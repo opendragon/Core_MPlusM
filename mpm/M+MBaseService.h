@@ -122,15 +122,15 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
-            BaseService(const ServiceKind             theKind,
-                        const yarp::os::ConstString & launchPath,
-                        const yarp::os::ConstString & tag,
-                        const bool                    useMultipleHandlers,
-                        const yarp::os::ConstString & canonicalName,
-                        const yarp::os::ConstString & description,
-                        const yarp::os::ConstString & requestsDescription,
-                        const yarp::os::ConstString & serviceEndpointName,
-                        const yarp::os::ConstString & servicePortNumber = "");
+            BaseService(const ServiceKind  theKind,
+                        const YarpString & launchPath,
+                        const YarpString & tag,
+                        const bool         useMultipleHandlers,
+                        const YarpString & canonicalName,
+                        const YarpString & description,
+                        const YarpString & requestsDescription,
+                        const YarpString & serviceEndpointName,
+                        const YarpString & servicePortNumber = "");
             
             /*! @brief The constructor.
              
@@ -145,21 +145,21 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments to be used to specify the new service. */
-            BaseService(const ServiceKind             theKind,
-                        const yarp::os::ConstString & launchPath,
-                        const bool                    useMultipleHandlers,
-                        const yarp::os::ConstString & canonicalName,
-                        const yarp::os::ConstString & description,
-                        const yarp::os::ConstString & requestsDescription,
-                        const int                     argc,
-                        char * *                      argv);
+            BaseService(const ServiceKind  theKind,
+                        const YarpString & launchPath,
+                        const bool         useMultipleHandlers,
+                        const YarpString & canonicalName,
+                        const YarpString & description,
+                        const YarpString & requestsDescription,
+                        const int          argc,
+                        char * *           argv);
             
             /*! @brief The destructor. */
             virtual ~BaseService(void);
             
             /*! @brief Return the description of the service.
              @returns The description of the service. */
-            inline yarp::os::ConstString description(void)
+            inline YarpString description(void)
             const
             {
                 return _description;
@@ -167,7 +167,7 @@ namespace MplusM
             
             /*! @brief Forget the specified client.
              @param key The client-provided key. */
-            void detachClient(const yarp::os::ConstString & key);
+            void detachClient(const YarpString & key);
             
             /*! @brief Turn off the send / receive metrics collecting. */
             virtual void disableMetrics(void);
@@ -177,7 +177,7 @@ namespace MplusM
             
             /*! @brief Fill in a list of clients for the service.
              @param clients The list to be filled in. */
-            void fillInClientList(StringVector & clients);
+            void fillInClientList(YarpStringVector & clients);
             
             /*! @brief Fill in a list of secondary input channels for the service.
              @param channels The list of channels to be filled in. */
@@ -221,7 +221,7 @@ namespace MplusM
             
             /*! @brief Return the command-line name used to launch the service.
              @returns The command-line name used to launch the service. */
-            inline yarp::os::ConstString launchPath(void)
+            inline YarpString launchPath(void)
             const
             {
                 return _launchPath;
@@ -242,14 +242,14 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
-            bool processRequest(const yarp::os::ConstString & request,
-                                const yarp::os::Bottle &      restOfInput,
-                                const yarp::os::ConstString & senderChannel,
-                                yarp::os::ConnectionWriter *  replyMechanism);
+            bool processRequest(const YarpString &           request,
+                                const yarp::os::Bottle &     restOfInput,
+                                const YarpString &           senderChannel,
+                                yarp::os::ConnectionWriter * replyMechanism);
             
             /*! @brief Return the description of the requests for the service.
              @returns The description of the requests for the service. */
-            inline yarp::os::ConstString requestsDescription(void)
+            inline YarpString requestsDescription(void)
             const
             {
                 return _requestsDescription;
@@ -259,13 +259,13 @@ namespace MplusM
              @param channelName The service channel to report with the ping.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
-            bool sendPingForChannel(const yarp::os::ConstString & channelName,
-                                    CheckFunction                 checker = NULL,
-                                    void *                        checkStuff = NULL);
+            bool sendPingForChannel(const YarpString & channelName,
+                                    CheckFunction      checker = NULL,
+                                    void *             checkStuff = NULL);
             
             /*! @brief Return the working name of the service.
              @returns The working name of the service. */
-            inline yarp::os::ConstString serviceName(void)
+            inline YarpString serviceName(void)
             const
             {
                 return _serviceName;
@@ -284,7 +284,7 @@ namespace MplusM
             
             /*! @brief Return the modifier tag of the service.
              @returns The modifier tag of the service. */
-            inline yarp::os::ConstString tag(void)
+            inline YarpString tag(void)
             const
             {
                 return _tag;
@@ -299,8 +299,8 @@ namespace MplusM
             /*! @brief Add a context for a persistent connection.
              @param key The name for the context.
              @param context The context to be remembered. */
-            void addContext(const yarp::os::ConstString & key,
-                            BaseContext *                 context);
+            void addContext(const YarpString & key,
+                            BaseContext *      context);
             
             /*! @brief Remove all contexts. */
             void clearContexts(void);
@@ -309,7 +309,7 @@ namespace MplusM
              @param key The name of the context.
              @returns @c NULL if the named context could not be found or a pointer to the context if
              found. */
-            BaseContext * findContext(const yarp::os::ConstString & key);
+            BaseContext * findContext(const YarpString & key);
             
             /*! @brief Remember the function to be used to handle a particular request.
              @param handler The function to be called for the request. */
@@ -317,7 +317,7 @@ namespace MplusM
             
             /*! @brief Remove a context.
              @param key The name of the context. */
-            void removeContext(const yarp::os::ConstString & key);
+            void removeContext(const YarpString & key);
             
             /*! @brief Remember the function to be used to handle unrecognized requests.
              @param handler The function to be called by default. */
@@ -363,13 +363,13 @@ namespace MplusM
         private :
             
             /*! @brief A mapping from strings to contexts. */
-            typedef std::map<yarp::os::ConstString, BaseContext *> ContextMap;
+            typedef std::map<YarpString, BaseContext *> ContextMap;
             
             /*! @brief The entry-type for the mapping. */
             typedef ContextMap::value_type ContextMapValue;
             
             /*! @brief The command-line name used to launch the service. */
-            yarp::os::ConstString _launchPath;
+            YarpString _launchPath;
             
             /*! @brief The contention lock used to avoid inconsistencies. */
             yarp::os::Mutex _contextsLock;
@@ -381,16 +381,16 @@ namespace MplusM
             ContextMap _contexts;
             
             /*! @brief The description of the service. */
-            yarp::os::ConstString _description;
+            YarpString _description;
             
             /*! @brief The description of the requests for the service. */
-            yarp::os::ConstString _requestsDescription;
+            YarpString _requestsDescription;
             
             /*! @brief The channel-independent name of the service. */
-            yarp::os::ConstString _serviceName;
+            YarpString _serviceName;
             
             /*! @brief The modifier tag for the service. */
-            yarp::os::ConstString _tag;
+            YarpString _tag;
             
             /*! @brief The auxiliary send / receive counters. */
             SendReceiveCounters _auxCounters;
@@ -496,22 +496,22 @@ namespace MplusM
          @param skipOptions The command-line options to be skipped.
          @param arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
-        bool ProcessStandardServiceOptions(const int                     argc,
-                                           char * *                      argv,
-                                           const char *                  argList,
-                                           const char *                  argDescription,
-                                           const yarp::os::ConstString & defaultEndpointNameRoot,
-                                           const yarp::os::ConstString & serviceDescription,
-                                           const int                     year,
-                                           const char *                  copyrightHolder,
-                                           bool &                        autostartWasSet,
-                                           bool &                        nameWasSet,
-                                           bool &                        reportOnExit,
-                                           yarp::os::ConstString &       tag,
-                                           yarp::os::ConstString &       serviceEndpointName,
-                                           yarp::os::ConstString &       servicePortNumber,
-                                           const OptionsMask             skipOptions = kSkipNone,
-                                           StringVector *                arguments = NULL);
+        bool ProcessStandardServiceOptions(const int          argc,
+                                           char * *           argv,
+                                           const char *       argList,
+                                           const char *       argDescription,
+                                           const YarpString & defaultEndpointNameRoot,
+                                           const YarpString & serviceDescription,
+                                           const int          year,
+                                           const char *       copyrightHolder,
+                                           bool &             autostartWasSet,
+                                           bool &             nameWasSet,
+                                           bool &             reportOnExit,
+                                           YarpString &       tag,
+                                           YarpString &       serviceEndpointName,
+                                           YarpString &       servicePortNumber,
+                                           const OptionsMask  skipOptions = kSkipNone,
+                                           YarpStringVector * arguments = NULL);
         
         /*! @brief Register a local service with a running Registry Service.
          @param channelName The channel provided by the service.
@@ -519,10 +519,10 @@ namespace MplusM
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully registered and @c false otherwise. */
-        bool RegisterLocalService(const yarp::os::ConstString & channelName,
-                                  BaseService &                 service,
-                                  CheckFunction                 checker = NULL,
-                                  void *                        checkStuff = NULL);
+        bool RegisterLocalService(const YarpString & channelName,
+                                  BaseService &      service,
+                                  CheckFunction      checker = NULL,
+                                  void *             checkStuff = NULL);
         
         /*! @brief Unregister a local service with a running Registry Service.
          @param channelName The channel provided by the service.
@@ -530,10 +530,10 @@ namespace MplusM
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully unregistered and @c false otherwise. */
-        bool UnregisterLocalService(const yarp::os::ConstString & channelName,
-                                    BaseService &                 service,
-                                    CheckFunction                 checker = NULL,
-                                    void *                        checkStuff = NULL);
+        bool UnregisterLocalService(const YarpString & channelName,
+                                    BaseService &      service,
+                                    CheckFunction      checker = NULL,
+                                    void *             checkStuff = NULL);
         
     } // Common
     

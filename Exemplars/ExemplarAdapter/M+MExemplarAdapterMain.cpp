@@ -90,12 +90,12 @@ using std::endl;
  @param inputName The name to be used for the input channel.
  @param outputName The name to be used for the output channel. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(const yarp::os::ConstString & inputName,
-                       const yarp::os::ConstString & outputName,
-                       ChannelStatusReporter *       reporter)
+static void setUpAndGo(const YarpString &      inputName,
+                       const YarpString &      outputName,
+                       ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const yarp::os::ConstString & inputName,
-                       const yarp::os::ConstString & outputName)
+static void setUpAndGo(const YarpString & inputName,
+                       const YarpString & outputName)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -253,16 +253,14 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        yarp::os::ConstString       inputName;
-        yarp::os::ConstString       outputName;
-        Common::AdapterTwoArguments argsHandler(T_(" [inputName [outputName]]"),
-                                                T_("  inputName  Optional name for the input "
-                                                   "channel\n"
-                                                   "  outputName Optional name for the output "
-                                                   "channel"),
-                                                T_(ADAPTER_PORT_NAME_BASE "input/exemplar"),
-                                                T_(ADAPTER_PORT_NAME_BASE "output/exemplar"),
-                                                inputName, outputName);
+        YarpString          inputName;
+        YarpString          outputName;
+        AdapterTwoArguments argsHandler(T_(" [inputName [outputName]]"),
+                                        T_("  inputName  Optional name for the input channel\n"
+                                           "  outputName Optional name for the output channel"),
+                                        T_(ADAPTER_PORT_NAME_BASE "input/exemplar"),
+                                        T_(ADAPTER_PORT_NAME_BASE "output/exemplar"),
+                                        inputName, outputName);
         
         if (Utilities::ProcessStandardAdapterOptions(argc, argv, argsHandler,
                                                      "The exemplar adapter", MATCHING_CRITERIA,

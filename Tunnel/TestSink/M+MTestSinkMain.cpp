@@ -101,8 +101,8 @@ int main(int      argc,
     OD_LOG_ENTER(); //####
     try
     {
-        OutputFlavour flavour; // ignored
-        StringVector  arguments;
+        OutputFlavour    flavour; // ignored
+        YarpStringVector arguments;
 
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" hostname port"),
                                                        T_("  hostname   IP address to connect to\n"
@@ -113,11 +113,11 @@ int main(int      argc,
 			Utilities::SetUpGlobalStatusReporter();
 			if (2 <= arguments.size())
             {
-                bool                  okSoFar;
-                yarp::os::ConstString sourceName(arguments[0]);
+                bool       okSoFar;
+                YarpString sourceName(arguments[0]);
 #if (! MAC_OR_LINUX_)
-                WORD                  wVersionRequested = MAKEWORD(2, 2);
-                WSADATA               ww;
+                WORD       wVersionRequested = MAKEWORD(2, 2);
+                WSADATA    ww;
 #endif // ! MAC_OR_LINUX_
                 
                 OD_LOG_S1s("sourceName <- ", sourceName); //####

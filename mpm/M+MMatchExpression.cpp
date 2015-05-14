@@ -80,11 +80,11 @@ static const char kComma = ',';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchExpression * MatchExpression::CreateMatcher(const yarp::os::ConstString & inString,
-                                                 const size_t                  inLength,
-                                                 const size_t                  startPos,
-                                                 size_t &                      endPos,
-                                                 BaseNameValidator *           validator)
+MatchExpression * MatchExpression::CreateMatcher(const YarpString &  inString,
+                                                 const size_t        inLength,
+                                                 const size_t        startPos,
+                                                 size_t &            endPos,
+                                                 BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -196,13 +196,13 @@ MatchExpression::~MatchExpression(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchExpression::asSQLString(const char * prefixString,
-                                                   const char * suffixString)
+YarpString MatchExpression::asSQLString(const char * prefixString,
+                                        const char * suffixString)
 const
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2("prefixString = ", prefixString, "suffixString = ", suffixString); //####
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {
@@ -238,10 +238,10 @@ const
     return result;
 } // MatchExpression::asSQLString
 
-yarp::os::ConstString MatchExpression::asString(void)
+YarpString MatchExpression::asString(void)
 const
 {
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {

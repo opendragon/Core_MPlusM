@@ -165,10 +165,10 @@ namespace MplusM
             ClientChannel * _channel;
             
             /*! @brief The name of the client channel being used. */
-            yarp::os::ConstString _channelName;
+            YarpString _channelName;
             
             /*! @brief The name of the service channel being used. */
-            yarp::os::ConstString _serviceChannelName;
+            YarpString _serviceChannelName;
             
             /*! @brief The root name for the client channel. */
             char * _baseChannelName;
@@ -200,10 +200,10 @@ namespace MplusM
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns A (possibly empty) list of matching service ports or service names. */
-        yarp::os::Bottle FindMatchingServices(const yarp::os::ConstString & criteria,
-                                              const bool                    getNames = false,
-                                              CheckFunction                 checker = NULL,
-                                              void *                        checkStuff = NULL);
+        yarp::os::Bottle FindMatchingServices(const YarpString & criteria,
+                                              const bool         getNames = false,
+                                              CheckFunction      checker = NULL,
+                                              void *             checkStuff = NULL);
         
     } // Common
     

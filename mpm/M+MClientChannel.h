@@ -72,8 +72,8 @@ namespace MplusM
              @param theChannelToBeAdded The output to be added to the channel.
              @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool addOutputWithRetries(const yarp::os::ConstString & theChannelToBeAdded,
-                                      const double                  timeToWait);
+            bool addOutputWithRetries(const YarpString & theChannelToBeAdded,
+                                      const double       timeToWait);
             
         protected :
             

@@ -85,11 +85,11 @@ static const char kExclamationMark = '!';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inString,
-                                               const size_t                  inLength,
-                                               const size_t                  startPos,
-                                               size_t &                      endPos,
-                                               BaseNameValidator *           validator)
+MatchFieldName * MatchFieldName::CreateMatcher(const YarpString &  inString,
+                                               const size_t        inLength,
+                                               const size_t        startPos,
+                                               size_t &            endPos,
+                                               BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -133,8 +133,8 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
                     // The name is followed by a separator.
                     if (workPos < inLength)
                     {
-                        yarp::os::ConstString tempString(inString.substr(startSubPos,
-                                                                         nameEndPos - startSubPos));
+                        YarpString tempString(inString.substr(startSubPos,
+                                                              nameEndPos - startSubPos));
                         
                         if (validator)
                         {
@@ -200,8 +200,8 @@ MatchFieldName * MatchFieldName::CreateMatcher(const yarp::os::ConstString & inS
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-MatchFieldName::MatchFieldName(const yarp::os::ConstString & inString,
-                               const bool                    negationSeen) :
+MatchFieldName::MatchFieldName(const YarpString & inString,
+                               const bool         negationSeen) :
     inherited(), _matchingString(inString), _isNegated(negationSeen)
 {
     OD_LOG_ENTER(); //####

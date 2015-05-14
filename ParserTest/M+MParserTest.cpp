@@ -395,8 +395,8 @@ static void catchSignal(int signal)
     
 #if MAC_OR_LINUX_
     buff << signal;
-    GetLogger().error(yarp::os::ConstString("Exiting due to signal ") + buff.str() +
-                      yarp::os::ConstString(" = ") + MplusM::NameOfSignal(signal));
+    GetLogger().error(YarpString("Exiting due to signal ") + buff.str() + YarpString(" = ") +
+                      MplusM::NameOfSignal(signal));
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_EXIT(1); //####

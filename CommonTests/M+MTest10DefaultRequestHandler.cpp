@@ -102,7 +102,7 @@ Test10DefaultRequestHandler::~Test10DefaultRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void Test10DefaultRequestHandler::fillInAliases(StringVector & alternateNames)
+void Test10DefaultRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -121,8 +121,8 @@ void Test10DefaultRequestHandler::fillInAliases(StringVector & alternateNames)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void Test10DefaultRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                    yarp::os::Property &          info)
+void Test10DefaultRequestHandler::fillInDescription(const YarpString &   request,
+                                                    yarp::os::Property & info)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -142,10 +142,10 @@ void Test10DefaultRequestHandler::fillInDescription(const yarp::os::ConstString 
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool Test10DefaultRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                 const yarp::os::Bottle &      restOfInput,
-                                                 const yarp::os::ConstString & senderChannel,
-                                                 yarp::os::ConnectionWriter *  replyMechanism)
+bool Test10DefaultRequestHandler::processRequest(const YarpString &           request,
+                                                 const yarp::os::Bottle &     restOfInput,
+                                                 const YarpString &           senderChannel,
+                                                 yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

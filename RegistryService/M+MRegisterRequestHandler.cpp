@@ -106,7 +106,7 @@ RegisterRequestHandler::~RegisterRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RegisterRequestHandler::fillInAliases(StringVector & alternateNames)
+void RegisterRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -114,8 +114,8 @@ void RegisterRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_OBJEXIT(); //####
 } // RegisterRequestHandler::fillInAliases
 
-void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                               yarp::os::Property &          info)
+void RegisterRequestHandler::fillInDescription(const YarpString &   request,
+                                               yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -148,10 +148,10 @@ void RegisterRequestHandler::fillInDescription(const yarp::os::ConstString & req
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                            const yarp::os::Bottle &      restOfInput,
-                                            const yarp::os::ConstString & senderChannel,
-                                            yarp::os::ConnectionWriter *  replyMechanism)
+bool RegisterRequestHandler::processRequest(const YarpString &           request,
+                                            const yarp::os::Bottle &     restOfInput,
+                                            const YarpString &           senderChannel,
+                                            yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -178,7 +178,7 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                 
                 if (argument.isString())
                 {
-                    yarp::os::ConstString argAsString(argument.toString());
+                    YarpString argAsString(argument.toString());
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
@@ -187,10 +187,10 @@ bool RegisterRequestHandler::processRequest(const yarp::os::ConstString & reques
                         theService.reportStatusChange(argAsString,
                                                       RegistryService::kRegistryRegisterService);
                         // Send a 'name' request to the channel
-                        yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                           "register_/"
-                                                                           DEFAULT_CHANNEL_ROOT);
-                        ClientChannel *       outChannel = new ClientChannel;
+                        YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                     "register_/"
+                                                                     DEFAULT_CHANNEL_ROOT);
+                        ClientChannel * outChannel = new ClientChannel;
                         
                         if (outChannel)
                         {

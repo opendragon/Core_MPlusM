@@ -76,9 +76,9 @@ using namespace MplusM::LeapMotion;
  @param dictionary The dictionary to be added to.
  @param tag The name to be associated with the value.
  @param vectorToUse The %Vector containing the data to be added. */
-static void putVectorInDictionary(yarp::os::Property &          dictionary,
-                                  const yarp::os::ConstString & tag,
-                                  const Leap::Vector &          vectorToUse)
+static void putVectorInDictionary(yarp::os::Property & dictionary,
+                                  const YarpString &   tag,
+                                  const Leap::Vector & vectorToUse)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffList = stuff.asList();

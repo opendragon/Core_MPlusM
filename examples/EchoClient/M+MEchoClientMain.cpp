@@ -107,14 +107,14 @@ static void setUpAndGo(void)
             {
                 for ( ; IsRunning(); )
                 {
-                    yarp::os::ConstString incoming;
-                    std::string           inputLine;
+                    YarpString  incoming;
+                    std::string inputLine;
                     
                     cout << "Type something to be echoed: ";
                     cout.flush();
                     if (getline(cin, inputLine))
                     {
-                        yarp::os::ConstString outgoing(inputLine.c_str());
+                        YarpString outgoing(inputLine.c_str());
                         
                         if (stuff->sendAndReceive(outgoing, incoming))
                         {

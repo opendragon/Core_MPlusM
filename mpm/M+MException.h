@@ -63,7 +63,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param reason A description of the exception being reported. */
-            Exception(const yarp::os::ConstString & reason);
+            Exception(const YarpString & reason);
             
             /*! @brief The destructor. */
             virtual ~Exception(void);

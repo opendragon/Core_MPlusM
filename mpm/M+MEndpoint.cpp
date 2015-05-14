@@ -79,8 +79,8 @@ using namespace MplusM::Common;
  @param realPort The numeric value of 'portNumber'.
  @param portNumber The port number as a string to be checked.
  @returns @c true if the port number string is numeric or empty. */
-static bool checkHostPort(int &                         realPort,
-                          const yarp::os::ConstString & portNumber)
+static bool checkHostPort(int &              realPort,
+                          const YarpString & portNumber)
 {
 	OD_LOG_ENTER(); //####
 	OD_LOG_P1("realPort = ", &realPort); //####
@@ -122,9 +122,9 @@ static bool checkHostPort(int &                         realPort,
  @param endpointName The desired endpoint name.
  @param portNumber The port number to be applied to the connection.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
-static bool setEndpointIPAddress(yarp::os::Contact &           workingContact,
-                                 const yarp::os::ConstString & endpointName,
-                                 const int                     portNumber)
+static bool setEndpointIPAddress(yarp::os::Contact & workingContact,
+                                 const YarpString &  endpointName,
+                                 const int           portNumber)
 {
 	OD_LOG_ENTER(); //####
 	OD_LOG_P1("workingContact = ", &workingContact); //####
@@ -137,8 +137,8 @@ static bool setEndpointIPAddress(yarp::os::Contact &           workingContact,
     
     try
     {
-        yarp::os::Contact     aContact = yarp::os::Network::registerName(endpointName);
-        yarp::os::ConstString ipAddress = aContact.getHost();
+        yarp::os::Contact aContact = yarp::os::Network::registerName(endpointName);
+        YarpString        ipAddress = aContact.getHost();
         
         OD_LOG_S1s("ipAddress = ", ipAddress); //####
         yarp::os::Network::unregisterName(endpointName);
@@ -161,7 +161,7 @@ static bool setEndpointIPAddress(yarp::os::Contact &           workingContact,
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
+bool Endpoint::CheckEndpointName(const YarpString & channelName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -200,8 +200,8 @@ bool Endpoint::CheckEndpointName(const yarp::os::ConstString & channelName)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-Endpoint::Endpoint(const yarp::os::ConstString & endpointName,
-                   const yarp::os::ConstString & portNumber) :
+Endpoint::Endpoint(const YarpString & endpointName,
+                   const YarpString & portNumber) :
     _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL), _metricsEnabled(false),
     _isOpen(false)
 {
@@ -328,10 +328,10 @@ void Endpoint::enableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::enableMetrics
 
-yarp::os::ConstString Endpoint::getName(void)
+YarpString Endpoint::getName(void)
 const
 {
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {

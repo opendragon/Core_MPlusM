@@ -86,12 +86,12 @@ using std::endl;
 /*! @brief Set up the environment and perform the operation.
  @param arguments The arguments to analyze.
  @param flavour The format for the output. */
-static void setUpAndGo(const StringVector & arguments,
-                       const OutputFlavour  flavour)
+static void setUpAndGo(const YarpStringVector & arguments,
+                       const OutputFlavour      flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
-    yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+    YarpString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
     
     if (0 < arguments.size())
     {
@@ -106,15 +106,15 @@ static void setUpAndGo(const StringVector & arguments,
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
     {
         // First, check if the search succeeded.
-        yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+        YarpString matchesFirstString(matches.get(0).toString());
         
         if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
         {
             OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
 #if MAC_OR_LINUX_
-            yarp::os::ConstString reason(matches.get(1).toString());
+            YarpString reason(matches.get(1).toString());
             
-            GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
+            GetLogger().fail(YarpString("Failed: ") + reason + ".");
 #endif // MAC_OR_LINUX_
         }
         else
@@ -136,15 +136,14 @@ static void setUpAndGo(const StringVector & arguments,
                     }
                     for (int ii = 0; ii < matchesCount; ++ii)
                     {
-                        yarp::os::ConstString aMatch = matchesList->get(ii).toString();
-                        yarp::os::Bottle      metrics;
+                        YarpString       aMatch = matchesList->get(ii).toString();
+                        yarp::os::Bottle metrics;
                         
                         if (Utilities::GetMetricsForService(aMatch, metrics, STANDARD_WAIT_TIME))
                             
                         {
-                            yarp::os::ConstString responseAsString =
-                                                        Utilities::ConvertMetricsToString(metrics,
-                                                                                          flavour);
+                            YarpString responseAsString(Utilities::ConvertMetricsToString(metrics,
+                                                                                          flavour));
                             
                             if (sawResponse)
                             {
@@ -256,8 +255,8 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour;
-    StringVector  arguments;
+    OutputFlavour    flavour;
+    YarpStringVector arguments;
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [channel]"),
                                                    T_("  channel    Optional channel name for "

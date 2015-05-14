@@ -200,14 +200,14 @@ void NameServerReportingThread::run(void)
 bool NameServerReportingThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
-    yarp::os::Contact     nsContact = yarp::os::Network::getNameServerContact();
-    yarp::os::ConstString serverAddress = nsContact.getHost();
-    int                   serverPort = nsContact.getPort();
-    const char *          serverString = NULL;
-    static const char *   regType = MpM_MDNS_NAMESERVER_REPORT;
-    const uint16_t        maxTXTSize = 256;
-    char                  txtBuffer[maxTXTSize];
-    TXTRecordRef          txtRecord;
+    yarp::os::Contact   nsContact = yarp::os::Network::getNameServerContact();
+    YarpString          serverAddress = nsContact.getHost();
+    int                 serverPort = nsContact.getPort();
+    const char *        serverString = NULL;
+    static const char * regType = MpM_MDNS_NAMESERVER_REPORT;
+    const uint16_t      maxTXTSize = 256;
+    char                txtBuffer[maxTXTSize];
+    TXTRecordRef        txtRecord;
     
     if (nsContact.isValid())
     {

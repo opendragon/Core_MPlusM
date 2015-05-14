@@ -107,7 +107,7 @@ WhereRequestHandler::~WhereRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void WhereRequestHandler::fillInAliases(StringVector & alternateNames)
+void WhereRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -122,8 +122,8 @@ void WhereRequestHandler::fillInAliases(StringVector & alternateNames)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void WhereRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                            yarp::os::Property &          info)
+void WhereRequestHandler::fillInDescription(const YarpString &   request,
+                                            yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -153,10 +153,10 @@ void WhereRequestHandler::fillInDescription(const yarp::os::ConstString & reques
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool WhereRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                         const yarp::os::Bottle &      restOfInput,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism)
+bool WhereRequestHandler::processRequest(const YarpString &           request,
+                                         const yarp::os::Bottle &     restOfInput,
+                                         const YarpString &           senderChannel,
+                                         yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -171,9 +171,9 @@ bool WhereRequestHandler::processRequest(const yarp::os::ConstString & request,
     
     try
     {
-        yarp::os::Bottle      response;
-        yarp::os::ConstString address;
-        int                   port;
+        yarp::os::Bottle response;
+        YarpString       address;
+        int              port;
         
         static_cast<TunnelService &>(_service).getAddress(address, port);
         response.addString(address);

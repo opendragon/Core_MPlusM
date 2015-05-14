@@ -86,10 +86,10 @@ static const char kRoundOpenBracket = '(';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchValueList * MatchValueList::CreateMatcher(const yarp::os::ConstString & inString,
-                                               const size_t                  inLength,
-                                               const size_t                  startPos,
-                                               size_t &                      endPos)
+MatchValueList * MatchValueList::CreateMatcher(const YarpString & inString,
+                                               const size_t       inLength,
+                                               const size_t       startPos,
+                                               size_t &           endPos)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -225,13 +225,13 @@ MatchValueList::~MatchValueList(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-yarp::os::ConstString MatchValueList::asSQLString(const char * fieldName,
-                                                  const bool   negated)
+YarpString MatchValueList::asSQLString(const char * fieldName,
+                                       const bool   negated)
 const
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1("fieldName = ", fieldName); //####
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {
@@ -361,10 +361,10 @@ const
     return result;
 } // MatchValueList::asSQLString
 
-const yarp::os::ConstString MatchValueList::asString(void)
+const YarpString MatchValueList::asString(void)
 const
 {
-    yarp::os::ConstString result;
+    YarpString result;
     
     try
     {

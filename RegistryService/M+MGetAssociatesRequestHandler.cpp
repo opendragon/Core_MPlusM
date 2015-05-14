@@ -105,15 +105,15 @@ GetAssociatesRequestHandler::~GetAssociatesRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void GetAssociatesRequestHandler::fillInAliases(Common::StringVector & alternateNames)
+void GetAssociatesRequestHandler::fillInAliases(Common::YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
 } // GetAssociatesRequestHandler::fillInAliases
 
-void GetAssociatesRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                                    yarp::os::Property &          info)
+void GetAssociatesRequestHandler::fillInDescription(const YarpString &   request,
+                                                    yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -148,10 +148,10 @@ void GetAssociatesRequestHandler::fillInDescription(const yarp::os::ConstString 
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                                 const yarp::os::Bottle &      restOfInput,
-                                                 const yarp::os::ConstString & senderChannel,
-                                                 yarp::os::ConnectionWriter *  replyMechanism)
+bool GetAssociatesRequestHandler::processRequest(const YarpString &           request,
+                                                 const yarp::os::Bottle &     restOfInput,
+                                                 const YarpString &           senderChannel,
+                                                 yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -178,14 +178,14 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                 
                 if (argument.isString())
                 {
-                    yarp::os::ConstString argAsString(argument.toString());
+                    YarpString argAsString(argument.toString());
                     
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
                         bool              isPrimary;
                         RegistryService & theService = static_cast<RegistryService &>(_service);
-                        StringVector      associatedInputs;
-                        StringVector      associatedOutputs;
+                        YarpStringVector  associatedInputs;
+                        YarpStringVector  associatedOutputs;
                         
                         if (theService.fillInAssociates(argAsString, isPrimary, associatedInputs,
                                                         associatedOutputs))
@@ -196,7 +196,8 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                             
                             if (0 < associatedInputs.size())
                             {
-                                for (StringVector::const_iterator walker(associatedInputs.begin());
+                                for (YarpStringVector::const_iterator walker =
+                                                                        associatedInputs.begin();
                                      associatedInputs.end() != walker; ++walker)
                                 {
                                     aList1.addString(*walker);
@@ -208,7 +209,8 @@ bool GetAssociatesRequestHandler::processRequest(const yarp::os::ConstString & r
                             
                             if (0 < associatedOutputs.size())
                             {
-                                for (StringVector::const_iterator walker(associatedOutputs.begin());
+                                for (YarpStringVector::const_iterator walker =
+                                                                        associatedOutputs.begin();
                                      associatedOutputs.end() != walker; ++walker)
                                 {
                                     aList2.addString(*walker);

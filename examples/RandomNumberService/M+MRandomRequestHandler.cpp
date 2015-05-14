@@ -103,7 +103,7 @@ RandomRequestHandler::~RandomRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RandomRequestHandler::fillInAliases(StringVector & alternateNames)
+void RandomRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -111,8 +111,8 @@ void RandomRequestHandler::fillInAliases(StringVector & alternateNames)
     OD_LOG_OBJEXIT(); //####
 } // RandomRequestHandler::fillInAliases
 
-void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & request,
-                                             yarp::os::Property &          info)
+void RandomRequestHandler::fillInDescription(const YarpString &   request,
+                                             yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -144,10 +144,10 @@ void RandomRequestHandler::fillInDescription(const yarp::os::ConstString & reque
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RandomRequestHandler::processRequest(const yarp::os::ConstString & request,
-                                          const yarp::os::Bottle &      restOfInput,
-                                          const yarp::os::ConstString & senderChannel,
-                                          yarp::os::ConnectionWriter *  replyMechanism)
+bool RandomRequestHandler::processRequest(const YarpString &           request,
+                                          const yarp::os::Bottle &     restOfInput,
+                                          const YarpString &           senderChannel,
+                                          yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

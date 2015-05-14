@@ -103,8 +103,8 @@ int main(int      argc,
     OD_LOG_ENTER(); //####
     try
     {
-        OutputFlavour flavour; // ignored
-        StringVector  arguments;
+        OutputFlavour    flavour; // ignored
+        YarpStringVector arguments;
         
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" port"),
                                                        T_("  port       The outgoing port"), 2015,

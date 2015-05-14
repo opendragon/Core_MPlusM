@@ -103,7 +103,7 @@ static JSClass lGlobalClass =
 
 /*! @brief Display the available commands.
  @param helpText The help text from the script. */
-static void displayCommands(yarp::os::ConstString & helpText)
+static void displayCommands(YarpString & helpText)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("helpText = ", helpText); //####
@@ -134,8 +134,8 @@ static void reportJavaScriptError(JSContext *     cx,
     // exceptions!
     try
     {
-        yarp::os::ConstString errMessage(report->filename ? report->filename : "[no filename]");
-        std::stringstream     buff;
+        YarpString        errMessage(report->filename ? report->filename : "[no filename]");
+        std::stringstream buff;
         
         buff << report->lineno << ":" << message;
         errMessage += buff.str();
@@ -1063,7 +1063,7 @@ static bool addCustomClasses(JSContext *        jct,
  @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
 static bool addArgvObject(JSContext *        jct,
                           JS::RootedObject & global,
-                          StringVector &     argv)
+                          YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
@@ -1150,9 +1150,9 @@ static bool addArgvObject(JSContext *        jct,
  @param global The %JavaScript global object.
  @param tag The modifier for the service name and port names.
  @returns @c true if the custom string object was addeded successfully and @c false otherwise. */
-static bool addScriptTagObject(JSContext *                   jct,
-                               JS::RootedObject &            global,
-                               const yarp::os::ConstString & tag)
+static bool addScriptTagObject(JSContext *        jct,
+                               JS::RootedObject & global,
+                               const YarpString & tag)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
@@ -1184,10 +1184,10 @@ static bool addScriptTagObject(JSContext *                   jct,
  @param tag The modifier for the service name and port names.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
-static bool addCustomObjects(JSContext *                   jct,
-                             JS::RootedObject &            global,
-                             const yarp::os::ConstString & tag,
-                             StringVector &                argv)
+static bool addCustomObjects(JSContext *        jct,
+                             JS::RootedObject & global,
+                             const YarpString & tag,
+                             YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
@@ -1216,10 +1216,10 @@ static bool addCustomObjects(JSContext *                   jct,
  @param script The %JavaScript source code to be executed.
  @param scriptPath The path to the script file.
  @returns @c true on success and @c false otherwise. */
-static bool loadScript(JSContext *                   jct,
-                       JS::OwningCompileOptions &    options,
-                       const yarp::os::ConstString & script,
-                       const yarp::os::ConstString & scriptPath)
+static bool loadScript(JSContext *                jct,
+                       JS::OwningCompileOptions & options,
+                       const YarpString &         script,
+                       const YarpString &         scriptPath)
 {
     OD_LOG_ENTER();
     OD_LOG_P1("jct = ", jct); //####
@@ -1317,9 +1317,8 @@ static bool getLoadedDouble(JSContext *        jct,
                                 if (JS_GetPendingException(jct, &exc))
                                 {
                                     JS_ClearPendingException(jct);
-                                    yarp::os::ConstString message("Exception occurred while "
-                                                                  "executing function for "
-                                                                  "Property '");
+                                    YarpString message("Exception occurred while executing "
+                                                       "function for Property '");
                                     
                                     message += propertyName;
                                     message += "'.";
@@ -1339,7 +1338,7 @@ static bool getLoadedDouble(JSContext *        jct,
             {
                 OD_LOG("! (okSoFar)"); //####
                 okSoFar = false;
-                yarp::os::ConstString message("Property '");
+                YarpString message("Property '");
                 
                 message += propertyName;
                 message += "' has the wrong type.";
@@ -1374,12 +1373,12 @@ static bool getLoadedDouble(JSContext *        jct,
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedString(JSContext *             jct,
-                            JS::RootedObject &      anObject,
-                            const char *            propertyName,
-                            const bool              canBeFunction,
-                            const bool              isOptional,
-                            yarp::os::ConstString & result)
+static bool getLoadedString(JSContext *        jct,
+                            JS::RootedObject & anObject,
+                            const char *       propertyName,
+                            const bool         canBeFunction,
+                            const bool         isOptional,
+                            YarpString &       result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
@@ -1454,9 +1453,8 @@ static bool getLoadedString(JSContext *             jct,
                                 if (JS_GetPendingException(jct, &exc))
                                 {
                                     JS_ClearPendingException(jct);
-                                    yarp::os::ConstString message("Exception occurred while "
-                                                                  "executing function for "
-                                                                  "Property '");
+                                    YarpString message("Exception occurred while executing "
+                                                       "function for Property '");
                                     
                                     message += propertyName;
                                     message += "'.";
@@ -1476,7 +1474,7 @@ static bool getLoadedString(JSContext *             jct,
             {
                 OD_LOG("! (okSoFar)"); //####
                 okSoFar = false;
-                yarp::os::ConstString message("Property '");
+                YarpString message("Property '");
                 
                 message += propertyName;
                 message += "' has the wrong type.";
@@ -1560,7 +1558,7 @@ static bool getLoadedFunctionRef(JSContext *        jct,
             {
                 OD_LOG("! (okSoFar)"); //####
                 okSoFar = false;
-                yarp::os::ConstString message("Property '");
+                YarpString message("Property '");
                 
                 message += propertyName;
                 message += "' has the wrong type.";
@@ -1754,8 +1752,8 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
                         if (JS_GetPendingException(jct, &exc))
                         {
                             JS_ClearPendingException(jct);
-                            yarp::os::ConstString message("Exception occurred while executing "
-                                                          "function for Property '");
+                            YarpString message("Exception occurred while executing function for "
+                                               "Property '");
                                                           
                             message += arrayName;
                             message += "'.";
@@ -1772,7 +1770,7 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
             if (! okSoFar)
             {
                 OD_LOG("(! okSoFar)"); //####
-                yarp::os::ConstString message("Property '");
+                YarpString message("Property '");
                 
                 message += arrayName;
                 message += "' has the wrong type.";
@@ -1855,18 +1853,18 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
  @param loadedThreadFunction The function to execute on an output-generating thread.
  @param loadedInterval The interval (in seconds) between executions of the output-generating thread.
  @returns @c true on success and @c false otherwise. */
-static bool validateLoadedScript(JSContext *             jct,
-                                 JS::RootedObject &      global,
-                                 bool &                  sawThread,
-                                 yarp::os::ConstString & description,
-                                 yarp::os::ConstString & helpString,
-                                 ChannelVector &         loadedInletDescriptions,
-                                 ChannelVector &         loadedOutletDescriptions,
-                                 JS::AutoValueVector &   loadedInletHandlers,
-                                 JS::RootedValue &       loadedStartingFunction,
-                                 JS::RootedValue &       loadedStoppingFunction,
-                                 JS::RootedValue &       loadedThreadFunction,
-                                 double &                loadedInterval)
+static bool validateLoadedScript(JSContext *           jct,
+                                 JS::RootedObject &    global,
+                                 bool &                sawThread,
+                                 YarpString &          description,
+                                 YarpString &          helpString,
+                                 ChannelVector &       loadedInletDescriptions,
+                                 ChannelVector &       loadedOutletDescriptions,
+                                 JS::AutoValueVector & loadedInletHandlers,
+                                 JS::RootedValue &     loadedStartingFunction,
+                                 JS::RootedValue &     loadedStoppingFunction,
+                                 JS::RootedValue &     loadedThreadFunction,
+                                 double &              loadedInterval)
 {
     OD_LOG_ENTER();
     OD_LOG_P4("jct = ", jct, "global = ", &global, "sawThread = ", &sawThread, //####
@@ -1931,14 +1929,14 @@ static bool validateLoadedScript(JSContext *             jct,
 /*! @brief Return the base name of a file name.
  @param inFileName The file name to be processed.
  @returns The base name of a file name. */
-static yarp::os::ConstString getFileNameBase(const yarp::os::ConstString & inFileName)
+static YarpString getFileNameBase(const YarpString & inFileName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inFileName = ", inFileName);
-    yarp::os::ConstString result;
-    size_t                index = inFileName.rfind('.');
+    YarpString result;
+    size_t     index = inFileName.rfind('.');
     
-    if (yarp::os::ConstString::npos == index)
+    if (YarpString::npos == index)
     {
         result = inFileName;
     }
@@ -1953,16 +1951,16 @@ static yarp::os::ConstString getFileNameBase(const yarp::os::ConstString & inFil
 /*! @brief Return the file name part of a path.
  @param inFileName The file path to be processed.
  @returns The file name part of a path. */
-static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFileName)
+static YarpString getFileNamePart(const YarpString & inFileName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inFileName = ", inFileName); //####
-    yarp::os::ConstString result;
+    YarpString result;
 #if MAC_OR_LINUX_
-    char * nameCopy = strdup(inFileName.c_str());
+    char *     nameCopy = strdup(inFileName.c_str());
 #else // ! MAC_OR_LINUX_
-    char   baseFileName[_MAX_FNAME + 10];
-    char   baseExtension[_MAX_EXT + 10];
+    char       baseFileName[_MAX_FNAME + 10];
+    char       baseExtension[_MAX_EXT + 10];
 #endif // ! MAC_OR_LINUX_
     
 #if MAC_OR_LINUX_
@@ -1986,14 +1984,14 @@ static yarp::os::ConstString getFileNamePart(const yarp::os::ConstString & inFil
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
-static void setUpAndGo(StringVector &                arguments,
-                       yarp::os::ConstString &       tag,
-                       yarp::os::ConstString &       serviceEndpointName,
-                       const yarp::os::ConstString & servicePortNumber,
-                       const bool                    autostartWasSet,
-                       const bool                    nameWasSet,
-                       const bool                    reportOnExit,
-                       const bool                    stdinAvailable)
+static void setUpAndGo(YarpStringVector   arguments,
+                       YarpString &       tag,
+                       YarpString &       serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         autostartWasSet,
+                       const bool         nameWasSet,
+                       const bool         reportOnExit,
+                       const bool         stdinAvailable)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
@@ -2003,10 +2001,10 @@ static void setUpAndGo(StringVector &                arguments,
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     if (0 < arguments.size())
     {
-        yarp::os::ConstString rawTag(tag);
-        yarp::os::ConstString scriptPath(arguments[0]);
-        yarp::os::ConstString scriptSource;
-        yarp::os::ConstString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
+        YarpString rawTag(tag);
+        YarpString scriptPath(arguments[0]);
+        YarpString scriptSource;
+        YarpString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
         
         if (0 < tagModifier.length())
         {
@@ -2020,11 +2018,11 @@ static void setUpAndGo(StringVector &                arguments,
         }
         if (! nameWasSet)
         {
-            serviceEndpointName += yarp::os::ConstString("/") + tagModifier;
+            serviceEndpointName += YarpString("/") + tagModifier;
         }
         if (0 < tag.length())
         {
-            tag += yarp::os::ConstString(":") + tagModifier;
+            tag += YarpString(":") + tagModifier;
         }
         else
         {
@@ -2107,7 +2105,7 @@ static void setUpAndGo(StringVector &                arguments,
                         JSAutoCompartment        ac(jct, global);
                         JS::OwningCompileOptions options(jct); // this is used so that script
                                                                // objects persist
-                        yarp::os::ConstString    description;
+                        YarpString               description;
                         
                         // Populate the global object with the standard globals, like Object and
                         // Array.
@@ -2154,15 +2152,15 @@ static void setUpAndGo(StringVector &                arguments,
 #endif // ! MAC_OR_LINUX_
                             }
                         }
-                        bool                  sawThread;
-                        yarp::os::ConstString helpText;
-                        ChannelVector         loadedInletDescriptions;
-                        ChannelVector         loadedOutletDescriptions;
-                        double                loadedInterval;
-                        JS::AutoValueVector   loadedInletHandlers(jct);
-                        JS::RootedValue       loadedStartingFunction(jct);
-                        JS::RootedValue       loadedStoppingFunction(jct);
-                        JS::RootedValue       loadedThreadFunction(jct);
+                        bool                sawThread;
+                        YarpString          helpText;
+                        ChannelVector       loadedInletDescriptions;
+                        ChannelVector       loadedOutletDescriptions;
+                        double              loadedInterval;
+                        JS::AutoValueVector loadedInletHandlers(jct);
+                        JS::RootedValue     loadedStartingFunction(jct);
+                        JS::RootedValue     loadedStoppingFunction(jct);
+                        JS::RootedValue     loadedThreadFunction(jct);
                         
                         if (okSoFar)
                         {
@@ -2207,7 +2205,7 @@ static void setUpAndGo(StringVector &                arguments,
                             {
                                 if (stuff->start())
                                 {
-                                    yarp::os::ConstString channelName(stuff->getEndpoint().getName());
+                                    YarpString channelName(stuff->getEndpoint().getName());
                                     
                                     OD_LOG_S1s("channelName = ", channelName); //####
                                     if (RegisterLocalService(channelName, *stuff))
@@ -2323,7 +2321,7 @@ static void setUpAndGo(StringVector &                arguments,
                                             yarp::os::Bottle metrics;
                                             
                                             stuff->gatherMetrics(metrics);
-                                            yarp::os::ConstString converted =
+                                            YarpString converted =
                                                         Utilities::ConvertMetricsToString(metrics);
                                             
                                             cout << converted.c_str() << endl;
@@ -2429,14 +2427,14 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                  autostartWasSet = false;
-        bool                  nameWasSet = false;
-        bool                  reportOnExit = false;
-        bool                  stdinAvailable = CanReadFromStandardInput();
-        yarp::os::ConstString serviceEndpointName;
-        yarp::os::ConstString servicePortNumber;
-        yarp::os::ConstString tag;
-        StringVector          arguments;
+        bool             autostartWasSet = false;
+        bool             nameWasSet = false;
+        bool             reportOnExit = false;
+        bool             stdinAvailable = CanReadFromStandardInput();
+        YarpString       serviceEndpointName;
+        YarpString       servicePortNumber;
+        YarpString       tag;
+        YarpStringVector arguments;
                 
 		if (ProcessStandardServiceOptions(argc, argv, T_(" filePath"),
                                           T_("  filePath   Path to script file to use"),

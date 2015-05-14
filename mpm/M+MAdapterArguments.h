@@ -76,7 +76,7 @@ namespace MplusM
             
             /*! @brief Return the description of the command-line arguments.
              @returns The description of the command-line arguments. */
-            const yarp::os::ConstString & argumentDescription(void)
+            const YarpString & argumentDescription(void)
             const
             {
                 return _argDescription;
@@ -84,7 +84,7 @@ namespace MplusM
             
             /*! @brief Return the command-line arguments.
              @returns The command-line arguments. */
-            const yarp::os::ConstString & argumentList(void)
+            const YarpString & argumentList(void)
             const
             {
                 return _argList;
@@ -93,7 +93,7 @@ namespace MplusM
             /*! @brief Return the resulting arguments.
              @param sep The separator string between the arguments.
              @returns The arguments, separated by 'sep'. */
-            virtual yarp::os::ConstString combineArguments(const yarp::os::ConstString & sep) = 0;
+            virtual YarpString combineArguments(const YarpString & sep) = 0;
 
             /*! @brief Update the arguments data from the parsed argument list.
              @param parseResult The parsed argument list. */
@@ -112,10 +112,10 @@ namespace MplusM
         private :
             
             /*! @brief The description of the command-line arguments for the adapter. */
-            yarp::os::ConstString _argDescription;
+            YarpString _argDescription;
             
             /*! @brief The command-line arguments for the adapter. */
-            yarp::os::ConstString _argList;
+            YarpString _argList;
             
         }; // AdapterArguments
         
@@ -131,10 +131,10 @@ namespace MplusM
              present.
              @param firstArgument The resulting first argument.
              */
-            AdapterOneArgument(const char *                  argList,
-                               const char *                  argDescription,
-                               const yarp::os::ConstString & defaultFirstArgument,
-                               yarp::os::ConstString &       firstArgument);
+            AdapterOneArgument(const char *       argList,
+                               const char *       argDescription,
+                               const YarpString & defaultFirstArgument,
+                               YarpString &       firstArgument);
             
             /*! @brief The destructor. */
             virtual ~AdapterOneArgument(void);
@@ -142,7 +142,7 @@ namespace MplusM
             /*! @brief Return the resulting arguments.
              @param sep The separator string between the arguments.
              @returns The arguments, separated by 'sep'. */
-            virtual yarp::os::ConstString combineArguments(const yarp::os::ConstString & sep);
+            virtual YarpString combineArguments(const YarpString & sep);
 
             /*! @brief Update the arguments data from the parsed argument list.
              @param parseResult The parsed argument list. */
@@ -164,7 +164,7 @@ namespace MplusM
             typedef AdapterArguments inherited;
             
             /*! @brief The first argument. */
-            yarp::os::ConstString & _firstArgument;
+            YarpString & _firstArgument;
             
         }; // AdapterOneArgument
         
@@ -183,12 +183,12 @@ namespace MplusM
              @param firstArgument The resulting first argument.
              @param secondArgument The resulting second argument.
              */
-            AdapterTwoArguments(const char *                  argList,
-                                const char *                  argDescription,
-                                const yarp::os::ConstString & defaultFirstArgument,
-                                const yarp::os::ConstString & defaultSecondArgument,
-                                yarp::os::ConstString &       firstArgument,
-                                yarp::os::ConstString &       secondArgument);
+            AdapterTwoArguments(const char *       argList,
+                                const char *       argDescription,
+                                const YarpString & defaultFirstArgument,
+                                const YarpString & defaultSecondArgument,
+                                YarpString &       firstArgument,
+                                YarpString &       secondArgument);
             
             /*! @brief The destructor. */
             virtual ~AdapterTwoArguments(void);
@@ -196,7 +196,7 @@ namespace MplusM
             /*! @brief Return the resulting arguments.
              @param sep The separator string between the arguments.
              @returns The arguments, separated by 'sep'. */
-            virtual yarp::os::ConstString combineArguments(const yarp::os::ConstString & sep);
+            virtual YarpString combineArguments(const YarpString & sep);
             
             /*! @brief Update the arguments data from the parsed argument list.
              @param parseResult The parsed argument list. */
@@ -218,10 +218,10 @@ namespace MplusM
             typedef AdapterArguments inherited;
             
             /*! @brief The first argument. */
-            yarp::os::ConstString & _firstArgument;
+            YarpString & _firstArgument;
             
             /*! @brief The second argument. */
-            yarp::os::ConstString & _secondArgument;
+            YarpString & _secondArgument;
             
         }; // AdapterTwoArguments
         
@@ -243,14 +243,14 @@ namespace MplusM
              @param secondArgument The resulting second argument.
              @param thirdArgument The resulting third argument.
              */
-            AdapterThreeArguments(const char *                  argList,
-                                  const char *                  argDescription,
-                                  const yarp::os::ConstString & defaultFirstArgument,
-                                  const yarp::os::ConstString & defaultSecondArgument,
-                                  const yarp::os::ConstString & defaultThirdArgument,
-                                  yarp::os::ConstString &       firstArgument,
-                                  yarp::os::ConstString &       secondArgument,
-                                  yarp::os::ConstString &       thirdArgument);
+            AdapterThreeArguments(const char *       argList,
+                                  const char *       argDescription,
+                                  const YarpString & defaultFirstArgument,
+                                  const YarpString & defaultSecondArgument,
+                                  const YarpString & defaultThirdArgument,
+                                  YarpString &       firstArgument,
+                                  YarpString &       secondArgument,
+                                  YarpString &       thirdArgument);
             
             /*! @brief The destructor. */
             virtual ~AdapterThreeArguments(void);
@@ -258,7 +258,7 @@ namespace MplusM
             /*! @brief Return the resulting arguments.
              @param sep The separator string between the arguments.
              @returns The arguments, separated by 'sep'. */
-            virtual yarp::os::ConstString combineArguments(const yarp::os::ConstString & sep);
+            virtual YarpString combineArguments(const YarpString & sep);
             
             /*! @brief Update the arguments data from the parsed argument list.
              @param parseResult The parsed argument list. */
@@ -280,13 +280,13 @@ namespace MplusM
             typedef AdapterArguments inherited;
             
             /*! @brief The first argument. */
-            yarp::os::ConstString & _firstArgument;
+            YarpString & _firstArgument;
             
             /*! @brief The second argument. */
-            yarp::os::ConstString & _secondArgument;
+            YarpString & _secondArgument;
             
             /*! @brief The third argument. */
-            yarp::os::ConstString & _thirdArgument;
+            YarpString & _thirdArgument;
             
         }; // AdapterThreeArguments
         
@@ -311,16 +311,16 @@ namespace MplusM
              @param thirdArgument The resulting third argument.
              @param fourthArgument The resulting fourth argument.
              */
-            AdapterFourArguments(const char *                  argList,
-                                 const char *                  argDescription,
-                                 const yarp::os::ConstString & defaultFirstArgument,
-                                 const yarp::os::ConstString & defaultSecondArgument,
-                                 const yarp::os::ConstString & defaultThirdArgument,
-                                 const yarp::os::ConstString & defaultFourthArgument,
-                                 yarp::os::ConstString &       firstArgument,
-                                 yarp::os::ConstString &       secondArgument,
-                                 yarp::os::ConstString &       thirdArgument,
-                                 yarp::os::ConstString &       fourthArgument);
+            AdapterFourArguments(const char *       argList,
+                                 const char *       argDescription,
+                                 const YarpString & defaultFirstArgument,
+                                 const YarpString & defaultSecondArgument,
+                                 const YarpString & defaultThirdArgument,
+                                 const YarpString & defaultFourthArgument,
+                                 YarpString &       firstArgument,
+                                 YarpString &       secondArgument,
+                                 YarpString &       thirdArgument,
+                                 YarpString &       fourthArgument);
             
             /*! @brief The destructor. */
             virtual ~AdapterFourArguments(void);
@@ -328,7 +328,7 @@ namespace MplusM
             /*! @brief Return the resulting arguments.
              @param sep The separator string between the arguments.
              @returns The arguments, separated by 'sep'. */
-            virtual yarp::os::ConstString combineArguments(const yarp::os::ConstString & sep);
+            virtual YarpString combineArguments(const YarpString & sep);
             
             /*! @brief Update the arguments data from the parsed argument list.
              @param parseResult The parsed argument list. */
@@ -350,16 +350,16 @@ namespace MplusM
             typedef AdapterArguments inherited;
             
             /*! @brief The first argument. */
-            yarp::os::ConstString & _firstArgument;
+            YarpString & _firstArgument;
             
             /*! @brief The second argument. */
-            yarp::os::ConstString & _secondArgument;
+            YarpString & _secondArgument;
             
             /*! @brief The third argument. */
-            yarp::os::ConstString & _thirdArgument;
+            YarpString & _thirdArgument;
             
             /*! @brief The fourth argument. */
-            yarp::os::ConstString & _fourthArgument;
+            YarpString & _fourthArgument;
             
         }; // AdapterFourArguments
         

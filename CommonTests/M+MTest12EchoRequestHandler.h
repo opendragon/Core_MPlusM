@@ -70,23 +70,23 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::StringVector & alternateNames);
+            virtual void fillInAliases(Common::YarpStringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info);
+            virtual void fillInDescription(const Common::YarpString & request,
+                                           yarp::os::Property &       info);
             
             /*! @brief Process a request.
              @param request The actual request name.
              @param restOfInput The arguments to the operation.
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism);
+            virtual bool processRequest(const Common::YarpString &   request,
+                                        const yarp::os::Bottle &     restOfInput,
+                                        const Common::YarpString &   senderChannel,
+                                        yarp::os::ConnectionWriter * replyMechanism);
             
         protected :
             

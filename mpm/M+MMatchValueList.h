@@ -70,13 +70,13 @@ namespace MplusM
              @param fieldName The name to be used in the SQL matching expression.
              @param negated @c true if the matching is negated and @c false otherwise.
              @returns A string representing the value as a string suitable for use with SQL. */
-            yarp::os::ConstString asSQLString(const char * fieldName,
-                                              const bool   negated)
+            Common::YarpString asSQLString(const char * fieldName,
+                                           const bool   negated)
             const;
             
             /*! @brief Create a printable representation of the value list.
              @returns A printable representation of the value list. */
-            const yarp::os::ConstString asString(void)
+            const Common::YarpString asString(void)
             const;
             
             /*! @brief Return the number of elements in the value list.
@@ -91,10 +91,10 @@ namespace MplusM
              @param endPos Where the scan terminated, if successful.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchValueList * CreateMatcher(const yarp::os::ConstString & inString,
-                                                  const size_t                  inLength,
-                                                  const size_t                  startPos,
-                                                  size_t &                      endPos);
+            static MatchValueList * CreateMatcher(const Common::YarpString & inString,
+                                                  const size_t               inLength,
+                                                  const size_t               startPos,
+                                                  size_t &                   endPos);
             
             /*! @brief Return an element from the value list.
              @param index The zero-origin index of the element.

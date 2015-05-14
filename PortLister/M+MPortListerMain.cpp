@@ -84,20 +84,20 @@ using std::endl;
  @param portName The port to be inspected.
  @param checker A function that provides for early exit from loops.
  @param checkStuff The private data for the early exit function. */
-static void reportConnections(const OutputFlavour           flavour,
-                              const yarp::os::ConstString & portName,
-                              CheckFunction                 checker,
-                              void *                        checkStuff)
+static void reportConnections(const OutputFlavour flavour,
+                              const YarpString &  portName,
+                              CheckFunction       checker,
+                              void *              checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
     OD_LOG_P1("checkStuff = ", checkStuff); //####
-    bool                  sawInputs = false;
-    bool                  sawOutputs = false;
-    ChannelVector         inputs;
-    ChannelVector         outputs;
-    yarp::os::ConstString inputsAsString;
-    yarp::os::ConstString outputsAsString;
+    bool          sawInputs = false;
+    bool          sawOutputs = false;
+    ChannelVector inputs;
+    ChannelVector outputs;
+    YarpString    inputsAsString;
+    YarpString    outputsAsString;
     
     Utilities::GatherPortConnections(portName, inputs, outputs, Utilities::kInputAndOutputBoth,
                                      false, checker, checkStuff);
@@ -337,10 +337,10 @@ static void reportAssociates(const OutputFlavour                flavour,
     OD_LOG_P1("associates = ", &associates); //####
     if (associates._valid)
     {
-        yarp::os::ConstString inputAssociates;
-        yarp::os::ConstString outputAssociates;
-        const StringVector &  assocInputs = associates._inputs;
-        const StringVector &  assocOutputs = associates._outputs;
+        YarpString               inputAssociates;
+        YarpString               outputAssociates;
+        const YarpStringVector & assocInputs = associates._inputs;
+        const YarpStringVector & assocOutputs = associates._outputs;
         
         if (associates._primary)
         {
@@ -349,7 +349,7 @@ static void reportAssociates(const OutputFlavour                flavour,
             
             if (0 < assocInputs.size())
             {
-                for (StringVector::const_iterator walker(assocInputs.begin());
+                for (YarpStringVector::const_iterator walker(assocInputs.begin());
                      assocInputs.end() != walker; ++walker)
                 {
                     if (sawInput)
@@ -371,7 +371,7 @@ static void reportAssociates(const OutputFlavour                flavour,
             }
             if (0 < assocOutputs.size())
             {
-                for (StringVector::const_iterator walker(assocOutputs.begin());
+                for (YarpStringVector::const_iterator walker(assocOutputs.begin());
                      assocOutputs.end() != walker; ++walker)
                 {
                     if (sawOutput)
@@ -489,8 +489,8 @@ static bool reportPortStatus(const OutputFlavour               flavour,
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry); //####
     bool                       result;
     Utilities::PortAssociation associates;
-    yarp::os::ConstString      portName;
-    yarp::os::ConstString      portClass;
+    YarpString                 portName;
+    YarpString                 portClass;
     
     portName = SanitizeString(aDescriptor._portName, kOutputFlavourJSON != flavour);
     if (strncmp(portName.c_str(), HIDDEN_CHANNEL_PREFIX, sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
@@ -517,7 +517,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
         }
         if (checkWithRegistry)
         {
-            yarp::os::ConstString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+            YarpString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
             
             request += aDescriptor._portName;
             yarp::os::Bottle matches(FindMatchingServices(request, true));
@@ -525,7 +525,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
             OD_LOG_S1s("matches <- ", matches.toString()); //####
             if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
             {
-                yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+                YarpString matchesFirstString(matches.get(0).toString());
                 
                 if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
                 {
@@ -571,7 +571,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                         
                         if (secondList && secondList->size())
                         {
-                            yarp::os::ConstString serviceName(matches.get(1).toString());
+                            YarpString serviceName(matches.get(1).toString());
                             
                             if (aDescriptor._portName == MpM_REGISTRY_ENDPOINT_NAME)
                             {

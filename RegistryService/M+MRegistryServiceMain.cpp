@@ -93,9 +93,9 @@ using std::endl;
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false
  otherwise. */
-static void setUpAndGo(char * *                      argv,
-                       const yarp::os::ConstString & servicePortNumber,
-                       const bool                    reportOnExit)
+static void setUpAndGo(char * *           argv,
+                       const YarpString & servicePortNumber,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("argv = ", argv); //####
@@ -137,7 +137,7 @@ static void setUpAndGo(char * *                      argv,
                 yarp::os::Bottle metrics;
                 
                 stuff->gatherMetrics(metrics);
-                yarp::os::ConstString converted(Utilities::ConvertMetricsToString(metrics));
+                YarpString converted(Utilities::ConvertMetricsToString(metrics));
                 
                 cout << converted.c_str() << endl;
             }
@@ -180,12 +180,12 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                  autostartWasSet = false; // not used
-        bool                  nameWasSet = false; // not used
-        bool                  reportOnExit = false;
-        yarp::os::ConstString serviceEndpointName; // not used
-        yarp::os::ConstString servicePortNumber;
-        yarp::os::ConstString tag; // not used
+        bool       autostartWasSet = false; // not used
+        bool       nameWasSet = false; // not used
+        bool       reportOnExit = false;
+        YarpString serviceEndpointName; // not used
+        YarpString servicePortNumber;
+        YarpString tag; // not used
         
 		if (ProcessStandardServiceOptions(argc, argv, "", "", MpM_REGISTRY_ENDPOINT_NAME,
                                           REGISTRY_SERVICE_DESCRIPTION, 2014,

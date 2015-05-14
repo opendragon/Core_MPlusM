@@ -68,25 +68,25 @@ namespace MplusM
             /*! @brief The constructor.
              @param request The name of the request.
              @param service The service associated with the request. */
-            BaseRequestHandler(const yarp::os::ConstString & request,
-                               BaseService &                 service);
+            BaseRequestHandler(const YarpString & request,
+                               BaseService &      service);
             
             /*! @brief The destructor. */
             virtual ~BaseRequestHandler(void);
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(StringVector & alternateNames) = 0;
+            virtual void fillInAliases(YarpStringVector & alternateNames) = 0;
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const yarp::os::ConstString & request,
-                                           yarp::os::Property &          info) = 0;
+            virtual void fillInDescription(const YarpString &   request,
+                                           yarp::os::Property & info) = 0;
             
             /*! @brief Return the name of the request.
              @returns The name of the request. */
-            inline yarp::os::ConstString name(void)
+            inline YarpString name(void)
             const
             {
                 return _name;
@@ -97,10 +97,10 @@ namespace MplusM
              @param restOfInput The arguments to the operation.
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const yarp::os::ConstString & request,
-                                        const yarp::os::Bottle &      restOfInput,
-                                        const yarp::os::ConstString & senderChannel,
-                                        yarp::os::ConnectionWriter *  replyMechanism) = 0;
+            virtual bool processRequest(const YarpString &           request,
+                                        const yarp::os::Bottle &     restOfInput,
+                                        const YarpString &           senderChannel,
+                                        yarp::os::ConnectionWriter * replyMechanism) = 0;
             
             /*! @brief Send a response to a request.
              @param reply The response to send.
@@ -111,8 +111,8 @@ namespace MplusM
             /*! @brief Send a response to a request.
              @param reply The response to send.
              @param replyMechanism The destination for the response. */
-            void sendResponse(const yarp::os::ConstString & reply,
-                              yarp::os::ConnectionWriter *  replyMechanism);
+            void sendResponse(const YarpString &           reply,
+                              yarp::os::ConnectionWriter * replyMechanism);
             
             /*! @brief Connect the handler to a map.
              @param owner The map that contains this handler. */
@@ -137,7 +137,7 @@ namespace MplusM
         private :
             
             /*! @brief The name of the request. */
-            yarp::os::ConstString _name;
+            YarpString _name;
             
         }; // BaseRequestHandler
         

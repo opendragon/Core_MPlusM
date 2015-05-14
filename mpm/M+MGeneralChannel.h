@@ -78,7 +78,7 @@ namespace MplusM
             
             /*! @brief Returns the protocol associated with the channel.
              @returns The protocol associated with the channel. */
-            inline yarp::os::ConstString protocol(void)
+            inline YarpString protocol(void)
             const
             {
                 return _protocol;
@@ -86,7 +86,7 @@ namespace MplusM
             
             /*! @brief Returns the description of the protocol associated with the channel.
              @returns The description of the protocol associated with the channel. */
-            inline yarp::os::ConstString protocolDescription(void)
+            inline YarpString protocolDescription(void)
             const
             {
                 return _protocolDescription;
@@ -95,8 +95,8 @@ namespace MplusM
             /*! @brief Sets the protocol associated with the channel.
              @param newProtocol The new protocol associated with the channel.
              @param description The description of the new protocol. */
-            void setProtocol(const yarp::os::ConstString & newProtocol,
-                             const yarp::os::ConstString & description);
+            void setProtocol(const YarpString & newProtocol,
+                             const YarpString & description);
             
         protected :
             
@@ -114,10 +114,10 @@ namespace MplusM
             typedef BaseChannel inherited;
             
             /*! @brief The protocol that the channel supports. */
-            yarp::os::ConstString _protocol;
+            YarpString _protocol;
             
             /*! @brief The description of the protocol that the channel supports. */
-            yarp::os::ConstString _protocolDescription;
+            YarpString _protocolDescription;
             
             /*! @brief @c true if the channel is used for output and @c false otherwise. */
             bool _isOutput;

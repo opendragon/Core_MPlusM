@@ -103,9 +103,9 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
     
     if (fingerType.isString() && tipPosition.isList() && tipDirection.isList())
     {
-        yarp::os::ConstString fingerTag = fingerType.asString();
-        yarp::os::Bottle *    positionData = tipPosition.asList();
-        yarp::os::Bottle *    directionData = tipDirection.asList();
+        YarpString         fingerTag = fingerType.asString();
+        yarp::os::Bottle * positionData = tipPosition.asList();
+        yarp::os::Bottle * directionData = tipDirection.asList();
         
         if (positionData && (3 == positionData->size()) && directionData &&
             (3 == directionData->size()))
@@ -197,8 +197,8 @@ static bool dumpHandData(std::stringstream &  outBuffer,
     
     if ((! idValue.isNull()) && sideValue.isString() && fingerValue.isList())
     {
-        yarp::os::ConstString nameTag(sideValue.asString());
-        yarp::os::Bottle *    fingers = fingerValue.asList();
+        YarpString         nameTag(sideValue.asString());
+        yarp::os::Bottle * fingers = fingerValue.asList();
         
         if (fingers)
         {
@@ -300,10 +300,10 @@ UnrealOutputLeapInputHandler::~UnrealOutputLeapInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                               const yarp::os::ConstString & senderChannel,
-                                               yarp::os::ConnectionWriter *  replyMechanism,
-                                               const size_t                  numBytes)
+bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                               const YarpString &           senderChannel,
+                                               yarp::os::ConnectionWriter * replyMechanism,
+                                               const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

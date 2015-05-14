@@ -82,8 +82,8 @@ using std::endl;
 static void setUpAndGo(const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
-    bool         reported = false;
-    StringVector services;
+    bool             reported = false;
+    YarpStringVector services;
     
     if (Utilities::GetServiceNames(services))
     {
@@ -93,24 +93,24 @@ static void setUpAndGo(const OutputFlavour flavour)
         }
         if (0 < services.size())
         {
-            for (StringVector::const_iterator walker(services.begin()); services.end() != walker;
-                 ++walker)
+            for (YarpStringVector::const_iterator walker(services.begin());
+                 services.end() != walker; ++walker)
             {
                 Utilities::ServiceDescriptor descriptor;
                 
                 if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
                                                                STANDARD_WAIT_TIME))
                 {
-                    bool                  sawInputs = false;
-                    bool                  sawOutputs = false;
-                    yarp::os::ConstString description;
-                    yarp::os::ConstString inChannelNames;
-                    yarp::os::ConstString kind;
-                    yarp::os::ConstString outChannelNames;
-                    yarp::os::ConstString requests;
-                    yarp::os::ConstString serviceName;
-                    yarp::os::ConstString servicePortName;
-                    yarp::os::ConstString tag;
+                    bool       sawInputs = false;
+                    bool       sawOutputs = false;
+                    YarpString description;
+                    YarpString inChannelNames;
+                    YarpString kind;
+                    YarpString outChannelNames;
+                    YarpString requests;
+                    YarpString serviceName;
+                    YarpString servicePortName;
+                    YarpString tag;
                     
                     switch (flavour)
                     {

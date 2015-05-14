@@ -67,13 +67,13 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param requestName The request to be processed. */
-            ServiceRequest(const yarp::os::ConstString & requestName);
+            ServiceRequest(const YarpString & requestName);
             
             /*! @brief The constructor.
              @param requestName The request to be processed.
              @param parameters The (optional) parameters for the request. */
-            ServiceRequest(const yarp::os::ConstString & requestName,
-                           const yarp::os::Bottle &      parameters);
+            ServiceRequest(const YarpString &       requestName,
+                           const yarp::os::Bottle & parameters);
             
             /*! @brief The destructor. */
             virtual ~ServiceRequest(void);
@@ -105,7 +105,7 @@ namespace MplusM
         private :
             
             /*! @brief The request name. */
-            yarp::os::ConstString _name;
+            YarpString _name;
             
             /*! @brief The request parameters. */
             yarp::os::Bottle _parameters;

@@ -78,11 +78,11 @@ namespace MplusM
              @param databaseServerAddress The IP address of the database server.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            MovementDbService(const yarp::os::ConstString & launchPath,
-                              const yarp::os::ConstString & tag,
-                              const yarp::os::ConstString & databaseServerAddress,
-                              const yarp::os::ConstString & serviceEndpointName,
-                              const yarp::os::ConstString & servicePortNumber = "");
+            MovementDbService(const Common::YarpString & launchPath,
+                              const Common::YarpString & tag,
+                              const Common::YarpString & databaseServerAddress,
+                              const Common::YarpString & serviceEndpointName,
+                              const Common::YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~MovementDbService(void);
@@ -91,22 +91,22 @@ namespace MplusM
              @param key The client-provided key.
              @param filePath The filesystem path to the file.
              @returns @c true if the file entry was added successfully and @c false otherwise. */
-            bool addFileToDb(const yarp::os::ConstString & key,
-                             const yarp::os::ConstString & filePath);
+            bool addFileToDb(const Common::YarpString & key,
+                             const Common::YarpString & filePath);
             
             /*! @brief Set the active data track.
              @param key The client-provided key.
              @param dataTrack The data track to use with subsequent files.
              @returns @c true if the data track was successfully set and @c false otherwise. */
-            bool setDataTrack(const yarp::os::ConstString & key,
-                              const yarp::os::ConstString & dataTrack);
+            bool setDataTrack(const Common::YarpString & key,
+                              const Common::YarpString & dataTrack);
 
             /*! @brief Set the active e-mail address.
              @param key The client-provided key.
              @param emailAddress The e-mail address of the user that will own subsequent files.
              @returns @c true if the e-mail address was successfully set and @c false otherwise. */
-            bool setEmailAddress(const yarp::os::ConstString & key,
-                                 const yarp::os::ConstString & emailAddress);
+            bool setEmailAddress(const Common::YarpString & key,
+                                 const Common::YarpString & emailAddress);
 
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -138,7 +138,7 @@ namespace MplusM
             typedef BaseService inherited;
             
             /*! @brief The IP address of the backend database server. */
-            yarp::os::ConstString _databaseAddress;
+            Common::YarpString _databaseAddress;
             
             /*! @brief The request handler for the 'addfile' request. */
             AddFileRequestHandler * _addFileHandler;

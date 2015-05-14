@@ -85,10 +85,10 @@ using namespace MplusM::RecordAsJSON;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RecordAsJSONService::RecordAsJSONService(const yarp::os::ConstString & launchPath,
-                                         const yarp::os::ConstString & tag,
-                                         const yarp::os::ConstString & serviceEndpointName,
-                                         const yarp::os::ConstString & servicePortNumber) :
+RecordAsJSONService::RecordAsJSONService(const YarpString & launchPath,
+                                         const YarpString & tag,
+                                         const YarpString & serviceEndpointName,
+                                         const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_RECORDASJSON_CANONICAL_NAME,
               RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new RecordAsJSONInputHandler)
@@ -163,9 +163,9 @@ void RecordAsJSONService::restartStreams(void)
 bool RecordAsJSONService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
     description._portName = rootName + "input";

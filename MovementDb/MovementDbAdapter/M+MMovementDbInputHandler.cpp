@@ -107,10 +107,10 @@ MovementDbInputHandler::~MovementDbInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &      input,
-                                         const yarp::os::ConstString & senderChannel,
-                                         yarp::os::ConnectionWriter *  replyMechanism,
-                                         const size_t                  numBytes)
+bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &     input,
+                                         const YarpString &           senderChannel,
+                                         yarp::os::ConnectionWriter * replyMechanism,
+                                         const size_t                 numBytes)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -129,10 +129,10 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &      input,
         
         if (0 < howMany)
         {
-            AdapterChannel *      theOutput = _shared.getOutput();
-            yarp::os::ConstString command;
-            double                outValue;
-            MovementDbClient *    theClient = (MovementDbClient *) _shared.getClient();
+            AdapterChannel *   theOutput = _shared.getOutput();
+            YarpString         command;
+            double             outValue;
+            MovementDbClient * theClient = (MovementDbClient *) _shared.getClient();
             
             if (theClient && theOutput)
             {
@@ -143,7 +143,7 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &      input,
                     
                     if (argValue.isString())
                     {
-                        yarp::os::ConstString argString(argValue.asString());
+                        YarpString argString(argValue.asString());
                         
                         if (0 < command.length())
                         {

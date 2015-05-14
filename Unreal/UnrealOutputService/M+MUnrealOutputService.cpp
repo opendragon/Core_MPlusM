@@ -88,10 +88,10 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-UnrealOutputService::UnrealOutputService(const yarp::os::ConstString & launchPath,
-                                         const yarp::os::ConstString & tag,
-                                         const yarp::os::ConstString & serviceEndpointName,
-                                         const yarp::os::ConstString & servicePortNumber) :
+UnrealOutputService::UnrealOutputService(const YarpString & launchPath,
+                                         const YarpString & tag,
+                                         const YarpString & serviceEndpointName,
+                                         const YarpString & servicePortNumber) :
     inherited(launchPath, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME,
               UNREALOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
 	_translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
@@ -197,9 +197,9 @@ void UnrealOutputService::restartStreams(void)
 bool UnrealOutputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
-    bool                  result = true;
-    ChannelDescription    description;
-    yarp::os::ConstString rootName(getEndpoint().getName() + "/");
+    bool               result = true;
+    ChannelDescription description;
+    YarpString         rootName(getEndpoint().getName() + "/");
     
     _inDescriptions.clear();
     description._portName = rootName + "leapinput";

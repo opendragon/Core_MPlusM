@@ -90,10 +90,10 @@ using std::endl;
  @param sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c false if an unexpected value appears and @c true otherwise. */
-static bool processDictionaryEntry(yarp::os::Property &          asDict,
-                                   const yarp::os::ConstString & cleanServiceName,
-                                   const OutputFlavour           flavour,
-                                   const bool                    sawResponse)
+static bool processDictionaryEntry(yarp::os::Property & asDict,
+                                   const YarpString &   cleanServiceName,
+                                   const OutputFlavour  flavour,
+                                   const bool           sawResponse)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("asDict = ", &asDict); //####
@@ -103,12 +103,12 @@ static bool processDictionaryEntry(yarp::os::Property &          asDict,
     
     if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
     {
-        yarp::os::ConstString theDetailsString;
-        yarp::os::ConstString theInputsString;
-        yarp::os::ConstString theOutputsString;
-        yarp::os::ConstString theVersionString;
-        yarp::os::ConstString theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
-        yarp::os::Bottle      keywordList;
+        YarpString       theDetailsString;
+        YarpString       theInputsString;
+        YarpString       theOutputsString;
+        YarpString       theVersionString;
+        YarpString       theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        yarp::os::Bottle keywordList;
         
         theRequest = SanitizeString(theRequest, kOutputFlavourJSON != flavour);
         if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY))
@@ -244,18 +244,17 @@ static bool processDictionaryEntry(yarp::os::Property &          asDict,
  @param sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(const OutputFlavour           flavour,
-                            const yarp::os::ConstString & serviceName,
-                            const ServiceResponse &       response,
-                            const bool                    sawResponse)
+static bool processResponse(const OutputFlavour     flavour,
+                            const YarpString &      serviceName,
+                            const ServiceResponse & response,
+                            const bool              sawResponse)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceName = ", serviceName); //####
     OD_LOG_P1("response = ", &response); //####
     OD_LOG_B1("sawResponse = ", sawResponse); //####
-    bool                  result = false;
-    yarp::os::ConstString cleanServiceName(SanitizeString(serviceName,
-                                                          kOutputFlavourJSON != flavour));
+    bool       result = false;
+    YarpString cleanServiceName(SanitizeString(serviceName, kOutputFlavourJSON != flavour));
     
     for (int ii = 0, howMany = response.count(); ii < howMany; ++ii)
     {
@@ -292,13 +291,13 @@ static bool processResponse(const OutputFlavour           flavour,
 /*! @brief Set up the environment and perform the operation.
  @param arguments The arguments to analyze.
  @param flavour The format for the output. */
-static void setUpAndGo(const StringVector & arguments,
-                       const OutputFlavour  flavour)
+static void setUpAndGo(const YarpStringVector & arguments,
+                       const OutputFlavour      flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
-    yarp::os::ConstString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
-    const char *          requestName;
+    YarpString   channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+    const char * requestName;
     
     if (1 < arguments.size())
     {
@@ -327,15 +326,15 @@ static void setUpAndGo(const StringVector & arguments,
     if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
     {
         // First, check if the search succeeded.
-        yarp::os::ConstString matchesFirstString(matches.get(0).toString());
+        YarpString matchesFirstString(matches.get(0).toString());
         
         if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
         {
             OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
 #if MAC_OR_LINUX_
-            yarp::os::ConstString reason(matches.get(1).toString());
+            YarpString reason(matches.get(1).toString());
             
-            GetLogger().fail(yarp::os::ConstString("Failed: ") + reason + ".");
+            GetLogger().fail(YarpString("Failed: ") + reason + ".");
 #endif // MAC_OR_LINUX_
         }
         else
@@ -349,10 +348,10 @@ static void setUpAndGo(const StringVector & arguments,
                 
                 if (matchesCount)
                 {
-                    yarp::os::ConstString aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
-                                                                       "requestinfo_/"
-                                                                       DEFAULT_CHANNEL_ROOT);
-                    ClientChannel *       newChannel = new ClientChannel;
+                    YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                                                                 "requestinfo_/"
+                                                                 DEFAULT_CHANNEL_ROOT);
+                    ClientChannel * newChannel = new ClientChannel;
                     
                     if (newChannel)
                     {
@@ -371,7 +370,7 @@ static void setUpAndGo(const StringVector & arguments,
                             }
                             for (int ii = 0; ii < matchesCount; ++ii)
                             {
-                                yarp::os::ConstString aMatch(matchesList->get(ii).toString());
+                                YarpString aMatch(matchesList->get(ii).toString());
                                 
                                 if (Utilities::NetworkConnectWithRetries(aName, aMatch,
                                                                          STANDARD_WAIT_TIME))
@@ -404,10 +403,8 @@ static void setUpAndGo(const StringVector & arguments,
                                             yarp::os::impl::Logger & theLogger =
                                             GetLogger();
                                             
-                                            theLogger.fail(yarp::os::ConstString("Problem "
-                                                                                 "communicating "
-                                                                                 "with ") +
-                                                           aMatch + ".");
+                                            theLogger.fail(YarpString("Problem communicating "
+                                                                      "with ") + aMatch + ".");
 #endif // MAC_OR_LINUX_
                                         }
                                     }
@@ -433,10 +430,8 @@ static void setUpAndGo(const StringVector & arguments,
 #if MAC_OR_LINUX_
                                             yarp::os::impl::Logger & theLogger = GetLogger();
                                             
-                                            theLogger.fail(yarp::os::ConstString("Problem "
-                                                                                 "communicating "
-                                                                                 "with ") +
-                                                           aMatch + ".");
+                                            theLogger.fail(YarpString("Problem communicating "
+                                                                      "with ") + aMatch + ".");
 #endif // MAC_OR_LINUX_
                                         }
                                     }
@@ -548,8 +543,8 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour;
-    StringVector  arguments;
+    OutputFlavour    flavour;
+    YarpStringVector arguments;
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [channel [request]]"),
                                                    T_("  channel    Optional channel name for "

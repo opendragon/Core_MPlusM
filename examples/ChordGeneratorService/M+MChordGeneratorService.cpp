@@ -82,10 +82,10 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ChordGeneratorService::ChordGeneratorService(const yarp::os::ConstString & launchPath,
-                                             const yarp::os::ConstString & tag,
-                                             const yarp::os::ConstString & serviceEndpointName,
-                                             const yarp::os::ConstString & servicePortNumber) :
+ChordGeneratorService::ChordGeneratorService(const YarpString & launchPath,
+                                             const YarpString & tag,
+                                             const YarpString & serviceEndpointName,
+                                             const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, tag, true, MpM_CHORD_GENERATOR_NAME,
               CHORDGENERATOR_SERVICE_DESCRIPTION,
               "returns list of MIDI note numbers defining the chord", serviceEndpointName,
