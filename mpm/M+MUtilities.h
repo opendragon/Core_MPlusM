@@ -59,7 +59,7 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterArguments;
+        class BaseAdapterArguments;
     } // Common
     
     namespace Utilities
@@ -437,7 +437,7 @@ namespace MplusM
          @returns @c true if the program should continue and @c false if it should leave. */
         bool ProcessStandardAdapterOptions(const int                  argc,
                                            char * *                   argv,
-                                           Common::AdapterArguments & argumentHandler,
+                                           Common::BaseAdapterArguments & argumentHandler,
                                            const Common::YarpString & adapterDescription,
                                            const Common::YarpString & matchingCriteria,
                                            const int                  year,

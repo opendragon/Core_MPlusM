@@ -40,8 +40,8 @@
 #include "M+MExemplarClient.h"
 #include "M+MExemplarInputHandler.h"
 
-#include <mpm/M+MAdapterArguments.h>
 #include <mpm/M+MAdapterChannel.h>
+#include <mpm/M+MAdapterTwoArguments.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>

@@ -37,7 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
-#include <mpm/M+MAdapterArguments.h>
+#include <mpm/M+MBaseAdapterArguments.h>
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
@@ -2332,7 +2332,7 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
 
 bool Utilities::ProcessStandardAdapterOptions(const int          argc,
                                               char * *           argv,
-                                              AdapterArguments & argumentHandler,
+                                              BaseAdapterArguments & argumentHandler,
                                               const YarpString & adapterDescription,
                                               const YarpString & matchingCriteria,
                                               const int          year,

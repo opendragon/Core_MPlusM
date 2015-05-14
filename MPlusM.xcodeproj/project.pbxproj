@@ -296,6 +296,16 @@
 		DF45F21F1A5AF9500090E161 /* M+MJavaScriptServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MJavaScriptServiceMain.cpp"; path = "JavaScript/M+MJavaScriptServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF45F2201A5AF9500090E161 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = JavaScript/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF45F2211A5C4CA30090E161 /* SampleScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SampleScript.js; path = JavaScript/SampleScript.js; sourceTree = SOURCE_ROOT; };
+		DF4FB4C21B054A1700534D59 /* M+MBaseAdapterArguments.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseAdapterArguments.cpp"; path = "mpm/M+MBaseAdapterArguments.cpp"; sourceTree = "<group>"; };
+		DF4FB4C31B054A1700534D59 /* M+MBaseAdapterArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseAdapterArguments.h"; path = "mpm/M+MBaseAdapterArguments.h"; sourceTree = "<group>"; };
+		DF4FB4C41B054A5400534D59 /* M+MAdapterFourArguments.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterFourArguments.cpp"; path = "mpm/M+MAdapterFourArguments.cpp"; sourceTree = "<group>"; };
+		DF4FB4C51B054A5400534D59 /* M+MAdapterFourArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterFourArguments.h"; path = "mpm/M+MAdapterFourArguments.h"; sourceTree = "<group>"; };
+		DF4FB4C61B054BEA00534D59 /* M+MAdapterThreeArguments.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterThreeArguments.cpp"; path = "mpm/M+MAdapterThreeArguments.cpp"; sourceTree = "<group>"; };
+		DF4FB4C71B054BEA00534D59 /* M+MAdapterThreeArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterThreeArguments.h"; path = "mpm/M+MAdapterThreeArguments.h"; sourceTree = "<group>"; };
+		DF4FB4C81B054D1D00534D59 /* M+MAdapterTwoArguments.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterTwoArguments.cpp"; path = "mpm/M+MAdapterTwoArguments.cpp"; sourceTree = "<group>"; };
+		DF4FB4C91B054D1D00534D59 /* M+MAdapterTwoArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterTwoArguments.h"; path = "mpm/M+MAdapterTwoArguments.h"; sourceTree = "<group>"; };
+		DF4FB4CA1B054EFD00534D59 /* M+MAdapterOneArgument.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterOneArgument.cpp"; path = "mpm/M+MAdapterOneArgument.cpp"; sourceTree = "<group>"; };
+		DF4FB4CB1B054EFD00534D59 /* M+MAdapterOneArgument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterOneArgument.h"; path = "mpm/M+MAdapterOneArgument.h"; sourceTree = "<group>"; };
 		DF6DFCC11A0D263400E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC21A0D265000E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/ViconDataStreamInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC31A0D265000E8CEF5 /* M+MViconDataStreamEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamEventThread.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamEventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -323,8 +333,6 @@
 		DF76235F1AFD01C4002BDC49 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Emotiv/EmotivInputService/resource.h; sourceTree = "<group>"; };
 		DF7623601AFD01C4002BDC49 /* M+MEmotivInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEmotivInputThread.h"; path = "Emotiv/EmotivInputService/M+MEmotivInputThread.h"; sourceTree = "<group>"; };
 		DF7623641B029130002BDC49 /* standardApplications.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = standardApplications.txt; sourceTree = "<group>"; };
-		DF7623651B04DC91002BDC49 /* M+MAdapterArguments.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAdapterArguments.cpp"; path = "mpm/M+MAdapterArguments.cpp"; sourceTree = "<group>"; };
-		DF7623661B04DC91002BDC49 /* M+MAdapterArguments.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterArguments.h"; path = "mpm/M+MAdapterArguments.h"; sourceTree = "<group>"; };
 		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -1555,14 +1563,22 @@
 			isa = PBXGroup;
 			children = (
 				DF3850BE198ACCFE00A0414E /* CMakeLists.txt */,
-				DF7623651B04DC91002BDC49 /* M+MAdapterArguments.cpp */,
-				DF7623661B04DC91002BDC49 /* M+MAdapterArguments.h */,
 				DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */,
 				DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */,
+				DF4FB4C41B054A5400534D59 /* M+MAdapterFourArguments.cpp */,
+				DF4FB4C51B054A5400534D59 /* M+MAdapterFourArguments.h */,
+				DF4FB4CA1B054EFD00534D59 /* M+MAdapterOneArgument.cpp */,
+				DF4FB4CB1B054EFD00534D59 /* M+MAdapterOneArgument.h */,
+				DF4FB4C61B054BEA00534D59 /* M+MAdapterThreeArguments.cpp */,
+				DF4FB4C71B054BEA00534D59 /* M+MAdapterThreeArguments.h */,
+				DF4FB4C81B054D1D00534D59 /* M+MAdapterTwoArguments.cpp */,
+				DF4FB4C91B054D1D00534D59 /* M+MAdapterTwoArguments.h */,
 				DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */,
 				DF3850C4198ACCFE00A0414E /* M+MBailOut.h */,
 				DF3850C5198ACCFE00A0414E /* M+MBailOutThread.cpp */,
 				DF3850C6198ACCFE00A0414E /* M+MBailOutThread.h */,
+				DF4FB4C21B054A1700534D59 /* M+MBaseAdapterArguments.cpp */,
+				DF4FB4C31B054A1700534D59 /* M+MBaseAdapterArguments.h */,
 				DF3850C7198ACCFE00A0414E /* M+MBaseAdapterData.cpp */,
 				DF3850C8198ACCFE00A0414E /* M+MBaseAdapterData.h */,
 				DFCDE4F919E595D90051D294 /* M+MBaseChannel.cpp */,

@@ -52,10 +52,14 @@ endif(APPLE)
 add_library(${THIS_TARGET}
             "${DO_SHARED}"
             "${MpM_SOURCE_DIR}/mpm/optionparser.cpp"
-            "${MpM_SOURCE_DIR}/mpm/M+MAdapterArguments.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MAdapterFourArguments.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MAdapterOneArgument.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MAdapterThreeArguments.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MAdapterTwoArguments.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterArguments.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseClient.cpp"
@@ -137,10 +141,14 @@ install(TARGETS ${THIS_TARGET}
 
 install(FILES
         "${MpM_SOURCE_DIR}/mpm/optionparser.h"
-        "${MpM_SOURCE_DIR}/mpm/M+MAdapterArguments.h"
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MAdapterFourArguments.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MAdapterOneArgument.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MAdapterThreeArguments.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MAdapterTwoArguments.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterArguments.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseClient.h"
@@ -182,10 +190,14 @@ install(FILES
 
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_mpm_in/mpmCommon.i
-        M+MAdapterArguments.cpp M+MAdapterArguments.h
         M+MAdapterChannel.h M+MAdapterChannel.cpp
+        M+MAdapterFourArguments.h M+MAdapterFourArguments.cpp
+        M+MAdapterOneArgument.h M+MAdapterOneArgument.cpp
+        M+MAdapterThreeArguments.h M+MAdapterThreeArguments.cpp
+        M+MAdapterTwoArguments.h M+MAdapterTwoArguments.cpp
         M+MBailOut.h M+MBailOut.cpp
         M+MBailOutThread.h M+MBailOutThread.cpp
+        M+MBaseAdapterArguments.cpp M+MBaseAdapterArguments.h
         M+MBaseAdapterData.h M+MBaseAdapterData.cpp
         M+MBaseChannel.h M+MBaseChannel.cpp
         M+MBaseClient.h M+MBaseClient.cpp
