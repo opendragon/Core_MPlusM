@@ -82,7 +82,7 @@ namespace MplusM
             kSkipNone            = 0x0000,
             
             /*! @brief Skip the 'autostart' option. */
-            kSkipAutostartOption = 0x0001,
+            kSkipGoOption = 0x0001,
             
             /*! @brief Skip the 'channel' option. */
             kSkipChannelOption   = 0x0002,
@@ -486,7 +486,7 @@ namespace MplusM
          @param serviceDescription A description of the service.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
-         @param autostartWasSet Set to @c true if the service is to be started immediately.
+         @param goWasSet Set to @c true if the service is to be started immediately.
          @param nameWasSet Set to @c true if the service endpoint option appeared.
          @param reportOnExit Set to @c true if the -r option is seen.
          @param tag Set to the argument of the last -t option seen.
@@ -504,7 +504,7 @@ namespace MplusM
                                            const YarpString & serviceDescription,
                                            const int          year,
                                            const char *       copyrightHolder,
-                                           bool &             autostartWasSet,
+                                           bool &             goWasSet,
                                            bool &             nameWasSet,
                                            bool &             reportOnExit,
                                            YarpString &       tag,

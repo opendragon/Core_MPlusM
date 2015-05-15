@@ -105,14 +105,14 @@ static void displayCommands(void)
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
- @param autostartWasSet @c true if the service is to be started immediately.
+ @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(char * *           argv,
                        const YarpString & tag,
                        const YarpString & serviceEndpointName,
                        const YarpString & servicePortNumber,
-                       const bool         autostartWasSet,
+                       const bool         goWasSet,
                        const bool         stdinAvailable,
                        const bool         reportOnExit)
 {
@@ -120,7 +120,7 @@ static void setUpAndGo(char * *           argv,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B3("autostartWasSet = ", autostartWasSet, "stdinAvailable = ", stdinAvailable, //####
+    OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     ProComp2InputService * stuff = new ProComp2InputService(*argv, tag, serviceEndpointName,
                                                             servicePortNumber);
@@ -140,7 +140,7 @@ static void setUpAndGo(char * *           argv,
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 stuff->startPinger();
-                if (autostartWasSet || (!stdinAvailable))
+                if (goWasSet || (!stdinAvailable))
                 {
                     if (stuff->configure(configureData))
                     {
@@ -149,7 +149,7 @@ static void setUpAndGo(char * *           argv,
                 }
                 for ( ; IsRunning(); )
                 {
-                    if ((! autostartWasSet) && stdinAvailable)
+                    if ((! goWasSet) && stdinAvailable)
                     {
                         char inChar;
                         
@@ -316,7 +316,7 @@ int main(int      argc,
 	{
 		try
 		{
-			bool             autostartWasSet = false;
+			bool             goWasSet = false;
 			bool             nameWasSet = false; // not used
 			bool             reportOnExit = false;
 			bool             stdinAvailable = CanReadFromStandardInput();
@@ -330,7 +330,7 @@ int main(int      argc,
                                                  "  size       Optional burst size"),
                                               DEFAULT_PROCOMP2INPUT_SERVICE_NAME,
                                               PROCOMP2INPUT_SERVICE_DESCRIPTION, 2015,
-                                              STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                              STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                               reportOnExit, tag, serviceEndpointName,
                                               servicePortNumber, kSkipNone, &arguments))
 			{
@@ -343,8 +343,8 @@ int main(int      argc,
                     Initialize(*argv);
                     if (Utilities::CheckForRegistryService())
                     {
-                        setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber,
-                                   autostartWasSet, stdinAvailable, reportOnExit);
+                        setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, goWasSet,
+                                   stdinAvailable, reportOnExit);
                     }
                     else
                     {

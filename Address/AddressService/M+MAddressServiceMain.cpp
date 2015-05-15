@@ -229,7 +229,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             autostartWasSet = false; // not used
+        bool             goWasSet = false; // not used
         bool             nameWasSet = false; // not used
         bool             reportOnExit = false;
         YarpString       serviceEndpointName;
@@ -241,9 +241,9 @@ int main(int      argc,
                                           T_("  hostname   IP address to return\n"
                                              "  port       port to return"),
                                           DEFAULT_ADDRESS_SERVICE_NAME, ADDRESS_SERVICE_DESCRIPTION,
-                                          2015, STANDARD_COPYRIGHT_NAME, autostartWasSet,
-                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipAutostartOption, &arguments))
+                                          2015, STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipGoOption, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

@@ -196,7 +196,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             autostartWasSet = false; // not used
+        bool             goWasSet = false; // not used
         bool             nameWasSet = false; // not used
         bool             reportOnExit = false;
         YarpString       serviceEndpointName;
@@ -208,9 +208,9 @@ int main(int      argc,
                                           T_("  hostname   IP address to provide access to\n"
                                              "  port       port to provide access to"),
                                           DEFAULT_TUNNEL_SERVICE_NAME, TUNNEL_SERVICE_DESCRIPTION,
-                                          2015, STANDARD_COPYRIGHT_NAME, autostartWasSet,
+                                          2015, STANDARD_COPYRIGHT_NAME, goWasSet,
                                           nameWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipAutostartOption, &arguments))
+                                          servicePortNumber, kSkipGoOption, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

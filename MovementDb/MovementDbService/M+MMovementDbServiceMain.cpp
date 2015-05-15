@@ -197,7 +197,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             autostartWasSet = false; // not used
+        bool             goWasSet = false; // not used
         bool             nameWasSet = false; // not used
         bool             reportOnExit = false;
         YarpString       serviceEndpointName;
@@ -209,9 +209,9 @@ int main(int      argc,
                                           T_("  dbAddress  Network address for database"),
                                           DEFAULT_MOVEMENTDB_SERVICE_NAME,
                                           MOVEMENTDB_SERVICE_DESCRIPTION, 2014,
-                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipAutostartOption, &arguments))
+                                          kSkipGoOption, &arguments))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())

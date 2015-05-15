@@ -1980,7 +1980,7 @@ static YarpString getFileNamePart(const YarpString & inFileName)
 /*! @brief Set up the environment and start the JavaScript service.
  @param arguments The arguments to analyze.
  @param tag The modifier for the service name and port names.
- @param autostartWasSet @c true if the service is to be started immediately.
+ @param goWasSet @c true if the service is to be started immediately.
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
@@ -1988,7 +1988,7 @@ static void setUpAndGo(YarpStringVector   arguments,
                        YarpString &       tag,
                        YarpString &       serviceEndpointName,
                        const YarpString & servicePortNumber,
-                       const bool         autostartWasSet,
+                       const bool         goWasSet,
                        const bool         nameWasSet,
                        const bool         reportOnExit,
                        const bool         stdinAvailable)
@@ -1997,7 +1997,7 @@ static void setUpAndGo(YarpStringVector   arguments,
     OD_LOG_P1("arguments = ", &arguments); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_B4("autostartWasSet = ", autostartWasSet, "nameWasSet = ", nameWasSet, //####
+    OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     if (0 < arguments.size())
     {
@@ -2216,7 +2216,7 @@ static void setUpAndGo(YarpStringVector   arguments,
                                         StartRunning();
                                         SetSignalHandlers(SignalRunningStop);
                                         stuff->startPinger();
-                                        if (autostartWasSet || (! stdinAvailable))
+                                        if (goWasSet || (! stdinAvailable))
                                         {
                                             if (stuff->configure(configureData))
                                             {
@@ -2225,7 +2225,7 @@ static void setUpAndGo(YarpStringVector   arguments,
                                         }
                                         for ( ; IsRunning(); )
                                         {
-                                            if ((! autostartWasSet) && stdinAvailable)
+                                            if ((! goWasSet) && stdinAvailable)
                                             {
                                                 char inChar;
                                                 
@@ -2427,7 +2427,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             autostartWasSet = false;
+        bool             goWasSet = false;
         bool             nameWasSet = false;
         bool             reportOnExit = false;
         bool             stdinAvailable = CanReadFromStandardInput();
@@ -2440,7 +2440,7 @@ int main(int      argc,
                                           T_("  filePath   Path to script file to use"),
                                           DEFAULT_JAVASCRIPT_SERVICE_NAME,
                                           JAVASCRIPTFILTER_SERVICE_DESCRIPTION, 2015,
-                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))
         {
@@ -2455,7 +2455,7 @@ int main(int      argc,
                 if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(arguments, tag, serviceEndpointName, servicePortNumber,
-                               autostartWasSet, nameWasSet, reportOnExit, stdinAvailable);
+                               goWasSet, nameWasSet, reportOnExit, stdinAvailable);
                 }
                 else
                 {

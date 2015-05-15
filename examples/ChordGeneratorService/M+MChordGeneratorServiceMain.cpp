@@ -185,7 +185,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool       autostartWasSet = false; // not used
+        bool       goWasSet = false; // not used
         bool       nameWasSet = false; // not used
         bool       reportOnExit = false;
         bool       stdinAvailable = CanReadFromStandardInput(); // not used
@@ -195,9 +195,9 @@ int main(int      argc,
         
 		if (ProcessStandardServiceOptions(argc, argv, "", "", DEFAULT_CHORDGENERATOR_SERVICE_NAME,
                                           CHORDGENERATOR_SERVICE_DESCRIPTION, 2014,
-                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipAutostartOption))
+                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipGoOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

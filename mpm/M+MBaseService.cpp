@@ -848,7 +848,7 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
                                            const YarpString & serviceDescription,
                                            const int          year,
                                            const char *       copyrightHolder,
-                                           bool &             autostartWasSet,
+                                           bool &             goWasSet,
                                            bool &             nameWasSet,
                                            bool &             reportOnExit,
                                            YarpString &       tag,
@@ -868,9 +868,9 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
     enum optionIndex
     {
         kOptionUNKNOWN,
-        kOptionAUTOSTART,
         kOptionCHANNEL,
         kOptionENDPOINT,
+        kOptionGO,
         kOptionHELP,
         kOptionINFO,
         kOptionPORT,
@@ -882,10 +882,6 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
     bool                  keepGoing = true;
     bool                  reportEndpoint = false;
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
-    Option_::Descriptor   autostartDescriptor(kOptionAUTOSTART, 0, "a", "autostart",
-                                              Option_::Arg::None,
-                                              T_("  --autostart, -a   Start the service "
-                                                 "immediately"));
     Option_::Descriptor   channelDescriptor(kOptionCHANNEL, 0, "c", "channel", Option_::Arg::None,
                                             T_("  --channel, -c     Report the actual endpoint "
                                                "name"));
@@ -893,6 +889,8 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
                                              Option_::Arg::Required,
                                              T_("  --endpoint, -e    Specify an alternative "
                                                 "endpoint name to be used"));
+    Option_::Descriptor   goDescriptor(kOptionGO, 0, "g", "autgoostart", Option_::Arg::None,
+                                       T_("  --go, -g          Start the service immediately"));
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
@@ -935,10 +933,6 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
 	memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
-    if (! (skipOptions & kSkipAutostartOption))
-    {
-        memcpy(usageWalker++, &autostartDescriptor, sizeof(autostartDescriptor));        
-    }
     if (! (skipOptions & kSkipChannelOption))
     {
         memcpy(usageWalker++, &channelDescriptor, sizeof(channelDescriptor));
@@ -946,6 +940,10 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
     if (! (skipOptions & kSkipEndpointOption))
     {
 		memcpy(usageWalker++, &endpointDescriptor, sizeof(endpointDescriptor));
+    }
+    if (! (skipOptions & kSkipGoOption))
+    {
+        memcpy(usageWalker++, &goDescriptor, sizeof(goDescriptor));
     }
     memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
     if (! (skipOptions & kSkipInfoOption))
@@ -997,7 +995,7 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
         // Note that we don't report the 'h' and 'v' options, as they are not involved in
         // determining what choices to offer when launching a service.
         cout << "Service";
-        if (! (skipOptions & kSkipAutostartOption))
+        if (! (skipOptions & kSkipGoOption))
         {
             if (needTab)
             {
@@ -1074,9 +1072,9 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
     }
     else
     {
-        if (options[kOptionAUTOSTART])
+        if (options[kOptionGO])
         {
-            autostartWasSet = true;
+            goWasSet = true;
         }
         if (options[kOptionCHANNEL])
         {

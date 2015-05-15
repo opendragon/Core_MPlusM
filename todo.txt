@@ -28,8 +28,6 @@
 
 @ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running
 
-* change ‘-a’ / ‘-auto’ to ‘-g’ / ‘-go’ for services; note that it won’t be necessary for Channel Manager to check for ‘a’, as all adapters are ‘automatic’ as long as their associated service is active, and all services will provide the necessary argument formats to determine when they can be run
-
 * add ‘-a’ / ‘-args’ to adapters and services - returns the arguments format —>
 	<argsFormat> ::= <argFormat> | <argFormat> ‘\t’ <argsFormat>
 	<argFormat> ::= <typeTagAndInfo> ‘:’ <default value> ‘:’ <text description for label>
@@ -46,3 +44,5 @@
 —> this can be handled by a new set of classes, in Channel Manager, used to validate a text string (coming from Channel Manager) against the particular argFormat; the text description is used for the dialog label; the argsFormat data should be passed to the ‘processZZZ’ routine, and returned by the ‘-a’ / ‘—args’ option, where it will be used by Channel Manager to construct the dialog box and to validate the entered data
 
 —> all required arguments _must_ appear before all the optional arguments - ignore an executable that doesn’t obey this - and an executable that has only optional arguments can be launched immediately; only optional values should have default values
+
++ make sure that the initial placement of entities is within the visible area - below the menu bar and above the bottom

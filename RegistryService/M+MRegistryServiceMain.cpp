@@ -180,7 +180,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool       autostartWasSet = false; // not used
+        bool       goWasSet = false; // not used
         bool       nameWasSet = false; // not used
         bool       reportOnExit = false;
         YarpString serviceEndpointName; // not used
@@ -189,9 +189,9 @@ int main(int      argc,
         
 		if (ProcessStandardServiceOptions(argc, argv, "", "", MpM_REGISTRY_ENDPOINT_NAME,
                                           REGISTRY_SERVICE_DESCRIPTION, 2014,
-                                          STANDARD_COPYRIGHT_NAME, autostartWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          static_cast<OptionsMask>(kSkipAutostartOption |
+                                          static_cast<OptionsMask>(kSkipGoOption |
                                                                    kSkipEndpointOption |
                                                                    kSkipTagOption)))
         {
