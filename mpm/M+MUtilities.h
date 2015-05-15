@@ -39,6 +39,7 @@
 #if (! defined(MpMUtilities_H_))
 # define MpMUtilities_H_ /* Header guard */
 
+# include <mpm/M+MBaseArgumentDescriptor.h>
 # include <mpm/M+MChannelStatusReporter.h>
 
 # if defined(__APPLE__)
@@ -420,6 +421,8 @@ namespace MplusM
                                           void *                     checkStuff = NULL);
         
         /*! @brief Process the standard options for adapter executables.
+         The option '-c' / '--channels' displays the list of channels created by the adapter and
+         returns @c false.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
          The option '-i' / '--info' displays the type of the executable and the description of the
@@ -437,7 +440,7 @@ namespace MplusM
          @returns @c true if the program should continue and @c false if it should leave. */
         bool ProcessStandardAdapterOptions(const int                  argc,
                                            char * *                   argv,
-                                           Common::BaseAdapterArguments & argumentHandler,
+                                           DescriptorVector &         argumentDescriptions,
                                            const Common::YarpString & adapterDescription,
                                            const Common::YarpString & matchingCriteria,
                                            const int                  year,

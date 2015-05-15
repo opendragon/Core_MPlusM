@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MAdapterOneArgument.cpp
+//  File:       mpm/M+MChannelArgumentDescriptor.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required to gather the arguments
-//              for an M+M adapter.
+//  Contains:   The class definition for the minimal functionality required to represent a
+//              channel-type command-line argument.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,11 +33,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-05-14
+//  Created:    2015-05-15
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MAdapterOneArgument.h>
+#include <mpm/M+MChannelArgumentDescriptor.h>
+#include <mpm/M+MEndpoint.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,8 +49,8 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the minimal functionality required to gather the arguments for an
- M+M adapter. */
+ @brief The definition for the minimal functionality required to represent a channel-type
+ command-line argument. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -60,6 +61,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using namespace MplusM::Utilities;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -81,49 +83,55 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AdapterOneArgument::AdapterOneArgument(const char *       argList,
-                                       const char *       argDescription,
-                                       const YarpString & defaultFirstArgument,
-                                       YarpString &       firstArgument) :
-    inherited(argList, argDescription), _firstArgument(firstArgument)
+ChannelArgumentDescriptor::ChannelArgumentDescriptor(const YarpString & argName,
+                                                     const YarpString & argDescription,
+                                                     const YarpString & defaultValue,
+                                                     const bool         isOptional,
+                                                     YarpString *       argumentReference) :
+    inherited(argName, argDescription, defaultValue, isOptional, argumentReference)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S2("argList = ", argList, "argDescription = ", argDescription); //####
-    OD_LOG_S1s("defaultFirstArgument = ", defaultFirstArgument); //####
-    OD_LOG_P1("firstArgument = ", &firstArgument); //####
-    _firstArgument = defaultFirstArgument;
+    OD_LOG_S3("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
+              defaultValue); //####
+    OD_LOG_B1("isOptional = ", isOptional); //####
+    OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
-} // AdapterOneArgument::AdapterOneArgument
+} // ChannelArgumentDescriptor::ChannelArgumentDescriptor
 
-AdapterOneArgument::~AdapterOneArgument(void)
+ChannelArgumentDescriptor::~ChannelArgumentDescriptor(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // AdapterOneArgument::~AdapterOneArgument
+} // ChannelArgumentDescriptor::~ChannelArgumentDescriptor
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString AdapterOneArgument::combineArguments(const YarpString & sep)
+Common::YarpString ChannelArgumentDescriptor::toString(void)
+const
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(_firstArgument);
-
-    OD_LOG_EXIT_s(result); //####
+    Common::YarpString result(isOptional() ? "c" : "C");
+    
+    result += standardFields();
+    OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // AdapterOneArgument::combineArguments
+} // ChannelArgumentDescriptor::toString
 
-void AdapterOneArgument::processArguments(Option_::Parser & parseResult)
+bool ChannelArgumentDescriptor::validate(const Common::YarpString & value)
+const
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("parseResult = ", parseResult); //####
-    if (0 < parseResult.nonOptionsCount())
+    bool result = Endpoint::CheckEndpointName(value);
+    
+    if (result && _argumentReference)
     {
-        _firstArgument = parseResult.nonOption(0);
+        *_argumentReference = value;
     }
-    OD_LOG_EXIT(); //####
-} // AdapterOneArgument::processArguments
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ChannelArgumentDescriptor::validate
 
 #if defined(__APPLE__)
 # pragma mark Global functions

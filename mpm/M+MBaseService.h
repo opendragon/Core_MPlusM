@@ -464,10 +464,10 @@ namespace MplusM
         }; // BaseService
         
         /*! @brief Process the standard options for service executables.
-         The option '-a' / '--autostart' indicates that the service is to be started immediately.
          The option '-c' / '--channel' displays the endpoint name after applying all other
          options and retunrs @c false.
          The option '-e' / '--endpoint' specifies the endpoint name to be used.
+         The option '-g' / '--go' indicates that the service is to be started immediately.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
          The option '-i' / '--info' displays the type of the executable, the available options and

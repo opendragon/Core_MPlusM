@@ -37,7 +37,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
-#include <mpm/M+MBaseAdapterArguments.h>
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
@@ -2332,7 +2331,7 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
 
 bool Utilities::ProcessStandardAdapterOptions(const int          argc,
                                               char * *           argv,
-                                              BaseAdapterArguments & argumentHandler,
+                                              DescriptorVector & argumentDescriptions,
                                               const YarpString & adapterDescription,
                                               const YarpString & matchingCriteria,
                                               const int          year,
@@ -2340,7 +2339,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P2("argv = ", argv, "argumentHandler = ", &argumentHandler); //####
+    OD_LOG_P2("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions); //####
     OD_LOG_S2s("adapterDescription = ", adapterDescription, "matchingCriteria = ", //####
                matchingCriteria); //####
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
@@ -2372,14 +2371,26 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     int                   argcWork = argc;
     char * *              argvWork = argv;
     YarpString            usageString("USAGE: ");
-    YarpString            argDescription(argumentHandler.argumentDescription());
-    YarpString            argList(argumentHandler.argumentList());
+    YarpString            argList(ArgumentsToArgString(argumentDescriptions));
     
     usageString += *argv;
     usageString += " [options]";
     if (0 < argList.length())
     {
-        usageString += argList + "\n\n" + argDescription;
+        YarpStringVector descriptions;
+        
+        Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
+        usageString += " ";
+        usageString += argList + "\n\n";
+        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
+        {
+            if (0 < ii)
+            {
+                usageString += "\n";
+            }
+            usageString += "  ";
+            usageString += descriptions[ii];
+        }
     }
     usageString += "\n\nOptions:";
 #if MAC_OR_LINUX_
@@ -2427,10 +2438,17 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
         cout << "\t" << adapterDescription.c_str() << endl;
         keepGoing = false;
     }
-    else if (options[kOptionCHANNELS])
+    else if (ProcessArguments(argumentDescriptions, parse))
     {
-        argumentHandler.processArguments(parse);
-        cout << "Channels\t" << argumentHandler.combineArguments("\t").c_str() << endl;
+        if (options[kOptionCHANNELS])
+        {
+            cout << "Channels\t" << CombineArguments(argumentDescriptions, "\t").c_str() << endl;
+            keepGoing = false;
+        }
+    }
+    else
+    {
+        cout << "One or more invalid or missing arguments." << endl;
         keepGoing = false;
     }
     delete[] options;

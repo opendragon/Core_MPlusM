@@ -42,7 +42,7 @@
 #include "M+MRunningSumDataInputHandler.h"
 
 #include <mpm/M+MAdapterChannel.h>
-#include <mpm/M+MAdapterThreeArguments.h>
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -284,19 +284,26 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        YarpString            controlName;
-        YarpString            dataName;
-        YarpString            outputName;
-        AdapterThreeArguments argsHandler(T_(" [controlName [dataName [outputName]]]"),
-                                          T_("  controlName Optional name for the control channel\n"
-                                             "  dataName    Optional name for the data channel\n"
-                                             "  outputName  Optional name for the output channel"),
-                                          T_(ADAPTER_PORT_NAME_BASE "control/runningsum"),
-                                          T_(ADAPTER_PORT_NAME_BASE "data/runningsum"),
-                                          T_(ADAPTER_PORT_NAME_BASE "output/runningsum"),
-                                          controlName, dataName, outputName);
+        YarpString                           controlName;
+        YarpString                           dataName;
+        YarpString                           outputName;
+        Utilities::ChannelArgumentDescriptor firstArg("controlName",
+                                                      T_("Name for the control channel"),
+                                                      T_(ADAPTER_PORT_NAME_BASE
+                                                         "control/runningsum"), true, &controlName);
+        Utilities::ChannelArgumentDescriptor secondArg("dataName", T_("Name for the data channel"),
+                                                       T_(ADAPTER_PORT_NAME_BASE "data/runningsum"),
+                                                       true, &dataName);
+        Utilities::ChannelArgumentDescriptor thirdArg("outputName",
+                                                      T_("Name for the output channel"),
+                                                      T_(ADAPTER_PORT_NAME_BASE
+                                                         "output/runningsum"), true, &outputName);
+        Utilities::DescriptorVector          argumentList;
         
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, argsHandler,
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        argumentList.push_back(&thirdArg);
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, argumentList,
                                                      "The Running Sum adapter", MATCHING_CRITERIA,
                                                      2014, STANDARD_COPYRIGHT_NAME))
         {

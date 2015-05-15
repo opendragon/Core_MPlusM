@@ -41,7 +41,7 @@
 #include "M+MMovementDbInputHandler.h"
 
 #include <mpm/M+MAdapterChannel.h>
-#include <mpm/M+MAdapterTwoArguments.h>
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -263,16 +263,20 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        YarpString          inputName;
-        YarpString          outputName;
-        AdapterTwoArguments argsHandler(T_(" [inputName [outputName]]"),
-                                        T_("  inputName  Optional name for the input channel\n"
-                                           "  outputName Optional name for the output channel"),
-                                        T_(ADAPTER_PORT_NAME_BASE "input/runningsum"),
-                                        T_(ADAPTER_PORT_NAME_BASE "output/runningsum"),
-                                        inputName, outputName);
+        YarpString                           inputName;
+        YarpString                           outputName;
+        Utilities::ChannelArgumentDescriptor firstArg("inputName", T_("Name for the input channel"),
+                                                      T_(ADAPTER_PORT_NAME_BASE "input/movementdb"),
+                                                      true, &inputName);
+        Utilities::ChannelArgumentDescriptor secondArg("outputName",
+                                                       T_("Name for the output channel"),
+                                                       T_(ADAPTER_PORT_NAME_BASE
+                                                          "output/movementdb"), true, &outputName);
+        Utilities::DescriptorVector          argumentList;
         
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, argsHandler,
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        if (Utilities::ProcessStandardAdapterOptions(argc, argv, argumentList,
                                                      "The Movement database adapter",
                                                      MATCHING_CRITERIA, 2014,
                                                      STANDARD_COPYRIGHT_NAME))

@@ -28,7 +28,7 @@
 
 @ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running
 
-* add ‘-a’ / ‘-args’ to adapters and services - returns the arguments format —>
+* arguments format —>
 	<argsFormat> ::= <argFormat> | <argFormat> ‘\t’ <argsFormat>
 	<argFormat> ::= <typeTagAndInfo> ‘:’ <default value> ‘:’ <text description for label>
 	<typeTagAndInfo> ::= <integerTagAndInfo> | <doubleTagAndInfo> | <stringTagAndInfo> | <fileTagAndInfo> | <channelTagAndInfo>
@@ -36,12 +36,11 @@
 	<intRange> ::= ‘r’ <low value> ‘:’ <high value> | # if value is not present, not constrained
 	<doubleTagAndInfo> ::= ‘d’ <dblRange> | ‘D’ <dblRange>
 	<dblRange> ::= ‘r’ <low value> ‘:’ <high value> |
-	<stringTagAndInfo> ::= ’s’
-	<fileTagAndInfo> ::= ‘f’ <fileDirection> | ‘F’ <fileDirection>
+	<stringTagAndInfo> ::= ’s’ | ’S’
+		<fileTagAndInfo> ::= ‘f’ <fileDirection> | ‘F’ <fileDirection>
 	<fileDirection> ::= ‘i’ | ‘o’
 	<channelTagAndInfo> ::= ‘c’ | ‘C’
 	<default value> ::= <delimiter> <text> <delimiter> # use matching pairs of |, <>, (), {}, [], whichever is not present in the text
-—> this can be handled by a new set of classes, in Channel Manager, used to validate a text string (coming from Channel Manager) against the particular argFormat; the text description is used for the dialog label; the argsFormat data should be passed to the ‘processZZZ’ routine, and returned by the ‘-a’ / ‘—args’ option, where it will be used by Channel Manager to construct the dialog box and to validate the entered data
 
 —> all required arguments _must_ appear before all the optional arguments - ignore an executable that doesn’t obey this - and an executable that has only optional arguments can be launched immediately; only optional values should have default values
 

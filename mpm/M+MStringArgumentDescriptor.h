@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MAdapterTwoArguments.h
+//  File:       mpm/M+MStringArgumentDescriptor.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the minimal functionality required to gather the arguments
-//              for an M+M adapter.
+//  Contains:   The class declaration for the minimal functionality required to represent a
+//              string-type command-line argument.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-05-14
+//  Created:    2015-05-15
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAdapterTwoArguments_H_))
-# define MpMAdapterTwoArguments_H_ /* Header guard */
+#if (! defined(MpMStringArgumentDescriptor_H_))
+# define MpMStringArgumentDescriptor_H_ /* Header guard */
 
-# include <mpm/M+MBaseAdapterArguments.h>
+# include <mpm/M+MBaseArgumentDescriptor.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,54 +48,53 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the minimal functionality required to gather the arguments for an
- M+M adapter. */
+ @brief The class declaration for the minimal functionality required to represent a string-type
+ command-line argument. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace Common
+    namespace Utilities
     {
-        /*! @brief The arguments for an M+M adapter that takes up to four arguments. */
-        class AdapterTwoArguments : public BaseAdapterArguments
+        /*! @brief A string-type argument description. */
+        class StringArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
             
             /*! @brief The constructor.
-             @param argList The command-line arguments for the adapter.
-             @param argDescription A description of the command-line arguments for the adapter.
-             @param defaultFirstArgument The value to be returned if the first argument is not
-             present.
-             @param defaultSecondArgument The value to be returned if the second argument is not
-             present.
-             @param firstArgument The resulting first argument.
-             @param secondArgument The resulting second argument. */
-            AdapterTwoArguments(const char *       argList,
-                                const char *       argDescription,
-                                const YarpString & defaultFirstArgument,
-                                const YarpString & defaultSecondArgument,
-                                YarpString &       firstArgument,
-                                YarpString &       secondArgument);
+             @param argName The name of the command-line argument.
+             @param argDescription A description of the command-line argument.
+             @param isOptional @c true if the argument is optional and @c false otherwise.
+             @param argumentReference If non-@c NULL, the variable to be set with the argument
+             value. */
+            StringArgumentDescriptor(const Common::YarpString & argName,
+                                     const Common::YarpString & argDescription,
+                                     const Common::YarpString & defaultValue,
+                                     const bool                 isOptional,
+                                     Common::YarpString *       argumentReference = NULL);
             
             /*! @brief The destructor. */
-            virtual ~AdapterTwoArguments(void);
+            virtual ~StringArgumentDescriptor(void);
             
-            /*! @brief Return the resulting arguments.
-             @param sep The separator string between the arguments.
-             @returns The arguments, separated by 'sep'. */
-            virtual YarpString combineArguments(const YarpString & sep);
+            /*! @brief Convert to a printable representation.
+             @returns A printable representation of the descriptor. */
+            virtual Common::YarpString toString(void)
+            const;
             
-            /*! @brief Update the arguments data from the parsed argument list.
-             @param parseResult The parsed argument list. */
-            virtual void processArguments(Option_::Parser & parseResult);
+            /*! @brief Check an input value against the constraints of the descriptor.
+             @param value The value to be checked.
+             @returns @c true if the value is within the domain of the descriptor and @c false
+             otherwise. */
+            virtual bool validate(const Common::YarpString & value)
+            const;
             
         protected :
         
         private :
             
-            COPY_AND_ASSIGNMENT_(AdapterTwoArguments);
+            COPY_AND_ASSIGNMENT_(StringArgumentDescriptor);
             
         public :
         
@@ -104,18 +103,15 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseAdapterArguments inherited;
+            typedef BaseArgumentDescriptor inherited;
             
-            /*! @brief The first argument. */
-            YarpString & _firstArgument;
+            /*! @brief The address of the variable to be set with the argument value. */
+            Common::YarpString * _argumentReference;
             
-            /*! @brief The second argument. */
-            YarpString & _secondArgument;
-            
-        }; // AdapterTwoArguments
+        }; // StringArgumentDescriptor
         
-    } // Common
+    } // Utilities
     
 } // MplusM
 
-#endif // ! defined(MpMAdapterTwoArguments_H_)
+#endif // ! defined(MpMStringArgumentDescriptor_H_)

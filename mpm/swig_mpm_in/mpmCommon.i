@@ -1,14 +1,10 @@
 %module mpm
 %{
 #include "M+MAdapterChannel.h"
-#include "M+MAdapterFourArguments.h"
-#include "M+MAdapterOneArgument.h"
-#include "M+MAdapterThreeArguments.h"
-#include "M+MAdapterTwoArguments.h"
 #include "M+MBailOut.h"
 #include "M+MBailOutThread.h"
-#include "M+MBaseAdapterArguments.h"
 #include "M+MBaseAdapterData.h"
+#include "M+MBaseArgumentDescriptor.h"
 #include "M+MBaseChannel.h"
 #include "M+MBaseClient.h"
 #include "M+MBaseContext.h"
@@ -22,6 +18,7 @@
 #include "M+MBaseOutputService.h"
 #include "M+MBaseRequestHandler.h"
 #include "M+MBaseService.h"
+#include "M+MChannelArgumentDescriptor.h"
 #include "M+MChannelStatusReporter.h"
 #include "M+MClientChannel.h"
 #include "M+MCommon.h"
@@ -41,5 +38,6 @@
 #include "M+MServiceInputHandlerCreator.h"
 #include "M+MServiceRequest.h"
 #include "M+MServiceResponse.h"
+#include "M+MStringArgumentDescriptor.h"
 #include "M+MUtilities.h"
 %}

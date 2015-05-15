@@ -53,14 +53,10 @@ add_library(${THIS_TARGET}
             "${DO_SHARED}"
             "${MpM_SOURCE_DIR}/mpm/optionparser.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
-            "${MpM_SOURCE_DIR}/mpm/M+MAdapterFourArguments.cpp"
-            "${MpM_SOURCE_DIR}/mpm/M+MAdapterOneArgument.cpp"
-            "${MpM_SOURCE_DIR}/mpm/M+MAdapterThreeArguments.cpp"
-            "${MpM_SOURCE_DIR}/mpm/M+MAdapterTwoArguments.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
-            "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterArguments.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MBaseArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseClient.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseContext.cpp"
@@ -74,6 +70,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/M+MBaseOutputService.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseService.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MChannelArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MChannelsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MChannelStatusReporter.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MClientChannel.cpp"
@@ -108,6 +105,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/M+MStartStreamsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MStopRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MStopStreamsRequestHandler.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MStringArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MUtilities.cpp")
 
 target_link_libraries(${THIS_TARGET}
@@ -142,14 +140,10 @@ install(TARGETS ${THIS_TARGET}
 install(FILES
         "${MpM_SOURCE_DIR}/mpm/optionparser.h"
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
-        "${MpM_SOURCE_DIR}/mpm/M+MAdapterFourArguments.h"
-        "${MpM_SOURCE_DIR}/mpm/M+MAdapterOneArgument.h"
-        "${MpM_SOURCE_DIR}/mpm/M+MAdapterThreeArguments.h"
-        "${MpM_SOURCE_DIR}/mpm/M+MAdapterTwoArguments.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"
-        "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterArguments.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MBaseArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseClient.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseContext.h"
@@ -163,6 +157,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MBaseOutputService.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseRequestHandler.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseService.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MChannelArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MChannelStatusReporter.h"
         "${MpM_SOURCE_DIR}/mpm/M+MClientChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MCommon.h"
@@ -184,6 +179,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MServiceInputHandlerCreator.h"
         "${MpM_SOURCE_DIR}/mpm/M+MServiceRequest.h"
         "${MpM_SOURCE_DIR}/mpm/M+MServiceResponse.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MStringArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MUtilities.h"
         DESTINATION include/mpm
 		COMPONENT headers)
@@ -191,13 +187,9 @@ install(FILES
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_mpm_in/mpmCommon.i
         M+MAdapterChannel.h M+MAdapterChannel.cpp
-        M+MAdapterFourArguments.h M+MAdapterFourArguments.cpp
-        M+MAdapterOneArgument.h M+MAdapterOneArgument.cpp
-        M+MAdapterThreeArguments.h M+MAdapterThreeArguments.cpp
-        M+MAdapterTwoArguments.h M+MAdapterTwoArguments.cpp
+        M+MBaseArgumentDescriptor.h M+MBaseArgumentDescriptor.cpp
         M+MBailOut.h M+MBailOut.cpp
         M+MBailOutThread.h M+MBailOutThread.cpp
-        M+MBaseAdapterArguments.cpp M+MBaseAdapterArguments.h
         M+MBaseAdapterData.h M+MBaseAdapterData.cpp
         M+MBaseChannel.h M+MBaseChannel.cpp
         M+MBaseClient.h M+MBaseClient.cpp
@@ -212,6 +204,7 @@ if(MpM_DO_SWIG)
         M+MBaseOutputService.h M+MBaseOutputService.cpp
         M+MBaseRequestHandler.h M+MBaseRequestHandler.cpp
         M+MBaseService.h M+MBaseService.cpp
+        M+MChannelArgumentDescriptor.h M+MChannelArgumentDescriptor.cpp
         M+MChannelStatusReporter.h M+MChannelStatusReporter.cpp
         M+MClientChannel.h M+MClientChannel.cpp
         M+MCommon.h M+MCommon.cpp
@@ -231,6 +224,7 @@ if(MpM_DO_SWIG)
         M+MServiceInputHandlerCreator.h M+MServiceInputHandlerCreator.cpp
         M+MServiceRequest.h M+MServiceRequest.cpp
         M+MServiceResponse.h M+MServiceResponse.cpp
+        M+MStringArgumentDescriptor.h M+MStringArgumentDescriptor.cpp
         M+MUtilities.h M+MUtilities.cpp)
 
     include_directories("${MpM_SOURCE_DIR}/mpm")
