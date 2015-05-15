@@ -678,8 +678,8 @@ static void convertMetricPropertyToString(yarp::os::Property & propList,
                     result << endl;
                 }
                 result << theChannelAsString.c_str() << "\t" << theDateAsString.c_str() << "\t" <<
-                theTimeAsString.c_str() << "\t" << inByteCount << "\t" <<
-                outByteCount << "\t" << inMessageCount << "\t" << outMessageCount;
+                        theTimeAsString.c_str() << "\t" << inByteCount << "\t" <<
+                        outByteCount << "\t" << inMessageCount << "\t" << outMessageCount;
                 break;
                 
             case kOutputFlavourJSON :
@@ -689,19 +689,19 @@ static void convertMetricPropertyToString(yarp::os::Property & propList,
                 }
                 result << T_("{ " CHAR_DOUBLEQUOTE "channel" CHAR_DOUBLEQUOTE ": "
                              CHAR_DOUBLEQUOTE) << SanitizeString(theChannelAsString).c_str() <<
-                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "date" CHAR_DOUBLEQUOTE ": "
-                   CHAR_DOUBLEQUOTE) << theDateAsString.c_str() <<
-                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "time" CHAR_DOUBLEQUOTE ": "
-                   CHAR_DOUBLEQUOTE) << theTimeAsString.c_str() <<
-                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes" CHAR_DOUBLEQUOTE
-                   ": " CHAR_DOUBLEQUOTE) << inByteCount <<
-                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages" CHAR_DOUBLEQUOTE
-                   ": " CHAR_DOUBLEQUOTE) << inMessageCount <<
-                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outBytes" CHAR_DOUBLEQUOTE
-                   ": " CHAR_DOUBLEQUOTE) << outByteCount <<
-                T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages" CHAR_DOUBLEQUOTE
-                   ": " CHAR_DOUBLEQUOTE) << outMessageCount <<
-                T_(CHAR_DOUBLEQUOTE " }");
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "date" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << theDateAsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "time" CHAR_DOUBLEQUOTE ": "
+                           CHAR_DOUBLEQUOTE) << theTimeAsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes" CHAR_DOUBLEQUOTE
+                           ": " CHAR_DOUBLEQUOTE) << inByteCount <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages" CHAR_DOUBLEQUOTE
+                           ": " CHAR_DOUBLEQUOTE) << inMessageCount <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outBytes" CHAR_DOUBLEQUOTE
+                           ": " CHAR_DOUBLEQUOTE) << outByteCount <<
+                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages" CHAR_DOUBLEQUOTE
+                           ": " CHAR_DOUBLEQUOTE) << outMessageCount <<
+                        T_(CHAR_DOUBLEQUOTE " }");
                 break;
                 
             case kOutputFlavourNormal :
@@ -711,9 +711,9 @@ static void convertMetricPropertyToString(yarp::os::Property & propList,
                 }
                 result.width(channelWidth);
                 result << theChannelAsString.c_str() << ": [date: " << theDateAsString.c_str() <<
-                ", time: " << theTimeAsString.c_str() << ", bytes in: " <<
-                inByteCount << ", out: " << outByteCount << ", messages in: " <<
-                inMessageCount << ", out: " << outMessageCount << "]";
+                        ", time: " << theTimeAsString.c_str() << ", bytes in: " <<
+                        inByteCount << ", out: " << outByteCount << ", messages in: " <<
+                        inMessageCount << ", out: " << outMessageCount << "]";
                 break;
                 
             default :

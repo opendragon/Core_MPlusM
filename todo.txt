@@ -37,7 +37,7 @@
 	<doubleTagAndInfo> ::= ‘d’ <dblRange> | ‘D’ <dblRange>
 	<dblRange> ::= ‘r’ <low value> ‘:’ <high value> |
 	<stringTagAndInfo> ::= ’s’ | ’S’
-		<fileTagAndInfo> ::= ‘f’ <fileDirection> | ‘F’ <fileDirection>
+	<fileTagAndInfo> ::= ‘f’ <fileDirection> | ‘F’ <fileDirection>
 	<fileDirection> ::= ‘i’ | ‘o’
 	<channelTagAndInfo> ::= ‘c’ | ‘C’
 	<default value> ::= <delimiter> <text> <delimiter> # use matching pairs of |, <>, (), {}, [], whichever is not present in the text

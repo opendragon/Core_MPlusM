@@ -652,35 +652,40 @@ int main(int      argc,
             Initialize(*argv);
             if (0 < --argc)
             {
-                int selector = atoi(argv[1]);
+                const char * startPtr = argv[1];
+                char *       endPtr;
+                int          selector = strtol(startPtr, &endPtr, 10);
                 
-                SetSignalHandlers(catchSignal);
                 OD_LOG_LL1("selector <- ", selector); //####
-                switch (selector)
+                if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
                 {
-                    case 13 :
-                        result = doTestCreateRegistryService(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 14 :
-                        result = doTestRequestRegistryService(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 15 :
-                        result = doTestRequestUnregisterService(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    case 16 :
-                        result = doTestRequestSearchService(*argv, argc - 1, argv + 2);
-                        break;
-                        
-                    default :
-                        break;
-                        
-                }
-                if (result)
-                {
-                    OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
+                    SetSignalHandlers(catchSignal);
+                    switch (selector)
+                    {
+                        case 13 :
+                            result = doTestCreateRegistryService(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 14 :
+                            result = doTestRequestRegistryService(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 15 :
+                            result = doTestRequestUnregisterService(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        case 16 :
+                            result = doTestRequestSearchService(*argv, argc - 1, argv + 2);
+                            break;
+                            
+                        default :
+                            break;
+                            
+                    }
+                    if (result)
+                    {
+                        OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
+                    }
                 }
             }
             else

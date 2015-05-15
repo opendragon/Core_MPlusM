@@ -302,6 +302,12 @@
 		DF4FB4CF1B063BE600534D59 /* M+MChannelArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MChannelArgumentDescriptor.h"; path = "mpm/M+MChannelArgumentDescriptor.h"; sourceTree = "<group>"; };
 		DF4FB4D01B063EA400534D59 /* M+MStringArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MStringArgumentDescriptor.cpp"; path = "mpm/M+MStringArgumentDescriptor.cpp"; sourceTree = "<group>"; };
 		DF4FB4D11B063EA400534D59 /* M+MStringArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MStringArgumentDescriptor.h"; path = "mpm/M+MStringArgumentDescriptor.h"; sourceTree = "<group>"; };
+		DF4FB4D21B06880300534D59 /* M+MFilePathArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MFilePathArgumentDescriptor.cpp"; path = "mpm/M+MFilePathArgumentDescriptor.cpp"; sourceTree = "<group>"; };
+		DF4FB4D31B06880300534D59 /* M+MFilePathArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MFilePathArgumentDescriptor.h"; path = "mpm/M+MFilePathArgumentDescriptor.h"; sourceTree = "<group>"; };
+		DF4FB4D41B068FCE00534D59 /* M+MIntegerArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MIntegerArgumentDescriptor.cpp"; path = "mpm/M+MIntegerArgumentDescriptor.cpp"; sourceTree = "<group>"; };
+		DF4FB4D51B068FCE00534D59 /* M+MIntegerArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MIntegerArgumentDescriptor.h"; path = "mpm/M+MIntegerArgumentDescriptor.h"; sourceTree = "<group>"; };
+		DF4FB4D61B069B9E00534D59 /* M+MDoubleArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MDoubleArgumentDescriptor.cpp"; path = "mpm/M+MDoubleArgumentDescriptor.cpp"; sourceTree = "<group>"; };
+		DF4FB4D71B069B9E00534D59 /* M+MDoubleArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MDoubleArgumentDescriptor.h"; path = "mpm/M+MDoubleArgumentDescriptor.h"; sourceTree = "<group>"; };
 		DF6DFCC11A0D263400E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC21A0D265000E8CEF5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ViconDataStream/ViconDataStreamInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF6DFCC31A0D265000E8CEF5 /* M+MViconDataStreamEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconDataStreamEventThread.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconDataStreamEventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1605,12 +1611,18 @@
 				DF3850EA198ACCFE00A0414E /* M+MCommon.h */,
 				DF3850EB198ACCFE00A0414E /* M+MConfig.h */,
 				DF3850EC198ACCFE00A0414E /* M+MConfig.h.in */,
+				DF4FB4D61B069B9E00534D59 /* M+MDoubleArgumentDescriptor.cpp */,
+				DF4FB4D71B069B9E00534D59 /* M+MDoubleArgumentDescriptor.h */,
 				DF3850F3198ACCFE00A0414E /* M+MEndpoint.cpp */,
 				DF3850F4198ACCFE00A0414E /* M+MEndpoint.h */,
 				DF3850F5198ACCFE00A0414E /* M+MException.cpp */,
 				DF3850F6198ACCFE00A0414E /* M+MException.h */,
+				DF4FB4D21B06880300534D59 /* M+MFilePathArgumentDescriptor.cpp */,
+				DF4FB4D31B06880300534D59 /* M+MFilePathArgumentDescriptor.h */,
 				DF3850F7198ACCFE00A0414E /* M+MGeneralChannel.cpp */,
 				DF3850F8198ACCFE00A0414E /* M+MGeneralChannel.h */,
+				DF4FB4D41B068FCE00534D59 /* M+MIntegerArgumentDescriptor.cpp */,
+				DF4FB4D51B068FCE00534D59 /* M+MIntegerArgumentDescriptor.h */,
 				DF385101198ACCFE00A0414E /* M+MMatchConstraint.cpp */,
 				DF385102198ACCFE00A0414E /* M+MMatchConstraint.h */,
 				DF385103198ACCFE00A0414E /* M+MMatchExpression.cpp */,

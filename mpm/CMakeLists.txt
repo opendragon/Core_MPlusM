@@ -78,12 +78,15 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/M+MCommon.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MConfigureRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MDetachRequestHandler.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MDoubleArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MEndpoint.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MException.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MFilePathArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MGeneralChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MGetMetricsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MGetMetricsStateRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MInfoRequestHandler.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MIntegerArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MListRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MMatchConstraint.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MMatchExpression.cpp"
@@ -162,9 +165,12 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MClientChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MCommon.h"
         "${MpM_SOURCE_DIR}/mpm/M+MConfig.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MDoubleArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MEndpoint.h"
         "${MpM_SOURCE_DIR}/mpm/M+MException.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MFilePathArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MGeneralChannel.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MIntegerArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MMatchConstraint.h"
         "${MpM_SOURCE_DIR}/mpm/M+MMatchExpression.h"
         "${MpM_SOURCE_DIR}/mpm/M+MMatchFieldName.h"
@@ -208,9 +214,12 @@ if(MpM_DO_SWIG)
         M+MChannelStatusReporter.h M+MChannelStatusReporter.cpp
         M+MClientChannel.h M+MClientChannel.cpp
         M+MCommon.h M+MCommon.cpp
+        M+MDoubleArgumentDescriptor.h M+MDoubleArgumentDescriptor.cpp
         M+MEndpoint.h M+MEndpoint.cpp
         M+MException.h M+MException.cpp
+        M+MFilePathArgumentDescriptor.h M+MFilePathArgumentDescriptor.cpp
         M+MGeneralChannel.h M+MGeneralChannel.cpp
+        M+MIntegerArgumentDescriptor.h M+MIntegerArgumentDescriptor.cpp
         M+MMatchConstraint.h M+MMatchConstraint.cpp
         M+MMatchExpression.h M+MMatchExpression.cpp
         M+MMatchFieldName.h M+MMatchFieldName.cpp

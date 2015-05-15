@@ -1639,7 +1639,14 @@ int main(int      argc,
             Initialize(*argv);
             if (0 < --argc)
             {
-                int selector = atoi(argv[1]);
+                const char * startPtr = argv[1];
+                char *       endPtr;
+                int          selector = strtol(startPtr, &endPtr, 10);
+                
+                if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
+                {
+                    
+                }
                 
                 SetSignalHandlers(catchSignal);
                 switch (selector)

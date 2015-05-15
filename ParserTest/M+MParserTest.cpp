@@ -427,45 +427,51 @@ int main(int      argc,
     {
         if (2 < --argc)
         {
-            int  selector = atoi(argv[1]);
-            bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
+            const char * startPtr = argv[1];
+            char *       endPtr;
+            int          selector = strtol(startPtr, &endPtr, 10);
             
-            SetSignalHandlers(catchSignal);
             OD_LOG_LL1("selector <- ", selector); //####
-            OD_LOG_B1("expected <- ", expected); //####
-            switch (selector)
+            if ((startPtr != endPtr) && (! *endPtr) && (0 < selector))
             {
-                case 1 :
-                    result = doTestParseValue(expected, *(argv + 3));
-                    break;
-                    
-                case 2 :
-                    result = doTestParseValueList(expected, *(argv + 3));
-                    break;
-                    
-                case 3 :
-                    result = doTestParseFieldName(expected, *(argv + 3));
-                    break;
-                    
-                case 4 :
-                    result = doTestParseFieldWithValues(expected, *(argv + 3));
-                    break;
-                    
-                case 5 :
-                    result = doTestParseConstraintList(expected, *(argv + 3));
-                    break;
-                    
-                case 6 :
-                    result = doTestParseExpression(expected, *(argv + 3));
-                    break;
-                    
-                default :
-                    break;
-                    
-            }
-            if (result)
-            {
-                OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
+                bool expected = (('t' == *argv[2]) || ('T' == *argv[2]));
+                
+                SetSignalHandlers(catchSignal);
+                OD_LOG_B1("expected <- ", expected); //####
+                switch (selector)
+                {
+                    case 1 :
+                        result = doTestParseValue(expected, *(argv + 3));
+                        break;
+                        
+                    case 2 :
+                        result = doTestParseValueList(expected, *(argv + 3));
+                        break;
+                        
+                    case 3 :
+                        result = doTestParseFieldName(expected, *(argv + 3));
+                        break;
+                        
+                    case 4 :
+                        result = doTestParseFieldWithValues(expected, *(argv + 3));
+                        break;
+                        
+                    case 5 :
+                        result = doTestParseConstraintList(expected, *(argv + 3));
+                        break;
+                        
+                    case 6 :
+                        result = doTestParseExpression(expected, *(argv + 3));
+                        break;
+                        
+                    default :
+                        break;
+                        
+                }
+                if (result)
+                {
+                    OD_LOG_LL1("%%%%%%% unit test failure = ", result); //####
+                }
             }
         }
         else

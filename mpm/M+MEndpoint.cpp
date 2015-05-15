@@ -41,6 +41,7 @@
 #include <mpm/M+MChannelStatusReporter.h>
 #include <mpm/M+MException.h>
 #include <mpm/M+MServiceChannel.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -93,13 +94,17 @@ static bool checkHostPort(int &              realPort,
         
         if (0 < portLength)
         {
-            for (size_t ii = 0; result && (ii < portLength); ++ii)
-            {
-                result = (0 != isdigit(portNumber[ii]));
-            }
             if (result)
             {
-                realPort = atoi(portNumber.c_str());
+                const char * startPtr = portNumber.c_str();
+                char *       endPtr;
+                int          realPort = strtol(startPtr, &endPtr, 10);
+                
+                if ((startPtr == endPtr) || *endPtr ||
+                    (! Utilities::ValidPortNumber(realPort)))
+                {
+                    result = false;
+                }
             }
         }
         else
