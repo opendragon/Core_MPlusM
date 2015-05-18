@@ -1096,7 +1096,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         {
             cout << "\t";
         }
-        cout << "\t" << argList.c_str() << "\t" << serviceDescription.c_str() << endl;
+        cout << "\t" << serviceDescription.c_str() << endl;
         keepGoing = false;
     }
     else if (ProcessArguments(argumentDescriptions, parse))

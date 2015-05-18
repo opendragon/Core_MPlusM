@@ -38,6 +38,12 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseArgumentDescriptor.h>
+#include <mpm/M+MAddressArgumentDescriptor.h>
+#include <mpm/M+MChannelArgumentDescriptor.h>
+#include <mpm/M+MDoubleArgumentDescriptor.h>
+#include <mpm/M+MFilePathArgumentDescriptor.h>
+#include <mpm/M+MIntegerArgumentDescriptor.h>
+#include <mpm/M+MStringArgumentDescriptor.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -334,6 +340,36 @@ YarpString Utilities::CombineArguments(const DescriptorVector & arguments,
     OD_LOG_EXIT_s(result); //####
     return result;
 } // Utilities::CombineArguments
+
+BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & inString)
+{
+    OD_LOG_ENTER(); //####
+    BaseArgumentDescriptor * result = NULL;
+
+    result = AddressArgumentDescriptor::parseArgString(inString);
+    if (! result)
+    {
+        result = ChannelArgumentDescriptor::parseArgString(inString);
+    }
+    if (! result)
+    {
+        result = DoubleArgumentDescriptor::parseArgString(inString);
+    }
+    if (! result)
+    {
+        result = FilePathArgumentDescriptor::parseArgString(inString);
+    }
+    if (! result)
+    {
+        result = IntegerArgumentDescriptor::parseArgString(inString);
+    }
+    if (! result)
+    {
+        result = StringArgumentDescriptor::parseArgString(inString);
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // Utilities::ConvertStringToArguments
 
 bool Utilities::ProcessArguments(const DescriptorVector & arguments,
                                  Option_::Parser &        parseResult)

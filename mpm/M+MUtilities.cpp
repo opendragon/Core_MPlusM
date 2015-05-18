@@ -37,18 +37,11 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
-#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MBaseClient.h>
-#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MClientChannel.h>
-#include <mpm/M+MDoubleArgumentDescriptor.h>
-#include <mpm/M+MFilePathArgumentDescriptor.h>
-#include <mpm/M+MIntegerArgumentDescriptor.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
-#include <mpm/M+MStringArgumentDescriptor.h>
-#include <mpm/optionparser.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -2458,8 +2451,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     }
     else if (options[kOptionINFO])
     {
-        cout << "Adapter\t" << matchingCriteria.c_str() << "\t" << argList.c_str() << "\t" <<
-                adapterDescription.c_str() << endl;
+        cout << "Adapter\t" << matchingCriteria.c_str() << "\t" << adapterDescription.c_str() <<
+                endl;
         keepGoing = false;
     }
     else if (ProcessArguments(argumentDescriptions, parse))

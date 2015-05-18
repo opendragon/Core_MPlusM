@@ -224,7 +224,12 @@ namespace MplusM
          @returns The argument values, separated by 'sep'. */
         Common::YarpString CombineArguments(const DescriptorVector &   arguments,
                                             const Common::YarpString & sep);
-        
+
+        /*! @brief Convert a string in '--args' format into an argument description.
+         @param inString The string to be analyzed.
+         @returns A newly allocated argument descriptor or @c NULL if the string is not valid. */
+        BaseArgumentDescriptor * ConvertStringToArgument(const Common::YarpString & inString);
+
         /*! @brief Update the arguments data from the parsed argument list.
          @param arguments The argument sequence.
          @param parseResult The parsed argument list.

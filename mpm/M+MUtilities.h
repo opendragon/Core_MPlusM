@@ -339,14 +339,6 @@ namespace MplusM
          @returns The kind of the port. */
         PortKind GetPortKind(const Common::YarpString & portName);
         
-        /*! @brief Return @c true if the port name is for the Registry Service.
-         @param portName the name of the port.
-         @returns @c true if the port name is for the Registry Service main port. */
-        inline bool PortIsRegistryService(const Common::YarpString & portName)
-        {
-            return (kPortKindRegistryService == GetPortKind(portName));
-        } // PortIsRegistryService
-        
         /*! @brief Return the IP address and port number for a port.
          @param portName The port to be located.
          @returns The IP address and port number of the port. */
@@ -420,6 +412,14 @@ namespace MplusM
                                           Common::CheckFunction      checker = NULL,
                                           void *                     checkStuff = NULL);
         
+        /*! @brief Return @c true if the port name is for the Registry Service.
+         @param portName the name of the port.
+         @returns @c true if the port name is for the Registry Service main port. */
+        inline bool PortIsRegistryService(const Common::YarpString & portName)
+        {
+            return (kPortKindRegistryService == GetPortKind(portName));
+        } // PortIsRegistryService
+
         /*! @brief Process the standard options for adapter executables.
          The option '-c' / '--channels' displays the list of channels created by the adapter and
          returns @c false.

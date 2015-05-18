@@ -226,19 +226,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    if (0 < arguments.size())
-                    {
-                        setUpAndGo(databaseAddress, argv, tag, serviceEndpointName,
-                                   servicePortNumber, reportOnExit);
-                    }
-                    else
-                    {
-# if MAC_OR_LINUX_
-                        GetLogger().fail("Missing database network address.");
-# else // ! MAC_OR_LINUX_
-                        cerr << "Missing database network address." << endl;
-# endif // ! MAC_OR_LINUX_
-                    }                
+                    setUpAndGo(databaseAddress, argv, tag, serviceEndpointName, servicePortNumber,
+                               reportOnExit);
                 }
                 else
                 {
