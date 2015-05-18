@@ -91,8 +91,9 @@ static void setUpAndGo(const YarpStringVector & arguments,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
-    YarpString channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
-    
+    YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+    YarpStringVector services;
+
     if (0 < arguments.size())
     {
         channelNameRequest += arguments[0];
@@ -101,135 +102,100 @@ static void setUpAndGo(const YarpStringVector & arguments,
     {
         channelNameRequest += "*";
     }
-    yarp::os::Bottle matches(FindMatchingServices(channelNameRequest));
-    
-    if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+    if (Utilities::GetServiceNamesFromCriteria(channelNameRequest, services))
     {
-        // First, check if the search succeeded.
-        YarpString matchesFirstString(matches.get(0).toString());
-        
-        if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+        int matchesCount = services.size();
+
+        if (0 < matchesCount)
         {
-            OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
-#if MAC_OR_LINUX_
-            YarpString reason(matches.get(1).toString());
-            
-            GetLogger().fail(YarpString("Failed: ") + reason + ".");
-#endif // MAC_OR_LINUX_
-        }
-        else
-        {
-            // Now, process the second element.
-            yarp::os::Bottle * matchesList = matches.get(1).asList();
-            
-            if (matchesList)
+            bool sawResponse = false;
+
+            if (kOutputFlavourJSON == flavour)
             {
-                int matchesCount = matchesList->size();
-                
-                if (matchesCount)
+                cout << "[ ";
+            }
+            for (int ii = 0; ii < matchesCount; ++ii)
+            {
+                YarpString       aMatch = services[ii];
+                yarp::os::Bottle metrics;
+
+                if (Utilities::GetMetricsForService(aMatch, metrics, STANDARD_WAIT_TIME))
                 {
-                    bool sawResponse = false;
-                    
-                    if (kOutputFlavourJSON == flavour)
-                    {
-                        cout << "[ ";
-                    }
-                    for (int ii = 0; ii < matchesCount; ++ii)
-                    {
-                        YarpString       aMatch = matchesList->get(ii).toString();
-                        yarp::os::Bottle metrics;
-                        
-                        if (Utilities::GetMetricsForService(aMatch, metrics, STANDARD_WAIT_TIME))
-                            
-                        {
-                            YarpString responseAsString(Utilities::ConvertMetricsToString(metrics,
-                                                                                          flavour));
-                            
-                            if (sawResponse)
-                            {
-                                switch (flavour)
-                                {
-                                    case kOutputFlavourTabs :
-                                        cout << endl;
-                                        break;
-                                        
-                                    case kOutputFlavourJSON :
-                                        cout << "," << endl;
-                                        break;
-                                        
-                                    case kOutputFlavourNormal :
-                                        cout << endl << endl;
-                                        break;
-                                        
-                                    default :
-                                        break;
-                                        
-                                }
-                            }
-                            sawResponse = true;
-                            if (kOutputFlavourNormal == flavour)
-                            {
-                                cout << SanitizeString(aMatch, true).c_str() << endl;
-                            }
-                            cout << responseAsString.c_str();
-                        }
-                    }
-                    if (kOutputFlavourJSON == flavour)
-                    {
-                        cout << " ]";
-                    }
+                    YarpString responseAsString(Utilities::ConvertMetricsToString(metrics,
+                                                                                  flavour));
+
                     if (sawResponse)
-                    {
-                        cout << endl;
-                    }
-                    else
                     {
                         switch (flavour)
                         {
-                            case kOutputFlavourJSON :
                             case kOutputFlavourTabs :
+                                cout << endl;
                                 break;
-                                
+
+                            case kOutputFlavourJSON :
+                                cout << "," << endl;
+                                break;
+
                             case kOutputFlavourNormal :
-                                cout << "No matching service found." << endl;
+                                cout << endl << endl;
                                 break;
-                                
+
                             default :
                                 break;
-                                
+
                         }
                     }
-                }
-                else
-                {
-                    switch (flavour)
+                    sawResponse = true;
+                    if (kOutputFlavourNormal == flavour)
                     {
-                        case kOutputFlavourJSON :
-                        case kOutputFlavourTabs :
-                            break;
-                            
-                        case kOutputFlavourNormal :
-                            cout << "No services found." << endl;
-                            break;
-                            
-                        default :
-                            break;
-                            
+                        cout << SanitizeString(aMatch, true).c_str() << endl;
                     }
+                    cout << responseAsString.c_str();
                 }
+            }
+            if (kOutputFlavourJSON == flavour)
+            {
+                cout << " ]";
+            }
+            if (sawResponse)
+            {
+                cout << endl;
             }
             else
             {
-                OD_LOG("! (matchesList)"); //####
+                switch (flavour)
+                {
+                    case kOutputFlavourJSON :
+                    case kOutputFlavourTabs :
+                        break;
+
+                    case kOutputFlavourNormal :
+                        cout << "No matching service found." << endl;
+                        break;
+
+                    default :
+                        break;
+
+                }
             }
         }
-    }
-    else
-    {
-        OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem getting information from the Registry Service.");
-#endif // MAC_OR_LINUX_
+        else
+        {
+            switch (flavour)
+            {
+                case kOutputFlavourJSON :
+                case kOutputFlavourTabs :
+                    break;
+
+                case kOutputFlavourNormal :
+                    cout << "No services found." << endl;
+                    break;
+
+                default :
+                    break;
+
+            }
+        }
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo

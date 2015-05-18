@@ -569,7 +569,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     {
                         yarp::os::Bottle * secondList = secondValue.asList();
                         
-                        if (secondList && secondList->size())
+                        if (secondList && (0 < secondList->size()))
                         {
                             YarpString serviceName(matches.get(1).toString());
                             
