@@ -958,6 +958,15 @@ bool Utilities::CheckConnection(const YarpString & fromPortName,
     return result;
 } // Utilities::CheckConnection
 
+bool Utilities::CheckForChannel(const YarpString & channelName)
+{
+    OD_LOG_ENTER(); //####
+    bool result = yarp::os::Network::exists(channelName);
+
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::CheckForChannel
+
 void Utilities::CheckForNameServerReporter(void)
 {
     OD_LOG_ENTER(); //####
@@ -1056,7 +1065,7 @@ void Utilities::CheckForNameServerReporter(void)
 bool Utilities::CheckForRegistryService(void)
 {
     OD_LOG_ENTER(); //####
-    bool result = yarp::os::Network::exists(MpM_REGISTRY_ENDPOINT_NAME);
+    bool result = CheckForChannel(MpM_REGISTRY_ENDPOINT_NAME);
     
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -2356,7 +2365,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   argsDescriptor(kOptionARGS, 0, "a", "args", Option_::Arg::None,
                                          T_("  --args, -a        Report the argument formats"));
-    Option_::Descriptor   channelsDescriptor(kOptionCHANNELS, 0, "c", "channel", Option_::Arg::None,
+    Option_::Descriptor   channelsDescriptor(kOptionCHANNELS, 0, "c", "channels",
+                                             Option_::Arg::None,
                                              T_("  --channels, -c    Report the channels created "
                                                 "by the adapter and exit"));
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,

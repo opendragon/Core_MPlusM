@@ -206,7 +206,12 @@ namespace MplusM
          @returns @c true if a connection exists and @c false otherwise. */
         bool CheckConnection(const Common::YarpString & fromPortName,
                              const Common::YarpString & toPortName);
-        
+
+        /*! @brief Check if a channel is in use.
+         @param channelName The name of the channel to check.
+         @returns @c true if the channel is known to YARP and @c false otherwise. */
+        bool CheckForChannel(const Common::YarpString & channelName);
+
         /*! @brief Check for the NameServerReporter mDNS entry and update the YARP information if
          found. */
 		void CheckForNameServerReporter(void);
