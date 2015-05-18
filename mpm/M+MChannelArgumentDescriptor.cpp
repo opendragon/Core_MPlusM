@@ -150,7 +150,7 @@ Common::YarpString ChannelArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(prefixFields("C", "C"));
+    Common::YarpString result(prefixFields("C", "c"));
 
     result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
