@@ -91,8 +91,8 @@ ChannelArgumentDescriptor::ChannelArgumentDescriptor(const YarpString & argName,
     inherited(argName, argDescription, defaultValue, isOptional, argumentReference)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-              defaultValue); //####
+    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
+               defaultValue); //####
     OD_LOG_B1("isOptional = ", isOptional); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
@@ -108,13 +108,51 @@ ChannelArgumentDescriptor::~ChannelArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpString & inString)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
+    BaseArgumentDescriptor * result = NULL;
+    YarpStringVector         inVector;
+
+    if (partitionString(inString, 2, inVector))
+    {
+        bool       isOptional = false;
+        bool       okSoFar = true;
+        YarpString name(inVector[0]);
+        YarpString typeTag(inVector[1]);
+        YarpString defaultString(inVector[2]);
+        YarpString description(inVector[3]);
+
+        if (typeTag == "c")
+        {
+            isOptional = true;
+        }
+        else if (typeTag != "C")
+        {
+            okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            okSoFar = Endpoint::CheckEndpointName(defaultString);
+        }
+        if (okSoFar)
+        {
+            result = new ChannelArgumentDescriptor(name, description, defaultString, isOptional,
+                                                   NULL);
+        }
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // ChannelArgumentDescriptor::parseArgString
+
 Common::YarpString ChannelArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(isOptional() ? "c" : "C");
-    
-    result += standardFields();
+    Common::YarpString result(prefixFields("C", "C"));
+
+    result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // ChannelArgumentDescriptor::toString

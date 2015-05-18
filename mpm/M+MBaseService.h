@@ -39,6 +39,7 @@
 #if (! defined(MpMBaseService_H_))
 # define MpMBaseService_H_ /* Header guard */
 
+# include <mpm/M+MBaseArgumentDescriptor.h>
 # include <mpm/M+MRequestMap.h>
 # include <mpm/M+MSendReceiveCounters.h>
 
@@ -80,27 +81,30 @@ namespace MplusM
         {
             /*! @brief Skip no options. */
             kSkipNone            = 0x0000,
-            
-            /*! @brief Skip the 'autostart' option. */
-            kSkipGoOption = 0x0001,
-            
+
+            /*! @brief Skip the 'args' option. */
+            kSkipArgsOption      = 0x0001,
+
             /*! @brief Skip the 'channel' option. */
             kSkipChannelOption   = 0x0002,
             
             /*! @brief Skip the 'endpoint' option. */
             kSkipEndpointOption  = 0x0004,
             
+            /*! @brief Skip the 'autostart' option. */
+            kSkipGoOption        = 0x0008,
+
             /*! @brief Skip the 'info' option. */
-            kSkipInfoOption      = 0x0008,
+            kSkipInfoOption      = 0x0010,
             
             /*! @brief Skip the 'port' option. */
-            kSkipPortOption      = 0x0010,
+            kSkipPortOption      = 0x0020,
             
             /*! @brief Skip the 'report' option. */
-            kSkipReportOption    = 0x0020,
+            kSkipReportOption    = 0x0040,
             
             /*! @brief Skip the 'tag' option. */
-            kSkipTagOption       = 0x0040,
+            kSkipTagOption       = 0x0080,
             
             /*! @brief Skip all the options. */
             kSkipAllOptions      = 0xFFFF
@@ -480,8 +484,7 @@ namespace MplusM
          @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the service.
-         @param argList The command-line arguments for the service.
-         @param argDescription A description of the command-line arguments for the service.
+         @param argumentDescriptions Descriptions of the arguments to the service.
          @param defaultEndpointNameRoot The default endpoint root name.
          @param serviceDescription A description of the service.
          @param year The copyright year for the calling application.
@@ -494,24 +497,21 @@ namespace MplusM
          options.
          @param servicePortNumber Set to the argument of the last -p option seen.
          @param skipOptions The command-line options to be skipped.
-         @param arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
-        bool ProcessStandardServiceOptions(const int          argc,
-                                           char * *           argv,
-                                           const char *       argList,
-                                           const char *       argDescription,
-                                           const YarpString & defaultEndpointNameRoot,
-                                           const YarpString & serviceDescription,
-                                           const int          year,
-                                           const char *       copyrightHolder,
-                                           bool &             goWasSet,
-                                           bool &             nameWasSet,
-                                           bool &             reportOnExit,
-                                           YarpString &       tag,
-                                           YarpString &       serviceEndpointName,
-                                           YarpString &       servicePortNumber,
-                                           const OptionsMask  skipOptions = kSkipNone,
-                                           YarpStringVector * arguments = NULL);
+        bool ProcessStandardServiceOptions(const int                     argc,
+                                           char * *                      argv,
+                                           Utilities::DescriptorVector & argumentDescriptions,
+                                           const YarpString &            defaultEndpointNameRoot,
+                                           const YarpString &            serviceDescription,
+                                           const int                     year,
+                                           const char *                  copyrightHolder,
+                                           bool &                        goWasSet,
+                                           bool &                        nameWasSet,
+                                           bool &                        reportOnExit,
+                                           YarpString &                  tag,
+                                           YarpString &                  serviceEndpointName,
+                                           YarpString &                  servicePortNumber,
+                                           const OptionsMask             skipOptions = kSkipNone);
         
         /*! @brief Register a local service with a running Registry Service.
          @param channelName The channel provided by the service.

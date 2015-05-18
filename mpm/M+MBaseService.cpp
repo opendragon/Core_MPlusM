@@ -840,34 +840,32 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool Common::ProcessStandardServiceOptions(const int          argc,
-                                           char * *           argv,
-                                           const char *       argList,
-                                           const char *       argDescription,
-                                           const YarpString & defaultEndpointNameRoot,
-                                           const YarpString & serviceDescription,
-                                           const int          year,
-                                           const char *       copyrightHolder,
-                                           bool &             goWasSet,
-                                           bool &             nameWasSet,
-                                           bool &             reportOnExit,
-                                           YarpString &       tag,
-                                           YarpString &       serviceEndpointName,
-                                           YarpString &       servicePortNumber,
-                                           const OptionsMask  skipOptions,
-                                           YarpStringVector * arguments)
+bool Common::ProcessStandardServiceOptions(const int                     argc,
+                                           char * *                      argv,
+                                           Utilities::DescriptorVector & argumentDescriptions,
+                                           const YarpString &            defaultEndpointNameRoot,
+                                           const YarpString &            serviceDescription,
+                                           const int                     year,
+                                           const char *                  copyrightHolder,
+                                           bool &                        goWasSet,
+                                           bool &                        nameWasSet,
+                                           bool &                        reportOnExit,
+                                           YarpString &                  tag,
+                                           YarpString &                  serviceEndpointName,
+                                           YarpString &                  servicePortNumber,
+                                           const OptionsMask             skipOptions)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P4("argv = ", argv, "nameWasSet = ", &nameWasSet, "reportOnExit = ",//####
-              &reportOnExit, "arguments = ", arguments); //####
-    OD_LOG_S3("argList = ", argList, "argDescription = ", argDescription, //####
-              "copyrightHolder = ", copyrightHolder); //####
+    OD_LOG_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
+              "nameWasSet = ", &nameWasSet, "reportOnExit = ", &reportOnExit); //####
     OD_LOG_S2s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
                "serviceDescription = ", serviceDescription); //####
+    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
         kOptionUNKNOWN,
+        kOptionARGS,
         kOptionCHANNEL,
         kOptionENDPOINT,
         kOptionGO,
@@ -882,6 +880,8 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
     bool                  keepGoing = true;
     bool                  reportEndpoint = false;
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   argsDescriptor(kOptionARGS, 0, "a", "args", Option_::Arg::None,
+                                         T_("  --args, -a        Report the argument formats"));
     Option_::Descriptor   channelDescriptor(kOptionCHANNEL, 0, "c", "channel", Option_::Arg::None,
                                             T_("  --channel, -c     Report the actual endpoint "
                                                "name"));
@@ -910,21 +910,33 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[11];
+    Option_::Descriptor   usage[12];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
     YarpString            usageString("USAGE: ");
-    
+    YarpString            argList(ArgumentsToArgString(argumentDescriptions));
+
     reportOnExit = nameWasSet = false;
     tag = serviceEndpointName = serviceEndpointName = "";
     usageString += *argv;
     usageString += " [options]";
-    if (argList && (0 < strlen(argList)))
+    if (0 < argList.length())
     {
-        usageString += argList;
-        usageString += "\n\n";
-        usageString += argDescription;
+        YarpStringVector descriptions;
+
+        Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
+        usageString += " ";
+        usageString += argList + "\n\n";
+        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
+        {
+            if (0 < ii)
+            {
+                usageString += "\n";
+            }
+            usageString += "  ";
+            usageString += descriptions[ii];
+        }
     }
     usageString += "\n\nOptions:";
 #if MAC_OR_LINUX_
@@ -933,6 +945,10 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
 	memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    if (! (skipOptions & kSkipArgsOption))
+    {
+        memcpy(usageWalker++, &argsDescriptor, sizeof(argsDescriptor));
+    }
     if (! (skipOptions & kSkipChannelOption))
     {
         memcpy(usageWalker++, &channelDescriptor, sizeof(channelDescriptor));
@@ -986,6 +1002,24 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
         
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
                 copyrightHolder << "." << endl;
+        keepGoing = false;
+    }
+    else if (options[kOptionARGS])
+    {
+        for (int ii = 0, mm = argumentDescriptions.size(); mm > ii; ++ii)
+        {
+            Utilities::BaseArgumentDescriptor * anArg = argumentDescriptions[ii];
+
+            if (0 < ii)
+            {
+                cout << "\t";
+            }
+            if (anArg)
+            {
+                cout << anArg->toString().c_str();
+            }
+        }
+        cout << endl;
         keepGoing = false;
     }
     else if (options[kOptionINFO])
@@ -1062,15 +1096,10 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
         {
             cout << "\t";
         }
-        cout << "\t";
-        if (argList)
-        {
-            cout << argList;
-        }
-        cout << "\t" << serviceDescription.c_str() << endl;
+        cout << "\t" << argList.c_str() << "\t" << serviceDescription.c_str() << endl;
         keepGoing = false;
     }
-    else
+    else if (ProcessArguments(argumentDescriptions, parse))
     {
         if (options[kOptionGO])
         {
@@ -1098,7 +1127,7 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
                 const char * startPtr = servicePortNumber.c_str();
                 char *       endPtr;
                 int          aPort = static_cast<int>(strtol(startPtr, &endPtr, 10));
-                
+
                 if ((startPtr == endPtr) || *endPtr || (! Utilities::ValidPortNumber(aPort)))
                 {
                     cout << "Bad port number." << endl;
@@ -1111,14 +1140,11 @@ bool Common::ProcessStandardServiceOptions(const int          argc,
             tag = options[kOptionTAG].arg;
             OD_LOG_S1s("tag <- ", tag); //####
         }
-        if (arguments)
-        {
-            arguments->clear();
-            for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
-            {
-                arguments->push_back(parse.nonOption(ii));
-            }
-        }
+    }
+    else
+    {
+        cout << "One or more invalid or missing arguments." << endl;
+        keepGoing = false;
     }
     delete[] options;
     delete[] buffer;

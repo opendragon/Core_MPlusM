@@ -38,7 +38,9 @@
 
 #include "M+MExemplarInputService.h"
 
+#include <mpm/M+MDoubleArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MIntegerArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -98,7 +100,8 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the exemplar input service.
- @param arguments The arguments to analyze.
+ @param burstPeriod The interval between bursts, in seconds.
+ @param burstSize The number of values per burst.
  @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -106,14 +109,15 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       char * *                 argv,
-                       const YarpString &       tag,
-                       const YarpString &       serviceEndpointName,
-                       const YarpString &       servicePortNumber,
-                       const bool               goWasSet,
-                       const bool               stdinAvailable,
-                       const bool               reportOnExit)
+static void setUpAndGo(double &           burstPeriod,
+                       int &              burstSize,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         goWasSet,
+                       const bool         stdinAvailable,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("burstPeriod = ", burstPeriod); //####
@@ -123,35 +127,6 @@ static void setUpAndGo(const YarpStringVector & arguments,
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    double burstPeriod = 1;
-    int    burstSize = 1;
-
-    if (0 < arguments.size())
-    {
-        // 1 or more arguments
-        const char * startPtr = arguments[0].c_str();
-        char *       endPtr;
-        double       tempDouble = strtod(startPtr, &endPtr);
-        
-        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
-        {
-            // Useable data.
-            burstPeriod = tempDouble;
-        }
-        if (1 < arguments.size())
-        {
-            int tempInt;
-            
-            // 2 or more arguments
-            startPtr = arguments[1].c_str();
-            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-            if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
-            {
-                // Useable data.
-                burstSize = tempInt;
-            }
-        }
-    }
     ExemplarInputService * stuff = new ExemplarInputService(*argv, tag, serviceEndpointName,
                                                             servicePortNumber);
 
@@ -368,25 +343,29 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false;
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        bool             stdinAvailable = CanReadFromStandardInput();
-        double           burstPeriod = 1;
-        int              burstSize = 1;
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]"),
-                                          T_("  period     Optional interval between bursts\n"
-                                             "  size       Optional burst size"),
+        bool                                 goWasSet = false;
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        bool                                 stdinAvailable = CanReadFromStandardInput();
+        double                               burstPeriod = 1;
+        int                                  burstSize = 1;
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+        Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"), 1,
+                                                      true, true, 0, false, 0, &burstPeriod);
+        Utilities::IntegerArgumentDescriptor secondArg("size", T_("Burst size"), 1, true, true, 1,
+                                                       false, 0, &burstSize);
+        Utilities::DescriptorVector          argumentList;
+
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_EXEMPLARINPUT_SERVICE_NAME,
                                           EXEMPLARINPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone, &arguments))
+                                          kSkipNone))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -397,8 +376,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName,
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

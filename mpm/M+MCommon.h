@@ -167,6 +167,12 @@
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
 # define MAX_RETRIES               7
 
+/*! @brief The largest IP port that is acceptable. */
+# define MAXIMUM_PORT_ALLOWED      65535
+
+/*! @brief The smallest IP port that is acceptable. */
+# define MINIMUM_PORT_ALLOWED      1024
+
 /*! @brief The time allowed for 'checkNetwork()'. */
 # define NETWORK_CHECK_TIMEOUT     (3.1 * ONE_SECOND_DELAY)
 

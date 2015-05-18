@@ -38,7 +38,9 @@
 
 #include "M+MUnrealOutputService.h"
 
+#include <mpm/M+MDoubleArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MIntegerArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -101,7 +103,8 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the %Unreal output service.
- @param arguments The arguments to analyze.
+ @param outPort The port to use to connect.
+ @param translationScale The translation scale.
  @param argv The arguments to be used with the %Unreal output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -109,50 +112,24 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       char * *                 argv,
-                       const YarpString &       tag,
-                       const YarpString &       serviceEndpointName,
-                       const YarpString &       servicePortNumber,
-                       const bool               goWasSet,
-                       const bool               stdinAvailable,
-                       const bool               reportOnExit)
+static void setUpAndGo(int &              outPort,
+                       double &           translationScale,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         goWasSet,
+                       const bool         stdinAvailable,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
+    OD_LOG_LL1("outPort = ", outPort); //####
+    OD_LOG_D1("translationScale = ", translationScale); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    double translationScale = 1.0;
-    int    outPort = 9876;
-
-    if (0 < arguments.size())
-    {
-        // 1 or more arguments
-        const char * startPtr = arguments[0].c_str();
-        char *       endPtr;
-        int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-        
-        if ((startPtr != endPtr) && (! *endPtr) && Utilities::ValidPortNumber(tempInt, true))
-        {
-            // Useable data.
-            outPort = tempInt;
-        }
-        if (1 < arguments.size())
-        {
-            double tempDouble;
-            
-            // 2 or more arguments
-            startPtr = arguments[1].c_str();
-            tempDouble = strtod(startPtr, &endPtr);
-            if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
-            {
-                // Useable data.
-                translationScale = tempDouble;
-            }
-        }
-    }
     UnrealOutputService * stuff = new UnrealOutputService(*argv, tag, serviceEndpointName,
                                                           servicePortNumber);
     
@@ -364,23 +341,30 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false;
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        bool             stdinAvailable = CanReadFromStandardInput();
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [port [scale]]"),
-                                          T_("  port       Optional port to use to connect\n"
-                                             "  scale      Optional translation scale"),
+        bool                                 goWasSet = false;
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        bool                                 stdinAvailable = CanReadFromStandardInput();
+        double                               translationScale = 1.0;
+        int                                  outPort = 9876;
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+        Utilities::IntegerArgumentDescriptor firstArg("port", T_("Port to use to connect"),
+                                                      9876, true, true, MINIMUM_PORT_ALLOWED, true,
+                                                      MAXIMUM_PORT_ALLOWED, &outPort);
+        Utilities::DoubleArgumentDescriptor  secondArg("scale", T_("Translation scale"), 1.0, true,
+                                                       true, 0.0, false, 0.0, &translationScale);
+        Utilities::DescriptorVector          argumentList;
+
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_UNREALOUTPUT_SERVICE_NAME,
                                           UNREALOUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone, &arguments))
+                                          kSkipNone))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -392,8 +376,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(outPort, translationScale, argv, tag, serviceEndpointName,
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                     
                 }
                 else

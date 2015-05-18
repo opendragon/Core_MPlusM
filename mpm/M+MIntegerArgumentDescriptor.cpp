@@ -84,23 +84,23 @@ using namespace MplusM::Utilities;
 
 IntegerArgumentDescriptor::IntegerArgumentDescriptor(const YarpString & argName,
                                                      const YarpString & argDescription,
-                                                     const YarpString & defaultValue,
+                                                     const int          defaultValue,
                                                      const bool         isOptional,
                                                      const bool         hasMinimumValue,
                                                      const int          minimumValue,
                                                      const bool         hasMaximumValue,
                                                      const int          maximumValue,
-                                                     YarpString *       argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, argumentReference),
-    _maximumValue(maximumValue), _minimumValue(minimumValue), _hasMaximumValue(hasMaximumValue),
-    _hasMinimumValue(hasMinimumValue)
+                                                     int *              argumentReference) :
+    inherited(argName, argDescription, isOptional), _argumentReference(argumentReference),
+    _defaultValue(defaultValue), _maximumValue(maximumValue), _minimumValue(minimumValue),
+    _hasMaximumValue(hasMaximumValue), _hasMinimumValue(hasMinimumValue)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-              defaultValue); //####
+    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
+    OD_LOG_LL3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
+               "maximumValue = ", maximumValue); //####
     OD_LOG_B3("isOptional = ", isOptional, "hasMinimumValue = ", hasMinimumValue, //####
               "hasMaximumValue = ", hasMaximumValue); //####
-    OD_LOG_LL2("minimumValue = ", minimumValue, "maximumValue = ", maximumValue); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // IntegerArgumentDescriptor::IntegerArgumentDescriptor
@@ -115,32 +115,144 @@ IntegerArgumentDescriptor::~IntegerArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+YarpString IntegerArgumentDescriptor::getDefaultValue(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString        result;
+    std::stringstream buff;
+
+    buff << _defaultValue;
+    result = buff.str();
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // IntegerArgumentDescriptor::getDefaultValue
+
+YarpString IntegerArgumentDescriptor::getProcessedValue(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString        result;
+    std::stringstream buff;
+
+    buff << (_argumentReference ? *_argumentReference : _defaultValue);
+    result = buff.str();
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // IntegerArgumentDescriptor::getProcessedValue
+
+BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpString & inString)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
+    BaseArgumentDescriptor * result = NULL;
+    YarpStringVector         inVector;
+
+    if (partitionString(inString, 4, inVector))
+    {
+        bool       isOptional = false;
+        bool       okSoFar = true;
+        int        defaultValue;
+        int        maxValue;
+        int        minValue;
+        YarpString name(inVector[0]);
+        YarpString typeTag(inVector[1]);
+        YarpString minValString(inVector[2]);
+        YarpString maxValString(inVector[3]);
+        YarpString defaultString(inVector[4]);
+        YarpString description(inVector[5]);
+
+        if (typeTag == "i")
+        {
+            isOptional = true;
+        }
+        else if (typeTag != "I")
+        {
+            okSoFar = false;
+        }
+        if (okSoFar && (0 < defaultString.length()))
+        {
+            const char * startPtr = defaultString.c_str();
+            char *       endPtr;
+
+            defaultValue = strtol(startPtr, &endPtr, 10);
+            if ((startPtr == endPtr) || *endPtr)
+            {
+                okSoFar = false;
+            }
+        }
+        if (okSoFar && (0 < minValString.length()))
+        {
+            const char * startPtr = minValString.c_str();
+            char *       endPtr;
+
+            minValue = strtol(startPtr, &endPtr, 10);
+            if ((startPtr == endPtr) || *endPtr)
+            {
+                okSoFar = false;
+            }
+        }
+        if (okSoFar && (0 < maxValString.length()))
+        {
+            const char * startPtr = maxValString.c_str();
+            char *       endPtr;
+
+            maxValue = strtol(startPtr, &endPtr, 10);
+            if ((startPtr == endPtr) || *endPtr)
+            {
+                okSoFar = false;
+            }
+        }
+        if (okSoFar)
+        {
+            bool hasMaximumValue = (0 < maxValString.length());
+            bool hasMinimumValue = (0 < minValString.length());
+            int  defaultValue;
+
+            result = new IntegerArgumentDescriptor(name, description, defaultValue, isOptional,
+                                                   hasMinimumValue, hasMinimumValue ? minValue : 0,
+                                                   hasMaximumValue, hasMaximumValue ? maxValue : 0,
+                                                   NULL);
+        }
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // IntegerArgumentDescriptor::parseArgString
+
+void IntegerArgumentDescriptor::setToDefault(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    if (_argumentReference)
+    {
+        *_argumentReference = _defaultValue;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // IntegerArgumentDescriptor::setToDefault
+
 Common::YarpString IntegerArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(isOptional() ? "i" : "I");
-    
-    if (_hasMinimumValue || _hasMaximumValue)
+    Common::YarpString result(prefixFields("I", "i"));
+
+    result += _parameterSeparator;
+    if (_hasMinimumValue)
     {
-        result += "r";
-        if (_hasMinimumValue)
-        {
-            std::stringstream buff;
-            
-            buff << _minimumValue;
-            result += buff.str();
-        }
-        result += _parameterSeparator;
-        if (_hasMaximumValue)
-        {
-            std::stringstream buff;
-            
-            buff << _maximumValue;
-            result += buff.str();
-        }
+        std::stringstream buff;
+        
+        buff << _minimumValue;
+        result += buff.str();
     }
-    result += standardFields();
+    result += _parameterSeparator;
+    if (_hasMaximumValue)
+    {
+        std::stringstream buff;
+        
+        buff << _maximumValue;
+        result += buff.str();
+    }
+    result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // IntegerArgumentDescriptor::toString
@@ -168,7 +280,7 @@ const
     }
     if (result && _argumentReference)
     {
-        *_argumentReference = value;
+        *_argumentReference = intValue;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;

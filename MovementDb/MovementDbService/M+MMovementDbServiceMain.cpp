@@ -38,6 +38,7 @@
 
 #include "M+MMovementDbService.h"
 
+#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
 
@@ -197,21 +198,24 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false; // not used
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-        if (ProcessStandardServiceOptions(argc, argv, T_(" dbAddress"),
-                                          T_("  dbAddress  Network address for database"),
-                                          DEFAULT_MOVEMENTDB_SERVICE_NAME,
+        bool                                 goWasSet = false; // not used
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        YarpString                           databaseAddress;
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+        Utilities::AddressArgumentDescriptor firstArg("dbAddress",
+                                                      T_("Network address for database"),
+                                                      "127.0.0.1", false, &databaseAddress);
+        Utilities::DescriptorVector          argumentList;
+
+        argumentList.push_back(&firstArg);
+        if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_MOVEMENTDB_SERVICE_NAME,
                                           MOVEMENTDB_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipGoOption, &arguments))
+                                          kSkipGoOption))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -224,8 +228,8 @@ int main(int      argc,
                 {
                     if (0 < arguments.size())
                     {
-                        setUpAndGo(arguments[0], argv, tag, serviceEndpointName, servicePortNumber,
-                                   reportOnExit);
+                        setUpAndGo(databaseAddress, argv, tag, serviceEndpointName,
+                                   servicePortNumber, reportOnExit);
                     }
                     else
                     {

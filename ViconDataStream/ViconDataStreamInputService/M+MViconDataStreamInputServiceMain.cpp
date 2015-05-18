@@ -38,6 +38,7 @@
 
 #include "M+MViconDataStreamInputService.h"
 
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
 
@@ -101,7 +102,8 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the Vicon DataStream input service.
- @param arguments The arguments to analyze.
+ @param hostName The IP address for the device server.
+ @param hostPort The port for the device server.
  @param argv The arguments to be used with the Vicon DataStream input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -109,46 +111,23 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       char * *                 argv,
-                       const YarpString &       tag,
-                       const YarpString &       serviceEndpointName,
-                       const YarpString &       servicePortNumber,
-                       const bool               goWasSet,
-                       const bool               stdinAvailable,
-                       const bool               reportOnExit)
+static void setUpAndGo(YarpString &       hostName,
+                       int &              hostPort,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         goWasSet,
+                       const bool         stdinAvailable,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("hostPort = ", hostPort); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    YarpString hostName;
-    int        hostPort = 801;
-    
-    if (0 < arguments.size())
-    {
-        hostName = arguments[0];
-        OD_LOG_S1s("hostName <- ", hostName); //####
-        if (1 < arguments.size())
-        {
-            const char * startPtr = arguments[1].c_str();
-            char *       endPtr;
-            int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-            
-            if ((startPtr != endPtr) && (! *endPtr) && Utilities::ValidPortNumber(tempInt, true))
-            {
-                // Useable data.
-                hostPort = tempInt;
-            }
-        }
-    }
-    if (0 == hostName.size())
-    {
-        hostName = "localhost";
-        OD_LOG_S1s("hostName <- ", hostName); //####
-    }
     ViconDataStreamInputService * stuff = new ViconDataStreamInputService(*argv, tag,
                                                                           serviceEndpointName,
                                                                           servicePortNumber);
@@ -370,24 +349,31 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false;
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        bool             stdinAvailable = CanReadFromStandardInput();
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [hostname [port]]"),
-                                          T_("  hostname   Optional hostname for the device "
-                                             "server\n"
-                                             "  port       Optional port for the device server"),
+        bool                                 goWasSet = false;
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        bool                                 stdinAvailable = CanReadFromStandardInput();
+        int                                  hostPort;
+        YarpString                           hostName;
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+        Utilities::AddressArgumentDescriptor firstArg("hostname",
+                                                      T_("IP address for the device server"),
+                                                      "localhost", true, &hostName);
+        Utilities::IntegerArgumentDescriptor secondArg("port", T_("Port for the device server"),
+                                                       801, true, true, 0, true,
+                                                       MAXIMUM_PORT_ALLOWED, &hostPort);
+        Utilities::DescriptorVector          argumentList;
+
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME,
                                           VICONDATASTREAMINPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone, &arguments))
+                                          kSkipNone))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -399,8 +385,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

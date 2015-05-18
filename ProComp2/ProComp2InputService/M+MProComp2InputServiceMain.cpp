@@ -316,23 +316,21 @@ int main(int      argc,
 	{
 		try
 		{
-			bool             goWasSet = false;
-			bool             nameWasSet = false; // not used
-			bool             reportOnExit = false;
-			bool             stdinAvailable = CanReadFromStandardInput();
-			YarpString       serviceEndpointName;
-			YarpString       servicePortNumber;
-			YarpString       tag;
-			YarpStringVector arguments;
+			bool                        goWasSet = false;
+			bool                        nameWasSet = false; // not used
+			bool                        reportOnExit = false;
+			bool                        stdinAvailable = CanReadFromStandardInput();
+			YarpString                  serviceEndpointName;
+			YarpString                  servicePortNumber;
+			YarpString                  tag;
+            Utilities::DescriptorVector argumentList;
 
-            if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]"),
-                                              T_("  period     Optional interval between bursts\n"
-                                                 "  size       Optional burst size"),
+            if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                               DEFAULT_PROCOMP2INPUT_SERVICE_NAME,
                                               PROCOMP2INPUT_SERVICE_DESCRIPTION, 2015,
                                               STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                               reportOnExit, tag, serviceEndpointName,
-                                              servicePortNumber, kSkipNone, &arguments))
+                                              servicePortNumber, kSkipNone))
 			{
 				Utilities::CheckForNameServerReporter();
                 if (Utilities::CheckForValidNetwork())

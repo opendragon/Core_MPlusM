@@ -190,14 +190,16 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool       goWasSet = false; // not used
-        bool       nameWasSet = false; // not used
-        bool       reportOnExit = false;
-        YarpString serviceEndpointName; // not used
-        YarpString servicePortNumber;
-        YarpString tag; // not used
-        
-		if (ProcessStandardServiceOptions(argc, argv, "", "", DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
+        bool                        goWasSet = false; // not used
+        bool                        nameWasSet = false; // not used
+        bool                        reportOnExit = false;
+        YarpString                  serviceEndpointName; // not used
+        YarpString                  servicePortNumber;
+        YarpString                  tag; // not used
+        Utilities::DescriptorVector argumentList;
+
+		if (ProcessStandardServiceOptions(argc, argv, argumentList,
+                                          DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
                                           REQUESTCOUNTER_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,

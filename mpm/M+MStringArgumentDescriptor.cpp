@@ -87,11 +87,12 @@ StringArgumentDescriptor::StringArgumentDescriptor(const YarpString & argName,
                                                    const YarpString & defaultValue,
                                                    const bool         isOptional,
                                                    YarpString *       argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, argumentReference)
+    inherited(argName, argDescription, isOptional), _defaultValue(defaultValue),
+    _argumentReference(argumentReference)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-              defaultValue); //####
+    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
+               defaultValue); //####
     OD_LOG_B1("isOptional = ", isOptional); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
@@ -107,13 +108,86 @@ StringArgumentDescriptor::~StringArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+YarpString StringArgumentDescriptor::getDefaultValue(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString result(_defaultValue);
+
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // StringArgumentDescriptor::getDefaultValue
+
+YarpString StringArgumentDescriptor::getProcessedValue(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString result;
+
+    if (_argumentReference)
+    {
+        result = *_argumentReference;
+    }
+    else
+    {
+        result = _defaultValue;
+    }
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // StringArgumentDescriptor::getProcessedValue
+
+BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpString & inString)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
+    BaseArgumentDescriptor * result = NULL;
+    YarpStringVector         inVector;
+
+    if (partitionString(inString, 2, inVector))
+    {
+        bool       isOptional = false;
+        bool       okSoFar = true;
+        YarpString name(inVector[0]);
+        YarpString typeTag(inVector[1]);
+        YarpString defaultString(inVector[2]);
+        YarpString description(inVector[3]);
+
+        if (typeTag == "s")
+        {
+            isOptional = true;
+        }
+        else if (typeTag != "S")
+        {
+            okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            result = new StringArgumentDescriptor(name, description, defaultString, isOptional,
+                                                  NULL);
+        }
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // StringArgumentDescriptor::parseArgString
+
+void StringArgumentDescriptor::setToDefault(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    if (_argumentReference)
+    {
+        *_argumentReference = _defaultValue;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // StringArgumentDescriptor::setToDefault
+
 Common::YarpString StringArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(isOptional() ? "s" : "S");
-    
-    result += standardFields();
+    Common::YarpString result(prefixFields("S", "s"));
+
+    result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // StringArgumentDescriptor::toString
@@ -124,6 +198,10 @@ const
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
+    if (result && _argumentReference)
+    {
+        *_argumentReference = value;
+    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // StringArgumentDescriptor::validate

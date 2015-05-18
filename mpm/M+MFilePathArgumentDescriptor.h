@@ -40,7 +40,7 @@
 #if (! defined(MpMFilePathArgumentDescriptor_H_))
 # define MpMFilePathArgumentDescriptor_H_ /* Header guard */
 
-# include <mpm/M+MBaseArgumentDescriptor.h>
+# include <mpm/M+MStringArgumentDescriptor.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -59,7 +59,7 @@ namespace MplusM
     namespace Utilities
     {
         /*! @brief A filepath-type argument description. */
-        class FilePathArgumentDescriptor : public BaseArgumentDescriptor
+        class FilePathArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
             
@@ -80,6 +80,11 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~FilePathArgumentDescriptor(void);
             
+            /*! @brief Construct a descriptor, if at all possible, from the input string.
+             @param inString The input string in 'arguments' format.
+             @returns A valid descriptor or @c NULL if the input is not recognized. */
+            static BaseArgumentDescriptor * parseArgString(const Common::YarpString & inString);
+
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             virtual Common::YarpString toString(void)
@@ -105,7 +110,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseArgumentDescriptor inherited;
+            typedef StringArgumentDescriptor inherited;
             
             /*! @brief @c true if the file path will be used for output and @c false otherwise. */
             bool _forOutput;

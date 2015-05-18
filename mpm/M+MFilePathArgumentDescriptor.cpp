@@ -92,8 +92,8 @@ FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argNam
     _forOutput(forOutput)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-              defaultValue); //####
+    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
+               defaultValue); //####
     OD_LOG_B2("isOptional = ", isOptional, "forOutput = ", forOutput); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
@@ -109,14 +109,79 @@ FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
+    BaseArgumentDescriptor * result = NULL;
+    YarpStringVector         inVector;
+
+    if (partitionString(inString, 3, inVector))
+    {
+        bool       forOutput = false;
+        bool       isOptional = false;
+        bool       okSoFar = true;
+        YarpString name(inVector[0]);
+        YarpString typeTag(inVector[1]);
+        YarpString direction(inVector[2]);
+        YarpString defaultString(inVector[3]);
+        YarpString description(inVector[4]);
+
+        if (typeTag == "f")
+        {
+            isOptional = true;
+        }
+        else if (typeTag != "F")
+        {
+            okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            if (direction == "o")
+            {
+                forOutput = true;
+            }
+            else if (direction != "i")
+            {
+                okSoFar = false;
+            }
+        }
+        if (okSoFar)
+        {
+            if (forOutput)
+            {
+#if MAC_OR_LINUX_
+                okSoFar = (0 == access(defaultString.c_str(), W_OK));
+#else // ! MAC_OR_LINUX_
+                okSoFar = (0 == _access(defaultString.c_str(), 2));
+#endif // ! MAC_OR_LINUX_
+            }
+            else
+            {
+#if MAC_OR_LINUX_
+                okSoFar = (0 == access(defaultString.c_str(), R_OK));
+#else // ! MAC_OR_LINUX_
+                okSoFar = (0 == _access(defaultString.c_str(), 4));
+#endif // ! MAC_OR_LINUX_
+            }
+        }
+        if (okSoFar)
+        {
+            result = new FilePathArgumentDescriptor(name, description, defaultString, isOptional,
+                                                    forOutput, NULL);
+        }
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // FilePathArgumentDescriptor::parseArgString
+
 Common::YarpString FilePathArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(isOptional() ? "f" : "F");
-    
-    result += (_forOutput ? "o" : "i");
-    result += standardFields();
+    Common::YarpString result(prefixFields("F", "f"));
+
+    result += _parameterSeparator + (_forOutput ? "o" : "i") + suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // FilePathArgumentDescriptor::toString

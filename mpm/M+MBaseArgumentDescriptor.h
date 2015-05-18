@@ -41,7 +41,15 @@
 # define MpMBaseArgumentDescriptor_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
+
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wnon-virtual-dtor"
+# endif // defined(__APPLE__)
 # include <mpm/optionparser.h>
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -67,14 +75,10 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
+             @param isOptional @c true if the argument is optional and @c false otherwise. */
             BaseArgumentDescriptor(const Common::YarpString & argName,
                                    const Common::YarpString & argDescription,
-                                   const Common::YarpString & defaultValue,
-                                   const bool                 isOptional,
-                                   Common::YarpString *       argumentReference = NULL);
+                                   const bool                 isOptional);
             
             /*! @brief The destructor. */
             virtual ~BaseArgumentDescriptor(void);
@@ -95,26 +99,15 @@ namespace MplusM
                 return _argName;
             } // argumentName
             
-            /*! @brief Return the name of the command-line argument.
-             @returns The name of the command-line argument. */
-            inline const Common::YarpString & argumentValue(void)
-            const
-            {
-                return _argName;
-            } // argumentName
-            
-            /*! @brief Return the default value for the command-line argument.
-             @returns The default value for the command-line argument. */
-            inline const Common::YarpString & defaultValue(void)
-            const
-            {
-                return _defaultValue;
-            } // defaultValue
-            
+            /*! @brief Return the default value.
+             @returns The default value. */
+            virtual Common::YarpString getDefaultValue(void)
+            const = 0;
+
             /*! @brief Return the processed value.
              @returns The processed value. */
-            Common::YarpString getProcessedValue(void)
-            const;
+            virtual Common::YarpString getProcessedValue(void)
+            const = 0;
             
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
              @returns @c true if the argument is optional and @c false otherwise. */
@@ -125,8 +118,9 @@ namespace MplusM
             } // isOptional
             
             /*! @brief Set the associated variable to the default value. */
-            void setToDefault(void);
-            
+            virtual void setToDefault(void)
+            const = 0;
+
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             virtual Common::YarpString toString(void)
@@ -140,12 +134,33 @@ namespace MplusM
             const = 0;
             
         protected :
-            
+
+            /*! @brief Partition a string that is in 'arguments' format into a sequence of strings.
+             @param inString The string to be partitioned.
+             @param indexOfDefaultValue The position in the input string where the default value
+             will appear.
+             @param result The partitioned string.
+             @returns @c true if the correct number of fields appear within the input string and
+             @c false otherwise. */
+            static bool partitionString(const Common::YarpString & inString,
+                                        const int                  indexOfDefaultValue,
+                                        Common::YarpStringVector & result);
+
+            /*! @brief Returns a string that contains a printable representation of the standard
+             prefix fields for a command-line argument.
+             @param tagForMandatoryField The tag value to use if the field is mandatory.
+             @param tagForOptionalField The tag value to use if the field is optional.
+             @returns A string that contains a printable representation of the standard prefix
+             fields for a command-line argument. */
+            Common::YarpString prefixFields(const Common::YarpString & tagForMandatoryField,
+                                            const Common::YarpString & tagForOptionalField)
+            const;
+
             /*! @brief Returns a string that contains a printable representation of the standard
              fields for a command-line argument.
              @returns A string that contains a printable representation of the standard fields for
              a command-line argument. */
-            Common::YarpString standardFields(void)
+            Common::YarpString suffixFields(void)
             const;
             
         private :
@@ -159,9 +174,6 @@ namespace MplusM
             /*! @brief The separator string to use when converting to a string. */
             static Common::YarpString _parameterSeparator;
         
-            /*! @brief The address of the variable to be set with the argument value. */
-            Common::YarpString * _argumentReference;
-            
         private :
             
             /*! @brief The description of the command-line argument for the adapter. */
@@ -170,9 +182,9 @@ namespace MplusM
             /*! @brief The name of the command-line argument. */
             Common::YarpString _argName;
             
-            /*! @brief The default value for the command-line argument. */
-            Common::YarpString _defaultValue;
-            
+//            /*! @brief The default value for the command-line argument. */
+//            Common::YarpString _defaultValue;
+//            
             /*! @brief @c true if the argument is optional and @c false otherwise. */
             bool _isOptional;
             

@@ -38,7 +38,9 @@
 
 #include "M+MTunnelService.h"
 
+#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MIntegerArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -196,21 +198,28 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false; // not used
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-        if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port"),
-                                          T_("  hostname   IP address to provide access to\n"
-                                             "  port       port to provide access to"),
-                                          DEFAULT_TUNNEL_SERVICE_NAME, TUNNEL_SERVICE_DESCRIPTION,
-                                          2015, STANDARD_COPYRIGHT_NAME, goWasSet,
-                                          nameWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipGoOption, &arguments))
+        bool                                 goWasSet = false; // not used
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        int                                  hostPort;
+        YarpString                           hostName;
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+        Utilities::AddressArgumentDescriptor firstArg("hostname",
+                                                      T_("IP address to provide access to"),
+                                                      "127.0.0.1", false, &hostName);
+        Utilities::IntegerArgumentDescriptor secondArg("port", T_("Port to provide access to"),
+                                                       12345, false, true, MINIMUM_PORT_ALLOWED,
+                                                       true, MAXIMUM_PORT_ALLOWED, &hostPort);
+        Utilities::DescriptorVector          argumentList;
+
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_TUNNEL_SERVICE_NAME,
+                                          TUNNEL_SERVICE_DESCRIPTION, 2015, STANDARD_COPYRIGHT_NAME,
+                                          goWasSet, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber, kSkipGoOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -222,41 +231,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    if (2 <= arguments.size())
-                    {
-                        struct in_addr addrBuff;
-                        YarpString     hostName;
-                        const char *   startPtr = arguments[1].c_str();
-                        char *         endPtr;
-                        int            hostPort = static_cast<int>(strtol(startPtr, &endPtr, 10));
-                        
-                        hostName = arguments[0];
-                        OD_LOG_S1s("hostName <- ", hostName); //####
-                        if ((0 < inet_pton(AF_INET, hostName.c_str(), &addrBuff)) &&
-                            (startPtr != endPtr) && (! *endPtr) &&
-                            Utilities::ValidPortNumber(hostPort))
-                        {
-                            // Useable data.
-                            setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
-                                       servicePortNumber, reportOnExit);
-                        }
-                        else
-                        {
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Invalid argument(s).");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Invalid argument(s)." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    else
-                    {
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Missing argument(s).");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Missing argument(s)." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
+                    setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
+                               servicePortNumber, reportOnExit);
                 }
                 else
                 {

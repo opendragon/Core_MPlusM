@@ -39,6 +39,7 @@
 #include "M+MRecordIntegersService.h"
 
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MFilePathArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -97,43 +98,35 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the Record Integers output service.
- @param arguments The arguments to analyze.
- @param argv The arguments to be used with the Record Integers service.
+/*! @brief Set up the environment and start the Record As JSON output service.
+ @param recordPath The file system path to use.
+ @param argv The arguments to be used with the Record As JSON output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       char * *                 argv,
-                       const YarpString &       tag,
-                       const YarpString &       serviceEndpointName,
-                       const YarpString &       servicePortNumber,
-                       const bool               goWasSet,
-                       const bool               stdinAvailable,
-                       const bool               reportOnExit)
+static void setUpAndGo(YarpString &       recordPath,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         goWasSet,
+                       const bool         stdinAvailable,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_S4s("recordPath = ", recordPath, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    YarpString recordPath;
-    
-    // Note that we can't use Random::uniform until after the seed has been set
-    if (0 < arguments.size())
-    {
-        recordPath = arguments[0];
-        OD_LOG_S1s("recordPath <- ", recordPath); //####
-    }
     if (0 == recordPath.size())
     {
         int               randNumb = yarp::os::Random::uniform(0, 10000);
         std::stringstream buff;
-        
+
         buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
         buff << std::hex << randNumb;
         recordPath = buff.str();
@@ -339,22 +332,30 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false;
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        bool             stdinAvailable = CanReadFromStandardInput();
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-		if (ProcessStandardServiceOptions(argc, argv, T_(" [filePath]"),
-                                          T_("  filePath   Optional output file path"),
+        bool              goWasSet = false;
+        bool              nameWasSet = false; // not used
+        bool              reportOnExit = false;
+        bool              stdinAvailable = CanReadFromStandardInput();
+        int               randNumb = yarp::os::Random::uniform(0, 10000);
+        std::stringstream buff;
+        YarpString        recordPath;
+        YarpString        serviceEndpointName;
+        YarpString        servicePortNumber;
+        YarpString        tag;
+
+        buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
+        buff << std::hex << randNumb;
+        Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
+                                                       buff.str(), true, true, &recordPath);
+        Utilities::DescriptorVector           argumentList;
+
+        argumentList.push_back(&firstArg);
+		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_RECORDINTEGERSOUTPUT_SERVICE_NAME,
                                           RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone, &arguments))
+                                          kSkipNone))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -366,7 +367,7 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
+                    setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
                                goWasSet, stdinAvailable, reportOnExit);
                 }
                 else

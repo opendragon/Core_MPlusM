@@ -38,6 +38,7 @@
 
 #include "M+MNaturalPointInputService.h"
 
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
 
@@ -101,7 +102,6 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the %NaturalPoint input service.
- @param arguments The arguments to analyze.
  @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -109,59 +109,25 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       char * *                 argv,
-                       const YarpString &       tag,
-                       const YarpString &       serviceEndpointName,
-                       const YarpString &       servicePortNumber,
-                       const bool               goWasSet,
-                       const bool               stdinAvailable,
-                       const bool               reportOnExit)
+static void setUpAndGo(char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         goWasSet,
+                       const bool         stdinAvailable,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    double burstPeriod = 1;
-    int    burstSize = 1;
-
-    if (0 < arguments.size())
-    {
-        const char * startPtr = arguments[0].c_str();
-        char *       endPtr;
-        double       tempDouble;
-        
-        // 1 or more arguments
-        tempDouble = strtod(startPtr, &endPtr);
-        if ((startPtr != endPtr) && (! *endPtr) && (0 < tempDouble))
-        {
-            // Useable data.
-            burstPeriod = tempDouble;
-        }
-        if (1 < arguments.size())
-        {
-            int tempInt;
-            
-            // 2 or more arguments
-            startPtr = arguments[1].c_str();
-            tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-            if ((startPtr != endPtr) && (! *endPtr) && (0 < tempInt))
-            {
-                // Useable data.
-                burstSize = tempInt;
-            }
-        }
-    }
     NaturalPointInputService * stuff = new NaturalPointInputService(*argv, tag, serviceEndpointName,
                                                                     servicePortNumber);
 
     if (stuff)
     {
-        double tempDouble;
-        int    tempInt;
-        
         if (stuff->start())
         {
             YarpString channelName(stuff->getEndpoint().getName());
@@ -177,8 +143,6 @@ static void setUpAndGo(const YarpStringVector & arguments,
                 stuff->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
-                    configureData.addDouble(burstPeriod);
-                    configureData.addInt(burstSize);
                     if (stuff->configure(configureData))
                     {
                         stuff->startStreams();
@@ -206,8 +170,6 @@ static void setUpAndGo(const YarpStringVector & arguments,
                                 if (! configured)
                                 {
                                     configureData.clear();
-                                    configureData.addDouble(burstPeriod);
-                                    configureData.addInt(burstSize);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -222,27 +184,10 @@ static void setUpAndGo(const YarpStringVector & arguments,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                cout << "Burst size: ";
-                                cout.flush();
-                                cin >> tempInt;
-                                cout << "Burst period: ";
-                                cout.flush();
-                                cin >> tempDouble;
-                                if ((0 < tempInt) && (0 < tempDouble))
+                                configureData.clear();
+                                if (stuff->configure(configureData))
                                 {
-                                    burstPeriod = tempDouble;
-                                    burstSize = tempInt;
-                                    configureData.clear();
-                                    configureData.addDouble(burstPeriod);
-                                    configureData.addInt(burstSize);
-                                    if (stuff->configure(configureData))
-                                    {
-                                        configured = true;
-                                    }
-                                }
-                                else
-                                {
-                                    cout << "One or both values out of range." << endl;
+                                    configured = true;
                                 }
                                 break;
                                 
@@ -264,8 +209,6 @@ static void setUpAndGo(const YarpStringVector & arguments,
                                 if (! configured)
                                 {
                                     configureData.clear();
-                                    configureData.addDouble(burstPeriod);
-                                    configureData.addInt(burstSize);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -370,23 +313,21 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false;
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        bool             stdinAvailable = CanReadFromStandardInput();
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-        if (ProcessStandardServiceOptions(argc, argv, T_(" [period [size]]"),
-                                          T_("  period     Optional interval between bursts\n"
-                                             "  size       Optional burst size"),
+        bool                        goWasSet = false;
+        bool                        nameWasSet = false; // not used
+        bool                        reportOnExit = false;
+        bool                        stdinAvailable = CanReadFromStandardInput();
+        YarpString                  serviceEndpointName;
+        YarpString                  servicePortNumber;
+        YarpString                  tag;
+        Utilities::DescriptorVector argumentList;
+
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_NATURALPOINTINPUT_SERVICE_NAME,
                                           NATURALPOINTINPUT_SERVICE_DESCRIPTION, 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone, &arguments))
+                                          kSkipNone))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -397,8 +338,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, goWasSet,
+                               stdinAvailable, reportOnExit);
                 }
                 else
                 {

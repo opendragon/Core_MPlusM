@@ -53,6 +53,7 @@ add_library(${THIS_TARGET}
             "${DO_SHARED}"
             "${MpM_SOURCE_DIR}/mpm/optionparser.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MAddressArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.cpp"
@@ -143,6 +144,7 @@ install(TARGETS ${THIS_TARGET}
 install(FILES
         "${MpM_SOURCE_DIR}/mpm/optionparser.h"
         "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MAddressArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.h"
@@ -193,6 +195,7 @@ install(FILES
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_mpm_in/mpmCommon.i
         M+MAdapterChannel.h M+MAdapterChannel.cpp
+        M+MAddressArgumentDescriptor.h M+MAddressArgumentDescriptor.cpp
         M+MBaseArgumentDescriptor.h M+MBaseArgumentDescriptor.cpp
         M+MBailOut.h M+MBailOut.cpp
         M+MBailOutThread.h M+MBailOutThread.cpp

@@ -77,17 +77,36 @@ namespace MplusM
              value. */
             DoubleArgumentDescriptor(const Common::YarpString & argName,
                                      const Common::YarpString & argDescription,
-                                     const Common::YarpString & defaultValue,
+                                     const double               defaultValue,
                                      const bool                 isOptional,
                                      const bool                 hasMinimumValue,
                                      const double               minimumValue,
                                      const bool                 hasMaximumValue,
                                      const double               maximumValue,
-                                     Common::YarpString *       argumentReference = NULL);
+                                     double *                   argumentReference = NULL);
             
             /*! @brief The destructor. */
             virtual ~DoubleArgumentDescriptor(void);
             
+            /*! @brief Return the default value.
+             @returns The default value. */
+            virtual Common::YarpString getDefaultValue(void)
+            const;
+            
+            /*! @brief Return the processed value.
+             @returns The processed value. */
+            virtual Common::YarpString getProcessedValue(void)
+            const;
+
+            /*! @brief Construct a descriptor, if at all possible, from the input string.
+             @param inString The input string in 'arguments' format.
+             @returns A valid descriptor or @c NULL if the input is not recognized. */
+            static BaseArgumentDescriptor * parseArgString(const Common::YarpString & inString);
+
+            /*! @brief Set the associated variable to the default value. */
+            virtual void setToDefault(void)
+            const;
+
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             virtual Common::YarpString toString(void)
@@ -115,6 +134,12 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
             
+            /*! @brief The address of the variable to be set with the argument value. */
+            double * _argumentReference;
+
+            /*! @brief The default value for the command-line argument. */
+            double _defaultValue;
+
             /*! @brief The maximum value that is acceptable. */
             double _maximumValue;
             

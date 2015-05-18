@@ -86,17 +86,12 @@ Common::YarpString BaseArgumentDescriptor::_parameterSeparator(":");
 
 BaseArgumentDescriptor::BaseArgumentDescriptor(const YarpString & argName,
                                                const YarpString & argDescription,
-                                               const YarpString & defaultValue,
-                                               const bool         isOptional,
-                                               YarpString *       argumentReference) :
-    _argumentReference(argumentReference), _argDescription(argDescription), _argName(argName),
-    _defaultValue(defaultValue), _isOptional(isOptional)
+                                               const bool         isOptional) :
+    _argDescription(argDescription), _argName(argName), _isOptional(isOptional)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-              defaultValue); //####
+    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
     OD_LOG_B1("isOptional = ", isOptional); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // BaseArgumentDescriptor::BaseArgumentDescriptor
 
@@ -110,50 +105,110 @@ BaseArgumentDescriptor::~BaseArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString BaseArgumentDescriptor::getProcessedValue(void)
+bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
+                                             const int          indexOfDefaultValue,
+                                             YarpStringVector & result)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
+    OD_LOG_LL1("indexOfDefaultValue = ", indexOfDefaultValue); //####
+    OD_LOG_P1("result = ", &result); //####
+    bool       okSoFar = false;
+    YarpString workingCopy(inString);
+
+    // We need to split the input into 'type and tag'
+    result.clear();
+    for (size_t fieldNumber = 0; 0 < workingCopy.length(); ++fieldNumber)
+    {
+        if (indexOfDefaultValue == fieldNumber)
+        {
+            // The default value field is special, as it has two delimiters - the inner one, which
+            // is a character that is not present in the default value field, and the normal
+            // separator character.
+            char innerChar = workingCopy[0];
+
+            workingCopy = workingCopy.substr(1);
+            if (0 < workingCopy.length())
+            {
+                size_t innerIndx = workingCopy.find(innerChar, 0);
+
+                if (YarpString::npos != innerIndx)
+                {
+                    result.push_back(workingCopy.substr(0, innerIndx));
+                    workingCopy = workingCopy.substr(innerIndx + 1);
+                    if (0 < workingCopy.length())
+                    {
+                        if (0 == workingCopy.find(_parameterSeparator))
+                        {
+                            workingCopy = workingCopy.substr(1);
+                            okSoFar = true;
+                        }
+                        else
+                        {
+                            // Badly formatted - the delimiter is not followed by the separator!
+                            break;
+                        }
+
+                    }
+                }
+                else
+                {
+                    // Badly formatted - the matching delimiter is missing!
+                    break;
+                }
+
+            }
+        }
+        else
+        {
+            size_t indx = workingCopy.find(_parameterSeparator);
+
+            if (YarpString::npos == indx)
+            {
+                result.push_back(workingCopy);
+                workingCopy = "";
+            }
+            else
+            {
+                result.push_back(workingCopy.substr(0, indx));
+                workingCopy = workingCopy.substr(indx + 1);
+            }
+        }
+    }
+    okSoFar &= (result.size() > indexOfDefaultValue);
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
+} // BaseArgumentDescriptor::partitionString
+
+Common::YarpString BaseArgumentDescriptor::prefixFields(const YarpString & tagForMandatoryField,
+                                                        const YarpString & tagForOptionalField)
 const
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result;
-    
-    if (_argumentReference)
-    {
-        result = *_argumentReference;
-    }
-    else
-    {
-        result = _defaultValue;
-    }
+    YarpString result(_argName);
+
+    result += _parameterSeparator + (_isOptional ? tagForOptionalField : tagForMandatoryField);
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // BaseArgumentDescriptor::getProcessedValue
+} // BaseArgumentDescriptor::prefixFields
 
-void BaseArgumentDescriptor::setToDefault(void)
-{
-    OD_LOG_OBJENTER(); //####
-    if (_argumentReference)
-    {
-        *_argumentReference = _defaultValue;
-    }
-    OD_LOG_OBJEXIT(); //####
-} // BaseArgumentDescriptor::setToDefault
-
-YarpString BaseArgumentDescriptor::standardFields(void)
+YarpString BaseArgumentDescriptor::suffixFields(void)
 const
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(_parameterSeparator);
+    YarpString defaultValue(getDefaultValue());
     
-    if (0 < _defaultValue.length())
+    if (0 < defaultValue.length())
     {
         // Determine an appropriate delimiter
-        static const char possibles[] = "~!@#$%^&*_-+=|;\"'?/ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+        static const char possibles[] = "~!@#$%^&*_-+=|;\"'?./ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                         "abcdefghijklmnopqrtuvwxyz0123456789";
         char              charToUse = '\\';
         
         for (size_t ii = 0, mm = sizeof(possibles); mm > ii; ++ii)
         {
-            if (_defaultValue.npos == _defaultValue.find(possibles[ii], 0))
+            if (defaultValue.npos == defaultValue.find(possibles[ii], 0))
             {
                 charToUse = possibles[ii];
                 break;
@@ -161,7 +216,7 @@ const
 
         }
         result += charToUse;
-        result += _defaultValue + charToUse;
+        result += defaultValue + charToUse;
     }
     else
     {
@@ -170,7 +225,7 @@ const
     result += _parameterSeparator + _argDescription;
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // BaseArgumentDescriptor::standardFields
+} // BaseArgumentDescriptor::suffixFields
 
 #if defined(__APPLE__)
 # pragma mark Global functions

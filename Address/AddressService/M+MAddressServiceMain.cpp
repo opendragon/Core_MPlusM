@@ -38,7 +38,9 @@
 
 #include "M+MAddressService.h"
 
+#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MIntegerArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -88,119 +90,86 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the Address service.
- @param arguments The arguments to analyze.
+ @param hostName The IP address to return.
+ @param hostPort The port to return.
  @param argv The arguments to be used with the Address service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       char * *                 argv,
-                       const YarpString &       tag,
-                       const YarpString &       serviceEndpointName,
-                       const YarpString &       servicePortNumber,
-                       const bool               reportOnExit)
+static void setUpAndGo(YarpString &       hostName,
+                       int &              hostPort,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("hostPort = ", hostPort); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    if (2 <= arguments.size())
+    AddressService * stuff = new AddressService(hostName, hostPort, *argv, tag, serviceEndpointName,
+                                                servicePortNumber);
+
+    if (stuff)
     {
-        struct in_addr addrBuff;
-        YarpString     hostName(arguments[0]);
-        OD_LOG_S1s("hostName <- ", hostName); //####
-        const char *   startPtr = arguments[1].c_str();
-        char *         endPtr;
-        int            hostPort = static_cast<int>(strtol(startPtr, &endPtr, 10));
-#if MAC_OR_LINUX_
-        int            res = inet_pton(AF_INET, hostName.c_str(), &addrBuff);
-#else // ! MAC_OR_LINUX_
-        int            res = InetPton(AF_INET, hostName.c_str(), &addrBuff);
-#endif // ! MAC_OR_LINUX_
-        
-        if ((0 < res) && (startPtr != endPtr) && (! *endPtr) &&
-            Utilities::ValidPortNumber(hostPort))
+        if (stuff->start())
         {
-            // Useable data.
-            AddressService * stuff = new AddressService(hostName, hostPort, *argv, tag,
-                                                        serviceEndpointName, servicePortNumber);
-            
-            if (stuff)
+            YarpString channelName(stuff->getEndpoint().getName());
+
+            OD_LOG_S1s("channelName = ", channelName); //####
+            if (RegisterLocalService(channelName, *stuff))
             {
-                if (stuff->start())
+                StartRunning();
+                SetSignalHandlers(SignalRunningStop);
+                stuff->startPinger();
+                for ( ; IsRunning(); )
                 {
-                    YarpString channelName(stuff->getEndpoint().getName());
-                    
-                    OD_LOG_S1s("channelName = ", channelName); //####
-                    if (RegisterLocalService(channelName, *stuff))
-                    {
-                        StartRunning();
-                        SetSignalHandlers(SignalRunningStop);
-                        stuff->startPinger();
-                        for ( ; IsRunning(); )
-                        {
 #if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
+                    yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
-                        }
-                        UnregisterLocalService(channelName, *stuff);
-                        if (reportOnExit)
-                        {
-                            yarp::os::Bottle metrics;
-                            
-                            stuff->gatherMetrics(metrics);
-                            YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                            
-                            cout << converted.c_str() << endl;
-                        }
-                        stuff->stop();
-                    }
-                    else
-                    {
-                        OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Service could not be registered." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
                 }
-                else
+                UnregisterLocalService(channelName, *stuff);
+                if (reportOnExit)
                 {
-                    OD_LOG("! (stuff->start())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Service could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
+                    yarp::os::Bottle metrics;
+
+                    stuff->gatherMetrics(metrics);
+                    YarpString converted(Utilities::ConvertMetricsToString(metrics));
+
+                    cout << converted.c_str() << endl;
                 }
-                delete stuff;
+                stuff->stop();
             }
             else
             {
-                OD_LOG("! (stuff)"); //####
+                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+#if MAC_OR_LINUX_
+                GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Service could not be registered." << endl;
+#endif // ! MAC_OR_LINUX_
             }
         }
         else
         {
+            OD_LOG("! (stuff->start())"); //####
 #if MAC_OR_LINUX_
-            GetLogger().fail("Invalid argument(s).");
+            GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
-            cerr << "Invalid argument(s)." << endl;
+            cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
         }
+        delete stuff;
     }
     else
     {
-#if MAC_OR_LINUX_
-        GetLogger().fail("Missing argument(s).");
-#else // ! MAC_OR_LINUX_
-        cerr << "Missing argument(s)." << endl;
-#endif // ! MAC_OR_LINUX_
+        OD_LOG("! (stuff)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -229,21 +198,28 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool             goWasSet = false; // not used
-        bool             nameWasSet = false; // not used
-        bool             reportOnExit = false;
-        YarpString       serviceEndpointName;
-        YarpString       servicePortNumber;
-        YarpString       tag;
-        YarpStringVector arguments;
-        
-		if (ProcessStandardServiceOptions(argc, argv, T_(" hostname port"),
-                                          T_("  hostname   IP address to return\n"
-                                             "  port       port to return"),
-                                          DEFAULT_ADDRESS_SERVICE_NAME, ADDRESS_SERVICE_DESCRIPTION,
-                                          2015, STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+        bool                                 goWasSet = false; // not used
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        int                                  hostPort;
+        YarpString                           hostName;
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+        Utilities::AddressArgumentDescriptor firstArg("hostname", T_("IP address to return"),
+                                                      "127.0.0.1", false, &hostName);
+        Utilities::IntegerArgumentDescriptor secondArg("port", T_("Port to return"), 12345, false,
+                                                       true, MINIMUM_PORT_ALLOWED, true,
+                                                       MAXIMUM_PORT_ALLOWED, &hostPort);
+        Utilities::DescriptorVector          argumentList;
+
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_ADDRESS_SERVICE_NAME,
+                                          ADDRESS_SERVICE_DESCRIPTION, 2015,
+                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipGoOption, &arguments))
+                                          kSkipGoOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -255,8 +231,8 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, argv, tag, serviceEndpointName, servicePortNumber,
-                               reportOnExit);
+                    setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
+                               servicePortNumber, reportOnExit);
                 }
                 else
                 {

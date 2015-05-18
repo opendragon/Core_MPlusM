@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MFilePathArgumentDescriptor.h
+//  File:       mpm/M+MAddressArgumentDescriptor.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the minimal functionality required to represent a
-//              filepath-type command-line argument.
+//  Contains:   The class declaration for the minimal functionality required to represent an IP
+//              address command-line argument.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,12 +33,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-05-15
+//  Created:    2015-05-17
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMFilePathArgumentDescriptor_H_))
-# define MpMFilePathArgumentDescriptor_H_ /* Header guard */
+#if (! defined(MpMAddressArgumentDescriptor_H_))
+# define MpMAddressArgumentDescriptor_H_ /* Header guard */
 
 # include <mpm/M+MStringArgumentDescriptor.h>
 
@@ -48,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the minimal functionality required to represent a filepath-type
+ @brief The class declaration for the minimal functionality required to represent an IP address
  command-line argument. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -58,8 +58,8 @@ namespace MplusM
 {
     namespace Utilities
     {
-        /*! @brief A filepath-type argument description. */
-        class FilePathArgumentDescriptor : public StringArgumentDescriptor
+        /*! @brief An address argument description. */
+        class AddressArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
             
@@ -70,20 +70,19 @@ namespace MplusM
              @param forOutput @c true if the file will be used for output and @c false otherwise.
              @param argumentReference If non-@c NULL, the variable to be set with the argument
              value. */
-            FilePathArgumentDescriptor(const Common::YarpString & argName,
-                                       const Common::YarpString & argDescription,
-                                       const Common::YarpString & defaultValue,
-                                       const bool                 isOptional,
-                                       const bool                 forOutput = false,
-                                       Common::YarpString *       argumentReference = NULL);
-            
+            AddressArgumentDescriptor(const Common::YarpString & argName,
+                                      const Common::YarpString & argDescription,
+                                      const Common::YarpString & defaultValue,
+                                      const bool                 isOptional,
+                                      Common::YarpString *       argumentReference = NULL);
+
             /*! @brief The destructor. */
-            virtual ~FilePathArgumentDescriptor(void);
+            virtual ~AddressArgumentDescriptor(void);
             
-            /*! @brief Return the processed value.
-             @returns The processed value. */
-            virtual Common::YarpString getProcessedValue(void)
-            const;
+            /*! @brief Construct a descriptor, if at all possible, from the input string.
+             @param inString The input string in 'arguments' format.
+             @returns A valid descriptor or @c NULL if the input is not recognized. */
+            static BaseArgumentDescriptor * parseArgString(const Common::YarpString & inString);
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
@@ -101,7 +100,7 @@ namespace MplusM
         
         private :
             
-            COPY_AND_ASSIGNMENT_(FilePathArgumentDescriptor);
+            COPY_AND_ASSIGNMENT_(AddressArgumentDescriptor);
             
         public :
         
@@ -112,23 +111,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef StringArgumentDescriptor inherited;
             
-            /*! @brief @c true if the file path will be used for output and @c false otherwise. */
-            bool _forOutput;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
-        }; // FilePathArgumentDescriptor
+        }; // AddressArgumentDescriptor
         
     } // Utilities
     
 } // MplusM
 
-#endif // ! defined(MpMFilePathArgumentDescriptor_H_)
+#endif // ! defined(MpMAddressArgumentDescriptor_H_)

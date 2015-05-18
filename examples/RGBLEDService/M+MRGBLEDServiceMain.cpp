@@ -187,14 +187,15 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool       goWasSet = false; // not used
-        bool       nameWasSet = false; // not used
-        bool       reportOnExit = false;
-        YarpString serviceEndpointName;
-        YarpString servicePortNumber;
-        YarpString tag;
-        
-        if (ProcessStandardServiceOptions(argc, argv, "", "", DEFAULT_RGBLED_SERVICE_NAME,
+        bool                        goWasSet = false; // not used
+        bool                        nameWasSet = false; // not used
+        bool                        reportOnExit = false;
+        YarpString                  serviceEndpointName;
+        YarpString                  servicePortNumber;
+        YarpString                  tag;
+        Utilities::DescriptorVector argumentList;
+
+        if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_RGBLED_SERVICE_NAME,
                                           RGBLED_SERVICE_DESCRIPTION, 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,

@@ -37,11 +37,17 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
+#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MBaseClient.h>
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MClientChannel.h>
+#include <mpm/M+MDoubleArgumentDescriptor.h>
+#include <mpm/M+MFilePathArgumentDescriptor.h>
+#include <mpm/M+MIntegerArgumentDescriptor.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
+#include <mpm/M+MStringArgumentDescriptor.h>
 #include <mpm/optionparser.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -2346,6 +2352,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     enum optionIndex
     {
         kOptionUNKNOWN,
+        kOptionARGS,
         kOptionCHANNELS,
         kOptionHELP,
         kOptionINFO,
@@ -2354,6 +2361,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     
     bool                  keepGoing = true;
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   argsDescriptor(kOptionARGS, 0, "a", "args", Option_::Arg::None,
+                                         T_("  --args, -a        Report the argument formats"));
     Option_::Descriptor   channelsDescriptor(kOptionCHANNELS, 0, "c", "channel", Option_::Arg::None,
                                              T_("  --channels, -c    Report the channels created "
                                                 "by the adapter and exit"));
@@ -2366,7 +2375,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[6];
+    Option_::Descriptor   usage[7];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -2399,6 +2408,7 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
     memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    memcpy(usageWalker++, &argsDescriptor, sizeof(argsDescriptor));
     memcpy(usageWalker++, &channelsDescriptor, sizeof(channelsDescriptor));
     memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
     memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
@@ -2428,21 +2438,35 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
                 copyrightHolder << "." << endl;
         keepGoing = false;
     }
+    else if (options[kOptionARGS])
+    {
+        for (int ii = 0, mm = argumentDescriptions.size(); mm > ii; ++ii)
+        {
+            BaseArgumentDescriptor * anArg = argumentDescriptions[ii];
+
+            if (0 < ii)
+            {
+                cout << "\t";
+            }
+            if (anArg)
+            {
+                cout << anArg->toString().c_str();
+            }
+        }
+        cout << endl;
+        keepGoing = false;
+    }
     else if (options[kOptionINFO])
     {
-        cout << "Adapter\t" << matchingCriteria.c_str() << "\t";
-        if (0 < argList.length())
-        {
-            cout << argList.c_str();
-        }
-        cout << "\t" << adapterDescription.c_str() << endl;
+        cout << "Adapter\t" << matchingCriteria.c_str() << "\t" << argList.c_str() << "\t" <<
+                adapterDescription.c_str() << endl;
         keepGoing = false;
     }
     else if (ProcessArguments(argumentDescriptions, parse))
     {
         if (options[kOptionCHANNELS])
         {
-            cout << "Channels\t" << CombineArguments(argumentDescriptions, "\t").c_str() << endl;
+            cout << CombineArguments(argumentDescriptions, "\t").c_str() << endl;
             keepGoing = false;
         }
     }

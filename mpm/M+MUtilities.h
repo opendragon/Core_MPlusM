@@ -431,6 +431,7 @@ namespace MplusM
          @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the adapter.
+         @param argumentDescriptions Descriptions of the arguments to the adapter.
          @param argumentHandler The argument processor.
          @param adapterDescription A description of the adapter.
          @param matchingCriteria The criteria used to locate the service that the adapter attaches
@@ -524,7 +525,8 @@ namespace MplusM
         inline bool ValidPortNumber(const int  aPort,
                                     const bool systemAllowed = false)
         {
-            return (((systemAllowed ? 0 : 1024) <= aPort) && (65535 >= aPort));
+            return (((systemAllowed ? 0 : MINIMUM_PORT_ALLOWED) <= aPort) &&
+                    (MAXIMUM_PORT_ALLOWED >= aPort));
         } // ValidPortNumber
         
     } // Utilities

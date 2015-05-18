@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MFilePathArgumentDescriptor.cpp
+//  File:       mpm/M+MAddressArgumentDescriptor.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required to represent a
-//              filepath-type command-line argument.
+//  Contains:   The class definition for the minimal functionality required to represent an IP
+//              address command-line argument.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,11 +33,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-05-15
+//  Created:    2015-05-17
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MFilePathArgumentDescriptor.h>
+#include <mpm/M+MAddressArgumentDescriptor.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,7 +48,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The definition for the minimal functionality required to represent a filepath-type
+ @brief The definition for the minimal functionality required to represent an IP address
  command-line argument. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -82,92 +82,101 @@ using namespace MplusM::Utilities;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argName,
-                                                       const YarpString & argDescription,
-                                                       const YarpString & defaultValue,
-                                                       const bool         isOptional,
-                                                       const bool         forOutput,
-                                                       YarpString *       argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, argumentReference),
-    _forOutput(forOutput)
+AddressArgumentDescriptor::AddressArgumentDescriptor(const YarpString & argName,
+                                                     const YarpString & argDescription,
+                                                     const YarpString & defaultValue,
+                                                     const bool         isOptional,
+                                                     YarpString *       argumentReference) :
+    inherited(argName, argDescription, defaultValue, isOptional, argumentReference)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_B2("isOptional = ", isOptional, "forOutput = ", forOutput); //####
+    OD_LOG_B1("isOptional = ", isOptional); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
-} // FilePathArgumentDescriptor::FilePathArgumentDescriptor
+} // AddressArgumentDescriptor::AddressArgumentDescriptor
 
-FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
+AddressArgumentDescriptor::~AddressArgumentDescriptor(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // FilePathArgumentDescriptor::~FilePathArgumentDescriptor
+} // AddressArgumentDescriptor::~AddressArgumentDescriptor
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString FilePathArgumentDescriptor::getProcessedValue(void)
+BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpString & inString)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inString = ", inString); //####
+    BaseArgumentDescriptor * result = NULL;
+    YarpStringVector         inVector;
+
+    if (partitionString(inString, 2, inVector))
+    {
+        bool       isOptional = false;
+        bool       okSoFar = true;
+        YarpString name(inVector[0]);
+        YarpString typeTag(inVector[1]);
+        YarpString defaultString(inVector[2]);
+        YarpString description(inVector[3]);
+
+        if (typeTag == "a")
+        {
+            isOptional = true;
+        }
+        else if (typeTag != "A")
+        {
+            okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            struct in_addr addrBuff;
+
+#if MAC_OR_LINUX_
+            okSoFar = (0 < inet_pton(AF_INET, defaultString.c_str(), &addrBuff));
+#else // ! MAC_OR_LINUX_
+            okSoFar = (0 < InetPton(AF_INET, defaultString.c_str(), &addrBuff));
+#endif // ! MAC_OR_LINUX_
+        }
+        if (okSoFar)
+        {
+            result = new AddressArgumentDescriptor(name, description, defaultString, isOptional,
+                                                   NULL);
+        }
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // AddressArgumentDescriptor::parseArgString
+
+Common::YarpString AddressArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result;
+    Common::YarpString result(prefixFields("A", "a"));
 
-    if (_argumentReference)
-    {
-        result = *_argumentReference;
-    }
-    else
-    {
-        result = _defaultValue;
-    }
+    result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // FilePathArgumentDescriptor::getProcessedValue
+} // AddressArgumentDescriptor::toString
 
-Common::YarpString FilePathArgumentDescriptor::toString(void)
+bool AddressArgumentDescriptor::validate(const Common::YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(isOptional() ? "f" : "F");
-    
-    result += (_forOutput ? "o" : "i");
-    result += standardFields();
-    OD_LOG_OBJEXIT_s(result); //####
-    return result;
-} // FilePathArgumentDescriptor::toString
+    bool           result;
+    struct in_addr addrBuff;
 
-bool FilePathArgumentDescriptor::validate(const Common::YarpString & value)
-const
-{
-    OD_LOG_OBJENTER(); //####
-    bool result;
-    
-    if (_forOutput)
-    {
 #if MAC_OR_LINUX_
-        result = (0 == access(value.c_str(), W_OK));
+    result = (0 < inet_pton(AF_INET, value.c_str(), &addrBuff));
 #else // ! MAC_OR_LINUX_
-        result = (0 == _access(value.c_str(), 2));
+    result = (0 < InetPton(AF_INET, value.c_str(), &addrBuff));
 #endif // ! MAC_OR_LINUX_
-    }
-    else
-    {
-#if MAC_OR_LINUX_
-        result = (0 == access(value.c_str(), R_OK));
-#else // ! MAC_OR_LINUX_
-        result = (0 == _access(value.c_str(), 4));
-#endif // ! MAC_OR_LINUX_
-    }
-    if (result && _argumentReference)
-    {
-        *_argumentReference = value;
-    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // FilePathArgumentDescriptor::validate
+} // AddressArgumentDescriptor::validate
 
 #if defined(__APPLE__)
 # pragma mark Global functions

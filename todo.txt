@@ -30,16 +30,17 @@
 
 * arguments format —>
 	<argsFormat> ::= <argFormat> | <argFormat> ‘\t’ <argsFormat>
-	<argFormat> ::= <typeTagAndInfo> ‘:’ <default value> ‘:’ <text description for label>
-	<typeTagAndInfo> ::= <integerTagAndInfo> | <doubleTagAndInfo> | <stringTagAndInfo> | <fileTagAndInfo> | <channelTagAndInfo>
+	<argFormat> ::= <argName> ‘:’ <typeTagAndInfo> ‘:’ <default value> ‘:’ <text description for label>
+	<typeTagAndInfo> ::= <integerTagAndInfo> | <doubleTagAndInfo> | <stringTagAndInfo> | <fileTagAndInfo> | <channelTagAndInfo> | <addressTagAndInfo>
 	<integerTagAndInfo> ::= ‘i’ <intRange> | ‘I’ <intRange> # uppercase is required, lowercase is optional
-	<intRange> ::= ‘r’ <low value> ‘:’ <high value> | # if value is not present, not constrained
+	<intRange> ::= ‘:’ <low value> ‘:’ <high value> # if value is not present, not constrained
 	<doubleTagAndInfo> ::= ‘d’ <dblRange> | ‘D’ <dblRange>
-	<dblRange> ::= ‘r’ <low value> ‘:’ <high value> |
+	<dblRange> ::= ‘:’ <low value> ‘:’ <high value>
 	<stringTagAndInfo> ::= ’s’ | ’S’
 	<fileTagAndInfo> ::= ‘f’ <fileDirection> | ‘F’ <fileDirection>
-	<fileDirection> ::= ‘i’ | ‘o’
+	<fileDirection> ::= ‘:’ (‘i’ | ‘o’)
 	<channelTagAndInfo> ::= ‘c’ | ‘C’
+	<addressTagAndInfo> ::= ‘a’ | ‘A’
 	<default value> ::= <delimiter> <text> <delimiter> # use matching pairs of |, <>, (), {}, [], whichever is not present in the text
 
 —> all required arguments _must_ appear before all the optional arguments - ignore an executable that doesn’t obey this - and an executable that has only optional arguments can be launched immediately; only optional values should have default values
