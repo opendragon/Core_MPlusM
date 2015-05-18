@@ -182,9 +182,6 @@ namespace MplusM
             /*! @brief The name of the command-line argument. */
             Common::YarpString _argName;
             
-//            /*! @brief The default value for the command-line argument. */
-//            Common::YarpString _defaultValue;
-//            
             /*! @brief @c true if the argument is optional and @c false otherwise. */
             bool _isOptional;
             
