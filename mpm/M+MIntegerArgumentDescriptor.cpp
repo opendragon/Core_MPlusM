@@ -207,7 +207,6 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
         {
             bool hasMaximumValue = (0 < maxValString.length());
             bool hasMinimumValue = (0 < minValString.length());
-            int  defaultValue;
 
             result = new IntegerArgumentDescriptor(name, description, defaultValue, isOptional,
                                                    hasMinimumValue, hasMinimumValue ? minValue : 0,
