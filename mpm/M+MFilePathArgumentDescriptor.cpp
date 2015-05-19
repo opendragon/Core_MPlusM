@@ -175,18 +175,18 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
     return result;
 } // FilePathArgumentDescriptor::parseArgString
 
-Common::YarpString FilePathArgumentDescriptor::toString(void)
+YarpString FilePathArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(prefixFields("F", "f"));
+    YarpString result(prefixFields("F", "f"));
 
     result += _parameterSeparator + (_forOutput ? "o" : "i") + suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // FilePathArgumentDescriptor::toString
 
-bool FilePathArgumentDescriptor::validate(const Common::YarpString & value)
+bool FilePathArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####

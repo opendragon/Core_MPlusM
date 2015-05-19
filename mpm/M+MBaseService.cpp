@@ -853,12 +853,14 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            YarpString &                  tag,
                                            YarpString &                  serviceEndpointName,
                                            YarpString &                  servicePortNumber,
-                                           const OptionsMask             skipOptions)
+                                           const OptionsMask             skipOptions,
+                                           YarpStringVector *            arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
               "nameWasSet = ", &nameWasSet, "reportOnExit = ", &reportOnExit); //####
+    OD_LOG_P1("arguments = ", arguments); //####
     OD_LOG_S2s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
                "serviceDescription = ", serviceDescription); //####
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
@@ -889,7 +891,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                              Option_::Arg::Required,
                                              T_("  --endpoint, -e    Specify an alternative "
                                                 "endpoint name to be used"));
-    Option_::Descriptor   goDescriptor(kOptionGO, 0, "g", "autgoostart", Option_::Arg::None,
+    Option_::Descriptor   goDescriptor(kOptionGO, 0, "g", "go", Option_::Arg::None,
                                        T_("  --go, -g          Start the service immediately"));
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h        Print usage and exit"));
@@ -917,8 +919,12 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     YarpString            usageString("USAGE: ");
     YarpString            argList(ArgumentsToArgString(argumentDescriptions));
 
-    reportOnExit = nameWasSet = false;
+    reportOnExit = nameWasSet = goWasSet = false;
     tag = serviceEndpointName = serviceEndpointName = "";
+    if (arguments)
+    {
+        arguments->clear();
+    }
     usageString += *argv;
     usageString += " [options]";
     if (0 < argList.length())
@@ -1029,7 +1035,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         // Note that we don't report the 'h' and 'v' options, as they are not involved in
         // determining what choices to offer when launching a service.
         cout << "Service";
-        if (! (skipOptions & kSkipGoOption))
+        if (! (skipOptions & kSkipArgsOption))
         {
             if (needTab)
             {
@@ -1055,6 +1061,15 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                 needTab = false;
             }
             cout << "e";
+        }
+        if (! (skipOptions & kSkipGoOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "g";
         }
         if (! (skipOptions & kSkipInfoOption))
         {
@@ -1139,6 +1154,13 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         {
             tag = options[kOptionTAG].arg;
             OD_LOG_S1s("tag <- ", tag); //####
+        }
+        if (arguments)
+        {
+            for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
+            {
+                arguments->push_back(parse.nonOption(ii));
+            }
         }
     }
     else

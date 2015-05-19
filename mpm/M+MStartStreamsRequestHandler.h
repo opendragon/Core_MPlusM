@@ -74,7 +74,7 @@ namespace MplusM
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(Common::YarpStringVector & alternateNames);
+            virtual void fillInAliases(YarpStringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.

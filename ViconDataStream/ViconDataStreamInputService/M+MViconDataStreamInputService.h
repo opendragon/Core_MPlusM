@@ -77,10 +77,10 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            ViconDataStreamInputService(const Common::YarpString & launchPath,
-                                        const Common::YarpString & tag,
-                                        const Common::YarpString & serviceEndpointName,
-                                        const Common::YarpString & servicePortNumber = "");
+            ViconDataStreamInputService(const YarpString & launchPath,
+                                        const YarpString & tag,
+                                        const YarpString & serviceEndpointName,
+                                        const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~ViconDataStreamInputService(void);
@@ -131,7 +131,7 @@ namespace MplusM
             typedef BaseInputService inherited;
             
             /*! @brief The name of the Vicon device server. */
-            Common::YarpString _hostName;
+            YarpString _hostName;
             
             /*! @brief The port to connect to the Vicon device server. */
             int _hostPort;

@@ -28,21 +28,6 @@
 
 @ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running
 
-* arguments format —>
-	<argsFormat> ::= <argFormat> | <argFormat> ‘\t’ <argsFormat>
-	<argFormat> ::= <argName> ‘:’ <typeTagAndInfo> ‘:’ <default value> ‘:’ <text description for label>
-	<typeTagAndInfo> ::= <integerTagAndInfo> | <doubleTagAndInfo> | <stringTagAndInfo> | <fileTagAndInfo> | <channelTagAndInfo> | <addressTagAndInfo>
-	<integerTagAndInfo> ::= ‘i’ <intRange> | ‘I’ <intRange> # uppercase is required, lowercase is optional
-	<intRange> ::= ‘:’ <low value> ‘:’ <high value> # if value is not present, not constrained
-	<doubleTagAndInfo> ::= ‘d’ <dblRange> | ‘D’ <dblRange>
-	<dblRange> ::= ‘:’ <low value> ‘:’ <high value>
-	<stringTagAndInfo> ::= ’s’ | ’S’
-	<fileTagAndInfo> ::= ‘f’ <fileDirection> | ‘F’ <fileDirection>
-	<fileDirection> ::= ‘:’ (‘i’ | ‘o’)
-	<channelTagAndInfo> ::= ‘c’ | ‘C’
-	<addressTagAndInfo> ::= ‘a’ | ‘A’
-	<default value> ::= <delimiter> <text> <delimiter> # use matching pairs of |, <>, (), {}, [], whichever is not present in the text
-
 —> all required arguments _must_ appear before all the optional arguments - ignore an executable that doesn’t obey this - and an executable that has only optional arguments can be launched immediately; only optional values should have default values
 
 + make sure that the initial placement of entities is within the visible area - below the menu bar and above the bottom

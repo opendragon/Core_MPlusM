@@ -384,7 +384,7 @@ bool Endpoint::open(const double timeToWait)
         {
             if (_channel)
             {
-				OD_LOG("(_channel)"); //!!!!
+                OD_LOG("(_channel)"); //####
 #if defined(MpM_ReportContactDetails)
 				DumpContactToLog("after registerContact", _contact); //####
 #endif // defined(MpM_ReportContactDetails)

@@ -77,10 +77,10 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RunningSumService(const Common::YarpString & launchPath,
-                              const Common::YarpString & tag,
-                              const Common::YarpString & serviceEndpointName,
-                              const Common::YarpString & servicePortNumber = "");
+            RunningSumService(const YarpString & launchPath,
+                              const YarpString & tag,
+                              const YarpString & serviceEndpointName,
+                              const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~RunningSumService(void);
@@ -89,12 +89,12 @@ namespace MplusM
              @param key The client-provided key.
              @param value The value to be added to the running sum.
              @returns The running sum, including the newly added value. */
-            double addToSum(const Common::YarpString & key,
-                            const double               value);
+            double addToSum(const YarpString & key,
+                            const double       value);
             
             /*! @brief Reset the running sum for the given client.
              @param key The client-provided key. */
-            void resetSum(const Common::YarpString & key);
+            void resetSum(const YarpString & key);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -102,7 +102,7 @@ namespace MplusM
             
             /*! @brief Start a running sum for the given client.
              @param key The client-provided key. */
-            void startSum(const Common::YarpString & key);
+            void startSum(const YarpString & key);
             
             /*! @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */

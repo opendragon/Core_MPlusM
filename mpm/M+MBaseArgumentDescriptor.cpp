@@ -76,7 +76,7 @@ using namespace MplusM::Utilities;
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
 
-Common::YarpString BaseArgumentDescriptor::_parameterSeparator(":");
+YarpString BaseArgumentDescriptor::_parameterSeparator(":");
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -186,7 +186,7 @@ bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
     return okSoFar;
 } // BaseArgumentDescriptor::partitionString
 
-Common::YarpString BaseArgumentDescriptor::prefixFields(const YarpString & tagForMandatoryField,
+YarpString BaseArgumentDescriptor::prefixFields(const YarpString & tagForMandatoryField,
                                                         const YarpString & tagForOptionalField)
 const
 {

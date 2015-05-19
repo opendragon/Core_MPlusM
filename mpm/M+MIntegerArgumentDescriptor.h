@@ -58,7 +58,24 @@ namespace MplusM
 {
     namespace Utilities
     {
-        /*! @brief An integer argument description. */
+        /*! @brief An integer argument description.
+         
+         The external representation of an integer argument description is:
+         
+         integerTagAndInfo ::= optionalIntegerTag integerRange |
+                                    mandatoryIntegerTag integerRange;
+         
+         optionalIntegerTag ::= 'i';
+         
+         mandatoryIntegerTag ::= 'I';
+         
+         integerRange ::= sep minIntegerValue sep maxIntegerValue;
+         
+         minIntegerValue ::= integerValue | ;
+         # empty value indicates no minimum constraint.
+         
+         maxIntegerValue ::= integerValue | ;
+         # empty value indicates no maximum constraint. */
         class IntegerArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
@@ -66,6 +83,7 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
+             @param defaultValue The default value for the command-line argument.
              @param isOptional @c true if the argument is optional and @c false otherwise.
              @param hasMinimumValue @c true if the value must be greater than or equal to a
              specified minimum and @c false otherwise.
@@ -75,33 +93,33 @@ namespace MplusM
              @param maximumValue The maximum value that is acceptable.
              @param argumentReference If non-@c NULL, the variable to be set with the argument
              value. */
-            IntegerArgumentDescriptor(const Common::YarpString & argName,
-                                      const Common::YarpString & argDescription,
-                                      const int                  defaultValue,
-                                      const bool                 isOptional,
-                                      const bool                 hasMinimumValue,
-                                      const int                  minimumValue,
-                                      const bool                 hasMaximumValue,
-                                      const int                  maximumValue,
-                                      int *                      argumentReference = NULL);
+            IntegerArgumentDescriptor(const YarpString & argName,
+                                      const YarpString & argDescription,
+                                      const int          defaultValue,
+                                      const bool         isOptional,
+                                      const bool         hasMinimumValue,
+                                      const int          minimumValue,
+                                      const bool         hasMaximumValue,
+                                      const int          maximumValue,
+                                      int *              argumentReference = NULL);
             
             /*! @brief The destructor. */
             virtual ~IntegerArgumentDescriptor(void);
             
             /*! @brief Return the default value.
              @returns The default value. */
-            virtual Common::YarpString getDefaultValue(void)
+            virtual YarpString getDefaultValue(void)
             const;
 
             /*! @brief Return the processed value.
              @returns The processed value. */
-            virtual Common::YarpString getProcessedValue(void)
+            virtual YarpString getProcessedValue(void)
             const;
 
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const Common::YarpString & inString);
+            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
             /*! @brief Set the associated variable to the default value. */
             virtual void setToDefault(void)
@@ -109,14 +127,14 @@ namespace MplusM
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
-            virtual Common::YarpString toString(void)
+            virtual YarpString toString(void)
             const;
             
             /*! @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const Common::YarpString & value)
+            virtual bool validate(const YarpString & value)
             const;
             
         protected :

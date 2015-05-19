@@ -161,9 +161,10 @@ bool LeapMotionInputService::setUpStreamDescriptions(void)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "LEAP";
-    description._protocolDescription = "A list of hands followed by a list of tools\n"
-                                        "Each hand being a dictionary with an arm and a list of fingers\n"
-                                        "Each finger being a dictionary with a list of bones";
+    description._protocolDescription = T_("A list of hands followed by a list of tools\n"
+                                          "Each hand being a dictionary with an arm and a list of "
+                                          "fingers\n"
+                                          "Each finger being a dictionary with a list of bones");
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

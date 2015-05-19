@@ -77,12 +77,12 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            TunnelService(const Common::YarpString & sourceName,
-                          const int                  sourcePort,
-                          const Common::YarpString & launchPath,
-                          const Common::YarpString & tag,
-                          const Common::YarpString & serviceEndpointName,
-                          const Common::YarpString & servicePortNumber = "");
+            TunnelService(const YarpString & sourceName,
+                          const int          sourcePort,
+                          const YarpString & launchPath,
+                          const YarpString & tag,
+                          const YarpString & serviceEndpointName,
+                          const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~TunnelService(void);
@@ -90,8 +90,8 @@ namespace MplusM
             /*! @brief Return the remembered address.
              @param address The remembered address.
              @param port The remembered port. */
-            void getAddress(Common::YarpString & address,
-                            int &                port);
+            void getAddress(YarpString & address,
+                            int &        port);
             
             /*! @brief Set the port that will be remembered.
              @param port The port to be remembered. */
@@ -130,10 +130,10 @@ namespace MplusM
             typedef BaseService inherited;
             
             /*! @brief The remembered address. */
-            Common::YarpString _listenAddress;
+            YarpString _listenAddress;
             
             /*! @brief The data source address. */
-            Common::YarpString _sourceAddress;
+            YarpString _sourceAddress;
             
             /*! @brief The request handler for the 'where' request. */
             WhereRequestHandler * _whereHandler;

@@ -497,6 +497,7 @@ namespace MplusM
          options.
          @param servicePortNumber Set to the argument of the last -p option seen.
          @param skipOptions The command-line options to be skipped.
+         @param arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
         bool ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
@@ -511,7 +512,8 @@ namespace MplusM
                                            YarpString &                  tag,
                                            YarpString &                  serviceEndpointName,
                                            YarpString &                  servicePortNumber,
-                                           const OptionsMask             skipOptions = kSkipNone);
+                                           const OptionsMask             skipOptions = kSkipNone,
+                                           YarpStringVector *            arguments = NULL);
         
         /*! @brief Register a local service with a running Registry Service.
          @param channelName The channel provided by the service.

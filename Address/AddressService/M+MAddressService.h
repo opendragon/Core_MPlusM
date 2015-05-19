@@ -76,12 +76,12 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            AddressService(const Common::YarpString & hostName,
-                           const int                  hostPort,
-                           const Common::YarpString & launchPath,
-                           const Common::YarpString & tag,
-                           const Common::YarpString & serviceEndpointName,
-                           const Common::YarpString & servicePortNumber = "");
+            AddressService(const YarpString & hostName,
+                           const int          hostPort,
+                           const YarpString & launchPath,
+                           const YarpString & tag,
+                           const YarpString & serviceEndpointName,
+                           const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~AddressService(void);
@@ -89,8 +89,8 @@ namespace MplusM
             /*! @brief Return the remembered address.
              @param address The remembered address.
              @param port The remembered port. */
-            void getAddress(Common::YarpString & address,
-                            int &                port);
+            void getAddress(YarpString & address,
+                            int &        port);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -122,7 +122,7 @@ namespace MplusM
             typedef BaseService inherited;
             
             /*! @brief The remembered address. */
-            Common::YarpString _address;
+            YarpString _address;
             
             /*! @brief The request handler for the 'where' request. */
             WhereRequestHandler * _whereHandler;

@@ -140,7 +140,7 @@ static void setUpAndGo(char * *           argv,
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 stuff->startPinger();
-                if (! stdinAvailable)
+                if (goWasSet || (! stdinAvailable))
                 {
                     if (stuff->configure(configureData))
                     {

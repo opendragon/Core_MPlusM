@@ -82,7 +82,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 ServiceRequest::ServiceRequest(const YarpString & requestName) :
-_name(requestName), _parameters()
+    _name(requestName), _parameters()
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("requestName = ", requestName); //####

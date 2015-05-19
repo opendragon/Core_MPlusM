@@ -69,13 +69,13 @@ namespace MplusM
             virtual ~MovementDbContext(void);
             
             /*! @brief An accessor for the data track. */
-            inline Common::YarpString & dataTrack(void)
+            inline YarpString & dataTrack(void)
             {
                 return _dataTrack;
             } // dataTrack
             
             /*! @brief An accessor for the e-mail address. */
-            inline Common::YarpString & emailAddress(void)
+            inline YarpString & emailAddress(void)
             {
                 return _emailAddress;
             } // emailAddress
@@ -96,10 +96,10 @@ namespace MplusM
             typedef BaseContext inherited;
             
             /*! @brief The data track to use. */
-            Common::YarpString _dataTrack;
+            YarpString _dataTrack;
             
             /*! @brief The e-mail address to use. */
-            Common::YarpString _emailAddress;
+            YarpString _emailAddress;
             
         }; // MovementDbContext
         

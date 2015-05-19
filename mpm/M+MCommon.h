@@ -226,6 +226,12 @@
 #  define RETRY_LOOPS_USE_TIMEOUTS  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
 
+/*! @brief An alias for a YARP-type string. */
+typedef yarp::os::ConstString YarpString;
+
+/*! @brief A sequence of strings. */
+typedef std::vector<YarpString> YarpStringVector;
+
 namespace MplusM
 {
     namespace Common
@@ -288,9 +294,6 @@ namespace MplusM
             
         }; // ServiceKind
         
-        /*! @brief An alias for a YARP-type string. */
-        typedef yarp::os::ConstString YarpString;
-        
         /*! @brief A description of a channel. */
         struct ChannelDescription
         {
@@ -323,9 +326,6 @@ namespace MplusM
         
         /*! @brief A sequence of random numbers. */
         typedef std::vector<double> DoubleVector;
-        
-        /*! @brief A sequence of strings. */
-        typedef std::vector<YarpString> YarpStringVector;
         
         /*! @brief A function that checks for early exit from loops.
          @param stuff Private data for the function.
@@ -418,13 +418,13 @@ namespace MplusM
      @param description The description, which may contain multiple newlines. */
     void OutputDescription(std::ostream &             outStream,
                            const char *               heading,
-                           const Common::YarpString & description);
+                           const YarpString & description);
     
     /*! @brief Return a string with special characters escaped.
      @param inString The string to be processed.
      @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
      @returns A string with special characters escaped. */
-    Common::YarpString SanitizeString(const Common::YarpString & inString,
+    YarpString SanitizeString(const YarpString & inString,
                                       const bool                 allowDoubleQuotes = false);
     
     /*! @brief The signal handler to catch requests to stop the service.
@@ -441,7 +441,7 @@ namespace MplusM
     extern const char kEscapeChar;
     
     /*! @brief The directory separator string; */
-    extern const Common::YarpString kDirectorySeparator;
+    extern const YarpString kDirectorySeparator;
 
 } // MplusM
 

@@ -58,7 +58,20 @@ namespace MplusM
 {
     namespace Utilities
     {
-        /*! @brief A filepath-type argument description. */
+        /*! @brief A filepath-type argument description.
+         
+         The external representation of a filepath-type argument description is:
+         
+         filePathTagAndInfo ::= optionalFilePathTag filePathDirection |
+                                    mandatoryFilePathTag filePathDirection;
+         
+         optionalFilePathTag ::= 'f';
+         
+         mandatoryFilePathTag ::= 'F';
+         
+         filePathDirection ::= sep directionValue;
+         
+         directionValue ::= 'i' | 'o'; */
         class FilePathArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
@@ -66,16 +79,17 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
+             @param defaultValue The default value for the command-line argument.
              @param isOptional @c true if the argument is optional and @c false otherwise.
              @param forOutput @c true if the file will be used for output and @c false otherwise.
              @param argumentReference If non-@c NULL, the variable to be set with the argument
              value. */
-            FilePathArgumentDescriptor(const Common::YarpString & argName,
-                                       const Common::YarpString & argDescription,
-                                       const Common::YarpString & defaultValue,
-                                       const bool                 isOptional,
-                                       const bool                 forOutput = false,
-                                       Common::YarpString *       argumentReference = NULL);
+            FilePathArgumentDescriptor(const YarpString & argName,
+                                       const YarpString & argDescription,
+                                       const YarpString & defaultValue,
+                                       const bool         isOptional,
+                                       const bool         forOutput = false,
+                                       YarpString *       argumentReference = NULL);
             
             /*! @brief The destructor. */
             virtual ~FilePathArgumentDescriptor(void);
@@ -83,18 +97,18 @@ namespace MplusM
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const Common::YarpString & inString);
+            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
-            virtual Common::YarpString toString(void)
+            virtual YarpString toString(void)
             const;
             
             /*! @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const Common::YarpString & value)
+            virtual bool validate(const YarpString & value)
             const;
             
         protected :

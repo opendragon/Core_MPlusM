@@ -181,18 +181,18 @@ const
     OD_LOG_OBJEXIT(); //####
 } // StringArgumentDescriptor::setToDefault
 
-Common::YarpString StringArgumentDescriptor::toString(void)
+YarpString StringArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(prefixFields("S", "s"));
+    YarpString result(prefixFields("S", "s"));
 
     result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // StringArgumentDescriptor::toString
 
-bool StringArgumentDescriptor::validate(const Common::YarpString & value)
+bool StringArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####

@@ -71,8 +71,8 @@ namespace MplusM
              @param address The remembered address.
              @param port The remembered port.
              @returns @c true if the address was retrieved successfully and @c false otherwise. */
-            bool getAddress(Common::YarpString & address,
-                            int &                port);
+            bool getAddress(YarpString & address,
+                            int &        port);
             
         protected :
             

@@ -75,10 +75,10 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            NaturalPointInputService(const Common::YarpString & launchPath,
-                                     const Common::YarpString & tag,
-                                     const Common::YarpString & serviceEndpointName,
-                                     const Common::YarpString & servicePortNumber = "");
+            NaturalPointInputService(const YarpString & launchPath,
+                                     const YarpString & tag,
+                                     const YarpString & serviceEndpointName,
+                                     const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~NaturalPointInputService(void);

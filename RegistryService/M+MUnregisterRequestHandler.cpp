@@ -105,7 +105,7 @@ UnregisterRequestHandler::~UnregisterRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void UnregisterRequestHandler::fillInAliases(Common::YarpStringVector & alternateNames)
+void UnregisterRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####

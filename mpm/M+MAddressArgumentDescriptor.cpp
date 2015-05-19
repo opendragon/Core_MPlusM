@@ -151,18 +151,18 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
     return result;
 } // AddressArgumentDescriptor::parseArgString
 
-Common::YarpString AddressArgumentDescriptor::toString(void)
+YarpString AddressArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(prefixFields("A", "a"));
+    YarpString result(prefixFields("A", "a"));
 
     result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // AddressArgumentDescriptor::toString
 
-bool AddressArgumentDescriptor::validate(const Common::YarpString & value)
+bool AddressArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####

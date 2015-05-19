@@ -2343,11 +2343,13 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
                                               const YarpString & adapterDescription,
                                               const YarpString & matchingCriteria,
                                               const int          year,
-                                              const char *       copyrightHolder)
+                                              const char *       copyrightHolder,
+                                              YarpStringVector * arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P2("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions); //####
+    OD_LOG_P3("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
+              "arguments = ", arguments); //####
     OD_LOG_S2s("adapterDescription = ", adapterDescription, "matchingCriteria = ", //####
                matchingCriteria); //####
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
@@ -2471,6 +2473,14 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
         {
             cout << CombineArguments(argumentDescriptions, "\t").c_str() << endl;
             keepGoing = false;
+        }
+        if (arguments)
+        {
+            arguments->clear();
+            for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
+            {
+                arguments->push_back(parse.nonOption(ii));
+            }
         }
     }
     else

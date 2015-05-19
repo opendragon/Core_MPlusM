@@ -110,7 +110,7 @@ RGBLEDRequestHandler::~RGBLEDRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void RGBLEDRequestHandler::fillInAliases(Common::YarpStringVector & alternateNames)
+void RGBLEDRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

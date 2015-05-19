@@ -71,13 +71,13 @@ namespace MplusM
              @param prefixString The SELECT prefix to be applied before each expression.
              @param suffixString The SELECT suffix to be applied after each expression.
              @returns A string representing the value as a string suitable for use with SQL. */
-            Common::YarpString asSQLString(const char * prefixString,
-                                           const char * suffixString = NULL)
+            YarpString asSQLString(const char * prefixString,
+                                   const char * suffixString = NULL)
             const;
             
             /*! @brief Return the match value as a printable string.
              @returns The matching substring as a printable string. */
-            Common::YarpString asString(void)
+            YarpString asString(void)
             const;
             
             /*! @brief Return the number of elements in the expression list.
@@ -94,11 +94,11 @@ namespace MplusM
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchExpression * CreateMatcher(const Common::YarpString & inString,
-                                                   const size_t               inLength,
-                                                   const size_t               startPos,
-                                                   size_t &                   endPos,
-                                                   BaseNameValidator *        validator = NULL);
+            static MatchExpression * CreateMatcher(const YarpString &  inString,
+                                                   const size_t        inLength,
+                                                   const size_t        startPos,
+                                                   size_t &            endPos,
+                                                   BaseNameValidator * validator = NULL);
             
             /*! @brief Return an element from the expression list.
              @param index The zero-origin index of the element.

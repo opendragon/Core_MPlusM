@@ -229,11 +229,11 @@ const
     OD_LOG_OBJEXIT(); //####
 } // DoubleArgumentDescriptor::setToDefault
 
-Common::YarpString DoubleArgumentDescriptor::toString(void)
+YarpString DoubleArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(prefixFields("D", "d"));
+    YarpString result(prefixFields("D", "d"));
 
     result += _parameterSeparator;
     if (_hasMinimumValue)
@@ -256,7 +256,7 @@ const
     return result;
 } // DoubleArgumentDescriptor::toString
 
-bool DoubleArgumentDescriptor::validate(const Common::YarpString & value)
+bool DoubleArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####

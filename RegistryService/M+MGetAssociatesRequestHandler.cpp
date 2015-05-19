@@ -105,7 +105,7 @@ GetAssociatesRequestHandler::~GetAssociatesRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void GetAssociatesRequestHandler::fillInAliases(Common::YarpStringVector & alternateNames)
+void GetAssociatesRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####

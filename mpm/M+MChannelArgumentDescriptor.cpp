@@ -146,18 +146,18 @@ BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpStr
     return result;
 } // ChannelArgumentDescriptor::parseArgString
 
-Common::YarpString ChannelArgumentDescriptor::toString(void)
+YarpString ChannelArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(prefixFields("C", "c"));
+    YarpString result(prefixFields("C", "c"));
 
     result += suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // ChannelArgumentDescriptor::toString
 
-bool ChannelArgumentDescriptor::validate(const Common::YarpString & value)
+bool ChannelArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####

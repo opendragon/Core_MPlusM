@@ -107,7 +107,7 @@ Test16EchoRequestHandler::~Test16EchoRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void Test16EchoRequestHandler::fillInAliases(Common::YarpStringVector & alternateNames)
+void Test16EchoRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

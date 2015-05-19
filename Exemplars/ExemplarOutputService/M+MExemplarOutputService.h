@@ -74,10 +74,10 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            ExemplarOutputService(const Common::YarpString & launchPath,
-                                  const Common::YarpString & tag,
-                                  const Common::YarpString & serviceEndpointName,
-                                  const Common::YarpString & servicePortNumber = "");
+            ExemplarOutputService(const YarpString & launchPath,
+                                  const YarpString & tag,
+                                  const YarpString & serviceEndpointName,
+                                  const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~ExemplarOutputService(void);
@@ -124,7 +124,7 @@ namespace MplusM
             typedef BaseOutputService inherited;
             
             /*! @brief The path to the output file used for recording. */
-            Common::YarpString _outPath;
+            YarpString _outPath;
             
             /*! @brief The file output to be written to. */
             FILE * _outFile;

@@ -151,7 +151,7 @@ static void setUpAndGo(YarpString &       recordPath,
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 stuff->startPinger();
-                if (! stdinAvailable)
+                if (goWasSet || (! stdinAvailable))
                 {
                     configureData.addString(recordPath);
                     if (stuff->configure(configureData))

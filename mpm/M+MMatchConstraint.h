@@ -69,12 +69,12 @@ namespace MplusM
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
-            Common::YarpString asSQLString(void)
+            YarpString asSQLString(void)
             const;
             
             /*! @brief Return the match value as a printable string.
              @returns The matching substring as a printable string. */
-            Common::YarpString asString(void)
+            YarpString asString(void)
             const;
             
             /*! @brief The character used between constraint list elements.
@@ -95,11 +95,11 @@ namespace MplusM
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchConstraint * CreateMatcher(const Common::YarpString & inString,
-                                                   const size_t               inLength,
-                                                   const size_t               startPos,
-                                                   size_t &                   endPos,
-                                                   BaseNameValidator *        validator = NULL);
+            static MatchConstraint * CreateMatcher(const YarpString &  inString,
+                                                   const size_t        inLength,
+                                                   const size_t        startPos,
+                                                   size_t &            endPos,
+                                                   BaseNameValidator * validator = NULL);
             
             /*! @brief Return an element from the constraint list.
              @param index The zero-origin index of the element.

@@ -40,6 +40,7 @@
 
 #include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MFilePathArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -1062,9 +1063,9 @@ static bool addCustomClasses(JSContext *        jct,
  @param global The %JavaScript global object.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
-static bool addArgvObject(JSContext *        jct,
-                          JS::RootedObject & global,
-                          YarpStringVector & argv)
+static bool addArgvObject(JSContext *              jct,
+                          JS::RootedObject &       global,
+                          const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
@@ -1185,10 +1186,10 @@ static bool addScriptTagObject(JSContext *        jct,
  @param tag The modifier for the service name and port names.
  @param argv The arguments to be used with the %JavaScript input / output service.
  @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
-static bool addCustomObjects(JSContext *        jct,
-                             JS::RootedObject & global,
-                             const YarpString & tag,
-                             YarpStringVector & argv)
+static bool addCustomObjects(JSContext *              jct,
+                             JS::RootedObject &       global,
+                             const YarpString &       tag,
+                             const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
@@ -1980,19 +1981,23 @@ static YarpString getFileNamePart(const YarpString & inFileName)
 
 /*! @brief Set up the environment and start the JavaScript service.
  @param scriptPath The script file to be processed.
+ @param arguments The arguments for the service.
  @param tag The modifier for the service name and port names.
+ @param serviceEndpointName The YARP name to be assigned to the new service.
+ @param servicePortNumber The port being used by the service. 
  @param goWasSet @c true if the service is to be started immediately.
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
-static void setUpAndGo(YarpString &       scriptPath,
-                       YarpString &       tag,
-                       YarpString &       serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         goWasSet,
-                       const bool         nameWasSet,
-                       const bool         reportOnExit,
-                       const bool         stdinAvailable)
+static void setUpAndGo(YarpString &             scriptPath,
+                       const YarpStringVector & arguments,
+                       YarpString &             tag,
+                       YarpString &             serviceEndpointName,
+                       const YarpString &       servicePortNumber,
+                       const bool               goWasSet,
+                       const bool               nameWasSet,
+                       const bool               reportOnExit,
+                       const bool               stdinAvailable)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -2420,6 +2425,7 @@ int main(int      argc,
         YarpString                            serviceEndpointName;
         YarpString                            servicePortNumber;
         YarpString                            tag;
+        YarpStringVector                      arguments;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to script file to use"),
                                                        "", false, false, &scriptPath);
         Utilities::DescriptorVector           argumentList;
@@ -2429,7 +2435,7 @@ int main(int      argc,
                                           JAVASCRIPTFILTER_SERVICE_DESCRIPTION, 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone))
+                                          kSkipNone, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -2441,7 +2447,7 @@ int main(int      argc,
                 Initialize(*argv);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(scriptPath, tag, serviceEndpointName, servicePortNumber,
+                    setUpAndGo(scriptPath, arguments, tag, serviceEndpointName, servicePortNumber,
                                goWasSet, nameWasSet, reportOnExit, stdinAvailable);
                 }
                 else

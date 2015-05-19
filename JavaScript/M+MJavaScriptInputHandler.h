@@ -101,7 +101,7 @@ namespace MplusM
              @param numBytes The number of bytes available on the connection.
              @returns @c true if the input was correctly structured and successfully processed. */
             virtual bool handleInput(const yarp::os::Bottle &     input,
-                                     const Common::YarpString &   senderChannel,
+                                     const YarpString &           senderChannel,
                                      yarp::os::ConnectionWriter * replyMechanism,
                                      const size_t                 numBytes);
             

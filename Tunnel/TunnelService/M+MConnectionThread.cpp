@@ -137,8 +137,8 @@ static SOCKET createListener(void)
  @param dataAddress The IP address to connect to.
  @param dataPort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET connectToSource(const Common::YarpString & dataAddress,
-                              const int                  dataPort)
+static SOCKET connectToSource(const YarpString & dataAddress,
+                              const int          dataPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("dataAddress = ", dataAddress); //####
@@ -300,14 +300,14 @@ void ConnectionThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // ConnectionThread::run
 
-void ConnectionThread::setSourceAddress(const Common::YarpString & sourceName,
-                                        const int                  sourcePort)
+void ConnectionThread::setSourceAddress(const YarpString & sourceName,
+                                        const int          sourcePort)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("sourceName = ", sourceName); //####
     OD_LOG_L1("sourcePort = ", sourcePort); //####
-    Common::YarpString tunnelAddress;
-    int                tunnelPort;
+    YarpString tunnelAddress;
+    int        tunnelPort;
     
     _sourceAddress = sourceName;
     _sourcePort = sourcePort;

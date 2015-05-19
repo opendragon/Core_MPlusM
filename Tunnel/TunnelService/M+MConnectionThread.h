@@ -76,8 +76,8 @@ namespace MplusM
             /*! @brief Set the address of the data source.
              @param sourceName The data source address to be connected to.
              @param sourcePort The data source port to be connected to. */
-            void setSourceAddress(const Common::YarpString & sourceName,
-                                  const int                  sourcePort);
+            void setSourceAddress(const YarpString & sourceName,
+                                  const int          sourcePort);
 
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
@@ -105,7 +105,7 @@ namespace MplusM
             TunnelService & _service;
             
             /*! @brief The data source address. */
-            Common::YarpString _sourceAddress;
+            YarpString _sourceAddress;
             
             /*! @brief The data source port. */
             int _sourcePort;

@@ -58,7 +58,15 @@ namespace MplusM
 {
     namespace Utilities
     {
-        /*! @brief A string-type argument description. */
+        /*! @brief A string-type argument description.
+         
+         The external representation of a string-type argument description is:
+         
+         stringTagAndInfo ::= optionalStringTag | mandatoryStringTag;
+         
+         optionalStringTag ::= 's';
+         
+         mandatoryStringTag ::= 'S'; */
         class StringArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
@@ -66,32 +74,33 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
+             @param defaultValue The default value for the command-line argument.
              @param isOptional @c true if the argument is optional and @c false otherwise.
              @param argumentReference If non-@c NULL, the variable to be set with the argument
              value. */
-            StringArgumentDescriptor(const Common::YarpString & argName,
-                                     const Common::YarpString & argDescription,
-                                     const Common::YarpString & defaultValue,
-                                     const bool                 isOptional,
-                                     Common::YarpString *       argumentReference = NULL);
+            StringArgumentDescriptor(const YarpString & argName,
+                                     const YarpString & argDescription,
+                                     const YarpString & defaultValue,
+                                     const bool         isOptional,
+                                     YarpString *       argumentReference = NULL);
             
             /*! @brief The destructor. */
             virtual ~StringArgumentDescriptor(void);
             
             /*! @brief Return the default value.
              @returns The default value. */
-            virtual Common::YarpString getDefaultValue(void)
+            virtual YarpString getDefaultValue(void)
             const;
             
             /*! @brief Return the processed value.
              @returns The processed value. */
-            virtual Common::YarpString getProcessedValue(void)
+            virtual YarpString getProcessedValue(void)
             const;
 
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const Common::YarpString & inString);
+            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
             /*! @brief Set the associated variable to the default value. */
             virtual void setToDefault(void)
@@ -99,14 +108,14 @@ namespace MplusM
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
-            virtual Common::YarpString toString(void)
+            virtual YarpString toString(void)
             const;
             
             /*! @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const Common::YarpString & value)
+            virtual bool validate(const YarpString & value)
             const;
 
         protected :
@@ -120,10 +129,10 @@ namespace MplusM
         protected :
         
             /*! @brief The default value for the command-line argument. */
-            Common::YarpString _defaultValue;
+            YarpString _defaultValue;
 
             /*! @brief The address of the variable to be set with the argument value. */
-            Common::YarpString * _argumentReference;
+            YarpString * _argumentReference;
 
         private :
             

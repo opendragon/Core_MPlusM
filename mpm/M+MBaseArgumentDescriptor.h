@@ -67,7 +67,18 @@ namespace MplusM
 {
     namespace Utilities
     {
-        /*! @brief An argument description. */
+        /*! @brief An argument description.
+         
+         The external representation of an argument description is:
+         
+         argFormat ::= argName sep typeTagAndInfo sep default_value sep text_description_for_label;
+         
+         sep ::= ':';
+         
+         default_value ::= delimiter text delimiter;
+         # use matching pairs of |, <>, (), {}, [], whichever is not present in the text
+
+         where typeTagAndInfo is described with each derived class. */
         class BaseArgumentDescriptor
         {
         public :
@@ -76,16 +87,16 @@ namespace MplusM
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
              @param isOptional @c true if the argument is optional and @c false otherwise. */
-            BaseArgumentDescriptor(const Common::YarpString & argName,
-                                   const Common::YarpString & argDescription,
-                                   const bool                 isOptional);
+            BaseArgumentDescriptor(const YarpString & argName,
+                                   const YarpString & argDescription,
+                                   const bool         isOptional);
             
             /*! @brief The destructor. */
             virtual ~BaseArgumentDescriptor(void);
             
             /*! @brief Return the description of the command-line argument.
              @returns The description of the command-line argument. */
-            inline const Common::YarpString & argumentDescription(void)
+            inline const YarpString & argumentDescription(void)
             const
             {
                 return _argDescription;
@@ -93,7 +104,7 @@ namespace MplusM
 
             /*! @brief Return the name of the command-line argument.
              @returns The name of the command-line argument. */
-            inline const Common::YarpString & argumentName(void)
+            inline const YarpString & argumentName(void)
             const
             {
                 return _argName;
@@ -101,12 +112,12 @@ namespace MplusM
             
             /*! @brief Return the default value.
              @returns The default value. */
-            virtual Common::YarpString getDefaultValue(void)
+            virtual YarpString getDefaultValue(void)
             const = 0;
 
             /*! @brief Return the processed value.
              @returns The processed value. */
-            virtual Common::YarpString getProcessedValue(void)
+            virtual YarpString getProcessedValue(void)
             const = 0;
             
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
@@ -123,14 +134,14 @@ namespace MplusM
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
-            virtual Common::YarpString toString(void)
+            virtual YarpString toString(void)
             const = 0;
             
             /*! @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const Common::YarpString & value)
+            virtual bool validate(const YarpString & value)
             const = 0;
             
         protected :
@@ -142,9 +153,9 @@ namespace MplusM
              @param result The partitioned string.
              @returns @c true if the correct number of fields appear within the input string and
              @c false otherwise. */
-            static bool partitionString(const Common::YarpString & inString,
-                                        const int                  indexOfDefaultValue,
-                                        Common::YarpStringVector & result);
+            static bool partitionString(const YarpString & inString,
+                                        const int          indexOfDefaultValue,
+                                        YarpStringVector & result);
 
             /*! @brief Returns a string that contains a printable representation of the standard
              prefix fields for a command-line argument.
@@ -152,15 +163,15 @@ namespace MplusM
              @param tagForOptionalField The tag value to use if the field is optional.
              @returns A string that contains a printable representation of the standard prefix
              fields for a command-line argument. */
-            Common::YarpString prefixFields(const Common::YarpString & tagForMandatoryField,
-                                            const Common::YarpString & tagForOptionalField)
+            YarpString prefixFields(const YarpString & tagForMandatoryField,
+                                    const YarpString & tagForOptionalField)
             const;
 
             /*! @brief Returns a string that contains a printable representation of the standard
              fields for a command-line argument.
              @returns A string that contains a printable representation of the standard fields for
              a command-line argument. */
-            Common::YarpString suffixFields(void)
+            YarpString suffixFields(void)
             const;
             
         private :
@@ -172,15 +183,15 @@ namespace MplusM
         protected :
             
             /*! @brief The separator string to use when converting to a string. */
-            static Common::YarpString _parameterSeparator;
+            static YarpString _parameterSeparator;
         
         private :
             
             /*! @brief The description of the command-line argument for the adapter. */
-            Common::YarpString _argDescription;
+            YarpString _argDescription;
 
             /*! @brief The name of the command-line argument. */
-            Common::YarpString _argName;
+            YarpString _argName;
             
             /*! @brief @c true if the argument is optional and @c false otherwise. */
             bool _isOptional;
@@ -204,28 +215,28 @@ namespace MplusM
          @param arguments The argument sequence.
          @returns A string containing the standard 'argument list' representation of the argument
          sequence. */
-        Common::YarpString ArgumentsToArgString(const DescriptorVector & arguments);
+        YarpString ArgumentsToArgString(const DescriptorVector & arguments);
         
         /*! @brief Generate the standard 'argument description' from an argument sequence.
          @param arguments The argument sequence.
          @param output The generated argument descriptions.
          @param minSpace The number of characters between the argument names and their
          descriptions. */
-        void ArgumentsToDescriptionArray(const DescriptorVector &   arguments,
-                                         Common::YarpStringVector & output,
-                                         const size_t               minSpace);
+        void ArgumentsToDescriptionArray(const DescriptorVector & arguments,
+                                         YarpStringVector &       output,
+                                         const size_t             minSpace);
         
         /*! @brief Return the resulting argument values.
          @param arguments The argument sequence.
          @param sep The separator string between the argument values.
          @returns The argument values, separated by 'sep'. */
-        Common::YarpString CombineArguments(const DescriptorVector &   arguments,
-                                            const Common::YarpString & sep);
+        YarpString CombineArguments(const DescriptorVector & arguments,
+                                    const YarpString &       sep);
 
         /*! @brief Convert a string in '--args' format into an argument description.
          @param inString The string to be analyzed.
          @returns A newly allocated argument descriptor or @c NULL if the string is not valid. */
-        BaseArgumentDescriptor * ConvertStringToArgument(const Common::YarpString & inString);
+        BaseArgumentDescriptor * ConvertStringToArgument(const YarpString & inString);
 
         /*! @brief Update the arguments data from the parsed argument list.
          @param arguments The argument sequence.

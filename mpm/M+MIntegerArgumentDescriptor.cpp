@@ -230,11 +230,11 @@ const
     OD_LOG_OBJEXIT(); //####
 } // IntegerArgumentDescriptor::setToDefault
 
-Common::YarpString IntegerArgumentDescriptor::toString(void)
+YarpString IntegerArgumentDescriptor::toString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    Common::YarpString result(prefixFields("I", "i"));
+    YarpString result(prefixFields("I", "i"));
 
     result += _parameterSeparator;
     if (_hasMinimumValue)
@@ -257,7 +257,7 @@ const
     return result;
 } // IntegerArgumentDescriptor::toString
 
-bool IntegerArgumentDescriptor::validate(const Common::YarpString & value)
+bool IntegerArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####

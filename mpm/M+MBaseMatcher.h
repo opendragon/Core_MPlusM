@@ -77,9 +77,9 @@ namespace MplusM
              @returns The position in the string where the next non-whitespace character appears, or
              the length of the string - which is past the end of the string - if the remainder of
              the string is whitespace. */
-            static size_t SkipWhitespace(const Common::YarpString & inString,
-                                         const size_t               inLength,
-                                         const size_t               startPos);
+            static size_t SkipWhitespace(const YarpString & inString,
+                                         const size_t       inLength,
+                                         const size_t       startPos);
             
         private :
             

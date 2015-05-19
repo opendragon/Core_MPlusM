@@ -50,7 +50,7 @@
 /*! @file
  @brief A utility application to stop a service. */
 
-/*! @dir StopRegistry
+/*! @dir StopService
  @brief The set of files that implement the Stop Service application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

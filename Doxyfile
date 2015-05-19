@@ -38,7 +38,7 @@ PROJECT_NAME           = M+M
 # could be handy for archiving the generated documentation or if some version
 # control system is used.
 
-PROJECT_NUMBER         = 1.4.25
+PROJECT_NUMBER         = 1.5.1
 
 # Using the PROJECT_BRIEF tag one can provide an optional one line description
 # for a project that appears at the top of each page and should give viewer a
@@ -793,7 +793,8 @@ INPUT                  = ClientList \
                          Address \
                          Tunnel \
                          ProComp2 \
-                         StopService
+                         StopService \
+                         Emotiv
 
 # This tag can be used to specify the character encoding of the source files
 # that doxygen parses. Internally doxygen uses the UTF-8 encoding. Doxygen uses
@@ -923,7 +924,8 @@ EXCLUDE                = CMakeFiles \
                          Tunnel/TunnelService/CMakeFiles \
                          JavaScript/CMakeFiles \
                          ProComp2/CMakeFiles \
-                         StopService/CMakeFiles
+                         StopService/CMakeFiles \
+                         Emotiv/CMakeFiles
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

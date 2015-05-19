@@ -75,28 +75,28 @@ namespace MplusM
              @param launchPath The command-line name used to launch the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            RequestCounterService(const Common::YarpString & launchPath,
-                                  const Common::YarpString & serviceEndpointName,
-                                  const Common::YarpString & servicePortNumber = "");
+            RequestCounterService(const YarpString & launchPath,
+                                  const YarpString & serviceEndpointName,
+                                  const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~RequestCounterService(void);
             
             /*! @brief Record a request.
              @param key The client-provided key. */
-            void countRequest(const Common::YarpString & key);
+            void countRequest(const YarpString & key);
             
             /*! @brief Return the request statistics.
              @param key The client-provided key.
              @param counter The number of requests since the last reset.
              @param elapsedTime The number of seconds since the last reset. */
-            void getStatistics(const Common::YarpString & key,
-                               long &                     counter,
-                               double &                   elapsedTime);
+            void getStatistics(const YarpString & key,
+                               long &             counter,
+                               double &           elapsedTime);
             
             /*! @brief Reset the request statistics counters.
              @param key The client-provided key. */
-            void resetCounters(const Common::YarpString & key);
+            void resetCounters(const YarpString & key);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
