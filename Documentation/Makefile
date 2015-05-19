@@ -70,22 +70,24 @@ VDSpngfiles =
 
 # Input bitmap EPS files
 
-CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps \
+CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/appListMenu.eps \
 		$(IMAGE_DIR)/backgroundMenuNoHiddenNoSelection.eps \
 		$(IMAGE_DIR)/backgroundMenuWithHidden.eps \
-		$(IMAGE_DIR)/backgroundMenuWithSelection.eps \
 		$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
 		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/channelManagerMenu.eps \
-		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/displayMenuNoSelection.eps \
-		$(IMAGE_DIR)/displayMenuWithSelection.eps $(IMAGE_DIR)/dragAdd.eps \
-		$(IMAGE_DIR)/entityMenu.eps $(IMAGE_DIR)/operationMenuChannel.eps \
+		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/dragAdd.eps $(IMAGE_DIR)/entityMenu.eps \
+		$(IMAGE_DIR)/launchRegistryService.eps $(IMAGE_DIR)/launchYarp.eps \
+		$(IMAGE_DIR)/noRegistryServiceFound.eps \
+		$(IMAGE_DIR)/noRunningRegistryService.eps $(IMAGE_DIR)/noRunningYarp.eps \
+		$(IMAGE_DIR)/noYarpFound.eps $(IMAGE_DIR)/operationMenuChannel.eps \
 		$(IMAGE_DIR)/operationMenuService.eps $(IMAGE_DIR)/portMenu.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsEnabled.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsEnabled.eps \
 		$(IMAGE_DIR)/serviceMenuMetricsDisabled.eps \
-		$(IMAGE_DIR)/serviceMenuMetricsEnabled.eps
+		$(IMAGE_DIR)/serviceMenuMetricsEnabled.eps $(IMAGE_DIR)/viewMenuNoSelection.eps \
+		$(IMAGE_DIR)/viewMenuWithSelection.eps
 
 IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 		$(IMAGE_DIR)/Installer03.eps $(IMAGE_DIR)/Installer04.eps \
