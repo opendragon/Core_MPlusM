@@ -26,8 +26,16 @@
 
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
 
-@ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running
+@ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running, when Registry Service is not running
 
 —> all required arguments _must_ appear before all the optional arguments - ignore an executable that doesn’t obey this - and an executable that has only optional arguments can be launched immediately; only optional values should have default values
 
 + make sure that the initial placement of entities is within the visible area - below the menu bar and above the bottom
+
+* add a ‘port argument’ descriptor, that checks for 1024 <= v <= 65535 or 0 <= v <= 65535, depending on a boolean flag
+
+* use a different random number generator for the default files for Record*** services
+
++ the configuration file can’t include adapters, as there’s no mechanism to get their launch parameters; services need to respond to a new request that returns their original launch parameters, so that these can be recorded
+
+* empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported
