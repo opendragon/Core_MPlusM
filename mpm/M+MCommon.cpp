@@ -222,7 +222,7 @@ YarpString Common::GetRandomChannelName(const YarpString & channelRoot)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void Common::Initialize(const char * progName)
+void Common::Initialize(const YarpString & progName)
 {
 #if ((! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING)))
 # if MAC_OR_LINUX_
@@ -230,7 +230,7 @@ void Common::Initialize(const char * progName)
 # endif // MAC_OR_LINUX_
 #endif // (! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING))
     OD_LOG_ENTER(); //####
-    OD_LOG_S1("progName = ", progName); //####
+    OD_LOG_S1s("progName = ", progName); //####
     try
     {
 #if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))

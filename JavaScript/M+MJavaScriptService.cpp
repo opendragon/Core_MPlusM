@@ -245,6 +245,8 @@ static void fillBottleFromValue(JSContext *        jct,
 JavaScriptService::JavaScriptService(JSContext *                 context,
                                      JS::RootedObject &          global,
                                      const YarpString &          launchPath,
+                                     const int                   argc,
+                                     char * *                    argv,
                                      const YarpString &          tag,
                                      const YarpString &          description,
                                      const ChannelVector &       loadedInletDescriptions,
@@ -257,7 +259,7 @@ JavaScriptService::JavaScriptService(JSContext *                 context,
                                      const double                loadedInterval,
                                      const YarpString &          serviceEndpointName,
                                      const YarpString &          servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
+    inherited(launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
               serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
     _generator(NULL), _context(context), _global(global),
     _loadedInletDescriptions(loadedInletDescriptions),
@@ -266,12 +268,13 @@ JavaScriptService::JavaScriptService(JSContext *                 context,
     _isThreaded(sawThread)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P4("context = ", context, "global = ", &global, "loadedInletDescriptions = ", //####
-              &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
-              &loadedOutletDescriptions); //####
-    OD_LOG_P4("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction, //####
-              "loadedThreadFunction = ", &loadedThreadFunction); //####
+    OD_LOG_P4("context = ", context, "global = ", &global, "argv = ", argv, //####
+              "loadedInletDescriptions = ", &loadedInletDescriptions); //####
+    OD_LOG_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+              "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
+    OD_LOG_P1("loadedThreadFunction = ", &loadedThreadFunction); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####

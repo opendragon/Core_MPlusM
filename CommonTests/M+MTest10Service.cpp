@@ -84,10 +84,13 @@ using namespace MplusM::Test;
 Test10Service::Test10Service(const YarpString & launchPath,
                              const int          argc,
                              char * *           argv) :
-    inherited(kServiceKindNormal, launchPath, true, "Test10", "Simple service for unit tests", "",
-              argc, argv)
+    inherited(kServiceKindNormal, launchPath, argc, argv, true, "Test10",
+              "Simple service for unit tests", "")
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("launchPath = ", launchPath); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // Test10Service::Test10Service

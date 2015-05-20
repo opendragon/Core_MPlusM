@@ -1982,6 +1982,9 @@ static YarpString getFileNamePart(const YarpString & inFileName)
 /*! @brief Set up the environment and start the JavaScript service.
  @param scriptPath The script file to be processed.
  @param arguments The arguments for the service.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the JavaScript service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service. 
@@ -1991,6 +1994,9 @@ static YarpString getFileNamePart(const YarpString & inFileName)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
 static void setUpAndGo(YarpString &             scriptPath,
                        const YarpStringVector & arguments,
+                       const YarpString &       progName,
+                       const int                argc,
+                       char * *                 argv,
                        YarpString &             tag,
                        YarpString &             serviceEndpointName,
                        const YarpString &       servicePortNumber,
@@ -2000,8 +2006,11 @@ static void setUpAndGo(YarpString &             scriptPath,
                        const bool               stdinAvailable)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("scriptPath = ", scriptPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     YarpString rawTag(tag);
@@ -2189,7 +2198,8 @@ static void setUpAndGo(YarpString &             scriptPath,
                     if (okSoFar)
                     {
                         JavaScriptService * stuff = new JavaScriptService(jct, global, scriptPath,
-                                                                          tag, description,
+                                                                          argc, argv, tag,
+                                                                          description,
                                                                           loadedInletDescriptions,
                                                                           loadedOutletDescriptions,
                                                                           loadedInletHandlers,
@@ -2441,14 +2451,16 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(scriptPath, arguments, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, nameWasSet, reportOnExit, stdinAvailable);
+                    setUpAndGo(scriptPath, arguments, progName, argc, argv, tag,
+                               serviceEndpointName, servicePortNumber, goWasSet, nameWasSet,
+                               reportOnExit, stdinAvailable);
                 }
                 else
                 {

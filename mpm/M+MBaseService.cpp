@@ -116,6 +116,8 @@ using std::endl;
 
 BaseService::BaseService(const ServiceKind  theKind,
                          const YarpString & launchPath,
+                         const int          argc,
+                         char * *           argv,
                          const YarpString & tag,
                          const bool         useMultipleHandlers,
                          const YarpString & canonicalName,
@@ -136,6 +138,8 @@ BaseService::BaseService(const ServiceKind  theKind,
                "description = ", description, "requestsDescription = ", requestsDescription); //####
     OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
                servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     if (0 < _tag.size())
     {
@@ -154,6 +158,10 @@ BaseService::BaseService(const ServiceKind  theKind,
     {
         _endpoint->disableMetrics();
     }
+    for (int ii = 0; argc > ii; ++ii)
+    {
+        _originalArguments.push_back(argv[ii]);
+    }
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // BaseService::BaseService
@@ -164,12 +172,12 @@ BaseService::BaseService(const ServiceKind  theKind,
 #endif // ! MAC_OR_LINUX_
 BaseService::BaseService(const ServiceKind  theKind,
                          const YarpString & launchPath,
+                         const int          argc,
+                         char * *           argv,
                          const bool         useMultipleHandlers,
                          const YarpString & canonicalName,
                          const YarpString & description,
-                         const YarpString & requestsDescription,
-                         const int          argc,
-                         char * *           argv) :
+                         const YarpString & requestsDescription) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
     _serviceName(canonicalName), _tag(), _auxCounters(), _channelsHandler(NULL),
@@ -187,6 +195,8 @@ BaseService::BaseService(const ServiceKind  theKind,
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     switch (argc)
     {
@@ -211,6 +221,10 @@ BaseService::BaseService(const ServiceKind  theKind,
     else
     {
         _endpoint->disableMetrics();
+    }
+    for (int ii = 0; argc > ii; ++ii)
+    {
+        _originalArguments.push_back(argv[ii]);
     }
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####

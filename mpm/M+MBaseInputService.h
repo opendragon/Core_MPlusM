@@ -64,6 +64,8 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
+             @param argc The number of arguments in 'argv'.
+             @param argv The arguments passed to the executable used to launch the service.
              @param tag The modifier for the service name.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
              one handler is used.
@@ -73,6 +75,8 @@ namespace MplusM
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
             BaseInputService(const YarpString & launchPath,
+                             const int          argc,
+                             char * *           argv,
                              const YarpString & tag,
                              const bool         useMultipleHandlers,
                              const YarpString & canonicalName,

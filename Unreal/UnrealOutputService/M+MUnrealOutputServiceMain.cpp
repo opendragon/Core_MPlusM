@@ -105,6 +105,8 @@ static void displayCommands(void)
 /*! @brief Set up the environment and start the %Unreal output service.
  @param outPort The port to use to connect.
  @param translationScale The translation scale.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Unreal output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -114,6 +116,8 @@ static void displayCommands(void)
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(int &              outPort,
                        double &           translationScale,
+                       const YarpString & progName,
+                       const int          argc,
                        char * *           argv,
                        const YarpString & tag,
                        const YarpString & serviceEndpointName,
@@ -123,15 +127,16 @@ static void setUpAndGo(int &              outPort,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_LL1("outPort = ", outPort); //####
+    OD_LOG_LL2("outPort = ", outPort, "argc = ", argc); //####
     OD_LOG_D1("translationScale = ", translationScale); //####
+    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    UnrealOutputService * stuff = new UnrealOutputService(*argv, tag, serviceEndpointName,
-                                                          servicePortNumber);
+    UnrealOutputService * stuff = new UnrealOutputService(progName, argc, argv, tag,
+                                                          serviceEndpointName, servicePortNumber);
     
     if (stuff)
     {
@@ -370,14 +375,16 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(outPort, translationScale, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(outPort, translationScale, progName, argc, argv, tag,
+                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
+                               reportOnExit);
                     
                 }
                 else

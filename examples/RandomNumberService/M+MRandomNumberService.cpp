@@ -83,17 +83,21 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RandomNumberService::RandomNumberService(const YarpString & launchPath,
+                                         const int          argc,
+                                         char * *           argv,
                                          const YarpString & tag,
                                          const YarpString & serviceEndpointName,
                                          const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, tag, true, MpM_RANDOMNUMBER_CANONICAL_NAME,
-              RANDOMNUMBER_SERVICE_DESCRIPTION,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true,
+              MpM_RANDOMNUMBER_CANONICAL_NAME, RANDOMNUMBER_SERVICE_DESCRIPTION,
               "random - return the number of random values requested", serviceEndpointName,
               servicePortNumber), _randomHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // RandomNumberService::RandomNumberService

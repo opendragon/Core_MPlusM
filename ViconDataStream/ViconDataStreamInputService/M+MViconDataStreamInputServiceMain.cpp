@@ -104,6 +104,8 @@ static void displayCommands(void)
 /*! @brief Set up the environment and start the Vicon DataStream input service.
  @param hostName The IP address for the device server.
  @param hostPort The port for the device server.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Vicon DataStream input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -113,6 +115,8 @@ static void displayCommands(void)
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(YarpString &       hostName,
                        int &              hostPort,
+                       const YarpString & progName,
+                       const int          argc,
                        char * *           argv,
                        const YarpString & tag,
                        const YarpString & serviceEndpointName,
@@ -122,13 +126,14 @@ static void setUpAndGo(YarpString &       hostName,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("hostName = ", hostName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("hostPort = ", hostPort); //####
+    OD_LOG_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    ViconDataStreamInputService * stuff = new ViconDataStreamInputService(*argv, tag,
+    ViconDataStreamInputService * stuff = new ViconDataStreamInputService(progName, argc, argv, tag,
                                                                           serviceEndpointName,
                                                                           servicePortNumber);
     
@@ -379,13 +384,14 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(hostName, hostPort, argv, tag, serviceEndpointName,
+                    setUpAndGo(hostName, hostPort, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }
                 else

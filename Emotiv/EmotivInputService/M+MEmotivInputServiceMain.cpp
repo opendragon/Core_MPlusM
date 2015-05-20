@@ -102,6 +102,8 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the %Emotiv input service.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -109,7 +111,9 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(char * *           argv,
+static void setUpAndGo(const YarpString & progName,
+                       const int          argc,
+                       char * *           argv,
                        const YarpString & tag,
                        const YarpString & serviceEndpointName,
                        const YarpString & servicePortNumber,
@@ -118,13 +122,14 @@ static void setUpAndGo(char * *           argv,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-"reportOnExit = ", reportOnExit); //####
-    EmotivInputService * stuff = new EmotivInputService(*argv, tag, serviceEndpointName,
-                                                        servicePortNumber);
+              "reportOnExit = ", reportOnExit); //####
+    EmotivInputService * stuff = new EmotivInputService(progName, argc, argv, tag,
+                                                        serviceEndpointName, servicePortNumber);
 
     if (stuff)
     {
@@ -332,14 +337,15 @@ int main(int      argc,
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(argv, tag, serviceEndpointName, servicePortNumber, goWasSet,
-                               stdinAvailable, reportOnExit);
+                    setUpAndGo(progName, argc, argv, tag, serviceEndpointName, servicePortNumber,
+                               goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

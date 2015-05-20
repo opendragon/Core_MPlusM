@@ -100,6 +100,8 @@ static void displayCommands(void)
 
 /*! @brief Set up the environment and start the Record As JSON output service.
  @param recordPath The file system path to use.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Record As JSON output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -108,6 +110,8 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(YarpString &       recordPath,
+                       const YarpString & progName,
+                       const int          argc,
                        char * *           argv,
                        const YarpString & tag,
                        const YarpString & serviceEndpointName,
@@ -117,9 +121,11 @@ static void setUpAndGo(YarpString &       recordPath,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S4s("recordPath = ", recordPath, "progName = ", progName, "tag = ", tag, //####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S4s("recordPath = ", recordPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     if (0 == recordPath.size())
@@ -132,8 +138,8 @@ static void setUpAndGo(YarpString &       recordPath,
         recordPath = buff.str();
         OD_LOG_S1s("recordPath <- ", recordPath); //####
     }
-    RecordAsJSONService * stuff = new RecordAsJSONService(*argv, tag, serviceEndpointName,
-                                                          servicePortNumber);
+    RecordAsJSONService * stuff = new RecordAsJSONService(progName, argc, argv, tag,
+                                                          serviceEndpointName, servicePortNumber);
     
     if (stuff)
     {
@@ -335,13 +341,16 @@ int main(int      argc,
         bool              nameWasSet = false; // not used
         bool              reportOnExit = false;
         bool              stdinAvailable = CanReadFromStandardInput();
-        int               randNumb = yarp::os::Random::uniform(0, 10000);
+        int               randNumb;
         std::stringstream buff;
         YarpString        recordPath;
         YarpString        serviceEndpointName;
         YarpString        servicePortNumber;
         YarpString        tag;
 
+        // Use a poor random number for now; we'll use a better one later, once YARP is active.
+        sranddev();
+        randNumb = (rand() % 10000);
         buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
         buff << std::hex << randNumb;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
@@ -360,14 +369,15 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(recordPath, progName, argc, argv, tag, serviceEndpointName,
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

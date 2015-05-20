@@ -776,13 +776,13 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
-                
-                Initialize(*argv);
                 bool                  found = false;
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 Utilities::PortVector ports;
                 
+                Initialize(progName);
                 Utilities::RemoveStalePorts();
                 if (Utilities::GetDetectedPortList(ports, true))
                 {

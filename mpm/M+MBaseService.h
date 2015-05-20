@@ -118,6 +118,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
+             @param argc The number of arguments in 'argv'.
+             @param argv The arguments passed to the executable used to launch the service.
              @param tag The modifier for the service name and port names.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
              one handler is used.
@@ -128,6 +130,8 @@ namespace MplusM
              @param servicePortNumber The channel being used by the service. */
             BaseService(const ServiceKind  theKind,
                         const YarpString & launchPath,
+                        const int          argc,
+                        char * *           argv,
                         const YarpString & tag,
                         const bool         useMultipleHandlers,
                         const YarpString & canonicalName,
@@ -142,21 +146,21 @@ namespace MplusM
              service name modifier.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
+             @param argc The number of arguments in 'argv'.
+             @param argv The arguments passed to the executable used to launch the service.
              @param useMultipleHandlers @c true if simultaneous handlers are allowed, @c false if
              one handler is used.
              @param canonicalName The channel-independent name of the service.
              @param description The description of the service.
-             @param requestsDescription The description of the requests for the service.
-             @param argc The number of arguments in 'argv'.
-             @param argv The arguments to be used to specify the new service. */
+             @param requestsDescription The description of the requests for the service. */
             BaseService(const ServiceKind  theKind,
                         const YarpString & launchPath,
+                        const int          argc,
+                        char * *           argv,
                         const bool         useMultipleHandlers,
                         const YarpString & canonicalName,
                         const YarpString & description,
-                        const YarpString & requestsDescription,
-                        const int          argc,
-                        char * *           argv);
+                        const YarpString & requestsDescription);
             
             /*! @brief The destructor. */
             virtual ~BaseService(void);
@@ -395,6 +399,10 @@ namespace MplusM
             
             /*! @brief The modifier tag for the service. */
             YarpString _tag;
+            
+            /*! @brief The arguments that were used to launch the executable that created this
+             service. */
+            YarpStringVector _originalArguments;
             
             /*! @brief The auxiliary send / receive counters. */
             SendReceiveCounters _auxCounters;

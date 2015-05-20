@@ -87,11 +87,13 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 MovementDbService::MovementDbService(const YarpString & launchPath,
+                                     const int          argc,
+                                     char * *           argv,
                                      const YarpString & tag,
                                      const YarpString & databaseServerAddress,
                                      const YarpString & serviceEndpointName,
                                      const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_MOVEMENTDB_CANONICAL_NAME,
               MOVEMENTDB_SERVICE_DESCRIPTION,
               "addfile - add a file to the database\n"
               "setdatatrack - set the data track for the files being added\n"
@@ -104,6 +106,8 @@ MovementDbService::MovementDbService(const YarpString & launchPath,
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "databaseServerAddress = ", //####
                databaseServerAddress, "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // MovementDbService::MovementDbService

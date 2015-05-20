@@ -288,10 +288,11 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                 ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
+                yarp::os::ConstString   progName(*argv);
                 yarp::os::Network       yarp; // This is necessary to establish any connections to
                                               // the YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
 #if defined(MpM_ReportOnConnections)

@@ -73,12 +73,16 @@ namespace MplusM
              @param hostName The host address to be returned.
              @param hostPort The port to be returned.
              @param launchPath The command-line name used to launch the service.
+             @param argc The number of arguments in 'argv'.
+             @param argv The arguments passed to the executable used to launch the service.
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             AddressService(const YarpString & hostName,
                            const int          hostPort,
                            const YarpString & launchPath,
+                           const int          argc,
+                           char * *           argv,
                            const YarpString & tag,
                            const YarpString & serviceEndpointName,
                            const YarpString & servicePortNumber = "");

@@ -89,19 +89,25 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Registry service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false
  otherwise. */
-static void setUpAndGo(char * *           argv,
+static void setUpAndGo(const YarpString & progName,
+                       const int          argc,
+                       char * *           argv,
                        const YarpString & servicePortNumber,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S2s("progName = ", progName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    Registry::RegistryService * stuff = new Registry::RegistryService(*argv, USE_INMEMORY,
+    Registry::RegistryService * stuff = new Registry::RegistryService(progName, argc, argv,
+                                                                      USE_INMEMORY,
                                                                       servicePortNumber);
 
     if (stuff)
@@ -200,10 +206,11 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
 			if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
                     OD_LOG("Utilities::CheckForRegistryService()"); //####
@@ -215,7 +222,7 @@ int main(int      argc,
                 }
                 else
                 {
-                    setUpAndGo(argv, servicePortNumber, reportOnExit);
+                    setUpAndGo(progName, argc, argv, servicePortNumber, reportOnExit);
                 }
             }
             else

@@ -89,21 +89,27 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the Request Counter service.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Request Counter service.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(char * *           argv,
+static void setUpAndGo(const YarpString & progName,
+                       const int          argc,
+                       char * *           argv,
                        const YarpString & serviceEndpointName,
                        const YarpString & servicePortNumber,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S3s("progName = ", progName, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S2s("serviceEndpointName = ", serviceEndpointName, "servicePortNumber = ", //####
-               servicePortNumber); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    RequestCounterService * stuff = new RequestCounterService(*argv, serviceEndpointName,
+    RequestCounterService * stuff = new RequestCounterService(progName, argc, argv,
+                                                              serviceEndpointName,
                                                               servicePortNumber);
     
     if (stuff)
@@ -211,14 +217,15 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(argv, DEFAULT_REQUESTCOUNTER_SERVICE_NAME, servicePortNumber,
-                               reportOnExit);                    
+                    setUpAndGo(progName, argc, argv, DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
+                               servicePortNumber, reportOnExit);                    
                 }
                 else
                 {

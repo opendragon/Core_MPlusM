@@ -120,16 +120,20 @@ static YarpString convertToCommaSplitNumber(const size_t aNumber)
 #endif // defined(__APPLE__)
 
 AbsorberService::AbsorberService(const YarpString & launchPath,
+                                 const int          argc,
+                                 char * *           argv,
                                  const YarpString & tag,
                                  const YarpString & serviceEndpointName,
                                  const YarpString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_ABSORBER_CANONICAL_NAME,
+    inherited(launchPath, argc, argv, tag, true, MpM_ABSORBER_CANONICAL_NAME,
               ABSORDEROUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _inHandler(new AbsorberInputHandler(*this)), _count(0), _totalBytes(0)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // AbsorberService::AbsorberService
 

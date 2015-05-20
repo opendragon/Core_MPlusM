@@ -34,8 +34,6 @@
 
 * add a ‘port argument’ descriptor, that checks for 1024 <= v <= 65535 or 0 <= v <= 65535, depending on a boolean flag
 
-* use a different random number generator for the default files for Record*** services
-
 + the configuration file can’t include adapters, as there’s no mechanism to get their launch parameters; services need to respond to a new request that returns their original launch parameters, so that these can be recorded
 
 * empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported

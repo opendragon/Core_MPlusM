@@ -89,10 +89,12 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 UnrealOutputService::UnrealOutputService(const YarpString & launchPath,
+                                         const int          argc,
+                                         char * *           argv,
                                          const YarpString & tag,
                                          const YarpString & serviceEndpointName,
                                          const YarpString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME,
+    inherited(launchPath, argc, argv, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME,
               UNREALOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
 	_translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
     _inLeapHandler(new UnrealOutputLeapInputHandler(*this)),
@@ -101,6 +103,8 @@ UnrealOutputService::UnrealOutputService(const YarpString & launchPath,
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // UnrealOutputService::UnrealOutputService
 

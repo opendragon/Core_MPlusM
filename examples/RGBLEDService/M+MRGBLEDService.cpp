@@ -86,10 +86,12 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RGBLEDService::RGBLEDService(const YarpString & launchPath,
+                             const int          argc,
+                             char * *           argv,
                              const YarpString & tag,
                              const YarpString & serviceEndpointName,
                              const YarpString & servicePortNumber) :
-        inherited(kServiceKindNormal, launchPath, tag, true, MpM_RGBLED_CANONICAL_NAME,
+        inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_RGBLED_CANONICAL_NAME,
                   "An example RGB LED service",
                   "echo - send back any values given with the request", serviceEndpointName,
                   servicePortNumber), _rgbledHandler(NULL)
@@ -97,6 +99,8 @@ RGBLEDService::RGBLEDService(const YarpString & launchPath,
     OD_LOG_ENTER();//####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber);//####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this);//####
 } // RGBLEDService::RGBLEDService

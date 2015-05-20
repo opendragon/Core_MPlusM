@@ -111,11 +111,12 @@ static int doTestCreateRegistryService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY);
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY);
                     break;
                     
                 case 1 :
-                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY,
+                                                             *argv);
                     break;
                     
                 default :
@@ -174,13 +175,14 @@ static int doTestRequestRegistryService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY);
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestregisterservice_1");
                     break;
                     
                 case 1 :
-                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY,
+                                                             *argv);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestregisterservice_2");
                     break;
@@ -277,13 +279,14 @@ static int doTestRequestUnregisterService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY);
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestunregisterservice_1");
                     break;
                     
                 case 1 :
-                    registry = new Registry::RegistryService(launchPath, TEST_INMEMORY, *argv);
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY,
+                                                             *argv);
                     secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                               "test/requestunregisterservice_2");
                     break;
@@ -384,7 +387,8 @@ static int doTestRequestSearchService(const char * launchPath,
             bool                        getNamesFlag = ('0' != **argv);
             const char *                secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
                                                                   "test/requestsearchservice");
-            Registry::RegistryService * registry = new Registry::RegistryService(launchPath,
+            Registry::RegistryService * registry = new Registry::RegistryService(launchPath, argc,
+                                                                                 argv,
                                                                                  TEST_INMEMORY);
             
             OD_LOG_B1("getNamesFlag <- ", getNamesFlag); //####
@@ -646,10 +650,11 @@ int main(int      argc,
 		Utilities::SetUpGlobalStatusReporter();
         if (Utilities::CheckForValidNetwork())
         {
-            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                    // infrastructure
+            yarp::os::ConstString progName(*argv);
+            yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
             
-            Initialize(*argv);
+            Initialize(progName);
             if (0 < --argc)
             {
                 const char * startPtr = argv[1];

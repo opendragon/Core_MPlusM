@@ -88,10 +88,12 @@ using namespace MplusM::Tunnel;
 TunnelService::TunnelService(const YarpString & sourceName,
                              const int          sourcePort,
                              const YarpString & launchPath,
+                             const int          argc,
+                             char * *           argv,
                              const YarpString & tag,
                              const YarpString & serviceEndpointName,
                              const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, tag, true, MpM_TUNNEL_CANONICAL_NAME,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_TUNNEL_CANONICAL_NAME,
               TUNNEL_SERVICE_DESCRIPTION,
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _listenAddress(""), _sourceAddress(sourceName),

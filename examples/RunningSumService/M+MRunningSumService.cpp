@@ -87,10 +87,12 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RunningSumService::RunningSumService(const YarpString & launchPath,
+                                     const int          argc,
+                                     char * *           argv,
                                      const YarpString & tag,
                                      const YarpString & serviceEndpointName,
                                      const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, tag, true, MpM_RUNNINGSUM_CANONICAL_NAME,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_RUNNINGSUM_CANONICAL_NAME,
               RUNNINGSUM_SERVICE_DESCRIPTION,
               "add - add one or more values to the running sum and return the sum\n"
               "reset - clear the running sum\n"
@@ -102,6 +104,8 @@ RunningSumService::RunningSumService(const YarpString & launchPath,
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // RunningSumService::RunningSumService

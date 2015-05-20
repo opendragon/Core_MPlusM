@@ -151,10 +151,14 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
+             @param argc The number of arguments in 'argv'.
+             @param argv The arguments passed to the executable used to launch the service.
              @param useInMemoryDb @c true if the database is in-memory and @c false if a temporary
              disk file is to be used.
              @param servicePortNumber The port being used by the service. */
             RegistryService(const YarpString & launchPath,
+                            const int          argc,
+                            char * *           argv,
                             const bool         useInMemoryDb = false,
                             const YarpString & servicePortNumber = "");
             

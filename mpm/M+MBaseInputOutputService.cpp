@@ -93,6 +93,8 @@ using std::endl;
 
 BaseInputOutputService::BaseInputOutputService(const ServiceKind  theKind,
                                                const YarpString & launchPath,
+                                               const int          argc,
+                                               char * *           argv,
                                                const YarpString & tag,
                                                const bool         useMultipleHandlers,
                                                const YarpString & canonicalName,
@@ -100,7 +102,7 @@ BaseInputOutputService::BaseInputOutputService(const ServiceKind  theKind,
                                                const YarpString & requestsDescription,
                                                const YarpString & serviceEndpointName,
                                                const YarpString & servicePortNumber) :
-    inherited(theKind, launchPath, tag, useMultipleHandlers, canonicalName, description,
+    inherited(theKind, launchPath, argc, argv, tag, useMultipleHandlers, canonicalName, description,
               requestsDescription, serviceEndpointName, servicePortNumber), _active(false)
 {
     OD_LOG_ENTER(); //####
@@ -108,6 +110,8 @@ BaseInputOutputService::BaseInputOutputService(const ServiceKind  theKind,
                "description = ", description); //####
     OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####

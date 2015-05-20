@@ -1843,9 +1843,11 @@ static int setupRemoveFromServices(sqlite3_stmt * statement,
 #endif // defined(__APPLE__)
 
 RegistryService::RegistryService(const YarpString & launchPath,
+                                 const int          argc,
+                                 char * *           argv,
                                  const bool         useInMemoryDb,
                                  const YarpString & servicePortNumber) :
-    inherited(kServiceKindRegistry, launchPath, "", true, MpM_REGISTRY_CANONICAL_NAME,
+    inherited(kServiceKindRegistry, launchPath, argc, argv, "", true, MpM_REGISTRY_CANONICAL_NAME,
               REGISTRY_SERVICE_DESCRIPTION,
               "associate - associate a channel with another channel\n"
               "disassociate - remove all associations for a channel\n"
@@ -1863,6 +1865,8 @@ RegistryService::RegistryService(const YarpString & launchPath,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useInMemoryDb = ", useInMemoryDb); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####

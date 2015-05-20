@@ -100,6 +100,8 @@ static void displayCommands(void)
 
 /*! @brief Set up the environment and start the exemplar output service.
  @param recordPath The file system path to use.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the exemplar output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -108,6 +110,8 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(YarpString &       recordPath,
+                       const YarpString & progName,
+                       const int          argc,
                        char * *           argv,
                        const YarpString & tag,
                        const YarpString & serviceEndpointName,
@@ -117,8 +121,10 @@ static void setUpAndGo(YarpString &       recordPath,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("recordPath = ", recordPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_S4s("progName = ", progName, "recordPath = ", recordPath, "tag = ", tag, //####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
@@ -132,7 +138,8 @@ static void setUpAndGo(YarpString &       recordPath,
         recordPath = buff.str();
         OD_LOG_S1s("recordPath <- ", recordPath); //####
     }
-    ExemplarOutputService * stuff = new ExemplarOutputService(*argv, tag, serviceEndpointName,
+    ExemplarOutputService * stuff = new ExemplarOutputService(progName, argc, argv, tag,
+                                                              serviceEndpointName,
                                                               servicePortNumber);
     
     if (stuff)
@@ -359,14 +366,15 @@ int main(int      argc,
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
-                                        // infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(recordPath, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(recordPath, progName, argc, argv, tag, serviceEndpointName,
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

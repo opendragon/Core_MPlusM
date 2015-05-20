@@ -82,6 +82,8 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseInputService::BaseInputService(const YarpString & launchPath,
+                                   const int          argc,
+                                   char * *           argv,
                                    const YarpString & tag,
                                    const bool         useMultipleHandlers,
                                    const YarpString & canonicalName,
@@ -89,14 +91,16 @@ BaseInputService::BaseInputService(const YarpString & launchPath,
                                    const YarpString & requestsDescription,
                                    const YarpString & serviceEndpointName,
                                    const YarpString & servicePortNumber) :
-    inherited(kServiceKindInput, launchPath, tag, useMultipleHandlers, canonicalName, description,
-              requestsDescription, serviceEndpointName, servicePortNumber)
+    inherited(kServiceKindInput, launchPath, argc, argv, tag, useMultipleHandlers, canonicalName,
+              description, requestsDescription, serviceEndpointName, servicePortNumber)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
                "description = ", description); //####
     OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     OD_LOG_EXIT_P(this); //####
 } // BaseInputService::BaseInputService

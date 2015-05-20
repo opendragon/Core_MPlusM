@@ -357,7 +357,7 @@ namespace MplusM
          @param progName The name of the executing program.
          
          Should be called in the main() function of each application or service. */
-        void Initialize(const char * progName);
+        void Initialize(const YarpString & progName);
         
         /*! @brief Connect the standard signals to a handler.
          @param theHandler The new handler for the signals. */

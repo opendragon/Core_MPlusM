@@ -85,10 +85,12 @@ using namespace MplusM::Common;
 AddressService::AddressService(const YarpString & hostName,
                                const int          hostPort,
                                const YarpString & launchPath,
+                               const int          argc,
+                               char * *           argv,
                                const YarpString & tag,
                                const YarpString & serviceEndpointName,
                                const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, tag, true, MpM_ADDRESS_CANONICAL_NAME,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_ADDRESS_CANONICAL_NAME,
               ADDRESS_SERVICE_DESCRIPTION,
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _address(hostName), _whereHandler(NULL), _port(hostPort)
@@ -97,7 +99,8 @@ AddressService::AddressService(const YarpString & hostName,
     OD_LOG_S4s("hostName = ", hostName, "launchPath = ", launchPath, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_L1("hostPort = ", hostPort); //####
+    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // AddressService::AddressService

@@ -86,16 +86,20 @@ using namespace MplusM::RecordAsJSON;
 #endif // defined(__APPLE__)
 
 RecordAsJSONService::RecordAsJSONService(const YarpString & launchPath,
+                                         const int          argc,
+                                         char * *           argv,
                                          const YarpString & tag,
                                          const YarpString & serviceEndpointName,
                                          const YarpString & servicePortNumber) :
-    inherited(launchPath, tag, true, MpM_RECORDASJSON_CANONICAL_NAME,
+    inherited(launchPath, argc, argv, tag, true, MpM_RECORDASJSON_CANONICAL_NAME,
               RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new RecordAsJSONInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // RecordAsJSONService::RecordAsJSONService
 

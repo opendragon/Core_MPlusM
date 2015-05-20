@@ -102,6 +102,8 @@ static void displayCommands(void)
 /*! @brief Set up the environment and start the exemplar input service.
  @param burstPeriod The interval between bursts, in seconds.
  @param burstSize The number of values per burst.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the exemplar input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
@@ -111,6 +113,8 @@ static void displayCommands(void)
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(double &           burstPeriod,
                        int &              burstSize,
+                       const YarpString & progName,
+                       const int          argc,
                        char * *           argv,
                        const YarpString & tag,
                        const YarpString & serviceEndpointName,
@@ -121,14 +125,14 @@ static void setUpAndGo(double &           burstPeriod,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("burstPeriod = ", burstPeriod); //####
-    OD_LOG_L1("burstSize = ", burstSize); //####
+    OD_LOG_LL2("burstSize = ", burstSize, "argc = ", argc); //####
+    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P1("argv = ", argv); //####
-    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
-               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    RandomBurstService * stuff = new RandomBurstService(*argv, tag, serviceEndpointName,
-                                                        servicePortNumber);
+    RandomBurstService * stuff = new RandomBurstService(progName, argc, argv, tag,
+                                                        serviceEndpointName, servicePortNumber);
     
     if (stuff)
     {
@@ -366,14 +370,16 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::ConstString progName(*argv);
+                yarp::os::Network     yarp; // This is necessary to establish any connections to the
+                                            // YARP infrastructure
                 
-                Initialize(*argv);
+                Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(burstPeriod, burstSize, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(burstPeriod, burstSize, progName, argc, argv, tag,
+                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
+                               reportOnExit);
                 }
                 else
                 {

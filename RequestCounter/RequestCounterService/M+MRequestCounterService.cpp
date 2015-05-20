@@ -86,10 +86,12 @@ using namespace MplusM::RequestCounter;
 #endif // defined(__APPLE__)
 
 RequestCounterService::RequestCounterService(const YarpString & launchPath,
+                                             const int          argc,
+                                             char * *           argv,
                                              const YarpString & serviceEndpointName,
                                              const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, "", true, MpM_REQUESTCOUNTER_CANONICAL_NAME,
-              REQUESTCOUNTER_SERVICE_DESCRIPTION,
+    inherited(kServiceKindNormal, launchPath, argc, argv, "", true,
+              MpM_REQUESTCOUNTER_CANONICAL_NAME, REQUESTCOUNTER_SERVICE_DESCRIPTION,
               "reset - clear the Request Counter and the elapsed time\n"
               "stats - report the Request Counter and the elapsed time\n"
               "<anything else> - simply increment the Request Counter", serviceEndpointName,
@@ -99,6 +101,8 @@ RequestCounterService::RequestCounterService(const YarpString & launchPath,
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("launchPath = ", launchPath, "serviceEndpointName = ", serviceEndpointName, //####
                "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // RequestCounterService::RequestCounterService

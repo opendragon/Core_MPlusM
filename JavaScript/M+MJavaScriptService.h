@@ -81,6 +81,8 @@ namespace MplusM
              @param context The %JavaScript engine context.
              @param global The %JavaScript global object.
              @param launchPath The command-line name used to launch the service.
+             @param argc The number of arguments in 'argv'.
+             @param argv The arguments passed to the executable used to launch the service.
              @param tag The modifier for the service name and port names.
              @param description The description from the active script.
              @param loadedInletDescriptions The list of loaded inlet stream descriptions.
@@ -97,6 +99,8 @@ namespace MplusM
             JavaScriptService(JSContext *                   context,
                               JS::RootedObject &            global,
                               const YarpString &            launchPath,
+                              const int                     argc,
+                              char * *                      argv,
                               const YarpString &            tag,
                               const YarpString &            description,
                               const Common::ChannelVector & loadedInletDescriptions,
