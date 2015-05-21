@@ -1236,6 +1236,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
 
 /*! @brief Check the response from the 'list' request for this test.
  @param asDict The dictionary to be checked.
+ @param sawArguments Set to @c true if a valid 'arguments' entry appears.
  @param sawChannels Set to @c true if a valid 'channels' entry appears.
  @param sawClients Set to @c true if a valid 'clients' entry appears.
  @param sawDetach Set to @c true if a valid 'detach' entry appears.
