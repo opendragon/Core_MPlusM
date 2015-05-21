@@ -59,6 +59,9 @@
 /*! @brief The name of the secondary port for the Registry Service. */
 # define MpM_REGISTRY_STATUS_NAME    T_(MpM_REGISTRY_ENDPOINT_NAME "/status")
 
+/*! @brief The name for an 'arguments' request. */
+# define MpM_ARGUMENTS_REQUEST       "arguments"
+
 /*! @brief The name for an 'associate' request. */
 # define MpM_ASSOCIATE_REQUEST       "associate"
 

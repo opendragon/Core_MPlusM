@@ -20,8 +20,6 @@
 
 = to determine whether a Windows executable is 32-bit or 64-bit, do “c:\Program Files (x86)\Microsoft Visual Studio 12.0\vc\bin\dumpbin.exe /headers the-program-file.exe”
 
-@ add appendix about setting up Hamachi for use with M+M
-
 + configuration file should have ‘enabled’, ‘name’, ‘arguments’, where ‘enabled’ is 0 if disabled, non-0 if enabled, ‘name’ is the executable name, et cetera - tab-separated
 
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
@@ -32,18 +30,8 @@
 
 + make sure that the initial placement of entities is within the visible area - below the menu bar and above the bottom
 
-* add a ‘port argument’ descriptor, that checks for 1024 <= v <= 65535 or 0 <= v <= 65535, depending on a boolean flag
-
 + the configuration file can’t include adapters, as there’s no mechanism to get their launch parameters; services need to respond to a new request that returns their original launch parameters, so that these can be recorded
 
 * empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported
 
-* adapters are input/output services that are also clients??? [this way they can be interrogated, so they can be configured]
-
-+ launch clears selection
-
-* use argument descriptors to process configuration values
-
-+ client<->service connection should have arrows on each end
-
-= make sure that installer includes JavaScript headers
+* adapters are input/output services that are also clients??? [this way they can be interrogated, so they can be configured, but this introduces major complexities!]

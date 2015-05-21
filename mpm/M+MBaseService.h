@@ -58,6 +58,7 @@ namespace MplusM
 {
     namespace Common
     {
+        class ArgumentsRequestHandler;
         class BaseContext;
         class BaseRequestHandler;
         class ChannelsRequestHandler;
@@ -198,6 +199,14 @@ namespace MplusM
             /*! @brief Fill in the metrics for the service.
              @param metrics The gathered metrics. */
             virtual void gatherMetrics(yarp::os::Bottle & metrics);
+            
+            /*! @brief Return the list of arguments given to the service.
+             @returns The list of arguments given to the service. */
+            inline const YarpStringVector & getArguments(void)
+            const
+            {
+                return _originalArguments;
+            } // getArguments
             
             /*! @brief Return the associated endpoint.
              @returns The associated endpoint. */
@@ -406,6 +415,9 @@ namespace MplusM
             
             /*! @brief The auxiliary send / receive counters. */
             SendReceiveCounters _auxCounters;
+            
+            /*! @brief The request handler for the 'arguments' request. */
+            ArgumentsRequestHandler * _argumentsHandler;
             
             /*! @brief The request handler for the 'channels' request. */
             ChannelsRequestHandler * _channelsHandler;

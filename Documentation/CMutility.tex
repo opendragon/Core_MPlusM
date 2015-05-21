@@ -88,7 +88,7 @@ Selecting the \textbf{Channel Manager} menu item displays a list with one choice
 \objScaledDiagram{mpm_images/channelManagerMenu}{channelManagerMenu}%
 {Channel Manager menu}{1.0}
 \clearpage
-Doing a right\longDash{}mouse click in the background, displays a popup menu with four
+Doing a right\longDash{}mouse click in the background, displays a popup menu with six
 choices:
 \begin{itemize}
 \item\textbf{Repaint} force a repaint, in case there's a `glitch' of the display; this
@@ -99,6 +99,12 @@ a \textbf{Cmd\longDash{}I} command
 gradient; this can also be triggered via a \textbf{Cmd\longDash{}B} command
 \item\exSp\textbf{Unhide entities} make all hidden entities visible; this can also be
 triggered via a \textbf{Cmd\longDash{}U} command
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others ...} present a menu of applications that can be launched
+and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \end{itemize}
 \objDoubleScaledDiagram{mpm_images/backgroundMenuNoHiddenNoSelection}%
 {mpm_images/backgroundMenuWithHidden}%
@@ -137,7 +143,8 @@ port of the service \longDash{} the number of bytes and number of messages sent 
 from the port; the category `auxiliary' represents the anonymous ports used by the service
 during its operation
 \item\exSp\textbf{Hide the service} make the service invisible
-\item\exSp\textbf{Stop the service} stop the service
+\item\exSp\textbf{Stop the service} stop the service; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \end{itemize}
 \objDoubleScaledDiagram{mpm_images/serviceMenuMetricsDisabled}%
 {mpm_images/serviceMenuMetricsEnabled}{serviceMenu}%
@@ -209,6 +216,6 @@ On Microsoft Windows, this will likely be\\
 \textbackslash{}Application~Data}'' while, for Macintosh OS X, it will likely be\\
 ``\asCode{\textasciitilde/Library}'' and, for Linux, it is \TBD.\\
 \primaryEnd{}
-\primaryStart{Managing~Services~and~Adapters}
+\primaryStart[ManagingServices]{Managing~Services~and~Adapters}
 \TBD
 \primaryEnd{}

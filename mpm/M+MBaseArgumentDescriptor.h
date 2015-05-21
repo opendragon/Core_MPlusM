@@ -246,6 +246,11 @@ namespace MplusM
         bool ProcessArguments(const DescriptorVector & arguments,
                               Option_::Parser &        parseResult);
 
+        /*! @brief Prompt the user for the value of each of the arguments.
+         @param arguments The argument sequence.
+         @returns @c true if all arguments are valid and @c false otherwise. */
+        bool PromptForValues(const DescriptorVector & arguments);
+        
     } // Utilities
     
 } // MplusM

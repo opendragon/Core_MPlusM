@@ -40,7 +40,7 @@
 
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
-#include <mpm/M+MIntegerArgumentDescriptor.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -213,9 +213,8 @@ int main(int      argc,
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("hostname", T_("IP address to return"),
                                                       "127.0.0.1", false, &hostName);
-        Utilities::IntegerArgumentDescriptor secondArg("port", T_("Port to return"), 12345, false,
-                                                       true, MINIMUM_PORT_ALLOWED, true,
-                                                       MAXIMUM_PORT_ALLOWED, &hostPort);
+        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to return"), 12345, false,
+                                                       true, &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

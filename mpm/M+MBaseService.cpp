@@ -36,6 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
+#include "M+MArgumentsRequestHandler.h"
 #include "M+MChannelsRequestHandler.h"
 #include "M+MClientsRequestHandler.h"
 #include "M+MDetachRequestHandler.h"
@@ -127,11 +128,12 @@ BaseService::BaseService(const ServiceKind  theKind,
                          const YarpString & servicePortNumber) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
-    _auxCounters(), _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
-    _getMetricsHandler(NULL), _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
-    _nameHandler(NULL), _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL),
-    _handler(NULL), _handlerCreator(NULL), _pinger(NULL), _kind(theKind),
-    _metricsEnabled(MEASUREMENTS_ON), _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _auxCounters(), _argumentsHandler(NULL), _channelsHandler(NULL), _clientsHandler(NULL),
+    _detachHandler(NULL), _getMetricsHandler(NULL), _getMetricsStateHandler(NULL),
+    _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _setMetricsStateHandler(NULL),
+    _stopHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
+    _kind(theKind), _metricsEnabled(MEASUREMENTS_ON), _started(false),
+    _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -180,8 +182,8 @@ BaseService::BaseService(const ServiceKind  theKind,
                          const YarpString & requestsDescription) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
-    _serviceName(canonicalName), _tag(), _auxCounters(), _channelsHandler(NULL),
-    _clientsHandler(NULL), _detachHandler(NULL), _getMetricsHandler(NULL),
+    _serviceName(canonicalName), _tag(), _auxCounters(), _argumentsHandler(NULL),
+    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _getMetricsHandler(NULL),
     _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
     _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
     _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON),
@@ -277,6 +279,7 @@ void BaseService::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
+        _argumentsHandler = new ArgumentsRequestHandler(*this);
         _channelsHandler = new ChannelsRequestHandler(*this);
         _clientsHandler = new ClientsRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
@@ -287,10 +290,11 @@ void BaseService::attachRequestHandlers(void)
         _nameHandler = new NameRequestHandler(*this);
         _setMetricsStateHandler = new SetMetricsStateRequestHandler(*this);
         _stopHandler = new StopRequestHandler(*this);
-        if (_channelsHandler && _clientsHandler && _detachHandler && _getMetricsHandler &&
-            _getMetricsStateHandler && _infoHandler && _listHandler && _nameHandler &&
-            _setMetricsStateHandler && _stopHandler)
+        if (_argumentsHandler && _channelsHandler && _clientsHandler && _detachHandler &&
+            _getMetricsHandler && _getMetricsStateHandler && _infoHandler && _listHandler &&
+            _nameHandler && _setMetricsStateHandler && _stopHandler)
         {
+            _requestHandlers.registerRequestHandler(_argumentsHandler);
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
             _requestHandlers.registerRequestHandler(_detachHandler);
@@ -304,10 +308,10 @@ void BaseService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_channelsHandler && _clientsHandler && _detachHandler && " //####
-                   "_getMetricsHandler && _getMetricsStateHandler && _infoHandler && " //####
-                   "_listHandler && _nameHandler && _setMetricsStateHandler && " //####
-                   "_stopHandler)"); //####
+            OD_LOG("! (_argumentsHandler && _channelsHandler && _clientsHandler && " //####
+                   "_detachHandler && _getMetricsHandler && _getMetricsStateHandler && " //####
+                   "_infoHandler && _listHandler && _nameHandler && " //####
+                   "_setMetricsStateHandler && _stopHandler)"); //####
         }
     }
     catch (...)
@@ -361,6 +365,12 @@ void BaseService::detachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
+        if (_argumentsHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_argumentsHandler);
+            delete _argumentsHandler;
+            _argumentsHandler = NULL;
+        }
         if (_channelsHandler)
         {
             _requestHandlers.unregisterRequestHandler(_channelsHandler);

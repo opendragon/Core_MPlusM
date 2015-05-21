@@ -40,7 +40,7 @@
 
 #include <mpm/M+MDoubleArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
-#include <mpm/M+MIntegerArgumentDescriptor.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -105,6 +105,7 @@ static void displayCommands(void)
 /*! @brief Set up the environment and start the %Unreal output service.
  @param outPort The port to use to connect.
  @param translationScale The translation scale.
+ @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Unreal output service.
@@ -114,25 +115,26 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(int &              outPort,
-                       double &           translationScale,
-                       const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & tag,
-                       const YarpString & serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         goWasSet,
-                       const bool         stdinAvailable,
-                       const bool         reportOnExit)
+static void setUpAndGo(int &                               outPort,
+                       double &                            translationScale,
+                       const Utilities::DescriptorVector & argumentList,
+                       const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       const YarpString &                  tag,
+                       const YarpString &                  serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          stdinAvailable,
+                       const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL2("outPort = ", outPort, "argc = ", argc); //####
     OD_LOG_D1("translationScale = ", translationScale); //####
     OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     UnrealOutputService * stuff = new UnrealOutputService(progName, argc, argv, tag,
@@ -147,11 +149,8 @@ static void setUpAndGo(int &              outPort,
             OD_LOG_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *stuff))
             {
-                double           tempDouble;
-                int              tempInt;
                 bool             configured = false;
                 yarp::os::Bottle configureData;
-                std::string      inputLine;
                 
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
@@ -187,7 +186,7 @@ static void setUpAndGo(int &              outPort,
                                 {
                                     configureData.clear();
                                     configureData.addInt(outPort);
-                                    configureData.addDouble(tempDouble);
+                                    configureData.addDouble(translationScale);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -202,19 +201,12 @@ static void setUpAndGo(int &              outPort,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                cout << "Output port: ";
-                                cout.flush();
-                                cin >> tempInt;
-                                cout << "Translation scale: ";
-                                cout.flush();
-                                cin >> tempDouble;
-                                if ((0 < tempInt) && (0 < tempDouble))
+                                configured = Utilities::PromptForValues(argumentList);
+                                if (configured)
                                 {
-                                    outPort = tempInt;
-                                    translationScale = tempDouble;
                                     configureData.clear();
                                     configureData.addInt(outPort);
-                                    configureData.addDouble(tempDouble);
+                                    configureData.addDouble(translationScale);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -222,7 +214,7 @@ static void setUpAndGo(int &              outPort,
                                 }
                                 else
                                 {
-                                    cout << "One or both values out of range." << endl;
+                                    cout << "One or more values out of range." << endl;
                                 }
                                 break;
                                 
@@ -245,7 +237,7 @@ static void setUpAndGo(int &              outPort,
                                 {
                                     configureData.clear();
                                     configureData.addInt(outPort);
-                                    configureData.addDouble(tempDouble);
+                                    configureData.addDouble(translationScale);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
@@ -355,9 +347,8 @@ int main(int      argc,
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
-        Utilities::IntegerArgumentDescriptor firstArg("port", T_("Port to use to connect"),
-                                                      9876, true, true, MINIMUM_PORT_ALLOWED, true,
-                                                      MAXIMUM_PORT_ALLOWED, &outPort);
+        Utilities::PortArgumentDescriptor    firstArg("port", T_("Port to use to connect"),
+                                                      9876, true, false, &outPort);
         Utilities::DoubleArgumentDescriptor  secondArg("scale", T_("Translation scale"), 1.0, true,
                                                        true, 0.0, false, 0.0, &translationScale);
         Utilities::DescriptorVector          argumentList;
@@ -382,7 +373,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(outPort, translationScale, progName, argc, argv, tag,
+                    setUpAndGo(outPort, translationScale, argumentList, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
                                reportOnExit);
                     

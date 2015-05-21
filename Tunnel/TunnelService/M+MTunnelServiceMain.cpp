@@ -40,7 +40,7 @@
 
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
-#include <mpm/M+MIntegerArgumentDescriptor.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -214,9 +214,8 @@ int main(int      argc,
         Utilities::AddressArgumentDescriptor firstArg("hostname",
                                                       T_("IP address to provide access to"),
                                                       "127.0.0.1", false, &hostName);
-        Utilities::IntegerArgumentDescriptor secondArg("port", T_("Port to provide access to"),
-                                                       12345, false, true, MINIMUM_PORT_ALLOWED,
-                                                       true, MAXIMUM_PORT_ALLOWED, &hostPort);
+        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to provide access to"),
+                                                       12345, false, false, &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

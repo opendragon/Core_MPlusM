@@ -473,14 +473,14 @@ for the test
 \item Check that the \yarp{} server is running and start it if it is not, using the
 instructions above
 \item\exSp{} Execute the command `\asCode{mpmRegistryService \&}'; this will launch the
-Registry Service in the background and return the \textbf{PID} that can be used to halt it
-later
+\serviceNameR[Registry~Service]{RegistryService} in the background and return the
+\textbf{PID} that can be used to halt it later
 \item\exSp{} Execute the command `\asCode{mpmServiceLister}; this should display the
-properties of the Registry Service
-\item\exSp{} If you wish to halt the Registry Service, execute the command
-`\asCode{halt -s HUP}
-\#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was returned when the Registry
-Service was launched
+properties of the \serviceNameR[Registry~Service]{RegistryService}
+\item\exSp{} If you wish to halt the \serviceNameR[Registry~Service]{RegistryService},
+execute the command `\asCode{halt -s HUP}
+\#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was returned when the
+\serviceNameR[Registry~Service]{RegistryService} was launched
 \end{itemize}
 \end{itemize}
 \tertiaryEnd{}

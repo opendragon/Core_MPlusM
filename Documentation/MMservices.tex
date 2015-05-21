@@ -55,8 +55,9 @@ If no response is requested, the request is processed but no response is sent.
 There are two standard services that are always part of an \mplusm{} installation.
 \utilityNameR{mpmRequestCounterService} and its companion application
 \utilityNameR{mpmRequestCounterClient} are described elsewhere, and the
-\serviceNameR[Registry~Service]{RegistryService} is described in the following section.
-\tertiaryStart{mpmRegistryService (also known as the
+\serviceNameR[Registry~Service]{RegistryService} is described in 
+\tertiaryRef{RegistryService}{Registry~Service}.
+\tertiaryStart[RegistryService]{mpmRegistryService (also known as the
 \serviceNameD[Registry~Service]{RegistryService})}
 The \serviceNameX[Registry~Service]{RegistryService} application is a background service
 that is used to manage other services and their connections.
@@ -97,6 +98,13 @@ These requests are implemented in all \mplusm{} services, via the
 \classNameR{Common}{BaseService} class.
 They constitute the fundamental mechanism that is used by the
 \serviceNameR[Registry~Service]{RegistryService} to identify each active service.
+\tertiaryStart{\requestsNameD{Basic}{Basic}{arguments}}
+The \requestsNameX{Basic}{Basic}{arguments} request returns a list of the original
+arguments given when the executable containing the active service was launched.\\
+
+It is used by the \emph{Channel Manager} utility to record the actual arguments used to
+launch the executable containing a service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{arguments}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
 channels and a list of the secondary output channels for its service.\\

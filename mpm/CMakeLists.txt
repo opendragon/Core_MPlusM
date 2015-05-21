@@ -54,6 +54,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/optionparser.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MAdapterChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MAddressArgumentDescriptor.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MArgumentsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.cpp"
@@ -97,6 +98,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/M+MMatchValueList.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MNameRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MPingThread.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MPortArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MRequestMap.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MRestartStreamsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MSendReceiveCounters.cpp"
@@ -179,6 +181,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MMatchFieldWithValues.h"
         "${MpM_SOURCE_DIR}/mpm/M+MMatchValue.h"
         "${MpM_SOURCE_DIR}/mpm/M+MMatchValueList.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MPortArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MRequestMap.h"
         "${MpM_SOURCE_DIR}/mpm/M+MRequests.h"
         "${MpM_SOURCE_DIR}/mpm/M+MSendReceiveCounters.h"
@@ -229,6 +232,7 @@ if(MpM_DO_SWIG)
         M+MMatchFieldWithValues.h M+MMatchFieldWithValues.cpp
         M+MMatchValue.h M+MMatchValue.cpp
         M+MMatchValueList.h M+MMatchValueList.cpp
+        M+MPortArgumentDescriptor.h M+MPortArgumentDescriptor.cpp
         M+MRequestMap.h M+MRequestMap.cpp
         M+MSendReceiveCounters.h M+MSendReceiveCounters.cpp
         M+MServiceChannel.h M+MServiceChannel.cpp

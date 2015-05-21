@@ -35,6 +35,7 @@
 #include "M+MMatchFieldWithValues.h"
 #include "M+MMatchValue.h"
 #include "M+MMatchValueList.h"
+#include "M+MPortArgumentDescriptor.h"
 #include "M+MRequestMap.h"
 #include "M+MSendReceiveCounters.h"
 #include "M+MServiceChannel.h"

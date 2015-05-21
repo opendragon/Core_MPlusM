@@ -43,6 +43,7 @@
 #include <mpm/M+MDoubleArgumentDescriptor.h>
 #include <mpm/M+MFilePathArgumentDescriptor.h>
 #include <mpm/M+MIntegerArgumentDescriptor.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MStringArgumentDescriptor.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -365,6 +366,10 @@ BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & i
     }
     if (! result)
     {
+        result = PortArgumentDescriptor::parseArgString(inString);
+    }
+    if (! result)
+    {
         result = StringArgumentDescriptor::parseArgString(inString);
     }
     OD_LOG_EXIT_P(result); //####
@@ -412,3 +417,53 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::ProcessArguments
+
+bool Utilities::PromptForValues(const DescriptorVector & arguments)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("arguments = ", &arguments); //####
+    bool result = true;
+
+    for (int ii = 0, mm = arguments.size(); mm > ii; ++ii)
+    {
+        Utilities::BaseArgumentDescriptor * anArg = arguments[ii];
+        
+        if (anArg)
+        {
+            char        inChar;
+            std::string inputLine;
+            
+            cout << anArg->argumentDescription().c_str() << ": ";
+            cout.flush();
+            // Eat whitespace until we get something useful.
+            for ( ; ; )
+            {
+                inChar = cin.peek();
+                if (isspace(inChar))
+                {
+                    // Eat it.
+                    cin.get();
+                }
+                else
+                {
+                    break;
+                }
+                
+                if (! cin)
+                {
+                    break;
+                }
+                
+            }
+            if (getline(cin, inputLine))
+            {
+                if (! anArg->validate(inputLine))
+                {
+                    result = false;
+                }
+            }
+        }
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::PromptForValues

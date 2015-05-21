@@ -102,6 +102,7 @@ static void displayCommands(void)
 /*! @brief Set up the environment and start the exemplar input service.
  @param burstPeriod The interval between bursts, in seconds.
  @param burstSize The number of values per burst.
+ @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the exemplar input service.
@@ -111,24 +112,25 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(double &           burstPeriod,
-                       int &              burstSize,
-                       const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & tag,
-                       const YarpString & serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         goWasSet,
-                       const bool         stdinAvailable,
-                       const bool         reportOnExit)
+static void setUpAndGo(double &                            burstPeriod,
+                       int &                               burstSize,
+                       const Utilities::DescriptorVector & argumentList,
+                       const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       const YarpString &                  tag,
+                       const YarpString &                  serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          stdinAvailable,
+                       const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("burstPeriod = ", burstPeriod); //####
     OD_LOG_LL2("burstSize = ", burstSize, "argc = ", argc); //####
     OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     RandomBurstService * stuff = new RandomBurstService(progName, argc, argv, tag,
@@ -143,8 +145,6 @@ static void setUpAndGo(double &           burstPeriod,
             OD_LOG_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *stuff))
             {
-                double           tempDouble;
-                int              tempInt;
                 bool             configured = false;
                 yarp::os::Bottle configureData;
                 
@@ -198,16 +198,9 @@ static void setUpAndGo(double &           burstPeriod,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                cout << "Burst size: ";
-                                cout.flush();
-                                cin >> tempInt;
-                                cout << "Burst period: ";
-                                cout.flush();
-                                cin >> tempDouble;
-                                if ((0 < tempInt) && (0 < tempDouble))
+                                configured = Utilities::PromptForValues(argumentList);
+                                if (configured)
                                 {
-                                    burstPeriod = tempDouble;
-                                    burstSize = tempInt;
                                     configureData.clear();
                                     configureData.addDouble(burstPeriod);
                                     configureData.addInt(burstSize);
@@ -218,7 +211,7 @@ static void setUpAndGo(double &           burstPeriod,
                                 }
                                 else
                                 {
-                                    cout << "One or both values out of range." << endl;
+                                    cout << "One or more values out of range." << endl;
                                 }
                                 break;
                                 
@@ -377,7 +370,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(burstPeriod, burstSize, progName, argc, argv, tag,
+                    setUpAndGo(burstPeriod, burstSize, argumentList, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
                                reportOnExit);
                 }

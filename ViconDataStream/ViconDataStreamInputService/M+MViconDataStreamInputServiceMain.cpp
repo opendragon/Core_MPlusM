@@ -38,8 +38,9 @@
 
 #include "M+MViconDataStreamInputService.h"
 
-#include <mpm/M+MChannelArgumentDescriptor.h>
+#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -104,6 +105,7 @@ static void displayCommands(void)
 /*! @brief Set up the environment and start the Vicon DataStream input service.
  @param hostName The IP address for the device server.
  @param hostPort The port for the device server.
+ @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Vicon DataStream input service.
@@ -113,24 +115,25 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(YarpString &       hostName,
-                       int &              hostPort,
-                       const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & tag,
-                       const YarpString & serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         goWasSet,
-                       const bool         stdinAvailable,
-                       const bool         reportOnExit)
+static void setUpAndGo(YarpString &                        hostName,
+                       int &                               hostPort,
+                       const Utilities::DescriptorVector & argumentList,
+                       const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       const YarpString &                  tag,
+                       const YarpString &                  serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          stdinAvailable,
+                       const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     ViconDataStreamInputService * stuff = new ViconDataStreamInputService(progName, argc, argv, tag,
@@ -146,10 +149,8 @@ static void setUpAndGo(YarpString &       hostName,
             OD_LOG_S1s("channelName = ", channelName); //####
             if (RegisterLocalService(channelName, *stuff))
             {
-                int              tempInt;
                 bool             configured = false;
                 yarp::os::Bottle configureData;
-                std::string      inputLine;
                 
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
@@ -199,37 +200,20 @@ static void setUpAndGo(YarpString &       hostName,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                cout << "Host name: ";
-                                cout.flush();
-                                // Eat whitespace until we get something useful.
-                                cin >> inChar;
-                                if (getline(cin, inputLine))
+                                configured = Utilities::PromptForValues(argumentList);
+                                if (configured)
                                 {
-                                    cout << "Host port: ";
-                                    cout.flush();
-                                    cin >> tempInt;
-                                    if (0 < tempInt)
+                                    configureData.clear();
+                                    configureData.addString(hostName);
+                                    configureData.addInt(hostPort);
+                                    if (stuff->configure(configureData))
                                     {
-                                        hostName = YarpString(1, inChar);
-                                        hostName += inputLine.c_str();
-                                        OD_LOG_S1s("hostName <-", hostName); //####
-                                        hostPort = tempInt;
-                                        configureData.clear();
-                                        configureData.addString(hostName);
-                                        configureData.addInt(hostPort);
-                                        if (stuff->configure(configureData))
-                                        {
-                                            configured = true;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        cout << "Port number is out of range." << endl;
+                                        configured = true;
                                     }
                                 }
                                 else
                                 {
-                                    cout << "Host name is invalid." << endl;
+                                    cout << "One or more values out of range." << endl;
                                 }
                                 break;
                                 
@@ -366,9 +350,8 @@ int main(int      argc,
         Utilities::AddressArgumentDescriptor firstArg("hostname",
                                                       T_("IP address for the device server"),
                                                       "localhost", true, &hostName);
-        Utilities::IntegerArgumentDescriptor secondArg("port", T_("Port for the device server"),
-                                                       801, true, true, 0, true,
-                                                       MAXIMUM_PORT_ALLOWED, &hostPort);
+        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
+                                                       801, true, true, &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);
@@ -391,8 +374,9 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(hostName, hostPort, progName, argc, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(hostName, hostPort, argumentList, progName, argc, argv, tag,
+                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
+                               reportOnExit);
                 }
                 else
                 {

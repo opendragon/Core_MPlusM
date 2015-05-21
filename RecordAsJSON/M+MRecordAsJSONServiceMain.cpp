@@ -100,6 +100,7 @@ static void displayCommands(void)
 
 /*! @brief Set up the environment and start the Record As JSON output service.
  @param recordPath The file system path to use.
+ @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Record As JSON output service.
@@ -109,23 +110,24 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
-static void setUpAndGo(YarpString &       recordPath,
-                       const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & tag,
-                       const YarpString & serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         goWasSet,
-                       const bool         stdinAvailable,
-                       const bool         reportOnExit)
+static void setUpAndGo(YarpString &                        recordPath,
+                       const Utilities::DescriptorVector & argumentList,
+                       const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       const YarpString &                  tag,
+                       const YarpString &                  serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          stdinAvailable,
+                       const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("recordPath = ", recordPath, "progName = ", progName, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     if (0 == recordPath.size())
@@ -152,7 +154,6 @@ static void setUpAndGo(YarpString &       recordPath,
             {
                 bool             configured = false;
                 yarp::os::Bottle configureData;
-                std::string      inputLine;
                 
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
@@ -202,21 +203,19 @@ static void setUpAndGo(YarpString &       recordPath,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                cout << "Path: ";
-                                cout.flush();
-                                // Eat whitespace until we get something useful.
-                                cin >> inChar;
-                                if (getline(cin, inputLine))
+                                configured = Utilities::PromptForValues(argumentList);
+                                if (configured)
                                 {
-                                    recordPath = YarpString(1, inChar);
-                                    recordPath += inputLine.c_str();
-                                    OD_LOG_S1s("recordPath <-", recordPath); //####
                                     configureData.clear();
                                     configureData.addString(recordPath);
                                     if (stuff->configure(configureData))
                                     {
                                         configured = true;
                                     }
+                                }
+                                else
+                                {
+                                    cout << "One or more values out of range." << endl;
                                 }
                                 break;
                                 
@@ -376,8 +375,9 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(recordPath, progName, argc, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(recordPath, argumentList, progName, argc, argv, tag,
+                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
+                               reportOnExit);
                 }
                 else
                 {

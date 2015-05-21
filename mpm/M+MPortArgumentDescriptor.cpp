@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MFilePathArgumentDescriptor.cpp
+//  File:       mpm/M+MPortArgumentDescriptor.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the minimal functionality required to represent a
-//              filepath-type command-line argument.
+//  Contains:   The class definition for the minimal functionality required to represent a port
+//              number command-line argument.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,11 +33,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-05-15
+//  Created:    2015-05-21
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MFilePathArgumentDescriptor.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,7 +48,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The definition for the minimal functionality required to represent a filepath-type
+ @brief The definition for the minimal functionality required to represent a port number
  command-line argument. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -74,54 +74,6 @@ using namespace MplusM::Utilities;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Check if a file path is acceptable.
- @param thePath The file path to be checked.
- @param forOutput @c true if the file is to be written to and @c false otherwise. 
- @returns @c true if the file path is acceptable and @c false otherwise. */
-static bool checkFilePath(const char * thePath,
-                          const bool   forOutput)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1("thePath = ", thePath); //####
-    OD_LOG_B1("forOutput = ", forOutput); //####
-    bool okSoFar;
-    
-    if (forOutput)
-    {
-        YarpString dirPath(thePath);
-        size_t     lastDelim = dirPath.rfind(kDirectorySeparator[0]);
-        
-        if (YarpString::npos == lastDelim)
-        {
-#if MAC_OR_LINUX_
-            okSoFar = (0 == access("..", W_OK));
-#else // ! MAC_OR_LINUX_
-            okSoFar = (0 == _access("..", 2));
-#endif // ! MAC_OR_LINUX_
-        }
-        else
-        {
-            dirPath = dirPath.substr(0, lastDelim);
-#if MAC_OR_LINUX_
-            okSoFar = (0 == access(dirPath.c_str(), W_OK));
-#else // ! MAC_OR_LINUX_
-            okSoFar = (0 == _access(dirPath.c_str(), 2));
-#endif // ! MAC_OR_LINUX_
-        }
-    }
-    else
-    {
-        // The file must exist and be readable.
-#if MAC_OR_LINUX_
-        okSoFar = (0 == access(thePath, R_OK));
-#else // ! MAC_OR_LINUX_
-        okSoFar = (0 == _access(thePath, 4));
-#endif // ! MAC_OR_LINUX_
-    }
-    OD_LOG_EXIT_B(okSoFar); //####
-    return okSoFar;
-} // checkFilePath
-
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
@@ -130,34 +82,60 @@ static bool checkFilePath(const char * thePath,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argName,
-                                                       const YarpString & argDescription,
-                                                       const YarpString & defaultValue,
-                                                       const bool         isOptional,
-                                                       const bool         forOutput,
-                                                       YarpString *       argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, argumentReference),
-    _forOutput(forOutput)
+PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
+                                               const YarpString & argDescription,
+                                               const int          defaultValue,
+                                               const bool         isOptional,
+                                               const bool         isSystemPort,
+                                               int *              argumentReference) :
+    inherited(argName, argDescription, isOptional), _argumentReference(argumentReference),
+    _defaultValue(defaultValue), _isSystemPort(isSystemPort)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-               defaultValue); //####
-    OD_LOG_B2("isOptional = ", isOptional, "forOutput = ", forOutput); //####
+    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
+    OD_LOG_LL1("defaultValue = ", defaultValue); //####
+    OD_LOG_B2("isOptional = ", isOptional, "isSystemPort = ", isSystemPort); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
-} // FilePathArgumentDescriptor::FilePathArgumentDescriptor
+} // PortArgumentDescriptor::PortArgumentDescriptor
 
-FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
+PortArgumentDescriptor::~PortArgumentDescriptor(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // FilePathArgumentDescriptor::~FilePathArgumentDescriptor
+} // PortArgumentDescriptor::~PortArgumentDescriptor
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
+YarpString PortArgumentDescriptor::getDefaultValue(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString        result;
+    std::stringstream buff;
+
+    buff << _defaultValue;
+    result = buff.str();
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // PortArgumentDescriptor::getDefaultValue
+
+YarpString PortArgumentDescriptor::getProcessedValue(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString        result;
+    std::stringstream buff;
+
+    buff << (_argumentReference ? *_argumentReference : _defaultValue);
+    result = buff.str();
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // PortArgumentDescriptor::getProcessedValue
+
+BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -166,73 +144,107 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
 
     if (partitionString(inString, 3, inVector))
     {
-        bool       forOutput = false;
         bool       isOptional = false;
         bool       okSoFar = true;
+        bool       isSystemPort = false;
+        int        defaultValue;
         YarpString name(inVector[0]);
         YarpString typeTag(inVector[1]);
-        YarpString direction(inVector[2]);
+        YarpString portClass(inVector[2]);
         YarpString defaultString(inVector[3]);
         YarpString description(inVector[4]);
 
-        if (typeTag == "f")
+        if (typeTag == "p")
         {
             isOptional = true;
         }
-        else if (typeTag != "F")
+        else if (typeTag != "P")
         {
             okSoFar = false;
         }
         if (okSoFar)
         {
-            if (direction == "o")
+            if (portClass == "s")
             {
-                forOutput = true;
+                isSystemPort = true;
             }
-            else if (direction != "i")
+            else if (portClass != "r")
+            {
+                okSoFar = false;
+            }
+        }
+        
+        if (okSoFar && (0 < defaultString.length()))
+        {
+            const char * startPtr = defaultString.c_str();
+            char *       endPtr;
+
+            defaultValue = strtol(startPtr, &endPtr, 10);
+            if ((startPtr == endPtr) || *endPtr)
             {
                 okSoFar = false;
             }
         }
         if (okSoFar)
         {
-            okSoFar = checkFilePath(defaultString.c_str(), forOutput);
-        }
-        if (okSoFar)
-        {
-            result = new FilePathArgumentDescriptor(name, description, defaultString, isOptional,
-                                                    forOutput, NULL);
+            result = new PortArgumentDescriptor(name, description, defaultValue, isOptional,
+                                                isSystemPort, NULL);
         }
     }
     OD_LOG_EXIT_P(result); //####
     return result;
-} // FilePathArgumentDescriptor::parseArgString
+} // PortArgumentDescriptor::parseArgString
 
-YarpString FilePathArgumentDescriptor::toString(void)
+void PortArgumentDescriptor::setToDefault(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(prefixFields("F", "f"));
+    if (_argumentReference)
+    {
+        *_argumentReference = _defaultValue;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // PortArgumentDescriptor::setToDefault
 
-    result += _parameterSeparator + (_forOutput ? "o" : "i") + suffixFields();
+YarpString PortArgumentDescriptor::toString(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString result(prefixFields("P", "p"));
+
+    result += _parameterSeparator + (_isSystemPort ? "s" : "r") + suffixFields();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // FilePathArgumentDescriptor::toString
+} // PortArgumentDescriptor::toString
 
-bool FilePathArgumentDescriptor::validate(const YarpString & value)
+bool PortArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####
-    bool result = checkFilePath(value.c_str(), _forOutput);
+    bool         result = false;
+    const char * startPtr = value.c_str();
+    char *       endPtr;
+    int          intValue = strtol(startPtr, &endPtr, 10);
     
+    if ((startPtr != endPtr) && (! *endPtr))
+    {
+        if (_isSystemPort)
+        {
+            result = (0 <= intValue);
+        }
+        else
+        {
+            result = (MINIMUM_PORT_ALLOWED <= intValue);
+        }
+        result &= (MAXIMUM_PORT_ALLOWED >= intValue);
+    }
     if (result && _argumentReference)
     {
-        *_argumentReference = value;
+        *_argumentReference = intValue;
     }
-    cerr << result << endl;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // FilePathArgumentDescriptor::validate
+} // PortArgumentDescriptor::validate
 
 #if defined(__APPLE__)
 # pragma mark Global functions

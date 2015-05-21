@@ -109,6 +109,7 @@ static yarp::os::impl::Logger * lLogger = NULL;
 
 const char MplusM::kEscapeChar = '\\';
 
+// Note that this MUST be a single-character string!!!
 #if MAC_OR_LINUX_
 const YarpString MplusM::kDirectorySeparator = "/";
 #else // ! MAC_OR_LINUX_
