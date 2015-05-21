@@ -37,3 +37,5 @@
 + the configuration file can’t include adapters, as there’s no mechanism to get their launch parameters; services need to respond to a new request that returns their original launch parameters, so that these can be recorded
 
 * empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported
+
+* adapters are input/output services that are also clients??? [this way they can be interrogated, so they can be configured]
