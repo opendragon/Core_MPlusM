@@ -39,3 +39,11 @@
 * empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported
 
 * adapters are input/output services that are also clients??? [this way they can be interrogated, so they can be configured]
+
++ launch clears selection
+
+* use argument descriptors to process configuration values
+
++ client<->service connection should have arrows on each end
+
+= make sure that installer includes JavaScript headers
