@@ -24,8 +24,6 @@
 
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
 
-@ DOCUMENT the new dialog boxes! Appendix - What happens when YARP is not running, when Registry Service is not running
-
 —> all required arguments _must_ appear before all the optional arguments - ignore an executable that doesn’t obey this - and an executable that has only optional arguments can be launched immediately; only optional values should have default values
 
 + make sure that the initial placement of entities is within the visible area - below the menu bar and above the bottom
