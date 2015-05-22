@@ -384,7 +384,11 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     bool   result = true;
     size_t numArgs = arguments.size();
     size_t numValues = parseResult.nonOptionsCount();
+#if MAC_OR_LINUX_
+    size_t numToCheck = std::min(numArgs, numValues);
+#else // ! MAC_OR_LINUX_
     size_t numToCheck = min(numArgs, numValues);
+#endif // ! MAC_OR_LINUX_
     
     for (size_t ii = 0; result && (numToCheck > ii); ++ii)
     {
