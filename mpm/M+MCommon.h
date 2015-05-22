@@ -47,6 +47,7 @@
 #  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__))
 # endif // ! defined(MAC_OR_LINUX_)
 
+# include <algorithm>
 # include <cctype>
 # include <csignal>
 # include <cstdlib>
@@ -55,6 +56,7 @@
 # include <list>
 # include <map>
 # include <sstream>
+# include <time.h>
 # include <vector>
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

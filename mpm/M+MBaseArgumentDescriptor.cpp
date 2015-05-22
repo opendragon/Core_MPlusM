@@ -113,7 +113,7 @@ BaseArgumentDescriptor::~BaseArgumentDescriptor(void)
 #endif // defined(__APPLE__)
 
 bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
-                                             const int          indexOfDefaultValue,
+                                             const size_t       indexOfDefaultValue,
                                              YarpStringVector & result)
 {
     OD_LOG_ENTER(); //####
@@ -384,7 +384,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     bool   result = true;
     size_t numArgs = arguments.size();
     size_t numValues = parseResult.nonOptionsCount();
-    size_t numToCheck = std::min(numArgs, numValues);
+    size_t numToCheck = min(numArgs, numValues);
     
     for (size_t ii = 0; result && (numToCheck > ii); ++ii)
     {
@@ -433,29 +433,29 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
             char        inChar;
             std::string inputLine;
             
-            cout << anArg->argumentDescription().c_str() << ": ";
-            cout.flush();
+            std::cout << anArg->argumentDescription().c_str() << ": ";
+            std::cout.flush();
             // Eat whitespace until we get something useful.
             for ( ; ; )
             {
-                inChar = cin.peek();
+                inChar = std::cin.peek();
                 if (isspace(inChar))
                 {
                     // Eat it.
-                    cin.get();
+                    std::cin.get();
                 }
                 else
                 {
                     break;
                 }
                 
-                if (! cin)
+                if (! std::cin)
                 {
                     break;
                 }
                 
             }
-            if (getline(cin, inputLine))
+            if (getline(std::cin, inputLine))
             {
                 if (! anArg->validate(inputLine))
                 {

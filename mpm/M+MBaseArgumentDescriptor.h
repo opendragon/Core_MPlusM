@@ -154,7 +154,7 @@ namespace MplusM
              @returns @c true if the correct number of fields appear within the input string and
              @c false otherwise. */
             static bool partitionString(const YarpString & inString,
-                                        const int          indexOfDefaultValue,
+                                        const size_t       indexOfDefaultValue,
                                         YarpStringVector & result);
 
             /*! @brief Returns a string that contains a printable representation of the standard

@@ -42,6 +42,10 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#if (! MAC_OR_LINUX_)
+# include <io.h>
+#endif // ! MAC_OR_LINUX_
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -229,7 +233,6 @@ const
     {
         *_argumentReference = value;
     }
-    cerr << result << endl;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // FilePathArgumentDescriptor::validate

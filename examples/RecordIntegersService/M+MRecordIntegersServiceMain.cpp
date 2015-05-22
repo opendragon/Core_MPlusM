@@ -350,8 +350,12 @@ int main(int      argc,
         YarpString        tag;
 
         // Use a poor random number for now; we'll use a better one later, once YARP is active.
-        sranddev();
-        randNumb = (rand() % 10000);
+#if defined(__APPLE__)
+		sranddev();
+#else // ! defined(__APPLE__)
+		srand(static_cast<unsigned>(time(NULL)));
+#endif // ! defined(__APPLE__)
+		randNumb = (rand() % 10000);
         buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
         buff << std::hex << randNumb;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
