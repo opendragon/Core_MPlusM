@@ -163,8 +163,9 @@ VDSmainsource = ViconDataStreamInput_Manual.tex
 
 Commonsources = boilerPlate.tex sharedSetup.tex
 
-CMsecondaryfiles = CMdocumentationHistory.tex CMfrontispiece.tex CMnoYarp.tex \
-		CMoverview.tex CMutility.tex $(Commonsources) $(Commonpngfiles)
+CMsecondaryfiles = CMdocumentationHistory.tex CMfrontispiece.tex CMmanagingServices.tex \
+		CMnoRegistryService.tex CMnoYarp.tex CMoverview.tex CMutility.tex \
+		$(Commonsources) $(Commonpngfiles)
 	
 IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
 		IMprocedure.tex $(Commonsources) $(Commonpngfiles)

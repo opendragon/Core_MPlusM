@@ -6,7 +6,7 @@ are running in the \mplusm{} installation.\\
 Currently there is one GUI\longDash{}based tool, the \emph{Channel Manager} application,
 which provides a view of the state of connections within an \mplusm{} installation, as
 well as managing non\longDash\mplusm{} \yarp{} network connections.
-\objDiagram{mpm_images/CMcmDiagram}{cmDiagram}{Channel~Manager structure}
+\objDiagram{mpm_images/CMcmDiagram}{cmDiagram}{\emph{Channel Manager} structure}
 
 The \emph{Channel Manager} application displays a single window view of the connections
 within a \yarp{} network, with features designed to make management of an \mplusm{}
@@ -86,7 +86,7 @@ Selecting the \textbf{Channel Manager} menu item displays a list with one choice
 \item\textbf{Quit} exit from the program
 \end{itemize}
 \objScaledDiagram{mpm_images/channelManagerMenu}{channelManagerMenu}%
-{Channel Manager menu}{1.0}
+{\textbf{Channel Manager} menu}{1.0}
 \clearpage
 Doing a right\longDash{}mouse click in the background, displays a popup menu with six
 choices:
@@ -100,10 +100,10 @@ gradient; this can also be triggered via a \textbf{Cmd\longDash{}B} command
 \item\exSp\textbf{Unhide entities} make all hidden entities visible; this can also be
 triggered via a \textbf{Cmd\longDash{}U} command
 \item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in
+running; see more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
-\item\exSp\textbf{Launch others ...} present a menu of applications that can be launched
-and, if one is selected, launch it; see more information in
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \end{itemize}
 \objDoubleScaledDiagram{mpm_images/backgroundMenuNoHiddenNoSelection}%
@@ -111,13 +111,23 @@ and, if one is selected, launch it; see more information in
 {backgroundMenu}{Background menu (Left=No hidden entities, Right=Hidden
 entities present)}{1.0}
 \clearpage
-Selecting the \textbf{View} menu item displays a list with the same choices as the
-background menu.\\
+Selecting the \textbf{View} menu item displays a list with similar choices to the
+background menu.
+\begin{itemize}
+\item\textbf{Repaint} force a repaint, in case there's a `glitch' of the display; this
+can also be triggered via a \textbf{Cmd\longDash{}R} command
+\item\exSp\textbf{Invert background} invert the background; this can also be triggered via
+a \textbf{Cmd\longDash{}I} command
+\item\exSp\textbf{White background} switch between a black~/~white background and a
+gradient; this can also be triggered via a \textbf{Cmd\longDash{}B} command
+\item\exSp\textbf{Unhide entities} make all hidden entities visible; this can also be
+triggered via a \textbf{Cmd\longDash{}U} command
+\end{itemize}
 \objScaledDiagram{mpm_images/viewMenuNoSelection}{viewMenuNoSelection}%
-{View menu with nothing selected}{1.0}
-\objScaledDiagram{mpm_images/viewMenuWithSelection}{viewMenuWithSelection}%
-{View menu with entity selected}{1.0}
+{\textbf{View} menu with nothing selected}{1.0}
 \clearpage
+\objScaledDiagram{mpm_images/viewMenuWithSelection}{viewMenuWithSelection}%
+{\textbf{View} menu with entity selected}{1.0}
 Doing a right\longDash{}mouse click on the title of a rectangle that does not represent a
 service displays a popup menu with three choices:
 \begin{itemize}
@@ -151,11 +161,32 @@ during its operation
 {Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.9}
 \clearpage
 Selecting the \textbf{Operation} menu item with a service or entity as the last thing
-clicked on, displays a list with the same choices as the service or entity menus,
+clicked on, displays a list with similar choices to the service or entity menus,
 depending on what was last clicked on.\\
 \objScaledDiagram{mpm_images/operationMenuService}{operationMenuService}%
-{Operation menu (service or entity)}{1.0}
-
+{\textbf{Operation} menu (service or entity)}{1.0}
+\begin{itemize}
+\item\textbf{Display service information} display information about the service
+\item\exSp\textbf{Display detailed service information} display information about the
+service, including the (non\longDash{}default) requests for the service
+\item\exSp\textbf{Disable / Enable service metrics collection} disable or enable the
+collection of service metrics, which affects the `Display service metrics' and `Display
+channel metrics' menu items
+\item\exSp\textbf{Display service metrics} display information about the activity on each
+port of the service \longDash{} the number of bytes and number of messages sent to and
+from the port; the category `auxiliary' represents the anonymous ports used by the service
+during its operation
+\item\exSp\textbf{Hide the service} make the service invisible
+\item\exSp\textbf{Stop the service} stop the service; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in\\
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+\clearpage
 Doing a right\longDash{}mouse click on the primary channel of a service displays a popup
 menu with three choices, which depend on whether the `Service metrics collection' menu
 item is enabled:
@@ -171,7 +202,6 @@ channel
 {mpm_images/serviceChannelMenuMetricsEnabled}%
 {serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service
 metrics enabled)}{0.9}
-\clearpage
 Doing a right\longDash{}mouse click on a regular port displays a popup menu with two
 choices:
 \begin{itemize}
@@ -179,7 +209,7 @@ choices:
 \item\exSp\textbf{Display detailed port information} display information about the port
 \end{itemize}
 \objScaledDiagram{mpm_images/portMenu}{portMenu}{Regular port menu}{1.0}
-
+\clearpage
 Doing a right\longDash{}mouse click on a non\longDash{}primary channel of a service
 displays a popup menu with five choices, which depend on whether the `Service metrics
 collection' menu item is enabled:
@@ -203,10 +233,23 @@ it is disabled
 enabled)}{0.9}
 \clearpage
 Selecting the \textbf{Operation} menu item with a channel as the last thing clicked on,
-displays a list with the same choices as the channel menus, depending on what was last
+displays a list similar choices to the channel menus, depending on what was last
 clicked on.\\
 \objScaledDiagram{mpm_images/operationMenuChannel}{operationMenuChannel}%
-{Operation menu for channels}{1.0}
+{\textbf{Operation} menu for channels or ports}{1.0}
+\begin{itemize}
+\item\textbf{Display port information} display information about the port
+\item\exSp\textbf{Display detailed port information} display information about the port
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in\\
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+
+
+
 
 The positions of the objects within the window are stored in the file
 `\asCode{settings.txt}' within the `\asCode{Channel Manager}' directory inside the
@@ -215,7 +258,4 @@ On Microsoft Windows, this will likely be\\
 ``\asCode{\textbackslash{}Documents~and~Settings\textbackslash{}username%
 \textbackslash{}Application~Data}'' while, for Macintosh OS X, it will likely be\\
 ``\asCode{\textasciitilde/Library}'' and, for Linux, it is \TBD.\\
-\primaryEnd{}
-\primaryStart[ManagingServices]{Managing~Services~and~Adapters}
-\TBD
 \primaryEnd{}
