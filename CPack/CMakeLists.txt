@@ -20,11 +20,19 @@ set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Header Files")
 set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "M+M Libraries")
 set(CPACK_COMPONENT_SOURCE_DISPLAY_NAME "Source code")
 
+#descriptions for our components
+set(CPACK_COMPONENT_APPLICATIONS_DESCRIPTION "The executables that support running the M+M middleware")
+set(CPACK_COMPONENT_EXAMPLES_DESCRIPTION "Examples of M+M applications")
+set(CPACK_COMPONENT_HEADERS_DESCRIPTION "The header files required for new development")
+set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "The fundamental files for an M+M installation")
+set(CPACK_COMPONENT_SOURCE_DESCRIPTION
+"The source files for an M+M installation, required for extending or modifying the Core applications or libraries.")
+
 #set up dependencies
 set(CPACK_COMPONENT_APPLICATIONS_DEPENDS libraries)
 set(CPACK_COMPONENT_EXAMPLES_DEPENDS libraries)
 set(CPACK_COMPONENT_HEADERS_DEPENDS libraries)
-set(CPACK_COMPONENT_SOURCE_DEPENDS libraries)
+set(CPACK_COMPONENT_SOURCE_DEPENDS libraries headers)
 
 #set up CPack groups
 set(CPACK_COMPONENT_APPLICATIONS_GROUP "Minimal")
@@ -33,11 +41,14 @@ set(CPACK_COMPONENT_HEADERS_GROUP "Minimal")
 set(CPACK_COMPONENT_LIBRARIES_GROUP "Minimal")
 set(CPACK_COMPONENT_SOURCE_GROUP "Extra")
 
+#set up CPack constraints
+set(CPACK_COMPONENT_LIBRARIES_REQUIRED ON)
+set(CPACK_COMPONENT_SOURCE_DISABLED ON)
+
 #CPack group descriptions
-set(CPACK_COMPONENT_GROUP_MINIMAL_DESCRIPTION
-	"Just the M+M libraries and core executables")
-set(CPACK_COMPONENT_GROUP_EVERYTHING_DESCRIPTION
-	"Everything, including sample M+M Applications")
+set(CPACK_COMPONENT_GROUP_MINIMAL_DESCRIPTION "Just the M+M libraries and core executables")
+set(CPACK_COMPONENT_GROUP_EVERYTHING_DESCRIPTION "Everything, including sample M+M Applications")
+set(CPACK_COMPONENT_GROUP_MINIMAL_BOLD_TITLE ON)
 	
 set(CPACK_COMPONENTS_ALL applications examples headers libraries source)
 
