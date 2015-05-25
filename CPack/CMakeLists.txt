@@ -16,20 +16,23 @@ set(CPACK_VENDOR "H Plus Technologies Ltd. and Simon Fraser University")
 #display name for our components
 set(CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Core Applications")
 set(CPACK_COMPONENT_EXAMPLES_DISPLAY_NAME "Example Applications")
-set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "M+M Libraries")
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Header Files")
+set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "M+M Libraries")
+set(CPACK_COMPONENT_SOURCE_DISPLAY_NAME "Source code")
 
 #set up dependencies
-set(CPACK_COMPONENT_HEADERS_DEPENDS libraries)
 set(CPACK_COMPONENT_APPLICATIONS_DEPENDS libraries)
 set(CPACK_COMPONENT_EXAMPLES_DEPENDS libraries)
+set(CPACK_COMPONENT_HEADERS_DEPENDS libraries)
+set(CPACK_COMPONENT_SOURCE_DEPENDS libraries)
 
 #set up CPack groups
-set(CPACK_COMPONENT_LIBRARIES_GROUP "Minimal")
 set(CPACK_COMPONENT_APPLICATIONS_GROUP "Minimal")
-set(CPACK_COMPONENT_HEADERS_GROUP "Minimal")
 set(CPACK_COMPONENT_EXAMPLES_GROUP "Extra")
-set(CPACK_COMPONENT_YARP_GROUP "Extra")
+set(CPACK_COMPONENT_HEADERS_GROUP "Minimal")
+set(CPACK_COMPONENT_LIBRARIES_GROUP "Minimal")
+set(CPACK_COMPONENT_SOURCE_GROUP "Extra")
+#set(CPACK_COMPONENT_YARP_GROUP "Extra")
 
 #CPack group descriptions
 set(CPACK_COMPONENT_GROUP_MINIMAL_DESCRIPTION
@@ -37,7 +40,7 @@ set(CPACK_COMPONENT_GROUP_MINIMAL_DESCRIPTION
 set(CPACK_COMPONENT_GROUP_EVERYTHING_DESCRIPTION
 	"Everything, including sample M+M Applications")
 	
-set(CPACK_COMPONENTS_ALL applications libraries headers examples)
+set(CPACK_COMPONENTS_ALL applications examples headers libraries source)
 
 #end General Packaging stuff
 
@@ -141,6 +144,17 @@ if(WIN32)
             "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2013/Release/Channel Manager.exe"
             DESTINATION bin
             COMPONENT applications)
+
+    #Source archives
+    install(FILES
+            "${MpM_SOURCE_DIR}/../archives/ACE_wrappers2.zip"
+            "${MpM_SOURCE_DIR}/../archives/Core_MPlusM-master.zip"
+            "${MpM_SOURCE_DIR}/../archives/OGDF.zip"
+            "${MpM_SOURCE_DIR}/../archives/Utilities_ChannelManager-master.zip"
+            "${MpM_SOURCE_DIR}/../archives/Utilities_ServiceViewer-master.zip"
+            "${MpM_SOURCE_DIR}/../archives/yarp_MPlusM-master.zip"
+            DESTINATION src
+            COMPONENT source)
 
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/Channel Manager.exe")
     set(CPACK_NSIS_MODIFY_PATH ON)
