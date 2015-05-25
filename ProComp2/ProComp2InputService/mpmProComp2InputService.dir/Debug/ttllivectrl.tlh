@@ -3,7 +3,7 @@
 // d:\devel\core_mplusm\procomp2\procomp2inputservice\mpmprocomp2inputservice.dir\debug\ttllivectrl.tlh
 //
 // C++ source equivalent of Win32 type library ..\..\..\TTLAPI\TTLLiveCtrl.dll
-// compiler-generated file created 05/04/15 at 13:59:46 - DO NOT EDIT!
+// compiler-generated file created 05/25/15 at 11:05:26 - DO NOT EDIT!
 
 #pragma once
 #pragma pack(push, 8)

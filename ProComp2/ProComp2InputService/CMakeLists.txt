@@ -53,8 +53,6 @@ add_executable(${THIS_TARGET}
                M+MProComp2InputThread.cpp
                ${VERS_RESOURCE})
 
-#add_library(TTLLiveCtrl SHARED IMPORTED)
-
 if(WIN32)
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                        "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 

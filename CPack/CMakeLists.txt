@@ -151,7 +151,13 @@ if(WIN32)
             DESTINATION bin
             COMPONENT libraries)
 
-    #OTHER EXES
+	#Configuration files
+	install(FILES
+			"${MpM_SOURCE_DIR}/standardApplications.txt"
+			DESTINATION support
+			COMPONENT libraries)
+
+	#OTHER EXES
     install(FILES
             "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2013/Release/Channel Manager.exe"
             DESTINATION bin
@@ -177,9 +183,12 @@ if(WIN32)
     #Finally, set some MpM Environment variables (WINDOWS ONLY!)
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
         "
+		CreateDirectory 'C:\\\\Users\\\\Public\\\\Documents\\\\M+M'
+		CopyFiles '$INSTDIR/support/standardApplications.txt' 'C:\\\\Users\\\\Public\\\\Documents\\\\M+M'
 		ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
         WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR/yarp'
         WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR/ACE_wrappers'
+		
         Delete '$INSTDIR/support/bonjoursdksetup.exe'
 		CreateShortCut \\\"$DESKTOP\\\\Channel Manager.lnk\\\" \\\"$INSTDIR\\\\bin\\\\Channel Manager.exe\\\"
 		")
