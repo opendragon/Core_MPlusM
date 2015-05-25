@@ -92,6 +92,6 @@ endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
-        COMPONENT examples)
+        COMPONENT exampleapps)
 
 enable_testing()

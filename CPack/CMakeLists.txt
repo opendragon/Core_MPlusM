@@ -14,43 +14,45 @@ set(CPACK_RESOURCE_FILE_README "${MpM_SOURCE_DIR}/README.txt")
 set(CPACK_VENDOR "H Plus Technologies Ltd. and Simon Fraser University")
 
 #display name for our components
-set(CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Core Applications")
-set(CPACK_COMPONENT_EXAMPLES_DISPLAY_NAME "Example Applications")
+set(CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Standard Applications")
+set(CPACK_COMPONENT_EXAMPLEAPPS_DISPLAY_NAME "Example Applications")
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Header Files")
 set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "M+M Libraries")
-set(CPACK_COMPONENT_SOURCE_DISPLAY_NAME "Source code")
+set(CPACK_COMPONENT_SOURCECODE_DISPLAY_NAME "Source Code")
 
 #descriptions for our components
 set(CPACK_COMPONENT_APPLICATIONS_DESCRIPTION "The executables that support running the M+M middleware")
-set(CPACK_COMPONENT_EXAMPLES_DESCRIPTION "Examples of M+M applications")
+set(CPACK_COMPONENT_EXAMPLEAPPS_DESCRIPTION "Examples of M+M applications")
 set(CPACK_COMPONENT_HEADERS_DESCRIPTION "The header files required for new development")
 set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "The fundamental files for an M+M installation")
-set(CPACK_COMPONENT_SOURCE_DESCRIPTION
-"The source files for an M+M installation, required for extending or modifying the Core applications or libraries.")
+set(CPACK_COMPONENT_SOURCECODE_DESCRIPTION
+	"The source files for an M+M installation, required for extending or modifying the core applications or libraries")
 
 #set up dependencies
 set(CPACK_COMPONENT_APPLICATIONS_DEPENDS libraries)
-set(CPACK_COMPONENT_EXAMPLES_DEPENDS libraries)
+set(CPACK_COMPONENT_EXAMPLEAPPS_DEPENDS libraries)
 set(CPACK_COMPONENT_HEADERS_DEPENDS libraries)
-set(CPACK_COMPONENT_SOURCE_DEPENDS libraries headers)
+set(CPACK_COMPONENT_SOURCECODE_DEPENDS libraries headers)
 
 #set up CPack groups
-set(CPACK_COMPONENT_APPLICATIONS_GROUP "Minimal")
-set(CPACK_COMPONENT_EXAMPLES_GROUP "Extra")
-set(CPACK_COMPONENT_HEADERS_GROUP "Minimal")
-set(CPACK_COMPONENT_LIBRARIES_GROUP "Minimal")
-set(CPACK_COMPONENT_SOURCE_GROUP "Extra")
+set(CPACK_COMPONENT_APPLICATIONS_GROUP "Core")
+set(CPACK_COMPONENT_EXAMPLEAPPS_GROUP "Optional")
+set(CPACK_COMPONENT_HEADERS_GROUP "Core")
+set(CPACK_COMPONENT_LIBRARIES_GROUP "Core")
+set(CPACK_COMPONENT_SOURCECODE_GROUP "Optional")
 
 #set up CPack constraints
 set(CPACK_COMPONENT_LIBRARIES_REQUIRED ON)
-set(CPACK_COMPONENT_SOURCE_DISABLED ON)
+set(CPACK_COMPONENT_EXAMPLEAPPS_DISABLED ON)
+set(CPACK_COMPONENT_SOURCECODE_DISABLED ON)
 
 #CPack group descriptions
-set(CPACK_COMPONENT_GROUP_MINIMAL_DESCRIPTION "Just the M+M libraries and core executables")
-set(CPACK_COMPONENT_GROUP_EVERYTHING_DESCRIPTION "Everything, including sample M+M Applications")
-set(CPACK_COMPONENT_GROUP_MINIMAL_BOLD_TITLE ON)
+set(CPACK_COMPONENT_GROUP_CORE_DESCRIPTION "The core M+M libraries and executables")
+set(CPACK_COMPONENT_GROUP_CORE_BOLD_TITLE ON)
+set(CPACK_COMPONENT_GROUP_OPTIONAL_DESCRIPTION
+	"Example applications and source code for the libraries and standard applications")
 	
-set(CPACK_COMPONENTS_ALL applications examples headers libraries source)
+set(CPACK_COMPONENTS_ALL applications exampleapps headers libraries sourcecode)
 
 #end General Packaging stuff
 
@@ -164,7 +166,7 @@ if(WIN32)
             "${MpM_SOURCE_DIR}/../archives/Utilities_ServiceViewer-master.zip"
             "${MpM_SOURCE_DIR}/../archives/yarp_MPlusM-master.zip"
             DESTINATION src
-            COMPONENT source)
+            COMPONENT sourcecode)
 
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/Channel Manager.exe")
     set(CPACK_NSIS_MODIFY_PATH ON)

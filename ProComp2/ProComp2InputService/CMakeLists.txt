@@ -56,8 +56,6 @@ add_executable(${THIS_TARGET}
 #add_library(TTLLiveCtrl SHARED IMPORTED)
 
 if(WIN32)
-#	set_property(TARGET TTLLiveCtrl PROPERTY IMPORTED_LOCATION
-#                    "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll")
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                        "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
                        $<TARGET_FILE_DIR:mpmProComp2InputService>)
@@ -71,7 +69,6 @@ endif(WIN32)
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-#					  TTLLiveCtrl
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}

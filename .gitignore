@@ -35,6 +35,8 @@ _CPack_Packages/
 #Xcode
 *.xcuserstate
 *.xccheckout
+*.tlh
+*.tli
 
 Testing
 Doxygen_output
@@ -220,5 +222,3 @@ ODLogging_wrap.cxx
 mpm/libmpmCommon.dylib
 odl/libodLogging.dylib
 mpm_images.tar.gz
-*.tlh
-*.tli
