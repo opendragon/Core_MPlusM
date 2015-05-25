@@ -31,3 +31,5 @@
 * empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported
 
 * adapters are input/output services that are also clients??? [this way they can be interrogated, so they can be configured, but this introduces major complexities!]
+
+* add ‘—info’ options to clients and utilities so that it’s safe for Channel Manager to launch them
