@@ -220,3 +220,5 @@ ODLogging_wrap.cxx
 mpm/libmpmCommon.dylib
 odl/libodLogging.dylib
 mpm_images.tar.gz
+*.tlh
+*.tli
