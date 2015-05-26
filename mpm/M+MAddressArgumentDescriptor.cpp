@@ -86,14 +86,16 @@ AddressArgumentDescriptor::AddressArgumentDescriptor(const YarpString & argName,
                                                      const YarpString & argDescription,
                                                      const YarpString & defaultValue,
                                                      const bool         isOptional,
-                                                     YarpString *       argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, argumentReference)
+                                                     YarpString *       argumentReference,
+                                                     struct in_addr *   addrBuff) :
+    inherited(argName, argDescription, defaultValue, isOptional, argumentReference),
+    _addrBuff(addrBuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
     OD_LOG_B1("isOptional = ", isOptional); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
+    OD_LOG_P2("argumentReference = ", argumentReference, "addrBuff = ", addrBuff); //####
     OD_LOG_EXIT_P(this); //####
 } // AddressArgumentDescriptor::AddressArgumentDescriptor
 
@@ -144,7 +146,7 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
         if (okSoFar)
         {
             result = new AddressArgumentDescriptor(name, description, defaultString, isOptional,
-                                                   NULL);
+                                                   NULL, NULL);
         }
     }
     OD_LOG_EXIT_P(result); //####
@@ -166,14 +168,30 @@ bool AddressArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####
-    bool           result;
-    struct in_addr addrBuff;
-
+    bool result;
+    
+    if (_addrBuff)
+    {
 #if MAC_OR_LINUX_
-    result = (0 < inet_pton(AF_INET, value.c_str(), &addrBuff));
+        result = (0 < inet_pton(AF_INET, value.c_str(), _addrBuff));
 #else // ! MAC_OR_LINUX_
-    result = (0 < InetPton(AF_INET, value.c_str(), &addrBuff));
+        result = (0 < InetPton(AF_INET, value.c_str(), _addrBuff));
 #endif // ! MAC_OR_LINUX_
+    }
+    else
+    {
+        struct in_addr addrBuff;
+        
+#if MAC_OR_LINUX_
+        result = (0 < inet_pton(AF_INET, value.c_str(), &addrBuff));
+#else // ! MAC_OR_LINUX_
+        result = (0 < InetPton(AF_INET, value.c_str(), &addrBuff));
+#endif // ! MAC_OR_LINUX_
+    }
+    if (result && _argumentReference)
+    {
+        *_argumentReference = value;
+    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // AddressArgumentDescriptor::validate

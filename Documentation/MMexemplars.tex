@@ -58,7 +58,7 @@ The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
 files\\
 \asCode{M+MSimpleRequestHandler.YYY}.
 \tertiaryEnd{\exemplarsNameE{ExemplarService}}
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{Exemplar~classes}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarAdapterData}}
 The \classNameX{Exemplar}{ExemplarAdapterData} class is a subclass of
@@ -137,7 +137,7 @@ client application; a custom application should replace this class with one or m
 request handlers corresponding to the requests defined by the service, with the
 corresponding changes made to the \classNameR{Exemplar}{ExemplarService} class.
 \tertiaryEnd{\classNameE{Exemplar}{SimpleRequestHandler}}
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{Creating~a~custom~application}
 \tertiaryStart{Determine the kind of application}
 There are four kinds of applications that can be build from the exemplars:
@@ -155,7 +155,7 @@ directory
 \end{itemize}
 A custom application set can include one or more of these applications.
 For the purposes of this section, we will include all four kinds of application.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Determine the namespace}
 Note that the classes in the source files are all within the \asCode{M+M:Exemplar}
 namespace \longDash{} this will need to be changed to avoid conflicts with other uses of
@@ -163,12 +163,12 @@ the exemplar files.
 Choose a name that describes the purpose of the custom application, such as
 \asCode{Tracker} for an input service to communicate with a tracking device.
 For the purposes of this section, we will use the name \asCode{Foo}.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Copy the source files}
 Copy the full directories from \asCode{Exemplars}; note that it isn't strictly necessary
 to copy a subdirectory if it is not going to be built, but the files at the top level of
 the directory are still needed.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Rename the source files}
 The description of the relationships between the example directories and the exemplar
 directories indicate how this renaming should be done.
@@ -176,7 +176,7 @@ For example, the file \asCode{M+MExemplarFilterInputHandler.cpp} would be rename
 \asCode{M+MFooFilterInputHandler.cpp}.
 Doing the renaming at this point will help avoid duplicate files or incorrect file
 inclusion.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Edit the source files}
 This is by far the biggest task, since it will involve editing every file in each
 directory.
@@ -227,7 +227,7 @@ for the directory
 the beginning of each file to reference the actual writer of the new custom application
 set
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Build the application(s)}
 At this point, it should be possible to build the custom applications.
 The procedures are different for Macintosh~OS~X, Windows and Linux, although they start
@@ -253,15 +253,15 @@ desired, via the command\\
 \begin{itemize}
 \item Execute the tool \asCode{cmake} to create the project files used to construct the
 application
-\item\exSp\TBD{}
+\item\exSp\TBD
 \end{itemize}
 \begin{center}\textbf{On~Linux:}\end{center}
 \begin{itemize}
 \item Execute the tool \asCode{cmake} to create the project files used to construct the
 application
-\item\exSp\TBD{}
+\item\exSp\TBD
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Add custom code}
 Once the applications have successfully built, it's time to add the custom functionality
 that is desired.
@@ -292,16 +292,16 @@ issue the new requests.
 support the new requests for the \asCode{FooService} class will require similar changes to
 the \asCode{FooAdapter} class.
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Install the applications}
 \begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
 Once all the customization has been developed and tested, the applications can then be
 installed by executing\\
 `\asCode{sudo~make~install}' from a terminal session in the top\longDash{}level directory.
 \begin{center}\textbf{On~Windows:}\end{center}
-\TBD{}
+\TBD
 \begin{center}\textbf{On~Linux:}\end{center}
-\TBD{}
-\tertiaryEnd{}
-\secondaryEnd{}
+\TBD
+\tertiaryEnd
+\secondaryEnd
 \appendixEnd{}

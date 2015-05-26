@@ -288,7 +288,7 @@ namespace MplusM
             /*! @brief The service provides a proxy for a transformative process. */
             kServiceKindFilter,
             
-            /*! @brief The service is the Registry, which is a specialized 'normal' service. */
+            /*! @brief The service is the %Registry, which is a specialized 'normal' service. */
             kServiceKindRegistry,
             
             /*! @brief Force the size to be 4 bytes. */

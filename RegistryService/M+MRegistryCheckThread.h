@@ -108,7 +108,7 @@ namespace MplusM
             /*! @brief The service that owns this thread. */
             RegistryService & _service;
             
-            /*! @brief The time at which the thread will next check the Registry Service. */
+            /*! @brief The time at which the thread will next check the %Registry Service. */
             double _checkTime;
             
         }; // RegistryCheckThread

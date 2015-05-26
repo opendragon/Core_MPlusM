@@ -9,34 +9,27 @@ inconsistencies.
 \mplusm{} includes a number of command\longDash{}line tools that provide some of the
 functionality of the GUI\longDash{}based tool, \emph{Channel Manager}.
 As well, the native \yarp{} command\longDash{}line tools to create and remove connections
-can be used with \mplusm{}, but it is very easy to create a non\longDash{}functional
-installation if care is not taken.\\
-
-The command\longDash{}line tools all have four optional parameters:
-\begin{itemize}
-\item\optItem{h}{}{help}{display the list of optional parameters and arguments and leave}
-\item\exSp\optItem{j}{}{json}{generate JSON\longDash{}formatted output}
-\item\exSp\optItem{t}{}{tabs}{generate output in a tab\longDash{}delimited format}
-\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
-\end{itemize}
-If neither JSON format nor tab\longDash{}delimited format are specified, the output is
-written as simple text.
+can be used with \mplusm, but it is very easy to create a non\longDash{}functional
+installation if care is not taken.
 \tertiaryStart{\utilityNameP{mpmClientList}}
-The program \utilityNameX{mpmClientList} displays the clients for services that have
+The application \utilityNameX{mpmClientList} displays the clients for services that have
 \yarp{} network connections with persistent state.
 A service that has persistent state for its connections retains information from each
 request for the following request.
 An example service with persistent state is
 \examplesNameR{Services}{mpmRunningSumService}, where the information that is kept is the
-running sum for the connected client.
-The program takes an optional argument for the \yarp{} network port of the service; if no
-argument is provided, all services are checked for connections with persistent state.\\
+running sum for the connected client.\\
 
-The output specifies the \yarp{} network port of a service with persistent state and the
+The application takes an optional argument for the \yarp{} network port of the service;
+if no argument is provided, all services are checked for connections with persistent
+state.
+\insertFullUtilityParameters\\
+
+The output displays the \yarp{} network port of a service with persistent state and the
 \yarp{} network ports that are connected to it.\\
 
 For example, the default output could be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Service: /_service_/examples/runningSum
 Clients:
@@ -44,32 +37,33 @@ Clients:
 \end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ { "Service": "/_service_/examples/runningSum", "Client":
 "/_client_/examples/runningsum_4896162" } ]
 \end{verbatim}
-\outputEnd{}
+\outputEnd
+\condPage{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\serviceName/examples/runningSum\pseudotab{}%
 /\clientName/examples/runningsum\textunderscore{}4896162
 \outputEnd{}
 Note that, if no clients are found, the JSON\longDash{}formatted output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ ]
 \end{verbatim}
 \outputEnd{}
 while the default output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 No client connections found.
 \end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 No services found.
 \end{verbatim}
@@ -77,27 +71,31 @@ No services found.
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmClientList}}
 \tertiaryStart{\utilityNameP{mpmFindServices}}
-The program \utilityNameX{mpmFindServices} displays the primary channels belonging to
+The application \utilityNameX{mpmFindServices} displays the primary channels belonging to
 services that match a criteria provided on the command\longDash{}line or interactively.\\
 
-The program takes an optional argument for the matching criteria to be used; if no
-criteria is provided on the command\longDash{}line, the program enters a loop, asking for
-an operation to do:
+The application takes an optional argument for the matching criteria to be used; if no
+criteria is provided on the command\longDash{}line, the application enters a loop, asking
+for an operation to do:
 \begin{itemize}
 \item\cmdItem{?}{display a list of the available commands}
 \item\exSp\cmdItem{f}{request the matching criteria and process it}
 \item\exSp\cmdItem{q}{quit the application}
 \end{itemize}
-An example execution of the program, with the command\longDash{}line argument
+
+\insertFullUtilityParameters\\
+
+An example execution of the application, with the command\longDash{}line argument
 \asCode{'tag!blurt'} provided, would have the following output if default formatting is
 used:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 /$ervice, /_service_/filter/truncatefloat, /blort
 \end{verbatim}
-\outputEnd{}
+\outputEnd
+\condPage{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ "/$ervice", "/_service_/filter/truncatefloat", "/blort" ]
 \end{verbatim}
@@ -107,7 +105,7 @@ of, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymb
 /\dollarService\pseudotab/\serviceName/filter/truncatefloat\pseudotab/blort
 \outputEnd{}
 If no criteria is provided on the command\longDash{}line, and default formatting is used,
-with user input shown in bold, an example execution of the program could be:
+with user input shown in bold, an example execution of the application could be:
 \outputBegin{}
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
@@ -117,7 +115,6 @@ Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
-\condPage{}
 or, if JSON\longDash{}formatted output is requested:
 \outputBegin{}
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
@@ -137,17 +134,20 @@ Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
-\outputEnd{}
+\outputEnd
 \tertiaryEnd{\utilityNameE{mpmFindServices}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmPortLister}}
-The program \utilityNameX{mpmPortLister} displays the active \yarp{} ports and \mplusm{}
-entities.
+The application \utilityNameX{mpmPortLister} displays the active \yarp{} ports and
+\mplusm{} entities.
 For each \yarp{} port, its role in the \mplusm{} installation is shown as well as any
 incoming and outgoing \yarp{} network connections.
 The primary port for each active service is identified, as well as the primary port for
 each adapter.\\
 
-The output specifies the all the active \yarp{} network ports along with their input and
+\insertFullUtilityParameters\\
+
+The output displays the all the active \yarp{} network ports along with their input and
 output \yarp{} network ports; regular \yarp{} network ports are tagged as `Standard',
 while \mplusm{} adapter ports are tagged as `Adapter', \mplusm{} client ports are tagged
 as `Client' and \mplusm{} service ports are tagged as `Service' or `Service registry'.\\
@@ -161,7 +161,7 @@ being listed, along with the \yarp{} network port that is being connected to and
 of the connection, such as TCP or UDP.\\
 
 For example, the default output could be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Ports:
 /$ervice: Service registry port for 'Registry'.
@@ -177,9 +177,10 @@ Ports:
 /writer2: Standard port at 10.0.1.2:10004.
    Output to /reader via TCP.
 \end{verbatim}
-\outputEnd{}
+\outputEnd
+\condPage{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ { "PortName": "/$ervice", "PortClass": "Service registry port for 'Registry'",
 "Inputs": [ ], "Outputs": [ ] }, { "PortName":\ "/$ervice/status", "PortClass":
@@ -206,13 +207,13 @@ reader~UDP\\
 /writer2\pseudotab{}Standard~port~at~10.0.1.2:10004\pseudotab/reader~TCP
 \outputEnd{}
 Note that, if no ports are found, the JSON\longDash{}formatted output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ ]
 \end{verbatim}
 \outputEnd{}
 while the default output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Ports:
    No ports found.
@@ -226,26 +227,26 @@ service, recording a stream of \yarp{} values as JSON structures to an external 
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has a single argument,
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
 the file\longDash{}system path to use for the output file.
 The path will be used when the input stream is started or restarted.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
 starts the input stream.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request opens a file to be
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request opens a file to be
 used for output, using the configured output file path.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request closes the output
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
 file that is being used.\\
 
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has one optional argument \longDash{} the output file path to be used.
-\insertAppParameters{}
+\insertAppParameters
 \insertTagDescription{Record as JSON Output}
-\insertOutputServiceComment{}\\
+\insertOutputServiceComment\\
 
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
@@ -270,14 +271,16 @@ input stream is restarted}
 \end{itemize}
 \tertiaryEnd{\utilityNameE{mpmRecordAsJSONService}}
 \tertiaryStart{\utilityNameP{mpmRequestInfo}}
-The program \utilityNameX{mpmRequestInfo} displays information on requests for one or more
-active services in the \mplusm{} installation.
+The application \utilityNameX{mpmRequestInfo} displays information on requests for one or
+more active services in the \mplusm{} installation.
 It lists each request, along with the \yarp{} network port for the service that handles
-the request and details about the request.
-The program takes two optional arguments for the \yarp{} network port of the service and
-the request to get information on; if the request is not specified, all requests for the
-given service are shown and, if no port is specified, all requests for all services are
-displayed.\\
+the request and details about the request.\\
+
+The application takes two optional arguments for the \yarp{} network port of the service
+and the request to get information on; if the request is not specified, all requests for
+the given service are shown and, if no port is specified, all requests for all services
+are displayed.
+\insertFullUtilityParameters\\
 
 The output consists of the \yarp{} network port that is used by the service, the name of
 the request, its version number, a description of the request, including its expected
@@ -305,7 +308,7 @@ one or more times.\\
 
 For example, the default output when both the service and the request are specified could
 be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Service Port: /$ervice
 Request:      register
@@ -320,7 +323,7 @@ Outputs:      s
 \end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ { "Port": "/$ervice", "Request": "register", "Version": "1.0", "Details":
 "Register the service and its requests\nInput: the channel used by the
@@ -328,8 +331,7 @@ service\nOutput: OK or FAILED, with a description of the problem
 encountered", "Keywords": [ "register", "add" ], "Inputs": "s", "Outputs":
 "s" } ]
 \end{verbatim}
-\outputEnd{}
-\condPage{}
+\outputEnd
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}register\pseudotab{}1.0\pseudotab{}Register the service and its
@@ -342,32 +344,35 @@ For the default output, multiple entries will be separated by a blank line; for
 tab\longDash{}delimited output each entry is on a line by itself and for
 JSON\longDash{}formatted output, the entries are objects within an array.
 Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ ]
 \end{verbatim}
 \outputEnd{}
 while the default output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 No matching request found.
 \end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 No services found.
 \end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmRequestInfo}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmServiceLister}}
-The program \utilityNameX{mpmServiceLister} displays the active services in the \mplusm{}
-installation.
+The application \utilityNameX{mpmServiceLister} displays the active services in the
+\mplusm{} installation.
 It lists each service, along with the service description and requests, as well as the
 path to the executable for the service and the \yarp{} network ports that the service
 provides.\\
+
+\insertFullUtilityParameters\\
 
 The output consists of the \yarp{} network port for the service, the `canonical' name of
 the service, the kind of service (`Filter', `Input', `Output', `Normal' or `Registry'), a
@@ -394,7 +399,7 @@ particular structure and can only be connected to a \yarp{} network port that ha
 protocol.
 \condPage{}
 For example, the default output could be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Services:
 
@@ -437,10 +442,10 @@ Path:              .../mpmTruncateFloatService
 Secondary inputs:  /shorten/input{protocol=d+}
 Secondary outputs: /shorten/output{protocol=i+}
 \end{verbatim}
-\outputEnd{}
+\outputEnd
 \condPage{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ { "ServicePort": "/$ervice", "ServiceName": "Registry", "Tag": "", "ServiceKind":
 "Registry", "Description": "The Registry service", "Requests":
@@ -498,12 +503,14 @@ blank lines between the output rows.
 Note that, if no services are found, the output would be empty.
 \tertiaryEnd{\utilityNameE{mpmServiceLister}}
 \tertiaryStart{\utilityNameP{mpmServiceMetrics}}
-The program \utilityNameX{mpmServiceMetrics} displays measurements for the channels of one
-or more active services in the \mplusm{} installation.
+The application \utilityNameX{mpmServiceMetrics} displays measurements for the channels of
+one or more active services in the \mplusm{} installation.
 It lists each \yarp{} network port for the service and details about the activity on the
-channel.
-The program takes an optional argument for the \yarp{} network port of the service; if no
-port is specified, all services are displayed.\\
+channel.\\
+
+The application takes an optional argument for the \yarp{} network port of the service;
+if no port is specified, all services are displayed.
+\insertFullUtilityParameters\\
 
 The output consists of the \yarp{} network port that has been measured, the date and time
 of the measurement, the number of input and output bytes transferred and the number of
@@ -515,7 +522,7 @@ reported, along with an entry labelled `auxiliary', which represents any transie
 All services use transient \yarp{} network ports to, at least, register themselves.\\
 
 For example, the default output could be (with the lines wrapped for clarity):
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 /$ervice
        /$ervice: [date: 2014-10-10, time: 09:16:32, bytes in: 11221, out: 52535,
@@ -533,9 +540,10 @@ For example, the default output could be (with the lines wrapped for clarity):
 /_service_/input/leapmotion/output: [date: 2014-10-10, time: 09:16:32, bytes in:
                                      0, out: 0, messages in: 0, out: 0]
 \end{verbatim}
-\outputEnd{}
+\outputEnd
+\condPage{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ [ { "channel": "/$ervice", "date": "2014-10-10", "time": "09:18:42", "inBytes":
 "12091", "inMessages": "285", "outBytes": "56155", "outMessages": "284" }, {
@@ -552,7 +560,6 @@ or, if JSON\longDash{}formatted output is requested:
 "0" } ] ]
 \end{verbatim}
 \outputEnd{}
-\condPage{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 /\dollarService\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}11460%
@@ -572,48 +579,52 @@ For the default output, multiple entries will be separated by a blank line; for
 tab\longDash{}delimited output each entry is on a line by itself and for
 JSON\longDash{}formatted output, the entries are objects within an array.
 Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [ ]
 \end{verbatim}
 \outputEnd{}
 while the default output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 No matching request found.
 \end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 If no matching service is found, the default output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 No services found.
 \end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{mpmServiceMetrics}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmStopService}}
-The program \utilityNameX{mpmStopService} tells a particular active service to stop
-running.
-The program takes an argument for the \yarp{} network port of the service and produces no
-output.\\
+The application \utilityNameX{mpmStopService} tells a particular active service to stop
+running.\\
+
+The application takes an argument for the \yarp{} network port of the service and produces
+no output.
+\insertShortUtilityParameters{}
 
 Note that, in order to specify the \serviceNameR[Registry~Service]{RegistryService}, it
 must be quoted with single quotes, as the network port contains a character that is
 special to the Unix shell program.
 \tertiaryEnd{\utilityNameE{mpmStopService}}
 \tertiaryStart{\utilityNameP{mpmVersion}}
-The program \utilityNameX{mpmVersion} displays the version numbers for \mplusm{}, \yarp{}
-and ACE, the low\longDash{}level networking layer used by \mplusm{} and \yarp{}.\\
+The application \utilityNameX{mpmVersion} displays the version numbers for \mplusm,
+\yarp{} and ACE, the low\longDash{}level networking layer used by \mplusm{} and \yarp.\\
 
+\insertFullUtilityParameters{}
 For example, the default output could be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Movement And Meaning Version: 1.5.0, YARP Version: 2.3.61, ACE Version: 6.2.6
 \end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 { "M+M": "1.5.0", "YARP": "2.3.61", "ACE": "6.2.6" }
 \end{verbatim}
@@ -621,10 +632,10 @@ or, if JSON\longDash{}formatted output is requested:
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
 1.5.0\pseudotab{}2.3.61\pseudotab{}6.2.6
-\outputEnd{}
+\outputEnd
 \tertiaryEnd{\utilityNameE{mpmVersion}}
-\secondaryEnd{}
-\condPage{}
+\secondaryEnd
+\condPage
 \secondaryStart[UtilityServicesAndClients]{Utility~Services~and~Clients}
 \tertiaryStart{\utilityNameP{mpmAddressService}}
 The \utilityNameX{mpmAddressService} application is a background service that is used to
@@ -639,9 +650,10 @@ Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has two arguments \longDash{} the IP address and port to be remembered.
-\insertAutoAppParameters{}
+\insertAutoAppParameters
 \insertTagDescription{Address}
 \tertiaryEnd{\utilityNameE{mpmAddressService}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmAddressClient}}
 The \utilityNameX{mpmAddressClient} application is a command\longDash{}line tool to
 retrieve an IP address and port from the\\
@@ -650,31 +662,35 @@ retrieve an IP address and port from the\\
 It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to the
 \utilityNameR{mpmAddressService} application to get the IP address and port.\\
 
-The program can have one or more arguments:
+The application has one or two optional arguments, with the first argument having one of
+three values:
 \begin{itemize}
 \item\argItem{address}{Display just the retrieved IP address}
 \item\exSp\argItem{both}{Display the retrieved IP address and port}
 \item\exSp\argItem{port}{Display just the retrieved port}
-\item\exSp\argItem{other}{Use \emph{other} as the tag for the
+\end{itemize}
+The second argument is:
+\begin{itemize}
+\item\argItem{other}{Use \emph{other} as the tag for the
 \utilityNameR{mpmAddressService} application being connected to}
 \end{itemize}
-Note that the last tag, \emph{other}, and the last of (\textbf{address}, \textbf{both} or
-\textbf{port}) are used by the application.
-\condPage{}
+
+\insertFullClientParameters\\
+
 If the \utilityNameR{mpmAddressService} is started via:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 mpmAddressService -t blurg 123.123.123.123 42 &
 \end{verbatim}
 \outputEnd{}
 The output of:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 mpmAddressClient
 \end{verbatim}
 \outputEnd{}
 would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Could not connect to the required service.
 \end{verbatim}
@@ -682,19 +698,19 @@ Could not connect to the required service.
 since the service was started with a tag.\\
 
 For the command:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 mpmAddressClient blurg
 \end{verbatim}
 \outputEnd{}
 the output would be:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 Address: 123.123.123.123, Port: 42
 \end{verbatim}
 \outputEnd{}
 or, if JSON\longDash{}formatted output is requested:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 { "Address": "123.123.123.123", "Address": "42" }
 \end{verbatim}
@@ -738,6 +754,7 @@ non\longDash{}default port is desired}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed endpoint name.
 \tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmRequestCounterClient}}
 The \utilityNameX{mpmRequestCounterClient} application is a command\longDash{}line tool to
 measure the average time to process a simple request.\\
@@ -747,15 +764,17 @@ It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} and
 \utilityNameR{mpmRequestCounterService} application to gather the statistics, and a
 `dummy' request to provide the requests that are being measured.\\
 
-The program has no arguments or options; it asks for the number of requests to send via
-the prompt:
-\outputBegin{}
+The application has no arguments.
+\insertShortClientParameters{}
+
+The application asks for the number of requests to send via the prompt:
+\outputBegin
 \begin{verbatim}
 How many requests?
 \end{verbatim}
 \outputEnd{}
-Entering a zero value will exit the program.
-An example execution of the program, with the \utilityNameR{mpmRequestCounterService}
+Entering a zero value will exit the application.
+An example execution of the application, with the \utilityNameR{mpmRequestCounterService}
 application running in the background and user input shown in bold, could be:
 \outputBegin{}
 How many requests?\ \textbf{10000}\\
@@ -763,7 +782,7 @@ count = 10000, elapsed time = 2.2 seconds, average time = 0.22 milliseconds.\\
 How many requests?\ \textbf{300000}\\
 count = 300000, elapsed time = 1.20052 minutes, average time = 0.240104 milliseconds.\\
 How many requests?\ \textbf{0}
-\outputEnd{}
+\outputEnd
 \tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
 \tertiaryStart{\utilityNameP{mpmTunnelService}}
 The \utilityNameX{mpmTunnelService} application is a background service that is used to
@@ -779,7 +798,7 @@ Note that the application will exit if the
 
 The application has two arguments \longDash{} the IP address and port for the network data
 source.
-\insertAutoAppParameters{}
+\insertAutoAppParameters
 \insertTagDescription{Tunnel}
 \tertiaryEnd{\utilityNameE{mpmTunnelService}}
 \tertiaryStart{\utilityNameP{mpmTunnelClient}}
@@ -791,9 +810,10 @@ It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to 
 \utilityNameR{mpmTunnelService} application to get the IP address and port to connect
 to.\\
 
-The program has one required argument, the network port to be opened for a network data
-sink to attach to, and one optional argument, the tag for the
+The application has one required argument, the network port to be opened for a network
+data sink to attach to, and one optional argument, the tag for the
 \utilityNameR{mpmTunnelService} application being connected to.
+\insertShortClientParameters
 \tertiaryEnd{\utilityNameE{mpmTunnelClient}}
-\secondaryEnd{}
+\secondaryEnd
 \primaryEnd{}

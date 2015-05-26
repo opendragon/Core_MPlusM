@@ -51,10 +51,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the M+M Registry Service. */
+ @brief The main application for the M+M %Registry Service. */
 
 /*! @dir RegistryService
- @brief The set of files that implement the Registry Service application. */
+ @brief The set of files that implement the %Registry Service application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -91,7 +91,7 @@ using std::endl;
 /*! @brief Set up the environment and perform the operation.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Registry service.
+ @param argv The arguments to be used with the %Registry service.
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false
  otherwise. */
@@ -166,9 +166,9 @@ static void setUpAndGo(const YarpString & progName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Registry Service.
+/*! @brief The entry point for running the %Registry Service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Registry Service.
+ @param argv The arguments to be used with the %Registry Service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

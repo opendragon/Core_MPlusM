@@ -52,7 +52,7 @@
  @brief The class definition for a simple request handler used by the unit tests. */
 
 /*! @dir RegistryTests
- @brief The set of files used for unit testing of the Registry Service. */
+ @brief The set of files used for unit testing of the %Registry Service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

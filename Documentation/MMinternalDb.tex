@@ -1,7 +1,7 @@
 \ProvidesFile{MMinternalDb.tex}[v1.0.0]
 \appendixStart[InternalDatabaseStructure]{\textitcorr{Internal~Database~Structure}}
 Here are the SQL statements used to construct the internal database:
-\outputBegin{}
+\outputBegin
 \begin{listing}[5]{1}
 CREATE TABLE IF NOT EXISTS Services(channelname Text NOT NULL DEFAULT _
            COLLATE BINARY PRIMARY KEY ON CONFLICT REPLACE,
@@ -45,7 +45,7 @@ CREATE INDEX IF NOT EXISTS ChannelsAssociates_Associates_id_idx ON
 CREATE INDEX IF NOT EXISTS ChannelsAssociates_Channels_id_idx ON
        ChannelsAssociates(channels_id);
 \end{listing}
-\outputEnd{}
+\outputEnd
 \condPage{}
 And here is the internal database, in graphical form:\\
 \objDiagram{mpm_images/MMdbDiagram}{dbDiagram}{Database layout}

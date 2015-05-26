@@ -14,7 +14,7 @@ environment:\\
 \asCode{Object}, \asCode{parseInt}, \asCode{parseFloat}, \asCode{RangeError},
 \asCode{ReferenceError}, \asCode{RegExp}, \asCode{String}, \asCode{SyntaxError},
 \asCode{TypeError}, \asCode{undefined} and \asCode{URIError}.
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{Service~Provided~Classes}
 The \JSIO{} service provides the following class as part of the \JS{} environment:
 \tertiaryStart{Stream}
@@ -57,8 +57,8 @@ A \asCode{Stream} object can only be used between calls to its \asCode{open}() a
 no further reading will succeed.
 if \asCode{hasError}() returns true, operations other than \asCode{close}() will fail
 until \asCode{clearError}() is called.
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{Service~Provided~Functions}
 The \JSIO{} service provides the following functions as part of the \JS{} environment:
 \begin{itemize}
@@ -70,7 +70,7 @@ with zero being the first outlet channel
 \item\exSp\textbf{\asCode{writeLineToStdout}(\textit{x})} \longDash{} writes the string
 `\textit{x}' to the standard output
 \end{itemize}
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{Service~Provided~Values}
 The \JSIO{} service provides the following values as part of the \JS{} environment:
 \begin{itemize}
@@ -79,14 +79,14 @@ to the script
 \item\exSp\textbf{\asCode{tag}} \longDash{} the (optional) tag argument for the service
 script
 \end{itemize}
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{The~Required~Values}
 The \JSIO{} service requires that the following values are supplied by the \JS{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptDescription}} \longDash{} a variable or a function that
 provides a string describing the script; if defined as a function, it takes no arguments
 \end{itemize}
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{The~Optional~Values}
 The \JSIO{} service will use the following values, if they are supplied by the \JS{} file:
 \begin{itemize}
@@ -111,8 +111,8 @@ all the inlets are detached and threads are stopped
 \item\exSp\textbf{\asCode{scriptThread}()} \longDash{} a function that is repeatedly
 called by the output thread of the service
 \end{itemize}
-\secondaryEnd{}
-\condPage{}
+\secondaryEnd
+\condPage
 \secondaryStart{The~Execution~Sequence}
 The following sequence of actions occur when a \JS{} file is loaded and run:
 \begin{itemize}
@@ -123,7 +123,7 @@ The following sequence of actions occur when a \JS{} file is loaded and run:
 \item\exSp{} The \asCode{scriptHelp} value is retrieved, if it is present
 \item\exSp{} The \asCode{scriptThread}() function is located, if present
 \item\exSp{} If there was no \asCode{scriptThread}() function defined, the
-\asCode{scriptInlets} value\exSp{} is retrieved (or the\\
+\asCode{scriptInlets} value is retrieved (or the\\
 \asCode{scriptInlets}() function is executed to get a value)
 \item\exSp{} The \asCode{scriptOutlets} value is retrieved (or the
 \asCode{scriptOutlets}() function is executed to get a value)
@@ -151,5 +151,5 @@ for each inlet are deactivated
 \item\exSp{} If the \asCode{scriptStopping}() function was defined, it is executed
 \end{itemize}
 \end{itemize}
-\secondaryEnd{}
+\secondaryEnd
 \primaryEnd{}

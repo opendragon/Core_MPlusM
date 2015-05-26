@@ -39,6 +39,8 @@
 #include "M+MTunnelClient.h"
 #include "M+MTunnelRequests.h"
 
+#include <mpm/M+MPortArgumentDescriptor.h>
+#include <mpm/M+MStringArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -50,10 +52,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the client of the Tunnel service. */
+ @brief The main application for the client of the %Tunnel service. */
 
 /*! @dir TunnelClient
- @brief The set of files that implement the Tunnel client. */
+ @brief The set of files that implement the %Tunnel client. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -169,7 +171,7 @@ static SOCKET setUpListeningPost(const int listenPort)
     return listenSocket;
 } // setUpListeningPost
 
-/*! @brief Connect to the Tunnel service 'raw' network port.
+/*! @brief Connect to the %Tunnel service 'raw' network port.
  @param serviceAddress The IP address to connect to.
  @param servicePort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
@@ -295,132 +297,99 @@ static void handleConnections(SOCKET             listenSocket,
     OD_LOG_EXIT(); //####
 } // handleConnections
 
-/*! @brief Set up the environment and start the %Unreal output service.
- @param arguments The arguments to analyze. */
+/*! @brief Set up the environment and connect to the port.
+ @param listenPort The outgoing port.
+ @param tag The tag for the service to be connected to. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(ChannelStatusReporter *  reporter,
-                       const YarpStringVector & arguments)
+static void setUpAndGo(const int               listenPort,
+                       const YarpString &      tag,
+                       ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const YarpStringVector & arguments)
+static void setUpAndGo(const int          listenPort,
+                       const YarpString & tag)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_LL1("listenPort = ", listenPort); //####
+    OD_LOG_S1s("tag = ", tag); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P2("reporter = ", reporter, "arguments = ", &arguments); //####
-#else // ! defined(MpM_ReportOnConnections)
-    OD_LOG_P1("arguments = ", &arguments); //####
-#endif // ! defined(MpM_ReportOnConnections)
-    if (1 <= arguments.size())
-    {
-        YarpString   namePattern(MpM_TUNNEL_CANONICAL_NAME);
-        int          listenPort = -1;
-        const char * startPtr = arguments[0].c_str();
-        char *       endPtr;
-        int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-        
-        if ((startPtr != endPtr) && (! *endPtr) && Utilities::ValidPortNumber(tempInt))
-        {
-            // Useable data.
-            listenPort = tempInt;
-        }
-        if (1 < arguments.size())
-        {
-            YarpString tag(arguments[1]);
-            
-            if (0 < tag.length())
-            {
-                YarpString singleQuote("'");
-                
-                namePattern = singleQuote + namePattern + " " + tag + singleQuote;
-            }
-        }
-        if (0 < listenPort)
-        {
-            YarpString     channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-            TunnelClient * stuff = new TunnelClient;
-            
-            if (stuff)
-            {
-#if defined(MpM_ReportOnConnections)
-                stuff->setReporter(*reporter, true);
+    OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
-                channelNameRequest += namePattern;
-                if (stuff->findService(channelNameRequest.c_str()))
+    TunnelClient * stuff = new TunnelClient;
+
+    if (stuff)
+    {
+#if defined(MpM_ReportOnConnections)
+        stuff->setReporter(*reporter, true);
+#endif // defined(MpM_ReportOnConnections)
+        YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+        YarpString namePattern(MpM_TUNNEL_CANONICAL_NAME);
+        
+        if (0 < tag.length())
+        {
+            YarpString singleQuote("'");
+            
+            namePattern = singleQuote + namePattern + " " + tag + singleQuote;
+        }
+        channelNameRequest += namePattern;
+        if (stuff->findService(channelNameRequest.c_str()))
+        {
+            SOCKET listenSocket = setUpListeningPost(listenPort);
+            
+            if (INVALID_SOCKET != listenSocket)
+            {
+                OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
+                if (stuff->connectToService())
                 {
-                    SOCKET listenSocket = setUpListeningPost(listenPort);
+                    YarpString serviceAddress;
+                    int        servicePort;
                     
-                    if (INVALID_SOCKET != listenSocket)
+                    if (stuff->getAddress(serviceAddress, servicePort))
                     {
-                        OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
-                        if (stuff->connectToService())
-                        {
-                            YarpString serviceAddress;
-                            int        servicePort;
-                            
-                            if (stuff->getAddress(serviceAddress, servicePort))
-                            {
-                                handleConnections(listenSocket, serviceAddress, servicePort);
-                            }
-                            else
-                            {
-                                OD_LOG("! (stuff->getAddress(serviceAddress, servicePort))"); //####
+                        handleConnections(listenSocket, serviceAddress, servicePort);
+                    }
+                    else
+                    {
+                        OD_LOG("! (stuff->getAddress(serviceAddress, servicePort))"); //####
 #if MAC_OR_LINUX_
-                                GetLogger().fail("Problem fetching the address information.");
+                        GetLogger().fail("Problem fetching the address information.");
 #else // ! MAC_OR_LINUX_
-                                cerr << "Problem fetching the address information." << endl;
-#endif // ! MAC_OR_LINUX_
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-#if MAC_OR_LINUX_
-                        shutdown(listenSocket, SHUT_RDWR);
-                        close(listenSocket);
-#else // ! MAC_OR_LINUX_
-                        shutdown(listenSocket, SD_BOTH);
-                        closesocket(listenSocket);
+                        cerr << "Problem fetching the address information." << endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
                 else
                 {
-                    OD_LOG("! (stuff->findService(channelNameRequest)"); //####
+                    OD_LOG("! (stuff->connectToService())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Could not find the required service.");
+                    GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Could not find the required service." << endl;
+                    cerr << "Could not connect to the required service." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
-                delete stuff;
-            }
-            else
-            {
-                OD_LOG("! (stuff)"); //####
+#if MAC_OR_LINUX_
+                shutdown(listenSocket, SHUT_RDWR);
+                close(listenSocket);
+#else // ! MAC_OR_LINUX_
+                shutdown(listenSocket, SD_BOTH);
+                closesocket(listenSocket);
+#endif // ! MAC_OR_LINUX_
             }
         }
         else
         {
+            OD_LOG("! (stuff->findService(channelNameRequest)"); //####
 #if MAC_OR_LINUX_
-            GetLogger().fail("Invalid argument(s).");
+            GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
-            cerr << "Invalid argument(s)." << endl;
+            cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
         }
+        delete stuff;
     }
     else
     {
-#if MAC_OR_LINUX_
-        GetLogger().fail("Missing argument(s).");
-#else // ! MAC_OR_LINUX_
-        cerr << "Missing argument(s)." << endl;
-#endif // ! MAC_OR_LINUX_
+        OD_LOG("! (stuff)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -433,9 +402,9 @@ static void setUpAndGo(const YarpStringVector & arguments)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-/*! @brief The entry point for communicating with the Tunnel service.
+/*! @brief The entry point for communicating with the %Tunnel service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Tunnel client.
+ @param argv The arguments to be used with the %Tunnel client.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -451,15 +420,21 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        OutputFlavour    flavour; // ignored
-        YarpStringVector arguments;
+        int                                 listenPort;
+        YarpString                          tag;
+        Utilities::PortArgumentDescriptor   firstArg("port", "The outgoing port", 12345, false,
+                                                     false, &listenPort);
+        Utilities::StringArgumentDescriptor secondArg("tag",
+                                                      T_("Tag for the service to be connnected to"),
+                                                       "", true, &tag);
+        Utilities::DescriptorVector         argumentList;
+        OutputFlavour                       flavour; // ignored
         
-        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" port [tag]"),
-                                                       T_("  port       The outgoing port\n"
-                                                          "  tag        Optional tag for the "
-                                                          "service to be connnected to"), 2015,
-                                                       STANDARD_COPYRIGHT_NAME, flavour,
-                                                       &arguments))
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                       "The client for the Tunnel service", 2015,
+                                                       STANDARD_COPYRIGHT_NAME, flavour, true))
         {
             try
             {
@@ -478,9 +453,9 @@ int main(int      argc,
                     if (Utilities::CheckForRegistryService())
                     {
 #if defined(MpM_ReportOnConnections)
-                        setUpAndGo(reporter, arguments);
+                        setUpAndGo(listenPort, tag, reporter);
 #else // ! defined(MpM_ReportOnConnections)
-                        setUpAndGo(arguments);
+                        setUpAndGo(listenPort, tag);
 #endif // ! defined(MpM_ReportOnConnections)
                     }
                     else

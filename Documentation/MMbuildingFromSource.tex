@@ -10,7 +10,7 @@ At a minimum, the source files from the \asCode{Developer} package must be prese
 system, along with a \compLang{C++} development environment.
 Note that the source files are provided as \textbf{ZIP} archive files that contain a
 snapshot of the \asCode{git} repositories where the source code is stored.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Prerequisites~for~Macintosh~OS~X}
 \begin{itemize}
 \item\asCode{Xcode} is available from the Macintosh App Store and provides the
@@ -27,7 +27,7 @@ built
 \companyReference{http://s.sudre.free.fr/Software/Packages/about.html}{St\'ephane Sudre};
 this is only needed if you wish to create installer packages after building \mplusm
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Prerequisites~for~Microsoft~Windows}
 \begin{itemize}
 \item\asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
@@ -51,13 +51,13 @@ the executable is added to the system \asCode{Path} variable
 %\companyReference{http://git-scm.com/download/win}{git}; needed if \textbf{SpiderMonkey}
 %is being built
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Prerequisites~for~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{Initial~Steps}
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed; we'll
@@ -70,7 +70,7 @@ Linux) to the new directory \asCode{devel}; all but the files
 \item\exSp{} Rename the new directories, stripping off the `\asCode{-master}' suffix, if
 present
 \end{itemize}
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{ACE}}
 \textbf{ACE} (The ADAPTIVE Communication Environment) provides the low\longDash{}level
 networking support used within \mplusm{}; the files needed to compile and link with ACE
@@ -103,7 +103,7 @@ code, \asCode{devel}
 \item\exSp{} Execute the command `\asCode{sudo ./after-install.sh}'; this removes some
 unneeded files
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
@@ -134,13 +134,13 @@ panel
 \item\exSp{} Click on the \asCode{OK} button to close the \asCode{System Properties}
 window
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 % Note that we can't use \yarp here, since an environment isn't legal here
 \secondaryStart{(Optional)~Building~\textbf{\yarp}}
 \textbf{\yarp} (Yet Another Robot Platform) provides the connection management support
@@ -191,7 +191,7 @@ linking issues with \yarp{} caused by installing it in a non\longDash{}default l
 \item\exSp{} If desired, you can verify that \yarp{} was correctly built be executing the
 command `\asCode{make~test}'
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
@@ -244,13 +244,13 @@ window
 command `\asCode{yarp~where}' in a Command Prompt window; it should either report where a
 \yarp{} server is running or indicate how to start one up
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{(Optional, used with \textit{Channel~Manager})~Building~\textbf{OGDF}}
 \textbf{OGDF} (Open Graph Drawing Framework) provides the tools to layout graphs for the
 Channel~Manager GUI application; the files needed to compile and link with OGDF are
@@ -268,7 +268,7 @@ code, \asCode{devel}
 \item\exSp\asCode{sudo make install}
 \end{itemize}
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Open a Command Prompt window and move to the directory containing the \mplusm{}
@@ -297,13 +297,13 @@ panel
 \item\exSp{} Click on the \asCode{OK} button to close the \asCode{System Properties}
 window
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
 \textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript
 service or \mplusm{}; the files needed to compile and link with \textbf{SpiderMonkey} are
@@ -340,7 +340,7 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \item\exSp\asCode{sudo cp dist/bin/libmozglue.dylib /opt/M+M/spidermonkey/lib}
 \item\exSp\asCode{sudo install\fUS{}name\fUS{}tool -change
 "@executable\fUS{}path/libmozglue.dylib" \textbackslash\\
-"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/lib/libmozjs-\spiderversion{}.dylib}
+"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/lib/libmozjs-\spiderversion.dylib}
 \end{itemize}
 \item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
 source code, \asCode{devel}
@@ -350,7 +350,7 @@ source code, \asCode{devel}
 header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
 to distribute the resulting directories
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
 The most recent version of \textbf{SpiderMonkey} can be built on Microsoft Windows with
 the `\asCode{Visual Studio Community 2013}' version of \asCode{Visual Studio} - there are
@@ -395,7 +395,7 @@ not the final one
 \item\exSp\asCode{cp dist/bin/plc4.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cd /c/}
 \item\exSp\asCode{cd /Program\textbackslash{} Files\textbackslash{}
-\textbackslash{}(x86\textbackslash{})}
+\textbackslash{}(x86\textbackslash)}
 \item\exSp\asCode{cd M+M}
 \item\exSp\asCode{rm -rf spidermonkey}
 \item\exSp\asCode{mv /c/spidermonkey .}
@@ -403,13 +403,13 @@ not the final one
 \end{itemize}
 \item\exSp{} Close the Command Prompt window
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{Building~Core~\mplusm}
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
@@ -428,7 +428,7 @@ tools are executed
 \item\exSp{} Press `\textbf{g}' to generate the makefiles
 \item\exSp{} Execute the command `\asCode{cmake .}'
 \item\exSp{} Execute the command `\asCode{make clean \&\& make}'
-\item\exSp{} To run the unit tests for \mplusm{}, do the following:
+\item\exSp{} To run the unit tests for \mplusm, do the following:
 \begin{itemize}
 \item Execute the command `\asCode{ps | grep yarp | grep -v grep}'; if there is a line
 similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}' then the \yarp{}
@@ -437,7 +437,7 @@ server is already running
 session and launch the \yarp{} server by executing the command `\asCode{yarp~server}'
 \item\exSp{} If you see something similar to the following, there is another process using
 the network port that \yarp{} uses by default:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 __   __ _    ____  ____  
 \ \ / // \  |  _ \|  _ \ 
@@ -455,7 +455,7 @@ Port number: 10000
 yarp: Port /root failed to activate at tcp://10.0.1.2:10000 (address conflict)
 Name server failed to open
 \end{verbatim}
-\outputEnd{}
+\outputEnd
 \item\exSp{} If you see the above error message, you will need to clear the \yarp{}
 configuration by issuing the command `\asCode{yarp~conf~{-}{-}clean}'.
 \item\exSp{} Once the \yarp{} configuration is cleared, execute the command
@@ -468,7 +468,7 @@ for the test
 \end{itemize}
 \item\exSp{} To install the freshly\longDash{}built \mplusm{} files, execute the command
 `\asCode{sudo~make~install}'
-\item\exSp{} To confirm the normal operation of \mplusm{}, do the following:
+\item\exSp{} To confirm the normal operation of \mplusm, do the following:
 \begin{itemize}
 \item Check that the \yarp{} server is running and start it if it is not, using the
 instructions above
@@ -483,7 +483,7 @@ execute the command `\asCode{halt -s HUP}
 \serviceNameR[Registry~Service]{RegistryService} was launched
 \end{itemize}
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
@@ -513,13 +513,13 @@ INSTALL}'; note that this will fail the first time, since it attempts to install
 \textit{Channel~Manager}, which has not been built yet
 \item\exSp{} Exit from \asCode{Visual Studio}
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{Building~\textit{Channel~Manager}}
 \textit{Channel~Manager} is not built from the command\longDash{}line but, rather, from
 the IDE.
@@ -545,7 +545,7 @@ rename it to \asCode{Channel Manager}
 \item\exSp{} Copy the \asCode{Channel Manager} application to the \asCode{/Applications}
 directory
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
@@ -558,13 +558,13 @@ build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{Creating~the~Distribution~Packages}
 The distribution packages are standalone files that can be used to create a complete
 \mplusm{} installation.
@@ -594,16 +594,16 @@ directory
 \item\exSp{} The distribution package is the \asCode{M+M.pkg} file located in the
 \asCode{Core\fUS{}MPlusM/Packages/build} directory
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Creating~on~Microsoft~Windows}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Creating~on~Linux}
 \begin{itemize}
-\item\TBD{}
+\item\TBD
 \end{itemize}
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \appendixEnd{}

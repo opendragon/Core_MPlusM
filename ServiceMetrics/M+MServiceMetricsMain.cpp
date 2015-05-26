@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseClient.h>
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
@@ -84,19 +85,19 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param arguments The arguments to analyze.
+ @param channelName The primary channel for the service.
  @param flavour The format for the output. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       const OutputFlavour      flavour)
+static void setUpAndGo(const YarpString &  channelName,
+                       const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("arguments = ", &arguments); //####
+    OD_LOG_S1s("channelName = ", channelName); //####
     YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
     YarpStringVector services;
 
-    if (0 < arguments.size())
+    if (0 < channelName.length())
     {
-        channelNameRequest += arguments[0];
+        channelNameRequest += channelName;
     }
     else
     {
@@ -221,13 +222,16 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour    flavour;
-    YarpStringVector arguments;
+    YarpString                           channelName;
+    Utilities::ChannelArgumentDescriptor firstArg("channelName", "Channel name for the service",
+                                                  "", true, &channelName);
+    Utilities::DescriptorVector          argumentList;
+    OutputFlavour                        flavour;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [channel]"),
-                                                   T_("  channel    Optional channel name for "
-                                                      "service"), 2014, STANDARD_COPYRIGHT_NAME,
-                                                   flavour, &arguments))
+    argumentList.push_back(&firstArg);
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                   "Display service metrics", 2014,
+                                                   STANDARD_COPYRIGHT_NAME, flavour))
     {
         try
         {
@@ -242,7 +246,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, flavour);
+                    setUpAndGo(channelName, flavour);
                 }
                 else
                 {

@@ -4,7 +4,7 @@
 This script reproduces the behaviour of the example service,
 \emph{mpmTruncateFloatService}; it processes sequences of floating\longDash{}point numbers
 and sends the corresponding integral values.
-\codeBegin{}
+\codeBegin
 \begin{listing}[5]{1}
 function doTruncateFloat(portNumber, incomingData)
 {
@@ -49,13 +49,13 @@ acts as the input handler for the inlet stream, defined on lines
 \asCode{31}\longDash\asCode{33}.
 The function \asCode{isNaN}() is used to protect against invalid data received by the
 input handler.
-\secondaryEnd{}
-\condPage{}
+\secondaryEnd
+\condPage
 \secondaryStart{RunningSum.js}
 This script reproduces the behaviour of the example service,
 \emph{mpmRunningSumService}; it accepts commands (`\asBoldCode{add}' and
 `\asBoldCode{reset}') and tallies up the values coming from its inlet.
-\codeBegin{}
+\codeBegin
 \begin{listing}[5]{1}
 var runningSum = 0;
 
@@ -130,13 +130,13 @@ The function \asCode{doCommand}(), defined on lines \asCode{3}\longDash\asCode{3
 the commands sent to the script \longDash{} note the use of string values as \asCode{case}
 expressions to simplify the command interpretation and the use of the function
 \asCode{isNaN}() to protect against invalid data received by the input handler.
-\secondaryEnd{}
-\condPage{}
+\secondaryEnd
+\condPage
 \secondaryStart{RecordIntegers.js}
 This script reproduces the behaviour of the example service,
 \emph{mpmRecordIntegersService}; it writes out the integer values from its inlet to a text
 file.
-\codeBegin{}
+\codeBegin
 \begin{listing}[5]{1}
 var outStream = null;
 
@@ -230,12 +230,12 @@ script status to the user, the use of the function \asCode{isNaN}() to protect
 against invalid data received by the input handler and the presence of a
 \asCode{scriptHelp} string, defined on line \asCode{40}, which is used with the \textbf{?}
 application command.
-\secondaryEnd{}
-\condPage{}
+\secondaryEnd
+\condPage
 \secondaryStart{RandomBurst.js}
 This script reproduces the behaviour of the example service, \emph{mpmRandomBurstService};
 it generates lists of random numbers and sends them to its outlet.
-\codeBegin{}
+\codeBegin
 \begin{listing}[5]{1}
 var burstSize;
 
@@ -301,5 +301,5 @@ executed repetitively, at an interval defined by the output of the function
 Note that the \asCode{scriptInterval}() function processes the arguments to the script and
 records the size of the burst as well as the burst period, before returning the burst
 period as its result.
-\secondaryEnd{}
+\secondaryEnd
 \appendixEnd{}

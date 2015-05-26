@@ -210,8 +210,7 @@ int main(int      argc,
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
-        Utilities::AddressArgumentDescriptor firstArg("dbAddress",
-                                                      T_("Network address for database"),
+        Utilities::AddressArgumentDescriptor firstArg("dbAddress", "Network address for database",
                                                       "127.0.0.1", false, &databaseAddress);
         Utilities::DescriptorVector          argumentList;
 

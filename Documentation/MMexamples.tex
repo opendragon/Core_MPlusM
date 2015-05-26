@@ -26,24 +26,24 @@ service, accepting (and ignoring) any input data.
 The application responds to the standard Output service requests and can be used as a
 standalone data sink, without the need for a client connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has no arguments and
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has no arguments and
 does nothing.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
 starts the input stream.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request initiates listening
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request initiates listening
 on the input stream.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request terminates listening
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
 on the input stream.\\
 
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-\insertAppParameters{}
+\insertAppParameters
 \insertTagDescription{Absorber Output}
-\insertOutputServiceComment{}\\
+\insertOutputServiceComment\\
 
 If the application is running from a terminal and has not been automatically started via
 the `\asCode{go}' option, the following commands are available:
@@ -68,7 +68,7 @@ sent with the request.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-\insertAutoAppParameters{}
+\insertAutoAppParameters
 \insertTagDescription{Echo}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.
@@ -81,22 +81,22 @@ number of seconds between groups.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has two arguments
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has two arguments
 \longDash{} a floating\longDash{}point value for the `burst period' and an integer value
 for the `burst size'.
 These values will be applied when the random number generator is started or restarted.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
 starts the random number generator, which restarts the output \yarp{} network
 connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request starts a random
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request starts a random
 number generator for the output stream, using the configured `burst period' and
 `burst size'.
 Once started, the random number generator will send groups of random
 floating\longDash{}point values via the output \yarp{} network connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request stops the random
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request stops the random
 number generator, which stops the output \yarp{} network connection.\\ 
 
 Note that the application will exit if the
@@ -104,9 +104,9 @@ Note that the application will exit if the
 
 The application has two optional arguments \longDash{} the burst period, in seconds and
 the number of random values to generate in each burst.
-\insertAppParameters{}
+\insertAppParameters
 \insertTagDescription{Random Burst Input}
-\insertInputServiceComment{}\\
+\insertInputServiceComment\\
 
 The other parameters provide the initial burst period and size; if not specified, a burst
 period of 1 second and burst size of 1 will be used.
@@ -136,7 +136,7 @@ numbers to the client.\\
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-\insertAutoAppParameters{}
+\insertAutoAppParameters
 \insertTagDescription{Random Number Input}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.\\
@@ -152,26 +152,26 @@ service, recording a stream of integer values to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has a single argument,
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
 the file\longDash{}system path to use for the output file.
 The path will be used when the input stream is started or restarted.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
 starts the input stream.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request opens a file to be
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request opens a file to be
 used for output, using the configured output file path.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request closes the output
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
 file that is being used.\\
 
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
 The application has one optional argument \longDash{} the output file path to be used.
-\insertAppParameters{}
+\insertAppParameters
 \insertTagDescription{Record Integers Output}
-\insertOutputServiceComment{}\\
+\insertOutputServiceComment\\
 
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
@@ -203,9 +203,9 @@ requests from the \examplesNameR{Clients}{mpmRunningSumClient} application or\\
 associated with the requesting application or adapter.\\
 
 Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
-
-\insertAutoAppParameters{}
+\serviceNameR[Registry~Service]{RegistryService} is not running.
+\condPage
+\insertAutoAppParameters
 \insertTagDescription{Running Sum}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.\\
@@ -236,25 +236,25 @@ service, converting a stream of floating\longDash{}point values into a stream of
 The application responds to the standard Filter service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{configure} request has no arguments and
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has no arguments and
 does nothing.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{restartStreams} request stops and then
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
 starts the input and output streams.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{startStreams} request initiates listening
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request initiates listening
 on the input stream; the output stream is only written to when input is seen, so nothing
 special is done with it.\\
 
-The \requestsNameR{\inputOutput{}}{InputOutput}{stopStreams} request terminates listening
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
 on the input stream, which will cause sending on the output stream to cease as well.\\
 
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.\\
 
-\insertAppParameters{}
+\insertAppParameters
 \insertTagDescription{Truncate Float Filter}
-\insertFilterServiceComment{}\\
+\insertFilterServiceComment\\
 
 If the application is running from a terminal and has not been automatically started via
 the `\asCode{go}' option, the following commands are available:
@@ -270,7 +270,7 @@ configurable parameters}
 input and output streams are restarted}
 \end{itemize}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatService}}
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart{Example~Clients}
 The example client applications provided use simple terminal\longDash{}based interfaces to
 generate requests for their matching service applications.
@@ -279,6 +279,8 @@ The \examplesNameX{Clients}{mpmEchoClient} application reads input from a termin
 sends it to the \examplesNameR{Services}{mpmEchoService} application using an
 \requestsNameR{Miscellaneous}{Miscellaneous}{echo} request; it exits when an empty line is
 entered.\\
+
+\insertShortClientParameters{}
 
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
@@ -291,11 +293,15 @@ random numbers desired from a terminal and sends a
 \requestsNameR{Examples}{Examples}{random} request to the
 \examplesNameR{Services}{mpmRandomNumberService} application; it exits when a zero is
 entered for the count of random numbers desired.
+
+\insertShortClientParameters{}
+
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRandomNumberService} application are not running or if the
 application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRandomNumberClient}}
+\condPage
 \tertiaryStart{\examplesNameP{Clients}{mpmRunningSumClient}}
 The \examplesNameX{Clients}{mpmRunningSumClient} application reads commands from a
 terminal and sends corresponding requests to the
@@ -315,12 +321,16 @@ service so that it will reset the running sum for this client}
 \item\exSp\cmdItem{s}{send a \requestsNameR{Examples}{Examples}{startsum} request to the
 service so that it will start calculating the running sum for this client}
 \end{itemize}
+
+\insertShortClientParameters{}
+
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running or if the
 application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRunningSumClient}}
-\secondaryEnd{}
+\secondaryEnd
+\condPage
 \secondaryStart{Example~Adapters}
 Adapters are applications that use a client object to connect to an \mplusm{} service,
 routing input from one or more input \yarp{} network connection via the client object to
@@ -332,7 +342,7 @@ The example adapters demonstrate using a single input \yarp{} network connection
 \examplesNameR{Adapters}{mpmRunningSumAltAdapter}] or multiple input \yarp{} network
 connections [\examplesNameR{Adapters}{mpmRunningSumAdapter}].\\
 
-Adapters have four optional parameters:
+Adapters have five optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
 \longDash{} note that this option is primarily for use by the \emph{Channel Manager}
@@ -416,5 +426,5 @@ Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running.
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAltAdapter}}
-\secondaryEnd{}
+\secondaryEnd
 \appendixEnd{}

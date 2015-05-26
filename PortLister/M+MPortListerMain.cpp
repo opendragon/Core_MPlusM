@@ -477,7 +477,7 @@ static void reportAssociates(const OutputFlavour                flavour,
 /*! @brief Print out connection information for a port.
  @param flavour The format for the output.
  @param aDescriptor The attributes of the port of interest.
- @param checkWithRegistry @c true if the Registry Service is available for requests and @c false
+ @param checkWithRegistry @c true if the %Registry Service is available for requests and @c false
  otherwise.
  @returns @c true if information was written out and @c false otherwise. */
 static bool reportPortStatus(const OutputFlavour               flavour,
@@ -765,9 +765,11 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour;
+    Utilities::DescriptorVector argumentList;
+    OutputFlavour               flavour;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", "", 2014,
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                   "List the connection status of YARP ports", 2014,
                                                    STANDARD_COPYRIGHT_NAME, flavour))
     {
         try

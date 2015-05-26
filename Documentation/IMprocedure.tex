@@ -86,25 +86,25 @@ being displayed, reflecting the installation progress.
 Once the installation completes, the \asEmphCode{Summary} page will appear.
 \objScaledPicture{mpm_images/Installer08}{0.75}
 Click on the \asBoldCode{Close} button to exit from the installer.
-\condPage{}
-\tertiaryEnd{}
+\condPage
+\tertiaryEnd
 \tertiaryStart{Testing~The~Installation}
 Open the \asCode{Terminal} program and enter the following:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 ps | grep yarp | grep -v grep
 \end{verbatim}
 \outputEnd{}
 If there is a line similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}'
 then the \yarp{} server is already running. If not, enter the following:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 yarp server
 \end{verbatim}
 \outputEnd{}
 If you then see something similar to the following, there is another process using the
 network port that \yarp{} uses by default:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 __   __ _    ____  ____  
 \ \ / // \  |  _ \|  _ \ 
@@ -127,14 +127,14 @@ If you chose to stop the running \yarp{} server in order to use the version inst
 \mplusm{} or if you see the above error message, you will need to clear the \yarp{}
 configuration before issuing the `\asCode{yarp~server}' command.
 The following command will clear the \yarp{} configuration:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 yarp conf --clean
 \end{verbatim}
 \outputEnd{}
 If there was an address conflict due to another process using \yarp's default port, use
 the following command to start the \yarp{} server:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 yarp server --socket 11223 --write
 \end{verbatim}
@@ -143,14 +143,14 @@ where `\asCode{11223}' is an arbitrary number greater than 1024.
 Note that \mplusm{} has been tested with \yarp{} versions 2.3.61 through 2.3.63 and should
 work with newer versions.
 To identify the version of \yarp{} that is installed, issue the command:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 yarp version
 \end{verbatim}
 \outputEnd{}
 If you see the following, the \asCode{Terminal} program was running during the
 installation and did not pick up the correct settings:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 -bash: yarp: No such file or directory
 \end{verbatim}
@@ -160,7 +160,7 @@ updated.\\
 
 If you see the following, \yarp{} started correctly, and the \mplusm{} installation can be
 confirmed:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 __   __ _    ____  ____  
 \ \ / // \  |  _ \|  _ \ 
@@ -189,16 +189,16 @@ Name server can be browsed at http://10.0.1.2:10000/
 Ok.  Ready!
 \end{verbatim}
 \outputEnd{}
-Once you've confirmed that \yarp{} is running correctly, it's time to start \mplusm{}.
+Once you've confirmed that \yarp{} is running correctly, it's time to start \mplusm.
 Start another \asCode{Terminal} session or open another tab in the \asCode{Terminal}
 application and enter the following:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 mpmRegistryService &
 \end{verbatim}
 \outputEnd{}
 The output similar to the following should appear:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [1] 63918
 registered admin's iMac._yarpns._tcp.local.
@@ -210,7 +210,7 @@ of \asCode{mpmRegistryService} that is running and `\asCode{admin's~iMac}' will 
 replaced by the name of the computer on which \mplusm{} has been installed.\\
 
 If something similar to the following appears:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 [1] 64234
 [1]+ Done        mpmRegistryService
@@ -221,13 +221,13 @@ installed, indicating that this was not a new installation but, rather, an upgra
 \condPage{}
 It will be necessary to stop the earlier copy of \emph{mpmRegistryService}.
 To to this, find the running copy via the command:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 ps -ax | grep -i mpm | grep -v grep
 \end{verbatim}
 \outputEnd{}
 A single line of output should appear, similar to:
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 63918 ttys015   16:42.19 mpmRegistryService
 \end{verbatim}
@@ -236,7 +236,7 @@ where `\asBoldCode{63918}' will be the process identifier of the already\longDas
 copy of \emph{mpmRegistryService}.
 Enter the following command, replacing `\asBoldCode{63918}' with the first number that
 appeared in the output that was just displayed.
-\outputBegin{}
+\outputBegin
 \begin{verbatim}
 kill -s HUP 63918
 \end{verbatim}
@@ -250,9 +250,9 @@ directory.
 You should see something similar to the following:
 \objScaledPicture{mpm_images/RunningChannelManager}{1.0}
 You now have a basic \mplusm{} installation and can begin using it for your projects!
-\tertiaryEnd{}
-\secondaryEnd{}
-\condPage{}
+\tertiaryEnd
+\secondaryEnd
+\condPage
 \secondaryStart{Microsoft~Windows}
 To install \mplusm, simply execute the installer package titled
 ``\asCode{M+M-1.x.x-win32.exe}''.
@@ -290,7 +290,7 @@ Proceed with the installation of the Bonjour SDK:
 \condPage{}
 This finalizes the installation process:
 \objScaledPicture{mpm_images/win_install11}{0.75}
-\condPage{}
+\condPage
 \tertiaryStart{Testing~The~Windows~Installation}
 For the most part, testing the Windows installation is similar to the Macintosh version,
 except most of the applications can be executed directly by double clicking the icons in
@@ -304,12 +304,12 @@ applications, a warning may be generated by Windows Firewall as follows:
 \objScaledPicture{mpm_images/win_run01}{0.75}
 Please click on the \asBoldCode{Allow access} button to enable the networking features of
 each application.
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{Linux}
-\TBD{}
+\TBD
 \tertiaryStart{Testing~The~Linux~Installation}
-\TBD{}
-\tertiaryEnd{}
-\secondaryEnd{}
+\TBD
+\tertiaryEnd
+\secondaryEnd
 \primaryEnd{}

@@ -596,7 +596,51 @@ Vancouver, British~Columbia, Canada}
 \setlength{\parskip}{0pt}}%
 {\end{itemize}}
 
-\newcommand{\insertAppParameters}{The application has nine optional parameters:
+\newcommand{\insertFullClientParameters}{The application has five optional parameters:
+\begin{itemize}
+\item\optItem{h}{}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable and a description of the
+executable and leave \longDash{} note that this option is primarily for use by the
+\emph{Channel Manager} application}
+\item\exSp\optItem{j}{}{json}{generate JSON\longDash{}formatted output}
+\item\exSp\optItem{t}{}{tabs}{generate output in a tab\longDash{}delimited format}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
+\end{itemize}
+If neither JSON format nor tab\longDash{}delimited format are specified, the output is
+written as simple text.}
+
+\newcommand{\insertShortClientParameters}{The application has three optional parameters:
+\begin{itemize}
+\item\optItem{h}{}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable and a description of the
+executable and leave \longDash{} note that this option is primarily for use by the
+\emph{Channel Manager} application}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
+\end{itemize}}
+
+\newcommand{\insertFullUtilityParameters}{The application has five optional parameters:
+\begin{itemize}
+\item\optItem{h}{}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable and a description of the
+executable and leave \longDash{} note that this option is primarily for use by the
+\emph{Channel Manager} application}
+\item\exSp\optItem{j}{}{json}{generate JSON\longDash{}formatted output}
+\item\exSp\optItem{t}{}{tabs}{generate output in a tab\longDash{}delimited format}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
+\end{itemize}
+If neither JSON format nor tab\longDash{}delimited format are specified, the output is
+written as simple text.}
+
+\newcommand{\insertShortUtilityParameters}{The application has three optional parameters:
+\begin{itemize}
+\item\optItem{h}{}{help}{display the list of optional parameters and arguments and leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable and a description of the
+executable and leave \longDash{} note that this option is primarily for use by the
+\emph{Channel Manager} application}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
+\end{itemize}}
+
+\newcommand{\insertAppParameters}{The application has ten optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
 \longDash{} note that this option is primarily for use by the \emph{Channel Manager}
@@ -619,7 +663,7 @@ service name}
 \item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}}
 
-\newcommand{\insertAutoAppParameters}{The application has eight optional parameters:
+\newcommand{\insertAutoAppParameters}{The application has nine optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
 \longDash{} note that this option is primarily for use by the \emph{Channel Manager}

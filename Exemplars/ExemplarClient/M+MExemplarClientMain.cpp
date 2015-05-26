@@ -227,50 +227,57 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        Utilities::SetUpGlobalStatusReporter();
-#if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-
-        if (CanReadFromStandardInput())
+        Utilities::DescriptorVector argumentList;
+        OutputFlavour               flavour;
+        
+        if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
+                                                    "The client for the exemplar service", 2014,
+                                                    STANDARD_COPYRIGHT_NAME, flavour, true))
         {
-            Utilities::CheckForNameServerReporter();
-            if (Utilities::CheckForValidNetwork())
+            if (CanReadFromStandardInput())
             {
-                yarp::os::ConstString progName(*argv);
-                yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                            // YARP infrastructure
-                
-                Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                Utilities::SetUpGlobalStatusReporter();
+                Utilities::CheckForNameServerReporter();
+                if (Utilities::CheckForValidNetwork())
                 {
 #if defined(MpM_ReportOnConnections)
-                    setUpAndGo(reporter);
+                    ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+                    yarp::os::ConstString   progName(*argv);
+                    yarp::os::Network       yarp; // This is necessary to establish any connections
+                                                  // to the YARP infrastructure
+                    
+                    Initialize(progName);
+                    if (Utilities::CheckForRegistryService())
+                    {
+#if defined(MpM_ReportOnConnections)
+                        setUpAndGo(reporter);
 #else // ! defined(MpM_ReportOnConnections)
-                    setUpAndGo();
+                        setUpAndGo();
 #endif // ! defined(MpM_ReportOnConnections)
+                    }
+                    else
+                    {
+                        OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Registry Service not running.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Registry Service not running." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::CheckForRegistryService())"); //####
+                    OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Registry Service not running.");
+                    GetLogger().fail("YARP network not running.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Registry Service not running." << endl;
+                    cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
             }
-            else
-            {
-                OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
-            }
+            Utilities::ShutDownGlobalStatusReporter();
         }
-        Utilities::ShutDownGlobalStatusReporter();
     }
     catch (...)
     {

@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The common macro definitions for requests and responses for the Tunnel service. */
+ @brief The common macro definitions for requests and responses for the %Tunnel service. */
 
 /*! @namespace MplusM::Tunnel
  @brief The classes that support routing non-YARP data over a YARP network. */
@@ -55,7 +55,7 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Tunnel service. */
+/*! @brief The channel-independent name of the %Tunnel service. */
 # define MpM_TUNNEL_CANONICAL_NAME "Tunnel"
 
 #endif // ! defined(MpMTunnelRequests_H_)

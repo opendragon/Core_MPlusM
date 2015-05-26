@@ -192,7 +192,7 @@ namespace MplusM
             
         }; // BaseClient
         
-        /*! @brief Find one or more matching services that are registered with a running Registry
+        /*! @brief Find one or more matching services that are registered with a running %Registry
          service.
          @param criteria The matching conditions.
          @param getNames @c true if service names are to be returned and @c false if service ports

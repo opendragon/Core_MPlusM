@@ -77,12 +77,14 @@ namespace MplusM
              @param defaultValue The default value for the command-line argument.
              @param isOptional @c true if the argument is optional and @c false otherwise.
              @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
+             value.
+             @param addrBuff If non-@c NULL, the variable to be set with the actual address. */
             AddressArgumentDescriptor(const YarpString & argName,
                                       const YarpString & argDescription,
                                       const YarpString & defaultValue,
                                       const bool         isOptional,
-                                      YarpString *       argumentReference = NULL);
+                                      YarpString *       argumentReference = NULL,
+                                      struct in_addr *   addrBuff = NULL);
 
             /*! @brief The destructor. */
             virtual ~AddressArgumentDescriptor(void);
@@ -118,6 +120,9 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef StringArgumentDescriptor inherited;
+            
+            /*! @brief The variable to be filled in with the actual address. */
+            struct in_addr * _addrBuff;
             
         }; // AddressArgumentDescriptor
         

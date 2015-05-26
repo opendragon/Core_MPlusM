@@ -6,7 +6,7 @@ available applications:
 
 \objScaledDiagram{mpm_images/appListMenu}{appListMenu}%
 {Typical list of available applications}{1.0}
-\clearpage
+\condPage{}
 Selecting an entry in the list will display a dialog box similar to the following (shown
 for the Random Burst input service):
 \objScaledDiagram{mpm_images/launchService}{launchService}%
@@ -16,8 +16,8 @@ Clicking the \textbf{Cancel} button will close the dialog box, while clicking on
 \textbf{Yes} button will launch the service with the given arguments \longDash{} the
 particular arguments that will be presented will depend on the service that was selected
 from the menu of available applications.
-\secondaryEnd{}
-\clearpage
+\secondaryEnd
+\condPage
 \secondaryStart[StartingRegistryService]{Starting the \emph{Registry Service}}
 Selecting the \textbf{Launch Registry} menu item will result in the following being
 displayed:
@@ -29,7 +29,7 @@ a non-default port; clicking on the \textbf{Cancel} button will exit the dialog 
 no \emph{Registry Service} launched, while clicking on the \textbf{OK} will start a new
 \emph{Registry Service} in the background, that will be stopped when the
 \emph{Channel Manager} application exits.
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart[StartingAdapters]{Starting adapters}
 Adapters require that a companion service be running, in order to establish a connection
 to the service.
@@ -37,7 +37,7 @@ If an adapter is selected from the menu of available applications, and the corre
 service is not running, an alert box similar to the following will be displayed:
 \objScaledDiagram{mpm_images/launchAdapterWithoutService}{launchAdapterWithoutService}%
 {Launching an adapter without its matching service running}{0.95}
-\clearpage
+\condPage{}
 If the corresponding service is running, a dialog box similar to the following will be
 displayed (the example being for the Random Number adapter):
 \objScaledDiagram{mpm_images/launchAdapterWithService}{launchAdapterWithService}%
@@ -47,14 +47,14 @@ Clicking the \textbf{Cancel} button will close the dialog box, while clicking on
 \textbf{Yes} button will launch the adapter with the given arguments \longDash{} the
 particular arguments that will be presented will depend on the adapter that was selected
 from the menu of available applications.
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart[StoppingRegularServices]{Stopping regular services and adapters}
 If the \textbf{Stop the service} menu item is chosen when a regular service or adapter
 entity is selected \longDash{} an entity other than the \emph{Registry Service}
 \longDash{} the following will be displayed:
 \objScaledDiagram{mpm_images/stopService}{stopService}%
 {Stopping a regular service}{0.9}
-\clearpage
+\condPage{}
 Clicking the \textbf{Cancel} button will close the dialog box without affecting the
 selected service or adapter, while clicking on the \textbf{Yes} button will stop the
 selected application, which can be restarted via the \textbf{Launch others \textellipsis}
@@ -63,7 +63,7 @@ menu items, as described in
 \secondaryRef{StartingAdapters}{Starting adapters}.
 Note that stopping a service that is being used by an adapter may cause the adapter to
 crash or behave erratically.
-\secondaryEnd{}
+\secondaryEnd
 \secondaryStart[StoppingRegistryService]{Stopping the \emph{Registry Service}}
 If the \textbf{Stop the service} menu item is chosen when the \emph{Registry Service} is
 the selected entity, the following will be displayed:
@@ -74,5 +74,5 @@ Clicking the \textbf{Cancel} button will close the dialog box without affecting 
 \emph{Registry Service}, while clicking on the \textbf{Yes} button will stop the service,
 which can be restarted via the \textbf{Launch Registry} menu items, as described in
 \secondaryRef{StartingRegistryService}{Starting the \emph{Registry Service}}.
-\secondaryEnd{}
+\secondaryEnd
 \primaryEnd{}

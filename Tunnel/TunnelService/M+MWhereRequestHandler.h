@@ -58,7 +58,7 @@ namespace MplusM
     {
         class TunnelService;
         
-        /*! @brief The 'where' request handler for the Tunnel service.
+        /*! @brief The 'where' request handler for the %Tunnel service.
          
          There is no input or output for the request. */
         class WhereRequestHandler : public Common::BaseRequestHandler

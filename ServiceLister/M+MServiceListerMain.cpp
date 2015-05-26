@@ -353,9 +353,11 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour flavour;
+    Utilities::DescriptorVector argumentList;
+    OutputFlavour               flavour;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", "", 2014,
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                   "List the available services", 2014,
                                                    STANDARD_COPYRIGHT_NAME, flavour))
     {
         try

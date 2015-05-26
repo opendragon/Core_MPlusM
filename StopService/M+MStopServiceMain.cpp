@@ -36,6 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 #include <mpm/M+MRequests.h>
 
@@ -78,18 +79,12 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and perform the operation.
- @param arguments The arguments to analyze. */
-static void setUpAndGo(const YarpStringVector & arguments)
+ @param channelName The primary channel of the service. */
+static void setUpAndGo(const YarpString & channelName)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("arguments = ", &arguments); //####
-    YarpString channelName;
-    
-    if (0 < arguments.size())
-    {
-        channelName = arguments[0];
-    }
-    if (0 < channelName.size())
+    OD_LOG_S1s("channelName = ", channelName); //####
+    if (0 < channelName.length())
     {
         Utilities::StopAService(channelName, STANDARD_WAIT_TIME);
     }
@@ -116,13 +111,15 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour    flavour;
-    YarpStringVector arguments;
+    YarpString                           channelName;
+    Utilities::ChannelArgumentDescriptor firstArg("channelName", T_("Channel name for the service"),
+                                                  "", false, &channelName);
+    Utilities::DescriptorVector          argumentList;
+    OutputFlavour                        flavour; // ignored
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" channel"),
-                                                   T_("  channel    Channel name for service"),
-                                                   2015, STANDARD_COPYRIGHT_NAME, flavour,
-                                                   &arguments))
+    argumentList.push_back(&firstArg);
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList, "Stop a service", 2015,
+                                                   STANDARD_COPYRIGHT_NAME, flavour, true))
     
     {
         try
@@ -138,7 +135,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments);
+                    setUpAndGo(channelName);
                 }
                 else
                 {

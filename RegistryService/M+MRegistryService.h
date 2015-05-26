@@ -50,7 +50,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the M+M Registry Service. */
+ @brief The class declaration for the M+M %Registry Service. */
 
 /*! @namespace MplusM::Registry
  @brief The classes that support registering and unregistering services. */
@@ -100,7 +100,7 @@ namespace MplusM
             
         }; // RequestDescription
         
-        /*! @brief The M+M Registry Service. */
+        /*! @brief The M+M %Registry Service. */
         class RegistryService : public Common::BaseService
         {
         public :
@@ -335,7 +335,7 @@ namespace MplusM
             bool processDictionaryEntry(yarp::os::Property & asDict,
                                         const YarpString &   channelName);
             
-            /*! @brief Set up the Registry Service database.
+            /*! @brief Set up the %Registry Service database.
              @returns @c true if the database was set up and @c false otherwise. */
             bool setUpDatabase(void);
             
@@ -361,10 +361,10 @@ namespace MplusM
             /*! @brief The contention lock used to avoid inconsistencies. */
             yarp::os::Mutex _checkedTimeLock;
             
-            /*! @brief The Registry Service database. */
+            /*! @brief The %Registry Service database. */
             sqlite3 * _db;
             
-            /*! @brief The validator function object that the Service Registry will use. */
+            /*! @brief The validator function object that the %Registry Service will use. */
             ColumnNameValidator * _validator;
             
             /*! @brief The request handler for the 'associate' request. */
@@ -397,7 +397,7 @@ namespace MplusM
             /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
             bool _inMemory;
             
-            /*! @brief @c true if the Registry Service is fully operational and @c false if it could
+            /*! @brief @c true if the %Registry Service is fully operational and @c false if it could
              not be set up. */
             bool _isActive;
             

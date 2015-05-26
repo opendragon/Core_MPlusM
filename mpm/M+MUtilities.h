@@ -94,7 +94,7 @@ namespace MplusM
             /*! @brief The port is a client port. */
             kPortKindClient,
             
-            /*! @brief The port is the Registry Service port. */
+            /*! @brief The port is the %Registry Service port. */
             kPortKindRegistryService,
             
             /*! @brief The port is a service port. */
@@ -216,8 +216,8 @@ namespace MplusM
          found. */
 		void CheckForNameServerReporter(void);
 
-        /*! @brief Check if the Registry Service is active.
-         @returns @c true if the Registry Service port is present and @c false otherwise. */
+        /*! @brief Check if the %Registry Service is active.
+         @returns @c true if the %Registry Service port is present and @c false otherwise. */
         bool CheckForRegistryService(void);
         
         /*! @brief Check if the YARP network is available.
@@ -225,9 +225,9 @@ namespace MplusM
          @returns @c true if the YARP network is available and @c false otherwise. */
         bool CheckForValidNetwork(const bool quiet = false);
         
-        /*! @brief Check if the Registry Service is present in a list.
+        /*! @brief Check if the %Registry Service is present in a list.
          @param ports The set of detected ports.
-         @returns @c true if the Registry Service port is present and @c false otherwise. */
+         @returns @c true if the %Registry Service port is present and @c false otherwise. */
         bool CheckListForRegistryService(const PortVector & ports);
         
         /*! @brief Convert the service metrics into a string.
@@ -417,9 +417,9 @@ namespace MplusM
                                           Common::CheckFunction checker = NULL,
                                           void *                checkStuff = NULL);
         
-        /*! @brief Return @c true if the port name is for the Registry Service.
+        /*! @brief Return @c true if the port name is for the %Registry Service.
          @param portName the name of the port.
-         @returns @c true if the port name is for the Registry Service main port. */
+         @returns @c true if the port name is for the %Registry Service main port. */
         inline bool PortIsRegistryService(const YarpString & portName)
         {
             return (kPortKindRegistryService == GetPortKind(portName));
@@ -453,29 +453,62 @@ namespace MplusM
                                            const char *       copyrightHolder,
                                            YarpStringVector * arguments = NULL);
 
-        /*! @brief Process the standard options for utility executables.
+        /*! @brief Process the standard options for client executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.
+         The option '-i' / '--info' displays the type of the executable and the description of the
+         executable and returns @c false.
          The option '-j' / '--json' specifies that output is to be in JSON format.
          The option '-t' / '--tabs' specifies that output is to be in tab-delimited format.
          The option '-v' / '--vers'displays the version and copyright information and returns
          @c false.
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the utility.
-         @param argList The command-line arguments for the utility.
-         @param argDescription A description of the command-line arguments for the service.
+         @param argumentDescriptions Descriptions of the arguments to the adapter.
+         @param clientDescription A description of the client application.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @param flavour Set if the -j or -t options are seen.
+         @param ignoreFlavours @c true if the flavour options are ignored and @c false otherwise.
+         @param arguments If non-@c NULL, returns the arguments for the utility.
+         @returns @c true if the program should continue and @c false if it should leave. */
+        bool ProcessStandardClientOptions(const int               argc,
+                                          char * *                argv,
+                                          DescriptorVector &      argumentDescriptions,
+                                          const YarpString &      clientDescription,
+                                          const int               year,
+                                          const char *            copyrightHolder,
+                                          Common::OutputFlavour & flavour,
+                                          const bool              ignoreFlavours = false,
+                                          YarpStringVector *      arguments = NULL);
+        
+        /*! @brief Process the standard options for utility executables.
+         The option '-h' / '--help' displays the list of optional parameters and arguments and
+         returns @c false.
+         The option '-i' / '--info' displays the type of the executable and the description of the
+         executable and returns @c false.
+         The option '-j' / '--json' specifies that output is to be in JSON format.
+         The option '-t' / '--tabs' specifies that output is to be in tab-delimited format.
+         The option '-v' / '--vers'displays the version and copyright information and returns
+         @c false.
+         @param argc The number of arguments in 'argv'.
+         @param argv The arguments to be used with the utility.         
+         @param argumentDescriptions Descriptions of the arguments to the adapter.
+         @param utilityDescription A description of the utility.
+         @param year The copyright year for the calling application.
+         @param copyrightHolder The name of the entity holding the copyright to the utility.
+         @param flavour Set if the -j or -t options are seen.
+         @param ignoreFlavours @c true if the flavour options are ignored and @c false otherwise.
          @param arguments If non-@c NULL, returns the arguments for the utility.
          @returns @c true if the program should continue and @c false if it should leave. */
         bool ProcessStandardUtilitiesOptions(const int               argc,
                                              char * *                argv,
-                                             const char *            argList,
-                                             const char *            argDescription,
+                                             DescriptorVector &      argumentDescriptions,
+                                             const YarpString &      utilityDescription,
                                              const int               year,
                                              const char *            copyrightHolder,
                                              Common::OutputFlavour & flavour,
+                                             const bool              ignoreFlavours = false,
                                              YarpStringVector *      arguments = NULL);
         
         /*! @brief Remove a connection between two ports.

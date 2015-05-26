@@ -39,6 +39,7 @@
 #include "M+MAddressClient.h"
 #include "M+MAddressRequests.h"
 
+#include <mpm/M+MStringArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -81,44 +82,49 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Process the argument list for the application.
- @param arguments The arguments to analyze.
+/*! @brief Process the arguments for the application.
+ @param outputMode The mode ('both', 'address', 'port') of the output.
+ @param tag The tag for the service to be connected to.
  @param namePattern The generated search value.
  @param needsAddress @c true if the IP address is requested and @c false otherwise.
- @param needsPort @c true if the port is requested and @c false otherwise. */
-static void processArguments(const YarpStringVector & arguments,
-                             YarpString &             namePattern,
-                             bool &                   needsAddress,
-                             bool &                   needsPort)
+ @param needsPort @c true if the port is requested and @c false otherwise.
+ @returns @c true if the mode was recognized and @c false otherwise. */
+static bool processArguments(const YarpString & outputMode,
+                             const YarpString & tag,
+                             YarpString &       namePattern,
+                             bool &             needsAddress,
+                             bool &             needsPort)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P4("arguments = ", &arguments, "namePattern = ", &namePattern, "needsAddress = ", //####
-              &needsAddress, "needsPort = ", &needsPort); //####
-    YarpString tag;
+    OD_LOG_S2s("outputMode = ", outputMode, "tag = ", tag); //####
+    OD_LOG_P3("namePattern = ", &namePattern, "needsAddress = ", &needsAddress, //####
+              "needsPort = ", &needsPort); //####
+    bool okSoFar = true;
     
-    needsAddress = needsPort = true;
-    for (int ii = 0, argc = arguments.size(); argc > ii; ++ii)
+    if (0 < outputMode.length())
     {
-        YarpString anArg = arguments[ii];
-        
-        if (anArg == "address")
+        if (outputMode == "address")
         {
             needsAddress = true;
             needsPort = false;
         }
-        else if (anArg == "both")
+        else if (outputMode == "both")
         {
             needsAddress = needsPort = true;
         }
-        else if (anArg == "port")
+        else if (outputMode == "port")
         {
             needsAddress = false;
             needsPort = true;
         }
         else
         {
-            tag = anArg;
+            okSoFar = false;
         }
+    }
+    else
+    {
+        needsAddress = needsPort = true;
     }
     if (0 < tag.length())
     {
@@ -126,137 +132,145 @@ static void processArguments(const YarpStringVector & arguments,
 
         namePattern = singleQuote + namePattern + " " + tag + singleQuote;
     }
-    OD_LOG_EXIT(); //####
+    OD_LOG_EXIT_B(okSoFar); //####
+    return okSoFar;
 } // processArguments
 
 /*! @brief Set up the environment and perform the operation.
- @param arguments The arguments to analyze.
+ @param outputMode The mode ('both', 'address', 'port') of the output.
+ @param tag The tag for the service to be connected to.
  @param flavour The format for the output. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(ChannelStatusReporter *  reporter,
-                       const YarpStringVector & arguments,
-                       const OutputFlavour      flavour)
+static void setUpAndGo(const YarpString &      outputMode,
+                       const YarpString &      tag,
+                       const OutputFlavour     flavour,
+                       ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const YarpStringVector & arguments,
-                       const OutputFlavour      flavour)
+static void setUpAndGo(const YarpString &  outputMode,
+                       const YarpString &  tag,
+                       const OutputFlavour flavour)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S2s("outputMode = ", outputMode, "tag = ", tag); //####
 #if defined(MpM_ReportOnConnections)
-    OD_LOG_P2("reporter = ", reporter, "arguments = ", &arguments); //####
-#else // ! defined(MpM_ReportOnConnections)
-    OD_LOG_P1("arguments = ", &arguments); //####
-#endif // ! defined(MpM_ReportOnConnections)
-    YarpString      channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-    YarpString      namePattern(MpM_ADDRESS_CANONICAL_NAME);
+    OD_LOG_P1("reporter = ", reporter); //####
+#endif // defined(MpM_ReportOnConnections)
     AddressClient * stuff = new AddressClient;
     
     if (stuff)
     {
-        bool needsAddress;
-        bool needsPort;
+        bool       needsAddress;
+        bool       needsPort;
+        YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
+        YarpString namePattern(MpM_ADDRESS_CANONICAL_NAME);
         
 #if defined(MpM_ReportOnConnections)
         stuff->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-        processArguments(arguments, namePattern, needsAddress, needsPort);
-        channelNameRequest += namePattern;
-        if (stuff->findService(channelNameRequest.c_str()))
+        if (processArguments(outputMode, tag, namePattern, needsAddress, needsPort))
         {
-            if (stuff->connectToService())
+            channelNameRequest += namePattern;
+            if (stuff->findService(channelNameRequest.c_str()))
             {
-                YarpString address;
-                int        port;
-                
-                if (stuff->getAddress(address, port))
+                if (stuff->connectToService())
                 {
-                    switch (flavour)
+                    YarpString address;
+                    int        port;
+                    
+                    if (stuff->getAddress(address, port))
                     {
-                        case kOutputFlavourJSON :
-                            cout << "{ ";
-                            if (needsAddress)
-                            {
-                                cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
-                                           CHAR_DOUBLEQUOTE);
-                                cout << SanitizeString(address).c_str() << T_(CHAR_DOUBLEQUOTE);
-                            }
-                            if (needsPort)
-                            {
+                        switch (flavour)
+                        {
+                            case kOutputFlavourJSON :
+                                cout << "{ ";
                                 if (needsAddress)
                                 {
-                                    cout << ", ";
+                                    cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
+                                               CHAR_DOUBLEQUOTE);
+                                    cout << SanitizeString(address).c_str() << T_(CHAR_DOUBLEQUOTE);
                                 }
-                                cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
-                                           CHAR_DOUBLEQUOTE);
-                                cout << port << T_(CHAR_DOUBLEQUOTE);
-                            }
-                            cout << " }" << endl;
-                            break;
-                            
-                        case kOutputFlavourTabs :
-                            if (needsAddress)
-                            {
-                                cout << address.c_str();
-                            }
-                            if (needsPort)
-                            {
+                                if (needsPort)
+                                {
+                                    if (needsAddress)
+                                    {
+                                        cout << ", ";
+                                    }
+                                    cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
+                                               CHAR_DOUBLEQUOTE);
+                                    cout << port << T_(CHAR_DOUBLEQUOTE);
+                                }
+                                cout << " }" << endl;
+                                break;
+                                
+                            case kOutputFlavourTabs :
                                 if (needsAddress)
                                 {
-                                    cout << "\t";
+                                    cout << address.c_str();
                                 }
-                                cout << port;
-                            }
-                            cout << endl;
-                            break;
-                            
-                        case kOutputFlavourNormal :
-                            if (needsAddress)
-                            {
-                                cout << "Address: " << address.c_str();
-                            }
-                            if (needsPort)
-                            {
+                                if (needsPort)
+                                {
+                                    if (needsAddress)
+                                    {
+                                        cout << "\t";
+                                    }
+                                    cout << port;
+                                }
+                                cout << endl;
+                                break;
+                                
+                            case kOutputFlavourNormal :
                                 if (needsAddress)
                                 {
-                                    cout << ", ";
+                                    cout << "Address: " << address.c_str();
                                 }
-                                cout << "Port: " << port;
-                            }
-                            cout << endl;
-                            break;
-                            
-                        default :
-                            break;
-                            
+                                if (needsPort)
+                                {
+                                    if (needsAddress)
+                                    {
+                                        cout << ", ";
+                                    }
+                                    cout << "Port: " << port;
+                                }
+                                cout << endl;
+                                break;
+                                
+                            default :
+                                break;
+                                
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (stuff->getAddress(address, port))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Problem fetching the address information.");
+#endif // MAC_OR_LINUX_
                     }
                 }
                 else
                 {
-                    OD_LOG("! (stuff->getAddress(address, port))"); //####
+                    OD_LOG("! (stuff->connectToService())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Problem fetching the address "
-                                     "information.");
-#endif // MAC_OR_LINUX_
+                    GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
             }
             else
             {
-                OD_LOG("! (stuff->connectToService())"); //####
+                OD_LOG("! (stuff->findService(channelNameRequest)"); //####
 #if MAC_OR_LINUX_
-                GetLogger().fail("Could not connect to the required service.");
+                GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
-                cerr << "Could not connect to the required service." << endl;
+                cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
-            }
+            }            
         }
         else
         {
-            OD_LOG("! (stuff->findService(channelNameRequest)"); //####
-#if MAC_OR_LINUX_
-            GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+            cout << "Invalid mode argument." << endl;
         }
         delete stuff;
     }
@@ -293,21 +307,22 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        OutputFlavour    flavour;
-        YarpStringVector arguments;
+        YarpString                          outputMode;
+        YarpString                          tag;
+        Utilities::StringArgumentDescriptor firstArg("outputMode", T_("The mode of the output "
+                                                                        "['address', 'port' or "
+                                                                        "'both']"), "both", true,
+                                                     &outputMode);
+        Utilities::StringArgumentDescriptor secondArg("tag", T_("The tag for the service to be "
+                                                                "connnected to"), "", true, &tag);
+        Utilities::DescriptorVector         argumentList;
+        OutputFlavour                       flavour;
         
-        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv,
-                                                       T_(" ['address' | 'port' | 'both' | tag]"),
-                                                       T_("  'address'  Return just the internet "
-                                                          "address\n"
-                                                          "  'port'     Return just the internet "
-                                                          "port\n"
-                                                          "  'both'     Return the internet "
-                                                          "address and port\n"
-                                                          "  tag        The tag for the service to "
-                                                          "be connnected to"), 2015,
-                                                       STANDARD_COPYRIGHT_NAME, flavour,
-                                                       &arguments))
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
+                                                    "The client for the Address service", 2015,
+                                                    STANDARD_COPYRIGHT_NAME, flavour))
         {
             try
             {
@@ -326,9 +341,9 @@ int main(int      argc,
                     if (Utilities::CheckForRegistryService())
                     {
 #if defined(MpM_ReportOnConnections)
-                        setUpAndGo(reporter, arguments, flavour);
+                        setUpAndGo(outputMode, tag, flavour, reporter);
 #else // ! defined(MpM_ReportOnConnections)
-                        setUpAndGo(arguments, flavour);
+                        setUpAndGo(outputMode, tag, flavour);
 #endif // ! defined(MpM_ReportOnConnections)
                     }
                     else

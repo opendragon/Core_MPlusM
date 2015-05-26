@@ -48,6 +48,9 @@
 # endif // defined(__APPLE__)
 /*! @file
  @brief The class declaration for the %ProComp2 input service. */
+
+/*! @namespace MplusM::ProComp2
+ @brief The classes that support reading from a %ProComp2 input device. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

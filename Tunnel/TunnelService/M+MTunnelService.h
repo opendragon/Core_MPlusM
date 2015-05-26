@@ -65,7 +65,7 @@ namespace MplusM
         class ConnectionThread;
         class WhereRequestHandler;
         
-        /*! @brief The Tunnel service. */
+        /*! @brief The %Tunnel service. */
         class TunnelService : public Common::BaseService
         {
         public :

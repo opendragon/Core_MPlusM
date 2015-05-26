@@ -2374,8 +2374,8 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         T_("  --info, -i        Print type, matching criteria, "
-                                            "argument list and description and exit"));
+                                         T_("  --info, -i        Print type, matching criteria "
+                                            "and description and exit"));
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
@@ -2494,24 +2494,28 @@ bool Utilities::ProcessStandardAdapterOptions(const int          argc,
     return keepGoing;
 } // Utilities::ProcessStandardAdapterOptions
 
-bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
-                                                char * *           argv,
-                                                const char *       argList,
-                                                const char *       argDescription,
-                                                const int          year,
-                                                const char *       copyrightHolder,
-                                                OutputFlavour &    flavour,
-                                                YarpStringVector * arguments)
+bool Utilities::ProcessStandardClientOptions(const int          argc,
+                                             char * *           argv,
+                                             DescriptorVector & argumentDescriptions,
+                                             const YarpString & clientDescription,
+                                             const int          year,
+                                             const char *       copyrightHolder,
+                                             OutputFlavour &    flavour,
+                                             const bool         ignoreFlavours,
+                                             YarpStringVector * arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P3("argv = ", argv, "flavour = ", &flavour, "arguments = ", arguments); //####
-    OD_LOG_S3("argList = ", argList, "argDescription = ", argDescription, //####
-              "copyrightHolder = ", copyrightHolder); //####
+    OD_LOG_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
+              "flavour = ", &flavour, "arguments = ", arguments); //####
+    OD_LOG_S1s("clientDescription = ", clientDescription); //####
+    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
+    OD_LOG_B1("ignoreFlavours = ", ignoreFlavours); //####
     enum optionIndex
     {
         kOptionUNKNOWN,
         kOptionHELP,
+        kOptionINFO,
         kOptionJSON,
         kOptionTABS,
         kOptionVERSION
@@ -2521,6 +2525,8 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
+    Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
+                                         T_("  --info, -i    Print type and description and exit"));
     Option_::Descriptor   jsonDescriptor(kOptionJSON, 0, "j", "json", Option_::Arg::None,
                                          T_("  --json, -j    Generate output in JSON format") );
     Option_::Descriptor   tabsDescriptor(kOptionTABS, 0, "t", "tabs", Option_::Arg::None,
@@ -2530,20 +2536,179 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[6];
+    Option_::Descriptor   usage[7];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
     YarpString            usageString("USAGE: ");
+    YarpString            argList(ArgumentsToArgString(argumentDescriptions));
     
     flavour = kOutputFlavourNormal;
     usageString += *argv;
     usageString += " [options]";
-    if (argList && (0 < strlen(argList)))
+    if (0 < argList.length())
     {
-        usageString += argList;
-        usageString += "\n\n";
-        usageString += argDescription;
+        YarpStringVector descriptions;
+        
+        Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
+        usageString += " ";
+        usageString += argList + "\n\n";
+        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
+        {
+            if (0 < ii)
+            {
+                usageString += "\n";
+            }
+            usageString += "  ";
+            usageString += descriptions[ii];
+        }
+    }
+    usageString += "\n\nOptions:";
+#if MAC_OR_LINUX_
+    firstDescriptor.help = strdup(usageString.c_str());
+#else // ! MAC_OR_LINUX_
+    firstDescriptor.help = _strdup(usageString.c_str());
+#endif // ! MAC_OR_LINUX_
+    memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
+    memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
+    if (! ignoreFlavours)
+    {
+        memcpy(usageWalker++, &jsonDescriptor, sizeof(jsonDescriptor));
+    }
+    if (! ignoreFlavours)
+    {
+        memcpy(usageWalker++, &tabsDescriptor, sizeof(tabsDescriptor));
+    }
+    memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
+    memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
+    argcWork -= (argc > 0);
+    argvWork += (argc > 0); // skip program name argv[0] if present
+    Option_::Stats    stats(usage, argcWork, argvWork);
+    Option_::Option * options = new Option_::Option[stats.options_max];
+    Option_::Option * buffer = new Option_::Option[stats.buffer_max];
+    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
+    
+    if (parse.error())
+    {
+        keepGoing = false;
+    }
+    else if (options[kOptionHELP] || options[kOptionUNKNOWN])
+    {
+        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
+        keepGoing = false;
+    }
+    else if (options[kOptionVERSION])
+    {
+        YarpString mpmVersionString(SanitizeString(MpM_VERSION, true));
+        
+        cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
+        copyrightHolder << "." << endl;
+        keepGoing = false;
+    }
+    else if (options[kOptionINFO])
+    {
+        cout << "Client\t" << clientDescription.c_str() << endl;
+        keepGoing = false;
+    }
+    else if (ProcessArguments(argumentDescriptions, parse))
+    {
+        if (options[kOptionJSON])
+        {
+            flavour = kOutputFlavourJSON;
+        }
+        else if (options[kOptionTABS])
+        {
+            flavour = kOutputFlavourTabs;
+        }
+        if (arguments)
+        {
+            arguments->clear();
+            for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
+            {
+                arguments->push_back(parse.nonOption(ii));
+            }
+        }
+    }
+    else
+    {
+        cout << "One or more invalid or missing arguments." << endl;
+        keepGoing = false;
+    }
+    delete[] options;
+    delete[] buffer;
+    OD_LOG_EXIT_B(keepGoing); //####
+    return keepGoing;
+} // Utilities::ProcessStandardClientOptions
+
+bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
+                                                char * *           argv,
+                                                DescriptorVector & argumentDescriptions,
+                                                const YarpString & utilityDescription,
+                                                const int          year,
+                                                const char *       copyrightHolder,
+                                                OutputFlavour &    flavour,
+                                                const bool         ignoreFlavours,
+                                                YarpStringVector * arguments)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_L2("argc = ", argc, "year = ", year); //####
+    OD_LOG_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
+              "flavour = ", &flavour, "arguments = ", arguments); //####
+    OD_LOG_S1s("utilityDescription = ", utilityDescription); //####
+    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
+    OD_LOG_B1("ignoreFlavours = ", ignoreFlavours); //####
+    enum optionIndex
+    {
+        kOptionUNKNOWN,
+        kOptionHELP,
+        kOptionINFO,
+        kOptionJSON,
+        kOptionTABS,
+        kOptionVERSION
+    }; // optionIndex
+    
+    bool                  keepGoing = true;
+    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
+                                         T_("  --help, -h    Print usage and exit"));
+    Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
+                                         T_("  --info, -i    Print type and description and exit"));
+    Option_::Descriptor   jsonDescriptor(kOptionJSON, 0, "j", "json", Option_::Arg::None,
+                                         T_("  --json, -j    Generate output in JSON format") );
+    Option_::Descriptor   tabsDescriptor(kOptionTABS, 0, "t", "tabs", Option_::Arg::None,
+                                         T_("  --tabs, -t    Generate output in tab-delimited "
+                                            "format"));
+    Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
+                                            T_("  --vers, -v    Print version information and "
+                                               "exit"));
+    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
+    Option_::Descriptor   usage[7];
+    Option_::Descriptor * usageWalker = usage;
+    int                   argcWork = argc;
+    char * *              argvWork = argv;
+    YarpString            usageString("USAGE: ");
+    YarpString            argList(ArgumentsToArgString(argumentDescriptions));
+    
+    flavour = kOutputFlavourNormal;
+    usageString += *argv;
+    usageString += " [options]";
+    if (0 < argList.length())
+    {
+        YarpStringVector descriptions;
+        
+        Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
+        usageString += " ";
+        usageString += argList + "\n\n";
+        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
+        {
+            if (0 < ii)
+            {
+                usageString += "\n";
+            }
+            usageString += "  ";
+            usageString += descriptions[ii];
+        }
     }
     usageString += "\n\nOptions:";
  #if MAC_OR_LINUX_
@@ -2553,8 +2718,15 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
 #endif // ! MAC_OR_LINUX_
     memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
     memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
-    memcpy(usageWalker++, &jsonDescriptor, sizeof(jsonDescriptor));
-    memcpy(usageWalker++, &tabsDescriptor, sizeof(tabsDescriptor));
+    memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
+    if (! ignoreFlavours)
+    {
+        memcpy(usageWalker++, &jsonDescriptor, sizeof(jsonDescriptor));        
+    }
+    if (! ignoreFlavours)
+    {
+        memcpy(usageWalker++, &tabsDescriptor, sizeof(tabsDescriptor));
+    }
     memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
     memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
     argcWork -= (argc > 0);
@@ -2581,7 +2753,12 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
                 copyrightHolder << "." << endl;
         keepGoing = false;
     }
-    else
+    else if (options[kOptionINFO])
+    {
+        cout << "Utility\t" << utilityDescription.c_str() << endl;
+        keepGoing = false;
+    }
+    else if (ProcessArguments(argumentDescriptions, parse))
     {
         if (options[kOptionJSON])
         {
@@ -2599,6 +2776,11 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
                 arguments->push_back(parse.nonOption(ii));
             }
         }
+    }
+    else
+    {
+        cout << "One or more invalid or missing arguments." << endl;
+        keepGoing = false;
     }
     delete[] options;
     delete[] buffer;

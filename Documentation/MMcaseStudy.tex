@@ -28,13 +28,13 @@ Following the steps outlined in \appendixRef{UsingExemplars}{Using~the~Exemplar~
 we make a duplicate of the \asCode{Exemplars} directory, named \asCode{LeapMotion}.\\
 
 We then rename the source files, replacing `\asCode{Exemplar}' with `\asCode{LeapMotion}'. 
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Second~step}
 Within each file, we replace `\asCode{Exemplar}' with `\asCode{LeapMotion}', and edit the
 comments to refer to Leap Motion.
 At this point, we can build the Input service, but it does not actually connect to the
 Leap Motion controller.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Third~step}
 We now install the Leap Motion API, copying the header files \asCode{Leap.h} and
 \asCode{LeapMath.h} into our directory.
@@ -53,7 +53,7 @@ class or it's files \longDash{} the files should be removed from the project and
 \asCode{LeapMotionInputService} should be commented out, as they will be replaced soon.\\
 
 Now we should confirm that the Input service builds.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Fourth~step}
 Add a private member variable of type \asCode{Leap::Controller~*} to the
 \asCode{LeapMotionInputService} class, and initialized it with
@@ -67,7 +67,7 @@ check for the non\longDash\asCode{NULL} state of the new member variable.\\
 In the \asCode{LeapMotionInputService::setUpStreamDescriptions} method, change the
 port protocol string to\\
 `\asCode{LEAP}'.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Fifth~step}
 We now create a new \compLang{C++} class, \asCode{LeapMotionInputListener}, that derives
 from \asCode{Leap::Listener} and add the source file to the
@@ -100,7 +100,7 @@ In the \asCode{LeapMotionInputService::stopStreams} method, within the `\asCode{
 statement that was added earlier, add the statements
 `\asCode{XXX->removeListener(*YYY);}', '\asCode{delete~YYY;}' and \asCode{YYY~=~NULL;}',
 where `\asCode{XXX}' and `\asCode{YYY}' are as above.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Sixth~step}
 In the \asCode{LeapMotionInputListener} class, add the public method
 \asCode{clearOutputChannel} and have it set the private member variable of type
@@ -112,7 +112,7 @@ In the \asCode{LeapMotionInputService::shutDownOutputStreams} method, add the st
 
 Now we should confirm that the Input service builds, and it should be possible to launch
 it, if the Leap Motion controller is plugged into the computer.
-\tertiaryEnd{}
+\tertiaryEnd
 \tertiaryStart{Seventh~step}
 Now, fill in the body of the \asCode{LeapMotionInputListener::onFrame} method, using the
 \asCode{Leap::Controller~\&} argument to gain access to the event data (using its
@@ -121,6 +121,6 @@ Now, fill in the body of the \asCode{LeapMotionInputListener::onFrame} method, u
 added in an earlier step.\\
 
 The details are left as an exercise for the reader.
-\tertiaryEnd{}
-\secondaryEnd{}
+\tertiaryEnd
+\secondaryEnd
 \appendixEnd{}

@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MUtilities.h>
+#include <mpm/M+MStringArgumentDescriptor.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -202,26 +203,21 @@ static void getMatchingChannels(const YarpString &  criteria,
 } // getMatchingChannels
 
 /*! @brief Set up the environment and perform the operation.
- @param arguments The arguments to analyze.
+ @param criteria The matching criteria for the service.
  @param flavour The format for the output. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       const OutputFlavour      flavour)
+static void setUpAndGo(const YarpString &  criteria,
+                       const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("arguments = ", &arguments); //####
-    YarpString criteria;
-
-    if (0 < arguments.size())
-    {
-        criteria = arguments[0];
-        OD_LOG_S1s("criteria <- ", criteria); //####
-    }
-    if (0 < criteria.size())
+    OD_LOG_S1s("criteria = ", criteria); //####
+    if (0 < criteria.length())
     {
         getMatchingChannels(criteria, flavour);
     }
     else if (CanReadFromStandardInput())
     {
+        YarpString localCriteria;
+        
         StartRunning();
         for ( ; IsRunning(); )
         {
@@ -246,10 +242,10 @@ static void setUpAndGo(const YarpStringVector & arguments,
                     if (getline(cin, inputLine))
                     {
                         inputLine = inChar + inputLine;
-                        criteria = inputLine.c_str();
-                        if (0 < criteria.size())
+                        localCriteria = inputLine.c_str();
+                        if (0 < localCriteria.length())
                         {
-                            getMatchingChannels(criteria, flavour);
+                            getMatchingChannels(localCriteria, flavour);
                         }
                     }
                     break;
@@ -291,13 +287,16 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour    flavour;
-    YarpStringVector arguments;
+    YarpString                          criteria;
+    Utilities::StringArgumentDescriptor firstArg("criteria", T_("Matching criteria for service"),
+                                                 "", true, &criteria);
+    Utilities::DescriptorVector         argumentList;
+    OutputFlavour                       flavour;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [criteria]"),
-                                                   T_("  criteria   Matching criteria for service"),
-                                                   2014, STANDARD_COPYRIGHT_NAME, flavour,
-                                                   &arguments))
+    argumentList.push_back(&firstArg);
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                   "Find matching services", 2014,
+                                                   STANDARD_COPYRIGHT_NAME, flavour))
     {
         try
         {
@@ -312,7 +311,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, flavour);
+                    setUpAndGo(criteria, flavour);
                 }
                 else
                 {

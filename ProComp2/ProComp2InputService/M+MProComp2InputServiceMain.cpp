@@ -52,7 +52,7 @@
 /*! @file
  @brief The main application for the %ProComp2 input service. */
 
-/*! @dir ProComp2
+/*! @dir %ProComp2
  @brief The set of files that implement the %ProComp2 input service. */
 
 /*! @dir ProComp2InputService

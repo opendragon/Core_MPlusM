@@ -57,10 +57,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The test driver for the unit tests of the Registry Service. */
+ @brief The test driver for the unit tests of the %Registry Service. */
 
 /*! @dir /RegistryTests
- @brief The set of files that provide test cases for the Registry Service. */
+ @brief The set of files that provide test cases for the %Registry Service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -623,7 +623,7 @@ static void catchSignal(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for unit tests of the Registry Service classes.
+/*! @brief The entry point for unit tests of the %Registry Service classes.
  
  The first argument is the test number, the second argument is the name of the channel to be used
  with the test, the optional third argument is the machine to connect to and the optional fourth

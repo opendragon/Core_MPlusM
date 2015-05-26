@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The class declaration for the client of the Tunnel service. */
+ @brief The class declaration for the client of the %Tunnel service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -56,7 +56,7 @@ namespace MplusM
 {
     namespace Tunnel
     {
-        /*! @brief A client for the Tunnel service. */
+        /*! @brief A client for the %Tunnel service. */
         class TunnelClient : public Common::BaseClient
         {
         public :

@@ -50,13 +50,13 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The standard name for the Registry Service request channel. */
+/*! @brief The standard name for the %Registry Service request channel. */
 # define MpM_REGISTRY_ENDPOINT_NAME  "/$ervice"
 
-/*! @brief The channel-independent name of the Registry Service. */
+/*! @brief The channel-independent name of the %Registry Service. */
 # define MpM_REGISTRY_CANONICAL_NAME "Registry"
 
-/*! @brief The name of the secondary port for the Registry Service. */
+/*! @brief The name of the secondary port for the %Registry Service. */
 # define MpM_REGISTRY_STATUS_NAME    T_(MpM_REGISTRY_ENDPOINT_NAME "/status")
 
 /*! @brief The name for an 'arguments' request. */
@@ -188,13 +188,13 @@
 /*! @brief The number of elements expected in the output of an 'where' request. */
 # define MpM_EXPECTED_WHERE_RESPONSE_SIZE           2
 
-/*! @brief The standard response to an invalid Registry Service request. */
+/*! @brief The standard response to an invalid %Registry Service request. */
 # define MpM_FAILED_RESPONSE "FAILED"
 
-/*! @brief The standard response to a valid Registry Service request. */
+/*! @brief The standard response to a valid %Registry Service request. */
 # define MpM_OK_RESPONSE     "OK"
 
-/*! @brief The number of elements expected in the Registry Service status message. */
+/*! @brief The number of elements expected in the %Registry Service status message. */
 # define MpM_EXPECTED_REGISTRY_STATUS_SIZE 4
 
 /*! @brief A service is being added to the registry. */

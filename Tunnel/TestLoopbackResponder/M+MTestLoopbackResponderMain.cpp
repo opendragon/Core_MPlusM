@@ -36,6 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -105,57 +106,69 @@ int main(int      argc,
     OD_LOG_ENTER(); //####
     try
     {
-        OutputFlavour    flavour; // ignored
-        YarpStringVector arguments;
+        int                               listenPort;
+        Utilities::PortArgumentDescriptor firstArg("port", T_("The outgoing port"), 12345, false,
+                                                   false, &listenPort);
+        Utilities::DescriptorVector       argumentList;
+        OutputFlavour                     flavour; // ignored
         
-        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" port"),
-                                                       T_("  port       The outgoing port"), 2015,
-                                                       STANDARD_COPYRIGHT_NAME, flavour,
-                                                       &arguments))
+        argumentList.push_back(&firstArg);
+        if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                       T_("Communicates with the Test Loopback "
+                                                          "Control application"), 2015,
+                                                       STANDARD_COPYRIGHT_NAME, flavour, true))
         {
-            int listenPort = -1;
-            
-			Utilities::SetUpGlobalStatusReporter();
-			if (1 <= arguments.size())
+            Utilities::SetUpGlobalStatusReporter();
+            try
             {
-                const char * startPtr = arguments[0].c_str();
-                char *       endPtr;
-                int          tempInt = static_cast<int>(strtol(startPtr, &endPtr, 10));
-
-                if ((startPtr != endPtr) && (! *endPtr) && Utilities::ValidPortNumber(tempInt))
-                {
-                    // Useable data.
-                    listenPort = tempInt;
-                }
-            }
-            else
-            {
-                cerr << "Missing argument." << endl;
-            }
-            if (0 < listenPort)
-            {
-                try
-                {
-                    SOCKET  listenSocket;
+                SOCKET  listenSocket;
 #if ! MAC_OR_LINUX_
-                    WORD    wVersionRequested = MAKEWORD(2, 2);
-                    WSADATA ww;
+                WORD    wVersionRequested = MAKEWORD(2, 2);
+                WSADATA ww;
 #endif // ! MAC_OR_LINUX_
-
+                
 #if MAC_OR_LINUX_
+                listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
+                if (INVALID_SOCKET != listenSocket)
+                {
+                    struct sockaddr_in addr;
+                    
+                    memset(&addr, 0, sizeof(addr));
+                    addr.sin_family = AF_INET;
+                    addr.sin_port = htons(listenPort);
+                    addr.sin_addr.s_addr = htonl(INADDR_ANY);
+                    if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
+                             sizeof(addr)))
+                    {
+                        close(listenSocket);
+                        listenSocket = INVALID_SOCKET;
+                    }
+                    else
+                    {
+                        listen(listenSocket, SOMAXCONN);
+                    }
+                }
+#else // ! MAC_OR_LINUX_
+                if (WSAStartup(wVersionRequested, &ww))
+                {
+                }
+                else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
+                {
                     listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                     if (INVALID_SOCKET != listenSocket)
                     {
-                        struct sockaddr_in addr;
-
-                        memset(&addr, 0, sizeof(addr));
+                        SOCKADDR_IN addr;
+                        
                         addr.sin_family = AF_INET;
                         addr.sin_port = htons(listenPort);
                         addr.sin_addr.s_addr = htonl(INADDR_ANY);
-                        if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
-                                 sizeof(addr)))
+                        int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr),
+                                       sizeof(addr));
+                        
+                        if (SOCKET_ERROR == res)
                         {
-                            close(listenSocket);
+                            OD_LOG("(SOCKET_ERROR == res)"); //####
+                            closesocket(listenSocket);
                             listenSocket = INVALID_SOCKET;
                         }
                         else
@@ -163,94 +176,64 @@ int main(int      argc,
                             listen(listenSocket, SOMAXCONN);
                         }
                     }
-#else // ! MAC_OR_LINUX_
-                    if (WSAStartup(wVersionRequested, &ww))
-                    {
-                    }
-                    else if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
-                    {
-                        listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-                        if (INVALID_SOCKET != listenSocket)
-                        {
-                            SOCKADDR_IN addr;
-
-                            addr.sin_family = AF_INET;
-                            addr.sin_port = htons(listenPort);
-                            addr.sin_addr.s_addr = htonl(INADDR_ANY);
-                            int res = bind(listenSocket, reinterpret_cast<LPSOCKADDR>(&addr),
-                                           sizeof(addr));
-                            
-                            if (SOCKET_ERROR == res)
-                            {
-                                OD_LOG("(SOCKET_ERROR == res)"); //####
-                                closesocket(listenSocket);
-                                listenSocket = INVALID_SOCKET;
-                            }
-                            else
-                            {
-                                listen(listenSocket, SOMAXCONN);
-                            }
-                        }
-                    }
+                }
 #endif // ! MAC_OR_LINUX_
-                    if (INVALID_SOCKET != listenSocket)
+                if (INVALID_SOCKET != listenSocket)
+                {
+                    OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
+                    bool   keepGoing = true;
+                    char   theBuffer[BUFFER_SIZE];
+                    OD_LOG("waiting for a connection"); //####
+                    SOCKET loopSocket = accept(listenSocket, NULL, NULL);
+                    
+                    OD_LOG_L1("loopSocket = ", loopSocket); //####
+                    for ( ; keepGoing; )
                     {
-                        OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
-                        bool   keepGoing = true;
-                        char   theBuffer[BUFFER_SIZE];
-                        OD_LOG("waiting for a connection"); //####
-                        SOCKET loopSocket = accept(listenSocket, NULL, NULL);
-
-                        OD_LOG_L1("loopSocket = ", loopSocket); //####
-                        for ( ; keepGoing; )
-                        {
 #if MAC_OR_LINUX_
-                            ssize_t inSize = recv(loopSocket, theBuffer, sizeof(theBuffer), 0);
+                        ssize_t inSize = recv(loopSocket, theBuffer, sizeof(theBuffer), 0);
 #else // ! MAC_OR_LINUX_
-                            int     inSize = recv(loopSocket, theBuffer, sizeof(theBuffer), 0);
+                        int     inSize = recv(loopSocket, theBuffer, sizeof(theBuffer), 0);
 #endif // ! MAC_OR_LINUX_
-                            
-                            if (0 < inSize)
-                            {
+                        
+                        if (0 < inSize)
+                        {
 #if defined(CHATTY_OUTPUT)
-                                cout << "received " << inSize << " bytes." << endl;
+                            cout << "received " << inSize << " bytes." << endl;
 #endif // defined(CHATTY_OUTPUT)
-                                if (send(loopSocket, theBuffer, inSize, 0) != inSize)
-                                {
-                                    OD_LOG("(send(loopSocket, theBuffer, inSize, 0) != " //####
-                                           "inSize)"); //####
-#if defined(CHATTY_OUTPUT)
-                                    cout << "sent " << inSize << " bytes." << endl;
-#endif // defined(CHATTY_OUTPUT)
-                                    keepGoing = false;
-                                }
-                            }
-                            else
+                            if (send(loopSocket, theBuffer, inSize, 0) != inSize)
                             {
-                                OD_LOG("! (0 < inSize)"); //####
+                                OD_LOG("(send(loopSocket, theBuffer, inSize, 0) != inSize)"); //####
+#if defined(CHATTY_OUTPUT)
+                                cout << "sent " << inSize << " bytes." << endl;
+#endif // defined(CHATTY_OUTPUT)
                                 keepGoing = false;
                             }
                         }
-#if MAC_OR_LINUX_
-                        shutdown(listenSocket, SHUT_RDWR);
-                        shutdown(loopSocket, SHUT_RDWR);
-                        close(listenSocket);
-                        close(loopSocket);
-#else // ! MAC_OR_LINUX_
-                        shutdown(listenSocket, SD_BOTH);
-                        shutdown(loopSocket, SD_BOTH);
-                        closesocket(listenSocket);
-                        closesocket(loopSocket);
-#endif // ! MAC_OR_LINUX_
+                        else
+                        {
+                            OD_LOG("! (0 < inSize)"); //####
+                            keepGoing = false;
+                        }
                     }
-                }
-                catch (...)
-                {
-                    OD_LOG("Exception caught"); //####
+#if MAC_OR_LINUX_
+                    shutdown(listenSocket, SHUT_RDWR);
+                    shutdown(loopSocket, SHUT_RDWR);
+                    close(listenSocket);
+                    close(loopSocket);
+#else // ! MAC_OR_LINUX_
+                    shutdown(listenSocket, SD_BOTH);
+                    shutdown(loopSocket, SD_BOTH);
+                    closesocket(listenSocket);
+                    closesocket(loopSocket);
+#endif // ! MAC_OR_LINUX_
                 }
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            catch (...)
+            {
+                OD_LOG("Exception caught"); //####
+            }
+            Utilities::ShutDownGlobalStatusReporter();
+        }
     }
     catch (...)
     {

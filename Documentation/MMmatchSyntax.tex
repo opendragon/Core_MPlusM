@@ -10,7 +10,7 @@ described in the\\
 \appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.\\
 
 The following BNF statements describe the syntax in more precise terms:
-\outputBegin{}
+\outputBegin
 \begin{listing}[5]{1}
 <Expression> ::= <Constraint> ',' <Expression> | <Constraint>
 ;; Expressions are the union of the constraints.
@@ -61,6 +61,6 @@ The following BNF statements describe the syntax in more precise terms:
 ;; will match zero or more characters and the 'wild single' character
 ;; will match a single character.
 \end{listing}
-\outputEnd{}
+\outputEnd
 \objDiagram{mpm_images/MMmatchSyntaxrails}{matchSyntaxrails}{Service~Match~syntax~diagram}
 \appendixEnd{}

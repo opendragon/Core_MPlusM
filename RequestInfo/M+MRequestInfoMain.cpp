@@ -37,10 +37,12 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseClient.h>
+#include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
+#include <mpm/M+MStringArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -289,38 +291,34 @@ static bool processResponse(const OutputFlavour     flavour,
 } // processResponse
 
 /*! @brief Set up the environment and perform the operation.
- @param arguments The arguments to analyze.
+ @param channelName The name of the primary channel of the service.
+ @param requestName The name of the request being reported.
  @param flavour The format for the output. */
-static void setUpAndGo(const YarpStringVector & arguments,
-                       const OutputFlavour      flavour)
+static void setUpAndGo(const YarpString &  channelName,
+                       const YarpString &  requestName,
+                       const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("arguments = ", &arguments); //####
-    const char *     requestName;
+    OD_LOG_S2s("channelName = ", channelName, "requestName = ", requestName); //####
+    const char *     requestNameString;
     YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
     YarpStringVector services;
 
-    if (1 < arguments.size())
+    if (0 < channelName.length())
     {
-        channelNameRequest += arguments[0];
-        if (strcmp(arguments[1].c_str(), "*"))
-        {
-            requestName = arguments[1].c_str();
-        }
-        else
-        {
-            requestName = NULL;
-        }
-    }
-    else if (0 < arguments.size())
-    {
-        channelNameRequest += arguments[0];
-        requestName = NULL;
+        channelNameRequest += channelName;
     }
     else
     {
         channelNameRequest += "*";
-        requestName = NULL;
+    }
+    if (strcmp(requestName.c_str(), "*"))
+    {
+        requestNameString = requestName.c_str();
+    }
+    else
+    {
+        requestNameString = NULL;
     }
     if (Utilities::GetServiceNamesFromCriteria(channelNameRequest, services))
     {
@@ -339,9 +337,9 @@ static void setUpAndGo(const YarpStringVector & arguments,
                     bool             sawRequestResponse = false;
                     yarp::os::Bottle parameters;
 
-                    if (requestName)
+                    if (requestNameString)
                     {
-                        parameters.addString(requestName);
+                        parameters.addString(requestNameString);
                     }
                     if (kOutputFlavourJSON == flavour)
                     {
@@ -358,7 +356,7 @@ static void setUpAndGo(const YarpStringVector & arguments,
                             // If no request was identified, or a wildcard was
                             // specified, we use the 'list' request; otherwise,
                             // do an 'info' request.
-                            if (requestName)
+                            if (requestNameString)
                             {
                                 ServiceRequest request(MpM_INFO_REQUEST, parameters);
 
@@ -504,14 +502,22 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(*argv);
 #endif // MAC_OR_LINUX_
-    OutputFlavour    flavour;
-    YarpStringVector arguments;
+    YarpString                           channelName;
+    YarpString                           requestName;
+    Utilities::ChannelArgumentDescriptor firstArg("channelName", "Channel name for the service",
+                                                  "*", true, &channelName);
+    Utilities::StringArgumentDescriptor  secondArg("requestName", "Request name", "*", true,
+                                                   &requestName);
+    Utilities::DescriptorVector          argumentList;
+    OutputFlavour                        flavour;
+    YarpStringVector                     arguments;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, T_(" [channel [request]]"),
-                                                   T_("  channel    Optional channel name for "
-                                                      "service\n"
-                                                      "  request    Optional request name"), 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour, &arguments))
+    argumentList.push_back(&firstArg);
+    argumentList.push_back(&secondArg);
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                   "List available requests for services", 2014,
+                                                   STANDARD_COPYRIGHT_NAME, flavour, false,
+                                                   &arguments))
     {
         try
         {
@@ -526,7 +532,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(arguments, flavour);
+                    setUpAndGo(channelName, requestName, flavour);
                 }
                 else
                 {

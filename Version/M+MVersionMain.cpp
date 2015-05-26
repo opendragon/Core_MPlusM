@@ -106,14 +106,17 @@ using std::endl;
 int main(int      argc,
          char * * argv)
 {
-    OutputFlavour flavour;
-    YarpString    aceVersionString;
-    YarpString    mpmVersionString;
-    YarpString    yarpVersionString;
+    Utilities::DescriptorVector argumentList;
+    OutputFlavour               flavour;
     
-    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, "", "", 2014,
+    if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
+                                                   "Reports the version numbers", 2014,
                                                    STANDARD_COPYRIGHT_NAME, flavour))
     {
+        YarpString aceVersionString;
+        YarpString mpmVersionString;
+        YarpString yarpVersionString;
+
         switch (flavour)
         {
             case kOutputFlavourTabs :
