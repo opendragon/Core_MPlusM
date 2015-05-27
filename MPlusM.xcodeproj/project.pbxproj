@@ -189,8 +189,6 @@
 		DF38507C198AC50200A0414E /* M+MTestNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTestNameValidator.cpp"; path = "ParserTest/M+MTestNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		DF38507D198AC50200A0414E /* M+MTestNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTestNameValidator.h"; path = "ParserTest/M+MTestNameValidator.h"; sourceTree = SOURCE_ROOT; };
 		DF3850BE198ACCFE00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = mpm/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MAdapterChannel.cpp"; path = "mpm/M+MAdapterChannel.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
-		DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAdapterChannel.h"; path = "mpm/M+MAdapterChannel.h"; sourceTree = SOURCE_ROOT; };
 		DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBailOut.cpp"; path = "mpm/M+MBailOut.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
 		DF3850C4198ACCFE00A0414E /* M+MBailOut.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBailOut.h"; path = "mpm/M+MBailOut.h"; sourceTree = SOURCE_ROOT; };
 		DF3850C5198ACCFE00A0414E /* M+MBailOutThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; lineEnding = 0; name = "M+MBailOutThread.cpp"; path = "mpm/M+MBailOutThread.cpp"; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.cpp; };
@@ -1614,8 +1612,6 @@
 			isa = PBXGroup;
 			children = (
 				DF3850BE198ACCFE00A0414E /* CMakeLists.txt */,
-				DF3850C1198ACCFE00A0414E /* M+MAdapterChannel.cpp */,
-				DF3850C2198ACCFE00A0414E /* M+MAdapterChannel.h */,
 				F606A0C81B09236B000EAFE6 /* M+MAddressArgumentDescriptor.cpp */,
 				F606A0C91B09236B000EAFE6 /* M+MAddressArgumentDescriptor.h */,
 				DF3850C3198ACCFE00A0414E /* M+MBailOut.cpp */,

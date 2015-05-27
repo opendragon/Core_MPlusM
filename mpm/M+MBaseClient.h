@@ -56,7 +56,6 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
         class ChannelStatusReporter;
         class ClientChannel;
         class ServiceResponse;
@@ -72,14 +71,6 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~BaseClient(void);
-            
-            /*! @brief Record an associated channel.
-             @param aChannel The channel to remember.
-             @param checker A function that provides for early exit from loops.
-             @param checkStuff The private data for the early exit function. */
-            void addAssociatedChannel(AdapterChannel * aChannel,
-                                      CheckFunction    checker = NULL,
-                                      void *           checkStuff = NULL);
             
             /*! @brief Create a connection with the service.
              @param checker A function that provides for early exit from loops.

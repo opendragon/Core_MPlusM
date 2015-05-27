@@ -38,7 +38,6 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MBaseClient.h>
-#include <mpm/M+MAdapterChannel.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MServiceRequest.h>
@@ -226,82 +225,6 @@ BaseClient::~BaseClient(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
-
-void BaseClient::addAssociatedChannel(AdapterChannel * aChannel,
-                                      CheckFunction    checker,
-                                      void *           checkStuff)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P2("aChannel = ", aChannel, "checkStuff = ", checkStuff); //####
-    try
-    {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "associate_/"
-                                                   DEFAULT_CHANNEL_ROOT));
-        ClientChannel * newChannel = new ClientChannel;
-        
-        if (newChannel)
-        {
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(*Utilities::GetGlobalStatusReporter());
-#endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
-            {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                         STANDARD_WAIT_TIME, false, checker,
-                                                         checkStuff))
-                {
-                    yarp::os::Bottle parameters;
-                    
-                    parameters.addString(_channelName);
-                    parameters.addInt(aChannel->isOutput() ? 1 : 0);
-                    parameters.addString(aChannel->name());
-                    ServiceRequest  request(MpM_ASSOCIATE_REQUEST, parameters);
-                    ServiceResponse response;
-                    
-                    if (request.send(*newChannel, response))
-                    {
-                        OD_LOG_S1s("response <- ", response.asString()); //####
-                        validateAssociateResponse(response.values());
-                    }
-                    else
-                    {
-                        OD_LOG("! (request.send(*newChannel, response))"); //####
-                    }
-#if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                  STANDARD_WAIT_TIME, checker,
-                                                                  checkStuff))
-                    {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
-                               "checkStuff))"); //####
-                    }
-#endif // defined(MpM_DoExplicitDisconnect)
-                }
-                else
-                {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
-                           " checkStuff))"); //####
-                }
-#if defined(MpM_DoExplicitClose)
-                newChannel->close();
-#endif // defined(MpM_DoExplicitClose)
-            }
-            else
-            {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
-            }
-            BaseChannel::RelinquishChannel(newChannel);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT(); //####
-} // BaseClient::addAssociatedInputChannel
 
 bool BaseClient::connectToService(CheckFunction checker,
                                   void *        checkStuff)

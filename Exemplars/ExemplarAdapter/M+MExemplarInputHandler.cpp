@@ -41,7 +41,7 @@
 #include "M+MExemplarAdapterData.h"
 #include "M+MExemplarClient.h"
 
-#include <mpm/M+MAdapterChannel.h>
+#include <mpm/M+MBaseChannel.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

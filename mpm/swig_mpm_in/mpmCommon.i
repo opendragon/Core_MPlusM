@@ -1,6 +1,5 @@
 %module mpm
 %{
-#include "M+MAdapterChannel.h"
 #include "M+MAddressArgumentDescriptor.h"
 #include "M+MBailOut.h"
 #include "M+MBailOutThread.h"

@@ -42,7 +42,7 @@
 #include "M+MRunningSumClient.h"
 #include "M+MRunningSumRequests.h"
 
-#include <mpm/M+MAdapterChannel.h>
+#include <mpm/M+MBaseChannel.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
