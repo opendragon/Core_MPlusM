@@ -114,21 +114,21 @@ static void setUpAndGo(const YarpString & progName,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    MovementDbService * stuff = new MovementDbService(progName, argc, argv, tag, databaseAddress,
-                                                      serviceEndpointName, servicePortNumber);
+    MovementDbService * aService = new MovementDbService(progName, argc, argv, tag, databaseAddress,
+                                                         serviceEndpointName, servicePortNumber);
     
-    if (stuff)
+    if (aService)
     {
-        if (stuff->start())
+        if (aService->start())
         {
-            YarpString channelName(stuff->getEndpoint().getName());
+            YarpString channelName(aService->getEndpoint().getName());
             
             OD_LOG_S1s("channelName = ", channelName); //####
-            if (RegisterLocalService(channelName, *stuff))
+            if (RegisterLocalService(channelName, *aService))
             {
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
-                stuff->startPinger();
+                aService->startPinger();
                 for ( ; IsRunning(); )
                 {
 #if defined(MpM_MainDoesDelayNotYield)
@@ -137,21 +137,21 @@ static void setUpAndGo(const YarpString & progName,
                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                 }
-                UnregisterLocalService(channelName, *stuff);
+                UnregisterLocalService(channelName, *aService);
                 if (reportOnExit)
                 {
                     yarp::os::Bottle metrics;
                     
-                    stuff->gatherMetrics(metrics);
+                    aService->gatherMetrics(metrics);
                     YarpString converted(Utilities::ConvertMetricsToString(metrics));
                     
                     cout << converted.c_str() << endl;
                 }
-                stuff->stop();
+                aService->stop();
             }
             else
             {
-                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+                OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
 #if MAC_OR_LINUX_
                 GetLogger().fail("Service could not be registered.");
 #else // ! MAC_OR_LINUX_
@@ -161,18 +161,18 @@ static void setUpAndGo(const YarpString & progName,
         }
         else
         {
-            OD_LOG("! (stuff->start())"); //####
+            OD_LOG("! (aService->start())"); //####
 #if MAC_OR_LINUX_
             GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
             cerr << "Service could not be started." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        delete stuff;
+        delete aService;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aService)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -190,16 +190,19 @@ static void setUpAndGo(const YarpString & progName,
 int main(int      argc,
          char * * argv)
 {
+    YarpString progName(*argv);
+
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
-#else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
                 kODLoggingOptionEnableThreadSupport); //####
+#else // ! defined(MpM_ServicesLogToStandardError)
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -224,9 +227,8 @@ int main(int      argc,
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::ConstString progName(*argv);
-                yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                            // YARP infrastructure
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())

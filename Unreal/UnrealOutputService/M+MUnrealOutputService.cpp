@@ -292,10 +292,10 @@ void UnrealOutputService::startStreams(void)
                         {
                             _inLeapHandler->setSocket(_networkSocket);
                             _inLeapHandler->setScale(_translationScale);
-                            _inStreams.at(0)->setReader(*_inLeapHandler);
+                            getInletStream(0)->setReader(*_inLeapHandler);
                             _inViconHandler->setSocket(_networkSocket);
                             _inViconHandler->setScale(_translationScale);
-                            _inStreams.at(1)->setReader(*_inViconHandler);
+                            getInletStream(1)->setReader(*_inViconHandler);
                             setActive();
                         }
                     }
@@ -346,10 +346,10 @@ void UnrealOutputService::startStreams(void)
 									cerr << "connection is live" << endl; //!!!!
                                     _inLeapHandler->setSocket(_networkSocket);
                                     _inLeapHandler->setScale(_translationScale);
-                                    _inStreams.at(0)->setReader(*_inLeapHandler);
+                                    getInletStream(0)->setReader(*_inLeapHandler);
                                     _inViconHandler->setSocket(_networkSocket);
                                     _inViconHandler->setScale(_translationScale);
-                                    _inStreams.at(1)->setReader(*_inViconHandler);
+                                    getInletStream(1)->setReader(*_inViconHandler);
                                     setActive();
                                 }
                             }

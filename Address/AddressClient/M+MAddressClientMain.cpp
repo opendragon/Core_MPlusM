@@ -156,9 +156,9 @@ static void setUpAndGo(const YarpString &  outputMode,
 #if defined(MpM_ReportOnConnections)
     OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
-    AddressClient * stuff = new AddressClient;
+    AddressClient * aClient = new AddressClient;
     
-    if (stuff)
+    if (aClient)
     {
         bool       needsAddress;
         bool       needsPort;
@@ -166,19 +166,19 @@ static void setUpAndGo(const YarpString &  outputMode,
         YarpString namePattern(MpM_ADDRESS_CANONICAL_NAME);
         
 #if defined(MpM_ReportOnConnections)
-        stuff->setReporter(*reporter, true);
+        aClient->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
         if (processArguments(outputMode, tag, namePattern, needsAddress, needsPort))
         {
             channelNameRequest += namePattern;
-            if (stuff->findService(channelNameRequest.c_str()))
+            if (aClient->findService(channelNameRequest.c_str()))
             {
-                if (stuff->connectToService())
+                if (aClient->connectToService())
                 {
                     YarpString address;
                     int        port;
                     
-                    if (stuff->getAddress(address, port))
+                    if (aClient->getAddress(address, port))
                     {
                         switch (flavour)
                         {
@@ -242,7 +242,7 @@ static void setUpAndGo(const YarpString &  outputMode,
                     }
                     else
                     {
-                        OD_LOG("! (stuff->getAddress(address, port))"); //####
+                        OD_LOG("! (aClient->getAddress(address, port))"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem fetching the address information.");
 #endif // MAC_OR_LINUX_
@@ -250,7 +250,7 @@ static void setUpAndGo(const YarpString &  outputMode,
                 }
                 else
                 {
-                    OD_LOG("! (stuff->connectToService())"); //####
+                    OD_LOG("! (aClient->connectToService())"); //####
 #if MAC_OR_LINUX_
                     GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -260,7 +260,7 @@ static void setUpAndGo(const YarpString &  outputMode,
             }
             else
             {
-                OD_LOG("! (stuff->findService(channelNameRequest)"); //####
+                OD_LOG("! (aClient->findService(channelNameRequest)"); //####
 #if MAC_OR_LINUX_
                 GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
@@ -272,11 +272,11 @@ static void setUpAndGo(const YarpString &  outputMode,
         {
             cout << "Invalid mode argument." << endl;
         }
-        delete stuff;
+        delete aClient;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aClient)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -299,11 +299,14 @@ int main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -333,7 +336,6 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
 					ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-                    yarp::os::ConstString   progName(*argv);
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
                     

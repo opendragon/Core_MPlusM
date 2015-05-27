@@ -68,8 +68,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            RunningSumAdapterData(RunningSumClient *       client,
-                                  Common::AdapterChannel * output);
+            RunningSumAdapterData(RunningSumClient *    client = NULL,
+                                  Common::BaseChannel * output = NULL);
             
             /*! @brief The destructor. */
             virtual ~RunningSumAdapterData(void);

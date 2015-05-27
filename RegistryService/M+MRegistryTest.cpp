@@ -199,34 +199,34 @@ static int doTestRequestRegistryService(const char * launchPath,
                 if (registry->isActive())
                 {
                     // Now we start up another service (Test14Service) and register it
-                    Test14Service * stuff = new Test14Service(launchPath, 1,
+                    Test14Service * aService = new Test14Service(launchPath, 1,
                                                       const_cast<char * *>(&secondServiceChannel));
                     
-                    if (stuff)
+                    if (aService)
                     {
-                        if (stuff->start())
+                        if (aService->start())
                         {
-                            YarpString channelName(stuff->getEndpoint().getName());
+                            YarpString channelName(aService->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName, *stuff))
+                            if (RegisterLocalService(channelName, *aService))
                             {
                                 result = 0;
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                             }
-                            stuff->stop();
+                            aService->stop();
                         }
                         else
                         {
-                            OD_LOG("! (stuff->start())"); //####
+                            OD_LOG("! (aService->start())"); //####
                         }
-                        delete stuff;
+                        delete aService;
                     }
                     else
                     {
-                        OD_LOG("! (stuff)"); //####
+                        OD_LOG("! (aService)"); //####
                     }
                 }
                 else
@@ -303,42 +303,42 @@ static int doTestRequestUnregisterService(const char * launchPath,
                 if (registry->isActive())
                 {
                     // Now we start up another service (Test15Service) and register it
-                    Test15Service * stuff = new Test15Service(launchPath, 1,
+                    Test15Service * aService = new Test15Service(launchPath, 1,
                                                       const_cast<char * *>(&secondServiceChannel));
                     
-                    if (stuff)
+                    if (aService)
                     {
-                        if (stuff->start())
+                        if (aService->start())
                         {
-                            YarpString channelName(stuff->getEndpoint().getName());
+                            YarpString channelName(aService->getEndpoint().getName());
                             
-                            if (RegisterLocalService(channelName, *stuff))
+                            if (RegisterLocalService(channelName, *aService))
                             {
-                                if (UnregisterLocalService(channelName, *stuff))
+                                if (UnregisterLocalService(channelName, *aService))
                                 {
                                     result = 0;
                                 }
                                 else
                                 {
                                     OD_LOG("! (UnregisterLocalService(channelName, " //####
-                                           "*stuff))"); //####
+                                           "*aService))"); //####
                                 }
                             }
                             else
                             {
-                                OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+                                OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                             }
-                            stuff->stop();
+                            aService->stop();
                         }
                         else
                         {
-                            OD_LOG("! (stuff->start())"); //####
+                            OD_LOG("! (aService->start())"); //####
                         }
-                        delete stuff;
+                        delete aService;
                     }
                     else
                     {
-                        OD_LOG("! (stuff)"); //####
+                        OD_LOG("! (aService)"); //####
                     }
                 }
                 else
@@ -402,20 +402,20 @@ static int doTestRequestSearchService(const char * launchPath,
                     {
                         // Now we start up another service (Test16Service) and register it
                         OD_LOG("(registry->isActive())"); //####
-                        Test16Service * stuff = new Test16Service(launchPath, 1,
+                        Test16Service * aService = new Test16Service(launchPath, 1,
                                                       const_cast<char * *>(&secondServiceChannel));
                         
-                        if (stuff)
+                        if (aService)
                         {
-                            OD_LOG("(stuff)"); //####
-                            if (stuff->start())
+                            OD_LOG("(aService)"); //####
+                            if (aService->start())
                             {
-                                OD_LOG("(stuff->start())"); //####
-                                YarpString channelName(stuff->getEndpoint().getName());
+                                OD_LOG("(aService->start())"); //####
+                                YarpString channelName(aService->getEndpoint().getName());
                                 
-                                if (RegisterLocalService(channelName, *stuff))
+                                if (RegisterLocalService(channelName, *aService))
                                 {
-                                    OD_LOG("(RegisterLocalService(channelName, *stuff))"); //####
+                                    OD_LOG("(RegisterLocalService(channelName, *aService))"); //####
                                     // Search for the service that we just registered.
                                     yarp::os::Bottle matches = FindMatchingServices(argv[1],
                                                                                     getNamesFlag);
@@ -545,27 +545,28 @@ static int doTestRequestSearchService(const char * launchPath,
                                                "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
                                                "matches.size()))"); //####
                                     }
-                                    if (! UnregisterLocalService(channelName, *stuff))
+                                    if (! UnregisterLocalService(channelName, *aService))
                                     {
                                         OD_LOG("(! UnregisterLocalService(channelName, " //####
-                                               "*stuff))"); //####
+                                               "*aService))"); //####
                                     }
                                 }
                                 else
                                 {
-                                    OD_LOG("! (RegisterLocalService(channelName, *stuff))"); //####
+                                    OD_LOG("! (RegisterLocalService(channelName, " //####
+                                           "*aService))"); //####
                                 }
-                                stuff->stop();
+                                aService->stop();
                             }
                             else
                             {
-                                OD_LOG("! (stuff->start())"); //####
+                                OD_LOG("! (aService->start())"); //####
                             }
-                            delete stuff;
+                            delete aService;
                         }
                         else
                         {
-                            OD_LOG("! (stuff)"); //####
+                            OD_LOG("! (aService)"); //####
                         }
                     }
                     else
@@ -635,11 +636,14 @@ static void catchSignal(int signal)
 int main(int      argc,
          char * * argv)
 {
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     int result = 1;
     
@@ -650,9 +654,8 @@ int main(int      argc,
 		Utilities::SetUpGlobalStatusReporter();
         if (Utilities::CheckForValidNetwork())
         {
-            yarp::os::ConstString progName(*argv);
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
             
             Initialize(progName);
             if (0 < --argc)

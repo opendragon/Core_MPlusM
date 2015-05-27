@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param baseChannelName The name to be used as the root for the client channel. */
-            BaseClient(const char * baseChannelName = DEFAULT_CHANNEL_ROOT);
+            BaseClient(const YarpString & baseChannelName = DEFAULT_CHANNEL_ROOT);
             
             /*! @brief The destructor. */
             virtual ~BaseClient(void);
@@ -114,6 +114,10 @@ namespace MplusM
              @param checkStuff The private data for the early exit function. */
             void removeAssociatedChannels(CheckFunction checker = NULL,
                                           void *        checkStuff = NULL);
+            
+            /*! @brief Set the channel for the client to use.
+             @param newChannel The channel to be used. */
+            void setChannel(ClientChannel * newChannel = NULL);
             
             /*! @brief Set the channel status reporter for the private channel.
              @param reporter The channel status reporter to be used by the private channel.
@@ -164,14 +168,17 @@ namespace MplusM
             /*! @brief The channel that the client uses for communication. */
             ClientChannel * _channel;
             
+            /*! @brief The root name for the client channel. */
+            YarpString _baseChannelName;
+            
             /*! @brief The name of the client channel being used. */
             YarpString _channelName;
             
             /*! @brief The name of the service channel being used. */
             YarpString _serviceChannelName;
             
-            /*! @brief The root name for the client channel. */
-            char * _baseChannelName;
+            /*! @brief @c true if the client owns the channel and @c false otherwise. */
+            bool _clientOwnsChannel;
             
             /*! @brief @c true if the client is connected to the service and @c false otherwise. */
             bool _connected;
@@ -185,7 +192,7 @@ namespace MplusM
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[6];
+            char _filler[5];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

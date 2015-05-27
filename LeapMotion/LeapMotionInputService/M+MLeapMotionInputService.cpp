@@ -223,7 +223,7 @@ void LeapMotionInputService::startStreams(void)
         {
             if (_controller)
             {
-                _listener = new LeapMotionInputListener(_outStreams.at(0));
+                _listener = new LeapMotionInputListener(getOutletStream(0));
                 _controller->addListener(*_listener);
                 setActive();
             }

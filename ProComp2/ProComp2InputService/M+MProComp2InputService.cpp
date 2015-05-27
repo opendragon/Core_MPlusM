@@ -212,7 +212,7 @@ void ProComp2InputService::startStreams(void)
     {
         if (! isActive())
         {
-			_eventThread = new ProComp2InputThread(_outStreams.at(0));
+			_eventThread = new ProComp2InputThread(getOutletStream(0));
 			_eventThread->start();
             setActive();
         }

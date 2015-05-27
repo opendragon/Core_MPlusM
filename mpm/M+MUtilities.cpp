@@ -1951,7 +1951,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
 Utilities::PortKind Utilities::GetPortKind(const YarpString & portName)
 {
     const char * portNameChars = portName.c_str();
-    const size_t kAdapterPortNameBaseLen = sizeof(ADAPTER_PORT_NAME_BASE) - 1;
+    const size_t kAdapterPortNameBaseLen = sizeof(DEFAULT_ADAPTER_NAME_BASE) - 1;
     const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
     const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
     PortKind     result;
@@ -1964,7 +1964,7 @@ Utilities::PortKind Utilities::GetPortKind(const YarpString & portName)
     {
         result = kPortKindService;
     }
-    else if (! strncmp(ADAPTER_PORT_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
+    else if (! strncmp(DEFAULT_ADAPTER_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
     {
         result = kPortKindAdapter;
     }
@@ -2102,6 +2102,10 @@ const char * Utilities::MapServiceKindToString(const ServiceKind kind)
     
     switch (kind)
     {
+        case kServiceKindAdapter :
+            result = "Adapter";
+            break;
+            
         case kServiceKindFilter :
             result = "Filter";
             break;
@@ -2336,163 +2340,6 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
-
-bool Utilities::ProcessStandardAdapterOptions(const int          argc,
-                                              char * *           argv,
-                                              DescriptorVector & argumentDescriptions,
-                                              const YarpString & adapterDescription,
-                                              const YarpString & matchingCriteria,
-                                              const int          year,
-                                              const char *       copyrightHolder,
-                                              YarpStringVector * arguments)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_L2("argc = ", argc, "year = ", year); //####
-    OD_LOG_P3("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
-              "arguments = ", arguments); //####
-    OD_LOG_S2s("adapterDescription = ", adapterDescription, "matchingCriteria = ", //####
-               matchingCriteria); //####
-    OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
-    enum optionIndex
-    {
-        kOptionUNKNOWN,
-        kOptionARGS,
-        kOptionCHANNELS,
-        kOptionHELP,
-        kOptionINFO,
-        kOptionVERSION
-    }; // optionIndex
-    
-    bool                  keepGoing = true;
-    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
-    Option_::Descriptor   argsDescriptor(kOptionARGS, 0, "a", "args", Option_::Arg::None,
-                                         T_("  --args, -a        Report the argument formats"));
-    Option_::Descriptor   channelsDescriptor(kOptionCHANNELS, 0, "c", "channels",
-                                             Option_::Arg::None,
-                                             T_("  --channels, -c    Report the channels created "
-                                                "by the adapter and exit"));
-    Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
-                                         T_("  --help, -h        Print usage and exit"));
-    Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         T_("  --info, -i        Print type, matching criteria "
-                                            "and description and exit"));
-    Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
-                                            T_("  --vers, -v        Print version information and "
-                                               "exit"));
-    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[7];
-    Option_::Descriptor * usageWalker = usage;
-    int                   argcWork = argc;
-    char * *              argvWork = argv;
-    YarpString            usageString("USAGE: ");
-    YarpString            argList(ArgumentsToArgString(argumentDescriptions));
-    
-    usageString += *argv;
-    usageString += " [options]";
-    if (0 < argList.length())
-    {
-        YarpStringVector descriptions;
-        
-        Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
-        usageString += " ";
-        usageString += argList + "\n\n";
-        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
-        {
-            if (0 < ii)
-            {
-                usageString += "\n";
-            }
-            usageString += "  ";
-            usageString += descriptions[ii];
-        }
-    }
-    usageString += "\n\nOptions:";
-#if MAC_OR_LINUX_
-    firstDescriptor.help = strdup(usageString.c_str());
-#else // ! MAC_OR_LINUX_
-    firstDescriptor.help = _strdup(usageString.c_str());
-#endif // ! MAC_OR_LINUX_
-    memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
-    memcpy(usageWalker++, &argsDescriptor, sizeof(argsDescriptor));
-    memcpy(usageWalker++, &channelsDescriptor, sizeof(channelsDescriptor));
-    memcpy(usageWalker++, &helpDescriptor, sizeof(helpDescriptor));
-    memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
-    memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
-    memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
-    argcWork -= (argc > 0);
-    argvWork += (argc > 0); // skip program name argv[0] if present
-    Option_::Stats    stats(usage, argcWork, argvWork);
-    Option_::Option * options = new Option_::Option[stats.options_max];
-    Option_::Option * buffer = new Option_::Option[stats.buffer_max];
-    Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
-    
-    if (parse.error())
-    {
-        keepGoing = false;
-    }
-    else if (options[kOptionHELP] || options[kOptionUNKNOWN])
-    {
-        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
-        keepGoing = false;
-    }
-    else if (options[kOptionVERSION])
-    {
-        YarpString mpmVersionString(SanitizeString(MpM_VERSION, true));
-        
-        cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
-                copyrightHolder << "." << endl;
-        keepGoing = false;
-    }
-    else if (options[kOptionARGS])
-    {
-        for (int ii = 0, mm = argumentDescriptions.size(); mm > ii; ++ii)
-        {
-            BaseArgumentDescriptor * anArg = argumentDescriptions[ii];
-
-            if (0 < ii)
-            {
-                cout << "\t";
-            }
-            if (anArg)
-            {
-                cout << anArg->toString().c_str();
-            }
-        }
-        cout << endl;
-        keepGoing = false;
-    }
-    else if (options[kOptionINFO])
-    {
-        cout << "Adapter\t" << matchingCriteria.c_str() << "\t" << adapterDescription.c_str() <<
-                endl;
-        keepGoing = false;
-    }
-    else if (ProcessArguments(argumentDescriptions, parse))
-    {
-        if (options[kOptionCHANNELS])
-        {
-            cout << CombineArguments(argumentDescriptions, "\t").c_str() << endl;
-            keepGoing = false;
-        }
-        if (arguments)
-        {
-            arguments->clear();
-            for (int ii = 0; ii < parse.nonOptionsCount(); ++ii)
-            {
-                arguments->push_back(parse.nonOption(ii));
-            }
-        }
-    }
-    else
-    {
-        cout << "One or more invalid or missing arguments." << endl;
-        keepGoing = false;
-    }
-    delete[] options;
-    delete[] buffer;
-    OD_LOG_EXIT_B(keepGoing); //####
-    return keepGoing;
-} // Utilities::ProcessStandardAdapterOptions
 
 bool Utilities::ProcessStandardClientOptions(const int          argc,
                                              char * *           argv,

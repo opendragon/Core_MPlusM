@@ -220,7 +220,7 @@ void ExemplarOutputService::startStreams(void)
                 if (_inHandler)
                 {
                     _inHandler->setFile(_outFile);
-                    _inStreams.at(0)->setReader(*_inHandler);
+                    getInletStream(0)->setReader(*_inHandler);
                     setActive();
                 }
                 else

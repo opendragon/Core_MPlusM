@@ -84,7 +84,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RunningSumAdapterData::RunningSumAdapterData(RunningSumClient * client,
-                                             AdapterChannel *   output) :
+                                             BaseChannel *      output) :
     inherited(client, output)
 {
     OD_LOG_ENTER(); //####

@@ -48,8 +48,8 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the custom control channel input handler used by the alternative
- Running Sum adapter. */
+ @brief The class declaration for the custom input handler used by the alternative Running Sum
+ adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

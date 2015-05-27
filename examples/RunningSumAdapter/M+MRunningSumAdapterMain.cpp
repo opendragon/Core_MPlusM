@@ -4,11 +4,11 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Running Sum adapter.
+//  Contains:   The main application for the Running Sum adapter service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,17 +32,16 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-18
+//  Created:    2015-05-27
 //
 //--------------------------------------------------------------------------------------------------
 
+#include "M+MRunningSumAdapterService.h"
 #include "M+MRunningSumAdapterData.h"
 #include "M+MRunningSumClient.h"
-#include "M+MRunningSumControlInputHandler.h"
-#include "M+MRunningSumDataInputHandler.h"
 
-#include <mpm/M+MAdapterChannel.h>
-#include <mpm/M+MChannelArgumentDescriptor.h>
+#include <mpm/M+MEndpoint.h>
+#include <mpm/M+MGeneralChannel.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -54,10 +53,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Running Sum adapter. */
+ @brief The main application for the Running Sum adapter service. */
 
-/*! @dir RunningSumAdapter
- @brief The set of files that implement the Running Sum adapter. */
+/*! @dir RunningSumAdapterService
+ @brief The set of files that implement the Running Sum adapter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -70,6 +69,8 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cerr;
+using std::cin;
+using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
@@ -87,161 +88,252 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the environment and perform the operation.
- @param controlName The name to be used for the control channel.
- @param dataName The name to be used for the data channel.
- @param outputName The name to be used for the output channel. */
-#if defined(MpM_ReportOnConnections)
-static void setUpAndGo(const YarpString &      controlName,
-                       const YarpString &      dataName,
-                       const YarpString &      outputName,
-                       ChannelStatusReporter * reporter)
-#else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const YarpString & controlName,
-                       const YarpString & dataName,
-                       const YarpString & outputName)
-#endif // ! defined(MpM_ReportOnConnections)
+/*! @brief Display the available commands. */
+static void displayCommands(void)
 {
     OD_LOG_ENTER(); //####
-#if defined(MpM_ReportOnConnections)
-    OD_LOG_P1("reporter = ", reporter); //####
-#endif // defined(MpM_ReportOnConnections)
-    OD_LOG_S3s("controlName = ", controlName, "dataName = ", dataName, "outputName = ", //####
-               outputName); //####
-    RunningSumClient * stuff = new RunningSumClient;
+    cout << "Commands:" << endl;
+    cout << "  ? - display this list" << endl;
+    cout << "  b - start (begin) the input and output streams" << endl;
+    cout << "  c - configure the service; this has no effect as service has no parameters" << endl;
+    cout << "  e - stop (end) the input and output streams" << endl;
+    cout << "  q - quit the application" << endl;
+    cout << "  r - restart the input and output streams" << endl;
+    cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
+    OD_LOG_EXIT(); //####
+} // displayCommands
+
+/*! @brief Set up the environment and start the Running Sum adapter service.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the Running Sum adapter service.
+ @param tag The modifier for the service name and port names.
+ @param serviceEndpointName The YARP name to be assigned to the new service.
+ @param servicePortNumber The port being used by the service.
+ @param goWasSet @c true if the service is to be started immediately.
+ @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+static void setUpAndGo(const YarpString & progName,
+                       const int          argc,
+                       char * *           argv,
+                       const YarpString & tag,
+                       const YarpString & serviceEndpointName,
+                       const YarpString & servicePortNumber,
+                       const bool         goWasSet,
+                       const bool         stdinAvailable,
+                       const bool         reportOnExit)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
+              "reportOnExit = ", reportOnExit); //####
+    RunningSumClient * aClient = new RunningSumClient;
     
-    if (stuff)
+    if (aClient)
     {
         StartRunning();
         SetSignalHandlers(SignalRunningStop);
-        if (stuff->findService(MATCHING_CRITERIA))
+        if (aClient->findService(MATCHING_CRITERIA))
         {
+            RunningSumAdapterService * aService = new RunningSumAdapterService(progName, argc, argv,
+                                                                               tag,
+                                                                               serviceEndpointName,
+                                                                               servicePortNumber);
+            
 #if defined(MpM_ReportOnConnections)
-            stuff->setReporter(*reporter, true);
+            aClient->setReporter(Utilities::GetGlobalStatusReporter(), true);
 #endif // defined(MpM_ReportOnConnections)
-            if (stuff->connectToService())
+            if (aService)
             {
-                AdapterChannel *                controlChannel = new AdapterChannel(false);
-                AdapterChannel *                dataChannel = new AdapterChannel(false);
-                AdapterChannel *                outputChannel = new AdapterChannel(true);
-                RunningSumAdapterData           sharedData(stuff, outputChannel);
-                RunningSumControlInputHandler * controlHandler =
-                                                    new RunningSumControlInputHandler(sharedData);
-                RunningSumDataInputHandler *    dataHandler =
-                                                        new RunningSumDataInputHandler(sharedData);
-                
-                if (controlChannel && dataChannel && outputChannel && controlHandler &&
-                    dataHandler)
+                if (aService->start())
                 {
-#if defined(MpM_ReportOnConnections)
-                    controlChannel->setReporter(*reporter);
-                    controlChannel->getReport(*reporter);
-                    dataChannel->setReporter(*reporter);
-                    dataChannel->getReport(*reporter);
-                    outputChannel->setReporter(*reporter);
-                    outputChannel->getReport(*reporter);
-#endif // defined(MpM_ReportOnConnections)
-                    if (controlChannel->openWithRetries(controlName, STANDARD_WAIT_TIME) &&
-                        dataChannel->openWithRetries(dataName, STANDARD_WAIT_TIME) &&
-                        outputChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
+                    YarpString channelName(aService->getEndpoint().getName());
+                    
+                    OD_LOG_S1s("channelName = ", channelName); //####
+                    if (RegisterLocalService(channelName, *aService))
                     {
-                        double announcedTime = yarp::os::Time::now();
-                        
-                        stuff->addAssociatedChannel(controlChannel);
-                        stuff->addAssociatedChannel(dataChannel);
-                        stuff->addAssociatedChannel(outputChannel);
-                        sharedData.activate();
-                        controlChannel->setReader(*controlHandler);
-                        dataChannel->setReader(*dataHandler);
-                        for ( ; IsRunning() && sharedData.isActive(); )
+                        aClient->setChannel(aService->getClientStream(0));
+                        if (aClient->connectToService())
                         {
-#if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                            if (IsRunning())
+                            bool                  configured = false;
+                            yarp::os::Bottle      configureData;
+                            RunningSumAdapterData sharedData(aClient, aService->getOutletStream(0));
+                            
+                            aService->startPinger();
+                            aService->setUpInputHandlers(sharedData);
+                            sharedData.activate();
+                            if (goWasSet || (! stdinAvailable))
                             {
-                                double now = yarp::os::Time::now();
-                                
-                                if ((announcedTime + ANNOUNCE_INTERVAL) <= now)
+                                if (aService->configure(configureData))
                                 {
-                                    // Report associated channels again, in case the
-                                    // Registry Service has been restarted.
-                                    announcedTime = now;
-                                    stuff->addAssociatedChannel(controlChannel);
-                                    stuff->addAssociatedChannel(dataChannel);
-                                    stuff->addAssociatedChannel(outputChannel);
+                                    aService->startStreams();
                                 }
                             }
-                            else
+                            for ( ; IsRunning(); )
                             {
-                                sharedData.deactivate();
+                                if ((! goWasSet) && stdinAvailable)
+                                {
+                                    char inChar;
+                                    
+                                    cout << "Operation: [? b c e q r u]? ";
+                                    cout.flush();
+                                    cin >> inChar;
+                                    switch (inChar)
+                                    {
+                                        case '?' :
+                                            // Help
+                                            displayCommands();
+                                            break;
+                                            
+                                        case 'b' :
+                                        case 'B' :
+                                            // Start streams
+                                            if (! configured)
+                                            {
+                                                if (aService->configure(configureData))
+                                                {
+                                                    configured = true;
+                                                }
+                                            }
+                                            if (configured)
+                                            {
+                                                aService->startStreams();
+                                            }
+                                            break;
+                                            
+                                        case 'c' :
+                                        case 'C' :
+                                            // Configure - nothing to do for a Random Number
+                                            // adapter.
+                                            if (aService->configure(configureData))
+                                            {
+                                                configured = true;
+                                            }
+                                            break;
+                                            
+                                        case 'e' :
+                                        case 'E' :
+                                            // Stop streams
+                                            aService->stopStreams();
+                                            break;
+                                            
+                                        case 'q' :
+                                        case 'Q' :
+                                            // Quit
+                                            StopRunning();
+                                            break;
+                                            
+                                        case 'r' :
+                                        case 'R' :
+                                            // Restart streams
+                                            if (! configured)
+                                            {
+                                                if (aService->configure(configureData))
+                                                {
+                                                    configured = true;
+                                                }
+                                            }
+                                            if (configured)
+                                            {
+                                                aService->restartStreams();
+                                            }
+                                            break;
+                                            
+                                        case 'u' :
+                                        case 'U' :
+                                            // Unconfigure
+                                            configured = false;
+                                            break;
+                                            
+                                        default :
+                                            cout << "Unrecognized request '" << inChar << "'." <<
+                                                    endl;
+                                            break;
+                                            
+                                    }
+                                }
+                                else
+                                {
+#if defined(MpM_MainDoesDelayNotYield)
+                                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                                    yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                                }
+                            }
+                            sharedData.deactivate();
+                            if (! aClient->disconnectFromService())
+                            {
+                                OD_LOG("(! aClient->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Problem disconnecting from the service.");
+#endif // MAC_OR_LINUX_
                             }
                         }
-                        stuff->removeAssociatedChannels();
+                        else
+                        {
+                            OD_LOG("! (aClient->connectToService())"); //####
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Could not connect to the required service.");
+#else // ! MAC_OR_LINUX_
+                            cerr << "Could not connect to the required service." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+                        UnregisterLocalService(channelName, *aService);
+                        if (reportOnExit)
+                        {
+                            yarp::os::Bottle metrics;
+                            
+                            aService->gatherMetrics(metrics);
+                            YarpString converted(Utilities::ConvertMetricsToString(metrics));
+                            
+                            cout << converted.c_str() << endl;
+                        }
+                        aService->stop();
                     }
                     else
                     {
-                        OD_LOG("! (controlChannel->openWithRetries(controlName, " //####
-                               "STANDARD_WAIT_TIME) && " //####
-                               "dataChannel->openWithRetries(dataName, " //####
-                               "STANDARD_WAIT_TIME) && " //####
-                               "outputChannel->openWithRetries(outputName, " //####
-                               "STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
 #if MAC_OR_LINUX_
-                        GetLogger().fail("Problem opening a channel.");
-#endif // MAC_OR_LINUX_
+                        GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Service could not be registered." << endl;
+#endif // ! MAC_OR_LINUX_
                     }
-#if defined(MpM_DoExplicitClose)
-                    controlChannel->close();
-                    dataChannel->close();
-                    outputChannel->close();
-#endif // defined(MpM_DoExplicitClose)
                 }
                 else
                 {
-                    OD_LOG("! (controlChannel && dataChannel && outputChannel && " //####
-                           "controlHandler && dataHandler)"); //####
+                    OD_LOG("! (aService->start())"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Problem creating a channel.");
-#endif // MAC_OR_LINUX_
+                    GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Service could not be started." << endl;
+#endif // ! MAC_OR_LINUX_
                 }
-                BaseChannel::RelinquishChannel(controlChannel);
-                BaseChannel::RelinquishChannel(dataChannel);
-                BaseChannel::RelinquishChannel(outputChannel);
-                if (! stuff->disconnectFromService())
-                {
-                    OD_LOG("(! stuff->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
-                }
+                delete aService;
             }
             else
             {
-                OD_LOG("! (stuff->connectToService())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+                OD_LOG("! (aService)"); //####
             }
         }
         else
         {
-            OD_LOG("! (stuff->findService(\"Name: RunningSum\"))"); //####
+            OD_LOG("! (aClient->findService(\"keyword: random\"))"); //####
 #if MAC_OR_LINUX_
             GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
             cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        delete stuff;
+        delete aClient;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aClient)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -250,82 +342,55 @@ static void setUpAndGo(const YarpString & controlName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for creating the Running Sum adapter.
- 
- The program creates three YARP ports: an output port and two input ports - a control port to
- receive commands and a data port to receive a sequence of numbers to be added. Commands are
- case-sensitive and will result in requests being sent to the service. The commands are:
- 
- @c quit Ask the service to stop calculating the running sum and exit from the program.
- 
- @c reset Ask the service to reset its running sum.
- 
- @c start Ask the service to start calculating the running sum.
- 
- @c stop Ask the service to stop calculating the running sum.
- 
- The first, optional, argument is the port name to be used for the control port, the second,
- optional, argument is the name to be used for the data port and the third, optional, argument is
- the name to be used for the output port. If the first argument is missing, the control port will be
- named ADAPTER_PORT_NAME_BASE+control/runningsum, if the second argument is missing, the data port
- will be named ADAPTER_PORT_NAME_BASE+data/randomnumber and if the third argument is missing the
- output port will be named ADAPTER_PORT_NAME_BASE+output/runningsum.
+/*! @brief The entry point for running the Running Sum adapter service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the application.
+ @param argv The arguments to be used with the Running Sum adapter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
 {
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+#if defined(MpM_ServicesLogToStandardError)
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
+                kODLoggingOptionEnableThreadSupport); //####
+#else // ! defined(MpM_ServicesLogToStandardError)
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
+#endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
-        YarpString                           controlName;
-        YarpString                           dataName;
-        YarpString                           outputName;
-        Utilities::ChannelArgumentDescriptor firstArg("controlName",
-                                                      T_("Name for the control channel"),
-                                                      T_(ADAPTER_PORT_NAME_BASE
-                                                         "control/runningsum"), true, &controlName);
-        Utilities::ChannelArgumentDescriptor secondArg("dataName", T_("Name for the data channel"),
-                                                       T_(ADAPTER_PORT_NAME_BASE "data/runningsum"),
-                                                       true, &dataName);
-        Utilities::ChannelArgumentDescriptor thirdArg("outputName",
-                                                      T_("Name for the output channel"),
-                                                      T_(ADAPTER_PORT_NAME_BASE
-                                                         "output/runningsum"), true, &outputName);
-        Utilities::DescriptorVector          argumentList;
-        
-        argumentList.push_back(&firstArg);
-        argumentList.push_back(&secondArg);
-        argumentList.push_back(&thirdArg);
-        if (Utilities::ProcessStandardAdapterOptions(argc, argv, argumentList,
-                                                     "The Running Sum adapter", MATCHING_CRITERIA,
-                                                     2014, STANDARD_COPYRIGHT_NAME))
+        bool                        goWasSet = false;
+        bool                        reportOnExit = false;
+        bool                        stdinAvailable = CanReadFromStandardInput();
+        YarpString                  serviceEndpointName;
+        YarpString                  servicePortNumber;
+        YarpString                  tag;
+        Utilities::DescriptorVector argumentList;
+
+        if (ProcessStandardAdapterOptions(argc, argv, argumentList,
+                                          DEFAULT_RUNNINGSUMADAPTER_SERVICE_NAME,
+                                          RUNNINGSUMADAPTER_SERVICE_DESCRIPTION, MATCHING_CRITERIA,
+                                          2015, STANDARD_COPYRIGHT_NAME, goWasSet, reportOnExit,
+                                          tag, serviceEndpointName, servicePortNumber))
         {
-            Utilities::SetUpGlobalStatusReporter();
-            Utilities::CheckForNameServerReporter();
+			Utilities::SetUpGlobalStatusReporter();
+			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-#if defined(MpM_ReportOnConnections)
-                ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-                yarp::os::ConstString   progName(*argv);
-                yarp::os::Network       yarp; // This is necessary to establish any connections to
-                                              // the YARP infrastructure
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-#if defined(MpM_ReportOnConnections)
-                    setUpAndGo(controlName, dataName, outputName, reporter);
-#else // ! defined(MpM_ReportOnConnections)
-                    setUpAndGo(controlName, dataName, outputName);
-#endif // ! defined(MpM_ReportOnConnections)
+                    setUpAndGo(progName, argc, argv, tag, serviceEndpointName, servicePortNumber,
+                               goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {
@@ -346,8 +411,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-            Utilities::ShutDownGlobalStatusReporter();
-        }
+			Utilities::ShutDownGlobalStatusReporter();
+		}
     }
     catch (...)
     {

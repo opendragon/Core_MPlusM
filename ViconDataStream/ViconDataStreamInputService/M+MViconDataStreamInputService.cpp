@@ -238,7 +238,7 @@ void ViconDataStreamInputService::startStreams(void)
 		    std::stringstream nameAndPort;
 
 			nameAndPort << _hostName.c_str() << ":" << _hostPort;
-            _eventThread = new ViconDataStreamEventThread(_outStreams.at(0), nameAndPort.str());
+            _eventThread = new ViconDataStreamEventThread(getOutletStream(0), nameAndPort.str());
             _eventThread->start();
             setActive();
         }

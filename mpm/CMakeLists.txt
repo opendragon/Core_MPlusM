@@ -58,6 +58,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/M+MBailOut.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterService.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MBaseClient.cpp"
@@ -150,6 +151,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MBailOut.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBailOutThread.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterData.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MBaseAdapterService.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MBaseClient.h"
@@ -203,6 +205,7 @@ if(MpM_DO_SWIG)
         M+MBailOut.h M+MBailOut.cpp
         M+MBailOutThread.h M+MBailOutThread.cpp
         M+MBaseAdapterData.h M+MBaseAdapterData.cpp
+        M+MBaseAdapterService.h M+MBaseAdapterService.cpp
         M+MBaseChannel.h M+MBaseChannel.cpp
         M+MBaseClient.h M+MBaseClient.cpp
         M+MBaseContext.h M+MBaseContext.cpp

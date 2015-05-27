@@ -84,7 +84,7 @@ using namespace MplusM::Exemplar;
 #endif // defined(__APPLE__)
 
 ExemplarAdapterData::ExemplarAdapterData(ExemplarClient * client,
-                                         AdapterChannel * output) :
+                                         BaseChannel *    output) :
     inherited(client, output)
 {
     OD_LOG_ENTER();//####

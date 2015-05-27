@@ -220,8 +220,8 @@ void TruncateFloatService::startStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(_outStreams.at(0));
-                _inStreams.at(0)->setReader(*_inHandler);
+                _inHandler->setOutput(getOutletStream(0));
+                getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }
         }

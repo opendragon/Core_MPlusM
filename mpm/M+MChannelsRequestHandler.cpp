@@ -133,12 +133,14 @@ void ChannelsRequestHandler::fillInDescription(const YarpString &   request,
         info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING
                  MpM_REQREP_0_OR_MORE MpM_REQREP_LIST_END MpM_REQREP_LIST_START MpM_REQREP_STRING
+                 MpM_REQREP_0_OR_MORE MpM_REQREP_LIST_END MpM_REQREP_LIST_START MpM_REQREP_STRING
                  MpM_REQREP_0_OR_MORE MpM_REQREP_LIST_END);
         info.put(MpM_REQREP_DICT_VERSION_KEY, CHANNELS_REQUEST_VERSION_NUMBER);
         info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the secondary channels of the service\n"
                  "Input: nothing\n"
-                 "Output: a list of secondary input channel names and a list of secondary output "
-                 "channel names, with protocols and protocol descriptions");
+                 "Output: a list of secondary input channel names, a list of secondary output "
+                 "channel names and a list of secondary client channel names, with protocols and "
+                 "protocol descriptions for the input and output channels");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
@@ -212,6 +214,20 @@ bool ChannelsRequestHandler::processRequest(const YarpString &           request
                     newBottle.addString(aChannel._portName);
                     newBottle.addString(aChannel._portProtocol);
                     newBottle.addString(aChannel._protocolDescription);
+                }
+            }
+            yarp::os::Bottle & aList3 = reply.addList();
+            
+            _service.fillInSecondaryClientChannelsList(channels);
+            if (0 < channels.size())
+            {
+                for (ChannelVector::const_iterator walker(channels.begin());
+                     channels.end() != walker; ++walker)
+                {
+                    const ChannelDescription & aChannel = *walker;
+                    yarp::os::Bottle &         newBottle = aList3.addList();
+                    
+                    newBottle.addString(aChannel._portName);
                 }
             }
             sendResponse(reply, replyMechanism);

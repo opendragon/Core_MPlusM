@@ -238,7 +238,7 @@ void AbsorberService::startStreams(void)
         {
             if (_inHandler)
             {
-                _inStreams.at(0)->setReader(*_inHandler);
+                getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }
         }

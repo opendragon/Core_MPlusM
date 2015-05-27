@@ -151,18 +151,18 @@ static void setUpAndGo(void)
 #if defined(MpM_ReportOnConnections)
     OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
-    MovementDbClient * stuff = new MovementDbClient;
+    MovementDbClient * aClient = new MovementDbClient;
     
-    if (stuff)
+    if (aClient)
     {
 #if defined(MpM_ReportOnConnections)
-        stuff->setReporter(reporter, true);
+        aClient->setReporter(reporter, true);
 #endif // defined(MpM_ReportOnConnections)
         StartRunning();
         SetSignalHandlers(SignalRunningStop);
-        if (stuff->findService("name:MovementDb"))
+        if (aClient->findService("name:MovementDb"))
         {
-            if (stuff->connectToService())
+            if (aClient->connectToService())
             {
                 for ( ; IsRunning(); )
                 {
@@ -183,13 +183,13 @@ static void setUpAndGo(void)
                                 if (getline(cin, inputLine))
                                 {
                                     inputString = inputLine.c_str();
-                                    if (stuff->addFileToDb(inputString))
+                                    if (aClient->addFileToDb(inputString))
                                     {
                                         cout << "File added to database." << endl;
                                     }
                                     else
                                     {
-                                        OD_LOG("! (stuff->addFileToDb(inputString))"); //####
+                                        OD_LOG("! (aClient->addFileToDb(inputString))"); //####
 #if MAC_OR_LINUX_
                                         GetLogger().fail("Problem adding file to database.");
 #endif // MAC_OR_LINUX_
@@ -208,13 +208,13 @@ static void setUpAndGo(void)
                                 cout.flush();
                                 getline(cin, inputLine);
                                 inputString = inputLine.c_str();
-                                if (stuff->setDataTrackForDb(inputString))
+                                if (aClient->setDataTrackForDb(inputString))
                                 {
                                     cout << "Data track set for database." << endl;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (stuff->setDataTrackForDb(inputString))"); //####
+                                    OD_LOG("! (aClient->setDataTrackForDb(inputString))"); //####
 #if MAC_OR_LINUX_
                                     GetLogger().fail("Problem setting data track for database.");
 #endif // MAC_OR_LINUX_
@@ -228,13 +228,13 @@ static void setUpAndGo(void)
                                 cout.flush();
                                 getline(cin, inputLine);
                                 inputString = inputLine.c_str();
-                                if (stuff->setEmailAddressForDb(inputString))
+                                if (aClient->setEmailAddressForDb(inputString))
                                 {
                                     cout << "E-mail address set for database." << endl;
                                 }
                                 else
                                 {
-                                    OD_LOG("! (stuff->setEmailAddressForDb(inputString))"); //####
+                                    OD_LOG("! (aClient->setEmailAddressForDb(inputString))"); //####
 #if MAC_OR_LINUX_
                                     GetLogger().fail("Problem setting e-mail address for "
                                                      "database.");
@@ -248,9 +248,9 @@ static void setUpAndGo(void)
                             case 'Q' :
                                 cout << "Exiting" << endl;
                                 cout.flush();
-                                if (! stuff->stopDbConnection())
+                                if (! aClient->stopDbConnection())
                                 {
-                                    OD_LOG("(! stuff->stopDbConnection())"); //####
+                                    OD_LOG("(! aClient->stopDbConnection())"); //####
 #if MAC_OR_LINUX_
                                     GetLogger().fail("Problem stopping the database connection.");
 #endif // MAC_OR_LINUX_
@@ -271,9 +271,9 @@ static void setUpAndGo(void)
                         }
                     }
                 }
-                if (! stuff->disconnectFromService())
+                if (! aClient->disconnectFromService())
                 {
-                    OD_LOG("(! stuff->disconnectFromService())"); //####
+                    OD_LOG("(! aClient->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                     GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -281,7 +281,7 @@ static void setUpAndGo(void)
             }
             else
             {
-                OD_LOG("! (stuff->connectToService())"); //####
+                OD_LOG("! (aClient->connectToService())"); //####
 #if MAC_OR_LINUX_
                 GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -291,18 +291,18 @@ static void setUpAndGo(void)
         }
         else
         {
-            OD_LOG("! (stuff->findService(\"name:MovementDb\"))"); //####
+            OD_LOG("! (aClient->findService(\"name:MovementDb\"))"); //####
 #if MAC_OR_LINUX_
             GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
             cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        delete stuff;
+        delete aClient;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aClient)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -328,11 +328,14 @@ int main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -352,7 +355,6 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                     ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-                    yarp::os::ConstString   progName(*argv);
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
                     

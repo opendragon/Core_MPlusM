@@ -232,7 +232,7 @@ void NaturalPointInputService::startStreams(void)
     {
         if (! isActive())
         {
-            _generator = new NaturalPointInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator = new NaturalPointInputThread(getOutletStream(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }

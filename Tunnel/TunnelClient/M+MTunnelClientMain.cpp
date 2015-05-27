@@ -315,12 +315,12 @@ static void setUpAndGo(const int          listenPort,
 #if defined(MpM_ReportOnConnections)
     OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
-    TunnelClient * stuff = new TunnelClient;
+    TunnelClient * aClient = new TunnelClient;
 
-    if (stuff)
+    if (aClient)
     {
 #if defined(MpM_ReportOnConnections)
-        stuff->setReporter(*reporter, true);
+        aClient->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
         YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
         YarpString namePattern(MpM_TUNNEL_CANONICAL_NAME);
@@ -332,25 +332,25 @@ static void setUpAndGo(const int          listenPort,
             namePattern = singleQuote + namePattern + " " + tag + singleQuote;
         }
         channelNameRequest += namePattern;
-        if (stuff->findService(channelNameRequest.c_str()))
+        if (aClient->findService(channelNameRequest.c_str()))
         {
             SOCKET listenSocket = setUpListeningPost(listenPort);
             
             if (INVALID_SOCKET != listenSocket)
             {
                 OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
-                if (stuff->connectToService())
+                if (aClient->connectToService())
                 {
                     YarpString serviceAddress;
                     int        servicePort;
                     
-                    if (stuff->getAddress(serviceAddress, servicePort))
+                    if (aClient->getAddress(serviceAddress, servicePort))
                     {
                         handleConnections(listenSocket, serviceAddress, servicePort);
                     }
                     else
                     {
-                        OD_LOG("! (stuff->getAddress(serviceAddress, servicePort))"); //####
+                        OD_LOG("! (aClient->getAddress(serviceAddress, servicePort))"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem fetching the address information.");
 #else // ! MAC_OR_LINUX_
@@ -360,7 +360,7 @@ static void setUpAndGo(const int          listenPort,
                 }
                 else
                 {
-                    OD_LOG("! (stuff->connectToService())"); //####
+                    OD_LOG("! (aClient->connectToService())"); //####
 #if MAC_OR_LINUX_
                     GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -378,18 +378,18 @@ static void setUpAndGo(const int          listenPort,
         }
         else
         {
-            OD_LOG("! (stuff->findService(channelNameRequest)"); //####
+            OD_LOG("! (aClient->findService(channelNameRequest)"); //####
 #if MAC_OR_LINUX_
             GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
             cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        delete stuff;
+        delete aClient;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aClient)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -412,11 +412,14 @@ int main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -445,7 +448,6 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                     ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-                    yarp::os::ConstString   progName(*argv);
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
                     

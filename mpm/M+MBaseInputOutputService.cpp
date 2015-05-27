@@ -44,6 +44,7 @@
 
 #include <mpm/M+MBaseInputOutputService.h>
 #include <mpm/M+MChannelStatusReporter.h>
+#include <mpm/M+MClientChannel.h>
 #include <mpm/M+MGeneralChannel.h>
 #include <mpm/M+MUtilities.h>
 
@@ -120,6 +121,7 @@ BaseInputOutputService::BaseInputOutputService(const ServiceKind  theKind,
 BaseInputOutputService::~BaseInputOutputService(void)
 {
     OD_LOG_OBJENTER(); //####
+    shutDownClientStreams();
     shutDownInputStreams();
     shutDownOutputStreams();
     detachRequestHandlers();
@@ -129,6 +131,74 @@ BaseInputOutputService::~BaseInputOutputService(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
+
+bool BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & descriptions)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("descriptions = ", &descriptions); //####
+    bool result = true;
+    
+    try
+    {
+        if (0 < descriptions.size())
+        {
+#if defined(MpM_ReportOnConnections)
+            ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+#endif // defined(MpM_ReportOnConnections)
+            
+            for (ChannelVector::const_iterator walker(descriptions.begin());
+                 result && (descriptions.end() != walker); ++walker)
+            {
+                ClientChannel * newChannel = new ClientChannel;
+                
+                if (newChannel)
+                {
+                    ChannelDescription aDescription(*walker);
+                    
+#if defined(MpM_ReportOnConnections)
+                    newChannel->setReporter(*reporter);
+                    newChannel->getReport(*reporter);
+#endif // defined(MpM_ReportOnConnections)
+                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
+                    {
+                        if (metricsAreEnabled())
+                        {
+                            newChannel->enableMetrics();
+                        }
+                        else
+                        {
+                            newChannel->disableMetrics();
+                        }
+                        _clientStreams.push_back(newChannel);
+                    }
+                    else
+                    {
+                        OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
+                               "STANDARD_WAIT_TIME))"); //####
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Problem opening input channel.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Problem opening input channel." << endl;
+#endif // ! MAC_OR_LINUX_
+                        result = false;
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (newChannel)"); //####
+                    result = false;
+                }
+            }
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // BaseInputOutputService::addClientStreamsFromDescriptions
 
 bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descriptions)
 {
@@ -343,10 +413,23 @@ void BaseInputOutputService::disableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     inherited::disableMetrics();
+    if (0 < _clientStreams.size())
+    {
+        for (ClientChannelVector::const_iterator walker(_clientStreams.begin());
+             _clientStreams.end() != walker; ++walker)
+        {
+            ClientChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                aChannel->disableMetrics();
+            }
+        }
+    }
     if (0 < _inStreams.size())
     {
-        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_inStreams.begin());
+             _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -358,8 +441,8 @@ void BaseInputOutputService::disableMetrics(void)
     }
     if (0 < _outStreams.size())
     {
-        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_outStreams.begin());
+             _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -376,10 +459,23 @@ void BaseInputOutputService::enableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     inherited::enableMetrics();
+    if (0 < _clientStreams.size())
+    {
+        for (ClientChannelVector::const_iterator walker(_clientStreams.begin());
+             _clientStreams.end() != walker; ++walker)
+        {
+            ClientChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                aChannel->enableMetrics();
+            }
+        }
+    }
     if (0 < _inStreams.size())
     {
-        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_inStreams.begin());
+             _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -391,8 +487,8 @@ void BaseInputOutputService::enableMetrics(void)
     }
     if (0 < _outStreams.size())
     {
-        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_outStreams.begin());
+             _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -405,6 +501,32 @@ void BaseInputOutputService::enableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::enableMetrics
 
+void BaseInputOutputService::fillInSecondaryClientChannelsList(ChannelVector & channels)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("channels = ", &channels); //####
+    inherited::fillInSecondaryClientChannelsList(channels);
+    if (0 < _clientStreams.size())
+    {
+        for (ClientChannelVector::const_iterator walker(_clientStreams.begin());
+             _clientStreams.end() != walker; ++walker)
+        {
+            ClientChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                OD_LOG_S1s("aChannel = ", aChannel->name()); //####
+                ChannelDescription descriptor;
+                
+                descriptor._portName = aChannel->name();
+                descriptor._portMode = kChannelModeTCP;
+                channels.push_back(descriptor);
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::fillInSecondaryClientChannelsList
+
 void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & channels)
 {
     OD_LOG_OBJENTER(); //####
@@ -412,8 +534,8 @@ void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & ch
     inherited::fillInSecondaryInputChannelsList(channels);
     if (0 < _inStreams.size())
     {
-        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_inStreams.begin());
+             _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -440,8 +562,8 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
     inherited::fillInSecondaryOutputChannelsList(channels);
     if (0 < _outStreams.size())
     {
-        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_outStreams.begin());
+             _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -468,8 +590,19 @@ void BaseInputOutputService::gatherMetrics(yarp::os::Bottle & metrics)
     SendReceiveCounters counters;
     
     inherited::gatherMetrics(metrics);
-    for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
-         ++walker)
+    for (ClientChannelVector::const_iterator walker(_clientStreams.begin());
+         _clientStreams.end() != walker; ++walker)
+    {
+        ClientChannel * aChannel = *walker;
+        
+        if (aChannel)
+        {
+            aChannel->getSendReceiveCounters(counters);
+            counters.addToList(metrics, aChannel->name());
+        }
+    }
+    for (GeneralChannelVector::const_iterator walker(_inStreams.begin());
+         _inStreams.end() != walker; ++walker)
     {
         GeneralChannel * aChannel = *walker;
         
@@ -479,8 +612,8 @@ void BaseInputOutputService::gatherMetrics(yarp::os::Bottle & metrics)
             counters.addToList(metrics, aChannel->name());
         }
     }
-    for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
-         ++walker)
+    for (GeneralChannelVector::const_iterator walker(_outStreams.begin());
+         _outStreams.end() != walker; ++walker)
     {
         GeneralChannel * aChannel = *walker;
         
@@ -493,6 +626,27 @@ void BaseInputOutputService::gatherMetrics(yarp::os::Bottle & metrics)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::gatherMetrics
 
+size_t BaseInputOutputService::getClientCount(void)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    size_t result = _clientStreams.size();
+    
+    OD_LOG_OBJEXIT_L(result); //#####
+    return result;
+} // BaseInputOutputService::getClientCount
+
+ClientChannel * BaseInputOutputService::getClientStream(const size_t index)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("index = ", index); //####
+    ClientChannel * result = _clientStreams.at(index);
+    
+    OD_LOG_OBJEXIT_P(result); //####
+    return result;
+} // BaseInputOutputService::getClientStream
+
 size_t BaseInputOutputService::getInletCount(void)
 const
 {
@@ -503,6 +657,17 @@ const
     return result;
 } // BaseInputOutputService::getInletCount
 
+GeneralChannel * BaseInputOutputService::getInletStream(const size_t index)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("index = ", index); //####
+    GeneralChannel * result = _inStreams.at(index);
+    
+    OD_LOG_OBJEXIT_P(result); //####
+    return result;
+} // BaseInputOutputService::getInletStream
+
 size_t BaseInputOutputService::getOutletCount(void)
 const
 {
@@ -512,6 +677,26 @@ const
     OD_LOG_OBJEXIT_L(result); //#####
     return result;
 } // BaseInputOutputService::getOutletCount
+
+GeneralChannel * BaseInputOutputService::getOutletStream(const size_t index)
+const
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("index = ", index); //####
+    GeneralChannel * result = _outStreams.at(index);
+    
+    OD_LOG_OBJEXIT_P(result); //####
+    return result;
+} // BaseInputOutputService::getOutletStream
+
+bool BaseInputOutputService::setUpClientStreams(void)
+{
+    OD_LOG_OBJENTER(); //####
+    bool result = shutDownClientStreams(); // clear out existing streams first
+    
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // BaseInputOutputService::setUpClientStreams
 
 bool BaseInputOutputService::setUpInputStreams(void)
 {
@@ -531,6 +716,30 @@ bool BaseInputOutputService::setUpOutputStreams(void)
     return result;
 } // BaseInputOutputService::setUpOutputStreams
 
+bool BaseInputOutputService::shutDownClientStreams(void)
+{
+    OD_LOG_OBJENTER(); //####
+    bool result = true; // by default, always true
+    
+    if (0 < _clientStreams.size())
+    {
+        for (ClientChannelVector::const_iterator walker(_clientStreams.begin());
+             _clientStreams.end() != walker; ++walker)
+        {
+            ClientChannel * aChannel = *walker;
+            
+            if (aChannel)
+            {
+                OD_LOG_P1("aChannel = ", aChannel); //####
+                delete aChannel;
+            }
+        }
+        _clientStreams.clear();
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // BaseInputOutputService::shutDownClientStreams
+
 bool BaseInputOutputService::shutDownInputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -538,8 +747,8 @@ bool BaseInputOutputService::shutDownInputStreams(void)
     
     if (0 < _inStreams.size())
     {
-        for (StreamVector::const_iterator walker(_inStreams.begin()); _inStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_inStreams.begin());
+             _inStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -562,8 +771,8 @@ bool BaseInputOutputService::shutDownOutputStreams(void)
     
     if (0 < _outStreams.size())
     {
-        for (StreamVector::const_iterator walker(_outStreams.begin()); _outStreams.end() != walker;
-             ++walker)
+        for (GeneralChannelVector::const_iterator walker(_outStreams.begin());
+             _outStreams.end() != walker; ++walker)
         {
             GeneralChannel * aChannel = *walker;
             
@@ -589,15 +798,16 @@ bool BaseInputOutputService::start(void)
         if (! isStarted())
         {
             inherited::start();
-            if (isStarted() && setUpStreamDescriptions() && setUpInputStreams() &&
-                setUpOutputStreams())
+            if (isStarted() && setUpStreamDescriptions() && setUpClientStreams() &&
+                setUpInputStreams() && setUpOutputStreams())
             {
             
             }
             else
             {
                 OD_LOG("! (isStarted() && setUpStreamDescriptions() && " //####
-                       "setUpInputStreams() && setUpOutputStreams())"); //####
+                       "setUpClientStreams() && setUpInputStreams() && " //####
+                       "setUpOutputStreams())"); //####
             }
         }
         result = isStarted();
@@ -618,6 +828,10 @@ bool BaseInputOutputService::stop(void)
     
     try
     {
+        if (! shutDownClientStreams())
+        {
+            result = false;
+        }
         if (! shutDownInputStreams())
         {
             result = false;

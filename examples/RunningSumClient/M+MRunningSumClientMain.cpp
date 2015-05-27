@@ -104,18 +104,18 @@ static void setUpAndGo(void)
 #if defined(MpM_ReportOnConnections)
     OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
-    RunningSumClient * stuff = new RunningSumClient;
+    RunningSumClient * aClient = new RunningSumClient;
     
-    if (stuff)
+    if (aClient)
     {
         StartRunning();
         SetSignalHandlers(SignalRunningStop);
-        if (stuff->findService("Name: RunningSum"))
+        if (aClient->findService("Name: RunningSum"))
         {
 #if defined(MpM_ReportOnConnections)
-            stuff->setReporter(*reporter, true);
+            aClient->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-            if (stuff->connectToService())
+            if (aClient->connectToService())
             {
                 for ( ; IsRunning(); )
                 {
@@ -138,13 +138,13 @@ static void setUpAndGo(void)
                             cout.flush();
                             cin >> value;
                             cout << "adding " << value << endl;
-                            if (stuff->addToSum(value, newSum))
+                            if (aClient->addToSum(value, newSum))
                             {
                                 cout << "running sum = " << newSum << endl;
                             }
                             else
                             {
-                                OD_LOG("! (stuff->addToSum(value, newSum))"); //####
+                                OD_LOG("! (aClient->addToSum(value, newSum))"); //####
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem adding to the sum.");
 #endif // MAC_OR_LINUX_
@@ -154,9 +154,9 @@ static void setUpAndGo(void)
                         case 'q' :
                         case 'Q' :
                             cout << "Exiting" << endl;
-                            if (! stuff->stopSum())
+                            if (! aClient->stopSum())
                             {
-                                OD_LOG("(! stuff->stopSum())"); //####
+                                OD_LOG("(! aClient->stopSum())"); //####
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem stopping the sum.");
 #endif // MAC_OR_LINUX_
@@ -167,9 +167,9 @@ static void setUpAndGo(void)
                         case 'r' :
                         case 'R' :
                             cout << "Resetting" << endl;
-                            if (! stuff->resetSum())
+                            if (! aClient->resetSum())
                             {
-                                OD_LOG("(! stuff->resetSum())"); //####
+                                OD_LOG("(! aClient->resetSum())"); //####
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem resetting the sum.");
 #endif // MAC_OR_LINUX_
@@ -179,9 +179,9 @@ static void setUpAndGo(void)
                         case 's' :
                         case 'S' :
                             cout << "Starting" << endl;
-                            if (! stuff->startSum())
+                            if (! aClient->startSum())
                             {
-                                OD_LOG("(! stuff->startSum())"); //####
+                                OD_LOG("(! aClient->startSum())"); //####
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem starting the sum.");
 #endif // MAC_OR_LINUX_
@@ -194,9 +194,9 @@ static void setUpAndGo(void)
                             
                     }
                 }
-                if (! stuff->disconnectFromService())
+                if (! aClient->disconnectFromService())
                 {
-                    OD_LOG("(! stuff->disconnectFromService())"); //####
+                    OD_LOG("(! aClient->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                     GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -204,7 +204,7 @@ static void setUpAndGo(void)
             }
             else
             {
-                OD_LOG("! (stuff->connectToService())"); //####
+                OD_LOG("! (aClient->connectToService())"); //####
 #if MAC_OR_LINUX_
                 GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -214,18 +214,18 @@ static void setUpAndGo(void)
         }
         else
         {
-            OD_LOG("! (stuff->findService(\"Name: RunningSum\")"); //####
+            OD_LOG("! (aClient->findService(\"Name: RunningSum\")"); //####
 #if MAC_OR_LINUX_
             GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
             cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        delete stuff;
+        delete aClient;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aClient)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -263,11 +263,14 @@ int main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -287,7 +290,6 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                     ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-                    yarp::os::ConstString   progName(*argv);
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
                     

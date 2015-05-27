@@ -129,7 +129,7 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &     input,
         
         if (0 < howMany)
         {
-            AdapterChannel *   theOutput = _shared.getOutput();
+            BaseChannel *      theOutput = _shared.getOutput();
             YarpString         command;
             double             outValue;
             MovementDbClient * theClient = (MovementDbClient *) _shared.getClient();

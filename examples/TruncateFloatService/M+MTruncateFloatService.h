@@ -64,7 +64,6 @@ namespace MplusM
     namespace Example
     {
         class TruncateFloatInputHandler;
-        class TruncateFloatRequestHandler;
         
         /*! @brief The Truncate Float service. */
         class TruncateFloatService : public Common::BaseFilterService

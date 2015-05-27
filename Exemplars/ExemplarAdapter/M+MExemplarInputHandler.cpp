@@ -128,7 +128,7 @@ bool ExemplarInputHandler::handleInput(const yarp::os::Bottle &     input,
     {
         if (0 < input.size())
         {
-            AdapterChannel * theOutput = _shared.getOutput();
+            BaseChannel *    theOutput = _shared.getOutput();
             ExemplarClient * theClient = (ExemplarClient *) _shared.getClient();
             
             if (theClient && theOutput)

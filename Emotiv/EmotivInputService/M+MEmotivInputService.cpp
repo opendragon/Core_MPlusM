@@ -232,7 +232,7 @@ void EmotivInputService::startStreams(void)
     {
         if (! isActive())
         {
-            _generator = new EmotivInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator = new EmotivInputThread(getOutletStream(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }

@@ -188,6 +188,10 @@ namespace MplusM
              @param clients The list to be filled in. */
             void fillInClientList(YarpStringVector & clients);
             
+            /*! @brief Fill in a list of secondary client channels for the service.
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryClientChannelsList(ChannelVector & channels);
+            
             /*! @brief Fill in a list of secondary input channels for the service.
              @param channels The list of channels to be filled in. */
             virtual void fillInSecondaryInputChannelsList(ChannelVector & channels);

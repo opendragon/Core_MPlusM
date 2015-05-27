@@ -232,7 +232,7 @@ void ExemplarInputService::startStreams(void)
     {
         if (! isActive())
         {
-            _generator = new ExemplarInputThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator = new ExemplarInputThread(getOutletStream(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }

@@ -4,11 +4,11 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Random Number adapter application.
+#  Contains:   The CMAKE definitions for the Random Number adapter service application.
 #
 #  Written by: Norman Jaffe
 #
-#  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+#  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 #
 #              All rights reserved. Redistribution and use in source and binary forms, with or
 #              without modification, are permitted provided that the following conditions are met:
@@ -32,7 +32,7 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2014-03-27
+#  Created:    2015-05-27
 #
 #--------------------------------------------------------------------------------------------------
 
@@ -54,6 +54,7 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 add_executable(${THIS_TARGET}
                M+MRandomNumberAdapterMain.cpp
                M+MRandomNumberAdapterData.cpp
+               M+MRandomNumberAdapterService.cpp
                M+MRandomNumberInputHandler.cpp
                ${MpM_EXAMPLES_DIR}/RandomNumberClient/M+MRandomNumberClient.cpp
                ${VERS_RESOURCE})

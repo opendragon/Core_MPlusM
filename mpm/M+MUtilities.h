@@ -425,34 +425,6 @@ namespace MplusM
             return (kPortKindRegistryService == GetPortKind(portName));
         } // PortIsRegistryService
 
-        /*! @brief Process the standard options for adapter executables.
-         The option '-c' / '--channels' displays the list of channels created by the adapter and
-         returns @c false.
-         The option '-h' / '--help' displays the list of optional parameters and arguments and
-         returns @c false.
-         The option '-i' / '--info' displays the type of the executable and the description of the
-         executable and returns @c false.
-         The option '-v' / '--vers'displays the version and copyright information and returns
-         @c false.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used with the adapter.
-         @param argumentDescriptions Descriptions of the arguments to the adapter.
-         @param adapterDescription A description of the adapter.
-         @param matchingCriteria The criteria used to locate the service that the adapter attaches
-         to.
-         @param year The copyright year for the calling application.
-         @param copyrightHolder The name of the entity holding the copyright to the adapter.
-         @param arguments If non-@c NULL, returns the arguments for the adapter.
-         @returns @c true if the program should continue and @c false if it should leave. */
-        bool ProcessStandardAdapterOptions(const int          argc,
-                                           char * *           argv,
-                                           DescriptorVector & argumentDescriptions,
-                                           const YarpString & adapterDescription,
-                                           const YarpString & matchingCriteria,
-                                           const int          year,
-                                           const char *       copyrightHolder,
-                                           YarpStringVector * arguments = NULL);
-
         /*! @brief Process the standard options for client executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
          returns @c false.

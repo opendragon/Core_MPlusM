@@ -350,10 +350,10 @@ void Common::SetUpCatcher(void)
 } // Common::SetUpCatcher
 
 #if MAC_OR_LINUX_
-void Common::SetUpLogger(const char * progName)
+void Common::SetUpLogger(const YarpString & progName)
 {
     OD_LOG_ENTER(); //####
-    lLogger = new yarp::os::impl::Logger(progName);
+    lLogger = new yarp::os::impl::Logger(progName.c_str());
     if (lLogger)
     {
         lLogger->setVerbosity(1);

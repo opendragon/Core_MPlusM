@@ -53,8 +53,8 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the custom control channel input handler used by the alternative
- Running Sum adapter. */
+ @brief The class definition for the custom input handler used by the alternative Running Sum
+ adapter. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -131,7 +131,7 @@ bool RunningSumInputHandler::handleInput(const yarp::os::Bottle &     input,
         
         if (0 < howMany)
         {
-            AdapterChannel *   theOutput = _shared.getOutput();
+            BaseChannel *      theOutput = _shared.getOutput();
             DoubleVector       values;
             double             outValue;
             RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();

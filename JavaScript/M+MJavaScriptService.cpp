@@ -432,7 +432,7 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
     
     if ((0 <= channelSlot) && (channelSlot < static_cast<int32_t>(getOutletCount())))
     {
-        Common::GeneralChannel * outChannel = _outStreams.at(channelSlot);
+        Common::GeneralChannel * outChannel = getOutletStream(channelSlot);
         yarp::os::Bottle         outBottle;
         
         fillBottleFromValue(_context, outBottle, theData, true);
@@ -533,7 +533,7 @@ void JavaScriptService::startStreams(void)
             else
             {
                 releaseHandlers();
-                for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
+                for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
                     JS::HandleValue          handlerFunc = _inletHandlers[ii];
                     JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii,
@@ -542,7 +542,7 @@ void JavaScriptService::startStreams(void)
                     if (aHandler)
                     {
                         _inHandlers.push_back(aHandler);
-                        _inStreams.at(ii)->setReader(*aHandler);
+                        getInletStream(ii)->setReader(*aHandler);
                         aHandler->activate();
                     }
                 }
@@ -595,7 +595,7 @@ void JavaScriptService::stopStreams(void)
             }
             else
             {
-                for (size_t ii = 0, mm = _inStreams.size(); mm > ii; ++ii)
+                for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
                     JavaScriptInputHandler * aHandler = _inHandlers.at(ii);
                     

@@ -92,18 +92,18 @@ static void setUpAndGo(void)
 #if defined(MpM_ReportOnConnections)
     OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
-    EchoClient * stuff = new EchoClient;
+    EchoClient * aClient = new EchoClient;
     
-    if (stuff)
+    if (aClient)
     {
         StartRunning();
         SetSignalHandlers(SignalRunningStop);
-        if (stuff->findService("details: Echo*"))
+        if (aClient->findService("details: Echo*"))
         {
 #if defined(MpM_ReportOnConnections)
-            stuff->setReporter(*reporter, true);
+            aClient->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-            if (stuff->connectToService())
+            if (aClient->connectToService())
             {
                 for ( ; IsRunning(); )
                 {
@@ -116,13 +116,13 @@ static void setUpAndGo(void)
                     {
                         YarpString outgoing(inputLine.c_str());
                         
-                        if (stuff->sendAndReceive(outgoing, incoming))
+                        if (aClient->sendAndReceive(outgoing, incoming))
                         {
                             cout << "Received: '" << incoming.c_str() << "'." << endl;
                         }
                         else
                         {
-                            OD_LOG("! (stuff->sendAndReceive(outgoing, incoming))"); //####
+                            OD_LOG("! (aClient->sendAndReceive(outgoing, incoming))"); //####
 #if MAC_OR_LINUX_
                             GetLogger().fail("Problem communicating with the service.");
 #endif // MAC_OR_LINUX_
@@ -134,9 +134,9 @@ static void setUpAndGo(void)
                     }
                     
                 }
-                if (! stuff->disconnectFromService())
+                if (! aClient->disconnectFromService())
                 {
-                    OD_LOG("(! stuff->disconnectFromService())"); //####
+                    OD_LOG("(! aClient->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                     GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -144,7 +144,7 @@ static void setUpAndGo(void)
             }
             else
             {
-                OD_LOG("! (stuff->connectToService())"); //####
+                OD_LOG("! (aClient->connectToService())"); //####
 #if MAC_OR_LINUX_
                 GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -154,18 +154,18 @@ static void setUpAndGo(void)
         }
         else
         {
-            OD_LOG("! (stuff->findService(\"details: Echo*\"))"); //####
+            OD_LOG("! (aClient->findService(\"details: Echo*\"))"); //####
 #if MAC_OR_LINUX_
             GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
             cerr << "Could not find the required service." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        delete stuff;
+        delete aClient;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aClient)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -191,11 +191,14 @@ int main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -215,7 +218,6 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                     ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-                    yarp::os::ConstString   progName(*argv);
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
                     

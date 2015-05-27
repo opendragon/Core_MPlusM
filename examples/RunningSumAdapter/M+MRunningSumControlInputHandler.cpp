@@ -127,7 +127,7 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &     inp
     {
         if (0 < input.size())
         {
-            AdapterChannel *   theOutput = _shared.getOutput();
+            BaseChannel *      theOutput = _shared.getOutput();
             RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();
             
             if (theClient && theOutput)

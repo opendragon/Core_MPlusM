@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-27
+//  Created:    2015-05-27
 //
 //--------------------------------------------------------------------------------------------------
 
@@ -69,8 +69,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            RandomNumberAdapterData(RandomNumberClient *     client,
-                                    Common::AdapterChannel * output);
+            RandomNumberAdapterData(RandomNumberClient *  client = NULL,
+                                    Common::BaseChannel * output = NULL);
             
             /*! @brief The destructor. */
             virtual ~RandomNumberAdapterData(void);

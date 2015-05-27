@@ -221,7 +221,7 @@ void TwoFingersInputService::startStreams(void)
         {
             if (_controller)
             {
-                _listener = new TwoFingersInputListener(_outStreams.at(0));
+                _listener = new TwoFingersInputListener(getOutletStream(0));
                 _controller->addListener(*_listener);
                 setActive();
             }

@@ -124,9 +124,6 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The base of the channel name to use for an adapter if not provided. */
-# define ADAPTER_PORT_NAME_BASE    MpM_ADAPTER_BASE_NAME
-
 /*! @brief The time between client announcements of associated channels. */
 # define ANNOUNCE_INTERVAL         (17.1 * ONE_SECOND_DELAY)
 
@@ -147,6 +144,9 @@
 
 /*! @brief The size of the buffer used to display the date or the time. */
 # define DATE_TIME_BUFFER_SIZE     20
+
+/*! @brief The base of the channel name to use for an adapter if not provided. */
+# define DEFAULT_ADAPTER_NAME_BASE MpM_ADAPTER_BASE_NAME
 
 /*! @brief The default name for the root part of a channel name. */
 # define DEFAULT_CHANNEL_ROOT      "channel_"
@@ -276,17 +276,21 @@ namespace MplusM
         /*! @brief The behavioural model for the service. */
         enum ServiceKind
         {
-            /*! @brief The service has no specical characteristics. */
-            kServiceKindNormal,
+            /*! @brief The service provides a proxy for a transformative process that utilizes
+             another service. */
+            kServiceKindAdapter,
+            
+            /*! @brief The service provides a proxy for a transformative process. */
+            kServiceKindFilter,
             
             /*! @brief The service provides a proxy for an input source. */
             kServiceKindInput,
             
+            /*! @brief The service has no specical characteristics. */
+            kServiceKindNormal,
+            
             /*! @brief The service provides a proxy for an output destination. */
             kServiceKindOutput,
-            
-            /*! @brief The service provides a proxy for a transformative process. */
-            kServiceKindFilter,
             
             /*! @brief The service is the %Registry, which is a specialized 'normal' service. */
             kServiceKindRegistry,
@@ -375,7 +379,7 @@ namespace MplusM
          
          Should be called in the main() function of each application or service before anything
          else. */
-        void SetUpLogger(const char * progName);
+        void SetUpLogger(const YarpString & progName);
 # endif // MAC_OR_LINUX_
 
         /*! @brief Restore the normal signal-handling behaviour. */

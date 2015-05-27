@@ -81,8 +81,8 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseAdapterData::BaseAdapterData(BaseClient *     client,
-                                 AdapterChannel * output) :
+BaseAdapterData::BaseAdapterData(BaseClient *  client,
+                                 BaseChannel * output) :
     _lock(), _output(output), _client(client), _active(false)
 {
     OD_LOG_ENTER(); //####

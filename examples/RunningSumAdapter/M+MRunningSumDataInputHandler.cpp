@@ -131,7 +131,7 @@ bool RunningSumDataInputHandler::handleInput(const yarp::os::Bottle &     input,
         
         if (0 < howMany)
         {
-            AdapterChannel *   theOutput = _shared.getOutput();
+            BaseChannel *      theOutput = _shared.getOutput();
             RunningSumClient * theClient = (RunningSumClient *) _shared.getClient();
             
             if (_shared.isActive() && theClient && theOutput)

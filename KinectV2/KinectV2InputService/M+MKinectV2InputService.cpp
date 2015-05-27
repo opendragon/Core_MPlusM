@@ -214,7 +214,7 @@ void KinectV2InputService::startStreams(void)
     {
         if (! isActive())
         {
-            _eventThread = new KinectV2EventThread(_outStreams.at(0));
+            _eventThread = new KinectV2EventThread(getOutletStream(0));
             _eventThread->start();
             setActive();
         }

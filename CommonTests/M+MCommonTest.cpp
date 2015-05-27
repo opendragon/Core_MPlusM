@@ -998,13 +998,13 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
     
     try
     {
-        Test09Service * stuff = new Test09Service(launchPath, argc, argv);
+        Test09Service * aService = new Test09Service(launchPath, argc, argv);
         
-        if (stuff)
+        if (aService)
         {
-            if (stuff->start())
+            if (aService->start())
             {
-                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "usingdefaultwithreader");
                 
@@ -1027,24 +1027,24 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                     {
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
-                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                stuff->stop();
+                aService->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())"); //####
+                OD_LOG("! (aService->start())"); //####
             }
-            delete stuff;
+            delete aService;
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            OD_LOG("! (aService)"); //####
         }
     }
     catch (...)
@@ -1077,13 +1077,13 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
     
     try
     {
-        Test10Service * stuff = new Test10Service(launchPath, argc, argv);
+        Test10Service * aService = new Test10Service(launchPath, argc, argv);
         
-        if (stuff)
+        if (aService)
         {
-            if (stuff->start())
+            if (aService->start())
             {
-                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "usingdefaultwithreadercreator_");
                 
@@ -1106,24 +1106,24 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                     {
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
-                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                stuff->stop();
+                aService->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())"); //####
+                OD_LOG("! (aService->start())"); //####
             }
-            delete stuff;
+            delete aService;
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            OD_LOG("! (aService)"); //####
         }
     }
     catch (...)
@@ -1155,13 +1155,13 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
     
     try
     {
-        Test11Service * stuff = new Test11Service(launchPath, argc, argv);
+        Test11Service * aService = new Test11Service(launchPath, argc, argv);
         
-        if (stuff)
+        if (aService)
         {
-            if (stuff->start())
+            if (aService->start())
             {
-                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "withrequesthandler_");
                 
@@ -1201,24 +1201,24 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                     {
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
-                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                stuff->stop();
+                aService->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())"); //####
+                OD_LOG("! (aService->start())"); //####
             }
-            delete stuff;
+            delete aService;
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            OD_LOG("! (aService)"); //####
         }
     }
     catch (...)
@@ -1299,7 +1299,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
                 
-                sawChannels = (itsOutput == "(s*)(s*)");
+                sawChannels = (itsOutput == "(s*)(s*)(s*)");
             }
         }
         else if (aName == MpM_CLIENTS_REQUEST)
@@ -1537,13 +1537,13 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
     
     try
     {
-        Test12Service * stuff = new Test12Service(launchPath, argc, argv);
+        Test12Service * aService = new Test12Service(launchPath, argc, argv);
         
-        if (stuff)
+        if (aService)
         {
-            if (stuff->start())
+            if (aService->start())
             {
-                ClientChannel * outChannel = doCreateTestChannel(stuff->getEndpoint(),
+                ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
                                                                  "withrequesthandlerandinfo_");
                 
@@ -1573,24 +1573,24 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                     {
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
-                    doDestroyTestChannel(stuff->getEndpoint(), outChannel);
+                    doDestroyTestChannel(aService->getEndpoint(), outChannel);
                     outChannel = NULL;
                 }
                 else
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                stuff->stop();
+                aService->stop();
             }
             else
             {
-                OD_LOG("! (stuff->start())"); //####
+                OD_LOG("! (aService->start())"); //####
             }
-            delete stuff;
+            delete aService;
         }
         else
         {
-            OD_LOG("! (stuff)"); //####
+            OD_LOG("! (aService)"); //####
         }
     }
     catch (...)
@@ -1637,11 +1637,14 @@ static void catchSignal(int signal)
 int main(int      argc,
          char * * argv)
 {
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     int result = 1;
     
@@ -1651,9 +1654,8 @@ int main(int      argc,
 		Utilities::CheckForNameServerReporter();
         if (Utilities::CheckForValidNetwork())
         {
-            yarp::os::ConstString progName(*argv);
-            yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+            yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
+                                    // infrastructure
             
             Initialize(progName);
             if (0 < --argc)

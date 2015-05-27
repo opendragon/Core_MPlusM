@@ -232,7 +232,7 @@ void RandomBurstService::startStreams(void)
     {
         if (! isActive())
         {
-            _generator = new RandomBurstThread(_outStreams.at(0), _burstPeriod, _burstSize);
+            _generator = new RandomBurstThread(getOutletStream(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }

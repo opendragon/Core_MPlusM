@@ -198,19 +198,15 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseClient::BaseClient(const char * baseChannelName) :
-    _reporter(NULL), _channel(NULL), _channelName(), _serviceChannelName(), _baseChannelName(NULL),
-    _connected(false), _reportImmediately(false)
+BaseClient::BaseClient(const YarpString & baseChannelName) :
+    _reporter(NULL), _channel(NULL), _baseChannelName(CLIENT_PORT_NAME_BASE), _channelName(),
+    _serviceChannelName(), _clientOwnsChannel(true), _connected(false), _reportImmediately(false)
 {
     OD_LOG_ENTER(); //####
-    const size_t baseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
-    size_t       len = (baseChannelName ? strlen(baseChannelName) : 0);
-    
-    _baseChannelName = new char[baseLen + len + 1];
-    memcpy(_baseChannelName, CLIENT_PORT_NAME_BASE, baseLen);
-    if (len)
+    OD_LOG_S1s("baseChannelName = ", baseChannelName); //####
+    if (0 < baseChannelName.length())
     {
-        memcpy(_baseChannelName + baseLen, baseChannelName, len + 1);
+        _baseChannelName += baseChannelName;
     }
     OD_LOG_EXIT_P(this); //####
 } // BaseClient::BaseClient
@@ -219,9 +215,11 @@ BaseClient::~BaseClient(void)
 {
     OD_LOG_OBJENTER(); //####
     disconnectFromService();
-    BaseChannel::RelinquishChannel(_channel);
+    if (_clientOwnsChannel)
+    {
+        BaseChannel::RelinquishChannel(_channel);
+    }
     _channel = NULL;
-    delete _baseChannelName;
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::~BaseClient
 
@@ -314,7 +312,7 @@ bool BaseClient::connectToService(CheckFunction checker,
     {
         try
         {
-            if (! _channel)
+            if (_clientOwnsChannel && (! _channel))
             {
                 _channelName = GetRandomChannelName(_baseChannelName);
                 _channel = new ClientChannel;
@@ -671,6 +669,32 @@ bool BaseClient::send(const char *             request,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseClient::send
+
+void BaseClient::setChannel(ClientChannel * newChannel)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("newChannel = ", newChannel); //####
+    if (_clientOwnsChannel)
+    {
+        disconnectFromService();
+#if defined(MpM_DoExplicitClose)
+        _channel->close();
+#endif // defined(MpM_DoExplicitClose)
+        BaseChannel::RelinquishChannel(_channel);
+    }
+    if (newChannel)
+    {
+        _channel = newChannel;
+        _clientOwnsChannel = false;
+        OD_LOG_S1s("newChannel->name() = ", newChannel->name());
+        _channelName = newChannel->name();
+    }
+    else
+    {
+        _clientOwnsChannel = true;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseClient::setChannel
 
 void BaseClient::setReporter(ChannelStatusReporter & reporter,
                              const bool              andReportNow)

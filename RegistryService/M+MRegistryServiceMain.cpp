@@ -106,14 +106,14 @@ static void setUpAndGo(const YarpString & progName,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
-    Registry::RegistryService * stuff = new Registry::RegistryService(progName, argc, argv,
-                                                                      USE_INMEMORY,
-                                                                      servicePortNumber);
+    Registry::RegistryService * aService = new Registry::RegistryService(progName, argc, argv,
+                                                                         USE_INMEMORY,
+                                                                         servicePortNumber);
 
-    if (stuff)
+    if (aService)
     {
-        stuff->enableMetrics();
-        if (stuff->start())
+        aService->enableMetrics();
+        if (aService->start())
         {
             // Note that the Registry Service is self-registering... so we don't
             // need to call RegisterLocalService() _or_ start a 'pinger'.
@@ -122,7 +122,7 @@ static void setUpAndGo(const YarpString & progName,
             
             StartRunning();
             SetSignalHandlers(SignalRunningStop);
-            stuff->startChecker();
+            aService->startChecker();
             reporter->start();
             for ( ; IsRunning(); )
             {
@@ -142,22 +142,22 @@ static void setUpAndGo(const YarpString & progName,
             {
                 yarp::os::Bottle metrics;
                 
-                stuff->gatherMetrics(metrics);
+                aService->gatherMetrics(metrics);
                 YarpString converted(Utilities::ConvertMetricsToString(metrics));
                 
                 cout << converted.c_str() << endl;
             }
-            stuff->stop();
+            aService->stop();
         }
         else
         {
-            OD_LOG("! (stuff->start())"); //####
+            OD_LOG("! (aService->start())"); //####
         }
-        delete stuff;
+        delete aService;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aService)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -173,16 +173,19 @@ static void setUpAndGo(const YarpString & progName,
 int main(int      argc,
          char * * argv)
 {
+    YarpString progName(*argv);
+
 #if defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionWriteToStderr | kODLoggingOptionEnableThreadSupport); //####
-#else // ! defined(MpM_ServicesLogToStandardError)
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
                 kODLoggingOptionEnableThreadSupport); //####
+#else // ! defined(MpM_ServicesLogToStandardError)
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -206,9 +209,8 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
 			if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::ConstString progName(*argv);
-                yarp::os::Network     yarp; // This is necessary to establish any connections to the
-                                            // YARP infrastructure
+                yarp::os::Network yarp; // This is necessary to establish any connections to the
+                                        // YARP infrastructure
                 
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())

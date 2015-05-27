@@ -24,3 +24,23 @@ mpmViconDataStreamInputService
 mpmRandomNumberAdapter
 mpmRunningSumAdapter
 mpmRunningSumAltAdapter
+# Clients!
+mpmAddressClient
+mpmEchoClient
+mpmRandomNumberClient
+mpmRequestCounterClient
+mpmRunningSumClient
+mpmTunnelClient
+# Utilities!
+mpmClientList
+mpmFindServices
+mpmPortLister
+mpmRequestInfo
+mpmServiceLister
+mpmServiceMetrics
+mpmStopService
+mpmTestLoopbackControl
+mpmTestLoopbackResponder
+mpmTestSink
+mpmTestSource
+mpmVersion

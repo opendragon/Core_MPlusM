@@ -9,7 +9,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,7 +33,7 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-27
+//  Created:    2015-05-27
 //
 //--------------------------------------------------------------------------------------------------
 
@@ -128,7 +128,7 @@ bool RandomNumberInputHandler::handleInput(const yarp::os::Bottle &     input,
     {
         if (0 < input.size())
         {
-            AdapterChannel *     theOutput = _shared.getOutput();
+            BaseChannel *        theOutput = _shared.getOutput();
             RandomNumberClient * theClient = (RandomNumberClient *) _shared.getClient();
             
             if (theClient && theOutput)

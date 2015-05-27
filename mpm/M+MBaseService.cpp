@@ -479,6 +479,14 @@ void BaseService::fillInClientList(YarpStringVector & clients)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInClientList
 
+void BaseService::fillInSecondaryClientChannelsList(ChannelVector & channels)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("channels = ", &channels); //####
+    channels.clear();
+    OD_LOG_OBJEXIT(); //####
+} // BaseService::fillInSecondaryClientChannelsList
+
 void BaseService::fillInSecondaryInputChannelsList(ChannelVector & channels)
 {
     OD_LOG_OBJENTER(); //####
@@ -921,8 +929,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                          T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
                                          T_("  --info, -i        Print executable type, supported "
-                                            "service options, argument list, and description and "
-                                            "exit"));
+                                            "service options and description and exit"));
     Option_::Descriptor   portDescriptor(kOptionPORT, 0, "p", "port", Option_::Arg::Required,
                                          T_("  --port, -p        Specify a non-default port to be "
                                             "used"));

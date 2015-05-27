@@ -58,7 +58,7 @@ namespace MplusM
 {
     namespace Common
     {
-        class AdapterChannel;
+        class BaseChannel;
         class BaseClient;
         
         /*! @brief The data shared between an input handler and the main thread of an M+M
@@ -70,8 +70,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            BaseAdapterData(BaseClient *     client,
-                            AdapterChannel * output);
+            BaseAdapterData(BaseClient *  client = NULL,
+                            BaseChannel * output = NULL);
             
             /*! @brief The destructor. */
             virtual ~BaseAdapterData(void);
@@ -101,7 +101,7 @@ namespace MplusM
             
             /*! @brief Return the output channel.
              @returns The output channel. */
-            inline AdapterChannel * getOutput(void)
+            inline BaseChannel * getOutput(void)
             const
             {
                 return _output;
@@ -143,7 +143,7 @@ namespace MplusM
             yarp::os::Mutex _lock;
             
             /*! @brief The output channel to use. */
-            AdapterChannel * _output;
+            BaseChannel * _output;
             
             /*! @brief The connection to the service. */
             BaseClient * _client;

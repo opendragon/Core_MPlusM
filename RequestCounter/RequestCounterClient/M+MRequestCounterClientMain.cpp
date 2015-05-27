@@ -138,12 +138,12 @@ static void setUpAndGo(void)
 #if defined(MpM_ReportOnConnections)
     OD_LOG_P1("reporter = ", reporter); //####
 #endif // defined(MpM_ReportOnConnections)
-    RequestCounterClient * stuff = new RequestCounterClient;
+    RequestCounterClient * aClient = new RequestCounterClient;
     
-    if (stuff)
+    if (aClient)
     {
 #if defined(MpM_ReportOnConnections)
-        stuff->setReporter(*reporter, true);
+        aClient->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
         StartRunning();
         SetSignalHandlers(SignalRunningStop);
@@ -159,15 +159,15 @@ static void setUpAndGo(void)
                 break;
             }
             
-            if (stuff->findService("name:RequestCounter"))
+            if (aClient->findService("name:RequestCounter"))
             {
-                if (stuff->connectToService())
+                if (aClient->connectToService())
                 {
-                    if (stuff->resetServiceCounters())
+                    if (aClient->resetServiceCounters())
                     {
                         for (int ii = 0; ii < count; ++ii)
                         {
-                            if (! stuff->pokeService())
+                            if (! aClient->pokeService())
                             {
 #if MAC_OR_LINUX_
                                 GetLogger().fail("Problem poking the service.");
@@ -179,7 +179,7 @@ static void setUpAndGo(void)
                         long   counter;
                         double elapsedTime;
                         
-                        if (stuff->getServiceStatistics(counter, elapsedTime))
+                        if (aClient->getServiceStatistics(counter, elapsedTime))
                         {
                             if (0 < counter)
                             {
@@ -196,7 +196,8 @@ static void setUpAndGo(void)
                         }
                         else
                         {
-                            OD_LOG("! (stuff->getServiceStatistics(counter, elapsedTime))"); //####
+                            OD_LOG("! (aClient->getServiceStatistics(counter, " //####
+                                   "elapsedTime))"); //####
 #if MAC_OR_LINUX_
                             GetLogger().fail("Problem getting statistics from the service.");
 #endif // MAC_OR_LINUX_
@@ -204,14 +205,14 @@ static void setUpAndGo(void)
                     }
                     else
                     {
-                        OD_LOG("! (stuff->resetServiceCounters())"); //####
+                        OD_LOG("! (aClient->resetServiceCounters())"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem resetting the service counters.");
 #endif // MAC_OR_LINUX_
                     }
-                    if (! stuff->disconnectFromService())
+                    if (! aClient->disconnectFromService())
                     {
-                        OD_LOG("(! stuff->disconnectFromService())"); //####
+                        OD_LOG("(! aClient->disconnectFromService())"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem disconnecting from the service.");
 #endif // MAC_OR_LINUX_
@@ -219,7 +220,7 @@ static void setUpAndGo(void)
                 }
                 else
                 {
-                    OD_LOG("! (stuff->connectToService())"); //####
+                    OD_LOG("! (aClient->connectToService())"); //####
 #if MAC_OR_LINUX_
                     GetLogger().fail("Could not connect to the required service.");
 #else // ! MAC_OR_LINUX_
@@ -229,7 +230,7 @@ static void setUpAndGo(void)
             }
             else
             {
-                OD_LOG("! (stuff->findService(\"name:RequestCounter\"))"); //####
+                OD_LOG("! (aClient->findService(\"name:RequestCounter\"))"); //####
 #if MAC_OR_LINUX_
                 GetLogger().fail("Could not find the required service.");
 #else // ! MAC_OR_LINUX_
@@ -237,11 +238,11 @@ static void setUpAndGo(void)
 #endif // ! MAC_OR_LINUX_
             }
         }
-        delete stuff;
+        delete aClient;
     }
     else
     {
-        OD_LOG("! (stuff)"); //####
+        OD_LOG("! (aClient)"); //####
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -267,11 +268,14 @@ int main(int      argc,
 #if MAC_OR_LINUX_
 # pragma unused(argc)
 #endif // MAC_OR_LINUX_
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     try
     {
@@ -291,7 +295,6 @@ int main(int      argc,
 #if defined(MpM_ReportOnConnections)
                     ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
-                    yarp::os::ConstString   progName(*argv);
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
                     

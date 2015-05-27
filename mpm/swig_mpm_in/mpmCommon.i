@@ -5,6 +5,7 @@
 #include "M+MBailOut.h"
 #include "M+MBailOutThread.h"
 #include "M+MBaseAdapterData.h"
+#include "M+MBaseAdapterService.h"
 #include "M+MBaseArgumentDescriptor.h"
 #include "M+MBaseChannel.h"
 #include "M+MBaseClient.h"

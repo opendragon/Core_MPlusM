@@ -58,6 +58,7 @@ namespace MplusM
 {
     namespace Common
     {
+        class ClientChannel;
         class ConfigureRequestHandler;
         class GeneralChannel;
         class RestartStreamsRequestHandler;
@@ -112,14 +113,37 @@ namespace MplusM
              @param metrics The gathered metrics. */
             virtual void gatherMetrics(yarp::os::Bottle & metrics);
             
+            /*! @brief Returns the number of client streams.
+             @returns The number of client streams. */
+            size_t getClientCount(void)
+            const;
+            
+            /*! @brief Returns a specific client stream.
+             @param index The zero-origin index of the client stream.
+             @returns The client stream at the specified index. */
+            ClientChannel * getClientStream(const size_t index)
+            const;
+            
             /*! @brief Returns the number of input streams.
-             @returns The number of output streams. */
+             @returns The number of input streams. */
             size_t getInletCount(void)
             const;
   
+            /*! @brief Returns a specific input stream.
+             @param index The zero-origin index of the input stream.
+             @returns The input stream at the specified index. */
+            GeneralChannel * getInletStream(const size_t index)
+            const;
+            
             /*! @brief Returns the number of output streams.
              @returns The number of output streams. */
             size_t getOutletCount(void)
+            const;
+            
+            /*! @brief Returns a specific output stream.
+             @param index The zero-origin index of the output stream.
+             @returns The output stream at the specified index. */
+            GeneralChannel * getOutletStream(const size_t index)
             const;
             
             /*! @brief Return @c true if the streams are processing data and @c false otherwise.
@@ -149,8 +173,16 @@ namespace MplusM
             
         protected :
             
-            /*! @brief A set of channels. */
-            typedef std::vector<GeneralChannel *> StreamVector;
+            /*! @brief A set of client channels. */
+            typedef std::vector<ClientChannel *> ClientChannelVector;
+
+            /*! @brief A set of general channels. */
+            typedef std::vector<GeneralChannel *> GeneralChannelVector;
+            
+            /*! @brief Add a set of client channels from a set of descriptions.
+             @param descriptions The descriptions of the channels.
+             @returns @c true if the channels were constructed and @c false otherwise. */
+            bool addClientStreamsFromDescriptions(const ChannelVector & descriptions);
             
             /*! @brief Add a set of input channels from a set of descriptions.
              @param descriptions The descriptions of the channels.
@@ -174,6 +206,10 @@ namespace MplusM
                 _active = true;
             } // setActive
             
+            /*! @brief Set up the client streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
+            virtual bool setUpClientStreams(void);
+
             /*! @brief Set up the input streams.
              @returns @c true if the channels were set up and @c false otherwise. */
             virtual bool setUpInputStreams(void);
@@ -187,6 +223,10 @@ namespace MplusM
              @returns @c true if the descriptions were set up and @c false otherwise. */
             virtual bool setUpStreamDescriptions(void) = 0;
             
+            /*! @brief Shut down the client streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
+            virtual bool shutDownClientStreams(void);
+
             /*! @brief Shut down the input streams.
              @returns @c true if the channels were shut down and @c false otherwise. */
             virtual bool shutDownInputStreams(void);
@@ -205,6 +245,10 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
+            /*! @brief Fill in a list of secondary client channels for the service.
+             @param channels The list of channels to be filled in. */
+            virtual void fillInSecondaryClientChannelsList(ChannelVector & channels);
+            
             /*! @brief Fill in a list of secondary input channels for the service.
              @param channels The list of channels to be filled in. */
             virtual void fillInSecondaryInputChannelsList(ChannelVector & channels);
@@ -217,16 +261,19 @@ namespace MplusM
         
         protected :
         
-            /*! @brief The set of input channels. */
-            StreamVector _inStreams;
-            
-            /*! @brief The set of output channels. */
-            StreamVector _outStreams;
-            
         private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
+            
+            /*! @brief The set of client channels. */
+            ClientChannelVector _clientStreams;
+            
+            /*! @brief The set of input channels. */
+            GeneralChannelVector _inStreams;
+            
+            /*! @brief The set of output channels. */
+            GeneralChannelVector _outStreams;
             
             /*! @brief The request handler for the 'configure' request. */
             ConfigureRequestHandler * _configureHandler;

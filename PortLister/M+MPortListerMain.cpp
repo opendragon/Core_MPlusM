@@ -759,11 +759,14 @@ static bool reportPortStatus(const OutputFlavour               flavour,
 int main(int      argc,
          char * * argv)
 {
-    OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
-                kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####
+    YarpString progName(*argv);
+
+    OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport | //####
+                kODLoggingOptionWriteToStderr); //####
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
-    SetUpLogger(*argv);
+    SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     Utilities::DescriptorVector argumentList;
     OutputFlavour               flavour;
@@ -779,7 +782,6 @@ int main(int      argc,
             if (Utilities::CheckForValidNetwork())
             {
                 bool                  found = false;
-                yarp::os::ConstString progName(*argv);
                 yarp::os::Network     yarp; // This is necessary to establish any connections to the
                                             // YARP infrastructure
                 Utilities::PortVector ports;

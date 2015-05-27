@@ -84,7 +84,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 MovementDbAdapterData::MovementDbAdapterData(MovementDbClient * client,
-                                             AdapterChannel *   output) :
+                                             BaseChannel *      output) :
     inherited(client, output)
 {
     OD_LOG_ENTER(); //####
