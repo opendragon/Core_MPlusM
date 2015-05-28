@@ -404,8 +404,9 @@ int main(int      argc,
                         memcpy(&addr.sin_addr.s_addr, &addrBuff.s_addr,
                                sizeof(addr.sin_addr.s_addr));
                         OD_LOG("connecting to source"); //####
-                        res = connect(talkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
-                                      sizeof(addr));
+                        int res = connect(talkSocket, reinterpret_cast<LPSOCKADDR>(&addr),
+                                          sizeof(addr));
+
                         if (SOCKET_ERROR == res)
                         {
                             closesocket(talkSocket);
