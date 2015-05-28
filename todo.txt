@@ -26,8 +26,10 @@
 
 —> all required arguments _must_ appear before all the optional arguments - ignore an executable that doesn’t obey this - and an executable that has only optional arguments can be launched immediately; only optional values should have default values
 
-+ the configuration file can’t include adapters, as there’s no mechanism to get their launch parameters; services need to respond to a new request that returns their original launch parameters, so that these can be recorded
-
 * empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported
 
-* adapters are input/output services that are also clients??? [this way they can be interrogated, so they can be configured, but this introduces major complexities!]
+* services need to respond to a new request that returns their original launch parameters, so that these can be recorded
+
+* the request that returns the input/output channels now also includes the client channels, so the response size is one greater now
+
+* the ‘associate’ request and its database tables may no longer be needed, as the ‘addAssociate?()’ method is no longer being called; likewise the ‘disassociate’ request
