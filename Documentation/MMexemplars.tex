@@ -68,6 +68,12 @@ the \classNameR{Exemplar}{ExemplarInputHandler} class and instances of the
 in addition to those provided by its superclass and primarily serves as a placeholder for
 customization.
 \tertiaryEnd{\classNameE{Exemplar}{ExemplarAdapterData}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarAdapterService}}
+The \classNameX{Exemplar}{ExemplarAdapterService} class is a subclass of
+\classNameR{Common}{BaseAdapterService} and is used to provide communication between
+standard \yarp{} ports and an instance of the \classNameR{Exemplar}{ExemplarService}
+class, using an instance of the \classNameR{Exemplar}{ExemplarClient} class.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarAdapterService}}
 \tertiaryStart{\classNameD{Exemplar}{ExemplarClient}}
 The \classNameX{Exemplar}{ExemplarClient} class is a subclass of
 \classNameR{Common}{BaseClient} and has two `placeholder' methods,

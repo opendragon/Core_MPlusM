@@ -77,54 +77,6 @@ using namespace MplusM::Common;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Check the response to the 'associate' request for validity.
- @param response The response to be checked.
- @returns The original response, if it is valid, or an empty response if it is not. */
-static bool validateAssociateResponse(const yarp::os::Bottle & response)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("response = ", response.toString()); //####
-    bool result = false;
-    
-    try
-    {
-        if (MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE < response.size())
-        {
-            // The first element of the response should be 'OK' or 'FAILED'.
-            yarp::os::Value responseFirst(response.get(0));
-            
-            if (responseFirst.isString())
-            {
-                YarpString responseFirstAsString(responseFirst.toString());
-                
-                if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
-                {
-                    result = true;
-                }
-                else if (strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
-                {
-                    OD_LOG("strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))"); //####
-                }
-            }
-            else
-            {
-                OD_LOG("! (responseFirst.isString())"); //####
-            }
-        }
-        else
-        {
-            OD_LOG("! (MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE < response.size())"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // validateAssociateResponse
-
 /*! @brief Check the response to the 'match' request for validity.
  @param response The response to be checked.
  @returns The original response, if it is valid, or an empty response if it is not. */
@@ -446,78 +398,6 @@ void BaseClient::reconnectIfDisconnected(CheckFunction checker,
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::reconnectIfDisconnected
-
-void BaseClient::removeAssociatedChannels(CheckFunction checker,
-                                          void *        checkStuff)
-{
-    OD_LOG_OBJENTER(); //####
-    try
-    {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "disassociate_/"
-                                                   DEFAULT_CHANNEL_ROOT));
-        ClientChannel * newChannel = new ClientChannel;
-        
-        if (newChannel)
-        {
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(*Utilities::GetGlobalStatusReporter());
-#endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
-            {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                         STANDARD_WAIT_TIME, false, checker,
-                                                         checkStuff))
-                {
-                    yarp::os::Bottle parameters;
-                    
-                    parameters.addString(_channelName);
-                    ServiceRequest  request(MpM_DISASSOCIATE_REQUEST, parameters);
-                    ServiceResponse response;
-                    
-                    if (request.send(*newChannel, response))
-                    {
-                        OD_LOG_S1s("response <- ", response.asString()); //####
-                        validateAssociateResponse(response.values());
-                    }
-                    else
-                    {
-                        OD_LOG("! (request.send(*newChannel, response))"); //####
-                    }
-#if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                  STANDARD_WAIT_TIME, checker,
-                                                                  checkStuff))
-                    {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
-                               "checkStuff))"); //####
-                    }
-#endif // defined(MpM_DoExplicitDisconnect)
-                }
-                else
-                {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
-                           " checkStuff))"); //####
-                }
-#if defined(MpM_DoExplicitClose)
-                newChannel->close();
-#endif // defined(MpM_DoExplicitClose)
-            }
-            else
-            {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
-            }
-            BaseChannel::RelinquishChannel(newChannel);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT(); //####
-} // BaseClient::removeAssociatedChannels
 
 bool BaseClient::send(const char *             request,
                       const yarp::os::Bottle & parameters)

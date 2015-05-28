@@ -336,7 +336,7 @@ int main(int      argc,
 
             if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                               DEFAULT_PROCOMP2INPUT_SERVICE_NAME,
-                                              PROCOMP2INPUT_SERVICE_DESCRIPTION, 2015,
+                                              PROCOMP2INPUT_SERVICE_DESCRIPTION, "", 2015,
                                               STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                               reportOnExit, tag, serviceEndpointName,
                                               servicePortNumber, kSkipNone))

@@ -206,9 +206,10 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_ECHO_SERVICE_NAME,
-                                          ECHO_SERVICE_DESCRIPTION, 2014, STANDARD_COPYRIGHT_NAME,
-                                          goWasSet, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipGoOption))
+                                          ECHO_SERVICE_DESCRIPTION, "", 2014,
+                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipGoOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

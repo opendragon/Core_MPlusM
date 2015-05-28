@@ -228,6 +228,8 @@ bool ChannelsRequestHandler::processRequest(const YarpString &           request
                     yarp::os::Bottle &         newBottle = aList3.addList();
                     
                     newBottle.addString(aChannel._portName);
+                    newBottle.addString(aChannel._portProtocol);
+                    newBottle.addString(aChannel._protocolDescription);
                 }
             }
             sendResponse(reply, replyMechanism);

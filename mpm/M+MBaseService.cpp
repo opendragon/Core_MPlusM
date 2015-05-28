@@ -877,6 +877,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            Utilities::DescriptorVector & argumentDescriptions,
                                            const YarpString &            defaultEndpointNameRoot,
                                            const YarpString &            serviceDescription,
+                                           const YarpString &            matchingCriteria,
                                            const int                     year,
                                            const char *                  copyrightHolder,
                                            bool &                        goWasSet,
@@ -893,8 +894,9 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     OD_LOG_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
               "nameWasSet = ", &nameWasSet, "reportOnExit = ", &reportOnExit); //####
     OD_LOG_P1("arguments = ", arguments); //####
-    OD_LOG_S2s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
-               "serviceDescription = ", serviceDescription); //####
+    OD_LOG_S3s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
+               "serviceDescription = ", serviceDescription, "matchingCriteria = ", //####
+               matchingCriteria); //####
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
     {
@@ -911,8 +913,24 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         kOptionVERSION
     }; // optionIndex
     
-    bool                  keepGoing = true;
-    bool                  reportEndpoint = false;
+    bool       isAdapter = (0 < matchingCriteria.length());
+    bool       keepGoing = true;
+    bool       reportEndpoint = false;
+    YarpString serviceKindName(isAdapter ? "adapter" : "service");
+    YarpString goPartText("  --go, -g          Start the ");
+    YarpString infoPartText("  --info, -i        Print executable type, supported ");
+    YarpString reportPartText("  --report, -r      Report the ");
+    YarpString tagPartText("  --tag, -t         Specify the tag to be used as part of the ");
+    
+    goPartText += serviceKindName + " immediately";
+    infoPartText += serviceKindName + " options";
+    if (isAdapter)
+    {
+        infoPartText += ", matching criteria";
+    }
+    infoPartText += " and description and exit";
+    reportPartText += serviceKindName + " metrics when the application exits";
+    tagPartText += serviceKindName + " name";
     Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   argsDescriptor(kOptionARGS, 0, "a", "args", Option_::Arg::None,
                                          T_("  --args, -a        Report the argument formats"));
@@ -924,21 +942,18 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                              T_("  --endpoint, -e    Specify an alternative "
                                                 "endpoint name to be used"));
     Option_::Descriptor   goDescriptor(kOptionGO, 0, "g", "go", Option_::Arg::None,
-                                       T_("  --go, -g          Start the service immediately"));
+                                       goPartText.c_str());
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
-                                         T_("  --info, -i        Print executable type, supported "
-                                            "service options and description and exit"));
+                                         infoPartText.c_str());
     Option_::Descriptor   portDescriptor(kOptionPORT, 0, "p", "port", Option_::Arg::Required,
                                          T_("  --port, -p        Specify a non-default port to be "
                                             "used"));
     Option_::Descriptor   reportDescriptor(kOptionREPORT, 0, "r", "report", Option_::Arg::None,
-                                           T_("  --report, -r      Report the service metrics when "
-                                              "the application exits"));
+                                           reportPartText.c_str());
     Option_::Descriptor   tagDescriptor(kOptionTAG, 0, "t", "tag", Option_::Arg::Required,
-                                        T_("  --tag, -t         Specify the tag to be used as part "
-                                           "of the service name"));
+                                        tagPartText.c_str());
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
@@ -1065,7 +1080,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         
         // Note that we don't report the 'h' and 'v' options, as they are not involved in
         // determining what choices to offer when launching a service.
-        cout << "Service";
+        cout << (isAdapter ? "Adapter" : "Service");
         if (! (skipOptions & kSkipArgsOption))
         {
             if (needTab)
@@ -1142,7 +1157,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         {
             cout << "\t";
         }
-        cout << "\t" << serviceDescription.c_str() << endl;
+        cout << "\t" << matchingCriteria.c_str() << "\t" << serviceDescription.c_str() << endl;
         keepGoing = false;
     }
     else if (ProcessArguments(argumentDescriptions, parse))

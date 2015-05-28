@@ -321,7 +321,7 @@ int main(int      argc,
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_LEAPMOTIONINPUT_SERVICE_NAME,
-                                          LEAPMOTIONINPUT_SERVICE_DESCRIPTION, 2014,
+                                          LEAPMOTIONINPUT_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

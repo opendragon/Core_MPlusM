@@ -224,9 +224,10 @@ int main(int      argc,
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_TUNNEL_SERVICE_NAME,
-                                          TUNNEL_SERVICE_DESCRIPTION, 2015, STANDARD_COPYRIGHT_NAME,
-                                          goWasSet, nameWasSet, reportOnExit, tag,
-                                          serviceEndpointName, servicePortNumber, kSkipGoOption))
+                                          TUNNEL_SERVICE_DESCRIPTION, "", 2015,
+                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipGoOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();

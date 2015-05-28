@@ -54,10 +54,7 @@ include_directories("${MpM_SOURCE_DIR}"
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MRegistryServiceMain.cpp
-               M+MAssociateRequestHandler.cpp
                M+MColumnNameValidator.cpp
-               M+MDisassociateRequestHandler.cpp
-               M+MGetAssociatesRequestHandler.cpp
                M+MMatchRequestHandler.cpp
                M+MNameServerReportingThread.cpp
                M+MPingRequestHandler.cpp
@@ -117,10 +114,7 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 add_executable(${THIS_TARGET}
                M+MRegistryTest.cpp
-               M+MAssociateRequestHandler.cpp
                M+MColumnNameValidator.cpp
-               M+MDisassociateRequestHandler.cpp
-               M+MGetAssociatesRequestHandler.cpp
                M+MMatchRequestHandler.cpp
                M+MPingRequestHandler.cpp
                M+MRegisterRequestHandler.cpp

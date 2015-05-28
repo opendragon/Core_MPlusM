@@ -57,8 +57,7 @@
                                                         "examples/runningsum")
 
 /*! @brief The description of the service. */
-# define RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION T_("The alternative Running Sum adapter " \
-                                                        "service")
+# define RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION T_("The alternative Running Sum adapter")
 
 namespace MplusM
 {

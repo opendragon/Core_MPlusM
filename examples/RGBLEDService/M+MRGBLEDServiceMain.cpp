@@ -205,7 +205,7 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_RGBLED_SERVICE_NAME,
-                                          RGBLED_SERVICE_DESCRIPTION, 2014,
+                                          RGBLED_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipGoOption))

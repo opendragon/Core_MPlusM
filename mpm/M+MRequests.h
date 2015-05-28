@@ -62,9 +62,6 @@
 /*! @brief The name for an 'arguments' request. */
 # define MpM_ARGUMENTS_REQUEST       "arguments"
 
-/*! @brief The name for an 'associate' request. */
-# define MpM_ASSOCIATE_REQUEST       "associate"
-
 /*! @brief The standard name for a 'channels' request. */
 # define MpM_CHANNELS_REQUEST        "channels"
 
@@ -77,14 +74,8 @@
 /*! @brief The standard name for the 'detach' request. */
 # define MpM_DETACH_REQUEST          "detach"
 
-/*! @brief The name for the 'disassociate' request. */
-# define MpM_DISASSOCIATE_REQUEST    "disassociate"
-
 /*! @brief The name for the 'echo' request. */
 # define MpM_ECHO_REQUEST            "echo"
-
-/*! @brief The name for the 'getAssociates' request. */
-# define MpM_GETASSOCIATES_REQUEST   "getAssociates"
 
 /*! @brief The standard name for a 'getMetrics' request. */
 # define MpM_GETMETRICS_REQUEST      "getMetrics"
@@ -134,23 +125,14 @@
 /*! @brief The number of elements expected in a channel description. */
 # define MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE 3
 
-/*! @brief The number of elements expected in the output of an 'associate' request. */
-# define MpM_EXPECTED_ASSOCIATE_RESPONSE_SIZE       1
-
 /*! @brief The number of elements expected in the output of a 'channels' request. */
-# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE        2
+# define MpM_EXPECTED_CHANNELS_RESPONSE_SIZE        3
 
 /*! @brief The number of elements expected in the output of a 'configure' request. */
 # define MpM_EXPECTED_CONFIGURE_RESPONSE_SIZE       1
 
 /*! @brief The number of elements expected in the output of a 'detach' request. */
 # define MpM_EXPECTED_DETACH_RESPONSE_SIZE          1
-
-/*! @brief The number of elements expected in the output of a 'disassociate' request. */
-# define MpM_EXPECTED_DISASSOCIATE_RESPONSE_SIZE    1
-
-/*! @brief The number of elements expected in the output of a 'getAssociates' request. */
-# define MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE   4
 
 /*! @brief The number of elements expected in the output of a 'getMetricsState' request. */
 # define MpM_EXPECTED_GETMETRICSSTATE_RESPONSE_SIZE 1

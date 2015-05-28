@@ -511,6 +511,8 @@ namespace MplusM
          @param argumentDescriptions Descriptions of the arguments to the service.
          @param defaultEndpointNameRoot The default endpoint root name.
          @param serviceDescription A description of the service.
+         @param matchingCriteria The criteria used to locate the service that the service requires
+         to be running.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @param goWasSet Set to @c true if the service is to be started immediately.
@@ -528,6 +530,7 @@ namespace MplusM
                                            Utilities::DescriptorVector & argumentDescriptions,
                                            const YarpString &            defaultEndpointNameRoot,
                                            const YarpString &            serviceDescription,
+                                           const YarpString &            matchingCriteria,
                                            const int                     year,
                                            const char *                  copyrightHolder,
                                            bool &                        goWasSet,

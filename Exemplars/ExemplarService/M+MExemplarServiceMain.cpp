@@ -208,7 +208,7 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_EXEMPLAR_SERVICE_NAME,
-                                          EXEMPLAR_SERVICE_DESCRIPTION, 2014,
+                                          EXEMPLAR_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipGoOption))

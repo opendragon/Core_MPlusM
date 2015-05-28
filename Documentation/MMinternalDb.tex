@@ -30,20 +30,6 @@ CREATE INDEX IF NOT EXISTS RequestsKeywords_Keywords_id_idx ON
        RequestsKeywords(keywords_id);
 CREATE INDEX IF NOT EXISTS RequestsKeywords_Requests_id_idx ON
        RequestsKeywords(requests_id);
-CREATE TABLE IF NOT EXISTS Channels(channelname Text NOT NULL DEFAULT _
-           COLLATE BINARY UNIQUE,
-       key Integer PRIMARY KEY);
-CREATE INDEX IF NOT EXISTS Channels_channelname_idx ON Channels(channelname);
-CREATE TABLE IF NOT EXISTS Associates(associate Text NOT NULL DEFAULT _
-           COLLATE BINARY PRIMARY KEY ON CONFLICT IGNORE);
-CREATE TABLE IF NOT EXISTS ChannelsAssociates(channels_id Integer
-           REFERENCES Channels(key),
-       associates_id Text COLLATE BINARY REFERENCES Associates(associate),
-       direction Integer);
-CREATE INDEX IF NOT EXISTS ChannelsAssociates_Associates_id_idx ON
-       ChannelsAssociates(associates_id);
-CREATE INDEX IF NOT EXISTS ChannelsAssociates_Channels_id_idx ON
-       ChannelsAssociates(channels_id);
 \end{listing}
 \outputEnd
 \condPage{}

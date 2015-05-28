@@ -219,7 +219,7 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_MOVEMENTDB_SERVICE_NAME,
-                                          MOVEMENTDB_SERVICE_DESCRIPTION, 2014,
+                                          MOVEMENTDB_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipGoOption))

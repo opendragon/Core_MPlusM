@@ -2446,7 +2446,7 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_JAVASCRIPT_SERVICE_NAME,
-                                          JAVASCRIPTFILTER_SERVICE_DESCRIPTION, 2015,
+                                          JAVASCRIPTFILTER_SERVICE_DESCRIPTION, "", 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))

@@ -367,7 +367,7 @@ int main(int      argc,
         argumentList.push_back(&firstArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME,
-                                          RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, 2014,
+                                          RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone	))

@@ -223,3 +223,4 @@ mpm/libmpmCommon.dylib
 odl/libodLogging.dylib
 mpm_images.tar.gz
 *.zip
+debug.txt

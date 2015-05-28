@@ -52,8 +52,8 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 # Set up our program
 add_executable(${THIS_TARGET}
                M+MExemplarAdapterMain.cpp
-               M+MExemplarAdapterService.cpp
                M+MExemplarAdapterData.cpp
+               M+MExemplarAdapterService.cpp
                M+MExemplarInputHandler.cpp
                ../ExemplarClient/M+MExemplarClient.cpp
                ${VERS_RESOURCE})

@@ -723,91 +723,6 @@ static void convertMetricPropertyToString(yarp::os::Property & propList,
     }
 } // convertMetricPropertyToString
 
-/*! @brief Check the response to the 'getAssociates' request for validity.
- @param response The response to be checked.
- @param associates The associated ports for the port.
- @returns @c true if the response was valid and @c false otherwise. */
-static bool processGetAssociatesResponse(const yarp::os::Bottle & response,
-                                         PortAssociation &        associates)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("response = ", response.toString()); //####
-    bool result = false;
-    
-    try
-    {
-        if (MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE <= response.size())
-        {
-            // The first element of the response should be 'OK' or 'FAILED'.
-            yarp::os::Value responseFirst(response.get(0));
-            
-            if (responseFirst.isString())
-            {
-                YarpString responseFirstAsString(responseFirst.toString());
-                
-                if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
-                {
-                    yarp::os::Value responseSecond(response.get(1));
-                    yarp::os::Value responseThird(response.get(2));
-                    yarp::os::Value responseFourth(response.get(3));
-                    
-                    if (responseSecond.isInt() && responseThird.isList() && responseFourth.isList())
-                    {
-                        associates._valid = true;
-                        associates._primary = (0 != responseSecond.asInt());
-                        yarp::os::Bottle * thirdAsList = responseThird.asList();
-                        yarp::os::Bottle * fourthAsList = responseFourth.asList();
-                        
-                        for (int ii = 0, mm = thirdAsList->size(); mm > ii; ++ii)
-                        {
-                            yarp::os::Value aPort(thirdAsList->get(ii));
-                            
-                            if (aPort.isString())
-                            {
-                                associates._inputs.push_back(aPort.toString());
-                            }
-                        }
-                        for (int ii = 0, mm = fourthAsList->size(); mm > ii; ++ii)
-                        {
-                            yarp::os::Value aPort(fourthAsList->get(ii));
-                            
-                            if (aPort.isString())
-                            {
-                                associates._outputs.push_back(aPort.toString());
-                            }
-                        }
-                        result = true;
-                    }
-                    else
-                    {
-                        OD_LOG("! (responseSecond.isInt() && responseThird.isList() && " //####
-                               "responseFourth.isList())"); //####
-                    }
-                }
-                else if (strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
-                {
-                    OD_LOG("strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str())"); //####
-                }
-            }
-            else
-            {
-                OD_LOG("! (responseFirst.isString())"); //####
-            }
-        }
-        else
-        {
-            OD_LOG("! (MpM_EXPECTED_GETASSOCIATES_RESPONSE_SIZE <= response.size())"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // processGetAssociatesResponse
-
 /*! @brief Process the response from the name server.
  
  Note that each line of the response, except the last, is started with 'registration name'. This is
@@ -1354,90 +1269,6 @@ void Utilities::GatherPortConnections(const YarpString &    portName,
     OD_LOG_EXIT(); //####
 } // Utilities::GatherPortConnections
 
-bool Utilities::GetAssociatedPorts(const YarpString & portName,
-                                   PortAssociation &  associates,
-                                   const double       timeToWait,
-                                   CheckFunction      checker,
-                                   void *             checkStuff)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("portName = ", portName); //####
-    OD_LOG_P2("associates = ", &associates, "checkStuff = ", checkStuff); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    bool result = false;
-    
-    associates._inputs.clear();
-    associates._outputs.clear();
-    associates._primary = associates._valid = false;
-    try
-    {
-        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "getassociates_/"
-                                                           DEFAULT_CHANNEL_ROOT));
-        ClientChannel *         newChannel = new ClientChannel;
-#if defined(MpM_ReportOnConnections)
-        ChannelStatusReporter * reporter = GetGlobalStatusReporter();
-#endif // defined(MpM_ReportOnConnections)
-        
-        if (newChannel)
-        {
-#if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(*reporter);
-#endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, timeToWait))
-            {
-                if (NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME, timeToWait, false,
-                                              checker, checkStuff))
-                {
-                    yarp::os::Bottle parameters;
-                    
-                    parameters.addString(portName);
-                    ServiceRequest  request(MpM_GETASSOCIATES_REQUEST, parameters);
-                    ServiceResponse response;
-                    
-                    if (request.send(*newChannel, response))
-                    {
-                        OD_LOG_S1s("response <- ", response.asString()); //####
-                        result = processGetAssociatesResponse(response.values(), associates);
-                    }
-                    else
-                    {
-                        OD_LOG("! (request.send(*newChannel, response))"); //####
-                    }
-#if defined(MpM_DoExplicitDisconnect)
-                    if (! NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                       timeToWait, checker, checkStuff))
-                    {
-                        OD_LOG("(! NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, timeToWait, checker, " //####
-                               "checkStuff))"); //####
-                    }
-#endif // defined(MpM_DoExplicitDisconnect)
-                }
-                else
-                {
-                    OD_LOG("! (NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME, " //####
-                           "timeToWait, false, checker, checkStuff))"); //####
-                }
-#if defined(MpM_DoExplicitClose)
-                newChannel->close();
-#endif // defined(MpM_DoExplicitClose)
-            }
-            else
-            {
-                OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
-            }
-            BaseChannel::RelinquishChannel(newChannel);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // Utilities::GetAssociatedPorts
-
 bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
                                             int &            serverPort)
 {
@@ -1534,7 +1365,7 @@ ChannelStatusReporter * Utilities::GetGlobalStatusReporter(void)
 void Utilities::GetMachineIPs(YarpStringVector & result)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("result = ", result); //####
+    OD_LOG_P1("result = ", &result); //####
     YarpString ipString(yarp::os::impl::NameConfig::getIps());
     
     OD_LOG_S1s("ipString <- ", ipString); //####
@@ -1808,17 +1639,23 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                             {
                                 yarp::os::Value theInputChannels(response2.element(0));
                                 yarp::os::Value theOutputChannels(response2.element(1));
+                                yarp::os::Value theClientChannels(response2.element(2));
                                 
-                                OD_LOG_S2s("theInputChannels <- ", //####
+                                OD_LOG_S3s("theInputChannels <- ", //####
                                            theInputChannels.toString(), //####
                                            "theOutputChannels <- ", //####
-                                           theOutputChannels.toString()); //####
-                                if (theInputChannels.isList() && theOutputChannels.isList())
+                                           theOutputChannels.toString(), //####
+                                           "theClientChannels <- ", //####
+                                           theClientChannels.toString()); //####
+                                if (theInputChannels.isList() && theOutputChannels.isList() &&
+                                    theClientChannels.isList())
                                 {
                                     yarp::os::Bottle * inputChannelsAsList =
                                                                         theInputChannels.asList();
                                     yarp::os::Bottle * outputChannelsAsList =
                                                                         theOutputChannels.asList();
+                                    yarp::os::Bottle * clientChannelsAsList =
+                                                                        theClientChannels.asList();
                                     
                                     for (int ii = 0, howMany = inputChannelsAsList->size();
                                          ii < howMany; ++ii)
@@ -1849,7 +1686,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                                                     aChannel._portProtocol = secondValue.asString();
                                                     aChannel._portMode = kChannelModeOther;
                                                     aChannel._protocolDescription =
-                                                    thirdValue.asString();
+                                                                            thirdValue.asString();
                                                     descriptor._inputChannels.push_back(aChannel);
                                                 }
                                             }
@@ -1890,11 +1727,47 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                                             }
                                         }
                                     }
+                                    for (int ii = 0, howMany = clientChannelsAsList->size();
+                                         ii < howMany; ++ii)
+                                    {
+                                        yarp::os::Value element(clientChannelsAsList->get(ii));
+                                        
+                                        if (element.isList())
+                                        {
+                                            yarp::os::Bottle * clientChannelAsList =
+                                                                                element.asList();
+                                            
+                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                                clientChannelAsList->size())
+                                            {
+                                                yarp::os::Value firstValue =
+                                                                        clientChannelAsList->get(0);
+                                                yarp::os::Value secondValue =
+                                                                        clientChannelAsList->get(1);
+                                                yarp::os::Value thirdValue =
+                                                                        clientChannelAsList->get(2);
+                                                
+                                                if (firstValue.isString() &&
+                                                    secondValue.isString() && thirdValue.isString())
+                                                {
+                                                    ChannelDescription aChannel;
+                                                    
+                                                    aChannel._portName = firstValue.asString();
+                                                    aChannel._portProtocol = secondValue.asString();
+                                                    aChannel._portMode = kChannelModeOther;
+                                                    aChannel._protocolDescription =
+                                                                            thirdValue.asString();
+                                                    descriptor._clientChannels.push_back(aChannel);
+                                                }
+                                            }
+                                        }
+                                    }
                                 }
                                 else
                                 {
                                     OD_LOG("! (theInputChannels.isList() && " //####
-                                           "theOutputChannels.isList())");
+                                           "theOutputChannels.isList() && " //####
+                                           "theClientChannels.isList())");
                                 }
                             }
                             else

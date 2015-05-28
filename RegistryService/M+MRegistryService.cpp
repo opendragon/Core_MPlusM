@@ -37,10 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRegistryService.h"
-#include "M+MAssociateRequestHandler.h"
 #include "M+MColumnNameValidator.h"
-#include "M+MDisassociateRequestHandler.h"
-#include "M+MGetAssociatesRequestHandler.h"
 #include "M+MMatchRequestHandler.h"
 #include "M+MPingRequestHandler.h"
 #include "M+MRegisterRequestHandler.h"
@@ -89,60 +86,29 @@ using namespace MplusM::Registry;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The named parameter for the 'associate' column. */
-#define ASSOCIATE_C_                        "associate"
-
-/*! @brief The named parameter for the 'associates_id' column. */
-#define ASSOCIATES_ID_C_                    "associates_id"
-
-/*! @brief The name of the 'Associates' table. */
-#define ASSOCIATES_T_                       "Associates"
-
-/*! @brief The name of the index for the 'channelname' column of the 'Channels' table. */
-#define CHANNELS_CHANNELNAME_I_             "Channels_channelname_idx"
-
-/*! @brief The named parameter for the 'channels_id' column. */
-#define CHANNELS_ID_C_                      "channels_id"
-
-/*! @brief The name of the 'Channels' table. */
-#define CHANNELS_T_                         "Channels"
-
-/*! @brief The name of the index for the 'associates_id' column of the 'ChannelsAssociates'
- table. */
-#define CHANNELSASSOCIATES_ASSOCIATES_ID_I_ "ChannelsAssociates_Associates_id_idx"
-
-/*! @brief The name of the index for the 'channels_id' column of the 'ChannelsAssociates' table. */
-#define CHANNELSASSOCIATES_CHANNELS_ID_I_   "ChannelsAssociates_Channels_id_idx"
-
-/*! @brief The name of the 'ChannelsAssociates' table. */
-#define CHANNELSASSOCIATES_T_               "ChannelsAssociates"
-
-/*! @brief The named parameter for the 'direction' column. */
-#define DIRECTION_C_                        "direction"
-
 /*! @brief The name of the index for the 'channelname' column of the 'Requests' table. */
-#define REQUESTS_CHANNELNAME_I_             "Requests_channelname_idx"
+#define REQUESTS_CHANNELNAME_I_         "Requests_channelname_idx"
 
 /*! @brief The name of the index for the 'requests' column of the 'Requests' table. */
-#define REQUESTS_REQUEST_I_                 "Requests_request_idx"
+#define REQUESTS_REQUEST_I_             "Requests_request_idx"
 
 /*! @brief The name of the index for the 'keywords_id' column of the 'RequestsKeywords' table. */
-#define REQUESTSKEYWORDS_KEYWORDS_ID_I_     "RequestsKeywords_Keywords_id_idx"
+#define REQUESTSKEYWORDS_KEYWORDS_ID_I_ "RequestsKeywords_Keywords_id_idx"
 
 /*! @brief The name of the index for the 'requests_id' column of the 'RequestsKeywords' table. */
-#define REQUESTSKEYWORDS_REQUESTS_ID_I_     "RequestsKeywords_Requests_id_idx"
+#define REQUESTSKEYWORDS_REQUESTS_ID_I_ "RequestsKeywords_Requests_id_idx"
 
 /*! @brief The name of the index for the 'name' column of the 'Services' table. */
-#define SERVICES_NAME_I_                    "Services_name_idx"
+#define SERVICES_NAME_I_                "Services_name_idx"
 
 /*! @brief A shortcut for the standard format for a 'Text' column. */
-#define TEXTNOTNULL_                        "Text NOT NULL DEFAULT _"
+#define TEXTNOTNULL_                    "Text NOT NULL DEFAULT _"
 
 /*! @brief A shortcut for the case-sensitive form of a 'Text' column. */
-#define BINARY_                             "COLLATE BINARY"
+#define BINARY_                         "COLLATE BINARY"
 
 /*! @brief A shortcut for the case-insensitive form of a 'Text' column. */
-#define NOCASE_                             "COLLATE NOCASE"
+#define NOCASE_                         "COLLATE NOCASE"
 
 namespace MplusM
 {
@@ -155,30 +121,6 @@ namespace MplusM
         typedef int (*BindFunction)
             (sqlite3_stmt * statement,
             const void *    stuff);
-        
-        /*! @brief The data needed to add a channel-associates entry into the database. */
-        struct ChannelAssociateData
-        {
-            /*! @brief The primary channel. */
-            YarpString _channel;
-            
-            /*! @brief The channel to be associated. */
-            YarpString _associate;
-            
-            /*! @brief The direction of the associate channel. */
-            int _direction;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
-        }; // ChannelAssociateData
         
         /*! @brief The data needed to add a request-keyword entry into the database. */
         struct RequestKeywordData
@@ -907,17 +849,11 @@ static bool constructTables(sqlite3 * database)
                 static const char * tableSQL[] =
                 {
 #if defined(MpM_UseTestDatabase)
-                    T_("DROP INDEX IF EXISTS " CHANNELS_CHANNELNAME_I_),
-                    T_("DROP INDEX IF EXISTS " CHANNELSASSOCIATES_ASSOCIATES_ID_I_),
-                    T_("DROP INDEX IF EXISTS " CHANNELSASSOCIATES_CHANNELS_ID_I_),
                     T_("DROP INDEX IF EXISTS " REQUESTS_REQUEST_I_),
                     T_("DROP INDEX IF EXISTS " REQUESTS_CHANNELNAME_I_),
                     T_("DROP INDEX IF EXISTS " REQUESTSKEYWORDS_KEYWORDS_ID_I_),
                     T_("DROP INDEX IF EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_),
                     T_("DROP INDEX IF EXISTS " SERVICES_NAME_I_),
-                    T_("DROP TABLE IF EXISTS " ASSOCIATES_T_),
-                    T_("DROP TABLE IF EXISTS " CHANNELS_T_),
-                    T_("DROP TABLE IF EXISTS " CHANNELSASSOCIATES_T_),
                     T_("DROP TABLE IF EXISTS " REQUESTSKEYWORDS_T_),
                     T_("DROP TABLE IF EXISTS " REQUESTS_T_),
                     T_("DROP TABLE IF EXISTS " KEYWORDS_T_),
@@ -948,20 +884,6 @@ static bool constructTables(sqlite3 * database)
                        REQUESTSKEYWORDS_T_ "(" KEYWORDS_ID_C_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " REQUESTSKEYWORDS_REQUESTS_ID_I_ " ON "
                        REQUESTSKEYWORDS_T_ "(" REQUESTS_ID_C_ ")"),
-                    T_("CREATE TABLE IF NOT EXISTS " CHANNELS_T_ "( " CHANNELNAME_C_ " "
-                       TEXTNOTNULL_ " " BINARY_ " UNIQUE, " KEY_C_ " Integer PRIMARY KEY)"),
-                    T_("CREATE INDEX IF NOT EXISTS " CHANNELS_CHANNELNAME_I_ " ON " CHANNELS_T_ "("
-                       CHANNELNAME_C_ ")"),
-                    T_("CREATE TABLE IF NOT EXISTS " ASSOCIATES_T_ "( " ASSOCIATE_C_ " "
-                       TEXTNOTNULL_ " " BINARY_ " PRIMARY KEY ON CONFLICT IGNORE)"),
-                    T_("CREATE TABLE IF NOT EXISTS " CHANNELSASSOCIATES_T_ "( " CHANNELS_ID_C_
-                       " Integer REFERENCES " CHANNELS_T_ "(" KEY_C_ "), " ASSOCIATES_ID_C_
-                       " Text " BINARY_" REFERENCES " ASSOCIATES_T_ "(" ASSOCIATE_C_ "), "
-                       DIRECTION_C_ " Integer)"),
-                    T_("CREATE INDEX IF NOT EXISTS " CHANNELSASSOCIATES_ASSOCIATES_ID_I_ " ON "
-                       CHANNELSASSOCIATES_T_ "(" ASSOCIATES_ID_C_ ")"),
-                    T_("CREATE INDEX IF NOT EXISTS " CHANNELSASSOCIATES_CHANNELS_ID_I_ " ON "
-                       CHANNELSASSOCIATES_T_ "(" CHANNELS_ID_C_ ")")
                 };
                 static const size_t numTables = (sizeof(tableSQL) / sizeof(*tableSQL));
                 
@@ -987,59 +909,6 @@ static bool constructTables(sqlite3 * database)
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // constructTables
-
-/*! @brief Bind the values that are to be gathered from the Associates table.
- @param statement The prepared statement that is to be updated.
- @param stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
-static int setupCheckAssociation(sqlite3_stmt * statement,
-                                 const void *   stuff)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
-    int result = SQLITE_MISUSE;
-    
-    try
-    {
-        int channelIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        int associateIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATES_ID_C_);
-        
-        if ((0 < channelIndex) && (0 < associateIndex))
-        {
-            const ChannelAssociateData * descriptor =
-                                                static_cast<const ChannelAssociateData *>(stuff);
-            const char *                 channelName = descriptor->_channel.c_str();
-            
-            OD_LOG_S1("channelName <- ", channelName); //####
-            result = sqlite3_bind_text(statement, channelIndex, channelName,
-                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
-            if (SQLITE_OK == result)
-            {
-                const char * associateName = descriptor->_associate.c_str();
-                
-                OD_LOG_S1("associateName <- ", associateName); //####
-                result = sqlite3_bind_text(statement, associateIndex, associateName,
-                                           static_cast<int>(strlen(associateName)),
-                                           SQLITE_TRANSIENT);
-            }
-            if (SQLITE_OK != result)
-            {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
-            }
-        }
-        else
-        {
-            OD_LOG("! ((0 < channelIndex) && (0 < associateIndex))"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_LL(result);
-    return result;
-} // setupCheckAssociation
 
 /*! @brief Bind the values that are to be gathered from the Services table.
  @param statement The prepared statement that is to be updated.
@@ -1125,90 +994,6 @@ static int setupCollectAssociates(sqlite3_stmt * statement,
     return result;
 } // setupCollectAssociates
 
-/*! @brief Bind the values that are to be gathered from the Channels table.
- @param statement The prepared statement that is to be updated.
- @param stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
-static int setupCollectPrimaries(sqlite3_stmt * statement,
-                                 const void *   stuff)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
-    int result = SQLITE_MISUSE;
-    
-    try
-    {
-        int associatesIdIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATES_ID_C_);
-        
-        if (0 < associatesIdIndex)
-        {
-            const char * associatesIdString = static_cast<const char *>(stuff);
-            
-            OD_LOG_S1("associatesIdString <- ", associatesIdString); //####
-            result = sqlite3_bind_text(statement, associatesIdIndex, associatesIdString,
-                                       static_cast<int>(strlen(associatesIdString)),
-                                       SQLITE_TRANSIENT);
-            if (SQLITE_OK != result)
-            {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
-            }
-        }
-        else
-        {
-            OD_LOG("! (0 < associatesIdIndex)"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_LL(result);
-    return result;
-} // setupCollectPrimaries
-
-/*! @brief Bind the values that are to be inserted into the Associates table.
- @param statement The prepared statement that is to be updated.
- @param stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
-static int setupInsertIntoAssociates(sqlite3_stmt * statement,
-                                     const void *   stuff)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
-    int result = SQLITE_MISUSE;
-    
-    try
-    {
-        int associateIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATE_C_);
-        
-        if (0 < associateIndex)
-        {
-            const char * associateString = static_cast<const char *>(stuff);
-            
-            OD_LOG_S1("associateString <- ", associateString); //####
-            result = sqlite3_bind_text(statement, associateIndex, associateString,
-                                       static_cast<int>(strlen(associateString)),
-                                       SQLITE_TRANSIENT);
-            if (SQLITE_OK != result)
-            {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
-            }
-        }
-        else
-        {
-            OD_LOG("! (0 < associateIndex)"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_LL(result);
-    return result;
-} // setupInsertIntoAssociates
-
 /*! @brief Bind the values that are to be inserted into the Channels table.
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
@@ -1249,65 +1034,6 @@ static int setupInsertIntoChannels(sqlite3_stmt * statement,
     OD_LOG_EXIT_LL(result);
     return result;
 } // setupInsertIntoChannels
-
-/*! @brief Bind the values that are to be inserted into the ChannelsAssociates table.
- @param statement The prepared statement that is to be updated.
- @param stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
-static int setupInsertIntoChannelsAssociates(sqlite3_stmt * statement,
-                                             const void *   stuff)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
-    int result = SQLITE_MISUSE;
-    
-    try
-    {
-        int associateIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATE_C_);
-        int channelIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
-        int directionIndex = sqlite3_bind_parameter_index(statement, "@" DIRECTION_C_);
-        
-        if ((0 < associateIndex) && (0 < channelIndex) && (0 < directionIndex))
-        {
-            const ChannelAssociateData * descriptor =
-                                                static_cast<const ChannelAssociateData *>(stuff);
-            const char *                 channelName = descriptor->_channel.c_str();
-            
-            OD_LOG_S1("channelName <- ", channelName); //####
-            result = sqlite3_bind_text(statement, channelIndex, channelName,
-                                       static_cast<int>(strlen(channelName)), SQLITE_TRANSIENT);
-            if (SQLITE_OK == result)
-            {
-                const char * associateName = descriptor->_associate.c_str();
-                
-                OD_LOG_S1("associateName <- ", associateName); //####
-                result = sqlite3_bind_text(statement, associateIndex, associateName,
-                                           static_cast<int>(strlen(associateName)),
-                                           SQLITE_TRANSIENT);
-            }
-            if (SQLITE_OK == result)
-            {
-                const char * directionString = (descriptor->_direction ? "1" : "0");
-                
-                OD_LOG_S1("directionString <- ", directionString); //####
-                result = sqlite3_bind_text(statement, directionIndex, directionString,
-                                           static_cast<int>(strlen(directionString)),
-                                           SQLITE_TRANSIENT);
-            }
-        }
-        else
-        {
-            OD_LOG("! ((0 < associateIndex) && (0 < channelIndex) && (0 < directionIndex))"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_LL(result);
-    return result;
-} // setupInsertIntoChannelsAssociates
 
 /*! @brief Bind the values that are to be inserted into the Keywords table.
  @param statement The prepared statement that is to be updated.
@@ -1594,46 +1320,6 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
     return result;
 } // setupInsertIntoServices
 
-/*! @brief Bind the values that are to be removed from the Associates table.
- @param statement The prepared statement that is to be updated.
- @param stuff The source of data that is to be bound.
- @returns The SQLite error from the bind operation. */
-static int setupRemoveFromAssociates(sqlite3_stmt * statement,
-                                     const void *   stuff)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
-    int result = SQLITE_MISUSE;
-    
-    try
-    {
-        int associateIndex = sqlite3_bind_parameter_index(statement, "@" ASSOCIATE_C_);
-        
-        if (0 < associateIndex)
-        {
-            const char * anAssociate = static_cast<const char *>(stuff);
-            
-            result = sqlite3_bind_text(statement, associateIndex, anAssociate,
-                                       static_cast<int>(strlen(anAssociate)), SQLITE_TRANSIENT);
-            if (SQLITE_OK != result)
-            {
-                OD_LOG_S1("error description: ", sqlite3_errstr(result)); //####
-            }
-        }
-        else
-        {
-            OD_LOG("! (0 < associateIndex)"); //####
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_EXIT_LL(result);
-    return result;
-} // setupRemoveFromAssociates
-
 /*! @brief Bind the values that are to be removed from the Channels table.
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
@@ -1849,19 +1535,15 @@ RegistryService::RegistryService(const YarpString & launchPath,
                                  const YarpString & servicePortNumber) :
     inherited(kServiceKindRegistry, launchPath, argc, argv, "", true, MpM_REGISTRY_CANONICAL_NAME,
               REGISTRY_SERVICE_DESCRIPTION,
-              "associate - associate a channel with another channel\n"
-              "disassociate - remove all associations for a channel\n"
-              "getAssociates - return the associations of a channel\n"
               "match - return the channels for services matching the criteria provided\n"
               "ping - update the last-pinged information for a channel or record the information "
               "for a service on the given channel\n"
               "register - record the information for a service on the given channel\n"
               "unregister - remove the information for a service on the given channel",
               MpM_REGISTRY_ENDPOINT_NAME, servicePortNumber), _db(NULL),
-    _validator(new ColumnNameValidator), _associateHandler(NULL), _disassociateHandler(NULL),
-    _getAssociatesHandler(NULL), _matchHandler(NULL), _pingHandler(NULL), _statusChannel(NULL),
-    _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL), _inMemory(useInMemoryDb),
-    _isActive(false)
+    _validator(new ColumnNameValidator), _matchHandler(NULL), _pingHandler(NULL),
+    _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL),
+    _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
@@ -1896,70 +1578,6 @@ RegistryService::~RegistryService(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
-
-bool RegistryService::addAssociation(const YarpString & primaryChannelName,
-                                     const bool         isOutput,
-                                     const YarpString & secondaryChannelName)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("primaryChannelName = ", primaryChannelName, "secondaryChannelName = ", //####
-               secondaryChannelName); //####
-    OD_LOG_B1("isOutput = ", isOutput); //####
-    bool okSoFar = false;
-    
-    try
-    {
-        if (doBeginTransaction(_db))
-        {
-            static const char * insertIntoAssociates = T_("INSERT INTO " ASSOCIATES_T_ "("
-                                                          ASSOCIATE_C_ ") VALUES(@" ASSOCIATE_C_
-                                                          ")");
-            
-            okSoFar = performSQLstatementWithNoResults(_db, insertIntoAssociates,
-                                                       setupInsertIntoAssociates,
-                                       static_cast<const void *>(secondaryChannelName.c_str()));
-            if (okSoFar)
-            {
-                static const char * insertIntoChannels = T_("INSERT INTO " CHANNELS_T_ "("
-                                                            CHANNELNAME_C_ ") VALUES(@"
-                                                            CHANNELNAME_C_ ")");
-                
-                okSoFar = performSQLstatementWithNoResultsAllowConstraint(_db, insertIntoChannels,
-                                                                          setupInsertIntoChannels,
-                                          static_cast<const void *>(primaryChannelName.c_str()));
-            }
-            if (okSoFar)
-            {
-                ChannelAssociateData chanAssocData;
-                static const char *  insertIntoChannelsAssociates = T_("INSERT INTO "
-                                                                       CHANNELSASSOCIATES_T_ "("
-                                                                       ASSOCIATES_ID_C_ ","
-                                                                       CHANNELS_ID_C_ ","
-                                                                       DIRECTION_C_ ") SELECT @"
-                                                                       ASSOCIATE_C_ ", " KEY_C_
-                                                                       ", @" DIRECTION_C_ " FROM "
-                                                                       CHANNELS_T_ " WHERE "
-                                                                       CHANNELNAME_C_ " = @"
-                                                                       CHANNELNAME_C_);
-                
-                chanAssocData._channel = primaryChannelName;
-                chanAssocData._associate = secondaryChannelName;
-                chanAssocData._direction = (isOutput ? 1 : 0);
-                okSoFar = performSQLstatementWithNoResults(_db, insertIntoChannelsAssociates,
-                                                           setupInsertIntoChannelsAssociates,
-                                                           &chanAssocData);
-            }
-            okSoFar = doEndTransaction(_db, okSoFar);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
-    return okSoFar;
-} // RegistryService::::addAssociation
 
 bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
                                        const RequestDescription & description)
@@ -2106,19 +1724,12 @@ void RegistryService::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        _associateHandler = new AssociateRequestHandler(*this);
-        _disassociateHandler = new DisassociateRequestHandler(*this);
-        _getAssociatesHandler = new GetAssociatesRequestHandler(*this);
         _matchHandler = new MatchRequestHandler(*this, _validator);
         _pingHandler = new PingRequestHandler(*this);
         _registerHandler = new RegisterRequestHandler(*this);
         _unregisterHandler = new UnregisterRequestHandler(*this);
-        if (_associateHandler && _disassociateHandler && _getAssociatesHandler && _matchHandler &&
-            _pingHandler && _registerHandler && _unregisterHandler)
+        if (_matchHandler && _pingHandler && _registerHandler && _unregisterHandler)
         {
-            registerRequestHandler(_associateHandler);
-            registerRequestHandler(_disassociateHandler);
-            registerRequestHandler(_getAssociatesHandler);
             registerRequestHandler(_matchHandler);
             registerRequestHandler(_pingHandler);
             registerRequestHandler(_registerHandler);
@@ -2126,9 +1737,8 @@ void RegistryService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_associateHandler && _disassociateHandler && " //####
-                   "_getAssociatesHandler && _matchHandler && _pingHandler && " //####
-                   "_registerHandler && _unregisterHandler)"); //####
+            OD_LOG("! (_matchHandler && _pingHandler && _registerHandler && " //####
+                   "_unregisterHandler)"); //####
         }
     }
     catch (...)
@@ -2138,55 +1748,6 @@ void RegistryService::attachRequestHandlers(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::attachRequestHandlers
-
-bool RegistryService::checkForExistingAssociation(const YarpString & primaryChannelName,
-                                                  const YarpString & secondaryChannelName)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("primaryChannelName = ", primaryChannelName); //####
-    OD_LOG_S1s("secondaryChannelName = ", secondaryChannelName); //####
-    bool okSoFar = false;
-    
-    try
-    {
-        if (doBeginTransaction(_db))
-        {
-            yarp::os::Bottle     dummy;
-            ChannelAssociateData chanAssocData;
-            static const char *  checkAssociation = T_("SELECT " DIRECTION_C_ " FROM "
-                                                       CHANNELSASSOCIATES_T_ " WHERE "
-                                                       CHANNELS_ID_C_ " IN (SELECT " KEY_C_
-                                                       " FROM " CHANNELS_T_ " WHERE "
-                                                       CHANNELNAME_C_ " = @" CHANNELNAME_C_
-                                                       ") AND " ASSOCIATES_ID_C_ " = @"
-                                                       ASSOCIATES_ID_C_);
-            
-            chanAssocData._channel = primaryChannelName;
-            chanAssocData._associate = secondaryChannelName;
-            okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, checkAssociation, 0,
-                                                                 setupCheckAssociation,
-                                                     static_cast<const void *>(&chanAssocData));
-
-            okSoFar = doEndTransaction(_db, okSoFar);
-            if (okSoFar)
-            {
-                okSoFar = (1 <= dummy.size());
-                if (! okSoFar)
-                {
-                    reportStatusChange(secondaryChannelName,
-                                       kRegistryNotAnExistingAssociation);
-                }
-            }
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
-    return okSoFar;
-} // RegistryService::checkForExistingAssociation
 
 bool RegistryService::checkForExistingService(const YarpString & channelName)
 {
@@ -2269,24 +1830,6 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        if (_associateHandler)
-        {
-            unregisterRequestHandler(_associateHandler);
-            delete _associateHandler;
-            _associateHandler = NULL;
-        }
-        if (_disassociateHandler)
-        {
-            unregisterRequestHandler(_disassociateHandler);
-            delete _disassociateHandler;
-            _disassociateHandler = NULL;
-        }
-        if (_getAssociatesHandler)
-        {
-            unregisterRequestHandler(_getAssociatesHandler);
-            delete _getAssociatesHandler;
-            _getAssociatesHandler = NULL;
-        }
         if (_matchHandler)
         {
             unregisterRequestHandler(_matchHandler);
@@ -2341,146 +1884,6 @@ void RegistryService::enableMetrics(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::enableMetrics
-
-bool RegistryService::fillInAssociates(const YarpString & channelName,
-                                       bool &             isPrimary,
-                                       YarpStringVector & inputs,
-                                       YarpStringVector & outputs)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("channelName = ", channelName); //####
-    OD_LOG_P3("isPrimary = ", &isPrimary, "inputs = ", &inputs, "outputs = ", &outputs); //####
-    bool okSoFar = false;
-    
-    try
-    {
-        isPrimary = false;
-        inputs.clear();
-        outputs.clear();
-        if (doBeginTransaction(_db))
-        {
-            // First, check if the channel name is a primary:
-            yarp::os::Bottle    dummy;
-            static const char * collectPrimaries1 = T_("SELECT " KEY_C_ " FROM " CHANNELS_T_
-                                                       " WHERE " CHANNELNAME_C_ " = @"
-                                                       CHANNELNAME_C_);
-            
-            okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy, collectPrimaries1, 0,
-                                                                 setupCollectAssociates,
-                                                 static_cast<const void *>(channelName.c_str()));
-            if (okSoFar)
-            {
-                isPrimary = (0 < dummy.size());
-                if (isPrimary)
-                {
-                    // Second, gather a list of the associated channels:
-                    yarp::os::Bottle    associatesList;
-                    static const char * collectAssociates = T_("SELECT " ASSOCIATES_ID_C_ ", "
-                                                               DIRECTION_C_ " FROM "
-                                                               CHANNELSASSOCIATES_T_ " WHERE "
-                                                               CHANNELS_ID_C_ " IN (SELECT " KEY_C_
-                                                               " FROM " CHANNELS_T_ " WHERE "
-                                                               CHANNELNAME_C_ " = @" CHANNELNAME_C_
-                                                               ")");
-                    
-                    okSoFar = performSQLstatementWithDoubleColumnResults(_db, associatesList,
-                                                                         collectAssociates, 0, 1,
-                                                                         setupCollectAssociates,
-                                                 static_cast<const void *>(channelName.c_str()));
-                    if (okSoFar)
-                    {
-                        for (int ii = 0, numAssociates = associatesList.size();
-                             okSoFar && (ii < numAssociates); ++ii)
-                        {
-                            yarp::os::Value & associatePair(associatesList.get(ii));
-                            
-                            if (associatePair.isList())
-                            {
-                                yarp::os::Bottle * associateList = associatePair.asList();
-                                
-                                if (2 == associateList->size())
-                                {
-                                    yarp::os::Value associateName(associateList->get(0));
-                                    yarp::os::Value associateDirection(associateList->get(1));
-                                    
-                                    if (associateName.isString() && associateDirection.isString())
-                                    {
-                                        YarpString nameAsString(associateName.toString());
-                                        YarpString directionAsString(associateDirection.toString());
-                                        
-                                        if (directionAsString == "0")
-                                        {
-                                            inputs.push_back(nameAsString.c_str());
-                                        }
-                                        else
-                                        {
-                                            outputs.push_back(nameAsString.c_str());
-                                        }
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (associateName.isString() && " //####
-                                               "associateDirection.isString())"); //####
-                                        okSoFar = false;
-                                    }
-                                }
-                                else
-                                {
-                                    OD_LOG("! (2 == associateList->size())"); //####
-                                    okSoFar = false;
-                                }
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    static const char * collectPrimaries2 = T_("SELECT " CHANNELNAME_C_ " FROM "
-                                                               CHANNELS_T_ " WHERE " KEY_C_
-                                                               " IN (SELECT " CHANNELS_ID_C_
-                                                               " FROM " CHANNELSASSOCIATES_T_
-                                                               " WHERE " ASSOCIATES_ID_C_ " = @"
-                                                               ASSOCIATES_ID_C_ ")");
-                    
-                    okSoFar = performSQLstatementWithSingleColumnResults(_db, dummy,
-                                                                         collectPrimaries2, 0,
-                                                                         setupCollectPrimaries,
-                                                 static_cast<const void *>(channelName.c_str()));
-                    if (okSoFar)
-                    {
-                        if (1 == dummy.size())
-                        {
-                            yarp::os::Value & primary(dummy.get(0));
-                            
-                            if (primary.isString())
-                            {
-                                inputs.push_back(primary.toString().c_str());
-                            }
-                            else
-                            {
-                                OD_LOG("! (primary.isString())"); //####
-                                okSoFar = false;
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (1 == dummy.size())"); //####
-                            okSoFar = false;
-                        }
-                    }
-                }
-            }
-            okSoFar = doEndTransaction(_db, okSoFar);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
-    return okSoFar;
-} // RegistryService::fillInAssociates
 
 void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 {
@@ -2806,88 +2209,6 @@ bool RegistryService::processNameResponse(const YarpString &      channelName,
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RegistryService::processNameResponse
-
-bool RegistryService::removeAllAssociations(const YarpString & primaryChannelName)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("primaryChannelName = ", primaryChannelName); //####
-    bool okSoFar = false;
-    
-    try
-    {
-        if (doBeginTransaction(_db))
-        {
-            // First, gather a list of the associated channels:
-            yarp::os::Bottle associatesList;
-            static const char *     collectAssociates = T_("SELECT " ASSOCIATES_ID_C_ " FROM "
-                                                           CHANNELSASSOCIATES_T_ " WHERE "
-                                                           CHANNELS_ID_C_ " IN (SELECT " KEY_C_
-                                                           " FROM " CHANNELS_T_ " WHERE "
-                                                           CHANNELNAME_C_ " = @" CHANNELNAME_C_
-                                                           ")");
-            
-            okSoFar = performSQLstatementWithSingleColumnResults(_db, associatesList,
-                                                                 collectAssociates, 0,
-                                                                 setupCollectAssociates,
-                                         static_cast<const void *>(primaryChannelName.c_str()));
-            if (okSoFar)
-            {
-                static const char * removeFromChannelsAssociates = T_("DELETE FROM "
-                                                                      CHANNELSASSOCIATES_T_
-                                                                      " WHERE " CHANNELS_ID_C_
-                                                                      " IN (SELECT " KEY_C_ " FROM "
-                                                                      CHANNELS_T_ " WHERE "
-                                                                      CHANNELNAME_C_ " = @"
-                                                                      CHANNELNAME_C_ ")");
-                
-                okSoFar = performSQLstatementWithNoResults(_db, removeFromChannelsAssociates,
-                                                           setupRemoveFromChannelsAssociates,
-                                           static_cast<const void *>(primaryChannelName.c_str()));
-            }
-            if (okSoFar)
-            {
-                for (int ii = 0, numAssociates = associatesList.size();
-                     okSoFar && (ii < numAssociates); ++ii)
-                {
-                    yarp::os::Value & anAssociate(associatesList.get(ii));
-                    
-                    if (anAssociate.isString())
-                    {
-                        static const char * removeFromAssociates = T_("DELETE FROM " ASSOCIATES_T_
-                                                                      " WHERE " ASSOCIATE_C_ " = @"
-                                                                      ASSOCIATE_C_);
-                        
-                        okSoFar = performSQLstatementWithNoResults(_db, removeFromAssociates,
-                                                                   setupRemoveFromAssociates,
-                                       static_cast<const void *>(anAssociate.toString().c_str()));
-                    }
-                    else
-                    {
-                        OD_LOG("! (anAssociate.isString())"); //####
-                        okSoFar = false;
-                    }
-                }
-            }
-            if (okSoFar)
-            {
-                static const char * removeFromChannels = T_("DELETE FROM " CHANNELS_T_ " WHERE "
-                                                            CHANNELNAME_C_ " = @" CHANNELNAME_C_);
-                
-                okSoFar = performSQLstatementWithNoResults(_db, removeFromChannels,
-                                                           setupRemoveFromChannels,
-                                           static_cast<const void *>(primaryChannelName.c_str()));
-            }
-            okSoFar = doEndTransaction(_db, okSoFar);
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
-    OD_LOG_OBJEXIT_B(okSoFar); //####
-    return okSoFar;
-} // RegistryService::::removeAllAssociations
 
 void RegistryService::removeCheckedTimeForChannel(const YarpString & serviceChannelName)
 {

@@ -57,7 +57,7 @@
                                                         "examples/randomnumber")
 
 /*! @brief The description of the service. */
-# define RANDOMNUMBERADAPTER_SERVICE_DESCRIPTION T_("The Random Number adapter service")
+# define RANDOMNUMBERADAPTER_SERVICE_DESCRIPTION T_("The Random Number adapter")
 
 namespace MplusM
 {

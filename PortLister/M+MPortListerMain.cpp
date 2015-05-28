@@ -329,153 +329,6 @@ static void reportConnections(const OutputFlavour flavour,
 
 /*! @brief Print out connection information for a port.
  @param flavour The format for the output.
- @param associates The associates of the port of interest. */
-static void reportAssociates(const OutputFlavour                flavour,
-                             const Utilities::PortAssociation & associates)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("associates = ", &associates); //####
-    if (associates._valid)
-    {
-        YarpString               inputAssociates;
-        YarpString               outputAssociates;
-        const YarpStringVector & assocInputs = associates._inputs;
-        const YarpStringVector & assocOutputs = associates._outputs;
-        
-        if (associates._primary)
-        {
-            bool sawInput = false;
-            bool sawOutput = false;
-            
-            if (0 < assocInputs.size())
-            {
-                for (YarpStringVector::const_iterator walker(assocInputs.begin());
-                     assocInputs.end() != walker; ++walker)
-                {
-                    if (sawInput)
-                    {
-                        inputAssociates += ", ";
-                    }
-                    if (kOutputFlavourJSON == flavour)
-                    {
-                        inputAssociates += CHAR_DOUBLEQUOTE;
-                        inputAssociates += SanitizeString(*walker);
-                        inputAssociates += CHAR_DOUBLEQUOTE;
-                    }
-                    else
-                    {
-                        inputAssociates += SanitizeString(*walker, true);
-                    }
-                    sawInput = true;
-                }
-            }
-            if (0 < assocOutputs.size())
-            {
-                for (YarpStringVector::const_iterator walker(assocOutputs.begin());
-                     assocOutputs.end() != walker; ++walker)
-                {
-                    if (sawOutput)
-                    {
-                        outputAssociates += ", ";
-                    }
-                    if (kOutputFlavourJSON == flavour)
-                    {
-                        outputAssociates += CHAR_DOUBLEQUOTE;
-                        outputAssociates += SanitizeString(*walker);
-                        outputAssociates += CHAR_DOUBLEQUOTE;
-                    }
-                    else
-                    {
-                        outputAssociates += SanitizeString(*walker, true);
-                    }
-                    sawOutput = true;
-                }
-            }
-            switch (flavour)
-            {
-                case kOutputFlavourTabs :
-                    // Skip over the missing fields.
-                    cout << "\tPrimary\t" << inputAssociates.c_str() << "\t" <<
-                            outputAssociates.c_str();
-                    break;
-                    
-                case kOutputFlavourJSON :
-                    cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": true, "
-                               CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE ": [ ") <<
-                            inputAssociates.c_str() << T_(" ], " CHAR_DOUBLEQUOTE "AssocOutputs"
-                                                          CHAR_DOUBLEQUOTE ": [ ") <<
-                            outputAssociates.c_str() << " ], ";
-                    break;
-                    
-                case kOutputFlavourNormal :
-                    cout << " Primary port with inputs (" << inputAssociates.c_str() <<
-                            ") and outputs (" <<
-                    outputAssociates.c_str() << ").";
-                    break;
-                    
-                default :
-                    break;
-                    
-            }
-        }
-        else
-        {
-            if (0 < assocInputs.size())
-            {
-                inputAssociates = SanitizeString(assocInputs[0], kOutputFlavourJSON != flavour);
-                switch (flavour)
-                {
-                    case kOutputFlavourTabs :
-                        cout << "\tAssociate\t" << inputAssociates.c_str() << "\t";
-                        break;
-                        
-                    case kOutputFlavourJSON :
-                        cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": false, "
-                                   CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE ": [ "
-                                   CHAR_DOUBLEQUOTE) << inputAssociates.c_str() <<
-                        T_(CHAR_DOUBLEQUOTE " ], " CHAR_DOUBLEQUOTE "AssocOutputs"
-                           CHAR_DOUBLEQUOTE ": [ ], ");
-                        break;
-                        
-                    case kOutputFlavourNormal :
-                        cout << " Port associated with " << inputAssociates.c_str() << ".";
-                        break;
-                        
-                    default :
-                        break;
-                        
-                }
-            }
-        }
-    }
-    else
-    {
-        switch (flavour)
-        {
-            case kOutputFlavourTabs :
-                // Skip over the missing fields.
-                cout << "\t\t\t";
-                break;
-                
-            case kOutputFlavourJSON :
-                cout << T_(CHAR_DOUBLEQUOTE "Primary" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE "null"
-                           CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "AssocInputs" CHAR_DOUBLEQUOTE
-                           ": [ ], " CHAR_DOUBLEQUOTE "AssocOutputs" CHAR_DOUBLEQUOTE ": [ ], ");
-                break;
-                
-            case kOutputFlavourNormal :
-                break;
-                
-            default :
-                break;
-                
-        }
-    }
-    OD_LOG_EXIT(); //####
-} // reportAssociates
-
-/*! @brief Print out connection information for a port.
- @param flavour The format for the output.
  @param aDescriptor The attributes of the port of interest.
  @param checkWithRegistry @c true if the %Registry Service is available for requests and @c false
  otherwise.
@@ -487,10 +340,9 @@ static bool reportPortStatus(const OutputFlavour               flavour,
     OD_LOG_ENTER(); //####
     OD_LOG_P1("aDescriptor = ", &aDescriptor); //####
     OD_LOG_B1("checkWithRegistry = ", checkWithRegistry); //####
-    bool                       result;
-    Utilities::PortAssociation associates;
-    YarpString                 portName;
-    YarpString                 portClass;
+    bool       result;
+    YarpString portName;
+    YarpString portClass;
     
     portName = SanitizeString(aDescriptor._portName, kOutputFlavourJSON != flavour);
     if (strncmp(portName.c_str(), HIDDEN_CHANNEL_PREFIX, sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
@@ -643,8 +495,6 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     break;
                     
             }
-            Utilities::GetAssociatedPorts(aDescriptor._portName, associates, STANDARD_WAIT_TIME);
-            reportAssociates(flavour, associates);
         }
         else
         {

@@ -360,7 +360,7 @@ int main(int      argc,
         argumentList.push_back(&firstArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME,
-                                          EXEMPLAROUTPUT_SERVICE_DESCRIPTION, 2014,
+                                          EXEMPLAROUTPUT_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))

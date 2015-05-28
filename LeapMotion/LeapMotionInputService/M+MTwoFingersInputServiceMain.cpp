@@ -315,7 +315,7 @@ int main(int      argc,
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_TWOFINGERSINPUT_SERVICE_NAME,
-                                          TWOFINGERSINPUT_SERVICE_DESCRIPTION, 2015,
+                                          TWOFINGERSINPUT_SERVICE_DESCRIPTION, "", 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

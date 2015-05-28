@@ -101,8 +101,10 @@ static void setUpAndGo(const OutputFlavour flavour)
                 if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
                                                                STANDARD_WAIT_TIME))
                 {
+                    bool       sawClients = false;
                     bool       sawInputs = false;
                     bool       sawOutputs = false;
+                    YarpString clientChannelNames;
                     YarpString description;
                     YarpString inChannelNames;
                     YarpString kind;
@@ -144,6 +146,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                     reported = true;
                     if (kOutputFlavourJSON == flavour)
                     {
+                        clientChannelNames = "[ ";
                         inChannelNames = "[ ";
                         outChannelNames = "[ ";
                     }
@@ -205,8 +208,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                             outChannelNames += SanitizeString(oDescriptor._portName);
                             outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol"
                                                   CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
-                            outChannelNames +=
-                            SanitizeString(oDescriptor._portProtocol);
+                            outChannelNames += SanitizeString(oDescriptor._portProtocol);
                             outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
                         }
                         else
@@ -227,6 +229,47 @@ static void setUpAndGo(const OutputFlavour flavour)
                     if (kOutputFlavourJSON == flavour)
                     {
                         outChannelNames += " ]";
+                    }
+                    ChannelVector & clientChannels = descriptor._clientChannels;
+                    
+                    for (ChannelVector::const_iterator cWalker(clientChannels.begin());
+                         clientChannels.end() != cWalker; ++cWalker)
+                    {
+                        ChannelDescription cDescriptor(*cWalker);
+                        
+                        if (kOutputFlavourJSON == flavour)
+                        {
+                            if (sawClients)
+                            {
+                                clientChannelNames += ", ";
+                            }
+                            clientChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE
+                                                     ": " CHAR_DOUBLEQUOTE);
+                            clientChannelNames += SanitizeString(cDescriptor._portName);
+                            clientChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
+                                                     "Protocol" CHAR_DOUBLEQUOTE ": "
+                                                     CHAR_DOUBLEQUOTE);
+                            clientChannelNames +=  SanitizeString(cDescriptor._portProtocol);
+                            clientChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                        }
+                        else
+                        {
+                            if (sawClients)
+                            {
+                                clientChannelNames += " ";
+                            }
+                            clientChannelNames += cDescriptor._portName;
+                            if (0 < cDescriptor._portProtocol.size())
+                            {
+                                clientChannelNames += "{protocol=";
+                                clientChannelNames += cDescriptor._portProtocol + "}";
+                            }
+                        }
+                        sawClients = true;
+                    }
+                    if (kOutputFlavourJSON == flavour)
+                    {
+                        clientChannelNames += " ]";
                     }
                     kind = SanitizeString(descriptor._kind, kOutputFlavourJSON != flavour);
                     servicePortName = SanitizeString(*walker, kOutputFlavourJSON != flavour);
@@ -263,6 +306,8 @@ static void setUpAndGo(const OutputFlavour flavour)
                                     inChannelNames.c_str() << ", ";
                             cout << T_(CHAR_DOUBLEQUOTE "SecondaryOutputs" CHAR_DOUBLEQUOTE ": ") <<
                                     outChannelNames.c_str() << " }";
+                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryClients" CHAR_DOUBLEQUOTE ": ") <<
+                                    clientChannelNames.c_str() << " }";
                             break;
                             
                         case kOutputFlavourTabs :
@@ -273,7 +318,8 @@ static void setUpAndGo(const OutputFlavour flavour)
                             cout << description.c_str() << "\t";
                             requests = SanitizeString(descriptor._requestsDescription, true);
                             cout << requests.c_str() << "\t" << descriptor._path.c_str() << "\t" <<
-                                    inChannelNames.c_str() << "\t" << outChannelNames.c_str();
+                                    inChannelNames.c_str() << "\t" << outChannelNames.c_str() <<
+                                    "\t" << clientChannelNames.c_str();
                             break;
                             
                         case kOutputFlavourNormal :
@@ -292,6 +338,10 @@ static void setUpAndGo(const OutputFlavour flavour)
                             if (0 < outChannelNames.size())
                             {
                                 OutputDescription(cout, "Secondary outputs: ", outChannelNames);
+                            }
+                            if (0 < clientChannelNames.size())
+                            {
+                                OutputDescription(cout, "Secondary clients: ", clientChannelNames);
                             }
                             break;
                             

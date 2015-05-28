@@ -342,19 +342,27 @@ The example adapters demonstrate using a single input \yarp{} network connection
 \examplesNameR{Adapters}{mpmRunningSumAltAdapter}] or multiple input \yarp{} network
 connections [\examplesNameR{Adapters}{mpmRunningSumAdapter}].\\
 
-Adapters have five optional parameters:
+Adapters have ten optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
 \longDash{} note that this option is primarily for use by the \emph{Channel Manager}
 application}
-\item\exSp\optItem{c}{}{channels}{display the channel names created by the executable and
-leave}
+\item\exSp\optItem{c}{}{channel}{display the endpoint name after applying all other
+options and leave}
+\item\exSp\optItem{e}{v}{endpoint}{specifies an alternative endpoint name `\textit{v}' to
+be used}
+\item\exSp\optItem{g}{}{go}{indicates that the adapter is to be started immediately}
 \item\exSp\optItem{h}{}{help}{display the list of optional parameters and arguments and
 leave}
-\item\exSp\optItem{i}{}{info}{display the type of the executable, the matching criteria
-used to locate the service to which the adapter will attach and a description of the
-executable and leave \longDash{} note that this option is primarily for use by the
-\emph{Channel Manager} application}
+\item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options, the
+matching criteria used to locate the service to which the adapter will attach and a
+description of the executable and leave \longDash{} note that this option is primarily
+for use by the \emph{Channel Manager} application}
+\item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{}{report}{report the adapter metrics when the application exits}
+\item\exSp\optItem{t}{v}{tag}{specifies the tag `\textit{v}' to be used as part of the
+adapter name}
 \item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}
 

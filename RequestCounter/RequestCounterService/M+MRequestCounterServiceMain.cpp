@@ -209,7 +209,7 @@ int main(int      argc,
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
-                                          REQUESTCOUNTER_SERVICE_DESCRIPTION, 2014,
+                                          REQUESTCOUNTER_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           static_cast<OptionsMask>(kSkipGoOption |

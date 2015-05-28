@@ -321,7 +321,7 @@ int main(int      argc,
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_ABSORBEROUTPUT_SERVICE_NAME,
-                                          ABSORDEROUTPUT_SERVICE_DESCRIPTION, 2014,
+                                          ABSORDEROUTPUT_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

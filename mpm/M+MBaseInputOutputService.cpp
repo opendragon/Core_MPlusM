@@ -519,7 +519,9 @@ void BaseInputOutputService::fillInSecondaryClientChannelsList(ChannelVector & c
                 ChannelDescription descriptor;
                 
                 descriptor._portName = aChannel->name();
+                descriptor._portProtocol = "";
                 descriptor._portMode = kChannelModeTCP;
+                descriptor._protocolDescription = "";
                 channels.push_back(descriptor);
             }
         }

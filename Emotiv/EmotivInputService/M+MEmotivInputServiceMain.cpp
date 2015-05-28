@@ -332,7 +332,7 @@ int main(int      argc,
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_EMOTIVINPUT_SERVICE_NAME,
-                                          EMOTIVINPUT_SERVICE_DESCRIPTION, 2015,
+                                          EMOTIVINPUT_SERVICE_DESCRIPTION, "", 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))

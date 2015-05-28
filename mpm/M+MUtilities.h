@@ -108,34 +108,6 @@ namespace MplusM
             
         }; // PortKind
         
-        /*! @brief The associates of a port. */
-        struct PortAssociation
-        {
-            /*! @brief The collected inputs associated with the port. */
-            YarpStringVector _inputs;
-            
-            /*! @brief The collected outputs associated with the port. */
-            YarpStringVector _outputs;
-            
-            /*! @brief @c true if the port is associated and @c false if it is an associate, in
-             which case the first input port is the primary for the association. */
-            bool _primary;
-            
-            /*! @brief @c true if the association data is valid and @c false otherwise. */
-            bool _valid;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[6];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
-        }; // PortAssociation
-        
         /*! @brief The attributes of a port. */
         struct PortDescriptor
         {
@@ -162,14 +134,17 @@ namespace MplusM
             /*! @brief The description of the service. */
             YarpString _description;
             
+            /*! @brief The set of secondary client channels for the service. */
+            Common::ChannelVector _clientChannels;
+            
             /*! @brief The set of secondary input channels for the service. */
             Common::ChannelVector _inputChannels;
             
-            /*! @brief The description of the behavioural model for the service. */
-            YarpString _kind;
-            
             /*! @brief The set of secondary output channels for the service. */
             Common::ChannelVector _outputChannels;
+            
+            /*! @brief The description of the behavioural model for the service. */
+            YarpString _kind;
             
             /*! @brief The name of the input channel for the service. */
             YarpString _path;
@@ -253,19 +228,6 @@ namespace MplusM
                                    const bool              quiet = false,
                                    Common::CheckFunction   checker = NULL,
                                    void *                  checkStuff = NULL);
-        
-        /*! @brief Collect the associated input and output connections for a port.
-         @param portName The port to be inspected.
-         @param associates The associated ports for the port.
-         @param timeToWait The number of seconds allowed before a failure is considered.
-         @param checker A function that provides for early exit from loops.
-         @param checkStuff The private data for the early exit function.
-         @returns @c true if there is association data for the port and @c false otherwise. */
-        bool GetAssociatedPorts(const YarpString &    portName,
-                                PortAssociation &     associates,
-                                const double          timeToWait,
-                                Common::CheckFunction checker = NULL,
-                                void *                checkStuff = NULL);
         
         /*! @brief Get the configured server address and port.
          @param serverAddress The configured server address.

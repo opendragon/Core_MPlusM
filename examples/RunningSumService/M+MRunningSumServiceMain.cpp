@@ -206,7 +206,7 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_RUNNINGSUM_SERVICE_NAME,
-                                          RUNNINGSUM_SERVICE_DESCRIPTION, 2014,
+                                          RUNNINGSUM_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipGoOption))

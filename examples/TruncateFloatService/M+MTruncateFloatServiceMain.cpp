@@ -318,7 +318,7 @@ int main(int      argc,
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_TRUNCATEFLOATFILTER_SERVICE_NAME,
-                                          TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION, 2014,
+                                          TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

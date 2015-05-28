@@ -100,12 +100,6 @@ namespace MplusM
                              CheckFunction checker = NULL,
                              void *        checkStuff = NULL);
             
-            /*! @brief Remove all the associated channels.
-             @param checker A function that provides for early exit from loops.
-             @param checkStuff The private data for the early exit function. */
-            void removeAssociatedChannels(CheckFunction checker = NULL,
-                                          void *        checkStuff = NULL);
-            
             /*! @brief Set the channel for the client to use.
              @param newChannel The channel to be used. */
             void setChannel(ClientChannel * newChannel = NULL);

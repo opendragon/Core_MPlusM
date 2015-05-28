@@ -191,37 +191,6 @@ The \requestsNameX{Basic}{Basic}{stop} request stops the service.
 The requests in this group are used exclusively by the
 \serviceNameR[Registry~Service]{RegistryService} application to manage its internal
 database and to respond to information requests from client applications.
-\tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{associate}}
-The \requestsNameX{Registry~Service}{RegistryService}{associate} request is sent by
-adapter applications to indicate that a particular \yarp{} network connection is part of
-the same process as the client connection that sent the request.\\
-
-It is used by the adapter applications \examplesNameR{Adapters}{mpmRandomNumberAdapter},
-\examplesNameR{Adapters}{mpmRunningSumAdapter} and\\
-\examplesNameR{Adapters}{mpmRunningSumAltAdapter} to indicate the input and output
-\yarp{} network connections that are part of the application.
-\tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{associate}}
-\tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{disassociate}}
-The \requestsNameX{Registry~Service}{RegistryService}{disassociate} request is sent by
-adapter applications to indicate that a particular \yarp{} network connection is no
-longer part of the same process as the client connection that sent the request.
-This is normally done as part of the shutdown process for the application.\\
-
-It is used by the adapter applications \examplesNameR{Adapters}{mpmRandomNumberAdapter},
-\examplesNameR{Adapters}{mpmRunningSumAdapter} and\\
-\examplesNameR{Adapters}{mpmRunningSumAltAdapter} to indicate that all the input and
-output \yarp{} network connections that are part of the application are no longer active.
-\tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{disassociate}}
-\tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{getAssociates}}
-The \requestsNameX{Registry~Service}{RegistryService}{getAssociates} request returns
-a list of the input \yarp{} network connections and a list of the output \yarp{} network
-connections for a given connection; if the requested port corresponds to a secondary
-\yarp{} network connection, then the request returns the client connection that it is
-associated with.\\
-
-It is used by the \utilityNameR{mpmPortLister} and \emph{Channel Manager} utilities to
-identify relationships between \yarp{} network connections.
-\tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{getAssociates}}
 \tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{match}, alias:\ %
 \requestsNameA{Registry~Service}{RegistryService}{find}}
 The \requestsNameX{Registry~Service}{RegistryService}{match} request returns a list of

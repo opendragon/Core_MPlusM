@@ -94,14 +94,8 @@
 		DF384FDD198A9CA600A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = PortLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384FDE198A9CA600A0414E /* M+MPortListerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPortListerMain.cpp"; path = "PortLister/M+MPortListerMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384FDF198A9CC500A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RegistryService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF384FE0198A9CC500A0414E /* M+MAssociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAssociateRequestHandler.cpp"; path = "RegistryService/M+MAssociateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FE1198A9CC500A0414E /* M+MAssociateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAssociateRequestHandler.h"; path = "RegistryService/M+MAssociateRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF384FE2198A9CC500A0414E /* M+MColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MColumnNameValidator.cpp"; path = "RegistryService/M+MColumnNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384FE3198A9CC500A0414E /* M+MColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MColumnNameValidator.h"; path = "RegistryService/M+MColumnNameValidator.h"; sourceTree = SOURCE_ROOT; };
-		DF384FE4198A9CC500A0414E /* M+MDisassociateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MDisassociateRequestHandler.cpp"; path = "RegistryService/M+MDisassociateRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FE5198A9CC500A0414E /* M+MDisassociateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MDisassociateRequestHandler.h"; path = "RegistryService/M+MDisassociateRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FE6198A9CC500A0414E /* M+MGetAssociatesRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MGetAssociatesRequestHandler.cpp"; path = "RegistryService/M+MGetAssociatesRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FE7198A9CC500A0414E /* M+MGetAssociatesRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MGetAssociatesRequestHandler.h"; path = "RegistryService/M+MGetAssociatesRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF384FE8198A9CC500A0414E /* M+MMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchRequestHandler.cpp"; path = "RegistryService/M+MMatchRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384FE9198A9CC500A0414E /* M+MMatchRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchRequestHandler.h"; path = "RegistryService/M+MMatchRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF384FEA198A9CC500A0414E /* M+MPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingRequestHandler.cpp"; path = "RegistryService/M+MPingRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1034,12 +1028,6 @@
 		DF36EEF41958E0C800E7D889 /* RequestHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				DF384FE0198A9CC500A0414E /* M+MAssociateRequestHandler.cpp */,
-				DF384FE1198A9CC500A0414E /* M+MAssociateRequestHandler.h */,
-				DF384FE4198A9CC500A0414E /* M+MDisassociateRequestHandler.cpp */,
-				DF384FE5198A9CC500A0414E /* M+MDisassociateRequestHandler.h */,
-				DF384FE6198A9CC500A0414E /* M+MGetAssociatesRequestHandler.cpp */,
-				DF384FE7198A9CC500A0414E /* M+MGetAssociatesRequestHandler.h */,
 				DF384FE8198A9CC500A0414E /* M+MMatchRequestHandler.cpp */,
 				DF384FE9198A9CC500A0414E /* M+MMatchRequestHandler.h */,
 				DF384FEA198A9CC500A0414E /* M+MPingRequestHandler.cpp */,

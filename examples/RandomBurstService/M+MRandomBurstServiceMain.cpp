@@ -357,7 +357,7 @@ int main(int      argc,
         argumentList.push_back(&secondArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_RANDOMBURSTINPUT_SERVICE_NAME,
-                                          RANDOMBURSTINPUT_SERVICE_DESCRIPTION, 2014,
+                                          RANDOMBURSTINPUT_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))

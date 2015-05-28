@@ -208,7 +208,7 @@ int main(int      argc,
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_RANDOMNUMBER_SERVICE_NAME,
-                                          RANDOMNUMBER_SERVICE_DESCRIPTION, 2014,
+                                          RANDOMNUMBER_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, kSkipGoOption))

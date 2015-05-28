@@ -16,8 +16,8 @@ the \mplusm{} source code
 \item\exSp\textbf{\mplusm{}::Utilities} classes that are used only with the \mplusm{}
 utility programs
 \end{itemize}
-There are 44 classes or structures in the \textbf{\mplusm{}::Common} namespace, 27 in
-\textbf{\mplusm{}::Example}, 8 in \textbf{\mplusm{}::Parser}, 15 in
+There are 45 classes or structures in the \textbf{\mplusm{}::Common} namespace, 27 in
+\textbf{\mplusm{}::Example}, 8 in \textbf{\mplusm{}::Parser}, 11 in
 \textbf{\mplusm{}::Registry}, 6 in \textbf{\mplusm{}::RequestCounter}, 20 in
 \textbf{\mplusm{}::Test} and 11 in \textbf{\mplusm{}::Utilities}.
 The following sections describe the most critical of the classes in the
@@ -26,16 +26,30 @@ namespaces, derive from these classes.
 \secondaryStart{BaseAdapterData}\classNameM{Common}{BaseAdapterData}
 The class \classNameX{Common}{BaseAdapterData} is used to provide common methods and
 variables for data that is shared between instances of derived classes of
-\classNameR{Common}{BaseService} and instances of derived classes of
+\classNameR{Common}{BaseAdapterService} and instances of derived classes of
 \classNameR{Common}{BaseInputHandler}.
-In particular, the shared data includes the activation state of the input stream and the
-primary output stream to use when responding to input data.
+In particular, the shared data includes a reference to the \classNameR{Common}{BaseClient}
+that is being communicated with by the adapter and the primary output stream to use when
+responding to input data.
 \secondaryEnd{\classNameE{Common}{BaseAdapterData}}
+\secondaryStart{BaseAdapterService}\classNameM{Common}{BaseAdapterService}
+Instances of derived classes of \classNameX{Common}{BaseAdapterService} are responsible
+for managing \mplusm{} communication between one or more standard \yarp{} ports and an
+instance of a derived class of \classNameR{Common}{BaseClient}; for example, an instance
+of the class \asCode{M+M::Example::RandomNumberAdapter} uses an instance of the class
+\asCode{M+M::Example::RandomNumberClient} to make requests to an instance of the class
+\asCode{M+M::Example::RandomNumberService}.\\
+
+The bulk of the mechanisms needed to perform this are provided by the
+\classNameX{Common}{BaseAdapterService} class itself, and the derived classes need only
+provide service\longDash{}specific routines to handle their inputs.
+\secondaryEnd{\classNameE{Common}{BaseAdapterService}}
 \secondaryStart{BaseArgumentDescriptor}\classNameM{Utilities}{BaseArgumentDescriptor}
 Instances of derived classes of \classNameX{Utilities}{BaseArgumentDescriptor} are
 responsible for serializing argument descriptions, providing argument prompts and
 validating user input.
 \secondaryEnd{\classNameE{Utilities}{BaseArgumentDescriptor}}
+\condPage
 \secondaryStart{BaseChannel}\classNameM{Common}{BaseChannel}
 The class \classNameX{Common}{BaseChannel} provides common resources and methods for more
 specialized channels.
@@ -48,16 +62,13 @@ mediating \mplusm{} communication with corresponding instances of derived classe
 The bulk of the mechanisms needed to perform this are provided by the
 \classNameX{Common}{BaseClient} class itself, and the derived classes need only provide
 service\longDash{}specific routines, such as \asCode{getOneRandomNumber()}, which is a
-method of the \asCode{M+M::Example::RandomNumberClient} class.
-\condPage{}
+method of the \asCode{M+M::Example::RandomNumberClient} class.\\
+
 The following methods are available to code that uses \classNameX{Common}{BaseClient}
 classes:
 \begin{itemize}
 \item\asBoldCode{FindMatchingService} This static function is provided for the use of
 utility programs that need to identify active services
-\item\exSp\asBoldCode{addAssociatedChannel} Adapter applications use this method to inform
-the \serviceNameR[Registry~Service]{RegistryService} about their input and output \yarp{}
-network connections
 \item\exSp\asBoldCode{connectToService} This method is use by clients to establish a
 connection to the endpoint of their companion service
 \item\exSp\asBoldCode{disconnectFromService} This method is used by clients to release the
@@ -66,9 +77,6 @@ connection to their companion service
 be used for communication with their companion service
 \item\exSp\asBoldCode{reconnectIfDisconnected} This method is used by clients to
 re\longDash{}establish a dropped connection with their companion service
-\item\exSp\asBoldCode{removeAssociatedChannels} Adapter applications use this method to
-inform the \serviceNameR[Registry~Service]{RegistryService} that their input and output
-\yarp{} network connections are no longer available
 \item\exSp\asBoldCode{send} This method is used by clients to send a request to their
 companion service
 \end{itemize}

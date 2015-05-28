@@ -138,55 +138,6 @@ namespace MplusM
             
         }; // BaseAdapterService
         
-        /*! @brief Process the standard options for service executables.
-         The option '-c' / '--channel' displays the endpoint name after applying all other
-         options and retunrs @c false.
-         The option '-e' / '--endpoint' specifies the endpoint name to be used.
-         The option '-g' / '--go' indicates that the service is to be started immediately.
-         The option '-h' / '--help' displays the list of optional parameters and arguments and
-         returns @c false.
-         The option '-i' / '--info' displays the type of the executable, the available options and
-         the description of the executable and returns @c false.
-         The option '-p' / '--port' specifie the port number to be used.
-         The option '-r' / '--report' indicates that the service metrics are to be reported on exit.
-         The option '-t' / '--tag' specifies the tag modifier, which is applied to the name of the
-         channel, if the name was not specified. It is also applied to the service name as a suffix.
-         The option '-v' / '--vers'displays the version and copyright information and returns
-         @c false.
-         @param argc The number of arguments in 'argv'.
-         @param argv The arguments to be used with the service.
-         @param argumentDescriptions Descriptions of the arguments to the service.
-         @param defaultEndpointNameRoot The default endpoint root name.
-         @param adapterDescription A description of the adapter.
-         @param matchingCriteria The criteria used to locate the service that the adapter attaches
-         to.
-         @param year The copyright year for the calling application.
-         @param copyrightHolder The name of the entity holding the copyright to the utility.
-         @param goWasSet Set to @c true if the service is to be started immediately.
-         @param reportOnExit Set to @c true if the -r option is seen.
-         @param tag Set to the argument of the last -t option seen.
-         @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
-         options.
-         @param servicePortNumber Set to the argument of the last -p option seen.
-         @param skipOptions The command-line options to be skipped.
-         @param arguments If non-@c NULL, returns the arguments for the service.
-         @returns @c true if the service should continue and @c false if it should leave. */
-        bool ProcessStandardAdapterOptions(const int                     argc,
-                                           char * *                      argv,
-                                           Utilities::DescriptorVector & argumentDescriptions,
-                                           const YarpString &            defaultEndpointNameRoot,
-                                           const YarpString &            adapterDescription,
-                                           const YarpString &            matchingCriteria,
-                                           const int                     year,
-                                           const char *                  copyrightHolder,
-                                           bool &                        goWasSet,
-                                           bool &                        reportOnExit,
-                                           YarpString &                  tag,
-                                           YarpString &                  serviceEndpointName,
-                                           YarpString &                  servicePortNumber,
-                                           const OptionsMask             skipOptions = kSkipNone,
-                                           YarpStringVector *            arguments = NULL);
-
     } // Common
     
 } // MplusM

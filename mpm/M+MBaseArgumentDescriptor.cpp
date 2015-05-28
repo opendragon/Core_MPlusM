@@ -382,6 +382,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "parseResult = ", &parseResult); //####
     bool   result = true;
+    bool   sawOptional = false;
     size_t numArgs = arguments.size();
     size_t numValues = parseResult.nonOptionsCount();
 #if MAC_OR_LINUX_
@@ -389,7 +390,24 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
 #else // ! MAC_OR_LINUX_
     size_t numToCheck = min(numArgs, numValues);
 #endif // ! MAC_OR_LINUX_
-    
+
+    // Check if there are required arguments after optional arguments
+    for (size_t ii = 0; result && (numArgs > ii); ++ii)
+    {
+        BaseArgumentDescriptor * anArg = arguments[ii];
+        
+        if (anArg)
+        {
+            if (anArg->isOptional())
+            {
+                sawOptional = true;
+            }
+            else
+            {
+                result = (! sawOptional);
+            }
+        }
+    }
     for (size_t ii = 0; result && (numToCheck > ii); ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];

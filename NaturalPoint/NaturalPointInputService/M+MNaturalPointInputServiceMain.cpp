@@ -333,7 +333,7 @@ int main(int      argc,
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_NATURALPOINTINPUT_SERVICE_NAME,
-                                          NATURALPOINTINPUT_SERVICE_DESCRIPTION, 2015,
+                                          NATURALPOINTINPUT_SERVICE_DESCRIPTION, "", 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))

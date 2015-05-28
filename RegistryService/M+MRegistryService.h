@@ -67,10 +67,7 @@ namespace MplusM
 {
     namespace Registry
     {
-        class AssociateRequestHandler;
         class ColumnNameValidator;
-        class DisassociateRequestHandler;
-        class GetAssociatesRequestHandler;
         class MatchRequestHandler;
         class PingRequestHandler;
         class RegisterRequestHandler;
@@ -165,22 +162,6 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~RegistryService(void);
             
-            /*! @brief Add an association between channels.
-             @param primaryChannelName The name of the primary channel.
-             @param isOutput @c true if the secondary channel is an output and @c false otherwise.
-             @param secondaryChannelName The name of the associated channel.
-             @returns @c true if the association can be added and @c false otherwise.*/
-            bool addAssociation(const YarpString & primaryChannelName,
-                                const bool         isOutput,
-                                const YarpString & secondaryChannelName);
-            
-            /*! @brief Check if an association between channels is already in the registry.
-             @param primaryChannelName The name of the primary channel.
-             @param secondaryChannelName The name of the associated channel.
-             @returns @c true if the association is present and @c false otherwise.*/
-            bool checkForExistingAssociation(const YarpString & primaryChannelName,
-                                             const YarpString & secondaryChannelName);
-            
             /*! @brief Check if a service is already in the registry.
              @param channelName The service channel for the service.
              @returns @c true if the service is present and @c false otherwise. */
@@ -194,19 +175,6 @@ namespace MplusM
             
             /*! @brief Turn on the send / receive metrics collecting. */
             virtual void enableMetrics(void);
-            
-            /*! @brief Fill in the list of associated input channels and output channesls for a
-             channel.
-             @param channelName The channel to be checked.
-             @param isPrimary @c true if the channel is a primary and @c false if it is an
-             associated channel
-             @param inputs The associated list of input channels to be filled in.
-             @param outputs The associated list of output channels to be filled in.
-             @returns @c true if the lists were successfully filled and @c false otherwise. */
-            bool fillInAssociates(const YarpString & channelName,
-                                  bool &             isPrimary,
-                                  YarpStringVector & inputs,
-                                  YarpStringVector & outputs);
             
             /*! @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
@@ -250,11 +218,6 @@ namespace MplusM
              if unexpected values appear. */
             bool processNameResponse(const YarpString &              channelName,
                                      const Common::ServiceResponse & response);
-            
-            /*! @brief Remove all associations for a channel.
-             @param primaryChannelName The name of the primary channel.
-             @returns @c true if the associations were removed and @c false otherwise.*/
-            bool removeAllAssociations(const YarpString & primaryChannelName);
             
             /*! @brief Remove the last checked time for a service channel.
              @param serviceChannelName The service channel that is being removed. */
@@ -367,15 +330,6 @@ namespace MplusM
             /*! @brief The validator function object that the %Registry Service will use. */
             ColumnNameValidator * _validator;
             
-            /*! @brief The request handler for the 'associate' request. */
-            AssociateRequestHandler * _associateHandler;
-            
-            /*! @brief The request handler for the 'disassociate' request. */
-            DisassociateRequestHandler * _disassociateHandler;
-            
-            /*! @brief The request handler for the 'disassociate' request. */
-            GetAssociatesRequestHandler * _getAssociatesHandler;
-            
             /*! @brief The request handler for the 'match' request. */
             MatchRequestHandler * _matchHandler;
             
@@ -397,8 +351,8 @@ namespace MplusM
             /*! @brief @c true if the database is in-memory and @c false if it is disk-based. */
             bool _inMemory;
             
-            /*! @brief @c true if the %Registry Service is fully operational and @c false if it could
-             not be set up. */
+            /*! @brief @c true if the %Registry Service is fully operational and @c false if it
+             could not be set up. */
             bool _isActive;
             
 # if defined(__APPLE__)

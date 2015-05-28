@@ -198,7 +198,7 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList, MpM_REGISTRY_ENDPOINT_NAME,
-                                          REGISTRY_SERVICE_DESCRIPTION, 2014,
+                                          REGISTRY_SERVICE_DESCRIPTION, "", 2014,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           static_cast<OptionsMask>(kSkipGoOption |

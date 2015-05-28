@@ -367,6 +367,7 @@ int main(int      argc,
     try
     {
         bool                        goWasSet = false;
+        bool                        nameWasSet = false; // ignored
         bool                        reportOnExit = false;
         bool                        stdinAvailable = CanReadFromStandardInput();
         YarpString                  serviceEndpointName;
@@ -374,12 +375,12 @@ int main(int      argc,
         YarpString                  tag;
         Utilities::DescriptorVector argumentList;
 
-        if (ProcessStandardAdapterOptions(argc, argv, argumentList,
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_RANDOMNUMBERADAPTER_SERVICE_NAME,
                                           RANDOMNUMBERADAPTER_SERVICE_DESCRIPTION,
                                           MATCHING_CRITERIA, 2015, STANDARD_COPYRIGHT_NAME,
-                                          goWasSet, reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          goWasSet, nameWasSet, reportOnExit, tag,
+                                          serviceEndpointName, servicePortNumber))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
