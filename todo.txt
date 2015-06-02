@@ -28,12 +28,6 @@
 
 * services need to respond to a new request that returns their original launch parameters, so that these can be recorded
 
-+ clicking on an adapter should change the text to ‘adapter’
-
-+ a ‘forced’ connection should not use the I/O thickness, and should be ‘dashed’
-
-+ I/O standard ports should be considered to be ‘O’ only, so that disconnecting them will work
-
 @ ‘service’ manuals should have images of the settings dialogs, as well as an ‘active’ image from the GUI - these should be in the main manual as well, for the example and standard services
 
-* suppress the make options for NaturalPoint, Unreal, Vicon, et cetera - for non-Windows builds of I/O services and for Unreal - by not showing the options and forcing them to OFF; make sure that the configuration file has macros for every one and that every I/O service is controlled by a flag
+@ the Channel Manager manual should show forced connections as well
