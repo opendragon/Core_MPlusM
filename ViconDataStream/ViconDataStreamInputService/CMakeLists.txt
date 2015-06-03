@@ -65,20 +65,27 @@ target_link_libraries(${THIS_TARGET}
                       ${BONJOUR_LIB})
 
 if(WIN32)
-	add_library(ViconDataStream SHARED IMPORTED)
-	set_property(TARGET ViconDataStream PROPERTY IMPORTED_LOCATION
+	add_library(ViconDataStreamSDK SHARED IMPORTED)
+	set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_LOCATION
 "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.dll")
-	set_property(TARGET ViconDataStream PROPERTY IMPORTED_IMPLIB
+	set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_IMPLIB
 "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib")
 	target_link_libraries(${THIS_TARGET}
-                          ViconDataStream)
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib"
-                        $<TARGET_FILE_DIR:mpmViconDataStreamInputService>)
+                          ViconDataStreamSDK)
     install(FILES
 "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.dll"
             DESTINATION bin
             COMPONENT applications)
+	add_library(BoostThread SHARED IMPORTED)
+	set_property(TARGET BoostThread PROPERTY IMPORTED_LOCATION
+"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/boost_thread-vc90-mt-1_48.dll")
+	install(FILES
+"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/boost_thread-vc90-mt-1_48.dll"
+            DESTINATION bin
+            COMPONENT applications)			
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib"
+                        $<TARGET_FILE_DIR:mpmViconDataStreamInputService>)
 endif(WIN32)
 
 if(APPLE)
