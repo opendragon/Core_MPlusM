@@ -138,33 +138,35 @@ bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
             if (0 < workingCopy.length())
             {
                 size_t innerIndx = workingCopy.find(innerChar, 0);
-
-                if (YarpString::npos != innerIndx)
-                {
-                    result.push_back(workingCopy.substr(0, innerIndx));
-                    workingCopy = workingCopy.substr(innerIndx + 1);
-                    if (0 < workingCopy.length())
-                    {
-                        if (0 == workingCopy.find(_parameterSeparator))
-                        {
-                            workingCopy = workingCopy.substr(1);
-                            okSoFar = true;
-                        }
-                        else
-                        {
-                            // Badly formatted - the delimiter is not followed by the separator!
-                            break;
-                        }
-
-                    }
-                }
-                else
+                
+                if (YarpString::npos == innerIndx)
                 {
                     // Badly formatted - the matching delimiter is missing!
                     break;
                 }
-
+                
+                result.push_back(workingCopy.substr(0, innerIndx));
+                workingCopy = workingCopy.substr(innerIndx + 1);
+                if (0 < workingCopy.length())
+                {
+                    if (0 == workingCopy.find(_parameterSeparator))
+                    {
+                        workingCopy = workingCopy.substr(1);
+                        okSoFar = true;
+                    }
+                    else
+                    {
+                        // Badly formatted - the delimiter is not followed by the separator!
+                        break;
+                    }
+                    
+                }
             }
+            else
+            {
+                break;
+            }
+            
         }
         else
         {
@@ -203,16 +205,15 @@ YarpString BaseArgumentDescriptor::suffixFields(void)
 const
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(_parameterSeparator);
-    YarpString defaultValue(getDefaultValue());
+    static const char possibles[] = "~!@#$%^&*_-+=|;\"'?./ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                                    "abcdefghijklmnopqrtuvwxyz0123456789";
+    char              charToUse = possibles[0];
+    YarpString        result(_parameterSeparator);
+    YarpString        defaultValue(getDefaultValue());
     
     if (0 < defaultValue.length())
     {
         // Determine an appropriate delimiter
-        static const char possibles[] = "~!@#$%^&*_-+=|;\"'?./ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-                                        "abcdefghijklmnopqrtuvwxyz0123456789";
-        char              charToUse = '\\';
-        
         for (size_t ii = 0, mm = sizeof(possibles); mm > ii; ++ii)
         {
             if (defaultValue.npos == defaultValue.find(possibles[ii], 0))
@@ -222,14 +223,9 @@ const
             }
 
         }
-        result += charToUse;
-        result += defaultValue + charToUse;
     }
-    else
-    {
-        result += "||";
-    }
-    result += _parameterSeparator + _argDescription;
+    result += charToUse;
+    result += defaultValue + charToUse + _parameterSeparator + _argDescription;
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // BaseArgumentDescriptor::suffixFields
@@ -322,7 +318,7 @@ YarpString Utilities::CombineArguments(const DescriptorVector & arguments,
                                        const YarpString &       sep)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S1s(sep, sep); //####
+    OD_LOG_S1s("sep = ", sep); //####
     YarpString result;
     
     for (int ii = 0, mm = arguments.size(); mm > ii; ++ii)

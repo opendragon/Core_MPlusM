@@ -5,7 +5,7 @@
 //  Project:    M+M
 //
 //  Contains:   The class declaration for the custom control channel input handler used by the
-//              alternative Running Sum adapter.
+//              Running Sum alternative adapter.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the custom input handler used by the alternative Running Sum
+ @brief The class declaration for the custom input handler used by the Running Sum alternative
  adapter. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop

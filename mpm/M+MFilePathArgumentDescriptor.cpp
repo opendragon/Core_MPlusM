@@ -80,10 +80,12 @@ using namespace MplusM::Utilities;
 
 /*! @brief Check if a file path is acceptable.
  @param thePath The file path to be checked.
- @param forOutput @c true if the file is to be written to and @c false otherwise. 
+ @param forOutput @c true if the file is to be written to and @c false otherwise.
+ @param emptyIsOK @c true if the file path can be empty and @c false otherwise.
  @returns @c true if the file path is acceptable and @c false otherwise. */
 static bool checkFilePath(const char * thePath,
-                          const bool   forOutput)
+                          const bool   forOutput,
+                          const bool   emptyIsOK)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("thePath = ", thePath); //####
@@ -113,7 +115,7 @@ static bool checkFilePath(const char * thePath,
 #endif // ! MAC_OR_LINUX_
         }
     }
-    else
+    else if (0 < strlen(thePath))
     {
         // The file must exist and be readable.
 #if MAC_OR_LINUX_
@@ -121,6 +123,12 @@ static bool checkFilePath(const char * thePath,
 #else // ! MAC_OR_LINUX_
         okSoFar = (0 == _access(thePath, 4));
 #endif // ! MAC_OR_LINUX_
+        
+        cerr << access(thePath, R_OK) << endl;//$$$$
+    }
+    else
+    {
+        okSoFar = emptyIsOK;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
@@ -200,7 +208,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
         }
         if (okSoFar)
         {
-            okSoFar = checkFilePath(defaultString.c_str(), forOutput);
+            okSoFar = checkFilePath(defaultString.c_str(), forOutput, ! isOptional);
         }
         if (okSoFar)
         {
@@ -227,7 +235,7 @@ bool FilePathArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####
-    bool result = checkFilePath(value.c_str(), _forOutput);
+    bool result = checkFilePath(value.c_str(), _forOutput, false);
     
     if (result && _argumentReference)
     {

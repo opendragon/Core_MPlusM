@@ -28,6 +28,10 @@
 
 * services need to respond to a new request that returns their original launch parameters, so that these can be recorded
 
-@ ‘service’ manuals should have images of the settings dialogs, as well as an ‘active’ image from the GUI - these should be in the main manual as well, for the example and standard services
-
 @ the Channel Manager manual should show forced connections as well
+
++ regular input ports can’t be monitored; regular output ports and clients can use a ‘vampire’ channel to trigger a blinking monitor and services / adapters can monitor all their channels, reporting via a new response that a change has occurred - this should be sent by Channel Manager, so that non-monitored services are not impacted
+
++ only output channels can have displays attached
+
+@ the Channel Manager manual should show the effect of the ‘endpoint’ and ‘tag’ options

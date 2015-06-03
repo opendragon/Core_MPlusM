@@ -20,8 +20,8 @@ connection.\\
 The \emph{stopStreams} request stops the Vicon DataStream server listener, which stops the
 output \yarp{} network connection.\\ 
 
-Note that the application will exit if the \emph{Registry Service} is not running.\\
-
+Note that the application will exit if the \emph{Registry Service} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 The application has two optional arguments \longDash{} host name for the Vicon device
 server and the port for the Vicon device server.
 \insertAppParameters
@@ -41,4 +41,18 @@ Vicon DataStream server}
 \item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
 output stream is restarted}
 \end{itemize}
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchViconDataStreamInputService}%
+{launchServiceViconDataStream}{Launch options for the \VDSI{} service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningViconDataStreamInputService}%
+{serviceRunningViconDataStream}{The \emph{Channel Manager} entity for the \VDSI{}
+service}{1.0}
+\secondaryEnd
 \primaryEnd{}

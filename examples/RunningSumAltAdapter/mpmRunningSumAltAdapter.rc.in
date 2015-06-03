@@ -67,12 +67,12 @@ BEGIN
         BLOCK "100904b0"
         BEGIN
             VALUE "CompanyName", "@MpM_COMPANY@\0"
-            VALUE "FileDescription", "Running Sum Alt Adapter\0"
+            VALUE "FileDescription", "Running Sum Alternative Adapter\0"
             VALUE "FileVersion", "@MpM_VERSION_STRING@.0\0"
             VALUE "InternalName", "mpmRunni.exe\0"
             VALUE "LegalCopyright", "(c) 2014 by @MpM_COMPANY@.\0"
             VALUE "OriginalFilename", "mpmRunni.exe\0"
-            VALUE "ProductName", "Running Sum Alt Adapter\0"
+            VALUE "ProductName", "Running Sum Alternative Adapter\0"
             VALUE "ProductVersion", "@MpM_VERSION_STRING@.0\0"
         END
     END

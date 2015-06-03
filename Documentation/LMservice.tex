@@ -16,8 +16,8 @@ connection.\\
 The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
 output \yarp{} network connection.\\ 
 
-Note that the application will exit if the \emph{Registry Service} is not running.\\
-
+Note that the application will exit if the \emph{Registry Service} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 \insertAppParameters
 \insertTagDescription{\LMI}
 \insertInputServiceComment
@@ -35,6 +35,19 @@ configurable parameters}
 \item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
 output stream is restarted}
 \end{itemize}
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchLeapMotionInputService}%
+{launchServiceLeapMotion}{Launch options for the \LMI{} service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningLeapMotionInputService}%
+{serviceRunningLeapMotion}{The \emph{Channel Manager} entity for the \LMI{} service}{1.0}
+\secondaryEnd
 \primaryEnd
 \primaryStart[TheTFIService]{The~\TFI{}~Service}
 The \asCode{mpmTwoFingersInputService} application is an Input service,
@@ -54,8 +67,8 @@ network connection.\\
 The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
 output \yarp{} network connection.\\ 
 
-Note that the application will exit if the \emph{Registry Service} is not running.\\
-
+Note that the application will exit if the \emph{Registry Service} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 \insertAppParameters
 \insertTagDescription{\TFI}
 \insertInputServiceComment
@@ -73,4 +86,17 @@ configurable parameters}
 \item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
 output stream is restarted}
 \end{itemize}
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchTwoFingersInputService}%
+{launchServiceTwoFingers}{Launch options for the \TFI{} service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningTwoFingersInputService}%
+{serviceRunningTwoFingers}{The \emph{Channel Manager} entity for the \TFI{} service}{1.0}
+\secondaryEnd
 \primaryEnd{}

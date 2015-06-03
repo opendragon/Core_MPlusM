@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the alternative Running Sum adapter service.
+//  Contains:   The class declaration for the Running Sum alternative adapter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the alternative Running Sum adapter service. */
+ @brief The class declaration for the Running Sum alternative adapter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -57,7 +57,7 @@
                                                         "examples/runningsum")
 
 /*! @brief The description of the service. */
-# define RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION T_("The alternative Running Sum adapter")
+# define RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION T_("The Running Sum alternative adapter")
 
 namespace MplusM
 {
@@ -66,7 +66,7 @@ namespace MplusM
         class RunningSumAdapterData;
         class RunningSumInputHandler;
         
-        /*! @brief The alternative Running Sum adapter service. */
+        /*! @brief The Running Sum alternative adapter service. */
         class RunningSumAltAdapterService : public Common::BaseAdapterService
         {
         public :

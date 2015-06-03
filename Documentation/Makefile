@@ -55,9 +55,9 @@ IMpngfiles =
 
 JSpngfiles = 
 
-KV2pngfiles = 
+KV2pngfiles =
 
-LMpngfiles = 
+LMpngfiles =
 
 MMpngfiles = $(IMAGE_DIR)/MMdbDiagram.png $(IMAGE_DIR)/MMmatchSyntaxrails.png \
 		$(IMAGE_DIR)/MMmpmDiagram.png 
@@ -77,20 +77,27 @@ CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/appListMenu.eps \
 		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/channelManagerMenu.eps \
 		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/dragAdd.eps $(IMAGE_DIR)/entityMenu.eps \
 		$(IMAGE_DIR)/launchAdapterWithoutService.eps \
-		$(IMAGE_DIR)/launchAdapterWithService.eps \
-		$(IMAGE_DIR)/launchRegistryService.eps $(IMAGE_DIR)/launchService.eps \
+		$(IMAGE_DIR)/launchRandomBurstInputService.eps \
+		$(IMAGE_DIR)/launchRandomNumberAdapter.eps \
+		$(IMAGE_DIR)/launchRegistryService.eps \
+		$(IMAGE_DIR)/launchServiceSpecifiedEndpoint.eps \
+		$(IMAGE_DIR)/launchServiceSpecifiedEndpointAndTag.eps \
+		$(IMAGE_DIR)/launchServiceSpecifiedTag.eps \
 		$(IMAGE_DIR)/launchYarp.eps $(IMAGE_DIR)/noRegistryServiceFound.eps \
 		$(IMAGE_DIR)/noRunningRegistryService.eps $(IMAGE_DIR)/noRunningYarp.eps \
 		$(IMAGE_DIR)/noYarpFound.eps $(IMAGE_DIR)/operationMenuChannel.eps \
 		$(IMAGE_DIR)/operationMenuService.eps $(IMAGE_DIR)/portMenu.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/regularChannelMenuMetricsEnabled.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpoint.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTag.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedTag.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsEnabled.eps \
 		$(IMAGE_DIR)/serviceMenuMetricsDisabled.eps \
-		$(IMAGE_DIR)/serviceMenuMetricsEnabled.eps $(IMAGE_DIR)/stopRegistryService.eps \
-		$(IMAGE_DIR)/stopService.eps $(IMAGE_DIR)/viewMenuNoSelection.eps \
-		$(IMAGE_DIR)/viewMenuWithSelection.eps
+		$(IMAGE_DIR)/serviceMenuMetricsEnabled.eps $(IMAGE_DIR)/stopAdapter.eps \
+		$(IMAGE_DIR)/stopRegistryService.eps $(IMAGE_DIR)/stopService.eps \
+		$(IMAGE_DIR)/viewMenuNoSelection.eps $(IMAGE_DIR)/viewMenuWithSelection.eps
 
 IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 		$(IMAGE_DIR)/Installer03.eps $(IMAGE_DIR)/Installer04.eps \
@@ -105,19 +112,55 @@ IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 		$(IMAGE_DIR)/win_install09.eps $(IMAGE_DIR)/win_install10.eps \
 		$(IMAGE_DIR)/win_install11.eps $(IMAGE_DIR)/win_run01.eps
 
-JSbitmapepsfiles =
+JSbitmapepsfiles =  $(IMAGE_DIR)/launchJavaScriptFilterService.eps \
+		$(IMAGE_DIR)/runningJavaScriptFilterService.eps
 
-KV2bitmapepsfiles =
+KV2bitmapepsfiles = $(IMAGE_DIR)/launchKinectV2InputService.eps \
+		$(IMAGE_DIR)/runningKinectV2InputService.eps
 
-LMbitmapepsfiles =
+LMbitmapepsfiles = $(IMAGE_DIR)/launchLeapMotionInputService.eps \
+		$(IMAGE_DIR)/launchTwoFingersInputService.eps \
+		$(IMAGE_DIR)/runningLeapMotionInputService.eps \
+		$(IMAGE_DIR)/runningTwoFingersInputService.eps
 
-MMbitmapepsfiles = 
+MMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
+		$(IMAGE_DIR)/launchAddressService.eps \
+		$(IMAGE_DIR)/launchEchoService.eps \
+		$(IMAGE_DIR)/launchRandomBurstInputService.eps \
+		$(IMAGE_DIR)/launchRandomNumberAdapter.eps \
+		$(IMAGE_DIR)/launchRandomNumberService.eps \
+		$(IMAGE_DIR)/launchRecordAsJSONOutputService.eps \
+		$(IMAGE_DIR)/launchRecordIntegersOutputService.eps \
+		$(IMAGE_DIR)/launchRegistryService.eps \
+		$(IMAGE_DIR)/launchRequestCounterService.eps \
+		$(IMAGE_DIR)/launchRunningSumAdapter.eps \
+		$(IMAGE_DIR)/launchRunningSumAltAdapter.eps \
+		$(IMAGE_DIR)/launchRunningSumService.eps \
+		$(IMAGE_DIR)/launchTruncateFloatFilterService.eps \
+		$(IMAGE_DIR)/launchTunnelService.eps \
+		$(IMAGE_DIR)/runningAbsorberOutputService.eps \
+		$(IMAGE_DIR)/runningAddressService.eps \
+		$(IMAGE_DIR)/runningEchoService.eps \
+		$(IMAGE_DIR)/runningRandomBurstInputService.eps \
+		$(IMAGE_DIR)/runningRandomNumberAdapter.eps \
+		$(IMAGE_DIR)/runningRandomNumberService.eps \
+		$(IMAGE_DIR)/runningRecordAsJSONOutputService.eps \
+		$(IMAGE_DIR)/runningRecordIntegersOutputService.eps \
+		$(IMAGE_DIR)/runningRegistryService.eps \
+		$(IMAGE_DIR)/runningRequestCounterService.eps \
+		$(IMAGE_DIR)/runningRunningSumAdapter.eps \
+		$(IMAGE_DIR)/runningRunningSumAltAdapter.eps \
+		$(IMAGE_DIR)/runningRunningSumService.eps \
+		$(IMAGE_DIR)/runningTruncateFloatFilterService.eps \
+		$(IMAGE_DIR)/runningTunnelService.eps
 
 NPbitmapepsfiles =
 
-PC2bitmapepsfiles =
+PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \
+		$(IMAGE_DIR)/runningProComp2InputService.eps
 
-VDSbitmapepsfiles =
+VDSbitmapepsfiles = $(IMAGE_DIR)/launchViconDataStreamInputService.eps \
+		$(IMAGE_DIR)/runningViconDataStreamInputService.eps
 
 # Input bitmap PNG files
 

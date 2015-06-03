@@ -221,55 +221,6 @@ Ports:
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
 \tertiaryEnd{\utilityNameE{mpmPortLister}}
-\tertiaryStart{\utilityNameP{mpmRecordAsJSONService}}
-The \utilityNameX{mpmRecordAsJSONService} application is an Output
-service, recording a stream of \yarp{} values as JSON structures to an external file.
-The application responds to the standard Output service requests and can be used as a
-standalone data generator, without the need for a client connection.\\
-
-The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
-the file\longDash{}system path to use for the output file.
-The path will be used when the input stream is started or restarted.\\
-
-The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
-starts the input stream.\\
-
-The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request opens a file to be
-used for output, using the configured output file path.\\
-
-The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
-file that is being used.\\
-
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
-
-The application has one optional argument \longDash{} the output file path to be used.
-\insertAppParameters
-\insertTagDescription{Record as JSON Output}
-\insertOutputServiceComment\\
-
-The output file path parameter provides the initial output file path; if not specified, a
-random path in the system temporary directory will be used.
-For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
-while, for Macintosh OS X, it will be ``/tmp'' and, for Linux, it is \TBD.
-Note that the output file path can also be set via commands, if the application is
-running from a terminal.\\
-
-If the application is running from a terminal and has not been automatically started via
-the `\asCode{go}' option, the following commands are available:
-\begin{itemize}
-\item\cmdItem{?}{display a list of the available commands}
-\item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
-record the input data}
-\item\exSp\cmdItem{c}{configure the service by providing the output file path to be used}
-\item\exSp\cmdItem{e}{stop the input stream, which will close the output file}
-\item\exSp\cmdItem{q}{quit the application}
-\item\exSp\cmdItem{r}{restart the input stream, which will cause the output file to be
-closed and a new output file to be opened}
-\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
-input stream is restarted}
-\end{itemize}
-\tertiaryEnd{\utilityNameE{mpmRecordAsJSONService}}
 \tertiaryStart{\utilityNameP{mpmRequestInfo}}
 The application \utilityNameX{mpmRequestInfo} displays information on requests for one or
 more active services in the \mplusm{} installation.
@@ -644,6 +595,16 @@ Note that the application will exit if the
 The application has two arguments \longDash{} the IP address and port to be remembered.
 \insertAutoAppParameters
 \insertTagDescription{Address}
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchAddressService}%
+{launchServiceAddress}{Launch options for the Address service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningAddressService}%
+{serviceRunningAddress}{The \emph{Channel Manager} entity for the Address service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmAddressService}}
 \condPage
 \tertiaryStart{\utilityNameP{mpmAddressClient}}
@@ -745,6 +706,17 @@ non\longDash{}default port is desired}
 \end{itemize}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed endpoint name.
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRequestCounterService}%
+{launchServiceRequestCounter}{Launch options for the Request Counter service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningRequestCounterService}%
+{serviceRunningRequestCounter}{The \emph{Channel Manager} entity for the Request Counter
+service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
 \condPage
 \tertiaryStart{\utilityNameP{mpmRequestCounterClient}}
@@ -776,6 +748,7 @@ count = 300000, elapsed time = 1.20052 minutes, average time = 0.240104 millisec
 How many requests?\ \textbf{0}
 \outputEnd
 \tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmTunnelService}}
 The \utilityNameX{mpmTunnelService} application is a background service that is used to
 route a non\longDash\yarp{} network data source to a non\longDash\yarp{} network data
@@ -792,7 +765,18 @@ The application has two arguments \longDash{} the IP address and port for the ne
 source.
 \insertAutoAppParameters
 \insertTagDescription{Tunnel}
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchTunnelService}%
+{launchServiceTunnel}{Launch options for the Tunnel service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningTunnelService}%
+{serviceRunningTunnel}{The \emph{Channel Manager} entity for the Tunnel service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmTunnelService}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmTunnelClient}}
 The \utilityNameX{mpmTunnelClient} application is a command\longDash{}line tool to route a
 non\longDash\yarp{} network data source to a non\longDash\yarp{} network data sink via

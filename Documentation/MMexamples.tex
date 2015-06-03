@@ -12,8 +12,9 @@ The set of example services include a pair of simple services
 [\examplesNameR{Services}{mpmEchoService} and
 \examplesNameR{Services}{mpmRandomNumberService}], a service with client context
 [\examplesNameR{Services}{mpmRunningSumService}] as well as an input service
-[\examplesNameR{Services}{mpmRandomBurstService}], two output services
-[\examplesNameR{Services}{mpmAbsorberService} and
+[\examplesNameR{Services}{mpmRandomBurstService}], three output services
+[\examplesNameR{Services}{mpmAbsorberService},
+\examplesNameR{Services}{mpmRecordAsJSONService} and
 \examplesNameR{Services}{mpmRecordIntegersService}] and a filter service
 [\examplesNameR{Services}{mpmTruncateFloatService}].\\
 
@@ -58,7 +59,19 @@ configurable parameters}
 \item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
 input stream is restarted}
 \end{itemize}
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchAbsorberOutputService}%
+{launchServiceAbsorber}{Launch options for the Absorber output service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningAbsorberOutputService}%
+{serviceRunningAbsorber}{The \emph{Channel Manager} entity for the Absorber output
+service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmAbsorberService}}
+\condPage
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
 The \examplesNameX{Services}{mpmEchoService} application responds to
 \requestsNameR{Miscellaneous}{Miscellaneous}{echo} requests from the
@@ -72,6 +85,16 @@ Note that the application will exit if the
 \insertTagDescription{Echo}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchEchoService}%
+{launchServiceEcho}{Launch options for the Echo service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningEchoService}%
+{serviceRunningEcho}{The \emph{Channel Manager} entity for the Echo service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomBurstService}}
 The \examplesNameX{Services}{mpmRandomBurstService} application is an Input service,
@@ -126,7 +149,19 @@ size and period}
 \item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
 output stream is restarted}
 \end{itemize}
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRandomBurstInputService}%
+{launchServiceRandomBurst}{Launch options for the Random Burst input service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningRandomBurstInputService}%
+{serviceRunningRandomBurst}{The \emph{Channel Manager} entity for the Random Burst input
+service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
+\condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
 The \examplesNameX{Services}{mpmRandomNumberService} application responds to
 \requestsNameR{Examples}{Examples}{random} requests from the
@@ -145,7 +180,80 @@ The \requestsNameD{Examples}{Examples}{random} request has an argument of the
 count of floating\longDash{}point random numbers to be returned as a response to the
 request.
 \requestsNameE{Examples}{Examples}{random}%
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRandomNumberService}%
+{launchServiceRandomNumber}{Launch options for the Random Number service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningRandomNumberService}%
+{serviceRunningRandomNumber}{The \emph{Channel Manager} entity for the Random Number
+service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
+\condPage
+\tertiaryStart{\examplesNameP{Services}{mpmRecordAsJSONService}}
+The \examplesNameX{mpmRecordAsJSONService} application is an Output
+service, recording a stream of \yarp{} values as JSON structures to an external file.
+The application responds to the standard Output service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
+the file\longDash{}system path to use for the output file.
+The path will be used when the input stream is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request opens a file to be
+used for output, using the configured output file path.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
+file that is being used.\\
+
+Note that the application will exit if the
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+
+The application has one optional argument \longDash{} the output file path to be used.
+\insertAppParameters
+\insertTagDescription{Record as JSON Output}
+\insertOutputServiceComment\\
+
+The output file path parameter provides the initial output file path; if not specified, a
+random path in the system temporary directory will be used.
+For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
+while, for Macintosh OS X, it will be ``/tmp'' and, for Linux, it is \TBD.
+Note that the output file path can also be set via commands, if the application is
+running from a terminal.\\
+
+If the application is running from a terminal and has not been automatically started via
+the `\asCode{go}' option, the following commands are available:
+\begin{itemize}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
+record the input data}
+\item\exSp\cmdItem{c}{configure the service by providing the output file path to be used}
+\item\exSp\cmdItem{e}{stop the input stream, which will close the output file}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the input stream, which will cause the output file to be
+closed and a new output file to be opened}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+input stream is restarted}
+\end{itemize}
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRecordAsJSONOutputService}%
+{launchServiceRecordAsJSON}{Launch options for the Record As JSON output service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningRecordAsJSONOutputService}%
+{serviceRunningRecordAsJSON}{The \emph{Channel Manager} entity for the Record As JSON
+output service}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{mpmRecordAsJSONService}}
+\condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersService}}
 The \examplesNameX{Services}{mpmRecordIntegersService} application is an Output
 service, recording a stream of integer values to an external file.
@@ -194,7 +302,19 @@ to be closed and a new output file to be opened}
 \item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
 input stream is restarted}
 \end{itemize}
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRecordIntegersOutputService}%
+{launchServiceRecordIntegers}{Launch options for the Record Integers output service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningRecordIntegersOutputService}%
+{serviceRunningRecordIntegers}{The \emph{Channel Manager} entity for the Record Integers
+output service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
+\condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
 The \examplesNameX{Services}{mpmRunningSumService} application responds to
 requests from the \examplesNameR{Clients}{mpmRunningSumClient} application or\\
@@ -204,7 +324,6 @@ associated with the requesting application or adapter.\\
 
 Note that the application will exit if the
 \serviceNameR[Registry~Service]{RegistryService} is not running.
-\condPage
 \insertAutoAppParameters
 \insertTagDescription{Running Sum}
 The matching client application does not directly use the endpoint name to establish a
@@ -229,6 +348,17 @@ calculation, if it has already been started.\\
 The \requestsNameD{Examples}{Examples}{stopsum} request stops the running sum
 calculation for the requesting application or adapter.
 \requestsNameE{Examples}{Examples}{stopsum}%
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRunningSumService}%
+{launchServiceRunningSum}{Launch options for the Running Sum service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningRunningSumService}%
+{serviceRunningRunningSum}{The \emph{Channel Manager} entity for the Running Sum service}%
+{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
 \tertiaryStart{\examplesNameP{Services}{mpmTruncateFloatService}}
 The \examplesNameX{Services}{mpmTruncateFloatService} application is a Filter
@@ -269,8 +399,20 @@ configurable parameters}
 \item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
 input and output streams are restarted}
 \end{itemize}
+\condPage
+If the service is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchTruncateFloatFilterService}%
+{launchServiceTruncateFloat}{Launch options for the Truncate Float filter service}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningTruncateFloatFilterService}%
+{serviceRunningTruncateFloat}{The \emph{Channel Manager} entity for the Truncate Float
+filter service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatService}}
 \secondaryEnd
+\condPage
 \secondaryStart{Example~Clients}
 The example client applications provided use simple terminal\longDash{}based interfaces to
 generate requests for their matching service applications.
@@ -369,6 +511,7 @@ adapter name}
 Note that adapters normally have no direct interface.
 That is, they are `faceless' applications and perform their operations without user
 interaction.
+\condPage
 \tertiaryStart{\examplesNameP{Adapters}{mpmRandomNumberAdapter}}
 The \examplesNameX{Adapters}{mpmRandomNumberAdapter} application reads the count of
 random numbers desired from an input \yarp{} network connection and sends a
@@ -378,7 +521,18 @@ The random numbers returned from the service are sent out an output \yarp{} netw
 connection.
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
-\examplesNameR{Services}{mpmRandomNumberService} application are not running.
+\examplesNameR{Services}{mpmRandomNumberService} application are not running.\\
+
+If the adapter is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRandomNumberAdapter}%
+{launchAdapterRandomNumber}{Launch options for the Random Number adapter}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the adapter has successfully started:
+\objScaledDiagram{mpm_images/runningRandomNumberAdapter}%
+{adapterRunningRandomNumber}{The \emph{Channel Manager} entity for the Random Number
+adapter}{1.0}
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRandomNumberAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAdapter}}
 
@@ -406,7 +560,18 @@ connection.\\
 
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
-\examplesNameR{Services}{mpmRunningSumService} application are not running.
+\examplesNameR{Services}{mpmRunningSumService} application are not running.\\
+
+If the adapter is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRunningSumAdapter}%
+{launchAdapterRunningSum}{Launch options for the Running Sum adapter}{1.0}
+\condPage{}
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the adapter has successfully started:
+\objScaledDiagram{mpm_images/runningRunningSumAdapter}%
+{adapterRunningRunningSum}{The \emph{Channel Manager} entity for the Running Sum adapter}%
+{1.0}
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAltAdapter}}
 The \examplesNameX{Adapters}{mpmRunningSumAltAdapter} application reads  values and
@@ -433,6 +598,17 @@ connection.\\
 Note that the application will also exit if the
 \serviceNameR[Registry~Service]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running.
+\condPage{}
+If the adapter is selected for execution from within \emph{Channel Manager}, the following
+dialog will be presented:
+\objScaledDiagram{mpm_images/launchRunningSumAltAdapter}%
+{launchAdapterRunningSumAlt}{Launch options for the Running Sum alternate adapter}{1.0}
+
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the adapter has successfully started:
+\objScaledDiagram{mpm_images/runningRunningSumAltAdapter}%
+{adapterRunningRunningSumAlt}{The \emph{Channel Manager} entity for the Running Sum
+alternate adapter}{1.0}
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAltAdapter}}
 \secondaryEnd
 \appendixEnd{}

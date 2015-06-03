@@ -4,8 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the alternative Running
-//              Sum adapter service.
+//  Contains:   The common macro definitions for requests and responses for the Running Sum
+//              alternative adapter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Running Sum adapter
- service. */
+ @brief The common macro definitions for requests and responses for the Running Sum alternative
+ adapter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the alternative Running Sum adapter service. */
+/*! @brief The channel-independent name of the Running Sum alternative adapter service. */
 # define MpM_RUNNINGSUMALTADAPTER_CANONICAL_NAME "RunningSumAltAdapter"
 
 #endif // ! defined(MpMRunningSumAltAdapterRequests_H_)

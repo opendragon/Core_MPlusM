@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for an alternative Running Sum adapter.
+#  Contains:   The CMAKE definitions for a Running Sum alternative adapter.
 #
 #  Written by: Norman Jaffe
 #

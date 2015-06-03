@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the alternative Running Sum adapter service.
+//  Contains:   The class definition for the Running Sum alternative adapter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -53,7 +53,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the alternative Running Sum adapter service. */
+ @brief The class definition for the Running Sum alternative adapter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

@@ -50,16 +50,20 @@ Note that the tool can only create TCP/IP or UDP connections.\\
 To create a connection between two ports, click on the source port with the `Option' /
 `Alt' key held down and either drag the mouse to the destination port or click on the
 destination port.
-If the `Shift' is held down at the same time as the `Option' / `Alt' key, the new
+If the `Shift' key is held down at the same time as the `Option' / `Alt' key, the new
 network connection will be UDP rather than TCP/IP.
 While an `add' operation is active, the source port will be overlaid with a small filled
 yellow circle.
 To clear a pending `add' operation, either click on the source port a second time or click
-somewhere other than a port.
-Note that it is not possible to add a connection from an input\longDash{}only port, from a
-client port to a non\longDash{}service port, or from an output\longDash{}only port of an
-\inputOutput{} service to an input\longDash{}only port of another \inputOutput{} service
-if the ports do not have matching protocols.
+somewhere other than a port.\\
+
+Note that it is not possible to add a connection from an input\longDash{}only port or from
+a client port to a non\longDash{}service port; an output\longDash{}only port cannot
+normally be connected to an input\longDash{}only port of a service or an adapter if the
+ports do not have matching protocols, unless this is forced by holding down the `Control'
+key while making the connection; this should only be used when connecting a regular
+\yarp{} port to a service or an adapter, as regular \yarp{} ports cannot report their
+protocol.
 \objScaledDiagram{mpm_images/beforeAdd}{beforeAdd}{Before adding a connection}{0.8}
 
 \objScaledDiagram{mpm_images/clickAdd}{clickAdd}{Clicking to add a connection}{0.8}
@@ -75,7 +79,7 @@ hollow yellow circle.
 To clear a pending `remove' operation, either click on the source port a second time or
 click on a port that is not connected to the source port or somewhere other than a port.
 Note that is is not possible to remove a connection from a client to a service.
-\objScaledDiagram{mpm_images/beforeRemove}{beforeRemove}{Removing a connection}{0.8}
+\objScaledDiagram{mpm_images/beforeRemove}{beforeRemove}{Removing a connection}{0.8}\\
 
 Clicking on a rectangular object with no modifier key held down allows the user to drag
 the object around in the window.
