@@ -70,12 +70,14 @@ VDSpngfiles =
 
 # Input bitmap EPS files
 
-CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/appListMenu.eps \
+CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
+		$(IMAGE_DIR)/appListMenu.eps \
 		$(IMAGE_DIR)/backgroundMenuNoHiddenNoSelection.eps \
 		$(IMAGE_DIR)/backgroundMenuWithHidden.eps \
 		$(IMAGE_DIR)/beforeAdd.eps $(IMAGE_DIR)/beforeRemove.eps \
 		$(IMAGE_DIR)/ChannelManager.eps $(IMAGE_DIR)/channelManagerMenu.eps \
-		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/dragAdd.eps $(IMAGE_DIR)/entityMenu.eps \
+		$(IMAGE_DIR)/clickAdd.eps $(IMAGE_DIR)/dragAdd.eps \
+		$(IMAGE_DIR)/forcedDragAdd.eps \
 		$(IMAGE_DIR)/launchAdapterWithoutService.eps \
 		$(IMAGE_DIR)/launchRandomBurstInputService.eps \
 		$(IMAGE_DIR)/launchRandomNumberAdapter.eps \
@@ -85,10 +87,21 @@ CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/appListMenu.eps \
 		$(IMAGE_DIR)/launchServiceSpecifiedTag.eps \
 		$(IMAGE_DIR)/launchYarp.eps $(IMAGE_DIR)/noRegistryServiceFound.eps \
 		$(IMAGE_DIR)/noRunningRegistryService.eps $(IMAGE_DIR)/noRunningYarp.eps \
-		$(IMAGE_DIR)/noYarpFound.eps $(IMAGE_DIR)/operationMenuChannel.eps \
-		$(IMAGE_DIR)/operationMenuService.eps $(IMAGE_DIR)/portMenu.eps \
-		$(IMAGE_DIR)/regularChannelMenuMetricsDisabled.eps \
-		$(IMAGE_DIR)/regularChannelMenuMetricsEnabled.eps \
+		$(IMAGE_DIR)/noYarpFound.eps $(IMAGE_DIR)/operationMenuAdapter.eps \
+		$(IMAGE_DIR)/operationMenuEntity.eps $(IMAGE_DIR)/operationMenuOutputChannel.eps \
+		$(IMAGE_DIR)/operationMenuPort.eps $(IMAGE_DIR)/operationMenuPrimaryChannel.eps \
+		$(IMAGE_DIR)/operationMenuRegularChannel.eps \
+		$(IMAGE_DIR)/operationMenuService.eps \
+		$(IMAGE_DIR)/popupAdapterMetricsDisabled.eps \
+		$(IMAGE_DIR)/popupAdapterMetricsEnabled.eps $(IMAGE_DIR)/popupEntity.eps \
+		$(IMAGE_DIR)/popupOutputChannelMetricsDisabled.eps \
+		$(IMAGE_DIR)/popupOutputChannelMetricsEnabled.eps $(IMAGE_DIR)/popupPort.eps \
+		$(IMAGE_DIR)/popupPrimaryChannelMetricsDisabled.eps \
+		$(IMAGE_DIR)/popupPrimaryChannelMetricsEnabled.eps \
+		$(IMAGE_DIR)/popupRegularChannelMetricsDisabled.eps \
+		$(IMAGE_DIR)/popupRegularChannelMetricsEnabled.eps \
+		$(IMAGE_DIR)/popupServiceMetricsDisabled.eps \
+		$(IMAGE_DIR)/popupServiceMetricsEnabled.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpoint.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTag.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedTag.eps \
@@ -207,8 +220,8 @@ VDSmainsource = ViconDataStreamInput_Manual.tex
 Commonsources = boilerPlate.tex sharedSetup.tex
 
 CMsecondaryfiles = CMdocumentationHistory.tex CMfrontispiece.tex CMmanagingServices.tex \
-		CMnoRegistryService.tex CMnoYarp.tex CMoverview.tex CMutility.tex \
-		$(Commonsources) $(Commonpngfiles)
+		CMnoRegistryService.tex CMnoYarp.tex CMoverview.tex CMtagsAndEndpoints.tex \
+		CMutility.tex $(Commonsources) $(Commonpngfiles)
 	
 IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
 		IMprocedure.tex $(Commonsources) $(Commonpngfiles)

@@ -12,6 +12,8 @@ following (shown for the Random Burst input service):
 \objScaledDiagram{mpm_images/launchRandomBurstInputService}{launchService}%
 {Launching a regular service}{1.0}
 
+For details on the usage of the `endpoint' and `tag' options, see the 
+\appendixRef{TagsAndEndpoints}{What are tags and endpoints} appendix.
 Clicking the \textbf{Cancel} button will close the dialog box, while clicking on the
 \textbf{Yes} button will launch the service with the given arguments \longDash{} the
 particular arguments that will be presented will depend on the service that was selected
@@ -26,8 +28,8 @@ displayed:
 
 Note that only valid network ports can be entered, and it is usually not necessary to use
 a non-default port; clicking on the \textbf{Cancel} button will exit the dialog box, with
-no \emph{Registry Service} launched, while clicking on the \textbf{OK} will start a new
-\emph{Registry Service} in the background, that will be stopped when the
+no \emph{Registry Service} launched, while clicking on the \textbf{OK} button will start a
+new \emph{Registry Service} in the background, that will be stopped when the
 \emph{Channel Manager} application exits.
 \secondaryEnd
 \secondaryStart[StartingAdapters]{Starting adapters}
@@ -43,17 +45,20 @@ displayed (the example being for the Random Number adapter):
 \objScaledDiagram{mpm_images/launchRandomNumberAdapter}{launchAdapterWithService}%
 {Launching an adapter with its matching service running}{1.0}
 
+For details on the usage of the `endpoint' and `tag' options, see the 
+\appendixRef{TagsAndEndpoints}{What are tags and endpoints} appendix.
 Clicking the \textbf{Cancel} button will close the dialog box, while clicking on the
 \textbf{Yes} button will launch the adapter with the given arguments \longDash{} the
 particular arguments that will be presented will depend on the adapter that was selected
 from the menu of available applications.
 \secondaryEnd
+\condPage
 \secondaryStart[StoppingRegularServices]{Stopping regular services}
 If the \textbf{Stop the service} menu item is chosen when a regular service is selected
 \longDash{} a service other than the \emph{Registry Service} \longDash{} the following
 will be displayed:
 \objScaledDiagram{mpm_images/stopService}{stopService}{Stopping a regular service}{0.9}
-\condPage{}
+
 Clicking the \textbf{Cancel} button will close the dialog box without affecting the
 selected service, while clicking on the \textbf{Yes} button will stop the selected
 application, which can be restarted via the \textbf{Launch others \textellipsis} menu
@@ -64,8 +69,8 @@ crash or behave erratically.
 \secondaryStart[StoppingAdapters]{Stopping adapters}
 If the \textbf{Stop the adapter} menu item is chosen when an adapter is selected, the
 following will be displayed:
-\objScaledDiagram{mpm_images/stopAdapter}{stopAdapter}{Stopping an adapter}{0.9}
-\condPage{}
+\objScaledDiagram{mpm_images/stopAdapter}{stopAdapter}{Stopping an adapter}{0.9}\\
+
 Clicking the \textbf{Cancel} button will close the dialog box without affecting the
 selected adapter, while clicking on the \textbf{Yes} button will stop the selected
 application, which can be restarted via the \textbf{Launch others \textellipsis} menu

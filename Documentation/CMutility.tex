@@ -55,17 +55,9 @@ network connection will be UDP rather than TCP/IP.
 While an `add' operation is active, the source port will be overlaid with a small filled
 yellow circle.
 To clear a pending `add' operation, either click on the source port a second time or click
-somewhere other than a port.\\
-
-Note that it is not possible to add a connection from an input\longDash{}only port or from
-a client port to a non\longDash{}service port; an output\longDash{}only port cannot
-normally be connected to an input\longDash{}only port of a service or an adapter if the
-ports do not have matching protocols, unless this is forced by holding down the `Control'
-key while making the connection; this should only be used when connecting a regular
-\yarp{} port to a service or an adapter, as regular \yarp{} ports cannot report their
-protocol.
+somewhere other than a port.
 \objScaledDiagram{mpm_images/beforeAdd}{beforeAdd}{Before adding a connection}{0.8}
-
+\condPage
 \objScaledDiagram{mpm_images/clickAdd}{clickAdd}{Clicking to add a connection}{0.8}
 
 \objScaledDiagram{mpm_images/afterAdd}{afterAdd}{After adding a connection}{0.8}
@@ -79,12 +71,25 @@ hollow yellow circle.
 To clear a pending `remove' operation, either click on the source port a second time or
 click on a port that is not connected to the source port or somewhere other than a port.
 Note that is is not possible to remove a connection from a client to a service.
-\objScaledDiagram{mpm_images/beforeRemove}{beforeRemove}{Removing a connection}{0.8}\\
+\objScaledDiagram{mpm_images/beforeRemove}{beforeRemove}{Removing a connection}{0.8}
+\condPage{}
+Note that it is not possible to add a connection from an input\longDash{}only port or from
+a client port to a non\longDash{}service port; an output\longDash{}only port cannot
+normally be connected to an input\longDash{}only port of a service or an adapter if the
+ports do not have matching protocols, unless this is forced by holding down the `Control'
+key while making the connection; this should only be used when connecting a regular
+\yarp{} port to a service or an adapter, as regular \yarp{} ports cannot report their
+protocol.
+\objScaledDiagram{mpm_images/forcedDragAdd}{forcedDragAdd}%
+{Adding a forced connection via drag}{0.8}
 
+\objScaledDiagram{mpm_images/afterForcedAdd}{afterForcedAdd}%
+{After adding a forced connection}{0.8}
+\condPage{}
 Clicking on a rectangular object with no modifier key held down allows the user to drag
 the object around in the window.
-Note that connections cannot be selected by clicking on the line that represents them.
-\condPage{}
+Note that connections cannot be selected by clicking on the line that represents them.\\
+
 Selecting the \textbf{Channel Manager} menu item displays a list with one choice:
 \begin{itemize}
 \item\textbf{Quit} exit from the application
@@ -112,8 +117,7 @@ launched and, if one is selected, launch it; see more information in
 \end{itemize}
 \objDoubleScaledDiagram{mpm_images/backgroundMenuNoHiddenNoSelection}%
 {mpm_images/backgroundMenuWithHidden}%
-{backgroundMenu}{Background menu (Left=No hidden entities, Right=Hidden
-entities present)}{1.0}
+{backgroundMenu}{Background menu (L=No hidden entities, R=Hidden entities present)}{1.0}
 \condPage{}
 Selecting the \textbf{View} menu item displays a list with similar choices to the
 background menu.
@@ -133,14 +137,15 @@ triggered via a \textbf{Cmd\longDash{}U} command
 \objScaledDiagram{mpm_images/viewMenuWithSelection}{viewMenuWithSelection}%
 {\textbf{View} menu with entity selected}{1.0}
 Doing a right\longDash{}mouse click on the title of a rectangle that does not represent a
-service displays a popup menu with three choices:
+service or adapter displays a popup menu with three choices:
 \begin{itemize}
 \item\textbf{Display entity information} display information about the entity
 \item\exSp\textbf{Display detailed entity information} display information about the
 entity
 \item\exSp\textbf{Hide the entity} make the entity invisible
 \end{itemize}
-\objScaledDiagram{mpm_images/entityMenu}{entityMenu}{Entity menu}{1.0}
+\objScaledDiagram{mpm_images/popupEntity}{popupEntity}{Entity right\longDash{}mouse menu}%
+{1.0}
 \condPage{}
 Doing a right\longDash{}mouse click on the title of a rectangle representing a service
 displays a popup menu with six choices, which depend on whether the `Service metrics
@@ -160,15 +165,53 @@ during its operation
 \item\exSp\textbf{Stop the service} stop the service; see more information in
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \end{itemize}
-\objDoubleScaledDiagram{mpm_images/serviceMenuMetricsDisabled}%
-{mpm_images/serviceMenuMetricsEnabled}{serviceMenu}%
-{Service menu (Left=Service metrics disabled, Right=Service metrics enabled)}{0.9}
+\objDoubleScaledDiagram{mpm_images/popupServiceMetricsDisabled}%
+{mpm_images/popupServiceMetricsEnabled}{popupService}{Service menu (L=Service metrics
+disabled, R=Service metrics enabled)}{0.9}
 \condPage{}
-Selecting the \textbf{Operation} menu item with a service or entity as the last thing
-clicked on, displays a list with similar choices to the service or entity menus,
-depending on what was last clicked on.\\
+Doing a right\longDash{}mouse click on the title of a rectangle representing an adapter
+displays a popup menu with six choices, which depend on whether the `Adapter metrics
+collection' menu item is enabled:
+\begin{itemize}
+\item\textbf{Display adapter information} display information about the adapter
+\item\exSp\textbf{Display detailed adapter information} display information about the
+adapter, including the (non\longDash{}default) requests for the adapter
+\item\exSp\textbf{Disable / Enable adapter metrics collection} disable or enable the
+collection of adapter metrics, which affects the `Display adapter metrics' and `Display
+channel metrics' menu items
+\item\exSp\textbf{Display adapter metrics} display information about the activity on each
+port of the adapter \longDash{} the number of bytes and number of messages sent to and
+from the port; the category `auxiliary' represents the anonymous ports used by the adapter
+during its operation
+\item\exSp\textbf{Hide the adapter} make the adapter invisible
+\item\exSp\textbf{Stop the adapter} stop the adapter; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+\objDoubleScaledDiagram{mpm_images/popupAdapterMetricsDisabled}%
+{mpm_images/popupAdapterMetricsEnabled}{popupAdapter}{Adapter menu (L=Adapter metrics
+disabled, R=Adapter metrics enabled)}{0.9}
+\condPage{}
+Selecting the \textbf{Operation} menu item with an entity as the last thing clicked on,
+displays a list with similar choices to the entity right\longDash{}mouse menu.\\
+\objScaledDiagram{mpm_images/operationMenuEntity}{operationMenuEntity}%
+{\textbf{Operation} menu for entities}{1.0}
+\begin{itemize}
+\item\textbf{Display entity information} display information about the entity
+\item\exSp\textbf{Display detailed entity information} display information about the
+entity
+\item\exSp\textbf{Hide the entity} make the entity invisible
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in\\
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+\condPage{}
+Selecting the \textbf{Operation} menu item with a service as the last thing clicked on,
+displays a list with similar choices to the service right\longDash{}mouse menu.\\
 \objScaledDiagram{mpm_images/operationMenuService}{operationMenuService}%
-{\textbf{Operation} menu (service or entity)}{1.0}
+{\textbf{Operation} menu for services}{1.0}
 \begin{itemize}
 \item\textbf{Display service information} display information about the service
 \item\exSp\textbf{Display detailed service information} display information about the
@@ -191,37 +234,55 @@ launched and, if one is selected, launch it; see more information in
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \end{itemize}
 \condPage{}
+Selecting the \textbf{Operation} menu item with an adapter as the last thing clicked on,
+displays a list with similar choices to the adapter right\longDash{}mouse menu.\\
+\objScaledDiagram{mpm_images/operationMenuAdapter}{operationMenuAdapter}%
+{\textbf{Operation} menu for adapters}{1.0}
+\begin{itemize}
+\item\textbf{Display adapter information} display information about the adapter
+\item\exSp\textbf{Display detailed adapter information} display information about the
+adapter, including the (non\longDash{}default) requests for the adapter
+\item\exSp\textbf{Disable / Enable adapter metrics collection} disable or enable the
+collection of adapter metrics, which affects the `Display adapter metrics' and `Display
+channel metrics' menu items
+\item\exSp\textbf{Display adapter metrics} display information about the activity on each
+port of the adapter \longDash{} the number of bytes and number of messages sent to and
+from the port; the category `auxiliary' represents the anonymous ports used by the adapter
+during its operation
+\item\exSp\textbf{Hide the adapter} make the service adapter
+\item\exSp\textbf{Stop the adapter} stop the adapter; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in\\
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+\condPage{}
 Doing a right\longDash{}mouse click on the primary channel of a service displays a popup
 menu with three choices, which depend on whether the `Service metrics collection' menu
 item is enabled:
 \begin{itemize}
 \item\textbf{Display channel information} display information about the channel
-\item\exSp\textbf{Display detailed channel information} generate output in
-tab\longDash{}delimited form
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel
 \item\exSp\textbf{Display channel metrics} display information about the activity on the
 channel \longDash{} the number of bytes and the number of messages sent to and from the
 channel
 \end{itemize}
-\objDoubleScaledDiagram{mpm_images/serviceChannelMenuMetricsDisabled}%
-{mpm_images/serviceChannelMenuMetricsEnabled}%
-{serviceChannelMenu}{Primary channel menu (Left=Service metrics disabled, Right=Service
-metrics enabled)}{0.9}
-Doing a right\longDash{}mouse click on a regular port displays a popup menu with two
-choices:
+\objDoubleScaledDiagram{mpm_images/popupPrimaryChannelMetricsDisabled}%
+{mpm_images/popupPrimaryChannelMetricsEnabled}%
+{popupServicePrimaryChannel}{Service primary channel right\longDash{}mouse menu 
+(L=Service metrics disabled, R=Service metrics enabled)}{0.9}
+
+Doing a right\longDash{}mouse click on an output channel of a service displays a popup
+menu with five choices, which depend on whether the `Service metrics collection' menu
+item is enabled:
 \begin{itemize}
-\item\textbf{Display port information} display information about the port
-\item\exSp\textbf{Display detailed port information} display information about the port
-\end{itemize}
-\objScaledDiagram{mpm_images/portMenu}{portMenu}{Regular port menu}{1.0}
-\condPage{}
-Doing a right\longDash{}mouse click on a non\longDash{}primary channel of a service
-displays a popup menu with five choices, which depend on whether the `Service metrics
-collection' menu item is enabled:
-\begin{itemize}
-\item\textbf{Display channel information} display information about the channel,
-including the protocol for the channel
+\item\textbf{Display channel information} display information about the channel
 \item\exSp\textbf{Display detailed channel information} display information about the
-channel, including the protocol for the channel and a description of the protocol
+channel, including a description of its protocol, if that is defined
 \item\exSp\textbf{Display channel metrics} display information about the activity on the
 channel \longDash{} the number of bytes and the number of messages sent to and from the
 channel
@@ -230,17 +291,159 @@ implemented, so it is disabled
 \item\exSp\textbf{Add scrolling monitor} \longDash{} this is currently not implemented, so
 it is disabled
 \end{itemize}
-\objDoubleScaledDiagram{mpm_images/regularChannelMenuMetricsDisabled}%
-{mpm_images/regularChannelMenuMetricsEnabled}%
-{regularChannelMenu}%
-{Non\longDash{}primary channel menu (Left=Service metrics disabled, Right=Service metrics
-enabled)}{0.9}
+\objDoubleScaledDiagram{mpm_images/popupOutputChannelMetricsDisabled}%
+{mpm_images/popupOutputChannelMetricsEnabled}%
+{popupServiceOutputChannel}{Service output channel right\longDash{}mouse menu
+(L=Service metrics disabled, R=Service metrics enabled)}{0.9}
 \condPage{}
-Selecting the \textbf{Operation} menu item with a channel as the last thing clicked on,
-displays a list similar choices to the channel menus, depending on what was last
-clicked on.\\
-\objScaledDiagram{mpm_images/operationMenuChannel}{operationMenuChannel}%
-{\textbf{Operation} menu for channels or ports}{1.0}
+Doing a right\longDash{}mouse click on a regular channel of a service displays a popup
+menu with three choices, which depend on whether the `Service metrics collection' menu
+item is enabled:
+\begin{itemize}
+\item\textbf{Display channel information} display information about the channel
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel, including a description of its protocol, if that is defined
+\item\exSp\textbf{Display channel metrics} display information about the activity on the
+channel \longDash{} the number of bytes and the number of messages sent to and from the
+channel
+\end{itemize}
+\objDoubleScaledDiagram{mpm_images/popupRegularChannelMetricsDisabled}%
+{mpm_images/popupRegularChannelMetricsEnabled}%
+{popupServiceRegularChannel}{Service regular channel right\longDash{}mouse menu
+(L=Service metrics disabled, R=Service metrics enabled)}{0.9}
+
+Doing a right\longDash{}mouse click on the primary channel of an adapter displays a popup
+menu with three choices, which depend on whether the `Adapter metrics collection' menu
+item is enabled:
+\begin{itemize}
+\item\textbf{Display channel information} display information about the channel
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel
+\item\exSp\textbf{Display channel metrics} display information about the activity on the
+channel \longDash{} the number of bytes and the number of messages sent to and from the
+channel
+\end{itemize}
+\objDoubleScaledDiagram{mpm_images/popupPrimaryChannelMetricsDisabled}%
+{mpm_images/popupPrimaryChannelMetricsEnabled}%
+{popupAdapterPrimaryChannel}{Adapter primary channel right\longDash{}mouse menu (L=Adapter
+metrics disabled, R=Adapter metrics enabled)}{0.9}
+\condPage{}
+Doing a right\longDash{}mouse click on an output channel of an adapter displays a popup
+menu with five choices, which depend on whether the `Adapter metrics collection' menu
+item is enabled:
+\begin{itemize}
+\item\textbf{Display channel information} display information about the channel
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel, including a description of its protocol, if that is defined
+\item\exSp\textbf{Display channel metrics} display information about the activity on the
+channel \longDash{} the number of bytes and the number of messages sent to and from the
+channel
+\item\exSp\textbf{Enable activity indicator} \longDash{} this is currently not
+implemented, so it is disabled
+\item\exSp\textbf{Add scrolling monitor} \longDash{} this is currently not implemented, so
+it is disabled
+\end{itemize}
+\objDoubleScaledDiagram{mpm_images/popupOutputChannelMetricsDisabled}%
+{mpm_images/popupOutputChannelMetricsEnabled}%
+{popupAdapterOutputChannel}{Adapter output channel right\longDash{}mouse menu (L=Adapter
+metrics disabled, R=Adapter metrics enabled)}{0.9}
+
+Doing a right\longDash{}mouse click on a regular channel of an adapter displays a popup
+menu with three choices, which depend on whether the `Adapter metrics collection' menu
+item is enabled:
+\begin{itemize}
+\item\textbf{Display channel information} display information about the channel
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel, including a description of its protocol, if that is defined
+\item\exSp\textbf{Display channel metrics} display information about the activity on the
+channel \longDash{} the number of bytes and the number of messages sent to and from the
+channel
+\end{itemize}
+\objDoubleScaledDiagram{mpm_images/popupRegularChannelMetricsDisabled}%
+{mpm_images/popupRegularChannelMetricsEnabled}%
+{popupAdapterRegularChannel}{Adapter regular channel right\longDash{}mouse menu (L=Adapter
+metrics disabled, R=Adapter metrics enabled)}{0.9}
+\condPage{}
+Doing a right\longDash{}mouse click on a regular port displays a popup menu with two
+choices:
+\begin{itemize}
+\item\textbf{Display port information} display information about the port
+\item\exSp\textbf{Display detailed port information} display information about the port
+\end{itemize}
+\objScaledDiagram{mpm_images/popupPort}{popupPort}{Regular port right\longDash{}mouse
+menu}{1.0}
+\condPage{}
+Selecting the \textbf{Operation} menu item with the primary channel of a service or
+adapter as the last thing clicked on, displays a list with similar choices to the service
+or adapter primary channel right\longDash{}mouse menus.\\
+\objScaledDiagram{mpm_images/operationMenuPrimaryChannel}%
+{operationMenuPrimaryChannel}{\textbf{Operation} menu for a service or adapter primary
+channel}{1.0}
+\begin{itemize}
+\item\textbf{Display channel information} display information about the channel
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel
+\item\exSp\textbf{Display channel metrics} display information about the activity on the
+channel \longDash{} the number of bytes and the number of messages sent to and from the
+channel
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in\\
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+\condPage{}
+Selecting the \textbf{Operation} menu item with an output channel of a service or adapter
+as the last thing clicked on, displays a list with similar choices to the service or
+adapter output channel right\longDash{}mouse menus.\\
+\objScaledDiagram{mpm_images/operationMenuOutputChannel}%
+{operationMenuOutputChannel}{\textbf{Operation} menu for a service or adapter output
+channel}{1.0}
+\begin{itemize}
+\item\textbf{Display channel information} display information about the channel
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel, including a description of its protocol, if that is defined
+\item\exSp\textbf{Display channel metrics} display information about the activity on the
+channel \longDash{} the number of bytes and the number of messages sent to and from the
+channel
+\item\exSp\textbf{Enable activity indicator} \longDash{} this is currently not
+implemented, so it is disabled
+\item\exSp\textbf{Add scrolling monitor} \longDash{} this is currently not implemented, so
+it is disabled
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in\\
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+\condPage{}
+Selecting the \textbf{Operation} menu item with a regular channel of a service or adapter
+as the last thing clicked on, displays a list with similar choices to the service or
+adapter regular channel right\longDash{}mouse menus.\\
+\objScaledDiagram{mpm_images/operationMenuRegularChannel}%
+{operationServiceMenuRegularChannel}{\textbf{Operation} menu for a service or adapter
+regular channel}{1.0}
+\begin{itemize}
+\item\textbf{Display channel information} display information about the channel
+\item\exSp\textbf{Display detailed channel information} display information about the
+channel, including a description of its protocol, if that is defined
+\item\exSp\textbf{Display channel metrics} display information about the activity on the
+channel \longDash{} the number of bytes and the number of messages sent to and from the
+channel
+\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
+running; see more information in\\
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
+launched and, if one is selected, launch it; see more information in
+\primaryRef{ManagingServices}{Managing~Services~and~Adapters}
+\end{itemize}
+\condPage{}
+Selecting the \textbf{Operation} menu item with a regular port as the last thing clicked on,
+displays a list similar choices to the regular port right\longDash{}mouse menu.\\
+\objScaledDiagram{mpm_images/operationMenuPort}{operationMenuPort}%
+{\textbf{Operation} menu for regular ports}{1.0}
 \begin{itemize}
 \item\textbf{Display port information} display information about the port
 \item\exSp\textbf{Display detailed port information} display information about the port
@@ -251,6 +454,7 @@ running; see more information in\\
 launched and, if one is selected, launch it; see more information in
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \end{itemize}
+\condPage{}
 The positions of the objects within the window are stored in the file
 `\asCode{settings.txt}' within the `\asCode{Channel Manager}' directory inside the
 user\longDash{}specific application data directory.

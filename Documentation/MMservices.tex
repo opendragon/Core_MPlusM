@@ -90,7 +90,21 @@ application can be running at a time in an \mplusm{} installation, due to its fi
 \yarp{} network port.\\
 
 The \serviceNameX[Registry~Service]{RegistryService} application responds to a `HUP'
-signal and will exit gracefully when one is sent to it.
+signal and will exit gracefully when one is sent to it.\\
+
+If the service is selected for execution from within the \emph{Channel Manager}
+application, the following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRegistryService}%
+{launchServiceRegistry}{Launch options for the \serviceNameX[Registry~Service]%
+{RegistryService}}{1.0}
+\condPage{}
+For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
+Manager Utility} manual.
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the \serviceNameX[Registry~Service]{RegistryService} has successfully started:
+\objScaledDiagram{mpm_images/runningRegistryService}%
+{serviceRunningRegistry}{The \emph{Channel Manager} entity for the
+\serviceNameX[Registry~Service]{RegistryService}}{1.0}
 \tertiaryEnd{\serviceNameE[Registry~Service]{RegistryService}}
 \secondaryEnd
 \secondaryStart[BasicRequests]{Basic~Requests}
