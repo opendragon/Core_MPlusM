@@ -122,9 +122,7 @@ static bool checkFilePath(const char * thePath,
         okSoFar = (0 == access(thePath, R_OK));
 #else // ! MAC_OR_LINUX_
         okSoFar = (0 == _access(thePath, 4));
-#endif // ! MAC_OR_LINUX_
-        
-        cerr << access(thePath, R_OK) << endl;//$$$$
+#endif // ! MAC_OR_LINUX_        
     }
     else
     {
