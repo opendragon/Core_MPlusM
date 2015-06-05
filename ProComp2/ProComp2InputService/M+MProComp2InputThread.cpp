@@ -49,7 +49,7 @@
 /*! @brief The sample timer interval. */
 #define PROCOMP2_TIMER_INTERVAL 100
 
-#define USE_VARIANT_READ_METHOD /* if defined, use a Variant-based read. */
+//#define USE_VARIANT_READ_METHOD /* if defined, use a Variant-based read. */
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
