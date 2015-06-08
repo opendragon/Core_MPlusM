@@ -69,9 +69,13 @@ namespace MplusM
          
          mandatoryFilePathTag ::= 'F';
          
-         filePathDirection ::= sep directionValue;
+         filePathDirection ::= sep directionValue sep suffixValue sep isRandom;
          
-         directionValue ::= 'i' | 'o'; */
+         directionValue ::= 'i' | 'o';
+         
+         suffixValue ::= string suffix (prefix is passed as default);
+         
+         isRandom ::= '0' | '1'; */
         class FilePathArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
@@ -79,30 +83,56 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
-             @param defaultValue The default value for the command-line argument.
+             @param pathPrefix The prefix to the default value for the command-line argument.
+             @param pathSuffix The suffix to the default value for the command-line argument.
              @param isOptional @c true if the argument is optional and @c false otherwise.
              @param forOutput @c true if the file will be used for output and @c false otherwise.
+             @param useRandomPath @c true if the file path will be constructed with a random number
+             and @c false if the file path is fixed.
              @param argumentReference If non-@c NULL, the variable to be set with the argument
              value. */
             FilePathArgumentDescriptor(const YarpString & argName,
                                        const YarpString & argDescription,
-                                       const YarpString & defaultValue,
+                                       const YarpString & pathPrefix,
+                                       const YarpString & pathSuffix,
                                        const bool         isOptional,
                                        const bool         forOutput = false,
+                                       const bool         useRandomPath = false,
                                        YarpString *       argumentReference = NULL);
             
             /*! @brief The destructor. */
             virtual ~FilePathArgumentDescriptor(void);
+            
+            /*! @brief Return the default value.
+             @returns The default value. */
+            virtual YarpString getDefaultValue(void);
+            
+            /*! @brief Return the processed value.
+             @returns The processed value. */
+            virtual YarpString getProcessedValue(void);
+            
+            /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
+             @param isForOutput Set to @c true if the argument is for output files and @c false
+             otherwise.
+             @returns @c true if the argument is for file paths and @c false otherwise. */
+            virtual bool isForFiles(bool & isForOutput)
+            const
+            {
+                isForOutput = _forOutput;
+                return true;
+            } // isForFiles
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
+            /*! @brief Set the associated variable to the default value. */
+            virtual void setToDefault(void);
+            
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void)
-            const;
+            virtual YarpString toString(void);
             
             /*! @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
@@ -126,15 +156,28 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef StringArgumentDescriptor inherited;
             
+            /*! @brief The prefix value to use for constructing the default value. */
+            YarpString _pathPrefix;
+            
+            /*! @brief The suffix value to use for constructing the default value. */
+            YarpString _pathSuffix;
+            
+            /*! @brief @c true if the default value is available and @c false otherwise. */
+            bool _defaultSet;
+            
             /*! @brief @c true if the file path will be used for output and @c false otherwise. */
             bool _forOutput;
+            
+            /*! @brief @c true if the file path will be constructed with a random number
+             and @c false if the file path is fixed. */
+            bool _useRandomPath;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[7];
+            char _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

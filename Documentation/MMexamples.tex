@@ -262,6 +262,27 @@ window when the service has successfully started:
 \objScaledDiagram{mpm_images/runningRecordAsJSONOutputService}%
 {serviceRunningRecordAsJSON}{The \emph{Channel Manager} entity for the Record As JSON
 output service}{1.0}
+
+The output file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.
+\condPage{}
+If a `tag' value is supplied, it is merged with the output file name, as shown here:
+\objScaledDiagram{mpm_images/recordJSONWithTag}%
+{recordJSONWithTag}{The \emph{Channel Manager} entity for the Record As JSON output
+service with a tag}{1.0}
+
+If an `endpoint' value is specified, the output file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/recordJSONWithEndpoint}%
+{recordJSONWithEndpoint}{The \emph{Channel Manager} entity for the Record As JSON output
+service with an endpoint}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the output file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/recordJSONWithEndpointAndTag}%
+{recordJSONWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record As JSON
+output service with an endpoint and tag}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordAsJSONService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersService}}
@@ -325,6 +346,27 @@ window when the service has successfully started:
 \objScaledDiagram{mpm_images/runningRecordIntegersOutputService}%
 {serviceRunningRecordIntegers}{The \emph{Channel Manager} entity for the Record Integers
 output service}{1.0}
+
+The output file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.
+\condPage{}
+If a `tag' value is supplied, it is merged with the output file name, as shown here:
+\objScaledDiagram{mpm_images/recordIntegersWithTag}%
+{recordIntegersWithTag}{The \emph{Channel Manager} entity for the Record Integers output
+service with a tag}{1.0}
+
+If an `endpoint' value is specified, the output file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpoint}%
+{recordIntegersWithEndpoint}{The \emph{Channel Manager} entity for the Record Integers
+output service with an endpoint}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the output file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTag}%
+{recordIntegersWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record
+Integers output service with an endpoint and tag}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}

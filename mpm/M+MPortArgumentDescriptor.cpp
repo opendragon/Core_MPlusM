@@ -88,8 +88,8 @@ PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
                                                const bool         isOptional,
                                                const bool         isSystemPort,
                                                int *              argumentReference) :
-    inherited(argName, argDescription, isOptional), _argumentReference(argumentReference),
-    _defaultValue(defaultValue), _isSystemPort(isSystemPort)
+    inherited(argName, argDescription, defaultValue, isOptional, false, 0, false, 0,
+              argumentReference), _isSystemPort(isSystemPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
@@ -108,32 +108,6 @@ PortArgumentDescriptor::~PortArgumentDescriptor(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
-
-YarpString PortArgumentDescriptor::getDefaultValue(void)
-const
-{
-    OD_LOG_OBJENTER(); //####
-    YarpString        result;
-    std::stringstream buff;
-
-    buff << _defaultValue;
-    result = buff.str();
-    OD_LOG_OBJEXIT_s(result); //####
-    return result;
-} // PortArgumentDescriptor::getDefaultValue
-
-YarpString PortArgumentDescriptor::getProcessedValue(void)
-const
-{
-    OD_LOG_OBJENTER(); //####
-    YarpString        result;
-    std::stringstream buff;
-
-    buff << (_argumentReference ? *_argumentReference : _defaultValue);
-    result = buff.str();
-    OD_LOG_OBJEXIT_s(result); //####
-    return result;
-} // PortArgumentDescriptor::getProcessedValue
 
 BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString & inString)
 {
@@ -195,24 +169,12 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
     return result;
 } // PortArgumentDescriptor::parseArgString
 
-void PortArgumentDescriptor::setToDefault(void)
-const
-{
-    OD_LOG_OBJENTER(); //####
-    if (_argumentReference)
-    {
-        *_argumentReference = _defaultValue;
-    }
-    OD_LOG_OBJEXIT(); //####
-} // PortArgumentDescriptor::setToDefault
-
 YarpString PortArgumentDescriptor::toString(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("P", "p"));
 
-    result += _parameterSeparator + (_isSystemPort ? "s" : "r") + suffixFields();
+    result += _parameterSeparator + (_isSystemPort ? "s" : "r") + suffixFields(getDefaultValue());
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // PortArgumentDescriptor::toString

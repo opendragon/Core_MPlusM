@@ -78,7 +78,24 @@ namespace MplusM
          default_value ::= delimiter text delimiter;
          # use matching pairs of |, <>, (), {}, [], whichever is not present in the text
 
-         where typeTagAndInfo is described with each derived class. */
+         where typeTagAndInfo is described with each derived class.
+         The following enumerates the standard type tags:
+         
+         'A' / 'a' => address
+         
+         'C' / 'c' => channel
+         
+         'D' / 'd' => double
+         
+         'E' / 'e' => extra (a placeholder for zero or more trailing arguments)
+         
+         'F' / 'f' => file path
+         
+         'I' / 'i' => integer
+         
+         'P' / 'p' => port number
+         
+         'S' / 's' => string */
         class BaseArgumentDescriptor
         {
         public :
@@ -112,13 +129,32 @@ namespace MplusM
             
             /*! @brief Return the default value.
              @returns The default value. */
-            virtual YarpString getDefaultValue(void)
-            const = 0;
+            virtual YarpString getDefaultValue(void) = 0;
 
             /*! @brief Return the processed value.
              @returns The processed value. */
-            virtual YarpString getProcessedValue(void)
-            const = 0;
+            virtual YarpString getProcessedValue(void) = 0;
+            
+            /*! @brief Return @c true if the argument is a placeholder for zero or more trailing
+             arguments.
+             @returns @c true if the argument is a placeholder for zero of more trailing arguments
+             and @c false otherwise. */
+            virtual bool isExtra(void)
+            const
+            {
+                return false;
+            } // isExtra
+            
+            /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
+             @param isForOutput Set to @c true if the argument is for output files and @c false
+             otherwise.
+             @returns @c true if the argument is for file paths and @c false otherwise. */
+            virtual bool isForFiles(bool & isForOutput)
+            const
+            {
+                isForOutput = false;
+                return false;
+            } // isForFiles
             
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
              @returns @c true if the argument is optional and @c false otherwise. */
@@ -127,15 +163,13 @@ namespace MplusM
             {
                 return _isOptional;
             } // isOptional
-            
+          
             /*! @brief Set the associated variable to the default value. */
-            virtual void setToDefault(void)
-            const = 0;
+            virtual void setToDefault(void) = 0;
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void)
-            const = 0;
+            virtual YarpString toString(void) = 0;
             
             /*! @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
@@ -169,10 +203,11 @@ namespace MplusM
 
             /*! @brief Returns a string that contains a printable representation of the standard
              fields for a command-line argument.
+             @param defaultToUse The string to put in the printable representation for the default
+             value.
              @returns A string that contains a printable representation of the standard fields for
              a command-line argument. */
-            YarpString suffixFields(void)
-            const;
+            YarpString suffixFields(const YarpString & defaultToUse);
             
         private :
             

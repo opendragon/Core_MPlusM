@@ -154,12 +154,11 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
 } // AddressArgumentDescriptor::parseArgString
 
 YarpString AddressArgumentDescriptor::toString(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("A", "a"));
 
-    result += suffixFields();
+    result += suffixFields(getDefaultValue());
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // AddressArgumentDescriptor::toString

@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MStringArgumentDescriptor.cpp
+//  File:       mpm/M+MExtraArgumentDescriptor.cpp
 //
 //  Project:    M+M
 //
 //  Contains:   The class definition for the minimal functionality required to represent a
-//              string-type command-line argument.
+//              placeholder for trailing command-line arguments.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,11 +33,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-05-15
+//  Created:    2015-06-08
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MStringArgumentDescriptor.h>
+#include <mpm/M+MExtraArgumentDescriptor.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,8 +48,8 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The definition for the minimal functionality required to represent a string-type
- command-line argument. */
+ @brief The definition for the minimal functionality required to represent a placeholder for
+ trailing command-line arguments. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -82,59 +82,44 @@ using namespace MplusM::Utilities;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-StringArgumentDescriptor::StringArgumentDescriptor(const YarpString & argName,
-                                                   const YarpString & argDescription,
-                                                   const YarpString & defaultValue,
-                                                   const bool         isOptional,
-                                                   YarpString *       argumentReference) :
-    inherited(argName, argDescription, isOptional), _defaultValue(defaultValue),
-    _argumentReference(argumentReference)
+ExtraArgumentDescriptor::ExtraArgumentDescriptor(const YarpString & argName,
+                                                 const YarpString & argDescription) :
+    inherited(argName, argDescription, true)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-               defaultValue); //####
-    OD_LOG_B1("isOptional = ", isOptional); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
+    OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
     OD_LOG_EXIT_P(this); //####
-} // StringArgumentDescriptor::StringArgumentDescriptor
+} // ExtraArgumentDescriptor::ExtraArgumentDescriptor
 
-StringArgumentDescriptor::~StringArgumentDescriptor(void)
+ExtraArgumentDescriptor::~ExtraArgumentDescriptor(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // StringArgumentDescriptor::~StringArgumentDescriptor
+} // ExtraArgumentDescriptor::~ExtraArgumentDescriptor
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString StringArgumentDescriptor::getDefaultValue(void)
-{
-    OD_LOG_OBJENTER(); //####
-    YarpString result(_defaultValue);
-
-    OD_LOG_OBJEXIT_s(result); //####
-    return result;
-} // StringArgumentDescriptor::getDefaultValue
-
-YarpString StringArgumentDescriptor::getProcessedValue(void)
+YarpString ExtraArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result;
 
-    if (_argumentReference)
-    {
-        result = *_argumentReference;
-    }
-    else
-    {
-        result = _defaultValue;
-    }
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // StringArgumentDescriptor::getProcessedValue
+} // ExtraArgumentDescriptor::getDefaultValue
 
-BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpString & inString)
+YarpString ExtraArgumentDescriptor::getProcessedValue(void)
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString result;
+
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // ExtraArgumentDescriptor::getProcessedValue
+
+BaseArgumentDescriptor * ExtraArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -143,64 +128,45 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
 
     if (partitionString(inString, 2, inVector))
     {
-        bool       isOptional = false;
-        bool       okSoFar = true;
         YarpString name(inVector[0]);
         YarpString typeTag(inVector[1]);
-        YarpString defaultString(inVector[2]);
+        YarpString defaultString(inVector[2]); // ignored
         YarpString description(inVector[3]);
 
-        if (typeTag == "s")
+        if ((typeTag == "e") || (typeTag == "E"))
         {
-            isOptional = true;
-        }
-        else if (typeTag != "S")
-        {
-            okSoFar = false;
-        }
-        if (okSoFar)
-        {
-            result = new StringArgumentDescriptor(name, description, defaultString, isOptional,
-                                                  NULL);
+            result = new ExtraArgumentDescriptor(name, description);
         }
     }
     OD_LOG_EXIT_P(result); //####
     return result;
-} // StringArgumentDescriptor::parseArgString
+} // ExtraArgumentDescriptor::parseArgString
 
-void StringArgumentDescriptor::setToDefault(void)
+void ExtraArgumentDescriptor::setToDefault(void)
 {
     OD_LOG_OBJENTER(); //####
-    if (_argumentReference)
-    {
-        *_argumentReference = _defaultValue;
-    }
     OD_LOG_OBJEXIT(); //####
-} // StringArgumentDescriptor::setToDefault
+} // ExtraArgumentDescriptor::setToDefault
 
-YarpString StringArgumentDescriptor::toString(void)
+YarpString ExtraArgumentDescriptor::toString(void)
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(prefixFields("S", "s"));
+    YarpString result(prefixFields("E", "e"));
 
-    result += suffixFields(_defaultValue);
+    result += suffixFields("");
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // StringArgumentDescriptor::toString
+} // ExtraArgumentDescriptor::toString
 
-bool StringArgumentDescriptor::validate(const YarpString & value)
+bool ExtraArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-    if (result && _argumentReference)
-    {
-        *_argumentReference = value;
-    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // StringArgumentDescriptor::validate
+} // ExtraArgumentDescriptor::validate
 
 #if defined(__APPLE__)
 # pragma mark Global functions

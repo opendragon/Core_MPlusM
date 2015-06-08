@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       mpm/M+MAddressArgumentDescriptor.h
+//  File:       mpm/M+MExtraArgumentDescriptor.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the minimal functionality required to represent an IP
-//              address command-line argument.
+//  Contains:   The class declaration for the minimal functionality required to represent a
+//              placeholder for trailing command-line arguments.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-05-17
+//  Created:    2015-06-08
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAddressArgumentDescriptor_H_))
-# define MpMAddressArgumentDescriptor_H_ /* Header guard */
+#if (! defined(MpMExtraArgumentDescriptor_H_))
+# define MpMExtraArgumentDescriptor_H_ /* Header guard */
 
-# include <mpm/M+MStringArgumentDescriptor.h>
+# include <mpm/M+MBaseArgumentDescriptor.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,8 +48,8 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the minimal functionality required to represent an IP address
- command-line argument. */
+ @brief The class declaration for the minimal functionality required to represent a placeholder for
+ trailing command-line arguments. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -58,41 +58,54 @@ namespace MplusM
 {
     namespace Utilities
     {
-        /*! @brief An address argument description.
+        /*! @brief A trailing arguments description.
          
-        The external representation of an address argument description is:
-        
-         addressTagAndInfo ::= optionalAddressTag | mandatoryAddressTag;
+         The external representation of a trailing arguments description is:
          
-         optionalAddressTag ::= 'a';
+         extraTagAndInfo ::= 'E' | 'e';
          
-         mandatoryAddressTag ::= 'A'; */
-        class AddressArgumentDescriptor : public StringArgumentDescriptor
+         Note that the concept of 'optional' versus 'mandatory' is not applicable to trailing
+         arguments, as it's possible to have zero or more of them.
+         Likewise, there is no 'default' value that makes sense or, for that matter, a single
+         argument reference is of no practical use. */
+        class ExtraArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
-             @param argDescription A description of the command-line argument.
-             @param defaultValue The default value for the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value.
-             @param addrBuff If non-@c NULL, the variable to be set with the actual address. */
-            AddressArgumentDescriptor(const YarpString & argName,
-                                      const YarpString & argDescription,
-                                      const YarpString & defaultValue,
-                                      const bool         isOptional,
-                                      YarpString *       argumentReference = NULL,
-                                      struct in_addr *   addrBuff = NULL);
-
+             @param argDescription A description of the command-line argument. */
+            ExtraArgumentDescriptor(const YarpString & argName,
+                                    const YarpString & argDescription);
+            
             /*! @brief The destructor. */
-            virtual ~AddressArgumentDescriptor(void);
+            virtual ~ExtraArgumentDescriptor(void);
+            
+            /*! @brief Return the default value.
+             @returns The default value. */
+            virtual YarpString getDefaultValue(void);
+            
+            /*! @brief Return the processed value.
+             @returns The processed value. */
+            virtual YarpString getProcessedValue(void);
+
+            /*! @brief Return @c true if the argument is a placeholder for zero or more trailing
+             arguments.
+             @returns @c true if the argument is a placeholder for zero of more trailing arguments
+             and @c false otherwise. */
+            virtual bool isExtra(void)
+            const
+            {
+                return true;
+            } // isExtra
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+
+            /*! @brief Set the associated variable to the default value. */
+            virtual void setToDefault(void);
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
@@ -104,12 +117,12 @@ namespace MplusM
              otherwise. */
             virtual bool validate(const YarpString & value)
             const;
-            
+
         protected :
         
         private :
             
-            COPY_AND_ASSIGNMENT_(AddressArgumentDescriptor);
+            COPY_AND_ASSIGNMENT_(ExtraArgumentDescriptor);
             
         public :
         
@@ -118,15 +131,12 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef StringArgumentDescriptor inherited;
+            typedef BaseArgumentDescriptor inherited;
             
-            /*! @brief The variable to be filled in with the actual address. */
-            struct in_addr * _addrBuff;
-            
-        }; // AddressArgumentDescriptor
-        
+        }; // ExtraArgumentDescriptor
+
     } // Utilities
     
 } // MplusM
 
-#endif // ! defined(MpMAddressArgumentDescriptor_H_)
+#endif // ! defined(MpMExtraArgumentDescriptor_H_)

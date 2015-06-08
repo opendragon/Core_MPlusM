@@ -108,6 +108,7 @@ static void displayCommands(void)
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
  @param goWasSet @c true if the service is to be started immediately.
+ @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
 static void setUpAndGo(YarpString &                        recordPath,
@@ -115,10 +116,11 @@ static void setUpAndGo(YarpString &                        recordPath,
                        const YarpString &                  progName,
                        const int                           argc,
                        char * *                            argv,
-                       const YarpString &                  tag,
-                       const YarpString &                  serviceEndpointName,
+                       YarpString &                        tag,
+                       YarpString &                        serviceEndpointName,
                        const YarpString &                  servicePortNumber,
                        const bool                          goWasSet,
+                       const bool                          nameWasSet,
                        const bool                          stdinAvailable,
                        const bool                          reportOnExit)
 {
@@ -128,17 +130,40 @@ static void setUpAndGo(YarpString &                        recordPath,
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-              "reportOnExit = ", reportOnExit); //####
+    OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, "stdinAvailable = ", //####
+              stdinAvailable, "reportOnExit = ", reportOnExit); //####
     if (0 == recordPath.size())
     {
-        int               randNumb = yarp::os::Random::uniform(0, 10000);
         std::stringstream buff;
         
         buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
-        buff << std::hex << randNumb;
+        buff << (Utilities::GetRandomHexString() + ".txt").c_str();
         recordPath = buff.str();
         OD_LOG_S1s("recordPath <- ", recordPath); //####
+    }
+    YarpString tagModifier(Utilities::GetFileNameBase(Utilities::GetFileNamePart(recordPath)));
+    
+    if (0 < tagModifier.length())
+    {
+        char lastChar = tagModifier[tagModifier.length() - 1];
+        
+        // Drop a trailing period, if present.
+        if ('.' == lastChar)
+        {
+            tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
+        }
+    }
+    if (! nameWasSet)
+    {
+        serviceEndpointName += YarpString("/") + tagModifier;
+    }
+    if (0 < tag.length())
+    {
+        tag += YarpString(":") + tagModifier;
+    }
+    else
+    {
+        tag = tagModifier;
     }
     RecordAsJSONService * aService = new RecordAsJSONService(progName, argc, argv, tag,
                                                              serviceEndpointName,
@@ -340,28 +365,19 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool              goWasSet = false;
-        bool              nameWasSet = false; // not used
-        bool              reportOnExit = false;
-        bool              stdinAvailable = CanReadFromStandardInput();
-        int               randNumb;
-        std::stringstream buff;
-        YarpString        recordPath;
-        YarpString        serviceEndpointName;
-        YarpString        servicePortNumber;
-        YarpString        tag;
+        bool       goWasSet = false;
+        bool       nameWasSet = false;
+        bool       reportOnExit = false;
+        bool       stdinAvailable = CanReadFromStandardInput();
+        YarpString recordPath;
+        YarpString serviceEndpointName;
+        YarpString servicePortNumber;
+        YarpString tag;
 
-        // Use a poor random number for now; we'll use a better one later, once YARP is active.
-#if defined(__APPLE__)
-        sranddev();
-#else // ! defined(__APPLE__)
-		srand(static_cast<unsigned>(time(NULL)));
-#endif // ! defined(__APPLE__)
-        randNumb = (rand() % 10000);
-        buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
-        buff << std::hex << randNumb;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
-                                                       buff.str(), true, true, &recordPath);
+                                                       kDirectorySeparator + "tmp" +
+                                                       kDirectorySeparator + "record_", ".txt",
+                                                       true, true, true, &recordPath);
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);
@@ -383,8 +399,8 @@ int main(int      argc,
                 if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(recordPath, argumentList, progName, argc, argv, tag,
-                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
-                               reportOnExit);
+                               serviceEndpointName, servicePortNumber, goWasSet, nameWasSet,
+                               stdinAvailable, reportOnExit);
                 }
                 else
                 {

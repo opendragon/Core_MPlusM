@@ -254,6 +254,16 @@ namespace MplusM
         bool GetDetectedPortList(PortVector & ports,
                                  const bool   includeHiddenPorts = false);
         
+        /*! @brief Return the base name of a file name.
+         @param inFileName The file name to be processed.
+         @returns The base name of a file name. */
+        YarpString GetFileNameBase(const YarpString & inFileName);
+        
+        /*! @brief Return the file name part of a path.
+         @param inFileName The file path to be processed.
+         @returns The file name part of a path. */
+        YarpString GetFileNamePart(const YarpString & inFileName);
+        
         /*! @brief Return the global status reporter.
          @returns The global status reporter. */
         Common::ChannelStatusReporter * GetGlobalStatusReporter(void);
@@ -310,6 +320,10 @@ namespace MplusM
          @param portName The port to be located.
          @returns The IP address and port number of the port. */
         YarpString GetPortLocation(const YarpString & portName);
+        
+        /*! @brief Return a random string of hexadecimal digits.
+         @returns A random string of hexadecimal digits. */
+        YarpString GetRandomHexString(void);
         
         /*! @brief Retrieve the set of known services.
          @param services The set of registered services.

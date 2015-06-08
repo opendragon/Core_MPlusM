@@ -102,6 +102,10 @@ CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/popupRegularChannelMetricsEnabled.eps \
 		$(IMAGE_DIR)/popupServiceMetricsDisabled.eps \
 		$(IMAGE_DIR)/popupServiceMetricsEnabled.eps \
+		$(IMAGE_DIR)/recordIntegersWithEndpoint.eps \
+		$(IMAGE_DIR)/recordIntegersWithEndpointAndTag.eps \
+		$(IMAGE_DIR)/recordIntegersWithTag.eps $(IMAGE_DIR)/recordJSONWithEndpoint.eps \
+		$(IMAGE_DIR)/recordJSONWithEndpointAndTag.eps $(IMAGE_DIR)/recordJSONWithTag.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpoint.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTag.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedTag.eps \

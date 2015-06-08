@@ -41,6 +41,7 @@
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MDoubleArgumentDescriptor.h>
+#include <mpm/M+MExtraArgumentDescriptor.h>
 #include <mpm/M+MFilePathArgumentDescriptor.h>
 #include <mpm/M+MIntegerArgumentDescriptor.h>
 #include <mpm/M+MPortArgumentDescriptor.h>
@@ -201,22 +202,21 @@ const
     return result;
 } // BaseArgumentDescriptor::prefixFields
 
-YarpString BaseArgumentDescriptor::suffixFields(void)
-const
+YarpString BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
 {
     OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("defaultToUse = ", defaultToUse); //####
     static const char possibles[] = "~!@#$%^&*_-+=|;\"'?./ABCDEFGHIJKLMNOPQRSTUVWXYZ"
                                     "abcdefghijklmnopqrtuvwxyz0123456789";
     char              charToUse = possibles[0];
     YarpString        result(_parameterSeparator);
-    YarpString        defaultValue(getDefaultValue());
     
-    if (0 < defaultValue.length())
+    if (0 < defaultToUse.length())
     {
         // Determine an appropriate delimiter
         for (size_t ii = 0, mm = sizeof(possibles); mm > ii; ++ii)
         {
-            if (defaultValue.npos == defaultValue.find(possibles[ii], 0))
+            if (defaultToUse.npos == defaultToUse.find(possibles[ii], 0))
             {
                 charToUse = possibles[ii];
                 break;
@@ -225,7 +225,7 @@ const
         }
     }
     result += charToUse;
-    result += defaultValue + charToUse + _parameterSeparator + _argDescription;
+    result += defaultToUse + charToUse + _parameterSeparator + _argDescription;
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // BaseArgumentDescriptor::suffixFields
@@ -354,6 +354,10 @@ BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & i
     }
     if (! result)
     {
+        result = ExtraArgumentDescriptor::parseArgString(inString);
+    }
+    if (! result)
+    {
         result = FilePathArgumentDescriptor::parseArgString(inString);
     }
     if (! result)
@@ -378,6 +382,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "parseResult = ", &parseResult); //####
     bool   result = true;
+    bool   sawExtra = false;
     bool   sawOptional = false;
     size_t numArgs = arguments.size();
     size_t numValues = parseResult.nonOptionsCount();
@@ -387,39 +392,52 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     size_t numToCheck = min(numArgs, numValues);
 #endif // ! MAC_OR_LINUX_
 
-    // Check if there are required arguments after optional arguments
+    // Check if there are required arguments after optional arguments or the trailing arguments
+    // placeholder.
+    // Note that we don't care how many trailing arguments placeholders there are, but they must
+    // follow the optional arguments, which follow the mandatory ones.
     for (size_t ii = 0; result && (numArgs > ii); ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
         if (anArg)
         {
-            if (anArg->isOptional())
+            if (anArg->isExtra())
             {
+                sawExtra = true;
+            }
+            else if (anArg->isOptional())
+            {
+                result = (! sawExtra);
                 sawOptional = true;
             }
             else
             {
-                result = (! sawOptional);
+                result = (! sawOptional) && (! sawExtra);
             }
         }
     }
+    // Check the arguments with matching descriptions, unless it is a placeholder for extra
+    // arguments.
     for (size_t ii = 0; result && (numToCheck > ii); ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
-        if (anArg)
+        if (anArg && (! anArg->isExtra()))
         {
             result = anArg->validate(parseResult.nonOption(ii));
         }
     }
+    // Check the unmatched descriptions: if extra, just skip since it is a placeholder for trailing
+    // arguments; if optional, use the default and if neither extra nor optional it's mandatory and
+    // unsatisfied.
     if (result && (numToCheck < numArgs))
     {
         for (size_t ii = numToCheck; result && (numArgs > ii); ++ii)
         {
             BaseArgumentDescriptor * anArg = arguments[ii];
             
-            if (anArg)
+            if (anArg && (! anArg->isExtra()))
             {
                 if (anArg->isOptional())
                 {
@@ -446,7 +464,7 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
     {
         Utilities::BaseArgumentDescriptor * anArg = arguments[ii];
         
-        if (anArg)
+        if (anArg && (! anArg->isExtra()))
         {
             char        inChar;
             std::string inputLine;

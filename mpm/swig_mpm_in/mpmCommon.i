@@ -26,6 +26,7 @@
 #include "M+MDoubleArgumentDescriptor.h"
 #include "M+MEndpoint.h"
 #include "M+MException.h"
+#include "M+MExtraArgumentDescriptor.h"
 #include "M+MFilePathArgumentDescriptor.h"
 #include "M+MGeneralChannel.h"
 #include "M+MIntegerArgumentDescriptor.h"

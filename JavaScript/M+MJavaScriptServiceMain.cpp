@@ -40,17 +40,18 @@
 
 #include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MExtraArgumentDescriptor.h>
 #include <mpm/M+MFilePathArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#if MAC_OR_LINUX_
-# include <libgen.h>
-#else // ! MAC_OR_LINUX_
-# include <stdlib.h>
-#endif // ! MAC_OR_LINUX_
+//#if MAC_OR_LINUX_
+//# include <libgen.h>
+//#else // ! MAC_OR_LINUX_
+//# include <stdlib.h>
+//#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -1928,57 +1929,6 @@ static bool validateLoadedScript(JSContext *           jct,
     return okSoFar;
 } // validateLoadedScript
 
-/*! @brief Return the base name of a file name.
- @param inFileName The file name to be processed.
- @returns The base name of a file name. */
-static YarpString getFileNameBase(const YarpString & inFileName)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inFileName = ", inFileName);
-    YarpString result;
-    size_t     index = inFileName.rfind('.');
-    
-    if (YarpString::npos == index)
-    {
-        result = inFileName;
-    }
-    else
-    {
-        result = inFileName.substr(0, index);
-    }
-    OD_LOG_EXIT_s(result); //####
-    return result;
-} // getFileNameBase
-
-/*! @brief Return the file name part of a path.
- @param inFileName The file path to be processed.
- @returns The file name part of a path. */
-static YarpString getFileNamePart(const YarpString & inFileName)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("inFileName = ", inFileName); //####
-    YarpString result;
-#if MAC_OR_LINUX_
-    char *     nameCopy = strdup(inFileName.c_str());
-#else // ! MAC_OR_LINUX_
-    char       baseFileName[_MAX_FNAME + 10];
-    char       baseExtension[_MAX_EXT + 10];
-#endif // ! MAC_OR_LINUX_
-    
-#if MAC_OR_LINUX_
-    result = basename(nameCopy);
-    free(nameCopy);
-#else // ! MAC_OR_LINUX_
-    _splitpath_s(inFileName.c_str(), NULL, 0, NULL, 0, baseFileName, sizeof(baseFileName),
-                 baseExtension, sizeof(baseExtension));
-    result = baseFileName;
-    result += ".";
-    result += baseExtension;
-#endif // ! MAC_OR_LINUX_
-    OD_LOG_EXIT_s(result); //####
-    return result;
-} // getFileNamePart
-
 /*! @brief Set up the environment and start the JavaScript service.
  @param scriptPath The script file to be processed.
  @param arguments The arguments for the service.
@@ -2015,7 +1965,7 @@ static void setUpAndGo(YarpString &             scriptPath,
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     YarpString rawTag(tag);
     YarpString scriptSource;
-    YarpString tagModifier(getFileNameBase(getFileNamePart(scriptPath)));
+    YarpString tagModifier(Utilities::GetFileNameBase(Utilities::GetFileNamePart(scriptPath)));
 
     if (0 < tagModifier.length())
     {
@@ -2441,10 +2391,13 @@ int main(int      argc,
         YarpString                            tag;
         YarpStringVector                      arguments;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to script file to use"),
-                                                       "", false, false, &scriptPath);
+                                                       "", "", false, false, false, &scriptPath);
+        Utilities::ExtraArgumentDescriptor    secondArg("extras",
+                                                        T_("Additional arguments to the script"));
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_JAVASCRIPT_SERVICE_NAME,
                                           JAVASCRIPTFILTER_SERVICE_DESCRIPTION, "", 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,

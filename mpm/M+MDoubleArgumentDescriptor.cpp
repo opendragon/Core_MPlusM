@@ -116,7 +116,6 @@ DoubleArgumentDescriptor::~DoubleArgumentDescriptor(void)
 #endif // defined(__APPLE__)
 
 YarpString DoubleArgumentDescriptor::getDefaultValue(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -129,7 +128,6 @@ const
 } // DoubleArgumentDescriptor::getDefaultValue
 
 YarpString DoubleArgumentDescriptor::getProcessedValue(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -219,7 +217,6 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
 } // DoubleArgumentDescriptor::parseArgString
 
 void DoubleArgumentDescriptor::setToDefault(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     if (_argumentReference)
@@ -230,7 +227,6 @@ const
 } // DoubleArgumentDescriptor::setToDefault
 
 YarpString DoubleArgumentDescriptor::toString(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("D", "d"));
@@ -251,7 +247,7 @@ const
         buff << _maximumValue;
         result += buff.str();
     }
-    result += suffixFields();
+    result += suffixFields(getDefaultValue());
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // DoubleArgumentDescriptor::toString

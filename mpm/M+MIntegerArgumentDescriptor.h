@@ -108,13 +108,11 @@ namespace MplusM
             
             /*! @brief Return the default value.
              @returns The default value. */
-            virtual YarpString getDefaultValue(void)
-            const;
+            virtual YarpString getDefaultValue(void);
 
             /*! @brief Return the processed value.
              @returns The processed value. */
-            virtual YarpString getProcessedValue(void)
-            const;
+            virtual YarpString getProcessedValue(void);
 
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
@@ -122,13 +120,11 @@ namespace MplusM
             static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
             /*! @brief Set the associated variable to the default value. */
-            virtual void setToDefault(void)
-            const;
+            virtual void setToDefault(void);
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void)
-            const;
+            virtual YarpString toString(void);
             
             /*! @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
@@ -147,14 +143,14 @@ namespace MplusM
         
         protected :
         
+            /*! @brief The address of the variable to be set with the argument value. */
+            int * _argumentReference;
+            
         private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
             
-            /*! @brief The address of the variable to be set with the argument value. */
-            int * _argumentReference;
-
             /*! @brief The default value for the command-line argument. */
             int _defaultValue;
 

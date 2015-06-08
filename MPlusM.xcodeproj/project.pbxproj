@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXFileReference section */
+		DF0E540A1B25D74B00A74A49 /* M+MExtraArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MExtraArgumentDescriptor.cpp"; path = "mpm/M+MExtraArgumentDescriptor.cpp"; sourceTree = "<group>"; };
+		DF0E540B1B25D74B00A74A49 /* M+MExtraArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MExtraArgumentDescriptor.h"; path = "mpm/M+MExtraArgumentDescriptor.h"; sourceTree = "<group>"; };
 		DF1BD31F1A8BA2DE0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF1BD3211A8BA2FA0070A09C /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Address/AddressClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF1BD3221A8BA2FA0070A09C /* M+MAddressClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressClient.cpp"; path = "Address/AddressClient/M+MAddressClient.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1654,6 +1656,8 @@
 				DF3850F4198ACCFE00A0414E /* M+MEndpoint.h */,
 				DF3850F5198ACCFE00A0414E /* M+MException.cpp */,
 				DF3850F6198ACCFE00A0414E /* M+MException.h */,
+				DF0E540A1B25D74B00A74A49 /* M+MExtraArgumentDescriptor.cpp */,
+				DF0E540B1B25D74B00A74A49 /* M+MExtraArgumentDescriptor.h */,
 				DF4FB4D21B06880300534D59 /* M+MFilePathArgumentDescriptor.cpp */,
 				DF4FB4D31B06880300534D59 /* M+MFilePathArgumentDescriptor.h */,
 				DF3850F7198ACCFE00A0414E /* M+MGeneralChannel.cpp */,

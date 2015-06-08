@@ -147,12 +147,11 @@ BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpStr
 } // ChannelArgumentDescriptor::parseArgString
 
 YarpString ChannelArgumentDescriptor::toString(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("C", "c"));
 
-    result += suffixFields();
+    result += suffixFields(getDefaultValue());
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // ChannelArgumentDescriptor::toString

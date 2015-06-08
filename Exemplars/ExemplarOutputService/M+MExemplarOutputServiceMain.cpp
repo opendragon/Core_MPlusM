@@ -132,11 +132,10 @@ static void setUpAndGo(YarpString &                        recordPath,
               "reportOnExit = ", reportOnExit); //####
     if (0 == recordPath.size())
     {
-        int               randNumb = yarp::os::Random::uniform(0, 10000);
         std::stringstream buff;
         
         buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
-        buff << std::hex << randNumb;
+        buff << (Utilities::GetRandomHexString() + ".txt").c_str();
         recordPath = buff.str();
         OD_LOG_S1s("recordPath <- ", recordPath); //####
     }
@@ -340,21 +339,19 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool              goWasSet = false;
-        bool              nameWasSet = false; // not used
-        bool              reportOnExit = false;
-        bool              stdinAvailable = CanReadFromStandardInput();
-        int               randNumb = yarp::os::Random::uniform(0, 10000);
-        std::stringstream buff;
-        YarpString        recordPath;
-        YarpString        serviceEndpointName;
-        YarpString        servicePortNumber;
-        YarpString        tag;
+        bool       goWasSet = false;
+        bool       nameWasSet = false; // not used
+        bool       reportOnExit = false;
+        bool       stdinAvailable = CanReadFromStandardInput();
+        YarpString recordPath;
+        YarpString serviceEndpointName;
+        YarpString servicePortNumber;
+        YarpString tag;
 
-        buff << (kDirectorySeparator + "tmp" + kDirectorySeparator + "record_").c_str();
-        buff << std::hex << randNumb;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
-                                                      buff.str(), true, true, &recordPath);
+                                                       kDirectorySeparator + "tmp" +
+                                                       kDirectorySeparator + "record_", ".txt",
+                                                       true, true, true, &recordPath);
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);

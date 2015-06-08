@@ -50,6 +50,12 @@
 # pragma comment(lib, "ws2_32.lib")
 #endif // ! MAC_OR_LINUX_
 
+#if MAC_OR_LINUX_
+# include <libgen.h>
+#else // ! MAC_OR_LINUX_
+# include <stdlib.h>
+#endif // ! MAC_OR_LINUX_
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -126,6 +132,9 @@ using std::endl;
 
 /*! @brief The number of seconds to wait on a select() for mDNS operatios. */
 static const int kDNSWaitTime = 3;
+
+/*! @brief @c true once the random number generator is seeded. */
+static bool lRandomSeeded = false;
 
 /*! @brief @c true once the first browse 'add' for the NameServerReporter has been seen. */
 static volatile bool lSawBrowseAdd = false;
@@ -1355,6 +1364,51 @@ bool Utilities::GetDetectedPortList(PortVector & ports,
     return okSoFar;
 } // Utilities::GetDetectedPortList
 
+YarpString Utilities::GetFileNameBase(const YarpString & inFileName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inFileName = ", inFileName);
+    YarpString result;
+    size_t     index = inFileName.rfind('.');
+    
+    if (YarpString::npos == index)
+    {
+        result = inFileName;
+    }
+    else
+    {
+        result = inFileName.substr(0, index);
+    }
+    OD_LOG_EXIT_s(result); //####
+    return result;
+} // Utilities::GetFileNameBase
+
+YarpString Utilities::GetFileNamePart(const YarpString & inFileName)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("inFileName = ", inFileName); //####
+    YarpString result;
+#if MAC_OR_LINUX_
+    char *     nameCopy = strdup(inFileName.c_str());
+#else // ! MAC_OR_LINUX_
+    char       baseFileName[_MAX_FNAME + 10];
+    char       baseExtension[_MAX_EXT + 10];
+#endif // ! MAC_OR_LINUX_
+    
+#if MAC_OR_LINUX_
+    result = basename(nameCopy);
+    free(nameCopy);
+#else // ! MAC_OR_LINUX_
+    _splitpath_s(inFileName.c_str(), NULL, 0, NULL, 0, baseFileName, sizeof(baseFileName),
+                 baseExtension, sizeof(baseExtension));
+    result = baseFileName;
+    result += ".";
+    result += baseExtension;
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT_s(result); //####
+    return result;
+} // Utilities::GetFileNamePart
+
 ChannelStatusReporter * Utilities::GetGlobalStatusReporter(void)
 {
 	OD_LOG_ENTER(); //####
@@ -1873,6 +1927,29 @@ YarpString Utilities::GetPortLocation(const YarpString & portName)
     OD_LOG_EXIT_s(result); //####
     return result;
 } // Utilities::GetPortLocation
+
+YarpString Utilities::GetRandomHexString(void)
+{
+    OD_LOG_ENTER(); //####
+    int               randNumb;
+    YarpString        result;
+    std::stringstream buff;
+    
+    if (! lRandomSeeded)
+    {
+#if defined(__APPLE__)
+        sranddev();
+#else // ! defined(__APPLE__)
+        srand(clock());
+#endif // ! defined(__APPLE__)
+        lRandomSeeded = true;
+    }
+    randNumb = (rand() % 10000);
+    buff << std::hex << randNumb;
+    result = buff.str();
+    OD_LOG_EXIT_s(result); //####
+    return result;
+} // Utilities::GetRandomHexString
 
 bool Utilities::GetServiceNames(YarpStringVector & services,
                                 const bool         quiet,

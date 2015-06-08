@@ -83,6 +83,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/mpm/M+MDoubleArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MEndpoint.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MException.cpp"
+            "${MpM_SOURCE_DIR}/mpm/M+MExtraArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MFilePathArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MGeneralChannel.cpp"
             "${MpM_SOURCE_DIR}/mpm/M+MGetMetricsRequestHandler.cpp"
@@ -172,6 +173,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/mpm/M+MDoubleArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MEndpoint.h"
         "${MpM_SOURCE_DIR}/mpm/M+MException.h"
+        "${MpM_SOURCE_DIR}/mpm/M+MExtraArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MFilePathArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/mpm/M+MGeneralChannel.h"
         "${MpM_SOURCE_DIR}/mpm/M+MIntegerArgumentDescriptor.h"
@@ -223,6 +225,7 @@ if(MpM_DO_SWIG)
         M+MDoubleArgumentDescriptor.h M+MDoubleArgumentDescriptor.cpp
         M+MEndpoint.h M+MEndpoint.cpp
         M+MException.h M+MException.cpp
+        M+MExtraArgumentDescriptor.h M+MExtraArgumentDescriptor.cpp
         M+MFilePathArgumentDescriptor.h M+MFilePathArgumentDescriptor.cpp
         M+MGeneralChannel.h M+MGeneralChannel.cpp
         M+MIntegerArgumentDescriptor.h M+MIntegerArgumentDescriptor.cpp

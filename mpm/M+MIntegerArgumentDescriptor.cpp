@@ -116,7 +116,6 @@ IntegerArgumentDescriptor::~IntegerArgumentDescriptor(void)
 #endif // defined(__APPLE__)
 
 YarpString IntegerArgumentDescriptor::getDefaultValue(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -129,7 +128,6 @@ const
 } // IntegerArgumentDescriptor::getDefaultValue
 
 YarpString IntegerArgumentDescriptor::getProcessedValue(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -219,7 +217,6 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
 } // IntegerArgumentDescriptor::parseArgString
 
 void IntegerArgumentDescriptor::setToDefault(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     if (_argumentReference)
@@ -230,7 +227,6 @@ const
 } // IntegerArgumentDescriptor::setToDefault
 
 YarpString IntegerArgumentDescriptor::toString(void)
-const
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("I", "i"));
@@ -251,7 +247,7 @@ const
         buff << _maximumValue;
         result += buff.str();
     }
-    result += suffixFields();
+    result += suffixFields(getDefaultValue());
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // IntegerArgumentDescriptor::toString

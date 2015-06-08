@@ -34,8 +34,4 @@
 
 + file arguments should support file selection dialogs
 
-* record integers and record as JSON should use the same logic as JavaScript for tags and channel names
-
-+ JavaScript scripts should have an accompanying .args file to define the additional arguments that they need - add these to the dialog
-
 + placeholder argument descriptor for ‘…’, i.e. zero or more additional arguments, unchecked - and Channel Manager should have a mechanism to handle this

@@ -39,6 +39,8 @@
 
 #include <mpm/M+MFilePathArgumentDescriptor.h>
 
+#include <mpm/M+MUtilities.h>
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -142,18 +144,23 @@ static bool checkFilePath(const char * thePath,
 
 FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argName,
                                                        const YarpString & argDescription,
-                                                       const YarpString & defaultValue,
+                                                       const YarpString & pathPrefix,
+                                                       const YarpString & pathSuffix,
                                                        const bool         isOptional,
                                                        const bool         forOutput,
+                                                       const bool         useRandomPath,
                                                        YarpString *       argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, argumentReference),
-    _forOutput(forOutput)
+    inherited(argName, argDescription, pathPrefix, isOptional, argumentReference),
+    _pathPrefix(pathPrefix), _pathSuffix(pathSuffix), _defaultSet(false), _forOutput(forOutput),
+    _useRandomPath(useRandomPath)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
-               defaultValue); //####
-    OD_LOG_B2("isOptional = ", isOptional, "forOutput = ", forOutput); //####
+    OD_LOG_S4s("argName = ", argName, "argDescription = ", argDescription, "pathPrefix = ", //####
+               pathPrefix, "pathSuffix = ", pathSuffix); //####
+    OD_LOG_B3("isOptional = ", isOptional, "forOutput = ", forOutput, "useRandomPath = ", //####
+              useRandomPath); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
+    getDefaultValue();
     OD_LOG_EXIT_P(this); //####
 } // FilePathArgumentDescriptor::FilePathArgumentDescriptor
 
@@ -167,6 +174,45 @@ FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+YarpString FilePathArgumentDescriptor::getDefaultValue(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _defaultValue = _pathPrefix;
+    OD_LOG_S1s("_defaultValue <- ", _defaultValue); //####
+    if (_useRandomPath)
+    {
+        _defaultValue += Utilities::GetRandomHexString();
+        OD_LOG_S1s("_defaultValue <- ", _defaultValue); //####
+    }
+    _defaultValue += _pathSuffix;
+    OD_LOG_S1s("_defaultValue <- ", _defaultValue); //####
+    _defaultSet = true;
+    OD_LOG_B1("_defaultSet <- ", _defaultSet); //####
+    OD_LOG_OBJEXIT_s(_defaultValue); //####
+    return _defaultValue;
+} // FilePathArgumentDescriptor::getDefaultValue
+
+YarpString FilePathArgumentDescriptor::getProcessedValue(void)
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString result;
+    
+    if (_argumentReference)
+    {
+        result = *_argumentReference;
+    }
+    else
+    {
+        if (! _defaultSet)
+        {
+            getDefaultValue();
+        }
+        result = _defaultValue;
+    }
+    OD_LOG_OBJEXIT_s(result); //####
+    return result;
+} // FilePathArgumentDescriptor::getProcessedValue
+
 BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
@@ -174,16 +220,19 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
     BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
-    if (partitionString(inString, 3, inVector))
+    if (partitionString(inString, 5, inVector))
     {
         bool       forOutput = false;
         bool       isOptional = false;
         bool       okSoFar = true;
+        bool       usesRandom = false;
         YarpString name(inVector[0]);
         YarpString typeTag(inVector[1]);
         YarpString direction(inVector[2]);
-        YarpString defaultString(inVector[3]);
-        YarpString description(inVector[4]);
+        YarpString suffixValue(inVector[3]);
+        YarpString randomFlag(inVector[4]);
+        YarpString defaultString(inVector[5]);
+        YarpString description(inVector[6]);
 
         if (typeTag == "f")
         {
@@ -206,25 +255,60 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
         }
         if (okSoFar)
         {
-            okSoFar = checkFilePath(defaultString.c_str(), forOutput, ! isOptional);
+            if (randomFlag == "1")
+            {
+                usesRandom = true;
+            }
+            else if (randomFlag != "0")
+            {
+                okSoFar = false;
+            }
         }
         if (okSoFar)
         {
-            result = new FilePathArgumentDescriptor(name, description, defaultString, isOptional,
-                                                    forOutput, NULL);
+            YarpString tempString(defaultString);
+            
+            if (usesRandom)
+            {
+                tempString += Utilities::GetRandomHexString();
+            }
+            tempString += suffixValue;
+            okSoFar = checkFilePath(tempString.c_str(), forOutput, ! isOptional);
+        }
+        if (okSoFar)
+        {
+            result = new FilePathArgumentDescriptor(name, description, defaultString, suffixValue,
+                                                    isOptional, forOutput, usesRandom, NULL);
         }
     }
     OD_LOG_EXIT_P(result); //####
     return result;
 } // FilePathArgumentDescriptor::parseArgString
 
-YarpString FilePathArgumentDescriptor::toString(void)
-const
+void FilePathArgumentDescriptor::setToDefault(void)
 {
     OD_LOG_OBJENTER(); //####
+    if (_argumentReference)
+    {
+        if (! _defaultSet)
+        {
+            getDefaultValue();
+        }
+        *_argumentReference = _defaultValue;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // FilePathArgumentDescriptor::setToDefault
+
+YarpString FilePathArgumentDescriptor::toString(void)
+{
+    OD_LOG_OBJENTER(); //####
+    YarpString oldDefault(_defaultValue);
     YarpString result(prefixFields("F", "f"));
 
-    result += _parameterSeparator + (_forOutput ? "o" : "i") + suffixFields();
+    // Temporarily change the default value to the prefix value, as that's how we pass the path
+    // prefix to the outside world.
+    result += _parameterSeparator + (_forOutput ? "o" : "i") + _parameterSeparator + _pathSuffix +
+                _parameterSeparator + (_useRandomPath ? "1" : "0") + suffixFields(_pathPrefix);
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // FilePathArgumentDescriptor::toString
