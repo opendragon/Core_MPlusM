@@ -175,6 +175,19 @@ bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
 
             if (YarpString::npos == indx)
             {
+                // Make sure to strip off any trailing newlines!
+                for (size_t ii = workingCopy.length(); 0 < ii; --ii)
+                {
+                    if ('\n' == workingCopy[ii - 1])
+                    {
+                        workingCopy = workingCopy.substr(0, ii - 1);
+                    }
+                    else
+                    {
+                        break;
+                    }
+                    
+                }
                 result.push_back(workingCopy);
                 workingCopy = "";
             }
@@ -191,7 +204,7 @@ bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
 } // BaseArgumentDescriptor::partitionString
 
 YarpString BaseArgumentDescriptor::prefixFields(const YarpString & tagForMandatoryField,
-                                                        const YarpString & tagForOptionalField)
+                                                const YarpString & tagForOptionalField)
 const
 {
     OD_LOG_OBJENTER(); //####

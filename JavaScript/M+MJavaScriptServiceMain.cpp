@@ -2392,8 +2392,8 @@ int main(int      argc,
         YarpStringVector                      arguments;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to script file to use"),
                                                        "", "", false, false, false, &scriptPath);
-        Utilities::ExtraArgumentDescriptor    secondArg("extras",
-                                                        T_("Additional arguments to the script"));
+        Utilities::ExtraArgumentDescriptor    secondArg("scriptArgument",
+                                                        T_("Additional script arguments"));
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);

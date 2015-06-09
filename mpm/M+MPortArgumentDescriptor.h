@@ -102,13 +102,6 @@ namespace MplusM
              @returns A printable representation of the descriptor. */
             virtual YarpString toString(void);
             
-            /*! @brief Check an input value against the constraints of the descriptor.
-             @param value The value to be checked.
-             @returns @c true if the value is within the domain of the descriptor and @c false
-             otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
-            
         protected :
         
         private :

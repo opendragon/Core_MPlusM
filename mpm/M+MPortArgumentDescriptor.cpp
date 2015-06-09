@@ -88,7 +88,8 @@ PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
                                                const bool         isOptional,
                                                const bool         isSystemPort,
                                                int *              argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, false, 0, false, 0,
+    inherited(argName, argDescription, defaultValue, isOptional, true,
+              isSystemPort ? 0 : MINIMUM_PORT_ALLOWED, true, MAXIMUM_PORT_ALLOWED,
               argumentReference), _isSystemPort(isSystemPort)
 {
     OD_LOG_ENTER(); //####
@@ -178,35 +179,6 @@ YarpString PortArgumentDescriptor::toString(void)
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // PortArgumentDescriptor::toString
-
-bool PortArgumentDescriptor::validate(const YarpString & value)
-const
-{
-    OD_LOG_OBJENTER(); //####
-    bool         result = false;
-    const char * startPtr = value.c_str();
-    char *       endPtr;
-    int          intValue = strtol(startPtr, &endPtr, 10);
-    
-    if ((startPtr != endPtr) && (! *endPtr))
-    {
-        if (_isSystemPort)
-        {
-            result = (0 <= intValue);
-        }
-        else
-        {
-            result = (MINIMUM_PORT_ALLOWED <= intValue);
-        }
-        result &= (MAXIMUM_PORT_ALLOWED >= intValue);
-    }
-    if (result && _argumentReference)
-    {
-        *_argumentReference = intValue;
-    }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
-} // PortArgumentDescriptor::validate
 
 #if defined(__APPLE__)
 # pragma mark Global functions

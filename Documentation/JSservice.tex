@@ -61,7 +61,8 @@ of the service, as though it were a `tag'.
 \condPage{}
 If a `tag' value is supplied, it is merged with the script file name, as shown here:
 \objScaledDiagram{mpm_images/javaScriptWithTag}%
-{javaScriptWithTag}{The \emph{Channel Manager} entity for the \JSIO{} service with a tag}{1.0}
+{javaScriptWithTag}{The \emph{Channel Manager} entity for the \JSIO{} service with a tag}%
+{1.0}
 
 If an `endpoint' value is specified, the script file name forms part of the title bar but
 does not affect the channel names:
@@ -75,5 +76,11 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/javaScriptWithEndpointAndTag}%
 {javaScriptWithEndpointAndTag}{The \emph{Channel Manager} entity for the \JSIO{} service
 with an endpoint and tag}{1.0}
+
+If the \asBoldCode{+ scriptArgument} button is clicked, additional text entry fields are
+provided to allow entering arguments that a particular script may need.
+\openSq{}Due to an anomaly with the particular GUI library used to create the
+\emph{Channel Manager} application, the additional text entry fields cannot be removed
+from the dialog, once added.\closeSq{}
 \secondaryEnd
 \primaryEnd{}

@@ -24,8 +24,6 @@
 
 + ‘load’ a configuration brings up the configuration editor, with a ‘start’ button, ‘edit’ a configuration, ‘save’ a configuration
 
-* empty optional arguments in the GUI should be filled in with their default values before launch, and empty mandatory arguments should be reported
-
 + regular input ports can’t be monitored; regular output ports and clients can use a ‘vampire’ channel to trigger a blinking monitor and services / adapters can monitor all their channels, reporting via a new response that a change has occurred - this should be sent by Channel Manager, so that non-monitored services are not impacted
 
 + only output channels can have displays attached
@@ -33,17 +31,3 @@
 @ to generate the correct dimensions for the Channel Manager manual, set SETTINGS_FOR_MANUAL in ContentPanel.h to TRUE before running Channel Manager - this locks the window size and prevents dragging of entities
 
 + file arguments should support file selection dialogs
-
-+ placeholder argument descriptor for ‘…’, i.e. zero or more additional arguments, unchecked - and Channel Manager should have a mechanism to handle this
-
-* port argument descriptor should use min/max of integer argument descriptor
-
-+ don’t need to keep button pointers as TextButton pointers; use a vector of components, its size will be a flag for remove
-
-+ use an enumeration for the button values
-
-+ the ‘extra’ section should use a title from the extra argument descriptor; ignore all extra argument descriptors after the first
-
-* exemplar out - check if it needs to be updated to match the Record ZZZ output services
-
-@ update the JavaScript launch image to reflect the new fields
