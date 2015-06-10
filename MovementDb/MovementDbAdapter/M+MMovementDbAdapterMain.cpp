@@ -55,7 +55,7 @@
 /*! @file
  @brief The main application for the movement database adapter service. */
 
-/*! @dir MovementDbAdapterService
+/*! @dir MovementDbAdapter
  @brief The set of files that implement the movement database adapter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

@@ -55,7 +55,7 @@
 /*! @file
  @brief The main application for the exemplar adapter service. */
 
-/*! @dir ExemplarAdapterService
+/*! @dir ExemplarAdapter
  @brief The set of files that implement the exemplar adapter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

@@ -55,7 +55,7 @@
 /*! @file
  @brief The main application for the Running Sum alternative adapter service. */
 
-/*! @dir RunningSumAltAdapterService
+/*! @dir RunningSumAltAdapter
  @brief The set of files that implement the Running Sum alternative adapter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

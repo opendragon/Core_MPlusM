@@ -55,7 +55,7 @@
 /*! @file
  @brief The main application for the Random Number adapter service. */
 
-/*! @dir RandomNumberAdapterService
+/*! @dir RandomNumberAdapter
  @brief The set of files that implement the Random Number adapter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
