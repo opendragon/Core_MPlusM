@@ -126,6 +126,10 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~ColumnNameValidator(void);
             
+        protected :
+            
+        private :
+            
             /*! @brief Check a field name for validity.
              @param aString The string to be checked.
              @returns @c true if the field name was valid or @c false if the field name was
@@ -141,10 +145,6 @@ namespace MplusM
             virtual const char * getPrefixAndSuffix(const char *   aString,
                                                     const char * & prefixString,
                                                     const char * & suffixString);
-            
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(ColumnNameValidator);
             

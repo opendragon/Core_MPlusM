@@ -57,7 +57,7 @@
                                                         "filter/truncatefloat")
 
 /*! @brief The description of the service. */
-# define TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION T_("The Truncate Float filter service")
+# define TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION T_("Truncate Float filter service")
 
 namespace MplusM
 {

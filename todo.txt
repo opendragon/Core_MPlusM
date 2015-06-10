@@ -31,3 +31,5 @@
 @ to generate the correct dimensions for the Channel Manager manual, set SETTINGS_FOR_MANUAL in ContentPanel.h to TRUE before running Channel Manager - this locks the window size and prevents dragging of entities
 
 + file arguments should support file selection dialogs
+
+@ all the service / adapter settings panels will need to be redone

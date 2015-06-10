@@ -75,6 +75,10 @@ namespace MplusM
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
             
+        protected :
+            
+        private :
+            
             /*! @brief The thread main body. */
             virtual void run(void);
             
@@ -84,10 +88,6 @@ namespace MplusM
             
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
-            
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(EmotivInputThread);
             

@@ -70,25 +70,25 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~ConnectionThread(void);
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
-            
             /*! @brief Set the address of the data source.
              @param sourceName The data source address to be connected to.
              @param sourcePort The data source port to be connected to. */
             void setSourceAddress(const YarpString & sourceName,
                                   const int          sourcePort);
 
+        protected :
+            
+        private :
+            
+            /*! @brief The thread main body. */
+            virtual void run(void);
+            
             /*! @brief The thread initialization method.
              @returns @c true if the thread is ready to run. */
             virtual bool threadInit(void);
             
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
-            
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(ConnectionThread);
             

@@ -74,17 +74,6 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~UnrealOutputViconInputHandler(void);
             
-            /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @param numBytes The number of bytes available on the connection.
-             @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const yarp::os::Bottle &     input,
-                                     const YarpString &           senderChannel,
-                                     yarp::os::ConnectionWriter * replyMechanism,
-                                     const size_t                 numBytes);
-            
             /*! @brief Set the translation scale.
              @param newScale The scale factor for translation values. */
             void setScale(const double newScale);
@@ -96,6 +85,17 @@ namespace MplusM
         protected :
             
         private :
+            
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param numBytes The number of bytes available on the connection.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const yarp::os::Bottle &     input,
+                                     const YarpString &           senderChannel,
+                                     yarp::os::ConnectionWriter * replyMechanism,
+                                     const size_t                 numBytes);
             
             COPY_AND_ASSIGNMENT_(UnrealOutputViconInputHandler);
             

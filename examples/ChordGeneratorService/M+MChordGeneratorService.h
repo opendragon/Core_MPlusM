@@ -56,7 +56,7 @@
 # define DEFAULT_CHORDGENERATOR_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/chordgenerator")
 
 /*! @brief The description of the service. */
-# define CHORDGENERATOR_SERVICE_DESCRIPTION T_("A service that generates chords")
+# define CHORDGENERATOR_SERVICE_DESCRIPTION T_("Chord generator service")
 
 namespace MplusM
 {

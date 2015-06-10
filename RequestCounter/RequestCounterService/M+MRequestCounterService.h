@@ -56,7 +56,7 @@
 # define DEFAULT_REQUESTCOUNTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "requestcounter")
 
 /*! @brief The description of the service. */
-# define REQUESTCOUNTER_SERVICE_DESCRIPTION T_("The Request Counter service")
+# define REQUESTCOUNTER_SERVICE_DESCRIPTION T_("Request Counter service")
 
 namespace MplusM
 {

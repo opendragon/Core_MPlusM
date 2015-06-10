@@ -56,7 +56,7 @@
 # define DEFAULT_EXEMPLARINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/exemplarinput")
 
 /*! @brief The description of the service. */
-# define EXEMPLARINPUT_SERVICE_DESCRIPTION T_("The exemplar input service")
+# define EXEMPLARINPUT_SERVICE_DESCRIPTION T_("exemplar input service")
 
 namespace MplusM
 {

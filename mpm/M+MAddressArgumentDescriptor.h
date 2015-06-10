@@ -94,6 +94,10 @@ namespace MplusM
              @returns A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
+        protected :
+        
+        private :
+            
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             virtual YarpString toString(void);
@@ -104,10 +108,6 @@ namespace MplusM
              otherwise. */
             virtual bool validate(const YarpString & value)
             const;
-            
-        protected :
-        
-        private :
             
             COPY_AND_ASSIGNMENT_(AddressArgumentDescriptor);
             

@@ -56,7 +56,7 @@
 # define DEFAULT_RANDOMBURSTINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/randomburst")
 
 /*! @brief The description of the service. */
-# define RANDOMBURSTINPUT_SERVICE_DESCRIPTION T_("The Random Burst input service")
+# define RANDOMBURSTINPUT_SERVICE_DESCRIPTION T_("Random Burst input service")
 
 namespace MplusM
 {

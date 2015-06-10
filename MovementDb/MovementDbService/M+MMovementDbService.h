@@ -56,7 +56,7 @@
 # define DEFAULT_MOVEMENTDB_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "movementdb")
 
 /*! @brief The description of the service. */
-# define MOVEMENTDB_SERVICE_DESCRIPTION T_("The Movement database service")
+# define MOVEMENTDB_SERVICE_DESCRIPTION T_("Movement database service")
 
 namespace MplusM
 {

@@ -56,7 +56,7 @@
 # define DEFAULT_EMOTIVINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/emotivinput")
 
 /*! @brief The description of the service. */
-# define EMOTIVINPUT_SERVICE_DESCRIPTION T_("The Emotiv input service")
+# define EMOTIVINPUT_SERVICE_DESCRIPTION T_("Emotiv input service")
 
 namespace MplusM
 {

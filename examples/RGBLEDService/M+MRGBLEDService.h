@@ -60,7 +60,7 @@
 # define DEFAULT_RGBLED_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/rgbled")
 
 /*! @brief The description of the service. */
-# define RGBLED_SERVICE_DESCRIPTION T_("An example RGB LED service")
+# define RGBLED_SERVICE_DESCRIPTION T_("example RGB LED service")
 
 namespace MplusM
 {

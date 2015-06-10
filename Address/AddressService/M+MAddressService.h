@@ -56,7 +56,7 @@
 # define DEFAULT_ADDRESS_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "address")
 
 /*! @brief The description of the service. */
-# define ADDRESS_SERVICE_DESCRIPTION T_("The Address service")
+# define ADDRESS_SERVICE_DESCRIPTION T_("Address service")
 
 namespace MplusM
 {

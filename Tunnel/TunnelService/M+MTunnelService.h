@@ -56,7 +56,7 @@
 # define DEFAULT_TUNNEL_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "tunnel")
 
 /*! @brief The description of the service. */
-# define TUNNEL_SERVICE_DESCRIPTION T_("The Tunnel service")
+# define TUNNEL_SERVICE_DESCRIPTION T_("Tunnel service")
 
 namespace MplusM
 {

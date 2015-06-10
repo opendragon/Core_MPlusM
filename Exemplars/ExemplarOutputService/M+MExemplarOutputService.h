@@ -56,7 +56,7 @@
 # define DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "output/exemplaroutput")
 
 /*! @brief The description of the service. */
-# define EXEMPLAROUTPUT_SERVICE_DESCRIPTION T_("The exemplar output service")
+# define EXEMPLAROUTPUT_SERVICE_DESCRIPTION T_("exemplar output service")
 
 namespace MplusM
 {

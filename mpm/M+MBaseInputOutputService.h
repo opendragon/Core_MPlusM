@@ -237,8 +237,6 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(BaseInputOutputService);
-            
             /*! @brief Enable the standard request handlers. */
             void attachRequestHandlers(void);
             
@@ -256,6 +254,8 @@ namespace MplusM
             /*! @brief Fill in a list of secondary output channels for the service.
              @param channels The list of channels to be filled in. */
             virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
+            
+            COPY_AND_ASSIGNMENT_(BaseInputOutputService);
             
         public :
         

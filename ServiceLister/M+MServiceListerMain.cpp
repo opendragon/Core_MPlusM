@@ -293,7 +293,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                                     T_(CHAR_DOUBLEQUOTE ", ");
                             description = SanitizeString(descriptor._description);
                             cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << description.c_str() <<
+                                       CHAR_DOUBLEQUOTE) << "The " << description.c_str() <<
                                     T_(CHAR_DOUBLEQUOTE ", ");
                             requests = SanitizeString(descriptor._requestsDescription);
                             cout << T_(CHAR_DOUBLEQUOTE "Requests" CHAR_DOUBLEQUOTE ": "
@@ -315,7 +315,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                             cout << serviceName.c_str() << "\t";
                             cout << tag.c_str() << "\t" << kind.c_str() << "\t";
                             description = SanitizeString(descriptor._description, true);
-                            cout << description.c_str() << "\t";
+                            cout << "The " << description.c_str() << "\t";
                             requests = SanitizeString(descriptor._requestsDescription, true);
                             cout << requests.c_str() << "\t" << descriptor._path.c_str() << "\t" <<
                                     inChannelNames.c_str() << "\t" << outChannelNames.c_str() <<
@@ -327,7 +327,8 @@ static void setUpAndGo(const OutputFlavour flavour)
                             cout << "Service name:      " << serviceName.c_str() << endl;
                             cout << "Tag:               " << tag.c_str() << endl;
                             cout << "Service kind:      " << kind.c_str() << endl;
-                            OutputDescription(cout, "Description:       ", descriptor._description);
+                            OutputDescription(cout, "Description:       ",
+                                              YarpString("The ") + descriptor._description);
                             OutputDescription(cout, "Requests:          ",
                                               descriptor._requestsDescription);
                             cout << "Path:              " << descriptor._path.c_str() << endl;

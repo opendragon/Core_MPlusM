@@ -56,7 +56,7 @@
 # define DEFAULT_EXEMPLARFILTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "filter/exemplarfilter")
 
 /*! @brief The description of the service. */
-# define EXEMPLARFILTER_SERVICE_DESCRIPTION T_("The exemplar filter service")
+# define EXEMPLARFILTER_SERVICE_DESCRIPTION T_("exemplar filter service")
 
 namespace MplusM
 {

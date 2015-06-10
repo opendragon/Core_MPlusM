@@ -64,7 +64,7 @@ namespace MplusM
          floating point number. */
         class AddToSumRequestHandler : public Common::BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
@@ -72,6 +72,10 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~AddToSumRequestHandler(void);
+            
+        protected :
+            
+        private :
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -92,10 +96,14 @@ namespace MplusM
                                         const yarp::os::Bottle &     restOfInput,
                                         const YarpString &           senderChannel,
                                         yarp::os::ConnectionWriter * replyMechanism);
+
+            COPY_AND_ASSIGNMENT_(AddToSumRequestHandler);
             
-        protected:
+        public :
             
-        private:
+        protected :
+            
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;

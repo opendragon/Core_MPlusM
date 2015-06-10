@@ -70,6 +70,10 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~Test03Handler(void);
             
+        protected :
+            
+        private :
+            
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
@@ -80,10 +84,6 @@ namespace MplusM
                                      const YarpString &           senderChannel,
                                      yarp::os::ConnectionWriter * replyMechanism,
                                      const size_t                 numBytes);
-            
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(Test03Handler);
             

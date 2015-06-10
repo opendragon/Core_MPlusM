@@ -67,13 +67,13 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~ChannelStatusReporter(void);
             
-            /*! @brief Write out the endpoint event / state information.
-             @param info The event / state information from the endpoint. */
-            virtual void report(const yarp::os::PortInfo & info);
-            
         protected :
             
         private :
+            
+            /*! @brief Write out the endpoint event / state information.
+             @param info The event / state information from the endpoint. */
+            virtual void report(const yarp::os::PortInfo & info);
             
             COPY_AND_ASSIGNMENT_(ChannelStatusReporter);
             

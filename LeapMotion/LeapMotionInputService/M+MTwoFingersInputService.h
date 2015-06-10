@@ -61,7 +61,7 @@
 # define DEFAULT_TWOFINGERSINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/twofingers")
 
 /*! @brief The description of the service. */
-# define TWOFINGERSINPUT_SERVICE_DESCRIPTION T_("The Two Fingers input service")
+# define TWOFINGERSINPUT_SERVICE_DESCRIPTION T_("Two Fingers input service")
 
 namespace MplusM
 {

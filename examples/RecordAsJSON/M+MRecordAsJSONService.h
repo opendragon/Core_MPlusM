@@ -59,7 +59,7 @@
 # define DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "output/recordasjson")
 
 /*! @brief The description of the service. */
-# define RECORDASJSONOUTPUT_SERVICE_DESCRIPTION T_("The Record As JSON output service")
+# define RECORDASJSONOUTPUT_SERVICE_DESCRIPTION T_("Record As JSON output service")
 
 namespace MplusM
 {

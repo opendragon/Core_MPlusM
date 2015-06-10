@@ -56,7 +56,7 @@
 # define DEFAULT_EXEMPLAR_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "exemplar/service")
 
 /*! @brief The description of the service. */
-# define EXEMPLAR_SERVICE_DESCRIPTION T_("The exemplar service")
+# define EXEMPLAR_SERVICE_DESCRIPTION T_("exemplar service")
 
 namespace MplusM
 {

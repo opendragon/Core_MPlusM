@@ -60,7 +60,7 @@
 # define DEFAULT_UNREALOUTPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "output/unreal")
 
 /*! @brief The description of the service. */
-# define UNREALOUTPUT_SERVICE_DESCRIPTION T_("The Unreal output service")
+# define UNREALOUTPUT_SERVICE_DESCRIPTION T_("Unreal output service")
 
 namespace MplusM
 {

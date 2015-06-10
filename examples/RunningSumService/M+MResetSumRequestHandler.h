@@ -63,7 +63,7 @@ namespace MplusM
          There is no input for the request and there is no output. */
         class ResetSumRequestHandler : public Common::BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
@@ -71,6 +71,10 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~ResetSumRequestHandler(void);
+            
+        protected :
+            
+        private :
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -92,9 +96,13 @@ namespace MplusM
                                         const YarpString &           senderChannel,
                                         yarp::os::ConnectionWriter * replyMechanism);
             
-        protected:
+            COPY_AND_ASSIGNMENT_(ResetSumRequestHandler);
+
+        public :
             
-        private:
+        protected :
+            
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;

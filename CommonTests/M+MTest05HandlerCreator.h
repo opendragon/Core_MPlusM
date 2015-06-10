@@ -67,13 +67,13 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~Test05HandlerCreator(void);
             
-            /*! @brief Create a new BaseInputHandler object to process input data.
-             @returns A new BaseInputHandler or @c nullptrnullptr if one cannot be created. */
-            virtual Common::BaseInputHandler * create(void);
-            
         protected :
             
         private :
+            
+            /*! @brief Create a new BaseInputHandler object to process input data.
+             @returns A new BaseInputHandler or @c nullptrnullptr if one cannot be created. */
+            virtual Common::BaseInputHandler * create(void);
             
             COPY_AND_ASSIGNMENT_(Test05HandlerCreator);
             

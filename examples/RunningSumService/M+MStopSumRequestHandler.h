@@ -63,7 +63,7 @@ namespace MplusM
          There is no input for the request and there is no output. */
         class StopSumRequestHandler : public Common::BaseRequestHandler
         {
-        public:
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
@@ -71,6 +71,10 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~StopSumRequestHandler(void);
+            
+        protected :
+            
+        private :
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
@@ -92,9 +96,13 @@ namespace MplusM
                                         const YarpString &           senderChannel,
                                         yarp::os::ConnectionWriter * replyMechanism);
             
-        protected:
-            
-        private:
+            COPY_AND_ASSIGNMENT_(StopSumRequestHandler);
+
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;

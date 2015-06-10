@@ -106,6 +106,10 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~MatchRequestHandler(void);
             
+        protected :
+            
+        private :
+            
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
             virtual void fillInAliases(YarpStringVector & alternateNames);
@@ -125,10 +129,6 @@ namespace MplusM
                                         const yarp::os::Bottle &     restOfInput,
                                         const YarpString &           senderChannel,
                                         yarp::os::ConnectionWriter * replyMechanism);
-            
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(MatchRequestHandler);
             

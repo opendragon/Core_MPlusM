@@ -57,7 +57,7 @@
                                                         "output/recordintegers")
 
 /*! @brief The description of the service. */
-# define RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION T_("The Record Integers output service")
+# define RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION T_("Record Integers output service")
 
 namespace MplusM
 {

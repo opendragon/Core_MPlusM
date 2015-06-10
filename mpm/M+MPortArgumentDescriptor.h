@@ -98,13 +98,13 @@ namespace MplusM
              @returns A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
-            /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void);
-            
         protected :
         
         private :
+            
+            /*! @brief Convert to a printable representation.
+             @returns A printable representation of the descriptor. */
+            virtual YarpString toString(void);
             
             COPY_AND_ASSIGNMENT_(PortArgumentDescriptor);
             

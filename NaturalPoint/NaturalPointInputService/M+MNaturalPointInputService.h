@@ -57,7 +57,7 @@
                                                    "input/naturalpointinput")
 
 /*! @brief The description of the service. */
-# define NATURALPOINTINPUT_SERVICE_DESCRIPTION T_("The NaturalPoint input service")
+# define NATURALPOINTINPUT_SERVICE_DESCRIPTION T_("NaturalPoint input service")
 
 namespace MplusM
 {

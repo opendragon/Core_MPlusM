@@ -59,7 +59,7 @@
 # define DEFAULT_KINECTV2INPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/kinectv2")
 
 /*! @brief The description of the service. */
-# define KINECTV2INPUT_SERVICE_DESCRIPTION T_("The Kinect V2 input service")
+# define KINECTV2INPUT_SERVICE_DESCRIPTION T_("Kinect V2 input service")
 
 namespace MplusM
 {

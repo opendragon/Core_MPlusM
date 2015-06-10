@@ -59,7 +59,7 @@
 # define DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/viconds")
 
 /*! @brief The description of the service. */
-# define VICONDATASTREAMINPUT_SERVICE_DESCRIPTION T_("The Vicon DataStream input service")
+# define VICONDATASTREAMINPUT_SERVICE_DESCRIPTION T_("Vicon DataStream input service")
 
 namespace MplusM
 {

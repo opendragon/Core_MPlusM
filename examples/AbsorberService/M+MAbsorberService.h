@@ -56,7 +56,7 @@
 # define DEFAULT_ABSORBEROUTPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "output/absorber")
 
 /*! @brief The description of the service. */
-# define ABSORDEROUTPUT_SERVICE_DESCRIPTION T_("The Absorber output service")
+# define ABSORDEROUTPUT_SERVICE_DESCRIPTION T_("Absorber output service")
 
 namespace MplusM
 {

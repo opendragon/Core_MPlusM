@@ -59,7 +59,7 @@
 # define DEFAULT_PROCOMP2INPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/procomp2input")
 
 /*! @brief The description of the service. */
-# define PROCOMP2INPUT_SERVICE_DESCRIPTION T_("The ProComp2 input service")
+# define PROCOMP2INPUT_SERVICE_DESCRIPTION T_("ProComp2 input service")
 
 namespace MplusM
 {

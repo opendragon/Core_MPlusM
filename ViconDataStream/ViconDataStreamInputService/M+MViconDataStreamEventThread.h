@@ -77,6 +77,18 @@ namespace MplusM
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
 
+        protected :
+            
+        private :
+            
+            /*! @brief Initialize the connection to the Vicon device.
+             @returns @c true on success and @c false otherwise. */
+            bool initializeConnection(void);
+            
+            /*! @brief Handle the sensor data associated with the current frame.
+             @param subjectCount The number of subjects in the data. */
+            void processEventData(const unsigned int subjectCount);
+            
             /*! @brief The thread main body. */
             virtual void run(void);
             
@@ -86,20 +98,8 @@ namespace MplusM
             
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
-
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(ViconDataStreamEventThread);
-
-            /*! @brief Initialize the connection to the Vicon device.
-             @returns @c true on success and @c false otherwise. */
-            bool initializeConnection(void);
-
-			/*! @brief Handle the sensor data associated with the current frame.
-			@param subjectCount The number of subjects in the data. */
-            void processEventData(const unsigned int subjectCount);
 
         public :
 

@@ -71,16 +71,6 @@ namespace MplusM
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
-            
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
-            
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
-            
         protected :
             
         private :
@@ -89,9 +79,19 @@ namespace MplusM
              @param time The time at which the channels are processed. */
             void readChannelData(const DWORD time);
             
+            /*! @brief The thread main body. */
+            virtual void run(void);
+            
             /*! @brief Prepare any attached encoders for use.
              @returns @c true if at least one encoder was set up. */
             bool setupEncoders(void);
+            
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void threadRelease(void);
             
             COPY_AND_ASSIGNMENT_(ProComp2InputThread);
             

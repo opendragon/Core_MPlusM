@@ -56,7 +56,7 @@
 # define DEFAULT_RANDOMNUMBER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/randomnumber")
 
 /*! @brief The description of the service. */
-# define RANDOMNUMBER_SERVICE_DESCRIPTION T_("The Random Number service")
+# define RANDOMNUMBER_SERVICE_DESCRIPTION T_("Random Number service")
 
 namespace MplusM
 {

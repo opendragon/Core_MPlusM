@@ -71,6 +71,14 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~ExemplarOutputInputHandler(void);
             
+            /*! @brief Set the file to be written to.
+             @param outFile The file to be written to. */
+            void setFile(FILE * outFile);
+            
+        protected :
+            
+        private :
+            
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
@@ -81,14 +89,6 @@ namespace MplusM
                                      const YarpString &           senderChannel,
                                      yarp::os::ConnectionWriter * replyMechanism,
                                      const size_t                 numBytes);
-            
-            /*! @brief Set the file to be written to.
-             @param outFile The file to be written to. */
-            void setFile(FILE * outFile);
-            
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(ExemplarOutputInputHandler);
             

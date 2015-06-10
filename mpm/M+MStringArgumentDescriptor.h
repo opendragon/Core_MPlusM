@@ -87,22 +87,26 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~StringArgumentDescriptor(void);
             
-            /*! @brief Return the default value.
-             @returns The default value. */
-            virtual YarpString getDefaultValue(void);
-            
-            /*! @brief Return the processed value.
-             @returns The processed value. */
-            virtual YarpString getProcessedValue(void);
-
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
             static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
 
+        protected :
+        
+            /*! @brief Return the default value.
+             @returns The default value. */
+            virtual YarpString getDefaultValue(void);
+            
+        private :
+            
+            /*! @brief Return the processed value.
+             @returns The processed value. */
+            virtual YarpString getProcessedValue(void);
+            
             /*! @brief Set the associated variable to the default value. */
             virtual void setToDefault(void);
-
+            
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             virtual YarpString toString(void);
@@ -113,10 +117,6 @@ namespace MplusM
              otherwise. */
             virtual bool validate(const YarpString & value)
             const;
-
-        protected :
-        
-        private :
             
             COPY_AND_ASSIGNMENT_(StringArgumentDescriptor);
             

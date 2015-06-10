@@ -103,6 +103,15 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~FilePathArgumentDescriptor(void);
             
+            /*! @brief Construct a descriptor, if at all possible, from the input string.
+             @param inString The input string in 'arguments' format.
+             @returns A valid descriptor or @c NULL if the input is not recognized. */
+            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+
+        protected :
+        
+        private :
+            
             /*! @brief Return the default value.
              @returns The default value. */
             virtual YarpString getDefaultValue(void);
@@ -122,11 +131,6 @@ namespace MplusM
                 return true;
             } // isForFiles
             
-            /*! @brief Construct a descriptor, if at all possible, from the input string.
-             @param inString The input string in 'arguments' format.
-             @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
-
             /*! @brief Set the associated variable to the default value. */
             virtual void setToDefault(void);
             
@@ -140,10 +144,6 @@ namespace MplusM
              otherwise. */
             virtual bool validate(const YarpString & value)
             const;
-            
-        protected :
-        
-        private :
             
             COPY_AND_ASSIGNMENT_(FilePathArgumentDescriptor);
             

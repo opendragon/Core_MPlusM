@@ -57,7 +57,7 @@
                                                         "exemplar")
 
 /*! @brief The description of the service. */
-# define EXEMPLARADAPTER_SERVICE_DESCRIPTION T_("The exemplar adapter")
+# define EXEMPLARADAPTER_SERVICE_DESCRIPTION T_("exemplar adapter")
 
 namespace MplusM
 {

@@ -56,7 +56,7 @@
 # define DEFAULT_RUNNINGSUM_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/runningsum")
 
 /*! @brief The description of the service. */
-# define RUNNINGSUM_SERVICE_DESCRIPTION T_("The Running Sum service")
+# define RUNNINGSUM_SERVICE_DESCRIPTION T_("Running Sum service")
 
 namespace MplusM
 {

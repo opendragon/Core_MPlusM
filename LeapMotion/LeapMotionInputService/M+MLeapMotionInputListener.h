@@ -73,6 +73,10 @@ namespace MplusM
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
             
+        protected :
+            
+        private :
+            
             /*! @brief Called when the Controller object connects to the %Leap Motion software and
              the %Leap Motion hardware device is plugged in, or when this Listener object is added
              to a Controller that is already connected.
@@ -131,10 +135,6 @@ namespace MplusM
              problem shuts down the service or otherwise interrupts the connection.
              @param theController The Controller object invoking this callback function. */
             virtual void onServiceDisconnect(const Leap::Controller & theController);
-
-        protected :
-            
-        private :
             
             COPY_AND_ASSIGNMENT_(LeapMotionInputListener);
             
