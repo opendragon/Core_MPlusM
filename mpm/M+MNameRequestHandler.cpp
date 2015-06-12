@@ -54,7 +54,14 @@
 # pragma clang diagnostic ignored "-Wextern-c-compat"
 # pragma clang diagnostic ignored "-Wsign-conversion"
 #endif // defined(__APPLE__)
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4996)
+#endif // ! MAC_OR_LINUX_
 #include <ace/OS.h>
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

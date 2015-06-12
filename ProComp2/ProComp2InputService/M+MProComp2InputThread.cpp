@@ -43,8 +43,15 @@
 
 #define _WIN32_DCOM // for using CoInitializeEx
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4996)
+#endif // ! MAC_OR_LINUX_
 #define USING_WRAPPER_CLASS
 #include "ttllive.h"
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 /*! @brief The sample timer interval. */
 #define PROCOMP2_TIMER_INTERVAL 100

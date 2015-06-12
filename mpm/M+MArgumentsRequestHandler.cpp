@@ -48,20 +48,6 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
-# pragma clang diagnostic ignored "-Wconversion"
-# pragma clang diagnostic ignored "-Wdeprecated-declarations"
-# pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
-# pragma clang diagnostic ignored "-Wextern-c-compat"
-# pragma clang diagnostic ignored "-Wsign-conversion"
-#endif // defined(__APPLE__)
-#include <ace/OS.h>
-#if defined(__APPLE__)
-# pragma clang diagnostic pop
-#endif // defined(__APPLE__)
-
-#if defined(__APPLE__)
-# pragma clang diagnostic push
-# pragma clang diagnostic ignored "-Wunknown-pragmas"
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
@@ -82,7 +68,7 @@ using namespace MplusM::Utilities;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'name' request. */
+/*! @brief The protocol version number for the 'arguments' request. */
 #define ARGUMENTS_REQUEST_VERSION_NUMBER "1.1"
 
 #if defined(__APPLE__)

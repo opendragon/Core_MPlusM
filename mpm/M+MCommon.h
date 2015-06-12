@@ -74,7 +74,15 @@
 #  pragma clang diagnostic ignored "-Wunreachable-code"
 #  pragma clang diagnostic ignored "-Wshorten-64-to-32"
 # endif // defined(__APPLE__)
+# if (! MAC_OR_LINUX_)
+#  pragma warning(push)
+#  pragma warning(disable: 4100)
+#  pragma warning(disable: 4996)
+# endif // ! MAC_OR_LINUX_
 # include <yarp/os/all.h>
+# if (! MAC_OR_LINUX_)
+#  pragma warning(pop)
+# endif // ! MAC_OR_LINUX_
 # if MAC_OR_LINUX_
 #  include <yarp/os/impl/Logger.h>
 # endif // MAC_OR_LINUX_
@@ -87,8 +95,11 @@
 #  define SOCKET         int /* Standard socket type in *nix. */
 #  define INVALID_SOCKET -1
 # else // ! MAC_OR_LINUX_
+#  pragma warning(push)
+#  pragma warning(disable: 4996)
 #  include <WinSock2.h>
 #  include <Ws2tcpip.h>
+#  pragma warning(pop)
 # endif // ! MAC_OR_LINUX_
 
 # if defined(__APPLE__)

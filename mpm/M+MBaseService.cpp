@@ -60,7 +60,14 @@
 #include <mpm/M+MServiceRequest.h>
 #include <mpm/M+MServiceResponse.h>
 #include <mpm/M+MUtilities.h>
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4512)
+#endif // ! MAC_OR_LINUX_
 #include <mpm/optionparser.h>
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
