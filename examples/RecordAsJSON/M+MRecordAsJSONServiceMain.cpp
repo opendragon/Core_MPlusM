@@ -77,10 +77,10 @@ using std::endl;
 
 /*! @brief Define the root of the temporary file directory. */
 #if MAC_OR_LINUX_
-# define TEMP_ROOT kDirectorySeparator
+# define TEMP_ROOT kDirectorySeparator + "tmp"
 #else // ! MAC_OR_LINUX_
 # define TEMP_ROOT YarpString("C:") + kDirectorySeparator + "Windows" + kDirectorySeparator + \
-					"Temp"
+                   "Temp"
 #endif // ! MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -382,9 +382,8 @@ int main(int      argc,
         YarpString tag;
 
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
-                                                       TEMP_ROOT + kDirectorySeparator +
-													   "record_", ".txt",
-                                                       true, true, true, &recordPath);
+                                                       TEMP_ROOT + kDirectorySeparator + "record_",
+                                                       ".txt", true, true, true, &recordPath);
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);

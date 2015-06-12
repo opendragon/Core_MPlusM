@@ -246,8 +246,8 @@ LMsecondaryfiles = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat
 MMsecondaryfiles = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
 		MMdocumentationHistory.tex MMexamples.tex MMexemplars.tex MMfrontispiece.tex \
 		MMinternalDb.tex MMmatchSyntax.tex MMoverview.tex MMregistrationSequence.tex \
-		MMrunningWithHamachi.tex MMservices.tex MMutilities.tex $(Commonsources) \
-		$(Commonpngfiles)
+		MMrunningWithHamachi.tex MMservices.tex MMupdatingVersionNumber.tex \
+		MMutilities.tex $(Commonsources) $(Commonpngfiles)
 
 NPsecondaryfiles = NPdocumentationHistory.tex NPfrontispiece.tex \
 		NPmessageFormat.tex NPoverview.tex NPservice.tex $(Commonsources) \
