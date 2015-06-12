@@ -31,3 +31,5 @@
 @ to generate the correct dimensions for the Channel Manager manual, set SETTINGS_FOR_MANUAL in ContentPanel.h to TRUE before running Channel Manager - this locks the window size and prevents dragging of entities
 
 + determine a different way to calculate the label widths for the arguments, as wrapping is occurring on Windows
+
++ add a bit more vertical space between entries and highlight the ‘extra arguments’ label - perhaps by underlining or adding a horizontal rule
