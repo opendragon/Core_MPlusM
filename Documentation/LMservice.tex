@@ -51,8 +51,8 @@ window when the service has successfully started:
 {serviceRunningLeapMotion}{The \emph{Channel Manager} entity for the \LMI{} service}{1.0}
 \secondaryEnd
 \primaryEnd
-\primaryStart[TheTFIService]{The~\TFI{}~Service}
-The \asCode{mpmTwoFingersInputService} application is an Input service,
+\primaryStart[TheLTFIService]{The~\LTFI{}~Service}
+The \asCode{mpmLeapTwoFingersInputService} application is an Input service,
 generating a stream of information on the position of the first detected finger of the
 first two detected hands.
 The application responds to the standard Input service requests and can be used as a
@@ -72,7 +72,7 @@ output \yarp{} network connection.\\
 Note that the application will exit if the \emph{Registry Service} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 \insertAppParameters
-\insertTagDescription{\TFI}
+\insertTagDescription{\LTFI}
 \insertInputServiceComment
 \condPage{}
 If the application is running from a terminal and has not been automatically started via
@@ -93,14 +93,15 @@ output stream is restarted}
 \secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
 If the service is selected for execution from within the \emph{Channel Manager}
 application, the following dialog will be presented:
-\objScaledDiagram{mpm_images/launchTwoFingersInputService}%
-{launchServiceTwoFingers}{Launch options for the \TFI{} service}{0.8}
+\objScaledDiagram{mpm_images/launchLeapTwoFingersInputService}%
+{launchServiceLeapTwoFingers}{Launch options for the \LTFI{} service}{0.8}
 
 For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
 Manager Utility} manual.
 Once the options are set, the following image will appear in the \emph{Channel Manager}
 window when the service has successfully started:
-\objScaledDiagram{mpm_images/runningTwoFingersInputService}%
-{serviceRunningTwoFingers}{The \emph{Channel Manager} entity for the \TFI{} service}{1.0}
+\objScaledDiagram{mpm_images/runningLeapTwoFingersInputService}%
+{serviceRunningLeapTwoFingers}{The \emph{Channel Manager} entity for the \LTFI{} service}%
+{1.0}
 \secondaryEnd
 \primaryEnd{}

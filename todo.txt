@@ -34,4 +34,6 @@
 
 * note that the ‘system-independent’ attribute must be provided by every service and adapter - probably as part of the application information - while the ‘running on same system as Channel Manager’ is a run-time quality, so best captured when the arguments are retrieved from the service / adapter
 
-* note that only services and adapters can be recorded in a configuration: YARP endpoints and M+M clients can’t be launched from Channel Manager, except for monitor ports or internally-provided input ports - if these are implemented - and all connections to the services and adapters must be recorded 
+* note that only services and adapters can be recorded in a configuration: YARP endpoints and M+M clients can’t be launched from Channel Manager, except for monitor ports or internally-provided input ports - if these are implemented - and all connections to the services and adapters must be recorded
+
+@ NOTE - all the settings images need to be redone, due to the changes in the layout

@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTwoFingersInputListener.h
+//  File:       M+MLeapTwoFingersInputListener.h
 //
 //  Project:    M+M
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMTwoFingersInputListener_H_))
-# define MpMTwoFingersInputListener_H_ /* Header guard */
+#if (! defined(MpMLeapTwoFingersInputListener_H_))
+# define MpMLeapTwoFingersInputListener_H_ /* Header guard */
 
 # include <mpm/M+MGeneralChannel.h>
 
@@ -56,19 +56,19 @@
 
 namespace MplusM
 {
-    namespace TwoFingers
+    namespace LeapTwoFingers
     {
         /*! @brief A listener for %Leap Motion devices. */
-        class TwoFingersInputListener : public Leap::Listener
+        class LeapTwoFingersInputListener : public Leap::Listener
         {
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send motion data to. */
-            TwoFingersInputListener(Common::GeneralChannel * outChannel);
+            LeapTwoFingersInputListener(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
-            virtual ~TwoFingersInputListener(void);
+            virtual ~LeapTwoFingersInputListener(void);
             
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
@@ -136,7 +136,7 @@ namespace MplusM
              @param theController The Controller object invoking this callback function. */
             virtual void onServiceDisconnect(const Leap::Controller & theController);
             
-            COPY_AND_ASSIGNMENT_(TwoFingersInputListener);
+            COPY_AND_ASSIGNMENT_(LeapTwoFingersInputListener);
             
         public :
         
@@ -150,10 +150,10 @@ namespace MplusM
             /*! @brief The channel to send motion data to. */
             Common::GeneralChannel * _outChannel;
             
-        }; // TwoFingersInputListener
+        }; // LeapTwoFingersInputListener
         
-    } // TwoFingers
+    } // LeapTwoFingers
     
 } // MplusM
 
-#endif // ! defined(MpMTwoFingersInputListener_H_)
+#endif // ! defined(MpMLeapTwoFingersInputListener_H_)

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTwoFingersInputService.h
+//  File:       M+MLeapTwoFingersInputService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the Two Fingers input service.
+//  Contains:   The class declaration for the Leap Two Fingers input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMTwoFingersInputService_H_))
-# define MpMTwoFingersInputService_H_ /* Header guard */
+#if (! defined(MpMLeapTwoFingersInputService_H_))
+# define MpMLeapTwoFingersInputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
 
@@ -49,28 +49,29 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The class declaration for the Two Fingers input service. */
+ @brief The class declaration for the %Leap Two Fingers input service. */
 
-/*! @namespace MplusM::TwoFingers
- @brief The classes that support reading from a Two Fingers input device. */
+/*! @namespace MplusM::LeapTwoFingers
+ @brief The classes that support reading from a %Leap Motion input device. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_TWOFINGERSINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/twofingers")
+# define DEFAULT_LEAPTWOFINGERSINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE \
+                                                        "input/leaptwofingers")
 
 /*! @brief The description of the service. */
-# define TWOFINGERSINPUT_SERVICE_DESCRIPTION T_("Two Fingers input service")
+# define LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION T_("Leap Two Fingers input service")
 
 namespace MplusM
 {
-    namespace TwoFingers
+    namespace LeapTwoFingers
     {
-        class TwoFingersInputListener;
+        class LeapTwoFingersInputListener;
         
-        /*! @brief The Two Fingers input service. */
-        class TwoFingersInputService : public Common::BaseInputService
+        /*! @brief The %Leap Two Fingers input service. */
+        class LeapTwoFingersInputService : public Common::BaseInputService
         {
         public :
             
@@ -81,15 +82,15 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            TwoFingersInputService(const YarpString & launchPath,
-                                   const int          argc,
-                                   char * *           argv,
-                                   const YarpString & tag,
-                                   const YarpString & serviceEndpointName,
-                                   const YarpString & servicePortNumber = "");
+            LeapTwoFingersInputService(const YarpString & launchPath,
+                                       const int          argc,
+                                       char * *           argv,
+                                       const YarpString & tag,
+                                       const YarpString & serviceEndpointName,
+                                       const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~TwoFingersInputService(void);
+            virtual ~LeapTwoFingersInputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -121,7 +122,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(TwoFingersInputService);
+            COPY_AND_ASSIGNMENT_(LeapTwoFingersInputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
@@ -140,12 +141,12 @@ namespace MplusM
             Leap::Controller * _controller;
             
             /*! @brief The Two Fingers event handler. */
-            TwoFingersInputListener * _listener;
+            LeapTwoFingersInputListener * _listener;
             
-        }; // TwoFingersInputService
+        }; // LeapTwoFingersInputService
         
-    } // TwoFingers
+    } // LeapTwoFingers
     
 } // MplusM
 
-#endif // ! defined(MpMTwoFingersInputService_H_)
+#endif // ! defined(MpMLeapTwoFingersInputService_H_)

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTwoFingersInputService.cpp
+//  File:       M+MLeapTwoFingersInputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the Two Fingers input service.
+//  Contains:   The class definition for the Leap Two Fingers input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTwoFingersInputService.h"
-#include "M+MTwoFingersInputListener.h"
-#include "M+MTwoFingersInputRequests.h"
+#include "M+MLeapTwoFingersInputService.h"
+#include "M+MLeapTwoFingersInputListener.h"
+#include "M+MLeapTwoFingersInputRequests.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the Two Fingers input service. */
+ @brief The class definition for the %Leap Two Fingers input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,7 +62,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::TwoFingers;
+using namespace MplusM::LeapTwoFingers;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -84,14 +84,14 @@ using namespace MplusM::TwoFingers;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-TwoFingersInputService::TwoFingersInputService(const YarpString & launchPath,
-                                               const int          argc,
-                                               char * *           argv,
-                                               const YarpString & tag,
-                                               const YarpString & serviceEndpointName,
-                                               const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_TWOFINGERSINPUT_CANONICAL_NAME,
-              TWOFINGERSINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+LeapTwoFingersInputService::LeapTwoFingersInputService(const YarpString & launchPath,
+                                                       const int          argc,
+                                                       char * *           argv,
+                                                       const YarpString & tag,
+                                                       const YarpString & serviceEndpointName,
+                                                       const YarpString & servicePortNumber) :
+    inherited(launchPath, argc, argv, tag, true, MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME,
+              LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
     _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####
@@ -100,9 +100,9 @@ TwoFingersInputService::TwoFingersInputService(const YarpString & launchPath,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
-} // TwoFingersInputService::TwoFingersInputService
+} // LeapTwoFingersInputService::LeapTwoFingersInputService
 
-TwoFingersInputService::~TwoFingersInputService(void)
+LeapTwoFingersInputService::~LeapTwoFingersInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
@@ -112,13 +112,13 @@ TwoFingersInputService::~TwoFingersInputService(void)
         _controller = NULL;
     }
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputService::~TwoFingersInputService
+} // LeapTwoFingersInputService::~LeapTwoFingersInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool TwoFingersInputService::configure(const yarp::os::Bottle & details)
+bool LeapTwoFingersInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -136,9 +136,9 @@ bool TwoFingersInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TwoFingersInputService::configure
+} // LeapTwoFingersInputService::configure
 
-void TwoFingersInputService::restartStreams(void)
+void LeapTwoFingersInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -153,9 +153,9 @@ void TwoFingersInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputService::restartStreams
+} // LeapTwoFingersInputService::restartStreams
 
-bool TwoFingersInputService::setUpStreamDescriptions(void)
+bool LeapTwoFingersInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -165,14 +165,15 @@ bool TwoFingersInputService::setUpStreamDescriptions(void)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "2FINGERS";
-    description._protocolDescription = "A flag for which hand has data followed by the tip "
-                                        "positions\nof the first finger of each hand, if present";
+    description._protocolDescription = T_("A flag for which hand has data followed by the tip "
+                                          "positions\nof the first finger of each hand, if "
+                                          "present");
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TwoFingersInputService::setUpStreamDescriptions
+} // LeapTwoFingersInputService::setUpStreamDescriptions
 
-bool TwoFingersInputService::shutDownOutputStreams(void)
+bool LeapTwoFingersInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -183,9 +184,9 @@ bool TwoFingersInputService::shutDownOutputStreams(void)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // TwoFingersInputService::shutDownOutputStreams
+} // LeapTwoFingersInputService::shutDownOutputStreams
 
-bool TwoFingersInputService::start(void)
+bool LeapTwoFingersInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -210,9 +211,9 @@ bool TwoFingersInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // TwoFingersInputService::start
+} // LeapTwoFingersInputService::start
 
-void TwoFingersInputService::startStreams(void)
+void LeapTwoFingersInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -221,7 +222,7 @@ void TwoFingersInputService::startStreams(void)
         {
             if (_controller)
             {
-                _listener = new TwoFingersInputListener(getOutletStream(0));
+                _listener = new LeapTwoFingersInputListener(getOutletStream(0));
                 _controller->addListener(*_listener);
                 setActive();
             }
@@ -233,9 +234,9 @@ void TwoFingersInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputService::startStreams
+} // LeapTwoFingersInputService::startStreams
 
-bool TwoFingersInputService::stop(void)
+bool LeapTwoFingersInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -251,9 +252,9 @@ bool TwoFingersInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TwoFingersInputService::stop
+} // LeapTwoFingersInputService::stop
 
-void TwoFingersInputService::stopStreams(void)
+void LeapTwoFingersInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -275,7 +276,7 @@ void TwoFingersInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputService::stopStreams
+} // LeapTwoFingersInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

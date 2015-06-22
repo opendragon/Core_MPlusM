@@ -92,9 +92,9 @@ unit three\longDash{}dimensional vector
 \item\exSp\textbf{length} \longDash{} the length of the tool in millimetres
 \end{itemize}
 \primaryEnd
-\primaryStart{The~Message~Format: \TFI}
+\primaryStart{The~Message~Format: \LTFI}
 Each time that the Leap Motion controller reports that there is information available,
-the \asCode{TwoFingersInputService} packages it into a single message
+the \asCode{LeapTwoFingersInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
 \begin{itemize}
 \item A flag value indicating which finger positions are present; the value \asCode{1} if

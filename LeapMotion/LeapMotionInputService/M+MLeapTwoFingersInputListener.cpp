@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTwoFingersInputListener.cpp
+//  File:       M+MLeapTwoFingersInputListener.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a Two Fingers listener.
+//  Contains:   The class definition for a Leap Two Fingers listener.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTwoFingersInputListener.h"
+#include "M+MLeapTwoFingersInputListener.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -47,7 +47,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for a Two Fingers listener. */
+ @brief The class definition for a %Leap Two Fingers listener. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -58,7 +58,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::TwoFingers;
+using namespace MplusM::LeapTwoFingers;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -94,75 +94,75 @@ enum HandMask
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-TwoFingersInputListener::TwoFingersInputListener(GeneralChannel * outChannel) :
+LeapTwoFingersInputListener::LeapTwoFingersInputListener(GeneralChannel * outChannel) :
     inherited(), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
     OD_LOG_EXIT_P(this); //####
-} // TwoFingersInputListener::TwoFingersInputListener
+} // LeapTwoFingersInputListener::LeapTwoFingersInputListener
 
-TwoFingersInputListener::~TwoFingersInputListener(void)
+LeapTwoFingersInputListener::~LeapTwoFingersInputListener(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::~TwoFingersInputListener
+} // LeapTwoFingersInputListener::~LeapTwoFingersInputListener
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void TwoFingersInputListener::clearOutputChannel(void)
+void LeapTwoFingersInputListener::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::clearOutputChannel
+} // LeapTwoFingersInputListener::clearOutputChannel
 
-void TwoFingersInputListener::onConnect(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     theController.setPolicyFlags(Leap::Controller::POLICY_DEFAULT);
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onConnect
+} // LeapTwoFingersInputListener::onConnect
 
-void TwoFingersInputListener::onDeviceChange(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onDeviceChange(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onDeviceChange
+} // LeapTwoFingersInputListener::onDeviceChange
 
-void TwoFingersInputListener::onDisconnect(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onDisconnect
+} // LeapTwoFingersInputListener::onDisconnect
 
-void TwoFingersInputListener::onExit(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onExit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onExit
+} // LeapTwoFingersInputListener::onExit
 
-void TwoFingersInputListener::onFocusGained(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onFocusGained(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onFocusGained
+} // LeapTwoFingersInputListener::onFocusGained
 
-void TwoFingersInputListener::onFocusLost(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onFocusLost(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onFocusLost
+} // LeapTwoFingersInputListener::onFocusLost
 
-void TwoFingersInputListener::onFrame(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
@@ -252,29 +252,29 @@ void TwoFingersInputListener::onFrame(const Leap::Controller & theController)
         }
     }
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onFrame
+} // LeapTwoFingersInputListener::onFrame
 
-void TwoFingersInputListener::onInit(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onInit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
 	theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onInit
+} // LeapTwoFingersInputListener::onInit
 
-void TwoFingersInputListener::onServiceConnect(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onServiceConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onServiceConnect
+} // LeapTwoFingersInputListener::onServiceConnect
 
-void TwoFingersInputListener::onServiceDisconnect(const Leap::Controller & theController)
+void LeapTwoFingersInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
-} // TwoFingersInputListener::onServiceDisconnect
+} // LeapTwoFingersInputListener::onServiceDisconnect
 
 #if defined(__APPLE__)
 # pragma mark Global functions

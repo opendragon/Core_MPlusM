@@ -536,7 +536,7 @@
 		DFA7D13E1ADDB72B00A17BD6 /* mpmJavaScriptService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmJavaScriptService.rc.in; path = JavaScript/mpmJavaScriptService.rc.in; sourceTree = "<group>"; };
 		DFA7D13F1ADDB73700A17BD6 /* mpmKinectV2InputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmKinectV2InputService.rc.in; path = KinectV2/KinectV2InputService/mpmKinectV2InputService.rc.in; sourceTree = "<group>"; };
 		DFA7D1401ADDB74800A17BD6 /* mpmLeapMotionInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmLeapMotionInputService.rc.in; path = LeapMotion/LeapMotionInputService/mpmLeapMotionInputService.rc.in; sourceTree = "<group>"; };
-		DFA7D1411ADDB74800A17BD6 /* mpmTwoFingersInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTwoFingersInputService.rc.in; path = LeapMotion/LeapMotionInputService/mpmTwoFingersInputService.rc.in; sourceTree = "<group>"; };
+		DFA7D1411ADDB74800A17BD6 /* mpmLeapTwoFingersInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmLeapTwoFingersInputService.rc.in; path = LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService.rc.in; sourceTree = "<group>"; };
 		DFA7D1431ADDB76D00A17BD6 /* mpmMovementDbClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbClient.rc.in; path = MovementDb/MovementDbClient/mpmMovementDbClient.rc.in; sourceTree = "<group>"; };
 		DFA7D1441ADDB77C00A17BD6 /* mpmMovementDbService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbService.rc.in; path = MovementDb/MovementDbService/mpmMovementDbService.rc.in; sourceTree = "<group>"; };
 		DFA7D1451ADDB7A800A17BD6 /* mpmNaturalPointInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmNaturalPointInputService.rc.in; path = NaturalPoint/NaturalPointInputService/mpmNaturalPointInputService.rc.in; sourceTree = SOURCE_ROOT; };
@@ -662,12 +662,12 @@
 		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
 		F606A0C81B09236B000EAFE6 /* M+MAddressArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressArgumentDescriptor.cpp"; path = "mpm/M+MAddressArgumentDescriptor.cpp"; sourceTree = "<group>"; };
 		F606A0C91B09236B000EAFE6 /* M+MAddressArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAddressArgumentDescriptor.h"; path = "mpm/M+MAddressArgumentDescriptor.h"; sourceTree = "<group>"; };
-		F64A5FE81A9BFB2D0015A21E /* M+MTwoFingersInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputListener.cpp"; sourceTree = SOURCE_ROOT; };
-		F64A5FE91A9BFB2D0015A21E /* M+MTwoFingersInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTwoFingersInputListener.h"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputListener.h"; sourceTree = SOURCE_ROOT; };
-		F64A5FEA1A9BFB2D0015A21E /* M+MTwoFingersInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTwoFingersInputRequests.h"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputRequests.h"; sourceTree = SOURCE_ROOT; };
-		F64A5FEB1A9BFB2D0015A21E /* M+MTwoFingersInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputService.cpp"; sourceTree = SOURCE_ROOT; };
-		F64A5FEC1A9BFB2D0015A21E /* M+MTwoFingersInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTwoFingersInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputService.h"; sourceTree = SOURCE_ROOT; };
-		F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTwoFingersInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MTwoFingersInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		F64A5FE81A9BFB2D0015A21E /* M+MLeapTwoFingersInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapTwoFingersInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputListener.cpp"; sourceTree = SOURCE_ROOT; };
+		F64A5FE91A9BFB2D0015A21E /* M+MLeapTwoFingersInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapTwoFingersInputListener.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputListener.h"; sourceTree = SOURCE_ROOT; };
+		F64A5FEA1A9BFB2D0015A21E /* M+MLeapTwoFingersInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapTwoFingersInputRequests.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputRequests.h"; sourceTree = SOURCE_ROOT; };
+		F64A5FEB1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapTwoFingersInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		F64A5FEC1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapTwoFingersInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputService.h"; sourceTree = SOURCE_ROOT; };
+		F64A5FED1A9BFB2D0015A21E /* M+MLeapTwoFingersInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapTwoFingersInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54581A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1448,14 +1448,14 @@
 				DF824BD119C8E4C5004D13AC /* M+MLeapMotionInputService.cpp */,
 				DF824BD219C8E4C5004D13AC /* M+MLeapMotionInputService.h */,
 				DF824BD319C8E4C5004D13AC /* M+MLeapMotionInputServiceMain.cpp */,
-				F64A5FE81A9BFB2D0015A21E /* M+MTwoFingersInputListener.cpp */,
-				F64A5FE91A9BFB2D0015A21E /* M+MTwoFingersInputListener.h */,
-				F64A5FEA1A9BFB2D0015A21E /* M+MTwoFingersInputRequests.h */,
-				F64A5FEB1A9BFB2D0015A21E /* M+MTwoFingersInputService.cpp */,
-				F64A5FEC1A9BFB2D0015A21E /* M+MTwoFingersInputService.h */,
-				F64A5FED1A9BFB2D0015A21E /* M+MTwoFingersInputServiceMain.cpp */,
+				F64A5FE81A9BFB2D0015A21E /* M+MLeapTwoFingersInputListener.cpp */,
+				F64A5FE91A9BFB2D0015A21E /* M+MLeapTwoFingersInputListener.h */,
+				F64A5FEA1A9BFB2D0015A21E /* M+MLeapTwoFingersInputRequests.h */,
+				F64A5FEB1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.cpp */,
+				F64A5FEC1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.h */,
+				F64A5FED1A9BFB2D0015A21E /* M+MLeapTwoFingersInputServiceMain.cpp */,
 				DFA7D1401ADDB74800A17BD6 /* mpmLeapMotionInputService.rc.in */,
-				DFA7D1411ADDB74800A17BD6 /* mpmTwoFingersInputService.rc.in */,
+				DFA7D1411ADDB74800A17BD6 /* mpmLeapTwoFingersInputService.rc.in */,
 				DFA7D0F21ADD9A3400A17BD6 /* resource.h */,
 				DFA7D0F31ADD9A3400A17BD6 /* resource1.h */,
 			);

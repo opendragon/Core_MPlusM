@@ -111,7 +111,7 @@ install(TARGETS ${THIS_TARGET}
 		DESTINATION bin
 		COMPONENT applications)
 
-set(THIS_TARGET mpmTwoFingersInputService)
+set(THIS_TARGET mpmLeapTwoFingersInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -123,9 +123,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-                M+MTwoFingersInputServiceMain.cpp
-                M+MTwoFingersInputListener.cpp
-                M+MTwoFingersInputService.cpp
+                M+MLeapTwoFingersInputServiceMain.cpp
+                M+MLeapTwoFingersInputListener.cpp
+                M+MLeapTwoFingersInputService.cpp
                 ${VERS_RESOURCE})
 
 #add_library(Leap SHARED IMPORTED)

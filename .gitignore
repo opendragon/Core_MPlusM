@@ -224,3 +224,5 @@ odl/libodLogging.dylib
 mpm_images.tar.gz
 *.zip
 debug.txt
+LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService
+LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService.rc

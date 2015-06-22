@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTwoFingersInputServiceMain.cpp
+//  File:       M+MLeapTwoFingersInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Two Fingers input service.
+//  Contains:   The main application for the Leap Two Fingers input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTwoFingersInputService.h"
+#include "M+MLeapTwoFingersInputService.h"
 
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
@@ -50,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the Two Fingers input service. */
+ @brief The main application for the %Leap Two Fingers input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -61,7 +61,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::TwoFingers;
+using namespace MplusM::LeapTwoFingers;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -121,9 +121,9 @@ static void setUpAndGo(const YarpString & progName,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    TwoFingersInputService * aService = new TwoFingersInputService(progName, argc, argv, tag,
-                                                                   serviceEndpointName,
-                                                                   servicePortNumber);
+    LeapTwoFingersInputService * aService = new LeapTwoFingersInputService(progName, argc, argv,
+                                                                           tag, serviceEndpointName,
+                                                                           servicePortNumber);
     
     if (aService)
     {
@@ -314,8 +314,8 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_TWOFINGERSINPUT_SERVICE_NAME,
-                                          TWOFINGERSINPUT_SERVICE_DESCRIPTION, "", 2015,
+                                          DEFAULT_LEAPTWOFINGERSINPUT_SERVICE_NAME,
+                                          LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION, "", 2015,
                                           STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

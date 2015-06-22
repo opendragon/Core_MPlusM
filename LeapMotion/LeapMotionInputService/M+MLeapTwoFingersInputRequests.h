@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTwoFingersInputRequests.h
+//  File:       M+MLeapTwoFingersInputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the Two Fingers input
-//              service.
+//  Contains:   The common macro definitions for requests and responses for the Leap Two Fingers
+//              input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMTwoFingersInputRequests_H_))
-# define MpMTwoFingersInputRequests_H_ /* Header guard */
+#if (! defined(MpMLeapTwoFingersInputRequests_H_))
+# define MpMLeapTwoFingersInputRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Two Fingers input
+ @brief The common macro definitions for requests and responses for the %Leap Two Fingers input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Two Fingers input service. */
-# define MpM_TWOFINGERSINPUT_CANONICAL_NAME "TwoFingersInput"
+/*! @brief The channel-independent name of the %Leap Two Fingers input service. */
+# define MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME "LeapTwoFingersInput"
 
-#endif // ! defined(MpMTwoFingersInputRequests_H_)
+#endif // ! defined(MpMLeapTwoFingersInputRequests_H_)

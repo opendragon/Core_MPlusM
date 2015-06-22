@@ -6,6 +6,7 @@ mpmEmotivInputService
 mpmJavaScriptService
 mpmKinectV2InputService
 mpmLeapMotionInputService
+mpmLeapTwoFingersInputService
 mpmNaturalPointInputService
 mpmProComp2InputService
 mpmRandomBurstService
@@ -16,7 +17,6 @@ mpmRequestCounterService
 mpmRunningSumService
 mpmTruncateFloatService
 mpmTunnelService
-mpmTwoFingersInputService
 mpmUnrealOutputService
 mpmViconDataStreamInputService
 #-
