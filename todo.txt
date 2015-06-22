@@ -28,14 +28,10 @@
 
 + only output channels can have displays attached
 
-@ to generate the correct dimensions for the Channel Manager manual, set SETTINGS_FOR_MANUAL in ContentPanel.h to TRUE before running Channel Manager - this locks the window size and prevents dragging of entities
-
-+ determine a different way to calculate the label widths for the arguments, as wrapping is occurring on Windows
-
-+ add a bit more vertical space between entries and highlight the ‘extra arguments’ label - perhaps by underlining or adding a horizontal rule
+@ to generate the correct dimensions for images in the Channel Manager manual, set SETTINGS_FOR_MANUAL in ContentPanel.h to TRUE before running Channel Manager - this locks the window size and prevents dragging of entities
 
 * for configurations, we need to know if the service / adapter is running on the same system as Channel Manager, so that it is possible to relaunch it later or if the service / adapter is ‘system-independent’ so that it can be launched anywhere; input and output services will usually be ‘system-dependent’, as they connect to physical devices - however, filters are not usually ‘system-dependent’; note that some regular services, like the movement database service, _might_ be ‘system-dependent’, depending on how they access their resources
 
 * note that the ‘system-independent’ attribute must be provided by every service and adapter - probably as part of the application information - while the ‘running on same system as Channel Manager’ is a run-time quality, so best captured when the arguments are retrieved from the service / adapter
 
-* note that only services and adapters can be recored in a configuration: YARP endpoints and M+M clients can’t be launched from Channel Manager, except for monitor ports or internally-provided input ports - if these are implemented - and all connections to the services and adapters must be recorded 
+* note that only services and adapters can be recorded in a configuration: YARP endpoints and M+M clients can’t be launched from Channel Manager, except for monitor ports or internally-provided input ports - if these are implemented - and all connections to the services and adapters must be recorded 
