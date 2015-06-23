@@ -1,6 +1,7 @@
 # Services
 mpmAbsorberService
 mpmAddressService
+mpmBlobOutputService
 mpmEchoService
 mpmEmotivInputService
 mpmJavaScriptService

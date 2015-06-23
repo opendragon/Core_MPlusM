@@ -145,6 +145,7 @@ LMbitmapepsfiles = $(IMAGE_DIR)/launchLeapMotionInputService.eps \
 
 MMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 		$(IMAGE_DIR)/launchAddressService.eps \
+		$(IMAGE_DIR)/launchBlobOutputService.eps \
 		$(IMAGE_DIR)/launchEchoService.eps \
 		$(IMAGE_DIR)/launchRandomBurstInputService.eps \
 		$(IMAGE_DIR)/launchRandomNumberAdapter.eps \
@@ -160,6 +161,7 @@ MMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 		$(IMAGE_DIR)/launchTunnelService.eps \
 		$(IMAGE_DIR)/runningAbsorberOutputService.eps \
 		$(IMAGE_DIR)/runningAddressService.eps \
+		$(IMAGE_DIR)/runningBlobOutputService.eps \
 		$(IMAGE_DIR)/runningEchoService.eps \
 		$(IMAGE_DIR)/runningRandomBurstInputService.eps \
 		$(IMAGE_DIR)/runningRandomNumberAdapter.eps \

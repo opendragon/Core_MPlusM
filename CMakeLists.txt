@@ -197,6 +197,7 @@ else(WIN32)
 endif(WIN32)
 
 add_subdirectory(Address)
+add_subdirectory(Blob)
 add_subdirectory(ClientList)
 add_subdirectory(CommonTests)
 if(MpM_EMOTIV)

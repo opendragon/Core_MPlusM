@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       UnrealOutputServiceMain.cpp
+//  File:       BlobOutputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Unreal output service.
+//  Contains:   The main application for the Blob output service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-11-18
+//  Created:    2015-06-23
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MUnrealOutputService.h"
+#include "M+MBlobOutputService.h"
 
 #include <mpm/M+MDoubleArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
@@ -52,13 +52,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the %Unreal output service. */
+ @brief The main application for the Blob output service. */
 
-/*! @dir Unreal
- @brief The set of files that implement the %Unreal output service. */
+/*! @dir Blob
+ @brief The set of files that implement the Blob output service. */
 
-/*! @dir UnrealOutputService
- @brief The set of files that implement the %Unreal output service. */
+/*! @dir BlobOutputService
+ @brief The set of files that implement the Blob output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -69,7 +69,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Unreal;
+using namespace MplusM::Blob;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -94,8 +94,7 @@ static void displayCommands(void)
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
     cout << "  b - start (begin) the output stream, sending bursts of data" << endl;
-    cout << "  c - configure the service by providing the port number and translation scale" <<
-            endl;
+    cout << "  c - configure the service by providing the port number" << endl;
     cout << "  e - stop (end) the output stream" << endl;
     cout << "  q - quit the application" << endl;
     cout << "  r - restart the output stream" << endl;
@@ -103,13 +102,12 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the %Unreal output service.
+/*! @brief Set up the environment and start the Blob output service.
  @param outPort The port to use to connect.
- @param translationScale The translation scale.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Unreal output service.
+ @param argv The arguments to be used with the Blob output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -118,7 +116,6 @@ static void displayCommands(void)
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
 static void setUpAndGo(int &                               outPort,
-                       double &                            translationScale,
                        const Utilities::DescriptorVector & argumentList,
                        const YarpString &                  progName,
                        const int                           argc,
@@ -132,16 +129,14 @@ static void setUpAndGo(int &                               outPort,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL2("outPort = ", outPort, "argc = ", argc); //####
-    OD_LOG_D1("translationScale = ", translationScale); //####
     OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    UnrealOutputService * aService = new UnrealOutputService(progName, argc, argv, tag,
-                                                             serviceEndpointName,
-                                                             servicePortNumber);
+    BlobOutputService * aService = new BlobOutputService(progName, argc, argv, tag,
+                                                         serviceEndpointName, servicePortNumber);
     
     if (aService)
     {
@@ -189,7 +184,6 @@ static void setUpAndGo(int &                               outPort,
                                 {
                                     configureData.clear();
                                     configureData.addInt(outPort);
-                                    configureData.addDouble(translationScale);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -209,7 +203,6 @@ static void setUpAndGo(int &                               outPort,
                                 {
                                     configureData.clear();
                                     configureData.addInt(outPort);
-                                    configureData.addDouble(translationScale);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -240,7 +233,6 @@ static void setUpAndGo(int &                               outPort,
                                 {
                                     configureData.clear();
                                     configureData.addInt(outPort);
-                                    configureData.addDouble(translationScale);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -318,12 +310,12 @@ static void setUpAndGo(int &                               outPort,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %Unreal output service.
+/*! @brief The entry point for running the Blob output service.
  
  The second, optional, argument is the translation scale factor and the first, optional, argument is
  the port to be written to.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Unreal output service.
+ @param argv The arguments to be used with the Blob output service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -348,22 +340,18 @@ int main(int      argc,
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
-        double                               translationScale = 1.0;
         int                                  outPort = 9876;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::PortArgumentDescriptor    firstArg("port", T_("Port to use to connect"),
                                                       9876, true, false, &outPort);
-        Utilities::DoubleArgumentDescriptor  secondArg("scale", T_("Translation scale"), 1.0, true,
-                                                       true, 0.0, false, 0.0, &translationScale);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);
-        argumentList.push_back(&secondArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_UNREALOUTPUT_SERVICE_NAME_,
-                                          UNREALOUTPUT_SERVICE_DESCRIPTION_, "", 2014,
+                                          DEFAULT_BLOBOUTPUT_SERVICE_NAME_,
+                                          BLOBOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))
@@ -378,7 +366,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(outPort, translationScale, argumentList, progName, argc, argv, tag,
+                    setUpAndGo(outPort, argumentList, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
                                reportOnExit);
                     

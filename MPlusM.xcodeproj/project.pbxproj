@@ -21,6 +21,16 @@
 		DF1BD32F1A8BA3310070A09C /* M+MAddressServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAddressServiceMain.cpp"; path = "Address/AddressService/M+MAddressServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1BD3301A8BA3310070A09C /* M+MWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MWhereRequestHandler.cpp"; path = "Address/AddressService/M+MWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1BD3311A8BA3310070A09C /* M+MWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MWhereRequestHandler.h"; path = "Address/AddressService/M+MWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF1C1C591B39F1FA00E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Blob/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C5B1B39F22A00E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Blob/BlobOutputService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C5C1B39F22A00E816A4 /* M+MBlobOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBlobOutputInputHandler.cpp"; path = "Blob/BlobOutputService/M+MBlobOutputInputHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C5D1B39F22A00E816A4 /* M+MBlobOutputInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBlobOutputInputHandler.h"; path = "Blob/BlobOutputService/M+MBlobOutputInputHandler.h"; sourceTree = "<group>"; };
+		DF1C1C5E1B39F22A00E816A4 /* M+MBlobOutputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBlobOutputRequests.h"; path = "Blob/BlobOutputService/M+MBlobOutputRequests.h"; sourceTree = "<group>"; };
+		DF1C1C5F1B39F22A00E816A4 /* M+MBlobOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBlobOutputService.cpp"; path = "Blob/BlobOutputService/M+MBlobOutputService.cpp"; sourceTree = "<group>"; };
+		DF1C1C601B39F22A00E816A4 /* M+MBlobOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBlobOutputService.h"; path = "Blob/BlobOutputService/M+MBlobOutputService.h"; sourceTree = "<group>"; };
+		DF1C1C611B39F22A00E816A4 /* M+MBlobOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBlobOutputServiceMain.cpp"; path = "Blob/BlobOutputService/M+MBlobOutputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF1C1C621B39F22A00E816A4 /* mpmBlobOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmBlobOutputService.rc.in; path = Blob/BlobOutputService/mpmBlobOutputService.rc.in; sourceTree = "<group>"; };
+		DF1C1C631B39F22A00E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Blob/BlobOutputService/resource.h; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -835,6 +845,31 @@
 			name = TunnelClient;
 			sourceTree = SOURCE_ROOT;
 		};
+		DF1C1C581B39F1DF00E816A4 /* Blob */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C1C5A1B39F20B00E816A4 /* BlobOutputService */,
+				DF1C1C591B39F1FA00E816A4 /* CMakeLists.txt */,
+			);
+			name = Blob;
+			sourceTree = "<group>";
+		};
+		DF1C1C5A1B39F20B00E816A4 /* BlobOutputService */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C1C5B1B39F22A00E816A4 /* CMakeLists.txt */,
+				DF1C1C5C1B39F22A00E816A4 /* M+MBlobOutputInputHandler.cpp */,
+				DF1C1C5D1B39F22A00E816A4 /* M+MBlobOutputInputHandler.h */,
+				DF1C1C5E1B39F22A00E816A4 /* M+MBlobOutputRequests.h */,
+				DF1C1C5F1B39F22A00E816A4 /* M+MBlobOutputService.cpp */,
+				DF1C1C601B39F22A00E816A4 /* M+MBlobOutputService.h */,
+				DF1C1C611B39F22A00E816A4 /* M+MBlobOutputServiceMain.cpp */,
+				DF1C1C621B39F22A00E816A4 /* mpmBlobOutputService.rc.in */,
+				DF1C1C631B39F22A00E816A4 /* resource.h */,
+			);
+			name = BlobOutputService;
+			sourceTree = "<group>";
+		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
 			children = (
@@ -1499,6 +1534,7 @@
 			isa = PBXGroup;
 			children = (
 				DF1BD31E1A8BA2D00070A09C /* Address */,
+				DF1C1C581B39F1DF00E816A4 /* Blob */,
 				DFCB229718EF23D200358EA5 /* ClientList */,
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
 				DF38503D198ABBA000A0414E /* CommonTests */,

@@ -226,3 +226,5 @@ mpm_images.tar.gz
 debug.txt
 LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService
 LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService.rc
+mpmBlobOutputService.rc
+mpmBlobOutputService

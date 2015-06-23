@@ -677,6 +677,58 @@ or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymb
 The default output is \textbf{both}; if \textbf{address} is specified, the port is not
 displayed and, if \textbf{port} is specified, the IP address is not displayed.
 \tertiaryEnd{\utilityNameE{mpmAddressClient}}
+
+\tertiaryStart{\utilityNameP{mpmBlobOutputService}}
+The \utilityNameX{mpmBlobOutputService} application is an Output service, accepting and
+rerouting its input data to an internet port.
+The application responds to the standard Output service requests and can be used as a
+standalone data router, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument
+\longDash{} an integer value for the output port to be used.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request initiates listening
+on the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
+on the input stream.\\
+
+Note that the application will exit if the
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+
+\insertAppParameters
+\insertTagDescription{Blob Output}
+\insertOutputServiceComment\\
+
+If the application is running from a terminal and has not been automatically started via
+the `\asCode{go}' option, the following commands are available:
+\begin{itemize}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the input stream}
+\item\exSp\cmdItem{c}{configure the service by proving the port number to be used}
+\item\exSp\cmdItem{e}{stop the input stream}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the input stream}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+input stream is restarted}
+\end{itemize}
+\condPage
+If the service is selected for execution from within the \emph{Channel Manager}
+application, the following dialog will be presented:
+\objScaledDiagram{mpm_images/launchBlobOutputService}%
+{launchServiceBlob}{Launch options for the Blob output service}{0.8}
+
+For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
+Manager Utility} manual.
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningBlobOutputService}%
+{serviceRunningBlob}{The \emph{Channel Manager} entity for the Blob output service}{1.0}
+\tertiaryEnd{\utilityNameE{mpmBlobOutputService}}
+\condPage
 \tertiaryStart{\utilityNameP{mpmRequestCounterService}}
 The \utilityNameX{mpmRequestCounterService} application is a background service that is
 used to determine the average time to send a simple request, process it and return a
