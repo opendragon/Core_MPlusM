@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Running Sum adapter service. */
-# define MpM_RUNNINGSUMADAPTER_CANONICAL_NAME "RunningSumAdapter"
+# define MpM_RUNNINGSUMADAPTER_CANONICAL_NAME_ "RunningSumAdapter"
 
 #endif // ! defined(MpMRunningSumAdapterRequests_H_)

@@ -70,7 +70,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'ping' request. */
-#define PING_REQUEST_VERSION_NUMBER "1.0"
+#define PING_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -89,7 +89,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 PingRequestHandler::PingRequestHandler(RegistryService & service) :
-    inherited(MpM_PING_REQUEST, service)
+    inherited(MpM_PING_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -133,11 +133,11 @@ void PingRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, PING_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY,
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_STRING_);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, PING_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_,
                  "Update the last-pinged time for a service or re-register it\n"
                  "Input: the channel used by the service\n"
                  "Output: OK or FAILED, with a description of the problem encountered");
@@ -145,7 +145,7 @@ void PingRequestHandler::fillInDescription(const YarpString &   request,
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -211,19 +211,19 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                         else
                         {
                             // Send a 'name' request to the channel
-                            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX
+                            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
                                                                          "ping_/"
-                                                                         DEFAULT_CHANNEL_ROOT);
+                                                                         DEFAULT_CHANNEL_ROOT_);
                             ClientChannel * outChannel = new ClientChannel;
                             
                             if (outChannel)
                             {
-                                if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                                if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                                 {
                                     if (outChannel->addOutputWithRetries(argAsString,
-                                                                         STANDARD_WAIT_TIME))
+                                                                         STANDARD_WAIT_TIME_))
                                     {
-                                        yarp::os::Bottle message1(MpM_NAME_REQUEST);
+                                        yarp::os::Bottle message1(MpM_NAME_REQUEST_);
                                         yarp::os::Bottle response;
                                         
                                         if (outChannel->write(message1, response))
@@ -231,7 +231,7 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                                             if (theService.processNameResponse(argAsString,
                                                                                response))
                                             {
-                                                yarp::os::Bottle message2(MpM_LIST_REQUEST);
+                                                yarp::os::Bottle message2(MpM_LIST_REQUEST_);
                                                 
                                                 if (outChannel->write(message2, response))
                                                 {
@@ -239,7 +239,7 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                                                                                        response))
                                                     {
                                                         // Remember the response
-                                                        reply.addString(MpM_OK_RESPONSE);
+                                                        reply.addString(MpM_OK_RESPONSE_);
                                                 theService.updateCheckedTimeForChannel(argAsString);
                                                     }
                                                     else
@@ -247,7 +247,7 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                                                         OD_LOG("! (theService.processList" //####
                                                                "Response(argAsString, " //####
                                                                "response))"); //####
-                                                        reply.addString(MpM_FAILED_RESPONSE);
+                                                        reply.addString(MpM_FAILED_RESPONSE_);
                                                         reply.addString("Invalid response to "
                                                                         "'list' request");
                                                     }
@@ -256,7 +256,7 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                                                 {
                                                     OD_LOG("! (outChannel->write(message2, " //####
                                                            "response))"); //####
-                                                    reply.addString(MpM_FAILED_RESPONSE);
+                                                    reply.addString(MpM_FAILED_RESPONSE_);
                                                     reply.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
                                                     Stall();
@@ -267,7 +267,7 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                                             {
                                                 OD_LOG("! (theService.processNameResponse(" //####
                                                        "argAsString, response))"); //####
-                                                reply.addString(MpM_FAILED_RESPONSE);
+                                                reply.addString(MpM_FAILED_RESPONSE_);
                                                 reply.addString("Invalid response to 'name' "
                                                                 "request");
                                             }
@@ -276,7 +276,7 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                                         {
                                             OD_LOG("! (outChannel->write(message1, " //####
                                                    "response))"); //####
-                                            reply.addString(MpM_FAILED_RESPONSE);
+                                            reply.addString(MpM_FAILED_RESPONSE_);
                                             reply.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
                                             Stall();
@@ -285,19 +285,19 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! Utilities::NetworkDisconnectWithRetries(outChannel->name(),
                                                                               argAsString,
-                                                                              STANDARD_WAIT_TIME))
+                                                                              STANDARD_WAIT_TIME_))
                                         {
                                             OD_LOG("(! Utilities::NetworkDisconnectWith" //####
                                                    "Retries(outChannel->name(), " //####
-                                                   "argAsString, STANDARD_WAIT_TIME))"); //####
+                                                   "argAsString, STANDARD_WAIT_TIME_))"); //####
                                         }
 #endif // defined(MpM_DoExplicitDisconnect)
                                     }
                                     else
                                     {
                                         OD_LOG("! (outChannel->addOutputWithRetries(" //####
-                                               "argAsString, STANDARD_WAIT_TIME))"); //####
-                                        reply.addString(MpM_FAILED_RESPONSE);
+                                               "argAsString, STANDARD_WAIT_TIME_))"); //####
+                                        reply.addString(MpM_FAILED_RESPONSE_);
                                         reply.addString("Could not connect to channel");
                                         reply.addString(argAsString);
                                     }
@@ -308,8 +308,8 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                                 else
                                 {
                                     OD_LOG("! (outChannel->openWithRetries(aName, " //####
-                                           "STANDARD_WAIT_TIME))"); //####
-                                    reply.addString(MpM_FAILED_RESPONSE);
+                                           "STANDARD_WAIT_TIME_))"); //####
+                                    reply.addString(MpM_FAILED_RESPONSE_);
                                     reply.addString("Channel could not be opened");
                                 }
                                 BaseChannel::RelinquishChannel(outChannel);
@@ -323,21 +323,21 @@ bool PingRequestHandler::processRequest(const YarpString &           request,
                     else
                     {
                         OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
-                        reply.addString(MpM_FAILED_RESPONSE);
+                        reply.addString(MpM_FAILED_RESPONSE_);
                         reply.addString("Invalid channel name");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())"); //####
-                    reply.addString(MpM_FAILED_RESPONSE);
+                    reply.addString(MpM_FAILED_RESPONSE_);
                     reply.addString("Invalid channel name");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())"); //####
-                reply.addString(MpM_FAILED_RESPONSE);
+                reply.addString(MpM_FAILED_RESPONSE_);
                 reply.addString("Missing channel name or extra arguments to request");
             }
             sendResponse(reply, replyMechanism);

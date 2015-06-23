@@ -204,7 +204,7 @@ bool NameServerReportingThread::threadInit(void)
     YarpString          serverAddress = nsContact.getHost();
     int                 serverPort = nsContact.getPort();
     const char *        serverString = NULL;
-    static const char * regType = MpM_MDNS_NAMESERVER_REPORT;
+    static const char * regType = MpM_MDNS_NAMESERVER_REPORT_;
     const uint16_t      maxTXTSize = 256;
     char                txtBuffer[maxTXTSize];
     TXTRecordRef        txtRecord;
@@ -217,8 +217,8 @@ bool NameServerReportingThread::threadInit(void)
         }
     }
     TXTRecordCreate(&txtRecord, sizeof(txtBuffer), txtBuffer);
-    TXTRecordSetValue(&txtRecord, MpM_MDNS_NAMESERVER_KEY, sizeof(MpM_MDNS_NAMESERVER_VERSION) - 1,
-                      MpM_MDNS_NAMESERVER_VERSION);
+    TXTRecordSetValue(&txtRecord, MpM_MDNS_NAMESERVER_KEY_,
+                      sizeof(MpM_MDNS_NAMESERVER_VERSION_) - 1, MpM_MDNS_NAMESERVER_VERSION_);
     DNSServiceErrorType err = DNSServiceRegister(&_serviceRef, kDNSServiceFlagsNoAutoRename, 0,
                                                  NULL /* name */, regType, NULL /* domain */,
                                                  serverString /* host */, htons(serverPort),

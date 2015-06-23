@@ -92,8 +92,8 @@ RunningSumService::RunningSumService(const YarpString & launchPath,
                                      const YarpString & tag,
                                      const YarpString & serviceEndpointName,
                                      const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_RUNNINGSUM_CANONICAL_NAME,
-              RUNNINGSUM_SERVICE_DESCRIPTION,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_RUNNINGSUM_CANONICAL_NAME_,
+              RUNNINGSUM_SERVICE_DESCRIPTION_,
               "add - add one or more values to the running sum and return the sum\n"
               "reset - clear the running sum\n"
               "start - start adding values to the running sum\n"

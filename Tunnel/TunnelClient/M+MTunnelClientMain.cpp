@@ -322,8 +322,8 @@ static void setUpAndGo(const int          listenPort,
 #if defined(MpM_ReportOnConnections)
         aClient->setReporter(*reporter, true);
 #endif // defined(MpM_ReportOnConnections)
-        YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-        YarpString namePattern(MpM_TUNNEL_CANONICAL_NAME);
+        YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY_ ":");
+        YarpString namePattern(MpM_TUNNEL_CANONICAL_NAME_);
         
         if (0 < tag.length())
         {
@@ -437,7 +437,7 @@ int main(int      argc,
         argumentList.push_back(&secondArg);
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                        "The client for the Tunnel service", 2015,
-                                                       STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                       STANDARD_COPYRIGHT_NAME_, flavour, true))
         {
             try
             {

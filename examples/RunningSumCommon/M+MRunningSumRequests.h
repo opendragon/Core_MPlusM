@@ -53,36 +53,36 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Running Sum service. */
-# define MpM_RUNNINGSUM_CANONICAL_NAME "RunningSum"
+# define MpM_RUNNINGSUM_CANONICAL_NAME_ "RunningSum"
 
 /*! @brief The name for the 'addToSum' request. */
-# define MpM_ADDTOSUM_REQUEST "addToSum"
+# define MpM_ADDTOSUM_REQUEST_ "addToSum"
 
 /*! @brief The name for the 'quit' request. */
-# define MpM_QUIT_REQUEST     "quit"
+# define MpM_QUIT_REQUEST_     "quit"
 
 /*! @brief The name for the 'resetSum' request. */
-# define MpM_RESETSUM_REQUEST "resetSum"
+# define MpM_RESETSUM_REQUEST_ "resetSum"
 
 /*! @brief The name for the 'startSum' request. */
-# define MpM_STARTSUM_REQUEST "startSum"
+# define MpM_STARTSUM_REQUEST_ "startSum"
 
 /*! @brief The name for the 'stopSum' request. */
-# define MpM_STOPSUM_REQUEST  "stopSum"
+# define MpM_STOPSUM_REQUEST_  "stopSum"
 
 /*! @brief The number of elements expected in the output of an 'addToSum' request. */
-# define MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE 1
+# define MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ 1
 
 /*! @brief The number of elements expected in the output of a 'quit' request. */
-# define MpM_EXPECTED_QUIT_RESPONSE_SIZE     1
+# define MpM_EXPECTED_QUIT_RESPONSE_SIZE_     1
 
 /*! @brief The number of elements expected in the output of a 'resetSum' request. */
-# define MpM_EXPECTED_RESETSUM_RESPONSE_SIZE 1
+# define MpM_EXPECTED_RESETSUM_RESPONSE_SIZE_ 1
 
 /*! @brief The number of elements expected in the output of a 'startSum' request. */
-# define MpM_EXPECTED_STARTSUM_RESPONSE_SIZE 1
+# define MpM_EXPECTED_STARTSUM_RESPONSE_SIZE_ 1
 
 /*! @brief The number of elements expected in the output of a 'stopSum' request. */
-# define MpM_EXPECTED_STOPSUM_RESPONSE_SIZE  1
+# define MpM_EXPECTED_STOPSUM_RESPONSE_SIZE_  1
 
 #endif // ! defined(MpMRunningSumRequests_H_)

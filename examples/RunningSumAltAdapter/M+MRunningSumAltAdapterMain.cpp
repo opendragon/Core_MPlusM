@@ -78,7 +78,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The criteria used by the adapter to find its service. */
-#define MATCHING_CRITERIA "Name: RunningSum"
+#define MATCHING_CRITERIA_ "Name: RunningSum"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -112,7 +112,8 @@ static void displayCommands(void)
  @param servicePortNumber The port being used by the service.
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(const YarpString & progName,
                        const int          argc,
                        char * *           argv,
@@ -136,7 +137,7 @@ static void setUpAndGo(const YarpString & progName,
     {
         StartRunning();
         SetSignalHandlers(SignalRunningStop);
-        if (aClient->findService(MATCHING_CRITERIA))
+        if (aClient->findService(MATCHING_CRITERIA_))
         {
             RunningSumAltAdapterService * aService = new RunningSumAltAdapterService(progName, argc,
                                                                                      argv, tag,
@@ -259,7 +260,7 @@ static void setUpAndGo(const YarpString & progName,
                                 else
                                 {
 #if defined(MpM_MainDoesDelayNotYield)
-                                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -376,9 +377,9 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_RUNNINGSUMALTADAPTER_SERVICE_NAME,
-                                          RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION,
-                                          MATCHING_CRITERIA, 2015, STANDARD_COPYRIGHT_NAME,
+                                          DEFAULT_RUNNINGSUMALTADAPTER_SERVICE_NAME_,
+                                          RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION_,
+                                          MATCHING_CRITERIA_, 2015, STANDARD_COPYRIGHT_NAME_,
                                           goWasSet, nameWasSet, reportOnExit, tag,
                                           serviceEndpointName, servicePortNumber))
         {

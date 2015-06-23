@@ -56,10 +56,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_PROCOMP2INPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/procomp2input")
+# define DEFAULT_PROCOMP2INPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/procomp2input")
 
 /*! @brief The description of the service. */
-# define PROCOMP2INPUT_SERVICE_DESCRIPTION T_("ProComp2 input service")
+# define PROCOMP2INPUT_SERVICE_DESCRIPTION_ T_("ProComp2 input service")
 
 namespace MplusM
 {

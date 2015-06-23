@@ -94,8 +94,8 @@ UnrealOutputService::UnrealOutputService(const YarpString & launchPath,
                                          const YarpString & tag,
                                          const YarpString & serviceEndpointName,
                                          const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME,
-              UNREALOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME_,
+              UNREALOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
 	_translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
     _inLeapHandler(new UnrealOutputLeapInputHandler(*this)),
     _inViconHandler(new UnrealOutputViconInputHandler(*this))

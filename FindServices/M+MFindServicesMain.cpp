@@ -127,9 +127,9 @@ static void getMatchingChannels(const YarpString &  criteria,
                         {
                             cout << ", ";
                         }
-                        cout << T_(CHAR_DOUBLEQUOTE);
+                        cout << T_(CHAR_DOUBLEQUOTE_);
                         cout << SanitizeString(*walker).c_str();
-                        cout << T_(CHAR_DOUBLEQUOTE);
+                        cout << T_(CHAR_DOUBLEQUOTE_);
                         break;
 
                     case kOutputFlavourNormal :
@@ -185,8 +185,8 @@ static void getMatchingChannels(const YarpString &  criteria,
                 break;
                 
             case kOutputFlavourJSON :
-                cout << T_(CHAR_DOUBLEQUOTE) << "There was a problem with the criteria." <<
-                        T_(CHAR_DOUBLEQUOTE) << endl;
+                cout << T_(CHAR_DOUBLEQUOTE_) << "There was a problem with the criteria." <<
+                        T_(CHAR_DOUBLEQUOTE_) << endl;
                 break;
                 
             case kOutputFlavourNormal :
@@ -299,7 +299,7 @@ int main(int      argc,
     argumentList.push_back(&firstArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "Find matching services", 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour))
+                                                   STANDARD_COPYRIGHT_NAME_, flavour))
     {
         try
         {

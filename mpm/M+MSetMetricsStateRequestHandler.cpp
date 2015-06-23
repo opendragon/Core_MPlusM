@@ -68,7 +68,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'setMetricsState' request. */
-#define SETMETRICSSTATE_REQUEST_VERSION_NUMBER "1.0"
+#define SETMETRICSSTATE_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -87,7 +87,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 SetMetricsStateRequestHandler::SetMetricsStateRequestHandler(BaseService & service) :
-    inherited(MpM_SETMETRICSSTATE_REQUEST, service)
+    inherited(MpM_SETMETRICSSTATE_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -131,10 +131,10 @@ void SetMetricsStateRequestHandler::fillInDescription(const YarpString &   reque
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, SETMETRICSSTATE_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Set the state of metrics collection for the "
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_INT_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, SETMETRICSSTATE_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Set the state of metrics collection for the "
                  "service\n"
                  "Input: 0 if metrics are to be disabled and 1 if they are to be enabled\n"
                  "Output: nothing");
@@ -142,7 +142,7 @@ void SetMetricsStateRequestHandler::fillInDescription(const YarpString &   reque
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -195,7 +195,7 @@ bool SetMetricsStateRequestHandler::processRequest(const YarpString &           
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            sendResponse(MpM_OK_RESPONSE, replyMechanism);
+            sendResponse(MpM_OK_RESPONSE_, replyMechanism);
         }
     }
     catch (...)

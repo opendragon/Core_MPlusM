@@ -54,6 +54,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the exemplar input service. */
-# define MpM_EXEMPLARINPUT_CANONICAL_NAME "ExemplarInput"
+# define MpM_EXEMPLARINPUT_CANONICAL_NAME_ "ExemplarInput"
 
 #endif // ! defined(MpMExemplarInputRequests_H_)

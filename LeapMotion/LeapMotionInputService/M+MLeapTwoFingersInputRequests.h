@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %Leap Two Fingers input service. */
-# define MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME "LeapTwoFingersInput"
+# define MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME_ "LeapTwoFingersInput"
 
 #endif // ! defined(MpMLeapTwoFingersInputRequests_H_)

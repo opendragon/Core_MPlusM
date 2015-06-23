@@ -103,55 +103,55 @@ static bool processDictionaryEntry(yarp::os::Property & asDict,
     OD_LOG_B1("sawResponse = ", sawResponse); //####
     bool result = false;
     
-    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
+    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))
     {
         YarpString       theDetailsString;
         YarpString       theInputsString;
         YarpString       theOutputsString;
         YarpString       theVersionString;
-        YarpString       theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        YarpString       theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY_).asString());
         yarp::os::Bottle keywordList;
         
         theRequest = SanitizeString(theRequest, kOutputFlavourJSON != flavour);
-        if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY))
+        if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY_))
         {
-            yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY);
+            yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY_);
             
             if (theDetails.isString())
             {
                 theDetailsString = theDetails.toString();
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_INPUT_KEY))
+        if (asDict.check(MpM_REQREP_DICT_INPUT_KEY_))
         {
-            yarp::os::Value theInputs = asDict.find(MpM_REQREP_DICT_INPUT_KEY);
+            yarp::os::Value theInputs = asDict.find(MpM_REQREP_DICT_INPUT_KEY_);
             
             if (theInputs.isString())
             {
                 theInputsString = theInputs.toString();
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_KEYWORDS_KEY))
+        if (asDict.check(MpM_REQREP_DICT_KEYWORDS_KEY_))
         {
-            yarp::os::Value theKeywords = asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY);
+            yarp::os::Value theKeywords = asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY_);
             
             if (theKeywords.isList())
             {
                 keywordList = *theKeywords.asList();
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_OUTPUT_KEY))
+        if (asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_))
         {
-            yarp::os::Value theOutputs = asDict.find(MpM_REQREP_DICT_OUTPUT_KEY);
+            yarp::os::Value theOutputs = asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_);
             
             if (theOutputs.isString())
             {
                 theOutputsString = theOutputs.toString();
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_VERSION_KEY))
+        if (asDict.check(MpM_REQREP_DICT_VERSION_KEY_))
         {
-            yarp::os::Value theVersion = asDict.find(MpM_REQREP_DICT_VERSION_KEY);
+            yarp::os::Value theVersion = asDict.find(MpM_REQREP_DICT_VERSION_KEY_);
             
             if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
             {
@@ -173,15 +173,15 @@ static bool processDictionaryEntry(yarp::os::Property & asDict,
                 {
                     cout << "," << endl;
                 }
-                cout << T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                        cleanServiceName.c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Request" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << theRequest.c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Version" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << SanitizeString(theVersionString, true).c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Details" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << SanitizeString(theDetailsString, true).c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Keywords" CHAR_DOUBLEQUOTE
+                cout << T_("{ " CHAR_DOUBLEQUOTE_ "Port" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << cleanServiceName.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Request" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << theRequest.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Version" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << SanitizeString(theVersionString, true).c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Details" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << SanitizeString(theDetailsString, true).c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Keywords" CHAR_DOUBLEQUOTE_
                            ": [ ");
                 for (int jj = 0, mm = keywordList.size(); mm > jj; ++jj)
                 {
@@ -191,14 +191,14 @@ static bool processDictionaryEntry(yarp::os::Property & asDict,
                     {
                         cout << ", ";
                     }
-                    cout << CHAR_DOUBLEQUOTE << SanitizeString(aKeyword.toString(), true) <<
-                            CHAR_DOUBLEQUOTE;
+                    cout << CHAR_DOUBLEQUOTE_ << SanitizeString(aKeyword.toString(), true) <<
+                            CHAR_DOUBLEQUOTE_;
                 }
-                cout << T_(" ], " CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << theInputsString.c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Outputs" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << theOutputsString.c_str() <<
-                        T_(CHAR_DOUBLEQUOTE " }");
+                cout << T_(" ], " CHAR_DOUBLEQUOTE_ "Inputs" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << theInputsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Outputs" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << theOutputsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ " }");
                 break;
                 
             case kOutputFlavourNormal :
@@ -301,7 +301,7 @@ static void setUpAndGo(const YarpString &  channelName,
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "requestName = ", requestName); //####
     const char *     requestNameString;
-    YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+    YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY_ ":");
     YarpStringVector services;
 
     if (0 < channelName.length())
@@ -326,13 +326,13 @@ static void setUpAndGo(const YarpString &  channelName,
 
         if (matchesCount)
         {
-            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "requestinfo_/"
-                                                         DEFAULT_CHANNEL_ROOT);
+            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "requestinfo_/"
+                                                         DEFAULT_CHANNEL_ROOT_);
             ClientChannel * newChannel = new ClientChannel;
 
             if (newChannel)
             {
-                if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                 {
                     bool             sawRequestResponse = false;
                     yarp::os::Bottle parameters;
@@ -349,7 +349,8 @@ static void setUpAndGo(const YarpString &  channelName,
                     {
                         YarpString aMatch(services[ii]);
 
-                        if (Utilities::NetworkConnectWithRetries(aName, aMatch, STANDARD_WAIT_TIME))
+                        if (Utilities::NetworkConnectWithRetries(aName, aMatch,
+                                                                 STANDARD_WAIT_TIME_))
                         {
                             ServiceResponse response;
 
@@ -358,7 +359,7 @@ static void setUpAndGo(const YarpString &  channelName,
                             // do an 'info' request.
                             if (requestNameString)
                             {
-                                ServiceRequest request(MpM_INFO_REQUEST, parameters);
+                                ServiceRequest request(MpM_INFO_REQUEST_, parameters);
 
                                 if (request.send(*newChannel, response))
                                 {
@@ -384,7 +385,7 @@ static void setUpAndGo(const YarpString &  channelName,
                             }
                             else
                             {
-                                ServiceRequest request(MpM_LIST_REQUEST, parameters);
+                                ServiceRequest request(MpM_LIST_REQUEST_, parameters);
 
                                 if (request.send(*newChannel, response))
                                 {
@@ -410,17 +411,17 @@ static void setUpAndGo(const YarpString &  channelName,
                             }
 #if defined(MpM_DoExplicitDisconnect)
                             if (! Utilities::NetworkDisconnectWithRetries(aName, aMatch,
-                                                                          STANDARD_WAIT_TIME))
+                                                                          STANDARD_WAIT_TIME_))
                             {
                                 OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                                       "aMatch, STANDARD_WAIT_TIME))"); //####
+                                       "aMatch, STANDARD_WAIT_TIME_))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
                             OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, aMatch, " //####
-                                   "STANDARD_WAIT_TIME))"); //####
+                                   "STANDARD_WAIT_TIME_))"); //####
                         }
                     }
                     if (kOutputFlavourJSON == flavour)
@@ -450,7 +451,7 @@ static void setUpAndGo(const YarpString &  channelName,
                 }
                 else
                 {
-                    OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                    OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
                 }
                 delete newChannel;
             }
@@ -519,7 +520,7 @@ int main(int      argc,
     argumentList.push_back(&secondArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "List available requests for services", 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour, false,
+                                                   STANDARD_COPYRIGHT_NAME_, flavour, false,
                                                    &arguments))
     {
         try

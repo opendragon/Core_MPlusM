@@ -53,10 +53,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_EXEMPLARFILTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "filter/exemplarfilter")
+# define DEFAULT_EXEMPLARFILTER_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "filter/exemplarfilter")
 
 /*! @brief The description of the service. */
-# define EXEMPLARFILTER_SERVICE_DESCRIPTION T_("exemplar filter service")
+# define EXEMPLARFILTER_SERVICE_DESCRIPTION_ T_("exemplar filter service")
 
 namespace MplusM
 {

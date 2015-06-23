@@ -53,10 +53,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_EXEMPLARINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/exemplarinput")
+# define DEFAULT_EXEMPLARINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/exemplarinput")
 
 /*! @brief The description of the service. */
-# define EXEMPLARINPUT_SERVICE_DESCRIPTION T_("exemplar input service")
+# define EXEMPLARINPUT_SERVICE_DESCRIPTION_ T_("exemplar input service")
 
 namespace MplusM
 {

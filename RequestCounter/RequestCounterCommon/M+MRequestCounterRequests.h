@@ -57,18 +57,18 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Request Counter service. */
-# define MpM_REQUESTCOUNTER_CANONICAL_NAME "RequestCounter"
+# define MpM_REQUESTCOUNTER_CANONICAL_NAME_ "RequestCounter"
 
 /*! @brief The name for the 'resetcounter' request. */
-# define MpM_RESETCOUNTER_REQUEST "resetcounter"
+# define MpM_RESETCOUNTER_REQUEST_ "resetcounter"
 
 /*! @brief The name for the 'stats' request. */
-# define MpM_STATS_REQUEST        "stats"
+# define MpM_STATS_REQUEST_        "stats"
 
 /*! @brief The number of elements expected in the output of a 'resetcounter' request. */
-# define MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE 1
+# define MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE_ 1
 
 /*! @brief The number of elements expected in the output of a 'stats' request. */
-# define MpM_EXPECTED_STATS_RESPONSE_SIZE        2
+# define MpM_EXPECTED_STATS_RESPONSE_SIZE_        2
 
 #endif // ! defined(MpMRequestCounterRequests_H_)

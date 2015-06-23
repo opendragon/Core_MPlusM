@@ -77,10 +77,10 @@ using std::endl;
 
 /*! @brief Define the root of the temporary file directory. */
 #if MAC_OR_LINUX_
-# define TEMP_ROOT kDirectorySeparator + "tmp"
+# define TEMP_ROOT_ kDirectorySeparator + "tmp"
 #else // ! MAC_OR_LINUX_
-# define TEMP_ROOT YarpString("C:") + kDirectorySeparator + "Windows" + kDirectorySeparator + \
-                   "Temp"
+# define TEMP_ROOT_ YarpString("C:") + kDirectorySeparator + "Windows" + kDirectorySeparator + \
+                    "Temp"
 #endif // ! MAC_OR_LINUX_
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -117,7 +117,8 @@ static void displayCommands(void)
  @param goWasSet @c true if the service is to be started immediately.
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(YarpString &                        recordPath,
                        const Utilities::DescriptorVector & argumentList,
                        const YarpString &                  progName,
@@ -297,7 +298,7 @@ static void setUpAndGo(YarpString &                        recordPath,
                     else
                     {
 #if defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                        yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -382,15 +383,15 @@ int main(int      argc,
         YarpString tag;
 
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
-                                                       TEMP_ROOT + kDirectorySeparator + "record_",
+                                                       TEMP_ROOT_ + kDirectorySeparator + "record_",
                                                        ".txt", true, true, true, &recordPath);
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME,
-                                          RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME_,
+                                          RECORDASJSONOUTPUT_SERVICE_DESCRIPTION_, "", 2014,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone	))
         {

@@ -88,9 +88,10 @@ ExemplarService::ExemplarService(const YarpString & launchPath,
                                  const YarpString & tag,
                                  const YarpString & serviceEndpointName,
                                  const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_EXEMPLAR_CANONICAL_NAME,
-              EXEMPLAR_SERVICE_DESCRIPTION, "simple - return the number of random values requested",
-              serviceEndpointName, servicePortNumber), _simpleHandler(NULL)
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_EXEMPLAR_CANONICAL_NAME_,
+              EXEMPLAR_SERVICE_DESCRIPTION_,
+              "simple - return the number of random values requested", serviceEndpointName,
+              servicePortNumber), _simpleHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####

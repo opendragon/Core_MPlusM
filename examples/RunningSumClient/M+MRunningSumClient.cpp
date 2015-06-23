@@ -114,9 +114,9 @@ bool RunningSumClient::addToSum(const double value,
         
         parameters.addDouble(value);
         reconnectIfDisconnected();
-        if (send(MpM_ADDTOSUM_REQUEST, parameters, response))
+        if (send(MpM_ADDTOSUM_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
@@ -137,13 +137,13 @@ bool RunningSumClient::addToSum(const double value,
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_ADDTOSUM_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
@@ -177,9 +177,9 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
         if (1 <= parameters.size())
         {
             reconnectIfDisconnected();
-            if (send(MpM_ADDTOSUM_REQUEST, parameters, response))
+            if (send(MpM_ADDTOSUM_REQUEST_, parameters, response))
             {
-                if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())
+                if (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())
                 {
                     yarp::os::Value retrieved(response.element(0));
                     
@@ -200,13 +200,13 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
                 }
                 else
                 {
-                    OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE == response.count())"); //####
+                    OD_LOG("! (MpM_EXPECTED_ADDTOSUM_RESPONSE_SIZE_ == response.count())"); //####
                     OD_LOG_S1s("response = ", response.asString()); //####
                 }
             }
             else
             {
-                OD_LOG("! (send(MpM_ADDTOSUM_REQUEST, parameters, response))"); //####
+                OD_LOG("! (send(MpM_ADDTOSUM_REQUEST_, parameters, response))"); //####
             }
         }
         else
@@ -237,15 +237,15 @@ bool RunningSumClient::resetSum(void)
         
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_RESETSUM_REQUEST, parameters, response))
+        if (send(MpM_RESETSUM_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
                 if (retrieved.isString())
                 {
-                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -254,22 +254,22 @@ bool RunningSumClient::resetSum(void)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_RESETSUM_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETSUM_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_RESETSUM_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_RESETSUM_REQUEST, parameters))
+        if (send(MpM_RESETSUM_REQUEST_, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETSUM_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_RESETSUM_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }
@@ -296,15 +296,15 @@ bool RunningSumClient::startSum(void)
         
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_STARTSUM_REQUEST, parameters, response))
+        if (send(MpM_STARTSUM_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
                 if (retrieved.isString())
                 {
-                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -313,22 +313,22 @@ bool RunningSumClient::startSum(void)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_STARTSUM_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STARTSUM_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_STARTSUM_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_STARTSUM_REQUEST, parameters))
+        if (send(MpM_STARTSUM_REQUEST_, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_STARTSUM_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_STARTSUM_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }
@@ -355,15 +355,15 @@ bool RunningSumClient::stopSum(void)
         
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_STOPSUM_REQUEST, parameters, response))
+        if (send(MpM_STOPSUM_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
                 if (retrieved.isString())
                 {
-                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -372,22 +372,22 @@ bool RunningSumClient::stopSum(void)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_STOPSUM_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPSUM_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_STOPSUM_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_STOPSUM_REQUEST, parameters))
+        if (send(MpM_STOPSUM_REQUEST_, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPSUM_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_STOPSUM_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }

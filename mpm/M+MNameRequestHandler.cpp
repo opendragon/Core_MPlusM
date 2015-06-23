@@ -90,7 +90,7 @@ using namespace MplusM::Utilities;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'name' request. */
-#define NAME_REQUEST_VERSION_NUMBER "1.1"
+#define NAME_REQUEST_VERSION_NUMBER_ "1.1"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -109,7 +109,7 @@ using namespace MplusM::Utilities;
 #endif // defined(__APPLE__)
 
 NameRequestHandler::NameRequestHandler(BaseService & service) :
-    inherited(MpM_NAME_REQUEST, service)
+    inherited(MpM_NAME_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -142,11 +142,11 @@ void NameRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING
-                 MpM_REQREP_STRING MpM_REQREP_STRING MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, NAME_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY,
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_ MpM_REQREP_STRING_
+                 MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, NAME_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_,
                  "Return the canonical name and description of the service\n"
                  "Input: nothing\n"
                  "Output: the canonical name, the tag, the description, the kind, the path to the "
@@ -161,7 +161,7 @@ void NameRequestHandler::fillInDescription(const YarpString &   request,
         asList->addString("executable");
         asList->addString("kind");
         asList->addString("tag");
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {

@@ -91,8 +91,8 @@ RecordAsJSONService::RecordAsJSONService(const YarpString & launchPath,
                                          const YarpString & tag,
                                          const YarpString & serviceEndpointName,
                                          const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_RECORDASJSON_CANONICAL_NAME,
-              RECORDASJSONOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_RECORDASJSON_CANONICAL_NAME_,
+              RECORDASJSONOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new RecordAsJSONInputHandler)
 {
     OD_LOG_ENTER(); //####

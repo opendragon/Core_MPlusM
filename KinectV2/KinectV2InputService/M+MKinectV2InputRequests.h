@@ -54,6 +54,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Kinect V2 input service. */
-# define MpM_KINECTV2INPUT_CANONICAL_NAME "KinectV2Input"
+# define MpM_KINECTV2INPUT_CANONICAL_NAME_ "KinectV2Input"
 
 #endif // ! defined(MpMKinectV2InputRequests_H_)

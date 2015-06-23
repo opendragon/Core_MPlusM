@@ -54,6 +54,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %Unreal output service. */
-# define MpM_UNREALOUTPUT_CANONICAL_NAME "UnrealOutput"
+# define MpM_UNREALOUTPUT_CANONICAL_NAME_ "UnrealOutput"
 
 #endif // ! defined(MpMUnrealOutputRequests_H_)

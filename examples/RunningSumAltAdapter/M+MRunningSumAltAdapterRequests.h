@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Running Sum alternative adapter service. */
-# define MpM_RUNNINGSUMALTADAPTER_CANONICAL_NAME "RunningSumAltAdapter"
+# define MpM_RUNNINGSUMALTADAPTER_CANONICAL_NAME_ "RunningSumAltAdapter"
 
 #endif // ! defined(MpMRunningSumAltAdapterRequests_H_)

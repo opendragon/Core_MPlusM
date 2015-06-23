@@ -92,7 +92,7 @@ static void setUpAndGo(const YarpString &  channelName,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
-    YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+    YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY_ ":");
     YarpStringVector services;
 
     if (0 < channelName.length())
@@ -120,7 +120,7 @@ static void setUpAndGo(const YarpString &  channelName,
                 YarpString       aMatch = services[ii];
                 yarp::os::Bottle metrics;
 
-                if (Utilities::GetMetricsForService(aMatch, metrics, STANDARD_WAIT_TIME))
+                if (Utilities::GetMetricsForService(aMatch, metrics, STANDARD_WAIT_TIME_))
                 {
                     YarpString responseAsString(Utilities::ConvertMetricsToString(metrics,
                                                                                   flavour));
@@ -234,7 +234,7 @@ int main(int      argc,
     argumentList.push_back(&firstArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "Display service metrics", 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour))
+                                                   STANDARD_COPYRIGHT_NAME_, flavour))
     {
         try
         {

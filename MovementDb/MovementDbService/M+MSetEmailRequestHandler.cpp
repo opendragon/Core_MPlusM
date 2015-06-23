@@ -67,7 +67,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'setemail' request. */
-#define SETEMAIL_REQUEST_VERSION_NUMBER "1.0"
+#define SETEMAIL_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 SetEmailRequestHandler::SetEmailRequestHandler(MovementDbService & service) :
-    inherited(MpM_SETEMAIL_REQUEST, service)
+    inherited(MpM_SETEMAIL_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -130,17 +130,17 @@ void SetEmailRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, SETEMAIL_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Set the e-mail address for the backend database\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_STRING_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, SETEMAIL_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Set the e-mail address for the backend database\n"
                  "Input: e-mail address\n"
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -186,26 +186,26 @@ bool SetEmailRequestHandler::processRequest(const YarpString &           request
                 
                 if (theService.setEmailAddress(senderChannel, emailAddress))
                 {
-                    reply.addString(MpM_OK_RESPONSE);
+                    reply.addString(MpM_OK_RESPONSE_);
                 }
                 else
                 {
                     OD_LOG("! (theService.setEmailAddress(senderChannel, emailAddress))"); //####
-                    reply.addString(MpM_FAILED_RESPONSE);
+                    reply.addString(MpM_FAILED_RESPONSE_);
                     reply.addString("Could not set the e-mail address");
                 }
             }
             else
             {
                 OD_LOG("! (firstValue.isString())"); //####
-                reply.addString(MpM_FAILED_RESPONSE);
+                reply.addString(MpM_FAILED_RESPONSE_);
                 reply.addString("Invalid argument");
             }
         }
         else
         {
             OD_LOG("! (1 == restOfInput.size())"); //####
-            reply.addString(MpM_FAILED_RESPONSE);
+            reply.addString(MpM_FAILED_RESPONSE_);
             reply.addString("Missing or extra arguments to request");
         }
         sendResponse(reply, replyMechanism);

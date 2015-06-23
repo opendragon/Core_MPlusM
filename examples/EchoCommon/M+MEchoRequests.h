@@ -53,6 +53,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Echo service. */
-# define MpM_ECHO_CANONICAL_NAME "Echo"
+# define MpM_ECHO_CANONICAL_NAME_ "Echo"
 
 #endif // ! defined(MpMEchoRequests_H_)

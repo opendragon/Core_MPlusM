@@ -92,9 +92,9 @@ RunningSumAltAdapterService::RunningSumAltAdapterService(const YarpString & laun
                                                          const YarpString & tag,
                                                          const YarpString & serviceEndpointName,
                                                          const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_RUNNINGSUMALTADAPTER_CANONICAL_NAME,
-              RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
-    _inHandler(NULL)
+    inherited(launchPath, argc, argv, tag, true, MpM_RUNNINGSUMALTADAPTER_CANONICAL_NAME_,
+              RUNNINGSUMALTADAPTER_SERVICE_DESCRIPTION_, "", serviceEndpointName,
+              servicePortNumber), _inHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####

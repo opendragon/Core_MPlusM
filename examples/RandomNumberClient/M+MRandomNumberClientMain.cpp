@@ -232,7 +232,7 @@ int main(int      argc,
         
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Random Number service",
-                                                    2014, STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                    2014, STANDARD_COPYRIGHT_NAME_, flavour, true))
         {
             if (CanReadFromStandardInput())
             {

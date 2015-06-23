@@ -56,6 +56,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Address service. */
-# define MpM_ADDRESS_CANONICAL_NAME "Address"
+# define MpM_ADDRESS_CANONICAL_NAME_ "Address"
 
 #endif // ! defined(MpMAddressRequests_H_)

@@ -67,7 +67,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'random' request. */
-#define RANDOM_REQUEST_VERSION_NUMBER "1.0"
+#define RANDOM_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 RandomRequestHandler::RandomRequestHandler(RandomNumberService & service) :
-    inherited(MpM_RANDOM_REQUEST, service)
+    inherited(MpM_RANDOM_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -119,18 +119,18 @@ void RandomRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_0_OR_1);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE MpM_REQREP_1_OR_MORE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RANDOM_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Generate one or more random numbers\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_INT_ MpM_REQREP_0_OR_1_);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_DOUBLE_ MpM_REQREP_1_OR_MORE_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, RANDOM_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Generate one or more random numbers\n"
                  "Input: the number of random values to generate\n"
                  "Output one or more random numbers per request");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {

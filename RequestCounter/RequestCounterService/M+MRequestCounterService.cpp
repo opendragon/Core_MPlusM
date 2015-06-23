@@ -91,7 +91,7 @@ RequestCounterService::RequestCounterService(const YarpString & launchPath,
                                              const YarpString & serviceEndpointName,
                                              const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, argc, argv, "", true,
-              MpM_REQUESTCOUNTER_CANONICAL_NAME, REQUESTCOUNTER_SERVICE_DESCRIPTION,
+              MpM_REQUESTCOUNTER_CANONICAL_NAME_, REQUESTCOUNTER_SERVICE_DESCRIPTION_,
               "reset - clear the Request Counter and the elapsed time\n"
               "stats - report the Request Counter and the elapsed time\n"
               "<anything else> - simply increment the Request Counter", serviceEndpointName,

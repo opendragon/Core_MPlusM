@@ -109,7 +109,8 @@ static void displayCommands(void)
  @param servicePortNumber The port being used by the service.
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(YarpString &                        recordPath,
                        const Utilities::DescriptorVector & argumentList,
                        const YarpString &                  progName,
@@ -264,7 +265,7 @@ static void setUpAndGo(YarpString &                        recordPath,
                     else
                     {
 #if defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                        yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -356,9 +357,9 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME,
-                                          EXEMPLAROUTPUT_SERVICE_DESCRIPTION, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          DEFAULT_EXEMPLAROUTPUT_SERVICE_NAME_,
+                                          EXEMPLAROUTPUT_SERVICE_DESCRIPTION_, "", 2014,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))
         {

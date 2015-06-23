@@ -53,10 +53,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_MOVEMENTDBADAPTER_SERVICE_NAME T_(DEFAULT_ADAPTER_NAME_BASE "movementdb")
+# define DEFAULT_MOVEMENTDBADAPTER_SERVICE_NAME_ T_(DEFAULT_ADAPTER_NAME_BASE_ "movementdb")
 
 /*! @brief The description of the service. */
-# define MOVEMENTDBADAPTER_SERVICE_DESCRIPTION T_("Movement database adapter")
+# define MOVEMENTDBADAPTER_SERVICE_DESCRIPTION_ T_("Movement database adapter")
 
 namespace MplusM
 {

@@ -113,9 +113,9 @@ bool AddressClient::getAddress(YarpString & address,
         ServiceResponse  response;
         
         reconnectIfDisconnected();
-        if (send(MpM_WHERE_REQUEST, parameters, response))
+        if (send(MpM_WHERE_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_WHERE_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_WHERE_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrievedAddress(response.element(0));
                 yarp::os::Value retrievedPort(response.element(1));
@@ -133,13 +133,13 @@ bool AddressClient::getAddress(YarpString & address,
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_WHERE_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_WHERE_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_STATS_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)

@@ -98,13 +98,10 @@ using std::endl;
 
 /*! @brief Whether or not metrics are initially being gathered. */
 #if defined(MpM_MetricsInitiallyOn)
-# define MEASUREMENTS_ON true
+# define MEASUREMENTS_ON_ true
 #else // ! defined(MpM_MetricsInitiallyOn)
-# define MEASUREMENTS_ON false
+# define MEASUREMENTS_ON_ false
 #endif // ! defined(MpM_MetricsInitiallyOn)
-
-/*! @brief The accepted command line arguments for services. */
-#define STANDARD_SERVICE_OPTIONS "e:hp:rt:"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -139,7 +136,7 @@ BaseService::BaseService(const ServiceKind  theKind,
     _detachHandler(NULL), _getMetricsHandler(NULL), _getMetricsStateHandler(NULL),
     _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL), _setMetricsStateHandler(NULL),
     _stopHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
-    _kind(theKind), _metricsEnabled(MEASUREMENTS_ON), _started(false),
+    _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_), _started(false),
     _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
@@ -193,7 +190,7 @@ BaseService::BaseService(const ServiceKind  theKind,
     _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _getMetricsHandler(NULL),
     _getMetricsStateHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
     _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -656,8 +653,8 @@ bool BaseService::sendPingForChannel(const YarpString & channelName,
     
     try
     {
-        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "ping_/"
-                                                           DEFAULT_CHANNEL_ROOT));
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "ping_/"
+                                                           DEFAULT_CHANNEL_ROOT_));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
@@ -677,26 +674,26 @@ bool BaseService::sendPingForChannel(const YarpString & channelName,
             newChannel->setReporter(*reporter);
             newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                         STANDARD_WAIT_TIME, false, checker,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME_,
+                                                         STANDARD_WAIT_TIME_, false, checker,
                                                          checkStuff))
                 {
                     yarp::os::Bottle parameters(channelName);
-                    ServiceRequest   request(MpM_PING_REQUEST, parameters);
+                    ServiceRequest   request(MpM_PING_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful ping!
-                        if (MpM_EXPECTED_PING_RESPONSE_SIZE == response.count())
+                        if (MpM_EXPECTED_PING_RESPONSE_SIZE_ == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
                             
                             if (theValue.isString())
                             {
-                                result = (theValue.toString() == MpM_OK_RESPONSE);
+                                result = (theValue.toString() == MpM_OK_RESPONSE_);
                             }
                             else
                             {
@@ -705,7 +702,7 @@ bool BaseService::sendPingForChannel(const YarpString & channelName,
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_PING_RESPONSE_SIZE == " //####
+                            OD_LOG("! (MpM_EXPECTED_PING_RESPONSE_SIZE_ == " //####
                                    "response.count())"); //####
                             OD_LOG_S1s("response = ", response.asString()); //####
                         }
@@ -715,12 +712,13 @@ bool BaseService::sendPingForChannel(const YarpString & channelName,
                         OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                  STANDARD_WAIT_TIME, checker,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName,
+                                                                  MpM_REGISTRY_ENDPOINT_NAME_,
+                                                                  STANDARD_WAIT_TIME_, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -728,8 +726,8 @@ bool BaseService::sendPingForChannel(const YarpString & channelName,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
-                           "checkStuff))"); //####
+                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                           "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -737,7 +735,7 @@ bool BaseService::sendPingForChannel(const YarpString & channelName,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
             
@@ -780,14 +778,14 @@ bool BaseService::start(void)
                 if (_handlerCreator)
                 {
                     if (_endpoint->setInputHandlerCreator(*_handlerCreator) &&
-                        _endpoint->open(STANDARD_WAIT_TIME))
+                        _endpoint->open(STANDARD_WAIT_TIME_))
                     {
                         _started = true;
                     }
                     else
                     {
                         OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
-                               "_endpoint->open(STANDARD_WAIT_TIME))"); //####
+                               "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handlerCreator;
                         _handlerCreator = NULL;
                     }
@@ -803,14 +801,14 @@ bool BaseService::start(void)
                 if (_handler)
                 {
                     if (_endpoint->setInputHandler(*_handler) &&
-                        _endpoint->open(STANDARD_WAIT_TIME))
+                        _endpoint->open(STANDARD_WAIT_TIME_))
                     {
                         _started = true;
                     }
                     else
                     {
                         OD_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
-                               "_endpoint->open(STANDARD_WAIT_TIME))"); //####
+                               "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handler;
                         _handler = NULL;
                     }
@@ -1052,12 +1050,12 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
-        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
+        Option_::printUsage(cout, usage, HELP_LINE_LENGTH_);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])
     {
-        YarpString mpmVersionString(SanitizeString(MpM_VERSION, true));
+        YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
         
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
                 copyrightHolder << "." << endl;
@@ -1256,8 +1254,8 @@ bool Common::RegisterLocalService(const YarpString & channelName,
     
     try
     {
-        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "registerlocal_/"
-                                                           DEFAULT_CHANNEL_ROOT));
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "registerlocal_/"
+                                                           DEFAULT_CHANNEL_ROOT_));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
@@ -1277,26 +1275,26 @@ bool Common::RegisterLocalService(const YarpString & channelName,
             newChannel->setReporter(*reporter);
             newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                         STANDARD_WAIT_TIME, false, checker,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME_,
+                                                         STANDARD_WAIT_TIME_, false, checker,
                                                          checkStuff))
                 {
                     yarp::os::Bottle parameters(channelName);
-                    ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
+                    ServiceRequest   request(MpM_REGISTER_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful self-registration!
-                        if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())
+                        if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
                             
                             if (theValue.isString())
                             {
-                                result = (theValue.toString() == MpM_OK_RESPONSE);
+                                result = (theValue.toString() == MpM_OK_RESPONSE_);
                             }
                             else
                             {
@@ -1305,7 +1303,7 @@ bool Common::RegisterLocalService(const YarpString & channelName,
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == " //####
+                            OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
                                    "response.count())"); //####
                             OD_LOG_S1s("response = ", response.asString()); //####
                         }
@@ -1315,12 +1313,13 @@ bool Common::RegisterLocalService(const YarpString & channelName,
                         OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                  STANDARD_WAIT_TIME, checker,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName,
+                                                                  MpM_REGISTRY_ENDPOINT_NAME_,
+                                                                  STANDARD_WAIT_TIME_, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -1328,8 +1327,8 @@ bool Common::RegisterLocalService(const YarpString & channelName,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
-                           "checkStuff))"); //####
+                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                           "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -1337,7 +1336,7 @@ bool Common::RegisterLocalService(const YarpString & channelName,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
             
@@ -1371,8 +1370,9 @@ bool Common::UnregisterLocalService(const YarpString & channelName,
     
     try
     {
-        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "unregisterlocal_/"
-                                                           DEFAULT_CHANNEL_ROOT));
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                           "unregisterlocal_/"
+                                                           DEFAULT_CHANNEL_ROOT_));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
@@ -1392,26 +1392,26 @@ bool Common::UnregisterLocalService(const YarpString & channelName,
             newChannel->setReporter(*reporter);
             newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                         STANDARD_WAIT_TIME, false, checker,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME_,
+                                                         STANDARD_WAIT_TIME_, false, checker,
                                                          checkStuff))
                 {
                     yarp::os::Bottle parameters(channelName);
-                    ServiceRequest   request(MpM_UNREGISTER_REQUEST, parameters);
+                    ServiceRequest   request(MpM_UNREGISTER_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*newChannel, response))
                     {
                         // Check that we got a successful self-deregistration!
-                        if (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE == response.count())
+                        if (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE_ == response.count())
                         {
                             yarp::os::Value theValue = response.element(0);
                             
                             if (theValue.isString())
                             {
-                                result = (theValue.toString() == MpM_OK_RESPONSE);
+                                result = (theValue.toString() == MpM_OK_RESPONSE_);
                             }
                             else
                             {
@@ -1420,7 +1420,7 @@ bool Common::UnregisterLocalService(const YarpString & channelName,
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE == " //####
+                            OD_LOG("! (MpM_EXPECTED_UNREGISTER_RESPONSE_SIZE_ == " //####
                                    "response.count())"); //####
                             OD_LOG_S1s("response = ", response.asString()); //####
                         }
@@ -1430,12 +1430,13 @@ bool Common::UnregisterLocalService(const YarpString & channelName,
                         OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                  STANDARD_WAIT_TIME, checker,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName,
+                                                                  MpM_REGISTRY_ENDPOINT_NAME_,
+                                                                  STANDARD_WAIT_TIME_, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -1443,8 +1444,8 @@ bool Common::UnregisterLocalService(const YarpString & channelName,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
-                           "checkStuff))"); //####
+                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                           "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -1452,7 +1453,7 @@ bool Common::UnregisterLocalService(const YarpString & channelName,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             SendReceiveCounters newCounters;
             

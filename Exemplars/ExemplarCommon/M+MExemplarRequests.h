@@ -56,9 +56,9 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the exemplar service. */
-# define MpM_EXEMPLAR_CANONICAL_NAME "Exemplar"
+# define MpM_EXEMPLAR_CANONICAL_NAME_ "Exemplar"
 
 /*! @brief The name for the 'simple' request. */
-# define MpM_SIMPLE_REQUEST "simple"
+# define MpM_SIMPLE_REQUEST_ "simple"
 
 #endif // ! defined(MpMExemplarRequests_H_)

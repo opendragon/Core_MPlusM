@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Record As JSON output service. */
-# define MpM_RECORDASJSON_CANONICAL_NAME "RecordAsJSON"
+# define MpM_RECORDASJSON_CANONICAL_NAME_ "RecordAsJSON"
 
 #endif // ! defined(MpMRecordAsJSONRequests_H_)

@@ -121,7 +121,7 @@ void BaseChannel::RelinquishChannel(BaseChannel * theChannel)
         try
         {
 #if (! defined(MpM_DontUseTimeouts))
-            BailOut bailer(*theChannel, STANDARD_WAIT_TIME);
+            BailOut bailer(*theChannel, STANDARD_WAIT_TIME_);
 #endif // ! defined(MpM_DontUseTimeouts)
             
             delete theChannel;
@@ -168,7 +168,7 @@ void BaseChannel::close(void)
     try
     {
 #if (! defined(MpM_DontUseTimeouts))
-        BailOut bailer(*this, STANDARD_WAIT_TIME);
+        BailOut bailer(*this, STANDARD_WAIT_TIME_);
 #endif // ! defined(MpM_DontUseTimeouts)
         
         inherited::interrupt();
@@ -260,8 +260,8 @@ bool BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
     DumpContactToLog("theContactInfo = ", theContactInfo); //####
 #endif // defined(MpM_ReportContactDetails)
     bool   result = false;
-    double retryTime = INITIAL_RETRY_INTERVAL;
-    int    retriesLeft = MAX_RETRIES;
+    double retryTime = INITIAL_RETRY_INTERVAL_;
+    int    retriesLeft = MAX_RETRIES_;
     
 #if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
     inherited::setVerbosity(1);
@@ -287,7 +287,7 @@ bool BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
                 {
                     OD_LOG("%%retry%%"); //####
                     yarp::os::Time::delay(retryTime);
-                    retryTime *= RETRY_MULTIPLIER;
+                    retryTime *= RETRY_MULTIPLIER_;
                 }
             }
             if (result)

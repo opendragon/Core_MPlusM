@@ -90,8 +90,8 @@ LeapTwoFingersInputService::LeapTwoFingersInputService(const YarpString & launch
                                                        const YarpString & tag,
                                                        const YarpString & serviceEndpointName,
                                                        const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME,
-              LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME_,
+              LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####

@@ -94,7 +94,8 @@ using std::endl;
  @param argv The arguments to be used with the Request Counter service.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(const YarpString & progName,
                        const int          argc,
                        char * *           argv,
@@ -127,7 +128,7 @@ static void setUpAndGo(const YarpString & progName,
                 for ( ; IsRunning(); )
                 {
 #if defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -208,9 +209,9 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
-                                          REQUESTCOUNTER_SERVICE_DESCRIPTION, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          DEFAULT_REQUESTCOUNTER_SERVICE_NAME_,
+                                          REQUESTCOUNTER_SERVICE_DESCRIPTION_, "", 2014,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           static_cast<OptionsMask>(kSkipGoOption |
                                                                    kSkipEndpointOption |
@@ -226,7 +227,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(progName, argc, argv, DEFAULT_REQUESTCOUNTER_SERVICE_NAME,
+                    setUpAndGo(progName, argc, argv, DEFAULT_REQUESTCOUNTER_SERVICE_NAME_,
                                servicePortNumber, reportOnExit);                    
                 }
                 else

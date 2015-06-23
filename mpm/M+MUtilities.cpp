@@ -248,15 +248,15 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
     OD_LOG_S2("fullname = ", fullname, "hostTarget = ", hostTarget); //####
     bool okToUse = false;
 
-    if (TXTRecordContainsKey(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY))
+    if (TXTRecordContainsKey(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY_))
     {
         uint8_t      valueLen = 0;
-        const void * valuePtr = TXTRecordGetValuePtr(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY,
+        const void * valuePtr = TXTRecordGetValuePtr(txtLen, txtRecord, MpM_MDNS_NAMESERVER_KEY_,
                                                      &valueLen);
         
         if (valuePtr && (0 < valueLen))
         {
-            std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION);
+            std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION_);
             std::string       inString(reinterpret_cast<const char *>(valuePtr), valueLen);
             std::stringstream buff2(inString);
             int               thisVersion;
@@ -702,21 +702,21 @@ static void convertMetricPropertyToString(yarp::os::Property & propList,
                 {
                     result << ", ";
                 }
-                result << T_("{ " CHAR_DOUBLEQUOTE "channel" CHAR_DOUBLEQUOTE ": "
-                             CHAR_DOUBLEQUOTE) << SanitizeString(theChannelAsString).c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "date" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << theDateAsString.c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "time" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << theTimeAsString.c_str() <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inBytes" CHAR_DOUBLEQUOTE
-                           ": " CHAR_DOUBLEQUOTE) << inByteCount <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "inMessages" CHAR_DOUBLEQUOTE
-                           ": " CHAR_DOUBLEQUOTE) << inMessageCount <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outBytes" CHAR_DOUBLEQUOTE
-                           ": " CHAR_DOUBLEQUOTE) << outByteCount <<
-                        T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "outMessages" CHAR_DOUBLEQUOTE
-                           ": " CHAR_DOUBLEQUOTE) << outMessageCount <<
-                        T_(CHAR_DOUBLEQUOTE " }");
+                result << T_("{ " CHAR_DOUBLEQUOTE_ "channel" CHAR_DOUBLEQUOTE_ ": "
+                             CHAR_DOUBLEQUOTE_) << SanitizeString(theChannelAsString).c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "date" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << theDateAsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "time" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << theTimeAsString.c_str() <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "inBytes" CHAR_DOUBLEQUOTE_
+                           ": " CHAR_DOUBLEQUOTE_) << inByteCount <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "inMessages" CHAR_DOUBLEQUOTE_
+                           ": " CHAR_DOUBLEQUOTE_) << inMessageCount <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "outBytes" CHAR_DOUBLEQUOTE_
+                           ": " CHAR_DOUBLEQUOTE_) << outByteCount <<
+                        T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "outMessages" CHAR_DOUBLEQUOTE_
+                           ": " CHAR_DOUBLEQUOTE_) << outMessageCount <<
+                        T_(CHAR_DOUBLEQUOTE_ " }");
                 break;
                 
             case kOutputFlavourNormal :
@@ -832,8 +832,8 @@ static void processNameServerResponse(const YarpString & received,
                 // Check if this is a 'hidden' port:
                 if (pp && (! includeHiddenPorts) && channelName)
                 {
-                    if (! strncmp(channelName, HIDDEN_CHANNEL_PREFIX,
-                                  sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
+                    if (! strncmp(channelName, HIDDEN_CHANNEL_PREFIX_,
+                                  sizeof(HIDDEN_CHANNEL_PREFIX_) - 1))
                     {
                         // Skip this one.
                         pp = NULL;
@@ -927,7 +927,7 @@ void Utilities::CheckForNameServerReporter(void)
     {
         lSawBrowseAdd = false;
         DNSServiceRef       serviceRef = NULL;
-        static const char * regType = MpM_MDNS_NAMESERVER_REPORT;
+        static const char * regType = MpM_MDNS_NAMESERVER_REPORT_;
         DNSServiceErrorType err = DNSServiceBrowse(&serviceRef, 0, 0, regType, NULL /* domain */,
                                                    browseCallBack, NULL);
         
@@ -996,7 +996,7 @@ void Utilities::CheckForNameServerReporter(void)
 bool Utilities::CheckForRegistryService(void)
 {
     OD_LOG_ENTER(); //####
-    bool result = CheckForChannel(MpM_REGISTRY_ENDPOINT_NAME);
+    bool result = CheckForChannel(MpM_REGISTRY_ENDPOINT_NAME_);
     
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -1008,13 +1008,13 @@ bool Utilities::CheckForValidNetwork(const bool quiet)
     OD_LOG_B1("quiet =", quiet); //####
     bool result;
     
-    if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))
+    if (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT_))
     {
         result = true;
     }
     else
     {
-        OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT))"); //####
+        OD_LOG("! (yarp::os::Network::checkNetwork(NETWORK_CHECK_TIMEOUT_))"); //####
         result = false;
     }
     if (result)
@@ -1050,7 +1050,7 @@ bool Utilities::CheckListForRegistryService(const PortVector & ports)
     {
         for (PortVector::const_iterator walker(ports.begin()); ports.end() != walker; ++walker)
         {
-            if (walker->_portName == MpM_REGISTRY_ENDPOINT_NAME)
+            if (walker->_portName == MpM_REGISTRY_ENDPOINT_NAME_)
             {
                 result = true;
                 break;
@@ -1361,8 +1361,8 @@ bool Utilities::GetDetectedPortList(PortVector & ports,
     }
     if (! okSoFar)
     {
-        char buffer1[DATE_TIME_BUFFER_SIZE];
-        char buffer2[DATE_TIME_BUFFER_SIZE];
+        char buffer1[DATE_TIME_BUFFER_SIZE_];
+        char buffer2[DATE_TIME_BUFFER_SIZE_];
         
         GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         cerr << buffer1 << " " << buffer2 << "Problem getting list of ports." << endl;
@@ -1460,8 +1460,8 @@ bool Utilities::GetMetricsForService(const YarpString & serviceChannelName,
     OD_LOG_P2("metrics = ", &metrics, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicemetrics_/"
-                                               DEFAULT_CHANNEL_ROOT));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicemetrics_/"
+                                               DEFAULT_CHANNEL_ROOT_));
     ClientChannel * newChannel = new ClientChannel;
     
     if (newChannel)
@@ -1472,7 +1472,7 @@ bool Utilities::GetMetricsForService(const YarpString & serviceChannelName,
                                           checkStuff))
             {
                 yarp::os::Bottle parameters;
-                ServiceRequest   request(MpM_GETMETRICS_REQUEST, parameters);
+                ServiceRequest   request(MpM_GETMETRICS_REQUEST_, parameters);
                 ServiceResponse  response;
                 
                 if (request.send(*newChannel, response))
@@ -1531,8 +1531,8 @@ bool Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
     OD_LOG_P2("metrics = ", &metricsState, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicemetrics_/"
-                                               DEFAULT_CHANNEL_ROOT));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicemetrics_/"
+                                               DEFAULT_CHANNEL_ROOT_));
     ClientChannel * newChannel = new ClientChannel;
     
     if (newChannel)
@@ -1543,13 +1543,13 @@ bool Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
                                           checkStuff))
             {
                 yarp::os::Bottle parameters;
-                ServiceRequest   request(MpM_GETMETRICSSTATE_REQUEST, parameters);
+                ServiceRequest   request(MpM_GETMETRICSSTATE_REQUEST_, parameters);
                 ServiceResponse  response;
                 
                 if (request.send(*newChannel, response))
                 {
                     OD_LOG_S1s("response <- ", response.asString()); //####
-                    if (MpM_EXPECTED_GETMETRICSSTATE_RESPONSE_SIZE == response.count())
+                    if (MpM_EXPECTED_GETMETRICSSTATE_RESPONSE_SIZE_ == response.count())
                     {
                         yarp::os::Value responseValue = response.element(0);
                         
@@ -1621,8 +1621,8 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
     
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicelister_/"
-                                                   DEFAULT_CHANNEL_ROOT));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicelister_/"
+                                                   DEFAULT_CHANNEL_ROOT_));
         ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
@@ -1633,13 +1633,13 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                                               checkStuff))
                 {
                     yarp::os::Bottle parameters1;
-                    ServiceRequest   request1(MpM_NAME_REQUEST, parameters1);
+                    ServiceRequest   request1(MpM_NAME_REQUEST_, parameters1);
                     ServiceResponse  response1;
                     
                     if (request1.send(*newChannel, response1))
                     {
                         OD_LOG_S1s("response1 <- ", response1.asString()); //####
-                        if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response1.count())
+                        if (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == response1.count())
                         {
                             yarp::os::Value theCanonicalName(response1.element(0));
                             yarp::os::Value theDescription(response1.element(1));
@@ -1679,7 +1679,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                         }
                         else
                         {
-                            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == " //####
+                            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == " //####
                                    "response1.count())"); //####
                             OD_LOG_S1s("response1 = ", response1.asString()); //####
                         }
@@ -1691,12 +1691,12 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                     if (result)
                     {
                         yarp::os::Bottle parameters2;
-                        ServiceRequest   request2(MpM_CHANNELS_REQUEST, parameters2);
+                        ServiceRequest   request2(MpM_CHANNELS_REQUEST_, parameters2);
                         ServiceResponse  response2;
                         
                         if (request2.send(*newChannel, response2))
                         {
-                            if (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == response2.count())
+                            if (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE_ == response2.count())
                             {
                                 yarp::os::Value theInputChannels(response2.element(0));
                                 yarp::os::Value theOutputChannels(response2.element(1));
@@ -1728,7 +1728,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                                             yarp::os::Bottle * inputChannelAsList =
                                                                                 element.asList();
                                             
-                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE_ ==
                                                 inputChannelAsList->size())
                                             {
                                                 yarp::os::Value firstValue =
@@ -1763,7 +1763,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                                             yarp::os::Bottle * outputChannelAsList =
                                                                                 element.asList();
                                             
-                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE_ ==
                                                 outputChannelAsList->size())
                                             {
                                                 yarp::os::Value firstValue =
@@ -1798,7 +1798,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                                             yarp::os::Bottle * clientChannelAsList =
                                                                                 element.asList();
                                             
-                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE ==
+                                            if (MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE_ ==
                                                 clientChannelAsList->size())
                                             {
                                                 yarp::os::Value firstValue =
@@ -1833,7 +1833,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                             }
                             else
                             {
-                                OD_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE == " //####
+                                OD_LOG("! (MpM_EXPECTED_CHANNELS_RESPONSE_SIZE_ == " //####
                                        "response2.count())"); //####
                                 OD_LOG_S1s("response2 = ", response2.asString()); //####
                             }
@@ -1885,24 +1885,24 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
 Utilities::PortKind Utilities::GetPortKind(const YarpString & portName)
 {
     const char * portNameChars = portName.c_str();
-    const size_t kAdapterPortNameBaseLen = sizeof(DEFAULT_ADAPTER_NAME_BASE) - 1;
-    const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE) - 1;
-    const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE) - 1;
+    const size_t kAdapterPortNameBaseLen = sizeof(DEFAULT_ADAPTER_NAME_BASE_) - 1;
+    const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE_) - 1;
+    const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE_) - 1;
     PortKind     result;
     
-    if (! strcmp(MpM_REGISTRY_ENDPOINT_NAME, portNameChars))
+    if (! strcmp(MpM_REGISTRY_ENDPOINT_NAME_, portNameChars))
     {
         result = kPortKindRegistryService;
     }
-    else if (! strncmp(DEFAULT_SERVICE_NAME_BASE, portNameChars, kDefaultServiceNameBaseLen))
+    else if (! strncmp(DEFAULT_SERVICE_NAME_BASE_, portNameChars, kDefaultServiceNameBaseLen))
     {
         result = kPortKindService;
     }
-    else if (! strncmp(DEFAULT_ADAPTER_NAME_BASE, portNameChars, kAdapterPortNameBaseLen))
+    else if (! strncmp(DEFAULT_ADAPTER_NAME_BASE_, portNameChars, kAdapterPortNameBaseLen))
     {
         result = kPortKindAdapter;
     }
-    else if (! strncmp(CLIENT_PORT_NAME_BASE, portNameChars, kClientPortNameBaseLen))
+    else if (! strncmp(CLIENT_PORT_NAME_BASE_, portNameChars, kClientPortNameBaseLen))
     {
         result = kPortKindClient;
     }
@@ -1966,7 +1966,7 @@ bool Utilities::GetServiceNames(YarpStringVector & services,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
     OD_LOG_B1("quiet = ", quiet); //####
-    bool okSoFar = GetServiceNamesFromCriteria(MpM_REQREP_DICT_REQUEST_KEY ":*", services, quiet,
+    bool okSoFar = GetServiceNamesFromCriteria(MpM_REQREP_DICT_REQUEST_KEY_ ":*", services, quiet,
                                                checker, checkStuff);
     
     OD_LOG_EXIT_B(okSoFar); //####
@@ -1986,14 +1986,14 @@ bool Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
     bool             okSoFar = false;
     yarp::os::Bottle matches(FindMatchingServices(criteria, false, checker, checkStuff));
     
-    if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+    if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size())
     {
         // First, check if the search succeeded.
         YarpString matchesFirstString(matches.get(0).toString());
         
-        if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+        if (strcmp(MpM_OK_RESPONSE_, matchesFirstString.c_str()))
         {
-            OD_LOG("(strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))"); //####
+            OD_LOG("(strcmp(MpM_OK_RESPONSE_, matchesFirstString.c_str()))"); //####
             if (! quiet)
             {
 #if MAC_OR_LINUX_
@@ -2020,7 +2020,7 @@ bool Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
     }
     else
     {
-        OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())"); //####
+        OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size())"); //####
         if (! quiet)
         {
 #if MAC_OR_LINUX_
@@ -2030,8 +2030,8 @@ bool Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
     }
     if ((! okSoFar) && (! quiet))
     {
-        char buffer1[DATE_TIME_BUFFER_SIZE];
-        char buffer2[DATE_TIME_BUFFER_SIZE];
+        char buffer1[DATE_TIME_BUFFER_SIZE_];
+        char buffer2[DATE_TIME_BUFFER_SIZE_];
         
         GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
         cerr << buffer1 << " " << buffer2 << " Problem getting list of service names." << endl;
@@ -2148,8 +2148,8 @@ bool Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
     
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
-        double retryTime = INITIAL_RETRY_INTERVAL;
-        int    retriesLeft = MAX_RETRIES;
+        double retryTime = INITIAL_RETRY_INTERVAL_;
+        int    retriesLeft = MAX_RETRIES_;
         
 #if RETRY_LOOPS_USE_TIMEOUTS
         SetUpCatcher();
@@ -2189,7 +2189,7 @@ bool Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                     {
                         OD_LOG("%%retry%%"); //####
                         yarp::os::Time::delay(retryTime);
-                        retryTime *= RETRY_MULTIPLIER;
+                        retryTime *= RETRY_MULTIPLIER_;
                     }
                 }
             }
@@ -2239,8 +2239,8 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
     
     if (yarp::os::Network::exists(sourceName) && yarp::os::Network::exists(destinationName))
     {
-        double retryTime = INITIAL_RETRY_INTERVAL;
-        int    retriesLeft = MAX_RETRIES;
+        double retryTime = INITIAL_RETRY_INTERVAL_;
+        int    retriesLeft = MAX_RETRIES_;
         
 #if RETRY_LOOPS_USE_TIMEOUTS
         SetUpCatcher();
@@ -2271,7 +2271,7 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
                     {
                         OD_LOG("%%retry%%"); //####
                         yarp::os::Time::delay(retryTime);
-                        retryTime *= RETRY_MULTIPLIER;
+                        retryTime *= RETRY_MULTIPLIER_;
                     }
                 }
             }
@@ -2399,12 +2399,12 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
-        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
+        Option_::printUsage(cout, usage, HELP_LINE_LENGTH_);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])
     {
-        YarpString mpmVersionString(SanitizeString(MpM_VERSION, true));
+        YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
         
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
         copyrightHolder << "." << endl;
@@ -2546,12 +2546,12 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
-        Option_::printUsage(cout, usage, HELP_LINE_LENGTH);
+        Option_::printUsage(cout, usage, HELP_LINE_LENGTH_);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])
     {
-        YarpString mpmVersionString(SanitizeString(MpM_VERSION, true));
+        YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
         
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
                 copyrightHolder << "." << endl;
@@ -2600,7 +2600,7 @@ bool Utilities::RemoveConnection(const YarpString & fromPortName,
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
     OD_LOG_P1("checkStuff = ", checkStuff); //####
-    bool result = NetworkDisconnectWithRetries(fromPortName, toPortName, STANDARD_WAIT_TIME,
+    bool result = NetworkDisconnectWithRetries(fromPortName, toPortName, STANDARD_WAIT_TIME_,
                                                checker, checkStuff);
     
     OD_LOG_EXIT_B(result); //####
@@ -2674,8 +2674,8 @@ void Utilities::RemoveStalePorts(const float timeout)
                             else
                             {
                                 OD_LOG("No response, removing port."); //####
-                                char buffer1[DATE_TIME_BUFFER_SIZE];
-                                char buffer2[DATE_TIME_BUFFER_SIZE];
+                                char buffer1[DATE_TIME_BUFFER_SIZE_];
+                                char buffer2[DATE_TIME_BUFFER_SIZE_];
                                 
                                 GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
                                 yarp::os::NetworkBase::unregisterName(port);
@@ -2720,8 +2720,8 @@ bool Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
     OD_LOG_P1("checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "servicemetrics_/"
-                                               DEFAULT_CHANNEL_ROOT));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicemetrics_/"
+                                               DEFAULT_CHANNEL_ROOT_));
     ClientChannel * newChannel = new ClientChannel;
     
     if (newChannel)
@@ -2734,7 +2734,7 @@ bool Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
                 yarp::os::Bottle parameters;
                 
                 parameters.addInt(newMetricsState ? 1 : 0);
-                ServiceRequest  request(MpM_SETMETRICSSTATE_REQUEST, parameters);
+                ServiceRequest  request(MpM_SETMETRICSSTATE_REQUEST_, parameters);
                 ServiceResponse response;
                 
                 if (request.send(*newChannel, response))
@@ -2812,8 +2812,8 @@ bool Utilities::StopAService(const YarpString & serviceChannelName,
     
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "stop_/"
-                                                   DEFAULT_CHANNEL_ROOT));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "stop_/"
+                                                   DEFAULT_CHANNEL_ROOT_));
         ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
@@ -2827,7 +2827,7 @@ bool Utilities::StopAService(const YarpString & serviceChannelName,
                                                          false, checker, checkStuff))
                 {
                     yarp::os::Bottle parameters;
-                    ServiceRequest   request(MpM_STOP_REQUEST, parameters);
+                    ServiceRequest   request(MpM_STOP_REQUEST_, parameters);
 #if defined(MpM_DoExplicitCheckForOK)
                     ServiceResponse  response;
 #endif // defined(MpM_DoExplicitCheckForOK)

@@ -67,7 +67,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'restartStreams' request. */
-#define RESTARTSTREAMS_REQUEST_VERSION_NUMBER "1.0"
+#define RESTARTSTREAMS_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 RestartStreamsRequestHandler::RestartStreamsRequestHandler(BaseInputOutputService & service) :
-    inherited(MpM_RESTARTSTREAMS_REQUEST, service)
+    inherited(MpM_RESTARTSTREAMS_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -130,16 +130,16 @@ void RestartStreamsRequestHandler::fillInDescription(const YarpString &   reques
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, RESTARTSTREAMS_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Restart the input/output streams\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, RESTARTSTREAMS_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Restart the input/output streams\n"
                  "Input: nothing\n"
                  "Output: nothing");
         yarp::os::Value   keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -175,7 +175,7 @@ bool RestartStreamsRequestHandler::processRequest(const YarpString &           r
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            sendResponse(MpM_OK_RESPONSE, replyMechanism);
+            sendResponse(MpM_OK_RESPONSE_, replyMechanism);
         }
     }
     catch (...)

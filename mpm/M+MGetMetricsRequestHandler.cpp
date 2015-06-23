@@ -67,7 +67,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'getMetrics' request. */
-#define GETMETRICS_REQUEST_VERSION_NUMBER "1.0"
+#define GETMETRICS_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 GetMetricsRequestHandler::GetMetricsRequestHandler(BaseService & service) :
-    inherited(MpM_GETMETRICS_REQUEST, service)
+    inherited(MpM_GETMETRICS_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -130,11 +130,11 @@ void GetMetricsRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_DICT_START
-                 MpM_REQREP_DICT_END MpM_REQREP_1_OR_MORE MpM_REQREP_LIST_END);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, GETMETRICS_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return the measurements for the channels of the "
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_DICT_START_
+                 MpM_REQREP_DICT_END_ MpM_REQREP_1_OR_MORE_ MpM_REQREP_LIST_END_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, GETMETRICS_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return the measurements for the channels of the "
                  "service\n"
                  "Input: nothing\n"
                  "Output: a list of dictionaries containing measurements for the service channels");
@@ -142,7 +142,7 @@ void GetMetricsRequestHandler::fillInDescription(const YarpString &   request,
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {

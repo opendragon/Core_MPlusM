@@ -120,8 +120,8 @@ void SendReceiveCounters::addToList(yarp::os::Bottle & counterList,
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("counterList = ", &counterList); //####
     OD_LOG_S1s("channel = ", channel); //####
-    char                 buffer1[DATE_TIME_BUFFER_SIZE];
-    char                 buffer2[DATE_TIME_BUFFER_SIZE];
+    char                 buffer1[DATE_TIME_BUFFER_SIZE_];
+    char                 buffer2[DATE_TIME_BUFFER_SIZE_];
     yarp::os::Property & props = counterList.addDict();
 
     Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));

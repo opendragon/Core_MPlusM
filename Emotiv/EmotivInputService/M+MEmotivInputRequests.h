@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %Emotiv input service. */
-# define MpM_EMOTIVINPUT_CANONICAL_NAME "EmotivInput"
+# define MpM_EMOTIVINPUT_CANONICAL_NAME_ "EmotivInput"
 
 #endif // ! defined(MpMEmotivInputRequests_H_)

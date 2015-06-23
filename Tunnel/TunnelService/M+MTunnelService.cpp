@@ -93,8 +93,8 @@ TunnelService::TunnelService(const YarpString & sourceName,
                              const YarpString & tag,
                              const YarpString & serviceEndpointName,
                              const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_TUNNEL_CANONICAL_NAME,
-              TUNNEL_SERVICE_DESCRIPTION,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_TUNNEL_CANONICAL_NAME_,
+              TUNNEL_SERVICE_DESCRIPTION_,
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _listenAddress(""), _sourceAddress(sourceName),
     _whereHandler(NULL), _connection(new ConnectionThread(*this)), _listenPort(-1),
@@ -198,7 +198,7 @@ bool TunnelService::start(void)
                     _connection->stop();
                     for ( ; _connection->isRunning(); )
                     {
-                        yarp::os::Time::delay(STANDARD_WAIT_TIME / 3.1);
+                        yarp::os::Time::delay(STANDARD_WAIT_TIME_ / 3.1);
                     }
                 }
                 _connection->setSourceAddress(_sourceAddress, _sourcePort);
@@ -232,7 +232,7 @@ bool TunnelService::stop(void)
             _connection->stop();
             for ( ; _connection->isRunning(); )
             {
-                yarp::os::Time::delay(STANDARD_WAIT_TIME / 4.3);
+                yarp::os::Time::delay(STANDARD_WAIT_TIME_ / 4.3);
             }
         }
         result = inherited::stop();

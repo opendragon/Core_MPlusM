@@ -118,7 +118,7 @@ int main(int      argc,
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "Reports the version numbers", 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour))
+                                                   STANDARD_COPYRIGHT_NAME_, flavour))
     {
         YarpString aceVersionString;
         YarpString mpmVersionString;
@@ -128,7 +128,7 @@ int main(int      argc,
         {
             case kOutputFlavourTabs :
                 aceVersionString = SanitizeString(ACE_VERSION, true);
-                mpmVersionString = SanitizeString(MpM_VERSION, true);
+                mpmVersionString = SanitizeString(MpM_VERSION_, true);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
                 cout << mpmVersionString.c_str() << "\t" << yarpVersionString.c_str() << "\t" <<
                         aceVersionString.c_str() << endl;
@@ -136,19 +136,21 @@ int main(int      argc,
                 
             case kOutputFlavourJSON :
                 aceVersionString = SanitizeString(ACE_VERSION);
-                mpmVersionString = SanitizeString(MpM_VERSION);
+                mpmVersionString = SanitizeString(MpM_VERSION_);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING);
-                cout << T_("{ " CHAR_DOUBLEQUOTE "M+M" CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                        mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "YARP"
-                                                       CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                        yarpVersionString.c_str() << T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "ACE"
-                                                        CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE) <<
-                        aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE " }") << endl;
+                cout << T_("{ " CHAR_DOUBLEQUOTE_ "M+M" CHAR_DOUBLEQUOTE_ ": " CHAR_DOUBLEQUOTE_) <<
+                        mpmVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_
+                                                       "YARP" CHAR_DOUBLEQUOTE_ ": "
+                                                       CHAR_DOUBLEQUOTE_) <<
+                        yarpVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_
+                                                        "ACE" CHAR_DOUBLEQUOTE_ ": "
+                                                        CHAR_DOUBLEQUOTE_) <<
+                        aceVersionString.c_str() << T_(CHAR_DOUBLEQUOTE_ " }") << endl;
                 break;
                 
             case kOutputFlavourNormal :
                 aceVersionString = SanitizeString(ACE_VERSION, true);
-                mpmVersionString = SanitizeString(MpM_VERSION, true);
+                mpmVersionString = SanitizeString(MpM_VERSION_, true);
                 yarpVersionString = SanitizeString(YARP_VERSION_STRING, true);
                 cout << "Movement And Meaning Version: " << mpmVersionString.c_str() <<
                         ", YARP Version: " << yarpVersionString.c_str() << ", ACE Version: " <<

@@ -67,7 +67,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'stopdb' request. */
-#define STOPDB_REQUEST_VERSION_NUMBER "1.0"
+#define STOPDB_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::MovementDb;
 #endif // defined(__APPLE__)
 
 StopDbRequestHandler::StopDbRequestHandler(MovementDbService & service) :
-    inherited(MpM_STOPDB_REQUEST, service)
+    inherited(MpM_STOPDB_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -130,16 +130,16 @@ void StopDbRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, STOPDB_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Stop the client connection\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, STOPDB_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Stop the client connection\n"
                  "Input: nothing\n"
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -172,7 +172,7 @@ bool StopDbRequestHandler::processRequest(const YarpString &           request,
     try
     {
         static_cast<MovementDbService &>(_service).detachClient(senderChannel);
-        sendResponse(MpM_OK_RESPONSE, replyMechanism);
+        sendResponse(MpM_OK_RESPONSE_, replyMechanism);
     }
     catch (...)
     {

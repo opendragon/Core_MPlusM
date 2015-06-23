@@ -54,6 +54,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the exemplar filter service. */
-# define MpM_EXEMPLARFILTER_CANONICAL_NAME "ExemplarFilter"
+# define MpM_EXEMPLARFILTER_CANONICAL_NAME_ "ExemplarFilter"
 
 #endif // ! defined(MpMExemplarFilterStreamRequests_H_)

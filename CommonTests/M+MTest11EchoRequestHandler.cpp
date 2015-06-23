@@ -83,7 +83,7 @@ using namespace MplusM::Test;
 #endif // defined(__APPLE__)
 
 Test11EchoRequestHandler::Test11EchoRequestHandler(BaseService & service) :
-    inherited(MpM_ECHO_REQUEST, service)
+    inherited(MpM_ECHO_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####

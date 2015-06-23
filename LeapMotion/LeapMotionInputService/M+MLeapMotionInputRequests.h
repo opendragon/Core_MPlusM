@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %Leap Motion input service. */
-# define MpM_LEAPMOTIONINPUT_CANONICAL_NAME "LeapMotionInput"
+# define MpM_LEAPMOTIONINPUT_CANONICAL_NAME_ "LeapMotionInput"
 
 #endif // ! defined(MpMLeapMotionInputRequests_H_)

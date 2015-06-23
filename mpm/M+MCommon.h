@@ -136,92 +136,92 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The time between client announcements of associated channels. */
-# define ANNOUNCE_INTERVAL         (17.1 * ONE_SECOND_DELAY)
+# define ANNOUNCE_INTERVAL_         (17.1 * ONE_SECOND_DELAY_)
 
 /*! @brief The carrier type to be used for M+M connections. */
-# define CHANNEL_CARRIER_          "tcp"
+# define CHANNEL_CARRIER_           "tcp"
 
 /*! @brief A TAB character. */
-# define CHAR_TAB                  "\t"
+# define CHAR_TAB_                  "\t"
 
 /*! @brief A NEWLINE character. */
-# define CHAR_NEWLINE              "\n"
+# define CHAR_NEWLINE_              "\n"
 
 /*! @brief A DOUBLEQUOTE character. */
-# define CHAR_DOUBLEQUOTE          "\""
+# define CHAR_DOUBLEQUOTE_          "\""
 
 /*! @brief The base of the channel name to use for a client if not provided. */
-# define CLIENT_PORT_NAME_BASE     MpM_CLIENT_BASE_NAME
+# define CLIENT_PORT_NAME_BASE_     MpM_CLIENT_BASE_NAME_
 
 /*! @brief The size of the buffer used to display the date or the time. */
-# define DATE_TIME_BUFFER_SIZE     20
+# define DATE_TIME_BUFFER_SIZE_     20
 
 /*! @brief The base of the channel name to use for an adapter if not provided. */
-# define DEFAULT_ADAPTER_NAME_BASE MpM_ADAPTER_BASE_NAME
+# define DEFAULT_ADAPTER_NAME_BASE_ MpM_ADAPTER_BASE_NAME_
 
 /*! @brief The default name for the root part of a channel name. */
-# define DEFAULT_CHANNEL_ROOT      "channel_"
+# define DEFAULT_CHANNEL_ROOT_      "channel_"
 
 /*! @brief The base of the channel name to use for a service if not provided. */
-# define DEFAULT_SERVICE_NAME_BASE MpM_SERVICE_BASE_NAME
+# define DEFAULT_SERVICE_NAME_BASE_ MpM_SERVICE_BASE_NAME_
 
 /*! @brief The line length for command-line help output. */
-# define HELP_LINE_LENGTH          250
+# define HELP_LINE_LENGTH_          250
 
 /*! @brief The prefix string to use for internal channels. */
-# define HIDDEN_CHANNEL_PREFIX     "/$$$_"
+# define HIDDEN_CHANNEL_PREFIX_     "/$$$_"
 
 /*! @brief The basic time interval for retries. */
-# define INITIAL_RETRY_INTERVAL    (0.11 * ONE_SECOND_DELAY)
+# define INITIAL_RETRY_INTERVAL_    (0.11 * ONE_SECOND_DELAY_)
 
 /*! @brief The base of the channel name to use for an input if not provided. */
-# define INPUT_PORT_NAME_BASE      MpM_INPUT_BASE_NAME
+# define INPUT_PORT_NAME_BASE_      MpM_INPUT_BASE_NAME_
 
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
-# define MAX_RETRIES               7
+# define MAX_RETRIES_               7
 
 /*! @brief The largest IP port that is acceptable. */
-# define MAXIMUM_PORT_ALLOWED      65535
+# define MAXIMUM_PORT_ALLOWED_      65535
 
 /*! @brief The smallest IP port that is acceptable. */
-# define MINIMUM_PORT_ALLOWED      1024
+# define MINIMUM_PORT_ALLOWED_      1024
 
 /*! @brief The time allowed for 'checkNetwork()'. */
-# define NETWORK_CHECK_TIMEOUT     (3.1 * ONE_SECOND_DELAY)
+# define NETWORK_CHECK_TIMEOUT_     (3.1 * ONE_SECOND_DELAY_)
 
 /*! @brief The delay value corresponding to one second of delay. */
-# define ONE_SECOND_DELAY          1.0
+# define ONE_SECOND_DELAY_          1.0
 
 /*! @brief The base of the channel name to use for an output if not provided. */
-# define OUTPUT_PORT_NAME_BASE     MpM_OUTPUT_BASE_NAME
+# define OUTPUT_PORT_NAME_BASE_     MpM_OUTPUT_BASE_NAME_
 
 /*! @brief The time between checking for 'stale' registry entries. */
-# define PING_CHECK_INTERVAL       (7.3 * ONE_SECOND_DELAY)
+# define PING_CHECK_INTERVAL_       (7.3 * ONE_SECOND_DELAY_)
 
 /*! @brief The number of missing pings before a service is declared 'dead'. */
-# define PING_COUNT_MAX            5
+# define PING_COUNT_MAX_            5
 
 /*! @brief The time between ping requests that a service should use. */
-# define PING_INTERVAL             (9.7 * ONE_SECOND_DELAY)
+# define PING_INTERVAL_             (9.7 * ONE_SECOND_DELAY_)
 
 /*! @brief The retry interval multiplier. */
-# define RETRY_MULTIPLIER          1.21
+# define RETRY_MULTIPLIER_          1.21
 
 /*! @brief The standard copyright holder name to use for M+M-created executables. */
-# define STANDARD_COPYRIGHT_NAME   "H Plus Technologies Ltd. and Simon Fraser University"
+# define STANDARD_COPYRIGHT_NAME_   "H Plus Technologies Ltd. and Simon Fraser University"
 
 /*! @brief The signal to use for internally-detected timeouts. */
 # if MAC_OR_LINUX_
-#  define STANDARD_SIGNAL_TO_USE   SIGUSR2
+#  define STANDARD_SIGNAL_TO_USE_   SIGUSR2
 # else // ! MAC_OR_LINUX_
-#  define STANDARD_SIGNAL_TO_USE   42
+#  define STANDARD_SIGNAL_TO_USE_   42
 # endif // ! MAC_OR_LINUX_
 
 /*! @brief The default timeout duration in seconds. */
-# define STANDARD_WAIT_TIME        (5.3 * ONE_SECOND_DELAY)
+# define STANDARD_WAIT_TIME_        (5.3 * ONE_SECOND_DELAY_)
 
 /*! @brief A simple macro to hold the pieces of a string together. */
-# define T_(xx_)                   xx_
+# define T_(xx_)                    xx_
 
 /*! @brief The standard copy constructor and assignment operator declarations. */
 # define COPY_AND_ASSIGNMENT_(xx_) \
@@ -231,12 +231,12 @@
 /*! @brief @c TRUE if retry loops use timeouts and @c FALSE otherwise. */
 # if defined(MpM_UseTimeoutsInRetryLoops)
 #  if defined(MpM_DontUseTimeouts)
-#   define RETRY_LOOPS_USE_TIMEOUTS FALSE
+#   define RETRY_LOOPS_USE_TIMEOUTS_ FALSE
 #  else // ! defined(MpM_DontUseTimeouts)
-#   define RETRY_LOOPS_USE_TIMEOUTS TRUE
+#   define RETRY_LOOPS_USE_TIMEOUTS_ TRUE
 #  endif // ! defined(MpM_DontUseTimeouts)
 # else // ! defined(MpM_UseTimeoutsInRetryLoops)
-#  define RETRY_LOOPS_USE_TIMEOUTS  FALSE
+#  define RETRY_LOOPS_USE_TIMEOUTS_  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
 
 /*! @brief An alias for a YARP-type string. */
@@ -364,7 +364,7 @@ namespace MplusM
 
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
-        YarpString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT);
+        YarpString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT_);
         
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */

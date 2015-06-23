@@ -113,9 +113,9 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
         ServiceResponse  response;
         
         reconnectIfDisconnected();
-        if (send(MpM_STATS_REQUEST, parameters, response))
+        if (send(MpM_STATS_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_STATS_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_STATS_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrievedCounter(response.element(0));
                 yarp::os::Value retrievedElapsed(response.element(1));
@@ -133,13 +133,13 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STATS_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_STATS_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STATS_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_STATS_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
@@ -192,15 +192,15 @@ bool RequestCounterClient::resetServiceCounters(void)
         
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_RESETCOUNTER_REQUEST, parameters, response))
+        if (send(MpM_RESETCOUNTER_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
                 if (retrieved.isString())
                 {
-                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -209,22 +209,22 @@ bool RequestCounterClient::resetServiceCounters(void)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_RESETCOUNTER_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_RESETCOUNTER_REQUEST, parameters))
+        if (send(MpM_RESETCOUNTER_REQUEST_, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_RESETCOUNTER_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }

@@ -113,8 +113,8 @@ bool ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
     OD_LOG_S1s("theChannelToBeAdded = ", theChannelToBeAdded); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool   result = false;
-    double retryTime = INITIAL_RETRY_INTERVAL;
-    int    retriesLeft = MAX_RETRIES;
+    double retryTime = INITIAL_RETRY_INTERVAL_;
+    int    retriesLeft = MAX_RETRIES_;
     
 #if RETRY_LOOPS_USE_TIMEOUTS
     SetUpCatcher();
@@ -135,7 +135,7 @@ bool ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
                 {
                     OD_LOG("%%retry%%"); //####
                     yarp::os::Time::delay(retryTime);
-                    retryTime *= RETRY_MULTIPLIER;
+                    retryTime *= RETRY_MULTIPLIER_;
                 }
             }
         }

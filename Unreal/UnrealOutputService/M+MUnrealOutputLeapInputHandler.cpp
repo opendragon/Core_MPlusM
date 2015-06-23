@@ -70,7 +70,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The Windows line end sequence. */
-#define LINE_END "\r\n"
+#define LINE_END_ "\r\n"
 
 /*! @brief The scale factor to apply to %Leap Motion data. */
 static const double kLeapScale = 1.0;
@@ -163,7 +163,7 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
             if (okSoFar)
             {
                 // Add a dummy 'w' value.
-                outBuffer << "\t1" << LINE_END;
+                outBuffer << "\t1" << LINE_END_;
             }
         }
         else
@@ -205,7 +205,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
             int fingerCount = fingers->size();
             
             cerr << "Subject = " << nameTag.c_str() << endl; //!!!!
-            outBuffer << nameTag.c_str() << "\t" << fingerCount << "\t0" << LINE_END;
+            outBuffer << nameTag.c_str() << "\t" << fingerCount << "\t0" << LINE_END_;
             for (int ii = 0; okSoFar && (fingerCount > ii); ++ii)
             {
                 yarp::os::Value & aFinger = fingers->get(ii);
@@ -347,7 +347,7 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     inpu
                                 std::stringstream outBuffer;
                                 
 //                                cerr << "# hands = " << handCount << endl; //!!!!
-                                outBuffer << handCount << LINE_END;
+                                outBuffer << handCount << LINE_END_;
                                 for (int ii = 0; okSoFar && (handCount > ii); ++ii)
                                 {
                                     yarp::os::Value & handValue = handList->get(ii);
@@ -399,7 +399,7 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     inpu
                                 }
                                 if (okSoFar)
                                 {
-                                    outBuffer << "END" << LINE_END;
+                                    outBuffer << "END" << LINE_END_;
                                     std::string outString(outBuffer.str());
                                     int         retVal = send(_outSocket, outString.c_str(),
                                                               outString.length(), 0);

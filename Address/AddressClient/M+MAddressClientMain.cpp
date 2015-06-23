@@ -162,8 +162,8 @@ static void setUpAndGo(const YarpString &  outputMode,
     {
         bool       needsAddress;
         bool       needsPort;
-        YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY ":");
-        YarpString namePattern(MpM_ADDRESS_CANONICAL_NAME);
+        YarpString channelNameRequest(MpM_REQREP_DICT_NAME_KEY_ ":");
+        YarpString namePattern(MpM_ADDRESS_CANONICAL_NAME_);
         
 #if defined(MpM_ReportOnConnections)
         aClient->setReporter(*reporter, true);
@@ -186,9 +186,10 @@ static void setUpAndGo(const YarpString &  outputMode,
                                 cout << "{ ";
                                 if (needsAddress)
                                 {
-                                    cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
-                                               CHAR_DOUBLEQUOTE);
-                                    cout << SanitizeString(address).c_str() << T_(CHAR_DOUBLEQUOTE);
+                                    cout << T_(CHAR_DOUBLEQUOTE_ "Address" CHAR_DOUBLEQUOTE_ ": "
+                                               CHAR_DOUBLEQUOTE_);
+                                    cout << SanitizeString(address).c_str() <<
+                                            T_(CHAR_DOUBLEQUOTE_);
                                 }
                                 if (needsPort)
                                 {
@@ -196,9 +197,9 @@ static void setUpAndGo(const YarpString &  outputMode,
                                     {
                                         cout << ", ";
                                     }
-                                    cout << T_(CHAR_DOUBLEQUOTE "Address" CHAR_DOUBLEQUOTE ": "
-                                               CHAR_DOUBLEQUOTE);
-                                    cout << port << T_(CHAR_DOUBLEQUOTE);
+                                    cout << T_(CHAR_DOUBLEQUOTE_ "Address" CHAR_DOUBLEQUOTE_ ": "
+                                               CHAR_DOUBLEQUOTE_);
+                                    cout << port << T_(CHAR_DOUBLEQUOTE_);
                                 }
                                 cout << " }" << endl;
                                 break;
@@ -325,7 +326,7 @@ int main(int      argc,
         argumentList.push_back(&secondArg);
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Address service", 2015,
-                                                    STANDARD_COPYRIGHT_NAME, flavour))
+                                                    STANDARD_COPYRIGHT_NAME_, flavour))
         {
             try
             {

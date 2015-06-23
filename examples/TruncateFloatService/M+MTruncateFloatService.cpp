@@ -90,8 +90,8 @@ TruncateFloatService::TruncateFloatService(const YarpString & launchPath,
                                            const YarpString & tag,
                                            const YarpString & serviceEndpointName,
                                            const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_TRUNCATEFLOAT_CANONICAL_NAME,
-              TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_TRUNCATEFLOAT_CANONICAL_NAME_,
+              TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _inHandler(new TruncateFloatInputHandler)
 {
     OD_LOG_ENTER(); //####

@@ -207,7 +207,7 @@ int main(int      argc,
         
         if (Utilities::ProcessStandardClientOptions(argc, argv, argumentList,
                                                     "The client for the Echo service", 2014,
-                                                    STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                    STANDARD_COPYRIGHT_NAME_, flavour, true))
         {
             if (CanReadFromStandardInput())
             {

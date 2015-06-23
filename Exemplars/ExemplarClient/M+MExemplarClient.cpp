@@ -112,7 +112,7 @@ bool ExemplarClient::getOneRandomNumber(double & result)
         ServiceResponse  response;
         
         reconnectIfDisconnected();
-        if (send(MpM_SIMPLE_REQUEST, parameters, response))
+        if (send(MpM_SIMPLE_REQUEST_, parameters, response))
         {
             if (1 == response.count())
             {
@@ -136,7 +136,7 @@ bool ExemplarClient::getOneRandomNumber(double & result)
         }
         else
         {
-            OD_LOG("! (send(MpM_SIMPLE_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_SIMPLE_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
@@ -165,7 +165,7 @@ bool ExemplarClient::getRandomNumbers(const int      howMany,
             
             parameters.addInt(howMany);
             reconnectIfDisconnected();
-            if (send(MpM_SIMPLE_REQUEST, parameters, response))
+            if (send(MpM_SIMPLE_REQUEST_, parameters, response))
             {
                 if (howMany == response.count())
                 {
@@ -196,7 +196,7 @@ bool ExemplarClient::getRandomNumbers(const int      howMany,
             }
             else
             {
-                OD_LOG("! (send(MpM_SIMPLE_REQUEST, parameters, response))"); //####
+                OD_LOG("! (send(MpM_SIMPLE_REQUEST_, parameters, response))"); //####
             }
         }
         else

@@ -51,34 +51,34 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The major part of the version number. */
-# define MpM_VERSION_MAJOR @MpM_VERSION_MAJOR@
+# define MpM_VERSION_MAJOR_ @MpM_VERSION_MAJOR@
 
 /*! @brief The minor part of the version number. */
-# define MpM_VERSION_MINOR @MpM_VERSION_MINOR@
+# define MpM_VERSION_MINOR_ @MpM_VERSION_MINOR@
 
 /*! @brief The patch part of the version number. */
-# define MpM_VERSION_PATCH @MpM_VERSION_PATCH@
+# define MpM_VERSION_PATCH_ @MpM_VERSION_PATCH@
 
 /*! @brief The version number as a string. */
-# define MpM_VERSION "@MpM_VERSION_STRING@"
+# define MpM_VERSION_ "@MpM_VERSION_STRING@"
 
 /*! @brief The base of the channel name to use for an adapter. */
-# define MpM_ADAPTER_BASE_NAME        "@MpM_ADAPTER_BASE_NAME@"
+# define MpM_ADAPTER_BASE_NAME_        "@MpM_ADAPTER_BASE_NAME@"
 
 /*! @brief The base of the channel name to use for a client. */
-# define MpM_CLIENT_BASE_NAME         "@MpM_CLIENT_BASE_NAME@"
+# define MpM_CLIENT_BASE_NAME_         "@MpM_CLIENT_BASE_NAME@"
 
 /*! @brief The base name of the channel name to use for an input. */
-# define MpM_INPUT_BASE_NAME          "@MpM_INPUT_BASE_NAME@"
+# define MpM_INPUT_BASE_NAME_          "@MpM_INPUT_BASE_NAME@"
 
 /*! @brief The base name of the channel name to use for an output. */
-# define MpM_OUTPUT_BASE_NAME         "@MpM_OUTPUT_BASE_NAME@"
+# define MpM_OUTPUT_BASE_NAME_         "@MpM_OUTPUT_BASE_NAME@"
 
 /*! @brief The name of the %Registry service executable. */
-# define MpM_REGISTRY_EXECUTABLE_NAME "@MpM_REGISTRY_EXECUTABLE_NAME@"
+# define MpM_REGISTRY_EXECUTABLE_NAME_ "@MpM_REGISTRY_EXECUTABLE_NAME@"
 
 /*! @brief The base of the channel name to use for a service. */
-# define MpM_SERVICE_BASE_NAME        "@MpM_SERVICE_BASE_NAME@"
+# define MpM_SERVICE_BASE_NAME_        "@MpM_SERVICE_BASE_NAME@"
 
 #cmakedefine MpM_ChattyStart /* Report the version numbers when launching an executable. */
 

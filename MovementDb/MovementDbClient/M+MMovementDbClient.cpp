@@ -116,16 +116,16 @@ bool MovementDbClient::addFileToDb(const YarpString & filePath)
         
         reconnectIfDisconnected();
         parameters.addString(filePath);
-        if (send(MpM_ADDFILE_REQUEST, parameters, response))
+        if (send(MpM_ADDFILE_REQUEST_, parameters, response))
         {
             // Check that we got a successful add!
-            if (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
                 
                 if (theValue.isString())
                 {
-                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -134,13 +134,13 @@ bool MovementDbClient::addFileToDb(const YarpString & filePath)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_ADDFILE_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_ADDFILE_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_ADDFILE_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
@@ -165,16 +165,16 @@ bool MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
         
         reconnectIfDisconnected();
         parameters.addString(dataTrack);
-        if (send(MpM_SETDATATRACK_REQUEST, parameters, response))
+        if (send(MpM_SETDATATRACK_REQUEST_, parameters, response))
         {
             // Check that we got a successful set!
-            if (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
                 
                 if (theValue.isString())
                 {
-                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -183,13 +183,13 @@ bool MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_SETDATATRACK_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_SETDATATRACK_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_SETDATATRACK_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
@@ -214,16 +214,16 @@ bool MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
         
         reconnectIfDisconnected();
         parameters.addString(emailAddress);
-        if (send(MpM_SETEMAIL_REQUEST, parameters, response))
+        if (send(MpM_SETEMAIL_REQUEST_, parameters, response))
         {
             // Check that we got a successful set!
-            if (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value theValue = response.element(0);
                 
                 if (theValue.isString())
                 {
-                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (theValue.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -232,13 +232,13 @@ bool MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_SETEMAIL_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_SETEMAIL_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_SETEMAIL_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
@@ -264,15 +264,15 @@ bool MovementDbClient::stopDbConnection(void)
         
         reconnectIfDisconnected();
 #if defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_STOPDB_REQUEST, parameters, response))
+        if (send(MpM_STOPDB_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_STOPDB_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_STOPDB_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
                 if (retrieved.isString())
                 {
-                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -281,22 +281,22 @@ bool MovementDbClient::stopDbConnection(void)
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_STOPDB_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_STOPDB_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPDB_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_STOPDB_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_STOPDB_REQUEST, parameters))
+        if (send(MpM_STOPDB_REQUEST_, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_STOPDB_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_STOPDB_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
     }

@@ -56,6 +56,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %Tunnel service. */
-# define MpM_TUNNEL_CANONICAL_NAME "Tunnel"
+# define MpM_TUNNEL_CANONICAL_NAME_ "Tunnel"
 
 #endif // ! defined(MpMTunnelRequests_H_)

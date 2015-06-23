@@ -89,7 +89,7 @@ PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
                                                const bool         isSystemPort,
                                                int *              argumentReference) :
     inherited(argName, argDescription, defaultValue, isOptional, true,
-              isSystemPort ? 0 : MINIMUM_PORT_ALLOWED, true, MAXIMUM_PORT_ALLOWED,
+              isSystemPort ? 0 : MINIMUM_PORT_ALLOWED_, true, MAXIMUM_PORT_ALLOWED_,
               argumentReference), _isSystemPort(isSystemPort)
 {
     OD_LOG_ENTER(); //####

@@ -70,7 +70,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The Windows line end sequence. */
-#define LINE_END "\r\n"
+#define LINE_END_ "\r\n"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -145,7 +145,7 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                     outBuffer << "\t" << elementAsDouble;
                                 }
                             }
-							outBuffer << LINE_END;
+							outBuffer << LINE_END_;
                         }
                         else
                         {
@@ -245,7 +245,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                     std::stringstream outBuffer;
                     
 //                    cerr << "# subjects = " << numSubjects << endl; //!!!!
-                    outBuffer << numSubjects << LINE_END;
+                    outBuffer << numSubjects << LINE_END_;
                     for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
                     {
                         yarp::os::Value & aValue = input.get(ii);
@@ -274,7 +274,8 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                                             {
                                                 YarpString       segmentsAsString =
                                                                             segments->toString();
-//                                                cerr << ":" << segments->toString() << ":" << endl; //!!!!
+//                                                cerr << ":" << segments->toString() << //!!!!
+//                                                        ":" << endl; //!!!!
                                                 yarp::os::Bottle segmentsAsBottle =
                                                                                 segmentsAsString;
                                                 
@@ -283,7 +284,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                                                         endl; //!!!!
                                                 outBuffer << subjName.c_str() << "\t" <<
                                                             segmentsAsBottle.size() << "\t0" <<
-                                                            LINE_END;
+                                                            LINE_END_;
                                                 okSoFar = dumpSegments(outBuffer, segmentsAsBottle,
                                                                        _scale);
                                             }
@@ -315,7 +316,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                                                             endl; //!!!!
                                                     outBuffer << subjName.c_str() << "\t" <<
                                                                 segmentsAsBottle.size() << "\t0" <<
-                                                                LINE_END;
+                                                                LINE_END_;
                                                     okSoFar = dumpSegments(outBuffer,
                                                                            segmentsAsBottle,
                                                                            _scale);
@@ -364,7 +365,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                     }
                     if (okSoFar)
                     {
-                        outBuffer << "END" << LINE_END;
+                        outBuffer << "END" << LINE_END_;
                         std::string outString(outBuffer.str());    
                         int         retVal = send(_outSocket, outString.c_str(), outString.length(),
                                                   0);

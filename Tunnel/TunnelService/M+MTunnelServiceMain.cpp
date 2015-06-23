@@ -98,7 +98,8 @@ using std::endl;
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(const YarpString & hostName,
                        const int          hostPort,
                        const YarpString & progName,
@@ -134,7 +135,7 @@ static void setUpAndGo(const YarpString & hostName,
                 for ( ; IsRunning(); )
                 {
 #if defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -223,9 +224,9 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-        if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_TUNNEL_SERVICE_NAME,
-                                          TUNNEL_SERVICE_DESCRIPTION, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+        if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_TUNNEL_SERVICE_NAME_,
+                                          TUNNEL_SERVICE_DESCRIPTION_, "", 2015,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipGoOption))
         {

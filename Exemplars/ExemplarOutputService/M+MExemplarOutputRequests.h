@@ -54,6 +54,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the exemplar output service. */
-# define MpM_EXEMPLAROUTPUT_CANONICAL_NAME "ExemplarOutput"
+# define MpM_EXEMPLAROUTPUT_CANONICAL_NAME_ "ExemplarOutput"
 
 #endif // ! defined(MpMExemplarOutputRequests_H_)

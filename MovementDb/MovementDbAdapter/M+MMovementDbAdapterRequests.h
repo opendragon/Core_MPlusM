@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the movement database adapter service. */
-# define MpM_MOVEMENTDBADAPTER_CANONICAL_NAME "MovementDbAdapter"
+# define MpM_MOVEMENTDBADAPTER_CANONICAL_NAME_ "MovementDbAdapter"
 
 #endif // ! defined(MpMMovementDbAdapterRequests_H_)

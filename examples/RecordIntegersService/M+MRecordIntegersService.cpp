@@ -91,9 +91,9 @@ RecordIntegersService::RecordIntegersService(const YarpString & launchPath,
                                              const YarpString & tag,
                                              const YarpString & serviceEndpointName,
                                              const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_RECORDINTEGERS_CANONICAL_NAME,
-              RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
-    _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
+    inherited(launchPath, argc, argv, tag, true, MpM_RECORDINTEGERS_CANONICAL_NAME_,
+              RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
+              servicePortNumber), _outFile(NULL), _inHandler(new RecordIntegersInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####

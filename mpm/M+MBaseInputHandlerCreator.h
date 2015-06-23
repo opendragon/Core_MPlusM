@@ -4,7 +4,8 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the interface between M+M input handler factories and YARP.
+//  Contains:   The class declaration for the interface between M+M input handler factories and
+//              YARP.
 //
 //  Written by: Norman Jaffe
 //

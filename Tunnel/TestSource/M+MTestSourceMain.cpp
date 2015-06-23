@@ -70,7 +70,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The size of the buffer to be used for outgoing data. */
-#define OUTGOING_SIZE 10240
+#define OUTGOING_SIZE_ 10240
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -113,7 +113,7 @@ int main(int      argc,
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                        T_("Communicates with the Test Sink "
                                                           "application"), 2015,
-                                                       STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                       STANDARD_COPYRIGHT_NAME_, flavour, true))
         {
             Utilities::SetUpGlobalStatusReporter();
             try
@@ -179,21 +179,21 @@ int main(int      argc,
                 {
                     OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
                     bool   keepGoing = true;
-                    char   outBuff[OUTGOING_SIZE];
+                    char   outBuff[OUTGOING_SIZE_];
                     OD_LOG("waiting for a connection"); //####
                     SOCKET sourceSocket = accept(listenSocket, NULL, NULL);
                     
                     OD_LOG_L1("sourceSocket = ", sourceSocket); //####
-                    for (int ii = 0; ii < OUTGOING_SIZE; ++ii)
+                    for (int ii = 0; ii < OUTGOING_SIZE_; ++ii)
                     {
                         outBuff[ii] = static_cast<char>(rand());
                     }
                     for ( ; keepGoing; )
                     {
 #if MAC_OR_LINUX_
-                        int outSize = std::max(1, rand() % OUTGOING_SIZE);
+                        int outSize = std::max(1, rand() % OUTGOING_SIZE_);
 #else // ! MAC_OR_LINUX_
-                        int outSize = max(1, rand() % OUTGOING_SIZE);
+                        int outSize = max(1, rand() % OUTGOING_SIZE_);
 #endif // ! MAC_OR_LINUX_
                         
                         if (send(sourceSocket, outBuff, outSize, 0) != outSize)

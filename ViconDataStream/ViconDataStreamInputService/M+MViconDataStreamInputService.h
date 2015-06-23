@@ -56,10 +56,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/viconds")
+# define DEFAULT_VICONDATASTREAMINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/viconds")
 
 /*! @brief The description of the service. */
-# define VICONDATASTREAMINPUT_SERVICE_DESCRIPTION T_("Vicon DataStream input service")
+# define VICONDATASTREAMINPUT_SERVICE_DESCRIPTION_ T_("Vicon DataStream input service")
 
 namespace MplusM
 {

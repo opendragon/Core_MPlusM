@@ -58,9 +58,9 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the example RGBLED service. */
-# define MpM_RGBLED_CANONICAL_NAME "RGBLED"
+# define MpM_RGBLED_CANONICAL_NAME_ "RGBLED"
 
 /*! @brief The name for the 'rgbled' request. */
-# define MpM_RGBLED_REQUEST "rgbled"
+# define MpM_RGBLED_REQUEST_ "rgbled"
 
 #endif // ! defined(MpMRGBLEDRequests_H_)

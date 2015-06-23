@@ -53,10 +53,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_RANDOMBURSTINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "input/randomburst")
+# define DEFAULT_RANDOMBURSTINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/randomburst")
 
 /*! @brief The description of the service. */
-# define RANDOMBURSTINPUT_SERVICE_DESCRIPTION T_("Random Burst input service")
+# define RANDOMBURSTINPUT_SERVICE_DESCRIPTION_ T_("Random Burst input service")
 
 namespace MplusM
 {

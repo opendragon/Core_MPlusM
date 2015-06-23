@@ -67,7 +67,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'addToSum' request. */
-#define ADD_REQUEST_VERSION_NUMBER "1.1"
+#define ADD_REQUEST_VERSION_NUMBER_ "1.1"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 AddToSumRequestHandler::AddToSumRequestHandler(RunningSumService & service) :
-    inherited(MpM_ADDTOSUM_REQUEST, service)
+    inherited(MpM_ADDTOSUM_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -119,18 +119,18 @@ void AddToSumRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_NUMBER MpM_REQREP_1_OR_MORE);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_DOUBLE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, ADD_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Add to the running sum\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_NUMBER_ MpM_REQREP_1_OR_MORE_);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_DOUBLE_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, ADD_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Add to the running sum\n"
                  "Input: one or more numeric values\n"
                  "Output: the current running sum, including the new values");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -184,7 +184,7 @@ bool AddToSumRequestHandler::processRequest(const YarpString &           request
                 {
                     ++tally;
                     total = static_cast<RunningSumService &>(_service).addToSum(senderChannel,
-                                                                                incoming.asDouble());
+                                                                            incoming.asDouble());
                 }
             }
             if (tally)
@@ -194,14 +194,14 @@ bool AddToSumRequestHandler::processRequest(const YarpString &           request
             else
             {
                 OD_LOG("! (tally)"); //####
-                response.addString(MpM_FAILED_RESPONSE);
+                response.addString(MpM_FAILED_RESPONSE_);
                 response.addString("No numeric values in list");
             }
         }
         else
         {
             OD_LOG("! (1 <= count)"); //####
-            response.addString(MpM_FAILED_RESPONSE);
+            response.addString(MpM_FAILED_RESPONSE_);
             response.addString("No values provided");
         }
         sendResponse(response, replyMechanism);

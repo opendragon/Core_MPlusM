@@ -86,7 +86,7 @@ static void setUpAndGo(const YarpString & channelName)
     OD_LOG_S1s("channelName = ", channelName); //####
     if (0 < channelName.length())
     {
-        Utilities::StopAService(channelName, STANDARD_WAIT_TIME);
+        Utilities::StopAService(channelName, STANDARD_WAIT_TIME_);
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -122,7 +122,7 @@ int main(int      argc,
     
     argumentList.push_back(&firstArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList, "Stop a service", 2015,
-                                                   STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                   STANDARD_COPYRIGHT_NAME_, flavour, true))
     
     {
         try

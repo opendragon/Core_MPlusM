@@ -87,7 +87,8 @@ using std::endl;
  @param flavour The format for the output.
  @param serviceName The name of the service that generated the response.
  @param response The response to be processed.
- @param sawResponse @c true if there was already a response output and @c false if this is the first.
+ @param sawResponse @c true if there was already a response output and @c false if this is the
+ first.
  @returns @c true if some output was generated and @c false otherwise. */
 static bool processResponse(const OutputFlavour     flavour,
                             const YarpString &      serviceName,
@@ -116,11 +117,12 @@ static bool processResponse(const OutputFlavour     flavour,
                     {
                         cout << "," << endl;
                     }
-                    cout << T_("{ " CHAR_DOUBLEQUOTE "Service" CHAR_DOUBLEQUOTE ": "
-                               CHAR_DOUBLEQUOTE) << cleanServiceName.c_str() <<
-                            T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Client" CHAR_DOUBLEQUOTE ": "
-                               CHAR_DOUBLEQUOTE) << SanitizeString(clientString, true).c_str() <<
-                            T_(CHAR_DOUBLEQUOTE " }");
+                    cout << T_("{ " CHAR_DOUBLEQUOTE_ "Service" CHAR_DOUBLEQUOTE_ ": "
+                               CHAR_DOUBLEQUOTE_) << cleanServiceName.c_str() <<
+                            T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Client" CHAR_DOUBLEQUOTE_
+                               ": " CHAR_DOUBLEQUOTE_) <<
+                            SanitizeString(clientString, true).c_str() <<
+                            T_(CHAR_DOUBLEQUOTE_ " }");
                     break;
                     
                 case kOutputFlavourTabs :
@@ -156,7 +158,7 @@ static void setUpAndGo(const YarpString &  channelName,
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
-    YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+    YarpString       channelNameRequest(MpM_REQREP_DICT_CHANNELNAME_KEY_ ":");
     YarpStringVector services;
     
     if (0 < channelName.length())
@@ -173,13 +175,13 @@ static void setUpAndGo(const YarpString &  channelName,
 
         if (0 < matchesCount)
         {
-            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "clientlist_/"
-                                                         DEFAULT_CHANNEL_ROOT);
+            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "clientlist_/"
+                                                         DEFAULT_CHANNEL_ROOT_);
             ClientChannel * newChannel = new ClientChannel;
 
             if (newChannel)
             {
-                if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                 {
                     bool             sawRequestResponse = false;
                     yarp::os::Bottle parameters;
@@ -192,9 +194,10 @@ static void setUpAndGo(const YarpString &  channelName,
                     {
                         YarpString aMatch(services[ii]);
 
-                        if (Utilities::NetworkConnectWithRetries(aName, aMatch, STANDARD_WAIT_TIME))
+                        if (Utilities::NetworkConnectWithRetries(aName, aMatch,
+                                                                 STANDARD_WAIT_TIME_))
                         {
-                            ServiceRequest  request(MpM_CLIENTS_REQUEST, parameters);
+                            ServiceRequest  request(MpM_CLIENTS_REQUEST_, parameters);
                             ServiceResponse response;
 
                             if (request.send(*newChannel, response))
@@ -222,17 +225,17 @@ static void setUpAndGo(const YarpString &  channelName,
                             }
 #if defined(MpM_DoExplicitDisconnect)
                             if (! Utilities::NetworkDisconnectWithRetries(aName, aMatch,
-                                                                          STANDARD_WAIT_TIME))
+                                                                          STANDARD_WAIT_TIME_))
                             {
                                 OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                                       "aMatch, STANDARD_WAIT_TIME))"); //####
+                                       "aMatch, STANDARD_WAIT_TIME_))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
                             OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, aMatch, " //####
-                                   "STANDARD_WAIT_TIME))"); //####
+                                   "STANDARD_WAIT_TIME_))"); //####
                         }
                     }
                     if (kOutputFlavourJSON == flavour)
@@ -262,7 +265,7 @@ static void setUpAndGo(const YarpString &  channelName,
                 }
                 else
                 {
-                    OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                    OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
                 }
                 delete newChannel;
             }
@@ -325,7 +328,7 @@ int main(int      argc,
     argumentList.push_back(&firstArg);
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "List the clients of a service", 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour))
+                                                   STANDARD_COPYRIGHT_NAME_, flavour))
     {
         try
         {

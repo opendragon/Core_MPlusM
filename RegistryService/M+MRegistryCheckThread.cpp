@@ -109,9 +109,9 @@ void RegistryCheckThread::run(void)
         if (_checkTime <= now)
         {
             _service.checkServiceTimes();
-            _checkTime = now + PING_CHECK_INTERVAL;
+            _checkTime = now + PING_CHECK_INTERVAL_;
         }
-        yarp::os::Time::delay(PING_CHECK_INTERVAL / 10.0);
+        yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 10.0);
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryCheckThread::run
@@ -121,7 +121,7 @@ bool RegistryCheckThread::threadInit(void)
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-    _checkTime = yarp::os::Time::now() + PING_CHECK_INTERVAL;
+    _checkTime = yarp::os::Time::now() + PING_CHECK_INTERVAL_;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // RegistryCheckThread::threadInit

@@ -70,9 +70,9 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The size of the receive / send buffer. */
-#define BUFFER_SIZE   1024
+#define BUFFER_SIZE_ 1024
 
-//#define CHATTY_OUTPUT /* Write out information on activity. */
+//#define CHATTY_OUTPUT_ /* Write out information on activity. */
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -115,7 +115,7 @@ int main(int      argc,
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                        T_("Communicates with the Test Loopback "
                                                           "Control application"), 2015,
-                                                       STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                       STANDARD_COPYRIGHT_NAME_, flavour, true))
         {
             Utilities::SetUpGlobalStatusReporter();
             try
@@ -181,7 +181,7 @@ int main(int      argc,
                 {
                     OD_LOG("(INVALID_SOCKET != listenSocket)"); //####
                     bool   keepGoing = true;
-                    char   theBuffer[BUFFER_SIZE];
+                    char   theBuffer[BUFFER_SIZE_];
                     OD_LOG("waiting for a connection"); //####
                     SOCKET loopSocket = accept(listenSocket, NULL, NULL);
                     
@@ -196,15 +196,15 @@ int main(int      argc,
                         
                         if (0 < inSize)
                         {
-#if defined(CHATTY_OUTPUT)
+#if defined(CHATTY_OUTPUT_)
                             cout << "received " << inSize << " bytes." << endl;
-#endif // defined(CHATTY_OUTPUT)
+#endif // defined(CHATTY_OUTPUT_)
                             if (send(loopSocket, theBuffer, inSize, 0) != inSize)
                             {
                                 OD_LOG("(send(loopSocket, theBuffer, inSize, 0) != inSize)"); //####
-#if defined(CHATTY_OUTPUT)
+#if defined(CHATTY_OUTPUT_)
                                 cout << "sent " << inSize << " bytes." << endl;
-#endif // defined(CHATTY_OUTPUT)
+#endif // defined(CHATTY_OUTPUT_)
                                 keepGoing = false;
                             }
                         }

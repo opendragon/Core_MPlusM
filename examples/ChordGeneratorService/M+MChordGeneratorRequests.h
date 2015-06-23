@@ -53,12 +53,12 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Random Number service. */
-# define MpM_CHORD_GENERATOR_NAME "Chords"
+# define MpM_CHORD_GENERATOR_NAME_ "Chords"
 
 /*! @brief The name for the 'random' request. */
-# define MpM_CHORD_REQUEST "chords"
+# define MpM_CHORD_REQUEST_ "chords"
 
 /*! @brief The number of elements expected in the output of a 'chord' request. */
-# define MpM_EXPECTED_CHORD_RESPONSE_SIZE 1
+# define MpM_EXPECTED_CHORD_RESPONSE_SIZE_ 1
 
 #endif // ! defined(MpMRandomNumberRequests_H_)

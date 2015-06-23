@@ -138,11 +138,11 @@ static void reportConnections(const OutputFlavour flavour,
                     {
                         inputsAsString += ", ";
                     }
-                    inputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": "
-                                         CHAR_DOUBLEQUOTE);
+                    inputsAsString += T_("{ " CHAR_DOUBLEQUOTE_ "Port" CHAR_DOUBLEQUOTE_ ": "
+                                         CHAR_DOUBLEQUOTE_);
                     inputsAsString += SanitizeString(walker->_portName);
-                    inputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode"
-                                         CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                    inputsAsString += T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Mode"
+                                         CHAR_DOUBLEQUOTE_ ": " CHAR_DOUBLEQUOTE_);
                     switch (walker->_portMode)
                     {
                         case kChannelModeTCP :
@@ -161,7 +161,7 @@ static void reportConnections(const OutputFlavour flavour,
                             break;
                             
                     }
-                    inputsAsString += T_(CHAR_DOUBLEQUOTE " }");
+                    inputsAsString += T_(CHAR_DOUBLEQUOTE_ " }");
                     break;
                     
                 case kOutputFlavourNormal :
@@ -233,11 +233,11 @@ static void reportConnections(const OutputFlavour flavour,
                     {
                         outputsAsString += ", ";
                     }
-                    outputsAsString += T_("{ " CHAR_DOUBLEQUOTE "Port" CHAR_DOUBLEQUOTE ": "
-                                          CHAR_DOUBLEQUOTE);
+                    outputsAsString += T_("{ " CHAR_DOUBLEQUOTE_ "Port" CHAR_DOUBLEQUOTE_ ": "
+                                          CHAR_DOUBLEQUOTE_);
                     outputsAsString += SanitizeString(walker->_portName);
-                    outputsAsString += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Mode"
-                                          CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                    outputsAsString += T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Mode"
+                                          CHAR_DOUBLEQUOTE_ ": " CHAR_DOUBLEQUOTE_);
                     switch (walker->_portMode)
                     {
                         case kChannelModeTCP :
@@ -256,7 +256,7 @@ static void reportConnections(const OutputFlavour flavour,
                             break;
                             
                     }
-                    outputsAsString += T_(CHAR_DOUBLEQUOTE " }");
+                    outputsAsString += T_(CHAR_DOUBLEQUOTE_ " }");
                     break;
                     
                 case kOutputFlavourNormal :
@@ -297,9 +297,10 @@ static void reportConnections(const OutputFlavour flavour,
             break;
             
 	    case kOutputFlavourJSON :
-            cout << T_(CHAR_DOUBLEQUOTE "Inputs" CHAR_DOUBLEQUOTE ": [ ") <<
-                    inputsAsString.c_str() << T_(" ], " CHAR_DOUBLEQUOTE "Outputs" CHAR_DOUBLEQUOTE
-                                                 ": [ ") << outputsAsString.c_str() << " ]";
+            cout << T_(CHAR_DOUBLEQUOTE_ "Inputs" CHAR_DOUBLEQUOTE_ ": [ ") <<
+                    inputsAsString.c_str() << T_(" ], " CHAR_DOUBLEQUOTE_ "Outputs"
+                                                 CHAR_DOUBLEQUOTE_ ": [ ") <<
+                    outputsAsString.c_str() << " ]";
             break;
             
 	    case kOutputFlavourNormal :
@@ -345,7 +346,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
     YarpString portClass;
     
     portName = SanitizeString(aDescriptor._portName, kOutputFlavourJSON != flavour);
-    if (strncmp(portName.c_str(), HIDDEN_CHANNEL_PREFIX, sizeof(HIDDEN_CHANNEL_PREFIX) - 1))
+    if (strncmp(portName.c_str(), HIDDEN_CHANNEL_PREFIX_, sizeof(HIDDEN_CHANNEL_PREFIX_) - 1))
     {
         // Only process non-hidden ports.
         switch (flavour)
@@ -355,8 +356,8 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                 break;
                 
             case kOutputFlavourJSON :
-                cout << T_("{ " CHAR_DOUBLEQUOTE "PortName" CHAR_DOUBLEQUOTE ": "
-                           CHAR_DOUBLEQUOTE) << portName.c_str() << T_(CHAR_DOUBLEQUOTE ", ");
+                cout << T_("{ " CHAR_DOUBLEQUOTE_ "PortName" CHAR_DOUBLEQUOTE_ ": "
+                           CHAR_DOUBLEQUOTE_) << portName.c_str() << T_(CHAR_DOUBLEQUOTE_ ", ");
                 break;
                 
             case kOutputFlavourNormal :
@@ -369,17 +370,17 @@ static bool reportPortStatus(const OutputFlavour               flavour,
         }
         if (checkWithRegistry)
         {
-            YarpString request(MpM_REQREP_DICT_CHANNELNAME_KEY ":");
+            YarpString request(MpM_REQREP_DICT_CHANNELNAME_KEY_ ":");
             
             request += aDescriptor._portName;
             yarp::os::Bottle matches(FindMatchingServices(request, true));
             
             OD_LOG_S1s("matches <- ", matches.toString()); //####
-            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size())
+            if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size())
             {
                 YarpString matchesFirstString(matches.get(0).toString());
                 
-                if (strcmp(MpM_OK_RESPONSE, matchesFirstString.c_str()))
+                if (strcmp(MpM_OK_RESPONSE_, matchesFirstString.c_str()))
                 {
                     // Didn't match - use a simpler check, in case it's unregistered or is an
                     // adapter or client.
@@ -425,7 +426,7 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                         {
                             YarpString serviceName(matches.get(1).toString());
                             
-                            if (aDescriptor._portName == MpM_REGISTRY_ENDPOINT_NAME)
+                            if (aDescriptor._portName == MpM_REGISTRY_ENDPOINT_NAME_)
                             {
                                 portClass = "Registry Service port for '";
                                 portClass += serviceName;
@@ -482,9 +483,9 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     break;
                     
                 case kOutputFlavourJSON :
-                    cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
-                               CHAR_DOUBLEQUOTE) << SanitizeString(portClass).c_str() <<
-                            T_(CHAR_DOUBLEQUOTE ", ");
+                    cout << T_(CHAR_DOUBLEQUOTE_ "PortClass" CHAR_DOUBLEQUOTE_ ": "
+                               CHAR_DOUBLEQUOTE_) << SanitizeString(portClass).c_str() <<
+                            T_(CHAR_DOUBLEQUOTE_ ", ");
                     break;
                     
                 case kOutputFlavourNormal :
@@ -538,9 +539,9 @@ static bool reportPortStatus(const OutputFlavour               flavour,
                     break;
                     
                 case kOutputFlavourJSON :
-                    cout << T_(CHAR_DOUBLEQUOTE "PortClass" CHAR_DOUBLEQUOTE ": "
-                               CHAR_DOUBLEQUOTE) << SanitizeString(portClass).c_str() <<
-                            T_(CHAR_DOUBLEQUOTE ", ");
+                    cout << T_(CHAR_DOUBLEQUOTE_ "PortClass" CHAR_DOUBLEQUOTE_ ": "
+                               CHAR_DOUBLEQUOTE_) << SanitizeString(portClass).c_str() <<
+                            T_(CHAR_DOUBLEQUOTE_ ", ");
                     break;
                     
                 case kOutputFlavourNormal :
@@ -623,7 +624,7 @@ int main(int      argc,
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "List the connection status of YARP ports", 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour))
+                                                   STANDARD_COPYRIGHT_NAME_, flavour))
     {
         try
         {

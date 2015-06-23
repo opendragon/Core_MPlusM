@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %JavaScript input / output service. */
-# define MpM_JAVASCRIPT_CANONICAL_NAME "javascript"
+# define MpM_JAVASCRIPT_CANONICAL_NAME_ "javascript"
 
 #endif // ! defined(MpMJavaScriptStreamRequests_H_)

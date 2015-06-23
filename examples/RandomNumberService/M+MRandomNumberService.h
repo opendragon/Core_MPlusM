@@ -53,10 +53,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RANDOMNUMBER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/randomnumber")
+# define DEFAULT_RANDOMNUMBER_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "examples/randomnumber")
 
 /*! @brief The description of the service. */
-# define RANDOMNUMBER_SERVICE_DESCRIPTION T_("Random Number service")
+# define RANDOMNUMBER_SERVICE_DESCRIPTION_ T_("Random Number service")
 
 namespace MplusM
 {

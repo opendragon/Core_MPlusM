@@ -159,7 +159,7 @@ bool BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVecto
                     newChannel->setReporter(*reporter);
                     newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
+                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME_))
                     {
                         if (metricsAreEnabled())
                         {
@@ -174,7 +174,7 @@ bool BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVecto
                     else
                     {
                         OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
-                               "STANDARD_WAIT_TIME))"); //####
+                               "STANDARD_WAIT_TIME_))"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem opening input channel.");
 #else // ! MAC_OR_LINUX_
@@ -227,7 +227,7 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
                     newChannel->setReporter(*reporter);
                     newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
+                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME_))
                     {
                         newChannel->setProtocol(aDescription._portProtocol,
                                                 aDescription._protocolDescription);
@@ -244,7 +244,7 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
                     else
                     {
                         OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
-                               "STANDARD_WAIT_TIME))"); //####
+                               "STANDARD_WAIT_TIME_))"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem opening input channel.");
 #else // ! MAC_OR_LINUX_
@@ -297,7 +297,7 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
                     newChannel->setReporter(*reporter);
                     newChannel->getReport(*reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME))
+                    if (newChannel->openWithRetries(aDescription._portName, STANDARD_WAIT_TIME_))
                     {
                         newChannel->setProtocol(aDescription._portProtocol,
                                                 aDescription._protocolDescription);
@@ -314,7 +314,7 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
                     else
                     {
                         OD_LOG("! (newChannel->openWithRetries(newName, " //####
-                               "STANDARD_WAIT_TIME))"); //####
+                               "STANDARD_WAIT_TIME_))"); //####
 #if MAC_OR_LINUX_
                         GetLogger().fail("Problem opening output channel.");
 #else // ! MAC_OR_LINUX_

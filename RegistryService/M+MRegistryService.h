@@ -59,7 +59,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The description of the service. */
-# define REGISTRY_SERVICE_DESCRIPTION T_("Registry Service")
+# define REGISTRY_SERVICE_DESCRIPTION_ T_("Registry Service")
 
 struct sqlite3;
 

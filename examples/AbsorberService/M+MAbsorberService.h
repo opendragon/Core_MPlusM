@@ -53,10 +53,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_ABSORBEROUTPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "output/absorber")
+# define DEFAULT_ABSORBEROUTPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "output/absorber")
 
 /*! @brief The description of the service. */
-# define ABSORDEROUTPUT_SERVICE_DESCRIPTION T_("Absorber output service")
+# define ABSORDEROUTPUT_SERVICE_DESCRIPTION_ T_("Absorber output service")
 
 namespace MplusM
 {

@@ -259,7 +259,7 @@ JavaScriptService::JavaScriptService(JSContext *                 context,
                                      const double                loadedInterval,
                                      const YarpString &          serviceEndpointName,
                                      const YarpString &          servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME, description, "",
+    inherited(launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME_, description, "",
               serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
     _generator(NULL), _context(context), _global(global),
     _loadedInletDescriptions(loadedInletDescriptions),

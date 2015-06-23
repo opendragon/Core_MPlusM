@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Absorber output service. */
-# define MpM_ABSORBER_CANONICAL_NAME "Absorber"
+# define MpM_ABSORBER_CANONICAL_NAME_ "Absorber"
 
 #endif // ! defined(MpMAbsorberRequests_H_)

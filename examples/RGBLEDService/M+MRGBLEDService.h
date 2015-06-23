@@ -57,10 +57,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RGBLED_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "examples/rgbled")
+# define DEFAULT_RGBLED_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "examples/rgbled")
 
 /*! @brief The description of the service. */
-# define RGBLED_SERVICE_DESCRIPTION T_("example RGB LED service")
+# define RGBLED_SERVICE_DESCRIPTION_ T_("example RGB LED service")
 
 namespace MplusM
 {

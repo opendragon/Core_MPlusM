@@ -78,7 +78,7 @@ using namespace MplusM::Test;
 #endif // defined(__APPLE__)
 
 /*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
-#define TEST_INMEMORY true
+#define TEST_INMEMORY_ true
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -111,11 +111,12 @@ static int doTestCreateRegistryService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY);
+                    registry = new Registry::RegistryService(launchPath, argc, argv,
+                                                             TEST_INMEMORY_);
                     break;
                     
                 case 1 :
-                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY,
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
                     break;
                     
@@ -175,15 +176,16 @@ static int doTestRequestRegistryService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
+                    registry = new Registry::RegistryService(launchPath, argc, argv,
+                                                             TEST_INMEMORY_);
+                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
                                               "test/requestregisterservice_1");
                     break;
                     
                 case 1 :
-                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY,
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
+                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
                                               "test/requestregisterservice_2");
                     break;
                     
@@ -279,15 +281,16 @@ static int doTestRequestUnregisterService(const char * launchPath,
             {
                     // Argument order for tests = [IP address / name [, port]]
                 case 0 :
-                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
+                    registry = new Registry::RegistryService(launchPath, argc, argv,
+                                                             TEST_INMEMORY_);
+                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
                                               "test/requestunregisterservice_1");
                     break;
                     
                 case 1 :
-                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY,
+                    registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
+                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
                                               "test/requestunregisterservice_2");
                     break;
                     
@@ -385,11 +388,11 @@ static int doTestRequestSearchService(const char * launchPath,
         if (1 < argc)
         {
             bool                        getNamesFlag = ('0' != **argv);
-            const char *                secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE
+            const char *                secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
                                                                   "test/requestsearchservice");
             Registry::RegistryService * registry = new Registry::RegistryService(launchPath, argc,
                                                                                  argv,
-                                                                                 TEST_INMEMORY);
+                                                                                 TEST_INMEMORY_);
             
             OD_LOG_B1("getNamesFlag <- ", getNamesFlag); //####
             if (registry)
@@ -426,10 +429,10 @@ static int doTestRequestSearchService(const char * launchPath,
                                     yarp::os::Bottle expected(argv[2]);
                                     
                                     if ((expected.size() == matches.size()) &&
-                                        (MpM_EXPECTED_MATCH_RESPONSE_SIZE == matches.size()))
+                                        (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size()))
                                     {
                                         OD_LOG("((expected.size() == matches.size()) && " //####
-                                               "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
+                                               "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
                                                "matches.size()))"); //####
                                         bool            wasASuccess = false;
                                         yarp::os::Value matchesFirst(matches.get(0));
@@ -448,7 +451,7 @@ static int doTestRequestSearchService(const char * launchPath,
                                                 OD_LOG("(matchesFirstAsString == " //####
                                                        "expectedFirstAsString)"); //####
                                                 result = 0;
-                                                if (! strcmp(MpM_OK_RESPONSE,
+                                                if (! strcmp(MpM_OK_RESPONSE_,
                                                              matchesFirstAsString.c_str()))
                                                 {
                                                     wasASuccess = true;
@@ -542,7 +545,7 @@ static int doTestRequestSearchService(const char * launchPath,
                                     else
                                     {
                                         OD_LOG("! ((expected.size() == matches.size()) && " //####
-                                               "(MpM_EXPECTED_MATCH_RESPONSE_SIZE == " //####
+                                               "(MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == " //####
                                                "matches.size()))"); //####
                                     }
                                     if (! UnregisterLocalService(channelName, *aService))

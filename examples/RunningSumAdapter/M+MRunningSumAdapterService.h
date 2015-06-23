@@ -53,11 +53,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_RUNNINGSUMADAPTER_SERVICE_NAME T_(DEFAULT_ADAPTER_NAME_BASE \
+# define DEFAULT_RUNNINGSUMADAPTER_SERVICE_NAME_ T_(DEFAULT_ADAPTER_NAME_BASE_ \
                                                     "examples/runningsum")
 
 /*! @brief The description of the service. */
-# define RUNNINGSUMADAPTER_SERVICE_DESCRIPTION T_("Running Sum adapter")
+# define RUNNINGSUMADAPTER_SERVICE_DESCRIPTION_ T_("Running Sum adapter")
 
 namespace MplusM
 {

@@ -68,14 +68,14 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-//#define VICON_Y_UP /* */
+//#define VICON_Y_UP_ /* */
 
-#define VICON_Z_UP /* */
+#define VICON_Z_UP_ /* */
 
-//#define USE_SEGMENT_LOCAL_DATA /* */
+//#define USE_SEGMENT_LOCAL_DATA_ /* */
 
-//#define VICON_STREAM_MODE CPP::StreamMode::ClientPullPreFetch /* */
-#define VICON_STREAM_MODE CPP::StreamMode::ServerPush /* */
+//#define VICON_STREAM_MODE_ CPP::StreamMode::ClientPullPreFetch /* */
+#define VICON_STREAM_MODE_ CPP::StreamMode::ServerPush /* */
 
 /*! @brief The number of times we attempt to connect to the Vicon device server. */
 static const int kNumConnectTries = 17;
@@ -154,14 +154,14 @@ bool ViconDataStreamEventThread::initializeConnection(void)
 	{
 		_viconClient.EnableMarkerData();
 		_viconClient.EnableSegmentData();
-#if defined(VICON_Y_UP)
+#if defined(VICON_Y_UP_)
         _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Up,
                                     CPP::Direction::Right);
-#elif defined(VICON_Z_UP)
+#elif defined(VICON_Z_UP_)
         _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Left,
                                     CPP::Direction::Up);
-#endif // defined(VICON_Z_UP)
-		_viconClient.SetStreamMode(VICON_STREAM_MODE);
+#endif // defined(VICON_Z_UP_)
+		_viconClient.SetStreamMode(VICON_STREAM_MODE_);
 	}
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -203,23 +203,23 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 					if (CPP::Result::Success == o_gsegn.Result)
 					{
 						cerr << "got segment name" << endl; //!!!!
-#if defined(USE_SEGMENT_LOCAL_DATA)
+#if defined(USE_SEGMENT_LOCAL_DATA_)
 						CPP::Output_GetSegmentLocalTranslation        o_gseglt =
                                     _viconClient.GetSegmentLocalTranslation(o_gsubjn.SubjectName,
                                                                             o_gsegn.SegmentName);
 						CPP::Output_GetSegmentLocalRotationQuaternion o_gseglrq =
                                 _viconClient.GetSegmentLocalRotationQuaternion(o_gsubjn.SubjectName,
                                                                                o_gsegn.SegmentName);
-#else // ! defined(USE_SEGMENT_LOCAL_DATA)
+#else // ! defined(USE_SEGMENT_LOCAL_DATA_)
 						CPP::Output_GetSegmentGlobalTranslation        o_gseggt =
                                     _viconClient.GetSegmentGlobalTranslation(o_gsubjn.SubjectName,
                                                                              o_gsegn.SegmentName);
 						CPP::Output_GetSegmentGlobalRotationQuaternion o_gseggrq =
                             _viconClient.GetSegmentGlobalRotationQuaternion(o_gsubjn.SubjectName,
                                                                             o_gsegn.SegmentName);
-#endif // ! defined(USE_SEGMENT_LOCAL_DATA)
+#endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
 						
-#if defined(USE_SEGMENT_LOCAL_DATA)
+#if defined(USE_SEGMENT_LOCAL_DATA_)
 						if ((CPP::Result::Success == o_gseglt.Result) &&
                             (CPP::Result::Success == o_gseglrq.Result))
 						{
@@ -242,7 +242,7 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 								}
 							}
 						}
-#else // ! defined(USE_SEGMENT_LOCAL_DATA)
+#else // ! defined(USE_SEGMENT_LOCAL_DATA_)
 						if ((CPP::Result::Success == o_gseggt.Result) &&
                             (CPP::Result::Success == o_gseggrq.Result))
 						{
@@ -267,7 +267,7 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 								}
 							}
 						}
-#endif // ! defined(USE_SEGMENT_LOCAL_DATA)
+#endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
 					}
 				}
 			}

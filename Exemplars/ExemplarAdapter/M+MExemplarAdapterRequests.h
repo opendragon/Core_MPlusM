@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the exemplar adapter service. */
-# define MpM_EXEMPLARADAPTER_CANONICAL_NAME "ExemplarAdapter"
+# define MpM_EXEMPLARADAPTER_CANONICAL_NAME_ "ExemplarAdapter"
 
 #endif // ! defined(MpMExemplarAdapterRequests_H_)

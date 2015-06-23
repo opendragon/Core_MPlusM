@@ -99,7 +99,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                 Utilities::ServiceDescriptor descriptor;
                 
                 if (Utilities::GetNameAndDescriptionForService(*walker, descriptor,
-                                                               STANDARD_WAIT_TIME))
+                                                               STANDARD_WAIT_TIME_))
                 {
                     bool       sawClients = false;
                     bool       sawInputs = false;
@@ -163,13 +163,13 @@ static void setUpAndGo(const OutputFlavour flavour)
                             {
                                 inChannelNames += ", ";
                             }
-                            inChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": "
-                                                 CHAR_DOUBLEQUOTE);
+                            inChannelNames += T_("{ " CHAR_DOUBLEQUOTE_ "Name" CHAR_DOUBLEQUOTE_
+                                                 ": " CHAR_DOUBLEQUOTE_);
                             inChannelNames += SanitizeString(iDescriptor._portName);
-                            inChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol"
-                                                 CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                            inChannelNames += T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_ "Protocol"
+                                                 CHAR_DOUBLEQUOTE_ ": " CHAR_DOUBLEQUOTE_);
                             inChannelNames += SanitizeString(iDescriptor._portProtocol);
-                            inChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                            inChannelNames += T_(CHAR_DOUBLEQUOTE_ " }");
                         }
                         else
                         {
@@ -203,13 +203,14 @@ static void setUpAndGo(const OutputFlavour flavour)
                             {
                                 outChannelNames += ", ";
                             }
-                            outChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE ": "
-                                                  CHAR_DOUBLEQUOTE);
+                            outChannelNames += T_("{ " CHAR_DOUBLEQUOTE_ "Name" CHAR_DOUBLEQUOTE_
+                                                  ": " CHAR_DOUBLEQUOTE_);
                             outChannelNames += SanitizeString(oDescriptor._portName);
-                            outChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE "Protocol"
-                                                  CHAR_DOUBLEQUOTE ": " CHAR_DOUBLEQUOTE);
+                            outChannelNames += T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_
+                                                  "Protocol" CHAR_DOUBLEQUOTE_ ": "
+                                                  CHAR_DOUBLEQUOTE_);
                             outChannelNames += SanitizeString(oDescriptor._portProtocol);
-                            outChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                            outChannelNames += T_(CHAR_DOUBLEQUOTE_ " }");
                         }
                         else
                         {
@@ -243,14 +244,14 @@ static void setUpAndGo(const OutputFlavour flavour)
                             {
                                 clientChannelNames += ", ";
                             }
-                            clientChannelNames += T_("{ " CHAR_DOUBLEQUOTE "Name" CHAR_DOUBLEQUOTE
-                                                     ": " CHAR_DOUBLEQUOTE);
+                            clientChannelNames += T_("{ " CHAR_DOUBLEQUOTE_ "Name" CHAR_DOUBLEQUOTE_
+                                                     ": " CHAR_DOUBLEQUOTE_);
                             clientChannelNames += SanitizeString(cDescriptor._portName);
-                            clientChannelNames += T_(CHAR_DOUBLEQUOTE ", " CHAR_DOUBLEQUOTE
-                                                     "Protocol" CHAR_DOUBLEQUOTE ": "
-                                                     CHAR_DOUBLEQUOTE);
+                            clientChannelNames += T_(CHAR_DOUBLEQUOTE_ ", " CHAR_DOUBLEQUOTE_
+                                                     "Protocol" CHAR_DOUBLEQUOTE_ ": "
+                                                     CHAR_DOUBLEQUOTE_);
                             clientChannelNames +=  SanitizeString(cDescriptor._portProtocol);
-                            clientChannelNames += T_(CHAR_DOUBLEQUOTE " }");
+                            clientChannelNames += T_(CHAR_DOUBLEQUOTE_ " }");
                         }
                         else
                         {
@@ -279,35 +280,35 @@ static void setUpAndGo(const OutputFlavour flavour)
                     switch (flavour)
                     {
                         case kOutputFlavourJSON :
-                            cout << T_(CHAR_DOUBLEQUOTE "ServicePort" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << servicePortName.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "ServiceName" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << serviceName.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "Tag" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << tag.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "ServiceKind" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << kind.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE_ "ServicePort" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << servicePortName.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE_ "ServiceName" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << serviceName.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE_ "Tag" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << tag.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE_ "ServiceKind" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << kind.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
                             description = SanitizeString(descriptor._description);
-                            cout << T_(CHAR_DOUBLEQUOTE "Description" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << "The " << description.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE_ "Description" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << "The " << description.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
                             requests = SanitizeString(descriptor._requestsDescription);
-                            cout << T_(CHAR_DOUBLEQUOTE "Requests" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << requests.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "Path" CHAR_DOUBLEQUOTE ": "
-                                       CHAR_DOUBLEQUOTE) << descriptor._path.c_str() <<
-                                    T_(CHAR_DOUBLEQUOTE ", ");
-                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryInputs" CHAR_DOUBLEQUOTE ": ") <<
-                                    inChannelNames.c_str() << ", ";
-                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryOutputs" CHAR_DOUBLEQUOTE ": ") <<
-                                    outChannelNames.c_str() << " }";
-                            cout << T_(CHAR_DOUBLEQUOTE "SecondaryClients" CHAR_DOUBLEQUOTE ": ") <<
-                                    clientChannelNames.c_str() << " }";
+                            cout << T_(CHAR_DOUBLEQUOTE_ "Requests" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << requests.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE_ "Path" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << descriptor._path.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
+                            cout << T_(CHAR_DOUBLEQUOTE_ "SecondaryInputs" CHAR_DOUBLEQUOTE_
+                                       ": ") << inChannelNames.c_str() << ", ";
+                            cout << T_(CHAR_DOUBLEQUOTE_ "SecondaryOutputs" CHAR_DOUBLEQUOTE_
+                                       ": ") << outChannelNames.c_str() << " }";
+                            cout << T_(CHAR_DOUBLEQUOTE_ "SecondaryClients" CHAR_DOUBLEQUOTE_
+                                       ": ") << clientChannelNames.c_str() << " }";
                             break;
                             
                         case kOutputFlavourTabs :
@@ -412,7 +413,7 @@ int main(int      argc,
     
     if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                    "List the available services", 2014,
-                                                   STANDARD_COPYRIGHT_NAME, flavour))
+                                                   STANDARD_COPYRIGHT_NAME_, flavour))
     {
         try
         {

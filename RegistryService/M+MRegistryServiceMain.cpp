@@ -75,9 +75,9 @@ using std::endl;
 
 /*! @brief Set to @c true to use an in-memory database and @c false to use a disk-based database. */
 #if defined(MpM_UseDiskDatabase)
-# define USE_INMEMORY false
+# define USE_INMEMORY_ false
 #else // ! defined(MpM_UseDiskDatabase)
-# define USE_INMEMORY true
+# define USE_INMEMORY_ true
 #endif // ! defined(MpM_UseDiskDatabase)
 
 #if defined(__APPLE__)
@@ -107,7 +107,7 @@ static void setUpAndGo(const YarpString & progName,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("reportOnExit = ", reportOnExit); //####
     Registry::RegistryService * aService = new Registry::RegistryService(progName, argc, argv,
-                                                                         USE_INMEMORY,
+                                                                         USE_INMEMORY_,
                                                                          servicePortNumber);
 
     if (aService)
@@ -127,7 +127,7 @@ static void setUpAndGo(const YarpString & progName,
             for ( ; IsRunning(); )
             {
 #if defined(MpM_MainDoesDelayNotYield)
-                yarp::os::Time::delay(ONE_SECOND_DELAY);
+                yarp::os::Time::delay(ONE_SECOND_DELAY_);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                 yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -135,7 +135,7 @@ static void setUpAndGo(const YarpString & progName,
             reporter->stop();
             for ( ; reporter->isRunning(); )
             {
-                yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
+                yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 3.1);
             }
             delete reporter;
             if (reportOnExit)
@@ -197,9 +197,9 @@ int main(int      argc,
         YarpString                  tag; // not used
         Utilities::DescriptorVector argumentList;
 
-		if (ProcessStandardServiceOptions(argc, argv, argumentList, MpM_REGISTRY_ENDPOINT_NAME,
-                                          REGISTRY_SERVICE_DESCRIPTION, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+		if (ProcessStandardServiceOptions(argc, argv, argumentList, MpM_REGISTRY_ENDPOINT_NAME_,
+                                          REGISTRY_SERVICE_DESCRIPTION_, "", 2014,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           static_cast<OptionsMask>(kSkipGoOption |
                                                                    kSkipEndpointOption |

@@ -54,6 +54,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Truncate Float service. */
-# define MpM_TRUNCATEFLOAT_CANONICAL_NAME "TruncateFloat"
+# define MpM_TRUNCATEFLOAT_CANONICAL_NAME_ "TruncateFloat"
 
 #endif // ! defined(MpMTruncateFloatRequests_H_)

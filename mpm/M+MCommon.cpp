@@ -256,7 +256,7 @@ void Common::Initialize(const YarpString & progName)
         if (lLogger)
         {
             lLogger->info(YarpString("Program ") + progName);
-            lLogger->info("Movement And Meaning Version: " MpM_VERSION ", YARP Version: "
+            lLogger->info("Movement And Meaning Version: " MpM_VERSION_ ", YARP Version: "
                           YARP_VERSION_STRING ", ACE Version: " ACE_VERSION);
         }
 # endif // MAC_OR_LINUX_
@@ -288,48 +288,48 @@ void Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     act.sa_handler = theHandler;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-# if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
+# if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_))
     sigaction(SIGABRT, &act, NULL);
-# endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE_))
     sigaction(SIGHUP, &act, NULL);
-# endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE_))
     sigaction(SIGINT, &act, NULL);
-# endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE_))
     sigaction(SIGQUIT, &act, NULL);
-# endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE_))
     sigaction(SIGUSR1, &act, NULL);
-# endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE_))
     sigaction(SIGUSR2, &act, NULL);
-# endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
     sigemptyset(&blocking);
-    sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
+    sigaddset(&blocking, STANDARD_SIGNAL_TO_USE_);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
 #else // ! MAC_OR_LINUX_
-# if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE))
+# if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_))
     //yarp::os::signal(SIGABRT, theHandler);
 	signal(SIGABRT, theHandler); //windows doesn't like the yarp signals for some reason
-# endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE_))
     yarp::os::signal(SIGHUP, theHandler);
-# endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE_))
     //yarp::os::signal(SIGINT, theHandler);
 	signal(SIGINT, theHandler); //windows doesn't like the yarp signals for some reason
-# endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE_))
     yarp::os::signal(SIGQUIT, theHandler);
-# endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGQUIT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGUSR1) && (SIGUSR1 != STANDARD_SIGNAL_TO_USE_))
     yarp::os::signal(SIGUSR1, theHandler);
-# endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
-# if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE))
+# endif // defined(SIGUSR1) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
+# if (defined(SIGUSR2) && (SIGUSR2 != STANDARD_SIGNAL_TO_USE_))
     yarp::os::signal(SIGUSR2, theHandler);
-# endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE)
+# endif // defined(SIGUSR2) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
     yarp::os::signal(SIGTERM, theHandler);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
@@ -345,12 +345,12 @@ void Common::SetUpCatcher(void)
     
 #if MAC_OR_LINUX_
     sigemptyset(&unblocking);
-    sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE);
+    sigaddset(&unblocking, STANDARD_SIGNAL_TO_USE_);
     pthread_sigmask(SIG_UNBLOCK, &unblocking, NULL);
     act.sa_handler = localCatcher;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
+    sigaction(STANDARD_SIGNAL_TO_USE_, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####
@@ -379,12 +379,12 @@ void Common::ShutDownCatcher(void)
     
 #if MAC_OR_LINUX_
     sigemptyset(&blocking);
-    sigaddset(&blocking, STANDARD_SIGNAL_TO_USE);
+    sigaddset(&blocking, STANDARD_SIGNAL_TO_USE_);
     pthread_sigmask(SIG_BLOCK, &blocking, NULL);
     act.sa_handler = SIG_DFL;
     sigemptyset(&act.sa_mask);
     act.sa_flags = 0;
-    sigaction(STANDARD_SIGNAL_TO_USE, &act, NULL);
+    sigaction(STANDARD_SIGNAL_TO_USE_, &act, NULL);
 #else // ! MAC_OR_LINUX_
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT(); //####

@@ -88,7 +88,7 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
     
     try
     {
-        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())
+        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == response.size())
         {
             // The first element of the response should be 'OK' or 'FAILED'; if 'OK', the second
             // element should be a list of service port names.
@@ -98,7 +98,7 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
             {
                 YarpString responseFirstAsString(responseFirst.toString());
                 
-                if (! strcmp(MpM_OK_RESPONSE, responseFirstAsString.c_str()))
+                if (! strcmp(MpM_OK_RESPONSE_, responseFirstAsString.c_str()))
                 {
                     // Now, check the second element.
                     yarp::os::Value responseSecond(response.get(1));
@@ -112,13 +112,13 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
                         OD_LOG("! (responseSecond.isList())"); //####
                     }
                 }
-                else if (! strcmp(MpM_FAILED_RESPONSE, responseFirstAsString.c_str()))
+                else if (! strcmp(MpM_FAILED_RESPONSE_, responseFirstAsString.c_str()))
                 {
                     result = response;
                 }
                 else
                 {
-                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE, " //####
+                    OD_LOG("! (! strcmp(MpM_FAILED_RESPONSE_, " //####
                            "responseFirstAsString.c_str()))"); //####
                 }
             }
@@ -129,7 +129,7 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == response.size())"); //####
+            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == response.size())"); //####
         }
     }
     catch (...)
@@ -150,7 +150,7 @@ static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(const YarpString & baseChannelName) :
-    _reporter(NULL), _channel(NULL), _baseChannelName(CLIENT_PORT_NAME_BASE), _channelName(),
+    _reporter(NULL), _channel(NULL), _baseChannelName(CLIENT_PORT_NAME_BASE_), _channelName(),
     _serviceChannelName(), _clientOwnsChannel(true), _connected(false), _reportImmediately(false)
 {
     OD_LOG_ENTER(); //####
@@ -202,10 +202,10 @@ bool BaseClient::connectToService(CheckFunction checker,
             }
             if (_channel)
             {
-                if (_channel->openWithRetries(_channelName, STANDARD_WAIT_TIME))
+                if (_channel->openWithRetries(_channelName, STANDARD_WAIT_TIME_))
                 {
                     if (Utilities::NetworkConnectWithRetries(_channelName, _serviceChannelName,
-                                                             STANDARD_WAIT_TIME, false, checker,
+                                                             STANDARD_WAIT_TIME_, false, checker,
                                                              checkStuff))
                     {
                         _connected = true;
@@ -213,14 +213,14 @@ bool BaseClient::connectToService(CheckFunction checker,
                     else
                     {
                         OD_LOG("! (Utilities::NetworkConnectWithRetries(_channelName, " //####
-                               "_serviceChannelName, STANDARD_WAIT_TIME, false, checker, " //####
+                               "_serviceChannelName, STANDARD_WAIT_TIME_, false, checker, " //####
                                "checkStuff))"); //####
                     }
                 }
                 else
                 {
                     OD_LOG("! (_channel->openWithRetries(_channelName, " //####
-                           "STANDARD_WAIT_TIME))"); //####
+                           "STANDARD_WAIT_TIME_))"); //####
                 }
             }
             else
@@ -253,15 +253,15 @@ bool BaseClient::disconnectFromService(CheckFunction checker,
 
         reconnectIfDisconnected(checker, checkStuff);
 #if defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_DETACH_REQUEST, parameters, response))
+        if (send(MpM_DETACH_REQUEST_, parameters, response))
         {
-            if (MpM_EXPECTED_DETACH_RESPONSE_SIZE == response.count())
+            if (MpM_EXPECTED_DETACH_RESPONSE_SIZE_ == response.count())
             {
                 yarp::os::Value retrieved(response.element(0));
                 
                 if (retrieved.isString())
                 {
-                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE);
+                    okSoFar = (retrieved.toString() == MpM_OK_RESPONSE_);
                 }
                 else
                 {
@@ -270,35 +270,35 @@ bool BaseClient::disconnectFromService(CheckFunction checker,
             }
             else
             {
-                OD_LOG("! (MpM_EXPECTED_DETACH_RESPONSE_SIZE == response.count())"); //####
+                OD_LOG("! (MpM_EXPECTED_DETACH_RESPONSE_SIZE_ == response.count())"); //####
                 OD_LOG_S1s("response = ", response.asString()); //####
             }
         }
         else
         {
-            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_DETACH_REQUEST_, parameters, response))"); //####
         }
 #else // ! defined(MpM_DoExplicitCheckForOK)
-        if (send(MpM_DETACH_REQUEST, parameters))
+        if (send(MpM_DETACH_REQUEST_, parameters))
         {
             okSoFar = true;
         }
         else
         {
-            OD_LOG("! (send(MpM_DETACH_REQUEST, parameters))"); //####
+            OD_LOG("! (send(MpM_DETACH_REQUEST_, parameters))"); //####
         }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
         if (okSoFar)
         {
             if (Utilities::NetworkDisconnectWithRetries(_channelName, _serviceChannelName,
-                                                        STANDARD_WAIT_TIME, checker, checkStuff))
+                                                        STANDARD_WAIT_TIME_, checker, checkStuff))
             {
                 _connected = false;
             }
             else
             {
                 OD_LOG("! (Utilities::NetworkDisconnectWithRetries(_channelName, " //####
-                       "_serviceChannelName, STANDARD_WAIT_TIME, checker, checkStuff))"); //####
+                       "_serviceChannelName, STANDARD_WAIT_TIME_, checker, checkStuff))"); //####
             }
         }
     }
@@ -322,12 +322,12 @@ bool BaseClient::findService(const char *  criteria,
         yarp::os::Bottle candidates(FindMatchingServices(criteria, false, checker, checkStuff));
         
         OD_LOG_S1s("candidates <- ", candidates.toString()); //####
-        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())
+        if (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == candidates.size())
         {
             // First, check if the search succeeded.
             YarpString candidatesFirstString(candidates.get(0).toString());
             
-            if (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))
+            if (! strcmp(MpM_OK_RESPONSE_, candidatesFirstString.c_str()))
             {
                 // Now, process the second element.
                 yarp::os::Bottle * candidateList = candidates.get(1).asList();
@@ -355,12 +355,12 @@ bool BaseClient::findService(const char *  criteria,
             }
             else
             {
-                OD_LOG("! (! strcmp(MpM_OK_RESPONSE, candidatesFirstString.c_str()))"); //####
+                OD_LOG("! (! strcmp(MpM_OK_RESPONSE_, candidatesFirstString.c_str()))"); //####
             }
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE == candidates.size())"); //####
+            OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == candidates.size())"); //####
         }
         if (! result)
         {
@@ -527,8 +527,8 @@ yarp::os::Bottle Common::FindMatchingServices(const YarpString & criteria,
     
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "findmatch_/"
-                                                   DEFAULT_CHANNEL_ROOT));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "findmatch_/"
+                                                   DEFAULT_CHANNEL_ROOT_));
         ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
@@ -536,17 +536,17 @@ yarp::os::Bottle Common::FindMatchingServices(const YarpString & criteria,
 #if defined(MpM_ReportOnConnections)
             newChannel->setReporter(*Utilities::GetGlobalStatusReporter());
 #endif // defined(MpM_ReportOnConnections)
-            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                         STANDARD_WAIT_TIME, false, checker,
+                if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME_,
+                                                         STANDARD_WAIT_TIME_, false, checker,
                                                          checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     
                     parameters.addInt(getNames ? 1 : 0);
                     parameters.addString(criteria);
-                    ServiceRequest  request(MpM_MATCH_REQUEST, parameters);
+                    ServiceRequest  request(MpM_MATCH_REQUEST_, parameters);
                     ServiceResponse response;
                     
                     if (request.send(*newChannel, response))
@@ -559,12 +559,13 @@ yarp::os::Bottle Common::FindMatchingServices(const YarpString & criteria,
                         OD_LOG("! (request.send(*newChannel, response))"); //####
                     }
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                  STANDARD_WAIT_TIME, checker,
+                    if (! Utilities::NetworkDisconnectWithRetries(aName,
+                                                                  MpM_REGISTRY_ENDPOINT_NAME_,
+                                                                  STANDARD_WAIT_TIME_, checker,
                                                                   checkStuff))
                     {
                         OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, checker, " //####
+                               "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, checker, " //####
                                "checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
@@ -572,8 +573,8 @@ yarp::os::Bottle Common::FindMatchingServices(const YarpString & criteria,
                 else
                 {
                     OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME, false, checker, " //####
-                           " checkStuff))"); //####
+                           "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_, false, " //####
+                           "checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -581,7 +582,7 @@ yarp::os::Bottle Common::FindMatchingServices(const YarpString & criteria,
             }
             else
             {
-                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
             }
             BaseChannel::RelinquishChannel(newChannel);
         }

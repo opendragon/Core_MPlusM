@@ -88,8 +88,8 @@ ChordGeneratorService::ChordGeneratorService(const YarpString & launchPath,
                                              const YarpString & tag,
                                              const YarpString & serviceEndpointName,
                                              const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_CHORD_GENERATOR_NAME,
-              CHORDGENERATOR_SERVICE_DESCRIPTION,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_CHORD_GENERATOR_NAME_,
+              CHORDGENERATOR_SERVICE_DESCRIPTION_,
               "returns list of MIDI note numbers defining the chord", serviceEndpointName,
               servicePortNumber), _chordReqHandler(NULL)
 {

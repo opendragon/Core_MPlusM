@@ -69,7 +69,7 @@ using namespace MplusM::Utilities;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'arguments' request. */
-#define ARGUMENTS_REQUEST_VERSION_NUMBER "1.1"
+#define ARGUMENTS_REQUEST_VERSION_NUMBER_ "1.1"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -88,7 +88,7 @@ using namespace MplusM::Utilities;
 #endif // defined(__APPLE__)
 
 ArgumentsRequestHandler::ArgumentsRequestHandler(BaseService & service) :
-    inherited(MpM_ARGUMENTS_REQUEST, service)
+    inherited(MpM_ARGUMENTS_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -121,10 +121,10 @@ void ArgumentsRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_STRING MpM_REQREP_1_OR_MORE);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, ARGUMENTS_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY,
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_ MpM_REQREP_1_OR_MORE_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, ARGUMENTS_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_,
                  "Return the arguments that the executable that launched the service received\n"
                  "Input: nothing\n"
                  "Output: a list of the arguments that the executable that launched the service "
@@ -133,7 +133,7 @@ void ArgumentsRequestHandler::fillInDescription(const YarpString &   request,
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {

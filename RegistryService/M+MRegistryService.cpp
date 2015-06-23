@@ -359,7 +359,7 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
                         OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
                         }
                     }
                     while (SQLITE_BUSY == sqlRes);
@@ -426,7 +426,7 @@ static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                         OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
                         }
                     }
                     while (SQLITE_BUSY == sqlRes);
@@ -504,7 +504,7 @@ static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    databas
                         OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
-                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
                         }
                     }
                     while (SQLITE_BUSY == sqlRes);
@@ -592,7 +592,7 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
                             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
-                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
                             }
                         }
                         while (SQLITE_BUSY == sqlRes);
@@ -708,7 +708,7 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
                             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
-                                yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
                             }
                         }
                         while (SQLITE_BUSY == sqlRes);
@@ -1533,14 +1533,14 @@ RegistryService::RegistryService(const YarpString & launchPath,
                                  char * *           argv,
                                  const bool         useInMemoryDb,
                                  const YarpString & servicePortNumber) :
-    inherited(kServiceKindRegistry, launchPath, argc, argv, "", true, MpM_REGISTRY_CANONICAL_NAME,
-              REGISTRY_SERVICE_DESCRIPTION,
+    inherited(kServiceKindRegistry, launchPath, argc, argv, "", true, MpM_REGISTRY_CANONICAL_NAME_,
+              REGISTRY_SERVICE_DESCRIPTION_,
               "match - return the channels for services matching the criteria provided\n"
               "ping - update the last-pinged information for a channel or record the information "
               "for a service on the given channel\n"
               "register - record the information for a service on the given channel\n"
               "unregister - remove the information for a service on the given channel",
-              MpM_REGISTRY_ENDPOINT_NAME, servicePortNumber), _db(NULL),
+              MpM_REGISTRY_ENDPOINT_NAME_, servicePortNumber), _db(NULL),
     _validator(new ColumnNameValidator), _matchHandler(NULL), _pingHandler(NULL),
     _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL), _checker(NULL),
     _inMemory(useInMemoryDb), _isActive(false)
@@ -1926,16 +1926,16 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
     OD_LOG_S1s("channelName = ", channelName); //####
     bool result = true;
 
-    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
+    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))
     {
-        YarpString         theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        YarpString         theRequest(asDict.find(MpM_REQREP_DICT_REQUEST_KEY_).asString());
         yarp::os::Bottle   keywordList;
         RequestDescription requestDescriptor;
         
         OD_LOG_S1s("theRequest <- ", theRequest); //####
-        if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY))
+        if (asDict.check(MpM_REQREP_DICT_DETAILS_KEY_))
         {
-            yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY);
+            yarp::os::Value theDetails = asDict.find(MpM_REQREP_DICT_DETAILS_KEY_);
             
             OD_LOG_S1s("theDetails <- ", theDetails.toString()); //####
             if (theDetails.isString())
@@ -1949,9 +1949,9 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
                 result = false;
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_INPUT_KEY))
+        if (asDict.check(MpM_REQREP_DICT_INPUT_KEY_))
         {
-            yarp::os::Value theInputs(asDict.find(MpM_REQREP_DICT_INPUT_KEY));
+            yarp::os::Value theInputs(asDict.find(MpM_REQREP_DICT_INPUT_KEY_));
             
             OD_LOG_S1s("theInputs <- ", theInputs.toString()); //####
             if (theInputs.isString())
@@ -1965,9 +1965,9 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
                 result = false;
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_KEYWORDS_KEY))
+        if (asDict.check(MpM_REQREP_DICT_KEYWORDS_KEY_))
         {
-            yarp::os::Value theKeywords(asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY));
+            yarp::os::Value theKeywords(asDict.find(MpM_REQREP_DICT_KEYWORDS_KEY_));
             
             OD_LOG_S1s("theKeywords <- ", theKeywords.toString()); //####
             if (theKeywords.isList())
@@ -1981,9 +1981,9 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
                 result = false;
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_OUTPUT_KEY))
+        if (asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_))
         {
-            yarp::os::Value theOutputs(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY));
+            yarp::os::Value theOutputs(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_));
             
             OD_LOG_S1s("theOutputs <- ", theOutputs.toString()); //####
             if (theOutputs.isString())
@@ -1997,9 +1997,9 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
                 result = false;
             }
         }
-        if (asDict.check(MpM_REQREP_DICT_VERSION_KEY))
+        if (asDict.check(MpM_REQREP_DICT_VERSION_KEY_))
         {
-            yarp::os::Value theVersion(asDict.find(MpM_REQREP_DICT_VERSION_KEY));
+            yarp::os::Value theVersion(asDict.find(MpM_REQREP_DICT_VERSION_KEY_));
             
             OD_LOG_S1s("theVersion <- ", theVersion.toString()); //####
             if (theVersion.isString() || theVersion.isInt() || theVersion.isDouble())
@@ -2029,7 +2029,7 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
     }
     else
     {
-        OD_LOG("! (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))"); //####
+        OD_LOG("! (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))"); //####
         // There is no 'name' entry in this dictionary
         result = false;
     }
@@ -2164,7 +2164,7 @@ bool RegistryService::processNameResponse(const YarpString &      channelName,
     
     try
     {
-        if (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())
+        if (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == response.count())
         {
             yarp::os::Value theCanonicalName(response.element(0));
             yarp::os::Value theDescription(response.element(1));
@@ -2195,7 +2195,7 @@ bool RegistryService::processNameResponse(const YarpString &      channelName,
         }
         else
         {
-            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE == response.count())"); //####
+            OD_LOG("! (MpM_EXPECTED_NAME_RESPONSE_SIZE_ == response.count())"); //####
             OD_LOG_S1s("response = ", response.asString()); //####
             // Wrong number of values in the response.
             result = false;
@@ -2280,8 +2280,8 @@ void RegistryService::reportStatusChange(const YarpString &  channelName,
     OD_LOG_S2s("channelName = ", channelName, "details = ", details); //####
     if (_statusChannel)
     {
-        char             buffer1[DATE_TIME_BUFFER_SIZE];
-        char             buffer2[DATE_TIME_BUFFER_SIZE];
+        char             buffer1[DATE_TIME_BUFFER_SIZE_];
+        char             buffer2[DATE_TIME_BUFFER_SIZE_];
         yarp::os::Bottle message;
         
         Utilities::GetDateAndTime(buffer1, sizeof(buffer1), buffer2, sizeof(buffer2));
@@ -2291,30 +2291,30 @@ void RegistryService::reportStatusChange(const YarpString &  channelName,
         switch (newStatus)
         {
             case kRegistryAddService :
-                message.addString(MpM_REGISTRY_STATUS_ADDING);
+                message.addString(MpM_REGISTRY_STATUS_ADDING_);
                 message.addString(channelName);
                 message.addString("at");
                 message.addString(details);
                 break;
                 
             case kRegistryNotAnExistingAssociation :
-                message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
+                message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
                 message.addString(channelName);
                 break;
                 
             case kRegistryNotAnExistingService :
-                message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED);
+                message.addString(MpM_REGISTRY_STATUS_UNRECOGNIZED_);
                 message.addString(channelName);
                 break;
                 
             case kRegistryPingFromService :
-                message.addString(MpM_REGISTRY_STATUS_PINGED);
+                message.addString(MpM_REGISTRY_STATUS_PINGED_);
                 message.addString("by");
                 message.addString(channelName);
                 break;
                 
             case kRegistryProblemAddingRequest :
-                message.addString(MpM_REGISTRY_STATUS_PROBLEM);
+                message.addString(MpM_REGISTRY_STATUS_PROBLEM_);
                 message.addString("adding");
                 message.addString("request");
                 message.addString(details);
@@ -2323,7 +2323,7 @@ void RegistryService::reportStatusChange(const YarpString &  channelName,
                 break;
                 
             case kRegistryProblemAddingService :
-                message.addString(MpM_REGISTRY_STATUS_PROBLEM);
+                message.addString(MpM_REGISTRY_STATUS_PROBLEM_);
                 message.addString("adding");
                 message.addString("service");
                 message.addString(details);
@@ -2332,31 +2332,31 @@ void RegistryService::reportStatusChange(const YarpString &  channelName,
                 break;
                 
             case kRegistryRegisterService :
-                message.addString(MpM_REGISTRY_STATUS_REGISTERING);
+                message.addString(MpM_REGISTRY_STATUS_REGISTERING_);
                 message.addString(channelName);
                 break;
                 
             case kRegistryRemoveService :
-                message.addString(MpM_REGISTRY_STATUS_REMOVING);
+                message.addString(MpM_REGISTRY_STATUS_REMOVING_);
                 message.addString(channelName);
                 break;
                 
             case kRegistryStaleService :
-                message.addString(MpM_REGISTRY_STATUS_STALE);
+                message.addString(MpM_REGISTRY_STATUS_STALE_);
                 message.addString(channelName);
                 message.addString("detected");
                 break;
                 
             case kRegistryStarted :
-                message.addString(MpM_REGISTRY_STATUS_STARTING);
+                message.addString(MpM_REGISTRY_STATUS_STARTING_);
                 break;
                 
             case kRegistryStopped :
-                message.addString(MpM_REGISTRY_STATUS_STOPPING);
+                message.addString(MpM_REGISTRY_STATUS_STOPPING_);
                 break;
                 
             case kRegistryUnregisterService :
-                message.addString(MpM_REGISTRY_STATUS_UNREGISTERING);
+                message.addString(MpM_REGISTRY_STATUS_UNREGISTERING_);
                 message.addString(channelName);
                 break;
 
@@ -2440,7 +2440,7 @@ bool RegistryService::setUpStatusChannel(void)
         _statusChannel = new GeneralChannel(true);
         if (_statusChannel)
         {
-            YarpString              outputName(MpM_REGISTRY_STATUS_NAME);
+            YarpString              outputName(MpM_REGISTRY_STATUS_NAME_);
 #if defined(MpM_ReportOnConnections)
             ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
@@ -2457,7 +2457,7 @@ bool RegistryService::setUpStatusChannel(void)
             {
                 _statusChannel->disableMetrics();
             }
-            if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME))
+            if (_statusChannel->openWithRetries(outputName, STANDARD_WAIT_TIME_))
             {
                 _statusChannel->setProtocol("s+", "One or more strings");
                 okSoFar = true;
@@ -2465,7 +2465,7 @@ bool RegistryService::setUpStatusChannel(void)
             else
             {
                 OD_LOG("! (_statusChannel->openWithRetries(outputName, " //####
-                       "STANDARD_WAIT_TIME))"); //####
+                       "STANDARD_WAIT_TIME_))"); //####
             }
         }
         else
@@ -2495,8 +2495,8 @@ bool RegistryService::start(void)
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
-                YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX "temp_"
-                                                           MpM_REGISTRY_ENDPOINT_NAME));
+                YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "temp_"
+                                                           MpM_REGISTRY_ENDPOINT_NAME_));
                 ClientChannel * newChannel = new ClientChannel;
                 
                 if (newChannel)
@@ -2509,26 +2509,26 @@ bool RegistryService::start(void)
                     {
                         newChannel->disableMetrics();
                     }
-                    if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                    if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                     {
-                        if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME,
-                                                                 STANDARD_WAIT_TIME))
+                        if (Utilities::NetworkConnectWithRetries(aName, MpM_REGISTRY_ENDPOINT_NAME_,
+                                                                 STANDARD_WAIT_TIME_))
                         {
-                            yarp::os::Bottle parameters(MpM_REGISTRY_ENDPOINT_NAME);
-                            ServiceRequest   request(MpM_REGISTER_REQUEST, parameters);
+                            yarp::os::Bottle parameters(MpM_REGISTRY_ENDPOINT_NAME_);
+                            ServiceRequest   request(MpM_REGISTER_REQUEST_, parameters);
                             ServiceResponse  response;
                             
                             if (request.send(*newChannel, response))
                             {
                                 // Check that we got a successful self-registration!
-                                if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == response.count())
+                                if (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == response.count())
                                 {
                                     yarp::os::Value theValue = response.element(0);
                                     
                                     OD_LOG_S1s("theValue <- ", theValue.toString()); //####
                                     if (theValue.isString())
                                     {
-                                        _isActive = (theValue.toString() == MpM_OK_RESPONSE);
+                                        _isActive = (theValue.toString() == MpM_OK_RESPONSE_);
                                         OD_LOG_B1("_isActive <- ", _isActive); //####
                                     }
                                     else
@@ -2538,7 +2538,7 @@ bool RegistryService::start(void)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE == " //####
+                                    OD_LOG("! (MpM_EXPECTED_REGISTER_RESPONSE_SIZE_ == " //####
                                            "response.count())"); //####
                                     OD_LOG_S1s("response = ", response.asString()); //####
                                 }
@@ -2551,7 +2551,7 @@ bool RegistryService::start(void)
                         else
                         {
                             OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                                   "MpM_REGISTRY_ENDPOINT_NAME, STANDARD_WAIT_TIME))"); //####
+                                   "MpM_REGISTRY_ENDPOINT_NAME_, STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         newChannel->close();
@@ -2559,7 +2559,8 @@ bool RegistryService::start(void)
                     }
                     else
                     {
-                        OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (newChannel->openWithRetries(aName, " //####
+                               "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(newChannel);
                 }
@@ -2613,7 +2614,7 @@ bool RegistryService::stop(void)
             _checker->stop();
             for ( ; _checker->isRunning(); )
             {
-                yarp::os::Time::delay(PING_CHECK_INTERVAL / 3.1);
+                yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 3.1);
             }
             delete _checker;
             _checker = NULL;
@@ -2639,7 +2640,8 @@ void RegistryService::updateCheckedTimeForChannel(const YarpString & serviceChan
 {
     OD_LOG_OBJENTER(); //####
     _checkedTimeLock.lock();
-    _lastCheckedTime[serviceChannelName] = yarp::os::Time::now() + (PING_COUNT_MAX * PING_INTERVAL);
+    _lastCheckedTime[serviceChannelName] = yarp::os::Time::now() +
+                                            (PING_COUNT_MAX_ * PING_INTERVAL_);
     _checkedTimeLock.unlock();
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::updateCheckedTimeForChannel

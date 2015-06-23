@@ -89,7 +89,7 @@ RandomNumberService::RandomNumberService(const YarpString & launchPath,
                                          const YarpString & serviceEndpointName,
                                          const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, argc, argv, tag, true,
-              MpM_RANDOMNUMBER_CANONICAL_NAME, RANDOMNUMBER_SERVICE_DESCRIPTION,
+              MpM_RANDOMNUMBER_CANONICAL_NAME_, RANDOMNUMBER_SERVICE_DESCRIPTION_,
               "random - return the number of random values requested", serviceEndpointName,
               servicePortNumber), _randomHandler(NULL)
 {

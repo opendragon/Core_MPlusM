@@ -90,8 +90,8 @@ ExemplarInputService::ExemplarInputService(const YarpString & launchPath,
                                            const YarpString & tag,
                                            const YarpString & serviceEndpointName,
                                            const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLARINPUT_CANONICAL_NAME,
-              EXEMPLARINPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLARINPUT_CANONICAL_NAME_,
+              EXEMPLARINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####

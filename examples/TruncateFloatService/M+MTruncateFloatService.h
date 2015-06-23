@@ -53,11 +53,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_TRUNCATEFLOATFILTER_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE \
+# define DEFAULT_TRUNCATEFLOATFILTER_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
                                                         "filter/truncatefloat")
 
 /*! @brief The description of the service. */
-# define TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION T_("Truncate Float filter service")
+# define TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION_ T_("Truncate Float filter service")
 
 namespace MplusM
 {

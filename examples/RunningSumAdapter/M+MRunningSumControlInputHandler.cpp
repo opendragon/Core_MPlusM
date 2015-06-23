@@ -138,7 +138,7 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &     inp
                 {
                     YarpString argString(argValue.asString());
                     
-                    if (argString == MpM_RESETSUM_REQUEST)
+                    if (argString == MpM_RESETSUM_REQUEST_)
                     {
                         _shared.lock();
                         if (theClient->resetSum())
@@ -151,11 +151,11 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &     inp
                         }
                         _shared.unlock();
                     }
-                    else if (argString == MpM_QUIT_REQUEST)
+                    else if (argString == MpM_QUIT_REQUEST_)
                     {
                         _shared.deactivate();
                     }
-                    else if (argString == MpM_STARTSUM_REQUEST)
+                    else if (argString == MpM_STARTSUM_REQUEST_)
                     {
                         _shared.lock();
                         if (theClient->startSum())
@@ -168,7 +168,7 @@ bool RunningSumControlInputHandler::handleInput(const yarp::os::Bottle &     inp
                         }
                         _shared.unlock();
                     }
-                    else if (argString == MpM_STOPSUM_REQUEST)
+                    else if (argString == MpM_STOPSUM_REQUEST_)
                     {
                         _shared.lock();
                         if (theClient->stopSum())

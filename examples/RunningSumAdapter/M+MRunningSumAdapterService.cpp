@@ -93,8 +93,8 @@ RunningSumAdapterService::RunningSumAdapterService(const YarpString & launchPath
                                                    const YarpString & tag,
                                                    const YarpString & serviceEndpointName,
                                                    const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_RUNNINGSUMADAPTER_CANONICAL_NAME,
-              RUNNINGSUMADAPTER_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_RUNNINGSUMADAPTER_CANONICAL_NAME_,
+              RUNNINGSUMADAPTER_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _controlHandler(NULL), _dataHandler(NULL)
 {
     OD_LOG_ENTER(); //####

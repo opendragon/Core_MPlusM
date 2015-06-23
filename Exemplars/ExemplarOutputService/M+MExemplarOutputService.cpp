@@ -91,8 +91,8 @@ ExemplarOutputService::ExemplarOutputService(const YarpString & launchPath,
                                              const YarpString & tag,
                                              const YarpString & serviceEndpointName,
                                              const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLAROUTPUT_CANONICAL_NAME,
-              EXEMPLAROUTPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLAROUTPUT_CANONICAL_NAME_,
+              EXEMPLAROUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new ExemplarOutputInputHandler)
 {
     OD_LOG_ENTER(); //####

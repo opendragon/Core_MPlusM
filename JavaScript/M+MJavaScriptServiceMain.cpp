@@ -78,10 +78,10 @@ using std::cerr;
 #endif // defined(__APPLE__)
 
 /*! @brief The number of megabytes before the %JavaScript engine triggers a garbage collection. */
-#define JAVASCRIPT_GC_SIZE 16
+#define JAVASCRIPT_GC_SIZE_ 16
 
 /*! @brief The number of bytes for each %JavaScript 'stack chunk'. */
-#define JAVASCRIPT_STACKCHUNK_SIZE 8192
+#define JAVASCRIPT_STACKCHUNK_SIZE_ 8192
 
 /*! @brief The class of the global object. */
 static JSClass lGlobalClass =
@@ -2010,14 +2010,14 @@ static void setUpAndGo(YarpString &             scriptPath,
         if (JS_Init())
         {
             JSContext * jct = NULL;
-            JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE * 1024 * 1024);
+            JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE_ * 1024 * 1024);
 
             if (jrt)
             {
                 // Avoid ambiguity between 'var x = ...' and 'x = ...'.
                 JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
                 JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
-                jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE);
+                jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE_);
                 if (jct)
                 {
                     JS::ContextOptionsRef(jct).setDontReportUncaught(true);
@@ -2263,7 +2263,7 @@ static void setUpAndGo(YarpString &             scriptPath,
                                         else
                                         {
 #if defined(MpM_MainDoesDelayNotYield)
-                                            yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                                             yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -2392,9 +2392,9 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_JAVASCRIPT_SERVICE_NAME,
-                                          JAVASCRIPTFILTER_SERVICE_DESCRIPTION, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_JAVASCRIPT_SERVICE_NAME_,
+                                          JAVASCRIPTFILTER_SERVICE_DESCRIPTION_, "", 2015,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone, &arguments))
         {

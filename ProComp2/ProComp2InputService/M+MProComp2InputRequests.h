@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %ProComp2 input service. */
-# define MpM_PROCOMP2INPUT_CANONICAL_NAME "ProComp2Input"
+# define MpM_PROCOMP2INPUT_CANONICAL_NAME_ "ProComp2Input"
 
 #endif // ! defined(MpMProComp2InputRequests_H_)

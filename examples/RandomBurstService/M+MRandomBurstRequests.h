@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Random Burst input service. */
-# define MpM_RANDOMBURST_CANONICAL_NAME "RandomBurst"
+# define MpM_RANDOMBURST_CANONICAL_NAME_ "RandomBurst"
 
 #endif // ! defined(MpMRandomBurstRequests_H_)

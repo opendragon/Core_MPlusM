@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Random Number adapter service. */
-# define MpM_RANDOMNUMBERADAPTER_CANONICAL_NAME "RandomNumberAdapter"
+# define MpM_RANDOMNUMBERADAPTER_CANONICAL_NAME_ "RandomNumberAdapter"
 
 #endif // ! defined(MpMRandomNumberAdapterRequests_H_)

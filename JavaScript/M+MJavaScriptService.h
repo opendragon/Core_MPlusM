@@ -58,10 +58,10 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_JAVASCRIPT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE "filter/javascript")
+# define DEFAULT_JAVASCRIPT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "filter/javascript")
 
 /*! @brief The description of the service. */
-# define JAVASCRIPTFILTER_SERVICE_DESCRIPTION T_("JavaScript filter service")
+# define JAVASCRIPTFILTER_SERVICE_DESCRIPTION_ T_("JavaScript filter service")
 
 struct JSContext;
 

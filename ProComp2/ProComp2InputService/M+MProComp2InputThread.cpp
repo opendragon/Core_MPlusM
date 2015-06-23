@@ -54,9 +54,9 @@
 #endif // ! MAC_OR_LINUX_
 
 /*! @brief The sample timer interval. */
-#define PROCOMP2_TIMER_INTERVAL 100
+#define PROCOMP2_TIMER_INTERVAL_ 100
 
-//#define USE_VARIANT_READ_METHOD /* if defined, use a Variant-based read. */
+//#define USE_VARIANT_READ_METHOD_ /* if defined, use a Variant-based read. */
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -142,15 +142,15 @@ void ProComp2InputThread::readChannelData(const DWORD time)
     LONG                 samplesAvailable;
     yarp::os::Bottle     message;
     yarp::os::Property & props = message.addDict();
-#if defined(USE_VARIANT_READ_METHOD)
+#if defined(USE_VARIANT_READ_METHOD_)
     _variant_t           variant;
     SAFEARRAY *          pSA = NULL;
-#else // ! defined(USE_VARIANT_READ_METHOD)
+#else // ! defined(USE_VARIANT_READ_METHOD_)
     FLOAT                buffer[4096];
-#endif // ! defined(USE_VARIANT_READ_METHOD)
+#endif // ! defined(USE_VARIANT_READ_METHOD_)
 
     memset(tag, '\0', sizeof(tag));
-#if defined(USE_VARIANT_READ_METHOD)
+#if defined(USE_VARIANT_READ_METHOD_)
     for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
          channelHND = lTTLLive->GetNextChannelHND())
     {
@@ -190,7 +190,7 @@ void ProComp2InputThread::readChannelData(const DWORD time)
             }
         }
     }
-#else // ! defined(USE_VARIANT_READ_METHOD)
+#else // ! defined(USE_VARIANT_READ_METHOD_)
     for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
          channelHND = lTTLLive->GetNextChannelHND())
     {
@@ -207,7 +207,7 @@ void ProComp2InputThread::readChannelData(const DWORD time)
             props.put(tag, buffer[0]);
         }
     }
-#endif // ! defined(USE_VARIANT_READ_METHOD)
+#endif // ! defined(USE_VARIANT_READ_METHOD_)
     if (sawData && _outChannel)
     {
         props.put("time", static_cast<double>(time));
@@ -233,7 +233,7 @@ void ProComp2InputThread::run(void)
     {
         lTTLLive->StartChannels();
         // Set up a Windows time.
-        aTimer = ::SetTimer(NULL, 0, PROCOMP2_TIMER_INTERVAL, NULL);
+        aTimer = ::SetTimer(NULL, 0, PROCOMP2_TIMER_INTERVAL_, NULL);
     }
     for ( ; ! isStopping(); )
     {

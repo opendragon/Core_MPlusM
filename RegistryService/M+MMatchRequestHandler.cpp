@@ -70,7 +70,7 @@ using namespace MplusM::Registry;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'match' request. */
-#define MATCH_REQUEST_VERSION_NUMBER "1.0"
+#define MATCH_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -90,7 +90,7 @@ using namespace MplusM::Registry;
 
 MatchRequestHandler::MatchRequestHandler(RegistryService &           service,
                                          Parser::BaseNameValidator * validator) :
-    inherited(MpM_MATCH_REQUEST, service), _validator(validator)
+    inherited(MpM_MATCH_REQUEST_, service), _validator(validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("service = ", &service, "validator = ", validator); //####
@@ -123,12 +123,12 @@ void MatchRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_INT MpM_REQREP_STRING);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_STRING
-                 MpM_REQREP_0_OR_MORE MpM_REQREP_LIST_END);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, MATCH_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Find a matching service\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_INT_ MpM_REQREP_STRING_);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_STRING_
+                 MpM_REQREP_0_OR_MORE_ MpM_REQREP_LIST_END_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, MATCH_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Find a matching service\n"
                  "Input: an integer (1=return names, 0=return ports) and an expression describing "
                  "the service to be found\n"
                  "Output: OK and a list of matching service names/ports or FAILED, with a "
@@ -138,7 +138,7 @@ void MatchRequestHandler::fillInDescription(const YarpString &   request,
         
         asList->addString(request);
         asList->addString("find");
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -200,7 +200,7 @@ bool MatchRequestHandler::processRequest(const YarpString &           request,
                         // Hand off the processing to the Registry Service. First, put the 'OK'
                         // response in the output buffer, as we have successfully parsed the
                         // request.
-                        reply.addString(MpM_OK_RESPONSE);
+                        reply.addString(MpM_OK_RESPONSE_);
                         if (! static_cast<RegistryService &>(_service).processMatchRequest(matcher,
                                                                                0 != conditionAsInt,
                                                                                            reply))
@@ -209,7 +209,7 @@ bool MatchRequestHandler::processRequest(const YarpString &           request,
                                    "processMatchRequest(matcher, 0 != conditionAsInt, " //####
                                    "reply))"); //####
                             reply.clear();
-                            reply.addString(MpM_FAILED_RESPONSE);
+                            reply.addString(MpM_FAILED_RESPONSE_);
                             reply.addString("Invalid criteria");
                         }
                         delete matcher;
@@ -217,21 +217,21 @@ bool MatchRequestHandler::processRequest(const YarpString &           request,
                     else
                     {
                         OD_LOG("! (matcher)"); //####
-                        reply.addString(MpM_FAILED_RESPONSE);
+                        reply.addString(MpM_FAILED_RESPONSE_);
                         reply.addString("Invalid criteria");
                     }
                 }
                 else
                 {
                     OD_LOG("! (argument.isString())"); //####
-                    reply.addString(MpM_FAILED_RESPONSE);
+                    reply.addString(MpM_FAILED_RESPONSE_);
                     reply.addString("Invalid criteria");
                 }
             }
             else
             {
                 OD_LOG("! (1 == restOfInput.size())"); //####
-                reply.addString(MpM_FAILED_RESPONSE);
+                reply.addString(MpM_FAILED_RESPONSE_);
                 reply.addString("Missing criteria or extra arguments to request");
             }
             sendResponse(reply, replyMechanism);

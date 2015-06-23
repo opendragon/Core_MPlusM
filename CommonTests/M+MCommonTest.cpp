@@ -151,12 +151,12 @@ static ClientChannel * doCreateTestChannel(const YarpString & destinationName,
         newChannel->setReporter(reporter);
         newChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
-        if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+        if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
         {
-            if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME))
+            if (! Utilities::NetworkConnectWithRetries(aName, destinationName, STANDARD_WAIT_TIME_))
             {
                 OD_LOG("(! Utilities::NetworkConnectWithRetries(aName, destinationName, " //####
-                       "STANDARD_WAIT_TIME))"); //####
+                       "STANDARD_WAIT_TIME_))"); //####
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
@@ -166,7 +166,7 @@ static ClientChannel * doCreateTestChannel(const YarpString & destinationName,
         }
         else
         {
-            OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+            OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
         }
     }
     else
@@ -208,10 +208,10 @@ static void doDestroyTestChannel(const YarpString & destinationName,
     {
 #if defined(MpM_DoExplicitDisconnect)
         if (! Utilities::NetworkDisconnectWithRetries(theChannel->name(), destinationName,
-                                                      STANDARD_WAIT_TIME))
+                                                      STANDARD_WAIT_TIME_))
         {
             OD_LOG("(! Utilities::NetworkDisconnectWithRetries(theChannel->name(), " //####
-                   "destinationName, STANDARD_WAIT_TIME))"); //####
+                   "destinationName, STANDARD_WAIT_TIME_))"); //####
         }
 #endif // defined(MpM_DoExplicitDisconnect)
 #if defined(MpM_DoExplicitClose)
@@ -266,14 +266,14 @@ static int doTestCreateEndpoint(const char * launchPath,
         
         if (stuff)
         {
-            if (stuff->open(STANDARD_WAIT_TIME))
+            if (stuff->open(STANDARD_WAIT_TIME_))
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
                 result = 0;
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME))"); //####
+                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME_))"); //####
             }
             delete stuff;
         }
@@ -327,7 +327,7 @@ static int doTestConnectToEndpoint(const char * launchPath,
         
         if (stuff)
         {
-            if (stuff->open(STANDARD_WAIT_TIME) && stuff->setReporter(reporter, true))
+            if (stuff->open(STANDARD_WAIT_TIME_) && stuff->setReporter(reporter, true))
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
                 // Now we try to connect!
@@ -340,26 +340,26 @@ static int doTestConnectToEndpoint(const char * launchPath,
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                     {
                         outChannel->getReport(reporter);
                         OD_LOG_S1s("endpoint name = ", stuff->getName());
-                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
+                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME_))
                         {
                             result = 0;
 #if defined(MpM_DoExplicitDisconnect)
                             if (! NetworkDisconnectWithRetries(outChannel->name(), stuff->getName(),
-                                                               STANDARD_WAIT_TIME))
+                                                               STANDARD_WAIT_TIME_))
                             {
                                 OD_LOG("(! NetworkDisconnectWithRetries(outChannel->name(), " //####
-                                       "stuff->getName(), STANDARD_WAIT_TIME))"); //####
+                                       "stuff->getName(), STANDARD_WAIT_TIME_))"); //####
                             }
 #endif // defined(MpM_DoExplicitDisconnect)
                         }
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME))"); //####
+                                   "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -367,7 +367,8 @@ static int doTestConnectToEndpoint(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                               "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -378,7 +379,7 @@ static int doTestConnectToEndpoint(const char * launchPath,
             }
             else
             {
-                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME) && " //####
+                OD_LOG("! (stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
@@ -435,7 +436,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
         {
             Test03Handler handler;
             
-            if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
+            if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
@@ -449,10 +450,10 @@ static int doTestWriteToEndpoint(const char * launchPath,
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                     {
                         outChannel->getReport(reporter);
-                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
+                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME_))
                         {
                             yarp::os::Bottle message;
                             
@@ -464,10 +465,11 @@ static int doTestWriteToEndpoint(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME))
+                                                                   STANDARD_WAIT_TIME_))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
+                                           "name(), stuff->getName(), " //####
+                                           "STANDARD_WAIT_TIME_))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -482,7 +484,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME))"); //####
+                                   "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -490,7 +492,8 @@ static int doTestWriteToEndpoint(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                               "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -502,7 +505,7 @@ static int doTestWriteToEndpoint(const char * launchPath,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
@@ -559,7 +562,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
         {
             Test04Handler handler;
             
-            if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
+            if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
@@ -573,10 +576,10 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                     {
                         outChannel->getReport(reporter);
-                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
+                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME_))
                         {
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
@@ -589,10 +592,11 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME))
+                                                                   STANDARD_WAIT_TIME_))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
+                                           "name(), stuff->getName(), " //####
+                                           "STANDARD_WAIT_TIME_))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -607,7 +611,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME))"); //####
+                                   "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -615,7 +619,8 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                               "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -627,7 +632,7 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
@@ -684,7 +689,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
         {
             Test05HandlerCreator handlerCreator;
             
-            if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME) &&
+            if (stuff->setInputHandlerCreator(handlerCreator) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
                 OD_LOG_S1s("endpoint name = ", stuff->getName());
@@ -699,10 +704,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                     outChannel->setReporter(reporter);
                     outChannel->getReport(reporter);
 #endif // defined(MpM_ReportOnConnections)
-                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))
+                    if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                     {
                         outChannel->getReport(reporter);
-                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME))
+                        if (outChannel->addOutputWithRetries(stuff->getName(), STANDARD_WAIT_TIME_))
                         {
                             yarp::os::Bottle message;
                             yarp::os::Bottle response;
@@ -715,10 +720,11 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! NetworkDisconnectWithRetries(outChannel->name(),
                                                                    stuff->getName(),
-                                                                   STANDARD_WAIT_TIME))
+                                                                   STANDARD_WAIT_TIME_))
                                 {
                                     OD_LOG("(! NetworkDisconnectWithRetries(outChannel->" //####
-                                           "name(), stuff->getName(), STANDARD_WAIT_TIME))"); //####
+                                           "name(), stuff->getName(), " //####
+                                           "STANDARD_WAIT_TIME_))"); //####
                                 }
 #endif // defined(MpM_DoExplicitDisconnect)
                             }
@@ -733,7 +739,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                         else
                         {
                             OD_LOG("! (outChannel->addOutputWithRetries(stuff->getName(), " //####
-                                   "STANDARD_WAIT_TIME))"); //####
+                                   "STANDARD_WAIT_TIME_))"); //####
                         }
 #if defined(MpM_DoExplicitClose)
                         outChannel->close();
@@ -741,7 +747,8 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
                     }
                     else
                     {
-                        OD_LOG("! (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME))"); //####
+                        OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                               "STANDARD_WAIT_TIME_))"); //####
                     }
                     BaseChannel::RelinquishChannel(outChannel);
                 }
@@ -753,7 +760,7 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
             else
             {
                 OD_LOG("! (stuff->setInputHandlerCreator(handlerCreator) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(&reporter, true))"); //####
             }
             delete stuff;
@@ -919,7 +926,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
         {
             Test08Handler handler;
             
-            if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME) &&
+            if (stuff->setInputHandler(handler) && stuff->open(STANDARD_WAIT_TIME_) &&
                 stuff->setReporter(reporter, true))
             {
                 ClientChannel * outChannel = doCreateTestChannel(stuff->getName(),
@@ -929,7 +936,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
                 {
                     OD_LOG_S1s("endpoint name = ", stuff->getName());
                     yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*outChannel, response))
@@ -956,7 +963,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
             else
             {
                 OD_LOG("! (stuff->setInputHandler(handler) && " //####
-                       "stuff->open(STANDARD_WAIT_TIME) && " //####
+                       "stuff->open(STANDARD_WAIT_TIME_) && " //####
                        "stuff->setReporter(reporter, true))"); //####
             }
             delete stuff;
@@ -1011,7 +1018,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                 if (outChannel)
                 {
                     yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*outChannel, response))
@@ -1090,7 +1097,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                 if (outChannel)
                 {
                     yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*outChannel, response))
@@ -1168,7 +1175,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                 if (outChannel)
                 {
                     yarp::os::Bottle parameters("some to send");
-                    ServiceRequest   request(MpM_ECHO_REQUEST, parameters);
+                    ServiceRequest   request(MpM_ECHO_REQUEST_, parameters);
                     ServiceResponse  response;
                     
                     if (request.send(*outChannel, response))
@@ -1269,14 +1276,14 @@ static bool checkListDictionary(yarp::os::Property & asDict,
     OD_LOG_P4("sawInfo = ", &sawInfo, "sawList = ", &sawList, "sawName = ", &sawName, //####
               "sawSetMetricsState = ", &sawSetMetricsState); //####
     bool result = true;
-    bool hasInput = asDict.check(MpM_REQREP_DICT_INPUT_KEY);
-    bool hasOutput = asDict.check(MpM_REQREP_DICT_OUTPUT_KEY);
+    bool hasInput = asDict.check(MpM_REQREP_DICT_INPUT_KEY_);
+    bool hasOutput = asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_);
     
-    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY))
+    if (asDict.check(MpM_REQREP_DICT_REQUEST_KEY_))
     {
-        YarpString aName(asDict.find(MpM_REQREP_DICT_REQUEST_KEY).asString());
+        YarpString aName(asDict.find(MpM_REQREP_DICT_REQUEST_KEY_).asString());
         
-        if (aName == MpM_ARGUMENTS_REQUEST)
+        if (aName == MpM_ARGUMENTS_REQUEST_)
         {
             if (sawArguments)
             {
@@ -1284,12 +1291,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
                 sawArguments = (itsOutput == "s+");
             }
         }
-        else if (aName == MpM_CHANNELS_REQUEST)
+        else if (aName == MpM_CHANNELS_REQUEST_)
         {
             if (sawChannels)
             {
@@ -1297,12 +1304,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
                 sawChannels = (itsOutput == "(s*)(s*)(s*)");
             }
         }
-        else if (aName == MpM_CLIENTS_REQUEST)
+        else if (aName == MpM_CLIENTS_REQUEST_)
         {
             if (sawClients)
             {
@@ -1310,12 +1317,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
                 sawClients = (itsOutput == "(s*)");
             }
         }
-        else if (aName == MpM_DETACH_REQUEST)
+        else if (aName == MpM_DETACH_REQUEST_)
         {
             if (sawDetach)
             {
@@ -1326,7 +1333,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
                 sawDetach = true;
             }
         }
-        else if (aName == MpM_ECHO_REQUEST)
+        else if (aName == MpM_ECHO_REQUEST_)
         {
             if (sawEcho)
             {
@@ -1334,13 +1341,13 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if (hasInput && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
-                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
+                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY_).asString());
                 
                 sawEcho = ((itsInput == ".*") && (itsOutput == ".*"));
             }
         }
-        else if (aName == MpM_INFO_REQUEST)
+        else if (aName == MpM_INFO_REQUEST_)
         {
             if (sawInfo)
             {
@@ -1348,13 +1355,13 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if (hasInput && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
-                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
+                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY_).asString());
                 
                 sawInfo = ((itsInput == ".") && (itsOutput == "([]?)"));
             }
         }
-        else if (aName == MpM_LIST_REQUEST)
+        else if (aName == MpM_LIST_REQUEST_)
         {
             if (sawList)
             {
@@ -1362,12 +1369,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
                 sawList = (itsOutput == "([]+)");
             }
         }
-        else if (aName == MpM_GETMETRICS_REQUEST)
+        else if (aName == MpM_GETMETRICS_REQUEST_)
         {
             if (sawGetMetrics)
             {
@@ -1375,12 +1382,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
                 sawGetMetrics = (itsOutput == "([]+)");
             }
         }
-        else if (aName == MpM_GETMETRICSSTATE_REQUEST)
+        else if (aName == MpM_GETMETRICSSTATE_REQUEST_)
         {
             if (sawGetMetricsState)
             {
@@ -1388,12 +1395,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
                 sawGetMetricsState = (itsOutput == "i");
             }
         }
-        else if (aName == MpM_NAME_REQUEST)
+        else if (aName == MpM_NAME_REQUEST_)
         {
             if (sawName)
             {
@@ -1401,12 +1408,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if ((! hasInput) && hasOutput)
             {
-                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY).asString());
+                YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
                 sawName = (itsOutput == "ssssss");
             }
         }
-        else if (aName == MpM_SETMETRICSSTATE_REQUEST)
+        else if (aName == MpM_SETMETRICSSTATE_REQUEST_)
         {
             if (sawSetMetricsState)
             {
@@ -1414,7 +1421,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             }
             else if (hasInput && (! hasOutput))
             {
-                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY).asString());
+                YarpString itsInput(asDict.find(MpM_REQREP_DICT_INPUT_KEY_).asString());
                 
                 sawSetMetricsState = (itsInput == "i");
             }
@@ -1549,7 +1556,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                 
                 if (outChannel)
                 {
-                    ServiceRequest  request(MpM_LIST_REQUEST);
+                    ServiceRequest  request(MpM_LIST_REQUEST_);
                     ServiceResponse response;
                     
                     if (request.send(*outChannel, response))

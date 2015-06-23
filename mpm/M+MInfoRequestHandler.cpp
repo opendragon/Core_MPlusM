@@ -67,7 +67,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'info' request. */
-#define INFO_REQUEST_VERSION_NUMBER "1.0"
+#define INFO_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 InfoRequestHandler::InfoRequestHandler(BaseService & service) :
-    inherited(MpM_INFO_REQUEST, service)
+    inherited(MpM_INFO_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -118,19 +118,19 @@ void InfoRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY, MpM_REQREP_LIST_START MpM_REQREP_DICT_START
-                 MpM_REQREP_DICT_END MpM_REQREP_0_OR_1 MpM_REQREP_LIST_END);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, INFO_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Return information on a request\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_ANYTHING_);
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_DICT_START_
+                 MpM_REQREP_DICT_END_ MpM_REQREP_0_OR_1_ MpM_REQREP_LIST_END_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, INFO_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return information on a request\n"
                  "Input: a request to get information on\n"
                  "Output: a request description");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {

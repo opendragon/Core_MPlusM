@@ -53,11 +53,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_NATURALPOINTINPUT_SERVICE_NAME T_(DEFAULT_SERVICE_NAME_BASE \
+# define DEFAULT_NATURALPOINTINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
                                                    "input/naturalpointinput")
 
 /*! @brief The description of the service. */
-# define NATURALPOINTINPUT_SERVICE_DESCRIPTION T_("NaturalPoint input service")
+# define NATURALPOINTINPUT_SERVICE_DESCRIPTION_ T_("NaturalPoint input service")
 
 namespace MplusM
 {

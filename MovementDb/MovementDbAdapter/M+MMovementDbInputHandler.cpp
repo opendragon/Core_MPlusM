@@ -147,7 +147,7 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &     input,
                         
                         if (0 < command.length())
                         {
-                            if (command == MpM_ADDFILE_REQUEST)
+                            if (command == MpM_ADDFILE_REQUEST_)
                             {
                                 _shared.lock();
                                 if (theClient->addFileToDb(argString))
@@ -160,7 +160,7 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &     input,
                                 }
                                 _shared.unlock();
                             }
-                            else if (command == MpM_SETDATATRACK_REQUEST)
+                            else if (command == MpM_SETDATATRACK_REQUEST_)
                             {
                                 _shared.lock();
                                 if (theClient->setDataTrackForDb(argString))
@@ -173,7 +173,7 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &     input,
                                 }
                                 _shared.unlock();
                             }
-                            else if (command == MpM_SETEMAIL_REQUEST)
+                            else if (command == MpM_SETEMAIL_REQUEST_)
                             {
                                 _shared.lock();
                                 if (theClient->setEmailAddressForDb(argString))
@@ -188,14 +188,14 @@ bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &     input,
                             }
                             command = "";
                         }
-                        else if ((argString == MpM_ADDFILE_REQUEST) ||
-                                 (argString == MpM_SETDATATRACK_REQUEST) ||
-                                 (argString == MpM_SETEMAIL_REQUEST))
+                        else if ((argString == MpM_ADDFILE_REQUEST_) ||
+                                 (argString == MpM_SETDATATRACK_REQUEST_) ||
+                                 (argString == MpM_SETEMAIL_REQUEST_))
                         {
                             // Remember the command.
                             command = argString;
                         }
-                        else if (argString == MpM_STOPDB_REQUEST)
+                        else if (argString == MpM_STOPDB_REQUEST_)
                         {
                             _shared.lock();
                             if (theClient->stopDbConnection())

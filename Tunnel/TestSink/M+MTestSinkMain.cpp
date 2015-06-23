@@ -71,7 +71,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The size of the buffer to be used for incoming data. */
-#define INCOMING_SIZE 10240
+#define INCOMING_SIZE_ 10240
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -116,7 +116,7 @@ int main(int      argc,
         argumentList.push_back(&secondArg);
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                        "The Test Sink application", 2015,
-                                                       STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                       STANDARD_COPYRIGHT_NAME_, flavour, true))
         {
             bool       okSoFar;
 #if (! MAC_OR_LINUX_)
@@ -145,7 +145,7 @@ int main(int      argc,
             {
                 
                 // Useable data.
-                char    buffer[INCOMING_SIZE + 100];
+                char    buffer[INCOMING_SIZE_ + 100];
                 SOCKET  sinkSocket;
                 
                 sinkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);

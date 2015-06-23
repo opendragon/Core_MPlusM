@@ -120,7 +120,7 @@ void BailOutThread::run(void)
             {
                 _baseChannel->interrupt();
             }
-            raise(STANDARD_SIGNAL_TO_USE);
+            raise(STANDARD_SIGNAL_TO_USE_);
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunreachable-code"

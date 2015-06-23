@@ -111,9 +111,9 @@ void PingThread::run(void)
         {
             // Send a ping!
             _service.sendPingForChannel(_channelName);
-            _pingTime = now + PING_INTERVAL;
+            _pingTime = now + PING_INTERVAL_;
         }
-        yarp::os::Time::delay(PING_INTERVAL / 10.0);
+        yarp::os::Time::delay(PING_INTERVAL_ / 10.0);
     }
     OD_LOG_OBJEXIT(); //####
 } // PingThread::run
@@ -123,7 +123,7 @@ bool PingThread::threadInit(void)
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-    _pingTime = yarp::os::Time::now() + PING_INTERVAL;
+    _pingTime = yarp::os::Time::now() + PING_INTERVAL_;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // PingThread::threadInit

@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Vicon DataStream input service. */
-# define MpM_VICONDATASTREAMINPUT_CANONICAL_NAME "ViconDataStreamInput"
+# define MpM_VICONDATASTREAMINPUT_CANONICAL_NAME_ "ViconDataStreamInput"
 
 #endif // ! defined(MpMViconDataStreamInputRequests_H_)

@@ -53,11 +53,11 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_EXEMPLARADAPTER_SERVICE_NAME T_(DEFAULT_ADAPTER_NAME_BASE \
-                                                        "exemplar")
+# define DEFAULT_EXEMPLARADAPTER_SERVICE_NAME_ T_(DEFAULT_ADAPTER_NAME_BASE_ \
+                                                  "exemplar")
 
 /*! @brief The description of the service. */
-# define EXEMPLARADAPTER_SERVICE_DESCRIPTION T_("exemplar adapter")
+# define EXEMPLARADAPTER_SERVICE_DESCRIPTION_ T_("exemplar adapter")
 
 namespace MplusM
 {

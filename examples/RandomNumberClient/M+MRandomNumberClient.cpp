@@ -112,7 +112,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
         ServiceResponse  response;
         
         reconnectIfDisconnected();
-        if (send(MpM_RANDOM_REQUEST, parameters, response))
+        if (send(MpM_RANDOM_REQUEST_, parameters, response))
         {
             if (1 == response.count())
             {
@@ -136,7 +136,7 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
         }
         else
         {
-            OD_LOG("! (send(MpM_RANDOM_REQUEST, parameters, response))"); //####
+            OD_LOG("! (send(MpM_RANDOM_REQUEST_, parameters, response))"); //####
         }
     }
     catch (...)
@@ -165,7 +165,7 @@ bool RandomNumberClient::getRandomNumbers(const int      howMany,
             
             parameters.addInt(howMany);
             reconnectIfDisconnected();
-            if (send(MpM_RANDOM_REQUEST, parameters, response))
+            if (send(MpM_RANDOM_REQUEST_, parameters, response))
             {
                 if (howMany == response.count())
                 {
@@ -196,7 +196,7 @@ bool RandomNumberClient::getRandomNumbers(const int      howMany,
             }
             else
             {
-                OD_LOG("! (send(MpM_RANDOM_REQUEST, parameters, response))"); //####
+                OD_LOG("! (send(MpM_RANDOM_REQUEST_, parameters, response))"); //####
             }
         }
         else

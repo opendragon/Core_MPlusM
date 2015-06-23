@@ -90,8 +90,8 @@ ProComp2InputService::ProComp2InputService(const YarpString & launchPath,
                                            const YarpString & tag,
                                            const YarpString & serviceEndpointName,
                                            const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME,
-              PROCOMP2INPUT_SERVICE_DESCRIPTION, "", serviceEndpointName, servicePortNumber),
+    inherited(launchPath, argc, argv, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME_,
+              PROCOMP2INPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
 			  _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
@@ -253,7 +253,7 @@ void ProComp2InputService::stopStreams(void)
             _eventThread->stop();
 			for (; _eventThread->isRunning();)
             {
-                yarp::os::Time::delay(ONE_SECOND_DELAY / 3.9);
+                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
             }
 			delete _eventThread;
 			_eventThread = NULL;

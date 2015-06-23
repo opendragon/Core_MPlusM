@@ -67,7 +67,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 /*! @brief The protocol version number for the 'configure' request. */
-#define CONFIGURE_REQUEST_VERSION_NUMBER "1.0"
+#define CONFIGURE_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,7 +86,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 ConfigureRequestHandler::ConfigureRequestHandler(BaseInputOutputService & service) :
-    inherited(MpM_CONFIGURE_REQUEST, service)
+    inherited(MpM_CONFIGURE_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
@@ -130,17 +130,17 @@ void ConfigureRequestHandler::fillInDescription(const YarpString &   request,
     OD_LOG_P1("info = ", &info); //####
     try
     {
-        info.put(MpM_REQREP_DICT_REQUEST_KEY, request);
-        info.put(MpM_REQREP_DICT_VERSION_KEY, CONFIGURE_REQUEST_VERSION_NUMBER);
-        info.put(MpM_REQREP_DICT_INPUT_KEY, MpM_REQREP_ANYTHING);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY, "Configure the input/output streams\n"
+        info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, CONFIGURE_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_ANYTHING_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Configure the input/output streams\n"
                  "Input: configuration details\n"
                  "Output: nothing");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        info.put(MpM_REQREP_DICT_KEYWORDS_KEY, keywords);
+        info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
     {
@@ -181,11 +181,11 @@ bool ConfigureRequestHandler::processRequest(const YarpString &           reques
             
             if (success)
             {
-                response.addString(MpM_OK_RESPONSE);
+                response.addString(MpM_OK_RESPONSE_);
             }
             else
             {
-                response.addString(MpM_FAILED_RESPONSE);
+                response.addString(MpM_FAILED_RESPONSE_);
                 response.addString("Problem configurating service");
             }
             sendResponse(response, replyMechanism);

@@ -73,7 +73,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief The size of the receive / send buffer. */
-#define BUFFER_SIZE 1024
+#define BUFFER_SIZE_ 1024
 
 #if (! MAC_OR_LINUX_)
 /*! @brief The number of ticks per second. */
@@ -169,12 +169,12 @@ double getTimeNow(void)
 static void sendAndReceiveRandom(SOCKET talkSocket)
 {
     OD_LOG_ENTER(); //####
-    char inBuffer[BUFFER_SIZE];
-    char outBuffer[BUFFER_SIZE];
+    char inBuffer[BUFFER_SIZE_];
+    char outBuffer[BUFFER_SIZE_];
 #if MAC_OR_LINUX_
-    int  sendSize = std::max(1, rand() % BUFFER_SIZE);
+    int  sendSize = std::max(1, rand() % BUFFER_SIZE_);
 #else // ! MAC_OR_LINUX_
-    int  sendSize = max(1, rand() % BUFFER_SIZE);
+    int  sendSize = max(1, rand() % BUFFER_SIZE_);
 #endif // ! MAC_OR_LINUX_
 
     for (int ii = 0; ii < sendSize; ++ii)
@@ -243,13 +243,13 @@ static void sendAndReceiveText(SOCKET              talkSocket,
                                const std::string & inputLine)
 {
     OD_LOG_ENTER(); //####
-    char         inBuffer[BUFFER_SIZE];
+    char         inBuffer[BUFFER_SIZE_];
     int          inSize = inputLine.size();
     const char * inChars = inputLine.c_str();
 #if MAC_OR_LINUX_
-    int          sendSize = std::min(inSize, BUFFER_SIZE);
+    int          sendSize = std::min(inSize, BUFFER_SIZE_);
 #else // ! MAC_OR_LINUX_
-    int          sendSize = min(inSize, BUFFER_SIZE);
+    int          sendSize = min(inSize, BUFFER_SIZE_);
 #endif // ! MAC_OR_LINUX_
     double       beforeSend = getTimeNow();
     
@@ -341,7 +341,8 @@ int main(int      argc,
         argumentList.push_back(&secondArg);
         if (Utilities::ProcessStandardUtilitiesOptions(argc, argv, argumentList,
                                                        "The Test Loopback Control application",
-                                                       2015, STANDARD_COPYRIGHT_NAME, flavour, true))
+                                                       2015, STANDARD_COPYRIGHT_NAME_, flavour,
+                                                       true))
         {
             Utilities::SetUpGlobalStatusReporter();
             if (CanReadFromStandardInput())

@@ -109,7 +109,8 @@ static void displayCommands(void)
  @param servicePortNumber The port being used by the service.
  @param goWasSet @c true if the service is to be started immediately.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(const YarpString & progName,
                        const int          argc,
                        char * *           argv,
@@ -235,7 +236,7 @@ static void setUpAndGo(const YarpString & progName,
                     else
                     {
 #if defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                        yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -318,9 +319,9 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_KINECTV2INPUT_SERVICE_NAME,
-                                          KINECTV2INPUT_SERVICE_DESCRIPTION, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+                                          DEFAULT_KINECTV2INPUT_SERVICE_NAME_,
+                                          KINECTV2INPUT_SERVICE_DESCRIPTION_, "", 2014,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))
         {

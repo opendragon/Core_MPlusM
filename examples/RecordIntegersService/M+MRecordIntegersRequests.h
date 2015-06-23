@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the Record Integers output service. */
-# define MpM_RECORDINTEGERS_CANONICAL_NAME "RecordIntegers"
+# define MpM_RECORDINTEGERS_CANONICAL_NAME_ "RecordIntegers"
 
 #endif // ! defined(MpMRecordIntegersRequests_H_)

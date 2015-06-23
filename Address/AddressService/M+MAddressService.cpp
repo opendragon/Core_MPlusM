@@ -90,8 +90,8 @@ AddressService::AddressService(const YarpString & hostName,
                                const YarpString & tag,
                                const YarpString & serviceEndpointName,
                                const YarpString & servicePortNumber) :
-    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_ADDRESS_CANONICAL_NAME,
-              ADDRESS_SERVICE_DESCRIPTION,
+    inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_ADDRESS_CANONICAL_NAME_,
+              ADDRESS_SERVICE_DESCRIPTION_,
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _address(hostName), _whereHandler(NULL), _port(hostPort)
 {

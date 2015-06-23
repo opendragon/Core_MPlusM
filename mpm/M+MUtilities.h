@@ -512,8 +512,8 @@ namespace MplusM
         inline bool ValidPortNumber(const int  aPort,
                                     const bool systemAllowed = false)
         {
-            return (((systemAllowed ? 0 : MINIMUM_PORT_ALLOWED) <= aPort) &&
-                    (MAXIMUM_PORT_ALLOWED >= aPort));
+            return (((systemAllowed ? 0 : MINIMUM_PORT_ALLOWED_) <= aPort) &&
+                    (MAXIMUM_PORT_ALLOWED_ >= aPort));
         } // ValidPortNumber
         
     } // Utilities

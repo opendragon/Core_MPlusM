@@ -91,7 +91,8 @@ using std::endl;
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
- @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise. */
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(const YarpString & progName,
                        const int          argc,
                        char * *           argv,
@@ -124,7 +125,7 @@ static void setUpAndGo(const YarpString & progName,
                 for ( ; MplusM::IsRunning(); )
                 {
 #if defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::delay(ONE_SECOND_DELAY / 10.0);
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
                     yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
@@ -205,9 +206,9 @@ int main(int      argc,
         YarpString                  tag;
         Utilities::DescriptorVector argumentList;
 
-		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_ECHO_SERVICE_NAME,
-                                          ECHO_SERVICE_DESCRIPTION, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME, goWasSet, nameWasSet,
+		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_ECHO_SERVICE_NAME_,
+                                          ECHO_SERVICE_DESCRIPTION_, "", 2014,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipGoOption))
         {
