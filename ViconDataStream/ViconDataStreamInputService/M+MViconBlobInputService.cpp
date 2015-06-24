@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLeapBlobInputService.cpp
+//  File:       M+MViconBlobInputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the Leap Blob input service.
+//  Contains:   The class definition for the Vicon Blob input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLeapBlobInputService.h"
-#include "M+MLeapBlobInputListener.h"
-#include "M+MLeapBlobInputRequests.h"
+#include "M+MViconBlobInputService.h"
+#include "M+MViconBlobEventThread.h"
+#include "M+MViconBlobInputRequests.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the %Leap Blob input service. */
+ @brief The class definition for the Vicon Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,7 +62,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::LeapBlob;
+using namespace MplusM::ViconBlob;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -84,15 +84,16 @@ using namespace MplusM::LeapBlob;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LeapBlobInputService::LeapBlobInputService(const YarpString & launchPath,
-                                           const int          argc,
-                                           char * *           argv,
-                                           const YarpString & tag,
-                                           const YarpString & serviceEndpointName,
-                                           const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_LEAPBLOBINPUT_CANONICAL_NAME_,
-              LEAPBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _translationScale(1), _controller(new Leap::Controller), _listener(NULL)
+ViconBlobInputService::ViconBlobInputService(const YarpString & launchPath,
+                                             const int          argc,
+                                             char * *           argv,
+                                             const YarpString & tag,
+                                             const YarpString & serviceEndpointName,
+                                             const YarpString & servicePortNumber) :
+    inherited(launchPath, argc, argv, tag, true, MpM_VICONBLOBINPUT_CANONICAL_NAME_,
+              VICONBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
+              servicePortNumber), _eventThread(NULL), _hostName("localhost"), _translationScale(1),
+    _hostPort(801)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -100,25 +101,20 @@ LeapBlobInputService::LeapBlobInputService(const YarpString & launchPath,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
-} // LeapBlobInputService::LeapBlobInputService
+} // ViconBlobInputService::ViconBlobInputService
 
-LeapBlobInputService::~LeapBlobInputService(void)
+ViconBlobInputService::~ViconBlobInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
-    if (_controller)
-    {
-        delete _controller;
-        _controller = NULL;
-    }
     OD_LOG_OBJEXIT(); //####
-} // LeapBlobInputService::~LeapBlobInputService
+} // ViconBlobInputService::~ViconBlobInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
+bool ViconBlobInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -128,13 +124,16 @@ bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
     {
         if (! isActive())
         {
-            if (1 == details.size())
+            if (3 == details.size())
             {
                 yarp::os::Value firstValue(details.get(0));
+                yarp::os::Value secondValue(details.get(1));
+                yarp::os::Value thirdValue(details.get(2));
 
-                if (firstValue.isDouble() || firstValue.isInt())
+                if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
+                    thirdValue.isInt())
                 {
-                    std::stringstream buff;
+                    int thirdNumber = thirdValue.asInt();
 
                     if (firstValue.isDouble())
                     {
@@ -144,12 +143,23 @@ bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
                     {
                         _translationScale = firstValue.asInt();
                     }
-                    buff << "Translation scale is " << _translationScale;
-                    setExtraInformation(buff.str());
-                    result = true;
+                    if ((0 < firstNumber) && (0 < thirdNumber))
+                    {
+                        std::stringstream buff;
+
+                        _hostName = secondValue.asString();
+						OD_LOG_S1s("_hostName <- ", _hostName); //####
+                        _hostPort = thirdNumber;
+                        OD_LOG_LL1("_hostPort <- ", _hostPort); //####
+                        buff << "Translation scale is " << 42 << ", host name is '" <<
+                                _hostName.c_str() << "', host port is " << _hostPort;
+                        setExtraInformation(buff.str());
+                        result = true;
+                    }
                 }
             }
         }
+        result = true;
     }
     catch (...)
     {
@@ -158,9 +168,9 @@ bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapBlobInputService::configure
+} // ViconBlobInputService::configure
 
-void LeapBlobInputService::restartStreams(void)
+void ViconBlobInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -175,9 +185,9 @@ void LeapBlobInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapBlobInputService::restartStreams
+} // ViconBlobInputService::restartStreams
 
-bool LeapBlobInputService::setUpStreamDescriptions(void)
+bool ViconBlobInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -192,22 +202,22 @@ bool LeapBlobInputService::setUpStreamDescriptions(void)
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapBlobInputService::setUpStreamDescriptions
+} // ViconBlobInputService::setUpStreamDescriptions
 
-bool LeapBlobInputService::shutDownOutputStreams(void)
+bool ViconBlobInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    if (_listener)
+    if (_eventThread)
     {
-        _listener->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // LeapBlobInputService::shutDownOutputStreams
+} // ViconBlobInputService::shutDownOutputStreams
 
-bool LeapBlobInputService::start(void)
+bool ViconBlobInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -232,22 +242,22 @@ bool LeapBlobInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // LeapBlobInputService::start
+} // ViconBlobInputService::start
 
-void LeapBlobInputService::startStreams(void)
+void ViconBlobInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            if (_controller)
-            {
-                _listener = new LeapBlobInputListener(getOutletStream(0));
-                _listener->setScale(_translationScale);
-                _controller->addListener(*_listener);
-                setActive();
-            }
+		    std::stringstream nameAndPort;
+
+			nameAndPort << _hostName.c_str() << ":" << _hostPort;
+            _eventThread = new ViconBlobEventThread(getOutletStream(0), nameAndPort.str());
+            _eventThread->setScale(_translationScale);
+            _eventThread->start();
+            setActive();
         }
     }
     catch (...)
@@ -256,9 +266,9 @@ void LeapBlobInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapBlobInputService::startStreams
+} // ViconBlobInputService::startStreams
 
-bool LeapBlobInputService::stop(void)
+bool ViconBlobInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -274,21 +284,22 @@ bool LeapBlobInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapBlobInputService::stop
+} // ViconBlobInputService::stop
 
-void LeapBlobInputService::stopStreams(void)
+void ViconBlobInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (isActive())
         {
-            if (_controller && _listener)
+            _eventThread->stop();
+            for ( ; _eventThread->isRunning(); )
             {
-                _controller->removeListener(*_listener);
-                delete _listener;
-                _listener = NULL;
+                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
             }
+            delete _eventThread;
+            _eventThread = NULL;
             clearActive();
         }
     }
@@ -298,7 +309,7 @@ void LeapBlobInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // LeapBlobInputService::stopStreams
+} // ViconBlobInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -168,6 +168,7 @@ static void setUpAndGo(const YarpString & progName,
                             sharedData.activate();
                             if (goWasSet || (! stdinAvailable))
                             {
+                                configureData.clear();
                                 if (aService->configure(configureData))
                                 {
                                     aService->startStreams();
@@ -194,6 +195,7 @@ static void setUpAndGo(const YarpString & progName,
                                             // Start streams
                                             if (! configured)
                                             {
+                                                configureData.clear();
                                                 if (aService->configure(configureData))
                                                 {
                                                     configured = true;
@@ -209,6 +211,7 @@ static void setUpAndGo(const YarpString & progName,
                                         case 'C' :
                                             // Configure - nothing to do for a exemplar
                                             // adapter.
+                                            configureData.clear();
                                             if (aService->configure(configureData))
                                             {
                                                 configured = true;
@@ -232,6 +235,7 @@ static void setUpAndGo(const YarpString & progName,
                                             // Restart streams
                                             if (! configured)
                                             {
+                                                configureData.clear();
                                                 if (aService->configure(configureData))
                                                 {
                                                     configured = true;

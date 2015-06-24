@@ -160,7 +160,9 @@ static void setUpAndGo(int &                               outPort,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))   
                 {
+                    configureData.clear();
                     configureData.addInt(outPort);
+                    configureData.addDouble(translationScale);
                     if (aService->configure(configureData))
                     {
                         aService->startStreams();

@@ -159,6 +159,9 @@ static void setUpAndGo(YarpString &                        hostName,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
+                    configureData.clear();
+                    configureData.addString(hostName);
+                    configureData.addInt(hostPort);
                     if (aService->configure(configureData))
                     {
                         aService->startStreams();

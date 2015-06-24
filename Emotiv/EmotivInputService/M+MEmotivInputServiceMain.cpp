@@ -149,6 +149,7 @@ static void setUpAndGo(const YarpString & progName,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
+                    configureData.clear();
                     if (aService->configure(configureData))
                     {
                         aService->startStreams();

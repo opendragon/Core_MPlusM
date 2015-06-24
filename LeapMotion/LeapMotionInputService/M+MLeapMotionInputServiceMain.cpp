@@ -149,6 +149,7 @@ static void setUpAndGo(const YarpString & progName,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
+                    configureData.clear();
                     if (aService->configure(configureData))
                     {
                         aService->startStreams();
@@ -175,6 +176,7 @@ static void setUpAndGo(const YarpString & progName,
                                 // Start streams
                                 if (! configured)
                                 {
+                                    configureData.clear();
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -189,6 +191,7 @@ static void setUpAndGo(const YarpString & progName,
                             case 'c' :
                             case 'C' :
                                 // Configure
+                                configureData.clear();
                                 if (aService->configure(configureData))
                                 {
                                     configured = true;
@@ -212,6 +215,7 @@ static void setUpAndGo(const YarpString & progName,
                                 // Restart streams
                                 if (! configured)
                                 {
+                                    configureData.clear();
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;

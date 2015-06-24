@@ -134,7 +134,6 @@ bool BlobOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
             }
             else
             {
-                cerr << "got data" << endl; //!!!!
                 if (1 == input.size())
                 {
                     yarp::os::Value & firstTopValue = input.get(0);

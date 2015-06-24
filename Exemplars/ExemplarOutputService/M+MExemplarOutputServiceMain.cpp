@@ -161,6 +161,7 @@ static void setUpAndGo(YarpString &                        recordPath,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
+                    configureData.clear();
                     configureData.addString(recordPath);
                     if (aService->configure(configureData))
                     {

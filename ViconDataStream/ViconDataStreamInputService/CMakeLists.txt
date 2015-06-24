@@ -114,4 +114,65 @@ install(TARGETS ${THIS_TARGET}
 		DESTINATION bin
 		COMPONENT applications)
 
+set(THIS_TARGET mpmViconBlobInputService)
+
+if(WIN32)
+    set(VERS_RESOURCE ${THIS_TARGET}.rc)
+else(WIN32)
+    set(VERS_RESOURCE "")
+endif(WIN32)
+
+configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
+
+include_directories(${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/inc)
+
+# Set up our program
+add_executable(${THIS_TARGET}
+                M+MViconBlobInputServiceMain.cpp
+                M+MViconBlobEventThread.cpp
+                M+MViconBlobInputService.cpp
+                ${VERS_RESOURCE})
+
+# Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
+# processed once.
+target_link_libraries(${THIS_TARGET}
+                        mpmCommon
+                        odLogging
+                        ${YARP_LIBRARIES}
+                        ${ACE_LIBRARIES}
+                        ${BONJOUR_LIB})
+
+if(WIN32)
+#    add_library(ViconDataStreamSDK SHARED IMPORTED)
+#    target_link_libraries(${THIS_TARGET}
+#                            ViconDataStreamSDK)
+#    add_library(BoostThread SHARED IMPORTED)
+endif(WIN32)
+
+if(APPLE)
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
+
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+                        libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
+endif(APPLE)
+
+install(TARGETS ${THIS_TARGET}
+        DESTINATION bin
+        COMPONENT applications)
+
 enable_testing()

@@ -155,6 +155,7 @@ static void setUpAndGo(double &                            burstPeriod,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
+                    configureData.clear();
                     configureData.addDouble(burstPeriod);
                     configureData.addInt(burstSize);
                     if (aService->configure(configureData))

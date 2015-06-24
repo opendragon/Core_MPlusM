@@ -2172,6 +2172,7 @@ static void setUpAndGo(YarpString &             scriptPath,
                                     aService->startPinger();
                                     if (goWasSet || (! stdinAvailable))
                                     {
+                                        configureData.clear();
                                         if (aService->configure(configureData))
                                         {
                                             aService->startStreams();
@@ -2198,6 +2199,7 @@ static void setUpAndGo(YarpString &             scriptPath,
                                                     // Start streams
                                                     if (! configured)
                                                     {
+                                                        configureData.clear();
                                                         if (aService->configure(configureData))
                                                         {
                                                             configured = true;
@@ -2213,6 +2215,7 @@ static void setUpAndGo(YarpString &             scriptPath,
                                                 case 'C' :
                                                     // Configure - nothing to do for the JavaScript
                                                     // input / output service.
+                                                    configureData.clear();
                                                     if (aService->configure(configureData))
                                                     {
                                                         configured = true;
@@ -2236,6 +2239,7 @@ static void setUpAndGo(YarpString &             scriptPath,
                                                     // Restart streams
                                                     if (! configured)
                                                     {
+                                                        configureData.clear();
                                                         if (aService->configure(configureData))
                                                         {
                                                             configured = true;

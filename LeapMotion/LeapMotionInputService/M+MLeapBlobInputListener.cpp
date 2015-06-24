@@ -193,7 +193,6 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
             if (0 < realHandCount)
             {
                 std::stringstream outBuffer;
-                yarp::os::Bottle  message;
 
                 // Write out the number of hands == bodies.
                 outBuffer << realHandCount << LINE_END_;
@@ -284,14 +283,15 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                     }
                 }
                 outBuffer << "END" << LINE_END_;
-                std::string       buffAsString(outBuffer.str());
-                yarp::os::Value * blobValue =
-                yarp::os::Value::makeBlob(const_cast<char *>(buffAsString.c_str()),
-                                          buffAsString.length());
-                
-                message.add(blobValue);
                 if (_outChannel)
                 {
+                    yarp::os::Bottle  message;
+                    std::string       buffAsString(outBuffer.str());
+                    yarp::os::Value * blobValue =
+                                yarp::os::Value::makeBlob(const_cast<char *>(buffAsString.c_str()),
+                                                          buffAsString.length());
+
+                    message.add(blobValue);
                     if (! _outChannel->write(message))
                     {
                         OD_LOG("(! _outChannel->write(message))"); //####
@@ -299,8 +299,8 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                         Stall();
 #endif // defined(MpM_StallOnSendProblem)
                     }
+                    delete[] blobValue;
                 }
-                delete[] blobValue;
             }
         }
     }

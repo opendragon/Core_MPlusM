@@ -108,17 +108,17 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(double &           translationScale,
+static void setUpAndGo(double &                            translationScale,
                        const Utilities::DescriptorVector & argumentList,
-                       const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & tag,
-                       const YarpString & serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         goWasSet,
-                       const bool         stdinAvailable,
-                       const bool         reportOnExit)
+                       const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       const YarpString &                  tag,
+                       const YarpString &                  serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          stdinAvailable,
+                       const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("translationScale = ", translationScale); //####
@@ -129,9 +129,9 @@ static void setUpAndGo(double &           translationScale,
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     LeapBlobInputService * aService = new LeapBlobInputService(progName, argc, argv, tag,
-                                                                   serviceEndpointName,
-                                                                   servicePortNumber);
-    
+                                                               serviceEndpointName,
+                                                               servicePortNumber);
+
     if (aService)
     {
         if (aService->start())
@@ -149,6 +149,8 @@ static void setUpAndGo(double &           translationScale,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
+                    configureData.clear();
+                    configureData.addDouble(translationScale);
                     if (aService->configure(configureData))
                     {
                         aService->startStreams();

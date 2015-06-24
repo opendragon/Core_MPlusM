@@ -686,6 +686,14 @@
 		F655C6111B3B27DC00933D40 /* M+MLeapBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapBlobInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
 		F655C6121B3B282000933D40 /* mpmLeapBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmLeapBlobInputService.rc.in; path = LeapMotion/LeapMotionInputService/mpmLeapBlobInputService.rc.in; sourceTree = "<group>"; };
 		F655C6131B3B282000933D40 /* resource2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource2.h; path = LeapMotion/LeapMotionInputService/resource2.h; sourceTree = "<group>"; };
+		F655C6141B3B520800933D40 /* M+MViconBlobEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconBlobEventThread.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconBlobEventThread.cpp"; sourceTree = "<group>"; };
+		F655C6151B3B520800933D40 /* M+MViconBlobEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MViconBlobEventThread.h"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconBlobEventThread.h"; sourceTree = "<group>"; };
+		F655C6161B3B520800933D40 /* M+MViconBlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MViconBlobInputRequests.h"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconBlobInputRequests.h"; sourceTree = "<group>"; };
+		F655C6171B3B520800933D40 /* M+MViconBlobInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconBlobInputService.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconBlobInputService.cpp"; sourceTree = "<group>"; };
+		F655C6181B3B520800933D40 /* M+MViconBlobInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MViconBlobInputService.h"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconBlobInputService.h"; sourceTree = "<group>"; };
+		F655C6191B3B520800933D40 /* M+MViconBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MViconBlobInputServiceMain.cpp"; path = "ViconDataStream/ViconDataStreamInputService/M+MViconBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
+		F655C61A1B3B520800933D40 /* mpmViconBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmViconBlobInputService.rc.in; path = ViconDataStream/ViconDataStreamInputService/mpmViconBlobInputService.rc.in; sourceTree = "<group>"; };
+		F655C61B1B3B520800933D40 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = ViconDataStream/ViconDataStreamInputService/resource1.h; sourceTree = "<group>"; };
 		F6DA54581A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1283,14 +1291,22 @@
 			isa = PBXGroup;
 			children = (
 				DF6DFCC21A0D265000E8CEF5 /* CMakeLists.txt */,
+				F655C6141B3B520800933D40 /* M+MViconBlobEventThread.cpp */,
+				F655C6151B3B520800933D40 /* M+MViconBlobEventThread.h */,
+				F655C6161B3B520800933D40 /* M+MViconBlobInputRequests.h */,
+				F655C6171B3B520800933D40 /* M+MViconBlobInputService.cpp */,
+				F655C6181B3B520800933D40 /* M+MViconBlobInputService.h */,
+				F655C6191B3B520800933D40 /* M+MViconBlobInputServiceMain.cpp */,
 				DF6DFCC31A0D265000E8CEF5 /* M+MViconDataStreamEventThread.cpp */,
 				DF6DFCC41A0D265000E8CEF5 /* M+MViconDataStreamEventThread.h */,
 				DF6DFCC51A0D265000E8CEF5 /* M+MViconDataStreamInputRequests.h */,
 				DF6DFCC61A0D265000E8CEF5 /* M+MViconDataStreamInputService.cpp */,
 				DF6DFCC71A0D265000E8CEF5 /* M+MViconDataStreamInputService.h */,
 				DF6DFCC81A0D265000E8CEF5 /* M+MViconDataStreamInputServiceMain.cpp */,
+				F655C61A1B3B520800933D40 /* mpmViconBlobInputService.rc.in */,
 				DFA7D1581ADDB94700A17BD6 /* mpmViconDataStreamInputService.rc.in */,
 				DFA7D1231ADD9E7000A17BD6 /* resource.h */,
+				F655C61B1B3B520800933D40 /* resource1.h */,
 				DF6DFCC91A0D265000E8CEF5 /* stdafx.h */,
 			);
 			name = ViconDataStreamInputService;

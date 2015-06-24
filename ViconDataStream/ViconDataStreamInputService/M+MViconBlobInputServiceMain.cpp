@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRandomBurstServiceMain.cpp
+//  File:       M+MViconBlobInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Random Burst input service.
+//  Contains:   The main application for the Vicon Blob input service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,15 +32,15 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-06-24
+//  Created:    2015-06-24
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRandomBurstService.h"
+#include "M+MViconBlobInputService.h"
 
-#include <mpm/M+MDoubleArgumentDescriptor.h>
+#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
-#include <mpm/M+MIntegerArgumentDescriptor.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -52,10 +52,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Random Burst input service. */
-
-/*! @dir RandomBurstService
- @brief The set of files that implement the Random Burst input service. */
+ @brief The main application for the Vicon Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -66,7 +63,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Example;
+using namespace MplusM::ViconBlob;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -90,8 +87,9 @@ static void displayCommands(void)
     OD_LOG_ENTER(); //####
     cout << "Commands:" << endl;
     cout << "  ? - display this list" << endl;
-    cout << "  b - start (begin) the output stream, sending bursts of data" << endl;
-    cout << "  c - configure the service by providing the burst size and period" << endl;
+    cout << "  b - start (begin) the output stream, sending subject data" << endl;
+    cout << "  c - configure the service by providing the translation scale, host name and port "
+            "to connect to" << endl;
     cout << "  e - stop (end) the output stream" << endl;
     cout << "  q - quit the application" << endl;
     cout << "  r - restart the output stream" << endl;
@@ -99,13 +97,14 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the exemplar input service.
- @param burstPeriod The interval between bursts, in seconds.
- @param burstSize The number of values per burst.
+/*! @brief Set up the environment and start the Vicon Blob input service.
+ @param translationScale The translation scale.
+ @param hostName The IP address for the device server.
+ @param hostPort The port for the device server.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the Vicon Blob input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -113,8 +112,9 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(double &                            burstPeriod,
-                       int &                               burstSize,
+static void setUpAndGo(double &                            translationScale,
+                       YarpString &                        hostName,
+                       int &                               hostPort,
                        const Utilities::DescriptorVector & argumentList,
                        const YarpString &                  progName,
                        const int                           argc,
@@ -127,16 +127,18 @@ static void setUpAndGo(double &                            burstPeriod,
                        const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_D1("burstPeriod = ", burstPeriod); //####
-    OD_LOG_LL2("burstSize = ", burstSize, "argc = ", argc); //####
-    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_D1("translationScale = ", translationScale); //####
+    OD_LOG_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    RandomBurstService * aService = new RandomBurstService(progName, argc, argv, tag,
-                                                           serviceEndpointName, servicePortNumber);
-    
+    ViconBlobInputService * aService = new ViconBlobInputService(progName, argc, argv, tag,
+                                                                 serviceEndpointName,
+                                                                 servicePortNumber);
+
     if (aService)
     {
         if (aService->start())
@@ -155,8 +157,9 @@ static void setUpAndGo(double &                            burstPeriod,
                 if (goWasSet || (! stdinAvailable))
                 {
                     configureData.clear();
-                    configureData.addDouble(burstPeriod);
-                    configureData.addInt(burstSize);
+                    configureData.addDouble(translationScale);
+                    configureData.addString(hostName);
+                    configureData.addInt(hostPort);
                     if (aService->configure(configureData))
                     {
                         aService->startStreams();
@@ -184,8 +187,9 @@ static void setUpAndGo(double &                            burstPeriod,
                                 if (! configured)
                                 {
                                     configureData.clear();
-                                    configureData.addDouble(burstPeriod);
-                                    configureData.addInt(burstSize);
+                                    configureData.addDouble(translationScale);
+                                    configureData.addString(hostName);
+                                    configureData.addInt(hostPort);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -204,8 +208,9 @@ static void setUpAndGo(double &                            burstPeriod,
                                 if (configured)
                                 {
                                     configureData.clear();
-                                    configureData.addDouble(burstPeriod);
-                                    configureData.addInt(burstSize);
+                                    configureData.addDouble(translationScale);
+                                    configureData.addString(hostName);
+                                    configureData.addInt(hostPort);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -235,8 +240,9 @@ static void setUpAndGo(double &                            burstPeriod,
                                 if (! configured)
                                 {
                                     configureData.clear();
-                                    configureData.addDouble(burstPeriod);
-                                    configureData.addInt(burstSize);
+                                    configureData.addDouble(translationScale);
+                                    configureData.addString(hostName);
+                                    configureData.addInt(hostPort);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -306,19 +312,21 @@ static void setUpAndGo(double &                            burstPeriod,
     {
         OD_LOG("! (aService)"); //####
     }
+    
     OD_LOG_EXIT(); //####
 } // setUpAndGo
+
 
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Random Burst input service.
+/*! @brief The entry point for running the Vicon Blob input service.
  
- The second, optional, argument is the number of random values to generate in each burst and the
- first, optional, argument is the burst period, in seconds.
+ The second, optional, argument is the port for the Vicon device server and the first, optional,
+ argument is the host name for the Vicon device server.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Random Burst input service.
+ @param argv The arguments to be used with the Vicon Blob input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -343,22 +351,27 @@ int main(int      argc,
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
-        double                               burstPeriod = 1;
-        int                                  burstSize = 1;
+        double                               translationScale = 1.0;
+        int                                  hostPort;
+        YarpString                           hostName;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
-        Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"), 1,
-                                                      true, true, 0, false, 0, &burstPeriod);
-        Utilities::IntegerArgumentDescriptor secondArg("size", T_("Burst size"), 1, true, true, 1,
-                                                       false, 0, &burstSize);
+        Utilities::DoubleArgumentDescriptor  firstArg("scale", T_("Translation scale"), 1.0, true,
+                                                      true, 0.0, false, 0.0, &translationScale);
+        Utilities::AddressArgumentDescriptor secondArg("hostname",
+                                                       T_("IP address for the device server"),
+                                                       "localhost", true, &hostName);
+        Utilities::PortArgumentDescriptor    thirdArg("port", T_("Port for the device server"),
+                                                      801, true, true, &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_RANDOMBURSTINPUT_SERVICE_NAME_,
-                                          RANDOMBURSTINPUT_SERVICE_DESCRIPTION_, "", 2014,
+        argumentList.push_back(&thirdArg);
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
+                                          DEFAULT_VICONBLOBINPUT_SERVICE_NAME_,
+                                          VICONBLOBINPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))
@@ -373,9 +386,9 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(burstPeriod, burstSize, argumentList, progName, argc, argv, tag,
-                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
-                               reportOnExit);
+                    setUpAndGo(translationScale, hostName, hostPort, argumentList, progName, argc,
+                               argv, tag, serviceEndpointName, servicePortNumber, goWasSet,
+                               stdinAvailable, reportOnExit);
                 }
                 else
                 {

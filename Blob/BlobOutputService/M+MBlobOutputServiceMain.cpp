@@ -155,6 +155,7 @@ static void setUpAndGo(int &                               outPort,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))   
                 {
+                    configureData.clear();
                     configureData.addInt(outPort);
                     if (aService->configure(configureData))
                     {

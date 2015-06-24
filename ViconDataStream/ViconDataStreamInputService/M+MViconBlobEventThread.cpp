@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MViconDataStreamEventThread.cpp
+//  File:       M+MViconBlobEventThread.cpp
 //
 //  Project:    M+M
 //
@@ -8,7 +8,7 @@
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-11-07
+//  Created:    2015-06-24
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MViconDataStreamEventThread.h"
+#include "M+MViconBlobEventThread.h"
 
 #include <mpm/M+MUtilities.h>
 
@@ -59,8 +59,8 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::ViconDataStream;
-using namespace ViconDataStreamSDK;
+using namespace MplusM::ViconBlob;
+using namespace ViconBlobSDK;
 using std::cerr;
 using std::endl;
 
@@ -102,8 +102,8 @@ static const int kLittleSleep = 200;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ViconDataStreamEventThread::ViconDataStreamEventThread(Common::GeneralChannel * outChannel,
-				                                       const YarpString &       nameAndPort) :
+ViconBlobEventThread::ViconBlobEventThread(Common::GeneralChannel * outChannel,
+                                           const YarpString &       nameAndPort) :
 	inherited(), _viconClient(), _nameAndPort(nameAndPort), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
@@ -112,7 +112,7 @@ ViconDataStreamEventThread::ViconDataStreamEventThread(Common::GeneralChannel * 
     OD_LOG_EXIT_P(this); //####
 } // KinectV2EventThread::KinectV2EventThread
 
-ViconDataStreamEventThread::~ViconDataStreamEventThread(void)
+ViconBlobEventThread::~ViconBlobEventThread(void)
 {
     OD_LOG_OBJENTER(); //####
 	if (_viconClient.IsConnected().Connected)
@@ -126,14 +126,14 @@ ViconDataStreamEventThread::~ViconDataStreamEventThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ViconDataStreamEventThread::clearOutputChannel(void)
+void ViconBlobEventThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // ViconDataStreamEventThread::clearOutputChannel
+} // ViconBlobEventThread::clearOutputChannel
 
-bool ViconDataStreamEventThread::initializeConnection(void)
+bool ViconBlobEventThread::initializeConnection(void)
 {
     OD_LOG_OBJENTER(); //####
 	bool result = false;
@@ -165,133 +165,147 @@ bool ViconDataStreamEventThread::initializeConnection(void)
 	}
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ViconDataStreamEventThread::initializeConnection
+} // ViconBlobEventThread::initializeConnection
 
 #if defined(REPORT_EVENT_COUNT_)
 static long lEventCount = 0; //####
 #endif // defined(REPORT_EVENT_COUNT_)
 
-void ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
+void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 {
     OD_LOG_OBJENTER(); //####
 	OD_LOG_L1("subjectCount = ", subjectCount); //####
-	yarp::os::Bottle message;
+    if (0 < subjectCount)
+    {
+        bool              okSoFar = true;
+        std::stringstream outBuffer;
 
-	for (unsigned int ii = 0; subjectCount > ii; ++ii)
-	{
-		CPP::Output_GetSubjectName o_gsubjn = _viconClient.GetSubjectName(ii);
+        outBuffer << numSubjects << LINE_END_;
+        for (unsigned int ii = 0; okSoFar && (subjectCount > ii); ++ii)
+        {
+            CPP::Output_GetSubjectName o_gsubjn = _viconClient.GetSubjectName(ii);
 
-		if (CPP::Result::Success == o_gsubjn.Result)
-		{
-			yarp::os::Bottle & aList = message.addList();
-
-			aList.addString(static_cast<std::string>(o_gsubjn.SubjectName).c_str());
-			yarp::os::Property &        aDict = aList.addDict();
-			CPP::Output_GetSegmentCount o_gsegc =
+            if (CPP::Result::Success == o_gsubjn.Result)
+            {
+                CPP::Output_GetSegmentCount o_gsegc =
                                                 _viconClient.GetSegmentCount(o_gsubjn.SubjectName);
 
-			if (CPP::Result::Success == o_gsegc.Result)
-			{
-				for (unsigned int jj = 0, segCount = o_gsegc.SegmentCount; segCount > jj; ++jj)
-				{
-					CPP::Output_GetSegmentName o_gsegn =
+                if (CPP::Result::Success == o_gsegc.Result)
+                {
+                    outBuffer << static_cast<std::string>(o_gsubjn.SubjectName) << "\t" <<
+                                o_gsegc.SegmentCount << "\t0" << LINE_END_;
+                    for (unsigned int jj = 0, segCount = o_gsegc.SegmentCount;
+                         okSoFar && (segCount > jj); ++jj)
+                    {
+                        CPP::Output_GetSegmentName o_gsegn =
                                             _viconClient.GetSegmentName(o_gsubjn.SubjectName, jj);
 
-					if (CPP::Result::Success == o_gsegn.Result)
-					{
+                        if (CPP::Result::Success == o_gsegn.Result)
+                        {
 #if defined(USE_SEGMENT_LOCAL_DATA_)
-						CPP::Output_GetSegmentLocalTranslation        o_gseglt =
+                            CPP::Output_GetSegmentLocalTranslation        o_gseglt =
                                     _viconClient.GetSegmentLocalTranslation(o_gsubjn.SubjectName,
                                                                             o_gsegn.SegmentName);
-						CPP::Output_GetSegmentLocalRotationQuaternion o_gseglrq =
+                            CPP::Output_GetSegmentLocalRotationQuaternion o_gseglrq =
                                 _viconClient.GetSegmentLocalRotationQuaternion(o_gsubjn.SubjectName,
                                                                                o_gsegn.SegmentName);
 #else // ! defined(USE_SEGMENT_LOCAL_DATA_)
-						CPP::Output_GetSegmentGlobalTranslation        o_gseggt =
+                            CPP::Output_GetSegmentGlobalTranslation        o_gseggt =
                                     _viconClient.GetSegmentGlobalTranslation(o_gsubjn.SubjectName,
                                                                              o_gsegn.SegmentName);
-						CPP::Output_GetSegmentGlobalRotationQuaternion o_gseggrq =
+                            CPP::Output_GetSegmentGlobalRotationQuaternion o_gseggrq =
                             _viconClient.GetSegmentGlobalRotationQuaternion(o_gsubjn.SubjectName,
                                                                             o_gsegn.SegmentName);
 #endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
-						
+
+
 #if defined(USE_SEGMENT_LOCAL_DATA_)
-						if ((CPP::Result::Success == o_gseglt.Result) &&
-                            (CPP::Result::Success == o_gseglrq.Result))
-						{
-							if (! (o_gseglt.Occluded || o_gseglrq.Occluded))
-							{
-								yarp::os::Value    stuff;
-								yarp::os::Bottle * stuffAsList = stuff.asList();
-
-								if (stuffAsList)
-								{
-									stuffAsList->addDouble(o_gseglt.Translation[0]);
-									stuffAsList->addDouble(o_gseglt.Translation[1]);
-									stuffAsList->addDouble(o_gseglt.Translation[2]);
-									stuffAsList->addDouble(o_gseglrq.Rotation[0]);
-									stuffAsList->addDouble(o_gseglrq.Rotation[1]);
-									stuffAsList->addDouble(o_gseglrq.Rotation[2]);
-									stuffAsList->addDouble(o_gseglrq.Rotation[3]);
-									aDict.put(static_cast<std::string>(o_gsegn.SegmentName).c_str(),
-                                              stuff);
-								}
-							}
-						}
+                            if ((CPP::Result::Success == o_gseglt.Result) &&
+                                (CPP::Result::Success == o_gseglrq.Result))
+                            {
+                                if (! (o_gseglt.Occluded || o_gseglrq.Occluded))
+                                {
+                                    outBuffer << static_cast<std::string>(o_gsegn.SegmentName) <<
+                                                "\t" << (o_gseglt.Translation[0] * _scale) <<
+                                                "\t" << (o_gseglt.Translation[1] * _scale) <<
+                                                "\t" << (o_gseglt.Translation[2] * _scale) <<
+                                                "\t" << o_gseglrq.Rotation[0] << "\t" <<
+                                                o_gseglrq.Rotation[1] << "\t" <<
+                                                o_gseglrq.Rotation[2] << "\t" <<
+                                                o_gseglrq.Rotation[3] << LINE_END_;
+                                }
+                            }
 #else // ! defined(USE_SEGMENT_LOCAL_DATA_)
-						if ((CPP::Result::Success == o_gseggt.Result) &&
-                            (CPP::Result::Success == o_gseggrq.Result))
-						{
-							if (! (o_gseggt.Occluded || o_gseggrq.Occluded))
-							{
-								yarp::os::Value    stuff;
-								yarp::os::Bottle * stuffAsList = stuff.asList();
-
-								if (stuffAsList)
-								{
-									stuffAsList->addDouble(o_gseggt.Translation[0]);
-									stuffAsList->addDouble(o_gseggt.Translation[1]);
-									stuffAsList->addDouble(o_gseggt.Translation[2]);
-									stuffAsList->addDouble(o_gseggrq.Rotation[0]);
-									stuffAsList->addDouble(o_gseggrq.Rotation[1]);
-									stuffAsList->addDouble(o_gseggrq.Rotation[2]);
-									stuffAsList->addDouble(o_gseggrq.Rotation[3]);
-									aDict.put(static_cast<std::string>(o_gsegn.SegmentName).c_str(),
-                                              stuff);
-								}
-							}
-						}
+                            if ((CPP::Result::Success == o_gseggt.Result) &&
+                                (CPP::Result::Success == o_gseggrq.Result))
+                            {
+                                if (! (o_gseggt.Occluded || o_gseggrq.Occluded))
+                                {
+                                    outBuffer << static_cast<std::string>(o_gsegn.SegmentName) <<
+                                                "\t" << (o_gseggt.Translation[0] * _scale) <<
+                                                "\t" << (o_gseggt.Translation[1] * _scale) <<
+                                                "\t" << (o_gseggt.Translation[2] * _scale) <<
+                                                "\t" << o_gseggrq.Rotation[0] << "\t" <<
+                                                o_gseggrq.Rotation[1] << "\t" <<
+                                                o_gseggrq.Rotation[2] << "\t" <<
+                                                o_gseggrq.Rotation[3] << LINE_END_;
+                                }
+                            }
 #endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
-					}
-				}
-			}
-		}
-	}
-	if (_outChannel)
-	{
-#if defined(REPORT_EVENT_COUNT_)
-		++lEventCount; //####
-		cerr << "sending " << lEventCount << endl; //####
-#endif // defined(REPORT_EVENT_COUNT_)
-		if (0 < message.size())
-		{
-			if (! _outChannel->write(message))
-			{
-				OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-				Stall();
-#endif // defined(MpM_StallOnSendProblem)
-			}
-		}
-	}
-    OD_LOG_OBJEXIT(); //####
-} // ViconDataStreamEventThread::processEventData
+                            else
+                            {
+                                okSoFar = false;
+                            }
+                        }
+                        else
+                        {
+                            okSoFar = false;
+                        }
+                    }
+                }
+                else
+                {
+                    okSoFar = false;
+                }
+            }
+            else
+            {
+                okSoFar = false;
+            }
+            outBuffer << "END" << LINE_END_;
+        }
+        if (okSoFar && _outChannel)
+        {
+            yarp::os::Bottle  message;
+            std::string       buffAsString(outBuffer.str());
+            yarp::os::Value * blobValue =
+                                yarp::os::Value::makeBlob(const_cast<char *>(buffAsString.c_str()),
+                                                          buffAsString.length());
 
-void ViconDataStreamEventThread::run(void)
+            message.add(blobValue);
+#if defined(REPORT_EVENT_COUNT_)
+            ++lEventCount; //####
+            cerr << "sending " << lEventCount << endl; //####
+#endif // defined(REPORT_EVENT_COUNT_)
+            if (! _outChannel->write(message))
+            {
+                OD_LOG("(! _outChannel->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+                Stall();
+#endif // defined(MpM_StallOnSendProblem)
+            }
+            delete[] blobValue;
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ViconBlobEventThread::processEventData
+
+void ViconBlobEventThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
+		cerr << "checking for a frame" << endl; //!!!!
 		if (CPP::Result::Success == _viconClient.GetFrame().Result)
 		{
 			CPP::Output_GetSubjectCount o_gsubjc = _viconClient.GetSubjectCount();
@@ -308,22 +322,30 @@ void ViconDataStreamEventThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // ViconDataStreamEventThread::run
+} // ViconBlobEventThread::run
 
-bool ViconDataStreamEventThread::threadInit(void)
+void ViconBlobEventThread::setScale(const double newScale)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_D1("newScale = ", newScale); //####
+    _scale = newScale;
+    OD_LOG_OBJEXIT(); //####
+} // ViconBlobEventThread::setScale
+
+bool ViconBlobEventThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = initializeConnection();
 
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ViconDataStreamEventThread::threadInit
+} // ViconBlobEventThread::threadInit
 
-void ViconDataStreamEventThread::threadRelease(void)
+void ViconBlobEventThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ViconDataStreamEventThread::threadRelease
+} // ViconBlobEventThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions
