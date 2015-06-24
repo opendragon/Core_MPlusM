@@ -138,8 +138,13 @@ bool UnrealOutputService::configure(const yarp::os::Bottle & details)
                 
 				if (firstValue.isInt() && secondValue.isDouble())
 				{
-					_outPort = firstValue.asInt();
+                    std::stringstream buff;
+
+                    _outPort = firstValue.asInt();
                     _translationScale = secondValue.asDouble();
+                    buff << "Output port is " << _outPort << ", translation scale is " <<
+                            _translationScale;
+                    setExtraInformation(buff.str());
 					result = true;
 				}
             }

@@ -275,6 +275,7 @@ namespace MplusM
              @param name The canonical name for the service.
              @param tag The modifier tag for the service.
              @param description The description of the service.
+             @param extraInfo The extra information for the service.
              @param executable The path to the executable for the service.
              @param requestsDescription The description of the requests for the service.
              @returns @c true if the request was successfully added and @c false otherwise. */
@@ -282,6 +283,7 @@ namespace MplusM
                                   const YarpString & name,
                                   const YarpString & tag,
                                   const YarpString & description,
+                                  const YarpString & extraInfo,
                                   const YarpString & executable,
                                   const YarpString & requestsDescription);
             

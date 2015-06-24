@@ -144,13 +144,14 @@ void NameRequestHandler::fillInDescription(const YarpString &   request,
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_ MpM_REQREP_STRING_
-                 MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_);
+                 MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_ MpM_REQREP_STRING_
+                 MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_VERSION_KEY_, NAME_REQUEST_VERSION_NUMBER_);
         info.put(MpM_REQREP_DICT_DETAILS_KEY_,
                  "Return the canonical name and description of the service\n"
                  "Input: nothing\n"
-                 "Output: the canonical name, the tag, the description, the kind, the path to the "
-                 "executable for the service "
+                 "Output: the canonical name, the tag, the description, extra information, the "
+                 "kind, the path to executable for the service "
                  "and the description of the requests for the service");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
@@ -203,6 +204,7 @@ bool NameRequestHandler::processRequest(const YarpString &           request,
             OD_LOG_S1("bigPath <- ", bigPath); //####
             reply.addString(_service.serviceName());
             reply.addString(_service.description());
+            reply.addString(_service.extraInformation());
             reply.addString(MapServiceKindToString(_service.kind()));
             reply.addString(bigPath);
             reply.addString(_service.requestsDescription());

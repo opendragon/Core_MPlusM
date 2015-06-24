@@ -1410,7 +1410,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
-                sawName = (itsOutput == "ssssss");
+                sawName = (itsOutput == "sssssss");
             }
         }
         else if (aName == MpM_SETMETRICSSTATE_REQUEST_)

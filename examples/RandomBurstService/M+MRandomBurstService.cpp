@@ -135,8 +135,13 @@ bool RandomBurstService::configure(const yarp::os::Bottle & details)
                     
                     if ((0 < firstNumber) && (0 < secondNumber))
                     {
+                        std::stringstream buff;
+
                         _burstPeriod = firstNumber;
                         _burstSize = secondNumber;
+                        buff << "Burst period is " << _burstPeriod << ", burst size is " <<
+                                _burstSize;
+                        setExtraInformation(buff.str());
                         result = true;
                     }
                 }

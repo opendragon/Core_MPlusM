@@ -106,6 +106,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                     bool       sawOutputs = false;
                     YarpString clientChannelNames;
                     YarpString description;
+                    YarpString extraInformation;
                     YarpString inChannelNames;
                     YarpString kind;
                     YarpString outChannelNames;
@@ -296,6 +297,10 @@ static void setUpAndGo(const OutputFlavour flavour)
                             cout << T_(CHAR_DOUBLEQUOTE_ "Description" CHAR_DOUBLEQUOTE_ ": "
                                        CHAR_DOUBLEQUOTE_) << "The " << description.c_str() <<
                                     T_(CHAR_DOUBLEQUOTE_ ", ");
+                            extraInformation = SanitizeString(descriptor._extraInfo);
+                            cout << T_(CHAR_DOUBLEQUOTE_ "ExtraInfo" CHAR_DOUBLEQUOTE_ ": "
+                                       CHAR_DOUBLEQUOTE_) << extraInformation.c_str() <<
+                                    T_(CHAR_DOUBLEQUOTE_ ", ");
                             requests = SanitizeString(descriptor._requestsDescription);
                             cout << T_(CHAR_DOUBLEQUOTE_ "Requests" CHAR_DOUBLEQUOTE_ ": "
                                        CHAR_DOUBLEQUOTE_) << requests.c_str() <<
@@ -317,6 +322,8 @@ static void setUpAndGo(const OutputFlavour flavour)
                             cout << tag.c_str() << "\t" << kind.c_str() << "\t";
                             description = SanitizeString(descriptor._description, true);
                             cout << "The " << description.c_str() << "\t";
+                            extraInformation = SanitizeString(descriptor._extraInfo, true);
+                            cout << extraInformation.c_str() << "\t";
                             requests = SanitizeString(descriptor._requestsDescription, true);
                             cout << requests.c_str() << "\t" << descriptor._path.c_str() << "\t" <<
                                     inChannelNames.c_str() << "\t" << outChannelNames.c_str() <<
@@ -330,6 +337,11 @@ static void setUpAndGo(const OutputFlavour flavour)
                             cout << "Service kind:      " << kind.c_str() << endl;
                             OutputDescription(cout, "Description:       ",
                                               YarpString("The ") + descriptor._description);
+                            if (0 < descriptor._extraInfo.length())
+                            {
+                                OutputDescription(cout, "Extra information: ",
+                                                  descriptor._extraInfo);
+                            }
                             OutputDescription(cout, "Requests:          ",
                                               descriptor._requestsDescription);
                             cout << "Path:              " << descriptor._path.c_str() << endl;

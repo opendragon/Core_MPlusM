@@ -1643,25 +1643,29 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                         {
                             yarp::os::Value theCanonicalName(response1.element(0));
                             yarp::os::Value theDescription(response1.element(1));
-                            yarp::os::Value theKind(response1.element(2));
-                            yarp::os::Value thePath(response1.element(3));
-                            yarp::os::Value theRequestsDescription(response1.element(4));
-                            yarp::os::Value theTag(response1.element(5));
+                            yarp::os::Value theExtraInfo(response1.element(2));
+                            yarp::os::Value theKind(response1.element(3));
+                            yarp::os::Value thePath(response1.element(4));
+                            yarp::os::Value theRequestsDescription(response1.element(5));
+                            yarp::os::Value theTag(response1.element(6));
                             
                             OD_LOG_S4s("theCanonicalName <- ", theCanonicalName.toString(), //####
                                        "theDescription <- ", theDescription.toString(), //####
-                                       "theKind <- ", theKind.toString(), "thePath <- ", //####
-                                       thePath.toString()); //####
-                            OD_LOG_S2s("theRequestsDescription = ", //####
+                                       "theExtraInfo <- ", theExtraInfo.toString(), //####
+                                       "theKind <- ", theKind.toString()); //####
+                            OD_LOG_S3s("thePath <- ", thePath.toString(), //####
+                                       "theRequestsDescription = ", //####
                                        theRequestsDescription.toString(), "theTag = ", //####
                                        theTag.toString()); //####
                             if (theCanonicalName.isString() && theDescription.isString() &&
-                                theKind.isString() && thePath.isString() &&
-                                theRequestsDescription.isString() && theTag.isString())
+                                theExtraInfo.isString() && theKind.isString() &&
+                                thePath.isString() && theRequestsDescription.isString() &&
+                                theTag.isString())
                             {
                                 descriptor._channelName = serviceChannelName;
                                 descriptor._serviceName = theCanonicalName.toString();
                                 descriptor._description = theDescription.toString();
+                                descriptor._extraInfo = theExtraInfo.toString();
                                 descriptor._kind = theKind.toString();
                                 descriptor._path = thePath.toString();
                                 descriptor._requestsDescription = theRequestsDescription.toString();
@@ -1672,7 +1676,8 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                             {
                                 OD_LOG("! (theCanonicalName.isString() && " //####
                                        "theDescription.isString() && " //####
-                                       "theKind.isString() && thePath.isString() && " //####
+                                       "theExtraInfo.isString() && theKind.isString() && " //####
+                                       "thePath.isString() && " //####
                                        "theRequestsDescription.isString() && " //####
                                        "theTag.isString())"); //####
                             }

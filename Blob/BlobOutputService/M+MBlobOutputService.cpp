@@ -133,7 +133,11 @@ bool BlobOutputService::configure(const yarp::os::Bottle & details)
                 
 				if (firstValue.isInt())
 				{
+                    std::stringstream buff;
+
 					_outPort = firstValue.asInt();
+                    buff << "Output port is " << _outPort;
+                    setExtraInformation(buff.str());
 					result = true;
 				}
             }
@@ -197,7 +201,7 @@ bool BlobOutputService::setUpStreamDescriptions(void)
     
     _inDescriptions.clear();
     description._portName = rootName + "input";
-    description._portProtocol = "BLOB";
+    description._portProtocol = "b";
     description._protocolDescription = "A binary blob";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####

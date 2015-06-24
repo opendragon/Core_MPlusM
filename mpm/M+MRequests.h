@@ -141,7 +141,7 @@
 # define MpM_EXPECTED_MATCH_RESPONSE_SIZE_           2
 
 /*! @brief The number of elements expected in the output of a 'name' request. */
-# define MpM_EXPECTED_NAME_RESPONSE_SIZE_            6
+# define MpM_EXPECTED_NAME_RESPONSE_SIZE_            7
 
 /*! @brief The number of elements expected in the output of a 'ping' request. */
 # define MpM_EXPECTED_PING_RESPONSE_SIZE_            1

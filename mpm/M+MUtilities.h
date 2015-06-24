@@ -134,6 +134,9 @@ namespace MplusM
             /*! @brief The description of the service. */
             YarpString _description;
             
+            /*! @brief The extra information for the service. */
+            YarpString _extraInfo;
+
             /*! @brief The set of secondary client channels for the service. */
             Common::ChannelVector _clientChannels;
             

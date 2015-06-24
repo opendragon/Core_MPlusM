@@ -765,6 +765,14 @@ void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::setDefaultRequestHandler
 
+void BaseService::setExtraInformation(const YarpString & extraInfo)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("extraInfo = ", extraInfo); //####
+    _extraInfo = extraInfo;
+    OD_LOG_OBJEXIT(); //####
+} // BaseService::setExtraInformation
+
 bool BaseService::start(void)
 {
     OD_LOG_OBJENTER(); //####

@@ -66,6 +66,9 @@
 /*! @brief The named parameter for the 'executable' column. */
 # define EXECUTABLE_C_          "executable"
 
+/*! @brief The named parameter for the 'extrainfo' column. */
+# define EXTRAINFO_C_           "extrainfo"
+
 /*! @brief The named parameter for the 'input' column. */
 # define INPUT_C_               "input"
 

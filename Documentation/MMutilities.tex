@@ -359,6 +359,7 @@ Service name:      Registry
 Tag:
 Service kind:      Registry
 Description:       The Registry service
+Extra information: Using in-memory database
 Requests:          match - return the channels for services matching the
                    criteria provided
                    ping - update the last-pinged information for a channel
@@ -375,7 +376,8 @@ Service port:      /_service_/input/randomburst
 Service name:      RandomBurst
 Tag:
 Service kind:      Input
-Description:       The random burst input service
+Description:       The Random Burst input service
+Extra information: Burst period is 1, burst size is 1
 Requests:
 Path:              .../mpmRandomBurstService
 Secondary outputs: /_service_/input/randomburst/output{protocol=d+}
@@ -384,7 +386,7 @@ Service port:      /shorten
 Service name:      TruncateFloat
 Tag:               blort
 Service kind:      Filter
-Description:       The truncate float service
+Description:       The Truncate Float filter service
 Requests:
 Path:              .../mpmTruncateFloatService
 Secondary inputs:  /shorten/input{protocol=d+}
@@ -396,46 +398,48 @@ or, if JSON\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 [ { "ServicePort": "/$ervice", "ServiceName": "Registry", "Tag": "", "ServiceKind":
-"Registry", "Description": "The Registry service", "Requests":
-"match - return the channels for services matching the criteria provided\nping -
-update the last-pinged information for a channel or record the information for a
-service on the given channel\nregister - record the information for a service on
-the given channel\nunregister - remove the information for a service on the given
-channel", "Path": ".../mpmRegistryService", "SecondaryInputs": [ ],
-"SecondaryOutputs": [ { "Name": "/$ervice/status", "Protocol": "s" } ] }, {
-"ServicePort": "/_service_/input/randomburst", "ServiceName": "RandomBurst",
-"Tag": "", "ServiceKind": "Input", "Description": "The random burst input service",
+"Registry", "Description": "The Registry service", "ExtraInfo": "Using in-memory
+database", "Requests": "match - return the channels for services matching the
+criteria provided\nping - update the last-pinged information for a channel or
+record the information for a service on the given channel\nregister - record the
+information for a service on the given channel\nunregister - remove the information
+for a service on the given channel", "Path": ".../mpmRegistryService",
+"SecondaryInputs": [ ], "SecondaryOutputs": [ { "Name": "/$ervice/status",
+"Protocol": "s" } ] }, { "ServicePort": "/_service_/input/randomburst",
+"ServiceName": "RandomBurst", "Tag": "", "ServiceKind": "Input", "Description":
+"The random burst input service", "ExtraInfo": "Burst period is 1, burst size is 1",
 "Requests": "", "Path": ".../mpmRandomBurstService", "SecondaryInputs": [ ],
-"SecondaryOutputs": [ { "Name": "/_service_/input/randomburst/output",
-"Protocol": "d+" } ] }, { "ServicePort":  "/shorten", "ServiceName":
-"TruncateFloat", "Tag": "blort", "ServiceKind": "Filter", "Description":
-"The truncate float service", "Requests": "", "Path":
-".../mpmTruncateFloatService", "SecondaryInputs": [ { "Name":
-"/shorten/input", "Protocol": "d+" } ], "SecondaryOutputs": [ { "Name":
-"/shorten/output", "Protocol": "i+" } ] } ]
+"SecondaryOutputs": [ { "Name": "/_service_/input/randomburst/output", "Protocol":
+"d+" } ] }, { "ServicePort":  "/shorten", "ServiceName": "TruncateFloat", "Tag":
+"blort", "ServiceKind": "Filter", "Description": "The Truncate Float filter
+service", "ExtraInfo": "", "Requests": "", "Path": ".../mpmTruncateFloatService",
+"SecondaryInputs": [ { "Name": "/shorten/input", "Protocol": "d+" } ],
+"SecondaryOutputs": [ { "Name": "/shorten/output", "Protocol": "i+" } ] } ]
 \end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
-/\dollarService\pseudotab{}Registry\pseudotab{}Registry\pseudotab\pseudotab{}The Registry
-service\pseudotab{}match - return the channels for services matching the criteria
-provided\textbackslash{}nping - update the last-pinged\\
-information for a channel or record the information for a service on the given\\
-channel\textbackslash{}nregister - record the information for a service on the given\\
-channel\textbackslash{}nunregister - remove the information for a service on the given
-channel\pseudotab\\
-\textellipsis/mpmRegistryService\pseudotwotabs/\dollarService/status\textbraceleft{}%
-protocol=s\textbraceright\\
+/\dollarService\pseudotab{}Registry\pseudotab{}Registry\pseudotwotabs{}The Registry
+service\pseudotab{}Using in-memory database\pseudotab\\
+match - return the channels for services matching the criteria provided\textbackslash{}%
+nping -\\
+update the last-pinged information for a channel or record the information for\\
+a service on the given channel\textbackslash{}nregister - record the information for a
+service\\
+on the given channel\textbackslash{}nunregister - remove the information for a service on
+the\\
+given channel\pseudotab\textellipsis{}/mpmRegistryService\pseudotwotabs{}/\dollarService%
+/status\textbraceleft{}protocol=s\textbraceright\\
 
-/\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotab\pseudotab{}Input
-\pseudotab\\
-The random burst input service\pseudotwotabs\textellipsis/mpmRandomBurstService%
+/\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotwotabs{}Input\pseudotab\\
+The Random Burst input service\pseudotab{}Burst period is 1, burst size is 1%
 \pseudotwotabs\\
-/\serviceName/input/randomburst/output\textbraceleft{}protocol=d+\textbraceright\\
+\textellipsis{}/mpmRandomBurstService\pseudotwotabs{}/\serviceName/input/randomburst/%
+output\textbraceleft{}protocol=d+\textbraceright\\
 
-/shorten\pseudotab{}TruncateFloat\pseudotab{}blort\pseudotab{}Filter\pseudotab{}%
-The truncate float service\pseudotwotabs\\
-\textellipsis/mpmTruncateFloatService\pseudotab{}/shorten/input\textbraceleft{}%
+/shorten\pseudotab{}TruncateFloat\pseudotab{}blort\pseudotab{}Filter\pseudotab{}The
+Truncate Float filter service\pseudothreetabs\\
+\textellipsis{}/mpmTruncateFloatService\pseudotab{}/shorten/input\textbraceleft{}%
 protocol=d+\textbraceright\pseudotab\\
 /shorten/output\textbraceleft{}protocol=i+\textbraceright
 \outputEnd{}

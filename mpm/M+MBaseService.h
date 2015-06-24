@@ -184,6 +184,14 @@ namespace MplusM
             /*! @brief Turn on the send / receive metrics collecting. */
             virtual void enableMetrics(void);
             
+            /*! @brief Return the extra information for the service.
+             @returns The extra information for the service. */
+            inline YarpString extraInformation(void)
+            const
+            {
+                return _extraInfo;
+            } // extraInformation
+
             /*! @brief Fill in a list of clients for the service.
              @param clients The list to be filled in. */
             void fillInClientList(YarpStringVector & clients);
@@ -291,7 +299,11 @@ namespace MplusM
             {
                 return _serviceName;
             } // serviceName
-            
+
+            /*! @brief Set the extra information for the service.
+             @param extraInfo The extra information for the service. */
+            void setExtraInformation(const YarpString & extraInfo);
+
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool start(void);
@@ -403,7 +415,10 @@ namespace MplusM
             
             /*! @brief The description of the service. */
             YarpString _description;
-            
+
+            /*! @brief Extra information on the service. */
+            YarpString _extraInfo;
+
             /*! @brief The description of the requests for the service. */
             YarpString _requestsDescription;
             

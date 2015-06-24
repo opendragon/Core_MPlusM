@@ -134,9 +134,15 @@ bool ViconDataStreamInputService::configure(const yarp::os::Bottle & details)
                     
                     if (0 < secondNumber)
                     {
-						_hostName = firstValue.asString();
+                        std::stringstream buff;
+
+                        _hostName = firstValue.asString();
 						OD_LOG_S1s("_hostName <- ", _hostName); //####
                         _hostPort = secondNumber;
+                        OD_LOG_LL1("_hostPort <- ", _hostPort); //####
+                        buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
+                                _hostPort;
+                        setExtraInformation(buff.str());
                         result = true;
                     }
                 }

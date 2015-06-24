@@ -101,6 +101,10 @@ AddressService::AddressService(const YarpString & hostName,
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
+    std::stringstream buff;
+
+    buff << "Host name is '" << _address.c_str() << "', host port is " << _port;
+    setExtraInformation(buff.str());
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // AddressService::AddressService

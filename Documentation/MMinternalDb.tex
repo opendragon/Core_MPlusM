@@ -8,6 +8,7 @@ CREATE TABLE IF NOT EXISTS Services(channelname Text NOT NULL DEFAULT _
        name Text NOT NULL DEFAULT _ COLLATE NOCASE,
        description Text NOT NULL DEFAULT _ COLLATE NOCASE,
        executable Text NOT NULL DEFAULT _ COLLATE_NOCASE,
+       extraInfo Text COLLATE NOCASE,
        requestsdescription Text NOT NULL DEFAULT _ COLLATE NOCASE,
        tag Text NOT NULL DEFAULT _  COLLATE BINARY);
 CREATE INDEX IF NOT EXISTS Services_name_idx ON Services(name);

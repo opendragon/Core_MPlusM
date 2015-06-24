@@ -105,6 +105,10 @@ TunnelService::TunnelService(const YarpString & sourceName,
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_L1("sourcePort = ", sourcePort); //####
+    std::stringstream buff;
+
+    buff << "Source name is '" << _sourceAddress.c_str() << "', source port is " << _sourcePort;
+    setExtraInformation(buff.str());
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // TunnelService::TunnelService

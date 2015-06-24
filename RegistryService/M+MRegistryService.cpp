@@ -148,7 +148,10 @@ namespace MplusM
             /*! @brief The path to the executable for the service. */
             YarpString _executable;
             
-            /*! @brief The name for the service. */
+            /*! @brief The extra information for the service. */
+            YarpString _extraInfo;
+
+            /*! @brief The name of the service. */
             YarpString _name;
             
             /*! @brief The description of the requests for the service. */
@@ -862,8 +865,9 @@ static bool constructTables(sqlite3 * database)
                     T_("CREATE TABLE IF NOT EXISTS " SERVICES_T_ "( " CHANNELNAME_C_ " "
                        TEXTNOTNULL_ " " BINARY_ " PRIMARY KEY ON CONFLICT REPLACE, " NAME_C_ " "
                        TEXTNOTNULL_ " " NOCASE_ ", " DESCRIPTION_C_ " " TEXTNOTNULL_ " " NOCASE_
-                       ", " EXECUTABLE_C_ " " TEXTNOTNULL_ " " NOCASE_ ", " REQUESTSDESCRIPTION_C_
-                       " " TEXTNOTNULL_ " " NOCASE_ ", " TAG_C_ " " TEXTNOTNULL_ " " BINARY_ ")"),
+                       ", " EXECUTABLE_C_ " " TEXTNOTNULL_ " " NOCASE_ ", " EXTRAINFO_C_ " Text "
+                       NOCASE_ ", " REQUESTSDESCRIPTION_C_ " " TEXTNOTNULL_ " " NOCASE_ ", "
+                       TAG_C_ " " TEXTNOTNULL_ " " BINARY_ ")"),
                     T_("CREATE INDEX IF NOT EXISTS " SERVICES_NAME_I_ " ON " SERVICES_T_ "("
                        NAME_C_ ")"),
                     T_("CREATE TABLE IF NOT EXISTS " KEYWORDS_T_ "( " KEYWORD_C_ " " TEXTNOTNULL_
@@ -1242,13 +1246,15 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
         int channelNameIndex = sqlite3_bind_parameter_index(statement, "@" CHANNELNAME_C_);
         int descriptionIndex = sqlite3_bind_parameter_index(statement, "@" DESCRIPTION_C_);
         int executableIndex = sqlite3_bind_parameter_index(statement, "@" EXECUTABLE_C_);
+        int extraInfoIndex = sqlite3_bind_parameter_index(statement, "@" EXTRAINFO_C_);
         int nameIndex = sqlite3_bind_parameter_index(statement, "@" NAME_C_);
         int requestsDescriptionIndex = sqlite3_bind_parameter_index(statement,
                                                                     "@" REQUESTSDESCRIPTION_C_);
         int tagIndex = sqlite3_bind_parameter_index(statement, "@" TAG_C_);
         
         if ((0 < channelNameIndex) && (0 < descriptionIndex) && (0 < executableIndex) &&
-            (0 < nameIndex) && (0 < requestsDescriptionIndex) && (0 < tagIndex))
+            (0 < extraInfoIndex) && (0 < nameIndex) && (0 < requestsDescriptionIndex) &&
+            (0 < tagIndex))
         {
             const ServiceData * descriptor = static_cast<const ServiceData *>(stuff);
             const char *        channelName = descriptor->_channel.c_str();
@@ -1284,6 +1290,14 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
             }
             if (SQLITE_OK == result)
             {
+                const char * extraInfo = descriptor->_extraInfo.c_str();
+
+                OD_LOG_S1("extraInfo <- ", extraInfo); //####
+                result = sqlite3_bind_text(statement, extraInfoIndex, extraInfo,
+                                           static_cast<int>(strlen(extraInfo)), SQLITE_TRANSIENT);
+            }
+            if (SQLITE_OK == result)
+            {
                 const char * requestsDescription = descriptor->_requestsDescription.c_str();
                 
                 OD_LOG_S1("requestsDescription <- ", requestsDescription); //####
@@ -1307,7 +1321,7 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
         else
         {
             OD_LOG("! ((0 < channelNameIndex) && (0 < descriptionIndex) && " //####
-                   "(0 < executableIndex) && (0 < nameIndex) && " //####
+                   "(0 < executableIndex) && (0 < extraInfoIndex) && (0 < nameIndex) && " //####
                    "(0 < requestsDescriptionIndex) && (0 < tagIndex))"); //####
         }
     }
@@ -1550,6 +1564,7 @@ RegistryService::RegistryService(const YarpString & launchPath,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useInMemoryDb = ", useInMemoryDb); //####
+    setExtraInformation(_inMemory ? "Using in-memory database" : "Using disk-based database");
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
 } // RegistryService::RegistryService
@@ -1669,13 +1684,14 @@ bool RegistryService::addServiceRecord(const YarpString & channelName,
                                        const YarpString & name,
                                        const YarpString & tag,
                                        const YarpString & description,
+                                       const YarpString & extraInfo,
                                        const YarpString & executable,
                                        const YarpString & requestsDescription)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S4s("channelName = ", channelName, "name = ", name, "description = ", description, //####
-               "executable = ", executable); //####
-    OD_LOG_S1s("requestsDescription = ", requestsDescription); //####
+               "extraInfo = ", extraInfo); //####
+    OD_LOG_S2s("executable = ", executable, "requestsDescription = ", requestsDescription); //####
     bool okSoFar = false;
     
     try
@@ -1686,9 +1702,10 @@ bool RegistryService::addServiceRecord(const YarpString & channelName,
             static const char * insertIntoServices = T_("INSERT INTO " SERVICES_T_ "("
                                                         CHANNELNAME_C_ "," NAME_C_ ","
                                                         DESCRIPTION_C_ "," EXECUTABLE_C_ ","
-                                                        REQUESTSDESCRIPTION_C_ "," TAG_C_
-                                                        ") VALUES(@" CHANNELNAME_C_ ",@" NAME_C_
-                                                        ",@" DESCRIPTION_C_ ",@" EXECUTABLE_C_ ",@"
+                                                        EXTRAINFO_C_ "," REQUESTSDESCRIPTION_C_ ","
+                                                        TAG_C_ ") VALUES(@" CHANNELNAME_C_ ",@"
+                                                        NAME_C_ ",@" DESCRIPTION_C_ ",@"
+                                                        EXECUTABLE_C_ ",@" EXTRAINFO_C_ ",@"
                                                         REQUESTSDESCRIPTION_C_ ",@" TAG_C_ ")");
             ServiceData         servData;
             
@@ -1696,6 +1713,7 @@ bool RegistryService::addServiceRecord(const YarpString & channelName,
             servData._name = name;
             servData._description = description;
             servData._executable = executable;
+            servData._extraInfo = extraInfo;
             servData._requestsDescription = requestsDescription;
             servData._tag = tag;
             okSoFar = performSQLstatementWithNoResults(_db, insertIntoServices,
@@ -2168,17 +2186,20 @@ bool RegistryService::processNameResponse(const YarpString &      channelName,
         {
             yarp::os::Value theCanonicalName(response.element(0));
             yarp::os::Value theDescription(response.element(1));
-            yarp::os::Value theKind(response.element(2));
-            yarp::os::Value thePath(response.element(3));
-            yarp::os::Value theRequestsDescription(response.element(4));
-            yarp::os::Value theTag(response.element(5));
+            yarp::os::Value theExtraInformation(response.element(2));
+            yarp::os::Value theKind(response.element(3));
+            yarp::os::Value thePath(response.element(4));
+            yarp::os::Value theRequestsDescription(response.element(5));
+            yarp::os::Value theTag(response.element(6));
             
-            if (theCanonicalName.isString() && theDescription.isString() && theKind.isString() &&
-                thePath.isString() && theRequestsDescription.isString())
+            if (theCanonicalName.isString() && theDescription.isString() &&
+                theExtraInformation.isString() && theKind.isString() && thePath.isString() &&
+                theRequestsDescription.isString())
             {
                 result = addServiceRecord(channelName, theCanonicalName.toString(),
                                           theTag.toString(), theDescription.toString(),
-                                          thePath.toString(), theRequestsDescription.toString());
+                                          theExtraInformation.toString(), thePath.toString(),
+                                          theRequestsDescription.toString());
                 if (! result)
                 {
                     // We need to remove any values that we've recorded for this channel!
@@ -2188,8 +2209,8 @@ bool RegistryService::processNameResponse(const YarpString &      channelName,
             else
             {
                 OD_LOG("! (theCanonicalName.isString() && theDescription.isString() && " //####
-                       "theKind.isString() && thePath.isString() && " //####
-                       "theRequestsDescription.isString()"); //####
+                       "theExtraInformation.isString() && theKind.isString() && " //####
+                       "thePath.isString() && theRequestsDescription.isString())"); //####
                 result = false;
             }
         }

@@ -133,6 +133,8 @@ bool RecordIntegersService::configure(const yarp::os::Bottle & details)
                 {
                     _outPath = firstValue.asString();
                     OD_LOG_S1s("_outPath <- ", _outPath); //####
+                    setExtraInformation(YarpString("Output file path is '") + _outPath +
+                                        YarpString("'"));
                     result = true;
                 }
             }
