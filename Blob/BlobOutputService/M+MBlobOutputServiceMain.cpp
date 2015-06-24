@@ -336,17 +336,17 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                                 goWasSet = false;
-        bool                                 nameWasSet = false; // not used
-        bool                                 reportOnExit = false;
-        bool                                 stdinAvailable = CanReadFromStandardInput();
-        int                                  outPort = 9876;
-        YarpString                           serviceEndpointName;
-        YarpString                           servicePortNumber;
-        YarpString                           tag;
-        Utilities::PortArgumentDescriptor    firstArg("port", T_("Port to use to connect"),
-                                                      9876, true, false, &outPort);
-        Utilities::DescriptorVector          argumentList;
+        bool                              goWasSet = false;
+        bool                              nameWasSet = false; // not used
+        bool                              reportOnExit = false;
+        bool                              stdinAvailable = CanReadFromStandardInput();
+        int                               outPort = 9876;
+        YarpString                        serviceEndpointName;
+        YarpString                        servicePortNumber;
+        YarpString                        tag;
+        Utilities::PortArgumentDescriptor firstArg("port", T_("Port to use to connect"), 9876, true,
+                                                   false, &outPort);
+        Utilities::DescriptorVector       argumentList;
 
         argumentList.push_back(&firstArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,

@@ -335,9 +335,9 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &     input,
                     if (JS_GetPendingException(jct, &exc))
                     {
                         JS_ClearPendingException(jct);
-                        std::stringstream     buff;
-                        YarpString message("Exception occurred while executing handler function "
-                                           "for inlet ");
+                        std::stringstream buff;
+                        YarpString        message("Exception occurred while executing "
+                                                  "handler function for inlet ");
                         
                         buff << _slotNumber;
                         message += buff.str();

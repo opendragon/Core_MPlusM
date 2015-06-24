@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MLeapTwoFingersInputServiceMain.cpp
+//  File:       M+MLeapBlobInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Leap Two Fingers input service.
+//  Contains:   The main application for the Leap Blob input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,12 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-02-23
+//  Created:    2015-06-24
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MLeapTwoFingersInputService.h"
+#include "M+MLeapBlobInputService.h"
 
+#include <mpm/M+MDoubleArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MUtilities.h>
 
@@ -50,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the %Leap Two Fingers input service. */
+ @brief The main application for the %Leap Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -61,7 +62,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::LeapTwoFingers;
+using namespace MplusM::LeapBlob;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -94,10 +95,12 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the Leap Two Fingers input service.
+/*! @brief Set up the environment and start the %Leap Blob input service.
+ @param translationScale The translation scale.
+ @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Leap Two Fingers input service.
+ @param argv The arguments to be used with the %Leap Blob input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -105,7 +108,9 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const YarpString & progName,
+static void setUpAndGo(double &           translationScale,
+                       const Utilities::DescriptorVector & argumentList,
+                       const YarpString & progName,
                        const int          argc,
                        char * *           argv,
                        const YarpString & tag,
@@ -116,15 +121,16 @@ static void setUpAndGo(const YarpString & progName,
                        const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_D1("translationScale = ", translationScale); //####
     OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    LeapTwoFingersInputService * aService = new LeapTwoFingersInputService(progName, argc, argv,
-                                                                           tag, serviceEndpointName,
-                                                                           servicePortNumber);
+    LeapBlobInputService * aService = new LeapBlobInputService(progName, argc, argv, tag,
+                                                                   serviceEndpointName,
+                                                                   servicePortNumber);
     
     if (aService)
     {
@@ -169,6 +175,8 @@ static void setUpAndGo(const YarpString & progName,
                                 // Start streams
                                 if (! configured)
                                 {
+                                    configureData.clear();
+                                    configureData.addDouble(translationScale);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -183,9 +191,19 @@ static void setUpAndGo(const YarpString & progName,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                if (aService->configure(configureData))
+                                configured = Utilities::PromptForValues(argumentList);
+                                if (configured)
                                 {
-                                    configured = true;
+                                    configureData.clear();
+                                    configureData.addDouble(translationScale);
+                                    if (aService->configure(configureData))
+                                    {
+                                        configured = true;
+                                    }
+                                }
+                                else
+                                {
+                                    cout << "One or more values out of range." << endl;
                                 }
                                 break;
                                 
@@ -206,6 +224,8 @@ static void setUpAndGo(const YarpString & progName,
                                 // Restart streams
                                 if (! configured)
                                 {
+                                    configureData.clear();
+                                    configureData.addDouble(translationScale);
                                     if (aService->configure(configureData))
                                     {
                                         configured = true;
@@ -282,9 +302,9 @@ static void setUpAndGo(const YarpString & progName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %Leap Two Fingers input service.
+/*! @brief The entry point for running the %Leap Blob input service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Leap Two Fingers input service.
+ @param argv The arguments to be used with the %Leap Blob input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -305,18 +325,22 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                        goWasSet = false;
-        bool                        nameWasSet = false; // not used
-        bool                        reportOnExit = false;
-        bool                        stdinAvailable = CanReadFromStandardInput();
-        YarpString                  serviceEndpointName;
-        YarpString                  servicePortNumber;
-        YarpString                  tag;
-        Utilities::DescriptorVector argumentList;
+        bool                                goWasSet = false;
+        bool                                nameWasSet = false; // not used
+        bool                                reportOnExit = false;
+        bool                                stdinAvailable = CanReadFromStandardInput();
+        double                              translationScale = 1.0;
+        YarpString                          serviceEndpointName;
+        YarpString                          servicePortNumber;
+        YarpString                          tag;
+        Utilities::DoubleArgumentDescriptor firstArg("scale", T_("Translation scale"), 1.0, true,
+                                                     true, 0.0, false, 0.0, &translationScale);
+        Utilities::DescriptorVector         argumentList;
 
-        if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_LEAPTWOFINGERSINPUT_SERVICE_NAME_,
-                                          LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION_, "", 2015,
+        argumentList.push_back(&firstArg);
+		if (ProcessStandardServiceOptions(argc, argv, argumentList,
+                                          DEFAULT_LEAPBLOBINPUT_SERVICE_NAME_,
+                                          LEAPBLOBINPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))
@@ -325,14 +349,15 @@ int main(int      argc,
 			Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
-                yarp::os::Network yarp; // This is necessary to establish any connections to the
-                                        // YARP infrastructure
+                yarp::os::Network yarp; // This is necessary to establish any connections to YARP
+                                        // infrastructure
                 
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(progName, argc, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(translationScale, argumentList, progName, argc, argv, tag,
+                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
+                               reportOnExit);
                 }
                 else
                 {

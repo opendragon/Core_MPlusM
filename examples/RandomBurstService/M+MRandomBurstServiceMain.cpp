@@ -347,7 +347,6 @@ int main(int      argc,
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
-
         Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"), 1,
                                                       true, true, 0, false, 0, &burstPeriod);
         Utilities::IntegerArgumentDescriptor secondArg("size", T_("Burst size"), 1, true, true, 1,

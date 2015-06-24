@@ -177,6 +177,9 @@
 /*! @brief The base of the channel name to use for an input if not provided. */
 # define INPUT_PORT_NAME_BASE_      MpM_INPUT_BASE_NAME_
 
+/*! @brief The Windows line end sequence. */
+# define LINE_END_                  "\r\n"
+
 /*! @brief The maximum number of retries before declaring failure, if not using timeouts. */
 # define MAX_RETRIES_               7
 

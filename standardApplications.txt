@@ -6,6 +6,7 @@ mpmEchoService
 mpmEmotivInputService
 mpmJavaScriptService
 mpmKinectV2InputService
+mpmLeapBlobInputService
 mpmLeapMotionInputService
 mpmLeapTwoFingersInputService
 mpmNaturalPointInputService

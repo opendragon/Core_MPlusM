@@ -340,15 +340,14 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool       goWasSet = false;
-        bool       nameWasSet = false; // not used
-        bool       reportOnExit = false;
-        bool       stdinAvailable = CanReadFromStandardInput();
-        YarpString recordPath;
-        YarpString serviceEndpointName;
-        YarpString servicePortNumber;
-        YarpString tag;
-
+        bool                                  goWasSet = false;
+        bool                                  nameWasSet = false; // not used
+        bool                                  reportOnExit = false;
+        bool                                  stdinAvailable = CanReadFromStandardInput();
+        YarpString                            recordPath;
+        YarpString                            serviceEndpointName;
+        YarpString                            servicePortNumber;
+        YarpString                            tag;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
                                                        kDirectorySeparator + "tmp" +
                                                        kDirectorySeparator + "record_", ".txt",

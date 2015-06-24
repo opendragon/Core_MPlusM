@@ -228,3 +228,5 @@ LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService
 LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService.rc
 mpmBlobOutputService.rc
 mpmBlobOutputService
+LeapMotion/LeapMotionInputService/mpmLeapBlobInputService
+LeapMotion/LeapMotionInputService/mpmLeapBlobInputService.rc

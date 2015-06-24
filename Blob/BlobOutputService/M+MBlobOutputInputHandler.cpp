@@ -67,9 +67,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The Windows line end sequence. */
-#define LINE_END_ "\r\n"
-
 /*! @brief The scale factor to apply to %Leap Motion data. */
 static const double kLeapScale = 1.0;
 

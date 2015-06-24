@@ -138,8 +138,10 @@ JSbitmapepsfiles = $(IMAGE_DIR)/javaScriptWithEndpoint.eps \
 KV2bitmapepsfiles = $(IMAGE_DIR)/launchKinectV2InputService.eps \
 		$(IMAGE_DIR)/runningKinectV2InputService.eps
 
-LMbitmapepsfiles = $(IMAGE_DIR)/launchLeapMotionInputService.eps \
+LMbitmapepsfiles = $(IMAGE_DIR)/launchLeapBlobInputService.eps \
+		$(IMAGE_DIR)/launchLeapMotionInputService.eps \
 		$(IMAGE_DIR)/launchLeapTwoFingersInputService.eps \
+		$(IMAGE_DIR)/runningLeapBlobInputService.eps \
 		$(IMAGE_DIR)/runningLeapMotionInputService.eps \
 		$(IMAGE_DIR)/runningLeapTwoFingersInputService.eps
 

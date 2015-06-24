@@ -678,6 +678,14 @@
 		F64A5FEB1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapTwoFingersInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputService.cpp"; sourceTree = SOURCE_ROOT; };
 		F64A5FEC1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapTwoFingersInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputService.h"; sourceTree = SOURCE_ROOT; };
 		F64A5FED1A9BFB2D0015A21E /* M+MLeapTwoFingersInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapTwoFingersInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapTwoFingersInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		F655C60C1B3B27DC00933D40 /* M+MLeapBlobInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapBlobInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapBlobInputListener.cpp"; sourceTree = "<group>"; };
+		F655C60D1B3B27DC00933D40 /* M+MLeapBlobInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapBlobInputListener.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapBlobInputListener.h"; sourceTree = "<group>"; };
+		F655C60E1B3B27DC00933D40 /* M+MLeapBlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapBlobInputRequests.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapBlobInputRequests.h"; sourceTree = "<group>"; };
+		F655C60F1B3B27DC00933D40 /* M+MLeapBlobInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapBlobInputService.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapBlobInputService.cpp"; sourceTree = "<group>"; };
+		F655C6101B3B27DC00933D40 /* M+MLeapBlobInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MLeapBlobInputService.h"; path = "LeapMotion/LeapMotionInputService/M+MLeapBlobInputService.h"; sourceTree = "<group>"; };
+		F655C6111B3B27DC00933D40 /* M+MLeapBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MLeapBlobInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/M+MLeapBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
+		F655C6121B3B282000933D40 /* mpmLeapBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmLeapBlobInputService.rc.in; path = LeapMotion/LeapMotionInputService/mpmLeapBlobInputService.rc.in; sourceTree = "<group>"; };
+		F655C6131B3B282000933D40 /* resource2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource2.h; path = LeapMotion/LeapMotionInputService/resource2.h; sourceTree = "<group>"; };
 		F6DA54581A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* M+MUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/M+MUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1477,6 +1485,12 @@
 				DF824BCB19C8E4C5004D13AC /* CMakeLists.txt */,
 				DF824BCC19C8E4C5004D13AC /* Leap.h */,
 				DF824BCD19C8E4C5004D13AC /* LeapMath.h */,
+				F655C60C1B3B27DC00933D40 /* M+MLeapBlobInputListener.cpp */,
+				F655C60D1B3B27DC00933D40 /* M+MLeapBlobInputListener.h */,
+				F655C60E1B3B27DC00933D40 /* M+MLeapBlobInputRequests.h */,
+				F655C60F1B3B27DC00933D40 /* M+MLeapBlobInputService.cpp */,
+				F655C6101B3B27DC00933D40 /* M+MLeapBlobInputService.h */,
+				F655C6111B3B27DC00933D40 /* M+MLeapBlobInputServiceMain.cpp */,
 				DF824BCE19C8E4C5004D13AC /* M+MLeapMotionInputListener.cpp */,
 				DF824BCF19C8E4C5004D13AC /* M+MLeapMotionInputListener.h */,
 				DF824BD019C8E4C5004D13AC /* M+MLeapMotionInputRequests.h */,
@@ -1489,10 +1503,12 @@
 				F64A5FEB1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.cpp */,
 				F64A5FEC1A9BFB2D0015A21E /* M+MLeapTwoFingersInputService.h */,
 				F64A5FED1A9BFB2D0015A21E /* M+MLeapTwoFingersInputServiceMain.cpp */,
+				F655C6121B3B282000933D40 /* mpmLeapBlobInputService.rc.in */,
 				DFA7D1401ADDB74800A17BD6 /* mpmLeapMotionInputService.rc.in */,
 				DFA7D1411ADDB74800A17BD6 /* mpmLeapTwoFingersInputService.rc.in */,
 				DFA7D0F21ADD9A3400A17BD6 /* resource.h */,
 				DFA7D0F31ADD9A3400A17BD6 /* resource1.h */,
+				F655C6131B3B282000933D40 /* resource2.h */,
 			);
 			name = LeapMotionInputService;
 			sourceTree = SOURCE_ROOT;
