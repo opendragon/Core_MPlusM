@@ -276,11 +276,10 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
         }
         if (okSoFar && _outChannel)
         {
-            yarp::os::Bottle  message;
-            std::string       buffAsString(outBuffer.str());
-            yarp::os::Value * blobValue =
-                                yarp::os::Value::makeBlob(const_cast<char *>(buffAsString.c_str()),
-                                                          buffAsString.length());
+            yarp::os::Bottle message;
+            std::string      buffAsString(outBuffer.str());
+            yarp::os::Value  blobValue(const_cast<char *>(buffAsString.c_str()),
+                                       buffAsString.length());
 
             message.add(blobValue);
 #if defined(REPORT_EVENT_COUNT_)
@@ -294,7 +293,6 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                 Stall();
 #endif // defined(MpM_StallOnSendProblem)
             }
-            delete[] blobValue;
         }
     }
     OD_LOG_OBJEXIT(); //####

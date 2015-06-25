@@ -285,11 +285,10 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                 outBuffer << "END" << LINE_END_;
                 if (_outChannel)
                 {
-                    yarp::os::Bottle  message;
-                    std::string       buffAsString(outBuffer.str());
-                    yarp::os::Value * blobValue =
-                                yarp::os::Value::makeBlob(const_cast<char *>(buffAsString.c_str()),
-                                                          buffAsString.length());
+                    yarp::os::Bottle message;
+                    std::string      buffAsString(outBuffer.str());
+                    yarp::os::Value  blobValue(const_cast<char *>(buffAsString.c_str()),
+                                               buffAsString.length());
 
                     message.add(blobValue);
                     if (! _outChannel->write(message))
@@ -299,7 +298,6 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                         Stall();
 #endif // defined(MpM_StallOnSendProblem)
                     }
-                    delete[] blobValue;
                 }
             }
         }
