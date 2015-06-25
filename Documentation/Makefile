@@ -187,7 +187,9 @@ NPbitmapepsfiles =
 PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \
 		$(IMAGE_DIR)/runningProComp2InputService.eps
 
-VDSbitmapepsfiles = $(IMAGE_DIR)/launchViconDataStreamInputService.eps \
+VDSbitmapepsfiles = $(IMAGE_DIR)/launchViconBlobInputService.eps \
+		$(IMAGE_DIR)/launchViconDataStreamInputService.eps \
+		$(IMAGE_DIR)/runningViconBlobInputService.eps \
 		$(IMAGE_DIR)/runningViconDataStreamInputService.eps
 
 # Input bitmap PNG files
