@@ -171,7 +171,6 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                 if (aHand.isValid())
                 {
                     Leap::FingerList fingers(aHand.fingers());
-                    const char *     side;
                     int              fingersCount = 0;
 
                     for (Leap::FingerList::const_iterator fingerWalker(fingers.begin());
