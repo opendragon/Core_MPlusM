@@ -145,7 +145,6 @@ bool BlobOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
                         
                         if ((0 < numBytes) && asBytes)
                         {
-                            
                             int retVal = send(_outSocket, asBytes, numBytes, 0);
                             
                             cerr << "send--> " << retVal << endl; //!!!!

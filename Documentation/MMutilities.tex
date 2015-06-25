@@ -373,22 +373,22 @@ Path:              .../mpmRegistryService
 Secondary outputs: /$ervice/status{protocol=s}
 
 Service port:      /_service_/input/randomburst
-Service name:      RandomBurst
+Service name:      RandomBurstInput
 Tag:
 Service kind:      Input
 Description:       The Random Burst input service
 Extra information: Burst period is 1, burst size is 1
 Requests:
-Path:              .../mpmRandomBurstService
+Path:              .../mpmRandomBurstInputService
 Secondary outputs: /_service_/input/randomburst/output{protocol=d+}
 
 Service port:      /shorten
-Service name:      TruncateFloat
+Service name:      TruncateFloatFilter
 Tag:               blort
 Service kind:      Filter
 Description:       The Truncate Float filter service
 Requests:
-Path:              .../mpmTruncateFloatService
+Path:              .../mpmTruncateFloatFilterService
 Secondary inputs:  /shorten/input{protocol=d+}
 Secondary outputs: /shorten/output{protocol=i+}
 \end{verbatim}
@@ -406,15 +406,16 @@ information for a service on the given channel\nunregister - remove the informat
 for a service on the given channel", "Path": ".../mpmRegistryService",
 "SecondaryInputs": [ ], "SecondaryOutputs": [ { "Name": "/$ervice/status",
 "Protocol": "s" } ] }, { "ServicePort": "/_service_/input/randomburst",
-"ServiceName": "RandomBurst", "Tag": "", "ServiceKind": "Input", "Description":
+"ServiceName": "RandomBurstInput", "Tag": "", "ServiceKind": "Input", "Description":
 "The random burst input service", "ExtraInfo": "Burst period is 1, burst size is 1",
-"Requests": "", "Path": ".../mpmRandomBurstService", "SecondaryInputs": [ ],
+"Requests": "", "Path": ".../mpmRandomBurstInputService", "SecondaryInputs": [ ],
 "SecondaryOutputs": [ { "Name": "/_service_/input/randomburst/output", "Protocol":
-"d+" } ] }, { "ServicePort":  "/shorten", "ServiceName": "TruncateFloat", "Tag":
-"blort", "ServiceKind": "Filter", "Description": "The Truncate Float filter
-service", "ExtraInfo": "", "Requests": "", "Path": ".../mpmTruncateFloatService",
-"SecondaryInputs": [ { "Name": "/shorten/input", "Protocol": "d+" } ],
-"SecondaryOutputs": [ { "Name": "/shorten/output", "Protocol": "i+" } ] } ]
+"d+" } ] }, { "ServicePort":  "/shorten", "ServiceName": "TruncateFloatFilter",
+"Tag": "blort", "ServiceKind": "Filter", "Description": "The Truncate Float filter
+service", "ExtraInfo": "", "Requests": "", "Path":
+".../mpmTruncateFloatFilterService", "SecondaryInputs": [ { "Name":
+"/shorten/input", "Protocol": "d+" } ], "SecondaryOutputs": [ { "Name":
+"/shorten/output", "Protocol": "i+" } ] } ]
 \end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
@@ -431,15 +432,16 @@ the\\
 given channel\pseudotab\textellipsis{}/mpmRegistryService\pseudotwotabs{}/\dollarService%
 /status\textbraceleft{}protocol=s\textbraceright\\
 
-/\serviceName/input/randomburst\pseudotab{}RandomBurst\pseudotwotabs{}Input\pseudotab\\
+/\serviceName/input/randomburst\pseudotab{}RandomBurstInput\pseudotwotabs{}Input%
+\pseudotab\\
 The Random Burst input service\pseudotab{}Burst period is 1, burst size is 1%
 \pseudotwotabs\\
-\textellipsis{}/mpmRandomBurstService\pseudotwotabs{}/\serviceName/input/randomburst/%
-output\textbraceleft{}protocol=d+\textbraceright\\
+\textellipsis{}/mpmRandomBurstInputService\pseudotwotabs{}/\serviceName/input/%
+randomburst/output\textbraceleft{}protocol=d+\textbraceright\\
 
-/shorten\pseudotab{}TruncateFloat\pseudotab{}blort\pseudotab{}Filter\pseudotab{}The
+/shorten\pseudotab{}TruncateFloatFilter\pseudotab{}blort\pseudotab{}Filter\pseudotab{}The
 Truncate Float filter service\pseudothreetabs\\
-\textellipsis{}/mpmTruncateFloatService\pseudotab{}/shorten/input\textbraceleft{}%
+\textellipsis{}/mpmTruncateFloatFilterService\pseudotab{}/shorten/input\textbraceleft{}%
 protocol=d+\textbraceright\pseudotab\\
 /shorten/output\textbraceleft{}protocol=i+\textbraceright
 \outputEnd{}
@@ -732,6 +734,90 @@ window when the service has successfully started:
 \objScaledDiagram{mpm_images/runningBlobOutputService}%
 {serviceRunningBlob}{The \emph{Channel Manager} entity for the Blob output service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmBlobOutputService}}
+\condPage
+\tertiaryStart{\utilityNameP{mpmRecordBlobOutputService}}
+The \utilityNameX{mpmRecordBlobOutputService} application is an Output service, recording
+a stream of \yarp{} binary blob values to an external file.
+The application responds to the standard Output service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
+the file\longDash{}system path to use for the output file.
+The path will be used when the input stream is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request opens a file to be
+used for output, using the configured output file path.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
+file that is being used.\\
+
+Note that the application will exit if the
+\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+
+The application has one optional argument \longDash{} the output file path to be used.
+\insertAppParameters
+\insertTagDescription{Record Blob Output}
+\insertOutputServiceComment\\
+
+The output file path parameter provides the initial output file path; if not specified, a
+random path in the system temporary directory will be used.
+For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
+while, for Macintosh OS X and Linux, it will be ``/tmp''.
+Note that the output file path can also be set via commands, if the application is
+running from a terminal.\\
+
+If the application is running from a terminal and has not been automatically started via
+the `\asCode{go}' option, the following commands are available:
+\begin{itemize}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
+record the input data}
+\item\exSp\cmdItem{c}{configure the service by providing the output file path to be used}
+\item\exSp\cmdItem{e}{stop the input stream, which will close the output file}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the input stream, which will cause the output file to be
+closed and a new output file to be opened}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+input stream is restarted}
+\end{itemize}
+\condPage
+If the service is selected for execution from within the \emph{Channel Manager}
+application, the following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRecordBlobOutputService}%
+{launchServiceRecordBlob}{Launch options for the Record Blob output service}{0.8}
+
+For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
+Manager Utility} manual.
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningRecordBlobOutputService}%
+{serviceRunningRecordBlob}{The \emph{Channel Manager} entity for the Record Blob output
+service}{1.0}
+
+The output file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.
+\condPage{}
+If a `tag' value is supplied, it is merged with the output file name, as shown here:
+\objScaledDiagram{mpm_images/recordBlobWithTag}%
+{recordBlobWithTag}{The \emph{Channel Manager} entity for the Record Blob output service
+with a tag}{1.0}
+
+If an `endpoint' value is specified, the output file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/recordBlobWithEndpoint}%
+{recordBlobWithEndpoint}{The \emph{Channel Manager} entity for the Record Blob output
+service with an endpoint}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the output file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/recordBlobWithEndpointAndTag}%
+{recordBlobWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record Blob
+output service with an endpoint and tag}{1.0}
+\tertiaryEnd{\utilityNameE{mpmRecordBlobOutputService}}
 \condPage
 \tertiaryStart{\utilityNameP{mpmRequestCounterService}}
 The \utilityNameX{mpmRequestCounterService} application is a background service that is

@@ -1,5 +1,5 @@
 # Services
-mpmAbsorberService
+mpmAbsorberOutputService
 mpmAddressService
 mpmBlobOutputService
 mpmEchoService
@@ -11,13 +11,14 @@ mpmLeapMotionInputService
 mpmLeapTwoFingersInputService
 mpmNaturalPointInputService
 mpmProComp2InputService
-mpmRandomBurstService
+mpmRandomBurstInputService
 mpmRandomNumberService
-mpmRecordAsJSONService
-mpmRecordIntegersService
+mpmRecordAsJSONOutputService
+mpmRecordBlobOutputService
+mpmRecordIntegersOutputService
 mpmRequestCounterService
 mpmRunningSumService
-mpmTruncateFloatService
+mpmTruncateFloatFilterService
 mpmTunnelService
 mpmUnrealOutputService
 mpmViconBlobInputService

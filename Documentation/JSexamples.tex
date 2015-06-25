@@ -2,8 +2,8 @@
 \appendixStart[Examples]{\textitcorr{JavaScript~Examples}}
 \secondaryStart{TruncateFloat.js}
 This script reproduces the behaviour of the example service,
-\emph{mpmTruncateFloatService}; it processes sequences of floating\longDash{}point numbers
-and sends the corresponding integral values.
+\emph{mpmTruncateFloatFilterService}; it processes sequences of floating\longDash{}point
+numbers and sends the corresponding integral values.
 \codeBegin
 \begin{listing}[5]{1}
 function doTruncateFloat(portNumber, incomingData)
@@ -134,8 +134,8 @@ expressions to simplify the command interpretation and the use of the function
 \condPage
 \secondaryStart{RecordIntegers.js}
 This script reproduces the behaviour of the example service,
-\emph{mpmRecordIntegersService}; it writes out the integer values from its inlet to a text
-file.
+\emph{mpmRecordIntegersOutputService}; it writes out the integer values from its inlet to
+a text file.
 \codeBegin
 \begin{listing}[5]{1}
 var outStream = null;
@@ -233,8 +233,9 @@ application command.
 \secondaryEnd
 \condPage
 \secondaryStart{RandomBurst.js}
-This script reproduces the behaviour of the example service, \emph{mpmRandomBurstService};
-it generates lists of random numbers and sends them to its outlet.
+This script reproduces the behaviour of the example service,
+\emph{mpmRandomBurstInputService}; it generates lists of random numbers and sends them to
+its outlet.
 \codeBegin
 \begin{listing}[5]{1}
 var burstSize;

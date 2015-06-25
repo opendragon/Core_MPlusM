@@ -38,7 +38,7 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET mpmRecordIntegersService)
+set(THIS_TARGET mpmRecordIntegersOutputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,9 +50,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MRecordIntegersServiceMain.cpp
-               M+MRecordIntegersInputHandler.cpp
-               M+MRecordIntegersService.cpp
+               M+MRecordIntegersOutputServiceMain.cpp
+               M+MRecordIntegersOutputInputHandler.cpp
+               M+MRecordIntegersOutputService.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

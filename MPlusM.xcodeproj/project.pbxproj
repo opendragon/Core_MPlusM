@@ -31,6 +31,23 @@
 		DF1C1C611B39F22A00E816A4 /* M+MBlobOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBlobOutputServiceMain.cpp"; path = "Blob/BlobOutputService/M+MBlobOutputServiceMain.cpp"; sourceTree = "<group>"; };
 		DF1C1C621B39F22A00E816A4 /* mpmBlobOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmBlobOutputService.rc.in; path = Blob/BlobOutputService/mpmBlobOutputService.rc.in; sourceTree = "<group>"; };
 		DF1C1C631B39F22A00E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Blob/BlobOutputService/resource.h; sourceTree = "<group>"; };
+		DF1C1C641B3C410400E816A4 /* M+MRecordBlobOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordBlobOutputInputHandler.cpp"; path = "Blob/BlobOutputService/M+MRecordBlobOutputInputHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C651B3C410400E816A4 /* M+MRecordBlobOutputInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordBlobOutputInputHandler.h"; path = "Blob/BlobOutputService/M+MRecordBlobOutputInputHandler.h"; sourceTree = "<group>"; };
+		DF1C1C661B3C410400E816A4 /* M+MRecordBlobOutputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordBlobOutputRequests.h"; path = "Blob/BlobOutputService/M+MRecordBlobOutputRequests.h"; sourceTree = "<group>"; };
+		DF1C1C671B3C410400E816A4 /* M+MRecordBlobOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordBlobOutputService.cpp"; path = "Blob/BlobOutputService/M+MRecordBlobOutputService.cpp"; sourceTree = "<group>"; };
+		DF1C1C681B3C410400E816A4 /* M+MRecordBlobOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordBlobOutputService.h"; path = "Blob/BlobOutputService/M+MRecordBlobOutputService.h"; sourceTree = "<group>"; };
+		DF1C1C691B3C410400E816A4 /* M+MRecordBlobOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordBlobOutputServiceMain.cpp"; path = "Blob/BlobOutputService/M+MRecordBlobOutputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF1C1C6A1B3C410400E816A4 /* mpmRecordBlobOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordBlobOutputService.rc.in; path = Blob/BlobOutputService/mpmRecordBlobOutputService.rc.in; sourceTree = "<group>"; };
+		DF1C1C6B1B3C410400E816A4 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = Blob/BlobOutputService/resource1.h; sourceTree = "<group>"; };
+		DF1C1C6C1B3C4A2600E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RecordAsJSONService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C6D1B3C4A2600E816A4 /* M+MRecordAsJSONOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONOutputInputHandler.cpp"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputInputHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C6E1B3C4A2600E816A4 /* M+MRecordAsJSONOutputInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordAsJSONOutputInputHandler.h"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputInputHandler.h"; sourceTree = "<group>"; };
+		DF1C1C6F1B3C4A2600E816A4 /* M+MRecordAsJSONOutputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordAsJSONOutputRequests.h"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputRequests.h"; sourceTree = "<group>"; };
+		DF1C1C701B3C4A2600E816A4 /* M+MRecordAsJSONOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONOutputService.cpp"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputService.cpp"; sourceTree = "<group>"; };
+		DF1C1C711B3C4A2600E816A4 /* M+MRecordAsJSONOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordAsJSONOutputService.h"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputService.h"; sourceTree = "<group>"; };
+		DF1C1C721B3C4A2600E816A4 /* M+MRecordAsJSONOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONOutputServiceMain.cpp"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF1C1C731B3C4A2600E816A4 /* mpmRecordAsJSONOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordAsJSONOutputService.rc.in; path = examples/RecordAsJSONService/mpmRecordAsJSONOutputService.rc.in; sourceTree = "<group>"; };
+		DF1C1C741B3C4A2600E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RecordAsJSONService/resource.h; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -313,15 +330,6 @@
 		DF4FB4D91B0E2CE900534D59 /* M+MPortArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPortArgumentDescriptor.h"; path = "mpm/M+MPortArgumentDescriptor.h"; sourceTree = "<group>"; };
 		DF4FB4DA1B0E33FB00534D59 /* M+MArgumentsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MArgumentsRequestHandler.cpp"; path = "mpm/M+MArgumentsRequestHandler.cpp"; sourceTree = "<group>"; };
 		DF4FB4DB1B0E33FB00534D59 /* M+MArgumentsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MArgumentsRequestHandler.h"; path = "mpm/M+MArgumentsRequestHandler.h"; sourceTree = "<group>"; };
-		DF4FB4DD1B13999100534D59 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RecordAsJSON/CMakeLists.txt; sourceTree = "<group>"; };
-		DF4FB4DE1B13999100534D59 /* M+MRecordAsJSONInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONInputHandler.cpp"; path = "examples/RecordAsJSON/M+MRecordAsJSONInputHandler.cpp"; sourceTree = "<group>"; };
-		DF4FB4DF1B13999100534D59 /* M+MRecordAsJSONInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordAsJSONInputHandler.h"; path = "examples/RecordAsJSON/M+MRecordAsJSONInputHandler.h"; sourceTree = "<group>"; };
-		DF4FB4E01B13999100534D59 /* M+MRecordAsJSONRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordAsJSONRequests.h"; path = "examples/RecordAsJSON/M+MRecordAsJSONRequests.h"; sourceTree = "<group>"; };
-		DF4FB4E11B13999100534D59 /* M+MRecordAsJSONService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONService.cpp"; path = "examples/RecordAsJSON/M+MRecordAsJSONService.cpp"; sourceTree = "<group>"; };
-		DF4FB4E21B13999100534D59 /* M+MRecordAsJSONService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordAsJSONService.h"; path = "examples/RecordAsJSON/M+MRecordAsJSONService.h"; sourceTree = "<group>"; };
-		DF4FB4E31B13999100534D59 /* M+MRecordAsJSONServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONServiceMain.cpp"; path = "examples/RecordAsJSON/M+MRecordAsJSONServiceMain.cpp"; sourceTree = "<group>"; };
-		DF4FB4E41B13999100534D59 /* mpmRecordAsJSONService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordAsJSONService.rc.in; path = examples/RecordAsJSON/mpmRecordAsJSONService.rc.in; sourceTree = "<group>"; };
-		DF4FB4E51B13999100534D59 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RecordAsJSON/resource.h; sourceTree = "<group>"; };
 		DF4FB4E61B16144F00534D59 /* M+MBaseAdapterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseAdapterService.cpp"; path = "mpm/M+MBaseAdapterService.cpp"; sourceTree = "<group>"; };
 		DF4FB4E71B16144F00534D59 /* M+MBaseAdapterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MBaseAdapterService.h"; path = "mpm/M+MBaseAdapterService.h"; sourceTree = "<group>"; };
 		DF4FB5261B166A4800534D59 /* M+MRandomNumberAdapterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomNumberAdapterRequests.h"; path = "examples/RandomNumberAdapter/M+MRandomNumberAdapterRequests.h"; sourceTree = "<group>"; };
@@ -380,19 +388,19 @@
 		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF824B7C19C744CC004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RecordIntegersService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF824B7D19C744CC004D13AC /* M+MRecordIntegersInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersInputHandler.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF824B7E19C744CC004D13AC /* M+MRecordIntegersInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersInputHandler.h"; path = "examples/RecordIntegersService/M+MRecordIntegersInputHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF824B7F19C744CC004D13AC /* M+MRecordIntegersRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersRequests.h"; path = "examples/RecordIntegersService/M+MRecordIntegersRequests.h"; sourceTree = SOURCE_ROOT; };
-		DF824B8019C744CC004D13AC /* M+MRecordIntegersService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersService.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF824B8119C744CC004D13AC /* M+MRecordIntegersService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersService.h"; path = "examples/RecordIntegersService/M+MRecordIntegersService.h"; sourceTree = SOURCE_ROOT; };
-		DF824B8219C744CC004D13AC /* M+MRecordIntegersServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersServiceMain.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824B7D19C744CC004D13AC /* M+MRecordIntegersOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersOutputInputHandler.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersOutputInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824B7E19C744CC004D13AC /* M+MRecordIntegersOutputInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersOutputInputHandler.h"; path = "examples/RecordIntegersService/M+MRecordIntegersOutputInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF824B7F19C744CC004D13AC /* M+MRecordIntegersOutputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersOutputRequests.h"; path = "examples/RecordIntegersService/M+MRecordIntegersOutputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF824B8019C744CC004D13AC /* M+MRecordIntegersOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersOutputService.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersOutputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824B8119C744CC004D13AC /* M+MRecordIntegersOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRecordIntegersOutputService.h"; path = "examples/RecordIntegersService/M+MRecordIntegersOutputService.h"; sourceTree = SOURCE_ROOT; };
+		DF824B8219C744CC004D13AC /* M+MRecordIntegersOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersOutputServiceMain.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersOutputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF824B8319C7460C004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RandomBurstService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF824B8419C7460C004D13AC /* M+MRandomBurstRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstRequests.h"; path = "examples/RandomBurstService/M+MRandomBurstRequests.h"; sourceTree = SOURCE_ROOT; };
-		DF824B8519C7460C004D13AC /* M+MRandomBurstService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstService.cpp"; path = "examples/RandomBurstService/M+MRandomBurstService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF824B8619C7460C004D13AC /* M+MRandomBurstService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstService.h"; path = "examples/RandomBurstService/M+MRandomBurstService.h"; sourceTree = SOURCE_ROOT; };
-		DF824B8719C7460C004D13AC /* M+MRandomBurstServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstServiceMain.cpp"; path = "examples/RandomBurstService/M+MRandomBurstServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF824B8819C7460C004D13AC /* M+MRandomBurstThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstThread.cpp"; path = "examples/RandomBurstService/M+MRandomBurstThread.cpp"; sourceTree = SOURCE_ROOT; };
-		DF824B8919C7460C004D13AC /* M+MRandomBurstThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstThread.h"; path = "examples/RandomBurstService/M+MRandomBurstThread.h"; sourceTree = SOURCE_ROOT; };
+		DF824B8419C7460C004D13AC /* M+MRandomBurstInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstInputRequests.h"; path = "examples/RandomBurstService/M+MRandomBurstInputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF824B8519C7460C004D13AC /* M+MRandomBurstInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstInputService.cpp"; path = "examples/RandomBurstService/M+MRandomBurstInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824B8619C7460C004D13AC /* M+MRandomBurstInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstInputService.h"; path = "examples/RandomBurstService/M+MRandomBurstInputService.h"; sourceTree = SOURCE_ROOT; };
+		DF824B8719C7460C004D13AC /* M+MRandomBurstInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstInputServiceMain.cpp"; path = "examples/RandomBurstService/M+MRandomBurstInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824B8819C7460C004D13AC /* M+MRandomBurstInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRandomBurstInputThread.cpp"; path = "examples/RandomBurstService/M+MRandomBurstInputThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF824B8919C7460C004D13AC /* M+MRandomBurstInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRandomBurstInputThread.h"; path = "examples/RandomBurstService/M+MRandomBurstInputThread.h"; sourceTree = SOURCE_ROOT; };
 		DF824B8B19C7535F004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/ExemplarAdapter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF824B8C19C7535F004D13AC /* M+MExemplarAdapterData.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MExemplarAdapterData.cpp"; path = "Exemplars/ExemplarAdapter/M+MExemplarAdapterData.cpp"; sourceTree = SOURCE_ROOT; };
 		DF824B8D19C7535F004D13AC /* M+MExemplarAdapterData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MExemplarAdapterData.h"; path = "Exemplars/ExemplarAdapter/M+MExemplarAdapterData.h"; sourceTree = SOURCE_ROOT; };
@@ -525,18 +533,18 @@
 		DFA7D1251ADDB5CF00A17BD6 /* mpmAddressClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAddressClient.rc.in; path = Address/AddressClient/mpmAddressClient.rc.in; sourceTree = "<group>"; };
 		DFA7D1261ADDB5DD00A17BD6 /* mpmAddressService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAddressService.rc.in; path = Address/AddressService/mpmAddressService.rc.in; sourceTree = "<group>"; };
 		DFA7D1271ADDB5FB00A17BD6 /* mpmCommonTest.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmCommonTest.rc.in; path = CommonTests/mpmCommonTest.rc.in; sourceTree = "<group>"; };
-		DFA7D1281ADDB61F00A17BD6 /* mpmAbsorberService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAbsorberService.rc.in; path = examples/AbsorberService/mpmAbsorberService.rc.in; sourceTree = "<group>"; };
+		DFA7D1281ADDB61F00A17BD6 /* mpmAbsorberOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmAbsorberOutputService.rc.in; path = examples/AbsorberService/mpmAbsorberOutputService.rc.in; sourceTree = "<group>"; };
 		DFA7D1291ADDB62E00A17BD6 /* mpmChordGeneratorService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmChordGeneratorService.rc.in; path = examples/ChordGeneratorService/mpmChordGeneratorService.rc.in; sourceTree = "<group>"; };
 		DFA7D12A1ADDB63900A17BD6 /* mpmEchoClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmEchoClient.rc.in; path = examples/EchoClient/mpmEchoClient.rc.in; sourceTree = "<group>"; };
 		DFA7D12B1ADDB64400A17BD6 /* mpmEchoService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmEchoService.rc.in; path = examples/EchoService/mpmEchoService.rc.in; sourceTree = "<group>"; };
-		DFA7D12C1ADDB64F00A17BD6 /* mpmRandomBurstService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomBurstService.rc.in; path = examples/RandomBurstService/mpmRandomBurstService.rc.in; sourceTree = "<group>"; };
+		DFA7D12C1ADDB64F00A17BD6 /* mpmRandomBurstInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomBurstInputService.rc.in; path = examples/RandomBurstService/mpmRandomBurstInputService.rc.in; sourceTree = "<group>"; };
 		DFA7D12E1ADDB66400A17BD6 /* mpmRandomNumberClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomNumberClient.rc.in; path = examples/RandomNumberClient/mpmRandomNumberClient.rc.in; sourceTree = "<group>"; };
 		DFA7D12F1ADDB66F00A17BD6 /* mpmRandomNumberService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRandomNumberService.rc.in; path = examples/RandomNumberService/mpmRandomNumberService.rc.in; sourceTree = "<group>"; };
-		DFA7D1301ADDB67800A17BD6 /* mpmRecordIntegersService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordIntegersService.rc.in; path = examples/RecordIntegersService/mpmRecordIntegersService.rc.in; sourceTree = "<group>"; };
+		DFA7D1301ADDB67800A17BD6 /* mpmRecordIntegersOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordIntegersOutputService.rc.in; path = examples/RecordIntegersService/mpmRecordIntegersOutputService.rc.in; sourceTree = "<group>"; };
 		DFA7D1311ADDB68200A17BD6 /* mpmRGBLEDService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRGBLEDService.rc.in; path = examples/RGBLEDService/mpmRGBLEDService.rc.in; sourceTree = "<group>"; };
 		DFA7D1341ADDB6A200A17BD6 /* mpmRunningSumClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRunningSumClient.rc.in; path = examples/RunningSumClient/mpmRunningSumClient.rc.in; sourceTree = "<group>"; };
 		DFA7D1351ADDB6AE00A17BD6 /* mpmRunningSumService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRunningSumService.rc.in; path = examples/RunningSumService/mpmRunningSumService.rc.in; sourceTree = "<group>"; };
-		DFA7D1361ADDB6BB00A17BD6 /* mpmTruncateFloatService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTruncateFloatService.rc.in; path = examples/TruncateFloatService/mpmTruncateFloatService.rc.in; sourceTree = "<group>"; };
+		DFA7D1361ADDB6BB00A17BD6 /* mpmTruncateFloatFilterService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmTruncateFloatFilterService.rc.in; path = examples/TruncateFloatService/mpmTruncateFloatFilterService.rc.in; sourceTree = "<group>"; };
 		DFA7D1381ADDB6DC00A17BD6 /* mpmExemplarClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarClient.rc.in; path = Exemplars/ExemplarClient/mpmExemplarClient.rc.in; sourceTree = "<group>"; };
 		DFA7D1391ADDB6E500A17BD6 /* mpmExemplarFilterService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarFilterService.rc.in; path = Exemplars/ExemplarFilterService/mpmExemplarFilterService.rc.in; sourceTree = "<group>"; };
 		DFA7D13A1ADDB6F000A17BD6 /* mpmExemplarInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmExemplarInputService.rc.in; path = Exemplars/ExemplarInputService/mpmExemplarInputService.rc.in; sourceTree = "<group>"; };
@@ -579,19 +587,19 @@
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DFCDE4E919DB23150051D294 /* M+MAbsorberInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberInputHandler.cpp"; path = "examples/AbsorberService/M+MAbsorberInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DFCDE4EA19DB23150051D294 /* M+MAbsorberInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberInputHandler.h"; path = "examples/AbsorberService/M+MAbsorberInputHandler.h"; sourceTree = SOURCE_ROOT; };
-		DFCDE4EB19DB23150051D294 /* M+MAbsorberRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberRequests.h"; path = "examples/AbsorberService/M+MAbsorberRequests.h"; sourceTree = SOURCE_ROOT; };
-		DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberService.cpp"; path = "examples/AbsorberService/M+MAbsorberService.cpp"; sourceTree = SOURCE_ROOT; };
-		DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberService.h"; path = "examples/AbsorberService/M+MAbsorberService.h"; sourceTree = SOURCE_ROOT; };
-		DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberServiceMain.cpp"; path = "examples/AbsorberService/M+MAbsorberServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE4E919DB23150051D294 /* M+MAbsorberOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberOutputInputHandler.cpp"; path = "examples/AbsorberService/M+MAbsorberOutputInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EA19DB23150051D294 /* M+MAbsorberOutputInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberOutputInputHandler.h"; path = "examples/AbsorberService/M+MAbsorberOutputInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EB19DB23150051D294 /* M+MAbsorberOutputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberOutputRequests.h"; path = "examples/AbsorberService/M+MAbsorberOutputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EC19DB23150051D294 /* M+MAbsorberOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberOutputService.cpp"; path = "examples/AbsorberService/M+MAbsorberOutputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DFCDE4ED19DB23150051D294 /* M+MAbsorberOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MAbsorberOutputService.h"; path = "examples/AbsorberService/M+MAbsorberOutputService.h"; sourceTree = SOURCE_ROOT; };
+		DFCDE4EE19DB23150051D294 /* M+MAbsorberOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MAbsorberOutputServiceMain.cpp"; path = "examples/AbsorberService/M+MAbsorberOutputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4EF19DB2B6B0051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/TruncateFloatService/CMakeLists.txt; sourceTree = "<group>"; };
-		DFCDE4F019DB2B6B0051D294 /* M+MTruncateFloatInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatInputHandler.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatInputHandler.cpp"; sourceTree = "<group>"; };
-		DFCDE4F119DB2B6B0051D294 /* M+MTruncateFloatInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatInputHandler.h"; path = "examples/TruncateFloatService/M+MTruncateFloatInputHandler.h"; sourceTree = "<group>"; };
-		DFCDE4F219DB2B6B0051D294 /* M+MTruncateFloatRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatRequests.h"; path = "examples/TruncateFloatService/M+MTruncateFloatRequests.h"; sourceTree = "<group>"; };
-		DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatService.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatService.cpp"; sourceTree = "<group>"; };
-		DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatService.h"; path = "examples/TruncateFloatService/M+MTruncateFloatService.h"; sourceTree = "<group>"; };
-		DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatServiceMain.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatServiceMain.cpp"; sourceTree = "<group>"; };
+		DFCDE4F019DB2B6B0051D294 /* M+MTruncateFloatFilterInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatFilterInputHandler.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatFilterInputHandler.cpp"; sourceTree = "<group>"; };
+		DFCDE4F119DB2B6B0051D294 /* M+MTruncateFloatFilterInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatFilterInputHandler.h"; path = "examples/TruncateFloatService/M+MTruncateFloatFilterInputHandler.h"; sourceTree = "<group>"; };
+		DFCDE4F219DB2B6B0051D294 /* M+MTruncateFloatFilterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatFilterRequests.h"; path = "examples/TruncateFloatService/M+MTruncateFloatFilterRequests.h"; sourceTree = "<group>"; };
+		DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatFilterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatFilterService.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatFilterService.cpp"; sourceTree = "<group>"; };
+		DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatFilterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTruncateFloatFilterService.h"; path = "examples/TruncateFloatService/M+MTruncateFloatFilterService.h"; sourceTree = "<group>"; };
+		DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatFilterServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTruncateFloatFilterServiceMain.cpp"; path = "examples/TruncateFloatService/M+MTruncateFloatFilterServiceMain.cpp"; sourceTree = "<group>"; };
 		DFCDE4F719E3029B0051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = FindServices/CMakeLists.txt; sourceTree = "<group>"; };
 		DFCDE4F819E3029B0051D294 /* M+MFindServicesMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MFindServicesMain.cpp"; path = "FindServices/M+MFindServicesMain.cpp"; sourceTree = "<group>"; };
 		DFCDE4F919E595D90051D294 /* M+MBaseChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MBaseChannel.cpp"; path = "mpm/M+MBaseChannel.cpp"; sourceTree = "<group>"; };
@@ -880,8 +888,16 @@
 				DF1C1C5F1B39F22A00E816A4 /* M+MBlobOutputService.cpp */,
 				DF1C1C601B39F22A00E816A4 /* M+MBlobOutputService.h */,
 				DF1C1C611B39F22A00E816A4 /* M+MBlobOutputServiceMain.cpp */,
+				DF1C1C641B3C410400E816A4 /* M+MRecordBlobOutputInputHandler.cpp */,
+				DF1C1C651B3C410400E816A4 /* M+MRecordBlobOutputInputHandler.h */,
+				DF1C1C661B3C410400E816A4 /* M+MRecordBlobOutputRequests.h */,
+				DF1C1C671B3C410400E816A4 /* M+MRecordBlobOutputService.cpp */,
+				DF1C1C681B3C410400E816A4 /* M+MRecordBlobOutputService.h */,
+				DF1C1C691B3C410400E816A4 /* M+MRecordBlobOutputServiceMain.cpp */,
 				DF1C1C621B39F22A00E816A4 /* mpmBlobOutputService.rc.in */,
+				DF1C1C6A1B3C410400E816A4 /* mpmRecordBlobOutputService.rc.in */,
 				DF1C1C631B39F22A00E816A4 /* resource.h */,
+				DF1C1C6B1B3C410400E816A4 /* resource1.h */,
 			);
 			name = BlobOutputService;
 			sourceTree = "<group>";
@@ -1139,13 +1155,13 @@
 			isa = PBXGroup;
 			children = (
 				DF824B8319C7460C004D13AC /* CMakeLists.txt */,
-				DF824B8419C7460C004D13AC /* M+MRandomBurstRequests.h */,
-				DF824B8519C7460C004D13AC /* M+MRandomBurstService.cpp */,
-				DF824B8619C7460C004D13AC /* M+MRandomBurstService.h */,
-				DF824B8719C7460C004D13AC /* M+MRandomBurstServiceMain.cpp */,
-				DF824B8819C7460C004D13AC /* M+MRandomBurstThread.cpp */,
-				DF824B8919C7460C004D13AC /* M+MRandomBurstThread.h */,
-				DFA7D12C1ADDB64F00A17BD6 /* mpmRandomBurstService.rc.in */,
+				DF824B8419C7460C004D13AC /* M+MRandomBurstInputRequests.h */,
+				DF824B8519C7460C004D13AC /* M+MRandomBurstInputService.cpp */,
+				DF824B8619C7460C004D13AC /* M+MRandomBurstInputService.h */,
+				DF824B8719C7460C004D13AC /* M+MRandomBurstInputServiceMain.cpp */,
+				DF824B8819C7460C004D13AC /* M+MRandomBurstInputThread.cpp */,
+				DF824B8919C7460C004D13AC /* M+MRandomBurstInputThread.h */,
+				DFA7D12C1ADDB64F00A17BD6 /* mpmRandomBurstInputService.rc.in */,
 				DFA7D0C91ADD936E00A17BD6 /* resource.h */,
 			);
 			name = RandomBurstService;
@@ -1155,13 +1171,13 @@
 			isa = PBXGroup;
 			children = (
 				DF824B7C19C744CC004D13AC /* CMakeLists.txt */,
-				DF824B7D19C744CC004D13AC /* M+MRecordIntegersInputHandler.cpp */,
-				DF824B7E19C744CC004D13AC /* M+MRecordIntegersInputHandler.h */,
-				DF824B7F19C744CC004D13AC /* M+MRecordIntegersRequests.h */,
-				DF824B8019C744CC004D13AC /* M+MRecordIntegersService.cpp */,
-				DF824B8119C744CC004D13AC /* M+MRecordIntegersService.h */,
-				DF824B8219C744CC004D13AC /* M+MRecordIntegersServiceMain.cpp */,
-				DFA7D1301ADDB67800A17BD6 /* mpmRecordIntegersService.rc.in */,
+				DF824B7D19C744CC004D13AC /* M+MRecordIntegersOutputInputHandler.cpp */,
+				DF824B7E19C744CC004D13AC /* M+MRecordIntegersOutputInputHandler.h */,
+				DF824B7F19C744CC004D13AC /* M+MRecordIntegersOutputRequests.h */,
+				DF824B8019C744CC004D13AC /* M+MRecordIntegersOutputService.cpp */,
+				DF824B8119C744CC004D13AC /* M+MRecordIntegersOutputService.h */,
+				DF824B8219C744CC004D13AC /* M+MRecordIntegersOutputServiceMain.cpp */,
+				DFA7D1301ADDB67800A17BD6 /* mpmRecordIntegersOutputService.rc.in */,
 				DFA7D0D11ADD94CF00A17BD6 /* resource.h */,
 			);
 			name = RecordIntegersService;
@@ -1171,13 +1187,13 @@
 			isa = PBXGroup;
 			children = (
 				DFCDE4EF19DB2B6B0051D294 /* CMakeLists.txt */,
-				DFCDE4F019DB2B6B0051D294 /* M+MTruncateFloatInputHandler.cpp */,
-				DFCDE4F119DB2B6B0051D294 /* M+MTruncateFloatInputHandler.h */,
-				DFCDE4F219DB2B6B0051D294 /* M+MTruncateFloatRequests.h */,
-				DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatService.cpp */,
-				DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatService.h */,
-				DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatServiceMain.cpp */,
-				DFA7D1361ADDB6BB00A17BD6 /* mpmTruncateFloatService.rc.in */,
+				DFCDE4F019DB2B6B0051D294 /* M+MTruncateFloatFilterInputHandler.cpp */,
+				DFCDE4F119DB2B6B0051D294 /* M+MTruncateFloatFilterInputHandler.h */,
+				DFCDE4F219DB2B6B0051D294 /* M+MTruncateFloatFilterRequests.h */,
+				DFCDE4F319DB2B6B0051D294 /* M+MTruncateFloatFilterService.cpp */,
+				DFCDE4F419DB2B6B0051D294 /* M+MTruncateFloatFilterService.h */,
+				DFCDE4F519DB2B6B0051D294 /* M+MTruncateFloatFilterServiceMain.cpp */,
+				DFA7D1361ADDB6BB00A17BD6 /* mpmTruncateFloatFilterService.rc.in */,
 				DFA7D0DD1ADD964F00A17BD6 /* resource.h */,
 			);
 			name = TruncateFloatService;
@@ -1262,20 +1278,20 @@
 			name = RunningSumAltAdapter;
 			sourceTree = SOURCE_ROOT;
 		};
-		DF4FB4DC1B13996500534D59 /* RecordAsJSON */ = {
+		DF4FB4DC1B13996500534D59 /* RecordAsJSONService */ = {
 			isa = PBXGroup;
 			children = (
-				DF4FB4DD1B13999100534D59 /* CMakeLists.txt */,
-				DF4FB4DE1B13999100534D59 /* M+MRecordAsJSONInputHandler.cpp */,
-				DF4FB4DF1B13999100534D59 /* M+MRecordAsJSONInputHandler.h */,
-				DF4FB4E01B13999100534D59 /* M+MRecordAsJSONRequests.h */,
-				DF4FB4E11B13999100534D59 /* M+MRecordAsJSONService.cpp */,
-				DF4FB4E21B13999100534D59 /* M+MRecordAsJSONService.h */,
-				DF4FB4E31B13999100534D59 /* M+MRecordAsJSONServiceMain.cpp */,
-				DF4FB4E41B13999100534D59 /* mpmRecordAsJSONService.rc.in */,
-				DF4FB4E51B13999100534D59 /* resource.h */,
+				DF1C1C6C1B3C4A2600E816A4 /* CMakeLists.txt */,
+				DF1C1C6D1B3C4A2600E816A4 /* M+MRecordAsJSONOutputInputHandler.cpp */,
+				DF1C1C6E1B3C4A2600E816A4 /* M+MRecordAsJSONOutputInputHandler.h */,
+				DF1C1C6F1B3C4A2600E816A4 /* M+MRecordAsJSONOutputRequests.h */,
+				DF1C1C701B3C4A2600E816A4 /* M+MRecordAsJSONOutputService.cpp */,
+				DF1C1C711B3C4A2600E816A4 /* M+MRecordAsJSONOutputService.h */,
+				DF1C1C721B3C4A2600E816A4 /* M+MRecordAsJSONOutputServiceMain.cpp */,
+				DF1C1C731B3C4A2600E816A4 /* mpmRecordAsJSONOutputService.rc.in */,
+				DF1C1C741B3C4A2600E816A4 /* resource.h */,
 			);
-			name = RecordAsJSON;
+			name = RecordAsJSONService;
 			sourceTree = "<group>";
 		};
 		DF6DFCBF1A0D25FC00E8CEF5 /* ViconDataStream */ = {
@@ -1847,7 +1863,7 @@
 				DFA3437E18C91E040053B87C /* RandomNumberClient */,
 				DF7784FA18ECA5F400BDC5C1 /* RandomNumberCommon */,
 				DFA3438518C91E2C0053B87C /* RandomNumberService */,
-				DF4FB4DC1B13996500534D59 /* RecordAsJSON */,
+				DF4FB4DC1B13996500534D59 /* RecordAsJSONService */,
 				DF36EF14195A2D5A00E7D889 /* RecordIntegersService */,
 				DFCDE4FB19E6CE4C0051D294 /* RGBLEDService */,
 				DFA86D1E18E0E09E00A22941 /* RunningSumAdapter */,
@@ -1916,13 +1932,13 @@
 			isa = PBXGroup;
 			children = (
 				DFCDE4E819DB23150051D294 /* CMakeLists.txt */,
-				DFCDE4E919DB23150051D294 /* M+MAbsorberInputHandler.cpp */,
-				DFCDE4EA19DB23150051D294 /* M+MAbsorberInputHandler.h */,
-				DFCDE4EB19DB23150051D294 /* M+MAbsorberRequests.h */,
-				DFCDE4EC19DB23150051D294 /* M+MAbsorberService.cpp */,
-				DFCDE4ED19DB23150051D294 /* M+MAbsorberService.h */,
-				DFCDE4EE19DB23150051D294 /* M+MAbsorberServiceMain.cpp */,
-				DFA7D1281ADDB61F00A17BD6 /* mpmAbsorberService.rc.in */,
+				DFCDE4E919DB23150051D294 /* M+MAbsorberOutputInputHandler.cpp */,
+				DFCDE4EA19DB23150051D294 /* M+MAbsorberOutputInputHandler.h */,
+				DFCDE4EB19DB23150051D294 /* M+MAbsorberOutputRequests.h */,
+				DFCDE4EC19DB23150051D294 /* M+MAbsorberOutputService.cpp */,
+				DFCDE4ED19DB23150051D294 /* M+MAbsorberOutputService.h */,
+				DFCDE4EE19DB23150051D294 /* M+MAbsorberOutputServiceMain.cpp */,
+				DFA7D1281ADDB61F00A17BD6 /* mpmAbsorberOutputService.rc.in */,
 				DFA7D0C11ADD925100A17BD6 /* resource.h */,
 			);
 			name = AbsorberService;

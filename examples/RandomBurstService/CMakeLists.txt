@@ -38,7 +38,7 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET mpmRandomBurstService)
+set(THIS_TARGET mpmRandomBurstInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,9 +50,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MRandomBurstServiceMain.cpp
-               M+MRandomBurstService.cpp
-               M+MRandomBurstThread.cpp
+               M+MRandomBurstInputServiceMain.cpp
+               M+MRandomBurstInputService.cpp
+               M+MRandomBurstInputThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

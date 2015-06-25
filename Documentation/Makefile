@@ -102,6 +102,8 @@ CMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/popupRegularChannelMetricsEnabled.eps \
 		$(IMAGE_DIR)/popupServiceMetricsDisabled.eps \
 		$(IMAGE_DIR)/popupServiceMetricsEnabled.eps \
+		$(IMAGE_DIR)/recordBlobWithEndpoint.eps \
+		$(IMAGE_DIR)/recordBlobWithEndpointAndTag.eps $(IMAGE_DIR)/recordBlobWithTag.eps \
 		$(IMAGE_DIR)/recordIntegersWithEndpoint.eps \
 		$(IMAGE_DIR)/recordIntegersWithEndpointAndTag.eps \
 		$(IMAGE_DIR)/recordIntegersWithTag.eps $(IMAGE_DIR)/recordJSONWithEndpoint.eps \
@@ -153,6 +155,7 @@ MMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 		$(IMAGE_DIR)/launchRandomNumberAdapter.eps \
 		$(IMAGE_DIR)/launchRandomNumberService.eps \
 		$(IMAGE_DIR)/launchRecordAsJSONOutputService.eps \
+		$(IMAGE_DIR)/launchRecordBlobOutputService.eps \
 		$(IMAGE_DIR)/launchRecordIntegersOutputService.eps \
 		$(IMAGE_DIR)/launchRegistryService.eps \
 		$(IMAGE_DIR)/launchRequestCounterService.eps \
@@ -169,6 +172,7 @@ MMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 		$(IMAGE_DIR)/runningRandomNumberAdapter.eps \
 		$(IMAGE_DIR)/runningRandomNumberService.eps \
 		$(IMAGE_DIR)/runningRecordAsJSONOutputService.eps \
+		$(IMAGE_DIR)/runningRecordBlobOutputService.eps \
 		$(IMAGE_DIR)/runningRecordIntegersOutputService.eps \
 		$(IMAGE_DIR)/runningRegistryService.eps \
 		$(IMAGE_DIR)/runningRequestCounterService.eps \

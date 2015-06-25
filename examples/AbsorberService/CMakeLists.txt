@@ -38,7 +38,7 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET mpmAbsorberService)
+set(THIS_TARGET mpmAbsorberOutputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,9 +50,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MAbsorberServiceMain.cpp
-               M+MAbsorberInputHandler.cpp
-               M+MAbsorberService.cpp
+               M+MAbsorberOutputServiceMain.cpp
+               M+MAbsorberOutputInputHandler.cpp
+               M+MAbsorberOutputService.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

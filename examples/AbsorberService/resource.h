@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmAbsorberService.rc
+// Used by mpmAbsorberOutputService.rc
 
 // Next default values for new objects
 // 

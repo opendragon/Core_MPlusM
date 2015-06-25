@@ -4,7 +4,7 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Truncate Float service application.
+#  Contains:   The CMAKE definitions for the Truncate Float filter service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -38,7 +38,7 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET mpmTruncateFloatService)
+set(THIS_TARGET mpmTruncateFloatFilterService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,9 +50,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MTruncateFloatServiceMain.cpp
-               M+MTruncateFloatInputHandler.cpp
-               M+MTruncateFloatService.cpp
+               M+MTruncateFloatFilterServiceMain.cpp
+               M+MTruncateFloatFilterInputHandler.cpp
+               M+MTruncateFloatFilterService.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

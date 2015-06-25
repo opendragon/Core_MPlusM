@@ -12,17 +12,17 @@ The set of example services include a pair of simple services
 [\examplesNameR{Services}{mpmEchoService} and
 \examplesNameR{Services}{mpmRandomNumberService}], a service with client context
 [\examplesNameR{Services}{mpmRunningSumService}] as well as an input service
-[\examplesNameR{Services}{mpmRandomBurstService}], three output services
-[\examplesNameR{Services}{mpmAbsorberService},
-\examplesNameR{Services}{mpmRecordAsJSONService} and
-\examplesNameR{Services}{mpmRecordIntegersService}] and a filter service
-[\examplesNameR{Services}{mpmTruncateFloatService}].\\
+[\examplesNameR{Services}{mpmRandomBurstInputService}], three output services
+[\examplesNameR{Services}{mpmAbsorberOutputService},
+\examplesNameR{Services}{mpmRecordAsJSONOutputService} and\\
+\examplesNameR{Services}{mpmRecordIntegersOutputService}] and a filter service
+[\examplesNameR{Services}{mpmTruncateFloatFilterService}].\\
 
 Note that services normally have no direct interface.
 That is, they are `faceless' applications and perform their operations without user
 interaction.
-\tertiaryStart{\examplesNameP{Services}{mpmAbsorberService}}
-The \examplesNameX{Services}{mpmAbsorberService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{mpmAbsorberOutputService}}
+The \examplesNameX{Services}{mpmAbsorberOutputService} application is an Output
 service, accepting (and ignoring) any input data.
 The application responds to the standard Output service requests and can be used as a
 standalone data sink, without the need for a client connection.\\
@@ -72,7 +72,7 @@ window when the service has successfully started:
 \objScaledDiagram{mpm_images/runningAbsorberOutputService}%
 {serviceRunningAbsorber}{The \emph{Channel Manager} entity for the Absorber output
 service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmAbsorberService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmAbsorberOutputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
 The \examplesNameX{Services}{mpmEchoService} application responds to
@@ -100,8 +100,8 @@ window when the service has successfully started:
 \objScaledDiagram{mpm_images/runningEchoService}%
 {serviceRunningEcho}{The \emph{Channel Manager} entity for the Echo service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
-\tertiaryStart{\examplesNameP{Services}{mpmRandomBurstService}}
-The \examplesNameX{Services}{mpmRandomBurstService} application is an Input service,
+\tertiaryStart{\examplesNameP{Services}{mpmRandomBurstInputService}}
+The \examplesNameX{Services}{mpmRandomBurstInputService} application is an Input service,
 generating a stream of random floating\longDash{}point values, with a given `burst size'
 \longDash{} the number of values sent in a group, and a `burst period' \longDash{} the
 number of seconds between groups.
@@ -166,7 +166,7 @@ window when the service has successfully started:
 \objScaledDiagram{mpm_images/runningRandomBurstInputService}%
 {serviceRunningRandomBurst}{The \emph{Channel Manager} entity for the Random Burst input
 service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstInputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
 The \examplesNameX{Services}{mpmRandomNumberService} application responds to
@@ -201,8 +201,8 @@ window when the service has successfully started:
 service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
 \condPage
-\tertiaryStart{\examplesNameP{Services}{mpmRecordAsJSONService}}
-The \examplesNameX{mpmRecordAsJSONService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{mpmRecordAsJSONOutputService}}
+The \examplesNameX{Services}{mpmRecordAsJSONOutputService} application is an Output
 service, recording a stream of \yarp{} values as JSON structures to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -231,7 +231,7 @@ The application has one optional argument \longDash{} the output file path to be
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
 For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
-while, for Macintosh OS X, it will be ``/tmp'' and, for Linux, it is \TBD.
+while, for Macintosh OS X and Linux, it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
 
@@ -283,10 +283,10 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordJSONWithEndpointAndTag}%
 {recordJSONWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record As JSON
 output service with an endpoint and tag}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRecordAsJSONService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmRecordAsJSONOutputService}}
 \condPage
-\tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersService}}
-The \examplesNameX{Services}{mpmRecordIntegersService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersOutputService}}
+The \examplesNameX{Services}{mpmRecordIntegersOutputService} application is an Output
 service, recording a stream of integer values to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -315,7 +315,7 @@ The application has one optional argument \longDash{} the output file path to be
 The output file path parameter provides the initial output file path; if not specified, a
 random path in the system temporary directory will be used.
 For Microsoft Windows, the temporary directory being used is ``\textbackslash{}tmp''
-while, for Macintosh OS X, it will be ``/tmp'' and, for Linux it is \TBD.
+while, for Macintosh OS X and Linux, it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
 
@@ -367,7 +367,7 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTag}%
 {recordIntegersWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record
 Integers output service with an endpoint and tag}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersOutputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
 The \examplesNameX{Services}{mpmRunningSumService} application responds to
@@ -416,8 +416,8 @@ window when the service has successfully started:
 {serviceRunningRunningSum}{The \emph{Channel Manager} entity for the Running Sum service}%
 {1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
-\tertiaryStart{\examplesNameP{Services}{mpmTruncateFloatService}}
-The \examplesNameX{Services}{mpmTruncateFloatService} application is a Filter
+\tertiaryStart{\examplesNameP{Services}{mpmTruncateFloatFilterService}}
+The \examplesNameX{Services}{mpmTruncateFloatFilterService} application is a Filter
 service, converting a stream of floating\longDash{}point values into a stream of integers.
 The application responds to the standard Filter service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -468,7 +468,7 @@ window when the service has successfully started:
 \objScaledDiagram{mpm_images/runningTruncateFloatFilterService}%
 {serviceRunningTruncateFloat}{The \emph{Channel Manager} entity for the Truncate Float
 filter service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatService}}
+\tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatFilterService}}
 \secondaryEnd
 \condPage
 \secondaryStart{Example~Clients}

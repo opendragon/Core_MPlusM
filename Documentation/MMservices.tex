@@ -269,11 +269,11 @@ It is the responsibility of derived classes of the
 \classNameR{Common}{BaseInputOutputService} class to provide a method that handles the
 data provided in the \requestsNameX{\inputOutput}{InputOutput}{configure} request.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstService} application, the configuration
-data consists of a floating\longDash{}point number (the burst period) and an integer (the
-burst size); for the \examplesNameR{Services}{mpmRecordIntegersService} application, the
-configuration data consists of the file\longDash{}system path for the service output
-file.\\
+For the \examplesNameR{Services}{mpmRandomBurstInputService} application, the
+configuration data consists of a floating\longDash{}point number (the burst period) and an
+integer (the burst size); for the \examplesNameR{Services}{mpmRecordIntegersOutputService}
+application, the configuration data consists of the file\longDash{}system path for the
+service output file.\\
 
 \requestsNameX{\inputOutput}{InputOutput}{configure} requests should be sent by
 client applications before sending
@@ -298,11 +298,11 @@ Note that an Output service can be `always on', as it can defer the external
 representation of its input data until the first data arrives at its input \yarp{}
 network port.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstService} application, starting the
+For the \examplesNameR{Services}{mpmRandomBurstInputService} application, starting the
 streams corresponds to initiating an asynchronous random number generator; for the
-\examplesNameR{Services}{mpmRecordIntegersService} application, starting the streams
+\examplesNameR{Services}{mpmRecordIntegersOutputService} application, starting the streams
 involves opening the service output file and for the
-\examplesNameR{Services}{mpmTruncateFloatService} application, starting the streams
+\examplesNameR{Services}{mpmTruncateFloatFilterService} application, starting the streams
 simply allows data to flow through.
 \tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{startStreams}}
 \tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{stopStreams}}
