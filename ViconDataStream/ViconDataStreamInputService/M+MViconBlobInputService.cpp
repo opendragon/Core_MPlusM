@@ -143,7 +143,7 @@ bool ViconBlobInputService::configure(const yarp::os::Bottle & details)
                     {
                         _translationScale = firstValue.asInt();
                     }
-                    if ((0 < firstNumber) && (0 < thirdNumber))
+					if ((0 < _translationScale) && (0 < thirdNumber))
                     {
                         std::stringstream buff;
 

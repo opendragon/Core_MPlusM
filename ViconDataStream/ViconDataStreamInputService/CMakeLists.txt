@@ -144,8 +144,8 @@ target_link_libraries(${THIS_TARGET}
 
 if(WIN32)
 #    add_library(ViconDataStreamSDK SHARED IMPORTED)
-#    target_link_libraries(${THIS_TARGET}
-#                            ViconDataStreamSDK)
+    target_link_libraries(${THIS_TARGET}
+                            ViconDataStreamSDK)
 #    add_library(BoostThread SHARED IMPORTED)
 endif(WIN32)
 

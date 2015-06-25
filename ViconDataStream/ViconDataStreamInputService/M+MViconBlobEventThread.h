@@ -118,7 +118,7 @@ namespace MplusM
             double _scale;
 
 			/* @brief The connection to the Vicon device. */
-			ViconBlobSDK::CPP::Client _viconClient;
+			ViconDataStreamSDK::CPP::Client _viconClient;
 
 			/* @brief The host name and port to connect to the Vicon server. */
 			YarpString _nameAndPort;

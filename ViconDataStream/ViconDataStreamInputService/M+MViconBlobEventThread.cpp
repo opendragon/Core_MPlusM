@@ -60,7 +60,7 @@
 
 using namespace MplusM;
 using namespace MplusM::ViconBlob;
-using namespace ViconBlobSDK;
+using namespace ViconDataStreamSDK;
 using std::cerr;
 using std::endl;
 
@@ -180,7 +180,7 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
         bool              okSoFar = true;
         std::stringstream outBuffer;
 
-        outBuffer << numSubjects << LINE_END_;
+        outBuffer << subjectCount  << LINE_END_;
         for (unsigned int ii = 0; okSoFar && (subjectCount > ii); ++ii)
         {
             CPP::Output_GetSubjectName o_gsubjn = _viconClient.GetSubjectName(ii);
