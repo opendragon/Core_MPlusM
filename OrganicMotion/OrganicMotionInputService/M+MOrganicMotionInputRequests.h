@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputRequests.h
+//  File:       M+MOrganicMotionInputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the NaturalPoint input
+//  Contains:   The common macro definitions for requests and responses for the Organic Motion input
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -33,12 +33,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-04-13
+//  Created:    2015-06-25
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMNaturalPointInputRequests_H_))
-# define MpMNaturalPointInputRequests_H_ /* Header guard */
+#if (! defined(MpMOrganicMotionInputRequests_H_))
+# define MpMOrganicMotionInputRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the NaturalPoint input
+ @brief The common macro definitions for requests and responses for the Organic Motion input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the NaturalPoint input service. */
-# define MpM_NATURALPOINTINPUT_CANONICAL_NAME_ "NaturalPointInput"
+/*! @brief The channel-independent name of the Organic Motion input service. */
+# define MpM_ORGANICMOTIONINPUT_CANONICAL_NAME_ "OrganicMotionInput"
 
-#endif // ! defined(MpMNaturalPointInputRequests_H_)
+#endif // ! defined(MpMOrganicMotionInputRequests_H_)

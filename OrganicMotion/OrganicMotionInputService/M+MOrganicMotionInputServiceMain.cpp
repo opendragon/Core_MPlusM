@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputServiceMain.cpp
+//  File:       M+MOrganicMotionInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the NaturalPoint input service.
+//  Contains:   The main application for the Organic Motion input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-04-13
+//  Created:    2015-06-25
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MNaturalPointInputService.h"
+#include "M+MOrganicMotionInputService.h"
 
 #include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
@@ -51,13 +51,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the NaturalPoint input service. */
+ @brief The main application for the Organic Motion input service. */
 
-/*! @dir NaturalPoint
- @brief The set of files that implement the NaturalPoint input service. */
+/*! @dir OrganicMotion
+ @brief The set of files that implement the Organic Motion input service. */
 
-/*! @dir NaturalPointInputService
- @brief The set of files that implement the NaturalPoint input service. */
+/*! @dir OrganicMotionInputService
+ @brief The set of files that implement the Organic Motion input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -68,7 +68,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::NaturalPoint;
+using namespace MplusM::OrganicMotion;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -101,7 +101,7 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the NaturalPoint input service.
+/*! @brief Set up the environment and start the Organic Motion input service.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the exemplar input service.
@@ -129,9 +129,9 @@ static void setUpAndGo(const YarpString & progName,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    NaturalPointInputService * aService = new NaturalPointInputService(progName, argc, argv, tag,
-                                                                       serviceEndpointName,
-                                                                       servicePortNumber);
+    OrganicMotionInputService * aService = new OrganicMotionInputService(progName, argc, argv, tag,
+                                                                         serviceEndpointName,
+                                                                         servicePortNumber);
 
     if (aService)
     {
@@ -293,7 +293,7 @@ static void setUpAndGo(const YarpString & progName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the NaturalPoint input service.
+/*! @brief The entry point for running the Organic Motion input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.

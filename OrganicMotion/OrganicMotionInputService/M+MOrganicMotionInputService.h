@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputService.h
+//  File:       M+MOrganicMotionInputService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the NaturalPoint input service.
+//  Contains:   The class declaration for the OrganicMotion input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,12 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-04-13
+//  Created:    2015-06-25
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMNaturalPointInputService_H_))
-# define MpMNaturalPointInputService_H_ /* Header guard */
+#if (! defined(MpMOrganicMotionInputService_H_))
+# define MpMOrganicMotionInputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
 
@@ -47,26 +47,26 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the NaturalPoint input service. */
+ @brief The class declaration for the Organic Motion input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_NATURALPOINTINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                   "input/naturalpoint")
+# define DEFAULT_ORGANICMOTIONINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
+                                                   "input/organicmotion")
 
 /*! @brief The description of the service. */
-# define NATURALPOINTINPUT_SERVICE_DESCRIPTION_ T_("NaturalPoint input service")
+# define ORGANICMOTIONINPUT_SERVICE_DESCRIPTION_ T_("Organic Motion input service")
 
 namespace MplusM
 {
-    namespace NaturalPoint
+    namespace OrganicMotion
     {
-        class NaturalPointInputThread;
+        class OrganicMotionInputThread;
         
-        /*! @brief The NaturalPoint input service. */
-        class NaturalPointInputService : public Common::BaseInputService
+        /*! @brief The OrganicMotion input service. */
+        class OrganicMotionInputService : public Common::BaseInputService
         {
         public :
             
@@ -77,15 +77,15 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            NaturalPointInputService(const YarpString & launchPath,
-                                     const int          argc,
-                                     char * *           argv,
-                                     const YarpString & tag,
-                                     const YarpString & serviceEndpointName,
-                                     const YarpString & servicePortNumber = "");
+            OrganicMotionInputService(const YarpString & launchPath,
+                                      const int          argc,
+                                      char * *           argv,
+                                      const YarpString & tag,
+                                      const YarpString & serviceEndpointName,
+                                      const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~NaturalPointInputService(void);
+            virtual ~OrganicMotionInputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -117,7 +117,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(NaturalPointInputService);
+            COPY_AND_ASSIGNMENT_(OrganicMotionInputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
@@ -133,7 +133,7 @@ namespace MplusM
             typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
-            NaturalPointInputThread * _generator;
+            OrganicMotionInputThread * _generator;
             
             /*! @brief The number of seconds between data bursts. */
             double _burstPeriod;
@@ -151,10 +151,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // NaturalPointInputService
+        }; // OrganicMotionInputService
         
-    } // NaturalPoint
+    } // OrganicMotion
     
 } // MplusM
 
-#endif // ! defined(MpMNaturalPointInputService_H_)
+#endif // ! defined(MpMOrganicMotionInputService_H_)

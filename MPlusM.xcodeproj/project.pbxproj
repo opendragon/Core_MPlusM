@@ -48,6 +48,16 @@
 		DF1C1C721B3C4A2600E816A4 /* M+MRecordAsJSONOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONOutputServiceMain.cpp"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputServiceMain.cpp"; sourceTree = "<group>"; };
 		DF1C1C731B3C4A2600E816A4 /* mpmRecordAsJSONOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordAsJSONOutputService.rc.in; path = examples/RecordAsJSONService/mpmRecordAsJSONOutputService.rc.in; sourceTree = "<group>"; };
 		DF1C1C741B3C4A2600E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RecordAsJSONService/resource.h; sourceTree = "<group>"; };
+		DF1C1C761B3CA1A600E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = OrganicMotion/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C781B3CA1D600E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = OrganicMotion/OrganicMotionInputService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C791B3CA1D600E816A4 /* M+MOrganicMotionInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOrganicMotionInputRequests.h"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputRequests.h"; sourceTree = "<group>"; };
+		DF1C1C7A1B3CA1D600E816A4 /* M+MOrganicMotionInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOrganicMotionInputService.cpp"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputService.cpp"; sourceTree = "<group>"; };
+		DF1C1C7B1B3CA1D600E816A4 /* M+MOrganicMotionInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOrganicMotionInputService.h"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputService.h"; sourceTree = "<group>"; };
+		DF1C1C7C1B3CA1D600E816A4 /* M+MOrganicMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOrganicMotionInputServiceMain.cpp"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF1C1C7D1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOrganicMotionInputThread.cpp"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputThread.cpp"; sourceTree = "<group>"; };
+		DF1C1C7E1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOrganicMotionInputThread.h"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputThread.h"; sourceTree = "<group>"; };
+		DF1C1C7F1B3CA1D600E816A4 /* mpmOrganicMotionInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmOrganicMotionInputService.rc.in; path = OrganicMotion/OrganicMotionInputService/mpmOrganicMotionInputService.rc.in; sourceTree = "<group>"; };
+		DF1C1C801B3CA1D600E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = OrganicMotion/OrganicMotionInputService/resource.h; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -902,6 +912,31 @@
 			name = BlobOutputService;
 			sourceTree = "<group>";
 		};
+		DF1C1C751B3CA19300E816A4 /* OrganicMotion */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C1C761B3CA1A600E816A4 /* CMakeLists.txt */,
+				DF1C1C771B3CA1C100E816A4 /* OrganicMotionInputService */,
+			);
+			name = OrganicMotion;
+			sourceTree = "<group>";
+		};
+		DF1C1C771B3CA1C100E816A4 /* OrganicMotionInputService */ = {
+			isa = PBXGroup;
+			children = (
+				DF1C1C781B3CA1D600E816A4 /* CMakeLists.txt */,
+				DF1C1C791B3CA1D600E816A4 /* M+MOrganicMotionInputRequests.h */,
+				DF1C1C7A1B3CA1D600E816A4 /* M+MOrganicMotionInputService.cpp */,
+				DF1C1C7B1B3CA1D600E816A4 /* M+MOrganicMotionInputService.h */,
+				DF1C1C7C1B3CA1D600E816A4 /* M+MOrganicMotionInputServiceMain.cpp */,
+				DF1C1C7D1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.cpp */,
+				DF1C1C7E1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.h */,
+				DF1C1C7F1B3CA1D600E816A4 /* mpmOrganicMotionInputService.rc.in */,
+				DF1C1C801B3CA1D600E816A4 /* resource.h */,
+			);
+			name = OrganicMotionInputService;
+			sourceTree = "<group>";
+		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
 			isa = PBXGroup;
 			children = (
@@ -1598,6 +1633,7 @@
 				DFA3434F18C91C670053B87C /* mpm */,
 				DFCB01F11ADC3DB600A5ACBA /* NaturalPoint */,
 				DFA3432618C91C1C0053B87C /* odl */,
+				DF1C1C751B3CA19300E816A4 /* OrganicMotion */,
 				DF27F42718CA357400E93C95 /* ParserTest */,
 				DF30063718E605D400B51C22 /* PortLister */,
 				DF0C7A911AE006C000E8FB15 /* ProComp2 */,
