@@ -90,9 +90,9 @@ OrganicMotionInputService::OrganicMotionInputService(const YarpString & launchPa
                                                      const YarpString & tag,
                                                      const YarpString & serviceEndpointName,
                                                      const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_NATURALPOINTINPUT_CANONICAL_NAME_,
-              NATURALPOINTINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _generator(NULL), _burstPeriod(1), _burstSize(1)
+    inherited(launchPath, argc, argv, tag, true, MpM_ORGANICMOTIONINPUT_CANONICAL_NAME_,
+              ORGANICMOTIONINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+    _eventThread(NULL), _hostName("localhost"), _hostPort(ORGANICMOTIONINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -123,29 +123,30 @@ bool OrganicMotionInputService::configure(const yarp::os::Bottle & details)
     {
         if (! isActive())
         {
-            if (2 == details.size())
-            {
-                yarp::os::Value firstValue(details.get(0));
-                yarp::os::Value secondValue(details.get(1));
-                
-                if (firstValue.isDouble() && secondValue.isInt())
-                {
-                    double firstNumber = firstValue.asDouble();
-                    int    secondNumber = secondValue.asInt();
-                    
-                    if ((0 < firstNumber) && (0 < secondNumber))
-                    {
-                        std::stringstream buff;
+			if (2 == details.size())
+			{
+				yarp::os::Value firstValue(details.get(0));
+				yarp::os::Value secondValue(details.get(1));
 
-                        _burstPeriod = firstNumber;
-                        _burstSize = secondNumber;
-                        buff << "Burst period is " << _burstPeriod << ", burst size is " <<
-                                _burstSize;
-                        setExtraInformation(buff.str());
-                        result = true;
-                    }
-                }
-            }
+				if (firstValue.isString() && secondValue.isInt())
+				{
+					int secondNumber = secondValue.asInt();
+
+					if (0 < secondNumber)
+					{
+						std::stringstream buff;
+
+						_hostName = firstValue.asString();
+						OD_LOG_S1s("_hostName <- ", _hostName); //####
+						_hostPort = secondNumber;
+						OD_LOG_LL1("_hostPort <- ", _hostPort); //####
+						buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
+							_hostPort;
+						setExtraInformation(buff.str());
+						result = true;
+					}
+				}
+			}
         }
     }
     catch (...)
@@ -183,8 +184,8 @@ bool OrganicMotionInputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-    description._portProtocol = "d+";
-    description._protocolDescription = "One or more numeric values";
+    description._portProtocol = "OM";
+    description._protocolDescription = "A dictionary with position values";
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -195,9 +196,9 @@ bool OrganicMotionInputService::shutDownOutputStreams(void)
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    if (_generator)
+    if (_eventThread)
     {
-        _generator->clearOutputChannel();
+		_eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -237,8 +238,8 @@ void OrganicMotionInputService::startStreams(void)
     {
         if (! isActive())
         {
-            _generator = new OrganicMotionInputThread(getOutletStream(0), _burstPeriod, _burstSize);
-            _generator->start();
+            _eventThread = new OrganicMotionInputThread(getOutletStream(0), _hostName, _hostPort);
+			_eventThread->start();
             setActive();
         }
     }
@@ -275,13 +276,13 @@ void OrganicMotionInputService::stopStreams(void)
     {
         if (isActive())
         {
-            _generator->stop();
-            for ( ; _generator->isRunning(); )
+            _eventThread->stop();
+			for (; _eventThread->isRunning();)
             {
-                yarp::os::Time::delay(_burstSize / 3.9);
+				yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
             }
-            delete _generator;
-            _generator = NULL;
+            delete _eventThread;
+            _eventThread = NULL;
             clearActive();
         }
     }

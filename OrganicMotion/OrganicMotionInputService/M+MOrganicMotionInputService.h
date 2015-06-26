@@ -132,24 +132,14 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
             
-            /*! @brief The output thread to use. */
-            OrganicMotionInputThread * _generator;
-            
-            /*! @brief The number of seconds between data bursts. */
-            double _burstPeriod;
-            
-            /*! @brief The number of values in each data burst. */
-            int _burstSize;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+			/*! @brief The name of the Organic Motion device server. */
+			YarpString _hostName;
+
+			/*! @brief The port to connect to the Organic Motion device server. */
+			int _hostPort;
+
+			/*! @brief The output thread to use. */
+			OrganicMotionInputThread * _eventThread;
             
         }; // OrganicMotionInputService
         

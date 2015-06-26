@@ -93,7 +93,7 @@ ViconBlobInputService::ViconBlobInputService(const YarpString & launchPath,
     inherited(launchPath, argc, argv, tag, true, MpM_VICONBLOBINPUT_CANONICAL_NAME_,
               VICONBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
               servicePortNumber), _eventThread(NULL), _hostName("localhost"), _translationScale(1),
-    _hostPort(801)
+    _hostPort(VICONBLOBINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####

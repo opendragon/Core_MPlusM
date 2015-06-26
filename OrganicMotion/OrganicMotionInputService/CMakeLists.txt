@@ -38,6 +38,8 @@
 
 set(THIS_TARGET mpmOrganicMotionInputService)
 
+set(OPENSTAGESDK_ROOT "C:/OM_SDK")
+
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
 else(WIN32)
@@ -47,10 +49,18 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
-	#include_directories(${MpMNATURALPOINT_SOURCE_DIR}/OrganicMotionInputService/KinectLib/inc)
-	#add_library(Kinect SHARED IMPORTED)
-	#set_property(TARGET OrganicMotion PROPERTY IMPORTED_IMPLIB
-        #        ${MpMNATURALPOINT_SOURCE_DIR}/OrganicMotionInputService/KinectLib/Lib/x86/Kinect20.lib)
+	include_directories(${OPENSTAGESDK_ROOT}/include)
+	add_library(OpenStageSDK1 SHARED IMPORTED)
+	set_property(TARGET OpenStageSDK1 PROPERTY IMPORTED_IMPLIB ${OPENSTAGESDK_ROOT}/lib/omsdk2.lib)
+	add_library(OpenStageSDK2 SHARED IMPORTED)
+	set_property(TARGET OpenStageSDK2 PROPERTY IMPORTED_IMPLIB ${OPENSTAGESDK_ROOT}/lib/omuuid.lib)
+#	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+#                       "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
+#                       $<TARGET_FILE_DIR:mpmProComp2InputService>)
+#    install(FILES "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll"
+#            DESTINATION bin
+#            COMPONENT applications)
+#	file(INSTALL ${OPENSTAGESDK_BINARIES} DESTINATION ${CMAKE_BINARY_DIR})
 endif(WIN32)
 
 # Set up our program
@@ -64,7 +74,8 @@ add_executable(${THIS_TARGET}
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-#Kinect
+					  OpenStageSDK1
+					  OpenStageSDK2
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}

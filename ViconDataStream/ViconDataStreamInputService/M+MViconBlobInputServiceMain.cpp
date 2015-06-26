@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MViconBlobInputService.h"
+#include "M+MViconBlobInputRequests.h"
 
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MDoubleArgumentDescriptor.h>
@@ -364,7 +365,8 @@ int main(int      argc,
                                                        T_("IP address for the device server"),
                                                        "localhost", true, &hostName);
         Utilities::PortArgumentDescriptor    thirdArg("port", T_("Port for the device server"),
-                                                      801, true, true, &hostPort);
+			                                          VICONBLOBINPUT_DEFAULT_PORT_, true, true,
+													  &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

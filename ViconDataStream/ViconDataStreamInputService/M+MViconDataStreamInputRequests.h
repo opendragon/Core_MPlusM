@@ -57,4 +57,7 @@
 /*! @brief The channel-independent name of the Vicon DataStream input service. */
 # define MpM_VICONDATASTREAMINPUT_CANONICAL_NAME_ "ViconDataStreamInput"
 
+/*! @brief The default port number to be used. */
+# define VICONDATASTREAMINPUT_DEFAULT_PORT_ 801
+
 #endif // ! defined(MpMViconDataStreamInputRequests_H_)

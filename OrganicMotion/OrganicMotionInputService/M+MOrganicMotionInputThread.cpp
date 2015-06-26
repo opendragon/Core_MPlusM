@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for an output-generating thread for M+M.
+//  Contains:   The class definition for a thread that generates output from Organic Motion data.
 //
 //  Written by: Norman Jaffe
 //
@@ -38,6 +38,7 @@
 
 #include "M+MOrganicMotionInputThread.h"
 
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -47,7 +48,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for an output-generating thread for M+M. */
+ @brief The class definition for a thread that generates output from Organic Motion data. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -59,10 +60,14 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::OrganicMotion;
+using namespace om;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The number if actor stream reports to buffer. */
+#define ACTOR_QUEUE_DEPTH_ 2
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -80,15 +85,16 @@ using namespace MplusM::OrganicMotion;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-OrganicMotionInputThread::OrganicMotionInputThread(GeneralChannel * outChannel,
-                                                   const double     timeToWait,
-                                                   const int        numValues) :
-    inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
+OrganicMotionInputThread::OrganicMotionInputThread(Common::GeneralChannel * outChannel,
+	                                               const YarpString &       name,
+                                                   const int                port) :
+	inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
+	_actorStream(NULL), _actorViewJoint(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
-    OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_LL1("numValues = ", numValues); //####
+    OD_LOG_S1s("name = ", name); //####
+    OD_LOG_LL1("port = ", port); //####
     OD_LOG_EXIT_P(this); //####
 } // OrganicMotionInputThread::OrganicMotionInputThread
 
@@ -109,32 +115,44 @@ void OrganicMotionInputThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // OrganicMotionInputThread::clearOutputChannel
 
+void OrganicMotionInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
+{
+	OD_LOG_OBJENTER(); //####
+	OD_LOG_P1("actorData = ", &actorData); //####
+	for (size_t ii = 0; ii < actorData->GetSize(); ++ii)
+	{
+		// Bind the actor data to a view object that provides access to the
+		// joint tree.
+		_actorViewJoint->Bind(actorData->GetAt(ii));
+		sdk2::JointTreeConstPtr      joints = _actorViewJoint->GetJointsAbsolute();
+		sdk2::JointTreeConstIterator itrJoint = joints->Begin();
+		sdk2::JointTreeConstIterator itrJointEnd = joints->End();
+
+		for ( ; itrJoint != itrJointEnd; ++itrJoint)
+		{
+			//std::cout << "Joint: " << *itrJoint->first
+			//	<< " pos: (" << itrJoint->second->transform.m[3][0]
+			//	<< "," << itrJoint->second->transform.m[3][1]
+			//	<< "," << itrJoint->second->transform.m[3][2] << ")" << std::endl;
+		}
+	}
+	OD_LOG_OBJEXIT(); //####
+} // OrganicMotionInputThread::processData
+
 void OrganicMotionInputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
-    for ( ; ! isStopping(); )
+	_actorStream->Start();
+	for ( ; ! isStopping(); )
     {
-        if (_nextTime <= yarp::os::Time::now())
-        {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            yarp::os::Bottle message;
-            
-            for (int ii = 0; ii < _numValues; ++ii)
-            {
-                message.addDouble(10000 * yarp::os::Random::uniform());
-            }
-            if (_outChannel)
-            {
-                if (! _outChannel->write(message))
-                {
-                    OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-                    Stall();
-#endif // defined(MpM_StallOnSendProblem)
-                }
-            }
-            _nextTime = yarp::os::Time::now() + _timeToWait;
-        }
+		if (_client->WaitAnyUpdateAll())
+		{
+			// The streams are updated, now get the data.
+			sdk2::ActorDataListConstPtr actorData;
+
+			_actorStream->GetData(&actorData);
+			processData(actorData);
+		}
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
@@ -145,14 +163,22 @@ bool OrganicMotionInputThread::threadInit(void)
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-    _nextTime = yarp::os::Time::now() + _timeToWait;
-    OD_LOG_OBJEXIT_B(result); //####
+	// Create the necessary objects. 
+	_client = sdk2::CreateClient();
+
+	// Connect to the device.
+	_client->SetEndpoint(_address.c_str(), _port);
+	_actorStream = sdk2::CreateActorStream(_client);
+	_actorViewJoint = sdk2::CreateActorViewJoint();
+	_actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
+	OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // OrganicMotionInputThread::threadInit
 
 void OrganicMotionInputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
+	_actorStream->Stop();
     OD_LOG_OBJEXIT(); //####
 } // OrganicMotionInputThread::threadRelease
 

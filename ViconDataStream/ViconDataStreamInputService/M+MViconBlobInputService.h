@@ -56,7 +56,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_VICONBLOBINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/viconds")
+# define DEFAULT_VICONBLOBINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/viconblob")
 
 /*! @brief The description of the service. */
 # define VICONBLOBINPUT_SERVICE_DESCRIPTION_ T_("Vicon Blob input service")

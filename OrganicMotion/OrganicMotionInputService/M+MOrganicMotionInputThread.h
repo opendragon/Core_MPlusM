@@ -4,7 +4,7 @@
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for an output-generating thread for M+M.
+//  Contains:   The class declaration for a thread that generates output from Organic Motion data.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,6 +39,12 @@
 #if (! defined(MpMOrganicMotionInputThread_H_))
 # define MpMOrganicMotionInputThread_H_ /* Header guard */
 
+# include <om/sdk2/client.h>
+# include <om/sdk2/types.h>
+# include <om/sdk2/actor_stream.h>
+# include <om/sdk2/actor_view.h>
+# include <om/sdk2/error.h>
+
 # include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
@@ -47,7 +53,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for an output-generating thread for M+M. */
+ @brief The class declaration for a thread that generates output from Organic Motion data. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -56,18 +62,18 @@ namespace MplusM
 {
     namespace OrganicMotion
     {
-        /*! @brief A convenience class to generate output. */
-        class OrganicMotionInputThread : public yarp::os::Thread
+		/*! @brief A class to generate output from Organic Motion data. */
+		class OrganicMotionInputThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param numValues The number of values to send in each burst. */
-            OrganicMotionInputThread(Common::GeneralChannel * outChannel,
-                                     const double             timeToWait,
-                                     const int                numValues);
+			 @param name The host name to connect to the Organic Motion server.
+			 @param port The host port to connect to the Organic Motion server. */	
+			OrganicMotionInputThread(Common::GeneralChannel * outChannel,
+                                     const YarpString &       name,
+                                     const int                port);
             
             /*! @brief The destructor. */
             virtual ~OrganicMotionInputThread(void);
@@ -79,6 +85,10 @@ namespace MplusM
             
         private :
             
+			/*! @brief Process the received data.
+			 @param actorData The data to be processed. */
+			void processData(om::sdk2::ActorDataListConstPtr & actorData);
+
             /*! @brief The thread main body. */
             virtual void run(void);
             
@@ -110,18 +120,24 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
+			/*! @brief The address of the Organic Motion device. */
+			YarpString _address;
+
+			/*! @brief The port of the Organic Motion device. */
+			int _port;
+
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
             
-            /*! @brief The time at which the thread will send data. */
-            double _nextTime;
-            
-            /*! @brief The number of seconds to delay before triggering. */
-            double _timeToWait;
-            
-            /*! @brief The number of values to send in each burst. */
-            int _numValues;
-            
+			/*! @brief The connection to the device. */
+			om::sdk2::ClientPtr _client;
+
+			/*! @brief The stream of actor motion data. */
+			om::sdk2::ActorStreamPtr _actorStream;
+
+			/*! @brief A view into the actor motion data. */
+			om::sdk2::ActorViewJointPtr _actorViewJoint;
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"

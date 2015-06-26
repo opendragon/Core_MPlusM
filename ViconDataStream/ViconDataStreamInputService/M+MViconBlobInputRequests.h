@@ -57,4 +57,7 @@
 /*! @brief The channel-independent name of the Vicon %Blob input service. */
 # define MpM_VICONBLOBINPUT_CANONICAL_NAME_ "ViconBlobInput"
 
+/*! @brief The default port number to be used. */
+# define VICONBLOBINPUT_DEFAULT_PORT_ 801
+
 #endif // ! defined(MpMViconBlobInputRequests_H_)

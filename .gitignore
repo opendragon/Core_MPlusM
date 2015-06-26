@@ -48,12 +48,16 @@ MPlusM/MPlusM.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/MPlusM.xcscheme
 MPlusM/MPlusM.xcodeproj/xcuserdata/njaffe.xcuserdatad/xcschemes/xcschememanagement.plist
 
 #Executables and generated resource files
+mpmAbsorberOutputService
+mpmAbsorberOutputService.rc
 mpmAbsorberService
 mpmAbsorberService.rc
 mpmAddressClient
 mpmAddressClient.rc
 mpmAddressService
 mpmAddressService.rc
+mpmBlobOutputService
+mpmBlobOutputService.rc
 mpmBridgeClient
 mpmBridgeClient.rc
 mpmBridgeService
@@ -86,8 +90,12 @@ mpmJavaScriptService
 mpmJavaScriptService.rc
 mpmKinectV2InputService
 mpmKinectV2InputService.rc
+mpmLeapBlobInputService
+mpmLeapBlobInputService.rc
 mpmLeapMotionInputService
 mpmLeapMotionInputService.rc
+mpmLeapTwoFingersInputService
+mpmLeapTwoFingersInputService.rc
 mpmMovementDbAdapter
 mpmMovementDbAdapter.rc
 mpmMovementDbClient
@@ -96,12 +104,16 @@ mpmMovementDbService
 mpmMovementDbService.rc
 mpmNaturalPointInputService
 mpmNaturalPointInputService.rc
+mpmOrganicMotionInputService
+mpmOrganicMotionInputService.rc
 mpmParserTest
 mpmParserTest.rc
 mpmPortLister
 mpmPortLister.rc
 mpmProComp2InputService
 mpmProComp2InputService.rc
+mpmRandomBurstInputService
+mpmRandomBurstInputService.rc
 mpmRandomBurstService
 mpmRandomBurstService.rc
 mpmRandomBurstStreamService
@@ -112,8 +124,14 @@ mpmRandomNumberClient
 mpmRandomNumberClient.rc
 mpmRandomNumberService
 mpmRandomNumberService.rc
+mpmRecordAsJSONOutputService
+mpmRecordAsJSONOutputService.rc
 mpmRecordAsJSONService
 mpmRecordAsJSONService.rc
+mpmRecordBlobOutputService
+mpmRecordBlobOutputService.rc
+mpmRecordIntegersOutputService
+mpmRecordIntegersOutputService.rc
 mpmRecordIntegersService
 mpmRecordIntegersService.rc
 mpmRecordIntegersStreamService
@@ -156,6 +174,8 @@ mpmTruncateFilterService
 mpmTruncateFilterService.rc
 mpmTruncateFilterStreamService
 mpmTruncateFilterStreamService.rc
+mpmTruncateFloatFilterService
+mpmTruncateFloatFilterService.rc
 mpmTruncateFloatService
 mpmTruncateFloatService.rc
 mpmTunnelClient
@@ -168,6 +188,8 @@ mpmUnrealOutputService
 mpmUnrealOutputService.rc
 mpmVersion
 mpmVersion.rc
+mpmViconBlobInputService
+mpmViconBlobInputService.rc
 mpmViconDataStreamInputService
 mpmViconDataStreamInputService.rc
 
@@ -224,23 +246,3 @@ odl/libodLogging.dylib
 mpm_images.tar.gz
 *.zip
 debug.txt
-LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService
-LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService.rc
-mpmBlobOutputService.rc
-mpmBlobOutputService
-LeapMotion/LeapMotionInputService/mpmLeapBlobInputService
-LeapMotion/LeapMotionInputService/mpmLeapBlobInputService.rc
-Blob/BlobOutputService/mpmRecordBlobOutputService
-Blob/BlobOutputService/mpmRecordBlobOutputService.rc
-examples/AbsorberService/mpmAbsorberOutputService
-examples/AbsorberService/mpmAbsorberOutputService.rc
-examples/RandomBurstService/mpmRandomBurstInputService
-examples/RandomBurstService/mpmRandomBurstInputService.rc
-examples/RecordAsJSONService/mpmRecordAsJSONOutputService
-examples/RecordAsJSONService/mpmRecordAsJSONOutputService.rc
-examples/RecordIntegersService/mpmRecordIntegersOutputService
-examples/RecordIntegersService/mpmRecordIntegersOutputService.rc
-examples/TruncateFloatService/mpmTruncateFloatFilterService
-examples/TruncateFloatService/mpmTruncateFloatFilterService.rc
-ViconDataStream/ViconDataStreamInputService/mpmViconBlobInputService.rc
-ViconDataStream/ViconDataStreamInputService/mpmViconDataStreamInputService.dir/Debug/RCa04824

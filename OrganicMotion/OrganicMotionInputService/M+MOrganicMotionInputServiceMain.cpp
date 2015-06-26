@@ -37,9 +37,11 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MOrganicMotionInputService.h"
+#include "M+MOrganicMotionInputRequests.h"
 
-#include <mpm/M+MChannelArgumentDescriptor.h>
+#include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
+#include <mpm/M+MPortArgumentDescriptor.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -102,6 +104,9 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the Organic Motion input service.
+ @param hostName The IP address for the device server.
+ @param hostPort The port for the device server.
+ @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the exemplar input service.
@@ -112,20 +117,24 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & tag,
-                       const YarpString & serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         goWasSet,
-                       const bool         stdinAvailable,
-                       const bool         reportOnExit)
+static void setUpAndGo(YarpString &                        hostName,
+	                   int &                               hostPort,
+	                   const Utilities::DescriptorVector & argumentList,
+					   const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       const YarpString &                  tag,
+                       const YarpString &                  serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          stdinAvailable,
+                       const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
+	OD_LOG_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
+		"serviceEndpointName = ", serviceEndpointName); //####
+	OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
+	OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
@@ -150,8 +159,10 @@ static void setUpAndGo(const YarpString & progName,
                 aService->startPinger();
                 if (goWasSet || (! stdinAvailable))
                 {
-                    configureData.clear();
-                    if (aService->configure(configureData))
+					configureData.clear();
+					configureData.addString(hostName);
+					configureData.addInt(hostPort);
+					if (aService->configure(configureData))
                     {
                         aService->startStreams();
                     }
@@ -177,8 +188,10 @@ static void setUpAndGo(const YarpString & progName,
                                 // Start streams
                                 if (! configured)
                                 {
-                                    configureData.clear();
-                                    if (aService->configure(configureData))
+									configureData.clear();
+									configureData.addString(hostName);
+									configureData.addInt(hostPort);
+									if (aService->configure(configureData))
                                     {
                                         configured = true;
                                     }
@@ -192,8 +205,10 @@ static void setUpAndGo(const YarpString & progName,
                             case 'c' :
                             case 'C' :
                                 // Configure
-                                configureData.clear();
-                                if (aService->configure(configureData))
+								configureData.clear();
+								configureData.addString(hostName);
+								configureData.addInt(hostPort);
+								if (aService->configure(configureData))
                                 {
                                     configured = true;
                                 }
@@ -216,8 +231,10 @@ static void setUpAndGo(const YarpString & progName,
                                 // Restart streams
                                 if (! configured)
                                 {
-                                    configureData.clear();
-                                    if (aService->configure(configureData))
+									configureData.clear();
+									configureData.addString(hostName);
+									configureData.addInt(hostPort);
+									if (aService->configure(configureData))
                                     {
                                         configured = true;
                                     }
@@ -324,18 +341,26 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                        goWasSet = false;
-        bool                        nameWasSet = false; // not used
-        bool                        reportOnExit = false;
-        bool                        stdinAvailable = CanReadFromStandardInput();
-        YarpString                  serviceEndpointName;
-        YarpString                  servicePortNumber;
-        YarpString                  tag;
-        Utilities::DescriptorVector argumentList;
+        bool                                 goWasSet = false;
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        bool                                 stdinAvailable = CanReadFromStandardInput();
+		int                                  hostPort;
+		YarpString                           hostName;
+		YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+		Utilities::AddressArgumentDescriptor firstArg("hostname",
+			                                          T_("IP address for the device server"),
+			                                          "localhost", true, &hostName);
+		Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
+			                                           ORGANICMOTIONINPUT_DEFAULT_PORT_, true,
+													   false, &hostPort);
+		Utilities::DescriptorVector          argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_NATURALPOINTINPUT_SERVICE_NAME_,
-                                          NATURALPOINTINPUT_SERVICE_DESCRIPTION_, "", 2015,
+                                          DEFAULT_ORGANICMOTIONINPUT_SERVICE_NAME_,
+                                          ORGANICMOTIONINPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))
@@ -349,8 +374,9 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(progName, argc, argv, tag, serviceEndpointName, servicePortNumber,
-                               goWasSet, stdinAvailable, reportOnExit);
+					setUpAndGo(hostName, hostPort, argumentList, progName, argc, argv, tag,
+						       serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
+							   reportOnExit);
                 }
                 else
                 {

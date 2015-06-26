@@ -57,4 +57,7 @@
 /*! @brief The channel-independent name of the Organic Motion input service. */
 # define MpM_ORGANICMOTIONINPUT_CANONICAL_NAME_ "OrganicMotionInput"
 
+/*! @brief The default port number to be used. */
+# define ORGANICMOTIONINPUT_DEFAULT_PORT_ 15010
+
 #endif // ! defined(MpMOrganicMotionInputRequests_H_)

@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MViconDataStreamInputService.h"
+#include "M+MViconDataStreamInputRequests.h"
 
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
@@ -359,7 +360,8 @@ int main(int      argc,
                                                       T_("IP address for the device server"),
                                                       "localhost", true, &hostName);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
-                                                       801, true, true, &hostPort);
+			                                           VICONDATASTREAMINPUT_DEFAULT_PORT_, true,
+													   true, &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);
