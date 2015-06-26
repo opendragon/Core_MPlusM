@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Record Blob output
+ @brief The common macro definitions for requests and responses for the Record %Blob output
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Record Blob output service. */
+/*! @brief The channel-independent name of the Record %Blob output service. */
 # define MpM_RECORDBLOBOUTPUT_CANONICAL_NAME_ "RecordBlobOutput"
 
 #endif // ! defined(MpMRecordBlobOutputRequests_H_)

@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the Record Blob output service. */
+ @brief The class declaration for the Record %Blob output service. */
 
 /*! @namespace MplusM::RecordBlob
  @brief The classes that support recording messages as JSON. */

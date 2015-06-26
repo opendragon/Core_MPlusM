@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the %Leap Blob input
+ @brief The common macro definitions for requests and responses for the %Leap %Blob input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the %Leap Blob input service. */
+/*! @brief The channel-independent name of the %Leap %Blob input service. */
 # define MpM_LEAPBLOBINPUT_CANONICAL_NAME_ "LeapBlobInput"
 
 #endif // ! defined(MpMLeapBlobInputRequests_H_)

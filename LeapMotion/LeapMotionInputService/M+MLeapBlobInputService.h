@@ -49,10 +49,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file 
- @brief The class declaration for the %Leap Blob input service. */
+ @brief The class declaration for the %Leap %Blob input service. */
 
 /*! @namespace MplusM::LeapBlob
- @brief The classes that support reading from a %Leap Blob input device. */
+ @brief The classes that support reading from a %Leap %Blob input device. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -69,7 +69,7 @@ namespace MplusM
     {
         class LeapBlobInputListener;
         
-        /*! @brief The %Leap Blob input service. */
+        /*! @brief The %Leap %Blob input service. */
         class LeapBlobInputService : public Common::BaseInputService
         {
         public :

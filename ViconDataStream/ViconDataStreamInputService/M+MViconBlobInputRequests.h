@@ -48,12 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Vicon Blob input service. */
+ @brief The common macro definitions for requests and responses for the Vicon %Blob input
+ service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Vicon Blob input service. */
+/*! @brief The channel-independent name of the Vicon %Blob input service. */
 # define MpM_VICONBLOBINPUT_CANONICAL_NAME_ "ViconBlobInput"
 
 #endif // ! defined(MpMViconBlobInputRequests_H_)

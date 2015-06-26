@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file 
- @brief The main application for the %Leap Blob input service. */
+ @brief The main application for the %Leap %Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -95,12 +95,12 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the %Leap Blob input service.
+/*! @brief Set up the environment and start the %Leap %Blob input service.
  @param translationScale The translation scale.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Leap Blob input service.
+ @param argv The arguments to be used with the %Leap %Blob input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -304,9 +304,9 @@ static void setUpAndGo(double &                            translationScale,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %Leap Blob input service.
+/*! @brief The entry point for running the %Leap %Blob input service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Leap Blob input service.
+ @param argv The arguments to be used with the %Leap %Blob input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

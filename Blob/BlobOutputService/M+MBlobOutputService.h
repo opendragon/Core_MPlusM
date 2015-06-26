@@ -48,10 +48,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the Blob output service. */
+ @brief The class declaration for the %Blob output service. */
 
 /*! @namespace MplusM::Blob
- @brief The classes that support writing to a Blob output system. */
+ @brief The classes that support writing to a %Blob output system. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -68,7 +68,7 @@ namespace MplusM
     {
         class BlobOutputInputHandler;
 
-        /*! @brief The Blob output service. */
+        /*! @brief The %Blob output service. */
         class BlobOutputService : public Common::BaseOutputService
         {
         public :

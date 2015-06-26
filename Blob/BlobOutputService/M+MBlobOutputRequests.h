@@ -47,12 +47,12 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Blob output service. */
+ @brief The common macro definitions for requests and responses for the %Blob output service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Blob output service. */
+/*! @brief The channel-independent name of the %Blob output service. */
 # define MpM_BLOBOUTPUT_CANONICAL_NAME_ "BlobOutput"
 
 #endif // ! defined(MpMBlobOutputRequests_H_)

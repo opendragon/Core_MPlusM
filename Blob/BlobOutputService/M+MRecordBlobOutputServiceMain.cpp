@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Record Blob output service. */
+ @brief The main application for the Record %Blob output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -102,12 +102,12 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the Record Blob output service.
+/*! @brief Set up the environment and start the Record %Blob output service.
  @param recordPath The file system path to use.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Record Blob output service.
+ @param argv The arguments to be used with the Record %Blob output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
