@@ -141,7 +141,7 @@ bool OrganicMotionInputService::configure(const yarp::os::Bottle & details)
 						_hostPort = secondNumber;
 						OD_LOG_LL1("_hostPort <- ", _hostPort); //####
 						buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
-							_hostPort;
+                                _hostPort;
 						setExtraInformation(buff.str());
 						result = true;
 					}

@@ -54,7 +54,7 @@
 
 /*! @brief The base channel name to use for the service if not provided. */
 # define DEFAULT_ORGANICMOTIONINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                   "input/organicmotion")
+                                                        "input/organicmotion")
 
 /*! @brief The description of the service. */
 # define ORGANICMOTIONINPUT_SERVICE_DESCRIPTION_ T_("Organic Motion input service")

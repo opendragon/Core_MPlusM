@@ -65,9 +65,9 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-set(MpMNATURALPOINT_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+set(MpMORGANICMOTION_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
-include_directories("${MpMNATURALPOINT_SOURCE_DIR}")
+include_directories("${MpMORGANICMOTION_SOURCE_DIR}")
 
 # Add the subdirectories for the input service
 add_subdirectory(OrganicMotionInputService)
