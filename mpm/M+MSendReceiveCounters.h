@@ -41,8 +41,6 @@
 
 # include <mpm/M+MCommon.h>
 
-# include <stdint.h>
-
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"

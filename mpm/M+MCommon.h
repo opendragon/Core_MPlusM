@@ -55,6 +55,7 @@
 # include <iostream>
 # include <list>
 # include <map>
+# include <stdint.h>
 # include <sstream>
 # include <time.h>
 # include <vector>

@@ -54,6 +54,7 @@
 # include <libgen.h>
 #else // ! MAC_OR_LINUX_
 # include <stdlib.h>
+# include <sys/timeb.h>
 #endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
@@ -1299,7 +1300,7 @@ int64_t Utilities::GetCurrentTimeInMilliseconds(void)
     gettimeofday(&tv, nullptr);
     result = (static_cast<int64_t>(tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
 #else // ! MAC_OR_LINUX_
-    _ftime(&tt);
+    _ftime_s(&tt);
     result = (static_cast<int64_t>(tt.time) + 1000) + tt.millitm;
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_LL(result); //####
