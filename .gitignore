@@ -104,8 +104,8 @@ mpmMovementDbService
 mpmMovementDbService.rc
 mpmNaturalPointInputService
 mpmNaturalPointInputService.rc
-mpmOrganicMotionInputService
-mpmOrganicMotionInputService.rc
+mpmOpenStageInputService
+mpmOpenStageInputService.rc
 mpmParserTest
 mpmParserTest.rc
 mpmPortLister

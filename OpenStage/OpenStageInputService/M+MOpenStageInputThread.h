@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MOrganicMotionInputThread.h
+//  File:       M+MOpenStageInputThread.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for a thread that generates output from Organic Motion data.
+//  Contains:   The class declaration for a thread that generates output from Organic Motion
+//				OpenStage data.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMOrganicMotionInputThread_H_))
-# define MpMOrganicMotionInputThread_H_ /* Header guard */
+#if (! defined(MpMOpenStageInputThread_H_))
+# define MpMOpenStageInputThread_H_ /* Header guard */
 
 # include <om/sdk2/client.h>
 # include <om/sdk2/types.h>
@@ -53,30 +54,30 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a thread that generates output from Organic Motion data. */
+ @brief The class declaration for a thread that generates output from Organic Motion OpenStage data. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace OrganicMotion
+	namespace OpenStage
     {
-		/*! @brief A class to generate output from Organic Motion data. */
-		class OrganicMotionInputThread : public yarp::os::Thread
+		/*! @brief A class to generate output from Organic Motion OpenStage data. */
+		class OpenStageInputThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
-			 @param name The host name to connect to the Organic Motion server.
-			 @param port The host port to connect to the Organic Motion server. */	
-			OrganicMotionInputThread(Common::GeneralChannel * outChannel,
-                                     const YarpString &       name,
-                                     const int                port);
+			 @param name The host name to connect to the Organic Motion OpenStage server.
+			 @param port The host port to connect to the Organic Motion OpenStage server. */	
+			OpenStageInputThread(Common::GeneralChannel * outChannel,
+				                 const YarpString &       name,
+								 const int                port);
             
             /*! @brief The destructor. */
-            virtual ~OrganicMotionInputThread(void);
+			virtual ~OpenStageInputThread(void);
             
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
@@ -99,7 +100,7 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-            COPY_AND_ASSIGNMENT_(OrganicMotionInputThread);
+			COPY_AND_ASSIGNMENT_(OpenStageInputThread);
             
         public :
         
@@ -148,10 +149,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // OrganicMotionInputThread
+        }; // OpenStageInputThread
         
-    } // OrganicMotion
+    } // OpenStage
     
 } // MplusM
 
-#endif // ! defined(MpMOrganicMotionInputThread_H_)
+#endif // ! defined(MpMOpenStageInputThread_H_)

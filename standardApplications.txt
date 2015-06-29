@@ -10,6 +10,7 @@ mpmLeapBlobInputService
 mpmLeapMotionInputService
 mpmLeapTwoFingersInputService
 mpmNaturalPointInputService
+mpmOpenStageInputService
 mpmProComp2InputService
 mpmRandomBurstInputService
 mpmRandomNumberService

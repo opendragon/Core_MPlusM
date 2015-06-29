@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MOrganicMotionInputService.cpp
+//  File:       M+MOpenStageInputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the Organic Motion input service.
+//  Contains:   The class definition for the Organic Motion OpenStage input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MOrganicMotionInputService.h"
-#include "M+MOrganicMotionInputRequests.h"
-#include "M+MOrganicMotionInputThread.h"
+#include "M+MOpenStageInputService.h"
+#include "M+MOpenStageInputRequests.h"
+#include "M+MOpenStageInputThread.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the Organic Motion input service. */
+ @brief The class definition for the Organic Motion OpenStage input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,7 +62,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::OrganicMotion;
+using namespace MplusM::OpenStage;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -84,15 +84,15 @@ using namespace MplusM::OrganicMotion;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-OrganicMotionInputService::OrganicMotionInputService(const YarpString & launchPath,
-                                                     const int          argc,
-                                                     char * *           argv,
-                                                     const YarpString & tag,
-                                                     const YarpString & serviceEndpointName,
-                                                     const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_ORGANICMOTIONINPUT_CANONICAL_NAME_,
-              ORGANICMOTIONINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _eventThread(NULL), _hostName("localhost"), _hostPort(ORGANICMOTIONINPUT_DEFAULT_PORT_)
+OpenStageInputService::OpenStageInputService(const YarpString & launchPath,
+	                                         const int          argc,
+											 char * *           argv,
+											 const YarpString & tag,
+											 const YarpString & serviceEndpointName,
+											 const YarpString & servicePortNumber) :
+    inherited(launchPath, argc, argv, tag, true, MpM_OPENSTAGEINPUT_CANONICAL_NAME_,
+              OPENSTAGEINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+    _eventThread(NULL), _hostName("localhost"), _hostPort(OPENSTAGEINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -100,20 +100,20 @@ OrganicMotionInputService::OrganicMotionInputService(const YarpString & launchPa
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
-} // OrganicMotionInputService::OrganicMotionInputService
+} // OpenStageInputService::OpenStageInputService
 
-OrganicMotionInputService::~OrganicMotionInputService(void)
+OpenStageInputService::~OpenStageInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputService::~OrganicMotionInputService
+} // OpenStageInputService::~OpenStageInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool OrganicMotionInputService::configure(const yarp::os::Bottle & details)
+bool OpenStageInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -156,9 +156,9 @@ bool OrganicMotionInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OrganicMotionInputService::configure
+} // OpenStageInputService::configure
 
-void OrganicMotionInputService::restartStreams(void)
+void OpenStageInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -173,9 +173,9 @@ void OrganicMotionInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputService::restartStreams
+} // OpenStageInputService::restartStreams
 
-bool OrganicMotionInputService::setUpStreamDescriptions(void)
+bool OpenStageInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -189,9 +189,9 @@ bool OrganicMotionInputService::setUpStreamDescriptions(void)
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OrganicMotionInputService::setUpStreamDescriptions
+} // OpenStageInputService::setUpStreamDescriptions
 
-bool OrganicMotionInputService::shutDownOutputStreams(void)
+bool OpenStageInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -202,9 +202,9 @@ bool OrganicMotionInputService::shutDownOutputStreams(void)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // OrganicMotionInputService::shutDownOutputStreams
+} // OpenStageInputService::shutDownOutputStreams
 
-bool OrganicMotionInputService::start(void)
+bool OpenStageInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -229,16 +229,16 @@ bool OrganicMotionInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // OrganicMotionInputService::start
+} // OpenStageInputService::start
 
-void OrganicMotionInputService::startStreams(void)
+void OpenStageInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            _eventThread = new OrganicMotionInputThread(getOutletStream(0), _hostName, _hostPort);
+            _eventThread = new OpenStageInputThread(getOutletStream(0), _hostName, _hostPort);
 			_eventThread->start();
             setActive();
         }
@@ -249,9 +249,9 @@ void OrganicMotionInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputService::startStreams
+} // OpenStageInputService::startStreams
 
-bool OrganicMotionInputService::stop(void)
+bool OpenStageInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -267,9 +267,9 @@ bool OrganicMotionInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OrganicMotionInputService::stop
+} // OpenStageInputService::stop
 
-void OrganicMotionInputService::stopStreams(void)
+void OpenStageInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -292,7 +292,7 @@ void OrganicMotionInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputService::stopStreams
+} // OpenStageInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

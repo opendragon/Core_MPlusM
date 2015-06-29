@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MOrganicMotionInputThread.cpp
+//  File:       M+MOpenStageInputThread.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for a thread that generates output from Organic Motion data.
+//  Contains:   The class definition for a thread that generates output from Organic Motion
+//				OpenStage data.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MOrganicMotionInputThread.h"
-
+#include "M+MOpenStageInputThread.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -48,7 +48,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for a thread that generates output from Organic Motion data. */
+ @brief The class definition for a thread that generates output from Organic Motion OpenStage data. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -59,7 +59,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::OrganicMotion;
+using namespace MplusM::OpenStage;
 using namespace om;
 
 #if defined(__APPLE__)
@@ -85,9 +85,9 @@ using namespace om;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-OrganicMotionInputThread::OrganicMotionInputThread(Common::GeneralChannel * outChannel,
-	                                               const YarpString &       name,
-                                                   const int                port) :
+OpenStageInputThread::OpenStageInputThread(Common::GeneralChannel * outChannel,
+	                                       const YarpString &       name,
+										   const int                port) :
 	inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
 	_actorStream(NULL), _actorViewJoint(NULL)
 {
@@ -96,26 +96,26 @@ OrganicMotionInputThread::OrganicMotionInputThread(Common::GeneralChannel * outC
     OD_LOG_S1s("name = ", name); //####
     OD_LOG_LL1("port = ", port); //####
     OD_LOG_EXIT_P(this); //####
-} // OrganicMotionInputThread::OrganicMotionInputThread
+} // OpenStageInputThread::OpenStageInputThread
 
-OrganicMotionInputThread::~OrganicMotionInputThread(void)
+OpenStageInputThread::~OpenStageInputThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputThread::~OrganicMotionInputThread
+} // OpenStageInputThread::~OpenStageInputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void OrganicMotionInputThread::clearOutputChannel(void)
+void OpenStageInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputThread::clearOutputChannel
+} // OpenStageInputThread::clearOutputChannel
 
-void OrganicMotionInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
+void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 {
 	OD_LOG_OBJENTER(); //####
 	OD_LOG_P1("actorData = ", &actorData); //####
@@ -137,9 +137,9 @@ void OrganicMotionInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 		}
 	}
 	OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputThread::processData
+} // OpenStageInputThread::processData
 
-void OrganicMotionInputThread::run(void)
+void OpenStageInputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
 	_actorStream->Start();
@@ -156,14 +156,15 @@ void OrganicMotionInputThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputThread::run
+} // OpenStageInputThread::run
 
-bool OrganicMotionInputThread::threadInit(void)
+bool OpenStageInputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-	// Create the necessary objects. 
+	// Create the necessary objects.
+#if 0
 	_client = sdk2::CreateClient();
 
 	// Connect to the device.
@@ -171,16 +172,17 @@ bool OrganicMotionInputThread::threadInit(void)
 	_actorStream = sdk2::CreateActorStream(_client);
 	_actorViewJoint = sdk2::CreateActorViewJoint();
 	_actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
+#endif//0
 	OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OrganicMotionInputThread::threadInit
+} // OpenStageInputThread::threadInit
 
-void OrganicMotionInputThread::threadRelease(void)
+void OpenStageInputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
 	_actorStream->Stop();
     OD_LOG_OBJEXIT(); //####
-} // OrganicMotionInputThread::threadRelease
+} // OpenStageInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

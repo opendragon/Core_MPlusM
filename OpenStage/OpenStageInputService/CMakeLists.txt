@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       OrganicMotionInputService/CMakeLists.txt
+#  File:       OpenStageInputService/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the Organic Motion input service application.
+#  Contains:   The CMAKE definitions for the Organic Motion OpenStage input service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmOrganicMotionInputService)
+set(THIS_TARGET mpmOpenStageInputService)
 
 set(OPENSTAGESDK_ROOT "C:/OM_SDK")
 
@@ -65,9 +65,9 @@ endif(WIN32)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MOrganicMotionInputServiceMain.cpp
-               M+MOrganicMotionInputService.cpp
-               M+MOrganicMotionInputThread.cpp
+               M+MOpenStageInputServiceMain.cpp
+               M+MOpenStageInputService.cpp
+               M+MOpenStageInputThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

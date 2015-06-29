@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MOrganicMotionInputRequests.h
+//  File:       M+MOpenStageInputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the Organic Motion input
+//  Contains:   The common macro definitions for requests and responses for the Organic Motion
+//				OpenStage input
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -37,8 +38,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMOrganicMotionInputRequests_H_))
-# define MpMOrganicMotionInputRequests_H_ /* Header guard */
+#if (! defined(MpMOpenStageInputRequests_H_))
+# define MpMOpenStageInputRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,16 +49,16 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Organic Motion input
- service. */
+ @brief The common macro definitions for requests and responses for the Organic Motion OpenStage
+ input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Organic Motion input service. */
-# define MpM_ORGANICMOTIONINPUT_CANONICAL_NAME_ "OrganicMotionInput"
+/*! @brief The channel-independent name of the Organic Motion OpenStage input service. */
+# define MpM_OPENSTAGEINPUT_CANONICAL_NAME_ "OpenStageInput"
 
 /*! @brief The default port number to be used. */
-# define ORGANICMOTIONINPUT_DEFAULT_PORT_ 15010
+# define OPENSTAGEINPUT_DEFAULT_PORT_ 15010
 
-#endif // ! defined(MpMOrganicMotionInputRequests_H_)
+#endif // ! defined(MpMOpenStageInputRequests_H_)

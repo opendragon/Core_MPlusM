@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MOrganicMotionInputServiceMain.cpp
+//  File:       M+MOpenStageInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the Organic Motion input service.
+//  Contains:   The main application for the Organic Motion OpenStage input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MOrganicMotionInputService.h"
-#include "M+MOrganicMotionInputRequests.h"
+#include "M+MOpenStageInputService.h"
+#include "M+MOpenStageInputRequests.h"
 
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
@@ -53,13 +53,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Organic Motion input service. */
+ @brief The main application for the Organic Motion OpenStage input service. */
 
-/*! @dir OrganicMotion
- @brief The set of files that implement the Organic Motion input service. */
+/*! @dir OpenStage
+ @brief The set of files that implement the Organic Motion OpenStage input service. */
 
-/*! @dir OrganicMotionInputService
- @brief The set of files that implement the Organic Motion input service. */
+/*! @dir OpenStageInputService
+ @brief The set of files that implement the Organic Motion OpenStage input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -70,7 +70,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::OrganicMotion;
+using namespace MplusM::OpenStage;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -103,7 +103,7 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the Organic Motion input service.
+/*! @brief Set up the environment and start the Organic Motion OpenStage input service.
  @param hostName The IP address for the device server.
  @param hostPort The port for the device server.
  @param argumentList Descriptions of the arguments to the executable.
@@ -138,9 +138,7 @@ static void setUpAndGo(YarpString &                        hostName,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    OrganicMotionInputService * aService = new OrganicMotionInputService(progName, argc, argv, tag,
-                                                                         serviceEndpointName,
-                                                                         servicePortNumber);
+    OpenStageInputService * aService = new OpenStageInputService(progName, argc, argv, tag, serviceEndpointName, servicePortNumber);
 
     if (aService)
     {
@@ -310,7 +308,7 @@ static void setUpAndGo(YarpString &                        hostName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Organic Motion input service.
+/*! @brief The entry point for running the Organic Motion OpenStage input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -320,7 +318,7 @@ static void setUpAndGo(YarpString &                        hostName,
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the Organic Motion OpenStage input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -354,13 +352,13 @@ int main(int      argc,
 			                                          T_("IP address for the device server"),
 			                                          "localhost", true, &hostName);
 		Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
-			                                           ORGANICMOTIONINPUT_DEFAULT_PORT_, true,
+			                                           OPENSTAGEINPUT_DEFAULT_PORT_, true,
 													   false, &hostPort);
 		Utilities::DescriptorVector          argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_ORGANICMOTIONINPUT_SERVICE_NAME_,
-                                          ORGANICMOTIONINPUT_SERVICE_DESCRIPTION_, "", 2015,
+                                          DEFAULT_OPENSTAGEINPUT_SERVICE_NAME_,
+                                          OPENSTAGEINPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MOrganicMotionInputService.h
+//  File:       M+MOpenStageInputService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the OrganicMotion input service.
+//  Contains:   The class declaration for the Organic Motion OpenStage input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMOrganicMotionInputService_H_))
-# define MpMOrganicMotionInputService_H_ /* Header guard */
+#if (! defined(MpMOpenStageInputService_H_))
+# define MpMOpenStageInputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
 
@@ -47,26 +47,26 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the Organic Motion input service. */
+ @brief The class declaration for the Organic Motion OpenStage input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_ORGANICMOTIONINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                        "input/organicmotion")
+# define DEFAULT_OPENSTAGEINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
+															  "input/openstageos")
 
 /*! @brief The description of the service. */
-# define ORGANICMOTIONINPUT_SERVICE_DESCRIPTION_ T_("Organic Motion input service")
+# define OPENSTAGEINPUT_SERVICE_DESCRIPTION_ T_("OpenStage input service")
 
 namespace MplusM
 {
-    namespace OrganicMotion
+	namespace OpenStage
     {
-        class OrganicMotionInputThread;
+		class OpenStageInputThread;
         
-        /*! @brief The OrganicMotion input service. */
-        class OrganicMotionInputService : public Common::BaseInputService
+        /*! @brief The Organic Motion OpenStage input service. */
+		class OpenStageInputService : public Common::BaseInputService
         {
         public :
             
@@ -77,15 +77,15 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            OrganicMotionInputService(const YarpString & launchPath,
-                                      const int          argc,
-                                      char * *           argv,
-                                      const YarpString & tag,
-                                      const YarpString & serviceEndpointName,
-                                      const YarpString & servicePortNumber = "");
+			OpenStageInputService(const YarpString & launchPath,
+				                  const int          argc,
+								  char * *           argv,
+								  const YarpString & tag,
+								  const YarpString & serviceEndpointName,
+								  const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~OrganicMotionInputService(void);
+			virtual ~OpenStageInputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -117,7 +117,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(OrganicMotionInputService);
+			COPY_AND_ASSIGNMENT_(OpenStageInputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
@@ -139,12 +139,12 @@ namespace MplusM
 			int _hostPort;
 
 			/*! @brief The output thread to use. */
-			OrganicMotionInputThread * _eventThread;
+			OpenStageInputThread * _eventThread;
             
-        }; // OrganicMotionInputService
+        }; // OpenStageInputService
         
-    } // OrganicMotion
+    } // OpenStage
     
 } // MplusM
 
-#endif // ! defined(MpMOrganicMotionInputService_H_)
+#endif // ! defined(MpMOpenStageInputService_H_)

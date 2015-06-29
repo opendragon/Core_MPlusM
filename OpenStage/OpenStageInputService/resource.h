@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmOrganicMotionInputService.rc
+// Used by mpmOpenStageInputService.rc
 
 // Next default values for new objects
 // 
