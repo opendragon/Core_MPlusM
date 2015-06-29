@@ -48,6 +48,8 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
+include_directories(glm)
+
 if(WIN32)
 	include_directories(${OPENSTAGESDK_ROOT}/include)
 	add_library(OpenStageSDK1 SHARED IMPORTED)
@@ -74,8 +76,8 @@ add_executable(${THIS_TARGET}
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       mpmCommon
-					  OpenStageSDK1
-					  OpenStageSDK2
+                      OpenStageSDK1
+                      OpenStageSDK2
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
