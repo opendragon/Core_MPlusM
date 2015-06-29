@@ -39,6 +39,8 @@
 
 #include "M+MRecordAsJSONOutputInputHandler.h"
 
+#include <mpm/M+MUtilities.h>
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -314,26 +316,22 @@ bool RecordAsJSONOutputInputHandler::handleInput(const yarp::os::Bottle &     in
         if (_outFile)
         {
             OD_LOG("(_outFile)"); //####
-            bool sawValue;
-            int  mm = input.size();
+            int mm = input.size();
             
-            if (1 == mm)
+            if (0 < mm)
             {
-                processValue(_outFile, input.get(0));
-                sawValue = true;
-            }
-            else if (1 < mm)
-            {
-                processList(_outFile, input);
-                sawValue = true;
-            }
-            else
-            {
-                sawValue = false;
-            }
-            if (sawValue)
-            {
-                fputc('\n', _outFile);
+                int64_t now = Utilities::GetCurrentTimeInMilliseconds();
+                
+                fprintf(_outFile, "{ \"time\" : %lld, \"value\" : ", now);
+                if (1 == mm)
+                {
+                    processValue(_outFile, input.get(0));
+                }
+                else if (1 < mm)
+                {
+                    processList(_outFile, input);
+                }
+                fputs(" }\n", _outFile);
                 fflush(_outFile);
             }
         }

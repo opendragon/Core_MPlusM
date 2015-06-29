@@ -232,6 +232,10 @@ namespace MplusM
                                    Common::CheckFunction   checker = NULL,
                                    void *                  checkStuff = NULL);
         
+        /*! @brief Return the time since 1 January, 1970, as milliseconds.
+         @returns The time elapsed since 1 January, 1970. */
+        int64_t GetCurrentTimeInMilliseconds(void);
+
         /*! @brief Get the configured server address and port.
          @param serverAddress The configured server address.
          @param serverPort The configured server port.

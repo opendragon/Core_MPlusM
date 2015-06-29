@@ -1285,6 +1285,27 @@ void Utilities::GatherPortConnections(const YarpString &    portName,
     OD_LOG_EXIT(); //####
 } // Utilities::GatherPortConnections
 
+int64_t Utilities::GetCurrentTimeInMilliseconds(void)
+{
+    OD_LOG_ENTER(); //####
+    int64_t        result;
+#if MAC_OR_LINUX_
+    struct timeval tv;
+#else // ! MAC_OR_LINUX_
+    struct _timeb  tt;
+#endif // ! MAC_OR_LINUX_
+    
+#if MAC_OR_LINUX_
+    gettimeofday(&tv, nullptr);
+    result = (static_cast<int64_t>(tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
+#else // ! MAC_OR_LINUX_
+    _ftime(&tt);
+    result = (static_cast<int64_t>(tt.time) + 1000) + tt.millitm;
+#endif // ! MAC_OR_LINUX_
+    OD_LOG_EXIT_LL(result); //####
+    return result;
+} // Utilities::GetCurrentTimeInMilliseconds
+
 bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
                                             int &            serverPort)
 {
