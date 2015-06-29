@@ -240,8 +240,8 @@ CMsecondaryfiles = CMdocumentationHistory.tex CMfrontispiece.tex CMmanagingServi
 		CMnoRegistryService.tex CMnoYarp.tex CMoverview.tex CMtagsAndEndpoints.tex \
 		CMutility.tex $(Commonsources) $(Commonpngfiles)
 	
-IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMoverview.tex \
-		IMprocedure.tex $(Commonsources) $(Commonpngfiles)
+IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMinstalling.tex \
+		IMoverview.tex IMuninstalling.tex $(Commonsources) $(Commonpngfiles)
 
 JSsecondaryfiles = JSdocumentationHistory.tex JSfrontispiece.tex JSoverview.tex \
 		JSfileFormat.tex JSservice.tex JSexamples.tex $(Commonsources) $(Commonpngfiles)
