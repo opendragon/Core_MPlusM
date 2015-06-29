@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputRequests.h
+//  File:       M+MNatNetInputRequests.h
 //
 //  Project:    M+M
 //
-//  Contains:   The common macro definitions for requests and responses for the NaturalPoint input
-//              service.
+//  Contains:   The common macro definitions for requests and responses for the Natural Point NatNet
+//              input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMNaturalPointInputRequests_H_))
-# define MpMNaturalPointInputRequests_H_ /* Header guard */
+#if (! defined(MpMNatNetInputRequests_H_))
+# define MpMNatNetInputRequests_H_ /* Header guard */
 
 # include <mpm/M+MRequests.h>
 
@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the NaturalPoint input
+ @brief The common macro definitions for requests and responses for the Natural Point %NatNet input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the NaturalPoint input service. */
-# define MpM_NATURALPOINTINPUT_CANONICAL_NAME_ "NaturalPointInput"
+/*! @brief The channel-independent name of the Natural Point %NatNet input service. */
+# define MpM_NATNETINPUT_CANONICAL_NAME_ "NatNetInput"
 
-#endif // ! defined(MpMNaturalPointInputRequests_H_)
+#endif // ! defined(MpMNatNetInputRequests_H_)

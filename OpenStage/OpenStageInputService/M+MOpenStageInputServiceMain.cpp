@@ -53,13 +53,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Organic Motion OpenStage input service. */
+ @brief The main application for the Organic Motion %OpenStage input service. */
 
 /*! @dir OpenStage
- @brief The set of files that implement the Organic Motion OpenStage input service. */
+ @brief The set of files that implement the Organic Motion %OpenStage input service. */
 
 /*! @dir OpenStageInputService
- @brief The set of files that implement the Organic Motion OpenStage input service. */
+ @brief The set of files that implement the Organic Motion %OpenStage input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -103,13 +103,13 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the Organic Motion OpenStage input service.
+/*! @brief Set up the environment and start the Organic Motion %OpenStage input service.
  @param hostName The IP address for the device server.
  @param hostPort The port for the device server.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the Organic Motion %OpenStage input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -138,7 +138,9 @@ static void setUpAndGo(YarpString &                        hostName,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    OpenStageInputService * aService = new OpenStageInputService(progName, argc, argv, tag, serviceEndpointName, servicePortNumber);
+    OpenStageInputService * aService = new OpenStageInputService(progName, argc, argv, tag,
+                                                                 serviceEndpointName,
+                                                                 servicePortNumber);
 
     if (aService)
     {
@@ -308,7 +310,7 @@ static void setUpAndGo(YarpString &                        hostName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Organic Motion OpenStage input service.
+/*! @brief The entry point for running the Organic Motion %OpenStage input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -318,7 +320,7 @@ static void setUpAndGo(YarpString &                        hostName,
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Organic Motion OpenStage input service.
+ @param argv The arguments to be used with the Organic Motion %OpenStage input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

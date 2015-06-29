@@ -102,8 +102,8 @@ mpmMovementDbClient
 mpmMovementDbClient.rc
 mpmMovementDbService
 mpmMovementDbService.rc
-mpmNaturalPointInputService
-mpmNaturalPointInputService.rc
+mpmNatNetInputService
+mpmNatNetInputService.rc
 mpmOpenStageInputService
 mpmOpenStageInputService.rc
 mpmParserTest

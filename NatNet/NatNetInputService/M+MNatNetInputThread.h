@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputThread.h
+//  File:       M+MNatNetInputThread.h
 //
 //  Project:    M+M
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMNaturalPointInputThread_H_))
-# define MpMNaturalPointInputThread_H_ /* Header guard */
+#if (! defined(MpMNatNetInputThread_H_))
+# define MpMNatNetInputThread_H_ /* Header guard */
 
 # include <mpm/M+MGeneralChannel.h>
 
@@ -54,10 +54,10 @@
 
 namespace MplusM
 {
-    namespace NaturalPoint
+    namespace NatNet
     {
         /*! @brief A convenience class to generate output. */
-        class NaturalPointInputThread : public yarp::os::Thread
+        class NatNetInputThread : public yarp::os::Thread
         {
         public :
             
@@ -65,12 +65,12 @@ namespace MplusM
              @param outChannel The channel to send data bursts to.
              @param timeToWait The number of seconds to delay before triggering.
              @param numValues The number of values to send in each burst. */
-            NaturalPointInputThread(Common::GeneralChannel * outChannel,
-                                    const double             timeToWait,
-                                    const int                numValues);
+            NatNetInputThread(Common::GeneralChannel * outChannel,
+                              const double             timeToWait,
+                              const int                numValues);
             
             /*! @brief The destructor. */
-            virtual ~NaturalPointInputThread(void);
+            virtual ~NatNetInputThread(void);
             
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
@@ -89,7 +89,7 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-            COPY_AND_ASSIGNMENT_(NaturalPointInputThread);
+            COPY_AND_ASSIGNMENT_(NatNetInputThread);
             
         public :
         
@@ -132,10 +132,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // NaturalPointInputThread
+        }; // NatNetInputThread
         
-    } // NaturalPoint
+    } // NatNet
     
 } // MplusM
 
-#endif // ! defined(MpMNaturalPointInputThread_H_)
+#endif // ! defined(MpMNatNetInputThread_H_)

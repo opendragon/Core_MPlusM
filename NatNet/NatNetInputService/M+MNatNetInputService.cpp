@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputService.cpp
+//  File:       M+MNatNetInputService.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the NaturalPoint input service.
+//  Contains:   The class definition for the Natural Point NatNet input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MNaturalPointInputService.h"
-#include "M+MNaturalPointInputRequests.h"
-#include "M+MNaturalPointInputThread.h"
+#include "M+MNatNetInputService.h"
+#include "M+MNatNetInputRequests.h"
+#include "M+MNatNetInputThread.h"
 
 #include <mpm/M+MEndpoint.h>
 
@@ -51,7 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the NaturalPoint input service. */
+ @brief The class definition for the Natural Point %NatNet input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -62,7 +62,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::NaturalPoint;
+using namespace MplusM::NatNet;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -84,14 +84,14 @@ using namespace MplusM::NaturalPoint;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-NaturalPointInputService::NaturalPointInputService(const YarpString & launchPath,
-                                                   const int          argc,
-                                                   char * *           argv,
-                                                   const YarpString & tag,
-                                                   const YarpString & serviceEndpointName,
-                                                   const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_NATURALPOINTINPUT_CANONICAL_NAME_,
-              NATURALPOINTINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+NatNetInputService::NatNetInputService(const YarpString & launchPath,
+                                       const int          argc,
+                                       char * *           argv,
+                                       const YarpString & tag,
+                                       const YarpString & serviceEndpointName,
+                                       const YarpString & servicePortNumber) :
+    inherited(launchPath, argc, argv, tag, true, MpM_NATNETINPUT_CANONICAL_NAME_,
+              NATNETINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
@@ -100,20 +100,20 @@ NaturalPointInputService::NaturalPointInputService(const YarpString & launchPath
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
-} // NaturalPointInputService::NaturalPointInputService
+} // NatNetInputService::NatNetInputService
 
-NaturalPointInputService::~NaturalPointInputService(void)
+NatNetInputService::~NatNetInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputService::~NaturalPointInputService
+} // NatNetInputService::~NatNetInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool NaturalPointInputService::configure(const yarp::os::Bottle & details)
+bool NatNetInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -155,9 +155,9 @@ bool NaturalPointInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NaturalPointInputService::configure
+} // NatNetInputService::configure
 
-void NaturalPointInputService::restartStreams(void)
+void NatNetInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -172,9 +172,9 @@ void NaturalPointInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputService::restartStreams
+} // NatNetInputService::restartStreams
 
-bool NaturalPointInputService::setUpStreamDescriptions(void)
+bool NatNetInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -188,9 +188,9 @@ bool NaturalPointInputService::setUpStreamDescriptions(void)
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NaturalPointInputService::setUpStreamDescriptions
+} // NatNetInputService::setUpStreamDescriptions
 
-bool NaturalPointInputService::shutDownOutputStreams(void)
+bool NatNetInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -201,9 +201,9 @@ bool NaturalPointInputService::shutDownOutputStreams(void)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // NaturalPointInputService::shutDownOutputStreams
+} // NatNetInputService::shutDownOutputStreams
 
-bool NaturalPointInputService::start(void)
+bool NatNetInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -228,16 +228,16 @@ bool NaturalPointInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // NaturalPointInputService::start
+} // NatNetInputService::start
 
-void NaturalPointInputService::startStreams(void)
+void NatNetInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            _generator = new NaturalPointInputThread(getOutletStream(0), _burstPeriod, _burstSize);
+            _generator = new NatNetInputThread(getOutletStream(0), _burstPeriod, _burstSize);
             _generator->start();
             setActive();
         }
@@ -248,9 +248,9 @@ void NaturalPointInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputService::startStreams
+} // NatNetInputService::startStreams
 
-bool NaturalPointInputService::stop(void)
+bool NatNetInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -266,9 +266,9 @@ bool NaturalPointInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NaturalPointInputService::stop
+} // NatNetInputService::stop
 
-void NaturalPointInputService::stopStreams(void)
+void NatNetInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -291,7 +291,7 @@ void NaturalPointInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputService::stopStreams
+} // NatNetInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

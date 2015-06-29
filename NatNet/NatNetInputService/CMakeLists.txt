@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       NaturalPointInputService/CMakeLists.txt
+#  File:       NatNetInputService/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The CMAKE definitions for the NaturalPoint input service application.
+#  Contains:   The CMAKE definitions for the Natural Point NatNet input service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmNaturalPointInputService)
+set(THIS_TARGET mpmNatNetInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -47,17 +47,17 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
-	#include_directories(${MpMNATURALPOINT_SOURCE_DIR}/NaturalPointInputService/KinectLib/inc)
+	#include_directories(${MpMNATNET_SOURCE_DIR}/NatNetInputService/KinectLib/inc)
 	#add_library(Kinect SHARED IMPORTED)
-	#set_property(TARGET NaturalPoint PROPERTY IMPORTED_IMPLIB
-        #        ${MpMNATURALPOINT_SOURCE_DIR}/NaturalPointInputService/KinectLib/Lib/x86/Kinect20.lib)
+	#set_property(TARGET NatNet PROPERTY IMPORTED_IMPLIB
+        #        ${MpMNATNET_SOURCE_DIR}/NatNetInputService/KinectLib/Lib/x86/Kinect20.lib)
 endif(WIN32)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MNaturalPointInputServiceMain.cpp
-               M+MNaturalPointInputService.cpp
-               M+MNaturalPointInputThread.cpp
+               M+MNatNetInputServiceMain.cpp
+               M+MNatNetInputService.cpp
+               M+MNatNetInputThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

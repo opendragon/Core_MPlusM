@@ -103,7 +103,7 @@ static void displayCommands(void)
 /*! @brief Set up the environment and start the %ProComp2 input service.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the %ProComp2 input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -302,7 +302,7 @@ static void setUpAndGo(const YarpString & progName,
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the %ProComp2 input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

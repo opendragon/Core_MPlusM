@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmNaturalPointInputService.rc
+// Used by mpmNatNetInputService.rc
 
 // Next default values for new objects
 // 

@@ -54,7 +54,8 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a thread that generates output from Organic Motion OpenStage data. */
+ @brief The class declaration for a thread that generates output from Organic Motion %OpenStage
+ data. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -63,15 +64,15 @@ namespace MplusM
 {
 	namespace OpenStage
     {
-		/*! @brief A class to generate output from Organic Motion OpenStage data. */
+		/*! @brief A class to generate output from Organic Motion %OpenStage data. */
 		class OpenStageInputThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
-			 @param name The host name to connect to the Organic Motion OpenStage server.
-			 @param port The host port to connect to the Organic Motion OpenStage server. */	
+			 @param name The host name to connect to the Organic Motion %OpenStage server.
+			 @param port The host port to connect to the Organic Motion %OpenStage server. */	
 			OpenStageInputThread(Common::GeneralChannel * outChannel,
 				                 const YarpString &       name,
 								 const int                port);
@@ -121,10 +122,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-			/*! @brief The address of the Organic Motion device. */
+			/*! @brief The address of the Organic Motion %OpenStage device. */
 			YarpString _address;
 
-			/*! @brief The port of the Organic Motion device. */
+			/*! @brief The port of the Organic Motion %OpenStage device. */
 			int _port;
 
             /*! @brief The channel to send data bursts to. */

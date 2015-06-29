@@ -67,12 +67,12 @@ BEGIN
         BLOCK "100904b0"
         BEGIN
             VALUE "CompanyName", "@MpM_COMPANY@\0"
-            VALUE "FileDescription", "NaturalPoint Input Service\0"
+            VALUE "FileDescription", "NatNet Input Service\0"
             VALUE "FileVersion", "@MpM_VERSION_STRING@.0\0"
-            VALUE "InternalName", "mpmNatur.exe\0"
+            VALUE "InternalName", "mpmNatNe.exe\0"
             VALUE "LegalCopyright", "(c) 2015 by @MpM_COMPANY@.\0"
-            VALUE "OriginalFilename", "mpmNatur.exe\0"
-            VALUE "ProductName", "NaturalPoint Input Service\0"
+            VALUE "OriginalFilename", "mpmNatNe.exe\0"
+            VALUE "ProductName", "NatNet Input Service\0"
             VALUE "ProductVersion", "@MpM_VERSION_STRING@.0\0"
         END
     END

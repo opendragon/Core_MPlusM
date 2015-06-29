@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputThread.cpp
+//  File:       M+MNatNetInputThread.cpp
 //
 //  Project:    M+M
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MNaturalPointInputThread.h"
+#include "M+MNatNetInputThread.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -58,7 +58,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::NaturalPoint;
+using namespace MplusM::NatNet;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -80,9 +80,9 @@ using namespace MplusM::NaturalPoint;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-NaturalPointInputThread::NaturalPointInputThread(GeneralChannel * outChannel,
-                                                 const double     timeToWait,
-                                                 const int        numValues) :
+NatNetInputThread::NatNetInputThread(GeneralChannel * outChannel,
+                                     const double     timeToWait,
+                                     const int        numValues) :
     inherited(), _outChannel(outChannel), _timeToWait(timeToWait), _numValues(numValues)
 {
     OD_LOG_ENTER(); //####
@@ -90,26 +90,26 @@ NaturalPointInputThread::NaturalPointInputThread(GeneralChannel * outChannel,
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_LL1("numValues = ", numValues); //####
     OD_LOG_EXIT_P(this); //####
-} // NaturalPointInputThread::NaturalPointInputThread
+} // NatNetInputThread::NatNetInputThread
 
-NaturalPointInputThread::~NaturalPointInputThread(void)
+NatNetInputThread::~NatNetInputThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputThread::~NaturalPointInputThread
+} // NatNetInputThread::~NatNetInputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void NaturalPointInputThread::clearOutputChannel(void)
+void NatNetInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputThread::clearOutputChannel
+} // NatNetInputThread::clearOutputChannel
 
-void NaturalPointInputThread::run(void)
+void NatNetInputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -138,9 +138,9 @@ void NaturalPointInputThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputThread::run
+} // NatNetInputThread::run
 
-bool NaturalPointInputThread::threadInit(void)
+bool NatNetInputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -148,13 +148,13 @@ bool NaturalPointInputThread::threadInit(void)
     _nextTime = yarp::os::Time::now() + _timeToWait;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NaturalPointInputThread::threadInit
+} // NatNetInputThread::threadInit
 
-void NaturalPointInputThread::threadRelease(void)
+void NatNetInputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // NaturalPointInputThread::threadRelease
+} // NatNetInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

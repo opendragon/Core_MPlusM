@@ -48,16 +48,26 @@
 		DF1C1C721B3C4A2600E816A4 /* M+MRecordAsJSONOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordAsJSONOutputServiceMain.cpp"; path = "examples/RecordAsJSONService/M+MRecordAsJSONOutputServiceMain.cpp"; sourceTree = "<group>"; };
 		DF1C1C731B3C4A2600E816A4 /* mpmRecordAsJSONOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRecordAsJSONOutputService.rc.in; path = examples/RecordAsJSONService/mpmRecordAsJSONOutputService.rc.in; sourceTree = "<group>"; };
 		DF1C1C741B3C4A2600E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/RecordAsJSONService/resource.h; sourceTree = "<group>"; };
-		DF1C1C761B3CA1A600E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = OrganicMotion/CMakeLists.txt; sourceTree = "<group>"; };
-		DF1C1C781B3CA1D600E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = OrganicMotion/OrganicMotionInputService/CMakeLists.txt; sourceTree = "<group>"; };
-		DF1C1C791B3CA1D600E816A4 /* M+MOrganicMotionInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOrganicMotionInputRequests.h"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputRequests.h"; sourceTree = "<group>"; };
-		DF1C1C7A1B3CA1D600E816A4 /* M+MOrganicMotionInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOrganicMotionInputService.cpp"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputService.cpp"; sourceTree = "<group>"; };
-		DF1C1C7B1B3CA1D600E816A4 /* M+MOrganicMotionInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOrganicMotionInputService.h"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputService.h"; sourceTree = "<group>"; };
-		DF1C1C7C1B3CA1D600E816A4 /* M+MOrganicMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOrganicMotionInputServiceMain.cpp"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputServiceMain.cpp"; sourceTree = "<group>"; };
-		DF1C1C7D1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOrganicMotionInputThread.cpp"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputThread.cpp"; sourceTree = "<group>"; };
-		DF1C1C7E1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOrganicMotionInputThread.h"; path = "OrganicMotion/OrganicMotionInputService/M+MOrganicMotionInputThread.h"; sourceTree = "<group>"; };
-		DF1C1C7F1B3CA1D600E816A4 /* mpmOrganicMotionInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmOrganicMotionInputService.rc.in; path = OrganicMotion/OrganicMotionInputService/mpmOrganicMotionInputService.rc.in; sourceTree = "<group>"; };
-		DF1C1C801B3CA1D600E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = OrganicMotion/OrganicMotionInputService/resource.h; sourceTree = "<group>"; };
+		DF1C1C811B41B1FE00E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = OpenStage/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C821B41B20D00E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = OpenStage/OpenStageInputService/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C831B41B20D00E816A4 /* M+MOpenStageInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOpenStageInputRequests.h"; path = "OpenStage/OpenStageInputService/M+MOpenStageInputRequests.h"; sourceTree = "<group>"; };
+		DF1C1C841B41B20D00E816A4 /* M+MOpenStageInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOpenStageInputService.cpp"; path = "OpenStage/OpenStageInputService/M+MOpenStageInputService.cpp"; sourceTree = "<group>"; };
+		DF1C1C851B41B20D00E816A4 /* M+MOpenStageInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOpenStageInputService.h"; path = "OpenStage/OpenStageInputService/M+MOpenStageInputService.h"; sourceTree = "<group>"; };
+		DF1C1C861B41B20D00E816A4 /* M+MOpenStageInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOpenStageInputServiceMain.cpp"; path = "OpenStage/OpenStageInputService/M+MOpenStageInputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF1C1C871B41B20D00E816A4 /* M+MOpenStageInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MOpenStageInputThread.cpp"; path = "OpenStage/OpenStageInputService/M+MOpenStageInputThread.cpp"; sourceTree = "<group>"; };
+		DF1C1C881B41B20D00E816A4 /* M+MOpenStageInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MOpenStageInputThread.h"; path = "OpenStage/OpenStageInputService/M+MOpenStageInputThread.h"; sourceTree = "<group>"; };
+		DF1C1C891B41B20D00E816A4 /* mpmOpenStageInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmOpenStageInputService.rc.in; path = OpenStage/OpenStageInputService/mpmOpenStageInputService.rc.in; sourceTree = "<group>"; };
+		DF1C1C8A1B41B20D00E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = OpenStage/OpenStageInputService/resource.h; sourceTree = "<group>"; };
+		DF1C1C8B1B41B29300E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = NatNet/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1C1C8C1B41B2A800E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = NatNet/NatNetInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF1C1C8D1B41B2A800E816A4 /* M+MNatNetInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNatNetInputRequests.h"; path = "NatNet/NatNetInputService/M+MNatNetInputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF1C1C8E1B41B2A800E816A4 /* M+MNatNetInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNatNetInputService.cpp"; path = "NatNet/NatNetInputService/M+MNatNetInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1C1C8F1B41B2A800E816A4 /* M+MNatNetInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNatNetInputService.h"; path = "NatNet/NatNetInputService/M+MNatNetInputService.h"; sourceTree = SOURCE_ROOT; };
+		DF1C1C901B41B2A800E816A4 /* M+MNatNetInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNatNetInputThread.cpp"; path = "NatNet/NatNetInputService/M+MNatNetInputThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1C1C911B41B2A800E816A4 /* M+MNatNetInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNatNetInputThread.h"; path = "NatNet/NatNetInputService/M+MNatNetInputThread.h"; sourceTree = SOURCE_ROOT; };
+		DF1C1C921B41B2A800E816A4 /* M+MNatNetServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNatNetServiceMain.cpp"; path = "NatNet/NatNetInputService/M+MNatNetServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF1C1C931B41B2A800E816A4 /* mpmNatNetInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmNatNetInputService.rc.in; path = NatNet/NatNetInputService/mpmNatNetInputService.rc.in; sourceTree = SOURCE_ROOT; };
+		DF1C1C941B41B2A800E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = NatNet/NatNetInputService/resource.h; sourceTree = SOURCE_ROOT; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -520,7 +530,6 @@
 		DFA7D0F71ADD9AA800A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = MovementDb/MovementDbClient/resource.h; sourceTree = "<group>"; };
 		DFA7D0F91ADD9AC900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = MovementDb/MovementDbService/resource.h; sourceTree = "<group>"; };
 		DFA7D0FB1ADD9B1900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = CommonTests/resource.h; sourceTree = "<group>"; };
-		DFA7D0FD1ADD9B4C00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = NaturalPoint/NaturalPointInputService/resource.h; sourceTree = SOURCE_ROOT; };
 		DFA7D0FF1ADD9B7500A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ParserTest/resource.h; sourceTree = "<group>"; };
 		DFA7D1011ADD9B9400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = PortLister/resource.h; sourceTree = "<group>"; };
 		DFA7D1061ADD9BE000A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RegistryService/resource.h; sourceTree = "<group>"; };
@@ -567,7 +576,6 @@
 		DFA7D1411ADDB74800A17BD6 /* mpmLeapTwoFingersInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmLeapTwoFingersInputService.rc.in; path = LeapMotion/LeapMotionInputService/mpmLeapTwoFingersInputService.rc.in; sourceTree = "<group>"; };
 		DFA7D1431ADDB76D00A17BD6 /* mpmMovementDbClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbClient.rc.in; path = MovementDb/MovementDbClient/mpmMovementDbClient.rc.in; sourceTree = "<group>"; };
 		DFA7D1441ADDB77C00A17BD6 /* mpmMovementDbService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbService.rc.in; path = MovementDb/MovementDbService/mpmMovementDbService.rc.in; sourceTree = "<group>"; };
-		DFA7D1451ADDB7A800A17BD6 /* mpmNaturalPointInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmNaturalPointInputService.rc.in; path = NaturalPoint/NaturalPointInputService/mpmNaturalPointInputService.rc.in; sourceTree = SOURCE_ROOT; };
 		DFA7D1461ADDB7B600A17BD6 /* mpmParserTest.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmParserTest.rc.in; path = ParserTest/mpmParserTest.rc.in; sourceTree = "<group>"; };
 		DFA7D1471ADDB7C300A17BD6 /* mpmPortLister.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmPortLister.rc.in; path = PortLister/mpmPortLister.rc.in; sourceTree = "<group>"; };
 		DFA7D1491ADDB87400A17BD6 /* mpmRegistryService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRegistryService.rc.in; path = RegistryService/mpmRegistryService.rc.in; sourceTree = "<group>"; };
@@ -586,14 +594,6 @@
 		DFA7D1561ADDB92900A17BD6 /* mpmUnrealOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmUnrealOutputService.rc.in; path = Unreal/UnrealOutputService/mpmUnrealOutputService.rc.in; sourceTree = "<group>"; };
 		DFA7D1571ADDB93900A17BD6 /* mpmVersion.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmVersion.rc.in; path = Version/mpmVersion.rc.in; sourceTree = "<group>"; };
 		DFA7D1581ADDB94700A17BD6 /* mpmViconDataStreamInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmViconDataStreamInputService.rc.in; path = ViconDataStream/ViconDataStreamInputService/mpmViconDataStreamInputService.rc.in; sourceTree = "<group>"; };
-		DFCB01F21ADC416700A5ACBA /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = NaturalPoint/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DFCB01F41ADC418C00A5ACBA /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = NaturalPoint/NaturalPointInputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DFCB01F51ADC418C00A5ACBA /* M+MNaturalPointInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNaturalPointInputRequests.h"; path = "NaturalPoint/NaturalPointInputService/M+MNaturalPointInputRequests.h"; sourceTree = SOURCE_ROOT; };
-		DFCB01F61ADC418C00A5ACBA /* M+MNaturalPointInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNaturalPointInputService.cpp"; path = "NaturalPoint/NaturalPointInputService/M+MNaturalPointInputService.cpp"; sourceTree = SOURCE_ROOT; };
-		DFCB01F71ADC418C00A5ACBA /* M+MNaturalPointInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNaturalPointInputService.h"; path = "NaturalPoint/NaturalPointInputService/M+MNaturalPointInputService.h"; sourceTree = SOURCE_ROOT; };
-		DFCB01F81ADC418C00A5ACBA /* M+MNaturalPointInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNaturalPointInputServiceMain.cpp"; path = "NaturalPoint/NaturalPointInputService/M+MNaturalPointInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DFCB01F91ADC418C00A5ACBA /* M+MNaturalPointInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNaturalPointInputThread.cpp"; path = "NaturalPoint/NaturalPointInputService/M+MNaturalPointInputThread.cpp"; sourceTree = SOURCE_ROOT; };
-		DFCB01FA1ADC418C00A5ACBA /* M+MNaturalPointInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNaturalPointInputThread.h"; path = "NaturalPoint/NaturalPointInputService/M+MNaturalPointInputThread.h"; sourceTree = SOURCE_ROOT; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* M+MClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MClientListMain.cpp"; path = "ClientList/M+MClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -912,29 +912,29 @@
 			name = BlobOutputService;
 			sourceTree = "<group>";
 		};
-		DF1C1C751B3CA19300E816A4 /* OrganicMotion */ = {
+		DF1C1C751B3CA19300E816A4 /* OpenStage */ = {
 			isa = PBXGroup;
 			children = (
-				DF1C1C761B3CA1A600E816A4 /* CMakeLists.txt */,
-				DF1C1C771B3CA1C100E816A4 /* OrganicMotionInputService */,
+				DF1C1C811B41B1FE00E816A4 /* CMakeLists.txt */,
+				DF1C1C771B3CA1C100E816A4 /* OpenStageInputService */,
 			);
-			name = OrganicMotion;
+			name = OpenStage;
 			sourceTree = "<group>";
 		};
-		DF1C1C771B3CA1C100E816A4 /* OrganicMotionInputService */ = {
+		DF1C1C771B3CA1C100E816A4 /* OpenStageInputService */ = {
 			isa = PBXGroup;
 			children = (
-				DF1C1C781B3CA1D600E816A4 /* CMakeLists.txt */,
-				DF1C1C791B3CA1D600E816A4 /* M+MOrganicMotionInputRequests.h */,
-				DF1C1C7A1B3CA1D600E816A4 /* M+MOrganicMotionInputService.cpp */,
-				DF1C1C7B1B3CA1D600E816A4 /* M+MOrganicMotionInputService.h */,
-				DF1C1C7C1B3CA1D600E816A4 /* M+MOrganicMotionInputServiceMain.cpp */,
-				DF1C1C7D1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.cpp */,
-				DF1C1C7E1B3CA1D600E816A4 /* M+MOrganicMotionInputThread.h */,
-				DF1C1C7F1B3CA1D600E816A4 /* mpmOrganicMotionInputService.rc.in */,
-				DF1C1C801B3CA1D600E816A4 /* resource.h */,
+				DF1C1C821B41B20D00E816A4 /* CMakeLists.txt */,
+				DF1C1C831B41B20D00E816A4 /* M+MOpenStageInputRequests.h */,
+				DF1C1C841B41B20D00E816A4 /* M+MOpenStageInputService.cpp */,
+				DF1C1C851B41B20D00E816A4 /* M+MOpenStageInputService.h */,
+				DF1C1C861B41B20D00E816A4 /* M+MOpenStageInputServiceMain.cpp */,
+				DF1C1C871B41B20D00E816A4 /* M+MOpenStageInputThread.cpp */,
+				DF1C1C881B41B20D00E816A4 /* M+MOpenStageInputThread.h */,
+				DF1C1C891B41B20D00E816A4 /* mpmOpenStageInputService.rc.in */,
+				DF1C1C8A1B41B20D00E816A4 /* resource.h */,
 			);
-			name = OrganicMotionInputService;
+			name = OpenStageInputService;
 			sourceTree = "<group>";
 		};
 		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
@@ -1631,9 +1631,9 @@
 				DF824BBA19C8B0B1004D13AC /* LeapMotion */,
 				DFE83ABA19B661EB003A7EDE /* MovementDb */,
 				DFA3434F18C91C670053B87C /* mpm */,
-				DFCB01F11ADC3DB600A5ACBA /* NaturalPoint */,
+				DFCB01F11ADC3DB600A5ACBA /* NatNet */,
 				DFA3432618C91C1C0053B87C /* odl */,
-				DF1C1C751B3CA19300E816A4 /* OrganicMotion */,
+				DF1C1C751B3CA19300E816A4 /* OpenStage */,
 				DF27F42718CA357400E93C95 /* ParserTest */,
 				DF30063718E605D400B51C22 /* PortLister */,
 				DF0C7A911AE006C000E8FB15 /* ProComp2 */,
@@ -1927,30 +1927,30 @@
 			name = ChordGeneratorService;
 			sourceTree = SOURCE_ROOT;
 		};
-		DFCB01F11ADC3DB600A5ACBA /* NaturalPoint */ = {
+		DFCB01F11ADC3DB600A5ACBA /* NatNet */ = {
 			isa = PBXGroup;
 			children = (
-				DFCB01F21ADC416700A5ACBA /* CMakeLists.txt */,
-				DFCB01F31ADC416D00A5ACBA /* NaturalPointInputService */,
+				DF1C1C8B1B41B29300E816A4 /* CMakeLists.txt */,
+				DFCB01F31ADC416D00A5ACBA /* NatNetInputService */,
 			);
-			name = NaturalPoint;
+			name = NatNet;
 			path = MPlusM.xcodeproj;
 			sourceTree = "<group>";
 		};
-		DFCB01F31ADC416D00A5ACBA /* NaturalPointInputService */ = {
+		DFCB01F31ADC416D00A5ACBA /* NatNetInputService */ = {
 			isa = PBXGroup;
 			children = (
-				DFCB01F41ADC418C00A5ACBA /* CMakeLists.txt */,
-				DFCB01F51ADC418C00A5ACBA /* M+MNaturalPointInputRequests.h */,
-				DFCB01F61ADC418C00A5ACBA /* M+MNaturalPointInputService.cpp */,
-				DFCB01F71ADC418C00A5ACBA /* M+MNaturalPointInputService.h */,
-				DFCB01F81ADC418C00A5ACBA /* M+MNaturalPointInputServiceMain.cpp */,
-				DFCB01F91ADC418C00A5ACBA /* M+MNaturalPointInputThread.cpp */,
-				DFCB01FA1ADC418C00A5ACBA /* M+MNaturalPointInputThread.h */,
-				DFA7D1451ADDB7A800A17BD6 /* mpmNaturalPointInputService.rc.in */,
-				DFA7D0FD1ADD9B4C00A17BD6 /* resource.h */,
+				DF1C1C8C1B41B2A800E816A4 /* CMakeLists.txt */,
+				DF1C1C8D1B41B2A800E816A4 /* M+MNatNetInputRequests.h */,
+				DF1C1C8E1B41B2A800E816A4 /* M+MNatNetInputService.cpp */,
+				DF1C1C8F1B41B2A800E816A4 /* M+MNatNetInputService.h */,
+				DF1C1C901B41B2A800E816A4 /* M+MNatNetInputThread.cpp */,
+				DF1C1C911B41B2A800E816A4 /* M+MNatNetInputThread.h */,
+				DF1C1C921B41B2A800E816A4 /* M+MNatNetServiceMain.cpp */,
+				DF1C1C931B41B2A800E816A4 /* mpmNatNetInputService.rc.in */,
+				DF1C1C941B41B2A800E816A4 /* resource.h */,
 			);
-			name = NaturalPointInputService;
+			name = NatNetInputService;
 			sourceTree = "<group>";
 		};
 		DFCB229718EF23D200358EA5 /* ClientList */ = {

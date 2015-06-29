@@ -5,8 +5,7 @@
 //  Project:    M+M
 //
 //  Contains:   The common macro definitions for requests and responses for the Organic Motion
-//				OpenStage input
-//              service.
+//				OpenStage input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -49,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Organic Motion OpenStage
+ @brief The common macro definitions for requests and responses for the Organic Motion %OpenStage
  input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Organic Motion OpenStage input service. */
+/*! @brief The channel-independent name of the Organic Motion %OpenStage input service. */
 # define MpM_OPENSTAGEINPUT_CANONICAL_NAME_ "OpenStageInput"
 
 /*! @brief The default port number to be used. */

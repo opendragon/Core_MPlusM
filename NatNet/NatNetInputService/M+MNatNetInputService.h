@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputService.h
+//  File:       M+MNatNetInputService.h
 //
 //  Project:    M+M
 //
-//  Contains:   The class declaration for the NaturalPoint input service.
+//  Contains:   The class declaration for the Natural Point NatNet input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMNaturalPointInputService_H_))
-# define MpMNaturalPointInputService_H_ /* Header guard */
+#if (! defined(MpMNatNetInputService_H_))
+# define MpMNatNetInputService_H_ /* Header guard */
 
 # include <mpm/M+MBaseInputService.h>
 
@@ -47,26 +47,25 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the NaturalPoint input service. */
+ @brief The class declaration for the Natural Point %NatNet input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_NATURALPOINTINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                   "input/naturalpoint")
+# define DEFAULT_NATNETINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/naturalpoint")
 
 /*! @brief The description of the service. */
-# define NATURALPOINTINPUT_SERVICE_DESCRIPTION_ T_("NaturalPoint input service")
+# define NATNETINPUT_SERVICE_DESCRIPTION_ T_("NatNet input service")
 
 namespace MplusM
 {
-    namespace NaturalPoint
+    namespace NatNet
     {
-        class NaturalPointInputThread;
+        class NatNetInputThread;
         
-        /*! @brief The NaturalPoint input service. */
-        class NaturalPointInputService : public Common::BaseInputService
+        /*! @brief The %NatNet input service. */
+        class NatNetInputService : public Common::BaseInputService
         {
         public :
             
@@ -77,15 +76,15 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            NaturalPointInputService(const YarpString & launchPath,
-                                     const int          argc,
-                                     char * *           argv,
-                                     const YarpString & tag,
-                                     const YarpString & serviceEndpointName,
-                                     const YarpString & servicePortNumber = "");
+            NatNetInputService(const YarpString & launchPath,
+                               const int          argc,
+                               char * *           argv,
+                               const YarpString & tag,
+                               const YarpString & serviceEndpointName,
+                               const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~NaturalPointInputService(void);
+            virtual ~NatNetInputService(void);
             
             /*! @brief Configure the input/output streams.
              @param details The configuration information for the input/output streams.
@@ -117,7 +116,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(NaturalPointInputService);
+            COPY_AND_ASSIGNMENT_(NatNetInputService);
             
             /*! @brief Set up the descriptions that will be used to construct the input/output
              streams. */
@@ -133,7 +132,7 @@ namespace MplusM
             typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
-            NaturalPointInputThread * _generator;
+            NatNetInputThread * _generator;
             
             /*! @brief The number of seconds between data bursts. */
             double _burstPeriod;
@@ -151,10 +150,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // NaturalPointInputService
+        }; // NatNetInputService
         
-    } // NaturalPoint
+    } // NatNet
     
 } // MplusM
 
-#endif // ! defined(MpMNaturalPointInputService_H_)
+#endif // ! defined(MpMNatNetInputService_H_)

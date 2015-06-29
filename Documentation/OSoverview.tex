@@ -1,0 +1,16 @@
+\ProvidesFile{OSoverview.tex}[v1.0.0]
+\primaryStart{Overview}
+\textbf{Movement~and~Meaning~Middleware} (also known as \mplusm) is a software system
+that acts as an intermediary between subsystems that provide sensor data, such as
+accelerometers and motion capture cameras, and actuators such as projectors and sound
+systems.
+It provides mechanisms for reporting and interrogating the protocols used by the sensors
+and actuators, as well as a standard architecture for creating services.\\
+
+The \OSI{} service is a derivative of the \mplusm{} class \asCode{mpmBaseInputService};
+it responds to the standard requests required by its parent class and acts as an interface
+to an Organic Motion OpenStage controller attached to the computer on which it runs.\\
+
+The standard behaviour of \asCode{mpmBaseInputService} class instances is described in
+the \emph{\MMM} manual.
+\primaryEnd{}

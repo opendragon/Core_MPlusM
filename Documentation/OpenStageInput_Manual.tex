@@ -1,0 +1,53 @@
+\ProvidesFile{OpenStageInput_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{Organic Motion OpenStage Input}
+\newcommand{\docKeywords}{Organic Motion,OpenStage,middleware,input}
+\newcommand{\docSubject}{Input Service}
+\newcommand{\OSI}{OpenStage~Input}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\OSI, \MMV]{\OSI, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\OSI}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%BEGIN LATEX
+\insertpart{List~of~Figures}{\listoffigures}
+%END LATEX
+
+\input{OSdocumentationHistory.tex}
+\input{OSfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{OSoverview.tex}
+
+%% section for the service
+
+\input{OSservice.tex}
+
+%% section for the message format
+
+\input{OSmessageFormat.tex}
+
+% End of contents
+
+\end{document}
+\end

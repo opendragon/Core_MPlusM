@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MNaturalPointInputServiceMain.cpp
+//  File:       M+MNatNetInputServiceMain.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The main application for the NaturalPoint input service.
+//  Contains:   The main application for the Natural Point NatNet input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MNaturalPointInputService.h"
+#include "M+MNatNetInputService.h"
 
 #include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
@@ -51,13 +51,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the NaturalPoint input service. */
+ @brief The main application for the Natural Point %NatNet input service. */
 
-/*! @dir NaturalPoint
- @brief The set of files that implement the NaturalPoint input service. */
+/*! @dir NatNet
+ @brief The set of files that implement the Natural Point %NatNet input service. */
 
-/*! @dir NaturalPointInputService
- @brief The set of files that implement the NaturalPoint input service. */
+/*! @dir NatNetInputService
+ @brief The set of files that implement the Natural Point %NatNet input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -68,7 +68,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::NaturalPoint;
+using namespace MplusM::NatNet;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -101,10 +101,10 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the NaturalPoint input service.
+/*! @brief Set up the environment and start the Natural Point %NatNet input service.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the Natural Point %NatNet input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -129,10 +129,9 @@ static void setUpAndGo(const YarpString & progName,
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    NaturalPointInputService * aService = new NaturalPointInputService(progName, argc, argv, tag,
-                                                                       serviceEndpointName,
-                                                                       servicePortNumber);
-
+    NatNetInputService * aService = new NatNetInputService(progName, argc, argv, tag,
+                                                           serviceEndpointName, servicePortNumber);
+    
     if (aService)
     {
         if (aService->start())
@@ -293,7 +292,7 @@ static void setUpAndGo(const YarpString & progName,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the NaturalPoint input service.
+/*! @brief The entry point for running the Natural Point %NatNet input service.
  
  The second, optional, argument is the port number to be used and the first, optional, argument is
  the name of the channel to be used. There is no output.
@@ -303,7 +302,7 @@ static void setUpAndGo(const YarpString & progName,
  The option 't' specifies the tag modifier, which is applied to the name of the channel, if the
  name was not specified. It is also applied to the service name as a suffix.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the Natural Point %NatNet input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -334,8 +333,8 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_NATURALPOINTINPUT_SERVICE_NAME_,
-                                          NATURALPOINTINPUT_SERVICE_DESCRIPTION_, "", 2015,
+                                          DEFAULT_NATNETINPUT_SERVICE_NAME_,
+                                          NATNETINPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))

@@ -4,7 +4,8 @@
 #
 #  Project:    M+M
 #
-#  Contains:   The common CMAKE definitions for the M+M Organic Motion OpenStage input service files.
+#  Contains:   The common CMAKE definitions for the M+M Organic Motion OpenStage input service
+#              files.
 #
 #  Written by: Norman Jaffe
 #

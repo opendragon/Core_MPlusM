@@ -1,0 +1,55 @@
+\ProvidesFile{OSservice.tex}[v1.0.0]
+\primaryStart[TheOSIService]{The~\OSI{}~Service}
+The \asCode{mpmOpenStageInputService} application is an Input service,
+generating a stream of information on the position and orientation of one or more bodies.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \emph{configure} request request has no arguments and does nothing.\\
+
+The \emph{restartStreams} request stops and then starts the output stream.\\
+
+The \emph{startStreams} request request initiates listening to the Organic Motion
+OpenStage controller.
+Once started, the service will send groups of body data via the output \yarp{} network
+connection.\\
+
+The \emph{stopStreams} request stops the Organic Motion OpenStage controller listener,
+which stops the output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \emph{Registry Service} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+\insertAppParameters
+\insertTagDescription{\NNI}
+\insertInputServiceComment\\
+
+If the application is running from a terminal and has not been automatically started via
+the `\asCode{go}' option, the following commands are available:
+\begin{itemize}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the output stream, sending body data}
+\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
+configurable parameters}
+\item\exSp\cmdItem{e}{stop the output stream}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the output stream}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+output stream is restarted}
+\end{itemize}
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
+If the service is selected for execution from within the \emph{Channel Manager}
+application, the following dialog will be presented:
+\objScaledDiagram{mpm_images/launchOpenStageInputService}%
+{launchServiceOpenStage}{Launch options for the \OSI{} service}{0.8}
+
+For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
+Manager Utility} manual.
+Once the options are set, the following image will appear in the \emph{Channel Manager}
+window when the service has successfully started:
+\objScaledDiagram{mpm_images/runningOpenStageInputService}%
+{serviceRunningOpenStage}{The \emph{Channel Manager} entity for the \OSI{} service}%
+{1.0}
+\secondaryEnd
+\primaryEnd{}

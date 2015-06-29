@@ -9,7 +9,7 @@ mpmKinectV2InputService
 mpmLeapBlobInputService
 mpmLeapMotionInputService
 mpmLeapTwoFingersInputService
-mpmNaturalPointInputService
+mpmNatNetInputService
 mpmOpenStageInputService
 mpmProComp2InputService
 mpmRandomBurstInputService

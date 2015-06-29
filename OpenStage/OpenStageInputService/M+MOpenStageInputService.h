@@ -47,14 +47,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the Organic Motion OpenStage input service. */
+ @brief The class declaration for the Organic Motion %OpenStage input service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_OPENSTAGEINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-															  "input/openstageos")
+# define DEFAULT_OPENSTAGEINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/openstageos")
 
 /*! @brief The description of the service. */
 # define OPENSTAGEINPUT_SERVICE_DESCRIPTION_ T_("OpenStage input service")
@@ -65,7 +64,7 @@ namespace MplusM
     {
 		class OpenStageInputThread;
         
-        /*! @brief The Organic Motion OpenStage input service. */
+        /*! @brief The Organic Motion %OpenStage input service. */
 		class OpenStageInputService : public Common::BaseInputService
         {
         public :
@@ -132,10 +131,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
             
-			/*! @brief The name of the Organic Motion device server. */
+			/*! @brief The name of the Organic Motion %OpenStage device server. */
 			YarpString _hostName;
 
-			/*! @brief The port to connect to the Organic Motion device server. */
+			/*! @brief The port to connect to the Organic Motion %OpenStage device server. */
 			int _hostPort;
 
 			/*! @brief The output thread to use. */

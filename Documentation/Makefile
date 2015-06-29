@@ -18,7 +18,9 @@ LMpsfiles =
 
 MMpsfiles = MMdbDiagram.ps MMmatchSyntaxrails.ps MMmpmDiagram.ps
 
-NPpsfiles =
+NNpsfiles =
+
+OSpsfiles =
 
 PC2psfiles =
 
@@ -39,7 +41,9 @@ LMepsfiles =
 MMepsfiles = $(IMAGE_DIR)/MMdbDiagram.eps $(IMAGE_DIR)/MMmatchSyntaxrails.eps \
 		$(IMAGE_DIR)/MMmpmDiagram.eps
 
-NPepsfiles =
+NNepsfiles =
+
+OSepsfiles =
 
 PC2epsfiles =
 
@@ -62,7 +66,9 @@ LMpngfiles =
 MMpngfiles = $(IMAGE_DIR)/MMdbDiagram.png $(IMAGE_DIR)/MMmatchSyntaxrails.png \
 		$(IMAGE_DIR)/MMmpmDiagram.png 
 
-NPpngfiles =
+NNpngfiles =
+
+OSpngfiles =
 
 PC2pngfiles =
 
@@ -182,7 +188,9 @@ MMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 		$(IMAGE_DIR)/runningTruncateFloatFilterService.eps \
 		$(IMAGE_DIR)/runningTunnelService.eps
 
-NPbitmapepsfiles =
+NNbitmapepsfiles =
+
+OSbitmapepsfiles =
 
 PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \
 		$(IMAGE_DIR)/runningProComp2InputService.eps
@@ -206,7 +214,9 @@ LMbitmappngfiles = $(LMbitmapepsfiles:.eps=.png)
 
 MMbitmappngfiles = $(MMbitmapepsfiles:.eps=.png)
 
-NPbitmappngfiles = $(NPbitmapepsfiles:.eps=.png)
+NNbitmappngfiles = $(NNbitmapepsfiles:.eps=.png)
+
+OSbitmappngfiles = $(OSbitmapepsfiles:.eps=.png)
 
 PC2bitmappngfiles = $(PC2bitmapepsfiles:.eps=.png)
 
@@ -226,7 +236,9 @@ LMmainsource = LeapMotionInput_Manual.tex
 
 MMmainsource = MpM_Manual.tex
 
-NPmainsource = NaturalPointInput_Manual.tex
+NNmainsource = NatNetInput_Manual.tex
+
+OSmainsource = OpenStageInput_Manual.tex
 
 PC2mainsource = ProComp2Input_Manual.tex
 
@@ -259,8 +271,12 @@ MMsecondaryfiles = MMbuildingFromSource.tex MMcaseStudy.tex MMclasses.tex \
 		MMrunningWithHamachi.tex MMservices.tex MMupdatingVersionNumber.tex \
 		MMutilities.tex $(Commonsources) $(Commonpngfiles)
 
-NPsecondaryfiles = NPdocumentationHistory.tex NPfrontispiece.tex \
-		NPmessageFormat.tex NPoverview.tex NPservice.tex $(Commonsources) \
+NNsecondaryfiles = NNdocumentationHistory.tex NNfrontispiece.tex \
+		NNmessageFormat.tex NNoverview.tex NNservice.tex $(Commonsources) \
+		$(Commonpngfiles)
+
+OSsecondaryfiles = OSdocumentationHistory.tex OSfrontispiece.tex \
+		OSmessageFormat.tex OSoverview.tex OSservice.tex $(Commonsources) \
 		$(Commonpngfiles)
 
 PC2secondaryfiles = PC2documentationHistory.tex PC2frontispiece.tex \
@@ -285,7 +301,9 @@ LMmaindvi = $(LMmainsource:.tex=.dvi)
 
 MMmaindvi = $(MMmainsource:.tex=.dvi)
 
-NPmaindvi = $(NPmainsource:.tex=.dvi)
+NNmaindvi = $(NNmainsource:.tex=.dvi)
+
+OSmaindvi = $(OSmainsource:.tex=.dvi)
 
 PC2maindvi = $(PC2mainsource:.tex=.dvi)
 
@@ -305,7 +323,9 @@ LMmainidx = $(LMmainsource:.tex=.idx)
 
 MMmainidx = $(MMmainsource:.tex=.idx)
 
-NPmainidx = $(NPmainsource:.tex=.idx)
+NNmainidx = $(NNmainsource:.tex=.idx)
+
+OSmaindvi = $(OSmainsource:.tex=.dvi)
 
 PC2mainidx = $(PC2mainsource:.tex=.idx)
 
@@ -325,7 +345,9 @@ LMmainps = $(LMmainsource:.tex=.ps)
 
 MMmainps = $(MMmainsource:.tex=.ps)
 
-NPmainps = $(NPmainsource:.tex=.ps)
+NNmainps = $(NNmainsource:.tex=.ps)
+
+OSmainps = $(OSmainsource:.tex=.ps)
 
 PC2mainps = $(PC2mainsource:.tex=.ps)
 
@@ -345,7 +367,9 @@ LMmainhtml = $(LMmainsource:.tex=.html)
 
 MMmainhtml = $(MMmainsource:.tex=.html)
 
-NPmainhtml = $(NPmainsource:.tex=.html)
+NNmainhtml = $(NNmainsource:.tex=.html)
+
+OSmainhtml = $(OSmainsource:.tex=.html)
 
 PC2mainhtml = $(PC2mainsource:.tex=.html)
 
@@ -365,7 +389,9 @@ LMmainpdf = $(LMmainsource:.tex=.pdf)
 
 MMmainpdf = $(MMmainsource:.tex=.pdf)
 
-NPmainpdf = $(NPmainsource:.tex=.pdf)
+NNmainpdf = $(NNmainsource:.tex=.pdf)
+
+OSmainpdf = $(OSmainsource:.tex=.pdf)
 
 PC2mainpdf = $(PC2mainsource:.tex=.pdf)
 
@@ -387,7 +413,9 @@ LMtarget = $(HOME)/$(LMmainpdf) $(HOME)/$(LMmainhtml)
 
 MMtarget = $(HOME)/$(MMmainpdf) $(HOME)/$(MMmainhtml)
 
-NPtarget = $(HOME)/$(NPmainpdf) $(HOME)/$(NPmainhtml)
+NNtarget = $(HOME)/$(NNmainpdf) $(HOME)/$(NNmainhtml)
+
+OStarget = $(HOME)/$(OSmainpdf) $(HOME)/$(OSmainhtml)
 
 PC2target = $(HOME)/$(PC2mainpdf) $(HOME)/$(PC2mainhtml)
 
@@ -470,12 +498,19 @@ $(MMmaindvi) : $(MMbitmapepsfiles) $(MMepsfiles) $(MMmainsource) $(MMsecondaryfi
 	makeindex $(MMmainidx)
 	latex -interaction=batchmode $(MMmainsource)
 
-$(NPmaindvi) : $(NPbitmapepsfiles) $(NPepsfiles) $(NPmainsource) $(NPsecondaryfiles)
-	-latex -interaction=batchmode $(NPmainsource)
-	-latex -interaction=batchmode $(NPmainsource)
-	-latex -interaction=batchmode $(NPmainsource)
-	makeindex $(NPmainidx)
-	latex -interaction=batchmode $(NPmainsource)
+$(NNmaindvi) : $(NNbitmapepsfiles) $(NNepsfiles) $(NNmainsource) $(NNsecondaryfiles)
+	-latex -interaction=batchmode $(NNmainsource)
+	-latex -interaction=batchmode $(NNmainsource)
+	-latex -interaction=batchmode $(NNmainsource)
+	makeindex $(NNmainidx)
+	latex -interaction=batchmode $(NNmainsource)
+
+$(OSmaindvi) : $(OSbitmapepsfiles) $(OSepsfiles) $(OSmainsource) $(OSsecondaryfiles)
+	-latex -interaction=batchmode $(OSmainsource)
+	-latex -interaction=batchmode $(OSmainsource)
+	-latex -interaction=batchmode $(OSNmainsource)
+	makeindex $(OSmainidx)
+	latex -interaction=batchmode $(OSmainsource)
 
 $(PC2maindvi) : $(PC2bitmapepsfiles) $(PC2epsfiles) $(PC2mainsource) $(PC2secondaryfiles)
 	-latex -interaction=batchmode $(PC2mainsource)
@@ -511,8 +546,11 @@ $(LMmainhtml) : $(LMbitmappngfiles) $(LMpngfiles) $(LMmainsource) $(LMsecondaryf
 $(MMmainhtml) : $(MMbitmappngfiles) $(MMpngfiles) $(MMmainsource) $(MMsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(MMmainsource) -o $@
 
-$(NPmainhtml) : $(NPbitmappngfiles) $(NPpngfiles) $(NPmainsource) $(NPsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(NPmainsource) -o $@
+$(NNmainhtml) : $(NNbitmappngfiles) $(NNpngfiles) $(NNmainsource) $(NNsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(NNmainsource) -o $@
+
+$(OSmainhtml) : $(OSbitmappngfiles) $(OSpngfiles) $(OSmainsource) $(OSsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(OSmainsource) -o $@
 
 $(PC2mainhtml) : $(PC2bitmappngfiles) $(PC2pngfiles) $(PC2mainsource) $(PC2secondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(PC2mainsource) -o $@
@@ -521,10 +559,10 @@ $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecon
 	-hevea -O -fix -exec xxdate.exe $(VDSmainsource) -o $@
 
 $(IMAGE_ARCHIVE) : $(CMbitmappngfiles) $(IMbitmappngfiles) $(JSbitmappngfiles) \
-		$(KV2bitmappngfiles) $(LMbitmappngfiles) $(NPbitmappngfiles) \
+		$(KV2bitmappngfiles) $(LMbitmappngfiles) $(NNbitmappngfiles) $(OSbitmappngfiles) \
 		$(PC2bitmappngfiles) $(VDSbitmappngfiles) $(Commonpngfiles) \
 		$(CMpngfiles) $(IMpngfiles) $(JSpngfiles) $(KV2pngfiles) $(LMpngfiles) \
-		$(MMpngfiles) $(NPpngfiles) $(PC2pngfiles) $(VDSpngfiles)
+		$(MMpngfiles) $(NNpngfiles) $(OSpngfiles) $(PC2pngfiles) $(VDSpngfiles)
 	tar -czf $(IMAGE_ARCHIVE) $(IMAGE_DIR)
 
 # Top-level targets
@@ -538,6 +576,6 @@ clean :
 	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
 #all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
-#		$(NPtarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
+#		$(NNtarget) $(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
 all : $(CMtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMtarget) \
 		$(PC2target) $(VDStarget) $(ARCHIVEtarget)

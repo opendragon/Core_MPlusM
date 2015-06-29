@@ -99,13 +99,13 @@ static void displayCommands(void)
     OD_LOG_EXIT(); //####
 } // displayCommands
 
-/*! @brief Set up the environment and start the exemplar input service.
+/*! @brief Set up the environment and start the Random Burst input service.
  @param burstPeriod The interval between bursts, in seconds.
  @param burstSize The number of values per burst.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the exemplar input service.
+ @param argv The arguments to be used with the Random Burst input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.

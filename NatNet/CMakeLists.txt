@@ -1,10 +1,10 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       NaturalPoint/CMakeLists.txt
+#  File:       NatNet/CMakeLists.txt
 #
 #  Project:    M+M
 #
-#  Contains:   The common CMAKE definitions for the M+M NaturalPoint input service files.
+#  Contains:   The common CMAKE definitions for the M+M Natural Point NatNet input service files.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,7 +39,7 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(M+MNaturalPoint)
+project(M+MNatNet)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -65,11 +65,11 @@ list(APPEND CMAKE_MODULE_PATH ${ACE_MODULE_PATH})
 # Add ACE include directories
 include_directories(${ACE_INCLUDE_DIRS})
 
-set(MpMNATURALPOINT_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
+set(MpMNATNET_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
-include_directories("${MpMNATURALPOINT_SOURCE_DIR}")
+include_directories("${MpMNATNET_SOURCE_DIR}")
 
 # Add the subdirectories for the input service
-add_subdirectory(NaturalPointInputService)
+add_subdirectory(NatNetInputService)
 
 enable_testing()
