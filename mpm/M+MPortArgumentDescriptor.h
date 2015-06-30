@@ -88,7 +88,7 @@ namespace MplusM
                                    const int          defaultValue,
                                    const bool         isOptional,
                                    const bool         isSystemPort,
-                                   int *              argumentReference = NULL);
+                                   int *              argumentReference = nullptr);
             
             /*! @brief The destructor. */
             virtual ~PortArgumentDescriptor(void);

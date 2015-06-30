@@ -114,7 +114,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
-    BaseArgumentDescriptor * result = NULL;
+    BaseArgumentDescriptor * result = nullptr;
     YarpStringVector         inVector;
 
     if (partitionString(inString, 3, inVector))
@@ -163,7 +163,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
         if (okSoFar)
         {
             result = new PortArgumentDescriptor(name, description, defaultValue, isOptional,
-                                                isSystemPort, NULL);
+                                                isSystemPort, nullptr);
         }
     }
     OD_LOG_EXIT_P(result); //####

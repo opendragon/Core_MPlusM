@@ -69,8 +69,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            RandomNumberAdapterData(RandomNumberClient *  client = NULL,
-                                    Common::BaseChannel * output = NULL);
+            RandomNumberAdapterData(RandomNumberClient *  client = nullptr,
+                                    Common::BaseChannel * output = nullptr);
             
             /*! @brief The destructor. */
             virtual ~RandomNumberAdapterData(void);

@@ -82,7 +82,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BailOutThread::BailOutThread(const double timeToWait) :
-    inherited(), _baseChannel(NULL), _timeToWait(timeToWait)
+    inherited(), _baseChannel(nullptr), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####

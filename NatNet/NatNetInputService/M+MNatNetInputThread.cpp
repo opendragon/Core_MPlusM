@@ -105,7 +105,7 @@ NatNetInputThread::~NatNetInputThread(void)
 void NatNetInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // NatNetInputThread::clearOutputChannel
 

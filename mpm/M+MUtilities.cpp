@@ -152,7 +152,7 @@ static volatile bool lSawBrowseAdd = false;
 static volatile bool lSawResolve = false;
 
 /*! @brief The global channel status reporter. */
-static ChannelStatusReporter * lReporter = NULL;
+static ChannelStatusReporter * lReporter = nullptr;
 
 /*! @brief The indicator string for the beginning of new information received. */
 static const char * kLineMarker = "registration name ";
@@ -273,17 +273,17 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
     if ((kDNSServiceErr_NoError == errorCode) && okToUse)
     {
         addrinfo   hints;
-        addrinfo * res = NULL;
+        addrinfo * res = nullptr;
         
         memset(&hints, 0, sizeof(hints));
         hints.ai_family = AF_INET;
         hints.ai_socktype = SOCK_STREAM;
         hints.ai_flags = 0;
         hints.ai_protocol = 0;
-        hints.ai_canonname = NULL;
-        hints.ai_addr = NULL;
-        hints.ai_next = NULL;
-        if (! getaddrinfo(hostTarget, NULL, &hints, &res))
+        hints.ai_canonname = nullptr;
+        hints.ai_addr = nullptr;
+        hints.ai_next = nullptr;
+        if (! getaddrinfo(hostTarget, nullptr, &hints, &res))
         {
             // Just use the first entry, as we aren't asking for a specific service.
             sockaddr_in *              asIP4 = reinterpret_cast<sockaddr_in *>(res->ai_addr);
@@ -348,9 +348,9 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
         {
             DNSServiceRefDeallocate(service);
             lSawResolve = false;
-            DNSServiceRef       service2 = NULL;
+            DNSServiceRef       service2 = nullptr;
             DNSServiceErrorType err = DNSServiceResolve(&service2, 0, interfaceIndex, name, type,
-                                                        domain, resolveCallback, NULL);
+                                                        domain, resolveCallback, nullptr);
             
             if (kDNSServiceErr_NoError == err)
             {
@@ -367,7 +367,7 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
                     FD_SET(dns_sd_fd, &readfds);
                     tv.tv_sec = kDNSWaitTime; // We don't want to wait forever.
                     tv.tv_usec = 0;
-                    result = select(nfds, &readfds, NULL, NULL, &tv);
+                    result = select(nfds, &readfds, nullptr, nullptr, &tv);
                     if (0 < result)
                     {
                         DNSServiceErrorType err = kDNSServiceErr_NoError;
@@ -438,7 +438,7 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
     OD_LOG_P1("inputs = ", &inputs); //####
     const char * matchString[] =
     {
-        "There", "is", "an", "input", "connection", "from", NULL, "to", NULL, "using", NULL
+        "There", "is", "an", "input", "connection", "from", nullptr, "to", nullptr, "using", nullptr
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
@@ -500,7 +500,8 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
     OD_LOG_P1("outputs = ", &outputs); //####
     const char * matchString[] =
     {
-        "There", "is", "an", "output", "connection", "from", NULL, "to", NULL, "using", NULL
+        "There", "is", "an", "output", "connection", "from", nullptr, "to", nullptr, "using",
+        nullptr
     };
     int          respLen = response.size();
     int          matchLen = (sizeof(matchString) / sizeof(*matchString));
@@ -566,10 +567,10 @@ static void convertMetricPropertyToString(yarp::os::Property & propList,
     OD_LOG_ENTER(); //####
     OD_LOG_P3("propList = ", &propList, "sawSome = ", &sawSome, "result = ", &result); //####
     OD_LOG_L1("channelWidth = ", channelWidth); //####
-    yarp::os::Bottle * theInBytesAsList = NULL;
-    yarp::os::Bottle * theInMessagesAsList = NULL;
-    yarp::os::Bottle * theOutBytesAsList = NULL;
-    yarp::os::Bottle * theOutMessagesAsList = NULL;
+    yarp::os::Bottle * theInBytesAsList = nullptr;
+    yarp::os::Bottle * theInMessagesAsList = nullptr;
+    yarp::os::Bottle * theOutBytesAsList = nullptr;
+    yarp::os::Bottle * theOutMessagesAsList = nullptr;
     YarpString         theChannelAsString;
     YarpString         theDateAsString;
     YarpString         theTimeAsString;
@@ -771,14 +772,14 @@ static void processNameServerResponse(const YarpString & received,
             
             if (YarpString::npos != chopPos)
             {
-                char *     channelName = NULL;
+                char *     channelName = nullptr;
                 YarpString chopped(workingCopy.substr(0, chopPos));
 #if MAC_OR_LINUX_
                 char *     choppedAsChars = strdup(chopped.c_str());
 #else // ! MAC_OR_LINUX_
                 char *     choppedAsChars = _strdup(chopped.c_str());
 #endif // ! MAC_OR_LINUX_
-                char *     ipAddress = NULL;
+                char *     ipAddress = nullptr;
                 char *     saved;
                 char *     pp = strtok_r(choppedAsChars, " ", &saved);
                 
@@ -790,16 +791,16 @@ static void processNameServerResponse(const YarpString & received,
                         channelName = pp;
                         if (nameServerName == channelName)
                         {
-                            pp = NULL;
+                            pp = nullptr;
                         }
                         else
                         {
-                            pp = strtok_r(NULL, " ", &saved);
+                            pp = strtok_r(nullptr, " ", &saved);
                         }
                     }
                     else
                     {
-                        pp = NULL;
+                        pp = nullptr;
                     }
                 }
                 if (pp)
@@ -807,28 +808,28 @@ static void processNameServerResponse(const YarpString & received,
                     // 'ip'
                     if (strcmp(pp, "ip"))
                     {
-                        pp = NULL;
+                        pp = nullptr;
                     }
                     else
                     {
-                        pp = strtok_r(NULL, " ", &saved);
+                        pp = strtok_r(nullptr, " ", &saved);
                     }
                 }
                 if (pp)
                 {
                     ipAddress = pp;
-                    pp = strtok_r(NULL, " ", &saved);
+                    pp = strtok_r(nullptr, " ", &saved);
                 }
                 if (pp)
                 {
                     // 'port'
                     if (strcmp(pp, "port"))
                     {
-                        pp = NULL;
+                        pp = nullptr;
                     }
                     else
                     {
-                        pp = strtok_r(NULL, " ", &saved);
+                        pp = strtok_r(nullptr, " ", &saved);
                     }
                 }
                 // Check if this is a 'hidden' port:
@@ -838,7 +839,7 @@ static void processNameServerResponse(const YarpString & received,
                                   sizeof(HIDDEN_CHANNEL_PREFIX_) - 1))
                     {
                         // Skip this one.
-                        pp = NULL;
+                        pp = nullptr;
                     }
                 }
                 if (pp)
@@ -928,10 +929,10 @@ void Utilities::CheckForNameServerReporter(void)
     if (! skipNameServerScan)
     {
         lSawBrowseAdd = false;
-        DNSServiceRef       serviceRef = NULL;
+        DNSServiceRef       serviceRef = nullptr;
         static const char * regType = MpM_MDNS_NAMESERVER_REPORT_;
-        DNSServiceErrorType err = DNSServiceBrowse(&serviceRef, 0, 0, regType, NULL /* domain */,
-                                                   browseCallBack, NULL);
+        DNSServiceErrorType err = DNSServiceBrowse(&serviceRef, 0, 0, regType, nullptr /* domain */,
+                                                   browseCallBack, nullptr);
         
         if (kDNSServiceErr_NoError == err)
         {
@@ -948,7 +949,7 @@ void Utilities::CheckForNameServerReporter(void)
                 FD_SET(dns_sd_fd, &readfds);
                 tv.tv_sec = kDNSWaitTime; // We don't want to wait forever.
                 tv.tv_usec = 0;
-                result = select(nfds, &readfds, NULL, NULL, &tv);
+                result = select(nfds, &readfds, nullptr, nullptr, &tv);
                 if (0 < result)
                 {
                     DNSServiceErrorType err = kDNSServiceErr_NoError;
@@ -1220,7 +1221,7 @@ void Utilities::GatherPortConnections(const YarpString &    portName,
                     
                         pc.write(bw);
                         bw.write(os);
-                        reader.reset(is, NULL, rr, 0, true);
+                        reader.reset(is, nullptr, rr, 0, true);
                         for (bool done = false; ! done; )
                         {
                             if (checker && checker(checkStuff))
@@ -1302,7 +1303,7 @@ int64_t Utilities::GetCurrentTimeInMilliseconds(void)
     result = (static_cast<int64_t>(tv.tv_sec) * 1000) + (tv.tv_usec / 1000);
 #else // ! MAC_OR_LINUX_
     _ftime_s(&tt);
-    result = (static_cast<int64_t>(tt.time) + 1000) + tt.millitm;
+    result = (static_cast<int64_t>(tt.time) * 1000) + tt.millitm;
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_LL(result); //####
     return result;
@@ -1429,7 +1430,7 @@ YarpString Utilities::GetFileNamePart(const YarpString & inFileName)
     result = basename(nameCopy);
     free(nameCopy);
 #else // ! MAC_OR_LINUX_
-    _splitpath_s(inFileName.c_str(), NULL, 0, NULL, 0, baseFileName, sizeof(baseFileName),
+    _splitpath_s(inFileName.c_str(), nullptr, 0, nullptr, 0, baseFileName, sizeof(baseFileName),
                  baseExtension, sizeof(baseExtension));
     result = baseFileName;
     result += ".";
@@ -2354,7 +2355,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     }; // optionIndex
     
     bool                  keepGoing = true;
-    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, nullptr);
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
@@ -2367,7 +2368,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
-    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
+    Option_::Descriptor   lastDescriptor(0, 0, nullptr, nullptr, nullptr, nullptr);
     Option_::Descriptor   usage[7];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
@@ -2501,7 +2502,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     }; // optionIndex
     
     bool                  keepGoing = true;
-    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
+    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, nullptr);
     Option_::Descriptor   helpDescriptor(kOptionHELP, 0, "h", "help", Option_::Arg::None,
                                          T_("  --help, -h    Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
@@ -2514,7 +2515,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
-    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
+    Option_::Descriptor   lastDescriptor(0, 0, nullptr, nullptr, nullptr, nullptr);
     Option_::Descriptor   usage[7];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
@@ -2823,7 +2824,7 @@ void Utilities::ShutDownGlobalStatusReporter(void)
 {
 	OD_LOG_ENTER(); //####
     delete lReporter;
-    lReporter = NULL;
+    lReporter = nullptr;
 	OD_LOG_EXIT(); //####
 } // Utilities::ShutDownGlobalStatusReporter
 

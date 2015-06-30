@@ -93,7 +93,7 @@ RandomBurstInputService::RandomBurstInputService(const YarpString & launchPath,
                                                  const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_RANDOMBURSTINPUT_CANONICAL_NAME_,
               RANDOMBURSTINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _generator(NULL), _burstPeriod(1), _burstSize(1)
+    _generator(nullptr), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -282,7 +282,7 @@ void RandomBurstInputService::stopStreams(void)
                 yarp::os::Time::delay(_burstSize / 3.9);
             }
             delete _generator;
-            _generator = NULL;
+            _generator = nullptr;
             clearActive();
         }
     }

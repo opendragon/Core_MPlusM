@@ -129,7 +129,7 @@ ViconDataStreamEventThread::~ViconDataStreamEventThread(void)
 void ViconDataStreamEventThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // ViconDataStreamEventThread::clearOutputChannel
 

@@ -275,7 +275,7 @@ static void processValue(FILE *                   outFile,
 #endif // defined(__APPLE__)
 
 RecordAsJSONOutputInputHandler::RecordAsJSONOutputInputHandler(void) :
-    inherited(), _outFile(NULL)
+    inherited(), _outFile(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

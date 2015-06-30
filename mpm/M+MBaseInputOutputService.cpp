@@ -381,25 +381,25 @@ void BaseInputOutputService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_configureHandler);
             delete _configureHandler;
-            _configureHandler = NULL;
+            _configureHandler = nullptr;
         }
         if (_restartStreamsHandler)
         {
             unregisterRequestHandler(_restartStreamsHandler);
             delete _restartStreamsHandler;
-            _restartStreamsHandler = NULL;
+            _restartStreamsHandler = nullptr;
         }
         if (_startStreamsHandler)
         {
             unregisterRequestHandler(_startStreamsHandler);
             delete _startStreamsHandler;
-            _startStreamsHandler = NULL;
+            _startStreamsHandler = nullptr;
         }
         if (_stopStreamsHandler)
         {
             unregisterRequestHandler(_stopStreamsHandler);
             delete _stopStreamsHandler;
-            _stopStreamsHandler = NULL;
+            _stopStreamsHandler = nullptr;
         }
     }
     catch (...)

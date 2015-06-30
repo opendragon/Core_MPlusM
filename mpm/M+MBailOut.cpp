@@ -82,7 +82,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BailOut::BailOut(const double timeToWait) :
-    _bailer(NULL), _stopTime(timeToWait)
+    _bailer(nullptr), _stopTime(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
@@ -93,7 +93,7 @@ BailOut::BailOut(const double timeToWait) :
 
 BailOut::BailOut(BaseChannel & channelOfInterest,
                  const double  timeToWait) :
-    _bailer(NULL), _stopTime(timeToWait)
+    _bailer(nullptr), _stopTime(timeToWait)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("channelOfInterest = ", &channelOfInterest); //####
@@ -114,7 +114,7 @@ BailOut::~BailOut(void)
             yarp::os::Time::delay(_stopTime / 4.3);
         }
         delete _bailer;
-        _bailer = NULL;
+        _bailer = nullptr;
     }
     OD_LOG_OBJEXIT(); //####
 } // BailOut::~BailOut

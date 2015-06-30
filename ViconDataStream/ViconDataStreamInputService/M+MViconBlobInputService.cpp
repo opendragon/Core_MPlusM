@@ -93,8 +93,8 @@ ViconBlobInputService::ViconBlobInputService(const YarpString & launchPath,
                                              const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_VICONBLOBINPUT_CANONICAL_NAME_,
               VICONBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
-              servicePortNumber), _eventThread(NULL), _hostName("localhost"), _translationScale(1),
-    _hostPort(VICONBLOBINPUT_DEFAULT_PORT_)
+              servicePortNumber), _eventThread(nullptr), _hostName("localhost"),
+    _translationScale(1), _hostPort(VICONBLOBINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -300,7 +300,7 @@ void ViconBlobInputService::stopStreams(void)
                 yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
             }
             delete _eventThread;
-            _eventThread = NULL;
+            _eventThread = nullptr;
             clearActive();
         }
     }

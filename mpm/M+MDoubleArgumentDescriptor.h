@@ -100,7 +100,7 @@ namespace MplusM
                                      const double       minimumValue,
                                      const bool         hasMaximumValue,
                                      const double       maximumValue,
-                                     double *           argumentReference = NULL);
+                                     double *           argumentReference = nullptr);
             
             /*! @brief The destructor. */
             virtual ~DoubleArgumentDescriptor(void);

@@ -99,8 +99,8 @@ MovementDbService::MovementDbService(const YarpString & launchPath,
               "setdatatrack - set the data track for the files being added\n"
               "setemail - set the e-mail address for the files being added\n"
               "stopdb - stop the database", serviceEndpointName,
-              servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(NULL),
-    _setDataTrackHandler(NULL), _setEmailHandler(NULL), _stopDbHandler(NULL)
+              servicePortNumber), _databaseAddress(databaseServerAddress), _addFileHandler(nullptr),
+    _setDataTrackHandler(nullptr), _setEmailHandler(nullptr), _stopDbHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "databaseServerAddress = ", //####
@@ -192,25 +192,25 @@ void MovementDbService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_addFileHandler);
             delete _addFileHandler;
-            _addFileHandler = NULL;
+            _addFileHandler = nullptr;
         }
         if (_setDataTrackHandler)
         {
             unregisterRequestHandler(_setDataTrackHandler);
             delete _setDataTrackHandler;
-            _setDataTrackHandler = NULL;
+            _setDataTrackHandler = nullptr;
         }
         if (_setEmailHandler)
         {
             unregisterRequestHandler(_setEmailHandler);
             delete _setEmailHandler;
-            _setEmailHandler = NULL;
+            _setEmailHandler = nullptr;
         }
         if (_stopDbHandler)
         {
             unregisterRequestHandler(_stopDbHandler);
             delete _stopDbHandler;
-            _stopDbHandler = NULL;
+            _stopDbHandler = nullptr;
         }
     }
     catch (...)

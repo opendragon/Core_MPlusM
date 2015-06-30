@@ -333,16 +333,16 @@ static JSClass lStreamClass =
 {
     "Stream",            // name
     JSCLASS_HAS_PRIVATE, // flags
-    NULL,                // addProperty
-    NULL,                // delProperty
-    NULL,                // getProperty
-    NULL,                // setProperty
-    NULL,                // enumerate
-    NULL,                // resolve
+    nullptr,             // addProperty
+    nullptr,             // delProperty
+    nullptr,             // getProperty
+    nullptr,             // setProperty
+    nullptr,             // enumerate
+    nullptr,             // resolve
 #if (39 < MOZJS_MAJOR_VERSION)
-    NULL,                // mayResolve
+    nullptr,             // mayResolve
 #endif // 39 < MOZJS_MAJOR_VERSION
-    NULL,                // convert
+    nullptr,             // convert
     cleanupStreamObject  // finalize
 }; // lStreamClass
 
@@ -357,7 +357,7 @@ static void cleanupStreamObject(JSFreeOp * freeOp,
         if (aFile)
         {
             fclose(aFile);
-            JS_SetPrivate(obj, NULL);
+            JS_SetPrivate(obj, nullptr);
         }
     }
     OD_LOG_EXIT(); //####
@@ -385,7 +385,7 @@ static bool CreateStreamObject(JSContext * jct,
         
         if (obj)
         {
-            JS_SetPrivate(obj, NULL);
+            JS_SetPrivate(obj, nullptr);
             args.rval().setObject(*obj);
             result = true;
         }
@@ -493,7 +493,7 @@ static bool streamCloseForJs(JSContext * jct,
         if (aFile)
         {
             fclose(aFile);
-            JS_SetPrivate(&theThis, NULL);
+            JS_SetPrivate(&theThis, nullptr);
         }
         result = true;
     }
@@ -564,7 +564,7 @@ static bool streamIsOpenForJs(JSContext * jct,
     {
         FILE * aFile = reinterpret_cast<FILE *>(JS_GetPrivate(&theThis));
         
-        args.rval().setBoolean(NULL != aFile);
+        args.rval().setBoolean(nullptr != aFile);
         result = true;
     }
     OD_LOG_EXIT_B(result); //####
@@ -595,7 +595,7 @@ static bool streamOpenForJs(JSContext * jct,
         if (aFile)
         {
             fclose(aFile);
-            JS_SetPrivate(&theThis, NULL);
+            JS_SetPrivate(&theThis, nullptr);
         }
         if (args[0].isString() && args[1].isString())
         {
@@ -810,8 +810,8 @@ static bool streamReadStringForJs(JSContext * jct,
                 int        outLen = 0;
                 char       outBuff[100];
                 char       matchChar;
-                JSString * outString = NULL;
-                JSString * thisChunk = NULL;
+                JSString * outString = nullptr;
+                JSString * thisChunk = nullptr;
                 
                 if (('"' == aChar) || ('\'' == aChar))
                 {
@@ -1044,8 +1044,8 @@ static bool addCustomClasses(JSContext *        jct,
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
     bool okSoFar = false;
     
-    if (JS_InitClass(jct, global, JS::NullPtr(), &lStreamClass, CreateStreamObject, 0, NULL,
-                     lStreamFunctions, NULL, NULL))
+    if (JS_InitClass(jct, global, JS::NullPtr(), &lStreamClass, CreateStreamObject, 0, nullptr,
+                     lStreamFunctions, nullptr, nullptr))
     {
         okSoFar = true;
     }
@@ -1899,7 +1899,7 @@ static bool validateLoadedScript(JSContext *           jct,
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptOutlets", NULL,
+        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptOutlets", nullptr,
                                               loadedOutletDescriptions);
     }
     if (okSoFar)
@@ -2009,7 +2009,7 @@ static void setUpAndGo(YarpString &             scriptPath,
     {
         if (JS_Init())
         {
-            JSContext * jct = NULL;
+            JSContext * jct = nullptr;
             JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE_ * 1024 * 1024);
 
             if (jrt)
@@ -2033,7 +2033,7 @@ static void setUpAndGo(YarpString &             scriptPath,
                     cerr << "JavaScript context could not be allocated." << endl;
 #endif // ! MAC_OR_LINUX_
                     JS_DestroyRuntime(jrt);
-                    jrt = NULL;
+                    jrt = nullptr;
                 }
             }
             else
@@ -2050,7 +2050,7 @@ static void setUpAndGo(YarpString &             scriptPath,
                 // Enter a request before running anything in the context. In particular, the
                 // request is needed in order for JS_InitStandardClasses to work properly.
                 JSAutoRequest    ar(jct);
-                JS::RootedObject global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
+                JS::RootedObject global(jct, JS_NewGlobalObject(jct, &lGlobalClass, nullptr,
                                                                 JS::FireOnNewGlobalHook));
 
                 if (global)

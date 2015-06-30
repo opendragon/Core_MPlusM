@@ -106,7 +106,7 @@ MatchValue * MatchValue::CreateMatcher(const YarpString & inString,
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
-    MatchValue * result = NULL;
+    MatchValue * result = nullptr;
     
     try
     {

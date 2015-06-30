@@ -94,7 +94,8 @@ RecordIntegersOutputService::RecordIntegersOutputService(const YarpString & laun
                                                          const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_RECORDINTEGERSOUTPUT_CANONICAL_NAME_,
               RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
-              servicePortNumber), _outFile(NULL), _inHandler(new RecordIntegersOutputInputHandler)
+              servicePortNumber), _outFile(nullptr),
+    _inHandler(new RecordIntegersOutputInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -222,7 +223,7 @@ void RecordIntegersOutputService::startStreams(void)
 #else // ! MAC_OR_LINUX_
             if (! fopen_s(&_outFile, _outPath.c_str(), "w"))
             {
-                _outFile = NULL;
+                _outFile = nullptr;
             }
 #endif // ! MAC_OR_LINUX_
             if (_outFile)
@@ -236,7 +237,7 @@ void RecordIntegersOutputService::startStreams(void)
                 else
                 {
                     fclose(_outFile);
-                    _outFile = NULL;
+                    _outFile = nullptr;
                 }
             }
         }
@@ -276,10 +277,10 @@ void RecordIntegersOutputService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setFile(NULL);
+                _inHandler->setFile(nullptr);
             }
             fclose(_outFile);
-            _outFile = NULL;
+            _outFile = nullptr;
             clearActive();
         }
     }

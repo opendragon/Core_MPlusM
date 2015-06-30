@@ -210,7 +210,7 @@
 #   define OD_SELF_OR_THIS_OR_NULL_   (const void *) this
 #  else // ! defined(__cplusplus)
 /*! @brief The pointer to the calling object for a method. */
-#   define OD_SELF_OR_THIS_OR_NULL_   NULL
+#   define OD_SELF_OR_THIS_OR_NULL_   nullptr
 #  endif // defined(__cplusplus)
 
 /*! @brief Write a string to the log.

@@ -90,7 +90,7 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const YarpString &  i
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
-    MatchFieldWithValues * result = NULL;
+    MatchFieldWithValues * result = nullptr;
     
     try
     {
@@ -169,7 +169,8 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const YarpString &  i
 MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
                                            MatchFieldName *    fieldName,
                                            MatchValue *        asSingle) :
-    inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle), _values(NULL)
+    inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle),
+    _values(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("validator = ", validator, "fieldName = ", fieldName, "asSingle = ", asSingle); //####
@@ -179,7 +180,8 @@ MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
 MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
                                            MatchFieldName *    fieldName,
                                            MatchValueList *    asList) :
-    inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL), _values(asList)
+    inherited(), _validator(validator), _fieldName(fieldName), _singleValue(nullptr),
+    _values(asList)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("validator = ", validator, "fieldName = ", fieldName, "asList = ", asList); //####
@@ -209,8 +211,8 @@ const
     {
         bool         negated = _fieldName->isNegated();
         YarpString   field(_fieldName->asString());
-        const char * prefixString = NULL;
-        const char * suffixString = NULL;
+        const char * prefixString = nullptr;
+        const char * suffixString = nullptr;
         const char * trueName;
         
         if (_validator)

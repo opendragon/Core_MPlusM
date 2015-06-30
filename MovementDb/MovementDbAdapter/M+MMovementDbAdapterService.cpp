@@ -95,7 +95,7 @@ MovementDbAdapterService::MovementDbAdapterService(const YarpString & launchPath
                                                        const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_MOVEMENTDBADAPTER_CANONICAL_NAME_,
               MOVEMENTDBADAPTER_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _inHandler(NULL)
+    _inHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####

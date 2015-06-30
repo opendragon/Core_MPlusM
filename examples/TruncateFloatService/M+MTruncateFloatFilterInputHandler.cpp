@@ -83,7 +83,7 @@ using namespace MplusM::Example;
 #endif // defined(__APPLE__)
 
 TruncateFloatFilterInputHandler::TruncateFloatFilterInputHandler(void) :
-    inherited(), _outChannel(NULL)
+    inherited(), _outChannel(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

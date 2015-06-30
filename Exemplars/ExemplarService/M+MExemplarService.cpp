@@ -91,7 +91,7 @@ ExemplarService::ExemplarService(const YarpString & launchPath,
     inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_EXEMPLAR_CANONICAL_NAME_,
               EXEMPLAR_SERVICE_DESCRIPTION_,
               "simple - return the number of random values requested", serviceEndpointName,
-              servicePortNumber), _simpleHandler(NULL)
+              servicePortNumber), _simpleHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -145,7 +145,7 @@ void ExemplarService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_simpleHandler);
             delete _simpleHandler;
-            _simpleHandler = NULL;
+            _simpleHandler = nullptr;
         }
     }
     catch (...)

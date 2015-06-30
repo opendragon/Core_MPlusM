@@ -355,7 +355,7 @@ YarpString Utilities::CombineArguments(const DescriptorVector & arguments,
 BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
-    BaseArgumentDescriptor * result = NULL;
+    BaseArgumentDescriptor * result = nullptr;
 
     result = AddressArgumentDescriptor::parseArgString(inString);
     if (! result)

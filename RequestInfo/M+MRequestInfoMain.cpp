@@ -318,7 +318,7 @@ static void setUpAndGo(const YarpString &  channelName,
     }
     else
     {
-        requestNameString = NULL;
+        requestNameString = nullptr;
     }
     if (Utilities::GetServiceNamesFromCriteria(channelNameRequest, services))
     {

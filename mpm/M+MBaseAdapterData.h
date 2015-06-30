@@ -70,8 +70,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            BaseAdapterData(BaseClient *  client = NULL,
-                            BaseChannel * output = NULL);
+            BaseAdapterData(BaseClient *  client = nullptr,
+                            BaseChannel * output = nullptr);
             
             /*! @brief The destructor. */
             virtual ~BaseAdapterData(void);

@@ -93,7 +93,7 @@ AddressService::AddressService(const YarpString & hostName,
     inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_ADDRESS_CANONICAL_NAME_,
               ADDRESS_SERVICE_DESCRIPTION_,
               "where - return the matching internet address", serviceEndpointName,
-              servicePortNumber), _address(hostName), _whereHandler(NULL), _port(hostPort)
+              servicePortNumber), _address(hostName), _whereHandler(nullptr), _port(hostPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("hostName = ", hostName, "launchPath = ", launchPath, "tag = ", tag, //####
@@ -152,7 +152,7 @@ void AddressService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_whereHandler);
             delete _whereHandler;
-            _whereHandler = NULL;
+            _whereHandler = nullptr;
         }
     }
     catch (...)

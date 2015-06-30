@@ -105,7 +105,7 @@ RandomBurstInputThread::~RandomBurstInputThread(void)
 void RandomBurstInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstInputThread::clearOutputChannel
 

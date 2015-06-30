@@ -123,7 +123,7 @@ BaseArgumentDescriptor * ExtraArgumentDescriptor::parseArgString(const YarpStrin
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
-    BaseArgumentDescriptor * result = NULL;
+    BaseArgumentDescriptor * result = nullptr;
     YarpStringVector         inVector;
 
     if (partitionString(inString, 2, inVector))

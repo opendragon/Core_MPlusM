@@ -97,7 +97,7 @@ static Endpoint * doCreateEndpointForTest(const int argc,
                                           char * *  argv)
 {
     OD_LOG_ENTER(); //####
-    Endpoint * stuff = NULL;
+    Endpoint * stuff = nullptr;
     
     try
     {
@@ -161,7 +161,7 @@ static ClientChannel * doCreateTestChannel(const YarpString & destinationName,
                 newChannel->close();
 #endif // defined(MpM_DoExplicitClose)
                 BaseChannel::RelinquishChannel(newChannel);
-                newChannel = NULL;
+                newChannel = nullptr;
             }
         }
         else
@@ -953,7 +953,7 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(stuff->getName(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1035,7 +1035,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1114,7 +1114,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1209,7 +1209,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {
@@ -1581,7 +1581,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                         OD_LOG("! (request.send(*outChannel, response))"); //####
                     }
                     doDestroyTestChannel(aService->getEndpoint(), outChannel);
-                    outChannel = NULL;
+                    outChannel = nullptr;
                 }
                 else
                 {

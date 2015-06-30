@@ -136,9 +136,9 @@ void Test10Service::detachRequestHandlers(void)
     {
         if (_defaultHandler)
         {
-            setDefaultRequestHandler(NULL);
+            setDefaultRequestHandler(nullptr);
             delete _defaultHandler;
-            _defaultHandler = NULL;
+            _defaultHandler = nullptr;
         }
     }
     catch (...)

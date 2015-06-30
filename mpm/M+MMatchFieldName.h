@@ -95,7 +95,7 @@ namespace MplusM
                                                   const size_t        inLength,
                                                   const size_t        startPos,
                                                   size_t &            endPos,
-                                                  BaseNameValidator * validator = NULL);
+                                                  BaseNameValidator * validator = nullptr);
             
             /*! @brief Return whether or not the field name was followed by the negation character.
              @returns @c true if the field name was followed by the negation character and @c false

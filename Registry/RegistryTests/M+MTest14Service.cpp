@@ -88,7 +88,7 @@ Test14Service::Test14Service(const YarpString & launchPath,
                              const int          argc,
                              char * *           argv) :
     inherited(kServiceKindNormal, launchPath, argc, argv, true, "Test14",
-              "Simple service for unit tests", ""), _echoHandler(NULL)
+              "Simple service for unit tests", ""), _echoHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("launchPath = ", launchPath); //####
@@ -141,7 +141,7 @@ void Test14Service::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_echoHandler);
             delete _echoHandler;
-            _echoHandler = NULL;
+            _echoHandler = nullptr;
         }
     }
     catch (...)

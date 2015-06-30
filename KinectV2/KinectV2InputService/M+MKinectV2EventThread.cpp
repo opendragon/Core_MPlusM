@@ -432,7 +432,7 @@ static bool processBody(yarp::os::Bottle & message,
 #endif // defined(__APPLE__)
 
 KinectV2EventThread::KinectV2EventThread(Common::GeneralChannel * outChannel) :
-    inherited(), _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL),
+    inherited(), _kinectSensor(nullptr), _bodyFrameReader(nullptr), _bodyFrameSource(nullptr),
     _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
@@ -453,7 +453,7 @@ KinectV2EventThread::~KinectV2EventThread(void)
 void KinectV2EventThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::clearOutputChannel
 
@@ -501,25 +501,25 @@ void KinectV2EventThread::processEventData(void)
     OD_LOG_OBJENTER(); //####
     if (_bodyFrameReader)
     {
-        IBodyFrameArrivedEventArgs * eventData = NULL;
+        IBodyFrameArrivedEventArgs * eventData = nullptr;
         HRESULT                      hr =
                                     _bodyFrameReader->GetFrameArrivedEventData(_frameEventHandle,
                                                                                &eventData);
 
         if (SUCCEEDED(hr))
         {
-            IBodyFrameReference * frameRef = NULL;
+            IBodyFrameReference * frameRef = nullptr;
 
             hr = eventData->get_FrameReference(&frameRef);
             if (SUCCEEDED(hr))
             {
-                IBodyFrame * bodyFrame = NULL;
+                IBodyFrame * bodyFrame = nullptr;
 
                 hr = frameRef->AcquireFrame(&bodyFrame);
                 if (SUCCEEDED(hr))
                 {
                     yarp::os::Bottle message;
-                    IBody *          ppBodies[BODY_COUNT] = { NULL };
+                    IBody *          ppBodies[BODY_COUNT] = { nullptr };
 
                     hr = bodyFrame->GetAndRefreshBodyData(_countof(ppBodies), ppBodies);
                     if (SUCCEEDED(hr))
@@ -565,7 +565,7 @@ void KinectV2EventThread::run(void)
     {
         MSG msg;
 
-        while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+        while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
         {
             DispatchMessage(&msg);
         }
@@ -609,7 +609,7 @@ void KinectV2EventThread::threadRelease(void)
     {
         _bodyFrameReader->UnsubscribeFrameArrived(_frameEventHandle);
     }
-    _frameEventHandle = NULL;
+    _frameEventHandle = nullptr;
     // done with body frame reader
     SafeRelease(_bodyFrameReader);
     SafeRelease(_bodyFrameSource);

@@ -85,7 +85,7 @@ Test09Service::Test09Service(const YarpString & launchPath,
                              const int          argc,
                              char * *           argv) :
 inherited(kServiceKindNormal, launchPath, argc, argv, false,
-          "Test09", "Simple service for unit tests", ""), _defaultHandler(NULL)
+          "Test09", "Simple service for unit tests", ""), _defaultHandler(nullptr)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("launchPath = ", launchPath); //####
@@ -136,9 +136,9 @@ void Test09Service::detachRequestHandlers(void)
     {
         if (_defaultHandler)
         {
-            setDefaultRequestHandler(NULL);
+            setDefaultRequestHandler(nullptr);
             delete _defaultHandler;
-            _defaultHandler = NULL;
+            _defaultHandler = nullptr;
         }
     }
     catch (...)

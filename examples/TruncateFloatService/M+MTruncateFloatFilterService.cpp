@@ -262,7 +262,7 @@ void TruncateFloatFilterService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(NULL);
+                _inHandler->setOutput(nullptr);
             }
             clearActive();
         }

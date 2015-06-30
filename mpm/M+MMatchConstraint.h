@@ -99,7 +99,7 @@ namespace MplusM
                                                    const size_t        inLength,
                                                    const size_t        startPos,
                                                    size_t &            endPos,
-                                                   BaseNameValidator * validator = NULL);
+                                                   BaseNameValidator * validator = nullptr);
             
             /*! @brief Return an element from the constraint list.
              @param index The zero-origin index of the element.

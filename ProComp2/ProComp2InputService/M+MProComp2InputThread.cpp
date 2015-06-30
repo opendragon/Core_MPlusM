@@ -129,7 +129,7 @@ ProComp2InputThread::~ProComp2InputThread(void)
 void ProComp2InputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = NULL;
+    _outChannel = nullptr;
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::clearOutputChannel
 
@@ -144,7 +144,7 @@ void ProComp2InputThread::readChannelData(const DWORD time)
     yarp::os::Property & props = message.addDict();
 #if defined(USE_VARIANT_READ_METHOD_)
     _variant_t           variant;
-    SAFEARRAY *          pSA = NULL;
+    SAFEARRAY *          pSA = nullptr;
 #else // ! defined(USE_VARIANT_READ_METHOD_)
     FLOAT                buffer[4096];
 #endif // ! defined(USE_VARIANT_READ_METHOD_)
@@ -226,18 +226,18 @@ void ProComp2InputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     MSG      aMessage;
-    UINT_PTR aTimer = NULL;
+    UINT_PTR aTimer = nullptr;
     
     memset(&aMessage, 0, sizeof(aMessage));
     if (0 < lTTLLive->EncoderCount)
     {
         lTTLLive->StartChannels();
         // Set up a Windows time.
-        aTimer = ::SetTimer(NULL, 0, PROCOMP2_TIMER_INTERVAL_, NULL);
+        aTimer = ::SetTimer(nullptr, 0, PROCOMP2_TIMER_INTERVAL_, nullptr);
     }
     for ( ; ! isStopping(); )
     {
-        while (PeekMessage(&aMessage, NULL, 0, 0, PM_REMOVE))
+        while (PeekMessage(&aMessage, nullptr, 0, 0, PM_REMOVE))
         {
             if (WM_TIMER == aMessage.message)
             {
@@ -251,7 +251,7 @@ void ProComp2InputThread::run(void)
         yarp::os::Time::yield();
     }
     lTTLLive->StopChannels();
-    ::KillTimer(NULL, aTimer);
+    ::KillTimer(nullptr, aTimer);
     if (lTTLLive)
     {
         lTTLLive.Release();
@@ -267,7 +267,7 @@ bool ProComp2InputThread::setupEncoders(void)
     OD_LOG("Autodetecting encoders"); //####
     try
     {
-        lTTLLive->OpenConnections(TTLAPI_OCCMD_AUTODETECT, 1000, NULL, NULL);
+        lTTLLive->OpenConnections(TTLAPI_OCCMD_AUTODETECT, 1000, nullptr, nullptr);
         OD_LOG("Setting up channels"); //####
         lTTLLive->AutoSetupChannels();
         for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
@@ -295,7 +295,7 @@ bool ProComp2InputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool    result = true;
-	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+	HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
 	
 	if (SUCCEEDED(hr))
 	{

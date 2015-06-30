@@ -245,7 +245,7 @@ static void handleConnections(SOCKET             listenSocket,
     OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
     bool   keepGoing = true;
     char   buffer[10240];
-    SOCKET sinkSocket = accept(listenSocket, NULL, NULL);
+    SOCKET sinkSocket = accept(listenSocket, nullptr, nullptr);
 
     OD_LOG_L1("sinkSocket = ", sinkSocket); //####
     if (INVALID_SOCKET != sinkSocket)

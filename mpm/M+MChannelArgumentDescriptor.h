@@ -82,7 +82,7 @@ namespace MplusM
                                       const YarpString & argDescription,
                                       const YarpString & defaultValue,
                                       const bool         isOptional,
-                                      YarpString *       argumentReference = NULL);
+                                      YarpString *       argumentReference = nullptr);
             
             /*! @brief The destructor. */
             virtual ~ChannelArgumentDescriptor(void);
