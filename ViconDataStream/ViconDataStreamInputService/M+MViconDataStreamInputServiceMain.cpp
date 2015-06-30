@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MViconDataStreamInputService.h"
 #include "M+MViconDataStreamInputRequests.h"
+#include "M+MViconDataStreamInputService.h"
 
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>

@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MStringArgumentDescriptor.h>
+#include "M+MStringArgumentDescriptor.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

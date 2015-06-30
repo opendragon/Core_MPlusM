@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MExemplarAdapterService.h"
+
 #include "M+MExemplarAdapterData.h"
 #include "M+MExemplarAdapterRequests.h"
 #include "M+MExemplarInputHandler.h"

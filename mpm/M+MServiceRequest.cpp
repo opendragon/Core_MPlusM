@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MServiceRequest.h>
+#include "M+MServiceRequest.h"
+
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MServiceResponse.h>
 

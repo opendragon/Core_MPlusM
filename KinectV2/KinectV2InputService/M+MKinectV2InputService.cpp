@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MKinectV2InputService.h"
+
 #include "M+MKinectV2EventThread.h"
 #include "M+MKinectV2InputRequests.h"
 

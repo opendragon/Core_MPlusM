@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MMovementDbAdapterService.h"
+
 #include "M+MMovementDbAdapterData.h"
 #include "M+MMovementDbAdapterRequests.h"
 #include "M+MMovementDbInputHandler.h"

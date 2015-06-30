@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseContext.h>
+#include "M+MBaseContext.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

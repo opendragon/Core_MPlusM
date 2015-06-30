@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MViconDataStreamInputService.h"
+
 #include "M+MViconDataStreamEventThread.h"
 #include "M+MViconDataStreamInputRequests.h"
 

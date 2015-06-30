@@ -39,9 +39,9 @@
 #if (! defined(MpMLeapTwoFingersInputListener_H_))
 # define MpMLeapTwoFingersInputListener_H_ /* Header guard */
 
-# include <mpm/M+MGeneralChannel.h>
-
 # include "Leap.h"
+
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

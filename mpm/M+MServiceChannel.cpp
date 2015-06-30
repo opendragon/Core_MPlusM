@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MServiceChannel.h>
+#include "M+MServiceChannel.h"
+
 #include <mpm/M+MBailOut.h>
 
 //#include <odl/ODEnableLogging.h>

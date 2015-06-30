@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MMatchExpression.h>
+#include "M+MMatchExpression.h"
+
 #include <mpm/M+MMatchConstraint.h>
 
 //#include <odl/ODEnableLogging.h>

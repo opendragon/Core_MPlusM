@@ -39,9 +39,9 @@
 #if (! defined(MpMLeapBlobInputService_H_))
 # define MpMLeapBlobInputService_H_ /* Header guard */
 
-# include <mpm/M+MBaseInputService.h>
-
 # include "Leap.h"
+
+# include <mpm/M+MBaseInputService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

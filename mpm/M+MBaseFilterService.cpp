@@ -37,7 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseFilterService.h>
+#include "M+MBaseFilterService.h"
+
 #include <mpm/M+MRequests.h>
 
 //#include <odl/ODEnableLogging.h>

@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRandomNumberAdapterService.h"
 #include "M+MRandomNumberAdapterData.h"
+#include "M+MRandomNumberAdapterService.h"
 #include "M+MRandomNumberClient.h"
 
 #include <mpm/M+MEndpoint.h>

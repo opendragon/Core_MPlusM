@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MTest12Service.h"
+
 #include "M+MTest12EchoRequestHandler.h"
 
 #include <mpm/M+MRequests.h>

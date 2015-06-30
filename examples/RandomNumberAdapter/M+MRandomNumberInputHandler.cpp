@@ -38,6 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRandomNumberInputHandler.h"
+
 #include "M+MRandomNumberAdapterData.h"
 #include "M+MRandomNumberClient.h"
 

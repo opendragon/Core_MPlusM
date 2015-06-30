@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRegistryService.h"
 #include "M+MNameServerReportingThread.h"
+#include "M+MRegistryService.h"
 
 #include <mpm/M+MRequests.h>
 #include <mpm/M+MUtilities.h>

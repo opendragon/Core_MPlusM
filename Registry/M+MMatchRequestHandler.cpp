@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MMatchRequestHandler.h"
+
 #include "M+MRegistryService.h"
 
 #include <mpm/M+MEndpoint.h>

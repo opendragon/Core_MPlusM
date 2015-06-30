@@ -40,13 +40,13 @@
 #if (! defined(MpMOpenStageInputThread_H_))
 # define MpMOpenStageInputThread_H_ /* Header guard */
 
+# include <mpm/M+MGeneralChannel.h>
+
 # include <om/sdk2/client.h>
 # include <om/sdk2/types.h>
 # include <om/sdk2/actor_stream.h>
 # include <om/sdk2/actor_view.h>
 # include <om/sdk2/error.h>
-
-# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

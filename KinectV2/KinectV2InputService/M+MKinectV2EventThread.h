@@ -39,9 +39,9 @@
 #if (! defined(MpMKinectV2EventThread_H_))
 # define MpMKinectV2EventThread_H_ /* Header guard */
 
-# include <mpm/M+MGeneralChannel.h>
-
 # include "stdafx.h"
+
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

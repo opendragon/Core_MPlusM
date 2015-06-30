@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MExemplarAdapterService.h"
 #include "M+MExemplarAdapterData.h"
+#include "M+MExemplarAdapterService.h"
 #include "M+MExemplarClient.h"
 
 #include <mpm/M+MEndpoint.h>

@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MUtilities.h>
+#include "M+MUtilities.h"
+
 #include <mpm/M+MBaseClient.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MRequests.h>

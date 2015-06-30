@@ -68,6 +68,42 @@
 		DF1C1C921B41B2A800E816A4 /* M+MNatNetServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNatNetServiceMain.cpp"; path = "NatNet/NatNetInputService/M+MNatNetServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1C1C931B41B2A800E816A4 /* mpmNatNetInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmNatNetInputService.rc.in; path = NatNet/NatNetInputService/mpmNatNetInputService.rc.in; sourceTree = SOURCE_ROOT; };
 		DF1C1C941B41B2A800E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = NatNet/NatNetInputService/resource.h; sourceTree = SOURCE_ROOT; };
+		DF1C1C951B42F44900E816A4 /* M+MMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchRequestHandler.cpp"; path = "Registry/M+MMatchRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C961B42F44900E816A4 /* M+MMatchRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchRequestHandler.h"; path = "Registry/M+MMatchRequestHandler.h"; sourceTree = "<group>"; };
+		DF1C1C971B42F44900E816A4 /* M+MPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingRequestHandler.cpp"; path = "Registry/M+MPingRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C981B42F44900E816A4 /* M+MPingRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingRequestHandler.h"; path = "Registry/M+MPingRequestHandler.h"; sourceTree = "<group>"; };
+		DF1C1C991B42F44900E816A4 /* M+MRegisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegisterRequestHandler.cpp"; path = "Registry/M+MRegisterRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C9A1B42F44900E816A4 /* M+MRegisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegisterRequestHandler.h"; path = "Registry/M+MRegisterRequestHandler.h"; sourceTree = "<group>"; };
+		DF1C1C9B1B42F44900E816A4 /* M+MUnregisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnregisterRequestHandler.cpp"; path = "Registry/M+MUnregisterRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C9C1B42F44900E816A4 /* M+MUnregisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnregisterRequestHandler.h"; path = "Registry/M+MUnregisterRequestHandler.h"; sourceTree = "<group>"; };
+		DF1C1C9D1B42F46B00E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Registry/RegistryTests/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1C9E1B42F46B00E816A4 /* M+MTest14EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest14EchoRequestHandler.cpp"; path = "Registry/RegistryTests/M+MTest14EchoRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1C9F1B42F46B00E816A4 /* M+MTest14EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest14EchoRequestHandler.h"; path = "Registry/RegistryTests/M+MTest14EchoRequestHandler.h"; sourceTree = "<group>"; };
+		DF1C1CA01B42F46B00E816A4 /* M+MTest14Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest14Service.cpp"; path = "Registry/RegistryTests/M+MTest14Service.cpp"; sourceTree = "<group>"; };
+		DF1C1CA11B42F46B00E816A4 /* M+MTest14Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest14Service.h"; path = "Registry/RegistryTests/M+MTest14Service.h"; sourceTree = "<group>"; };
+		DF1C1CA21B42F46B00E816A4 /* M+MTest15EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest15EchoRequestHandler.cpp"; path = "Registry/RegistryTests/M+MTest15EchoRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1CA31B42F46B00E816A4 /* M+MTest15EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest15EchoRequestHandler.h"; path = "Registry/RegistryTests/M+MTest15EchoRequestHandler.h"; sourceTree = "<group>"; };
+		DF1C1CA41B42F46B00E816A4 /* M+MTest15Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest15Service.cpp"; path = "Registry/RegistryTests/M+MTest15Service.cpp"; sourceTree = "<group>"; };
+		DF1C1CA51B42F46B00E816A4 /* M+MTest15Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest15Service.h"; path = "Registry/RegistryTests/M+MTest15Service.h"; sourceTree = "<group>"; };
+		DF1C1CA61B42F46B00E816A4 /* M+MTest16EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest16EchoRequestHandler.cpp"; path = "Registry/RegistryTests/M+MTest16EchoRequestHandler.cpp"; sourceTree = "<group>"; };
+		DF1C1CA71B42F46B00E816A4 /* M+MTest16EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest16EchoRequestHandler.h"; path = "Registry/RegistryTests/M+MTest16EchoRequestHandler.h"; sourceTree = "<group>"; };
+		DF1C1CA81B42F46B00E816A4 /* M+MTest16Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest16Service.cpp"; path = "Registry/RegistryTests/M+MTest16Service.cpp"; sourceTree = "<group>"; };
+		DF1C1CA91B42F46B00E816A4 /* M+MTest16Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest16Service.h"; path = "Registry/RegistryTests/M+MTest16Service.h"; sourceTree = "<group>"; };
+		DF1C1CAA1B42F49C00E816A4 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Registry/CMakeLists.txt; sourceTree = "<group>"; };
+		DF1C1CAB1B42F49C00E816A4 /* M+MColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MColumnNameValidator.cpp"; path = "Registry/M+MColumnNameValidator.cpp"; sourceTree = "<group>"; };
+		DF1C1CAC1B42F49C00E816A4 /* M+MColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MColumnNameValidator.h"; path = "Registry/M+MColumnNameValidator.h"; sourceTree = "<group>"; };
+		DF1C1CAD1B42F49C00E816A4 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "Registry/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
+		DF1C1CAE1B42F49C00E816A4 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "Registry/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
+		DF1C1CAF1B42F49C00E816A4 /* M+MRegistryCheckThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryCheckThread.cpp"; path = "Registry/M+MRegistryCheckThread.cpp"; sourceTree = "<group>"; };
+		DF1C1CB01B42F49C00E816A4 /* M+MRegistryCheckThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegistryCheckThread.h"; path = "Registry/M+MRegistryCheckThread.h"; sourceTree = "<group>"; };
+		DF1C1CB11B42F49C00E816A4 /* M+MRegistryService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryService.cpp"; path = "Registry/M+MRegistryService.cpp"; sourceTree = "<group>"; };
+		DF1C1CB21B42F49C00E816A4 /* M+MRegistryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegistryService.h"; path = "Registry/M+MRegistryService.h"; sourceTree = "<group>"; };
+		DF1C1CB31B42F49C00E816A4 /* M+MRegistryServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryServiceMain.cpp"; path = "Registry/M+MRegistryServiceMain.cpp"; sourceTree = "<group>"; };
+		DF1C1CB41B42F49C00E816A4 /* M+MRegistryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryTest.cpp"; path = "Registry/M+MRegistryTest.cpp"; sourceTree = "<group>"; };
+		DF1C1CB51B42F49C00E816A4 /* mpmRegistryService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRegistryService.rc.in; path = Registry/mpmRegistryService.rc.in; sourceTree = "<group>"; };
+		DF1C1CB61B42F49C00E816A4 /* mpmRegistryTest.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRegistryTest.rc.in; path = Registry/mpmRegistryTest.rc.in; sourceTree = "<group>"; };
+		DF1C1CB71B42F49C00E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Registry/resource.h; sourceTree = "<group>"; };
+		DF1C1CB81B42F49C00E816A4 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = Registry/resource1.h; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* M+MChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/M+MChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -142,36 +178,6 @@
 		DF384FC8198A9C7A00A0414E /* ODLogging.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ODLogging.m; path = odl/ODLogging.m; sourceTree = SOURCE_ROOT; };
 		DF384FDD198A9CA600A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = PortLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384FDE198A9CA600A0414E /* M+MPortListerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPortListerMain.cpp"; path = "PortLister/M+MPortListerMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FDF198A9CC500A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RegistryService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF384FE2198A9CC500A0414E /* M+MColumnNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MColumnNameValidator.cpp"; path = "RegistryService/M+MColumnNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FE3198A9CC500A0414E /* M+MColumnNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MColumnNameValidator.h"; path = "RegistryService/M+MColumnNameValidator.h"; sourceTree = SOURCE_ROOT; };
-		DF384FE8198A9CC500A0414E /* M+MMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MMatchRequestHandler.cpp"; path = "RegistryService/M+MMatchRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FE9198A9CC500A0414E /* M+MMatchRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MMatchRequestHandler.h"; path = "RegistryService/M+MMatchRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FEA198A9CC500A0414E /* M+MPingRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MPingRequestHandler.cpp"; path = "RegistryService/M+MPingRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FEB198A9CC500A0414E /* M+MPingRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MPingRequestHandler.h"; path = "RegistryService/M+MPingRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FEC198A9CC500A0414E /* M+MRegisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegisterRequestHandler.cpp"; path = "RegistryService/M+MRegisterRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FED198A9CC500A0414E /* M+MRegisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegisterRequestHandler.h"; path = "RegistryService/M+MRegisterRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FEE198A9CC500A0414E /* M+MRegistryCheckThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryCheckThread.cpp"; path = "RegistryService/M+MRegistryCheckThread.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FEF198A9CC500A0414E /* M+MRegistryCheckThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegistryCheckThread.h"; path = "RegistryService/M+MRegistryCheckThread.h"; sourceTree = SOURCE_ROOT; };
-		DF384FF0198A9CC500A0414E /* M+MRegistryService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryService.cpp"; path = "RegistryService/M+MRegistryService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FF1198A9CC500A0414E /* M+MRegistryService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MRegistryService.h"; path = "RegistryService/M+MRegistryService.h"; sourceTree = SOURCE_ROOT; };
-		DF384FF2198A9CC500A0414E /* M+MRegistryServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryServiceMain.cpp"; path = "RegistryService/M+MRegistryServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FF3198A9CC500A0414E /* M+MRegistryTest.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRegistryTest.cpp"; path = "RegistryService/M+MRegistryTest.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FF4198A9CC500A0414E /* M+MUnregisterRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MUnregisterRequestHandler.cpp"; path = "RegistryService/M+MUnregisterRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FF5198A9CC500A0414E /* M+MUnregisterRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MUnregisterRequestHandler.h"; path = "RegistryService/M+MUnregisterRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FF6198A9D0E00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RegistryService/RegistryTests/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF384FF7198A9D0E00A0414E /* M+MTest14EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest14EchoRequestHandler.cpp"; path = "RegistryService/RegistryTests/M+MTest14EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FF8198A9D0E00A0414E /* M+MTest14EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest14EchoRequestHandler.h"; path = "RegistryService/RegistryTests/M+MTest14EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FF9198A9D0E00A0414E /* M+MTest14Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest14Service.cpp"; path = "RegistryService/RegistryTests/M+MTest14Service.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FFA198A9D0E00A0414E /* M+MTest14Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest14Service.h"; path = "RegistryService/RegistryTests/M+MTest14Service.h"; sourceTree = SOURCE_ROOT; };
-		DF384FFB198A9D0E00A0414E /* M+MTest15EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest15EchoRequestHandler.cpp"; path = "RegistryService/RegistryTests/M+MTest15EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FFC198A9D0E00A0414E /* M+MTest15EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest15EchoRequestHandler.h"; path = "RegistryService/RegistryTests/M+MTest15EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF384FFD198A9D0E00A0414E /* M+MTest15Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest15Service.cpp"; path = "RegistryService/RegistryTests/M+MTest15Service.cpp"; sourceTree = SOURCE_ROOT; };
-		DF384FFE198A9D0E00A0414E /* M+MTest15Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest15Service.h"; path = "RegistryService/RegistryTests/M+MTest15Service.h"; sourceTree = SOURCE_ROOT; };
-		DF384FFF198A9D0E00A0414E /* M+MTest16EchoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest16EchoRequestHandler.cpp"; path = "RegistryService/RegistryTests/M+MTest16EchoRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF385000198A9D0E00A0414E /* M+MTest16EchoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest16EchoRequestHandler.h"; path = "RegistryService/RegistryTests/M+MTest16EchoRequestHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF385001198A9D0E00A0414E /* M+MTest16Service.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MTest16Service.cpp"; path = "RegistryService/RegistryTests/M+MTest16Service.cpp"; sourceTree = SOURCE_ROOT; };
-		DF385002198A9D0E00A0414E /* M+MTest16Service.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MTest16Service.h"; path = "RegistryService/RegistryTests/M+MTest16Service.h"; sourceTree = SOURCE_ROOT; };
 		DF385003198A9D2800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF385004198A9D4A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestCounter/RequestCounterClient/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF385005198A9D4A00A0414E /* M+MRequestCounterClient.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRequestCounterClient.cpp"; path = "RequestCounter/RequestCounterClient/M+MRequestCounterClient.cpp"; sourceTree = SOURCE_ROOT; };
@@ -404,8 +410,6 @@
 		DF76235F1AFD01C4002BDC49 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Emotiv/EmotivInputService/resource.h; sourceTree = "<group>"; };
 		DF7623601AFD01C4002BDC49 /* M+MEmotivInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MEmotivInputThread.h"; path = "Emotiv/EmotivInputService/M+MEmotivInputThread.h"; sourceTree = "<group>"; };
 		DF7623641B029130002BDC49 /* standardApplications.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = standardApplications.txt; sourceTree = "<group>"; };
-		DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "M+MNameServerReportingThread.h"; path = "RegistryService/M+MNameServerReportingThread.h"; sourceTree = "<group>"; };
-		DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MNameServerReportingThread.cpp"; path = "RegistryService/M+MNameServerReportingThread.cpp"; sourceTree = "<group>"; };
 		DF824B4719C737F7004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Exemplars/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF824B7C19C744CC004D13AC /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/RecordIntegersService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF824B7D19C744CC004D13AC /* M+MRecordIntegersOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "M+MRecordIntegersOutputInputHandler.cpp"; path = "examples/RecordIntegersService/M+MRecordIntegersOutputInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
@@ -532,8 +536,6 @@
 		DFA7D0FB1ADD9B1900A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = CommonTests/resource.h; sourceTree = "<group>"; };
 		DFA7D0FF1ADD9B7500A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ParserTest/resource.h; sourceTree = "<group>"; };
 		DFA7D1011ADD9B9400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = PortLister/resource.h; sourceTree = "<group>"; };
-		DFA7D1061ADD9BE000A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RegistryService/resource.h; sourceTree = "<group>"; };
-		DFA7D1071ADD9BE000A17BD6 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = RegistryService/resource1.h; sourceTree = "<group>"; };
 		DFA7D1091ADD9C2B00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestCounter/RequestCounterClient/resource.h; sourceTree = "<group>"; };
 		DFA7D10B1ADD9C5400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestCounter/RequestCounterService/resource.h; sourceTree = "<group>"; };
 		DFA7D10D1ADD9C8200A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestInfo/resource.h; sourceTree = "<group>"; };
@@ -578,8 +580,6 @@
 		DFA7D1441ADDB77C00A17BD6 /* mpmMovementDbService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmMovementDbService.rc.in; path = MovementDb/MovementDbService/mpmMovementDbService.rc.in; sourceTree = "<group>"; };
 		DFA7D1461ADDB7B600A17BD6 /* mpmParserTest.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmParserTest.rc.in; path = ParserTest/mpmParserTest.rc.in; sourceTree = "<group>"; };
 		DFA7D1471ADDB7C300A17BD6 /* mpmPortLister.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmPortLister.rc.in; path = PortLister/mpmPortLister.rc.in; sourceTree = "<group>"; };
-		DFA7D1491ADDB87400A17BD6 /* mpmRegistryService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRegistryService.rc.in; path = RegistryService/mpmRegistryService.rc.in; sourceTree = "<group>"; };
-		DFA7D14A1ADDB87400A17BD6 /* mpmRegistryTest.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRegistryTest.rc.in; path = RegistryService/mpmRegistryTest.rc.in; sourceTree = "<group>"; };
 		DFA7D14B1ADDB88C00A17BD6 /* mpmRequestCounterClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRequestCounterClient.rc.in; path = RequestCounter/RequestCounterClient/mpmRequestCounterClient.rc.in; sourceTree = "<group>"; };
 		DFA7D14C1ADDB89B00A17BD6 /* mpmRequestCounterService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRequestCounterService.rc.in; path = RequestCounter/RequestCounterService/mpmRequestCounterService.rc.in; sourceTree = "<group>"; };
 		DFA7D14D1ADDB8AC00A17BD6 /* mpmRequestInfo.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = mpmRequestInfo.rc.in; path = RequestInfo/mpmRequestInfo.rc.in; sourceTree = "<group>"; };
@@ -978,19 +978,19 @@
 		DF2092A118D360DE0093D3DC /* RegistryTests */ = {
 			isa = PBXGroup;
 			children = (
-				DF384FF6198A9D0E00A0414E /* CMakeLists.txt */,
-				DF384FF7198A9D0E00A0414E /* M+MTest14EchoRequestHandler.cpp */,
-				DF384FF8198A9D0E00A0414E /* M+MTest14EchoRequestHandler.h */,
-				DF384FF9198A9D0E00A0414E /* M+MTest14Service.cpp */,
-				DF384FFA198A9D0E00A0414E /* M+MTest14Service.h */,
-				DF384FFB198A9D0E00A0414E /* M+MTest15EchoRequestHandler.cpp */,
-				DF384FFC198A9D0E00A0414E /* M+MTest15EchoRequestHandler.h */,
-				DF384FFD198A9D0E00A0414E /* M+MTest15Service.cpp */,
-				DF384FFE198A9D0E00A0414E /* M+MTest15Service.h */,
-				DF384FFF198A9D0E00A0414E /* M+MTest16EchoRequestHandler.cpp */,
-				DF385000198A9D0E00A0414E /* M+MTest16EchoRequestHandler.h */,
-				DF385001198A9D0E00A0414E /* M+MTest16Service.cpp */,
-				DF385002198A9D0E00A0414E /* M+MTest16Service.h */,
+				DF1C1C9D1B42F46B00E816A4 /* CMakeLists.txt */,
+				DF1C1C9E1B42F46B00E816A4 /* M+MTest14EchoRequestHandler.cpp */,
+				DF1C1C9F1B42F46B00E816A4 /* M+MTest14EchoRequestHandler.h */,
+				DF1C1CA01B42F46B00E816A4 /* M+MTest14Service.cpp */,
+				DF1C1CA11B42F46B00E816A4 /* M+MTest14Service.h */,
+				DF1C1CA21B42F46B00E816A4 /* M+MTest15EchoRequestHandler.cpp */,
+				DF1C1CA31B42F46B00E816A4 /* M+MTest15EchoRequestHandler.h */,
+				DF1C1CA41B42F46B00E816A4 /* M+MTest15Service.cpp */,
+				DF1C1CA51B42F46B00E816A4 /* M+MTest15Service.h */,
+				DF1C1CA61B42F46B00E816A4 /* M+MTest16EchoRequestHandler.cpp */,
+				DF1C1CA71B42F46B00E816A4 /* M+MTest16EchoRequestHandler.h */,
+				DF1C1CA81B42F46B00E816A4 /* M+MTest16Service.cpp */,
+				DF1C1CA91B42F46B00E816A4 /* M+MTest16Service.h */,
 			);
 			name = RegistryTests;
 			sourceTree = SOURCE_ROOT;
@@ -1132,14 +1132,14 @@
 		DF36EEF41958E0C800E7D889 /* RequestHandlers */ = {
 			isa = PBXGroup;
 			children = (
-				DF384FE8198A9CC500A0414E /* M+MMatchRequestHandler.cpp */,
-				DF384FE9198A9CC500A0414E /* M+MMatchRequestHandler.h */,
-				DF384FEA198A9CC500A0414E /* M+MPingRequestHandler.cpp */,
-				DF384FEB198A9CC500A0414E /* M+MPingRequestHandler.h */,
-				DF384FEC198A9CC500A0414E /* M+MRegisterRequestHandler.cpp */,
-				DF384FED198A9CC500A0414E /* M+MRegisterRequestHandler.h */,
-				DF384FF4198A9CC500A0414E /* M+MUnregisterRequestHandler.cpp */,
-				DF384FF5198A9CC500A0414E /* M+MUnregisterRequestHandler.h */,
+				DF1C1C951B42F44900E816A4 /* M+MMatchRequestHandler.cpp */,
+				DF1C1C961B42F44900E816A4 /* M+MMatchRequestHandler.h */,
+				DF1C1C971B42F44900E816A4 /* M+MPingRequestHandler.cpp */,
+				DF1C1C981B42F44900E816A4 /* M+MPingRequestHandler.h */,
+				DF1C1C991B42F44900E816A4 /* M+MRegisterRequestHandler.cpp */,
+				DF1C1C9A1B42F44900E816A4 /* M+MRegisterRequestHandler.h */,
+				DF1C1C9B1B42F44900E816A4 /* M+MUnregisterRequestHandler.cpp */,
+				DF1C1C9C1B42F44900E816A4 /* M+MUnregisterRequestHandler.h */,
 			);
 			name = RequestHandlers;
 			sourceTree = SOURCE_ROOT;
@@ -1637,7 +1637,7 @@
 				DF27F42718CA357400E93C95 /* ParserTest */,
 				DF30063718E605D400B51C22 /* PortLister */,
 				DF0C7A911AE006C000E8FB15 /* ProComp2 */,
-				DFA3431418C91B8B0053B87C /* RegistryService */,
+				DFA3431418C91B8B0053B87C /* Registry */,
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
 				DF20929218D241270093D3DC /* RequestInfo */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
@@ -1652,28 +1652,28 @@
 			);
 			sourceTree = "<group>";
 		};
-		DFA3431418C91B8B0053B87C /* RegistryService */ = {
+		DFA3431418C91B8B0053B87C /* Registry */ = {
 			isa = PBXGroup;
 			children = (
-				DF384FDF198A9CC500A0414E /* CMakeLists.txt */,
-				DF384FE2198A9CC500A0414E /* M+MColumnNameValidator.cpp */,
-				DF384FE3198A9CC500A0414E /* M+MColumnNameValidator.h */,
-				DF7F70E819EDBD9A0098ED43 /* M+MNameServerReportingThread.cpp */,
-				DF7F70E719EDBD9A0098ED43 /* M+MNameServerReportingThread.h */,
-				DF384FEE198A9CC500A0414E /* M+MRegistryCheckThread.cpp */,
-				DF384FEF198A9CC500A0414E /* M+MRegistryCheckThread.h */,
-				DF384FF0198A9CC500A0414E /* M+MRegistryService.cpp */,
-				DF384FF1198A9CC500A0414E /* M+MRegistryService.h */,
-				DF384FF2198A9CC500A0414E /* M+MRegistryServiceMain.cpp */,
-				DF384FF3198A9CC500A0414E /* M+MRegistryTest.cpp */,
-				DFA7D1491ADDB87400A17BD6 /* mpmRegistryService.rc.in */,
-				DFA7D14A1ADDB87400A17BD6 /* mpmRegistryTest.rc.in */,
+				DF1C1CAA1B42F49C00E816A4 /* CMakeLists.txt */,
+				DF1C1CAB1B42F49C00E816A4 /* M+MColumnNameValidator.cpp */,
+				DF1C1CAC1B42F49C00E816A4 /* M+MColumnNameValidator.h */,
+				DF1C1CAD1B42F49C00E816A4 /* M+MNameServerReportingThread.cpp */,
+				DF1C1CAE1B42F49C00E816A4 /* M+MNameServerReportingThread.h */,
+				DF1C1CAF1B42F49C00E816A4 /* M+MRegistryCheckThread.cpp */,
+				DF1C1CB01B42F49C00E816A4 /* M+MRegistryCheckThread.h */,
+				DF1C1CB11B42F49C00E816A4 /* M+MRegistryService.cpp */,
+				DF1C1CB21B42F49C00E816A4 /* M+MRegistryService.h */,
+				DF1C1CB31B42F49C00E816A4 /* M+MRegistryServiceMain.cpp */,
+				DF1C1CB41B42F49C00E816A4 /* M+MRegistryTest.cpp */,
+				DF1C1CB51B42F49C00E816A4 /* mpmRegistryService.rc.in */,
+				DF1C1CB61B42F49C00E816A4 /* mpmRegistryTest.rc.in */,
 				DF2092A118D360DE0093D3DC /* RegistryTests */,
 				DF36EEF41958E0C800E7D889 /* RequestHandlers */,
-				DFA7D1061ADD9BE000A17BD6 /* resource.h */,
-				DFA7D1071ADD9BE000A17BD6 /* resource1.h */,
+				DF1C1CB71B42F49C00E816A4 /* resource.h */,
+				DF1C1CB81B42F49C00E816A4 /* resource1.h */,
 			);
-			name = RegistryService;
+			name = Registry;
 			sourceTree = SOURCE_ROOT;
 		};
 		DFA3431B18C91BD10053B87C /* EchoService */ = {

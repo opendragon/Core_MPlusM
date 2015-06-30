@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MMovementDbAdapterService.h"
 #include "M+MMovementDbAdapterData.h"
+#include "M+MMovementDbAdapterService.h"
 #include "M+MMovementDbClient.h"
 
 #include <mpm/M+MEndpoint.h>

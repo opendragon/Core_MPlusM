@@ -39,9 +39,9 @@
 #if (! defined(MpMLeapMotionInputListener_H_))
 # define MpMLeapMotionInputListener_H_ /* Header guard */
 
-# include <mpm/M+MGeneralChannel.h>
-
 # include "Leap.h"
+
+# include <mpm/M+MGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

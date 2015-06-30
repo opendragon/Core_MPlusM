@@ -41,7 +41,6 @@
 #include <mpm/M+MDoubleArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>
 #include <mpm/M+MPortArgumentDescriptor.h>
-#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

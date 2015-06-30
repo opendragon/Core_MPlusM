@@ -147,6 +147,8 @@ void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDa
 			//	<< " pos: (" << itrJoint->second->transform.m[3][0]
 			//	<< "," << itrJoint->second->transform.m[3][1]
 			//	<< "," << itrJoint->second->transform.m[3][2] << ")" << std::endl;
+            //
+            // http://glm.g-truc.net/0.9.2/api/a00246.html
 		}
 	}
 	OD_LOG_OBJEXIT(); //####

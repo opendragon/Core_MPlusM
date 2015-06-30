@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseInputHandlerCreator.h>
+#include "M+MBaseInputHandlerCreator.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

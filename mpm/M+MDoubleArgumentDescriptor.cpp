@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MDoubleArgumentDescriptor.h>
+#include "M+MDoubleArgumentDescriptor.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

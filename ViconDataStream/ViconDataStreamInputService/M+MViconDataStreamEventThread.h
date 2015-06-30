@@ -39,11 +39,11 @@
 #if (! defined(MpMViconDataStreamEventThread_H_))
 # define MpMViconDataStreamEventThread_H_ /* Header guard */
 
-# include <Client.h>
+# include "stdafx.h"
 
 # include <mpm/M+MGeneralChannel.h>
 
-# include "stdafx.h"
+# include <Client.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

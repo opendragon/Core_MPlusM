@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MProComp2InputService.h"
+
 #include "M+MProComp2InputRequests.h"
 #include "M+MProComp2InputThread.h"
 

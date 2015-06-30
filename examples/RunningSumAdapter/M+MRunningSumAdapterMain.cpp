@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRunningSumAdapterService.h"
 #include "M+MRunningSumAdapterData.h"
+#include "M+MRunningSumAdapterService.h"
 #include "M+MRunningSumClient.h"
 
 #include <mpm/M+MEndpoint.h>

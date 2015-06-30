@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MIntegerArgumentDescriptor.h>
+#include "M+MIntegerArgumentDescriptor.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

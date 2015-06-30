@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MAddressClient.h"
+
 #include "M+MAddressRequests.h"
 
 #include <mpm/M+MServiceResponse.h>

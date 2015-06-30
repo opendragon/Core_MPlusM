@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MTest14Service.cpp
+//  File:       M+MTest15Service.cpp
 //
 //  Project:    M+M
 //
@@ -36,8 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MTest14Service.h"
-#include "M+MTest14EchoRequestHandler.h"
+#include "M+MTest15Service.h"
+
+#include "M+MTest15EchoRequestHandler.h"
 
 #include <mpm/M+MRequests.h>
 
@@ -83,10 +84,10 @@ using namespace MplusM::Test;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-Test14Service::Test14Service(const YarpString & launchPath,
+Test15Service::Test15Service(const YarpString & launchPath,
                              const int          argc,
                              char * *           argv) :
-    inherited(kServiceKindNormal, launchPath, argc, argv, true, "Test14",
+    inherited(kServiceKindNormal, launchPath, argc, argv, true, "Test15",
               "Simple service for unit tests", ""), _echoHandler(NULL)
 {
     OD_LOG_ENTER(); //####
@@ -95,25 +96,25 @@ Test14Service::Test14Service(const YarpString & launchPath,
     OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
-} // Test14Service::Test14Service
+} // Test15Service::Test15Service
 
-Test14Service::~Test14Service(void)
+Test15Service::~Test15Service(void)
 {
     OD_LOG_OBJENTER(); //####
     detachRequestHandlers();
     OD_LOG_OBJEXIT(); //####
-} // Test14Service::~Test14Service
+} // Test15Service::~Test15Service
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void Test14Service::attachRequestHandlers(void)
+void Test15Service::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
-        _echoHandler = new Test14EchoRequestHandler(*this);
+        _echoHandler = new Test15EchoRequestHandler(*this);
         if (_echoHandler)
         {
             registerRequestHandler(_echoHandler);
@@ -129,9 +130,9 @@ void Test14Service::attachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // Test14Service::attachRequestHandlers
+} // Test15Service::attachRequestHandlers
 
-void Test14Service::detachRequestHandlers(void)
+void Test15Service::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -149,9 +150,9 @@ void Test14Service::detachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // Test14Service::detachRequestHandlers
+} // Test15Service::detachRequestHandlers
 
-bool Test14Service::start(void)
+bool Test15Service::start(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -179,9 +180,9 @@ bool Test14Service::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // Test14Service::start
+} // Test15Service::start
 
-bool Test14Service::stop(void)
+bool Test15Service::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -197,7 +198,7 @@ bool Test14Service::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // Test14Service::stop
+} // Test15Service::stop
 
 #if defined(__APPLE__)
 # pragma mark Global functions

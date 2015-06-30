@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MOpenStageInputService.h"
 #include "M+MOpenStageInputRequests.h"
+#include "M+MOpenStageInputService.h"
 
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MEndpoint.h>

@@ -37,8 +37,8 @@
 //--------------------------------------------------------------------------------------------------
 
 #include <mpm/M+MChannelArgumentDescriptor.h>
-#include <mpm/M+MUtilities.h>
 #include <mpm/M+MRequests.h>
+#include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -275,7 +275,7 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                                                 (fingerPosition.y * _scale) << "\t" <<
                                                 (fingerPosition.z * _scale) << "\t" <<
                                                 fingerDirection.x << "\t" << fingerDirection.y <<
-                                                "\t" << fingerDirection.z << "\t" << LINE_END_;
+                                                "\t" << fingerDirection.z << "\t1" << LINE_END_;
                                 }
                             }
                         }

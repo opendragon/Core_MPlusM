@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MEndpoint.h>
+#include "M+MEndpoint.h"
+
 #include <mpm/M+MBaseInputHandlerCreator.h>
 #include <mpm/M+MChannelStatusReporter.h>
 #include <mpm/M+MException.h>

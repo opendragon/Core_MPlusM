@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MTruncateFloatFilterService.h"
+
 #include "M+MTruncateFloatFilterInputHandler.h"
 #include "M+MTruncateFloatFilterRequests.h"
 

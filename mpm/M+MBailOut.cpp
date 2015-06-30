@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBailOut.h>
+#include "M+MBailOut.h"
+
 #include <mpm/M+MBailOutThread.h>
 
 //#include <odl/ODEnableLogging.h>

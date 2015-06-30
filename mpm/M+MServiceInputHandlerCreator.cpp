@@ -37,7 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MServiceInputHandlerCreator.h>
+#include "M+MServiceInputHandlerCreator.h"
+
 #include <mpm/M+MServiceInputHandler.h>
 
 //#include <odl/ODEnableLogging.h>

@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MServiceResponse.h>
+#include "M+MServiceResponse.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

@@ -37,7 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MChannelArgumentDescriptor.h>
+#include "M+MChannelArgumentDescriptor.h"
+
 #include <mpm/M+MEndpoint.h>
 
 //#include <odl/ODEnableLogging.h>

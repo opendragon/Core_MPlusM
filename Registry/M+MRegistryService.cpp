@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRegistryService.h"
+
 #include "M+MColumnNameValidator.h"
 #include "M+MMatchRequestHandler.h"
 #include "M+MPingRequestHandler.h"

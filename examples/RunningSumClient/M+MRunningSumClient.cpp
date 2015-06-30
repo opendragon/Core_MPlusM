@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRunningSumClient.h"
+
 #include "M+MRunningSumRequests.h"
 
 #include <mpm/M+MServiceResponse.h>

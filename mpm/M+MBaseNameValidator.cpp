@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseNameValidator.h>
+#include "M+MBaseNameValidator.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

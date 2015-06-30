@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MRegisterRequestHandler.cpp
+//  File:       M+MPingRequestHandler.cpp
 //
 //  Project:    M+M
 //
-//  Contains:   The class definition for the request handler for the 'register' request.
+//  Contains:   The class definition for the request handler for the 'ping' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,11 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-03
+//  Created:    2014-06-17
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "M+MRegisterRequestHandler.h"
+#include "M+MPingRequestHandler.h"
+
 #include "M+MRegistryService.h"
 
 #include <mpm/M+MClientChannel.h>
@@ -52,7 +53,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the request handler for the 'register' request. */
+ @brief The class definition for the request handler for the 'ping' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -69,8 +70,8 @@ using namespace MplusM::Registry;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'register' request. */
-#define REGISTER_REQUEST_VERSION_NUMBER_ "1.0"
+/*! @brief The protocol version number for the 'ping' request. */
+#define PING_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -88,34 +89,45 @@ using namespace MplusM::Registry;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-RegisterRequestHandler::RegisterRequestHandler(RegistryService & service) :
-    inherited(MpM_REGISTER_REQUEST_, service)
+PingRequestHandler::PingRequestHandler(RegistryService & service) :
+    inherited(MpM_PING_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // RegisterRequestHandler::RegisterRequestHandler
+} // PingRequestHandler::PingRequestHandler
 
-RegisterRequestHandler::~RegisterRequestHandler(void)
+PingRequestHandler::~PingRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // RegisterRequestHandler::~RegisterRequestHandler
+} // PingRequestHandler::~PingRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RegisterRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
+void PingRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(alternateNames)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
-    alternateNames.push_back("remember");
     OD_LOG_OBJEXIT(); //####
-} // RegisterRequestHandler::fillInAliases
+} // PingRequestHandler::fillInAliases
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
-void RegisterRequestHandler::fillInDescription(const YarpString &   request,
-                                               yarp::os::Property & info)
+void PingRequestHandler::fillInDescription(const YarpString &   request,
+                                           yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -125,15 +137,15 @@ void RegisterRequestHandler::fillInDescription(const YarpString &   request,
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
         info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_STRING_);
         info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_STRING_);
-        info.put(MpM_REQREP_DICT_VERSION_KEY_, REGISTER_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Register the service and its requests\n"
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, PING_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_,
+                 "Update the last-pinged time for a service or re-register it\n"
                  "Input: the channel used by the service\n"
                  "Output: OK or FAILED, with a description of the problem encountered");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
         asList->addString(request);
-        asList->addString("add");
         info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
     }
     catch (...)
@@ -142,16 +154,16 @@ void RegisterRequestHandler::fillInDescription(const YarpString &   request,
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RegisterRequestHandler::fillInDescription
+} // PingRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RegisterRequestHandler::processRequest(const YarpString &           request,
-                                            const yarp::os::Bottle &     restOfInput,
-                                            const YarpString &           senderChannel,
-                                            yarp::os::ConnectionWriter * replyMechanism)
+bool PingRequestHandler::processRequest(const YarpString &           request,
+                                        const yarp::os::Bottle &     restOfInput,
+                                        const YarpString &           senderChannel,
+                                        yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -183,119 +195,130 @@ bool RegisterRequestHandler::processRequest(const YarpString &           request
                     if (Endpoint::CheckEndpointName(argAsString))
                     {
                         RegistryService & theService = static_cast<RegistryService &>(_service);
-
-                        theService.reportStatusChange(argAsString,
-                                                      RegistryService::kRegistryRegisterService);
-                        // Send a 'name' request to the channel
-                        YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
-                                                                     "register_/"
-                                                                     DEFAULT_CHANNEL_ROOT_);
-                        ClientChannel * outChannel = new ClientChannel;
                         
-                        if (outChannel)
+                        theService.reportStatusChange(argAsString,
+                                                      RegistryService::kRegistryPingFromService);
+                        if (theService.checkForExistingService(argAsString))
                         {
-                            if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
+                            // This service is already known, so just update the last-checked time.
+                            theService.updateCheckedTimeForChannel(argAsString);
+                        }
+                        else if (theService.checkForExistingService(argAsString))
+                        {
+                            // Second try - something happened with the first call.
+                            // This service is already known, so just update the last-checked time.
+                            theService.updateCheckedTimeForChannel(argAsString);
+                        }
+                        else
+                        {
+                            // Send a 'name' request to the channel
+                            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                                         "ping_/"
+                                                                         DEFAULT_CHANNEL_ROOT_);
+                            ClientChannel * outChannel = new ClientChannel;
+                            
+                            if (outChannel)
                             {
-                                if (outChannel->addOutputWithRetries(argAsString,
-                                                                     STANDARD_WAIT_TIME_))
+                                if (outChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
                                 {
-                                    yarp::os::Bottle message1(MpM_NAME_REQUEST_);
-                                    yarp::os::Bottle response;
-                                    
-                                    if (outChannel->write(message1, response))
+                                    if (outChannel->addOutputWithRetries(argAsString,
+                                                                         STANDARD_WAIT_TIME_))
                                     {
-                                        if (theService.processNameResponse(argAsString, response))
+                                        yarp::os::Bottle message1(MpM_NAME_REQUEST_);
+                                        yarp::os::Bottle response;
+                                        
+                                        if (outChannel->write(message1, response))
                                         {
-                                            yarp::os::Bottle message2(MpM_LIST_REQUEST_);
-                                            
-                                            if (outChannel->write(message2, response))
+                                            if (theService.processNameResponse(argAsString,
+                                                                               response))
                                             {
-                                                if (theService.processListResponse(argAsString,
-                                                                                   response))
+                                                yarp::os::Bottle message2(MpM_LIST_REQUEST_);
+                                                
+                                                if (outChannel->write(message2, response))
                                                 {
-                                                    // Remember the response
-                                                    reply.addString(MpM_OK_RESPONSE_);
-                                                    // If we're registering the Registry Service, we
-                                                    // don't care about timeouts!
-                                                    if (argAsString != MpM_REGISTRY_ENDPOINT_NAME_)
+                                                    if (theService.processListResponse(argAsString,
+                                                                                       response))
                                                     {
+                                                        // Remember the response
+                                                        reply.addString(MpM_OK_RESPONSE_);
                                                 theService.updateCheckedTimeForChannel(argAsString);
+                                                    }
+                                                    else
+                                                    {
+                                                        OD_LOG("! (theService.processList" //####
+                                                               "Response(argAsString, " //####
+                                                               "response))"); //####
+                                                        reply.addString(MpM_FAILED_RESPONSE_);
+                                                        reply.addString("Invalid response to "
+                                                                        "'list' request");
                                                     }
                                                 }
                                                 else
                                                 {
-                                                    OD_LOG("! (theService.processList" //####
-                                                           "Response(argAsString, " //####
+                                                    OD_LOG("! (outChannel->write(message2, " //####
                                                            "response))"); //####
                                                     reply.addString(MpM_FAILED_RESPONSE_);
-                                                    reply.addString("Invalid response to '"
-                                                                    MpM_LIST_REQUEST_ "' request");
+                                                    reply.addString("Could not write to channel");
+#if defined(MpM_StallOnSendProblem)
+                                                    Stall();
+#endif // defined(MpM_StallOnSendProblem)
                                                 }
                                             }
                                             else
                                             {
-                                                OD_LOG("! (outChannel->write(message2, " //####
-                                                       "response))"); //####
+                                                OD_LOG("! (theService.processNameResponse(" //####
+                                                       "argAsString, response))"); //####
                                                 reply.addString(MpM_FAILED_RESPONSE_);
-                                                reply.addString("Could not write to channel");
-#if defined(MpM_StallOnSendProblem)
-                                                Stall();
-#endif // defined(MpM_StallOnSendProblem)
+                                                reply.addString("Invalid response to 'name' "
+                                                                "request");
                                             }
                                         }
                                         else
                                         {
-                                            OD_LOG("! (theService.processNameResponse(" //####
-                                                   "argAsString, response))"); //####
+                                            OD_LOG("! (outChannel->write(message1, " //####
+                                                   "response))"); //####
                                             reply.addString(MpM_FAILED_RESPONSE_);
-                                            reply.addString("Invalid response to '"
-                                                            MpM_NAME_REQUEST_ "' request");
-                                        }
-                                    }
-                                    else
-                                    {
-                                        OD_LOG("! (outChannel->write(message1, response))"); //####
-                                        reply.addString(MpM_FAILED_RESPONSE_);
-                                        reply.addString("Could not write to channel");
+                                            reply.addString("Could not write to channel");
 #if defined(MpM_StallOnSendProblem)
-                                        Stall();
+                                            Stall();
 #endif // defined(MpM_StallOnSendProblem)
-                                    }
+                                        }
 #if defined(MpM_DoExplicitDisconnect)
                                 if (! Utilities::NetworkDisconnectWithRetries(outChannel->name(),
                                                                               argAsString,
                                                                               STANDARD_WAIT_TIME_))
-                                    {
-                                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(" //####
-                                               "outChannel->name(), argAsString, " //####
-                                               "STANDARD_WAIT_TIME_))"); //####
-                                    }
+                                        {
+                                            OD_LOG("(! Utilities::NetworkDisconnectWith" //####
+                                                   "Retries(outChannel->name(), " //####
+                                                   "argAsString, STANDARD_WAIT_TIME_))"); //####
+                                        }
 #endif // defined(MpM_DoExplicitDisconnect)
+                                    }
+                                    else
+                                    {
+                                        OD_LOG("! (outChannel->addOutputWithRetries(" //####
+                                               "argAsString, STANDARD_WAIT_TIME_))"); //####
+                                        reply.addString(MpM_FAILED_RESPONSE_);
+                                        reply.addString("Could not connect to channel");
+                                        reply.addString(argAsString);
+                                    }
+#if defined(MpM_DoExplicitClose)
+                                    outChannel->close();
+#endif // defined(MpM_DoExplicitClose)
                                 }
                                 else
                                 {
-                                    OD_LOG("! (outChannel->addOutputWithRetries(" //####
-                                           "argAsString, STANDARD_WAIT_TIME_))"); //####
+                                    OD_LOG("! (outChannel->openWithRetries(aName, " //####
+                                           "STANDARD_WAIT_TIME_))"); //####
                                     reply.addString(MpM_FAILED_RESPONSE_);
-                                    reply.addString("Could not connect to channel");
-                                    reply.addString(argAsString);
+                                    reply.addString("Channel could not be opened");
                                 }
-#if defined(MpM_DoExplicitClose)
-                                outChannel->close();
-#endif // defined(MpM_DoExplicitClose)
+                                BaseChannel::RelinquishChannel(outChannel);
                             }
                             else
                             {
-                                OD_LOG("! (outChannel->openWithRetries(aName, " //####
-                                       "STANDARD_WAIT_TIME_))"); //####
-                                reply.addString(MpM_FAILED_RESPONSE_);
-                                reply.addString("Channel could not be opened");
+                                OD_LOG("! (outChannel)");
                             }
-                            BaseChannel::RelinquishChannel(outChannel);
-                        }
-                        else
-                        {
-                            OD_LOG("! (outChannel)");
                         }
                     }
                     else
@@ -328,7 +351,7 @@ bool RegisterRequestHandler::processRequest(const YarpString &           request
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RegisterRequestHandler::processRequest
+} // PingRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_

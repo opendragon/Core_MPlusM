@@ -1,6 +1,6 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       RegistryService/CMakeLists.txt
+#  File:       Registry/CMakeLists.txt
 #
 #  Project:    M+M
 #

@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MEchoClient.h"
+
 #include "M+MEchoRequests.h"
 
 #include <mpm/M+MServiceResponse.h>

@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MEmotivInputService.h"
+
 #include "M+MEmotivInputRequests.h"
 #include "M+MEmotivInputThread.h"
 

@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MOpenStageInputService.h"
+
 #include "M+MOpenStageInputRequests.h"
 #include "M+MOpenStageInputThread.h"
 

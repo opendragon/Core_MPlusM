@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MSendReceiveCounters.h>
+#include "M+MSendReceiveCounters.h"
+
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>

@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MException.h>
+#include "M+MException.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>

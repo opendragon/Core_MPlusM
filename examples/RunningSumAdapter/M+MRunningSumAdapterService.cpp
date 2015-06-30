@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MRunningSumAdapterService.h"
+
 #include "M+MRunningSumAdapterData.h"
 #include "M+MRunningSumAdapterRequests.h"
 #include "M+MRunningSumControlInputHandler.h"

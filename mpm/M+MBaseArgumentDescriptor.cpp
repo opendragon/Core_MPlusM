@@ -37,7 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseArgumentDescriptor.h>
+#include "M+MBaseArgumentDescriptor.h"
+
 #include <mpm/M+MAddressArgumentDescriptor.h>
 #include <mpm/M+MChannelArgumentDescriptor.h>
 #include <mpm/M+MDoubleArgumentDescriptor.h>

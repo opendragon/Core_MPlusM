@@ -36,7 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MMatchValue.h>
+#include "M+MMatchValue.h"
+
 #include <mpm/M+MMatchConstraint.h>
 #include <mpm/M+MMatchExpression.h>
 #include <mpm/M+MMatchValueList.h>

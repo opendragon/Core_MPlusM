@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAbsorberOutputOutput.cpp
+//  File:       M+MAbsorberOutputService.cpp
 //
 //  Project:    M+M
 //
@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MAbsorberOutputService.h"
+
 #include "M+MAbsorberOutputInputHandler.h"
 #include "M+MAbsorberOutputRequests.h"
 

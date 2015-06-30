@@ -37,9 +37,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include <mpm/M+MBaseAdapterService.h>
-#include <mpm/M+MRequests.h>
+#include "M+MBaseAdapterService.h"
 
+#include <mpm/M+MRequests.h>
 #include <mpm/M+MUtilities.h>
 
 //#include <odl/ODEnableLogging.h>

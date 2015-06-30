@@ -41,7 +41,6 @@
 # define MpMBaseArgumentDescriptor_H_ /* Header guard */
 
 # include <mpm/M+MCommon.h>
-
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wnon-virtual-dtor"

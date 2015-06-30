@@ -36,6 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
+#include "M+MBaseService.h"
+
 #include "M+MArgumentsRequestHandler.h"
 #include "M+MChannelsRequestHandler.h"
 #include "M+MClientsRequestHandler.h"
@@ -49,7 +51,6 @@
 #include "M+MSetMetricsStateRequestHandler.h"
 #include "M+MStopRequestHandler.h"
 
-#include <mpm/M+MBaseService.h>
 #include <mpm/M+MBaseContext.h>
 #include <mpm/M+MClientChannel.h>
 #include <mpm/M+MEndpoint.h>

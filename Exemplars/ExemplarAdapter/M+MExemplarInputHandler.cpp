@@ -38,6 +38,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MExemplarInputHandler.h"
+
 #include "M+MExemplarAdapterData.h"
 #include "M+MExemplarClient.h"
 

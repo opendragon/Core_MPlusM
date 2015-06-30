@@ -37,6 +37,7 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "M+MUnregisterRequestHandler.h"
+
 #include "M+MRegistryService.h"
 
 #include <mpm/M+MEndpoint.h>
