@@ -7,7 +7,7 @@ connections, it is recommended that the more specialized \mplusm{} tools be used
 inconsistencies.
 \secondaryStart[CommandLineUtilities]{Command\longDash{}Line~Utilities}
 \mplusm{} includes a number of command\longDash{}line tools that provide some of the
-functionality of the GUI\longDash{}based tool, \emph{Channel Manager}.
+functionality of the GUI\longDash{}based tool, \emph{\CMU}.
 As well, the native \yarp{} command\longDash{}line tools to create and remove connections
 can be used with \mplusm, but it is very easy to create a non\longDash{}functional
 installation if care is not taken.
@@ -557,9 +557,9 @@ The application takes an argument for the \yarp{} network port of the service an
 no output.
 \insertShortUtilityParameters{}
 
-Note that, in order to specify the \serviceNameR[Registry~Service]{RegistryService}, it
-must be quoted with single quotes, as the network port contains a character that is
-special to the Unix shell program.
+Note that, in order to specify the \serviceNameR[\RS]{RegistryService}, it must be quoted
+with single quotes, as the network port contains a character that is special to the Unix
+shell program.
 \tertiaryEnd{\utilityNameE{mpmStopService}}
 \tertiaryStart{\utilityNameP{mpmVersion}}
 The application \utilityNameX{mpmVersion} displays the version numbers for \mplusm,
@@ -595,24 +595,23 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request s
 companion application \utilityNameR{mpmAddressClient} to retrieve the IP address and port
 that it is started with.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 The application has two arguments \longDash{} the IP address and port to be remembered.
 \insertAutoAppParameters
 \insertTagDescription{Address}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchAddressService}%
-{launchServiceAddress}{Launch options for the Address service}{0.8}
+{launchServiceAddress}{Launch options for the \emph{Address} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningAddressService}%
-{serviceRunningAddress}{The \emph{Channel Manager} entity for the Address service}{1.0}
+{serviceRunningAddress}{The \emph{\CMU} entity for the \emph{Address} service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmAddressService}}
 \condPage
 \tertiaryStart{\utilityNameP{mpmAddressClient}}
@@ -702,8 +701,8 @@ on the input stream.\\
 The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
 on the input stream.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 \insertAppParameters
 \insertTagDescription{Blob Output}
@@ -722,17 +721,16 @@ the `\asCode{go}' option, the following commands are available:
 input stream is restarted}
 \end{itemize}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchBlobOutputService}%
-{launchServiceBlob}{Launch options for the Blob output service}{0.8}
+{launchServiceBlob}{Launch options for the \emph{Blob Output} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningBlobOutputService}%
-{serviceRunningBlob}{The \emph{Channel Manager} entity for the Blob output service}{1.0}
+{serviceRunningBlob}{The \emph{\CMU} entity for the \emph{Blob Output} service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmBlobOutputService}}
 \condPage
 \tertiaryStart{\utilityNameP{mpmRecordBlobOutputService}}
@@ -754,8 +752,8 @@ used for output, using the configured output file path.\\
 The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
 file that is being used.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 The application has one optional argument \longDash{} the output file path to be used.
 \insertAppParameters
@@ -784,17 +782,16 @@ closed and a new output file to be opened}
 input stream is restarted}
 \end{itemize}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRecordBlobOutputService}%
-{launchServiceRecordBlob}{Launch options for the Record Blob output service}{0.8}
+{launchServiceRecordBlob}{Launch options for the \emph{Record Blob Output} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningRecordBlobOutputService}%
-{serviceRunningRecordBlob}{The \emph{Channel Manager} entity for the Record Blob output
+{serviceRunningRecordBlob}{The \emph{\CMU} entity for the \emph{Record Blob Output}
 service}{1.0}
 
 The output file name forms part of the names of the channels and is added to the title bar
@@ -802,21 +799,21 @@ of the service, as though it were a `tag'.
 \condPage{}
 If a `tag' value is supplied, it is merged with the output file name, as shown here:
 \objScaledDiagram{mpm_images/recordBlobWithTag}%
-{recordBlobWithTag}{The \emph{Channel Manager} entity for the Record Blob output service
-with a tag}{1.0}
+{recordBlobWithTag}{The \emph{\CMU} entity for the Record Blob output service with a
+tag}{1.0}
 
 If an `endpoint' value is specified, the output file name forms part of the title bar but
 does not affect the channel names:
 \objScaledDiagram{mpm_images/recordBlobWithEndpoint}%
-{recordBlobWithEndpoint}{The \emph{Channel Manager} entity for the Record Blob output
-service with an endpoint}{1.0}
+{recordBlobWithEndpoint}{The \emph{\CMU} entity for the Record Blob output service with an
+endpoint}{1.0}
 
 If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
 determines the channel names while the `tag' value is combined with the output file name
 as part of the title bar:
 \objScaledDiagram{mpm_images/recordBlobWithEndpointAndTag}%
-{recordBlobWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record Blob
-output service with an endpoint and tag}{1.0}
+{recordBlobWithEndpointAndTag}{The \emph{\CMU} entity for the Record Blob output service
+with an endpoint and tag}{1.0}
 \tertiaryEnd{\utilityNameE{mpmRecordBlobOutputService}}
 \condPage
 \tertiaryStart{\utilityNameP{mpmRequestCounterService}}
@@ -829,20 +826,19 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} an
 companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
 that it gathers.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 The application has six optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
-\longDash{} note that this option is primarily for use by the \emph{Channel Manager}
-application}
+\longDash{} note that this option is primarily for use by the \emph{\CMU} application}
 \item\exSp\optItem{c}{}{channel}{display the endpoint name and leave}
 \item\exSp\optItem{h}{}{help}{display the list of optional parameters and arguments and
 leave}
 \item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options and
 a description of the executable and leave \longDash{} note that this option is primarily
-for use by the \emph{Channel Manager} GUI application}
+for use by the \emph{\CMU} application}
 \item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
 \item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
@@ -851,17 +847,16 @@ non\longDash{}default port is desired}
 Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed endpoint name.
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRequestCounterService}%
-{launchServiceRequestCounter}{Launch options for the Request Counter service}{0.8}
+{launchServiceRequestCounter}{Launch options for the \emph{Request Counter} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningRequestCounterService}%
-{serviceRunningRequestCounter}{The \emph{Channel Manager} entity for the Request Counter
+{serviceRunningRequestCounter}{The \emph{\CMU} entity for the \emph{Request Counter}
 service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
 \condPage
@@ -904,25 +899,24 @@ It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request s
 companion application \utilityNameR{mpmTunnelClient} to retrieve an IP address and port
 that the companion application should connect to.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 The application has two arguments \longDash{} the IP address and port for the network data
 source.
 \insertAutoAppParameters
 \insertTagDescription{Tunnel}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchTunnelService}%
-{launchServiceTunnel}{Launch options for the Tunnel service}{0.8}
+{launchServiceTunnel}{Launch options for the \emph{Tunnel} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningTunnelService}%
-{serviceRunningTunnel}{The \emph{Channel Manager} entity for the Tunnel service}{1.0}
+{serviceRunningTunnel}{The \emph{\CMU} entity for the \emph{Tunnel} service}{1.0}
 \tertiaryEnd{\utilityNameE{mpmTunnelService}}
 \condPage
 \tertiaryStart{\utilityNameP{mpmTunnelClient}}

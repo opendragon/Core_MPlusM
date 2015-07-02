@@ -3,14 +3,14 @@
 The utility programs that are provided with \mplusm{} provide access to the processes that
 are running in the \mplusm{} installation.\\
 
-Currently there is one GUI\longDash{}based tool, the \emph{Channel Manager} application,
-which provides a view of the state of connections within an \mplusm{} installation, as
-well as managing non\longDash\mplusm{} \yarp{} network connections.
-\objDiagram{mpm_images/CMcmDiagram}{cmDiagram}{\emph{Channel Manager} structure}
+Currently there is one GUI\longDash{}based tool, the \emph{\CMU} application, which
+provides a view of the state of connections within an \mplusm{} installation, as well as
+managing non\longDash\mplusm{} \yarp{} network connections.
+\objDiagram{mpm_images/CMcmDiagram}{cmDiagram}{\emph{\CMU} structure}
 
-The \emph{Channel Manager} application displays a single window view of the connections
-within a \yarp{} network, with features designed to make management of an \mplusm{}
-installation easier.
+The \emph{\CMU} application displays a single window view of the connections within a
+\yarp{} network, with features designed to make management of an \mplusm{} installation
+easier.
 Simple \yarp{} network ports are shown as rectangles with a title consisting of the IP
 address and port number of the port, and the \yarp{} name for the port as the body of the
 rectangle, prefixed with `In' for input\longDash{}only ports, `Out' for
@@ -108,8 +108,8 @@ a \textbf{Cmd\longDash{}I} command
 gradient; this can also be triggered via a \textbf{Cmd\longDash{}B} command
 \item\exSp\textbf{Unhide entities} make all hidden entities visible; this can also be
 triggered via a \textbf{Cmd\longDash{}U} command
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in
@@ -200,8 +200,8 @@ displays a list with similar choices to the entity right\longDash{}mouse menu.\\
 \item\exSp\textbf{Display detailed entity information} display information about the
 entity
 \item\exSp\textbf{Hide the entity} make the entity invisible
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in
@@ -226,8 +226,8 @@ during its operation
 \item\exSp\textbf{Hide the service} make the service invisible
 \item\exSp\textbf{Stop the service} stop the service; see more information in
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in
@@ -252,8 +252,8 @@ during its operation
 \item\exSp\textbf{Hide the adapter} make the service adapter
 \item\exSp\textbf{Stop the adapter} stop the adapter; see more information in
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in
@@ -386,8 +386,8 @@ channel
 \item\exSp\textbf{Display channel metrics} display information about the activity on the
 channel \longDash{} the number of bytes and the number of messages sent to and from the
 channel
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in
@@ -411,8 +411,8 @@ channel
 implemented, so it is disabled
 \item\exSp\textbf{Add scrolling monitor} \longDash{} this is currently not implemented, so
 it is disabled
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in
@@ -432,8 +432,8 @@ channel, including a description of its protocol, if that is defined
 \item\exSp\textbf{Display channel metrics} display information about the activity on the
 channel \longDash{} the number of bytes and the number of messages sent to and from the
 channel
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in
@@ -447,8 +447,8 @@ displays a list similar choices to the regular port right\longDash{}mouse menu.\
 \begin{itemize}
 \item\textbf{Display port information} display information about the port
 \item\exSp\textbf{Display detailed port information} display information about the port
-\item\exSp\textbf{Launch Registry} launch the \emph{Registry Service} if it is not already
-running; see more information in\\
+\item\exSp\textbf{Launch Registry} launch the \emph{\RS} if it is not already running; see
+more information in\\
 \primaryRef{ManagingServices}{Managing~Services~and~Adapters}
 \item\exSp\textbf{Launch others \textellipsis} present a menu of applications that can be
 launched and, if one is selected, launch it; see more information in

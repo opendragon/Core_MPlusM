@@ -16,7 +16,7 @@ connection.\\
 The \emph{stopStreams} request stops the ProComp2 controller listener, which stops the
 output \yarp{} network connection.\\ 
 
-Note that the application will exit if the \emph{Registry Service} is not running.
+Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 \insertAppParameters
 \insertTagDescription{\PCtwoI}
@@ -37,18 +37,16 @@ output stream is restarted}
 \end{itemize}
 \secondaryEnd
 \condPage
-\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{\CMU}}
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchProComp2InputService}%
-{launchServiceProCompTwo}{Launch options for the \PCtwoI{} service}{0.8}
+{launchServiceProCompTwo}{Launch options for the \emph{\PCtwoI} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningProComp2InputService}%
-{serviceRunningProCompTwo}{The \emph{Channel Manager} entity for the \PCtwoI{} service}%
-{1.0}
+{serviceRunningProCompTwo}{The \emph{\CMU} entity for the \emph{\PCtwoI} service}{1.0}
 \secondaryEnd
 \primaryEnd{}

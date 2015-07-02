@@ -16,7 +16,7 @@ connection.\\
 The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
 output \yarp{} network connection.\\ 
 
-Note that the application will exit if the \emph{Registry Service} is not running.
+Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 \insertAppParameters
 \insertTagDescription{\LMI}
@@ -37,18 +37,17 @@ output stream is restarted}
 \end{itemize}
 \secondaryEnd
 \condPage
-\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{\CMU}}
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchLeapMotionInputService}%
-{launchServiceLeapMotion}{Launch options for the \LMI{} service}{0.8}
+{launchServiceLeapMotion}{Launch options for the \emph{\LMI} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningLeapMotionInputService}%
-{serviceRunningLeapMotion}{The \emph{Channel Manager} entity for the \LMI{} service}{1.0}
+{serviceRunningLeapMotion}{The \emph{\CMU} entity for the \emph{\LMI} service}{1.0}
 \secondaryEnd
 \primaryEnd
 \primaryStart[TheLTFIService]{The~\LTFI{}~Service}
@@ -69,7 +68,7 @@ network connection.\\
 The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
 output \yarp{} network connection.\\ 
 
-Note that the application will exit if the \emph{Registry Service} is not running.
+Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 \insertAppParameters
 \insertTagDescription{\LTFI}
@@ -90,19 +89,17 @@ output stream is restarted}
 \end{itemize}
 \secondaryEnd
 \condPage
-\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{\CMU}}
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchLeapTwoFingersInputService}%
-{launchServiceLeapTwoFingers}{Launch options for the \LTFI{} service}{0.8}
+{launchServiceLeapTwoFingers}{Launch options for the \emph{\LTFI} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningLeapTwoFingersInputService}%
-{serviceRunningLeapTwoFingers}{The \emph{Channel Manager} entity for the \LTFI{} service}%
-{1.0}
+{serviceRunningLeapTwoFingers}{The \emph{\CMU} entity for the \emph{\LTFI} service}{1.0}
 \secondaryEnd
 \primaryEnd{}
 \primaryStart[TheLBIService]{The~\LBI{}~Service}
@@ -126,7 +123,7 @@ output \yarp{} network connection.\\
 The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
 output \yarp{} network connection.\\ 
 
-Note that the application will exit if the \emph{Registry Service} is not running.
+Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 The application has one optional argument \longDash{} the translation scale to be applied
 to the finger coordinates.
@@ -148,18 +145,16 @@ output stream is restarted}
 \end{itemize}
 \secondaryEnd
 \condPage
-\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+\secondaryStart[StartingFromChannelManager]{Starting from \emph{\CMU}}
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchLeapBlobInputService}%
-{launchServiceLeapBlob}{Launch options for the \LBI{} service}{0.8}
+{launchServiceLeapBlob}{Launch options for the \emph{\LBI} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningLeapBlobInputService}%
-{serviceRunningLeapBlob}{The \emph{Channel Manager} entity for the \LBI{} service}%
-{1.0}
+{serviceRunningLeapBlob}{The \emph{\CMU} entity for the \emph{\LBI} service}{1.0}
 \secondaryEnd
 \primaryEnd{}

@@ -251,9 +251,9 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional, used with \textit{Channel~Manager})~Building~\textbf{OGDF}}
+\secondaryStart{(Optional, used with \textit{\CMU})~Building~\textbf{OGDF}}
 \textbf{OGDF} (Open Graph Drawing Framework) provides the tools to layout graphs for the
-Channel~Manager GUI application; the files needed to compile and link with OGDF are
+\CMU{} application; the files needed to compile and link with OGDF are
 installed as part of the normal \mplusm{} installation procedure, so it's not necessary to
 rebuild OGDF; the source code is provided in case there is an issue with the headers or
 libraries.
@@ -476,14 +476,13 @@ for the test
 \item Check that the \yarp{} server is running and start it if it is not, using the
 instructions above
 \item\exSp{} Execute the command `\asCode{mpmRegistryService \&}'; this will launch the
-\serviceNameR[Registry~Service]{RegistryService} in the background and return the
-\textbf{PID} that can be used to halt it later
+\serviceNameR[\RS]{RegistryService} in the background and return the \textbf{PID} that can
+be used to halt it later
 \item\exSp{} Execute the command `\asCode{mpmServiceLister}; this should display the
-properties of the \serviceNameR[Registry~Service]{RegistryService}
-\item\exSp{} If you wish to halt the \serviceNameR[Registry~Service]{RegistryService},
-execute the command `\asCode{halt -s HUP}
-\#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was returned when the
-\serviceNameR[Registry~Service]{RegistryService} was launched
+properties of the \serviceNameR[\RS]{RegistryService}
+\item\exSp{} If you wish to halt the \serviceNameR[\RS]{RegistryService}, execute the
+command `\asCode{halt -s HUP} \#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was
+returned when the \serviceNameR[\RS]{RegistryService} was launched
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
@@ -513,7 +512,7 @@ build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
 the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
 INSTALL}'; note that this will fail the first time, since it attempts to install
-\textit{Channel~Manager}, which has not been built yet
+\textit{\CMU}, which has not been built yet
 \item\exSp{} Exit from \asCode{Visual Studio}
 \end{itemize}
 \tertiaryEnd
@@ -523,9 +522,8 @@ INSTALL}'; note that this will fail the first time, since it attempts to install
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{Building~\textit{Channel~Manager}}
-\textit{Channel~Manager} is not built from the command\longDash{}line but, rather, from
-the IDE.
+\secondaryStart{Building~\textit{\CMU}}
+\textit{\CMU} is not built from the command\longDash{}line but, rather, from the IDE.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item In Finder, open the directory containing the \mplusm{} source code, \asCode{devel}

@@ -39,8 +39,8 @@ on the input stream.\\
 The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
 on the input stream.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 \insertAppParameters
 \insertTagDescription{Absorber Output}
@@ -60,18 +60,17 @@ configurable parameters}
 input stream is restarted}
 \end{itemize}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
+If the service is selected for execution from within the \emph{\CMU}
 application, the following dialog will be presented:
 \objScaledDiagram{mpm_images/launchAbsorberOutputService}%
-{launchServiceAbsorber}{Launch options for the Absorber output service}{0.8}
+{launchServiceAbsorber}{Launch options for the \emph{Absorber Output} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningAbsorberOutputService}%
-{serviceRunningAbsorber}{The \emph{Channel Manager} entity for the Absorber output
-service}{1.0}
+{serviceRunningAbsorber}{The \emph{\CMU} entity for the \emph{Absorber Output} service}%
+{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmAbsorberOutputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
@@ -80,25 +79,24 @@ The \examplesNameX{Services}{mpmEchoService} application responds to
 \examplesNameR{Clients}{mpmEchoClient} application; it simply returns any arguments
 sent with the request.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 \insertAutoAppParameters
 \insertTagDescription{Echo}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchEchoService}%
-{launchServiceEcho}{Launch options for the Echo service}{0.8}
+{launchServiceEcho}{Launch options for the \emph{Echo} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningEchoService}%
-{serviceRunningEcho}{The \emph{Channel Manager} entity for the Echo service}{1.0}
+{serviceRunningEcho}{The \emph{\CMU} entity for the \emph{Echo} service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
 \tertiaryStart{\examplesNameP{Services}{mpmRandomBurstInputService}}
 The \examplesNameX{Services}{mpmRandomBurstInputService} application is an Input service,
@@ -126,8 +124,8 @@ floating\longDash{}point values via the output \yarp{} network connection.\\
 The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request stops the random
 number generator, which stops the output \yarp{} network connection.\\ 
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 The application has two optional arguments \longDash{} the burst period, in seconds and
 the number of random values to generate in each burst.
@@ -154,17 +152,16 @@ size and period}
 output stream is restarted}
 \end{itemize}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRandomBurstInputService}%
-{launchServiceRandomBurst}{Launch options for the Random Burst input service}{0.8}
+{launchServiceRandomBurst}{Launch options for the \emph{Random Burst Input} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningRandomBurstInputService}%
-{serviceRunningRandomBurst}{The \emph{Channel Manager} entity for the Random Burst input
+{serviceRunningRandomBurst}{The \emph{\CMU} entity for the \emph{Random Burst Input}
 service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstInputService}}
 \condPage
@@ -174,8 +171,8 @@ The \examplesNameX{Services}{mpmRandomNumberService} application responds to
 \examplesNameR{Clients}{mpmRandomNumberClient} application; it returns a group of random
 numbers to the client.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 \insertAutoAppParameters
 \insertTagDescription{Random Number Input}
@@ -187,18 +184,17 @@ count of floating\longDash{}point random numbers to be returned as a response to
 request.
 \requestsNameE{Examples}{Examples}{random}%
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRandomNumberService}%
-{launchServiceRandomNumber}{Launch options for the Random Number service}{0.8}
+{launchServiceRandomNumber}{Launch options for the \emph{Random Number} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningRandomNumberService}%
-{serviceRunningRandomNumber}{The \emph{Channel Manager} entity for the Random Number
-service}{1.0}
+{serviceRunningRandomNumber}{The \emph{\CMU} entity for the \emph{Random Number} service}%
+{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRecordAsJSONOutputService}}
@@ -220,8 +216,8 @@ used for output, using the configured output file path.\\
 The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
 file that is being used.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 The application has one optional argument \longDash{} the output file path to be used.
 \insertAppParameters
@@ -250,39 +246,39 @@ closed and a new output file to be opened}
 input stream is restarted}
 \end{itemize}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRecordAsJSONOutputService}%
-{launchServiceRecordAsJSON}{Launch options for the Record As JSON output service}{0.8}
+{launchServiceRecordAsJSON}{Launch options for the \emph{Record As JSON Output} service}%
+{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningRecordAsJSONOutputService}%
-{serviceRunningRecordAsJSON}{The \emph{Channel Manager} entity for the Record As JSON
-output service}{1.0}
+{serviceRunningRecordAsJSON}{The \emph{\CMU} entity for the \emph{Record As JSON Output}
+service}{1.0}
 
 The output file name forms part of the names of the channels and is added to the title bar
 of the service, as though it were a `tag'.
 \condPage{}
 If a `tag' value is supplied, it is merged with the output file name, as shown here:
 \objScaledDiagram{mpm_images/recordJSONWithTag}%
-{recordJSONWithTag}{The \emph{Channel Manager} entity for the Record As JSON output
-service with a tag}{1.0}
+{recordJSONWithTag}{The \emph{\CMU} entity for the Record As JSON output service with a
+tag}{1.0}
 
 If an `endpoint' value is specified, the output file name forms part of the title bar but
 does not affect the channel names:
 \objScaledDiagram{mpm_images/recordJSONWithEndpoint}%
-{recordJSONWithEndpoint}{The \emph{Channel Manager} entity for the Record As JSON output
-service with an endpoint}{1.0}
+{recordJSONWithEndpoint}{The \emph{\CMU} entity for the Record As JSON output service with
+an endpoint}{1.0}
 
 If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
 determines the channel names while the `tag' value is combined with the output file name
 as part of the title bar:
 \objScaledDiagram{mpm_images/recordJSONWithEndpointAndTag}%
-{recordJSONWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record As JSON
-output service with an endpoint and tag}{1.0}
+{recordJSONWithEndpointAndTag}{The \emph{\CMU} entity for the Record As JSON output
+service with an endpoint and tag}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordAsJSONOutputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersOutputService}}
@@ -304,8 +300,8 @@ used for output, using the configured output file path.\\
 The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
 file that is being used.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 The application has one optional argument \longDash{} the output file path to be used.
 \insertAppParameters
@@ -334,39 +330,39 @@ to be closed and a new output file to be opened}
 input stream is restarted}
 \end{itemize}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRecordIntegersOutputService}%
-{launchServiceRecordIntegers}{Launch options for the Record Integers output service}{0.8}
+{launchServiceRecordIntegers}{Launch options for the \emph{Record Integers Output}
+service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningRecordIntegersOutputService}%
-{serviceRunningRecordIntegers}{The \emph{Channel Manager} entity for the Record Integers
-output service}{1.0}
+{serviceRunningRecordIntegers}{The \emph{\CMU} entity for the \emph{Record Integers
+Output} service}{1.0}
 
 The output file name forms part of the names of the channels and is added to the title bar
 of the service, as though it were a `tag'.
 \condPage{}
 If a `tag' value is supplied, it is merged with the output file name, as shown here:
 \objScaledDiagram{mpm_images/recordIntegersWithTag}%
-{recordIntegersWithTag}{The \emph{Channel Manager} entity for the Record Integers output
-service with a tag}{1.0}
+{recordIntegersWithTag}{The \emph{\CMU} entity for the Record Integers output service with
+a tag}{1.0}
 
 If an `endpoint' value is specified, the output file name forms part of the title bar but
 does not affect the channel names:
 \objScaledDiagram{mpm_images/recordIntegersWithEndpoint}%
-{recordIntegersWithEndpoint}{The \emph{Channel Manager} entity for the Record Integers
-output service with an endpoint}{1.0}
+{recordIntegersWithEndpoint}{The \emph{\CMU} entity for the Record Integers output service
+with an endpoint}{1.0}
 
 If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
 determines the channel names while the `tag' value is combined with the output file name
 as part of the title bar:
 \objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTag}%
-{recordIntegersWithEndpointAndTag}{The \emph{Channel Manager} entity for the Record
-Integers output service with an endpoint and tag}{1.0}
+{recordIntegersWithEndpointAndTag}{The \emph{\CMU} entity for the Record Integers output
+service with an endpoint and tag}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersOutputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
@@ -376,8 +372,8 @@ requests from the \examplesNameR{Clients}{mpmRunningSumClient} application or\\
 \examplesNameR{Adapters}{mpmRunningSumAltAdapter} adapters; it returns the running sum
 associated with the requesting application or adapter.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.
 \insertAutoAppParameters
 \insertTagDescription{Running Sum}
 The matching client application does not directly use the endpoint name to establish a
@@ -403,18 +399,16 @@ The \requestsNameD{Examples}{Examples}{stopsum} request stops the running sum
 calculation for the requesting application or adapter.
 \requestsNameE{Examples}{Examples}{stopsum}%
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRunningSumService}%
-{launchServiceRunningSum}{Launch options for the Running Sum service}{0.8}
+{launchServiceRunningSum}{Launch options for the \emph{Running Sum} service}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningRunningSumService}%
-{serviceRunningRunningSum}{The \emph{Channel Manager} entity for the Running Sum service}%
-{1.0}
+{serviceRunningRunningSum}{The \emph{\CMU} entity for the \emph{Running Sum} service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
 \tertiaryStart{\examplesNameP{Services}{mpmTruncateFloatFilterService}}
 The \examplesNameX{Services}{mpmTruncateFloatFilterService} application is a Filter
@@ -435,8 +429,8 @@ special is done with it.\\
 The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
 on the input stream, which will cause sending on the output stream to cease as well.\\
 
-Note that the application will exit if the
-\serviceNameR[Registry~Service]{RegistryService} is not running.\\
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
 
 \insertAppParameters
 \insertTagDescription{Truncate Float Filter}
@@ -456,18 +450,18 @@ configurable parameters}
 input and output streams are restarted}
 \end{itemize}
 \condPage
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchTruncateFloatFilterService}%
-{launchServiceTruncateFloat}{Launch options for the Truncate Float filter service}{0.8}
+{launchServiceTruncateFloat}{Launch options for the \emph{Truncate Float Filter} service}%
+{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the service has successfully started:
 \objScaledDiagram{mpm_images/runningTruncateFloatFilterService}%
-{serviceRunningTruncateFloat}{The \emph{Channel Manager} entity for the Truncate Float
-filter service}{1.0}
+{serviceRunningTruncateFloat}{The \emph{\CMU} entity for the \emph{Truncate Float Filter}
+service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatFilterService}}
 \secondaryEnd
 \condPage
@@ -482,8 +476,7 @@ entered.\\
 
 \insertShortClientParameters{}
 
-Note that the application will also exit if the
-\serviceNameR[Registry~Service]{RegistryService} or the
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{mpmEchoService} application are not running or if the application
 is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmEchoClient}}
@@ -496,8 +489,7 @@ entered for the count of random numbers desired.
 
 \insertShortClientParameters{}
 
-Note that the application will also exit if the
-\serviceNameR[Registry~Service]{RegistryService} or the
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{mpmRandomNumberService} application are not running or if the
 application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRandomNumberClient}}
@@ -524,8 +516,7 @@ service so that it will start calculating the running sum for this client}
 
 \insertShortClientParameters{}
 
-Note that the application will also exit if the
-\serviceNameR[Registry~Service]{RegistryService} or the
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running or if the
 application is not running from an interactive terminal.
 \tertiaryEnd{\examplesNameE{Clients}{mpmRunningSumClient}}
@@ -545,8 +536,7 @@ connections [\examplesNameR{Adapters}{mpmRunningSumAdapter}].\\
 Adapters have ten optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
-\longDash{} note that this option is primarily for use by the \emph{Channel Manager}
-application}
+\longDash{} note that this option is primarily for use by the \emph{\CMU} application}
 \item\exSp\optItem{c}{}{channel}{display the endpoint name after applying all other
 options and leave}
 \item\exSp\optItem{e}{v}{endpoint}{specifies an alternative endpoint name `\textit{v}' to
@@ -557,7 +547,7 @@ leave}
 \item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options, the
 matching criteria used to locate the service to which the adapter will attach and a
 description of the executable and leave \longDash{} note that this option is primarily
-for use by the \emph{Channel Manager} application}
+for use by the \emph{\CMU} application}
 \item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
 \item\exSp\optItem{r}{}{report}{report the adapter metrics when the application exits}
@@ -577,22 +567,20 @@ random numbers desired from an input \yarp{} network connection and sends a
 \examplesNameR{Services}{mpmRandomNumberService} application.
 The random numbers returned from the service are sent out an output \yarp{} network
 connection.
-Note that the application will also exit if the
-\serviceNameR[Registry~Service]{RegistryService} or the
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{mpmRandomNumberService} application are not running.\\
 
-If the adapter is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the adapter is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRandomNumberAdapter}%
-{launchAdapterRandomNumber}{Launch options for the Random Number adapter}{0.8}
+{launchAdapterRandomNumber}{Launch options for the \emph{Random Number} adapter}{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the adapter has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the adapter has successfully started:
 \objScaledDiagram{mpm_images/runningRandomNumberAdapter}%
-{adapterRunningRandomNumber}{The \emph{Channel Manager} entity for the Random Number
-adapter}{1.0}
+{adapterRunningRandomNumber}{The \emph{\CMU} entity for the \emph{Random Number} adapter}%
+{1.0}
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRandomNumberAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAdapter}}
 
@@ -618,22 +606,19 @@ service so that it will stop calculating the running sum for this adapter.
 The running sums returned from the service are sent out an output \yarp{} network
 connection.\\
 
-Note that the application will also exit if the
-\serviceNameR[Registry~Service]{RegistryService} or the
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running.\\
 
-If the adapter is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the adapter is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRunningSumAdapter}%
-{launchAdapterRunningSum}{Launch options for the Running Sum adapter}{0.8}
+{launchAdapterRunningSum}{Launch options for the \emph{Running Sum} adapter}{0.8}
 \condPage{}
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the adapter has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the adapter has successfully started:
 \objScaledDiagram{mpm_images/runningRunningSumAdapter}%
-{adapterRunningRunningSum}{The \emph{Channel Manager} entity for the Running Sum adapter}%
-{1.0}
+{adapterRunningRunningSum}{The \emph{\CMU} entity for the \emph{Running Sum} adapter}{1.0}
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAdapter}}
 \tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAltAdapter}}
 The \examplesNameX{Adapters}{mpmRunningSumAltAdapter} application reads  values and
@@ -657,22 +642,21 @@ service so that it will stop calculating the running sum for this adapter.
 The running sums returned from the service are sent out an output \yarp{} network
 connection.\\
 
-Note that the application will also exit if the
-\serviceNameR[Registry~Service]{RegistryService} or the
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{mpmRunningSumService} application are not running.
 \condPage{}
-If the adapter is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the adapter is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRunningSumAltAdapter}%
-{launchAdapterRunningSumAlt}{Launch options for the Running Sum alternate adapter}{0.8}
+{launchAdapterRunningSumAlt}{Launch options for the \emph{Running Sum} alternate adapter}%
+{0.8}
 
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the adapter has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the adapter has successfully started:
 \objScaledDiagram{mpm_images/runningRunningSumAltAdapter}%
-{adapterRunningRunningSumAlt}{The \emph{Channel Manager} entity for the Running Sum
-alternate adapter}{1.0}
+{adapterRunningRunningSumAlt}{The \emph{\CMU} entity for the \emph{Running Sum} alternate
+adapter}{1.0}
 \tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAltAdapter}}
 \secondaryEnd
 \appendixEnd{}

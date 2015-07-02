@@ -16,12 +16,11 @@ There are three main classes of programs in the set \longDash{} services, client
 utilities.
 Clients use a formalized protocol to connect to services and utilities manage or monitor
 the aggregate state of an \mplusm{} configuration.
-There is a unique service, the \serviceNameR[Registry~Service]{RegistryService}, that
-maintains information on all the active services that are accessible to clients within an
-\mplusm{} installation.
-The primary utility is the \emph{Channel Manager} application, which provides a
-GUI\longDash{}based view of the state of connections, services and clients within the
+There is a unique service, the \serviceNameR[\RS]{RegistryService}, that maintains
+information on all the active services that are accessible to clients within an \mplusm{}
 installation.
+The primary utility is the \emph{\CMU} application, which provides a GUI\longDash{}based
+view of the state of connections, services and clients within the installation.
 It is described in its own manual, \emph{ChannelManagerUtility\_Manual.pdf}.\\
 
 Each service can support multiple client connections, and the client functionality can be
@@ -33,9 +32,9 @@ additional \yarp{} network connections and their characteristics.\\
 
 Basic services have only the client~/~service \yarp{} connection and provide a central
 resource\longDash{}sharing facility; simple services, such as the
-\serviceNameR[Registry~Service]{RegistryService}, have one or more additional \yarp{}
-network connections that have no special properties and \inputOutput{} services have one
-or more additional \yarp{} network connections with specific protocols.
+\serviceNameR[\RS]{RegistryService}, have one or more additional \yarp{} network
+connections that have no special properties and \inputOutput{} services have one or more
+additional \yarp{} network connections with specific protocols.
 \inputOutput{} services provide a mechanism for `packaging' sensors and actuators as
 \mplusm{} resources.\\
 

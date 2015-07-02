@@ -246,7 +246,7 @@ VDSmainsource = ViconDataStreamInput_Manual.tex
 
 # Secondary source files
 
-Commonsources = boilerPlate.tex sharedSetup.tex
+Commonsources = boilerPlate.tex commonStrings.tex sharedSetup.tex
 
 CMsecondaryfiles = CMdocumentationHistory.tex CMfrontispiece.tex CMmanagingServices.tex \
 		CMnoRegistryService.tex CMnoYarp.tex CMoverview.tex CMtagsAndEndpoints.tex \

@@ -20,17 +20,16 @@ particular arguments that will be presented will depend on the service that was 
 from the menu of available applications.
 \secondaryEnd
 \condPage
-\secondaryStart[StartingRegistryService]{Starting the \emph{Registry Service}}
+\secondaryStart[StartingRegistryService]{Starting the \emph{\RS}}
 Selecting the \textbf{Launch Registry} menu item will result in the following being
 displayed:
 \objScaledDiagram{mpm_images/launchRegistryService}{launchRegistryServiceOne}%
-{Launching the \emph{Registry Service}}{0.8}
+{Launching the \emph{\RS}}{0.8}
 
 Note that only valid network ports can be entered, and it is usually not necessary to use
 a non-default port; clicking on the \textbf{Cancel} button will exit the dialog box, with
-no \emph{Registry Service} launched, while clicking on the \textbf{OK} button will start a
-new \emph{Registry Service} in the background, that will be stopped when the
-\emph{Channel Manager} application exits.
+no \emph{\RS} launched, while clicking on the \textbf{OK} button will start a new
+\emph{\RS} in the background, that will be stopped when the \emph{\CMU} application exits.
 \secondaryEnd
 \secondaryStart[StartingAdapters]{Starting adapters}
 Adapters require that a companion service be running, in order to establish a connection
@@ -55,8 +54,8 @@ from the menu of available applications.
 \condPage
 \secondaryStart[StoppingRegularServices]{Stopping regular services}
 If the \textbf{Stop the service} menu item is chosen when a regular service is selected
-\longDash{} a service other than the \emph{Registry Service} \longDash{} the following
-will be displayed:
+\longDash{} a service other than the \emph{\RS} \longDash{} the following will be
+displayed:
 \objScaledDiagram{mpm_images/stopService}{stopService}{Stopping a regular service}{0.9}
 
 Clicking the \textbf{Cancel} button will close the dialog box without affecting the
@@ -76,15 +75,15 @@ selected adapter, while clicking on the \textbf{Yes} button will stop the select
 application, which can be restarted via the \textbf{Launch others \textellipsis} menu
 items, as described in \secondaryRef{StartingAdapters}{Starting adapters}.
 \secondaryEnd
-\secondaryStart[StoppingRegistryService]{Stopping the \emph{Registry Service}}
-If the \textbf{Stop the service} menu item is chosen when the \emph{Registry Service} is
-the selected entity, the following will be displayed:
-\objScaledDiagram{mpm_images/stopRegistryService}{stopRegistryService}%
-{Stopping the \emph{Registry Service}}{0.8}
+\secondaryStart[StoppingRegistryService]{Stopping the \emph{\RS}}
+If the \textbf{Stop the service} menu item is chosen when the \emph{\RS} is the selected
+entity, the following will be displayed:
+\objScaledDiagram{mpm_images/stopRegistryService}{stopRegistryService}{Stopping the
+\emph{\RS}}{0.8}
 
 Clicking the \textbf{Cancel} button will close the dialog box without affecting the
-\emph{Registry Service}, while clicking on the \textbf{Yes} button will stop the service,
-which can be restarted via the \textbf{Launch Registry} menu items, as described in
-\secondaryRef{StartingRegistryService}{Starting the \emph{Registry Service}}.
+\emph{\RS}, while clicking on the \textbf{Yes} button will stop the service, which can be
+restarted via the \textbf{Launch Registry} menu items, as described in
+\secondaryRef{StartingRegistryService}{Starting the \emph{\RS}}.
 \secondaryEnd
 \primaryEnd{}

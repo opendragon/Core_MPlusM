@@ -6,7 +6,7 @@ The \mplusm{} classes are organized into seven namespaces:
 \item\exSp\textbf{\mplusm{}::Example} classes that demonstrate features of \mplusm{}
 \item\exSp\textbf{\mplusm{}::Parser} classes that are used by the
 \requestsNameR{Registry~Service}{RegistryService}{match} request of the
-\serviceNameR[Registry~Service]{RegistryService}
+\serviceNameR[\RS]{RegistryService}
 \item\exSp\textbf{\mplusm{}::Registry} classes that work with the internal database to
 manage the \mplusm{} services
 \item\exSp\textbf{\mplusm{}::RequestCounter} classes that support measuring the
@@ -155,9 +155,9 @@ The method \asCode{setUpStreamDescriptions} must be implemented in classes deriv
 \secondaryEnd{\classNameE{Common}{BaseInputService}}
 \secondaryStart{BaseMatcher}\classNameM{Common}{BaseMatcher}
 The \classNameX{Common}{BaseMatcher} class represents a `handle' to a top\longDash{}down
-pattern matcher used by the \serviceNameR[Registry~Service]{RegistryService} to convert
-the arguments of \requestsNameR{Registry~Service}{RegistryService}{match} requests into
-\asCode{SQL} operations.
+pattern matcher used by the \serviceNameR[\RS]{RegistryService} to convert the arguments
+of \requestsNameR{Registry~Service}{RegistryService}{match} requests into \asCode{SQL}
+operations.
 The `outermost' matcher that is parsed from the original request is used to generate the
 \asCode{SQL} \longDash{} the \classNameX{Common}{BaseMatcher} class acts as a
 placeholder.

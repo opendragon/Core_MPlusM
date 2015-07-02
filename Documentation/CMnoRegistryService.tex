@@ -1,31 +1,28 @@
 \ProvidesFile{CMnoRegistryService.tex}[v1.0.0]
-\appendixStart[RegistryServiceNotRunning]{\textitcorr{What to do if the \emph{Registry
-Service} is not running}}
-If the \emph{Registry Service} is not running when the \emph{Channel Manager} application
-is launched and the \emph{Registry Service} executable can't be found, the following will
-be displayed:
-\objScaledDiagram{mpm_images/noRegistryServiceFound}{noRegistryServiceFound}%
-{\emph{Registry Service} not running and could not be located}{1.0}
+\appendixStart[RegistryServiceNotRunning]{\textitcorr{What to do if the \emph{\RS} is not
+running}}
+If the \emph{\RS} is not running when the \emph{\CMU} application is launched and the
+\emph{\RS} executable can't be found, the following will be displayed:
+\objScaledDiagram{mpm_images/noRegistryServiceFound}{noRegistryServiceFound}{\emph{\RS}
+not running and could not be located}{1.0}
 
-At this point, it's best to exit the \emph{Channel Manager} application and reinstall
-\mplusm, since the installation is likely to have become damaged.
+At this point, it's best to exit the \emph{\CMU} application and reinstall \mplusm, since
+the installation is likely to have become damaged.
 If, instead, the following is displayed:
 \objScaledDiagram{mpm_images/noRunningRegistryService}{noRunningRegistryService}%
-{\emph{Registry Service} not running when application launched}{0.85}
+{\emph{\RS} not running when application launched}{0.85}
 
-then a \emph{Registry Service} executable was found and can be launched.
-If the \textbf{No} button is clicked, you should exit the \emph{Channel Manager}
-application and either manually start the \emph{Registry Service} locally or update the
-\yarp{} configuration to refer to an available \yarp{} server that has a running
-\emph{Registry Service}.
+then a \emph{\RS} executable was found and can be launched.
+If the \textbf{No} button is clicked, you should exit the \emph{\CMU} application and
+either manually start the \emph{\RS} locally or update the \yarp{} configuration to refer
+to an available \yarp{} server that has a running \emph{\RS}.
 \condPage{}
 If, instead, the \textbf{Yes} button is clicked, the following will be displayed:
 \objScaledDiagram{mpm_images/launchRegistryService}{launchRegistryServiceTwo}%
-{Launching the \emph{Registry Service}}{1.0}
+{Launching the \emph{\RS}}{1.0}
 
 Note that only valid network ports can be entered, and it is usually not necessary to use
 a non-default port; clicking on the \textbf{Cancel} button will exit the dialog box, with
-no \emph{Registry Service} launched, while clicking on the \textbf{OK} button will start a
-new \emph{Registry Service} in the background, that will be stopped when the
-\emph{Channel Manager} application exits.
+no \emph{\RS} launched, while clicking on the \textbf{OK} button will start a new
+\emph{\RS} in the background, that will be stopped when the \emph{\CMU} application exits.
 \appendixEnd{}

@@ -4,10 +4,10 @@ An \mplusm{} installation consists of a number of service applications and their
 client applications, communicating via \mplusm{} requests and responses on a \yarp{}
 network.\\
 
-There is one special service, the \serviceNameR[Registry~Service]{RegistryService}, which
-manages information about all other active services; all services register themselves
-with the \serviceNameR[Registry~Service]{RegistryService} so that client applications and
-utilities can get information about the service.\\
+There is one special service, the \serviceNameR[\RS]{RegistryService}, which manages
+information about all other active services; all services register themselves with the
+\serviceNameR[\RS]{RegistryService} so that client applications and utilities can get
+information about the service.\\
 
 Other services can be, broadly, characterized as either \inputOutput{} services or normal
 services.
@@ -35,8 +35,8 @@ The standard requests are in 4 groups:
 \begin{itemize}
 \item\textbf{\secondaryRef{BasicRequests}{Basic~Requests:}} requests that support the
 fundamental \mplusm{} service mechanisms
-\item\exSp\textbf{\secondaryRef{RegistryServiceRequests}{Registry~Service~Requests:}}
-requests that are specific to the \serviceNameR[Registry~Service]{RegistryService}
+\item\exSp\textbf{\secondaryRef{RegistryServiceRequests}{\RS{} Requests:}}
+requests that are specific to the \serviceNameR[\RS]{RegistryService}
 \item\exSp\textbf{\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests:}} requests
 that are specific to \inputOutput{} services
 \item\exSp\textbf{\secondaryRef{MiscellaneousRequests}{Miscellaneous~Requests:}} other
@@ -55,75 +55,70 @@ If no response is requested, the request is processed but no response is sent.
 There are two standard services that are always part of an \mplusm{} installation.
 \utilityNameR{mpmRequestCounterService} and its companion application
 \utilityNameR{mpmRequestCounterClient} are described elsewhere, and the
-\serviceNameR[Registry~Service]{RegistryService} is described in 
-\tertiaryRef{RegistryService}{Registry~Service}.
+\serviceNameR[\RS]{RegistryService} is described in \tertiaryRef{RegistryService}{\RS}.
 \tertiaryStart[RegistryService]{mpmRegistryService (also known as the
-\serviceNameD[Registry~Service]{RegistryService})}
-The \serviceNameX[Registry~Service]{RegistryService} application is a background service
-that is used to manage other services and their connections.
+\serviceNameD[\RS]{RegistryService})}
+The \serviceNameX[\RS]{RegistryService} application is a background service that is used
+to manage other services and their connections.
 Its primary purpose is to serve as a repository of information on the active services in
 an \mplusm{} installation.\\
 
 It uses an internal database, as described in the
 \appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.
 It responds to the requests in the
-\secondaryRef{RegistryServiceRequests}{Registry~Service~Requests} group.\\
+\secondaryRef{RegistryServiceRequests}{\RS{} Requests} group.\\
 
 The application has six optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
-\longDash{} note that this option is primarily for use by the \emph{Channel Manager}
-application}
+\longDash{} note that this option is primarily for use by the \emph{\CMU} application}
 \item\exSp\optItem{c}{}{channel}{display the endpoint name and leave}
 \item\optItem{h}{}{help}{display the list of optional parameters and arguments and
 leave}
 \item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options and
 a description of the executable and then leave \longDash{} note that this option is
-primarily for use by the \emph{Channel Manager} application}
+primarily for use by the \emph{\CMU} application}
 \item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
 \item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
 \item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}
-Note that only one copy of the \serviceNameX[Registry~Service]{RegistryService}
-application can be running at a time in an \mplusm{} installation, due to its fixed
-\yarp{} network port.\\
+Note that only one copy of the \serviceNameX[\RS]{RegistryService} application can be
+running at a time in an \mplusm{} installation, due to its fixed \yarp{} network port.\\
 
-The \serviceNameX[Registry~Service]{RegistryService} application responds to a `HUP'
-signal and will exit gracefully when one is sent to it.\\
+The \serviceNameX[\RS]{RegistryService} application responds to a `HUP' signal and will
+exit gracefully when one is sent to it.\\
 
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
+If the service is selected for execution from within the \emph{\CMU} application, the
+following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRegistryService}%
-{launchServiceRegistry}{Launch options for the \serviceNameX[Registry~Service]%
-{RegistryService}}{1.0}
+{launchServiceRegistry}{Launch options for the \serviceNameX[\RS]{RegistryService}}{1.0}
 \condPage{}
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the \serviceNameX[Registry~Service]{RegistryService} has successfully started:
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\CMU} manual.
+Once the options are set, the following image will appear in the \emph{\CMU} window when
+the \serviceNameX[\RS]{RegistryService} has successfully started:
 \objScaledDiagram{mpm_images/runningRegistryService}%
-{serviceRunningRegistry}{The \emph{Channel Manager} entity for the
-\serviceNameX[Registry~Service]{RegistryService}}{1.0}
-\tertiaryEnd{\serviceNameE[Registry~Service]{RegistryService}}
+{serviceRunningRegistry}{The \emph{\CMU} entity for the
+\serviceNameX[\RS]{RegistryService}}{1.0}
+\tertiaryEnd{\serviceNameE[\RS]{RegistryService}}
 \secondaryEnd
 \secondaryStart[BasicRequests]{Basic~Requests}
 These requests are implemented in all \mplusm{} services, via the
 \classNameR{Common}{BaseService} class.
 They constitute the fundamental mechanism that is used by the
-\serviceNameR[Registry~Service]{RegistryService} to identify each active service.
+\serviceNameR[\RS]{RegistryService} to identify each active service.
 \tertiaryStart{\requestsNameD{Basic}{Basic}{arguments}}
 The \requestsNameX{Basic}{Basic}{arguments} request returns a list of the original
 arguments given when the executable containing the active service was launched.\\
 
-It is used by the \emph{Channel Manager} utility to record the actual arguments used to
-launch the executable containing a service.
+It is used by the \emph{\CMU} to record the actual arguments used to launch the executable
+containing a service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{arguments}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
 channels and a list of the secondary output channels for its service.\\
 
-It is used by the \utilityNameR{mpmServiceLister} and \emph{Channel Manager} utilities to
+It is used by the \utilityNameR{mpmServiceLister} and \emph{\CMU} applications to
 determine the active \yarp{} network connections for each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{channels}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{clients}, alias:\ %
@@ -178,7 +173,7 @@ request handler for the request, search keywords that can be used when matching 
 a description of the request as well as representations of the expected arguments for the
 request and output of the request.\\
 
-It is used by the \serviceNameR[Registry~Service]{RegistryService} and the
+It is used by the \serviceNameR[\RS]{RegistryService} and the
 \utilityNameR{mpmRequestInfo} utility to gather information about the requests available
 from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
@@ -188,9 +183,9 @@ The \requestsNameX{Basic}{Basic}{name} request returns details about its service
 form of the canonical name of the service, its description, its kind, the path to the
 executable for the service and a description of the requests for the service.\\
 
-It is used by the \serviceNameR[Registry~Service]{RegistryService} and the
-\utilityNameR{mpmServiceLister} and \emph{Channel Manager} utilities to collect basic
-information about each service.
+It is used by the \serviceNameR[\RS]{RegistryService} and the
+\utilityNameR{mpmServiceLister} and \emph{\CMU} applications to collect basic information
+about each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{name}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{setMetricsState}}
 The \requestsNameX{Basic}{Basic}{setMetricsState} request sets the state of the metrics
@@ -201,62 +196,56 @@ to be disabled and \asCode{1} indicating that it is to be enabled.
 The \requestsNameX{Basic}{Basic}{stop} request stops the service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{stop}}
 \secondaryEnd
-\secondaryStart[RegistryServiceRequests]{Registry~Service~Requests}
+\secondaryStart[RegistryServiceRequests]{\RS{} Requests}
 The requests in this group are used exclusively by the
-\serviceNameR[Registry~Service]{RegistryService} application to manage its internal
-database and to respond to information requests from client applications.
-\tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{match}, alias:\ %
-\requestsNameA{Registry~Service}{RegistryService}{find}}
-The \requestsNameX{Registry~Service}{RegistryService}{match} request returns a list of
-input \yarp{} network connections or service names for services that match the criteria
-provided as an argument to the request.\\
+\serviceNameR[\RS]{RegistryService} application to manage its internal database and to
+respond to information requests from client applications.
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{match}, alias:\ %
+\requestsNameA{\RS}{RegistryService}{find}}
+The \requestsNameX{\RS}{RegistryService}{match} request returns a list of input \yarp{}
+network connections or service names for services that match the criteria provided as an
+argument to the request.\\
 
 It is used by all client and adapter applications to identify the service to which they
 need to connect as well as by the \utilityNameR{mpmClientList},
 \utilityNameR{mpmPortLister}, \utilityNameR{mpmRequestInfo},
-\utilityNameR{mpmServiceLister} and \emph{Channel Manager} utilities to identify services
-in order to gather information about them.\\
+\utilityNameR{mpmServiceLister} and \emph{\CMU} applications to identify services in order
+to gather information about them.\\
 
 For details on the syntax used with the criteria, see the 
 \appendixRef{ServiceMatchSyntax}{Service~Match~Syntax} appendix.
-\tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{match}}
-\tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{ping}}
-The \requestsNameX{Registry~Service}{RegistryService}{ping} request is sent by each
-active service (except the \serviceNameR[Registry~Service]{RegistryService}) to indicate
-that it is still `alive'.\\
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{match}}
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{ping}}
+The \requestsNameX{\RS}{RegistryService}{ping} request is sent by each active service
+(except the \serviceNameR[\RS]{RegistryService}) to indicate that it is still `alive'.\\
 
-Sending a \requestsNameX{Registry~Service}{RegistryService}{ping} request results in a
-sequence of requests being sent from the \serviceNameR[Registry~Service]{RegistryService}
-to the active service if the information on the service is no longer in the internal
-database.
+Sending a \requestsNameX{\RS}{RegistryService}{ping} request results in a sequence of
+requests being sent from the \serviceNameR[\RS]{RegistryService} to the active service if
+the information on the service is no longer in the internal database.
 This will happen if the service is considered to be `stale' \longDash{} it has not sent a
-\requestsNameX{Registry~Service}{RegistryService}{ping} request often enough to be
-remembered.
+\requestsNameX{\RS}{RegistryService}{ping} request often enough to be remembered.
 The sequence of requests sent to the active service is described in the 
 \appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
-\tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{ping}}
-\tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{register}, alias:\ %
-\requestsNameA{Registry~Service}{RegistryService}{remember}}
-The \requestsNameX{Registry~Service}{RegistryService}{register} request is sent by each
-active service (except the \serviceNameR[Registry~Service]{RegistryService}) when it
-starts execution.\\
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{ping}}
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{register}, alias:\ %
+\requestsNameA{\RS}{RegistryService}{remember}}
+The \requestsNameX{\RS}{RegistryService}{register} request is sent by each active service
+(except the \serviceNameR[\RS]{RegistryService}) when it starts execution.\\
 
-Sending a \requestsNameX{Registry~Service}{RegistryService}{register} request results in a
-sequence of requests being sent from the \serviceNameR[Registry~Service]{RegistryService}
-to the active service.
+Sending a \requestsNameX{\RS}{RegistryService}{register} request results in a sequence of
+requests being sent from the \serviceNameR[\RS]{RegistryService} to the active service.
 The sequence of requests sent to the active service is described in the 
 \appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
-\tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{register}}
-\tertiaryStart{\requestsNameD{Registry~Service}{RegistryService}{unregister}, alias:\ %
-\requestsNameA{Registry~Service}{RegistryService}{forget}}
-The \requestsNameX{Registry~Service}{RegistryService}{unregister} request is sent by each
-service (except the \serviceNameR[Registry~Service]{RegistryService}) just before it stops
-execution.\\
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{register}}
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{unregister}, alias:\ %
+\requestsNameA{\RS}{RegistryService}{forget}}
+The \requestsNameX{\RS}{RegistryService}{unregister} request is sent by each service
+(except the \serviceNameR[\RS]{RegistryService}) just before it stops execution.\\
 
-Upon receiving the \requestsNameX{Registry~Service}{RegistryService}{unregister} request,
-the \serviceNameR[Registry~Service]{RegistryService} removes all entries from the internal
-database that are related to the service being removed.
-\tertiaryEnd{\requestsNameE{Registry~Service}{RegistryService}{unregister}}
+Upon receiving the \requestsNameX{\RS}{RegistryService}{unregister} request, the
+\serviceNameR[\RS]{RegistryService} removes all entries from the internal database that
+are related to the service being removed.
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{unregister}}
 \secondaryEnd
 \secondaryStart[InputOutputRequests]{\inputOutput{}~Requests}
 These requests are implemented in all \mplusm{} \inputOutput{} services, via the
