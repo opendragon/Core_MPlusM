@@ -1,0 +1,313 @@
+\ProvidesFile{MpMexemplars.tex}[v1.0.0]
+\appendixStart[UsingExemplars]{\textitcorr{Using~the~Exemplar~Files}}
+The exemplars that are part of the \mplusm{} set of source files are
+provided as templates for custom application development.
+They are based on the example applications, modified to be buildable outside the \mplusm{}
+environment, provided that the \mplusm{} libraries and headers have been installed.\\
+
+The exemplar files use a common namespace, \asCode{Exemplars}, to allow for custom
+applications that re\longDash{}use class names; it is expected that the new applications
+will use a unique namespace.
+\secondaryStart{Exemplar~directories}
+\tertiaryStart{\exemplarsNameD{ExemplarAdapter}}
+The files in \exemplarsNameX{ExemplarAdapter} are based on the source files for the
+\examplesNameR{Adapters}{m+mRandomNumberAdapter} example application.
+The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
+\asCode{M+MExemplarXXX.YYY}, where \asCode{XXX} is \asCode{AdapterData},\\
+\asCode{AdapterMain} or \asCode{BaseInputHandler}.
+\tertiaryEnd{\exemplarsNameE{ExemplarAdapter}}
+\tertiaryStart{\exemplarsNameD{ExemplarClient}}
+The files in \exemplarsNameX{ExemplarClient} are based on the source files for the
+\examplesNameR{Clients}{m+mRandomNumberClient} example application.
+The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
+\asCode{M+MExemplarXXX.YYY}, where \asCode{XXX} is \asCode{Client} or \asCode{ClientMain}.
+\tertiaryEnd{\exemplarsNameE{ExemplarClient}}
+\tertiaryStart{\exemplarsNameD{ExemplarCommon}}
+The file in \exemplarsNameX{ExemplarCommon} are based on a source file from the
+\examplesNameR{Services}{m+mRandomNumberService} example application.
+The file \asCode{M+MRandomNumberRequests.h} corresponds to the file
+\asCode{M+MExemplarRequests.h}.
+\tertiaryEnd{\exemplarsNameE{ExemplarCommon}}
+\tertiaryStart{\exemplarsNameD{ExemplarFilterService}}
+The files in \exemplarsNameX{ExemplarFilterService} are based on the source files for the
+\examplesNameR{Services}{m+mTruncateFloatFilterService} example application.
+The files \asCode{M+MTruncateFloatFilterXXX.YYY} correspond to the files
+\asCode{M+MExemplarFilterXXX.YYY}, where \asCode{XXX} is \asCode{InputHandler},
+\asCode{Requests}, \asCode{Service} or \asCode{ServiceMain}.
+\tertiaryEnd{\exemplarsNameE{ExemplarFilterService}}
+\tertiaryStart{\exemplarsNameD{ExemplarInputService}}
+The files in \exemplarsNameX{ExemplarInputService} are based on the source files for the
+\examplesNameR{Services}{m+mRandomBurstInputService} example application.
+The files \asCode{M+MRandomBurstInputXXX.YYY} correspond to the files
+\asCode{M+MExemplarInputXXX.YYY}, where \asCode{XXX} is \asCode{Requests},
+\asCode{Service}, \asCode{ServiceMain} or \asCode{Thread}.
+\tertiaryEnd{\exemplarsNameE{ExemplarInputService}}
+\tertiaryStart{\exemplarsNameD{ExemplarOutputService}}
+The files in \exemplarsNameX{ExemplarOutputService} are based on the source files for the
+\examplesNameR{Services}{m+mRecordIntegersOutputService} example application.
+The files \asCode{M+MRecordIntegersOutputXXX.YYY} correspond to the files
+\asCode{M+MExemplarOutputXXX.YYY}, where \asCode{XXX} is \asCode{InputHandler},
+\asCode{Requests}, \asCode{Service} or \asCode{ServiceMain}.
+\tertiaryEnd{\exemplarsNameE{ExemplarOutputService}}
+\tertiaryStart{\exemplarsNameD{ExemplarService}}
+The files in \exemplarsNameX{ExemplarService} are based on the source files for the
+\examplesNameR{Services}{m+mRandomNumberService} example application.
+The files \asCode{M+MRandomNumberXXX.YYY} correspond to the files
+\asCode{M+MExemplarXXX.YYY}, where \asCode{XXX} is \asCode{Service} or
+\asCode{ServiceMain} and the files \asCode{M+MRandomRequestHandler.YYY} correspond to the
+files\\
+\asCode{M+MSimpleRequestHandler.YYY}.
+\tertiaryEnd{\exemplarsNameE{ExemplarService}}
+\secondaryEnd
+\secondaryStart{Exemplar~classes}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarAdapterData}}
+The \classNameX{Exemplar}{ExemplarAdapterData} class is a subclass of
+\classNameR{Common}{BaseAdapterData} and is used to provide a linkage between instances of
+the \classNameR{Exemplar}{ExemplarInputHandler} class and instances of the
+\classNameR{Exemplar}{ExemplarService} class; it does not have any methods or variables
+in addition to those provided by its superclass and primarily serves as a placeholder for
+customization.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarAdapterData}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarAdapterService}}
+The \classNameX{Exemplar}{ExemplarAdapterService} class is a subclass of
+\classNameR{Common}{BaseAdapterService} and is used to provide communication between
+standard \yarp{} ports and an instance of the \classNameR{Exemplar}{ExemplarService}
+class, using an instance of the \classNameR{Exemplar}{ExemplarClient} class.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarAdapterService}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarClient}}
+The \classNameX{Exemplar}{ExemplarClient} class is a subclass of
+\classNameR{Common}{BaseClient} and has two `placeholder' methods,
+\asCode{getOneRandomNumber} and\\
+\asCode{getRandomNumbers}, which should be replaced when developing custom applications.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarClient}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarFilterInputHandler}}
+The \classNameX{Exemplar}{ExemplarFilterInputHandler} class is a subclass of
+\classNameR{Common}{BaseInputHandler} and implements the \asCode{handleInput} method,
+processing floating\longDash{}point and integer data; this should be changed when
+developing a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarFilterInputHandler}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarFilterService}}
+The \classNameX{Exemplar}{ExemplarFilterService} class is a subclass of
+\classNameR{Common}{BaseFilterService} and implements the minimal functionality necessary
+to support its behaviour.
+In particular, the stream descriptions provided in the method\\
+\asCode{setUpStreamDescriptions} should be replaced in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarFilterService}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarInputHandler}}
+The \classNameX{Exemplar}{ExemplarInputHandler} class is a subclass of
+\classNameR{Common}{BaseInputHandler} and invokes the `placeholder' methods of the\\
+\classNameR{Exemplar}{ExemplarClient} within the \asCode{handleInput} method, which should
+be replaced when developing custom applications.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarInputHandler}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarInputService}}
+The \classNameX{Exemplar}{ExemplarInputService} is a subclass of
+\classNameR{Common}{BaseInputService} and implements the minimal functionality necessary
+to support its behaviour.
+In particular, the stream description provided in the method
+\asCode{setUpStreamDescriptions} should be replaced in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarInputService}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarInputThread}}
+The \classNameX{Exemplar}{ExemplarInputThread} class is a subclass of
+\asCode{yarp::os::Thread} and implements the \asCode{run} method to generate a stream of
+random numbers \longDash{} this behaviour should be changed when developing a custom
+application.
+Note that the method \asCode{clearOutputChannel} provides a mechanism for the
+\classNameR{Exemplar}{ExemplarInputService} instance to signal that the thread is to
+stop \longDash{} this may not be sufficient in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarInputThread}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarOutputInputHandler}}
+The \classNameX{Exemplar}{ExemplarOutputInputHandler} class is a subclass of
+\classNameR{Common}{BaseInputHandler} and simply writes out the data received by the
+\asCode{handleInput} method; this should be replaced when developing a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarOutputInputHandler}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarOutputService}}
+The \classNameX{Exemplar}{ExemplarOutputService} class is a subclass of
+\classNameR{Common}{BaseOutputService} and implements the minimal functionality necessary
+to support its behaviour.
+In particular, the stream description provided in the method
+\asCode{setUpStreamDescriptions} should be replaced in a custom application.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarOutputService}}
+\tertiaryStart{\classNameD{Exemplar}{ExemplarService}}
+The \classNameX{Exemplar}{ExemplarService} class is a subclass of
+\classNameR{Common}{BaseService} and depends on the
+\classNameR{Exemplar}{SimpleRequestHandler} class to provide the service functionality.
+When developing a custom application, the methods \asCode{attachRequestHandlers} and
+\asCode{detachRequestHandlers} need to be extended to support the requests defined by the
+service.
+\tertiaryEnd{\classNameE{Exemplar}{ExemplarService}}
+\tertiaryStart{\classNameD{Exemplar}{SimpleRequestHandler}}
+The \classNameX{Exemplar}{SimpleRequestHandler} class is a subclass of
+\classNameR{Common}{BaseRequestHandler} and implements the `get a random number' and
+`get several random numbers' requests sent by the \classNameR{Exemplar}{ExemplarClient}
+client application; a custom application should replace this class with one or more
+request handlers corresponding to the requests defined by the service, with the
+corresponding changes made to the \classNameR{Exemplar}{ExemplarService} class.
+\tertiaryEnd{\classNameE{Exemplar}{SimpleRequestHandler}}
+\secondaryEnd
+\secondaryStart{Creating~a~custom~application}
+\tertiaryStart{Determine the kind of application}
+There are four kinds of applications that can be build from the exemplars:
+\begin{itemize}
+\item\textbf{Client~/~Service~/~Adapter:} This will use the
+\exemplarsNameR{ExemplarClient}, \exemplarsNameR{ExemplarCommon} and
+\exemplarsNameR{ExemplarService} directories, with the \exemplarsNameR{ExemplarAdapter}
+directory, if an adapter is required
+\item\exSp\textbf{Filter~Service} This will use the \exemplarsNameR{ExemplarFilterService}
+directory
+\item\exSp\textbf{Input~Service} This will use the \exemplarsNameR{ExemplarInputService}
+directory
+\item\exSp\textbf{Output~Service} This will use the \exemplarsNameR{ExemplarOutputService}
+directory 
+\end{itemize}
+A custom application set can include one or more of these applications.
+For the purposes of this section, we will include all four kinds of application.
+\tertiaryEnd
+\tertiaryStart{Determine the namespace}
+Note that the classes in the source files are all within the \asCode{M+M:Exemplar}
+namespace \longDash{} this will need to be changed to avoid conflicts with other uses of
+the exemplar files.
+Choose a name that describes the purpose of the custom application, such as
+\asCode{Tracker} for an input service to communicate with a tracking device.
+For the purposes of this section, we will use the name \asCode{Foo}.
+\tertiaryEnd
+\tertiaryStart{Copy the source files}
+Copy the full directories from \asCode{Exemplars}; note that it isn't strictly necessary
+to copy a subdirectory if it is not going to be built, but the files at the top level of
+the directory are still needed.
+\tertiaryEnd
+\tertiaryStart{Rename the source files}
+The description of the relationships between the example directories and the exemplar
+directories indicate how this renaming should be done.
+For example, the file \asCode{M+MExemplarFilterInputHandler.cpp} would be renamed to
+\asCode{M+MFooFilterInputHandler.cpp}.
+Doing the renaming at this point will help avoid duplicate files or incorrect file
+inclusion.
+\tertiaryEnd
+\tertiaryStart{Edit the source files}
+This is by far the biggest task, since it will involve editing every file in each
+directory.
+\begin{itemize}
+\item In the \asCode{CMakeLists.txt} files, change the file references from
+\asCode{M+MExemplarXXX} to \asCode{M+MFooXXX}
+\item\exSp{} In the \compLang{C++} header and source files, change the class names from
+\asCode{ExemplarXXX} to \asCode{FooXXX}, change the file references from
+\asCode{M+MExemplarXXX.h} to \asCode{M+MFooXXX.h}, change the namespace from
+\asCode{Exemplar} to \asCode{Foo} and replace references to `\asCode{exemplar}' in
+comments with `\asCode{foo}' \longDash{} note that the copyright notice at the beginning
+of each file includes the word `\asCode{EXEMPLARY}', which should not be changed
+\item\exSp{} In the main files for each application (\asCode{M+MFooAdapterMain.cpp},
+\asCode{M+MFooClientMain.cpp}, et cetera),
+change any text strings that contain `\asCode{exemplar}' to contain `\asCode{foo}' or that
+contain `\asCode{Exemplar}' to contain `\asCode{Foo}' \longDash{} these will most often be
+the names of \yarp{} network connections and must not conflict with the ports from other
+services and clients
+\item\exSp{} In the files \asCode{M+MFooRequests.h} and \asCode{M+MFooService.cpp},
+replace
+\asCode{MpM\textunderscore{}EXEMPLAR\textunderscore{}CANONICAL\textunderscore{}NAME}
+with\\
+\asCode{MpM\textunderscore{}FOO\textunderscore{}CANONICAL\textunderscore{}NAME}
+\item\exSp{} In the files \asCode{M+MFooXXXService.h} and
+\asCode{M+MFooXXXServiceMain.cpp}, replace\\
+\asCode{DEFAULT\textunderscore{}EXEMPLARxxx\textunderscore{}SERVICE\textunderscore{}%
+NAME} with
+\asCode{DEFAULT\textunderscore{}FOOxxx\textunderscore{}SERVICE\textunderscore{}NAME},
+where \asCode{xxx} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
+\item\exSp{} In the files \asCode{M+MFooService.h} and \asCode{M+MFooServiceMain.cpp},
+replace
+\asCode{DEFAULT\textunderscore{}EXEMPLAR\textunderscore{}SERVICE\textunderscore{}NAME}
+with \asCode{DEFAULT\textunderscore{}FOO\textunderscore{}SERVICE\textunderscore{}NAME}
+\item\exSp{} In the files \asCode{M+MFooXXXRequests.h} and \asCode{M+MFooXXXService.cpp},
+replace\\
+\asCode{MpM\textunderscore{}EXEMPLARXXX\textunderscore{}CANONICAL\textunderscore{}NAME}
+with \asCode{MpM\textunderscore{}FOOXXX\textunderscore{}CANONICAL\textunderscore{}NAME},
+where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or\\
+\asCode{OUTPUT}
+\item\exSp{} In the file \asCode{M+MFooXXXServiceMain.cpp}, replace
+\asCode{EXEMPLARXXX\textunderscore{}OPTIONS} with \asCode{FOOXXX\textunderscore{}OPTIONS},
+where \asCode{XXX} is \asCode{FILTER}, \asCode{INPUT} or \asCode{OUTPUT}
+\item\exSp{} In the top\longDash{}level file \asCode{CMakeLists.txt}, comment out the
+directories that are not being built, by putting a hash\longDash{}mark (or pound sign),
+`\asCode{\#}', at the beginning of the \asCode{add\textunderscore{}subdirectory} statement
+for the directory
+\item\exSp{} And lastly, change the ``\asCode{Written by}'' string in the comment block at
+the beginning of each file to reference the actual writer of the new custom application
+set
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Build the application(s)}
+At this point, it should be possible to build the custom applications.
+The procedures are different for Macintosh~OS~X, Windows and Linux, although they start
+from the same source files. 
+\begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
+\begin{itemize}
+\item Execute `\asCode{ccmake~.}' from a terminal session that has the current directory
+set to the top\longDash{}level directory for the custom files and then perform the
+`\textbf{c}' (configure) and `\textbf{g}' (generate) commands
+\item\exSp{} If \asCode{ccmake} does not exit with success, use the `\textbf{q}' (quit)
+command and review the \asCode{CMakeLists.txt} files to make sure that they've been edited
+correctly \longDash{} the error screen from \asCode{ccmake} will indicate which files have
+problems
+\item\exSp{} Execute `\asCode{cmake~.}' from the terminal session, to create the
+`makefiles' used to construct the applications
+\item\exSp{} Execute `\asCode{make~clean~\&\&~make}' to build the applications; errors at
+this point will be a result of incomplete or incorrect edits and should be easy to fix
+\item\exSp{} After testing the applications, they can be installed on the system, if
+desired, via the command\\
+`\asCode{sudo~make~install}'
+\end{itemize}
+\begin{center}\textbf{On~Windows:}\end{center}
+\begin{itemize}
+\item Execute the tool \asCode{cmake} to create the project files used to construct the
+application
+\item\exSp\TBD
+\end{itemize}
+\begin{center}\textbf{On~Linux:}\end{center}
+\begin{itemize}
+\item Execute the tool \asCode{cmake} to create the project files used to construct the
+application
+\item\exSp\TBD
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Add custom code}
+Once the applications have successfully built, it's time to add the custom functionality
+that is desired.
+\begin{itemize}
+\item For \inputOutput{} services, any custom configuration data should be gathered from
+the command line or requested interactively (in the main file for the service
+application) and processed in the \asCode{configure} method of the class for the service;
+for an Input or Output service, a typical configuration value might be a device
+identifier or a file\longDash{}system path
+\item\exSp{} For Filter services, the processing of its input is done in the
+\asCode{handleInput} method in the\\
+\asCode{M+MFooFilterInputHandler.cpp} file
+\item\exSp{} For Input services, the \asCode{run} method in the
+\asCode{M+MFooInputThread.cpp} file is asynchronous \longDash{} relative to \mplusm{}
+\longDash{} to gather input and route it to the \yarp{} network connections for the
+service
+\item\exSp{} For Output services, the processing of its input is done in the
+\asCode{handlInput} method in the\\
+\asCode{M+MFooOutputInputHandler.cpp} file
+\item\exSp{} For regular services and clients, custom requests must be listed in the
+\asCode{M+MFooRequests.h} file, replacing the `simple' request that is present.
+These requests must be implemented as new classes in the `\asCode{FooService}' directory
+and pointers to instances of the new request handler classes must be added to the
+\asCode{FooService} class, using the `simple' request handler as a template.
+Corresponding methods will need to be added to the \asCode{FooClient} class, in order to
+issue the new requests.
+\item\exSp{} For adapters, any new methods added to the \asCode{FooClient} class to
+support the new requests for the \asCode{FooService} class will require similar changes to
+the \asCode{FooAdapter} class.
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Install the applications}
+\begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
+Once all the customization has been developed and tested, the applications can then be
+installed by executing\\
+`\asCode{sudo~make~install}' from a terminal session in the top\longDash{}level directory.
+\begin{center}\textbf{On~Windows:}\end{center}
+\TBD
+\begin{center}\textbf{On~Linux:}\end{center}
+\TBD
+\tertiaryEnd
+\secondaryEnd
+\appendixEnd{}
