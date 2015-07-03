@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmBlobOutputService.rc
+// Used by m+mBlobOutputService.rc
 
 // Next default values for new objects
 // 

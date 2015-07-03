@@ -2,7 +2,7 @@
 //
 //  File:       SampleScript.js
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   An example script that meets the requirements for a JavaScript file to be used with
 //              the JavaScript input / output service.

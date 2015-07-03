@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmCommonTest.rc
+// Used by m+mCommonTest.rc
 
 // Next default values for new objects
 // 

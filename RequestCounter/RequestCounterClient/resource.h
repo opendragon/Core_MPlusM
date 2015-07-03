@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmRequestCounterClient.rc
+// Used by m+mRequestCounterClient.rc
 
 // Next default values for new objects
 // 

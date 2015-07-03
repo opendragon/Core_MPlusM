@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmClientList.rc
+// Used by m+mClientList.rc
 
 // Next default values for new objects
 // 

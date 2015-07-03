@@ -2,7 +2,7 @@
 #
 #  File:       RandomNumberAdapter/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the Random Number adapter service application.
 #
@@ -40,7 +40,7 @@ include_directories("${MpM_SOURCE_DIR}"
                     "${MpM_EXAMPLES_DIR}/RandomNumberClient"
                     "${MpM_EXAMPLES_DIR}/RandomNumberCommon")
 
-set(THIS_TARGET mpmRandomNumberAdapter)
+set(THIS_TARGET m+mRandomNumberAdapter)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -52,17 +52,17 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MRandomNumberAdapterMain.cpp
-               M+MRandomNumberAdapterData.cpp
-               M+MRandomNumberAdapterService.cpp
-               M+MRandomNumberInputHandler.cpp
-               ${MpM_EXAMPLES_DIR}/RandomNumberClient/M+MRandomNumberClient.cpp
+               m+mRandomNumberAdapterMain.cpp
+               m+mRandomNumberAdapterData.cpp
+               m+mRandomNumberAdapterService.cpp
+               m+mRandomNumberInputHandler.cpp
+               ${MpM_EXAMPLES_DIR}/RandomNumberClient/m+mRandomNumberClient.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -73,7 +73,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

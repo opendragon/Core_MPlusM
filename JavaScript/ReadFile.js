@@ -2,7 +2,7 @@
 //
 //  File:       ReadFile.js
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   An example script that reads a series of values from a file.
 //

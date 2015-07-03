@@ -2,7 +2,7 @@
 #
 #  File:       odl/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the debugging library.
 #

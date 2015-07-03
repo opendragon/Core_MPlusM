@@ -2,7 +2,7 @@
 //
 //  File:       odl/ODLogging.inc.c
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   The function definitions for the logging facility.
 //

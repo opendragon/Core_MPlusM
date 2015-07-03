@@ -2,7 +2,7 @@
 #
 #  File:       ProComp2InputService/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the ProComp2 input service application.
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmProComp2InputService)
+set(THIS_TARGET m+mProComp2InputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -48,15 +48,15 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MProComp2InputServiceMain.cpp
-               M+MProComp2InputService.cpp
-               M+MProComp2InputThread.cpp
+               m+mProComp2InputServiceMain.cpp
+               m+mProComp2InputService.cpp
+               m+mProComp2InputThread.cpp
                ${VERS_RESOURCE})
 
 if(WIN32)
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                        "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
-                       $<TARGET_FILE_DIR:mpmProComp2InputService>)
+                       $<TARGET_FILE_DIR:m+mProComp2InputService>)
     install(FILES "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll"
             DESTINATION bin
             COMPONENT applications)
@@ -66,7 +66,7 @@ endif(WIN32)
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -77,7 +77,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

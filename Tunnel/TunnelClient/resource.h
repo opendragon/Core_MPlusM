@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmTunnelClient.rc
+// Used by m+mTunnelClient.rc
 
 // Next default values for new objects
 // 

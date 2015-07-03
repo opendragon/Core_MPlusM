@@ -8,12 +8,12 @@ function ask_yes_or_no() {
     esac
 }
 
-echo "This script will remove the M+M installation from this system,"
+echo "This script will remove the m+m installation from this system,"
 echo "except for a reference in the system PATH variable."
 if [[ "no" == $(ask_yes_or_no "Are you sure?") || \
       "no" == $(ask_yes_or_no "Are you *really* sure?") ]]
 then
     exit 0
 fi
-sudo rm -r /opt/M+M
-echo "M+M installation removed."
+sudo rm -r /opt/m+m
+echo "m+m installation removed."

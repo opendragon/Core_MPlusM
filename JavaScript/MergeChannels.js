@@ -2,7 +2,7 @@
 //
 //  File:       MergeChannels.js
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   An example script that merges all its inlet channels to its outlet.
 //

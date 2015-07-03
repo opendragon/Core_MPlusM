@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmTestLoopbackResponder.rc
+// Used by m+mTestLoopbackResponder.rc
 
 // Next default values for new objects
 // 

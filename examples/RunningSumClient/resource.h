@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmRunningSumClient.rc
+// Used by m+mRunningSumClient.rc
 
 // Next default values for new objects
 // 

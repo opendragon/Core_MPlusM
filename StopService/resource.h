@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmStopService.rc
+// Used by m+mStopService.rc
 
 // Next default values for new objects
 // 

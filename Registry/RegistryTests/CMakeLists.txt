@@ -2,7 +2,7 @@
 #
 #  File:       RegistryTests/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the registry unit test application.
 #
@@ -38,10 +38,10 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-add_library(mpmRegistryTestSupport
-            M+MTest14EchoRequestHandler.cpp
-            M+MTest14Service.cpp
-            M+MTest15EchoRequestHandler.cpp
-            M+MTest15Service.cpp
-            M+MTest16EchoRequestHandler.cpp
-            M+MTest16Service.cpp)
+add_library(m+mRegistryTestSupport
+            m+mTest14EchoRequestHandler.cpp
+            m+mTest14Service.cpp
+            m+mTest15EchoRequestHandler.cpp
+            m+mTest15Service.cpp
+            m+mTest16EchoRequestHandler.cpp
+            m+mTest16Service.cpp)

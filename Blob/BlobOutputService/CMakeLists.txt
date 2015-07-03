@@ -2,7 +2,7 @@
 #
 #  File:       BlobOutputService/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the Blob output service application.
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmBlobOutputService)
+set(THIS_TARGET m+mBlobOutputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -48,15 +48,15 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MBlobOutputServiceMain.cpp
-               M+MBlobOutputInputHandler.cpp
-               M+MBlobOutputService.cpp
+               m+mBlobOutputServiceMain.cpp
+               m+mBlobOutputInputHandler.cpp
+               m+mBlobOutputService.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -72,7 +72,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
@@ -93,7 +93,7 @@ install(TARGETS ${THIS_TARGET}
         DESTINATION bin
         COMPONENT applications)
 
-set(THIS_TARGET mpmRecordBlobOutputService)
+set(THIS_TARGET m+mRecordBlobOutputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -105,15 +105,15 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-                M+MRecordBlobOutputServiceMain.cpp
-                M+MRecordBlobOutputInputHandler.cpp
-                M+MRecordBlobOutputService.cpp
+                m+mRecordBlobOutputServiceMain.cpp
+                m+mRecordBlobOutputInputHandler.cpp
+                m+mRecordBlobOutputService.cpp
                 ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                        mpmCommon
+                        m+mCommon
                         odLogging
                         ${YARP_LIBRARIES}
                         ${ACE_LIBRARIES}
@@ -129,7 +129,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

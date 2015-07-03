@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmRandomBurstInputService.rc
+// Used by m+mRandomBurstInputService.rc
 
 // Next default values for new objects
 // 

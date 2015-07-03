@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmEmotivInputService.rc
+// Used by m+mEmotivInputService.rc
 
 // Next default values for new objects
 // 

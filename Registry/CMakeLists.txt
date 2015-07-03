@@ -2,7 +2,7 @@
 #
 #  File:       Registry/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the RegistryService application.
 #
@@ -53,22 +53,22 @@ include_directories("${MpM_SOURCE_DIR}"
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MRegistryServiceMain.cpp
-               M+MColumnNameValidator.cpp
-               M+MMatchRequestHandler.cpp
-               M+MNameServerReportingThread.cpp
-               M+MPingRequestHandler.cpp
-               M+MRegisterRequestHandler.cpp
-               M+MRegistryCheckThread.cpp
-               M+MRegistryService.cpp
-               M+MUnregisterRequestHandler.cpp
+               m+mRegistryServiceMain.cpp
+               m+mColumnNameValidator.cpp
+               m+mMatchRequestHandler.cpp
+               m+mNameServerReportingThread.cpp
+               m+mPingRequestHandler.cpp
+               m+mRegisterRequestHandler.cpp
+               m+mRegistryCheckThread.cpp
+               m+mRegistryService.cpp
+               m+mUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -79,7 +79,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
@@ -102,7 +102,7 @@ install(TARGETS ${THIS_TARGET}
 
 enable_testing()
 
-set(THIS_TARGET mpmRegistryTest)
+set(THIS_TARGET m+mRegistryTest)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -113,22 +113,22 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 add_executable(${THIS_TARGET}
-               M+MRegistryTest.cpp
-               M+MColumnNameValidator.cpp
-               M+MMatchRequestHandler.cpp
-               M+MPingRequestHandler.cpp
-               M+MRegisterRequestHandler.cpp
-               M+MRegistryCheckThread.cpp
-               M+MRegistryService.cpp
-               M+MUnregisterRequestHandler.cpp
+               m+mRegistryTest.cpp
+               m+mColumnNameValidator.cpp
+               m+mMatchRequestHandler.cpp
+               m+mPingRequestHandler.cpp
+               m+mRegisterRequestHandler.cpp
+               m+mRegistryCheckThread.cpp
+               m+mRegistryService.cpp
+               m+mUnregisterRequestHandler.cpp
                ${MpM_SQLITE_DIR}/sqlite3.c
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmRegistryTestSupport
-                      mpmCommon
+                      m+mRegistryTestSupport
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -139,7 +139,7 @@ if(APPLE)
                        libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

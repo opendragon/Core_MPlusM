@@ -2,7 +2,7 @@
 //
 //  File:       odl/ODDisableLogging.h
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   The macro definitions to disable the logging facility.
 //

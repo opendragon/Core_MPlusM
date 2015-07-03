@@ -2,7 +2,7 @@
 //
 //  File:       RunningSum.js
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   An example script that performs a running sum.
 //

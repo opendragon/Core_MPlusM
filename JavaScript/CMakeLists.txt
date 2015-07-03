@@ -2,7 +2,7 @@
 #
 #  File:       JavaScript/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the JavaScript input / output service application.
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmJavaScriptService)
+set(THIS_TARGET m+mJavaScriptService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -49,14 +49,14 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 if(WIN32)
 	set(SPIDER_VERSION "39a1")
 else(WIN32)
-	set(SPIDER_VERSION "40a1")
+	set(SPIDER_VERSION "42a1")
 endif(WIN32)
 
 if(WIN32)
-    set(SPIDER_PATH "C:/Program Files (x86)/M+M/spidermonkey")
+    set(SPIDER_PATH "C:/Program Files (x86)/m+m/spidermonkey")
 endif(WIN32)
 if(APPLE)
-    set(SPIDER_PATH "/opt/M+M/spidermonkey")
+    set(SPIDER_PATH "/opt/m+m/spidermonkey")
 endif(APPLE)
 
 if(APPLE)
@@ -93,16 +93,16 @@ endif(APPLE)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MJavaScriptServiceMain.cpp
-               M+MJavaScriptInputHandler.cpp
-               M+MJavaScriptService.cpp
-               M+MJavaScriptThread.cpp
+               m+mJavaScriptServiceMain.cpp
+               m+mJavaScriptInputHandler.cpp
+               m+mJavaScriptService.cpp
+               m+mJavaScriptThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       JS
                       ${YARP_LIBRARIES}
@@ -120,7 +120,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

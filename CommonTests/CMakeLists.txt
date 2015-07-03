@@ -2,7 +2,7 @@
 #
 #  File:       CommonTests/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the common unit test application.
 #
@@ -38,7 +38,7 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET mpmCommonTest)
+set(THIS_TARGET m+mCommonTest)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -48,32 +48,32 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
-add_library(mpmCommonTestSupport
-            M+MTest03Handler.cpp
-            M+MTest04Handler.cpp
-            M+MTest05Handler.cpp
-            M+MTest05HandlerCreator.cpp
-            M+MTest08Handler.cpp
-            M+MTest09DefaultRequestHandler.cpp
-            M+MTest09Service.cpp
-            M+MTest10DefaultRequestHandler.cpp
-            M+MTest10Service.cpp
-            M+MTest11EchoRequestHandler.cpp
-            M+MTest11Service.cpp
-            M+MTest12EchoRequestHandler.cpp
-            M+MTest12Service.cpp)
+add_library(m+mCommonTestSupport
+            m+mTest03Handler.cpp
+            m+mTest04Handler.cpp
+            m+mTest05Handler.cpp
+            m+mTest05HandlerCreator.cpp
+            m+mTest08Handler.cpp
+            m+mTest09DefaultRequestHandler.cpp
+            m+mTest09Service.cpp
+            m+mTest10DefaultRequestHandler.cpp
+            m+mTest10Service.cpp
+            m+mTest11EchoRequestHandler.cpp
+            m+mTest11Service.cpp
+            m+mTest12EchoRequestHandler.cpp
+            m+mTest12Service.cpp)
 
 enable_testing()
 
 add_executable(${THIS_TARGET}
-               M+MCommonTest.cpp
+               m+mCommonTest.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommonTestSupport
-                      mpmCommon
+                      m+mCommonTestSupport
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -84,7 +84,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

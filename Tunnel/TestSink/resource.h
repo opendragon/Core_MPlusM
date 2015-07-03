@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmTestSink.rc
+// Used by m+mTestSink.rc
 
 // Next default values for new objects
 // 

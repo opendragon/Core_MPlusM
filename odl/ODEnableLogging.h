@@ -2,7 +2,7 @@
 //
 //  File:       odl/ODEnableLogging.h
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   The macro definitions to enable the logging facility.
 //

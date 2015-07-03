@@ -2,9 +2,9 @@
 #
 #  File:       CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
-#  Contains:   The common CMAKE definitions for the M+M project.
+#  Contains:   The common CMAKE definitions for the m+m project.
 #
 #  Written by: Norman Jaffe & Johnty Wang
 #
@@ -40,11 +40,11 @@
 # CPack requires CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
-project(M+M)
+project(m+m)
 
 set(MpM_VERSION_MAJOR 1)
 set(MpM_VERSION_MINOR 5)
-set(MpM_VERSION_PATCH 5)
+set(MpM_VERSION_PATCH 6)
 set(MpM_VERSION_STRING "${MpM_VERSION_MAJOR}.${MpM_VERSION_MINOR}.${MpM_VERSION_PATCH}")
 set(MpM_COMPANY "H Plus Technologies Ltd. and Simon Fraser University")
 
@@ -60,10 +60,10 @@ if(APPLE)
     set(E_PATH "@executable_path")
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
 	set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
-        "Fixes linking error for M+M/ACE" FORCE)
-    set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
+        "Fixes linking error for m+m/ACE" FORCE)
+    set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
     set(CMAKE_INSTALL_RPATH
-"${E_PATH}/../lib;${E_PATH}/../mpm;${E_PATH}/../odl;${E_PATH}/../../mpm;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
+"${E_PATH}/../lib;${E_PATH}/../m+m;${E_PATH}/../odl;${E_PATH}/../../m+m;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
         CACHE STRING "Fixes rpath" FORCE)
     set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
 # 'rpath' warning
@@ -154,7 +154,7 @@ else(WIN32)
 endif(WIN32)
 option(MpM_DO_SWIG "Build the SWIG files" OFF)
 
-# Add the M+M target path so that YARP and ACE can be found
+# Add the m+m target path so that YARP and ACE can be found
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
 
 # Find YARP
@@ -182,12 +182,12 @@ set(MpM_ADAPTER_BASE_NAME "/_adapter_/")
 set(MpM_CLIENT_BASE_NAME "/_client_/")
 set(MpM_INPUT_BASE_NAME "/_input_/")
 set(MpM_OUTPUT_BASE_NAME "/_output_/")
-set(MpM_REGISTRY_EXECUTABLE_NAME "mpmRegistryService")
+set(MpM_REGISTRY_EXECUTABLE_NAME "m+mRegistryService")
 set(MpM_SERVICE_BASE_NAME "/_service_/")
 
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 
-configure_file("${MpM_SOURCE_DIR}/mpm/M+MConfig.h.in" "${MpM_SOURCE_DIR}/mpm/M+MConfig.h")
+configure_file("${MpM_SOURCE_DIR}/m+m/m+mConfig.h.in" "${MpM_SOURCE_DIR}/m+m/m+mConfig.h")
 
 include_directories("${MpM_SOURCE_DIR}")
 
@@ -214,11 +214,11 @@ add_subdirectory(FindServices)
 if(MpM_JAVASCRIPT)
     add_subdirectory(JavaScript)
 endif(MpM_JAVASCRIPT)
-add_subdirectory(LeapMotion)
 if(MpM_KINECTV2)
     add_subdirectory(KinectV2)
 endif(MpM_KINECTV2)
-add_subdirectory(mpm)
+add_subdirectory(LeapMotion)
+add_subdirectory(m+m)
 if(MpM_NATNET)
 #    add_subdirectory(NatNet)
 endif(MpM_NATNET)

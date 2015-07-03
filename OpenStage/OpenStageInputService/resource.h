@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmOpenStageInputService.rc
+// Used by m+mOpenStageInputService.rc
 
 // Next default values for new objects
 // 

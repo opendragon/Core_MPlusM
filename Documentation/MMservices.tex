@@ -53,10 +53,10 @@ service.
 If no response is requested, the request is processed but no response is sent.
 \secondaryStart[StandardServices]{Standard~Services}
 There are two standard services that are always part of an \mplusm{} installation.
-\utilityNameR{mpmRequestCounterService} and its companion application
-\utilityNameR{mpmRequestCounterClient} are described elsewhere, and the
+\utilityNameR{m+mRequestCounterService} and its companion application
+\utilityNameR{m+mRequestCounterClient} are described elsewhere, and the
 \serviceNameR[\RS]{RegistryService} is described in \tertiaryRef{RegistryService}{\RS}.
-\tertiaryStart[RegistryService]{mpmRegistryService (also known as the
+\tertiaryStart[RegistryService]{m+mRegistryService (also known as the
 \serviceNameD[\RS]{RegistryService})}
 The \serviceNameX[\RS]{RegistryService} application is a background service that is used
 to manage other services and their connections.
@@ -118,7 +118,7 @@ containing a service.
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
 channels and a list of the secondary output channels for its service.\\
 
-It is used by the \utilityNameR{mpmServiceLister} and \emph{\CMU} applications to
+It is used by the \utilityNameR{m+mServiceLister} and \emph{\CMU} applications to
 determine the active \yarp{} network connections for each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{channels}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{clients}, alias:\ %
@@ -126,7 +126,7 @@ determine the active \yarp{} network connections for each service.
 The \requestsNameX{Basic}{Basic}{clients} request returns a list of the active clients of
 its service, if the service has \yarp{} network connections with persistent state.\\
 
-It is used by the \utilityNameR{mpmClientList} utility to display a list of the clients
+It is used by the \utilityNameR{m+mClientList} utility to display a list of the clients
 of services that have \yarp{} network connections with state.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{clients}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{detach}}
@@ -134,12 +134,12 @@ The \requestsNameX{Basic}{Basic}{detach} request is used by clients of a service
 indicate that they are no longer actively communicating with the service.\\
 
 It is used by all client applications and adapters, such as
-\examplesNameR{Clients}{mpmEchoClient},
-\examplesNameR{Adapters}{mpmRandomNumberAdapter},\\
-\examplesNameR{Clients}{mpmRandomNumberClient}, \utilityNameR{mpmRequestCounterClient},
-\examplesNameR{Adapters}{mpmRunningSumAdapter},
-\examplesNameR{Adapters}{mpmRunningSumAltAdapter} and
-\examplesNameR{Clients}{mpmRunningSumClient}, to cleanly disconnect from their
+\examplesNameR{Clients}{m+mEchoClient},
+\examplesNameR{Adapters}{m+mRandomNumberAdapter},\\
+\examplesNameR{Clients}{m+mRandomNumberClient}, \utilityNameR{m+mRequestCounterClient},
+\examplesNameR{Adapters}{m+mRunningSumAdapter},
+\examplesNameR{Adapters}{m+mRunningSumAltAdapter} and
+\examplesNameR{Clients}{m+mRunningSumClient}, to cleanly disconnect from their
 corresponding service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{detach}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{getMetrics}}
@@ -161,7 +161,7 @@ request handler for the request, search keywords that can be used when matching 
 a description of the request as well as representations of the expected arguments for the
 request and output of the request.\\
 
-It is used by the \utilityNameR{mpmRequestInfo} utility to gather information about a
+It is used by the \utilityNameR{m+mRequestInfo} utility to gather information about a
 request available from an active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{info}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{list}, alias:\ %
@@ -174,7 +174,7 @@ a description of the request as well as representations of the expected argument
 request and output of the request.\\
 
 It is used by the \serviceNameR[\RS]{RegistryService} and the
-\utilityNameR{mpmRequestInfo} utility to gather information about the requests available
+\utilityNameR{m+mRequestInfo} utility to gather information about the requests available
 from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{name}, alias:\ %
@@ -184,7 +184,7 @@ form of the canonical name of the service, its description, its kind, the path t
 executable for the service and a description of the requests for the service.\\
 
 It is used by the \serviceNameR[\RS]{RegistryService} and the
-\utilityNameR{mpmServiceLister} and \emph{\CMU} applications to collect basic information
+\utilityNameR{m+mServiceLister} and \emph{\CMU} applications to collect basic information
 about each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{name}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{setMetricsState}}
@@ -207,9 +207,9 @@ network connections or service names for services that match the criteria provid
 argument to the request.\\
 
 It is used by all client and adapter applications to identify the service to which they
-need to connect as well as by the \utilityNameR{mpmClientList},
-\utilityNameR{mpmPortLister}, \utilityNameR{mpmRequestInfo},
-\utilityNameR{mpmServiceLister} and \emph{\CMU} applications to identify services in order
+need to connect as well as by the \utilityNameR{m+mClientList},
+\utilityNameR{m+mPortLister}, \utilityNameR{m+mRequestInfo},
+\utilityNameR{m+mServiceLister} and \emph{\CMU} applications to identify services in order
 to gather information about them.\\
 
 For details on the syntax used with the criteria, see the 
@@ -258,9 +258,9 @@ It is the responsibility of derived classes of the
 \classNameR{Common}{BaseInputOutputService} class to provide a method that handles the
 data provided in the \requestsNameX{\inputOutput}{InputOutput}{configure} request.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstInputService} application, the
+For the \examplesNameR{Services}{m+mRandomBurstInputService} application, the
 configuration data consists of a floating\longDash{}point number (the burst period) and an
-integer (the burst size); for the \examplesNameR{Services}{mpmRecordIntegersOutputService}
+integer (the burst size); for the \examplesNameR{Services}{m+mRecordIntegersOutputService}
 application, the configuration data consists of the file\longDash{}system path for the
 service output file.\\
 
@@ -287,11 +287,11 @@ Note that an Output service can be `always on', as it can defer the external
 representation of its input data until the first data arrives at its input \yarp{}
 network port.\\
 
-For the \examplesNameR{Services}{mpmRandomBurstInputService} application, starting the
+For the \examplesNameR{Services}{m+mRandomBurstInputService} application, starting the
 streams corresponds to initiating an asynchronous random number generator; for the
-\examplesNameR{Services}{mpmRecordIntegersOutputService} application, starting the streams
+\examplesNameR{Services}{m+mRecordIntegersOutputService} application, starting the streams
 involves opening the service output file and for the
-\examplesNameR{Services}{mpmTruncateFloatFilterService} application, starting the streams
+\examplesNameR{Services}{m+mTruncateFloatFilterService} application, starting the streams
 simply allows data to flow through.
 \tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{startStreams}}
 \tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{stopStreams}}
@@ -308,31 +308,31 @@ representation of its input data is not affected by the lack of input data.
 \tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{stopStreams}}
 \secondaryEnd
 \secondaryStart[MiscellaneousRequests]{Miscellaneous~Requests}
-Requests in this group are used with the \utilityNameR{mpmRequestCounterClient} client
-application and \utilityNameR{mpmRequestCounterService} application or are requests that
+Requests in this group are used with the \utilityNameR{m+mRequestCounterClient} client
+application and \utilityNameR{m+mRequestCounterService} application or are requests that
 are common.
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{echo}}
 The \requestsNameX{Miscellaneous}{Miscellaneous}{echo} request simply returns whatever
 as provided as arguments to the request.
 It is used by the unit testing framework of \mplusm{} to provide a simple request that
-can be validated, as well as by the \examplesNameR{Clients}{mpmEchoClient} application
-and \examplesNameR{Services}{mpmEchoService} application to implement an `echo' mechanism.
+can be validated, as well as by the \examplesNameR{Clients}{m+mEchoClient} application
+and \examplesNameR{Services}{m+mEchoService} application to implement an `echo' mechanism.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{echo}}
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{resetcounter}}
 The \requestsNameX{Miscellaneous}{Miscellaneous}{resetcounter} request is used by the
-\utilityNameR{mpmRequestCounterClient} application to request that the\\
-\utilityNameR{mpmRequestCounterService} application is to clear its request counter and
+\utilityNameR{m+mRequestCounterClient} application to request that the\\
+\utilityNameR{m+mRequestCounterService} application is to clear its request counter and
 elapsed time data.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{resetcounter}}
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{stats}}
 The \requestsNameX{Miscellaneous}{Miscellaneous}{stats} request is used by the
-\utilityNameR{mpmRequestCounterClient} application to retrieve the request counter and
-elapsed time data from the \utilityNameR{mpmRequestCounterService} application.
+\utilityNameR{m+mRequestCounterClient} application to retrieve the request counter and
+elapsed time data from the \utilityNameR{m+mRequestCounterService} application.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{stats}}
 \tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{where}}
 The \requestsNameX{Miscellaneous}{Miscellaneous}{where} request is used by the
-\utilityNameR{mpmAddressClient} application to retrieve the IP address and port from the\\
-\utilityNameR{mpmAddressService} application.
+\utilityNameR{m+mAddressClient} application to retrieve the IP address and port from the\\
+\utilityNameR{m+mAddressService} application.
 \tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{where}}
 \secondaryEnd
 \primaryEnd{}

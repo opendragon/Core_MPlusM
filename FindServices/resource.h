@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmFindServices.rc
+// Used by m+mFindServices.rc
 
 // Next default values for new objects
 // 

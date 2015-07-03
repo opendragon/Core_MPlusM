@@ -2,7 +2,7 @@
 //
 //  File:       TruncateFloat.js
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   An example script that drops the fractional part of floating-point numbers.
 //

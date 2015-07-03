@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmMovementDbClient.rc
+// Used by m+mMovementDbClient.rc
 
 // Next default values for new objects
 // 

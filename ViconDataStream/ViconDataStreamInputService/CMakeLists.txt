@@ -2,7 +2,7 @@
 #
 #  File:       ViconDataStreamInputService/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the Vicon DataStream input service application.
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmViconDataStreamInputService)
+set(THIS_TARGET m+mViconDataStreamInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,15 +50,15 @@ include_directories(${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MViconDataStreamInputServiceMain.cpp
-               M+MViconDataStreamEventThread.cpp
-               M+MViconDataStreamInputService.cpp
+               m+mViconDataStreamInputServiceMain.cpp
+               m+mViconDataStreamEventThread.cpp
+               m+mViconDataStreamInputService.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -85,7 +85,7 @@ if(WIN32)
             COMPONENT applications)			
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib"
-                        $<TARGET_FILE_DIR:mpmViconDataStreamInputService>)
+                        $<TARGET_FILE_DIR:m+mViconDataStreamInputService>)
 endif(WIN32)
 
 if(APPLE)
@@ -93,7 +93,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
@@ -114,7 +114,7 @@ install(TARGETS ${THIS_TARGET}
 		DESTINATION bin
 		COMPONENT applications)
 
-set(THIS_TARGET mpmViconBlobInputService)
+set(THIS_TARGET m+mViconBlobInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -128,15 +128,15 @@ include_directories(${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService
 
 # Set up our program
 add_executable(${THIS_TARGET}
-                M+MViconBlobInputServiceMain.cpp
-                M+MViconBlobEventThread.cpp
-                M+MViconBlobInputService.cpp
+                m+mViconBlobInputServiceMain.cpp
+                m+mViconBlobEventThread.cpp
+                m+mViconBlobInputService.cpp
                 ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                        mpmCommon
+                        m+mCommon
                         odLogging
                         ${YARP_LIBRARIES}
                         ${ACE_LIBRARIES}
@@ -154,7 +154,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

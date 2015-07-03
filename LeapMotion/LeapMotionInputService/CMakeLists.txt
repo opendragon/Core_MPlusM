@@ -2,7 +2,7 @@
 #
 #  File:       LeapMotionInputService/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the Leap Motion input service application.
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmLeapMotionInputService)
+set(THIS_TARGET m+mLeapMotionInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -48,9 +48,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MLeapMotionInputServiceMain.cpp
-               M+MLeapMotionInputListener.cpp
-               M+MLeapMotionInputService.cpp
+               m+mLeapMotionInputServiceMain.cpp
+               m+mLeapMotionInputListener.cpp
+               m+mLeapMotionInputService.cpp
                ${VERS_RESOURCE})
 
 add_library(Leap SHARED IMPORTED)
@@ -62,7 +62,7 @@ if(WIN32)
                     "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
-                        $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
+                        $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
     install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
             DESTINATION bin
             COMPONENT applications)
@@ -78,7 +78,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
@@ -100,7 +100,7 @@ endif(APPLE)
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       Leap
                       ${YARP_LIBRARIES}
@@ -111,7 +111,7 @@ install(TARGETS ${THIS_TARGET}
 		DESTINATION bin
 		COMPONENT applications)
 
-set(THIS_TARGET mpmLeapTwoFingersInputService)
+set(THIS_TARGET m+mLeapTwoFingersInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -123,9 +123,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-                M+MLeapTwoFingersInputServiceMain.cpp
-                M+MLeapTwoFingersInputListener.cpp
-                M+MLeapTwoFingersInputService.cpp
+                m+mLeapTwoFingersInputServiceMain.cpp
+                m+mLeapTwoFingersInputListener.cpp
+                m+mLeapTwoFingersInputService.cpp
                 ${VERS_RESOURCE})
 
 #add_library(Leap SHARED IMPORTED)
@@ -137,7 +137,7 @@ if(WIN32)
 #                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
 #    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 #                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
-#                    $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
+#                    $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
 #   install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
 #            DESTINATION bin
 #            COMPONENT applications)
@@ -153,7 +153,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
@@ -175,7 +175,7 @@ endif(APPLE)
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                        mpmCommon
+                        m+mCommon
                         odLogging
                         Leap
                         ${YARP_LIBRARIES}
@@ -186,7 +186,7 @@ install(TARGETS ${THIS_TARGET}
         DESTINATION bin
         COMPONENT applications)
 
-set(THIS_TARGET mpmLeapBlobInputService)
+set(THIS_TARGET m+mLeapBlobInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -198,9 +198,9 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-                M+MLeapBlobInputServiceMain.cpp
-                M+MLeapBlobInputListener.cpp
-                M+MLeapBlobInputService.cpp
+                m+mLeapBlobInputServiceMain.cpp
+                m+mLeapBlobInputListener.cpp
+                m+mLeapBlobInputService.cpp
                 ${VERS_RESOURCE})
 
 #add_library(Leap SHARED IMPORTED)
@@ -212,7 +212,7 @@ if(WIN32)
 #                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
 #    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 #                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
-#                    $<TARGET_FILE_DIR:mpmLeapMotionInputService>)
+#                    $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
 #   install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
 #            DESTINATION bin
 #            COMPONENT applications)
@@ -228,7 +228,7 @@ add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -c
                     libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
 add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                    libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
 add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                     libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
@@ -250,7 +250,7 @@ endif(APPLE)
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                        mpmCommon
+                        m+mCommon
                         odLogging
                         Leap
                         ${YARP_LIBRARIES}

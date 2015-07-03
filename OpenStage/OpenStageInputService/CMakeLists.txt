@@ -2,7 +2,7 @@
 #
 #  File:       OpenStageInputService/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the Organic Motion OpenStage input service application.
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmOpenStageInputService)
+set(THIS_TARGET m+mOpenStageInputService)
 
 set(OPENSTAGESDK_ROOT "C:/OM_SDK")
 
@@ -58,7 +58,7 @@ if(WIN32)
 	set_property(TARGET OpenStageSDK2 PROPERTY IMPORTED_IMPLIB ${OPENSTAGESDK_ROOT}/lib/omuuid.lib)
 #	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 #                       "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
-#                       $<TARGET_FILE_DIR:mpmProComp2InputService>)
+#                       $<TARGET_FILE_DIR:m+mProComp2InputService>)
 #    install(FILES "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll"
 #            DESTINATION bin
 #            COMPONENT applications)
@@ -67,15 +67,15 @@ endif(WIN32)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MOpenStageInputServiceMain.cpp
-               M+MOpenStageInputService.cpp
-               M+MOpenStageInputThread.cpp
+               m+mOpenStageInputServiceMain.cpp
+               m+mOpenStageInputService.cpp
+               m+mOpenStageInputThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       OpenStageSDK1
                       OpenStageSDK2
                       odLogging
@@ -88,7 +88,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

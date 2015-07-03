@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmAddressService.rc
+// Used by m+mAddressService.rc
 
 // Next default values for new objects
 // 

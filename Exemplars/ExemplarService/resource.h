@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmExemplarService.rc
+// Used by m+mExemplarService.rc
 
 // Next default values for new objects
 // 

@@ -1,11 +1,11 @@
 #General Packaging Stuff
-set(CPACK_CREATE_DESKTOP_LINKS "Channel Manager")
+set(CPACK_CREATE_DESKTOP_LINKS "m+m manager")
 set(CPACK_DISPLAY_NAME "Movement + Meaning")
-set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "M+M Package")
-set(CPACK_PACKAGE_EXECUTABLES "Channel Manager" "Channel Manager")
-set(CPACK_PACKAGE_INSTALL_DIRECTORY "M+M")
-set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY_ "M+M")
-set(CPACK_PACKAGE_NAME "M+M")
+set(CPACK_PACKAGE_DESCRIPTION_SUMMARY "m+m Package")
+set(CPACK_PACKAGE_EXECUTABLES "m+m manager" "m+m manager")
+set(CPACK_PACKAGE_INSTALL_DIRECTORY "m+m")
+set(CPACK_PACKAGE_INSTALL_REGISTRY_KEY_ "m+m")
+set(CPACK_PACKAGE_NAME "m+m")
 set(CPACK_PACKAGE_VERSION_MAJOR "${MpM_VERSION_MAJOR}")
 set(CPACK_PACKAGE_VERSION_MINOR "${MpM_VERSION_MINOR}")
 set(CPACK_PACKAGE_VERSION_PATCH "${MpM_VERSION_PATCH}")
@@ -17,16 +17,16 @@ set(CPACK_VENDOR "H Plus Technologies Ltd. and Simon Fraser University")
 set(CPACK_COMPONENT_APPLICATIONS_DISPLAY_NAME "Standard Applications")
 set(CPACK_COMPONENT_EXAMPLEAPPS_DISPLAY_NAME "Example Applications")
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Header Files")
-set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "M+M Libraries")
+set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "m+m Libraries")
 set(CPACK_COMPONENT_SOURCECODE_DISPLAY_NAME "Source Code")
 
 #descriptions for our components
-set(CPACK_COMPONENT_APPLICATIONS_DESCRIPTION "The executables that support running the M+M middleware")
-set(CPACK_COMPONENT_EXAMPLEAPPS_DESCRIPTION "Examples of M+M applications")
+set(CPACK_COMPONENT_APPLICATIONS_DESCRIPTION "The executables that support running the m+m middleware")
+set(CPACK_COMPONENT_EXAMPLEAPPS_DESCRIPTION "Examples of m+m applications")
 set(CPACK_COMPONENT_HEADERS_DESCRIPTION "The header files required for new development")
-set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "The fundamental files for an M+M installation")
+set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "The fundamental files for an m+m installation")
 set(CPACK_COMPONENT_SOURCECODE_DESCRIPTION
-	"The source files for an M+M installation, required for extending or modifying the core applications or libraries")
+	"The source files for an m+m installation, required for extending or modifying the core applications or libraries")
 
 #set up dependencies
 set(CPACK_COMPONENT_APPLICATIONS_DEPENDS libraries)
@@ -47,7 +47,7 @@ set(CPACK_COMPONENT_EXAMPLEAPPS_DISABLED ON)
 set(CPACK_COMPONENT_SOURCECODE_DISABLED ON)
 
 #CPack group descriptions
-set(CPACK_COMPONENT_GROUP_CORE_DESCRIPTION "The core M+M libraries and executables")
+set(CPACK_COMPONENT_GROUP_CORE_DESCRIPTION "The core m+m libraries and executables")
 set(CPACK_COMPONENT_GROUP_CORE_BOLD_TITLE ON)
 set(CPACK_COMPONENT_GROUP_OPTIONAL_DESCRIPTION
 	"Example applications and source code for the libraries and standard applications")
@@ -58,8 +58,8 @@ set(CPACK_COMPONENTS_ALL applications exampleapps headers libraries sourcecode)
 
 # platform independent install step:
 #
-# TODO: copy our yarp headers to M+M install location/yarp
-# TODO: copy our ace headers to M+M install location/ACE_wrappers
+# TODO: copy our yarp headers to m+m install location/yarp
+# TODO: copy our ace headers to m+m install location/ACE_wrappers
 # NOTE: since we're not currently using CPack on mac, everything falls under WIN32 below:
 #
 
@@ -159,7 +159,7 @@ if(WIN32)
 
 	#OTHER EXES
     install(FILES
-            "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2013/Release/Channel Manager.exe"
+            "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2013/Release/m+m manager.exe"
             DESTINATION bin
             COMPONENT applications)
 
@@ -174,7 +174,7 @@ if(WIN32)
             DESTINATION src
             COMPONENT sourcecode)
 
-    set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/Channel Manager.exe")
+    set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/m+m manager.exe")
     set(CPACK_NSIS_MODIFY_PATH ON)
     set(CPACK_NSIS_MUI_ICON "${MpM_SOURCE_DIR}/InstallerIcon.ico")
     set(CPACK_NSIS_MUI_UNIICON "${MpM_SOURCE_DIR}/InstallerIcon.ico")
@@ -183,14 +183,14 @@ if(WIN32)
     #Finally, set some MpM Environment variables (WINDOWS ONLY!)
     set(CPACK_NSIS_EXTRA_INSTALL_COMMANDS
         "
-		CreateDirectory 'C:\\\\Users\\\\Public\\\\Documents\\\\M+M'
-		CopyFiles '$INSTDIR/support/standardApplications.txt' 'C:\\\\Users\\\\Public\\\\Documents\\\\M+M'
+		CreateDirectory 'C:\\\\Users\\\\Public\\\\Documents\\\\m+m'
+		CopyFiles '$INSTDIR/support/standardApplications.txt' 'C:\\\\Users\\\\Public\\\\Documents\\\\m+m'
 		ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
         WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR/yarp'
         WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR/ACE_wrappers'
 		
         Delete '$INSTDIR/support/bonjoursdksetup.exe'
-		CreateShortCut \\\"$DESKTOP\\\\Channel Manager.lnk\\\" \\\"$INSTDIR\\\\bin\\\\Channel Manager.exe\\\"
+		CreateShortCut \\\"$DESKTOP\\\\m+m manager.lnk\\\" \\\"$INSTDIR\\\\bin\\\\m+m manager.exe\\\"
 		")
 
     #And, unset them when we uninstall!
@@ -198,7 +198,7 @@ if(WIN32)
         "
 		DeleteRegValue HKCU 'Environment' 'MPM_YARP_DIR'
         DeleteRegValue HKCU 'Environment' 'MPM_ACE_ROOT'
-		Delete \\\"$DESKTOP\\\\Channel Manager.lnk\\\"
+		Delete \\\"$DESKTOP\\\\m+m manager.lnk\\\"
 		")
 
 endif(WIN32)

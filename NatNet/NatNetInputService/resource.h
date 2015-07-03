@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmNatNetInputService.rc
+// Used by m+mNatNetInputService.rc
 
 // Next default values for new objects
 // 

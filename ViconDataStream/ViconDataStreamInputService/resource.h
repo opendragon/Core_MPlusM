@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmViconDataStreamInputService.rc
+// Used by m+mViconDataStreamInputService.rc
 
 // Next default values for new objects
 // 

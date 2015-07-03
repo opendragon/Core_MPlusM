@@ -1,4 +1,4 @@
-M+M Release Notes
+m+m Release Notes
 =================
 
-RC2 - initial release of M+M (Movement and Meaning) middleware
+RC2 - initial release of m+m (Movement and Meaning) middleware

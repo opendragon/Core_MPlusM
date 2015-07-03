@@ -18,7 +18,163 @@
 							<array>
 								<dict>
 									<key>CHILDREN</key>
-									<array/>
+									<array>
+										<dict>
+											<key>CHILDREN</key>
+											<array/>
+											<key>GID</key>
+											<integer>20</integer>
+											<key>PATH</key>
+											<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Channel Manager.app</string>
+											<key>PATH_TYPE</key>
+											<integer>0</integer>
+											<key>PERMISSIONS</key>
+											<integer>493</integer>
+											<key>TYPE</key>
+											<integer>3</integer>
+											<key>UID</key>
+											<integer>502</integer>
+										</dict>
+										<dict>
+											<key>CHILDREN</key>
+											<array>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents/Info.plist</string>
+													<key>PATH_TYPE</key>
+													<integer>0</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array>
+														<dict>
+															<key>CHILDREN</key>
+															<array/>
+															<key>GID</key>
+															<integer>20</integer>
+															<key>PATH</key>
+															<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents/MacOS/Channel Manager</string>
+															<key>PATH_TYPE</key>
+															<integer>0</integer>
+															<key>PERMISSIONS</key>
+															<integer>493</integer>
+															<key>TYPE</key>
+															<integer>3</integer>
+															<key>UID</key>
+															<integer>502</integer>
+														</dict>
+													</array>
+													<key>EXPANDED</key>
+													<true/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents/MacOS</string>
+													<key>PATH_TYPE</key>
+													<integer>0</integer>
+													<key>PERMISSIONS</key>
+													<integer>493</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents/PkgInfo</string>
+													<key>PATH_TYPE</key>
+													<integer>0</integer>
+													<key>PERMISSIONS</key>
+													<integer>420</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+												<dict>
+													<key>CHILDREN</key>
+													<array>
+														<dict>
+															<key>CHILDREN</key>
+															<array/>
+															<key>GID</key>
+															<integer>20</integer>
+															<key>PATH</key>
+															<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents/Resources/AppIcon.icns</string>
+															<key>PATH_TYPE</key>
+															<integer>0</integer>
+															<key>PERMISSIONS</key>
+															<integer>420</integer>
+															<key>TYPE</key>
+															<integer>3</integer>
+															<key>UID</key>
+															<integer>502</integer>
+														</dict>
+														<dict>
+															<key>CHILDREN</key>
+															<array/>
+															<key>GID</key>
+															<integer>20</integer>
+															<key>PATH</key>
+															<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents/Resources/RecentFilesMenuTemplate.nib</string>
+															<key>PATH_TYPE</key>
+															<integer>0</integer>
+															<key>PERMISSIONS</key>
+															<integer>420</integer>
+															<key>TYPE</key>
+															<integer>3</integer>
+															<key>UID</key>
+															<integer>502</integer>
+														</dict>
+													</array>
+													<key>EXPANDED</key>
+													<true/>
+													<key>GID</key>
+													<integer>20</integer>
+													<key>PATH</key>
+													<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents/Resources</string>
+													<key>PATH_TYPE</key>
+													<integer>0</integer>
+													<key>PERMISSIONS</key>
+													<integer>493</integer>
+													<key>TYPE</key>
+													<integer>3</integer>
+													<key>UID</key>
+													<integer>502</integer>
+												</dict>
+											</array>
+											<key>EXPANDED</key>
+											<true/>
+											<key>GID</key>
+											<integer>20</integer>
+											<key>PATH</key>
+											<string>/Users/M_M/Documents/git.repositories/Utilities_Channel Manager/Builds/MacOSX/build/Release/Channel Manager.app/Contents</string>
+											<key>PATH_TYPE</key>
+											<integer>0</integer>
+											<key>PERMISSIONS</key>
+											<integer>493</integer>
+											<key>TYPE</key>
+											<integer>3</integer>
+											<key>UID</key>
+											<integer>502</integer>
+										</dict>
+									</array>
+									<key>EXPANDED</key>
+									<true/>
 									<key>GID</key>
 									<integer>20</integer>
 									<key>PATH</key>
@@ -74,7 +230,7 @@
 											<key>GID</key>
 											<integer>20</integer>
 											<key>PATH</key>
-											<string>../M+M.path</string>
+											<string>../m+m.path</string>
 											<key>PATH_TYPE</key>
 											<integer>1</integer>
 											<key>PERMISSIONS</key>
@@ -445,7 +601,7 @@
 											<key>GID</key>
 											<integer>0</integer>
 											<key>PATH</key>
-											<string>/opt/M+M/bin</string>
+											<string>/opt/m+m/bin</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
 											<key>PERMISSIONS</key>
@@ -461,312 +617,7 @@
 											<key>GID</key>
 											<integer>0</integer>
 											<key>PATH</key>
-											<string>/opt/M+M/csharp</string>
-											<key>PATH_TYPE</key>
-											<integer>0</integer>
-											<key>PERMISSIONS</key>
-											<integer>493</integer>
-											<key>TYPE</key>
-											<integer>3</integer>
-											<key>UID</key>
-											<integer>0</integer>
-										</dict>
-										<dict>
-											<key>CHILDREN</key>
-											<array>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ChannelManagerUtility_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>../../../../ChannelManagerUtility_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../Installation_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>../../../../Installation_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../JavaScript_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>../../../../JavaScript_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../KinectV2Input_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>../../../../KinectV2Input_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../LeapMotionInput_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>../../../../LeapMotionInput_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../mpm_images</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>493</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../MpM_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>../../../../MpM_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ProComp2Input_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ProComp2Input_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ViconDataStreamInput_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>0</integer>
-													<key>PATH</key>
-													<string>../../../../ViconDataStreamInput_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>0</integer>
-												</dict>
-											</array>
-											<key>GID</key>
-											<integer>0</integer>
-											<key>PATH</key>
-											<string>docs</string>
-											<key>PATH_TYPE</key>
-											<integer>0</integer>
-											<key>PERMISSIONS</key>
-											<integer>493</integer>
-											<key>TYPE</key>
-											<integer>2</integer>
-											<key>UID</key>
-											<integer>0</integer>
-										</dict>
-										<dict>
-											<key>CHILDREN</key>
-											<array/>
-											<key>GID</key>
-											<integer>0</integer>
-											<key>PATH</key>
-											<string>/opt/M+M/include</string>
+											<string>/opt/m+m/include</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
 											<key>PERMISSIONS</key>
@@ -782,7 +633,7 @@
 											<key>GID</key>
 											<integer>0</integer>
 											<key>PATH</key>
-											<string>/opt/M+M/lib</string>
+											<string>/opt/m+m/lib</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
 											<key>PERMISSIONS</key>
@@ -798,7 +649,7 @@
 											<key>GID</key>
 											<integer>0</integer>
 											<key>PATH</key>
-											<string>/opt/M+M/python</string>
+											<string>/opt/m+m/share</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
 											<key>PERMISSIONS</key>
@@ -814,23 +665,7 @@
 											<key>GID</key>
 											<integer>0</integer>
 											<key>PATH</key>
-											<string>/opt/M+M/share</string>
-											<key>PATH_TYPE</key>
-											<integer>0</integer>
-											<key>PERMISSIONS</key>
-											<integer>493</integer>
-											<key>TYPE</key>
-											<integer>3</integer>
-											<key>UID</key>
-											<integer>0</integer>
-										</dict>
-										<dict>
-											<key>CHILDREN</key>
-											<array/>
-											<key>GID</key>
-											<integer>0</integer>
-											<key>PATH</key>
-											<string>/opt/M+M/spidermonkey</string>
+											<string>/opt/m+m/spidermonkey</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
 											<key>PERMISSIONS</key>
@@ -841,18 +676,16 @@
 											<integer>0</integer>
 										</dict>
 									</array>
-									<key>EXPANDED</key>
-									<true/>
 									<key>GID</key>
 									<integer>0</integer>
 									<key>PATH</key>
-									<string>/opt/M+M</string>
+									<string>m+m</string>
 									<key>PATH_TYPE</key>
 									<integer>0</integer>
 									<key>PERMISSIONS</key>
 									<integer>493</integer>
 									<key>TYPE</key>
-									<integer>3</integer>
+									<integer>2</integer>
 									<key>UID</key>
 									<integer>0</integer>
 								</dict>
@@ -949,7 +782,7 @@
 											<key>GID</key>
 											<integer>0</integer>
 											<key>PATH</key>
-											<string>M+M</string>
+											<string>m+m</string>
 											<key>PATH_TYPE</key>
 											<integer>0</integer>
 											<key>PERMISSIONS</key>
@@ -1028,7 +861,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.5.5</string>
+				<string>1.5.6</string>
 			</dict>
 			<key>UUID</key>
 			<string>A96E4410-5B5D-4A7C-A567-7F3468558EA0</string>
@@ -1101,7 +934,7 @@
 										<key>LANGUAGE</key>
 										<string>English</string>
 										<key>VALUE</key>
-										<string>The fundamental files for an M+M installation, including header files and libraries required for new development, as well as the executables that support running the M+M middleware.</string>
+										<string>The fundamental files for an m+m installation, including header files and libraries required for new development, as well as the executables that support running the m+m middleware.</string>
 									</dict>
 								</array>
 								<key>OPTIONS</key>
@@ -1131,7 +964,7 @@
 										<key>LANGUAGE</key>
 										<string>English</string>
 										<key>VALUE</key>
-										<string>The source files for an M+M installation, required for extending or modifying the Core applications or libraries.</string>
+										<string>The source files for an m+m installation, required for extending or modifying the Core applications or libraries.</string>
 									</dict>
 								</array>
 								<key>OPTIONS</key>
@@ -1233,9 +1066,9 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/Packages/Introduction.rtf</string>
+							<string>Introduction.rtf</string>
 							<key>PATH_TYPE</key>
-							<integer>0</integer>
+							<integer>1</integer>
 						</dict>
 					</dict>
 				</array>
@@ -1252,9 +1085,9 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/Packages/License.rtf</string>
+							<string>License.rtf</string>
 							<key>PATH_TYPE</key>
-							<integer>0</integer>
+							<integer>1</integer>
 						</dict>
 					</dict>
 				</array>
@@ -1271,9 +1104,9 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/Packages/Readme.rtf</string>
+							<string>Readme.rtf</string>
 							<key>PATH_TYPE</key>
-							<integer>0</integer>
+							<integer>1</integer>
 						</dict>
 					</dict>
 				</array>
@@ -1288,9 +1121,9 @@
 						<key>VALUE</key>
 						<dict>
 							<key>PATH</key>
-							<string>/Users/M_M/Documents/git.repositories/Core_MPlusM/Packages/Summary.rtf</string>
+							<string>Summary.rtf</string>
 							<key>PATH_TYPE</key>
-							<integer>0</integer>
+							<integer>1</integer>
 						</dict>
 					</dict>
 				</array>
@@ -1303,7 +1136,7 @@
 						<key>LANGUAGE</key>
 						<string>English</string>
 						<key>VALUE</key>
-						<string>M+M</string>
+						<string>m+m</string>
 					</dict>
 				</array>
 			</dict>
@@ -1673,7 +1506,7 @@
 				</dict>
 			</array>
 			<key>NAME</key>
-			<string>M+M</string>
+			<string>m+m</string>
 		</dict>
 	</dict>
 	<key>SHARED_GLOBAL_DATA</key>

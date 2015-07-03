@@ -2,7 +2,7 @@
 #
 #  File:       RGBLEDService/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the example RGB service application.
 #
@@ -41,7 +41,7 @@
 
 cmake_minimum_required(VERSION 2.8)
 
-set(THIS_TARGET mpmRGBLEDService)
+set(THIS_TARGET m+mRGBLEDService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -54,14 +54,14 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
-        "Fixes linking error for M+M/ACE" FORCE)
-    set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
-    set(CMAKE_EXE_LINKER_FLAGS "-L/opt/M+M/lib" CACHE STRING "Fixes link path" FORCE)
+        "Fixes linking error for m+m/ACE" FORCE)
+    set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
+    set(CMAKE_EXE_LINKER_FLAGS "-L/opt/m+m/lib" CACHE STRING "Fixes link path" FORCE)
 endif(APPLE)
 
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
 
-# Add the M+M target path so that YARP and ACE can be found
+# Add the m+m target path so that YARP and ACE can be found
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
 
 # Find YARP
@@ -80,15 +80,15 @@ include_directories(${ACE_INCLUDE_DIRS})
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MRGBLEDServiceMain.cpp
-			   M+MRGBLEDRequestHandler.cpp
-               M+MRGBLEDService.cpp
+               m+mRGBLEDServiceMain.cpp
+			   m+mRGBLEDRequestHandler.cpp
+               m+mRGBLEDService.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -99,7 +99,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

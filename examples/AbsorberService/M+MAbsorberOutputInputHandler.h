@@ -1,8 +1,8 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       M+MAbsorberOutputInputHandler.h
+//  File:       m+mAbsorberOutputInputHandler.h
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   The class declaration for the input channel input handler used by the Absorber
 //              output service.
@@ -40,7 +40,7 @@
 #if (! defined(MpMAbsorberOutputInputHandler_H_))
 # define MpMAbsorberOutputInputHandler_H_ /* Header guard */
 
-# include <mpm/M+MBaseInputHandler.h>
+# include <m+m/m+mBaseInputHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

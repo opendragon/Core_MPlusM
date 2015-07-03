@@ -194,7 +194,7 @@ Start another \asCode{Terminal} session or open another tab in the \asCode{Termi
 application and enter the following:
 \outputBegin
 \begin{verbatim}
-mpmRegistryService &
+m+mRegistryService &
 \end{verbatim}
 \outputEnd{}
 The output similar to the following should appear:
@@ -206,34 +206,34 @@ registered admin's iMac._yarpns._tcp.local.
 \outputEnd{}
 where `\asBoldCode{1}' will be incremented each time that a process is run in the
 background, `\asBoldCode{63918}' will be replaced by the process identifier for the copy
-of \asCode{mpmRegistryService} that is running and `\asCode{admin's~iMac}' will be
+of \asCode{m+mRegistryService} that is running and `\asCode{admin's~iMac}' will be
 replaced by the name of the computer on which \mplusm{} has been installed.\\
 
 If something similar to the following appears:
 \outputBegin
 \begin{verbatim}
 [1] 64234
-[1]+ Done        mpmRegistryService
+[1]+ Done        m+mRegistryService
 \end{verbatim}
 \outputEnd{}
-then the \emph{mpmRegistryService} application was already running when \mplusm{} was
+then the \emph{m+mRegistryService} application was already running when \mplusm{} was
 installed, indicating that this was not a new installation but, rather, an upgrade.
 \condPage{}
-It will be necessary to stop the earlier copy of \emph{mpmRegistryService}.
+It will be necessary to stop the earlier copy of \emph{m+mRegistryService}.
 To to this, find the running copy via the command:
 \outputBegin
 \begin{verbatim}
-ps -ax | grep -i mpm | grep -v grep
+ps -ax | grep -i m+m | grep -v grep
 \end{verbatim}
 \outputEnd{}
 A single line of output should appear, similar to:
 \outputBegin
 \begin{verbatim}
-63918 ttys015   16:42.19 mpmRegistryService
+63918 ttys015   16:42.19 m+mRegistryService
 \end{verbatim}
 \outputEnd{}
 where `\asBoldCode{63918}' will be the process identifier of the already\longDash{}running
-copy of \emph{mpmRegistryService}.
+copy of \emph{m+mRegistryService}.
 Enter the following command, replacing `\asBoldCode{63918}' with the first number that
 appeared in the output that was just displayed.
 \outputBegin
@@ -241,7 +241,7 @@ appeared in the output that was just displayed.
 kill -s HUP 63918
 \end{verbatim}
 \outputEnd{}
-It should now be possible to issue the `\asCode{mpmRegistryService~\&}' command as
+It should now be possible to issue the `\asCode{m+mRegistryService~\&}' command as
 described earlier.\\
 
 The last step in testing the \mplusm{} installation is to launch the \emph{\CMU}

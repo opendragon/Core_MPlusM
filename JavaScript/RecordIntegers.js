@@ -2,7 +2,7 @@
 //
 //  File:       RecordIntegers.js
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   An example script that writes a series of integer values to a file.
 //

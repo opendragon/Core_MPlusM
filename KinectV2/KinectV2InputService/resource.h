@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmKinectV2InputService.rc
+// Used by m+mKinectV2InputService.rc
 
 // Next default values for new objects
 // 

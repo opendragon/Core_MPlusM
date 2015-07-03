@@ -2,9 +2,9 @@
 #
 #  File:       Emotiv/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
-#  Contains:   The common CMAKE definitions for the M+M Emotiv input service files.
+#  Contains:   The common CMAKE definitions for the m+m Emotiv input service files.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,7 +39,7 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(M+MEmotiv)
+project(m+mEmotiv)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -48,7 +48,7 @@ mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 if(APPLE)
 	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
-        "Fixes linking error for M+M/ACE" FORCE)
+        "Fixes linking error for m+m/ACE" FORCE)
 endif(APPLE)
 
 # Find YARP

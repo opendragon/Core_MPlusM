@@ -2,7 +2,7 @@
 #
 #  File:       RunningSumClient/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the Running Sum client application.
 #
@@ -39,7 +39,7 @@
 include_directories("${MpM_SOURCE_DIR}"
                     "${MpM_EXAMPLES_DIR}/RunningSumCommon")
 
-set(THIS_TARGET mpmRunningSumClient)
+set(THIS_TARGET m+mRunningSumClient)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -51,14 +51,14 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MRunningSumClientMain.cpp
-               M+MRunningSumClient.cpp
+               m+mRunningSumClientMain.cpp
+               m+mRunningSumClient.cpp
                ${VERS_RESOURE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
@@ -69,7 +69,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

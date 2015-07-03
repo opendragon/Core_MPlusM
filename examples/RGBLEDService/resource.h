@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmRGBLEDService.rc
+// Used by m+mRGBLEDService.rc
 
 // Next default values for new objects
 // 

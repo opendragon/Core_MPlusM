@@ -2,7 +2,7 @@
 //
 //  File:       odl/ODLogging.m
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   The Objective C variation of the debugging facility.
 //

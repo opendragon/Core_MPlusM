@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmPortLister.rc
+// Used by m+mPortLister.rc
 
 // Next default values for new objects
 // 

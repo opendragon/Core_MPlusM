@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmRandomNumberClient.rc
+// Used by m+mRandomNumberClient.rc
 
 // Next default values for new objects
 // 

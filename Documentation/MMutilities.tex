@@ -11,13 +11,13 @@ functionality of the GUI\longDash{}based tool, \emph{\CMU}.
 As well, the native \yarp{} command\longDash{}line tools to create and remove connections
 can be used with \mplusm, but it is very easy to create a non\longDash{}functional
 installation if care is not taken.
-\tertiaryStart{\utilityNameP{mpmClientList}}
-The application \utilityNameX{mpmClientList} displays the clients for services that have
+\tertiaryStart{\utilityNameP{m+mClientList}}
+The application \utilityNameX{m+mClientList} displays the clients for services that have
 \yarp{} network connections with persistent state.
 A service that has persistent state for its connections retains information from each
 request for the following request.
 An example service with persistent state is
-\examplesNameR{Services}{mpmRunningSumService}, where the information that is kept is the
+\examplesNameR{Services}{m+mRunningSumService}, where the information that is kept is the
 running sum for the connected client.\\
 
 The application takes an optional argument for the \yarp{} network port of the service;
@@ -69,9 +69,9 @@ No services found.
 \end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
-\tertiaryEnd{\utilityNameE{mpmClientList}}
-\tertiaryStart{\utilityNameP{mpmFindServices}}
-The application \utilityNameX{mpmFindServices} displays the primary channels belonging to
+\tertiaryEnd{\utilityNameE{m+mClientList}}
+\tertiaryStart{\utilityNameP{m+mFindServices}}
+The application \utilityNameX{m+mFindServices} displays the primary channels belonging to
 services that match a criteria provided on the command\longDash{}line or interactively.\\
 
 The application takes an optional argument for the matching criteria to be used; if no
@@ -135,10 +135,10 @@ Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd
-\tertiaryEnd{\utilityNameE{mpmFindServices}}
+\tertiaryEnd{\utilityNameE{m+mFindServices}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmPortLister}}
-The application \utilityNameX{mpmPortLister} displays the active \yarp{} ports and
+\tertiaryStart{\utilityNameP{m+mPortLister}}
+The application \utilityNameX{m+mPortLister} displays the active \yarp{} ports and
 \mplusm{} entities.
 For each \yarp{} port, its role in the \mplusm{} installation is shown as well as any
 incoming and outgoing \yarp{} network connections.
@@ -220,9 +220,9 @@ Ports:
 \end{verbatim}
 \outputEnd{}
 and the tab\longDash{}delimited output would be empty.
-\tertiaryEnd{\utilityNameE{mpmPortLister}}
-\tertiaryStart{\utilityNameP{mpmRequestInfo}}
-The application \utilityNameX{mpmRequestInfo} displays information on requests for one or
+\tertiaryEnd{\utilityNameE{m+mPortLister}}
+\tertiaryStart{\utilityNameP{m+mRequestInfo}}
+The application \utilityNameX{m+mRequestInfo} displays information on requests for one or
 more active services in the \mplusm{} installation.
 It lists each request, along with the \yarp{} network port for the service that handles
 the request and details about the request.\\
@@ -314,10 +314,10 @@ No services found.
 \end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
-\tertiaryEnd{\utilityNameE{mpmRequestInfo}}
+\tertiaryEnd{\utilityNameE{m+mRequestInfo}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmServiceLister}}
-The application \utilityNameX{mpmServiceLister} displays the active services in the
+\tertiaryStart{\utilityNameP{m+mServiceLister}}
+The application \utilityNameX{m+mServiceLister} displays the active services in the
 \mplusm{} installation.
 It lists each service, along with the service description and requests, as well as the
 path to the executable for the service and the \yarp{} network ports that the service
@@ -449,10 +449,10 @@ For clarity, the full paths to the executables have been shortened and blank lin
 been added; in the actual output the paths would be absolute paths and there would be no
 blank lines between the output rows.
 Note that, if no services are found, the output would be empty.
-\tertiaryEnd{\utilityNameE{mpmServiceLister}}
+\tertiaryEnd{\utilityNameE{m+mServiceLister}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmServiceMetrics}}
-The application \utilityNameX{mpmServiceMetrics} displays measurements for the channels of
+\tertiaryStart{\utilityNameP{m+mServiceMetrics}}
+The application \utilityNameX{m+mServiceMetrics} displays measurements for the channels of
 one or more active services in the \mplusm{} installation.
 It lists each \yarp{} network port for the service and details about the activity on the
 channel.\\
@@ -547,10 +547,10 @@ No services found.
 \end{verbatim}
 \outputEnd{}
 and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
-\tertiaryEnd{\utilityNameE{mpmServiceMetrics}}
+\tertiaryEnd{\utilityNameE{m+mServiceMetrics}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmStopService}}
-The application \utilityNameX{mpmStopService} tells a particular active service to stop
+\tertiaryStart{\utilityNameP{m+mStopService}}
+The application \utilityNameX{m+mStopService} tells a particular active service to stop
 running.\\
 
 The application takes an argument for the \yarp{} network port of the service and produces
@@ -560,9 +560,9 @@ no output.
 Note that, in order to specify the \serviceNameR[\RS]{RegistryService}, it must be quoted
 with single quotes, as the network port contains a character that is special to the Unix
 shell program.
-\tertiaryEnd{\utilityNameE{mpmStopService}}
-\tertiaryStart{\utilityNameP{mpmVersion}}
-The application \utilityNameX{mpmVersion} displays the version numbers for \mplusm,
+\tertiaryEnd{\utilityNameE{m+mStopService}}
+\tertiaryStart{\utilityNameP{m+mVersion}}
+The application \utilityNameX{m+mVersion} displays the version numbers for \mplusm,
 \yarp{} and ACE, the low\longDash{}level networking layer used by \mplusm{} and \yarp.\\
 
 \insertFullUtilityParameters{}
@@ -582,17 +582,17 @@ or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymb
 \outputBegin{}
 1.5.0\pseudotab{}2.3.61\pseudotab{}6.2.6
 \outputEnd
-\tertiaryEnd{\utilityNameE{mpmVersion}}
+\tertiaryEnd{\utilityNameE{m+mVersion}}
 \secondaryEnd
 \condPage
 \secondaryStart[UtilityServicesAndClients]{Utility~Services~and~Clients}
-\tertiaryStart{\utilityNameP{mpmAddressService}}
-The \utilityNameX{mpmAddressService} application is a background service that is used to
-record an IP address and port that can be retrieved by the \utilityNameR{mpmAddressClient}
+\tertiaryStart{\utilityNameP{m+mAddressService}}
+The \utilityNameX{m+mAddressService} application is a background service that is used to
+record an IP address and port that can be retrieved by the \utilityNameR{m+mAddressClient}
 application.\\
 
 It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent by the
-companion application \utilityNameR{mpmAddressClient} to retrieve the IP address and port
+companion application \utilityNameR{m+mAddressClient} to retrieve the IP address and port
 that it is started with.\\
 
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
@@ -612,15 +612,15 @@ Once the options are set, the following image will appear in the \emph{\CMU} win
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningAddressService}%
 {serviceRunningAddress}{The \emph{\CMU} entity for the \emph{Address} service}{1.0}
-\tertiaryEnd{\utilityNameE{mpmAddressService}}
+\tertiaryEnd{\utilityNameE{m+mAddressService}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmAddressClient}}
-The \utilityNameX{mpmAddressClient} application is a command\longDash{}line tool to
+\tertiaryStart{\utilityNameP{m+mAddressClient}}
+The \utilityNameX{m+mAddressClient} application is a command\longDash{}line tool to
 retrieve an IP address and port from the\\
-\utilityNameR{mpmAddressService} application.\\
+\utilityNameR{m+mAddressService} application.\\
 
 It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to the
-\utilityNameR{mpmAddressService} application to get the IP address and port.\\
+\utilityNameR{m+mAddressService} application to get the IP address and port.\\
 
 The application has one or two optional arguments, with the first argument having one of
 three values:
@@ -632,21 +632,21 @@ three values:
 The second argument is:
 \begin{itemize}
 \item\argItem{other}{Use \emph{other} as the tag for the
-\utilityNameR{mpmAddressService} application being connected to}
+\utilityNameR{m+mAddressService} application being connected to}
 \end{itemize}
 
 \insertFullClientParameters\\
 
-If the \utilityNameR{mpmAddressService} is started via:
+If the \utilityNameR{m+mAddressService} is started via:
 \outputBegin
 \begin{verbatim}
-mpmAddressService -t blurg 123.123.123.123 42 &
+m+mAddressService -t blurg 123.123.123.123 42 &
 \end{verbatim}
 \outputEnd{}
 The output of:
 \outputBegin
 \begin{verbatim}
-mpmAddressClient
+m+mAddressClient
 \end{verbatim}
 \outputEnd{}
 would be:
@@ -660,7 +660,7 @@ since the service was started with a tag.\\
 For the command:
 \outputBegin
 \begin{verbatim}
-mpmAddressClient blurg
+m+mAddressClient blurg
 \end{verbatim}
 \outputEnd{}
 the output would be:
@@ -681,10 +681,10 @@ or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymb
 \outputEnd{}
 The default output is \textbf{both}; if \textbf{address} is specified, the port is not
 displayed and, if \textbf{port} is specified, the IP address is not displayed.
-\tertiaryEnd{\utilityNameE{mpmAddressClient}}
+\tertiaryEnd{\utilityNameE{m+mAddressClient}}
 
-\tertiaryStart{\utilityNameP{mpmBlobOutputService}}
-The \utilityNameX{mpmBlobOutputService} application is an Output service, accepting and
+\tertiaryStart{\utilityNameP{m+mBlobOutputService}}
+The \utilityNameX{m+mBlobOutputService} application is an Output service, accepting and
 rerouting its input data to an internet port.
 The application responds to the standard Output service requests and can be used as a
 standalone data router, without the need for a client connection.\\
@@ -731,10 +731,10 @@ Once the options are set, the following image will appear in the \emph{\CMU} win
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningBlobOutputService}%
 {serviceRunningBlob}{The \emph{\CMU} entity for the \emph{Blob Output} service}{1.0}
-\tertiaryEnd{\utilityNameE{mpmBlobOutputService}}
+\tertiaryEnd{\utilityNameE{m+mBlobOutputService}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmRecordBlobOutputService}}
-The \utilityNameX{mpmRecordBlobOutputService} application is an Output service, recording
+\tertiaryStart{\utilityNameP{m+mRecordBlobOutputService}}
+The \utilityNameX{m+mRecordBlobOutputService} application is an Output service, recording
 a stream of \yarp{} binary blob values to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -814,16 +814,16 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordBlobWithEndpointAndTag}%
 {recordBlobWithEndpointAndTag}{The \emph{\CMU} entity for the Record Blob output service
 with an endpoint and tag}{1.0}
-\tertiaryEnd{\utilityNameE{mpmRecordBlobOutputService}}
+\tertiaryEnd{\utilityNameE{m+mRecordBlobOutputService}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmRequestCounterService}}
-The \utilityNameX{mpmRequestCounterService} application is a background service that is
+\tertiaryStart{\utilityNameP{m+mRequestCounterService}}
+The \utilityNameX{m+mRequestCounterService} application is a background service that is
 used to determine the average time to send a simple request, process it and return a
 response.\\
 
 It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} and
 \requestsNameR{Miscellaneous}{Miscellaneous}{stats} requests sent by the
-companion application \utilityNameR{mpmRequestCounterClient} to manage the statistics
+companion application \utilityNameR{m+mRequestCounterClient} to manage the statistics
 that it gathers.\\
 
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
@@ -844,7 +844,7 @@ non\longDash{}default port is desired}
 \item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
 \item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}
-Note that only one copy of the \utilityNameX{mpmRequestCounterService} application can be
+Note that only one copy of the \utilityNameX{m+mRequestCounterService} application can be
 running at a time in an \mplusm{} installation, due to its fixed endpoint name.
 \condPage
 If the service is selected for execution from within the \emph{\CMU} application, the
@@ -858,15 +858,15 @@ the service has successfully started:
 \objScaledDiagram{mpm_images/runningRequestCounterService}%
 {serviceRunningRequestCounter}{The \emph{\CMU} entity for the \emph{Request Counter}
 service}{1.0}
-\tertiaryEnd{\utilityNameE{mpmRequestCounterService}}
+\tertiaryEnd{\utilityNameE{m+mRequestCounterService}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmRequestCounterClient}}
-The \utilityNameX{mpmRequestCounterClient} application is a command\longDash{}line tool to
+\tertiaryStart{\utilityNameP{m+mRequestCounterClient}}
+The \utilityNameX{m+mRequestCounterClient} application is a command\longDash{}line tool to
 measure the average time to process a simple request.\\
 
 It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{resetcounter} and
 \requestsNameR{Miscellaneous}{Miscellaneous}{stats} requests sent to the
-\utilityNameR{mpmRequestCounterService} application to gather the statistics, and a
+\utilityNameR{m+mRequestCounterService} application to gather the statistics, and a
 `dummy' request to provide the requests that are being measured.\\
 
 The application has no arguments.
@@ -879,7 +879,7 @@ How many requests?
 \end{verbatim}
 \outputEnd{}
 Entering a zero value will exit the application.
-An example execution of the application, with the \utilityNameR{mpmRequestCounterService}
+An example execution of the application, with the \utilityNameR{m+mRequestCounterService}
 application running in the background and user input shown in bold, could be:
 \outputBegin{}
 How many requests?\ \textbf{10000}\\
@@ -888,15 +888,15 @@ How many requests?\ \textbf{300000}\\
 count = 300000, elapsed time = 1.20052 minutes, average time = 0.240104 milliseconds.\\
 How many requests?\ \textbf{0}
 \outputEnd
-\tertiaryEnd{\utilityNameE{mpmRequestCounterClient}}
+\tertiaryEnd{\utilityNameE{m+mRequestCounterClient}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmTunnelService}}
-The \utilityNameX{mpmTunnelService} application is a background service that is used to
+\tertiaryStart{\utilityNameP{m+mTunnelService}}
+The \utilityNameX{m+mTunnelService} application is a background service that is used to
 route a non\longDash\yarp{} network data source to a non\longDash\yarp{} network data
-sink, via the \utilityNameR{mpmTunnelClient} application.\\
+sink, via the \utilityNameR{m+mTunnelClient} application.\\
 
 It responds to the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent by the
-companion application \utilityNameR{mpmTunnelClient} to retrieve an IP address and port
+companion application \utilityNameR{m+mTunnelClient} to retrieve an IP address and port
 that the companion application should connect to.\\
 
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
@@ -917,21 +917,21 @@ Once the options are set, the following image will appear in the \emph{\CMU} win
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningTunnelService}%
 {serviceRunningTunnel}{The \emph{\CMU} entity for the \emph{Tunnel} service}{1.0}
-\tertiaryEnd{\utilityNameE{mpmTunnelService}}
+\tertiaryEnd{\utilityNameE{m+mTunnelService}}
 \condPage
-\tertiaryStart{\utilityNameP{mpmTunnelClient}}
-The \utilityNameX{mpmTunnelClient} application is a command\longDash{}line tool to route a
+\tertiaryStart{\utilityNameP{m+mTunnelClient}}
+The \utilityNameX{m+mTunnelClient} application is a command\longDash{}line tool to route a
 non\longDash\yarp{} network data source to a non\longDash\yarp{} network data sink via
-the \utilityNameR{mpmTunnelService} application.\\
+the \utilityNameR{m+mTunnelService} application.\\
 
 It uses the \requestsNameR{Miscellaneous}{Miscellaneous}{where} request sent to the
-\utilityNameR{mpmTunnelService} application to get the IP address and port to connect
+\utilityNameR{m+mTunnelService} application to get the IP address and port to connect
 to.\\
 
 The application has one required argument, the network port to be opened for a network
 data sink to attach to, and one optional argument, the tag for the
-\utilityNameR{mpmTunnelService} application being connected to.
+\utilityNameR{m+mTunnelService} application being connected to.
 \insertShortClientParameters
-\tertiaryEnd{\utilityNameE{mpmTunnelClient}}
+\tertiaryEnd{\utilityNameE{m+mTunnelClient}}
 \secondaryEnd
 \primaryEnd{}

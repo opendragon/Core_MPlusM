@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by mpmViconBlobInputService.rc
+// Used by m+mViconBlobInputService.rc
 //
 
 // Next default values for new objects

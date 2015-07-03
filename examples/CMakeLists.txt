@@ -2,9 +2,9 @@
 #
 #  File:       examples/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
-#  Contains:   The common CMAKE definitions for the M+M examples.
+#  Contains:   The common CMAKE definitions for the m+m examples.
 #
 #  Written by: Norman Jaffe
 #

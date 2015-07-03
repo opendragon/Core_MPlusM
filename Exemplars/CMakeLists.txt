@@ -2,9 +2,9 @@
 #
 #  File:       Exemplars/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
-#  Contains:   The common CMAKE definitions for the M+M exemplar files.
+#  Contains:   The common CMAKE definitions for the m+m exemplar files.
 #
 #  Written by: Norman Jaffe
 #
@@ -39,7 +39,7 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
-project(M+MExemplars)
+project(m+mExemplars)
 
 # Make some flags to control the build visible
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
@@ -48,14 +48,14 @@ mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
-        "Fixes linking error for M+M/ACE" FORCE)
-    set(CMAKE_INSTALL_PREFIX "/opt/M+M" CACHE STRING "Fixes install path for M+M/ACE" FORCE)
-    set(CMAKE_EXE_LINKER_FLAGS "-L/opt/M+M/lib" CACHE STRING "Fixes link path" FORCE)
+        "Fixes linking error for m+m/ACE" FORCE)
+    set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
+    set(CMAKE_EXE_LINKER_FLAGS "-L/opt/m+m/lib" CACHE STRING "Fixes link path" FORCE)
 endif(APPLE)
 
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
 
-# Add the M+M target path so that YARP and ACE can be found
+# Add the m+m target path so that YARP and ACE can be found
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
 
 # Find YARP

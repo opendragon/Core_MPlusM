@@ -9,20 +9,20 @@ All the example applications respond to a `HUP' signal and will exit gracefully 
 is sent to them.
 \secondaryStart{Example~Services}
 The set of example services include a pair of simple services
-[\examplesNameR{Services}{mpmEchoService} and
-\examplesNameR{Services}{mpmRandomNumberService}], a service with client context
-[\examplesNameR{Services}{mpmRunningSumService}] as well as an input service
-[\examplesNameR{Services}{mpmRandomBurstInputService}], three output services
-[\examplesNameR{Services}{mpmAbsorberOutputService},
-\examplesNameR{Services}{mpmRecordAsJSONOutputService} and\\
-\examplesNameR{Services}{mpmRecordIntegersOutputService}] and a filter service
-[\examplesNameR{Services}{mpmTruncateFloatFilterService}].\\
+[\examplesNameR{Services}{m+mEchoService} and
+\examplesNameR{Services}{m+mRandomNumberService}], a service with client context
+[\examplesNameR{Services}{m+mRunningSumService}] as well as an input service
+[\examplesNameR{Services}{m+mRandomBurstInputService}], three output services
+[\examplesNameR{Services}{m+mAbsorberOutputService},
+\examplesNameR{Services}{m+mRecordAsJSONOutputService} and\\
+\examplesNameR{Services}{m+mRecordIntegersOutputService}] and a filter service
+[\examplesNameR{Services}{m+mTruncateFloatFilterService}].\\
 
 Note that services normally have no direct interface.
 That is, they are `faceless' applications and perform their operations without user
 interaction.
-\tertiaryStart{\examplesNameP{Services}{mpmAbsorberOutputService}}
-The \examplesNameX{Services}{mpmAbsorberOutputService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{m+mAbsorberOutputService}}
+The \examplesNameX{Services}{m+mAbsorberOutputService} application is an Output
 service, accepting (and ignoring) any input data.
 The application responds to the standard Output service requests and can be used as a
 standalone data sink, without the need for a client connection.\\
@@ -71,12 +71,12 @@ the service has successfully started:
 \objScaledDiagram{mpm_images/runningAbsorberOutputService}%
 {serviceRunningAbsorber}{The \emph{\CMU} entity for the \emph{Absorber Output} service}%
 {1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmAbsorberOutputService}}
+\tertiaryEnd{\examplesNameE{Services}{m+mAbsorberOutputService}}
 \condPage
-\tertiaryStart{\examplesNameP{Services}{mpmEchoService}}
-The \examplesNameX{Services}{mpmEchoService} application responds to
+\tertiaryStart{\examplesNameP{Services}{m+mEchoService}}
+The \examplesNameX{Services}{m+mEchoService} application responds to
 \requestsNameR{Miscellaneous}{Miscellaneous}{echo} requests from the
-\examplesNameR{Clients}{mpmEchoClient} application; it simply returns any arguments
+\examplesNameR{Clients}{m+mEchoClient} application; it simply returns any arguments
 sent with the request.\\
 
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
@@ -97,9 +97,9 @@ Once the options are set, the following image will appear in the \emph{\CMU} win
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningEchoService}%
 {serviceRunningEcho}{The \emph{\CMU} entity for the \emph{Echo} service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmEchoService}}
-\tertiaryStart{\examplesNameP{Services}{mpmRandomBurstInputService}}
-The \examplesNameX{Services}{mpmRandomBurstInputService} application is an Input service,
+\tertiaryEnd{\examplesNameE{Services}{m+mEchoService}}
+\tertiaryStart{\examplesNameP{Services}{m+mRandomBurstInputService}}
+The \examplesNameX{Services}{m+mRandomBurstInputService} application is an Input service,
 generating a stream of random floating\longDash{}point values, with a given `burst size'
 \longDash{} the number of values sent in a group, and a `burst period' \longDash{} the
 number of seconds between groups.
@@ -163,12 +163,12 @@ the service has successfully started:
 \objScaledDiagram{mpm_images/runningRandomBurstInputService}%
 {serviceRunningRandomBurst}{The \emph{\CMU} entity for the \emph{Random Burst Input}
 service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRandomBurstInputService}}
+\tertiaryEnd{\examplesNameE{Services}{m+mRandomBurstInputService}}
 \condPage
-\tertiaryStart{\examplesNameP{Services}{mpmRandomNumberService}}
-The \examplesNameX{Services}{mpmRandomNumberService} application responds to
+\tertiaryStart{\examplesNameP{Services}{m+mRandomNumberService}}
+The \examplesNameX{Services}{m+mRandomNumberService} application responds to
 \requestsNameR{Examples}{Examples}{random} requests from the
-\examplesNameR{Clients}{mpmRandomNumberClient} application; it returns a group of random
+\examplesNameR{Clients}{m+mRandomNumberClient} application; it returns a group of random
 numbers to the client.\\
 
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
@@ -195,10 +195,10 @@ the service has successfully started:
 \objScaledDiagram{mpm_images/runningRandomNumberService}%
 {serviceRunningRandomNumber}{The \emph{\CMU} entity for the \emph{Random Number} service}%
 {1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRandomNumberService}}
+\tertiaryEnd{\examplesNameE{Services}{m+mRandomNumberService}}
 \condPage
-\tertiaryStart{\examplesNameP{Services}{mpmRecordAsJSONOutputService}}
-The \examplesNameX{Services}{mpmRecordAsJSONOutputService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{m+mRecordAsJSONOutputService}}
+The \examplesNameX{Services}{m+mRecordAsJSONOutputService} application is an Output
 service, recording a stream of \yarp{} values as JSON structures to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -279,10 +279,10 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordJSONWithEndpointAndTag}%
 {recordJSONWithEndpointAndTag}{The \emph{\CMU} entity for the Record As JSON output
 service with an endpoint and tag}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRecordAsJSONOutputService}}
+\tertiaryEnd{\examplesNameE{Services}{m+mRecordAsJSONOutputService}}
 \condPage
-\tertiaryStart{\examplesNameP{Services}{mpmRecordIntegersOutputService}}
-The \examplesNameX{Services}{mpmRecordIntegersOutputService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{m+mRecordIntegersOutputService}}
+The \examplesNameX{Services}{m+mRecordIntegersOutputService} application is an Output
 service, recording a stream of integer values to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -363,13 +363,13 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTag}%
 {recordIntegersWithEndpointAndTag}{The \emph{\CMU} entity for the Record Integers output
 service with an endpoint and tag}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRecordIntegersOutputService}}
+\tertiaryEnd{\examplesNameE{Services}{m+mRecordIntegersOutputService}}
 \condPage
-\tertiaryStart{\examplesNameP{Services}{mpmRunningSumService}}
-The \examplesNameX{Services}{mpmRunningSumService} application responds to
-requests from the \examplesNameR{Clients}{mpmRunningSumClient} application or\\
-\examplesNameR{Adapters}{mpmRunningSumAdapter} or
-\examplesNameR{Adapters}{mpmRunningSumAltAdapter} adapters; it returns the running sum
+\tertiaryStart{\examplesNameP{Services}{m+mRunningSumService}}
+The \examplesNameX{Services}{m+mRunningSumService} application responds to
+requests from the \examplesNameR{Clients}{m+mRunningSumClient} application or\\
+\examplesNameR{Adapters}{m+mRunningSumAdapter} or
+\examplesNameR{Adapters}{m+mRunningSumAltAdapter} adapters; it returns the running sum
 associated with the requesting application or adapter.\\
 
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
@@ -409,9 +409,9 @@ Once the options are set, the following image will appear in the \emph{\CMU} win
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningRunningSumService}%
 {serviceRunningRunningSum}{The \emph{\CMU} entity for the \emph{Running Sum} service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmRunningSumService}}
-\tertiaryStart{\examplesNameP{Services}{mpmTruncateFloatFilterService}}
-The \examplesNameX{Services}{mpmTruncateFloatFilterService} application is a Filter
+\tertiaryEnd{\examplesNameE{Services}{m+mRunningSumService}}
+\tertiaryStart{\examplesNameP{Services}{m+mTruncateFloatFilterService}}
+The \examplesNameX{Services}{m+mTruncateFloatFilterService} application is a Filter
 service, converting a stream of floating\longDash{}point values into a stream of integers.
 The application responds to the standard Filter service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
@@ -462,42 +462,42 @@ the service has successfully started:
 \objScaledDiagram{mpm_images/runningTruncateFloatFilterService}%
 {serviceRunningTruncateFloat}{The \emph{\CMU} entity for the \emph{Truncate Float Filter}
 service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{mpmTruncateFloatFilterService}}
+\tertiaryEnd{\examplesNameE{Services}{m+mTruncateFloatFilterService}}
 \secondaryEnd
 \condPage
 \secondaryStart{Example~Clients}
 The example client applications provided use simple terminal\longDash{}based interfaces to
 generate requests for their matching service applications.
-\tertiaryStart{\examplesNameP{Clients}{mpmEchoClient}}
-The \examplesNameX{Clients}{mpmEchoClient} application reads input from a terminal and
-sends it to the \examplesNameR{Services}{mpmEchoService} application using an
+\tertiaryStart{\examplesNameP{Clients}{m+mEchoClient}}
+The \examplesNameX{Clients}{m+mEchoClient} application reads input from a terminal and
+sends it to the \examplesNameR{Services}{m+mEchoService} application using an
 \requestsNameR{Miscellaneous}{Miscellaneous}{echo} request; it exits when an empty line is
 entered.\\
 
 \insertShortClientParameters{}
 
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
-\examplesNameR{Services}{mpmEchoService} application are not running or if the application
+\examplesNameR{Services}{m+mEchoService} application are not running or if the application
 is not running from an interactive terminal.
-\tertiaryEnd{\examplesNameE{Clients}{mpmEchoClient}}
-\tertiaryStart{\examplesNameP{Clients}{mpmRandomNumberClient}}
-The \examplesNameX{Clients}{mpmRandomNumberClient} application reads the count of
+\tertiaryEnd{\examplesNameE{Clients}{m+mEchoClient}}
+\tertiaryStart{\examplesNameP{Clients}{m+mRandomNumberClient}}
+The \examplesNameX{Clients}{m+mRandomNumberClient} application reads the count of
 random numbers desired from a terminal and sends a
 \requestsNameR{Examples}{Examples}{random} request to the
-\examplesNameR{Services}{mpmRandomNumberService} application; it exits when a zero is
+\examplesNameR{Services}{m+mRandomNumberService} application; it exits when a zero is
 entered for the count of random numbers desired.
 
 \insertShortClientParameters{}
 
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
-\examplesNameR{Services}{mpmRandomNumberService} application are not running or if the
+\examplesNameR{Services}{m+mRandomNumberService} application are not running or if the
 application is not running from an interactive terminal.
-\tertiaryEnd{\examplesNameE{Clients}{mpmRandomNumberClient}}
+\tertiaryEnd{\examplesNameE{Clients}{m+mRandomNumberClient}}
 \condPage
-\tertiaryStart{\examplesNameP{Clients}{mpmRunningSumClient}}
-The \examplesNameX{Clients}{mpmRunningSumClient} application reads commands from a
+\tertiaryStart{\examplesNameP{Clients}{m+mRunningSumClient}}
+The \examplesNameX{Clients}{m+mRunningSumClient} application reads commands from a
 terminal and sends corresponding requests to the
-\examplesNameR{Services}{mpmRunningSumService} application.\\
+\examplesNameR{Services}{m+mRunningSumService} application.\\
 
 The commands are:
 \begin{itemize}
@@ -517,9 +517,9 @@ service so that it will start calculating the running sum for this client}
 \insertShortClientParameters{}
 
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
-\examplesNameR{Services}{mpmRunningSumService} application are not running or if the
+\examplesNameR{Services}{m+mRunningSumService} application are not running or if the
 application is not running from an interactive terminal.
-\tertiaryEnd{\examplesNameE{Clients}{mpmRunningSumClient}}
+\tertiaryEnd{\examplesNameE{Clients}{m+mRunningSumClient}}
 \secondaryEnd
 \condPage
 \secondaryStart{Example~Adapters}
@@ -529,9 +529,9 @@ the service and returning results from the client to one or more output \yarp{} 
 connections.\\
 
 The example adapters demonstrate using a single input \yarp{} network connection
-[\examplesNameR{Adapters}{mpmRandomNumberAdapter} and
-\examplesNameR{Adapters}{mpmRunningSumAltAdapter}] or multiple input \yarp{} network
-connections [\examplesNameR{Adapters}{mpmRunningSumAdapter}].\\
+[\examplesNameR{Adapters}{m+mRandomNumberAdapter} and
+\examplesNameR{Adapters}{m+mRunningSumAltAdapter}] or multiple input \yarp{} network
+connections [\examplesNameR{Adapters}{m+mRunningSumAdapter}].\\
 
 Adapters have ten optional parameters:
 \begin{itemize}
@@ -560,15 +560,15 @@ Note that adapters normally have no direct interface.
 That is, they are `faceless' applications and perform their operations without user
 interaction.
 \condPage
-\tertiaryStart{\examplesNameP{Adapters}{mpmRandomNumberAdapter}}
-The \examplesNameX{Adapters}{mpmRandomNumberAdapter} application reads the count of
+\tertiaryStart{\examplesNameP{Adapters}{m+mRandomNumberAdapter}}
+The \examplesNameX{Adapters}{m+mRandomNumberAdapter} application reads the count of
 random numbers desired from an input \yarp{} network connection and sends a
 \requestsNameR{Examples}{Examples}{random} request to the
-\examplesNameR{Services}{mpmRandomNumberService} application.
+\examplesNameR{Services}{m+mRandomNumberService} application.
 The random numbers returned from the service are sent out an output \yarp{} network
 connection.
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
-\examplesNameR{Services}{mpmRandomNumberService} application are not running.\\
+\examplesNameR{Services}{m+mRandomNumberService} application are not running.\\
 
 If the adapter is selected for execution from within the \emph{\CMU} application, the
 following dialog will be presented:
@@ -581,13 +581,13 @@ the adapter has successfully started:
 \objScaledDiagram{mpm_images/runningRandomNumberAdapter}%
 {adapterRunningRandomNumber}{The \emph{\CMU} entity for the \emph{Random Number} adapter}%
 {1.0}
-\tertiaryEnd{\examplesNameE{Adapters}{mpmRandomNumberAdapter}}
-\tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAdapter}}
+\tertiaryEnd{\examplesNameE{Adapters}{m+mRandomNumberAdapter}}
+\tertiaryStart{\examplesNameP{Adapters}{m+mRunningSumAdapter}}
 
-The \examplesNameX{Adapters}{mpmRunningSumAdapter} application reads  values from an input
+The \examplesNameX{Adapters}{m+mRunningSumAdapter} application reads  values from an input
 `data' \yarp{} network connection and commands from an input `control' \yarp{} network
 connection and sends corresponding requests to the
-\examplesNameR{Services}{mpmRunningSumService} application.\\
+\examplesNameR{Services}{m+mRunningSumService} application.\\
 
 If a numeric value is read from the `data' input \yarp{} network connection, it is sent to
 the service via an \requestsNameR{Examples}{Examples}{addtosum} request, to update the
@@ -607,7 +607,7 @@ The running sums returned from the service are sent out an output \yarp{} networ
 connection.\\
 
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
-\examplesNameR{Services}{mpmRunningSumService} application are not running.\\
+\examplesNameR{Services}{m+mRunningSumService} application are not running.\\
 
 If the adapter is selected for execution from within the \emph{\CMU} application, the
 following dialog will be presented:
@@ -619,11 +619,11 @@ Once the options are set, the following image will appear in the \emph{\CMU} win
 the adapter has successfully started:
 \objScaledDiagram{mpm_images/runningRunningSumAdapter}%
 {adapterRunningRunningSum}{The \emph{\CMU} entity for the \emph{Running Sum} adapter}{1.0}
-\tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAdapter}}
-\tertiaryStart{\examplesNameP{Adapters}{mpmRunningSumAltAdapter}}
-The \examplesNameX{Adapters}{mpmRunningSumAltAdapter} application reads  values and
+\tertiaryEnd{\examplesNameE{Adapters}{m+mRunningSumAdapter}}
+\tertiaryStart{\examplesNameP{Adapters}{m+mRunningSumAltAdapter}}
+The \examplesNameX{Adapters}{m+mRunningSumAltAdapter} application reads  values and
 commands from an input \yarp{} network connection and sends corresponding requests to the
-\examplesNameR{Services}{mpmRunningSumService} application.\\
+\examplesNameR{Services}{m+mRunningSumService} application.\\
 
 If a numeric value is read from the input \yarp{} network connection, it is sent to the
 service via an \requestsNameR{Examples}{Examples}{addtosum} request, to update the running
@@ -643,7 +643,7 @@ The running sums returned from the service are sent out an output \yarp{} networ
 connection.\\
 
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
-\examplesNameR{Services}{mpmRunningSumService} application are not running.
+\examplesNameR{Services}{m+mRunningSumService} application are not running.
 \condPage{}
 If the adapter is selected for execution from within the \emph{\CMU} application, the
 following dialog will be presented:
@@ -657,6 +657,6 @@ the adapter has successfully started:
 \objScaledDiagram{mpm_images/runningRunningSumAltAdapter}%
 {adapterRunningRunningSumAlt}{The \emph{\CMU} entity for the \emph{Running Sum} alternate
 adapter}{1.0}
-\tertiaryEnd{\examplesNameE{Adapters}{mpmRunningSumAltAdapter}}
+\tertiaryEnd{\examplesNameE{Adapters}{m+mRunningSumAltAdapter}}
 \secondaryEnd
 \appendixEnd{}

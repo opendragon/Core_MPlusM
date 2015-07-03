@@ -2,7 +2,7 @@
 #
 #  File:       EmotivInputService/CMakeLists.txt
 #
-#  Project:    M+M
+#  Project:    m+m
 #
 #  Contains:   The CMAKE definitions for the Emotiv input service application.
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET mpmEmotivInputService)
+set(THIS_TARGET m+mEmotivInputService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -55,15 +55,15 @@ endif(WIN32)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               M+MEmotivInputServiceMain.cpp
-               M+MEmotivInputService.cpp
-               M+MEmotivInputThread.cpp
+               m+mEmotivInputServiceMain.cpp
+               m+mEmotivInputService.cpp
+               m+mEmotivInputThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
-                      mpmCommon
+                      m+mCommon
 #Kinect
                       odLogging
                       ${YARP_LIBRARIES}
@@ -75,7 +75,7 @@ if(APPLE)
                         libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
     
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                        libmpmCommon.dylib "@rpath/libmpmCommon.dylib" ${THIS_TARGET})
+                        libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})

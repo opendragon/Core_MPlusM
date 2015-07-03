@@ -2,7 +2,7 @@
 //
 //  File:       RnadomBurst.js
 //
-//  Project:    M+M
+//  Project:    m+m
 //
 //  Contains:   An example script that sends blocks of random numbers.
 //
