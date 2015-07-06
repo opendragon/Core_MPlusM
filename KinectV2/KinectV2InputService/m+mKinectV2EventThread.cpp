@@ -609,7 +609,7 @@ void KinectV2EventThread::threadRelease(void)
     {
         _bodyFrameReader->UnsubscribeFrameArrived(_frameEventHandle);
     }
-    _frameEventHandle = nullptr;
+    _frameEventHandle = NULL;
     // done with body frame reader
     SafeRelease(_bodyFrameReader);
     SafeRelease(_bodyFrameSource);

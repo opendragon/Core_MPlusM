@@ -159,7 +159,7 @@ if(WIN32)
 
 	#OTHER EXES
     install(FILES
-            "${MpM_SOURCE_DIR}/../Utilities_ChannelManager/Builds/VisualStudio2013/Release/m+m manager.exe"
+            "${MpM_SOURCE_DIR}/../Utilities_mm_manager/Builds/VisualStudio2013/Release/m+m manager.exe"
             DESTINATION bin
             COMPONENT applications)
 
@@ -168,7 +168,7 @@ if(WIN32)
             "${MpM_SOURCE_DIR}/../archives/ACE_wrappers2.zip"
             "${MpM_SOURCE_DIR}/../archives/Core_MPlusM-master.zip"
             "${MpM_SOURCE_DIR}/../archives/OGDF.zip"
-            "${MpM_SOURCE_DIR}/../archives/Utilities_ChannelManager-master.zip"
+            "${MpM_SOURCE_DIR}/../archives/Utilities_mm_manager-master.zip"
             "${MpM_SOURCE_DIR}/../archives/Utilities_ServiceViewer-master.zip"
             "${MpM_SOURCE_DIR}/../archives/yarp_MPlusM-master.zip"
             DESTINATION src

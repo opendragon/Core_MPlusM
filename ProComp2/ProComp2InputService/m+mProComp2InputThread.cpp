@@ -226,7 +226,7 @@ void ProComp2InputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     MSG      aMessage;
-    UINT_PTR aTimer = nullptr;
+    UINT_PTR aTimer = NULL;
     
     memset(&aMessage, 0, sizeof(aMessage));
     if (0 < lTTLLive->EncoderCount)
