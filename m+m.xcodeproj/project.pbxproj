@@ -103,6 +103,7 @@
 		DF1C1CB71B42F49C00E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Registry/resource.h; sourceTree = "<group>"; };
 		DF1C1CB81B42F49C00E816A4 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = Registry/resource1.h; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		DF2934481B4B180A0067FBB0 /* m+mRequestCounterClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestCounterClient.rc.in"; path = "RequestCounter/RequestCounterClient/m+mRequestCounterClient.rc.in"; sourceTree = "<group>"; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* m+mChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/m+mChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384F69198A9A5A00A0414E /* m+mChordGeneratorRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mChordGeneratorRequestHandler.h"; path = "examples/ChordGeneratorService/m+mChordGeneratorRequestHandler.h"; sourceTree = SOURCE_ROOT; };
@@ -464,7 +465,6 @@
 		DFA7D1441ADDB77C00A17BD6 /* m+mMovementDbService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mMovementDbService.rc.in"; path = "MovementDb/MovementDbService/m+mMovementDbService.rc.in"; sourceTree = "<group>"; };
 		DFA7D1461ADDB7B600A17BD6 /* m+mParserTest.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mParserTest.rc.in"; path = "ParserTest/m+mParserTest.rc.in"; sourceTree = "<group>"; };
 		DFA7D1471ADDB7C300A17BD6 /* m+mPortLister.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mPortLister.rc.in"; path = "PortLister/m+mPortLister.rc.in"; sourceTree = "<group>"; };
-		DFA7D14B1ADDB88C00A17BD6 /* m+mRequestCounterClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestCounterClient.rc.in"; path = "RequestCounter/RequestCounterClient/m+mRequestCounterClient.rc.in"; sourceTree = "<group>"; };
 		DFA7D14C1ADDB89B00A17BD6 /* m+mRequestCounterService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestCounterService.rc.in"; path = "RequestCounter/RequestCounterService/m+mRequestCounterService.rc.in"; sourceTree = "<group>"; };
 		DFA7D14D1ADDB8AC00A17BD6 /* m+mRequestInfo.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestInfo.rc.in"; path = "RequestInfo/m+mRequestInfo.rc.in"; sourceTree = "<group>"; };
 		DFA7D14E1ADDB8B900A17BD6 /* m+mServiceLister.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mServiceLister.rc.in"; path = "ServiceLister/m+mServiceLister.rc.in"; sourceTree = "<group>"; };
@@ -1001,7 +1001,7 @@
 				DF385005198A9D4A00A0414E /* m+mRequestCounterClient.cpp */,
 				DF385006198A9D4A00A0414E /* m+mRequestCounterClient.h */,
 				DF385007198A9D4A00A0414E /* m+mRequestCounterClientMain.cpp */,
-				DFA7D14B1ADDB88C00A17BD6 /* m+mRequestCounterClient.rc.in */,
+				DF2934481B4B180A0067FBB0 /* m+mRequestCounterClient.rc.in */,
 				DFA7D1091ADD9C2B00A17BD6 /* resource.h */,
 			);
 			name = RequestCounterClient;
