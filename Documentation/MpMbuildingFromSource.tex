@@ -37,19 +37,12 @@ development environment for Microsoft Windows; the version used for development 
 \item\exSp{} The \asCode{cmake} tool, which can be installed from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
 \item\exSp{} An `\asCode{unzip}' program; the free program \asCode{Stuffit Expander}, from
-\companyReference{http://my.smithmicro.com/stuffit-expander-windows.html}%
-{Smith Micro Software}, can process the \textbf{ZIP} archive files
+\companyReference{http://my.smithmicro.com/stuffit-expander-windows.html}{Smith Micro
+Software}, can process the \textbf{ZIP} archive files
 \item\exSp{} The \asCode{python} command\longDash{}line tool, from
 \companyReference{https://www.python.org/downloads}{Python.org}; install a \textbf{2.7.x}
 version, not a version \textbf{3} or newer, and make sure that the install directory for
 the executable is added to the system \asCode{Path} variable
-%\item\exSp{} The \asCode{MozillaBuild} environment, from
-%\companyReference{https://ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/%
-%MozillaBuildSetup-Latest.exe}{Mozilla};
-%note that this is only needed if \textbf{SpiderMonkey} is being built
-%\item\exSp{} The \asCode{git} tool, from
-%\companyReference{http://git-scm.com/download/win}{git}; needed if \textbf{SpiderMonkey}
-%is being built
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Prerequisites~for~Linux}
@@ -61,13 +54,17 @@ the executable is added to the system \asCode{Path} variable
 \secondaryStart{Initial~Steps}
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed; we'll
-refer to it from now on as `\asCode{devel}'
+refer to it from now on as `\asCode{\textbf{devel}}'
 \item\exSp{} Copy the desired \textbf{ZIP} archive files from their installation location
-(\asCode{/opt/M+M/src} on Macintosh OS~X, \TBD{} for Microsoft Windows and \TBD{} for
-Linux) to the new directory \asCode{devel}; all but the files
-\asCode{Core\fUS{}MPlusM.zip} and \asCode{Utilities\fUS{}ChannelManager.zip} are optional
-\item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory \asCode{devel}
-\item\exSp{} Rename the new directories, stripping off the `\asCode{-master}' suffix, if
+(\asCode{/opt/m+m/src} on Macintosh OS~X,\\
+\asCode{C:\textbackslash{}Program Files (x86)\textbackslash{}m+m\textbackslash{}src} for
+Microsoft Windows and \TBD{} for Linux) to the new directory \asCode{\textbf{devel}}; all
+but the files \asCode{Core\fUS{}MPlusM.zip} and
+\asCode{Utilities\fUS{}mm\fUS{}manager.zip}
+are optional
+\item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory
+\asCode{\textbf{devel}}
+\item\exSp{} Rename the new directories, stripping off the `\asCode{-master}' suffix if
 present
 \end{itemize}
 \secondaryEnd
@@ -84,7 +81,7 @@ be modified.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{devel}
+code, \asCode{\textbf{devel}}
 \item\exSp{} Execute the following commands:
 \begin{itemize}
 \item\asCode{cd ACE\fUS{}wrappers2}
@@ -95,7 +92,7 @@ code, \asCode{devel}
 \item\exSp{} Execute the following commands within the new subshell:
 \begin{itemize}
 \item\asCode{export ACE\fUS{}ROOT=\$(pwd)}
-\item\exSp\asCode{export DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/M+M/lib:%
+\item\exSp\asCode{export DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/m+m/lib:%
 \$DYLD\fUS{}LIBRARY\fUS{}PATH}
 \item\exSp\asCode{make install}
 \item\exSp\asCode{exit}
@@ -127,8 +124,8 @@ is the directory containing the \mplusm{} source code, and click on the \asCode{
 \item\exSp{} Select the \asCode{ACE\fUS{}INCLUDE\fUS{}DIR} system variable and click on
 the \asCode{Edit} button 
 \item\exSp{} Edit the variable value to be
-`\asCode{devel\textbackslash{}ACE\fUS{}wrappers2\textbackslash{}include}' and click on the
-\asCode{OK} button
+`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers2\textbackslash{}include}' and
+click on the \asCode{OK} button
 \item\exSp{} Click on the \asCode{OK} button to close the \asCode{Environment Variables}
 panel
 \item\exSp{} Click on the \asCode{OK} button to close the \asCode{System Properties}
@@ -151,7 +148,7 @@ libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{devel}
+code, \asCode{\textbf{devel}}
 \item\exSp{} Execute the following commands:
 \begin{itemize}
 \item\asCode{cd yarp\fUS{}MPlusM}
@@ -165,14 +162,14 @@ within a directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{
 developers, which can be cleared by pressing `\textbf{e}'
 \item\exSp{} Press `\textbf{t}' to show more options
 \item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
-\asCode{/opt/M+M/lib/libACE.dylib}; if the option is not visible, press
+\asCode{/opt/m+m/lib/libACE.dylib}; if the option is not visible, press
 `\textbf{Control-D}' to go to the next page of options and `\textbf{Control-U}' to go to
 the previous page of options
 \item\exSp{} Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
-\asCode{/opt/M+M/include}
+\asCode{/opt/m+m/include}
 \item\exSp{} Press `\textbf{t}' to show fewer options
 \item\exSp{} Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to
-\asCode{/opt/M+M}
+\asCode{/opt/m+m}
 \item\exSp{} Change any other options that you are interested in applying; it is
 recommended that the option\\
 `\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
@@ -200,8 +197,8 @@ where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source c
 \item\exSp{} Set the build directory to `\asCode{\textbf{devel}/yarp\fUS{}MPlusM}
 \item\exSp{} Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{} Click on the `\asCode{Configure}' button; make sure that the generator
-setting is for \asCode{Visual Studio 12} and that `\asCode{default native compilers}' is
-selected
+setting is for \asCode{Visual Studio 12} and that `\asCode{Use default native compilers}'
+is selected
 \item\exSp{} Click on the `\asCode{Finish}' button
 \item\exSp{} Turn on the `\asCode{Advanced}' option once the configuration step completes
 \item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
@@ -260,10 +257,11 @@ libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{devel}
+code, \asCode{\textbf{devel}}
 \item\exSp{} Execute the following commands:
 \begin{itemize}
 \item\asCode{cd OGDF}
+\item\exSp\asCode{python makeMakefile.py}
 \item\exSp\asCode{make cleanrelease \&\& make release}
 \item\exSp\asCode{sudo make install}
 \end{itemize}
@@ -272,7 +270,7 @@ code, \asCode{devel}
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Open a Command Prompt window and move to the directory containing the \mplusm{}
-source code, \asCode{devel}
+source code, \asCode{\textbf{devel}}
 \item\exSp{} Execute the command `\asCode{cd OGDF}'
 \item\exSp{} Execute the command `\asCode{python makeVCXProj.py}'
 \item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
@@ -317,13 +315,13 @@ Getting\_SpiderMonkey\_source\_code}%
 \textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
 it must be at least \textbf{SpiderMonkey} \textbf{39}.
 \tertiaryStart{Building~on~Macintosh~OS~X}
-\newcommand{\spiderversion}{40a1}%
+\newcommand{\spiderversion}{42a1}%
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `make install' process.
 \begin{itemize}
 \item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
 referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
-\asCode{devel} directory, but it need not be
+\asCode{\textbf{devel}} directory, but it need not be
 \item\exSp{} On the command\longDash{}line, execute the following commands:
 \begin{itemize}
 \item\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}
@@ -332,22 +330,22 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \item\exSp\asCode{autoconf213}
 \item\exSp\asCode{mkdir \fUS{}obj\fUS}
 \item\exSp\asCode{cd \fUS{}obj\fUS}
-\item\exSp\asCode{../configure {-}{-}prefix=/opt/M+M/spidermonkey {-}{-}with-system-icu
+\item\exSp\asCode{../configure {-}{-}prefix=/opt/m+m/spidermonkey {-}{-}with-system-icu
 \textbackslash\\
 {-}{-}enable-release {-}{-}enable-more-deterministic}
 \item\exSp\asCode{make clean \&\& make}
 \item\exSp\asCode{sudo make install}
-\item\exSp\asCode{sudo cp dist/bin/libmozglue.dylib /opt/M+M/spidermonkey/lib}
+\item\exSp\asCode{sudo cp dist/bin/libmozglue.dylib /opt/m+m/spidermonkey/lib}
 \item\exSp\asCode{sudo install\fUS{}name\fUS{}tool -change
 "@executable\fUS{}path/libmozglue.dylib" \textbackslash\\
-"@rpath/libmozglue.dylib" /opt/M+M/spidermonkey/lib/libmozjs-\spiderversion.dylib}; note
+"@rpath/libmozglue.dylib" /opt/m+m/spidermonkey/lib/libmozjs-\spiderversion.dylib}; note
 the single dash for `\asCode{-change}'
 \end{itemize}
 \item\exSp{} On the command\longDash{}line, move to the directory containing the \mplusm{}
-source code, \asCode{devel}
+source code, \asCode{\textbf{devel}}
 \item\exSp{} Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
 \textbackslash\\
-/opt/M+M/spidermonkey/include/mozjs-\spiderversion}'; this replaces symbolic links in the
+/opt/m+m/spidermonkey/include/mozjs-\spiderversion}'; this replaces symbolic links in the
 header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
 to distribute the resulting directories
 \end{itemize}
@@ -360,7 +358,7 @@ all, even though the scripts exist.
 \begin{itemize}
 \item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
 referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
-\asCode{devel} directory, but it need not be
+\asCode{\textbf{devel}} directory, but it need not be
 \item\exSp{} Open a Command Prompt window, running as Administrator
 \item\exSp{} Execute the command
 `\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
@@ -395,9 +393,9 @@ not the final one
 \item\exSp\asCode{cp dist/bin/plds4.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/plc4.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cd /c/}
-\item\exSp\asCode{cd /Program\textbackslash{} Files\textbackslash{}
+\item\exSp\asCode{cd Program\textbackslash{} Files\textbackslash{}
 \textbackslash{}(x86\textbackslash)}
-\item\exSp\asCode{cd M+M}
+\item\exSp\asCode{cd m+m}
 \item\exSp\asCode{rm -rf spidermonkey}
 \item\exSp\asCode{mv /c/spidermonkey .}
 \item\exSp\asCode{exit}
@@ -418,7 +416,7 @@ need to be modified.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{devel}
+code, \asCode{\textbf{devel}}
 \item\exSp{} Execute the command `\asCode{cd Core\fUS{}MPlusM}'
 \item\exSp{} Execute the command `\asCode{ccmake .}'; this will open a graphical interface
 to the makefile builder. If this is the first time that the command is executed within a
@@ -495,8 +493,8 @@ where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source c
 \item\exSp{} Set the build directory to `\asCode{\textbf{devel}/Core\fUS{}MPlusM}
 \item\exSp{} Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{} Click on the `\asCode{Configure}' button; make sure that the generator
-setting is for \asCode{Visual Studio 12} and that `\asCode{default native compilers}' is
-selected
+setting is for \asCode{Visual Studio 12} and that `\asCode{Use default native compilers}'
+is selected
 \item\exSp{} Click on the `\asCode{Finish}' button
 \item\exSp{} Click on the `\asCode{Configure}' button once the configuration step
 completes
@@ -504,7 +502,7 @@ completes
 \item\exSp{} Exit from the \asCode{CMake} GUI application
 \item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{} Open the project file
-`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}M+M.sln}' with
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}m+m.sln}' with
 \asCode{Visual Studio}
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
@@ -527,13 +525,14 @@ INSTALL}'; note that this will fail the first time, since it attempts to install
 \textit{\MMMU} is not built from the command\longDash{}line but, rather, from the IDE.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item In Finder, open the directory containing the \mplusm{} source code, \asCode{devel}
-\item\exSp{} Open the directory `\asCode{Utilities\fUS{}ChannelManager}' within
-\asCode{devel}
+\item In Finder, open the directory containing the \mplusm{} source code,
+\asCode{\textbf{devel}}
+\item\exSp{} Open the directory `\asCode{Utilities\fUS{}mm\fUS{}manager}' within
+\asCode{\textbf{devel}}
 \item\exSp{} Open the directory `\asCode{Builds/MacOSX}'
-\item\exSp{} Open the file `\asCode{Channel Manager.xcodeproj}' with \asCode{Xcode}
-\item\exSp{} Within \asCode{Xcode}, select either the `\asCode{Channel Manager Debug}' or
-`\asCode{Channel Manager Release}' Scheme
+\item\exSp{} Open the file `\asCode{m+m manager.xcodeproj}' with \asCode{Xcode}
+\item\exSp{} Within \asCode{Xcode}, select either the `\asCode{m+m manager Debug}' or
+`\asCode{m+m manager Release}' Scheme
 \item\exSp{} Perform the menu item `\asCode{Product \bigRightArrow{} Build}' or
 `\asCode{Product \bigRightArrow{} Run}'
 \item\exSp{} To create an executable that can be placed in the `\asCode{/Applications}'
@@ -541,10 +540,10 @@ folder, do an `\asCode{Archive \bigRightArrow{} Export \bigRightArrow{} Export a
 Application}'
 and place the generated application in a writable location, like your home directory
 \item\exSp{} Exit from \asCode{Xcode}
-\item\exSp{} If the generated application is named \asCode{Channel Manager Debug}, rename
-it to \asCode{Channel Manager} and, if it is named \asCode{Channel Manager Release},
-rename it to \asCode{Channel Manager}
-\item\exSp{} Copy the \asCode{Channel Manager} application to the \asCode{/Applications}
+\item\exSp{} If the generated application is named \asCode{m+m manager Debug}, rename
+it to \asCode{m+m manager} and, if it is named \asCode{m+m manager Release},
+rename it to \asCode{m+m manager}
+\item\exSp{} Copy the \asCode{m+m manager} application to the \asCode{/Applications}
 directory
 \end{itemize}
 \tertiaryEnd
@@ -552,8 +551,8 @@ directory
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{} Open the project file
-`\asCode{\textbf{devel}\textbackslash{}Utilities\fUS{}ChannelManager\textbackslash{}%
-Builds\textbackslash{}VisualStudio2013\textbackslash{}Channel Manager.sln}' with
+`\asCode{\textbf{devel}\textbackslash{}Utilities\fUS{}mm\fUS{}manager\textbackslash{}%
+Builds\textbackslash{}VisualStudio2013\textbackslash{}m+m manager.sln}' with
 \asCode{Visual Studio}
 \item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
 build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
@@ -573,33 +572,60 @@ The distribution packages are standalone files that can be used to create a comp
 \tertiaryStart{Creating~on~Macintosh~OS~X}
 \begin{itemize}
 \item If any source files have been modified in the `\asCode{Core\fUS{}MPlusM}' or
-`\asCode{Utilities\fUS{}ChannelManager}' directories, commit the changes to the
+`\asCode{Utilities\fUS{}mm\fUS{}manager}' directories, commit the changes to the
 \asCode{git} repositories
 \item\exSp{} Download the latest versions of the \asCode{git} repositories as \asCode{ZIP}
 archive files, to make sure that the generated distribution package is consistent
 \item\exSp{} Copy the downloaded \asCode{ZIP} archive files to the directory containing
-the \mplusm{} source code, \asCode{devel}; the archives\\
+the \mplusm{} source code, \asCode{\textbf{devel}}; the archives\\
 \asCode{ACE\fUS{}wrappers.zip}, \asCode{Core\fUS{}MPlusM-master.zip},
 \asCode{JUCE.zip}, \asCode{OGDF.zip},\\
-\asCode{Utilities\fUS{}ChannelManager-master.zip} and \asCode{yarp\fUS{}MPlusM.zip} must
-all be present in the \asCode{devel} directory in order to construct the distribution
-packages successfully
+\asCode{Utilities\fUS{}mm\fUS{}manager-master.zip} and \asCode{yarp\fUS{}MPlusM.zip} must
+all be present in the \asCode{\textbf{devel}} directory in order to construct the
+distribution packages successfully
 \item\exSp{} Launch the \asCode{Packages} GUI tool
 \item\exSp{} Open the \asCode{Developer} file, which is located in the
-\asCode{Core\fUS{}MPlusM/Packages/Developer} directory within the \asCode{devel} directory
+\asCode{Core\fUS{}MPlusM/Packages/Developer} directory within the \asCode{\textbf{devel}}
+directory
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Clean\textellipsis}
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Build}
-\item\exSp{} Open the \asCode{M+M} file, which is located in the
+\item\exSp{} Open the \asCode{m+m} file, which is located in the
 \asCode{Core\fUS{}MPlusM/Packages} directory
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Clean\textellipsis}
 \item\exSp{} Perform the menu item \asCode{Build \bigRightArrow{} Build}
-\item\exSp{} The distribution package is the \asCode{M+M.pkg} file located in the
+\item\exSp{} The distribution package is the \asCode{m+m.pkg} file located in the
 \asCode{Core\fUS{}MPlusM/Packages/build} directory
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Creating~on~Microsoft~Windows}
 \begin{itemize}
-\item\TBD
+\item If any source files have been modified in the `\asCode{Core\fUS{}MPlusM}' or
+`\asCode{Utilities\fUS{}mm\fUS{}manager}' directories, commit the changes to the
+\asCode{git} repositories
+\item\exSp{} Download the latest versions of the \asCode{git} repositories as \asCode{ZIP}
+archive files, to make sure that the generated distribution package is consistent
+\item\exSp{} Copy the downloaded \asCode{ZIP} archive files to the directory
+`asCode{archives}' within the directory containing the \mplusm{} source code,
+\asCode{\textbf{devel}}; the archives \asCode{ACE\fUS{}wrappers.zip},
+\asCode{Core\fUS{}MPlusM-master.zip}, \asCode{JUCE.zip},\\
+\asCode{OGDF.zip}, \asCode{Utilities\fUS{}mm\fUS{}manager-master.zip} and
+\asCode{yarp\fUS{}MPlusM.zip} must all be present in the\\
+\asCode{\textbf{devel}\textbackslash{}archives} directory in order to construct the
+distribution packages successfully
+\item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{} Open the project file
+`\asCode{\textbf{devel}\textbackslash{}Utilities\fUS{}mm\fUS{}manager\textbackslash{}%
+Builds\textbackslash{}VisualStudio2013\textbackslash{}m+m manager.sln}' with
+\asCode{Visual Studio}
+\item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
+the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
+INSTALL}'
+\item\exSp{} Select the \asCode{PACKAGE} target and construct the distribution package via
+the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
+PACKAGE}'
+\item\exSp{} The distribution package is the \asCode{m+m-\MMVn-win32.exe} file located in
+the\\
+\asCode{Core\fUS{}MPlusM\textbackslash\fUS{}CPack\fUS{}Packages\textbackslash{}win32\textbackslash{}NSIS} directory
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Creating~on~Linux}
