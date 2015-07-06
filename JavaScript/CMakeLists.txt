@@ -46,11 +46,7 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
-#if(WIN32)
-#	set(SPIDER_VERSION "39a1")
-#else(WIN32)
-	set(SPIDER_VERSION "42a1")
-#endif(WIN32)
+set(SPIDER_VERSION "42a1")
 
 if(WIN32)
     set(SPIDER_PATH "C:/Program Files (x86)/m+m/spidermonkey")
