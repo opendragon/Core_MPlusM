@@ -104,6 +104,7 @@
 		DF1C1CB81B42F49C00E816A4 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = Registry/resource1.h; sourceTree = "<group>"; };
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF2934481B4B180A0067FBB0 /* m+mRequestCounterClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestCounterClient.rc.in"; path = "RequestCounter/RequestCounterClient/m+mRequestCounterClient.rc.in"; sourceTree = "<group>"; };
+		DF2934491B4B34B90067FBB0 /* uninstallm+m.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "uninstallm+m.sh"; sourceTree = "<group>"; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* m+mChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/m+mChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384F69198A9A5A00A0414E /* m+mChordGeneratorRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mChordGeneratorRequestHandler.h"; path = "examples/ChordGeneratorService/m+mChordGeneratorRequestHandler.h"; sourceTree = SOURCE_ROOT; };
@@ -1645,6 +1646,7 @@
 				DF7623641B029130002BDC49 /* standardApplications.txt */,
 				DF8888151AEE7EAF001320EB /* StopService */,
 				DF1BD3351A8C010E0070A09C /* Tunnel */,
+				DF2934491B4B34B90067FBB0 /* uninstallm+m.sh */,
 				DFEF4B591A1CE6C300FBB838 /* Unreal */,
 				DFA4963A18FED31A005A7213 /* Version */,
 				DF6DFCBF1A0D25FC00E8CEF5 /* ViconDataStream */,

@@ -212,7 +212,6 @@ Documentation/*.htoc
 Documentation/*.haux
 Documentation/*.html
 Documentation/*.hind
-Documentation/mpm_images/*.png
 !Documentation/makefile
 mpxerr.tex
 mpm/M+MConfig.h

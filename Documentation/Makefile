@@ -427,7 +427,7 @@ VDStarget = $(HOME)/$(VDSmainpdf) $(HOME)/$(VDSmainhtml)
 	ps2eps -f $<
 
 %.png: %.eps
-	convert -density 150 -transparent white $< $@
+	convert -density 144 -transparent white $< $@
 
 %.ps: %.mp
 	mpost -interaction=batchmode -file-line-error $<
@@ -563,7 +563,7 @@ $(IMAGE_ARCHIVE) : $(IMbitmappngfiles) $(JSbitmappngfiles) $(KV2bitmappngfiles) 
 		$(NNbitmappngfiles) $(OSbitmappngfiles) $(PC2bitmappngfiles) \
 		$(VDSbitmappngfiles) $(Commonpngfiles) $(IMpngfiles) $(JSpngfiles) \
 		$(KV2pngfiles) $(LMpngfiles) $(MMMpngfiles) $(MpMpngfiles) $(NNpngfiles) \
-		$(OSpngfiles) $(PC2pngfiles) $(VDSpngfiles)
+		$(OSpngfiles) $(PC2pngfiles) $(VDSpngfiles) 
 	tar -czf $(IMAGE_ARCHIVE) $(IMAGE_DIR)
 
 # Top-level targets
@@ -574,7 +574,8 @@ $(IMAGE_ARCHIVE) : $(IMbitmappngfiles) $(JSbitmappngfiles) $(KV2bitmappngfiles) 
 
 clean :
 	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
-	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
+	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_ARCHIVE)
+#	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
 #all : $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) $(MpMtarget) \
 #		$(NNtarget) $(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
