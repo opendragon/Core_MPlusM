@@ -101,9 +101,11 @@ KV2bitmapepsfiles = $(IMAGE_DIR)/launchKinectV2InputService.eps \
 LMbitmapepsfiles = $(IMAGE_DIR)/launchLeapBlobInputService.eps \
 		$(IMAGE_DIR)/launchLeapMotionInputService.eps \
 		$(IMAGE_DIR)/launchLeapTwoFingersInputService.eps \
+		$(IMAGE_DIR)/launchLeapTwoPalmsInputService.eps \
 		$(IMAGE_DIR)/runningLeapBlobInputService.eps \
 		$(IMAGE_DIR)/runningLeapMotionInputService.eps \
-		$(IMAGE_DIR)/runningLeapTwoFingersInputService.eps
+		$(IMAGE_DIR)/runningLeapTwoFingersInputService.eps \
+		$(IMAGE_DIR)/runningLeapTwoPalmsInputService.eps
 
 MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/appListMenu.eps \

@@ -9,6 +9,7 @@ m+mKinectV2InputService
 m+mLeapBlobInputService
 m+mLeapMotionInputService
 m+mLeapTwoFingersInputService
+m+mLeapTwoPalmsInputService
 m+mNatNetInputService
 m+mOpenStageInputService
 m+mProComp2InputService

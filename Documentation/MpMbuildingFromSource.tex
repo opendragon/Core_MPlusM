@@ -599,9 +599,13 @@ directory
 \tertiaryEnd
 \tertiaryStart{Creating~on~Microsoft~Windows}
 \begin{itemize}
-\item If any source files have been modified in the `\asCode{Core\fUS{}MPlusM}' or
-`\asCode{Utilities\fUS{}mm\fUS{}manager}' directories, commit the changes to the
-\asCode{git} repositories
+\item Make sure to update the date recorded in the last line of the \asCode{license.tex}
+file, located in the `\asCode{Core\fUS{}MPlusM}' directory
+\item\exSp{} Commit the changes for the `\asCode{Core\fUS{}MPlusM}' directory to the
+\asCode{git} repository
+\item\exSp{} If any source files have been modified in the
+`\asCode{Utilities\fUS{}mm\fUS{}manager}' directory, commit the changes to the
+\asCode{git} repository
 \item\exSp{} Download the latest versions of the \asCode{git} repositories as \asCode{ZIP}
 archive files, to make sure that the generated distribution package is consistent
 \item\exSp{} Copy the downloaded \asCode{ZIP} archive files to the directory
@@ -625,7 +629,8 @@ the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Buil
 PACKAGE}'
 \item\exSp{} The distribution package is the \asCode{m+m-\MMVn-win32.exe} file located in
 the\\
-\asCode{Core\fUS{}MPlusM\textbackslash\fUS{}CPack\fUS{}Packages\textbackslash{}win32\textbackslash{}NSIS} directory
+\asCode{Core\fUS{}MPlusM\textbackslash\fUS{}CPack\fUS{}Packages\textbackslash{}win32%
+\textbackslash{}NSIS} directory
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Creating~on~Linux}

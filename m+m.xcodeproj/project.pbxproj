@@ -105,6 +105,14 @@
 		DF27F42B18CA377A00E93C95 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; lineEnding = 0; path = CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF2934481B4B180A0067FBB0 /* m+mRequestCounterClient.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestCounterClient.rc.in"; path = "RequestCounter/RequestCounterClient/m+mRequestCounterClient.rc.in"; sourceTree = "<group>"; };
 		DF2934491B4B34B90067FBB0 /* uninstallm+m.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "uninstallm+m.sh"; sourceTree = "<group>"; };
+		DF29344A1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapTwoPalmsInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoPalmsInputListener.cpp"; sourceTree = "<group>"; };
+		DF29344B1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoPalmsInputListener.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoPalmsInputListener.h"; sourceTree = "<group>"; };
+		DF29344C1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoPalmsInputRequests.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoPalmsInputRequests.h"; sourceTree = "<group>"; };
+		DF29344D1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapTwoPalmsInputService.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoPalmsInputService.cpp"; sourceTree = "<group>"; };
+		DF29344E1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoPalmsInputService.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoPalmsInputService.h"; sourceTree = "<group>"; };
+		DF29344F1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mLeapTwoPalmsInputService.rc.in"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoPalmsInputService.rc.in"; sourceTree = "<group>"; };
+		DF2934501B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapTwoPalmsInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoPalmsInputServiceMain.cpp"; sourceTree = "<group>"; };
+		DF2934511B4D5EDD0067FBB0 /* resource3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource3.h; path = LeapMotion/LeapMotionInputService/resource3.h; sourceTree = "<group>"; };
 		DF384F67198A9A5A00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/ChordGeneratorService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF384F68198A9A5A00A0414E /* m+mChordGeneratorRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mChordGeneratorRequestHandler.cpp"; path = "examples/ChordGeneratorService/m+mChordGeneratorRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF384F69198A9A5A00A0414E /* m+mChordGeneratorRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mChordGeneratorRequestHandler.h"; path = "examples/ChordGeneratorService/m+mChordGeneratorRequestHandler.h"; sourceTree = SOURCE_ROOT; };
@@ -1573,9 +1581,17 @@
 				F655C6121B3B282000933D40 /* m+mLeapBlobInputService.rc.in */,
 				DFA7D1401ADDB74800A17BD6 /* m+mLeapMotionInputService.rc.in */,
 				DFA7D1411ADDB74800A17BD6 /* m+mLeapTwoFingersInputService.rc.in */,
+				DF29344A1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputListener.cpp */,
+				DF29344B1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputListener.h */,
+				DF29344C1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputRequests.h */,
+				DF29344D1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputService.cpp */,
+				DF29344E1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputService.h */,
+				DF29344F1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputService.rc.in */,
+				DF2934501B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputServiceMain.cpp */,
 				DFA7D0F21ADD9A3400A17BD6 /* resource.h */,
 				DFA7D0F31ADD9A3400A17BD6 /* resource1.h */,
 				F655C6131B3B282000933D40 /* resource2.h */,
+				DF2934511B4D5EDD0067FBB0 /* resource3.h */,
 			);
 			name = LeapMotionInputService;
 			sourceTree = SOURCE_ROOT;

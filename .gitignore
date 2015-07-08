@@ -294,6 +294,8 @@ m+mLeapMotionInputService
 m+mLeapMotionInputService.rc
 m+mLeapTwoFingersInputService
 m+mLeapTwoFingersInputService.rc
+m+mLeapTwoPalmsInputService
+m+mLeapTwoPalmsInputService.rc
 m+mMovementDbAdapter
 m+mMovementDbAdapter.rc
 m+mMovementDbClient
