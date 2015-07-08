@@ -178,9 +178,11 @@ void LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
             HandMask handsPresent = kNoHands;
             double   palmNormals[6];
             double   palmPositions[6];
+            double   palmVelocities[6];
             
             memset(palmNormals, 0, sizeof(palmNormals));
             memset(palmPositions, 0, sizeof(palmPositions));
+            memset(palmVelocities, 0, sizeof(palmVelocities));
             for (Leap::HandList::const_iterator handWalker(hands.begin());
                  hands.end() != handWalker; ++handWalker)
             {
@@ -210,6 +212,7 @@ void LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                     {
                         const Leap::Vector & normal = aHand.palmNormal();
                         const Leap::Vector & position = aHand.palmPosition();
+                        const Leap::Vector & velocities = aHand.palmVelocity();
                         
                         palmNormals[offset] = normal.x;
                         palmNormals[offset + 1] = normal.y;
@@ -217,6 +220,9 @@ void LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                         palmPositions[offset] = position.x;
                         palmPositions[offset + 1] = position.y;
                         palmPositions[offset + 2] = position.z;
+                        palmVelocities[offset] = velocities.x;
+                        palmVelocities[offset + 1] = velocities.y;
+                        palmVelocities[offset + 2] = velocities.z;
                         handsPresent = static_cast<HandMask>(handsPresent | thisHand);
                     }
                 }
@@ -233,6 +239,10 @@ void LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
                 for (int ii = 0; ii < (sizeof(palmNormals) / sizeof(*palmNormals)); ++ii)
                 {
                     message.addDouble(palmNormals[ii]);
+                }
+                for (int ii = 0; ii < (sizeof(palmVelocities) / sizeof(*palmVelocities)); ++ii)
+                {
+                    message.addDouble(palmVelocities[ii]);
                 }
                 if (_outChannel)
                 {

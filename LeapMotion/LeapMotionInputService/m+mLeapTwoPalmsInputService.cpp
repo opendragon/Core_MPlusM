@@ -167,8 +167,8 @@ bool LeapTwoPalmsInputService::setUpStreamDescriptions(void)
     description._portName = rootName + "output";
     description._portProtocol = "2PALMS";
     description._protocolDescription = T_("A flag for which hand has data followed by the "
-                                          "positions and normals\nof the palm of each hand, if "
-                                          "present");
+                                          "positions, normals\n"
+                                          "and velocities of the palm of each hand, if present");
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
