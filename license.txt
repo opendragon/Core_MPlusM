@@ -1,4 +1,4 @@
-M+M Deployment Package
+m+m Deployment Package
 
 Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
 
@@ -14,4 +14,4 @@ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS" AND 
 
 Written by: Norman Jaffe and Johnty Wang
 
-Installer created 20 October 2014
+Installer created 8 July 2015
