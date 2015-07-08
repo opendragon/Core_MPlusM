@@ -20,7 +20,7 @@ set(CPACK_COMPONENT_EXAMPLEAPPS_DISPLAY_NAME "Example Applications")
 set(CPACK_COMPONENT_HEADERS_DISPLAY_NAME "C++ Header Files")
 set(CPACK_COMPONENT_LIBRARIES_DISPLAY_NAME "m+m Libraries")
 set(CPACK_COMPONENT_SOURCECODE_DISPLAY_NAME "Source Code")
-set(CPACK_COMPONENT_DOCUMENTATION_DISPLAY_NAME "Documentation")
+set(CPACK_COMPONENT_MANUALS_DISPLAY_NAME "Manuals")
 
 #descriptions for our components
 set(CPACK_COMPONENT_APPLICATIONS_DESCRIPTION "The executables that support running the m+m middleware")
@@ -29,14 +29,14 @@ set(CPACK_COMPONENT_HEADERS_DESCRIPTION "The header files required for new devel
 set(CPACK_COMPONENT_LIBRARIES_DESCRIPTION "The fundamental files for an m+m installation")
 set(CPACK_COMPONENT_SOURCECODE_DESCRIPTION
 	"The source files for an m+m installation, required for extending or modifying the core applications or libraries")
-set(CPACK_COMPONENT_DOCUMENTATION_DESCRIPTION "The m+m manuals")
+set(CPACK_COMPONENT_MANUALS_DESCRIPTION "The m+m manuals")
 
 #set up dependencies
 set(CPACK_COMPONENT_APPLICATIONS_DEPENDS libraries)
 set(CPACK_COMPONENT_EXAMPLEAPPS_DEPENDS libraries)
 set(CPACK_COMPONENT_HEADERS_DEPENDS libraries)
 set(CPACK_COMPONENT_SOURCECODE_DEPENDS libraries headers)
-set(CPACK_COMPONENT_DOCUMENTATION_DEPENDS libraries)
+set(CPACK_COMPONENT_MANUALS_DEPENDS libraries)
 
 #set up CPack groups
 set(CPACK_COMPONENT_APPLICATIONS_GROUP "Core")
@@ -44,21 +44,21 @@ set(CPACK_COMPONENT_EXAMPLEAPPS_GROUP "Optional")
 set(CPACK_COMPONENT_HEADERS_GROUP "Core")
 set(CPACK_COMPONENT_LIBRARIES_GROUP "Core")
 set(CPACK_COMPONENT_SOURCECODE_GROUP "Optional")
-set(CPACK_COMPONENT_DOCUMENTATION_GROUP "Optional")
+set(CPACK_COMPONENT_MANUALS_GROUP "Optional")
 
 #set up CPack constraints
 set(CPACK_COMPONENT_LIBRARIES_REQUIRED ON)
 set(CPACK_COMPONENT_EXAMPLEAPPS_DISABLED ON)
 set(CPACK_COMPONENT_SOURCECODE_DISABLED ON)
-set(CPACK_COMPONENT_DOCUMENTATION_DISABLED ON)
+set(CPACK_COMPONENT_MANUALS_DISABLED ON)
 
 #CPack group descriptions
 set(CPACK_COMPONENT_GROUP_CORE_DESCRIPTION "The core m+m libraries and executables")
 set(CPACK_COMPONENT_GROUP_CORE_BOLD_TITLE ON)
 set(CPACK_COMPONENT_GROUP_OPTIONAL_DESCRIPTION
-	"Example applications and source code for the libraries and standard applications")
+	"Example applications, manuals and source code for the libraries and standard applications")
 	
-set(CPACK_COMPONENTS_ALL applications exampleapps headers libraries sourcecode documentation)
+set(CPACK_COMPONENTS_ALL applications exampleapps headers libraries sourcecode manuals)
 
 #end General Packaging stuff
 
@@ -183,8 +183,8 @@ if(WIN32)
     #Documentation
     install(FILES
             "${MpM_SOURCE_DIR}/../archives/Documentation.zip"
-            DESTINATION docs
-            COMPONENT Documentation)
+            DESTINATION manuals
+            COMPONENT manuals)
 
     set(CPACK_NSIS_INSTALLED_ICON_NAME "bin/m+m manager.exe")
     set(CPACK_NSIS_MODIFY_PATH ON)
