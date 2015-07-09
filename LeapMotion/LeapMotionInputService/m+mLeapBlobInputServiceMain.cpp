@@ -335,8 +335,9 @@ int main(int      argc,
         YarpString                          serviceEndpointName;
         YarpString                          servicePortNumber;
         YarpString                          tag;
-        Utilities::DoubleArgumentDescriptor firstArg("scale", T_("Translation scale"), 1.0, true,
-                                                     true, 0.0, false, 0.0, &translationScale);
+        Utilities::DoubleArgumentDescriptor firstArg("scale", T_("Translation scale"),
+                                                     Utilities::kArgModeOptional, 1.0, true, 0.0,
+                                                     false, 0.0, &translationScale);
         Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);

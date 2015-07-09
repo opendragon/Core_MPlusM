@@ -1,6 +1,6 @@
 #!/bin/sh
 
-sloccount Address Blob ClientList CommonTests Emotiv FindServices JavaScript KinectV2 LeapMotion MovementDb OpenStage ParserTest PortLister ProComp2 RegistryService RequestCounter RequestInfo ServiceLister ServiceMetrics StopService Tunnel Unreal Version ViconDataStream examples mpm odl
+sloccount Address Blob ClientList CommonTests Emotiv FindServices JavaScript KinectV2 LeapMotion MovementDb OpenStage ParserTest PortLister ProComp2 Registry RequestCounter RequestInfo ServiceLister ServiceMetrics StopService Tunnel Unreal Version ViconDataStream examples m+m odl
 echo ---------------
 echo subtract the following -
 echo ---------------

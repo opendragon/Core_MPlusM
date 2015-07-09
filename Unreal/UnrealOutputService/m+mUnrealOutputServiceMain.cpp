@@ -355,9 +355,11 @@ int main(int      argc,
         YarpString                          servicePortNumber;
         YarpString                          tag;
         Utilities::PortArgumentDescriptor   firstArg("port", T_("Port to use to connect"),
-                                                     9876, true, false, &outPort);
-        Utilities::DoubleArgumentDescriptor secondArg("scale", T_("Translation scale"), 1.0, true,
-                                                      true, 0.0, false, 0.0, &translationScale);
+                                                     Utilities::kArgModeOptional, 9876, false,
+                                                     &outPort);
+        Utilities::DoubleArgumentDescriptor secondArg("scale", T_("Translation scale"),
+                                                      Utilities::kArgModeOptional, 1, true, 0,
+                                                      false, 0, &translationScale);
         Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);

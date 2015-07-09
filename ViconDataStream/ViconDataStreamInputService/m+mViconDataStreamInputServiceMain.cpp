@@ -358,10 +358,12 @@ int main(int      argc,
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("hostname",
                                                       T_("IP address for the device server"),
-                                                      "localhost", true, &hostName);
+                                                      Utilities::kArgModeOptional, "localhost",
+                                                      &hostName);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
-			                                           VICONDATASTREAMINPUT_DEFAULT_PORT_, true,
-													   true, &hostPort);
+			                                           Utilities::kArgModeOptional,
+                                                       VICONDATASTREAMINPUT_DEFAULT_PORT_, true,
+                                                       &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

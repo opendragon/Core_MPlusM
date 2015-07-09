@@ -84,16 +84,15 @@ using namespace MplusM::Utilities;
 
 StringArgumentDescriptor::StringArgumentDescriptor(const YarpString & argName,
                                                    const YarpString & argDescription,
+                                                   const ArgumentMode argMode,
                                                    const YarpString & defaultValue,
-                                                   const bool         isOptional,
                                                    YarpString *       argumentReference) :
-    inherited(argName, argDescription, isOptional), _defaultValue(defaultValue),
+    inherited(argName, argDescription, argMode), _defaultValue(defaultValue),
     _argumentReference(argumentReference)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_B1("isOptional = ", isOptional); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // StringArgumentDescriptor::StringArgumentDescriptor
@@ -143,16 +142,16 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
 
     if (partitionString(inString, 2, inVector))
     {
-        bool       isOptional = false;
-        bool       okSoFar = true;
-        YarpString name(inVector[0]);
-        YarpString typeTag(inVector[1]);
-        YarpString defaultString(inVector[2]);
-        YarpString description(inVector[3]);
+        ArgumentMode argMode = kArgModeRequired;
+        bool         okSoFar = true;
+        YarpString   name(inVector[0]);
+        YarpString   typeTag(inVector[1]);
+        YarpString   defaultString(inVector[2]);
+        YarpString   description(inVector[3]);
 
         if (typeTag == "s")
         {
-            isOptional = true;
+            argMode = kArgModeOptional;
         }
         else if (typeTag != "S")
         {
@@ -160,7 +159,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
         }
         if (okSoFar)
         {
-            result = new StringArgumentDescriptor(name, description, defaultString, isOptional,
+            result = new StringArgumentDescriptor(name, description, argMode, defaultString,
                                                   nullptr);
         }
     }

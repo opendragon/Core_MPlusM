@@ -95,12 +95,11 @@ YarpString BaseArgumentDescriptor::_parameterSeparator(":");
 
 BaseArgumentDescriptor::BaseArgumentDescriptor(const YarpString & argName,
                                                const YarpString & argDescription,
-                                               const bool         isOptional) :
-    _argDescription(argDescription), _argName(argName), _isOptional(isOptional)
+                                               const ArgumentMode argMode) :
+    _argDescription(argDescription), _argName(argName), _argMode(argMode)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
-    OD_LOG_B1("isOptional = ", isOptional); //####
     OD_LOG_EXIT_P(this); //####
 } // BaseArgumentDescriptor::BaseArgumentDescriptor
 
@@ -211,7 +210,7 @@ const
     OD_LOG_OBJENTER(); //####
     YarpString result(_argName);
 
-    result += _parameterSeparator + (_isOptional ? tagForOptionalField : tagForMandatoryField);
+    result += _parameterSeparator + (isOptional() ? tagForOptionalField : tagForMandatoryField);
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // BaseArgumentDescriptor::prefixFields

@@ -350,9 +350,10 @@ int main(int      argc,
         YarpString                            servicePortNumber;
         YarpString                            tag;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
+                                                       Utilities::kArgModeOptional,
                                                        kDirectorySeparator + "tmp" +
                                                        kDirectorySeparator + "record_", ".txt",
-                                                       true, true, true, &recordPath);
+                                                       true, true, &recordPath);
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);

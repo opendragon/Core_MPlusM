@@ -84,14 +84,14 @@ using namespace MplusM::Utilities;
 
 IntegerArgumentDescriptor::IntegerArgumentDescriptor(const YarpString & argName,
                                                      const YarpString & argDescription,
+                                                     const ArgumentMode argMode,
                                                      const int          defaultValue,
-                                                     const bool         isOptional,
                                                      const bool         hasMinimumValue,
                                                      const int          minimumValue,
                                                      const bool         hasMaximumValue,
                                                      const int          maximumValue,
                                                      int *              argumentReference) :
-    inherited(argName, argDescription, isOptional), _argumentReference(argumentReference),
+    inherited(argName, argDescription, argMode), _argumentReference(argumentReference),
     _defaultValue(defaultValue), _maximumValue(maximumValue), _minimumValue(minimumValue),
     _hasMaximumValue(hasMaximumValue), _hasMinimumValue(hasMinimumValue)
 {
@@ -99,8 +99,7 @@ IntegerArgumentDescriptor::IntegerArgumentDescriptor(const YarpString & argName,
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
     OD_LOG_LL3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
                "maximumValue = ", maximumValue); //####
-    OD_LOG_B3("isOptional = ", isOptional, "hasMinimumValue = ", hasMinimumValue, //####
-              "hasMaximumValue = ", hasMaximumValue); //####
+    OD_LOG_B2("hasMinimumValue = ", hasMinimumValue, "hasMaximumValue = ", hasMaximumValue); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // IntegerArgumentDescriptor::IntegerArgumentDescriptor
@@ -148,21 +147,21 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
 
     if (partitionString(inString, 4, inVector))
     {
-        bool       isOptional = false;
-        bool       okSoFar = true;
-        int        defaultValue;
-        int        maxValue;
-        int        minValue;
-        YarpString name(inVector[0]);
-        YarpString typeTag(inVector[1]);
-        YarpString minValString(inVector[2]);
-        YarpString maxValString(inVector[3]);
-        YarpString defaultString(inVector[4]);
-        YarpString description(inVector[5]);
+        ArgumentMode argMode = kArgModeRequired;
+        bool         okSoFar = true;
+        int          defaultValue;
+        int          maxValue;
+        int          minValue;
+        YarpString   name(inVector[0]);
+        YarpString   typeTag(inVector[1]);
+        YarpString   minValString(inVector[2]);
+        YarpString   maxValString(inVector[3]);
+        YarpString   defaultString(inVector[4]);
+        YarpString   description(inVector[5]);
 
         if (typeTag == "i")
         {
-            isOptional = true;
+            argMode = kArgModeOptional;
         }
         else if (typeTag != "I")
         {
@@ -206,7 +205,7 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
             bool hasMaximumValue = (0 < maxValString.length());
             bool hasMinimumValue = (0 < minValString.length());
 
-            result = new IntegerArgumentDescriptor(name, description, defaultValue, isOptional,
+            result = new IntegerArgumentDescriptor(name, description, argMode, defaultValue,
                                                    hasMinimumValue, hasMinimumValue ? minValue : 0,
                                                    hasMaximumValue, hasMaximumValue ? maxValue : 0,
                                                    nullptr);

@@ -84,17 +84,16 @@ using namespace MplusM::Utilities;
 
 AddressArgumentDescriptor::AddressArgumentDescriptor(const YarpString & argName,
                                                      const YarpString & argDescription,
+                                                     const ArgumentMode argMode,
                                                      const YarpString & defaultValue,
-                                                     const bool         isOptional,
                                                      YarpString *       argumentReference,
                                                      struct in_addr *   addrBuff) :
-    inherited(argName, argDescription, defaultValue, isOptional, argumentReference),
+    inherited(argName, argDescription, argMode, defaultValue, argumentReference),
     _addrBuff(addrBuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_B1("isOptional = ", isOptional); //####
     OD_LOG_P2("argumentReference = ", argumentReference, "addrBuff = ", addrBuff); //####
     OD_LOG_EXIT_P(this); //####
 } // AddressArgumentDescriptor::AddressArgumentDescriptor
@@ -118,16 +117,16 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
 
     if (partitionString(inString, 2, inVector))
     {
-        bool       isOptional = false;
-        bool       okSoFar = true;
-        YarpString name(inVector[0]);
-        YarpString typeTag(inVector[1]);
-        YarpString defaultString(inVector[2]);
-        YarpString description(inVector[3]);
+        ArgumentMode argMode = kArgModeRequired;
+        bool         okSoFar = true;
+        YarpString   name(inVector[0]);
+        YarpString   typeTag(inVector[1]);
+        YarpString   defaultString(inVector[2]);
+        YarpString   description(inVector[3]);
 
         if (typeTag == "a")
         {
-            isOptional = true;
+            argMode = kArgModeOptional;
         }
         else if (typeTag != "A")
         {
@@ -145,7 +144,7 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
         }
         if (okSoFar)
         {
-            result = new AddressArgumentDescriptor(name, description, defaultString, isOptional,
+            result = new AddressArgumentDescriptor(name, description, argMode, defaultString,
                                                    nullptr, nullptr);
         }
     }

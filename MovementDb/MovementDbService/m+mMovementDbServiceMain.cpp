@@ -215,7 +215,8 @@ int main(int      argc,
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("dbAddress", "Network address for database",
-                                                      "127.0.0.1", false, &databaseAddress);
+                                                      Utilities::kArgModeRequired, "127.0.0.1",
+                                                      &databaseAddress);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

@@ -106,8 +106,9 @@ int main(int      argc,
     try
     {
         int                               listenPort;
-        Utilities::PortArgumentDescriptor firstArg("port", T_("The outgoing port"), 12345, false,
-                                                   false, &listenPort);
+        Utilities::PortArgumentDescriptor firstArg("port", T_("The outgoing port"),
+                                                   Utilities::kArgModeRequired, 12345, false,
+                                                   &listenPort);
         Utilities::DescriptorVector       argumentList;
         OutputFlavour                     flavour; // ignored
         

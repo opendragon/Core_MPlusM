@@ -352,10 +352,12 @@ int main(int      argc,
         YarpString                           tag;
 		Utilities::AddressArgumentDescriptor firstArg("hostname",
 			                                          T_("IP address for the device server"),
-			                                          "localhost", true, &hostName);
+			                                          Utilities::kArgModeOptional, "localhost",
+                                                      &hostName);
 		Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
-			                                           OPENSTAGEINPUT_DEFAULT_PORT_, true,
-													   false, &hostPort);
+			                                           Utilities::kArgModeOptional,
+                                                       OPENSTAGEINPUT_DEFAULT_PORT_, false,
+                                                       &hostPort);
 		Utilities::DescriptorVector          argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,

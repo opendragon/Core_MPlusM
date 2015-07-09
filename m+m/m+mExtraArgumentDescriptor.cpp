@@ -84,7 +84,7 @@ using namespace MplusM::Utilities;
 
 ExtraArgumentDescriptor::ExtraArgumentDescriptor(const YarpString & argName,
                                                  const YarpString & argDescription) :
-    inherited(argName, argDescription, true)
+    inherited(argName, argDescription, kArgModeOptional)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####

@@ -74,14 +74,14 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
+             @param argMode The mode of the command-line argument.
              @param defaultValue The default value for the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise.
              @param argumentReference If non-@c NULL, the variable to be set with the argument
              value. */
             ChannelArgumentDescriptor(const YarpString & argName,
                                       const YarpString & argDescription,
+                                      const ArgumentMode argMode,
                                       const YarpString & defaultValue,
-                                      const bool         isOptional,
                                       YarpString *       argumentReference = nullptr);
             
             /*! @brief The destructor. */

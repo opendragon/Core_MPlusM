@@ -73,6 +73,17 @@ namespace MplusM
 {
     namespace Utilities
     {
+        /*! @brief The mode of an argument. */
+        enum ArgumentMode
+        {
+            /*! @brief The argument is required. */
+            kArgModeRequired = 0x00,
+            
+            /*! @brief The argument is optional. */
+            kArgModeOptional = 0x01
+            
+        }; // ArgumentMode
+        
         /*! @brief An argument description.
          
          The external representation of an argument description is:
@@ -109,10 +120,10 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise. */
+             @param argMode The mode of the command-line argument. */
             BaseArgumentDescriptor(const YarpString & argName,
                                    const YarpString & argDescription,
-                                   const bool         isOptional);
+                                   const ArgumentMode argMode);
             
             /*! @brief The destructor. */
             virtual ~BaseArgumentDescriptor(void);
@@ -167,7 +178,7 @@ namespace MplusM
             inline bool isOptional(void)
             const
             {
-                return _isOptional;
+                return (_argMode & kArgModeOptional);
             } // isOptional
           
             /*! @brief Set the associated variable to the default value. */
@@ -234,8 +245,8 @@ namespace MplusM
             /*! @brief The name of the command-line argument. */
             YarpString _argName;
             
-            /*! @brief @c true if the argument is optional and @c false otherwise. */
-            bool _isOptional;
+            /*! @brief The mode of the command-line argument. */
+            ArgumentMode _argMode;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

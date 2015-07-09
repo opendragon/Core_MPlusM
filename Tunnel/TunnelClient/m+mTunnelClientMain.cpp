@@ -425,11 +425,12 @@ int main(int      argc,
     {
         int                                 listenPort;
         YarpString                          tag;
-        Utilities::PortArgumentDescriptor   firstArg("port", "The outgoing port", 12345, false,
-                                                     false, &listenPort);
+        Utilities::PortArgumentDescriptor   firstArg("port", "The outgoing port",
+                                                     Utilities::kArgModeRequired, 12345, false,
+                                                     &listenPort);
         Utilities::StringArgumentDescriptor secondArg("tag",
                                                       T_("Tag for the service to be connnected to"),
-                                                       "", true, &tag);
+                                                      Utilities::kArgModeOptional, "", &tag);
         Utilities::DescriptorVector         argumentList;
         OutputFlavour                       flavour; // ignored
         

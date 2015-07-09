@@ -84,7 +84,7 @@ namespace MplusM
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
              @param defaultValue The default value for the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise.
+             @param argMode The mode of the command-line argument.
              @param hasMinimumValue @c true if the value must be greater than or equal to a
              specified minimum and @c false otherwise.
              @param minimumValue The minimum value that is acceptable.
@@ -95,8 +95,8 @@ namespace MplusM
              value. */
             IntegerArgumentDescriptor(const YarpString & argName,
                                       const YarpString & argDescription,
+                                      const ArgumentMode argMode,
                                       const int          defaultValue,
-                                      const bool         isOptional,
                                       const bool         hasMinimumValue,
                                       const int          minimumValue,
                                       const bool         hasMaximumValue,

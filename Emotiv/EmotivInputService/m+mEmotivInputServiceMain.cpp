@@ -38,7 +38,7 @@
 
 #include "m+mEmotivInputService.h"
 
-#include <m+m/m+mChannelArgumentDescriptor.h>
+#include <m+m/m+mBaseArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mUtilities.h>
 

@@ -320,8 +320,8 @@ int main(int      argc,
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
     YarpString                           channelName;
-    Utilities::ChannelArgumentDescriptor firstArg("channel", "Channel name for the service", "",
-                                                  true, &channelName);
+    Utilities::ChannelArgumentDescriptor firstArg("channel", "Channel name for the service",
+                                                  Utilities::kArgModeOptional, "", &channelName);
     Utilities::DescriptorVector          argumentList;
     OutputFlavour                        flavour;
 

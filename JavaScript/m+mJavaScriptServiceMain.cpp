@@ -38,7 +38,6 @@
 
 #include "m+mJavaScriptService.h"
 
-#include <m+m/m+mChannelArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mExtraArgumentDescriptor.h>
 #include <m+m/m+mFilePathArgumentDescriptor.h>
@@ -2396,7 +2395,8 @@ int main(int      argc,
         YarpString                            tag;
         YarpStringVector                      arguments;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to script file to use"),
-                                                       "", "", false, false, false, &scriptPath);
+                                                       Utilities::kArgModeRequired, "", "", false,
+                                                       false, &scriptPath);
         Utilities::ExtraArgumentDescriptor    secondArg("scriptArgument",
                                                         T_("Additional script arguments"));
         Utilities::DescriptorVector           argumentList;

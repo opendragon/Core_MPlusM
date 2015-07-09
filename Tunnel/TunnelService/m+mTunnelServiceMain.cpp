@@ -217,9 +217,11 @@ int main(int      argc,
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("hostname",
                                                       T_("IP address to provide access to"),
-                                                      "127.0.0.1", false, &hostName);
+                                                      Utilities::kArgModeRequired, "127.0.0.1",
+                                                      &hostName);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to provide access to"),
-                                                       12345, false, false, &hostPort);
+                                                       Utilities::kArgModeRequired, 12345, false,
+                                                       &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

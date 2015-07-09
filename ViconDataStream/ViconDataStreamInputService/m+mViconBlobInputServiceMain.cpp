@@ -359,14 +359,17 @@ int main(int      argc,
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
-        Utilities::DoubleArgumentDescriptor  firstArg("scale", T_("Translation scale"), 1.0, true,
-                                                      true, 0.0, false, 0.0, &translationScale);
+        Utilities::DoubleArgumentDescriptor  firstArg("scale", T_("Translation scale"),
+                                                      Utilities::kArgModeOptional, 1, true, 0.0,
+                                                      false, 0.0, &translationScale);
         Utilities::AddressArgumentDescriptor secondArg("hostname",
                                                        T_("IP address for the device server"),
-                                                       "localhost", true, &hostName);
+                                                       Utilities::kArgModeOptional, "localhost",
+                                                       &hostName);
         Utilities::PortArgumentDescriptor    thirdArg("port", T_("Port for the device server"),
-			                                          VICONBLOBINPUT_DEFAULT_PORT_, true, true,
-													  &hostPort);
+			                                          Utilities::kArgModeOptional,
+                                                      VICONBLOBINPUT_DEFAULT_PORT_, true,
+                                                      &hostPort);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

@@ -227,7 +227,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     YarpString                           channelName;
     Utilities::ChannelArgumentDescriptor firstArg("channelName", "Channel name for the service",
-                                                  "", true, &channelName);
+                                                  Utilities::kArgModeOptional, "", &channelName);
     Utilities::DescriptorVector          argumentList;
     OutputFlavour                        flavour;
     

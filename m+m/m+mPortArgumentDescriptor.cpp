@@ -84,18 +84,18 @@ using namespace MplusM::Utilities;
 
 PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
                                                const YarpString & argDescription,
+                                               const ArgumentMode argMode,
                                                const int          defaultValue,
-                                               const bool         isOptional,
                                                const bool         isSystemPort,
                                                int *              argumentReference) :
-    inherited(argName, argDescription, defaultValue, isOptional, true,
+    inherited(argName, argDescription, argMode, defaultValue, true,
               isSystemPort ? 0 : MINIMUM_PORT_ALLOWED_, true, MAXIMUM_PORT_ALLOWED_,
               argumentReference), _isSystemPort(isSystemPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
     OD_LOG_LL1("defaultValue = ", defaultValue); //####
-    OD_LOG_B2("isOptional = ", isOptional, "isSystemPort = ", isSystemPort); //####
+    OD_LOG_B1("isSystemPort = ", isSystemPort); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // PortArgumentDescriptor::PortArgumentDescriptor
@@ -119,19 +119,19 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
 
     if (partitionString(inString, 3, inVector))
     {
-        bool       isOptional = false;
-        bool       okSoFar = true;
-        bool       isSystemPort = false;
-        int        defaultValue;
-        YarpString name(inVector[0]);
-        YarpString typeTag(inVector[1]);
-        YarpString portClass(inVector[2]);
-        YarpString defaultString(inVector[3]);
-        YarpString description(inVector[4]);
+        ArgumentMode argMode = kArgModeRequired;
+        bool         okSoFar = true;
+        bool         isSystemPort = false;
+        int          defaultValue;
+        YarpString   name(inVector[0]);
+        YarpString   typeTag(inVector[1]);
+        YarpString   portClass(inVector[2]);
+        YarpString   defaultString(inVector[3]);
+        YarpString   description(inVector[4]);
 
         if (typeTag == "p")
         {
-            isOptional = true;
+            argMode = kArgModeOptional;
         }
         else if (typeTag != "P")
         {
@@ -162,7 +162,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
         }
         if (okSoFar)
         {
-            result = new PortArgumentDescriptor(name, description, defaultValue, isOptional,
+            result = new PortArgumentDescriptor(name, description, argMode, defaultValue,
                                                 isSystemPort, nullptr);
         }
     }

@@ -314,11 +314,13 @@ int main(int      argc,
         YarpString                          outputMode;
         YarpString                          tag;
         Utilities::StringArgumentDescriptor firstArg("outputMode", T_("The mode of the output "
-                                                                        "['address', 'port' or "
-                                                                        "'both']"), "both", true,
+                                                                      "['address', 'port' or "
+                                                                      "'both']"),
+                                                     Utilities::kArgModeOptional, "both",
                                                      &outputMode);
         Utilities::StringArgumentDescriptor secondArg("tag", T_("The tag for the service to be "
-                                                                "connnected to"), "", true, &tag);
+                                                                "connnected to"),
+                                                      Utilities::kArgModeOptional, "", &tag);
         Utilities::DescriptorVector         argumentList;
         OutputFlavour                       flavour;
         

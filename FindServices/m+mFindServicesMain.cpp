@@ -292,7 +292,7 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     YarpString                          criteria;
     Utilities::StringArgumentDescriptor firstArg("criteria", T_("Matching criteria for service"),
-                                                 "", true, &criteria);
+                                                 Utilities::kArgModeOptional, "", &criteria);
     Utilities::DescriptorVector         argumentList;
     OutputFlavour                       flavour;
     

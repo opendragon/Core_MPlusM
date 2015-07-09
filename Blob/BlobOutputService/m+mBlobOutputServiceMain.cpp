@@ -38,7 +38,6 @@
 
 #include "m+mBlobOutputService.h"
 
-#include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mPortArgumentDescriptor.h>
 
@@ -344,8 +343,9 @@ int main(int      argc,
         YarpString                        serviceEndpointName;
         YarpString                        servicePortNumber;
         YarpString                        tag;
-        Utilities::PortArgumentDescriptor firstArg("port", T_("Port to use to connect"), 9876, true,
-                                                   false, &outPort);
+        Utilities::PortArgumentDescriptor firstArg("port", T_("Port to use to connect"),
+                                                   Utilities::kArgModeOptional, 9876, false,
+                                                   &outPort);
         Utilities::DescriptorVector       argumentList;
 
         argumentList.push_back(&firstArg);

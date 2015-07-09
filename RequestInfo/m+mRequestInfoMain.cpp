@@ -509,9 +509,9 @@ int main(int      argc,
     YarpString                           channelName;
     YarpString                           requestName;
     Utilities::ChannelArgumentDescriptor firstArg("channelName", "Channel name for the service",
-                                                  "*", true, &channelName);
-    Utilities::StringArgumentDescriptor  secondArg("requestName", "Request name", "*", true,
-                                                   &requestName);
+                                                  Utilities::kArgModeOptional, "*", &channelName);
+    Utilities::StringArgumentDescriptor  secondArg("requestName", "Request name",
+                                                   Utilities::kArgModeOptional, "*", &requestName);
     Utilities::DescriptorVector          argumentList;
     OutputFlavour                        flavour;
     YarpStringVector                     arguments;

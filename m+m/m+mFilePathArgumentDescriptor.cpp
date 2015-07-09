@@ -144,21 +144,20 @@ static bool checkFilePath(const char * thePath,
 
 FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argName,
                                                        const YarpString & argDescription,
+                                                       const ArgumentMode argMode,
                                                        const YarpString & pathPrefix,
                                                        const YarpString & pathSuffix,
-                                                       const bool         isOptional,
                                                        const bool         forOutput,
                                                        const bool         useRandomPath,
                                                        YarpString *       argumentReference) :
-    inherited(argName, argDescription, pathPrefix, isOptional, argumentReference),
+    inherited(argName, argDescription, argMode, pathPrefix, argumentReference),
     _pathPrefix(pathPrefix), _pathSuffix(pathSuffix), _defaultSet(false), _forOutput(forOutput),
     _useRandomPath(useRandomPath)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("argName = ", argName, "argDescription = ", argDescription, "pathPrefix = ", //####
                pathPrefix, "pathSuffix = ", pathSuffix); //####
-    OD_LOG_B3("isOptional = ", isOptional, "forOutput = ", forOutput, "useRandomPath = ", //####
-              useRandomPath); //####
+    OD_LOG_B2("forOutput = ", forOutput, "useRandomPath = ", useRandomPath); //####
     OD_LOG_P1("argumentReference = ", argumentReference); //####
     getDefaultValue();
     OD_LOG_EXIT_P(this); //####
@@ -222,21 +221,21 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
 
     if (partitionString(inString, 5, inVector))
     {
-        bool       forOutput = false;
-        bool       isOptional = false;
-        bool       okSoFar = true;
-        bool       usesRandom = false;
-        YarpString name(inVector[0]);
-        YarpString typeTag(inVector[1]);
-        YarpString direction(inVector[2]);
-        YarpString suffixValue(inVector[3]);
-        YarpString randomFlag(inVector[4]);
-        YarpString defaultString(inVector[5]);
-        YarpString description(inVector[6]);
+        ArgumentMode argMode = kArgModeRequired;
+        bool         forOutput = false;
+        bool         okSoFar = true;
+        bool         usesRandom = false;
+        YarpString   name(inVector[0]);
+        YarpString   typeTag(inVector[1]);
+        YarpString   direction(inVector[2]);
+        YarpString   suffixValue(inVector[3]);
+        YarpString   randomFlag(inVector[4]);
+        YarpString   defaultString(inVector[5]);
+        YarpString   description(inVector[6]);
 
         if (typeTag == "f")
         {
-            isOptional = true;
+            argMode = kArgModeOptional;
         }
         else if (typeTag != "F")
         {
@@ -273,12 +272,12 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
                 tempString += Utilities::GetRandomHexString();
             }
             tempString += suffixValue;
-            okSoFar = checkFilePath(tempString.c_str(), forOutput, ! isOptional);
+            okSoFar = checkFilePath(tempString.c_str(), forOutput, ! (argMode & kArgModeOptional));
         }
         if (okSoFar)
         {
-            result = new FilePathArgumentDescriptor(name, description, defaultString, suffixValue,
-                                                    isOptional, forOutput, usesRandom, nullptr);
+            result = new FilePathArgumentDescriptor(name, description, argMode, defaultString,
+                                                    suffixValue, forOutput, usesRandom, nullptr);
         }
     }
     OD_LOG_EXIT_P(result); //####

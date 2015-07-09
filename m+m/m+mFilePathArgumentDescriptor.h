@@ -83,6 +83,7 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
+             @param argMode The mode of the command-line argument.
              @param pathPrefix The prefix to the default value for the command-line argument.
              @param pathSuffix The suffix to the default value for the command-line argument.
              @param isOptional @c true if the argument is optional and @c false otherwise.
@@ -93,9 +94,9 @@ namespace MplusM
              value. */
             FilePathArgumentDescriptor(const YarpString & argName,
                                        const YarpString & argDescription,
+                                       const ArgumentMode argMode,
                                        const YarpString & pathPrefix,
                                        const YarpString & pathSuffix,
-                                       const bool         isOptional,
                                        const bool         forOutput = false,
                                        const bool         useRandomPath = false,
                                        YarpString *       argumentReference = nullptr);

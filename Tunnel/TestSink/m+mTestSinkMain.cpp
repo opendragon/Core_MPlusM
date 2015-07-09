@@ -106,9 +106,11 @@ int main(int      argc,
         YarpString                           hostName;
         struct in_addr                       addrBuff;
         Utilities::AddressArgumentDescriptor firstArg("hostname", T_("IP address to connect to"),
-                                                      "127.0.0.1", false, &hostName, &addrBuff);
-        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to connect to"), 12345,
-                                                       false, true, &hostPort);
+                                                      Utilities::kArgModeRequired, "127.0.0.1",
+                                                      &hostName, &addrBuff);
+        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to connect to"),
+                                                       Utilities::kArgModeRequired, 12345, true,
+                                                       &hostPort);
         Utilities::DescriptorVector          argumentList;
         OutputFlavour                        flavour; // ignored
 
