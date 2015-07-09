@@ -276,7 +276,7 @@ namespace MplusM
          descriptions. */
         void ArgumentsToDescriptionArray(const DescriptorVector & arguments,
                                          YarpStringVector &       output,
-                                         const size_t             minSpace);
+                                         const int                minSpace);
         
         /*! @brief Return the resulting argument values.
          @param arguments The argument sequence.

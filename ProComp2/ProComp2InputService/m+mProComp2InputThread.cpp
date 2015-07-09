@@ -45,6 +45,7 @@
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
+# pragma warning(disable: 4267)
 # pragma warning(disable: 4996)
 #endif // ! MAC_OR_LINUX_
 #define USING_WRAPPER_CLASS

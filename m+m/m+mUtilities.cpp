@@ -76,6 +76,7 @@
 #endif // defined(__APPLE__)
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
+# pragma warning(disable: 4267)
 # pragma warning(disable: 4996)
 #endif // ! MAC_OR_LINUX_
 #include <yarp/os/impl/BufferedConnectionWriter.h>
@@ -560,7 +561,7 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
  @param result The string to be added to. */
 static void convertMetricPropertyToString(yarp::os::Property & propList,
                                           const OutputFlavour  flavour,
-                                          const int            channelWidth,
+                                          const size_t         channelWidth,
                                           bool &               sawSome,
                                           std::stringstream &  result)
 {
@@ -1071,7 +1072,7 @@ YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
     OD_LOG_ENTER(); //####
     OD_LOG_P1("metrics = ", &metrics); //####
     bool                  sawSome = false;
-    int                   channelWidth = 0;
+    size_t                channelWidth = 0;
     std::stringstream     result;
     
     // First, calculate the tag width:
@@ -1095,7 +1096,7 @@ YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
                         
                         if (theChannel.isString())
                         {
-                            int ww = theChannel.toString().size();
+                            size_t ww = theChannel.toString().size();
                             
                             if (channelWidth < ww)
                             {
@@ -1123,7 +1124,7 @@ YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
                             
                             if (theChannel.isString())
                             {
-                                int ww = theChannel.toString().size();
+                                size_t ww = theChannel.toString().size();
                                 
                                 if (channelWidth < ww)
                                 {
@@ -2386,7 +2387,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
         Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
         usageString += " ";
         usageString += argList + "\n\n";
-        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
+        for (size_t ii = 0, mm = descriptions.size(); mm > ii; ++ii)
         {
             if (0 < ii)
             {
@@ -2533,7 +2534,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
         Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
         usageString += " ";
         usageString += argList + "\n\n";
-        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
+        for (size_t ii = 0, mm = descriptions.size(); mm > ii; ++ii)
         {
             if (0 < ii)
             {

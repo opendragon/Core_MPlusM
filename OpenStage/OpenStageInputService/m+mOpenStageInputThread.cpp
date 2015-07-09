@@ -179,7 +179,7 @@ bool OpenStageInputThread::threadInit(void)
     bool result = true;
     
 	// Create the necessary objects.
-#if 0
+//#if 0
 	_client = sdk2::CreateClient();
 
 	// Connect to the device.
@@ -187,7 +187,7 @@ bool OpenStageInputThread::threadInit(void)
 	_actorStream = sdk2::CreateActorStream(_client);
 	_actorViewJoint = sdk2::CreateActorViewJoint();
 	_actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
-#endif//0
+//#endif//0
 	OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // OpenStageInputThread::threadInit

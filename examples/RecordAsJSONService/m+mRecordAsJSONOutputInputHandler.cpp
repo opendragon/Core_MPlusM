@@ -92,7 +92,7 @@ static void processString(FILE *             outFile,
     OD_LOG_P2("outFile = ", outFile, "inputString = ", &inputString); //####
     
     fputc('"', outFile);
-    for (int ii = 0, mm = inputString.length(); mm > ii; ++ii)
+    for (size_t ii = 0, mm = inputString.length(); mm > ii; ++ii)
     {
         char aChar = inputString[ii];
         

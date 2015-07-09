@@ -704,7 +704,7 @@ static bool streamReadLineForJs(JSContext * jct,
                 if (inPtr)
                 {
                     JSString * thisChunk;
-                    int        len = strlen(inBuffer);
+                    size_t     len = strlen(inBuffer);
                     
                     if ('\n' == inBuffer[len - 1])
                     {
@@ -1081,7 +1081,7 @@ static bool addArgvObject(JSContext *              jct,
         if (JS_SetProperty(jct, global, "argv", argValue))
         {
             char *          endPtr;
-            int             argc = argv.size();
+            size_t          argc = argv.size();
             int32_t         tempInt;
             JS::RootedValue anElement(jct);
             JS::RootedId    aRootedId(jct);

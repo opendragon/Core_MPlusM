@@ -171,7 +171,7 @@ bool ArgumentsRequestHandler::processRequest(const YarpString &           reques
             yarp::os::Bottle         reply;
             const YarpStringVector & args = _service.getArguments();
             
-            for (int ii = 0, mm = args.size(); mm > ii; ++ii)
+            for (size_t ii = 0, mm = args.size(); mm > ii; ++ii)
             {
                 reply.addString(args[ii]);
             }

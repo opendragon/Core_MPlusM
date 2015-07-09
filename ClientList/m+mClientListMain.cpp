@@ -171,7 +171,7 @@ static void setUpAndGo(const YarpString &  channelName,
     }
     if (Utilities::GetServiceNamesFromCriteria(channelNameRequest, services))
     {
-        int matchesCount = services.size();
+        size_t matchesCount = services.size();
 
         if (0 < matchesCount)
         {

@@ -40,6 +40,10 @@
 # CPack requires CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
 
+if(WIN32)
+	set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
+endif(WIN32)
+
 project(m+m)
 
 set(MpM_VERSION_MAJOR 1)
@@ -221,7 +225,9 @@ endif(MpM_JAVASCRIPT)
 if(MpM_KINECTV2)
     add_subdirectory(KinectV2)
 endif(MpM_KINECTV2)
-add_subdirectory(LeapMotion)
+if(MpM_LEAPMOTION)
+	add_subdirectory(LeapMotion)
+endif(MpM_LEAPMOTION)
 add_subdirectory(m+m)
 if(MpM_NATNET)
 #    add_subdirectory(NatNet)

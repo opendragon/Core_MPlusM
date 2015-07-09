@@ -244,7 +244,7 @@ static void sendAndReceiveText(SOCKET              talkSocket,
 {
     OD_LOG_ENTER(); //####
     char         inBuffer[BUFFER_SIZE_];
-    int          inSize = inputLine.size();
+    int          inSize = static_cast<int>(inputLine.size());
     const char * inChars = inputLine.c_str();
 #if MAC_OR_LINUX_
     int          sendSize = std::min(inSize, BUFFER_SIZE_);
@@ -441,7 +441,7 @@ int main(int      argc,
                             if (getline(cin, inputLine))
                             {
                                 inChar = 0;
-                                for (int ii = 0, len = inputLine.size(); ii < len; ++ii)
+                                for (size_t ii = 0, len = inputLine.size(); ii < len; ++ii)
                                 {
                                     char aChar = inputLine[ii];
                                     

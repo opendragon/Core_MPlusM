@@ -92,7 +92,7 @@ static void processArguments(const YarpStringVector & arguments,
     OD_LOG_P2("arguments = ", &arguments, "namePattern = ", &namePattern); //####
     YarpString tag;
     
-    for (int ii = 0, argc = arguments.size(); argc > ii; ++ii)
+    for (size_t ii = 0, argc = arguments.size(); argc > ii; ++ii)
     {
         tag = arguments[ii];
     }

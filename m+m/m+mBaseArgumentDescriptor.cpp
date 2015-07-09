@@ -254,7 +254,7 @@ YarpString Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
     YarpString result;
     size_t     numOptional = 0;
     
-    for (int ii = 0, mm = arguments.size(); mm > ii; ++ii)
+    for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
@@ -282,19 +282,19 @@ YarpString Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
 
 void Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
                                             YarpStringVector &       output,
-                                            const size_t             minSpace)
+                                            const int                minSpace)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "output = ", &output); //####
     int nameSize = -1;
     
-    for (int ii = 0, mm = arguments.size(); mm > ii; ++ii)
+    for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
         if (anArg)
         {
-            int len = anArg->argumentName().length();
+            int len = static_cast<int>(anArg->argumentName().length());
             
             if (nameSize < len)
             {
@@ -305,14 +305,14 @@ void Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
     if (0 < nameSize)
     {
         nameSize += minSpace;
-        for (int ii = 0, mm = arguments.size(); mm > ii; ++ii)
+        for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
         {
             BaseArgumentDescriptor * anArg = arguments[ii];
             
             if (anArg)
             {
                 YarpString aLine(anArg->argumentName());
-                int        len = aLine.length();
+                size_t     len = aLine.length();
                 
                 aLine += YarpString(nameSize - len, ' ');
                 if (anArg->isOptional())
@@ -334,7 +334,7 @@ YarpString Utilities::CombineArguments(const DescriptorVector & arguments,
     OD_LOG_S1s("sep = ", sep); //####
     YarpString result;
     
-    for (int ii = 0, mm = arguments.size(); mm > ii; ++ii)
+    for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
@@ -432,7 +432,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     }
     // Check the arguments with matching descriptions, unless it is a placeholder for extra
     // arguments.
-    for (size_t ii = 0; result && (numToCheck > ii); ++ii)
+    for (int ii = 0; result && (numToCheck > ii); ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
@@ -473,7 +473,7 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
     OD_LOG_P1("arguments = ", &arguments); //####
     bool result = true;
 
-    for (int ii = 0, mm = arguments.size(); mm > ii; ++ii)
+    for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         Utilities::BaseArgumentDescriptor * anArg = arguments[ii];
         

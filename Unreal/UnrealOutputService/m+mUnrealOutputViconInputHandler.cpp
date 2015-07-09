@@ -364,8 +364,8 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                     {
                         outBuffer << "END" << LINE_END_;
                         std::string outString(outBuffer.str());    
-                        int         retVal = send(_outSocket, outString.c_str(), outString.length(),
-                                                  0);
+                        int         retVal = send(_outSocket, outString.c_str(),
+												  static_cast<int>(outString.length()), 0);
                         
 //                        cerr << "send--> " << retVal << endl; //!!!!
                         if (0 > retVal)

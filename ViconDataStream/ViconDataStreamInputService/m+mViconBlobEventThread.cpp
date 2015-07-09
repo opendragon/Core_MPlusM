@@ -279,7 +279,7 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
             yarp::os::Bottle message;
             std::string      buffAsString(outBuffer.str());
             yarp::os::Value  blobValue(const_cast<char *>(buffAsString.c_str()),
-                                       buffAsString.length());
+                                       static_cast<int>(buffAsString.length()));
 
             message.add(blobValue);
 #if defined(REPORT_EVENT_COUNT_)

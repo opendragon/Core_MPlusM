@@ -995,7 +995,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
         usageString += " ";
         usageString += argList + "\n\n";
-        for (int ii = 0, mm = descriptions.size(); mm > ii; ++ii)
+        for (size_t ii = 0, mm = descriptions.size(); mm > ii; ++ii)
         {
             if (0 < ii)
             {
@@ -1073,7 +1073,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionARGS])
     {
-        for (int ii = 0, mm = argumentDescriptions.size(); mm > ii; ++ii)
+        for (size_t ii = 0, mm = argumentDescriptions.size(); mm > ii; ++ii)
         {
             Utilities::BaseArgumentDescriptor * anArg = argumentDescriptions[ii];
 

@@ -39,6 +39,10 @@
 # YARP needs CMake 2.6 or greater
 cmake_minimum_required(VERSION 2.6)
 
+if(WIN32)
+	set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
+endif(WIN32)
+
 project(m+mUnreal)
 
 # Make some flags to control the build visible

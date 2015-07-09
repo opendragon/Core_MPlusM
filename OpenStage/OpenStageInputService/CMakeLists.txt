@@ -38,7 +38,22 @@
 
 set(THIS_TARGET m+mOpenStageInputService)
 
-set(OPENSTAGESDK_ROOT "C:/OM_SDK")
+get_filename_component(CUR_DIR ${CMAKE_CURRENT_LIST_FILE} PATH)
+
+set(OPENSTAGESDK_DIR "${CUR_DIR}/om_sdk")
+
+find_path(OPENSTAGESDK_INCLUDE_DIR om/sdk2/client.h HINTS "${OPENSTAGESDK_DIR}/include")
+
+find_library(OPENSTAGESDK_LIBRARY      omsdk2.lib HINTS "${OPENSTAGESDK_DIR}/lib")
+find_library(OPENSTAGESDK_UUID_LIBRARY omuuid.lib HINTS "${OPENSTAGESDK_DIR}/lib")
+
+set(OPENSTAGESDK_INCLUDE_DIRS "${OPENSTAGESDK_INCLUDE_DIR}")
+set(OPENSTAGESDK_LIBRARIES "${OPENSTAGESDK_LIBRARY}" "${OPENSTAGESDK_UUID_LIBRARY}")
+
+set(OPENSTAGESDK_BINARIES
+	"${OPENSTAGESDK_DIR}/bin/omsdk2.dll"
+	"${OPENSTAGESDK_DIR}/bin/libglog.dll"
+	"${OPENSTAGESDK_DIR}/bin/tbb.dll")
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -49,21 +64,7 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 include_directories(glm)
-
-if(WIN32)
-	include_directories(${OPENSTAGESDK_ROOT}/include)
-	add_library(OpenStageSDK1 SHARED IMPORTED)
-	set_property(TARGET OpenStageSDK1 PROPERTY IMPORTED_IMPLIB ${OPENSTAGESDK_ROOT}/lib/omsdk2.lib)
-	add_library(OpenStageSDK2 SHARED IMPORTED)
-	set_property(TARGET OpenStageSDK2 PROPERTY IMPORTED_IMPLIB ${OPENSTAGESDK_ROOT}/lib/omuuid.lib)
-#	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-#                       "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
-#                       $<TARGET_FILE_DIR:m+mProComp2InputService>)
-#    install(FILES "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll"
-#            DESTINATION bin
-#            COMPONENT applications)
-#	file(INSTALL ${OPENSTAGESDK_BINARIES} DESTINATION ${CMAKE_BINARY_DIR})
-endif(WIN32)
+include_directories("${OPENSTAGESDK_INCLUDE_DIRS}")
 
 # Set up our program
 add_executable(${THIS_TARGET}
@@ -76,12 +77,20 @@ add_executable(${THIS_TARGET}
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       m+mCommon
-                      OpenStageSDK1
-                      OpenStageSDK2
                       odLogging
+					  "${OPENSTAGESDK_LIBRARIES}"
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
                       ${BONJOUR_LIB})
+
+if(WIN32)
+    install(FILES
+			"${OPENSTAGESDK_DIR}/bin/omsdk2.dll"
+			"${OPENSTAGESDK_DIR}/bin/libglog.dll"
+			"${OPENSTAGESDK_DIR}/bin/tbb.dll"
+            DESTINATION bin
+            COMPONENT applications)
+endif(WIN32)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

@@ -310,7 +310,7 @@ bool JavaScriptInputHandler::handleInput(const yarp::os::Bottle &     input,
                 JS::RootedValue argValue(jct);
                 JS::Value       slotNumberValue;
 
-                slotNumberValue.setInt32(_slotNumber);
+                slotNumberValue.setInt32(static_cast<int32_t>(_slotNumber));
                 createValueFromBottle(jct, input, &argValue);
                 JS::AutoValueVector funcArgs(jct);
                 JS::RootedValue     funcResult(jct);
