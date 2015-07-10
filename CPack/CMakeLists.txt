@@ -83,7 +83,9 @@ if(WIN32)
     # set env variables for MpM_YARP_DIR and MpM_ACE_ROOT
     # so VS external, preconfigured projects can find them
 
-    set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers2")
+	# Note that we can't use ENV(ACE_ROOT) or ENV(YARP_DIR),
+	# as they contain backslashes when building for Windows!
+    set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers")
     set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp_MPlusM")
 
     #ACE HEADERS
@@ -96,9 +98,17 @@ if(WIN32)
             "${MpM_ACE_ROOT}/lib/ACE.dll"
             DESTINATION bin
             COMPONENT libraries)
+    install(FILES
+            "${MpM_ACE_ROOT}/lib/ACEd.dll"
+            DESTINATION bin
+            COMPONENT libraries)
     #ACE LIB
     install(FILES
             "${MpM_ACE_ROOT}/lib/ACE.lib"
+            DESTINATION lib
+            COMPONENT libraries)
+    install(FILES
+            "${MpM_ACE_ROOT}/lib/ACEd.lib"
             DESTINATION lib
             COMPONENT libraries)
 
@@ -164,10 +174,10 @@ if(WIN32)
 			COMPONENT libraries)
 
 	#OTHER EXES
-    install(FILES
-            "${MpM_SOURCE_DIR}/../Utilities_mm_manager/Builds/VisualStudio2013/Release/m+m manager.exe"
-            DESTINATION bin
-            COMPONENT applications)
+	install(FILES
+			"${MpM_SOURCE_DIR}/../Utilities_mm_manager/Builds/VisualStudio2015/x64/Release/m+m manager.exe"
+			DESTINATION bin
+			COMPONENT applications)
 
     #Source archives
     install(FILES

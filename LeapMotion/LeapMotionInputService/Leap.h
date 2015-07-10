@@ -1,5 +1,5 @@
 /******************************************************************************\
-* Copyright (C) 2012-2014 Leap Motion, Inc. All rights reserved.               *
+* Copyright (C) 2012-2015 Leap Motion, Inc. All rights reserved.               *
 * Leap Motion proprietary and confidential. Not for distribution.              *
 * Use subject to the terms of the Leap Motion SDK Agreement available at       *
 * https://developer.leapmotion.com/sdk_agreement, or another agreement         *
@@ -78,8 +78,11 @@ namespace Leap {
   class DeviceImplementation;
   class ImageImplementation;
   class InteractionBoxImplementation;
+  class BugReportImplementation;
   class FrameImplementation;
   class ControllerImplementation;
+  class MaskImplementation;
+  class TrackedQuadImplementation;
   template<typename T> class ListBaseImplementation;
 
   // Forward declarations
@@ -88,6 +91,8 @@ namespace Leap {
   class ToolList;
   class HandList;
   class GestureList;
+  class ImageList;
+  class MaskList;
   class Hand;
   class Gesture;
   class Screen;
@@ -331,9 +336,11 @@ namespace Leap {
      *
      * The possible states are present in the Zone enum of this class:
      *
-     * * Zone.NONE -- The Pointable is outside the hovering zone.
-     * * Zone.HOVERING -- The Pointable is close to, but not touching the touch plane.
-     * * Zone.TOUCHING -- The Pointable has penetrated the touch plane.
+     * **Zone.NONE** -- The Pointable is outside the hovering zone.
+     *
+     * **Zone.HOVERING** -- The Pointable is close to, but not touching the touch plane.
+     *
+     * **Zone.TOUCHING** -- The Pointable has penetrated the touch plane.
      *
      * The touchDistance value provides a normalized indication of the distance to
      * the touch plane when the Pointable is in the hovering or touching zones.
@@ -499,12 +506,14 @@ namespace Leap {
      *
      * Basis vectors specify the orientation of a bone.
      *
-     * * xBasis. Perpendicular to the longitudinal axis of the
+     * **xBasis** Perpendicular to the longitudinal axis of the
      *   bone; exits the arm laterally through the sides of the wrist.
-     * * yBasis or up vector. Perpendicular to the longitudinal
+     *
+     * **yBasis or up vector** Perpendicular to the longitudinal
      *   axis of the bone; exits the top and bottom of the arm. More positive
      *   in the upward direction.
-     * * zBasis. Aligned with the longitudinal axis of the arm bone.
+     *
+     * **zBasis** Aligned with the longitudinal axis of the arm bone.
      *   More positive toward the wrist.
      *
      * \include Arm_basis.txt
@@ -660,7 +669,7 @@ namespace Leap {
      * @since 2.0
      */
     enum Type {
-      TYPE_METACARPAL = 0,           /**< Bone connected to the wrist inside the palm */
+      TYPE_METACARPAL = 0,   /**< Bone connected to the wrist inside the palm */
       TYPE_PROXIMAL = 1,     /**< Bone connecting to the palm */
       TYPE_INTERMEDIATE = 2, /**< Bone between the tip and the base*/
       TYPE_DISTAL = 3,       /**< Bone at the tip of the finger */
@@ -760,12 +769,14 @@ namespace Leap {
      *
      * Basis vectors specify the orientation of a bone.
      *
-     * * xBasis. Perpendicular to the longitudinal axis of the
+     * **xBasis** Perpendicular to the longitudinal axis of the
      *   bone; exits the sides of the finger.
-     * * yBasis or up vector. Perpendicular to the longitudinal
+     *
+     * **yBasis or up vector** Perpendicular to the longitudinal
      *   axis of the bone; exits the top and bottom of the finger. More positive
      *   in the upward direction.
-     * * zBasis. Aligned with the longitudinal axis of the bone.
+     *
+     * **zBasis** Aligned with the longitudinal axis of the bone.
      *   More positive toward the base of the finger.
      *
      * The bases provided for the right hand use the right-hand rule; those for
@@ -1151,7 +1162,7 @@ namespace Leap {
      *
      * \include Hand_Get_Pointable_ByID.txt
      *
-     * Note that the ID values assigned to fingers are based on the hand ID. 
+     * Note that the ID values assigned to fingers are based on the hand ID.
      * Hand IDs persist across frames, but only until
      * tracking of that hand is lost. If tracking of the hand is lost and subsequently
      * regained, the new Hand object and its child Finger objects will have a
@@ -1331,9 +1342,11 @@ namespace Leap {
      *
      * The basis is defined as follows:
      *
-     * * xAxis: Positive in the direction of the pinky
-     * * yAxis: Positive above the hand
-     * * zAxis: Positive in the direction of the wrist
+     * **xAxis** Positive in the direction of the pinky
+     *
+     * **yAxis** Positive above the hand
+     *
+     * **zAxis** Positive in the direction of the wrist
      *
      * Note: Since the left hand is a mirror of the right hand, the
      * basis matrix will be left-handed for left hands.
@@ -1365,7 +1378,6 @@ namespace Leap {
      * @since 2.0.3
      */
     LEAP_EXPORT Vector wristPosition() const;
-
 
     /**
      * The center of a sphere fit to the curvature of this hand.
@@ -1747,12 +1759,15 @@ namespace Leap {
    * Subclasses of Gesture define the properties for the specific movement patterns
    * recognized by the Leap Motion software.
    *
-   * The Gesture subclasses for include:
+   * The Gesture subclasses include:
    *
-   * * CircleGesture -- A circular movement by a finger.
-   * * SwipeGesture -- A straight line movement by the hand with fingers extended.
-   * * ScreenTapGesture -- A forward tapping movement by a finger.
-   * * KeyTapGesture -- A downward tapping movement by a finger.
+   * **CircleGesture** -- A circular movement by a finger.
+   *
+   * **SwipeGesture** -- A straight line movement by the hand with fingers extended.
+   *
+   * **ScreenTapGesture** -- A forward tapping movement by a finger.
+   *
+   * **KeyTapGesture** -- A downward tapping movement by a finger.
    *
    * Circle and swipe gestures are continuous and these objects can have a
    * state of start, update, and stop.
@@ -2069,7 +2084,7 @@ namespace Leap {
    *
    * \image html images/Leap_Gesture_Swipe.png
    *
-   * SwipeGesture objects are generated for each visible finger or tool. 
+   * SwipeGesture objects are generated for each visible finger or tool.
    * Swipe gestures are continuous; a gesture object with the same
    * ID value will appear in each frame while the gesture continues.
    *
@@ -2203,10 +2218,12 @@ namespace Leap {
    * Circle gestures are continuous. The CircleGesture objects for the gesture have
    * three possible states:
    *
-   * * State::STATE_START -- The circle gesture has just started. The movement has
+   * **State::STATE_START** -- The circle gesture has just started. The movement has
    *   progressed far enough for the recognizer to classify it as a circle.
-   * * State::STATE_UPDATE -- The circle gesture is continuing.
-   * * State::STATE_STOP -- The circle gesture is finished.
+   *
+   * **State::STATE_UPDATE** -- The circle gesture is continuing.
+   *
+   * **State::STATE_STOP** -- The circle gesture is finished.
    *
    * You can set the minimum radius and minimum arc length required for a movement
    * to be recognized as a circle using the config attribute of a connected
@@ -2618,7 +2635,6 @@ namespace Leap {
   /**
    * The Device class represents a physically connected device.
    *
-   * REVIEW NEEDED
    * The Device class contains information related to a particular connected
    * device such as device id, field of view relative to the device,
    * and the position and orientation of the device in relative coordinates.
@@ -2646,6 +2662,10 @@ namespace Leap {
      * @since 1.2
      */
       TYPE_PERIPHERAL = 1,
+    /**
+     * A controller embedded in a keyboard.
+     * @since 1.2
+     */
       TYPE_LAPTOP,
     /**
      * A controller embedded in a laptop computer.
@@ -2718,6 +2738,17 @@ namespace Leap {
     LEAP_EXPORT float range() const;
 
     /**
+     * The distance between the center points of the stereo sensors.
+     *
+     * The baseline value, together with the maximum resolution, influence the
+     * maximum range.
+     *
+     * @returns The separation distance between the center of each sensor, in mm.
+     * @since 2.2.5
+     */
+    LEAP_EXPORT float baseline() const;
+
+    /**
      * The distance to the nearest edge of the Leap Motion controller's view volume.
      *
      * The view volume is an axis-aligned, inverted pyramid centered on the device origin
@@ -2754,17 +2785,10 @@ namespace Leap {
 
     // primarily for the image API
     /**
-     *  Reports whether the coordinate axes have been reversed.
+     * Deprecated. Always reports false.
      *
-     * The Leap Motion controller can automatically flip the coordinate axes so
-     * that the z-axis is positive toward the user and the x-axis is more positive
-     * from left to right. The user can also manually flip the axes in the Leap
-     * Motion control panel.
-     *  
-     * Images from the camera are not flipped, however.
-     *
-     * @return True, if the axes are flipped, that is, if the positive z-axis
-     * extends from the long side of the device that does not have the green LED.
+     * @since 2.1
+     * @deprecated 2.1.1
      */
     LEAP_EXPORT bool isFlipped() const;
 
@@ -2780,6 +2804,54 @@ namespace Leap {
      * @since 1.2
      */
     LEAP_EXPORT Type type() const;
+
+    /**
+     * An alphanumeric serial number unique to each device.
+     *
+     * Consumer device serial numbers consist of 2 letters followed by 11 digits.
+     *
+     * When using multiple devices, the serial number provides an unambiguous
+     * identifier for each device.
+     * @since 2.2.2
+     */
+    std::string serialNumber() const {
+      const char* cstr = serialNumberCString();
+      std::string str(cstr);
+      deleteCString(cstr);
+      return str;
+    }
+
+    /*
+     * This API is experimental and not currently intended for external use.
+     * Position and orientation can only be manually configured via a config file.
+     * This API and the config file may change in the future or be removed entirely.
+     *
+     * The position of the center of the device in global coordinates (currently defined
+     * in the configuration file).
+     * @since 2.2.2
+     */
+    LEAP_EXPORT Vector position() const;
+
+    /*
+     * This API is experimental and not currently intended for external use.
+     * Position and orientation can only be manually configured via a config file.
+     * This API and the config file may change in the future or be removed entirely.
+     *
+     * The orientation of the device is described by a right-handed basis:
+     * xBasis : Unit vector along baseline axis between camera centers
+     * yBasis : Unit vector in the direction of the center of view of both cameras
+     * zBasis : The completion of the right-handed basis (perpendicular to the
+     *          x and y vectors)
+     *
+     * In the case of a peripheral device, the z-basis vector points
+     * out from the green-status-LED side of the device. When multiple-device
+     * tracking is enabled, automatic coordinate system orientation is disabled.
+     *
+     * \image html images/Leap_Axes.png
+     *
+     * @since 2.2.2
+    */
+    LEAP_EXPORT Matrix orientation() const;
 
     /**
      * Reports whether this is a valid Device object.
@@ -2851,18 +2923,19 @@ namespace Leap {
 
   private:
     LEAP_EXPORT const char* toCString() const;
+    LEAP_EXPORT const char* serialNumberCString() const;
   };
 
   /**
-   * The Image class represents a single greyscale image from one of the the Leap Motion cameras.
+   * The Image class represents a single image from one of the Leap Motion cameras.
    *
    * In addition to image data, the Image object provides a distortion map for correcting
-   * lens distortion. 
+   * lens distortion.
    *
    * \include Image_raw.txt
    *
    * Note that Image objects can be invalid, which means that they do not contain
-   * valid image data. Get valid Image objects from Frame::frames(). Test for 
+   * valid image data. Get valid Image objects from Frame::frames(). Test for
    * validity with the Image::isValid() function.
    * @since 2.1.0
    */
@@ -2885,35 +2958,47 @@ namespace Leap {
     LEAP_EXPORT Image();
 
     /**
+     * The image sequence ID.
+     *
+     * \include Image_sequenceId.txt
+     *
+     * @since 2.2.1
+     */
+    LEAP_EXPORT int64_t sequenceId() const;
+
+    /**
      * The image ID.
      *
-     * Images with ID of 0 are from the left camera; those with an ID of 1 are from the 
+     * Images with ID of 0 are from the left camera; those with an ID of 1 are from the
      * right camera (with the device in its standard operating position with the
      * green LED facing the operator).
      *
      * @since 2.1.0
      */
     LEAP_EXPORT int32_t id() const;
+
     /**
      * The image data.
-     * 
-     * The image data is a set of 8-bit intensity values. The buffer is 
-     * ``Image::width() * Image::height()`` bytes long.
+     *
+     * The image data is a set of 8-bit intensity values. The buffer is
+     * ``Image::width() * Image::height() * Image::bytesPerPixel()`` bytes long.
      *
      * \include Image_data_1.txt
      *
+     * @return The array of unsigned char containing the sensor brightness values.
      * @since 2.1.0
      */
     LEAP_EXPORT const unsigned char* data() const;
+
     /**
      * The distortion calibration map for this image.
      *
      * The calibration map is a 64x64 grid of points. Each point is defined by
      * a pair of 32-bit floating point values. Each point in the map
      * represents a ray projected into the camera. The value of
-     * a grid point defines the pixel in the image data containing the brightness 
-     * value produced by the light entering along the corresponding ray. By 
-     * interpolating between grid data points, you can find the brightness value 
+     * a grid point defines the pixel in the image data containing the brightness
+     * value produced by the light entering along the corresponding ray. By
+     * interpolating between grid data points, you can find the brightness value
      * for any projected ray. Grid values that fall outside the range [0..1] do
      * not correspond to a value in the image data and those points should be ignored.
      *
@@ -2922,20 +3007,27 @@ namespace Leap {
      * The calibration map can be used to render an undistorted image as well as to
      * find the true angle from the camera to a feature in the raw image. The
      * distortion map itself is designed to be used with GLSL shader programs.
-     * In other contexts, it may be more convenient to use the Image::rectify()
+     * In non-realtime contexts, it may be more convenient to use the Image::rectify()
      * and Image::warp() functions.
+     *
+     * If using shaders is not possible, you can use the distortion map directly.
+     * This can be faster than using the ``warp()`` function, if carefully optimized:
+     *
+     * \include Image_distortion_using.txt
      *
      * Distortion is caused by the lens geometry as well as imperfections in the
      * lens and sensor window. The calibration map is created by the calibration
      * process run for each device at the factory (and which can be rerun by the
      * user).
-     * 
      *
-     * Note, in a future release, there will be two distortion maps per image;
+     * Note, in a future release, there may be two distortion maps per image;
      * one containing the horizontal values and the other containing the vertical values.
+     *
+     * @returns The float array containing the camera lens distortion map.
      * @since 2.1.0
      */
     LEAP_EXPORT const float* distortion() const;
+
     /*
      * Do not call this version of data(). It is intended only as a helper for C#,
      * Java, and other languages. Use the primary version of data() which returns a
@@ -2945,8 +3037,9 @@ namespace Leap {
      */
     void data(unsigned char* dst) const {
       const unsigned char* src = data();
-      memcpy(dst, src, width() * height() * sizeof(unsigned char));
+      memcpy(dst, src, width() * height() * bytesPerPixel() * sizeof(unsigned char));
     }
+
     /*
      * Do not call this version of distortion(). It is intended only as a helper for C#,
      * Java, and other languages. Use the primary version of distortion() which returns
@@ -2958,6 +3051,23 @@ namespace Leap {
       const float* src = distortion();
       memcpy(dst, src, distortionWidth() * distortionHeight() * sizeof(float));
     }
+
+    /* Do not call dataPointer(). It is intended only as a helper for C#.
+     *
+     * @since 2.2.7
+     */
+    void* dataPointer() const {
+      return (void*) data();
+    }
+
+    /* Do not call distortionPointer(). It is intended only as a helper for C#.
+     *
+     * @since 2.2.7
+     */
+    void* distortionPointer() const {
+      return (void*) distortion();
+    }
+
     /**
      * The image width.
      *
@@ -2966,6 +3076,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT int width() const;
+
     /**
      * The image height.
      *
@@ -2974,6 +3085,38 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT int height() const;
+
+    /**
+     * The number of bytes per pixel.
+     *
+     * Use this value along with ``Image::width()`` and ``Image:::height()``
+     * to calculate the size of the data buffer.
+     *
+     * \include Image_bytesPerPixel.txt
+     *
+     * @since 2.2.0
+     */
+    LEAP_EXPORT int bytesPerPixel() const;
+
+    /**
+     * Enumerates the possible image formats.
+     *
+     * The Image::format() function returns an item from the FormatType enumeration.
+     * @since 2.2.0
+     */
+    enum FormatType {
+      INFRARED = 0
+    };
+
+    /**
+     * The image format.
+     *
+     * \include Image_format.txt
+     *
+     * @since 2.2.0
+     */
+    LEAP_EXPORT FormatType format() const;
+
     /**
      * The stride of the distortion map.
      *
@@ -2986,6 +3129,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT int distortionWidth() const;
+
     /**
      * The distortion map height.
      *
@@ -2996,6 +3140,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT int distortionHeight() const;
+
     /**
      * The horizontal ray offset.
      *
@@ -3007,6 +3152,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT float rayOffsetX() const;
+
     /**
      * The vertical ray offset.
      *
@@ -3018,6 +3164,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT float rayOffsetY() const;
+
     /**
      * The horizontal ray scale factor.
      *
@@ -3029,6 +3176,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT float rayScaleX() const;
+
     /**
      * The vertical ray scale factor.
      *
@@ -3040,6 +3188,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT float rayScaleY() const;
+
     /**
      * Provides the corrected camera ray intercepting the specified point on the image.
      *
@@ -3048,7 +3197,7 @@ namespace Leap {
      * within the Leap Motion field of view.
      *
      * This direction vector has an x and y component [x, y, 0], with the third element
-     * always zero. Note that this vector uses the 2D camera coordinate system 
+     * always zero. Note that this vector uses the 2D camera coordinate system
      * where the x-axis parallels the longer (typically horizontal) dimension and
      * the y-axis parallels the shorter (vertical) dimension. The camera coordinate
      * system does not correlate to the 3D Leap Motion coordinate system.
@@ -3060,6 +3209,7 @@ namespace Leap {
      * @since 2.1.0
      */
     LEAP_EXPORT Vector rectify(const Vector& uv) const; // returns a vector (x, y, 0). The z-component is ignored
+
     /**
      * Provides the point in the image corresponding to a ray projecting
      * from the camera.
@@ -3068,11 +3218,17 @@ namespace Leap {
      * corrects for camera distortion and returns the corresponding pixel
      * coordinates in the image.
      *
-     * The ray direction is specified in relationship to the camera. The first 
+     * The ray direction is specified in relationship to the camera. The first
      * vector element corresponds to the "horizontal" view angle; the second
-     * corresponds to the "vertical" view angle. 
+     * corresponds to the "vertical" view angle.
      *
      * \include Image_warp_1.txt
+     *
+     * The ``warp()`` function returns pixel coordinates outside of the image bounds
+     * if you project a ray toward a point for which there is no recorded data.
+     *
+     * ``warp()`` is typically not fast enough for realtime distortion correction.
+     * For better performance, use a shader program exectued on a GPU.
      *
      * @param xy A Vector containing the ray direction.
      * @returns A Vector containing the pixel coordinates [x, y, 0] (with z always zero).
@@ -3080,6 +3236,13 @@ namespace Leap {
      */
     LEAP_EXPORT Vector warp(const Vector& xy) const; // returns vector (u, v, 0). The z-component is ignored
 
+    /**
+     * Returns a timestamp indicating when this frame began being captured on the device.
+     * 
+     * @since 2.2.7
+     */
+    LEAP_EXPORT int64_t timestamp() const;
+   
     /**
      * Reports whether this Image instance contains valid data.
      *
@@ -3094,7 +3257,6 @@ namespace Leap {
      * You can use the instance returned by this function in comparisons testing
      * whether a given Image instance is valid or invalid. (You can also use the
      * Image::isValid() function.)
-     *
      *
      * @returns The invalid Image instance.
      * @since 2.1.0
@@ -3144,15 +3306,147 @@ namespace Leap {
     LEAP_EXPORT const char* toCString() const;
   };
 
+  /**
+  * Note: This class is an experimental API for internal use only. It may be
+  * removed without warning.
+  *
+  * A bitmap mask defining areas of an image in which a finger or part of a hand
+  * is in front of the tracked quad. The mask is a subset of the camera image
+  * containing a the region including the quad. Pixels in the mask representing
+  * the hand have the value 255. Pixels in the rest of the mask have the value 0.
+  *
+  * Two masks are provided for every Leap Motion frame. The mask with the id of
+  * 0 is for the left image. The right image has id 1.
+  *
+  * The mask corresponds to the uncorrected image from the camera sensor. If you
+  * correct the image for distortion before displaying it, you should also correct
+  * the mask.
+  *
+  * @since 2.2.6
+  */
+  class Mask : public Interface {
+  public:
+
+    // For internal use only.
+    Mask(MaskImplementation*);
+
+    /**
+    * Constructs a new Mask object. Do not use. Get Mask objects from TrackedQuad.
+    * \include Mask_constructor_controller.txt
+    * \include Mask_constructor_frame.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT Mask();
+
+    /**
+    * An id value based on the sequence in which the mask is produced. Corresponds
+    * to the Image sequence id.
+    * \include Mask_sequenceId.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int64_t sequenceId() const;
+
+    /**
+    * An id indicating whether the mask goes with the left (0) or right (1) image.
+    * \include Mask_id.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int32_t id() const;
+
+    /**
+    * The pixels of the mask.
+    *
+    * Pixels with the value of 255 represent areas of the image where a finger
+    * or part of a hand is in front of the quad. The rest of the mask has the
+    * value 0.
+    * \include Mask_data.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT const unsigned char* data() const;
+
+    void data(unsigned char* dst) const {
+      const unsigned char* src = data();
+      memcpy(dst, src, width() * height() * sizeof(unsigned char));
+    }
+
+    void* dataPointer() const {
+      return (void*) data();
+    }
+
+    /**
+    * The width of the mask in Image pixels.
+    * \include Mask_width.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int width() const;
+
+    /**
+    * The height of the mask in Image pixels.
+    * \include Mask_height.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int height() const;
+
+    /**
+    * The offset of the mask from the left edge of the Image in pixels.
+    * \include Mask_offsetX.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int offsetX() const;
+
+    /**
+    * The offset of the mask from the top edge of the Image in pixels.
+    * \include Mask_offsetY.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int offsetY() const;
+
+    /**
+    * Reports whether this is a valid Mask object.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool isValid() const;
+
+    /** An invalid Mask object.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT static const Mask& invalid();
+
+    /** Compares two Mask objects for equality.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool operator==(const Mask&) const;
+
+    /** Compares two Mask objects for inequality.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool operator!=(const Mask&) const;
+
+    /** Writes a brief, human readable description of the Mask object.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT friend std::ostream& operator<<(std::ostream&, const Mask&);
+
+    std::string toString() const {
+      const char* cstr = toCString();
+      std::string str(cstr);
+      deleteCString(cstr);
+      return str;
+    }
+
+  private:
+    LEAP_EXPORT const char* toCString() const;
+  };
 
   // For internal use only.
   template<typename L, typename T>
   class ConstListIterator {
   public:
-    ConstListIterator<L,T>(const L& list, int index) : m_list(list), m_index(index) {}
+    ConstListIterator<L,T>() : m_list(0), m_index(-1) {}
+    ConstListIterator<L,T>(const L& list, int index) : m_list(&list), m_index(index) {}
 
-    const T operator*() const { return m_list[m_index]; }
-    void operator++(int) {++m_index;}
+    const T operator*() const { return (*m_list)[m_index]; }
+    const ConstListIterator<L,T> operator++(int) { ConstListIterator<L,T> ip(*this); ++m_index; return ip; }
     const ConstListIterator<L,T>& operator++() { ++m_index; return *this; }
     bool operator!=(const ConstListIterator<L,T>& rhs) const { return m_index != rhs.m_index; }
     bool operator==(const ConstListIterator<L,T>& rhs) const { return m_index == rhs.m_index; }
@@ -3164,7 +3458,7 @@ namespace Leap {
     typedef std::forward_iterator_tag iterator_category;
 
   private:
-    const L& m_list;
+    const L* m_list;
     int m_index;
   };
 
@@ -3286,7 +3580,7 @@ namespace Leap {
      * @returns The list of tools and extended fingers from the current list.
      * @since 2.0
      */
-    LEAP_EXPORT PointableList& extended();
+    LEAP_EXPORT PointableList extended() const;
 
     /**
      * A C++ iterator type for PointableList objects.
@@ -3417,7 +3711,7 @@ namespace Leap {
      * @returns The list of extended fingers from the current list.
      * @since 2.0
      */
-    LEAP_EXPORT FingerList& extended();
+    LEAP_EXPORT FingerList extended() const;
 
     /**
      * Returns a list containing fingers from the current list of a given finger type by
@@ -3428,7 +3722,7 @@ namespace Leap {
     * @returns The list of matching fingers from the current list.
      * @since 2.0
      */
-    LEAP_EXPORT FingerList& fingerType(Finger::Type type);
+    LEAP_EXPORT FingerList fingerType(Finger::Type type) const;
 
     /**
      * A C++ iterator type for FingerList objects.
@@ -3883,8 +4177,12 @@ namespace Leap {
   /**
    * The ImageList class represents a list of Image objects.
    *
-   * Get a ImageList object by calling Controller::devices().
-   * @since 1.0
+   * Get the ImageList object associated with the a Frame of tracking data
+   * by calling Frame::images(). Get the most recent set of images, which can be
+   * newer than the images used to create the current frame, by calling
+   * Controller::images().
+   *
+   * @since 2.1.0
    */
   class ImageList : public Interface {
   public:
@@ -3947,6 +4245,207 @@ namespace Leap {
      * The C++ iterator set to the end of this ImageList.
      * @since 2.1.0
      */
+    LEAP_EXPORT const_iterator end() const;
+  };
+
+  /**
+  * Note: This class is an experimental API for internal use only. It may be
+  * removed without warning.
+  *
+  * Represents a quad-like object tracked by the Leap Motion sensors.
+  *
+  * Only one quad can be tracked. Once a supported quad is tracked, the state
+  * of that quad will be updated for each frame of Leap Motion tracking data.
+  *
+  * A TrackedQuad object represents the state of the quad at one moment in time.
+  * Get a new object from subsequent frames to get the latest state information.
+  * @since 2.2.6
+  */
+  class TrackedQuad : public Interface {
+  public:
+
+    // For internal use only.
+    TrackedQuad(TrackedQuadImplementation*);
+
+    /**
+    * Constructs a new TrackedQuad object. Do not use. Get valid TrackedQuads
+    * from a Controller or Frame object.
+    * \include TrackedQuad_constructor_controller.txt
+    * \include TrackedQuad_constructor_frame.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT TrackedQuad();
+
+    /**
+    * The physical width of the quad display area in millimeters.
+    * \include TrackedQuad_width.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT float width() const;
+
+    /**
+    * The physical height of the quad display area in millimeters.
+    * \include TrackedQuad_height.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT float height() const;
+
+    /**
+    * The horizontal resolution of the quad display area in pixels.
+    * This value is set in a configuration file. It is not determined dynamically.
+    * \include TrackedQuad_resolutionX.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int resolutionX() const;
+
+    /**
+    * The vertical resolution of the quad display area in pixels.
+    * This value is set in a configuration file. It is not determined dynamically.
+    * \include TrackedQuad_resolutionY.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int resolutionY() const;
+
+    /**
+    * Reports whether the quad is currently detected within the Leap Motion
+    * field of view.
+    * \include TrackedQuad_visible.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool visible() const;
+
+    /**
+    * The orientation of the quad within the Leap Motion frame of reference.
+    * \include TrackedQuad_orientation.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT Matrix orientation() const;
+
+    /**
+    * The position of the center of the quad display area within the Leap
+    * Motion frame of reference. In millimeters.
+    * \include TrackedQuad_position.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT Vector position() const;
+
+    /**
+    * The list of masks for the current set of images. A mask is a bitmap
+    * indicating which pixels in the image contain fingers or part of the hand
+    * in front of the quad.
+    *
+    * The mask at index 0 corresponds to the left image; that with index 1, to
+    * the right image.
+    * \include TrackedQuad_masks.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT MaskList masks() const;
+
+    /**
+    * The images from which the state of this TrackedQuad was derived.
+    * These are the same image objects that you can get from the Controller
+    * or Frame object from which you got this TrackedQuad.
+    * \include TrackedQuad_images.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT ImageList images() const;
+
+    /**
+    * Reports whether this is a valid object.
+    * \include TrackedQuad_isValid.txt
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool isValid() const;
+
+    /**
+    * An invalid object.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT static const TrackedQuad& invalid();
+
+    /**
+    * Compares quad objects for equality.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool operator==(const TrackedQuad&) const;
+
+    /**
+    * Compares quad objects for inequality.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool operator!=(const TrackedQuad&) const;
+
+    /**
+    * Provides a brief, human-readable description of this quad.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT friend std::ostream& operator<<(std::ostream&, const TrackedQuad&);
+
+    std::string toString() const {
+      const char* cstr = toCString();
+      std::string str(cstr);
+      deleteCString(cstr);
+      return str;
+    }
+
+  private:
+    LEAP_EXPORT const char* toCString() const;
+  };
+
+  /**
+  * Note: This class is an experimental API for internal use only. It may be
+  * removed without warning.
+  *
+  * A list containing Mask objects.
+  * @since 2.2.6
+  */
+  class MaskList : public Interface {
+  public:
+    // For internal use only.
+    MaskList(const ListBaseImplementation<Mask>&);
+
+    /**
+    * Constructs an empty list for Mask objects.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT MaskList();
+
+    /**
+    * The number of masks in this list.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT int count() const;
+
+    /**
+    * Reports whether this list is empty.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT bool isEmpty() const;
+
+    /**
+    * The MaskList supports array indexing.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT Mask operator[](int index) const;
+
+    /**
+    * Appends the contents of another list of masks to this one.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT MaskList& append(const MaskList& other);
+
+    typedef ConstListIterator<MaskList, Mask> const_iterator;
+
+    /**
+    * A list iterator set to the beginning of the list.
+    * @since 2.2.6
+    */
+    LEAP_EXPORT const_iterator begin() const;
+
+    /**
+    * A list iterator set to the end of the list.
+    * @since 2.2.6
+    */
     LEAP_EXPORT const_iterator end() const;
   };
 
@@ -4365,9 +4864,10 @@ namespace Leap {
     LEAP_EXPORT GestureList gestures(const Frame& sinceFrame) const;
 
     /**
-     *  The list of images from the Leap Motion cameras.
-     *  
-     *  @return An ImageList object containing the camera images analyzed to create this Frame.
+     * The list of images from the Leap Motion cameras.
+     *
+     * @return An ImageList object containing the camera images analyzed to create this Frame.
+     * @since 2.1
      */
     LEAP_EXPORT ImageList images() const;
 
@@ -4654,6 +5154,18 @@ namespace Leap {
     LEAP_EXPORT friend std::ostream& operator<<(std::ostream&, const Frame&);
 
     /**
+     * Note: This class is an experimental API for internal use only. It may be
+     * removed without warning.
+     *
+     * Returns information about the currently detected quad in the scene.
+     *
+     * \include Frame_trackedQuad.txt
+     * If no quad is being tracked, then an invalid TrackedQuad is returned.
+     * @since 2.2.6
+     **/
+    LEAP_EXPORT TrackedQuad trackedQuad() const;
+
+    /**
      * Encodes this Frame object as a byte string.
      *
      * \include Frame_serialize.txt
@@ -4672,20 +5184,27 @@ namespace Leap {
     /**
      * Decodes a byte string to replace the properties of this Frame.
      *
-     * Any existing data in the frame is destroyed. If you have references to 
-     * child objects (hands, fingers, etc.), these are preserved as long as the 
+     * A Controller object must be instantiated for this function to succeed, but
+     * it does not need to be connected. To extract gestures from the deserialized
+     * frame, you must enable the appropriate gestures first.
+     *
+     * Any existing data in the frame is
+     * destroyed. If you have references to
+     * child objects (hands, fingers, etc.), these are preserved as long as the
      * references remain in scope.
      *
      * \include Frame_deserialize.txt
      *
-     * **Note:** The result of calling functions which take 
+     * **Note:** The behavior when calling functions which take
      * another Frame object as a parameter is undefined when either frame has
      * been deserialized. For example, calling ``gestures(sinceFrame)`` on a
      * deserialized frame or with a deserialized frame as parameter (or both)
-     * does not necessarily return all gestures that occured between the two
+     * does not necessarily return all gestures that occurred between the two
      * frames. Motion functions, like ``scaleFactor(startFrame)``, are more
-     * likely to return reasonably results, but could return anomalous results
+     * likely to return reasonable results, but could return anomalous values
      * in some cases.
+     *
+     * @param str A std:string object containing the serialized bytes of a frame.
      *
      * @since 2.1.0
      */
@@ -4739,6 +5258,29 @@ namespace Leap {
     LEAP_EXPORT const char* toCString() const;
     LEAP_EXPORT const char* serializeCString(size_t& length) const;
     LEAP_EXPORT void deserializeCString(const char* str, size_t length);
+  };
+
+  /* For internal use only. */
+  class BugReport : public Interface {
+  public:
+    // For internal use only
+    BugReport(BugReportImplementation*);
+
+    LEAP_EXPORT BugReport();
+
+    /* Starts recording data. The recording ends when endRecording() is called
+    * or after 10 seconds. The recording is saved to the local hard drive. */
+    LEAP_EXPORT bool beginRecording();
+    /* Ends the recording. */
+    LEAP_EXPORT void endRecording();
+
+    /* True while recording is in progress. */
+    LEAP_EXPORT bool isActive() const;
+    /* Progress as a fraction of the maximum recording length (i.e. 10 seconds).
+    * The range of the progress value is [0..1]. */
+    LEAP_EXPORT float progress() const;
+    /* The recording duration in seconds. */
+    LEAP_EXPORT float duration() const;
   };
 
   /**
@@ -5089,7 +5631,7 @@ namespace Leap {
      *
      * The supported policy flags are:
      *
-     * * POLICY_BACKGROUND_FRAMES -- requests that your application receives frames
+     * **POLICY_BACKGROUND_FRAMES** -- requests that your application receives frames
      *   when it is not the foreground application for user input.
      *
      *   The background frames policy determines whether an application
@@ -5099,21 +5641,21 @@ namespace Leap {
      *   frames policy. The "Allow Background Apps" checkbox must be enabled in the
      *   Leap Motion Control Panel or this policy will be denied.
      *
-     * * POLICY_IMAGES -- request that your application receives images from the
+     * **POLICY_IMAGES** -- request that your application receives images from the
      *   device cameras. The "Allow Images" checkbox must be enabled in the
      *   Leap Motion Control Panel or this policy will be denied.
      *
-     *   The images policy determines whether an application recieves image data from
+     *   The images policy determines whether an application receives image data from
      *   the Leap Motion sensors which each frame of data. By default, this data is
      *   not sent. Only applications that use the image data should request this policy.
      *
      *
-     * * POLICY_OPTIMIZE_HMD -- request that the tracking be optimized for head-mounted
+     * **POLICY_OPTIMIZE_HMD** -- request that the tracking be optimized for head-mounted
      *   tracking.
-     *   
+     *
      *   The optimize HMD policy improves tracking in situations where the Leap
      *   Motion hardware is attached to a head-mounted display. This policy is
-     *   not granted for devices that cannot be mounted to an HMD, such as 
+     *   not granted for devices that cannot be mounted to an HMD, such as
      *   Leap Motion controllers embedded in a laptop or keyboard.
      *
      * Some policies can be denied if the user has disabled the feature on
@@ -5153,27 +5695,19 @@ namespace Leap {
     };
 
     /**
-     * Gets the active policy settings.
-     *
-     * Use this function to determine the current policy state.
-     * Keep in mind that setting a policy flag is asynchronous, so changes are
-     * not effective immediately after calling setPolicyFlag(). In addition, a
-     * policy request can be declined by the user. You should always set the
-     * policy flags required by your application at startup and check that the
-     * policy change request was successful after an appropriate interval.
-     *
-     * If the controller object is not connected to the Leap Motion software, then the default
-     * policy state is returned.
-     *
-     * \include Controller_policyFlags.txt
-     *
-     * @returns The current policy flags.
-     * @since 1.0
+     * This function has been deprecated. Use isPolicySet() instead.
+     * @deprecated 2.1.6
      */
     LEAP_EXPORT PolicyFlag policyFlags() const;
 
     /**
-     * Requests a change in policy.
+     * This function has been deprecated. Use setPolicy() and clearPolicy() instead.
+     * @deprecated 2.1.6
+     */
+    LEAP_EXPORT void setPolicyFlags(PolicyFlag flags) const;
+
+    /**
+     * Requests setting a policy.
      *
      * A request to change a policy is subject to user approval and a policy
      * can be changed by the user at any time (using the Leap Motion settings dialog).
@@ -5181,15 +5715,50 @@ namespace Leap {
      *
      * Policy changes are completed asynchronously and, because they are subject
      * to user approval or system compatibility checks, may not complete successfully. Call
-     * Controller::policyFlags() after a suitable interval to test whether
+     * Controller::isPolicySet() after a suitable interval to test whether
      * the change was accepted.
      *
-     * \include Controller_setPolicyFlags.txt
+     * \include Controller_setPolicy.txt
      *
-     * @param flags A PolicyFlag value indicating the policies to request.
-     * @since 1.0
+     * @param policy A PolicyFlag value indicating the policy to request.
+     * @since 2.1.6
      */
-    LEAP_EXPORT void setPolicyFlags(PolicyFlag flags) const;
+    LEAP_EXPORT void setPolicy(PolicyFlag policy) const;
+
+    /**
+     * Requests clearing a policy.
+     *
+     * Policy changes are completed asynchronously and, because they are subject
+     * to user approval or system compatibility checks, may not complete successfully. Call
+     * Controller::isPolicySet() after a suitable interval to test whether
+     * the change was accepted.
+     *
+     * \include Controller_clearPolicy.txt
+     *
+     * @param flags A PolicyFlag value indicating the policy to request.
+     * @since 2.1.6
+     */
+    LEAP_EXPORT void clearPolicy(PolicyFlag policy) const;
+
+    /**
+     * Gets the active setting for a specific policy.
+     *
+     * Keep in mind that setting a policy flag is asynchronous, so changes are
+     * not effective immediately after calling setPolicyFlag(). In addition, a
+     * policy request can be declined by the user. You should always set the
+     * policy flags required by your application at startup and check that the
+     * policy change request was successful after an appropriate interval.
+     *
+     * If the controller object is not connected to the Leap Motion software, then the default
+     * state for the selected policy is returned.
+     *
+     * \include Controller_isPolicySet.txt
+     *
+     * @param flags A PolicyFlag value indicating the policy to query.
+     * @returns A boolean indicating whether the specified policy has been set.
+     * @since 2.1.6
+     */
+    LEAP_EXPORT bool isPolicySet(PolicyFlag policy) const;
 
     /**
      * Adds a listener to this Controller.
@@ -5201,6 +5770,10 @@ namespace Leap {
      * Controller::removeListener() function.
      *
      * \include Controller_addListener.txt
+     *
+     * The Controller does not keep a strong reference to the Listener instance.
+     * Ensure that you maintain a reference until the listener is removed from
+     * the controller.
      *
      * @param listener A subclass of Leap::Listener implementing the callback
      * functions for the Leap Motion events you want to handle in your application.
@@ -5248,6 +5821,20 @@ namespace Leap {
     LEAP_EXPORT Frame frame(int history = 0) const;
 
     /**
+     * The most recent set of images from the Leap Motion cameras.
+     *
+     * \include Controller_images.txt
+     *
+     * Depending on timing and the current processing frame rate, the images
+     * obtained with this function can be newer than images obtained from
+     * the current frame of tracking data.
+     *
+     * @return An ImageList object containing the most recent camera images.
+     * @since 2.2.1
+     */
+    LEAP_EXPORT ImageList images() const;
+
+    /**
      * Returns a Config object, which you can use to query the Leap Motion system for
      * configuration information.
      *
@@ -5279,6 +5866,9 @@ namespace Leap {
      * Deprecated as of version 1.2.
      */
     LEAP_EXPORT ScreenList locatedScreens() const;
+
+    /* For internal use only. */
+    LEAP_EXPORT BugReport bugReport() const;
 
     /**
      * Enables or disables reporting of a specified gesture type.
@@ -5313,6 +5903,25 @@ namespace Leap {
      */
     LEAP_EXPORT bool isGestureEnabled(Gesture::Type type) const;
 
+    /**
+     * Note: This class is an experimental API for internal use only. It may be
+     * removed without warning.
+     *
+     * Returns information about the currently detected quad in the scene.
+     *
+     * \include Controller_trackedQuad.txt
+     * If no quad is being tracked, then an invalid TrackedQuad is returned.
+     * @since 2.2.6
+     **/
+    LEAP_EXPORT TrackedQuad trackedQuad() const;
+
+    /**
+     * Returns a timestamp value as close as possible to the current time.
+     * Values are in microseconds, as with all the other timestamp values.
+     *
+     * @since 2.2.7
+     **/
+    LEAP_EXPORT int64_t now() const;
   };
 
   /**
@@ -5450,6 +6059,8 @@ namespace Leap {
     /**
      * Called when the Leap Motion daemon/service connects to your application Controller.
      *
+     * \include Listener_onServiceConnect.txt
+     *
      * @param controller The Controller object invoking this callback function.
      * @since 1.2
      */
@@ -5459,6 +6070,8 @@ namespace Leap {
      *
      * Normally, this callback is not invoked. It is only called if some external event
      * or problem shuts down the service or otherwise interrupts the connection.
+     *
+     * \include Listener_onServiceDisconnect.txt
      *
      * @param controller The Controller object invoking this callback function.
      * @since 1.2
@@ -5472,10 +6085,24 @@ namespace Leap {
      * Note that there is currently no way to query whether a device is in robust mode.
      * You can use Frame::currentFramerate() to get the framerate.
      *
+     * \include Listener_onDeviceChange.txt
+     *
      * @param controller The Controller object invoking this callback function.
      * @since 1.2
      */
     LEAP_EXPORT virtual void onDeviceChange(const Controller&) {}
+
+    /**
+     * Called when new images are available.
+     * Access the new frame data using the Controller::images() function.
+     *
+     * \include Listener_onImages.txt
+     *
+     * @param controller The Controller object invoking this callback function.
+     * @since 2.2.1
+     */
+    LEAP_EXPORT virtual void onImages(const Controller&) {}
+
   };
 }
 

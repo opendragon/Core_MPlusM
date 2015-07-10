@@ -56,16 +56,29 @@ add_executable(${THIS_TARGET}
 add_library(Leap SHARED IMPORTED)
 
 if(WIN32)
-	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll")
-	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
+	if(WIN64)
+		set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
+                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64/Leap.dll")
+		set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
+                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64/Leap.lib")
+		add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+							"${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64"
+							$<TARGET_FILE_DIR:m+mLeapMotionInputService>)
+		install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64/Leap.dll"
+				DESTINATION bin
+				COMPONENT applications)
+	else(WIN64)
+		set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
+                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86/Leap.dll")
+		set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
+                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86/Leap.lib")
+		add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+                        "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86"
                         $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
-    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
-            DESTINATION bin
-            COMPONENT applications)
+		install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86/Leap.dll"
+				DESTINATION bin
+				COMPONENT applications)
+	endif(WIN64)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
@@ -130,22 +143,7 @@ add_executable(${THIS_TARGET}
 
 #add_library(Leap SHARED IMPORTED)
 
-if(WIN32)
-#    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-#                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll")
-#    set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
-#                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
-#    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-#                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
-#                    $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
-#   install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
-#            DESTINATION bin
-#            COMPONENT applications)
-endif(WIN32)
 if(APPLE)
-#    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-#                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
-
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
 
@@ -168,8 +166,6 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-#    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
-#            DESTINATION lib)
 endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
@@ -203,48 +199,29 @@ add_executable(${THIS_TARGET}
                 m+mLeapBlobInputService.cpp
                 ${VERS_RESOURCE})
 
-#add_library(Leap SHARED IMPORTED)
-
-if(WIN32)
-#    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-#                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll")
-#    set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
-#                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
-#    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-#                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
-#                    $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
-#   install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
-#            DESTINATION bin
-#            COMPONENT applications)
-endif(WIN32)
 if(APPLE)
-#    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-#                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						"@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
 
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
 
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libACE.dylib "@rpath/libACE.dylib" ${THIS_TARGET})
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
 
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libm+mCommon.dylib "@rpath/libm+mCommon.dylib" ${THIS_TARGET})
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
 
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libodLogging.dylib "@rpath/libodLogging.dylib" ${THIS_TARGET})
-
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
-add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-                    libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-#    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
-#            DESTINATION lib)
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libYARP_OS.1.dylib "@rpath/libYARP_OS.1.dylib" ${THIS_TARGET})
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libYARP_sig.1.dylib "@rpath/libYARP_sig.1.dylib" ${THIS_TARGET})
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libYARP_dev.1.dylib "@rpath/libYARP_dev.1.dylib" ${THIS_TARGET})
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
+						libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
 endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
@@ -278,24 +255,7 @@ add_executable(${THIS_TARGET}
                 m+mLeapTwoPalmsInputService.cpp
                 ${VERS_RESOURCE})
 
-#add_library(Leap SHARED IMPORTED)
-
-if(WIN32)
-#    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-#                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll")
-#    set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
-#                "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.lib")
-#    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-#                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib"
-#                    $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
-#   install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/Leap.dll"
-#            DESTINATION bin
-#            COMPONENT applications)
-endif(WIN32)
 if(APPLE)
-#    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-#                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib")
-
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
 
@@ -318,8 +278,6 @@ if(APPLE)
                         libYARP_name.1.dylib "@rpath/libYARP_name.1.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
-#    install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
-#            DESTINATION lib)
 endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
