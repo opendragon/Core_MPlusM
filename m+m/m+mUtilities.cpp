@@ -2545,7 +2545,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
         }
     }
     usageString += "\n\nOptions:";
- #if MAC_OR_LINUX_
+#if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
 #else // ! MAC_OR_LINUX_
     firstDescriptor.help = _strdup(usageString.c_str());

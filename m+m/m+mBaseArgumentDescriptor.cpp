@@ -282,7 +282,7 @@ YarpString Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
 
 void Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
                                             YarpStringVector &       output,
-                                            const int                minSpace)
+                                            const size_t             minSpace)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "output = ", &output); //####
@@ -304,7 +304,7 @@ void Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
     }
     if (0 < nameSize)
     {
-        nameSize += minSpace;
+        nameSize += static_cast<int>(minSpace);
         for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
         {
             BaseArgumentDescriptor * anArg = arguments[ii];

@@ -32,7 +32,7 @@ this is only needed if you wish to create installer packages after building \mpl
 \begin{itemize}
 \item\asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
 development environment for Microsoft Windows; the version used for development is
-`\asCode{Visual Studio Community 2013}', but newer versions should also work
+`\asCode{Visual Studio Community 2015}', but newer versions should also work
 %; note that older versions are not supported with \textbf{SpiderMonkey}
 \item\exSp{} The \asCode{cmake} tool, which can be installed from the web\longDash{}page
 \companyReference{http://www.cmake.org/download}{http://www.cmake.org/download}
@@ -75,7 +75,7 @@ are installed as part of the normal \mplusm{} installation procedure, so it's no
 necessary to rebuild ACE; the source code is provided in case there is an issue with the
 headers or libraries.\\
 
-Note that the file \asCode{ACE\fUS{}wrappers2/ace/config.h} will select the correct
+Note that the file \asCode{ACE\fUS{}wrappers/ace/config.h} will select the correct
 configuration file for Macintosh OS~X, Microsoft Windows or Linux, so it does not need to
 be modified.
 \tertiaryStart{Building~on~Macintosh~OS~X}
@@ -84,7 +84,7 @@ be modified.
 code, \asCode{\textbf{devel}}
 \item\exSp{} Execute the following commands:
 \begin{itemize}
-\item\asCode{cd ACE\fUS{}wrappers2}
+\item\asCode{cd ACE\fUS{}wrappers}
 \item\exSp\asCode{export ACE\fUS{}ROOT=\$(pwd)}
 \item\exSp\asCode{make clean \&\& make}
 \end{itemize}
@@ -105,11 +105,16 @@ unneeded files
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{} Open the project file
-`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers\fUS{}vc11.sln}' with
+`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers\fUS{}vc12.sln}' with
 \asCode{Visual Studio}
-\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
-build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
+\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
+configuration and clear out any older binary files via the menu item
+`\asCode{Build \bigRightArrow{} Clean Solution}'
+\item\exSp{} Build the Debug version via the menu item
+`\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{} Select the \asCode{Release} :\ \asCode{x64} configuration and clear out any
+older binary files via the menu item `\asCode{Build \bigRightArrow{} Clean Solution}'
+\item\exSp{} Build the Release version via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Exit from \asCode{Visual Studio}
 \item\exSp{} Open the \asCode{System} Control Panel
@@ -119,12 +124,12 @@ tab
 \item\exSp{} Select the \asCode{ACE\fUS{}ROOT} system variable and click on the
 \asCode{Edit} button 
 \item\exSp{} Edit the variable value to be
-`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers2}', where \asCode{\textbf{devel}}
+`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers}', where \asCode{\textbf{devel}}
 is the directory containing the \mplusm{} source code, and click on the \asCode{OK} button
 \item\exSp{} Select the \asCode{ACE\fUS{}INCLUDE\fUS{}DIR} system variable and click on
 the \asCode{Edit} button 
 \item\exSp{} Edit the variable value to be
-`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers2\textbackslash{}include}' and
+`\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers\textbackslash{}include}' and
 click on the \asCode{OK} button
 \item\exSp{} Click on the \asCode{OK} button to close the \asCode{Environment Variables}
 panel
@@ -197,16 +202,17 @@ where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source c
 \item\exSp{} Set the build directory to `\asCode{\textbf{devel}/yarp\fUS{}MPlusM}
 \item\exSp{} Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{} Click on the `\asCode{Configure}' button; make sure that the generator
-setting is for \asCode{Visual Studio 12} and that `\asCode{Use default native compilers}'
+setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of
+the generator and that `\asCode{Use default native compilers}'
 is selected
 \item\exSp{} Click on the `\asCode{Finish}' button
 \item\exSp{} Turn on the `\asCode{Advanced}' option once the configuration step completes
 \item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
-\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACEd.lib}
+\asCode{\textbf{devel}/ACE\fUS{}wrappers/lib/ACEd.lib}
 \item\exSp{} Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
-\asCode{\textbf{devel}/ACE\fUS{}wrappers2/lib/ACE.lib}
+\asCode{\textbf{devel}/ACE\fUS{}wrappers/lib/ACE.lib}
 \item\exSp{} Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
-\asCode{\textbf{devel}/ACE\fUS{}wrappers2}
+\asCode{\textbf{devel}/ACE\fUS{}wrappers}
 \item\exSp{} Turn off the `\asCode{Advanced}' option
 \item\exSp{} Turn off the `\asCode{CREATE\fUS{}YMANAGER}' option
 \item\exSp{} Click on the `\asCode{Configure}' button
@@ -216,13 +222,15 @@ is selected
 \item\exSp{} Open the project file
 `\asCode{\textbf{devel}\textbackslash{}yarp\fUS{}MPlusM\textbackslash{}YARP.sln}' with
 \asCode{Visual Studio}
-\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
-build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
+\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
+configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
-the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
-INSTALL}'
+\item\exSp{} Open the \asCode{Batch Build} panel via the menu item
+`\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{} Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
+Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
+checkboxes should be on
+\item\exSp{} Click on the `\asCode{Build}' button to build and install the Release version
 \item\exSp{} Exit from \asCode{Visual Studio}
 \item\exSp{} Open the \asCode{System} Control Panel
 \item\exSp{} Click on the \asCode{Advanced system settings} button
@@ -277,10 +285,11 @@ source code, \asCode{\textbf{devel}}
 \item\exSp{} Open the project file
 `\asCode{\textbf{devel}\textbackslash{}OGDF\textbackslash{}ogdf.sln}' with
 \asCode{Visual Studio}
-\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
-build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
+\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
+configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{} Select the \asCode{Release} :\ \asCode{x64} configuration and build it via
+the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{} Exit from \asCode{Visual Studio}
 \item\exSp{} Open the \asCode{System} Control Panel
 \item\exSp{} Click on the \asCode{Advanced system settings} button
@@ -493,7 +502,8 @@ where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source c
 \item\exSp{} Set the build directory to `\asCode{\textbf{devel}/Core\fUS{}MPlusM}
 \item\exSp{} Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{} Click on the `\asCode{Configure}' button; make sure that the generator
-setting is for \asCode{Visual Studio 12} and that `\asCode{Use default native compilers}'
+setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of
+the generator and that `\asCode{Use default native compilers}'
 is selected
 \item\exSp{} Click on the `\asCode{Finish}' button
 \item\exSp{} Click on the `\asCode{Configure}' button once the configuration step
@@ -504,13 +514,16 @@ completes
 \item\exSp{} Open the project file
 `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}m+m.sln}' with
 \asCode{Visual Studio}
-\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
-build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
+\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
+configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
-the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
-INSTALL}'; note that this will fail the first time, since it attempts to install
+\item\exSp{} Open the \asCode{Batch Build} panel via the menu item
+`\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{} Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
+Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
+checkboxes should be on
+\item\exSp{} Click on the `\asCode{Build}' button to build and install the Release
+version; note that this will fail the first time, since it attempts to install
 \textit{\MMMU}, which has not been built yet
 \item\exSp{} Exit from \asCode{Visual Studio}
 \end{itemize}
@@ -552,12 +565,13 @@ directory
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{} Open the project file
 `\asCode{\textbf{devel}\textbackslash{}Utilities\fUS{}mm\fUS{}manager\textbackslash{}%
-Builds\textbackslash{}VisualStudio2013\textbackslash{}m+m manager.sln}' with
+Builds\textbackslash{}VisualStudio2015\textbackslash{}m+m manager.sln}' with
 \asCode{Visual Studio}
-\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} configuration and
-build it via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{} Select the \asCode{Release} configuration and build it via the menu item
+\item\exSp{} Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
+configuration and build it via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{} Select the \asCode{Release} :\ \asCode{x64} configuration and build it via
+the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~Linux}
@@ -618,19 +632,21 @@ archive files, to make sure that the generated distribution package is consisten
 distribution packages successfully
 \item\exSp{} Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{} Open the project file
-`\asCode{\textbf{devel}\textbackslash{}Utilities\fUS{}mm\fUS{}manager\textbackslash{}%
-Builds\textbackslash{}VisualStudio2013\textbackslash{}m+m manager.sln}' with
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}m+m.sln}' with
 \asCode{Visual Studio}
-\item\exSp{} Select the \asCode{INSTALL} target and install the \asCode{Release} files via
-the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
-INSTALL}'
-\item\exSp{} Select the \asCode{PACKAGE} target and construct the distribution package via
-the menu item `\asCode{Build \bigRightArrow{} Project Only \bigRightArrow{} Build Only
-PACKAGE}'
-\item\exSp{} The distribution package is the \asCode{m+m-\MMVn-win32.exe} file located in
-the\\
-\asCode{Core\fUS{}MPlusM\textbackslash\fUS{}CPack\fUS{}Packages\textbackslash{}win32%
-\textbackslash{}NSIS} directory
+\item\exSp{} Open the \asCode{Batch Build} panel via the menu item
+`\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{} Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
+Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
+checkboxes should be on
+\item\exSp{} Select the `\asCode{PACKAGE}' Project and the `\asCode{Release|x64}'
+Configuration by clicking on the corresponding `\asCode{Build}' checkbox; the only other
+checkbox that should be on is the `\asCode{INSTALL}' Project and the
+`\asCode{Release|x64}' Configuration
+\item\exSp{} Click on the `\asCode{Build}' button to install the Release
+version and create the distribution package
+\item\exSp{} The distribution package is the \asCode{m+m-\MMVn-win64.exe} file located in
+the `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM}' directory
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Creating~on~Linux}
