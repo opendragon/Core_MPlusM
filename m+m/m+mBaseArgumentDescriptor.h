@@ -184,7 +184,7 @@ namespace MplusM
             inline bool isModifiable(void)
             const
             {
-                return (_argMode & kArgModeModifiable);
+                return (0 != (_argMode & kArgModeModifiable));
             } // isModifiable
             
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
@@ -192,7 +192,7 @@ namespace MplusM
             inline bool isOptional(void)
             const
             {
-                return (_argMode & kArgModeOptional);
+                return (0 != (_argMode & kArgModeOptional));
             } // isOptional
           
             /*! @brief Set the associated variable to the default value. */

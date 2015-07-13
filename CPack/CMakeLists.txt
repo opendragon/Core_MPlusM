@@ -181,7 +181,7 @@ if(WIN32)
 
     #Source archives
     install(FILES
-            "${MpM_SOURCE_DIR}/../archives/ACE_wrappers2.zip"
+            "${MpM_SOURCE_DIR}/../archives/ACE_wrappers.zip"
             "${MpM_SOURCE_DIR}/../archives/Core_MPlusM-master.zip"
             "${MpM_SOURCE_DIR}/../archives/OGDF.zip"
             "${MpM_SOURCE_DIR}/../archives/Utilities_mm_manager-master.zip"
