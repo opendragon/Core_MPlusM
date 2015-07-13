@@ -138,6 +138,10 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
         {
             struct in_addr addrBuff;
 
+            if (defaultString == "localhost")
+            {
+                defaultString = "127.0.0.1";
+            }
 #if MAC_OR_LINUX_
             okSoFar = (0 < inet_pton(AF_INET, defaultString.c_str(), &addrBuff));
 #else // ! MAC_OR_LINUX_
