@@ -145,7 +145,7 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
     BaseArgumentDescriptor * result = nullptr;
     YarpStringVector         inVector;
 
-    if (partitionString(inString, 4, inVector))
+    if (partitionString(inString, 5, inVector))
     {
         ArgumentMode argMode = kArgModeRequired;
         bool         okSoFar = true;
@@ -154,18 +154,20 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
         double       minValue = 0;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
-        YarpString   minValString(inVector[2]);
-        YarpString   maxValString(inVector[3]);
-        YarpString   defaultString(inVector[4]);
-        YarpString   description(inVector[5]);
+        YarpString   modeString(inVector[2]);
+        YarpString   minValString(inVector[3]);
+        YarpString   maxValString(inVector[4]);
+        YarpString   defaultString(inVector[5]);
+        YarpString   description(inVector[6]);
 
-        if (typeTag == "d")
-        {
-            argMode = kArgModeOptional;
-        }
-        else if (typeTag != "D")
+        if (typeTag != "D")
         {
             okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            argMode = ModeFromString(modeString);
+            okSoFar = (kArgModeUnknown != argMode);
         }
         if (okSoFar && (0 < defaultString.length()))
         {
@@ -228,7 +230,7 @@ void DoubleArgumentDescriptor::setToDefault(void)
 YarpString DoubleArgumentDescriptor::toString(void)
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(prefixFields("D", "d"));
+    YarpString result(prefixFields("D"));
 
     result += _parameterSeparator;
     if (_hasMinimumValue)

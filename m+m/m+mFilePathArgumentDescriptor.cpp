@@ -219,7 +219,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
     BaseArgumentDescriptor * result = nullptr;
     YarpStringVector         inVector;
 
-    if (partitionString(inString, 5, inVector))
+    if (partitionString(inString, 6, inVector))
     {
         ArgumentMode argMode = kArgModeRequired;
         bool         forOutput = false;
@@ -227,19 +227,21 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
         bool         usesRandom = false;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
-        YarpString   direction(inVector[2]);
-        YarpString   suffixValue(inVector[3]);
-        YarpString   randomFlag(inVector[4]);
-        YarpString   defaultString(inVector[5]);
-        YarpString   description(inVector[6]);
+        YarpString   modeString(inVector[2]);
+        YarpString   direction(inVector[3]);
+        YarpString   suffixValue(inVector[4]);
+        YarpString   randomFlag(inVector[5]);
+        YarpString   defaultString(inVector[6]);
+        YarpString   description(inVector[7]);
 
-        if (typeTag == "f")
-        {
-            argMode = kArgModeOptional;
-        }
-        else if (typeTag != "F")
+        if (typeTag != "F")
         {
             okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            argMode = ModeFromString(modeString);
+            okSoFar = (kArgModeUnknown != argMode);
         }
         if (okSoFar)
         {
@@ -302,7 +304,7 @@ YarpString FilePathArgumentDescriptor::toString(void)
 {
     OD_LOG_OBJENTER(); //####
     YarpString oldDefault(_defaultValue);
-    YarpString result(prefixFields("F", "f"));
+    YarpString result(prefixFields("F"));
 
     // Temporarily change the default value to the prefix value, as that's how we pass the path
     // prefix to the outside world.

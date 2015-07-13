@@ -80,7 +80,13 @@ namespace MplusM
             kArgModeRequired = 0x00,
             
             /*! @brief The argument is optional. */
-            kArgModeOptional = 0x01
+            kArgModeOptional = 0x01,
+            
+            /*! @brief The argument is modifiable. */
+            kArgModeModifiable = 0x02,
+            
+            /*! @brief The mode of the argument is undefined. */
+            kArgModeUnknown = -1
             
         }; // ArgumentMode
         
@@ -98,21 +104,21 @@ namespace MplusM
          where typeTagAndInfo is described with each derived class.
          The following enumerates the standard type tags:
          
-         'A' / 'a' => address
+         'A' => address
          
-         'C' / 'c' => channel
+         'C' => channel
          
-         'D' / 'd' => double
+         'D' => double
          
-         'E' / 'e' => extra (a placeholder for zero or more trailing arguments)
+         'E' => extra (a placeholder for zero or more trailing arguments)
          
-         'F' / 'f' => file path
+         'F' => file path
          
-         'I' / 'i' => integer
+         'I' => integer
          
-         'P' / 'p' => port number
+         'P' => port number
          
-         'S' / 's' => string */
+         'S' => string */
         class BaseArgumentDescriptor
         {
         public :
@@ -210,12 +216,10 @@ namespace MplusM
 
             /*! @brief Returns a string that contains a printable representation of the standard
              prefix fields for a command-line argument.
-             @param tagForMandatoryField The tag value to use if the field is mandatory.
-             @param tagForOptionalField The tag value to use if the field is optional.
+             @param tagForField The tag value to use for the field.
              @returns A string that contains a printable representation of the standard prefix
              fields for a command-line argument. */
-            YarpString prefixFields(const YarpString & tagForMandatoryField,
-                                    const YarpString & tagForOptionalField)
+            YarpString prefixFields(const YarpString & tagForField)
             const;
 
             /*! @brief Returns a string that contains a printable representation of the standard
@@ -290,6 +294,11 @@ namespace MplusM
          @returns A newly allocated argument descriptor or @c NULL if the string is not valid. */
         BaseArgumentDescriptor * ConvertStringToArgument(const YarpString & inString);
 
+        /*! @brief Return the mode corresponding to a string.
+         @param modeString The mode value as a string.
+         @returns The mode corresponding to a string. */
+        ArgumentMode ModeFromString(const YarpString & modeString);
+        
         /*! @brief Update the arguments data from the parsed argument list.
          @param arguments The argument sequence.
          @param parseResult The parsed argument list.

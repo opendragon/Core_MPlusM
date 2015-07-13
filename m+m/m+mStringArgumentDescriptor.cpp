@@ -140,22 +140,24 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
     BaseArgumentDescriptor * result = nullptr;
     YarpStringVector         inVector;
 
-    if (partitionString(inString, 2, inVector))
+    if (partitionString(inString, 3, inVector))
     {
         ArgumentMode argMode = kArgModeRequired;
         bool         okSoFar = true;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
-        YarpString   defaultString(inVector[2]);
-        YarpString   description(inVector[3]);
+        YarpString   modeString(inVector[2]);
+        YarpString   defaultString(inVector[3]);
+        YarpString   description(inVector[4]);
 
-        if (typeTag == "s")
-        {
-            argMode = kArgModeOptional;
-        }
-        else if (typeTag != "S")
+        if (typeTag != "S")
         {
             okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            argMode = ModeFromString(modeString);
+            okSoFar = (kArgModeUnknown != argMode);
         }
         if (okSoFar)
         {
@@ -180,7 +182,7 @@ void StringArgumentDescriptor::setToDefault(void)
 YarpString StringArgumentDescriptor::toString(void)
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(prefixFields("S", "s"));
+    YarpString result(prefixFields("S"));
 
     result += suffixFields(_defaultValue);
     OD_LOG_OBJEXIT_s(result); //####

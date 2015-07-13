@@ -126,14 +126,26 @@ BaseArgumentDescriptor * ExtraArgumentDescriptor::parseArgString(const YarpStrin
     BaseArgumentDescriptor * result = nullptr;
     YarpStringVector         inVector;
 
-    if (partitionString(inString, 2, inVector))
+    if (partitionString(inString, 3, inVector))
     {
-        YarpString name(inVector[0]);
-        YarpString typeTag(inVector[1]);
-        YarpString defaultString(inVector[2]); // ignored
-        YarpString description(inVector[3]);
+        ArgumentMode argMode = kArgModeRequired;
+        bool         okSoFar = true;
+        YarpString   name(inVector[0]);
+        YarpString   typeTag(inVector[1]);
+        YarpString   modeString(inVector[2]);
+        YarpString   defaultString(inVector[3]); // ignored
+        YarpString   description(inVector[4]);
 
-        if ((typeTag == "e") || (typeTag == "E"))
+        if (typeTag != "E")
+        {
+            okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            argMode = ModeFromString(modeString);
+            okSoFar = (kArgModeUnknown != argMode);
+        }
+        if (okSoFar)
         {
             result = new ExtraArgumentDescriptor(name, description);
         }
@@ -151,7 +163,7 @@ void ExtraArgumentDescriptor::setToDefault(void)
 YarpString ExtraArgumentDescriptor::toString(void)
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(prefixFields("E", "e"));
+    YarpString result(prefixFields("E"));
 
     result += suffixFields("");
     OD_LOG_OBJEXIT_s(result); //####

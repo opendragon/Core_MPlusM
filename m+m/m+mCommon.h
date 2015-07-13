@@ -141,6 +141,9 @@
 /*! @brief The time between client announcements of associated channels. */
 # define ANNOUNCE_INTERVAL_         (17.1 * ONE_SECOND_DELAY_)
 
+/*! @brief The character separating argument descriptors. */
+# define ARGUMENT_SEPARATOR_        "\v"
+
 /*! @brief The carrier type to be used for m+m connections. */
 # define CHANNEL_CARRIER_           "tcp"
 

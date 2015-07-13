@@ -912,23 +912,30 @@ void Utilities::CheckForNameServerReporter(void)
 #if defined(CONFIG_FILE_AVAILABLE_)
     if (nc.fromFile())
     {
+        OD_LOG("(nc.fromFile())"); //####
         yarp::os::Contact address = nc.getAddress();
         
         if (address.isValid())
         {
+            OD_LOG("(address.isValid())"); //####
             yarp::os::impl::TcpFace    aFace;
+            OD_LOG("got here"); //!!!!
             yarp::os::OutputProtocol * outp = aFace.write(address);
+            OD_LOG("got here"); //!!!!
             
             if (outp)
             {
+                OD_LOG("(outp)"); //####
                 delete outp;
                 skipNameServerScan = true;
             }
+            OD_LOG("got here"); //!!!!
         }
     }
 #endif // defined(CONFIG_FILE_AVAILABLE_)
     if (! skipNameServerScan)
     {
+        OD_LOG("(! skipNameServerScan)"); //####
         lSawBrowseAdd = false;
         DNSServiceRef       serviceRef = nullptr;
         static const char * regType = MpM_MDNS_NAMESERVER_REPORT_;
@@ -937,6 +944,7 @@ void Utilities::CheckForNameServerReporter(void)
         
         if (kDNSServiceErr_NoError == err)
         {
+            OD_LOG("(kDNSServiceErr_NoError == err)"); //####
             // handle events.
             int            dns_sd_fd = DNSServiceRefSockFD(serviceRef);
             int            nfds = dns_sd_fd + 1;

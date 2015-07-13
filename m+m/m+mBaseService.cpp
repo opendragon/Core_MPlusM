@@ -1079,7 +1079,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
 
             if (0 < ii)
             {
-                cout << "\t";
+                cout << ARGUMENT_SEPARATOR_;
             }
             if (anArg)
             {

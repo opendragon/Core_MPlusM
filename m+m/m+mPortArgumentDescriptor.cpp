@@ -117,7 +117,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
     BaseArgumentDescriptor * result = nullptr;
     YarpStringVector         inVector;
 
-    if (partitionString(inString, 3, inVector))
+    if (partitionString(inString, 4, inVector))
     {
         ArgumentMode argMode = kArgModeRequired;
         bool         okSoFar = true;
@@ -125,17 +125,19 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
         int          defaultValue;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
-        YarpString   portClass(inVector[2]);
-        YarpString   defaultString(inVector[3]);
-        YarpString   description(inVector[4]);
+        YarpString   modeString(inVector[2]);
+        YarpString   portClass(inVector[3]);
+        YarpString   defaultString(inVector[4]);
+        YarpString   description(inVector[5]);
 
-        if (typeTag == "p")
-        {
-            argMode = kArgModeOptional;
-        }
-        else if (typeTag != "P")
+        if (typeTag != "P")
         {
             okSoFar = false;
+        }
+        if (okSoFar)
+        {
+            argMode = ModeFromString(modeString);
+            okSoFar = (kArgModeUnknown != argMode);
         }
         if (okSoFar)
         {
@@ -173,7 +175,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
 YarpString PortArgumentDescriptor::toString(void)
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(prefixFields("P", "p"));
+    YarpString result(prefixFields("P"));
 
     result += _parameterSeparator + (_isSystemPort ? "s" : "r") + suffixFields(getDefaultValue());
     OD_LOG_OBJEXIT_s(result); //####

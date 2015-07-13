@@ -79,7 +79,7 @@ using namespace MplusM::Utilities;
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
 
-YarpString BaseArgumentDescriptor::_parameterSeparator(":");
+YarpString BaseArgumentDescriptor::_parameterSeparator("\t");
 
 #if defined(__APPLE__)
 # pragma mark Local functions
@@ -203,14 +203,16 @@ bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
     return okSoFar;
 } // BaseArgumentDescriptor::partitionString
 
-YarpString BaseArgumentDescriptor::prefixFields(const YarpString & tagForMandatoryField,
-                                                const YarpString & tagForOptionalField)
+YarpString BaseArgumentDescriptor::prefixFields(const YarpString & tagForField)
 const
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result(_argName);
-
-    result += _parameterSeparator + (isOptional() ? tagForOptionalField : tagForMandatoryField);
+    OD_LOG_S1s("tagForField = ", tagForField); //####
+    YarpString        result(_argName);
+    std::stringstream buff;
+    
+    buff << static_cast<int>(_argMode);
+    result += _parameterSeparator + tagForField + _parameterSeparator + buff.str();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // BaseArgumentDescriptor::prefixFields
@@ -388,6 +390,48 @@ BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & i
     OD_LOG_EXIT_P(result); //####
     return result;
 } // Utilities::ConvertStringToArguments
+
+Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
+{
+    OD_LOG_ENTER(); //####
+    ArgumentMode      result = kArgModeUnknown;
+    std::stringstream buff(modeString.c_str());
+    int               modeAsInt;
+    
+    buff >> modeAsInt;
+    if (! buff.fail())
+    {
+        int holder = modeAsInt;
+        
+        // Check that only the known bits are set!
+        holder &= ~kArgModeOptional;
+        holder &= ~kArgModeModifiable;
+        if (! holder)
+        {
+            // Only known bits were set.
+            result = static_cast<ArgumentMode>(modeAsInt);
+        }
+    }
+    OD_LOG_EXIT(); //####
+    return result;
+} // Utilities::ModeFromString
+#if 0
+kArgModeOptional = 0x01,
+
+/*! @brief The argument is modifiable. */
+kArgModeModifiable = 0x02,
+#endif//0
+#if 0
+std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION_);
+std::string       inString(reinterpret_cast<const char *>(valuePtr), valueLen);
+std::stringstream buff2(inString);
+int               thisVersion;
+int               otherVersion;
+
+buff1 >> thisVersion;
+buff2 >> otherVersion;
+okToUse = (thisVersion <= otherVersion);
+#endif//0
 
 bool Utilities::ProcessArguments(const DescriptorVector & arguments,
                                  Option_::Parser &        parseResult)
