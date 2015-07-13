@@ -68,8 +68,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            MovementDbAdapterData(MovementDbClient *    client = nullptr,
-                                  Common::BaseChannel * output = nullptr);
+            MovementDbAdapterData(MovementDbClient *    client = NULL,
+                                  Common::BaseChannel * output = NULL);
             
             /*! @brief The destructor. */
             virtual ~MovementDbAdapterData(void);

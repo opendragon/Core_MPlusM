@@ -82,7 +82,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 RequestMap::RequestMap(BaseService & owner) :
-    _defaultHandler(nullptr), _handlers(), _owner(owner)
+    _defaultHandler(NULL), _handlers(), _owner(owner)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####
@@ -160,7 +160,7 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const YarpString & request
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
-    BaseRequestHandler * result = nullptr;
+    BaseRequestHandler * result = NULL;
     
     try
     {

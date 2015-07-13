@@ -100,17 +100,17 @@ static const char * kColumnNames[] =
 {
     // Name to match        Name to use             Prefix to be used    Suffix to be used
     DESCRIPTION_C_,         DESCRIPTION_C_,         DESCRIPTION_PREFIX_, DESCRIPTION_SUFFIX_,
-    DETAILS_C_,             DETAILS_C_,             nullptr,             nullptr,
-    EXECUTABLE_C_,          EXECUTABLE_C_,          nullptr,             nullptr,
-    INPUT_C_,               INPUT_C_,               nullptr,             nullptr,
+    DETAILS_C_,             DETAILS_C_,             NULL,             NULL,
+    EXECUTABLE_C_,          EXECUTABLE_C_,          NULL,             NULL,
+    INPUT_C_,               INPUT_C_,               NULL,             NULL,
     KEYWORD_C_,             KEYWORDS_ID_C_,         KEYWORD_PREFIX_,     KEYWORD_SUFFIX_,
     NAME_C_,                NAME_C_,                NAME_PREFIX_,        NAME_SUFFIX_,
-    OUTPUT_C_,              OUTPUT_C_,              nullptr,             nullptr,
-    CHANNELNAME_C_,         CHANNELNAME_C_,         nullptr,             nullptr,
-    REQUEST_C_,             REQUEST_C_,             nullptr,             nullptr,
+    OUTPUT_C_,              OUTPUT_C_,              NULL,             NULL,
+    CHANNELNAME_C_,         CHANNELNAME_C_,         NULL,             NULL,
+    REQUEST_C_,             REQUEST_C_,             NULL,             NULL,
     REQUESTSDESCRIPTION_C_, REQUESTSDESCRIPTION_C_, DESCRIPTION_PREFIX_, DESCRIPTION_SUFFIX_,
     TAG_C_,                 TAG_C_,                 TAG_PREFIX_,         TAG_SUFFIX_,
-    VERSION_C_,             VERSION_C_,             nullptr,             nullptr
+    VERSION_C_,             VERSION_C_,             NULL,             NULL
 }; // kColumnNames
 
 /*! @brief The number of valid field names. */
@@ -183,12 +183,12 @@ const char * ColumnNameValidator::getPrefixAndSuffix(const char *   aString,
     OD_LOG_ENTER(); //####
     OD_LOG_S1("aString = ", aString); //####
     OD_LOG_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
-    const char * result = nullptr;
+    const char * result = NULL;
     
     try
     {
-        const char * resultPrefix = nullptr;
-        const char * resultSuffix = nullptr;
+        const char * resultPrefix = NULL;
+        const char * resultSuffix = NULL;
         
         for (size_t ii = 0; ii < kColumnNamesCount; ii += 4)
         {

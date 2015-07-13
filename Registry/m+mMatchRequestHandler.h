@@ -101,7 +101,7 @@ namespace MplusM
              @param service The service that has registered this request.
              @param validator The field validator to use. */
             MatchRequestHandler(RegistryService &           service,
-                                Parser::BaseNameValidator * validator = nullptr);
+                                Parser::BaseNameValidator * validator = NULL);
             
             /*! @brief The destructor. */
             virtual ~MatchRequestHandler(void);

@@ -289,8 +289,8 @@ namespace MplusM
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
             bool sendPingForChannel(const YarpString & channelName,
-                                    CheckFunction      checker = nullptr,
-                                    void *             checkStuff = nullptr);
+                                    CheckFunction      checker = NULL,
+                                    void *             checkStuff = NULL);
             
             /*! @brief Return the working name of the service.
              @returns The working name of the service. */
@@ -555,7 +555,7 @@ namespace MplusM
                                            YarpString &                  serviceEndpointName,
                                            YarpString &                  servicePortNumber,
                                            const OptionsMask             skipOptions = kSkipNone,
-                                           YarpStringVector *            arguments = nullptr);
+                                           YarpStringVector *            arguments = NULL);
         
         /*! @brief Register a local service with a running %Registry Service.
          @param channelName The channel provided by the service.
@@ -565,8 +565,8 @@ namespace MplusM
          @returns @c true if the service was successfully registered and @c false otherwise. */
         bool RegisterLocalService(const YarpString & channelName,
                                   BaseService &      service,
-                                  CheckFunction      checker = nullptr,
-                                  void *             checkStuff = nullptr);
+                                  CheckFunction      checker = NULL,
+                                  void *             checkStuff = NULL);
         
         /*! @brief Unregister a local service with a running %Registry Service.
          @param channelName The channel provided by the service.
@@ -576,8 +576,8 @@ namespace MplusM
          @returns @c true if the service was successfully unregistered and @c false otherwise. */
         bool UnregisterLocalService(const YarpString & channelName,
                                     BaseService &      service,
-                                    CheckFunction      checker = nullptr,
-                                    void *             checkStuff = nullptr);
+                                    CheckFunction      checker = NULL,
+                                    void *             checkStuff = NULL);
         
     } // Common
     

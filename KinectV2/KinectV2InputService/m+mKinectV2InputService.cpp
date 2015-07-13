@@ -93,7 +93,7 @@ KinectV2InputService::KinectV2InputService(const YarpString & launchPath,
                                            const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_KINECTV2INPUT_CANONICAL_NAME_,
               KINECTV2INPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _eventThread(nullptr)
+    _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -259,7 +259,7 @@ void KinectV2InputService::stopStreams(void)
                 yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
             }
             delete _eventThread;
-            _eventThread = nullptr;
+            _eventThread = NULL;
             clearActive();
         }
     }

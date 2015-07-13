@@ -90,7 +90,7 @@ MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const YarpString &  i
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
     OD_LOG_LL2("inLength = ", inLength, "startPos = ", startPos); //####
-    MatchFieldWithValues * result = nullptr;
+    MatchFieldWithValues * result = NULL;
     
     try
     {
@@ -170,7 +170,7 @@ MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
                                            MatchFieldName *    fieldName,
                                            MatchValue *        asSingle) :
     inherited(), _validator(validator), _fieldName(fieldName), _singleValue(asSingle),
-    _values(nullptr)
+    _values(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("validator = ", validator, "fieldName = ", fieldName, "asSingle = ", asSingle); //####
@@ -180,7 +180,7 @@ MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
 MatchFieldWithValues::MatchFieldWithValues(BaseNameValidator * validator,
                                            MatchFieldName *    fieldName,
                                            MatchValueList *    asList) :
-    inherited(), _validator(validator), _fieldName(fieldName), _singleValue(nullptr),
+    inherited(), _validator(validator), _fieldName(fieldName), _singleValue(NULL),
     _values(asList)
 {
     OD_LOG_ENTER(); //####
@@ -211,8 +211,8 @@ const
     {
         bool         negated = _fieldName->isNegated();
         YarpString   field(_fieldName->asString());
-        const char * prefixString = nullptr;
-        const char * suffixString = nullptr;
+        const char * prefixString = NULL;
+        const char * suffixString = NULL;
         const char * trueName;
         
         if (_validator)

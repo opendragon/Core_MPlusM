@@ -216,7 +216,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
-    BaseArgumentDescriptor * result = nullptr;
+    BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
     if (partitionString(inString, 6, inVector))
@@ -279,7 +279,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
         if (okSoFar)
         {
             result = new FilePathArgumentDescriptor(name, description, argMode, defaultString,
-                                                    suffixValue, forOutput, usesRandom, nullptr);
+                                                    suffixValue, forOutput, usesRandom, NULL);
         }
     }
     OD_LOG_EXIT_P(result); //####

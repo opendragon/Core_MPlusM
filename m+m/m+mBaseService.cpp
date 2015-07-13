@@ -133,11 +133,11 @@ BaseService::BaseService(const ServiceKind  theKind,
                          const YarpString & servicePortNumber) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
-    _auxCounters(), _argumentsHandler(nullptr), _channelsHandler(nullptr), _clientsHandler(nullptr),
-    _detachHandler(nullptr), _getMetricsHandler(nullptr), _getMetricsStateHandler(nullptr),
-    _infoHandler(nullptr), _listHandler(nullptr), _nameHandler(nullptr),
-    _setMetricsStateHandler(nullptr), _stopHandler(nullptr), _endpoint(nullptr), _handler(nullptr),
-    _handlerCreator(nullptr), _pinger(nullptr), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
+    _auxCounters(), _argumentsHandler(NULL), _channelsHandler(NULL), _clientsHandler(NULL),
+    _detachHandler(NULL), _getMetricsHandler(NULL), _getMetricsStateHandler(NULL),
+    _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
+    _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
@@ -187,12 +187,12 @@ BaseService::BaseService(const ServiceKind  theKind,
                          const YarpString & requestsDescription) :
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
-    _serviceName(canonicalName), _tag(), _auxCounters(), _argumentsHandler(nullptr),
-    _channelsHandler(nullptr), _clientsHandler(nullptr), _detachHandler(nullptr),
-    _getMetricsHandler(nullptr), _getMetricsStateHandler(nullptr), _infoHandler(nullptr),
-    _listHandler(nullptr), _nameHandler(nullptr), _setMetricsStateHandler(nullptr),
-    _stopHandler(nullptr), _endpoint(nullptr), _handler(nullptr), _handlerCreator(nullptr),
-    _pinger(nullptr), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_), _started(false),
+    _serviceName(canonicalName), _tag(), _auxCounters(), _argumentsHandler(NULL),
+    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
+    _getMetricsHandler(NULL), _getMetricsStateHandler(NULL), _infoHandler(NULL),
+    _listHandler(NULL), _nameHandler(NULL), _setMetricsStateHandler(NULL),
+    _stopHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
+    _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_), _started(false),
     _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
@@ -375,67 +375,67 @@ void BaseService::detachRequestHandlers(void)
         {
             _requestHandlers.unregisterRequestHandler(_argumentsHandler);
             delete _argumentsHandler;
-            _argumentsHandler = nullptr;
+            _argumentsHandler = NULL;
         }
         if (_channelsHandler)
         {
             _requestHandlers.unregisterRequestHandler(_channelsHandler);
             delete _channelsHandler;
-            _channelsHandler = nullptr;
+            _channelsHandler = NULL;
         }
         if (_clientsHandler)
         {
             _requestHandlers.unregisterRequestHandler(_clientsHandler);
             delete _clientsHandler;
-            _clientsHandler = nullptr;
+            _clientsHandler = NULL;
         }
         if (_detachHandler)
         {
             _requestHandlers.unregisterRequestHandler(_detachHandler);
             delete _detachHandler;
-            _detachHandler = nullptr;
+            _detachHandler = NULL;
         }
         if (_getMetricsHandler)
         {
             _requestHandlers.unregisterRequestHandler(_getMetricsHandler);
             delete _getMetricsHandler;
-            _getMetricsHandler = nullptr;
+            _getMetricsHandler = NULL;
         }
         if (_getMetricsStateHandler)
         {
             _requestHandlers.unregisterRequestHandler(_getMetricsStateHandler);
             delete _getMetricsStateHandler;
-            _getMetricsStateHandler = nullptr;
+            _getMetricsStateHandler = NULL;
         }
         if (_infoHandler)
         {
             _requestHandlers.unregisterRequestHandler(_infoHandler);
             delete _infoHandler;
-            _infoHandler = nullptr;
+            _infoHandler = NULL;
         }
         if (_listHandler)
         {
             _requestHandlers.unregisterRequestHandler(_listHandler);
             delete _listHandler;
-            _listHandler = nullptr;
+            _listHandler = NULL;
         }
         if (_nameHandler)
         {
             _requestHandlers.unregisterRequestHandler(_nameHandler);
             delete _nameHandler;
-            _nameHandler = nullptr;
+            _nameHandler = NULL;
         }
         if (_setMetricsStateHandler)
         {
             _requestHandlers.unregisterRequestHandler(_setMetricsStateHandler);
             delete _setMetricsStateHandler;
-            _setMetricsStateHandler = nullptr;
+            _setMetricsStateHandler = NULL;
         }
         if (_stopHandler)
         {
             _requestHandlers.unregisterRequestHandler(_stopHandler);
             delete _stopHandler;
-            _stopHandler = nullptr;
+            _stopHandler = NULL;
         }
     }
     catch (...)
@@ -513,7 +513,7 @@ BaseContext * BaseService::findContext(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
-    BaseContext * result = nullptr;
+    BaseContext * result = NULL;
     
     try
     {
@@ -797,7 +797,7 @@ bool BaseService::start(void)
                         OD_LOG("! (_endpoint->setInputHandlerCreator(*_handlerCreator) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handlerCreator;
-                        _handlerCreator = nullptr;
+                        _handlerCreator = NULL;
                     }
                 }
                 else
@@ -820,7 +820,7 @@ bool BaseService::start(void)
                         OD_LOG("! (_endpoint->setInputHandler(*_handler) && " //####
                                "_endpoint->open(STANDARD_WAIT_TIME_))"); //####
                         delete _handler;
-                        _handler = nullptr;
+                        _handler = NULL;
                     }
                 }
                 else
@@ -857,7 +857,7 @@ bool BaseService::stop(void)
     {
         _pinger->stop();
         delete _pinger;
-        _pinger = nullptr;
+        _pinger = NULL;
     }
     _started = false;
     OD_LOG_OBJEXIT_B(! _started); //####
@@ -946,7 +946,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     infoPartText += " and description and exit";
     reportPartText += serviceKindName + " metrics when the application exits";
     tagPartText += serviceKindName + " name";
-    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, nullptr);
+    Option_::Descriptor   firstDescriptor(kOptionUNKNOWN, 0, "", "", Option_::Arg::None, NULL);
     Option_::Descriptor   argsDescriptor(kOptionARGS, 0, "a", "args", Option_::Arg::None,
                                          T_("  --args, -a        Report the argument formats"));
     Option_::Descriptor   channelDescriptor(kOptionCHANNEL, 0, "c", "channel", Option_::Arg::None,
@@ -972,7 +972,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Descriptor   versionDescriptor(kOptionVERSION, 0, "v", "vers", Option_::Arg::None,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
-    Option_::Descriptor   lastDescriptor(0, 0, nullptr, nullptr, nullptr, nullptr);
+    Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
     Option_::Descriptor   usage[12];
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;

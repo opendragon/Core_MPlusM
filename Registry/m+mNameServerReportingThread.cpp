@@ -128,7 +128,7 @@ static void DNSSD_API registrationCallback(DNSServiceRef       service,
 #endif // defined(__APPLE__)
 
 NameServerReportingThread::NameServerReportingThread(void) :
-    inherited(), _serviceRef(nullptr)
+    inherited(), _serviceRef(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -159,7 +159,7 @@ void NameServerReportingThread::run(void)
         FD_SET(dns_sd_fd, &readfds);
         tv.tv_sec = 2; // We want to make sure that we see a stop request!
         tv.tv_usec = 0;
-        result = select(nfds, &readfds, nullptr, nullptr, &tv);
+        result = select(nfds, &readfds, NULL, NULL, &tv);
         if (0 < result)
         {
             DNSServiceErrorType err = kDNSServiceErr_NoError;
@@ -203,7 +203,7 @@ bool NameServerReportingThread::threadInit(void)
     yarp::os::Contact   nsContact = yarp::os::Network::getNameServerContact();
     YarpString          serverAddress = nsContact.getHost();
     int                 serverPort = nsContact.getPort();
-    const char *        serverString = nullptr;
+    const char *        serverString = NULL;
     static const char * regType = MpM_MDNS_NAMESERVER_REPORT_;
     const uint16_t      maxTXTSize = 256;
     char                txtBuffer[maxTXTSize];
@@ -220,11 +220,11 @@ bool NameServerReportingThread::threadInit(void)
     TXTRecordSetValue(&txtRecord, MpM_MDNS_NAMESERVER_KEY_,
                       sizeof(MpM_MDNS_NAMESERVER_VERSION_) - 1, MpM_MDNS_NAMESERVER_VERSION_);
     DNSServiceErrorType err = DNSServiceRegister(&_serviceRef, kDNSServiceFlagsNoAutoRename, 0,
-                                                 nullptr /* name */, regType, nullptr /* domain */,
+                                                 NULL /* name */, regType, NULL /* domain */,
                                                  serverString /* host */, htons(serverPort),
                                                  TXTRecordGetLength(&txtRecord),
                                                  TXTRecordGetBytesPtr(&txtRecord),
-                                                 registrationCallback, nullptr);
+                                                 registrationCallback, NULL);
     bool                result = (kDNSServiceErr_NoError == err);
 
     TXTRecordDeallocate(&txtRecord);

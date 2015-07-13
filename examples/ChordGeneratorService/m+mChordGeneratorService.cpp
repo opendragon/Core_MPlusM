@@ -91,7 +91,7 @@ ChordGeneratorService::ChordGeneratorService(const YarpString & launchPath,
     inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_CHORD_GENERATOR_NAME_,
               CHORDGENERATOR_SERVICE_DESCRIPTION_,
               "returns list of MIDI note numbers defining the chord", serviceEndpointName,
-              servicePortNumber), _chordReqHandler(nullptr)
+              servicePortNumber), _chordReqHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -146,7 +146,7 @@ void ChordGeneratorService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_chordReqHandler);
             delete _chordReqHandler;
-            _chordReqHandler = nullptr;
+            _chordReqHandler = NULL;
         }
     }
     catch (...)

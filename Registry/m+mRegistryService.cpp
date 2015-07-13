@@ -338,10 +338,10 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
     {
         if (database)
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -412,10 +412,10 @@ static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
     {
         if (database)
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -483,10 +483,10 @@ static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    databas
     {
         if (database)
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -569,10 +569,10 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
     {
         if (database && (0 <= columnOfInterest1) && (0 <= columnOfInterest2))
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -672,8 +672,8 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
                                                        yarp::os::Bottle & resultList,
                                                        const char *       sqlStatement,
                                                        const int          columnOfInterest = 0,
-                                                       BindFunction       doBinds = nullptr,
-                                                       const void *       data = nullptr)
+                                                       BindFunction       doBinds = NULL,
+                                                       const void *       data = NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
@@ -685,10 +685,10 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
     {
         if (database && (0 <= columnOfInterest))
         {
-            sqlite3_stmt * prepared = nullptr;
+            sqlite3_stmt * prepared = NULL;
             int            sqlRes = sqlite3_prepare_v2(database, sqlStatement,
                                                        static_cast<int>(strlen(sqlStatement)),
-                                                       &prepared, nullptr);
+                                                       &prepared, NULL);
             
             OD_LOG_LL1("sqlRes <- ", sqlRes); //####
             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
@@ -1555,10 +1555,10 @@ RegistryService::RegistryService(const YarpString & launchPath,
               "for a service on the given channel\n"
               "register - record the information for a service on the given channel\n"
               "unregister - remove the information for a service on the given channel",
-              MpM_REGISTRY_ENDPOINT_NAME_, servicePortNumber), _db(nullptr),
-    _validator(new ColumnNameValidator), _matchHandler(nullptr), _pingHandler(nullptr),
-    _statusChannel(nullptr), _registerHandler(nullptr), _unregisterHandler(nullptr),
-    _checker(nullptr), _inMemory(useInMemoryDb), _isActive(false)
+              MpM_REGISTRY_ENDPOINT_NAME_, servicePortNumber), _db(NULL),
+    _validator(new ColumnNameValidator), _matchHandler(NULL), _pingHandler(NULL),
+    _statusChannel(NULL), _registerHandler(NULL), _unregisterHandler(NULL),
+    _checker(NULL), _inMemory(useInMemoryDb), _isActive(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("launchPath = ", launchPath, "servicePortNumber = ", servicePortNumber); //####
@@ -1586,7 +1586,7 @@ RegistryService::~RegistryService(void)
         _statusChannel->close();
 #endif // defined(MpM_DoExplicitClose)
         BaseChannel::RelinquishChannel(_statusChannel);
-        _statusChannel = nullptr;
+        _statusChannel = NULL;
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::~RegistryService
@@ -1853,25 +1853,25 @@ void RegistryService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_matchHandler);
             delete _matchHandler;
-            _matchHandler = nullptr;
+            _matchHandler = NULL;
         }
         if (_pingHandler)
         {
             unregisterRequestHandler(_pingHandler);
             delete _pingHandler;
-            _pingHandler = nullptr;
+            _pingHandler = NULL;
         }
         if (_registerHandler)
         {
             unregisterRequestHandler(_registerHandler);
             delete _registerHandler;
-            _registerHandler = nullptr;
+            _registerHandler = NULL;
         }
         if (_unregisterHandler)
         {
             unregisterRequestHandler(_unregisterHandler);
             delete _unregisterHandler;
-            _unregisterHandler = nullptr;
+            _unregisterHandler = NULL;
         }
     }
     catch (...)
@@ -2423,13 +2423,13 @@ bool RegistryService::setUpDatabase(void)
             }
 #endif // ! defined(MpM_UseTestDatabase)
             sqlRes = sqlite3_open_v2(dbFileName, &_db, SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE,
-                                     nullptr);
+                                     NULL);
             if (SQLITE_OK != sqlRes)
             {
                 OD_LOG("(SQLITE_OK != sqlRes)"); //####
                 okSoFar = false;
                 sqlite3_close(_db);
-                _db = nullptr;
+                _db = NULL;
             }
         }
         if (_db)
@@ -2439,7 +2439,7 @@ bool RegistryService::setUpDatabase(void)
             {
                 OD_LOG("(! okSoFar)"); //####
                 sqlite3_close(_db);
-                _db = nullptr;
+                _db = NULL;
             }
         }
     }
@@ -2639,7 +2639,7 @@ bool RegistryService::stop(void)
                 yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 3.1);
             }
             delete _checker;
-            _checker = nullptr;
+            _checker = NULL;
         }
         if (isActive())
         {

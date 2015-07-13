@@ -137,7 +137,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
-    BaseArgumentDescriptor * result = nullptr;
+    BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
     if (partitionString(inString, 3, inVector))
@@ -162,7 +162,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
         if (okSoFar)
         {
             result = new StringArgumentDescriptor(name, description, argMode, defaultString,
-                                                  nullptr);
+                                                  NULL);
         }
     }
     OD_LOG_EXIT_P(result); //####

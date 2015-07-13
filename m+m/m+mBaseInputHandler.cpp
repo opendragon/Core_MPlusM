@@ -82,7 +82,7 @@ using namespace MplusM::Common;
 #endif // defined(__APPLE__)
 
 BaseInputHandler::BaseInputHandler(void) :
-    inherited(), _channel(nullptr), _canProcessInput(true), _metricsEnabled(false)
+    inherited(), _channel(NULL), _canProcessInput(true), _metricsEnabled(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####

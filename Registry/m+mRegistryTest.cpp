@@ -103,7 +103,7 @@ static int doTestCreateRegistryService(const char * launchPath,
     
     try
     {
-        Registry::RegistryService * registry = nullptr;
+        Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -168,7 +168,7 @@ static int doTestRequestRegistryService(const char * launchPath,
     try
     {
         const char *                secondServiceChannel;
-        Registry::RegistryService * registry = nullptr;
+        Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {
@@ -273,7 +273,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
     try
     {
         const char *                secondServiceChannel;
-        Registry::RegistryService * registry = nullptr;
+        Registry::RegistryService * registry = NULL;
         
         if (0 <= argc)
         {

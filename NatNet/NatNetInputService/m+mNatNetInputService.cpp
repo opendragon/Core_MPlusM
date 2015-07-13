@@ -93,7 +93,7 @@ NatNetInputService::NatNetInputService(const YarpString & launchPath,
                                        const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_NATNETINPUT_CANONICAL_NAME_,
               NATNETINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _generator(nullptr), _burstPeriod(1), _burstSize(1)
+    _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -282,7 +282,7 @@ void NatNetInputService::stopStreams(void)
                 yarp::os::Time::delay(_burstSize / 3.9);
             }
             delete _generator;
-            _generator = nullptr;
+            _generator = NULL;
             clearActive();
         }
     }

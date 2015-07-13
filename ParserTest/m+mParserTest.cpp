@@ -104,13 +104,13 @@ static int doTestParseValue(const bool   expected,
         size_t               len = strlen(inString);
         Parser::MatchValue * didMatch = Parser::MatchValue::CreateMatcher(inString, len, 0, endPos);
         
-        if ((nullptr != didMatch) == expected)
+        if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -152,13 +152,13 @@ static int doTestParseValueList(const bool   expected,
         Parser::MatchValueList * didMatch = Parser::MatchValueList::CreateMatcher(inString, len, 0,
                                                                                   endPos);
         
-        if ((nullptr != didMatch) == expected)
+        if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -202,13 +202,13 @@ static int doTestParseFieldName(const bool   expected,
                                                                                   endPos,
                                                                                   validator);
         
-        if ((nullptr != didMatch) == expected)
+        if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -255,13 +255,13 @@ static int doTestParseFieldWithValues(const bool   expected,
                                                                                         endPos,
                                                                                         validator);
         
-        if ((nullptr != didMatch) == expected)
+        if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -306,13 +306,13 @@ static int doTestParseConstraintList(const bool   expected,
                                                                                     0, endPos,
                                                                                     validator);
         
-        if ((nullptr != didMatch) == expected)
+        if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {
@@ -357,13 +357,13 @@ static int doTestParseExpression(const bool   expected,
                                                                                     0, endPos,
                                                                                     validator);
         
-        if ((nullptr != didMatch) == expected)
+        if ((NULL != didMatch) == expected)
         {
             result = 0;
         }
         else
         {
-            OD_LOG("! ((nullptr != didMatch) == expected)"); //####
+            OD_LOG("! ((NULL != didMatch) == expected)"); //####
         }
         if (didMatch)
         {

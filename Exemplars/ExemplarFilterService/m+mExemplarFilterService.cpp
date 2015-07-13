@@ -262,7 +262,7 @@ void ExemplarFilterService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setOutput(nullptr);
+                _inHandler->setOutput(NULL);
             }
             clearActive();
         }

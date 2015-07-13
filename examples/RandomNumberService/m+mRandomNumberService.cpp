@@ -91,7 +91,7 @@ RandomNumberService::RandomNumberService(const YarpString & launchPath,
     inherited(kServiceKindNormal, launchPath, argc, argv, tag, true,
               MpM_RANDOMNUMBER_CANONICAL_NAME_, RANDOMNUMBER_SERVICE_DESCRIPTION_,
               "random - return the number of random values requested", serviceEndpointName,
-              servicePortNumber), _randomHandler(nullptr)
+              servicePortNumber), _randomHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -145,7 +145,7 @@ void RandomNumberService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_randomHandler);
             delete _randomHandler;
-            _randomHandler = nullptr;
+            _randomHandler = NULL;
         }
     }
     catch (...)

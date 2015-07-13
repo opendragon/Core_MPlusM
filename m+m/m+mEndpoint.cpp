@@ -208,7 +208,7 @@ bool Endpoint::CheckEndpointName(const YarpString & channelName)
 
 Endpoint::Endpoint(const YarpString & endpointName,
                    const YarpString & portNumber) :
-    _channel(nullptr), _contact(), _handler(nullptr), _handlerCreator(nullptr),
+    _channel(NULL), _contact(), _handler(NULL), _handlerCreator(NULL),
     _metricsEnabled(false), _isOpen(false)
 {
     OD_LOG_ENTER(); //####
@@ -289,10 +289,10 @@ void Endpoint::close(void)
                 _channel->close();
 #endif // defined(MpM_DoExplicitClose)
                 BaseChannel::RelinquishChannel(_channel);
-                _channel = nullptr;
+                _channel = NULL;
             }
-            _handler = nullptr;
-            _handlerCreator = nullptr;
+            _handler = NULL;
+            _handlerCreator = NULL;
             _isOpen = false;
         }
     }

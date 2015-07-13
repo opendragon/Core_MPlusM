@@ -76,16 +76,16 @@ namespace MplusM
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function.
              @returns @c true if the client is connected to the service and @c false otherwise. */
-            bool connectToService(CheckFunction checker = nullptr,
-                                  void *        checkStuff = nullptr);
+            bool connectToService(CheckFunction checker = NULL,
+                                  void *        checkStuff = NULL);
             
             /*! @brief Disconnect from the service.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function.
              @returns @c true if the client is no longer connected to the service and @ false
              otherwise. */
-            bool disconnectFromService(CheckFunction checker = nullptr,
-                                       void *        checkStuff = nullptr);
+            bool disconnectFromService(CheckFunction checker = NULL,
+                                       void *        checkStuff = NULL);
             
             /*! @brief Find a matching service and prepare to send requests to it.
              @param criteria The criteria to use to locate the service.
@@ -97,12 +97,12 @@ namespace MplusM
              too many services were found. */
             bool findService(const char *  criteria,
                              const bool    allowOnlyOneMatch = false,
-                             CheckFunction checker = nullptr,
-                             void *        checkStuff = nullptr);
+                             CheckFunction checker = NULL,
+                             void *        checkStuff = NULL);
             
             /*! @brief Set the channel for the client to use.
              @param newChannel The channel to be used. */
-            void setChannel(ClientChannel * newChannel = nullptr);
+            void setChannel(ClientChannel * newChannel = NULL);
             
             /*! @brief Set the channel status reporter for the private channel.
              @param reporter The channel status reporter to be used by the private channel.
@@ -116,8 +116,8 @@ namespace MplusM
             /*! @brief Re-establish the service connection if it has dropped.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
-            void reconnectIfDisconnected(CheckFunction checker = nullptr,
-                                         void *        checkStuff = nullptr);
+            void reconnectIfDisconnected(CheckFunction checker = NULL,
+                                         void *        checkStuff = NULL);
             
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
@@ -194,8 +194,8 @@ namespace MplusM
          @returns A (possibly empty) list of matching service ports or service names. */
         yarp::os::Bottle FindMatchingServices(const YarpString & criteria,
                                               const bool         getNames = false,
-                                              CheckFunction      checker = nullptr,
-                                              void *             checkStuff = nullptr);
+                                              CheckFunction      checker = NULL,
+                                              void *             checkStuff = NULL);
         
     } // Common
     

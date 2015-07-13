@@ -99,7 +99,7 @@ namespace MplusM
                                        const YarpString & pathSuffix,
                                        const bool         forOutput = false,
                                        const bool         useRandomPath = false,
-                                       YarpString *       argumentReference = nullptr);
+                                       YarpString *       argumentReference = NULL);
             
             /*! @brief The destructor. */
             virtual ~FilePathArgumentDescriptor(void);

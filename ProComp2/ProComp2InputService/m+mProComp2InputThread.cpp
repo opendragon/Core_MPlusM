@@ -130,7 +130,7 @@ ProComp2InputThread::~ProComp2InputThread(void)
 void ProComp2InputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = nullptr;
+    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::clearOutputChannel
 
@@ -145,7 +145,7 @@ void ProComp2InputThread::readChannelData(const DWORD time)
     yarp::os::Property & props = message.addDict();
 #if defined(USE_VARIANT_READ_METHOD_)
     _variant_t           variant;
-    SAFEARRAY *          pSA = nullptr;
+    SAFEARRAY *          pSA = NULL;
 #else // ! defined(USE_VARIANT_READ_METHOD_)
     FLOAT                buffer[4096];
 #endif // ! defined(USE_VARIANT_READ_METHOD_)
@@ -234,11 +234,11 @@ void ProComp2InputThread::run(void)
     {
         lTTLLive->StartChannels();
         // Set up a Windows time.
-        aTimer = ::SetTimer(nullptr, 0, PROCOMP2_TIMER_INTERVAL_, nullptr);
+        aTimer = ::SetTimer(NULL, 0, PROCOMP2_TIMER_INTERVAL_, NULL);
     }
     for ( ; ! isStopping(); )
     {
-        while (PeekMessage(&aMessage, nullptr, 0, 0, PM_REMOVE))
+        while (PeekMessage(&aMessage, NULL, 0, 0, PM_REMOVE))
         {
             if (WM_TIMER == aMessage.message)
             {
@@ -252,7 +252,7 @@ void ProComp2InputThread::run(void)
         yarp::os::Time::yield();
     }
     lTTLLive->StopChannels();
-    ::KillTimer(nullptr, aTimer);
+    ::KillTimer(NULL, aTimer);
     if (lTTLLive)
     {
         lTTLLive.Release();
@@ -268,7 +268,7 @@ bool ProComp2InputThread::setupEncoders(void)
     OD_LOG("Autodetecting encoders"); //####
     try
     {
-        lTTLLive->OpenConnections(TTLAPI_OCCMD_AUTODETECT, 1000, nullptr, nullptr);
+        lTTLLive->OpenConnections(TTLAPI_OCCMD_AUTODETECT, 1000, NULL, NULL);
         OD_LOG("Setting up channels"); //####
         lTTLLive->AutoSetupChannels();
         for (LONG channelHND = lTTLLive->GetFirstChannelHND(); -1 < channelHND;
@@ -296,7 +296,7 @@ bool ProComp2InputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool    result = true;
-	HRESULT hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
+	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 	
 	if (SUCCEEDED(hr))
 	{

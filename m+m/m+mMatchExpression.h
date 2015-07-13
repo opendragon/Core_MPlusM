@@ -72,7 +72,7 @@ namespace MplusM
              @param suffixString The SELECT suffix to be applied after each expression.
              @returns A string representing the value as a string suitable for use with SQL. */
             YarpString asSQLString(const char * prefixString,
-                                   const char * suffixString = nullptr)
+                                   const char * suffixString = NULL)
             const;
             
             /*! @brief Return the match value as a printable string.
@@ -98,7 +98,7 @@ namespace MplusM
                                                    const size_t        inLength,
                                                    const size_t        startPos,
                                                    size_t &            endPos,
-                                                   BaseNameValidator * validator = nullptr);
+                                                   BaseNameValidator * validator = NULL);
             
             /*! @brief Return an element from the expression list.
              @param index The zero-origin index of the element.

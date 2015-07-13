@@ -155,7 +155,7 @@ static bool lOdIncludeThreadID_ = false;
 #  endif // MAC_OR_LINUX_
 
 /*! @brief The stream to be used when logging to a file. */
-static FILE * lOdLogFile_ = nullptr;
+static FILE * lOdLogFile_ = NULL;
 
 #  if MAC_OR_LINUX_
 /*! @brief The thread key to be used. */
@@ -224,7 +224,7 @@ static void odReleaseThreadSpecificData_(void * data)
 {
     tOdThreadData * stuff = (tOdThreadData *) data;
     
-    pthread_setspecific(lOdThreadSpecificKey_, nullptr);
+    pthread_setspecific(lOdThreadSpecificKey_, NULL);
     free(stuff);
 } // odReleaseThreadSpecificData_
 #  endif // MAC_OR_LINUX_
@@ -1795,7 +1795,7 @@ EXTERN_C void ODLogInit_(const char * prefix,
         sprintf_s(pidString, sizeof(pidString), "od_temp.log");
         if (! fopen_s(&lOdLogFile_, pidString, "w"))
         {
-            lOdLogFile_ = nullptr;
+            lOdLogFile_ = NULL;
         }
 #  endif // ! MAC_OR_LINUX_
         if (lOdLogFile_)

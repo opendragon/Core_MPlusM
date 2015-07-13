@@ -94,7 +94,7 @@ ExemplarOutputService::ExemplarOutputService(const YarpString & launchPath,
                                              const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLAROUTPUT_CANONICAL_NAME_,
               EXEMPLAROUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _outFile(nullptr), _inHandler(new ExemplarOutputInputHandler)
+    _outFile(NULL), _inHandler(new ExemplarOutputInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -229,7 +229,7 @@ void ExemplarOutputService::startStreams(void)
                 else
                 {
                     fclose(_outFile);
-                    _outFile = nullptr;
+                    _outFile = NULL;
                 }
             }
         }
@@ -269,10 +269,10 @@ void ExemplarOutputService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setFile(nullptr);
+                _inHandler->setFile(NULL);
             }
             fclose(_outFile);
-            _outFile = nullptr;
+            _outFile = NULL;
             clearActive();
         }
     }

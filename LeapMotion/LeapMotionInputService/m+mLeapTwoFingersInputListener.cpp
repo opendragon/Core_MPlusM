@@ -115,7 +115,7 @@ LeapTwoFingersInputListener::~LeapTwoFingersInputListener(void)
 void LeapTwoFingersInputListener::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = nullptr;
+    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::clearOutputChannel
 

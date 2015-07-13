@@ -98,7 +98,7 @@ TunnelService::TunnelService(const YarpString & sourceName,
               TUNNEL_SERVICE_DESCRIPTION_,
               "where - return the matching internet address", serviceEndpointName,
               servicePortNumber), _listenAddress(""), _sourceAddress(sourceName),
-    _whereHandler(nullptr), _connection(new ConnectionThread(*this)), _listenPort(-1),
+    _whereHandler(NULL), _connection(new ConnectionThread(*this)), _listenPort(-1),
     _sourcePort(sourcePort)
 {
     OD_LOG_ENTER(); //####
@@ -121,7 +121,7 @@ TunnelService::~TunnelService(void)
     if (_connection)
     {
         delete _connection;
-        _connection = nullptr;
+        _connection = NULL;
     }
     OD_LOG_OBJEXIT(); //####
 } // TunnelService::~TunnelService
@@ -162,7 +162,7 @@ void TunnelService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_whereHandler);
             delete _whereHandler;
-            _whereHandler = nullptr;
+            _whereHandler = NULL;
         }
     }
     catch (...)

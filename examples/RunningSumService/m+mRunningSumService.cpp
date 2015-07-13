@@ -98,8 +98,8 @@ RunningSumService::RunningSumService(const YarpString & launchPath,
               "reset - clear the running sum\n"
               "start - start adding values to the running sum\n"
               "stop - stop adding values to the running sum", serviceEndpointName,
-              servicePortNumber), _addToSumHandler(nullptr), _resetSumHandler(nullptr),
-    _startSumHandler(nullptr), _stopSumHandler(nullptr)
+              servicePortNumber), _addToSumHandler(NULL), _resetSumHandler(NULL),
+    _startSumHandler(NULL), _stopSumHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -189,25 +189,25 @@ void RunningSumService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_addToSumHandler);
             delete _addToSumHandler;
-            _addToSumHandler = nullptr;
+            _addToSumHandler = NULL;
         }
         if (_resetSumHandler)
         {
             unregisterRequestHandler(_resetSumHandler);
             delete _resetSumHandler;
-            _resetSumHandler = nullptr;
+            _resetSumHandler = NULL;
         }
         if (_startSumHandler)
         {
             unregisterRequestHandler(_startSumHandler);
             delete _startSumHandler;
-            _startSumHandler = nullptr;
+            _startSumHandler = NULL;
         }
         if (_stopSumHandler)
         {
             unregisterRequestHandler(_stopSumHandler);
             delete _stopSumHandler;
-            _stopSumHandler = nullptr;
+            _stopSumHandler = NULL;
         }
     }
     catch (...)

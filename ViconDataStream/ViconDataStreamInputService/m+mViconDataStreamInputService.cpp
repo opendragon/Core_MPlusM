@@ -93,7 +93,7 @@ ViconDataStreamInputService::ViconDataStreamInputService(const YarpString & laun
                                                          const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_VICONDATASTREAMINPUT_CANONICAL_NAME_,
               VICONDATASTREAMINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
-			  servicePortNumber), _eventThread(nullptr), _hostName("localhost"),
+			  servicePortNumber), _eventThread(NULL), _hostName("localhost"),
 	_hostPort(VICONDATASTREAMINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
@@ -290,7 +290,7 @@ void ViconDataStreamInputService::stopStreams(void)
                 yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
             }
             delete _eventThread;
-            _eventThread = nullptr;
+            _eventThread = NULL;
             clearActive();
         }
     }

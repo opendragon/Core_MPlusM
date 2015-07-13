@@ -175,8 +175,8 @@ namespace MplusM
                            const YarpString &    toPortName,
                            const double          timeToWait,
                            const bool            isUDP = false,
-                           Common::CheckFunction checker = nullptr,
-                           void *                checkStuff = nullptr);
+                           Common::CheckFunction checker = NULL,
+                           void *                checkStuff = NULL);
         
         /*! @brief Check if a connection exists between two ports.
          @param fromPortName The name of the source port.
@@ -229,8 +229,8 @@ namespace MplusM
                                    Common::ChannelVector & outputs,
                                    const InputOutputFlag   which,
                                    const bool              quiet = false,
-                                   Common::CheckFunction   checker = nullptr,
-                                   void *                  checkStuff = nullptr);
+                                   Common::CheckFunction   checker = NULL,
+                                   void *                  checkStuff = NULL);
         
         /*! @brief Return the time since 1 January, 1970, as milliseconds.
          @returns The time elapsed since 1 January, 1970. */
@@ -289,8 +289,8 @@ namespace MplusM
         bool GetMetricsForService(const YarpString &    serviceChannelName,
                                   yarp::os::Bottle &    metrics,
                                   const double          timeToWait,
-                                  Common::CheckFunction checker = nullptr,
-                                  void *                checkStuff = nullptr);
+                                  Common::CheckFunction checker = NULL,
+                                  void *                checkStuff = NULL);
         
         /*! @brief Retrieve the state of the channel metrics for a service.
          @param serviceChannelName The channel for the service.
@@ -302,8 +302,8 @@ namespace MplusM
         bool GetMetricsStateForService(const YarpString &    serviceChannelName,
                                        bool &                metricsState,
                                        const double          timeToWait,
-                                       Common::CheckFunction checker = nullptr,
-                                       void *                checkStuff = nullptr);
+                                       Common::CheckFunction checker = NULL,
+                                       void *                checkStuff = NULL);
         
         /*! @brief Retrieve the details for a service.
          @param serviceChannelName The channel for the service.
@@ -315,8 +315,8 @@ namespace MplusM
         bool GetNameAndDescriptionForService(const YarpString &    serviceChannelName,
                                              ServiceDescriptor &   descriptor,
                                              const double          timeToWait,
-                                             Common::CheckFunction checker = nullptr,
-                                             void *                checkStuff = nullptr);
+                                             Common::CheckFunction checker = NULL,
+                                             void *                checkStuff = NULL);
         
         /*! @brief Map a port name to the port kind.
          @param portName The name of the port.
@@ -341,8 +341,8 @@ namespace MplusM
          otherwise.*/
         bool GetServiceNames(YarpStringVector &    services,
                              const bool            quiet = false,
-                             Common::CheckFunction checker = nullptr,
-                             void *                checkStuff = nullptr);
+                             Common::CheckFunction checker = NULL,
+                             void *                checkStuff = NULL);
         
         /*! @brief Retrieve the set of known services.
          @param criteria The matching criteria to be used.
@@ -355,8 +355,8 @@ namespace MplusM
         bool GetServiceNamesFromCriteria(const YarpString &    criteria,
                                          YarpStringVector &    services,
                                          const bool            quiet = false,
-                                         Common::CheckFunction checker = nullptr,
-                                         void *                checkStuff = nullptr);
+                                         Common::CheckFunction checker = NULL,
+                                         void *                checkStuff = NULL);
 
         /*! @brief Put the active thread to sleep for a number of milliseconds.
          @param milliseconds The number of milliseconds to sleep. */
@@ -384,8 +384,8 @@ namespace MplusM
                                        const YarpString &    destinationName,
                                        const double          timeToWait,
                                        const bool            isUDP = false,
-                                       Common::CheckFunction checker = nullptr,
-                                       void *                checkStuff = nullptr);
+                                       Common::CheckFunction checker = NULL,
+                                       void *                checkStuff = NULL);
         
         /*! @brief Disconnect two channels, using a backoff strategy with retries.
          @param sourceName The name of the source channel.
@@ -397,8 +397,8 @@ namespace MplusM
         bool NetworkDisconnectWithRetries(const YarpString &    sourceName,
                                           const YarpString &    destinationName,
                                           const double          timeToWait,
-                                          Common::CheckFunction checker = nullptr,
-                                          void *                checkStuff = nullptr);
+                                          Common::CheckFunction checker = NULL,
+                                          void *                checkStuff = NULL);
         
         /*! @brief Return @c true if the port name is for the %Registry Service.
          @param portName the name of the port.
@@ -435,7 +435,7 @@ namespace MplusM
                                           const char *            copyrightHolder,
                                           Common::OutputFlavour & flavour,
                                           const bool              ignoreFlavours = false,
-                                          YarpStringVector *      arguments = nullptr);
+                                          YarpStringVector *      arguments = NULL);
         
         /*! @brief Process the standard options for utility executables.
          The option '-h' / '--help' displays the list of optional parameters and arguments and
@@ -464,7 +464,7 @@ namespace MplusM
                                              const char *            copyrightHolder,
                                              Common::OutputFlavour & flavour,
                                              const bool              ignoreFlavours = false,
-                                             YarpStringVector *      arguments = nullptr);
+                                             YarpStringVector *      arguments = NULL);
         
         /*! @brief Remove a connection between two ports.
          @param fromPortName The name of the source port.
@@ -474,8 +474,8 @@ namespace MplusM
          @returns @c true if the connection was removed and @c false otherwise. */
         bool RemoveConnection(const YarpString &    fromPortName,
                               const YarpString &    toPortName,
-                              Common::CheckFunction checker = nullptr,
-                              void *                checkStuff = nullptr);
+                              Common::CheckFunction checker = NULL,
+                              void *                checkStuff = NULL);
         
         /*! @brief Remove any ports that YARP considers to be stale.
          @param timeout The number of seconds to allow YARP to check a port. */
@@ -492,8 +492,8 @@ namespace MplusM
         bool SetMetricsStateForService(const YarpString &    serviceChannelName,
                                        const bool            newMetricsState,
                                        const double          timeToWait,
-                                       Common::CheckFunction checker = nullptr,
-                                       void *                checkStuff = nullptr);
+                                       Common::CheckFunction checker = NULL,
+                                       void *                checkStuff = NULL);
         
         /*! @brief Set up the global status reporter. */
         void SetUpGlobalStatusReporter(void);
@@ -509,8 +509,8 @@ namespace MplusM
          @returns @c true if the service was stopped and @c false otherwise. */
         bool StopAService(const YarpString &    serviceChannelName,
                           const double          timeToWait,
-                          Common::CheckFunction checker = nullptr,
-                          void *                checkStuff = nullptr);
+                          Common::CheckFunction checker = NULL,
+                          void *                checkStuff = NULL);
         
         /*! @brief Checks a network port number for validity.
          @param aPort The port number to be checked.

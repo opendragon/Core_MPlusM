@@ -101,7 +101,7 @@ namespace MplusM
                                       const int          minimumValue,
                                       const bool         hasMaximumValue,
                                       const int          maximumValue,
-                                      int *              argumentReference = nullptr);
+                                      int *              argumentReference = NULL);
             
             /*! @brief The destructor. */
             virtual ~IntegerArgumentDescriptor(void);

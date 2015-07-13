@@ -94,7 +94,7 @@ RGBLEDService::RGBLEDService(const YarpString & launchPath,
         inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_RGBLED_CANONICAL_NAME_,
                   "An example RGB LED service",
                   "echo - send back any values given with the request", serviceEndpointName,
-                  servicePortNumber), _rgbledHandler(nullptr)
+                  servicePortNumber), _rgbledHandler(NULL)
 {
     OD_LOG_ENTER();//####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -148,7 +148,7 @@ void RGBLEDService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_rgbledHandler);
             delete _rgbledHandler;
-            _rgbledHandler = nullptr;
+            _rgbledHandler = NULL;
         }
     }
     catch (...)

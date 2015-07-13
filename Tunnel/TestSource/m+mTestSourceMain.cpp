@@ -182,7 +182,7 @@ int main(int      argc,
                     bool   keepGoing = true;
                     char   outBuff[OUTGOING_SIZE_];
                     OD_LOG("waiting for a connection"); //####
-                    SOCKET sourceSocket = accept(listenSocket, nullptr, nullptr);
+                    SOCKET sourceSocket = accept(listenSocket, NULL, NULL);
                     
                     OD_LOG_L1("sourceSocket = ", sourceSocket); //####
                     for (int ii = 0; ii < OUTGOING_SIZE_; ++ii)

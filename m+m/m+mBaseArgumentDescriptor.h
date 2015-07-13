@@ -179,6 +179,14 @@ namespace MplusM
                 return false;
             } // isForFiles
             
+            /*! @brief Return @c true if the argument is modifiable and @c false otherwise.
+             @returns @c true if the argument is modifiable and @c false otherwise. */
+            inline bool isModifiable(void)
+            const
+            {
+                return (_argMode & kArgModeModifiable);
+            } // isModifiable
+            
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
              @returns @c true if the argument is optional and @c false otherwise. */
             inline bool isOptional(void)

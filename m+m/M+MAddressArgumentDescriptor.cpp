@@ -112,7 +112,7 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
-    BaseArgumentDescriptor * result = nullptr;
+    BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
     if (partitionString(inString, 3, inVector))
@@ -147,7 +147,7 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
         if (okSoFar)
         {
             result = new AddressArgumentDescriptor(name, description, argMode, defaultString,
-                                                   nullptr, nullptr);
+                                                   NULL, NULL);
         }
     }
     OD_LOG_EXIT_P(result); //####

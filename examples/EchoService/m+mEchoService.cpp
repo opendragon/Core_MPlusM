@@ -90,7 +90,7 @@ EchoService::EchoService(const YarpString & launchPath,
                          const YarpString & servicePortNumber) :
     inherited(kServiceKindNormal, launchPath, argc, argv, tag, true, MpM_ECHO_CANONICAL_NAME_,
               ECHO_SERVICE_DESCRIPTION_, "echo - send back any values given with the request",
-              serviceEndpointName, servicePortNumber), _echoHandler(nullptr)
+              serviceEndpointName, servicePortNumber), _echoHandler(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -144,7 +144,7 @@ void EchoService::detachRequestHandlers(void)
         {
             unregisterRequestHandler(_echoHandler);
             delete _echoHandler;
-            _echoHandler = nullptr;
+            _echoHandler = NULL;
         }
     }
     catch (...)

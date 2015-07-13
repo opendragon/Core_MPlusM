@@ -151,7 +151,7 @@ const char * TestNameValidator::getPrefixAndSuffix(const char *   aString,
     OD_LOG_ENTER(); //####
     OD_LOG_S1("aString = ", aString); //####
     OD_LOG_P2("prefixString = ", &prefixString, "suffixString = ", &suffixString); //####
-    const char * result = nullptr;
+    const char * result = NULL;
     
     try
     {
@@ -164,8 +164,8 @@ const char * TestNameValidator::getPrefixAndSuffix(const char *   aString,
             }
             
         }
-        prefixString = nullptr;
-        suffixString = nullptr;
+        prefixString = NULL;
+        suffixString = NULL;
     }
     catch (...)
     {

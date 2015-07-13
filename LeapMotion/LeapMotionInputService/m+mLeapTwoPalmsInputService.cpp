@@ -93,7 +93,7 @@ LeapTwoPalmsInputService::LeapTwoPalmsInputService(const YarpString & launchPath
                                                    const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_LEAPTWOPALMSINPUT_CANONICAL_NAME_,
               LEAPTWOPALMSINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _controller(new Leap::Controller), _listener(nullptr)
+    _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -110,7 +110,7 @@ LeapTwoPalmsInputService::~LeapTwoPalmsInputService(void)
     if (_controller)
     {
         delete _controller;
-        _controller = nullptr;
+        _controller = NULL;
     }
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputService::~LeapTwoPalmsInputService
@@ -266,7 +266,7 @@ void LeapTwoPalmsInputService::stopStreams(void)
             {
                 _controller->removeListener(*_listener);
                 delete _listener;
-                _listener = nullptr;
+                _listener = NULL;
             }
             clearActive();
         }

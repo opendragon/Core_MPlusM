@@ -101,8 +101,8 @@ using namespace om;
 OpenStageInputThread::OpenStageInputThread(Common::GeneralChannel * outChannel,
 	                                       const YarpString &       name,
 										   const int                port) :
-	inherited(), _address(name), _port(port), _outChannel(outChannel), _client(nullptr),
-	_actorStream(nullptr), _actorViewJoint(nullptr)
+	inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
+	_actorStream(NULL), _actorViewJoint(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -124,7 +124,7 @@ OpenStageInputThread::~OpenStageInputThread(void)
 void OpenStageInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = nullptr;
+    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::clearOutputChannel
 

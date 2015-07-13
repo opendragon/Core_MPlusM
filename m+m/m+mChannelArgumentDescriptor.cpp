@@ -112,7 +112,7 @@ BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpStr
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
-    BaseArgumentDescriptor * result = nullptr;
+    BaseArgumentDescriptor * result = NULL;
     YarpStringVector         inVector;
 
     if (partitionString(inString, 3, inVector))
@@ -141,7 +141,7 @@ BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpStr
         if (okSoFar)
         {
             result = new ChannelArgumentDescriptor(name, description, argMode, defaultString,
-                                                   nullptr);
+                                                   NULL);
         }
     }
     OD_LOG_EXIT_P(result); //####

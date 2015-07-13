@@ -94,7 +94,7 @@ RecordAsJSONOutputService::RecordAsJSONOutputService(const YarpString & launchPa
                                                      const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_RECORDASJSONOUTPUT_CANONICAL_NAME_,
               RECORDASJSONOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _outFile(nullptr), _inHandler(new RecordAsJSONOutputInputHandler)
+    _outFile(NULL), _inHandler(new RecordAsJSONOutputInputHandler)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -222,7 +222,7 @@ void RecordAsJSONOutputService::startStreams(void)
 #else // ! MAC_OR_LINUX_
             if (! fopen_s(&_outFile, _outPath.c_str(), "w"))
             {
-                _outFile = nullptr;
+                _outFile = NULL;
             }
 #endif // ! MAC_OR_LINUX_
             if (_outFile)
@@ -236,7 +236,7 @@ void RecordAsJSONOutputService::startStreams(void)
                 else
                 {
                     fclose(_outFile);
-                    _outFile = nullptr;
+                    _outFile = NULL;
                 }
             }
         }
@@ -276,10 +276,10 @@ void RecordAsJSONOutputService::stopStreams(void)
         {
             if (_inHandler)
             {
-                _inHandler->setFile(nullptr);
+                _inHandler->setFile(NULL);
             }
             fclose(_outFile);
-            _outFile = nullptr;
+            _outFile = NULL;
             clearActive();
         }
     }

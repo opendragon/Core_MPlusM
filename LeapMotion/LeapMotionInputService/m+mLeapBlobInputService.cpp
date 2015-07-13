@@ -93,7 +93,7 @@ LeapBlobInputService::LeapBlobInputService(const YarpString & launchPath,
                                            const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_LEAPBLOBINPUT_CANONICAL_NAME_,
               LEAPBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _translationScale(1), _controller(new Leap::Controller), _listener(nullptr)
+    _translationScale(1), _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -110,7 +110,7 @@ LeapBlobInputService::~LeapBlobInputService(void)
     if (_controller)
     {
         delete _controller;
-        _controller = nullptr;
+        _controller = NULL;
     }
     OD_LOG_OBJEXIT(); //####
 } // LeapBlobInputService::~LeapBlobInputService
@@ -288,7 +288,7 @@ void LeapBlobInputService::stopStreams(void)
             {
                 _controller->removeListener(*_listener);
                 delete _listener;
-                _listener = nullptr;
+                _listener = NULL;
             }
             clearActive();
         }

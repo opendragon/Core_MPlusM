@@ -83,8 +83,8 @@ namespace MplusM
                                       const YarpString & argDescription,
                                       const ArgumentMode argMode,
                                       const YarpString & defaultValue,
-                                      YarpString *       argumentReference = nullptr,
-                                      struct in_addr *   addrBuff = nullptr);
+                                      YarpString *       argumentReference = NULL,
+                                      struct in_addr *   addrBuff = NULL);
 
             /*! @brief The destructor. */
             virtual ~AddressArgumentDescriptor(void);

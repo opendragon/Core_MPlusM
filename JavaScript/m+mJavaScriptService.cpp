@@ -262,7 +262,7 @@ JavaScriptService::JavaScriptService(JSContext *                 context,
                                      const YarpString &          servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME_, description, "",
               serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
-    _generator(nullptr), _context(context), _global(global),
+    _generator(NULL), _context(context), _global(global),
     _loadedInletDescriptions(loadedInletDescriptions),
     _loadedOutletDescriptions(loadedOutletDescriptions), _scriptStartingFunc(context),
     _scriptStoppingFunc(context), _scriptThreadFunc(context), _threadInterval(loadedInterval),
@@ -592,7 +592,7 @@ void JavaScriptService::stopStreams(void)
                     yarp::os::Time::delay(_threadInterval / 3.9);
                 }
                 delete _generator;
-                _generator = nullptr;
+                _generator = NULL;
             }
             else
             {

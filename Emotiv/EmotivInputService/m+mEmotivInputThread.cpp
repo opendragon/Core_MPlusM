@@ -105,7 +105,7 @@ EmotivInputThread::~EmotivInputThread(void)
 void EmotivInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-    _outChannel = nullptr;
+    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // EmotivInputThread::clearOutputChannel
 
