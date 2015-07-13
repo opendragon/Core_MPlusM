@@ -205,13 +205,21 @@ static void setUpAndGo(YarpString &                        hostName,
                             case 'c' :
                             case 'C' :
                                 // Configure
-								configureData.clear();
-								configureData.addString(hostName);
-								configureData.addInt(hostPort);
-								if (aService->configure(configureData))
-                                {
-                                    configured = true;
-                                }
+								configured = Utilities::PromptForValues(argumentList);
+								if (configured)
+								{
+									configureData.clear();
+									configureData.addString(hostName);
+									configureData.addInt(hostPort);
+									if (aService->configure(configureData))
+									{
+										configured = true;
+									}
+								}
+								else
+								{
+									cout << "One or more values out of range." << endl;
+								}
                                 break;
                                 
                             case 'e' :
@@ -360,6 +368,8 @@ int main(int      argc,
                                                        &hostPort);
 		Utilities::DescriptorVector          argumentList;
 
+		argumentList.push_back(&firstArg);
+		argumentList.push_back(&secondArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_OPENSTAGEINPUT_SERVICE_NAME_,
                                           OPENSTAGEINPUT_SERVICE_DESCRIPTION_, "", 2015,

@@ -172,14 +172,23 @@ bool AddressArgumentDescriptor::validate(const YarpString & value)
 const
 {
     OD_LOG_OBJENTER(); //####
-    bool result;
+    bool       result;
+	YarpString testValue;
     
+	if (value == "localhost")
+	{
+		testValue = "127.0.0.1";
+	}
+	else
+	{
+		testValue = value;
+	}
     if (_addrBuff)
     {
 #if MAC_OR_LINUX_
-        result = (0 < inet_pton(AF_INET, value.c_str(), _addrBuff));
+        result = (0 < inet_pton(AF_INET, testValue.c_str(), _addrBuff));
 #else // ! MAC_OR_LINUX_
-        result = (0 < InetPton(AF_INET, value.c_str(), _addrBuff));
+        result = (0 < InetPton(AF_INET, testValue.c_str(), _addrBuff));
 #endif // ! MAC_OR_LINUX_
     }
     else
@@ -187,14 +196,14 @@ const
         struct in_addr addrBuff;
         
 #if MAC_OR_LINUX_
-        result = (0 < inet_pton(AF_INET, value.c_str(), &addrBuff));
+        result = (0 < inet_pton(AF_INET, testValue.c_str(), &addrBuff));
 #else // ! MAC_OR_LINUX_
-        result = (0 < InetPton(AF_INET, value.c_str(), &addrBuff));
+        result = (0 < InetPton(AF_INET, testValue.c_str(), &addrBuff));
 #endif // ! MAC_OR_LINUX_
     }
     if (result && _argumentReference)
     {
-        *_argumentReference = value;
+        *_argumentReference = testValue;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
