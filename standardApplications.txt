@@ -11,6 +11,7 @@ m+mLeapMotionInputService
 m+mLeapTwoFingersInputService
 m+mLeapTwoPalmsInputService
 m+mNatNetInputService
+m+mOpenStageBlobInputService
 m+mOpenStageInputService
 m+mProComp2InputService
 m+mRandomBurstInputService

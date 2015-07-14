@@ -40,6 +40,7 @@
 #include "m+mOpenStageBlobInputService.h"
 
 #include <m+m/m+mAddressArgumentDescriptor.h>
+#include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mPortArgumentDescriptor.h>
 #include <m+m/m+mUtilities.h>
