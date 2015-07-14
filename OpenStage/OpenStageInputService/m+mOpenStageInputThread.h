@@ -47,6 +47,8 @@
 # include <om/sdk2/actor_stream.h>
 # include <om/sdk2/actor_view.h>
 # include <om/sdk2/error.h>
+# include <om/sdk2/tree.h>
+# include "om/sdk2/util.h"
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
