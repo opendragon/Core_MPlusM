@@ -516,17 +516,28 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
     bool result = true;
+	char inChar;
 
-    for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
+	// Eat the trailing newline from the request.
+	inChar = std::cin.peek();
+	if (isspace(inChar))
+	{
+		// Eat it.
+		if ('\n' == inChar)
+		{
+			std::cin.get();
+		}
+	}
+	for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         Utilities::BaseArgumentDescriptor * anArg = arguments[ii];
         
         if (anArg && (! anArg->isExtra()))
         {
-            char        inChar;
             std::string inputLine;
             
-            std::cout << anArg->argumentDescription().c_str() << ": ";
+			std::cout << anArg->argumentDescription().c_str();
+			std::cout << " (default=" << anArg->getDefaultValue().c_str() << "): ";
             std::cout.flush();
             // Eat whitespace until we get something useful.
             for ( ; ; )
@@ -535,6 +546,11 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
                 if (isspace(inChar))
                 {
                     // Eat it.
+					if ('\n' == inChar)
+					{
+						break;
+					}
+
                     std::cin.get();
                 }
                 else
@@ -550,11 +566,15 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
             }
             if (getline(std::cin, inputLine))
             {
-                if (! anArg->validate(inputLine))
-                {
-                    result = false;
-                }
-            }
+				if (! inputLine.length())
+				{
+					inputLine = anArg->getDefaultValue().c_str();
+				}
+				if (!anArg->validate(inputLine))
+				{
+					result = false;
+				}
+			}
         }
     }
     OD_LOG_EXIT_B(result); //####
