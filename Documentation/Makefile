@@ -192,7 +192,8 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 
 NNbitmapepsfiles =
 
-OSbitmapepsfiles =
+OSbitmapepsfiles = $(IMAGE_DIR)/launchOpenStageInputService.eps \
+		$(IMAGE_DIR)/runningOpenStageInputService.eps
 
 PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \
 		$(IMAGE_DIR)/runningProComp2InputService.eps
@@ -327,7 +328,7 @@ MpMmainidx = $(MpMmainsource:.tex=.idx)
 
 NNmainidx = $(NNmainsource:.tex=.idx)
 
-OSmaindvi = $(OSmainsource:.tex=.dvi)
+OSmainidx = $(OSmainsource:.tex=.idx)
 
 PC2mainidx = $(PC2mainsource:.tex=.idx)
 
@@ -510,7 +511,7 @@ $(NNmaindvi) : $(NNbitmapepsfiles) $(NNepsfiles) $(NNmainsource) $(NNsecondaryfi
 $(OSmaindvi) : $(OSbitmapepsfiles) $(OSepsfiles) $(OSmainsource) $(OSsecondaryfiles)
 	-latex -interaction=batchmode $(OSmainsource)
 	-latex -interaction=batchmode $(OSmainsource)
-	-latex -interaction=batchmode $(OSNmainsource)
+	-latex -interaction=batchmode $(OSmainsource)
 	makeindex $(OSmainidx)
 	latex -interaction=batchmode $(OSmainsource)
 
@@ -582,4 +583,4 @@ clean :
 #all : $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) $(MpMtarget) \
 #		$(NNtarget) $(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
 all : $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) $(MpMtarget) \
-		$(PC2target) $(VDStarget) $(ARCHIVEtarget)
+		$(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)

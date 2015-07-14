@@ -9,6 +9,10 @@ The version number is recorded in a number of locations:
 \item The documentation version number is located in the \asCode{commonStrings.tex} file
 in the \asCode{Documentation} directory in the \asCode{Core\fUS{}MPlusM} directory
 \longDash{} look for the `\asCode{\textbackslash{}MMV}' macro
+\item\exSp{} The version number is also referred to in the description of the output of
+the \utilityNameR{m+mVersion} application \longDash{} it appears in three `verbatim'
+sections in the \asCode{MpMutilities.tex} file in the \asCode{Documentation} directory in
+the \asCode{Core\fUS{}MPlusM} directory
 \item\exSp{} The primary location for the source code version number is in the
 \asCode{CMakeLists.txt} file in the \asCode{Core\fUS{}MPlusM} directory; the
 `\asCode{set(MpM\fUS{}VERSION\fUS{}MAJOR)}', `\asCode{set(MpM\fUS{}VERSION\fUS{}MINOR}'
@@ -17,7 +21,7 @@ number
 \item\exSp{} The \emph{\MMMU} version number is located in the \asCode{Xcode} project
 settings \longDash{} make sure to change both of the \asCode{Version} and \asCode{Build}
 settings in the \asCode{General} settings for the \asCode{\MMMU} target \longDash{} and
-the \asCode{CMResources.rc} file, where the `\asCode{FILEVERSION}', `\asCode{FileVersion}'
+the \asCode{m+mmResources.rc} file, where the `\asCode{FILEVERSION}', `\asCode{FileVersion}'
 and `\asCode{ProductVersion}' values will need to be modified
 \item\exSp{} The distribution build numbers for Macintosh OS~X are changed via the
 \asCode{Packages} GUI tool \longDash{} update the \asCode{Developer} file, located in the
@@ -26,7 +30,7 @@ directory, as well as the \asCode{m+m} file, located in the
 \asCode{Core\fUS{}MPlusM/Packages} directory
 \item\exSp{} The \asCode{doxygen} configuration files should also be updated; the two
 files are \asCode{Core\fUS{}MPlusM/Doxyfile} and
-\asCode{Utilities\fUS{}Channel Manager/Doxyfile}
+\asCode{Utilities\fUS{}mm\fUS{}manager/Doxyfile}
 \end{itemize}
 To update to the new version number, once the files have been edited, perform the normal
 build process.\\
