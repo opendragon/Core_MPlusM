@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mOpenStageInputThread.cpp
+//  File:       m+mOpenStageBlobInputThread.cpp
 //
 //  Project:    m+m
 //
 //  Contains:   The class definition for a thread that generates output from Organic Motion
-//				OpenStage data.
+//				OpenStage Blob data.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,11 +33,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-06-25
+//  Created:    2015-07-14
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mOpenStageInputThread.h"
+#include "m+mOpenStageBlobInputThread.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -60,7 +60,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for a thread that generates output from Organic Motion %OpenStage
+ @brief The class definition for a thread that generates output from Organic Motion %OpenStage %Blob
  data. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -72,7 +72,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::OpenStage;
+using namespace MplusM::OpenStageBlob;
 using namespace om;
 
 #if defined(__APPLE__)
@@ -98,9 +98,9 @@ using namespace om;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-OpenStageInputThread::OpenStageInputThread(Common::GeneralChannel * outChannel,
-	                                       const YarpString &       name,
-										   const int                port) :
+OpenStageBlobInputThread::OpenStageBlobInputThread(Common::GeneralChannel * outChannel,
+                                                   const YarpString &       name,
+                                                   const int                port) :
 	inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
 	_actorStream(NULL), _actorViewJoint(NULL)
 {
@@ -109,26 +109,26 @@ OpenStageInputThread::OpenStageInputThread(Common::GeneralChannel * outChannel,
     OD_LOG_S1s("name = ", name); //####
     OD_LOG_LL1("port = ", port); //####
     OD_LOG_EXIT_P(this); //####
-} // OpenStageInputThread::OpenStageInputThread
+} // OpenStageBlobInputThread::OpenStageBlobInputThread
 
-OpenStageInputThread::~OpenStageInputThread(void)
+OpenStageBlobInputThread::~OpenStageBlobInputThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // OpenStageInputThread::~OpenStageInputThread
+} // OpenStageBlobInputThread::~OpenStageBlobInputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void OpenStageInputThread::clearOutputChannel(void)
+void OpenStageBlobInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // OpenStageInputThread::clearOutputChannel
+} // OpenStageBlobInputThread::clearOutputChannel
 
-void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
+void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 {
 	OD_LOG_OBJENTER(); //####
 	OD_LOG_P1("actorData = ", &actorData); //####
@@ -195,10 +195,40 @@ void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDa
 			}
 		}
 	}
-	OD_LOG_OBJEXIT(); //####
-} // OpenStageInputThread::processData
 
-void OpenStageInputThread::run(void)
+
+#if 0
+	// The following will work for Blobs!
+	std::cout << std::endl << "data size = " << actorData->GetSize() << std::endl;
+	for (size_t ii = 0; ii < actorData->GetSize(); ++ii)
+	{
+		// Bind the actor data to a view object that provides access to the
+		// joint tree.
+		_actorViewJoint->Bind(actorData->GetAt(ii));
+		sdk2::JointTreeConstPtr      joints = _actorViewJoint->GetJointsAbsolute();
+		sdk2::JointTreeConstIterator itrJoint = joints->Begin();
+		sdk2::JointTreeConstIterator itrJointEnd = joints->End();
+
+		std::cout << "joint size = " << joints->GetSize() << std::endl;//!!!!
+		for ( ; itrJoint != itrJointEnd; ++itrJoint)
+		{
+			sdk2::Matrix44 transform = itrJoint->second->transform;
+			glm::mat3x3    jointTransform(transform.m[0][0], transform.m[0][1], transform.m[0][2],
+				transform.m[1][0], transform.m[1][1], transform.m[1][2],
+				transform.m[2][0], transform.m[2][1], transform.m[2][2]);
+			glm::quat      rotQuat = glm::quat_cast(jointTransform);
+
+			std::cout << "Joint: " << *itrJoint->first
+				<< " pos: (" << transform.m[3][0]
+				<< "," << transform.m[3][1]
+				<< "," << transform.m[3][2] << ") rot: (" << rotQuat.x << "," << rotQuat.y << "," << rotQuat.z << "," << rotQuat.w << ")" << std::endl;
+		}
+	}
+#endif//0
+	OD_LOG_OBJEXIT(); //####
+} // OpenStageBlobInputThread::processData
+
+void OpenStageBlobInputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
 	_actorStream->Start();
@@ -215,9 +245,9 @@ void OpenStageInputThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // OpenStageInputThread::run
+} // OpenStageBlobInputThread::run
 
-bool OpenStageInputThread::threadInit(void)
+bool OpenStageBlobInputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -232,14 +262,14 @@ bool OpenStageInputThread::threadInit(void)
 	_actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
 	OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OpenStageInputThread::threadInit
+} // OpenStageBlobInputThread::threadInit
 
-void OpenStageInputThread::threadRelease(void)
+void OpenStageBlobInputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
 	_actorStream->Stop();
     OD_LOG_OBJEXIT(); //####
-} // OpenStageInputThread::threadRelease
+} // OpenStageBlobInputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

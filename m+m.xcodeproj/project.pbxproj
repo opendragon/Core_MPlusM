@@ -487,6 +487,13 @@
 		DFA7D1561ADDB92900A17BD6 /* m+mUnrealOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mUnrealOutputService.rc.in"; path = "Unreal/UnrealOutputService/m+mUnrealOutputService.rc.in"; sourceTree = "<group>"; };
 		DFA7D1571ADDB93900A17BD6 /* m+mVersion.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mVersion.rc.in"; path = "Version/m+mVersion.rc.in"; sourceTree = "<group>"; };
 		DFA7D1581ADDB94700A17BD6 /* m+mViconDataStreamInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mViconDataStreamInputService.rc.in"; path = "ViconDataStream/ViconDataStreamInputService/m+mViconDataStreamInputService.rc.in"; sourceTree = "<group>"; };
+		DFC3C55C1B558C2E00D79441 /* m+mOpenStageBlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mOpenStageBlobInputRequests.h"; path = "OpenStage/OpenStageInputService/m+mOpenStageBlobInputRequests.h"; sourceTree = "<group>"; };
+		DFC3C55D1B558C2E00D79441 /* m+mOpenStageBlobInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mOpenStageBlobInputService.cpp"; path = "OpenStage/OpenStageInputService/m+mOpenStageBlobInputService.cpp"; sourceTree = "<group>"; };
+		DFC3C55E1B558C2E00D79441 /* m+mOpenStageBlobInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mOpenStageBlobInputService.h"; path = "OpenStage/OpenStageInputService/m+mOpenStageBlobInputService.h"; sourceTree = "<group>"; };
+		DFC3C55F1B558C2E00D79441 /* m+mOpenStageBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mOpenStageBlobInputService.rc.in"; path = "OpenStage/OpenStageInputService/m+mOpenStageBlobInputService.rc.in"; sourceTree = "<group>"; };
+		DFC3C5601B558C2E00D79441 /* m+mOpenStageBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mOpenStageBlobInputServiceMain.cpp"; path = "OpenStage/OpenStageInputService/m+mOpenStageBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
+		DFC3C5611B558C2E00D79441 /* m+mOpenStageBlobInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mOpenStageBlobInputThread.cpp"; path = "OpenStage/OpenStageInputService/m+mOpenStageBlobInputThread.cpp"; sourceTree = "<group>"; };
+		DFC3C5621B558C2E00D79441 /* m+mOpenStageBlobInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mOpenStageBlobInputThread.h"; path = "OpenStage/OpenStageInputService/m+mOpenStageBlobInputThread.h"; sourceTree = "<group>"; };
 		DFCB229818EF23DF00358EA5 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ClientList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFCB229918EF23DF00358EA5 /* m+mClientListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mClientListMain.cpp"; path = "ClientList/m+mClientListMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFCDE4E819DB23150051D294 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/AbsorberService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -933,6 +940,13 @@
 			isa = PBXGroup;
 			children = (
 				DF1C1C821B41B20D00E816A4 /* CMakeLists.txt */,
+				DFC3C55C1B558C2E00D79441 /* m+mOpenStageBlobInputRequests.h */,
+				DFC3C55D1B558C2E00D79441 /* m+mOpenStageBlobInputService.cpp */,
+				DFC3C55E1B558C2E00D79441 /* m+mOpenStageBlobInputService.h */,
+				DFC3C55F1B558C2E00D79441 /* m+mOpenStageBlobInputService.rc.in */,
+				DFC3C5601B558C2E00D79441 /* m+mOpenStageBlobInputServiceMain.cpp */,
+				DFC3C5611B558C2E00D79441 /* m+mOpenStageBlobInputThread.cpp */,
+				DFC3C5621B558C2E00D79441 /* m+mOpenStageBlobInputThread.h */,
 				DF1C1C831B41B20D00E816A4 /* m+mOpenStageInputRequests.h */,
 				DF1C1C841B41B20D00E816A4 /* m+mOpenStageInputService.cpp */,
 				DF1C1C851B41B20D00E816A4 /* m+mOpenStageInputService.h */,
