@@ -85,6 +85,10 @@ namespace MplusM
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
             
+            /*! @brief Set the translation scale.
+             @param newScale The scale factor for translation values. */
+            void setScale(const double newScale);
+            
         protected :
             
         private :
@@ -114,16 +118,9 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Thread inherited;
             
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
+            /*! @brief The translation scale to be used. */
+            double _scale;
+                        
 			/*! @brief The address of the Organic Motion %OpenStage device. */
 			YarpString _address;
 

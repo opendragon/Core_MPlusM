@@ -135,6 +135,9 @@ namespace MplusM
 			/*! @brief The name of the Organic Motion %OpenStage %Blob device server. */
 			YarpString _hostName;
 
+            /*! @brief The scale factor to apply to the translation data. */
+            double _translationScale;
+            
 			/*! @brief The port to connect to the Organic Motion %OpenStage %Blob device server. */
 			int _hostPort;
 

@@ -192,7 +192,9 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 
 NNbitmapepsfiles =
 
-OSbitmapepsfiles = $(IMAGE_DIR)/launchOpenStageInputService.eps \
+OSbitmapepsfiles = $(IMAGE_DIR)/launchOpenStageBlobInputService.eps \
+		$(IMAGE_DIR)/launchOpenStageInputService.eps \
+		$(IMAGE_DIR)/runningOpenStageBlobInputService.eps \
 		$(IMAGE_DIR)/runningOpenStageInputService.eps
 
 PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \

@@ -160,10 +160,10 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 											  transform.m[2][2]);
 				glm::quat      rotQuat = glm::quat_cast(jointTransform);
 
-				outBuffer << *jointTreeIt->first << "\t" << transform.m[3][0] << "\t" <<
-							transform.m[3][1] << "\t" << transform.m[3][2] << "\t" << rotQuat.x <<
-							"\t" << rotQuat.y << "\t" << rotQuat.z << "\t" << rotQuat.w <<
-							LINE_END_;
+				outBuffer << *jointTreeIt->first << "\t" << (transform.m[3][0] * _scale) << "\t" <<
+							(transform.m[3][1] * _scale) << "\t" << (transform.m[3][2] * _scale) <<
+                            "\t" << rotQuat.x << "\t" << rotQuat.y << "\t" << rotQuat.z << "\t" <<
+                            rotQuat.w << LINE_END_;
 
 			}
 		}
@@ -206,6 +206,14 @@ void OpenStageBlobInputThread::run(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::run
+
+void OpenStageBlobInputThread::setScale(const double newScale)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_D1("newScale = ", newScale); //####
+    _scale = newScale;
+    OD_LOG_OBJEXIT(); //####
+} // OpenStageBlobInputThread::setScale
 
 bool OpenStageBlobInputThread::threadInit(void)
 {

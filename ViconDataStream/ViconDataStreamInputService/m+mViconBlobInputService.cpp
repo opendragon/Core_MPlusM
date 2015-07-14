@@ -152,8 +152,9 @@ bool ViconBlobInputService::configure(const yarp::os::Bottle & details)
 						OD_LOG_S1s("_hostName <- ", _hostName); //####
                         _hostPort = thirdNumber;
                         OD_LOG_LL1("_hostPort <- ", _hostPort); //####
-                        buff << "Translation scale is " << 42 << ", host name is '" <<
-                                _hostName.c_str() << "', host port is " << _hostPort;
+                        buff << "Translation scale is " << _translationScale <<
+                                ", host name is '" << _hostName.c_str() << "', host port is " <<
+                                _hostPort;
                         setExtraInformation(buff.str());
                         result = true;
                     }

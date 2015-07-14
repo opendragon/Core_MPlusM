@@ -98,6 +98,7 @@ static void displayCommands(void)
 } // displayCommands
 
 /*! @brief Set up the environment and start the Organic Motion %OpenStage %Blob input service.
+ @param translationScale The translation scale.
  @param hostName The IP address for the device server.
  @param hostPort The port for the device server.
  @param argumentList Descriptions of the arguments to the executable.
@@ -111,7 +112,8 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(YarpString &                        hostName,
+static void setUpAndGo(double &                            translationScale,
+                       YarpString &                        hostName,
 	                   int &                               hostPort,
 	                   const Utilities::DescriptorVector & argumentList,
 					   const YarpString &                  progName,
@@ -125,6 +127,7 @@ static void setUpAndGo(YarpString &                        hostName,
                        const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_D1("translationScale = ", translationScale); //####
 	OD_LOG_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
 		"serviceEndpointName = ", serviceEndpointName); //####
 	OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
@@ -154,6 +157,7 @@ static void setUpAndGo(YarpString &                        hostName,
                 if (goWasSet || (! stdinAvailable))
                 {
 					configureData.clear();
+                    configureData.addDouble(translationScale);
 					configureData.addString(hostName);
 					configureData.addInt(hostPort);
 					if (aService->configure(configureData))
@@ -183,6 +187,7 @@ static void setUpAndGo(YarpString &                        hostName,
                                 if (! configured)
                                 {
 									configureData.clear();
+                                    configureData.addDouble(translationScale);
 									configureData.addString(hostName);
 									configureData.addInt(hostPort);
 									if (aService->configure(configureData))
@@ -203,6 +208,7 @@ static void setUpAndGo(YarpString &                        hostName,
 								if (configured)
 								{
 									configureData.clear();
+                                    configureData.addDouble(translationScale);
 									configureData.addString(hostName);
 									configureData.addInt(hostPort);
 									if (aService->configure(configureData))
@@ -234,6 +240,7 @@ static void setUpAndGo(YarpString &                        hostName,
                                 if (! configured)
                                 {
 									configureData.clear();
+                                    configureData.addDouble(translationScale);
 									configureData.addString(hostName);
 									configureData.addInt(hostPort);
 									if (aService->configure(configureData))
@@ -347,23 +354,28 @@ int main(int      argc,
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
+        double                               translationScale = 1.0;
 		int                                  hostPort;
 		YarpString                           hostName;
 		YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
-		Utilities::AddressArgumentDescriptor firstArg("hostname",
-			                                          T_("IP address for the device server"),
-			                                          Utilities::kArgModeOptional,
-													  SELF_ADDRESS_NAME_, &hostName);
-		Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
-			                                           Utilities::kArgModeOptional,
-                                                       OPENSTAGEBLOBINPUT_DEFAULT_PORT_, false,
-                                                       &hostPort);
+        Utilities::DoubleArgumentDescriptor  firstArg("scale", T_("Translation scale"),
+                                                      Utilities::kArgModeOptional, 1, true, 0.0,
+                                                      false, 0.0, &translationScale);
+        Utilities::AddressArgumentDescriptor secondArg("hostname",
+                                                       T_("IP address for the device server"),
+                                                       Utilities::kArgModeOptional,
+                                                       SELF_ADDRESS_NAME_, &hostName);
+        Utilities::PortArgumentDescriptor    thirdArg("port", T_("Port for the device server"),
+                                                      Utilities::kArgModeOptional,
+                                                      OPENSTAGEBLOBINPUT_DEFAULT_PORT_, false,
+                                                      &hostPort);
 		Utilities::DescriptorVector          argumentList;
 
 		argumentList.push_back(&firstArg);
 		argumentList.push_back(&secondArg);
+        argumentList.push_back(&thirdArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_OPENSTAGEBLOBINPUT_SERVICE_NAME_,
                                           OPENSTAGEBLOBINPUT_SERVICE_DESCRIPTION_, "", 2015,
@@ -380,9 +392,9 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-					setUpAndGo(hostName, hostPort, argumentList, progName, argc, argv, tag,
-						       serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
-							   reportOnExit);
+                    setUpAndGo(translationScale, hostName, hostPort, argumentList,
+                               progName, argc, argv, tag, serviceEndpointName, servicePortNumber,
+                               goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

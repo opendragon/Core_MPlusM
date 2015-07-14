@@ -5,7 +5,10 @@ generating a stream of information on the position and orientation of one or mor
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
-The \emph{configure} request request has no arguments and does nothing.\\
+The \emph{configure} request has two arguments \longDash{} a string value for the host
+name of the Organic Motion OpenStage controller and an integer value for the port on the
+Organic Motion OpenStage controller to connect to.
+These values will be applied when the output stream is started or restarted.\\ 
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
@@ -19,6 +22,8 @@ which stops the output \yarp{} network connection.\\
 
 Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+The application has two optional arguments \longDash{} the host name and port for the
+Organic Motion OpenStage controller.
 \insertAppParameters
 \insertTagDescription{\OSI}
 \insertInputServiceComment\\
@@ -28,8 +33,8 @@ the `\asCode{go}' option, the following commands are available:
 \begin{itemize}
 \item\cmdItem{?}{display a list of the available commands}
 \item\exSp\cmdItem{b}{start the output stream, sending body data}
-\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
-configurable parameters}
+\item\exSp\cmdItem{c}{configure the service by providing the host name and port for the
+Organic Motion OpenStage controller}
 \item\exSp\cmdItem{e}{stop the output stream}
 \item\exSp\cmdItem{q}{quit the application}
 \item\exSp\cmdItem{r}{restart the output stream}
@@ -49,5 +54,64 @@ Once the options are set, the following image will appear in the \emph{\MMMU} wi
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningOpenStageInputService}%
 {serviceRunningOpenStage}{The \emph{\MMMU} entity for the \emph{\OSI} service}{1.0}
+\secondaryEnd
+\primaryEnd
+\primaryStart[TheOSIService]{The~\OSBI{}~Service}
+The \asCode{m+mOpenStageBlobInputService} application is an Input service,
+generating a stream of information on the position and orientation of one or more bodies.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \emph{configure} request has three arguments \longDash{} a floating\longDash{}point
+value for the translation scale to apply to the joint coordinates, a string value for
+the host name of the Organic Motion OpenStage controller and an integer value for the port
+on the Organic Motion OpenStage controller to connect to.
+These values will be applied when the output stream is started or restarted.\\ 
+
+The \emph{restartStreams} request stops and then starts the output stream.\\
+
+The \emph{startStreams} request request initiates listening to the Organic Motion
+OpenStage controller.
+Once started, the service will send groups of body data via the output \yarp{} network
+connection.\\
+
+The \emph{stopStreams} request stops the Organic Motion OpenStage controller listener,
+which stops the output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+The application has three optional arguments \longDash{} the translation scale to be
+applied to the coordinates and the host name and port for the Organic Motion OpenStage
+controller.
+\insertAppParameters
+\insertTagDescription{\OSBI}
+\insertInputServiceComment\\
+
+If the application is running from a terminal and has not been automatically started via
+the `\asCode{go}' option, the following commands are available:
+\begin{itemize}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{b}{start the output stream, sending body data}
+\item\exSp\cmdItem{c}{configure the service by providing the translation scale to be used
+and the host name and port for the Organic Motion OpenStage controller}
+\item\exSp\cmdItem{e}{stop the output stream}
+\item\exSp\cmdItem{q}{quit the application}
+\item\exSp\cmdItem{r}{restart the output stream}
+\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
+output stream is restarted}
+\end{itemize}
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromMMManager]{Starting from \emph{\MMMU}}
+If the service is selected for execution from within the \emph{\MMMU}
+application, the following dialog will be presented:
+\objScaledDiagram{mpm_images/launchOpenStageBlobInputService}%
+{launchServiceOpenStageBlob}{Launch options for the \emph{\OSBI} service}{0.8}
+
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
+Once the options are set, the following image will appear in the \emph{\MMMU} window when
+the service has successfully started:
+\objScaledDiagram{mpm_images/runningOpenStageBlobInputService}%
+{serviceRunningOpenStageBlob}{The \emph{\MMMU} entity for the \emph{\OSBI} service}{1.0}
 \secondaryEnd
 \primaryEnd{}

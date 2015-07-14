@@ -93,7 +93,8 @@ OpenStageBlobInputService::OpenStageBlobInputService(const YarpString & launchPa
                                                      const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_OPENSTAGEBLOBINPUT_CANONICAL_NAME_,
               OPENSTAGEBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _eventThread(NULL), _hostName(SELF_ADDRESS_NAME_), _hostPort(OPENSTAGEBLOBINPUT_DEFAULT_PORT_)
+    _eventThread(NULL), _hostName(SELF_ADDRESS_NAME_), _translationScale(1),
+    _hostPort(OPENSTAGEBLOBINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
@@ -124,24 +125,35 @@ bool OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
     {
         if (! isActive())
         {
-			if (2 == details.size())
+			if (3 == details.size())
 			{
 				yarp::os::Value firstValue(details.get(0));
 				yarp::os::Value secondValue(details.get(1));
+                yarp::os::Value thirdValue(details.get(2));
 
-				if (firstValue.isString() && secondValue.isInt())
+                if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
+                    thirdValue.isInt())
 				{
-					int secondNumber = secondValue.asInt();
+					int thirdNumber = secondValue.asInt();
 
-					if (0 < secondNumber)
+                    if (firstValue.isDouble())
+                    {
+                        _translationScale = firstValue.asDouble();
+                    }
+                    else
+                    {
+                        _translationScale = firstValue.asInt();
+                    }
+                    if ((0 < _translationScale) && (0 < thirdNumber))
 					{
 						std::stringstream buff;
 
-						_hostName = firstValue.asString();
+						_hostName = secondValue.asString();
 						OD_LOG_S1s("_hostName <- ", _hostName); //####
-						_hostPort = secondNumber;
+						_hostPort = thirdNumber;
 						OD_LOG_LL1("_hostPort <- ", _hostPort); //####
-						buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
+                        buff << "Translation scale is " << _translationScale <<
+                                ", host name is '" << _hostName.c_str() << "', host port is " <<
                                 _hostPort;
 						setExtraInformation(buff.str());
 						result = true;
@@ -240,6 +252,7 @@ void OpenStageBlobInputService::startStreams(void)
         if (! isActive())
         {
             _eventThread = new OpenStageBlobInputThread(getOutletStream(0), _hostName, _hostPort);
+            _eventThread->setScale(_translationScale);
 			_eventThread->start();
             setActive();
         }
