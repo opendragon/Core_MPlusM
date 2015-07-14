@@ -211,7 +211,7 @@ bool NameServerReportingThread::threadInit(void)
     
     if (nsContact.isValid())
     {
-        if (serverAddress != "127.0.0.1")
+        if (serverAddress != SELF_ADDRESS_IPADDR_)
         {
             serverString = serverAddress.c_str();
         }

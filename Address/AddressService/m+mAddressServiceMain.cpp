@@ -216,8 +216,8 @@ int main(int      argc,
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("hostname", T_("IP address to return"),
-                                                      Utilities::kArgModeRequired, "127.0.0.1",
-                                                      &hostName);
+                                                      Utilities::kArgModeRequired,
+                                                      SELF_ADDRESS_IPADDR_, &hostName);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to return"),
                                                        Utilities::kArgModeRequired, 12345, true,
                                                        &hostPort);

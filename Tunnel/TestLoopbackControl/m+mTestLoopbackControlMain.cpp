@@ -331,8 +331,8 @@ int main(int      argc,
         YarpString                           hostName;
         struct in_addr                       addrBuff;
         Utilities::AddressArgumentDescriptor firstArg("hostname", T_("IP address to connect to"),
-                                                      Utilities::kArgModeRequired, "127.0.0.1",
-                                                      &hostName, &addrBuff);
+                                                      Utilities::kArgModeRequired,
+                                                      SELF_ADDRESS_IPADDR_, &hostName, &addrBuff);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to connect to"),
                                                        Utilities::kArgModeRequired, 12345, true,
                                                        &hostPort);
