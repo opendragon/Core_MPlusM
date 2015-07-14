@@ -364,8 +364,8 @@ int main(int      argc,
                                                       false, 0.0, &translationScale);
         Utilities::AddressArgumentDescriptor secondArg("hostname",
                                                        T_("IP address for the device server"),
-                                                       Utilities::kArgModeOptional, "localhost",
-                                                       &hostName);
+                                                       Utilities::kArgModeOptional,
+													   SELF_ADDRESS_NAME_, &hostName);
         Utilities::PortArgumentDescriptor    thirdArg("port", T_("Port for the device server"),
 			                                          Utilities::kArgModeOptional,
                                                       VICONBLOBINPUT_DEFAULT_PORT_, true,

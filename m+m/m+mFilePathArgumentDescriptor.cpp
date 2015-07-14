@@ -286,7 +286,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
     return result;
 } // FilePathArgumentDescriptor::parseArgString
 
-void FilePathArgumentDescriptor::setToDefault(void)
+void FilePathArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
     if (_argumentReference)
@@ -298,7 +298,7 @@ void FilePathArgumentDescriptor::setToDefault(void)
         *_argumentReference = _defaultValue;
     }
     OD_LOG_OBJEXIT(); //####
-} // FilePathArgumentDescriptor::setToDefault
+} // FilePathArgumentDescriptor::setToDefaultValue
 
 YarpString FilePathArgumentDescriptor::toString(void)
 {

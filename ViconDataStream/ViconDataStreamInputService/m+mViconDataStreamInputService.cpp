@@ -93,7 +93,7 @@ ViconDataStreamInputService::ViconDataStreamInputService(const YarpString & laun
                                                          const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_VICONDATASTREAMINPUT_CANONICAL_NAME_,
               VICONDATASTREAMINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
-			  servicePortNumber), _eventThread(NULL), _hostName("localhost"),
+			  servicePortNumber), _eventThread(NULL), _hostName(SELF_ADDRESS_NAME_),
 	_hostPort(VICONDATASTREAMINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####

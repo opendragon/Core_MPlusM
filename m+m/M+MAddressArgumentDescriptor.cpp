@@ -95,6 +95,10 @@ AddressArgumentDescriptor::AddressArgumentDescriptor(const YarpString & argName,
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
     OD_LOG_P2("argumentReference = ", argumentReference, "addrBuff = ", addrBuff); //####
+	if (_defaultValue == SELF_ADDRESS_NAME_)
+	{
+		_defaultValue = SELF_ADDRESS_IPADDR_;
+	}
     OD_LOG_EXIT_P(this); //####
 } // AddressArgumentDescriptor::AddressArgumentDescriptor
 
@@ -138,9 +142,9 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
         {
             struct in_addr addrBuff;
 
-            if (defaultString == "localhost")
+            if (defaultString == SELF_ADDRESS_NAME_)
             {
-                defaultString = "127.0.0.1";
+                defaultString = SELF_ADDRESS_IPADDR_;
             }
 #if MAC_OR_LINUX_
             okSoFar = (0 < inet_pton(AF_INET, defaultString.c_str(), &addrBuff));
@@ -175,9 +179,9 @@ const
     bool       result;
 	YarpString testValue;
     
-	if (value == "localhost")
+	if (value == SELF_ADDRESS_NAME_)
 	{
-		testValue = "127.0.0.1";
+		testValue = SELF_ADDRESS_IPADDR_;
 	}
 	else
 	{

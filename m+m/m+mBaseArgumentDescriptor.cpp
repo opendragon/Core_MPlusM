@@ -449,6 +449,16 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     size_t numToCheck = min(numArgs, numValues);
 #endif // ! MAC_OR_LINUX_
 
+	// Set all arguments to their default values, so that they all are defined.
+	for (size_t ii = 0; numArgs > ii; ++ii)
+	{
+		BaseArgumentDescriptor * anArg = arguments[ii];
+
+		if (anArg)
+		{
+			anArg->setToDefaultValue();
+		}
+	}
     // Check if there are required arguments after optional arguments or the trailing arguments
     // placeholder.
     // Note that we don't care how many trailing arguments placeholders there are, but they must
@@ -496,11 +506,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
             
             if (anArg && (! anArg->isExtra()))
             {
-                if (anArg->isOptional())
-                {
-                    anArg->setToDefault();
-                }
-                else
+                if (! anArg->isOptional())
                 {
                     result = false;
                 }

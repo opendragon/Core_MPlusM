@@ -132,6 +132,7 @@ void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDa
 {
 	OD_LOG_OBJENTER(); //####
 	OD_LOG_P1("actorData = ", &actorData); //####
+	std::cout << std::endl << "data size = " << actorData->GetSize() << std::endl;
 	for (size_t ii = 0; ii < actorData->GetSize(); ++ii)
 	{
 		// Bind the actor data to a view object that provides access to the
@@ -143,10 +144,10 @@ void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDa
 
 		for ( ; itrJoint != itrJointEnd; ++itrJoint)
 		{
-			//std::cout << "Joint: " << *itrJoint->first
-			//	<< " pos: (" << itrJoint->second->transform.m[3][0]
-			//	<< "," << itrJoint->second->transform.m[3][1]
-			//	<< "," << itrJoint->second->transform.m[3][2] << ")" << std::endl;
+			std::cout << "Joint: " << *itrJoint->first
+				<< " pos: (" << itrJoint->second->transform.m[3][0]
+				<< "," << itrJoint->second->transform.m[3][1]
+				<< "," << itrJoint->second->transform.m[3][2] << ")" << std::endl;
             //
             // http://glm.g-truc.net/0.9.2/api/a00246.html
 		}

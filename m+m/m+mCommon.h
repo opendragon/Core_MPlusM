@@ -216,6 +216,14 @@
 /*! @brief The retry interval multiplier. */
 # define RETRY_MULTIPLIER_          1.21
 
+/*! @brief The IP address for the loopback address for the machine that is running the
+executable. */
+# define SELF_ADDRESS_IPADDR_       "127.0.0.1"
+
+/*! @brief The IP name for the loopback address for the machine that is running the
+executable. */
+# define SELF_ADDRESS_NAME_         "localhost"
+
 /*! @brief The standard copyright holder name to use for m+m-created executables. */
 # define STANDARD_COPYRIGHT_NAME_   "H Plus Technologies Ltd. and Simon Fraser University"
 

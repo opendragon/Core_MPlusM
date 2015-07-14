@@ -94,10 +94,13 @@ namespace MplusM
          
          The external representation of an argument description is:
          
-         argFormat ::= argName sep typeTagAndInfo sep default_value sep text_description_for_label;
+         argFormat ::= argName sep argMode sep typeTagAndInfo sep default_value sep
+						text_description_for_label;
          
          sep ::= ':';
          
+		 argMode ::= numeric value of mode;
+
          default_value ::= delimiter text delimiter;
          # use matching pairs of |, <>, (), {}, [], whichever is not present in the text
 
@@ -196,7 +199,7 @@ namespace MplusM
             } // isOptional
           
             /*! @brief Set the associated variable to the default value. */
-            virtual void setToDefault(void) = 0;
+            virtual void setToDefaultValue(void) = 0;
 
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */

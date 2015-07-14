@@ -154,11 +154,11 @@ BaseArgumentDescriptor * ExtraArgumentDescriptor::parseArgString(const YarpStrin
     return result;
 } // ExtraArgumentDescriptor::parseArgString
 
-void ExtraArgumentDescriptor::setToDefault(void)
+void ExtraArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // ExtraArgumentDescriptor::setToDefault
+} // ExtraArgumentDescriptor::setToDefaultValue
 
 YarpString ExtraArgumentDescriptor::toString(void)
 {

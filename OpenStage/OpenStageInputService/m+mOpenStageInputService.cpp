@@ -93,7 +93,7 @@ OpenStageInputService::OpenStageInputService(const YarpString & launchPath,
 											 const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_OPENSTAGEINPUT_CANONICAL_NAME_,
               OPENSTAGEINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _eventThread(NULL), _hostName("localhost"), _hostPort(OPENSTAGEINPUT_DEFAULT_PORT_)
+    _eventThread(NULL), _hostName(SELF_ADDRESS_NAME_), _hostPort(OPENSTAGEINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####

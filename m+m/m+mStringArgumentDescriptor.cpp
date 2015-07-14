@@ -169,7 +169,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
     return result;
 } // StringArgumentDescriptor::parseArgString
 
-void StringArgumentDescriptor::setToDefault(void)
+void StringArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
     if (_argumentReference)
@@ -177,7 +177,7 @@ void StringArgumentDescriptor::setToDefault(void)
         *_argumentReference = _defaultValue;
     }
     OD_LOG_OBJEXIT(); //####
-} // StringArgumentDescriptor::setToDefault
+} // StringArgumentDescriptor::setToDefaultValue
 
 YarpString StringArgumentDescriptor::toString(void)
 {

@@ -124,7 +124,7 @@ namespace MplusM
             virtual YarpString getProcessedValue(void);
             
             /*! @brief Set the associated variable to the default value. */
-            virtual void setToDefault(void);
+            virtual void setToDefaultValue(void);
             
             /*! @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */

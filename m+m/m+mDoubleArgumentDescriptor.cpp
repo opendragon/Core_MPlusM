@@ -217,7 +217,7 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
     return result;
 } // DoubleArgumentDescriptor::parseArgString
 
-void DoubleArgumentDescriptor::setToDefault(void)
+void DoubleArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
     if (_argumentReference)
@@ -225,7 +225,7 @@ void DoubleArgumentDescriptor::setToDefault(void)
         *_argumentReference = _defaultValue;
     }
     OD_LOG_OBJEXIT(); //####
-} // DoubleArgumentDescriptor::setToDefault
+} // DoubleArgumentDescriptor::setToDefaultValue
 
 YarpString DoubleArgumentDescriptor::toString(void)
 {

@@ -1330,10 +1330,15 @@ bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
     {
         yarp::os::Contact aContact(nc.getAddress());
         YarpString        hostName(aContact.getHost());
+
+		if (hostName == SELF_ADDRESS_NAME_)
+		{
+			hostName = SELF_ADDRESS_IPADDR_;
+		}
 #if MAC_OR_LINUX_
-        int               res = inet_pton(AF_INET, hostName.c_str(), &serverAddress);
+        int res = inet_pton(AF_INET, hostName.c_str(), &serverAddress);
 #else // ! MAC_OR_LINUX_
-        int               res = InetPton(AF_INET, hostName.c_str(), &serverAddress);
+        int res = InetPton(AF_INET, hostName.c_str(), &serverAddress);
 #endif // ! MAC_OR_LINUX_
 
         serverPort = aContact.getPort();

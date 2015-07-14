@@ -217,7 +217,7 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
     return result;
 } // IntegerArgumentDescriptor::parseArgString
 
-void IntegerArgumentDescriptor::setToDefault(void)
+void IntegerArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
     if (_argumentReference)
@@ -225,7 +225,7 @@ void IntegerArgumentDescriptor::setToDefault(void)
         *_argumentReference = _defaultValue;
     }
     OD_LOG_OBJEXIT(); //####
-} // IntegerArgumentDescriptor::setToDefault
+} // IntegerArgumentDescriptor::setToDefaultValue
 
 YarpString IntegerArgumentDescriptor::toString(void)
 {
