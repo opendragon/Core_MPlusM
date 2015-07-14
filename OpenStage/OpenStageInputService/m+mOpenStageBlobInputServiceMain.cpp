@@ -358,7 +358,7 @@ int main(int      argc,
 													  SELF_ADDRESS_NAME_, &hostName);
 		Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
 			                                           Utilities::kArgModeOptional,
-                                                       OPENSTAGEINPUT_DEFAULT_PORT_, false,
+                                                       OPENSTAGEBLOBINPUT_DEFAULT_PORT_, false,
                                                        &hostPort);
 		Utilities::DescriptorVector          argumentList;
 

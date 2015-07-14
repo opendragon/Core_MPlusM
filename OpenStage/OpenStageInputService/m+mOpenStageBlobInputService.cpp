@@ -93,7 +93,7 @@ OpenStageBlobInputService::OpenStageBlobInputService(const YarpString & launchPa
                                                      const YarpString & servicePortNumber) :
     inherited(launchPath, argc, argv, tag, true, MpM_OPENSTAGEBLOBINPUT_CANONICAL_NAME_,
               OPENSTAGEBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _eventThread(NULL), _hostName(SELF_ADDRESS_NAME_), _hostPort(OPENSTAGEINPUT_DEFAULT_PORT_)
+    _eventThread(NULL), _hostName(SELF_ADDRESS_NAME_), _hostPort(OPENSTAGEBLOBINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####

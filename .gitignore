@@ -304,6 +304,8 @@ m+mMovementDbService
 m+mMovementDbService.rc
 m+mNatNetInputService
 m+mNatNetInputService.rc
+m+mOpenStageBlobInputService
+m+mOpenStageBlobInputService.rc
 m+mOpenStageInputService
 m+mOpenStageInputService.rc
 m+mParserTest

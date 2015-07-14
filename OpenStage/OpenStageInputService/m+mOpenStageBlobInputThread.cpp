@@ -136,12 +136,12 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 
 	if (0 < numActors)
 	{
-		yarp::os::Bottle   message;
-		yarp::os::Bottle & actorList = message.addList();
+		std::stringstream outBuffer;
 
+		// Write out the number of hands == bodies.
+		outBuffer << numActors << LINE_END_;
 		for (size_t ii = 0; ii < numActors; ++ii)
 		{
-			yarp::os::Bottle &     anActor = actorList.addList();
 			sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
 			sdk2::JointTreePtr     jointTree = sdk2::CreateJointTree();
 
@@ -149,43 +149,33 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 			sdk2::JointTreeConstIterator jointTreeIt = jointTree->Begin();
 			sdk2::JointTreeConstIterator jointTreeItEnd = jointTree->End();
 
+			outBuffer << ii << "\t" << jointTree->GetSize() << LINE_END_;
 			for ( ; jointTreeIt != jointTreeItEnd; ++jointTreeIt)
 			{
-				yarp::os::Property & jointProps = anActor.addDict();
-				sdk2::Matrix44       transform = jointTreeIt->second->transform;
-				glm::mat3x3          jointTransform(transform.m[0][0], transform.m[0][1],
-											        transform.m[0][2], transform.m[1][0],
-											        transform.m[1][1], transform.m[1][2],
-					                                transform.m[2][0], transform.m[2][1],
-											        transform.m[2][2]);
-				glm::quat            rotQuat = glm::quat_cast(jointTransform);
+				sdk2::Matrix44 transform = jointTreeIt->second->transform;
+				glm::mat3x3    jointTransform(transform.m[0][0], transform.m[0][1],
+											  transform.m[0][2], transform.m[1][0],
+											  transform.m[1][1], transform.m[1][2],
+					                          transform.m[2][0], transform.m[2][1],
+											  transform.m[2][2]);
+				glm::quat      rotQuat = glm::quat_cast(jointTransform);
 
-				jointProps.put("id", static_cast<const char *>(*jointTreeIt->first));
-				yarp::os::Value    posStuff;
-				yarp::os::Bottle * posList = posStuff.asList();
+				outBuffer << *jointTreeIt->first << "\t" << transform.m[3][0] << "\t" <<
+							transform.m[3][1] << "\t" << transform.m[3][2] << "\t" << rotQuat.x <<
+							"\t" << rotQuat.y << "\t" << rotQuat.z << "\t" << rotQuat.w <<
+							LINE_END_;
 
-				if (posList)
-				{
-					posList->addDouble(transform.m[3][0]);
-					posList->addDouble(transform.m[3][1]);
-					posList->addDouble(transform.m[3][2]);
-					jointProps.put("position", posStuff);
-				}
-				yarp::os::Value    quatStuff;
-				yarp::os::Bottle * quatList = quatStuff.asList();
-
-				if (quatList)
-				{
-					quatList->addDouble(rotQuat.x);
-					quatList->addDouble(rotQuat.y);
-					quatList->addDouble(rotQuat.z);
-					quatList->addDouble(rotQuat.w);
-					jointProps.put("rotation", quatStuff);
-				}
 			}
 		}
+		outBuffer << "END" << LINE_END_;
 		if (_outChannel)
 		{
+			yarp::os::Bottle message;
+			std::string      buffAsString(outBuffer.str());
+			yarp::os::Value  blobValue(const_cast<char *>(buffAsString.c_str()),
+									   static_cast<int>(buffAsString.length()));
+
+			message.add(blobValue);
 			if (!_outChannel->write(message))
 			{
 				OD_LOG("(! _outChannel->write(message))"); //####
@@ -195,36 +185,6 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 			}
 		}
 	}
-
-
-#if 0
-	// The following will work for Blobs!
-	std::cout << std::endl << "data size = " << actorData->GetSize() << std::endl;
-	for (size_t ii = 0; ii < actorData->GetSize(); ++ii)
-	{
-		// Bind the actor data to a view object that provides access to the
-		// joint tree.
-		_actorViewJoint->Bind(actorData->GetAt(ii));
-		sdk2::JointTreeConstPtr      joints = _actorViewJoint->GetJointsAbsolute();
-		sdk2::JointTreeConstIterator itrJoint = joints->Begin();
-		sdk2::JointTreeConstIterator itrJointEnd = joints->End();
-
-		std::cout << "joint size = " << joints->GetSize() << std::endl;//!!!!
-		for ( ; itrJoint != itrJointEnd; ++itrJoint)
-		{
-			sdk2::Matrix44 transform = itrJoint->second->transform;
-			glm::mat3x3    jointTransform(transform.m[0][0], transform.m[0][1], transform.m[0][2],
-				transform.m[1][0], transform.m[1][1], transform.m[1][2],
-				transform.m[2][0], transform.m[2][1], transform.m[2][2]);
-			glm::quat      rotQuat = glm::quat_cast(jointTransform);
-
-			std::cout << "Joint: " << *itrJoint->first
-				<< " pos: (" << transform.m[3][0]
-				<< "," << transform.m[3][1]
-				<< "," << transform.m[3][2] << ") rot: (" << rotQuat.x << "," << rotQuat.y << "," << rotQuat.z << "," << rotQuat.w << ")" << std::endl;
-		}
-	}
-#endif//0
 	OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::processData
 
