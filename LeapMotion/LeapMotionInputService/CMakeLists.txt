@@ -57,28 +57,18 @@ add_library(Leap SHARED IMPORTED)
 
 if(WIN32)
 	if(WIN64)
-		set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64/Leap.dll")
-		set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64/Leap.lib")
-		add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-							"${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64"
-							$<TARGET_FILE_DIR:m+mLeapMotionInputService>)
-		install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64/Leap.dll"
-				DESTINATION bin
-				COMPONENT applications)
+		set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64")
 	else(WIN64)
-		set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86/Leap.dll")
-		set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB
-                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86/Leap.lib")
-		add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86"
-                        $<TARGET_FILE_DIR:m+mLeapMotionInputService>)
-		install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86/Leap.dll"
-				DESTINATION bin
-				COMPONENT applications)
+		set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86")
 	endif(WIN64)
+	set_property(TARGET Leap PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/Leap.dll")
+	set_property(TARGET Leap PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_LIB_DIR}/Leap.lib")
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+						"${MpMLEAPMOTION_LIB_DIR}"
+						$<TARGET_FILE_DIR:m+mLeapMotionInputService>)
+	install(FILES "${MpMLEAPMOTION_LIB_DIR}/Leap.dll"
+			DESTINATION bin
+			COMPONENT applications)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET Leap PROPERTY IMPORTED_LOCATION

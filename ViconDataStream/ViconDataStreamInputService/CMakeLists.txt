@@ -66,25 +66,48 @@ target_link_libraries(${THIS_TARGET}
 
 if(WIN32)
 	add_library(ViconDataStreamSDK SHARED IMPORTED)
+	if(WIN64)
+		set(MpMVICON_LIB_DIR "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/x64")
+		set(MpMVICON_BOOST1_DLL "${MpMVICON_LIB_DIR}/boost_thread-vc110-mt-1_55.dll")
+		set(MpMVICON_BOOST2_DLL "${MpMVICON_LIB_DIR}/boost_chrono-vc110-mt-1_55.dll")
+		set(MpMVICON_BOOST3_DLL "${MpMVICON_LIB_DIR}/boost_python-vc110-mt-1_55.dll")
+		set(MpMVICON_BOOST4_DLL "${MpMVICON_LIB_DIR}/boost_system-vc110-mt-1_55.dll")
+	else(WIN64)
+		set(MpMVICON_LIB_DIR "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/x86")
+		set(MpMVICON_BOOST1_DLL "${MpMVICON_LIB_DIR}/boost_thread-vc90-mt-1_48.dll")
+		set(MpMVICON_BOOST2_DLL "")
+		set(MpMVICON_BOOST3_DLL "")
+		set(MpMVICON_BOOST4_DLL "")
+	endif(WIN64)
 	set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_LOCATION
-"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.dll")
+					"${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.dll")
 	set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_IMPLIB
-"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.lib")
+					"${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.lib")
 	target_link_libraries(${THIS_TARGET}
                           ViconDataStreamSDK)
     install(FILES
-"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/ViconDataStreamSDK_CPP.dll"
+			"${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.dll"
             DESTINATION bin
             COMPONENT applications)
 	add_library(BoostThread SHARED IMPORTED)
-	set_property(TARGET BoostThread PROPERTY IMPORTED_LOCATION
-"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/boost_thread-vc90-mt-1_48.dll")
+	set_property(TARGET BoostThread PROPERTY IMPORTED_LOCATION "${MpMVICON_BOOST1_DLL}")
+	if(WIN64)
+		add_library(BoostChrono SHARED IMPORTED)
+		set_property(TARGET BoostChrono PROPERTY IMPORTED_LOCATION "${MpMVICON_BOOST2_DLL}")
+		add_library(BoostPython SHARED IMPORTED)
+		set_property(TARGET BoostPython PROPERTY IMPORTED_LOCATION "${MpMVICON_BOOST3_DLL}")
+		add_library(BoostSystem SHARED IMPORTED)
+		set_property(TARGET BoostSystem PROPERTY IMPORTED_LOCATION "${MpMVICON_BOOST4_DLL}")
+	endif(WIN64)
 	install(FILES
-"${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib/boost_thread-vc90-mt-1_48.dll"
+			"${MpMVICON_BOOST1_DLL}"
+			"${MpMVICON_BOOST2_DLL}"
+			"${MpMVICON_BOOST3_DLL}"
+			"${MpMVICON_BOOST4_DLL}"
             DESTINATION bin
             COMPONENT applications)			
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-                        "${MpMVICONDATASTREAM_SOURCE_DIR}/ViconDataStreamInputService/ViconLib/Lib"
+                        "${MpMVICON_LIB_DIR}"
                         $<TARGET_FILE_DIR:m+mViconDataStreamInputService>)
 endif(WIN32)
 
