@@ -137,6 +137,10 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseArgumentDescriptor(void);
             
+            /*! @brief Add the processed value to a bottle.
+             @param container The bottle to be modified. */
+            virtual void addValueToBottle(yarp::os::Bottle & container) = 0;
+            
             /*! @brief Return the description of the command-line argument.
              @returns The description of the command-line argument. */
             inline const YarpString & argumentDescription(void)
@@ -305,6 +309,12 @@ namespace MplusM
          @returns A newly allocated argument descriptor or @c NULL if the string is not valid. */
         BaseArgumentDescriptor * ConvertStringToArgument(const YarpString & inString);
 
+        /*! @brief Copy the argument values to a bottle.
+         @param arguments The argument sequence.
+         @param container The bottle to be modified. */
+        void CopyArgumentsToBottle(const DescriptorVector & arguments,
+                                   yarp::os::Bottle &       container);
+        
         /*! @brief Return the mode corresponding to a string.
          @param modeString The mode value as a string.
          @returns The mode corresponding to a string. */

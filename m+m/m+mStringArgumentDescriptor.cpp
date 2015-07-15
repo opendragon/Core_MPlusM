@@ -107,6 +107,14 @@ StringArgumentDescriptor::~StringArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+void StringArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("container = ", &container); //####
+    container.addString(getProcessedValue());
+    OD_LOG_EXIT(); //####
+} // StringArgumentDescriptor::addValueToBottle
+
 YarpString StringArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -119,16 +127,8 @@ YarpString StringArgumentDescriptor::getDefaultValue(void)
 YarpString StringArgumentDescriptor::getProcessedValue(void)
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result;
+    YarpString result = (_argumentReference ? *_argumentReference : _defaultValue);
 
-    if (_argumentReference)
-    {
-        result = *_argumentReference;
-    }
-    else
-    {
-        result = _defaultValue;
-    }
     OD_LOG_OBJEXIT_s(result); //####
     return result;
 } // StringArgumentDescriptor::getProcessedValue

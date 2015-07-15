@@ -57,6 +57,8 @@ namespace MplusM
 {
     namespace Common
     {
+        class BaseAdapterData;
+
         /*! @brief An adapter service. */
         class BaseAdapterService : public Common::BaseInputOutputService
         {
@@ -87,6 +89,21 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~BaseAdapterService(void);
+            
+            /*! @brief Start the service and set up its configuration.
+             @param sharedData The shared data for the input handlers.
+             @param argumentList Descriptions of the arguments to the executable.
+             @param helpText The help text to be displayed.
+             @param goWasSet @c true if the service is to be started immediately.
+             @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+             @param reportOnExit @c true if service metrics are to be reported on exit and @c false
+             otherwise. */
+            void performLaunch(BaseAdapterData &                   sharedData,
+                               const Utilities::DescriptorVector & argumentList,
+                               const YarpString &                  helpText,
+                               const bool                          goWasSet,
+                               const bool                          stdinAvailable,
+                               const bool                          reportOnExit);
             
         protected :
             

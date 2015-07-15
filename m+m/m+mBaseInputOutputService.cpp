@@ -46,6 +46,7 @@
 
 #include <m+m/m+mChannelStatusReporter.h>
 #include <m+m/m+mClientChannel.h>
+#include <m+m/m+mEndpoint.h>
 #include <m+m/m+mGeneralChannel.h>
 #include <m+m/m+mUtilities.h>
 
@@ -84,6 +85,30 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
+
+/*! @brief Display the available commands.
+ @param helpText The help text to be displayed.
+ @param forAdapter @c true if for an adapter and @c false for a service. */
+static void displayCommands(const YarpString & helpText,
+                            const bool         forAdapter)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("helpText = ", helpText); //####
+    OD_LOG_B1("forAdapter = ", forAdapter); //####
+    if (0 < helpText.size())
+    {
+        cout << helpText.c_str() << endl;
+    }
+    cout << "Commands:" << endl;
+    cout << "  ? - display this list" << endl;
+    cout << "  b - start (begin) the input and output streams" << endl;
+    cout << "  c - configure the " << (forAdapter ? "adapter" : "service") << endl;
+    cout << "  e - stop (end) the input and output streams" << endl;
+    cout << "  q - quit the application" << endl;
+    cout << "  r - restart the input and output streams" << endl;
+    cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
+    OD_LOG_EXIT(); //####
+} // displayCommands
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -692,6 +717,62 @@ const
     return result;
 } // BaseInputOutputService::getOutletStream
 
+void BaseInputOutputService::performLaunch(const Utilities::DescriptorVector & argumentList,
+                                           const YarpString &                  helpText,
+                                           const bool                          goWasSet,
+                                           const bool                          stdinAvailable,
+                                           const bool                          reportOnExit)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("argumentList = ", &argumentList); //####
+    OD_LOG_S1s("helpText = ", helpText); //####
+    OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
+              "reportOnExit = ", reportOnExit); //####
+    if (start())
+    {
+        YarpString channelName(getEndpoint().getName());
+        
+        OD_LOG_S1s("channelName = ", channelName); //####
+        if (RegisterLocalService(channelName, *this))
+        {
+            StartRunning();
+            SetSignalHandlers(SignalRunningStop);
+            startPinger();
+            startupService(argumentList, helpText, false, goWasSet, stdinAvailable, reportOnExit);
+            UnregisterLocalService(channelName, *this);
+            if (reportOnExit)
+            {
+                yarp::os::Bottle metrics;
+                
+                gatherMetrics(metrics);
+                YarpString converted(Utilities::ConvertMetricsToString(metrics));
+                
+                cout << converted.c_str() << endl;
+            }
+            stop();
+        }
+        else
+        {
+            OD_LOG("! (RegisterLocalService(channelName, *this))"); //####
+#if MAC_OR_LINUX_
+            GetLogger().fail("Service could not be registered.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Service could not be registered." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+    }
+    else
+    {
+        OD_LOG("! (start())"); //####
+#if MAC_OR_LINUX_
+        GetLogger().fail("Service could not be started.");
+#else // ! MAC_OR_LINUX_
+        cerr << "Service could not be started." << endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::performLaunch
+
 bool BaseInputOutputService::setUpClientStreams(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -823,6 +904,133 @@ bool BaseInputOutputService::start(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::start
+
+void BaseInputOutputService::startupService(const Utilities::DescriptorVector & argumentList,
+                                            const YarpString &                  helpText,
+                                            const bool                          forAdapter,
+                                            const bool                          goWasSet,
+                                            const bool                          stdinAvailable,
+                                            const bool                          reportOnExit)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("argumentList = ", &argumentList); //####
+    OD_LOG_S1s("helpText = ", helpText); //####
+    OD_LOG_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####
+              stdinAvailable, "reportOnExit = ", reportOnExit); //####
+    bool             configured = false;
+    yarp::os::Bottle configureData;
+    
+    if (goWasSet || (! stdinAvailable))
+    {
+        Utilities::CopyArgumentsToBottle(argumentList, configureData);
+        if (configure(configureData))
+        {
+            startStreams();
+        }
+    }
+    for ( ; IsRunning(); )
+    {
+        if ((! goWasSet) && stdinAvailable)
+        {
+            char inChar;
+            
+            cout << "Operation: [? b c e q r u]? ";
+            cout.flush();
+            cin >> inChar;
+            switch (inChar)
+            {
+                case '?' :
+                    // Help
+                    displayCommands(helpText, forAdapter);
+                    break;
+                    
+                case 'b' :
+                case 'B' :
+                    // Start streams
+                    if (! configured)
+                    {
+                        Utilities::CopyArgumentsToBottle(argumentList, configureData);
+                        if (configure(configureData))
+                        {
+                            configured = true;
+                        }
+                    }
+                    if (configured)
+                    {
+                        startStreams();
+                    }
+                    break;
+                    
+                case 'c' :
+                case 'C' :
+                    // Configure
+                    configured = Utilities::PromptForValues(argumentList);
+                    if (configured)
+                    {
+                        Utilities::CopyArgumentsToBottle(argumentList, configureData);
+                        if (configure(configureData))
+                        {
+                            configured = true;
+                        }
+                    }
+                    else
+                    {
+                        cout << "One or more values out of range." << endl;
+                    }
+                    break;
+                    
+                case 'e' :
+                case 'E' :
+                    // Stop streams
+                    stopStreams();
+                    break;
+                    
+                case 'q' :
+                case 'Q' :
+                    // Quit
+                    StopRunning();
+                    break;
+                    
+                case 'r' :
+                case 'R' :
+                    // Restart streams
+                    if (! configured)
+                    {
+                        Utilities::CopyArgumentsToBottle(argumentList, configureData);
+                        if (configure(configureData))
+                        {
+                            configured = true;
+                        }
+                    }
+                    if (configured)
+                    {
+                        restartStreams();
+                    }
+                    break;
+                    
+                case 'u' :
+                case 'U' :
+                    // Unconfigure
+                    configured = false;
+                    break;
+                    
+                default :
+                    cout << "Unrecognized request '" << inChar << "'." << endl;
+                    break;
+                    
+            }
+        }
+        else
+        {
+#if defined(MpM_MainDoesDelayNotYield)
+            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+            yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::startupService
 
 bool BaseInputOutputService::stop(void)
 {

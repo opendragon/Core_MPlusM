@@ -114,6 +114,14 @@ IntegerArgumentDescriptor::~IntegerArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+void IntegerArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("container = ", &container); //####
+    container.addInt(_argumentReference ? *_argumentReference : _defaultValue);
+    OD_LOG_EXIT(); //####
+} // IntegerArgumentDescriptor::addValueToBottle
+
 YarpString IntegerArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####

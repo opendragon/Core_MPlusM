@@ -114,6 +114,15 @@ DoubleArgumentDescriptor::~DoubleArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+void DoubleArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("container = ", &container); //####
+    
+    container.addDouble(_argumentReference ? *_argumentReference : _defaultValue);
+    OD_LOG_EXIT(); //####
+} // DoubleArgumentDescriptor::addValueToBottle
+
 YarpString DoubleArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####

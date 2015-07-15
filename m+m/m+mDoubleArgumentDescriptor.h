@@ -114,6 +114,10 @@ namespace MplusM
         
         private :
             
+            /*! @brief Add the processed value to a bottle.
+             @param container The bottle to be modified. */
+            virtual void addValueToBottle(yarp::os::Bottle & container);
+            
             /*! @brief Return the default value.
              @returns The default value. */
             virtual YarpString getDefaultValue(void);

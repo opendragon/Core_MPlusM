@@ -391,9 +391,28 @@ BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & i
     return result;
 } // Utilities::ConvertStringToArguments
 
+void Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
+                                      yarp::os::Bottle &       container)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("arguments = ", &arguments, "container = ", &container); //####
+    container.clear();
+    for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
+    {
+        BaseArgumentDescriptor * anArg = arguments[ii];
+        
+        if (anArg)
+        {
+            anArg->addValueToBottle(container);
+        }
+    }
+    OD_LOG_EXIT(); //####
+} // Utilities::CopyArgumentsToBottle
+
 Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S1s("modeString = ", modeString); //####
     ArgumentMode      result = kArgModeUnknown;
     std::stringstream buff(modeString.c_str());
     int               modeAsInt;
@@ -415,23 +434,6 @@ Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
     OD_LOG_EXIT(); //####
     return result;
 } // Utilities::ModeFromString
-#if 0
-kArgModeOptional = 0x01,
-
-/*! @brief The argument is modifiable. */
-kArgModeModifiable = 0x02,
-#endif//0
-#if 0
-std::stringstream buff1(MpM_MDNS_NAMESERVER_VERSION_);
-std::string       inString(reinterpret_cast<const char *>(valuePtr), valueLen);
-std::stringstream buff2(inString);
-int               thisVersion;
-int               otherVersion;
-
-buff1 >> thisVersion;
-buff2 >> otherVersion;
-okToUse = (thisVersion <= otherVersion);
-#endif//0
 
 bool Utilities::ProcessArguments(const DescriptorVector & arguments,
                                  Option_::Parser &        parseResult)

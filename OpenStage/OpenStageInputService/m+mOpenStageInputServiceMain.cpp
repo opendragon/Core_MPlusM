@@ -88,24 +88,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Display the available commands. */
-static void displayCommands(void)
-{
-    OD_LOG_ENTER(); //####
-    cout << "Commands:" << endl;
-    cout << "  ? - display this list" << endl;
-    cout << "  b - start (begin) the output stream," << endl;
-    cout << "  c - configure the service" << endl;
-    cout << "  e - stop (end) the output stream" << endl;
-    cout << "  q - quit the application" << endl;
-    cout << "  r - restart the output stream" << endl;
-    cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
-    OD_LOG_EXIT(); //####
-} // displayCommands
-
 /*! @brief Set up the environment and start the Organic Motion %OpenStage input service.
- @param hostName The IP address for the device server.
- @param hostPort The port for the device server.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
@@ -117,9 +100,7 @@ static void displayCommands(void)
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(YarpString &                        hostName,
-	                   int &                               hostPort,
-	                   const Utilities::DescriptorVector & argumentList,
+static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 					   const YarpString &                  progName,
                        const int                           argc,
                        char * *                            argv,
@@ -131,11 +112,10 @@ static void setUpAndGo(YarpString &                        hostName,
                        const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
-	OD_LOG_S4s("hostName = ", hostName, "progName = ", progName, "tag = ", tag, //####
-		"serviceEndpointName = ", serviceEndpointName); //####
-	OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-	OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
+    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+    OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
     OpenStageInputService * aService = new OpenStageInputService(progName, argc, argv, tag,
@@ -144,167 +124,7 @@ static void setUpAndGo(YarpString &                        hostName,
 
     if (aService)
     {
-        if (aService->start())
-        {
-            YarpString channelName(aService->getEndpoint().getName());
-            
-            OD_LOG_S1s("channelName = ", channelName); //####
-            if (RegisterLocalService(channelName, *aService))
-            {
-                bool             configured = false;
-                yarp::os::Bottle configureData;
-                
-                StartRunning();
-                SetSignalHandlers(SignalRunningStop);
-                aService->startPinger();
-                if (goWasSet || (! stdinAvailable))
-                {
-					configureData.clear();
-					configureData.addString(hostName);
-					configureData.addInt(hostPort);
-					if (aService->configure(configureData))
-                    {
-                        aService->startStreams();
-                    }
-                }
-                for ( ; IsRunning(); )
-                {
-                    if ((! goWasSet) && stdinAvailable)
-                    {
-                        char inChar;
-                        
-                        cout << "Operation: [? b c e q r u]? ";
-                        cout.flush();
-                        cin >> inChar;
-                        switch (inChar)
-                        {
-                            case '?' :
-                                // Help
-                                displayCommands();
-                                break;
-                                
-                            case 'b' :
-                            case 'B' :
-                                // Start streams
-                                if (! configured)
-                                {
-									configureData.clear();
-									configureData.addString(hostName);
-									configureData.addInt(hostPort);
-									if (aService->configure(configureData))
-                                    {
-                                        configured = true;
-                                    }
-                                }
-                                if (configured)
-                                {
-                                    aService->startStreams();
-                                }
-                                break;
-                                
-                            case 'c' :
-                            case 'C' :
-                                // Configure
-								configured = Utilities::PromptForValues(argumentList);
-								if (configured)
-								{
-									configureData.clear();
-									configureData.addString(hostName);
-									configureData.addInt(hostPort);
-									if (aService->configure(configureData))
-									{
-										configured = true;
-									}
-								}
-								else
-								{
-									cout << "One or more values out of range." << endl;
-								}
-                                break;
-                                
-                            case 'e' :
-                            case 'E' :
-                                // Stop streams
-                                aService->stopStreams();
-                                break;
-                                
-                            case 'q' :
-                            case 'Q' :
-                                // Quit
-                                StopRunning();
-                                break;
-                                
-                            case 'r' :
-                            case 'R' :
-                                // Restart streams
-                                if (! configured)
-                                {
-									configureData.clear();
-									configureData.addString(hostName);
-									configureData.addInt(hostPort);
-									if (aService->configure(configureData))
-                                    {
-                                        configured = true;
-                                    }
-                                }
-                                if (configured)
-                                {
-                                    aService->restartStreams();
-                                }
-                                break;
-                                
-                            case 'u' :
-                            case 'U' :
-                                // Unconfigure
-                                configured = false;
-                                break;
-                                
-                            default :
-                                cout << "Unrecognized request '" << inChar << "'." << endl;
-                                break;
-                                
-                        }
-                    }
-                    else
-                    {
-#if defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                    }
-                }
-                UnregisterLocalService(channelName, *aService);
-                if (reportOnExit)
-                {
-                    yarp::os::Bottle metrics;
-                    
-                    aService->gatherMetrics(metrics);
-                    YarpString converted(Utilities::ConvertMetricsToString(metrics));
-                    
-                    cout << converted.c_str() << endl;
-                }
-                aService->stop();
-            }
-            else
-            {
-                OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Service could not be registered." << endl;
-#endif // ! MAC_OR_LINUX_
-            }
-        }
-        else
-        {
-            OD_LOG("! (aService->start())"); //####
-#if MAC_OR_LINUX_
-            GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Service could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
-        }
+        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -386,9 +206,8 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-					setUpAndGo(hostName, hostPort, argumentList, progName, argc, argv, tag,
-						       serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
-							   reportOnExit);
+					setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

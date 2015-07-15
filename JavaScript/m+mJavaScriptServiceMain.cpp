@@ -97,27 +97,6 @@ static JSClass lGlobalClass =
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Display the available commands.
- @param helpText The help text from the script. */
-static void displayCommands(YarpString & helpText)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_S1s("helpText = ", helpText); //####
-    if (0 < helpText.size())
-    {
-        cout << helpText.c_str() << endl;
-    }
-    cout << "Commands:" << endl;
-    cout << "  ? - display this list" << endl;
-    cout << "  b - start (begin) the input and output streams" << endl;
-    cout << "  c - configure the service" << endl;
-    cout << "  e - stop (end) the input and output streams" << endl;
-    cout << "  q - quit the application" << endl;
-    cout << "  r - restart the input and output streams" << endl;
-    cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
-    OD_LOG_EXIT(); //####
-} // displayCommands
-
 /*! @brief The error reporter callback for the %JavaScript engine.
  @param cx The context in which the error happened.
  @param message An error message.
@@ -1928,6 +1907,7 @@ static bool validateLoadedScript(JSContext *           jct,
 } // validateLoadedScript
 
 /*! @brief Set up the environment and start the JavaScript service.
+ @param argumentList Descriptions of the arguments to the executable.
  @param scriptPath The script file to be processed.
  @param arguments The arguments for the service.
  @param progName The path to the executable.
@@ -1940,53 +1920,30 @@ static bool validateLoadedScript(JSContext *           jct,
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
-static void setUpAndGo(YarpString &             scriptPath,
-                       const YarpStringVector & arguments,
-                       const YarpString &       progName,
-                       const int                argc,
-                       char * *                 argv,
-                       YarpString &             tag,
-                       YarpString &             serviceEndpointName,
-                       const YarpString &       servicePortNumber,
-                       const bool               goWasSet,
-                       const bool               nameWasSet,
-                       const bool               reportOnExit,
-                       const bool               stdinAvailable)
+static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
+                       YarpString &                        scriptPath,
+                       const YarpStringVector &            arguments,
+                       const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       YarpString &                        tag,
+                       YarpString &                        serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          nameWasSet,
+                       const bool                          reportOnExit,
+                       const bool                          stdinAvailable)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
     OD_LOG_S4s("scriptPath = ", scriptPath, "progName = ", progName, "tag = ", tag, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_P2("arguments = ", &arguments, "argv = ", argv); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
-    YarpString rawTag(tag);
     YarpString scriptSource;
-    YarpString tagModifier(Utilities::GetFileNameBase(Utilities::GetFileNamePart(scriptPath)));
 
-    if (0 < tagModifier.length())
-    {
-        char lastChar = tagModifier[tagModifier.length() - 1];
-
-        // Drop a trailing period, if present.
-        if ('.' == lastChar)
-        {
-            tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
-        }
-    }
-    if (! nameWasSet)
-    {
-        serviceEndpointName += YarpString("/") + tagModifier;
-    }
-    if (0 < tag.length())
-    {
-        tag += YarpString(":") + tagModifier;
-    }
-    else
-    {
-        tag = tagModifier;
-    }
     // Make sure that the scriptPath is valid and construct the modified 'tag' and (optional)
     // endpoint name.
     FILE * scratch = fopen(scriptPath.c_str(), "r");
@@ -2163,155 +2120,8 @@ static void setUpAndGo(YarpString &             scriptPath,
 
                         if (aService)
                         {
-                            if (aService->start())
-                            {
-                                YarpString channelName(aService->getEndpoint().getName());
-
-                                OD_LOG_S1s("channelName = ", channelName); //####
-                                if (RegisterLocalService(channelName, *aService))
-                                {
-                                    bool             configured = false;
-                                    yarp::os::Bottle configureData;
-
-                                    StartRunning();
-                                    SetSignalHandlers(SignalRunningStop);
-                                    aService->startPinger();
-                                    if (goWasSet || (! stdinAvailable))
-                                    {
-                                        configureData.clear();
-                                        if (aService->configure(configureData))
-                                        {
-                                            aService->startStreams();
-                                        }
-                                    }
-                                    for ( ; IsRunning(); )
-                                    {
-                                        if ((! goWasSet) && stdinAvailable)
-                                        {
-                                            char inChar;
-
-                                            cout << "Operation: [? b c e q r u]? ";
-                                            cout.flush();
-                                            cin >> inChar;
-                                            switch (inChar)
-                                            {
-                                                case '?' :
-                                                    // Help
-                                                    displayCommands(helpText);
-                                                    break;
-
-                                                case 'b' :
-                                                case 'B' :
-                                                    // Start streams
-                                                    if (! configured)
-                                                    {
-                                                        configureData.clear();
-                                                        if (aService->configure(configureData))
-                                                        {
-                                                            configured = true;
-                                                        }
-                                                    }
-                                                    if (configured)
-                                                    {
-                                                        aService->startStreams();
-                                                    }
-                                                    break;
-
-                                                case 'c' :
-                                                case 'C' :
-                                                    // Configure - nothing to do for the JavaScript
-                                                    // input / output service.
-                                                    configureData.clear();
-                                                    if (aService->configure(configureData))
-                                                    {
-                                                        configured = true;
-                                                    }
-                                                    break;
-
-                                                case 'e' :
-                                                case 'E' :
-                                                    // Stop streams
-                                                    aService->stopStreams();
-                                                    break;
-
-                                                case 'q' :
-                                                case 'Q' :
-                                                    // Quit
-                                                    StopRunning();
-                                                    break;
-
-                                                case 'r' :
-                                                case 'R' :
-                                                    // Restart streams
-                                                    if (! configured)
-                                                    {
-                                                        configureData.clear();
-                                                        if (aService->configure(configureData))
-                                                        {
-                                                            configured = true;
-                                                        }
-                                                    }
-                                                    if (configured)
-                                                    {
-                                                        aService->restartStreams();
-                                                    }
-                                                    break;
-
-                                                case 'u' :
-                                                case 'U' :
-                                                    // Unconfigure
-                                                    configured = false;
-                                                    break;
-
-                                                default :
-                                                    cout << "Unrecognized request '" <<
-                                                            inChar << "'." << endl;
-                                                    break;
-
-                                            }
-                                        }
-                                        else
-                                        {
-#if defined(MpM_MainDoesDelayNotYield)
-                                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                                            yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                                        }
-                                    }
-                                    UnregisterLocalService(channelName, *aService);
-                                    if (reportOnExit)
-                                    {
-                                        yarp::os::Bottle metrics;
-
-                                        aService->gatherMetrics(metrics);
-                                        YarpString converted =
-                                                        Utilities::ConvertMetricsToString(metrics);
-
-                                        cout << converted.c_str() << endl;
-                                    }
-                                    aService->stop();
-                                }
-                                else
-                                {
-                                    OD_LOG("! (RegisterLocalService(channelName, " //####
-                                           "*aService))"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                                    cerr << "Service could not be registered." << endl;
-#endif // ! MAC_OR_LINUX_
-                                }
-                            }
-                            else
-                            {
-                                OD_LOG("! (aService->start())"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "Service could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
-                            }
+                            aService->performLaunch(argumentList, helpText, goWasSet,
+                                                    stdinAvailable, reportOnExit);
                             delete aService;
                         }
                         else
@@ -2419,7 +2229,32 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
-                    setUpAndGo(scriptPath, arguments, progName, argc, argv, tag,
+                    YarpString tagModifier =
+                                Utilities::GetFileNameBase(Utilities::GetFileNamePart(scriptPath));
+                    
+                    if (0 < tagModifier.length())
+                    {
+                        char lastChar = tagModifier[tagModifier.length() - 1];
+                        
+                        // Drop a trailing period, if present.
+                        if ('.' == lastChar)
+                        {
+                            tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
+                        }
+                    }
+                    if (! nameWasSet)
+                    {
+                        serviceEndpointName += YarpString("/") + tagModifier;
+                    }
+                    if (0 < tag.length())
+                    {
+                        tag += YarpString(":") + tagModifier;
+                    }
+                    else
+                    {
+                        tag = tagModifier;
+                    }
+                    setUpAndGo(argumentList, scriptPath, arguments, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, nameWasSet,
                                reportOnExit, stdinAvailable);
                 }

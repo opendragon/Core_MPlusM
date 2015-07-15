@@ -101,6 +101,14 @@ ExtraArgumentDescriptor::~ExtraArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+void ExtraArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("container = ", &container); //####
+    container.addString(getProcessedValue());
+    OD_LOG_EXIT(); //####
+} // ExtraArgumentDescriptor::addValueToBottle
+
 YarpString ExtraArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####

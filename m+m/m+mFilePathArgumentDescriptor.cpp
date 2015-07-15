@@ -173,6 +173,14 @@ FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+void FilePathArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("container = ", &container); //####
+    container.addString(getProcessedValue());
+    OD_LOG_EXIT(); //####
+} // FilePathArgumentDescriptor::addValueToBottle
+
 YarpString FilePathArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####

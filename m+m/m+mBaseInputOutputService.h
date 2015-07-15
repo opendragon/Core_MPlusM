@@ -154,6 +154,19 @@ namespace MplusM
                 return _active;
             } // isActive
             
+            /*! @brief Start the service and set up its configuration.
+             @param argumentList Descriptions of the arguments to the executable.
+             @param helpText The help text to be displayed.
+             @param goWasSet @c true if the service is to be started immediately.
+             @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+             @param reportOnExit @c true if service metrics are to be reported on exit and @c false
+             otherwise. */
+            void performLaunch(const Utilities::DescriptorVector & argumentList,
+                               const YarpString &                  helpText,
+                               const bool                          goWasSet,
+                               const bool                          stdinAvailable,
+                               const bool                          reportOnExit);
+            
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void) = 0;
             
@@ -235,6 +248,22 @@ namespace MplusM
              @returns @c true if the channels were shut down and @c false otherwise. */
             virtual bool shutDownOutputStreams(void);
             
+            /*! @brief If interactive, prompt for commands and then start the service. Otherwise,
+             start the service immediately.
+             @param argumentList Descriptions of the arguments to the executable.
+             @param helpText The help text to be displayed.
+             @param forAdapter @c true if for an adapter and @c false for a service.
+             @param goWasSet @c true if the service is to be started immediately.
+             @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+             @param reportOnExit @c true if service metrics are to be reported on exit and @c false
+             otherwise. */
+            void startupService(const Utilities::DescriptorVector & argumentList,
+                                const YarpString &                  helpText,
+                                const bool                          forAdapter,
+                                const bool                          goWasSet,
+                                const bool                          stdinAvailable,
+                                const bool                          reportOnExit);
+            
         private :
             
             /*! @brief Enable the standard request handlers. */
@@ -301,7 +330,7 @@ namespace MplusM
 # endif // defined(__APPLE__)
             
         }; // BaseInputOutputService
-        
+
     } // Common
     
 } // MplusM

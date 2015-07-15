@@ -39,6 +39,8 @@
 
 #include "m+mBaseAdapterService.h"
 
+#include <m+m/m+mBaseAdapterData.h>
+#include <m+m/m+mBaseClient.h>
 #include <m+m/m+mRequests.h>
 #include <m+m/m+mUtilities.h>
 
@@ -116,6 +118,32 @@ BaseAdapterService::~BaseAdapterService(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
+
+void BaseAdapterService::performLaunch(BaseAdapterData &                   sharedData,
+                                       const Utilities::DescriptorVector & argumentList,
+                                       const YarpString &                  helpText,
+                                       const bool                          goWasSet,
+                                       const bool                          stdinAvailable,
+                                       const bool                          reportOnExit)
+{
+    OD_LOG_P2("sharedData = ", &sharedData, "argumentList = ", &argumentList); //####
+    OD_LOG_S1s("helpText = ", helpText); //####
+    OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
+              "reportOnExit = ", reportOnExit); //####
+    BaseClient * aClient = sharedData.getClient();
+    
+    startPinger();
+    sharedData.activate();
+    startupService(argumentList, "", true, goWasSet, stdinAvailable, reportOnExit);
+    sharedData.deactivate();
+    if (! aClient->disconnectFromService())
+    {
+        OD_LOG("(! aClient->disconnectFromService())"); //####
+#if MAC_OR_LINUX_
+        GetLogger().fail("Problem disconnecting from the service.");
+#endif // MAC_OR_LINUX_
+    }
+} // BaseAdapterService::performLaunch
 
 bool BaseAdapterService::setUpClientStreams(void)
 {
