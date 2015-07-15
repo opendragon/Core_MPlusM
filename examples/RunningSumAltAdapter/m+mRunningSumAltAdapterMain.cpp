@@ -69,7 +69,6 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
 using std::cerr;
-using std::cin;
 using std::cout;
 using std::endl;
 

@@ -69,8 +69,6 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::KinectV2;
 using std::cerr;
-using std::cin;
-using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)
