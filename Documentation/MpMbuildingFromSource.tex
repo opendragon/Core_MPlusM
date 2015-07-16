@@ -373,13 +373,14 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 `\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
 \item\exSp{} Move to the directory where the \asCode{MozillaBuild} environment was
 installed
-\item\exSp{} Execute the command `\asCode{start-shell-msvc2013.bat}'; this will launch
+\item\exSp{} Execute the command `\asCode{start-shell-msvc2015-x64.bat}'; this will launch
 an environment in which \textbf{SpiderMonkey} can be built; note that the initial
 directory will be the `home' directory of the user, on the system drive
 \item\exSp{} If necessary, switch to the drive containing \asCode{\textbf{spidermonkey}},
 using the `\asCode{cd /\textbf{drive-letter}/}', replacing `\textbf{drive-letter}' with
 the lower-case form of the drive letter for the drive containing
-\asCode{\textbf{spidermonkey}}
+\asCode{\textbf{spidermonkey}}; note that the path to the \textbf{SpiderMonkey} sources
+must not be `\asCode{C:\textbackslash{}spidermonkey}'
 \item\exSp{} Execute the following commands:
 \begin{itemize}
 \item\asCode{cd \textbf{spidermonkey}}
@@ -390,20 +391,22 @@ the lower-case form of the drive letter for the drive containing
 \end{itemize}
 \item\exSp{} Execute the command `\asCode{../configure {-}{-}enable-release
 {-}{-}enable-more-deterministic\\
-{-}{-}enable-build-nspr {-}{-}prefix=c:/spidermonkey}'; note that the build environment
-has problems with the standard Windows paths for program files, so the target directory is
-not the final one
+{-}{-}enable-build-nspr {-}{-}prefix=c:/spidermonkey {-}{-}target=x86\fUS{}64-pc-mingw32\\
+{-}{-}host=x86\fUS{}64-pc-mingw32}'; note that the build environment has problems with the
+standard Windows paths for program files, so the target directory is not the final one
 \item\exSp{} Execute the following commands:
 \begin{itemize}
 \item \asCode{mozmake}
 \item\exSp\asCode{mozmake install}
+\item\exSp\asCode{cp dist/bin/icudt55.dll /c/spidermonkey/lib}
+\item\exSp\asCode{cp dist/bin/icuin55.dll /c/spidermonkey/lib}
+\item\exSp\asCode{cp dist/bin/icuuc55.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/mozglue.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/nspr4.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/plds4.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/plc4.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cd /c/}
-\item\exSp\asCode{cd Program\textbackslash{} Files\textbackslash{}
-\textbackslash{}(x86\textbackslash)}
+\item\exSp\asCode{cd Program\textbackslash{} Files}
 \item\exSp\asCode{cd m+m}
 \item\exSp\asCode{rm -rf spidermonkey}
 \item\exSp\asCode{mv /c/spidermonkey .}
