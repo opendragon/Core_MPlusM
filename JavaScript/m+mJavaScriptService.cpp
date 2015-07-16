@@ -183,7 +183,7 @@ static void fillBottleFromValue(JSContext *        jct,
                 {
                     bool okSoFar = true;
                     
-                    for (int ii = 0, len = ids.length(); len > ii; ++ii)
+                    for (size_t ii = 0, len = ids.length(); len > ii; ++ii)
                     {
                         JS::RootedValue key(jct);
                         
@@ -669,7 +669,7 @@ std::ostream & JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
     {
         bool okSoFar = true;
         
-        for (int ii = 0, len = ids.length(); (len > ii) && okSoFar; ++ii)
+        for (size_t ii = 0, len = ids.length(); (len > ii) && okSoFar; ++ii)
         {
             JS::RootedValue key(jct);
             

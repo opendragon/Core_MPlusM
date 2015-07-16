@@ -81,9 +81,21 @@ if(WIN32)
     install(FILES "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll"
             DESTINATION bin
             COMPONENT applications)
-    install(FILES "${SPIDER_PATH}/lib/mozglue.dll" "${SPIDER_PATH}/lib/nspr4.dll"
-            "${SPIDER_PATH}/lib/plds4.dll" "${SPIDER_PATH}/lib/plc4.dll" DESTINATION bin
+    install(FILES
+			"${SPIDER_PATH}/lib/mozglue.dll"
+			"${SPIDER_PATH}/lib/nspr4.dll"
+            "${SPIDER_PATH}/lib/plds4.dll"
+			"${SPIDER_PATH}/lib/plc4.dll"
+			DESTINATION bin
             COMPONENT applications)
+	if(WIN64)
+		install(FILES
+				"${SPIDER_PATH}/lib/icudt55.dll"
+				"${SPIDER_PATH}/lib/icuin55.dll"
+				"${SPIDER_PATH}/lib/icuuc55.dll"
+				DESTINATION bin
+				COMPONENT applications)
+	endif(WIN64)
 endif(WIN32)
 if(APPLE)
     include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
