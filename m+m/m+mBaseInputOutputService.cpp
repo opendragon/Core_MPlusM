@@ -951,11 +951,19 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
                     // Start streams
                     if (! configured)
                     {
-                        Utilities::CopyArgumentsToBottle(argumentList, configureData);
-                        if (configure(configureData))
-                        {
-                            configured = true;
-                        }
+						configured = Utilities::PromptForValues(argumentList);
+						if (configured)
+						{
+							Utilities::CopyArgumentsToBottle(argumentList, configureData);
+							if (configure(configureData))
+							{
+								configured = true;
+							}
+						}
+						else
+						{
+							cout << "One or more values out of range." << endl;
+						}
                     }
                     if (configured)
                     {
@@ -998,11 +1006,19 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
                     // Restart streams
                     if (! configured)
                     {
-                        Utilities::CopyArgumentsToBottle(argumentList, configureData);
-                        if (configure(configureData))
-                        {
-                            configured = true;
-                        }
+						configured = Utilities::PromptForValues(argumentList);
+						if (configured)
+						{
+							Utilities::CopyArgumentsToBottle(argumentList, configureData);
+							if (configure(configureData))
+							{
+								configured = true;
+							}
+						}
+						else
+						{
+							cout << "One or more values out of range." << endl;
+						}
                     }
                     if (configured)
                     {

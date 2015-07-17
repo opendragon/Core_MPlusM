@@ -48,14 +48,17 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
 	include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
-	add_library(Kinect SHARED IMPORTED)
 	if(WIN64)
-		set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB
-					${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x64/Kinect20.lib)
+		set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x64")
 	else(WIN64)
-		set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB
-					${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86/Kinect20.lib)
+		set(MpMKINECT_LIB_DIR "${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/Lib/x86")
 	endif(WIN64)
+	add_library(Kinect SHARED IMPORTED)
+	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB "${MpMKINECT_LIB_DIR}/Kinect20.lib")
+	set_property(TARGET Kinect PROPERTY IMPORTED_LOCATION "${MpMKINECT_LIB_DIR}/Kinect20.dll")
+	install(FILES "${MpMKINECT_LIB_DIR}/Kinect20.dll"
+			DESTINATION bin
+			COMPONENT applications)
 endif(WIN32)
 
 # Set up our program

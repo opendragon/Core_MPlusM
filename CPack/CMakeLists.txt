@@ -75,6 +75,7 @@ if(WIN32)
     set(CPACK_GENERATOR NSIS)
 
     install(FILES
+			"${MpM_SOURCE_DIR}/vc_redist.x64.exe"
             "${MpM_SOURCE_DIR}/bonjoursdksetup.exe"
             DESTINATION support
             COMPONENT libraries)
@@ -207,6 +208,7 @@ if(WIN32)
         "
 		CreateDirectory 'C:\\\\Users\\\\Public\\\\Documents\\\\m+m'
 		CopyFiles '$INSTDIR/support/standardApplications.txt' 'C:\\\\Users\\\\Public\\\\Documents\\\\m+m'
+		ExecWait '$INSTDIR/support/vc_redist.x64.exe'
 		ExecWait '$INSTDIR/support/bonjoursdksetup.exe'
         WriteRegStr HKCU 'Environment' 'MPM_YARP_DIR' '$INSTDIR/yarp'
         WriteRegStr HKCU 'Environment' 'MPM_ACE_ROOT' '$INSTDIR/ACE_wrappers'

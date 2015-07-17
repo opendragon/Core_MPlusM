@@ -122,7 +122,7 @@ bool OpenStageInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
+		if (! isActive())
         {
 			if (2 == details.size())
 			{
@@ -237,9 +237,9 @@ void OpenStageInputService::startStreams(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        if (! isActive())
+		if (! isActive())
         {
-            _eventThread = new OpenStageInputThread(getOutletStream(0), _hostName, _hostPort);
+			_eventThread = new OpenStageInputThread(getOutletStream(0), _hostName, _hostPort);
 			_eventThread->start();
             setActive();
         }
@@ -275,9 +275,9 @@ void OpenStageInputService::stopStreams(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        if (isActive())
+		if (isActive())
         {
-            _eventThread->stop();
+			_eventThread->stop();
 			for (; _eventThread->isRunning();)
             {
 				yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
