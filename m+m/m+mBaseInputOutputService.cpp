@@ -935,7 +935,7 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
         {
             char inChar;
             
-            cout << "Operation: [? b c e q r	]? ";
+            cout << "Operation: [? b c e q r]? ";
             cout.flush();
             cin >> inChar;
             switch (inChar)
