@@ -25,21 +25,8 @@ Any additional arguments are passed to the \JS{} environment.
 \insertAppParameters
 \insertTagDescription{\JSIO}
 \insertFilterServiceComment
-\condPage{}
-If the application is running from a terminal and has not been automatically started via
-the `\asCode{go}' option, the following commands are available:
-\begin{itemize}
-\item\cmdItem{?}{display a list of the available commands and any help text provided in
-the \asCode{scriptHelp} value}
-\item\exSp\cmdItem{b}{start the processing thread and the input and output streams}
-\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
-configurable parameters}
-\item\exSp\cmdItem{e}{stop the processing thread and input and output streams}
-\item\exSp\cmdItem{q}{quit the application}
-\item\exSp\cmdItem{r}{restart the processing thread and input and output streams}
-\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
-processing thread and input and output streams are restarted}
-\end{itemize}
+\condPage
+\insertStandardServiceCommands
 \secondaryEnd
 \condPage
 \secondaryStart[StartingFromMMManager]{Starting from \emph{\MMMU}}

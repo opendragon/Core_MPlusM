@@ -108,7 +108,6 @@ static void displayCommands(const YarpString & helpText,
     cout << "  e - stop (end) the input and output streams" << endl;
     cout << "  q - quit the application" << endl;
     cout << "  r - restart the input and output streams" << endl;
-    cout << "  u - reset the configuration (unconfigure) so that it will be reprocessed" << endl;
     OD_LOG_EXIT(); //####
 } // displayCommands
 
@@ -936,7 +935,7 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
         {
             char inChar;
             
-            cout << "Operation: [? b c e q r u]? ";
+            cout << "Operation: [? b c e q r	]? ";
             cout.flush();
             cin >> inChar;
             switch (inChar)
@@ -955,9 +954,9 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
 						if (configured)
 						{
 							Utilities::CopyArgumentsToBottle(argumentList, configureData);
-							if (configure(configureData))
+							if (! configure(configureData))
 							{
-								configured = true;
+								configured = false;
 							}
 						}
 						else
@@ -978,9 +977,9 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
                     if (configured)
                     {
                         Utilities::CopyArgumentsToBottle(argumentList, configureData);
-                        if (configure(configureData))
+                        if (! configure(configureData))
                         {
-                            configured = true;
+                            configured = false;
                         }
                     }
                     else
@@ -1010,9 +1009,9 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
 						if (configured)
 						{
 							Utilities::CopyArgumentsToBottle(argumentList, configureData);
-							if (configure(configureData))
+							if (! configure(configureData))
 							{
-								configured = true;
+								configured = false;
 							}
 						}
 						else
@@ -1024,12 +1023,6 @@ void BaseInputOutputService::startupService(const Utilities::DescriptorVector & 
                     {
                         restartStreams();
                     }
-                    break;
-                    
-                case 'u' :
-                case 'U' :
-                    // Unconfigure
-                    configured = false;
                     break;
                     
                 default :

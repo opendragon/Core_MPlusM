@@ -46,19 +46,7 @@ running.\\
 \insertTagDescription{Absorber Output}
 \insertOutputServiceComment\\
 
-If the application is running from a terminal and has not been automatically started via
-the `\asCode{go}' option, the following commands are available:
-\begin{itemize}
-\item\cmdItem{?}{display a list of the available commands}
-\item\exSp\cmdItem{b}{start the input stream}
-\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
-configurable parameters}
-\item\exSp\cmdItem{e}{stop the input stream}
-\item\exSp\cmdItem{q}{quit the application}
-\item\exSp\cmdItem{r}{restart the input stream}
-\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
-input stream is restarted}
-\end{itemize}
+\insertStandardServiceCommands
 \condPage
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
@@ -138,19 +126,7 @@ period of 1 second and burst size of 1 will be used.
 Note that the burst period and size can also be set via commands, if the application is
 running from a terminal.\\
 
-If the application is running from a terminal and has not been automatically started via
-the `\asCode{go}' option, the following commands are available:
-\begin{itemize}
-\item\cmdItem{?}{display a list of the available commands}
-\item\exSp\cmdItem{b}{start the output stream, sending bursts of data of the specified
-size and period}
-\item\exSp\cmdItem{c}{configure the service by providing the burst size and period}
-\item\exSp\cmdItem{e}{stop the output stream}
-\item\exSp\cmdItem{q}{quit the application}
-\item\exSp\cmdItem{r}{restart the output stream}
-\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
-output stream is restarted}
-\end{itemize}
+\insertStandardServiceCommands
 \condPage
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
@@ -231,20 +207,7 @@ while, for Macintosh OS~X and Linux, it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
 
-If the application is running from a terminal and has not been automatically started via
-the `\asCode{go}' option, the following commands are available:
-\begin{itemize}
-\item\cmdItem{?}{display a list of the available commands}
-\item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
-record the input data}
-\item\exSp\cmdItem{c}{configure the service by providing the output file path to be used}
-\item\exSp\cmdItem{e}{stop the input stream, which will close the output file}
-\item\exSp\cmdItem{q}{quit the application}
-\item\exSp\cmdItem{r}{restart the input stream, which will cause the output file to be
-closed and a new output file to be opened}
-\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
-input stream is restarted}
-\end{itemize}
+\insertStandardServiceCommands
 \condPage
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
@@ -315,20 +278,7 @@ while, for Macintosh OS~X and Linux, it will be ``/tmp''.
 Note that the output file path can also be set via commands, if the application is
 running from a terminal.\\
 
-If the application is running from a terminal and has not been automatically started via
-the `\asCode{go}' option, the following commands are available:
-\begin{itemize}
-\item\cmdItem{?}{display a list of the available commands}
-\item\exSp\cmdItem{b}{start the input stream, using the specified output file path to
-record the input data}
-\item\exSp\cmdItem{c}{configure the service by providing the output file path to be used}
-\item\exSp\cmdItem{e}{stop the input stream, which will close the output file}
-\item\exSp\cmdItem{q}{quit the application}
-\item\exSp\cmdItem{r}{restart the input stream, which will cause the current output file
-to be closed and a new output file to be opened}
-\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
-input stream is restarted}
-\end{itemize}
+\insertStandardServiceCommands
 \condPage
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
@@ -437,19 +387,7 @@ running.\\
 \insertTagDescription{Truncate Float Filter}
 \insertFilterServiceComment\\
 
-If the application is running from a terminal and has not been automatically started via
-the `\asCode{go}' option, the following commands are available:
-\begin{itemize}
-\item\cmdItem{?}{display a list of the available commands}
-\item\exSp\cmdItem{b}{start the input and output streams}
-\item\exSp\cmdItem{c}{configure the service; this has no effect, as the service has no
-configurable parameters}
-\item\exSp\cmdItem{e}{stop the input and output streams}
-\item\exSp\cmdItem{q}{quit the application}
-\item\exSp\cmdItem{r}{restart the input and output streams}
-\item\exSp\cmdItem{u}{reset the configuration so that it will be reprocessed when the
-input and output streams are restarted}
-\end{itemize}
+\insertStandardServiceCommands
 \condPage
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
@@ -571,6 +509,7 @@ connection.
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{m+mRandomNumberService} application are not running.\\
 
+\insertStandardAdapterCommands{}
 If the adapter is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRandomNumberAdapter}%
@@ -610,6 +549,7 @@ connection.\\
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{m+mRunningSumService} application are not running.\\
 
+\insertStandardAdapterCommands{}
 If the adapter is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRunningSumAdapter}%
@@ -646,7 +586,8 @@ connection.\\
 
 Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
 \examplesNameR{Services}{m+mRunningSumService} application are not running.
-\condPage{}
+\condPage
+\insertStandardAdapterCommands{}
 If the adapter is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRunningSumAltAdapter}%
