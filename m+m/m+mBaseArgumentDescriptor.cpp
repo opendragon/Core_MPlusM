@@ -44,7 +44,7 @@
 #include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mExtraArgumentDescriptor.h>
 #include <m+m/m+mFilePathArgumentDescriptor.h>
-#include <m+m/m+mIntegerArgumentDescriptor.h>
+#include <m+m/m+mIntArgumentDescriptor.h>
 #include <m+m/m+mPortArgumentDescriptor.h>
 #include <m+m/m+mStringArgumentDescriptor.h>
 
@@ -377,7 +377,7 @@ BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & i
     }
     if (! result)
     {
-        result = IntegerArgumentDescriptor::parseArgString(inString);
+        result = IntArgumentDescriptor::parseArgString(inString);
     }
     if (! result)
     {

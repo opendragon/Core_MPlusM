@@ -86,15 +86,13 @@ AddressArgumentDescriptor::AddressArgumentDescriptor(const YarpString & argName,
                                                      const YarpString & argDescription,
                                                      const ArgumentMode argMode,
                                                      const YarpString & defaultValue,
-                                                     YarpString *       argumentReference,
                                                      struct in_addr *   addrBuff) :
-    inherited(argName, argDescription, argMode, defaultValue, argumentReference),
-    _addrBuff(addrBuff)
+    inherited(argName, argDescription, argMode, defaultValue), _addrBuff(addrBuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_P2("argumentReference = ", argumentReference, "addrBuff = ", addrBuff); //####
+    OD_LOG_P1("addrBuff = ", addrBuff); //####
 	if (_defaultValue == SELF_ADDRESS_NAME_)
 	{
 		_defaultValue = SELF_ADDRESS_IPADDR_;
@@ -166,8 +164,7 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
         }
         if (okSoFar)
         {
-            result = new AddressArgumentDescriptor(name, description, argMode, defaultString,
-                                                   NULL, NULL);
+            result = new AddressArgumentDescriptor(name, description, argMode, defaultString);
         }
     }
     OD_LOG_EXIT_P(result); //####
@@ -185,7 +182,6 @@ YarpString AddressArgumentDescriptor::toString(void)
 } // AddressArgumentDescriptor::toString
 
 bool AddressArgumentDescriptor::validate(const YarpString & value)
-const
 {
     OD_LOG_OBJENTER(); //####
     bool       result;
@@ -217,9 +213,9 @@ const
         result = (0 < InetPton(AF_INET, testValue.c_str(), &addrBuff));
 #endif // ! MAC_OR_LINUX_
     }
-    if (result && _argumentReference)
+    if (result)
     {
-        *_argumentReference = testValue;
+        _currentValue = testValue;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;

@@ -171,19 +171,16 @@ int main(int      argc,
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
-        int                                  hostPort;
-        YarpString                           hostName;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("hostname",
                                                       T_("IP address for the device server"),
                                                       Utilities::kArgModeOptionalModifiable,
-													  SELF_ADDRESS_NAME_, &hostName);
+													  SELF_ADDRESS_NAME_);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
 			                                           Utilities::kArgModeOptionalModifiable,
-                                                       VICONDATASTREAMINPUT_DEFAULT_PORT_, true,
-                                                       &hostPort);
+                                                       VICONDATASTREAMINPUT_DEFAULT_PORT_, true);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

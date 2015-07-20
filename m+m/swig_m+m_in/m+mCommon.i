@@ -29,7 +29,7 @@
 #include "m+mExtraArgumentDescriptor.h"
 #include "m+mFilePathArgumentDescriptor.h"
 #include "m+mGeneralChannel.h"
-#include "m+mIntegerArgumentDescriptor.h"
+#include "m+mIntArgumentDescriptor.h"
 #include "m+mMatchConstraint.h"
 #include "m+mMatchExpression.h"
 #include "m+mMatchFieldName.h"

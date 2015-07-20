@@ -506,12 +506,10 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
-    YarpString                           channelName;
-    YarpString                           requestName;
     Utilities::ChannelArgumentDescriptor firstArg("channelName", "Channel name for the service",
-                                                  Utilities::kArgModeOptional, "*", &channelName);
+                                                  Utilities::kArgModeOptional, "*");
     Utilities::StringArgumentDescriptor  secondArg("requestName", "Request name",
-                                                   Utilities::kArgModeOptional, "*", &requestName);
+                                                   Utilities::kArgModeOptional, "*");
     Utilities::DescriptorVector          argumentList;
     OutputFlavour                        flavour;
     YarpStringVector                     arguments;
@@ -535,6 +533,9 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    YarpString channelName(firstArg.getCurrentValue());
+                    YarpString requestName(secondArg.getCurrentValue());
+
                     setUpAndGo(channelName, requestName, flavour);
                 }
                 else

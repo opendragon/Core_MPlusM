@@ -62,11 +62,7 @@ namespace MplusM
          
          The external representation of a string-type argument description is:
          
-         stringTagAndInfo ::= optionalStringTag | mandatoryStringTag;
-         
-         optionalStringTag ::= 's';
-         
-         mandatoryStringTag ::= 'S'; */
+         stringTagAndInfo ::= 'S'; */
         class StringArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
@@ -76,17 +72,22 @@ namespace MplusM
              @param argDescription A description of the command-line argument.
              @param argMode The mode of the command-line argument.
              @param defaultValue The default value for the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
+             @param isOptional @c true if the argument is optional and @c false otherwise. */
             StringArgumentDescriptor(const YarpString & argName,
                                      const YarpString & argDescription,
                                      const ArgumentMode argMode,
-                                     const YarpString & defaultValue,
-                                     YarpString *       argumentReference = NULL);
+                                     const YarpString & defaultValue);
             
             /*! @brief The destructor. */
             virtual ~StringArgumentDescriptor(void);
+            
+            /*! @brief Return the current value.
+             @returns The current value. */
+            inline const YarpString & getCurrentValue(void)
+            const
+            {
+                return _currentValue;
+            } // getCurrentValue
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
@@ -124,8 +125,7 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
+            virtual bool validate(const YarpString & value);
             
             COPY_AND_ASSIGNMENT_(StringArgumentDescriptor);
             
@@ -133,11 +133,11 @@ namespace MplusM
         
         protected :
         
+            /*! @brief The current value of the command-line argument. */
+            YarpString _currentValue;
+            
             /*! @brief The default value for the command-line argument. */
             YarpString _defaultValue;
-
-            /*! @brief The address of the variable to be set with the argument value. */
-            YarpString * _argumentReference;
 
         private :
             

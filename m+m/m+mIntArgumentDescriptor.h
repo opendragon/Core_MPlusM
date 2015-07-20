@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+m/m+mIntegerArgumentDescriptor.h
+//  File:       m+m/m+mIntArgumentDescriptor.h
 //
 //  Project:    m+m
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMIntegerArgumentDescriptor_H_))
-# define MpMIntegerArgumentDescriptor_H_ /* Header guard */
+#if (! defined(MpMIntArgumentDescriptor_H_))
+# define MpMIntArgumentDescriptor_H_ /* Header guard */
 
 # include <m+m/m+mBaseArgumentDescriptor.h>
 
@@ -62,21 +62,16 @@ namespace MplusM
          
          The external representation of an integer argument description is:
          
-         integerTagAndInfo ::= optionalIntegerTag integerRange |
-                                    mandatoryIntegerTag integerRange;
+         integerTagAndInfo ::= 'I' sep integerRange;
          
-         optionalIntegerTag ::= 'i';
-         
-         mandatoryIntegerTag ::= 'I';
-         
-         integerRange ::= sep minIntegerValue sep maxIntegerValue;
+         integerRange ::= minIntegerValue sep maxIntegerValue;
          
          minIntegerValue ::= integerValue | ;
          # empty value indicates no minimum constraint.
          
          maxIntegerValue ::= integerValue | ;
          # empty value indicates no maximum constraint. */
-        class IntegerArgumentDescriptor : public BaseArgumentDescriptor
+        class IntArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
             
@@ -90,21 +85,26 @@ namespace MplusM
              @param minimumValue The minimum value that is acceptable.
              @param hasMaximumValue @c true if the value must be less than or equal to a specified
              maximum and @c false otherwise.
-             @param maximumValue The maximum value that is acceptable.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
-            IntegerArgumentDescriptor(const YarpString & argName,
-                                      const YarpString & argDescription,
-                                      const ArgumentMode argMode,
-                                      const int          defaultValue,
-                                      const bool         hasMinimumValue,
-                                      const int          minimumValue,
-                                      const bool         hasMaximumValue,
-                                      const int          maximumValue,
-                                      int *              argumentReference = NULL);
+             @param maximumValue The maximum value that is acceptable. */
+            IntArgumentDescriptor(const YarpString & argName,
+                                  const YarpString & argDescription,
+                                  const ArgumentMode argMode,
+                                  const int          defaultValue,
+                                  const bool         hasMinimumValue,
+                                  const int          minimumValue,
+                                  const bool         hasMaximumValue,
+                                  const int          maximumValue);
             
             /*! @brief The destructor. */
-            virtual ~IntegerArgumentDescriptor(void);
+            virtual ~IntArgumentDescriptor(void);
+            
+            /*! @brief Return the current value.
+             @returns The current value. */
+            inline int getCurrentValue(void)
+            const
+            {
+                return _currentValue;
+            } // getCurrentValue
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
@@ -142,10 +142,9 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
+            virtual bool validate(const YarpString & value);
             
-            COPY_AND_ASSIGNMENT_(IntegerArgumentDescriptor);
+            COPY_AND_ASSIGNMENT_(IntArgumentDescriptor);
             
         public :
         
@@ -161,6 +160,9 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
+            
+            /*! @brief The current value of the command-line argument. */
+            int _currentValue;
             
             /*! @brief The maximum value that is acceptable. */
             int _maximumValue;
@@ -185,10 +187,10 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-        }; // IntegerArgumentDescriptor
+        }; // IntArgumentDescriptor
         
     } // Utilities
     
 } // MplusM
 
-#endif // ! defined(MpMIntegerArgumentDescriptor_H_)
+#endif // ! defined(MpMIntArgumentDescriptor_H_)

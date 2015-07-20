@@ -62,11 +62,7 @@ namespace MplusM
          
          The external representation of a channel-type argument description is:
          
-         channelTagAndInfo ::= optionalChannelTag | mandatoryChannelTag;
-         
-         optionalChannelTag ::= 'c';
-         
-         mandatoryChannelTag ::= 'C'; */
+         channelTagAndInfo ::= 'C'; */
         class ChannelArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
@@ -75,14 +71,11 @@ namespace MplusM
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
              @param argMode The mode of the command-line argument.
-             @param defaultValue The default value for the command-line argument.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
+             @param defaultValue The default value for the command-line argument. */
             ChannelArgumentDescriptor(const YarpString & argName,
                                       const YarpString & argDescription,
                                       const ArgumentMode argMode,
-                                      const YarpString & defaultValue,
-                                      YarpString *       argumentReference = NULL);
+                                      const YarpString & defaultValue);
             
             /*! @brief The destructor. */
             virtual ~ChannelArgumentDescriptor(void);
@@ -108,8 +101,7 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
+            virtual bool validate(const YarpString & value);
             
             COPY_AND_ASSIGNMENT_(ChannelArgumentDescriptor);
             

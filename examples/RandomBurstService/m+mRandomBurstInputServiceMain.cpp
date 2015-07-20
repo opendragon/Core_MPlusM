@@ -40,7 +40,7 @@
 
 #include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
-#include <m+m/m+mIntegerArgumentDescriptor.h>
+#include <m+m/m+mIntArgumentDescriptor.h>
 #include <m+m/m+mUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -162,17 +162,15 @@ int main(int      argc,
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
-        double                               burstPeriod = 1;
-        int                                  burstSize = 1;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"),
                                                       Utilities::kArgModeOptionalModifiable, 1,
-                                                      true, 0, false, 0, &burstPeriod);
-        Utilities::IntegerArgumentDescriptor secondArg("size", T_("Burst size"),
+                                                      true, 0, false, 0);
+        Utilities::IntArgumentDescriptor secondArg("size", T_("Burst size"),
                                                        Utilities::kArgModeOptionalModifiable, 1,
-                                                       true, 1, false, 0, &burstSize);
+                                                       true, 1, false, 0);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

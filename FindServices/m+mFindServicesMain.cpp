@@ -290,9 +290,8 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
-    YarpString                          criteria;
     Utilities::StringArgumentDescriptor firstArg("criteria", T_("Matching criteria for service"),
-                                                 Utilities::kArgModeOptional, "", &criteria);
+                                                 Utilities::kArgModeOptional, "");
     Utilities::DescriptorVector         argumentList;
     OutputFlavour                       flavour;
     
@@ -313,6 +312,8 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    YarpString criteria(firstArg.getCurrentValue());
+
                     setUpAndGo(criteria, flavour);
                 }
                 else

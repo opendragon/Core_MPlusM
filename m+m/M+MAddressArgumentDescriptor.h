@@ -62,11 +62,7 @@ namespace MplusM
          
         The external representation of an address argument description is:
         
-         addressTagAndInfo ::= optionalAddressTag | mandatoryAddressTag;
-         
-         optionalAddressTag ::= 'a';
-         
-         mandatoryAddressTag ::= 'A'; */
+         addressTagAndInfo ::= 'A'; */
         class AddressArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
@@ -76,14 +72,11 @@ namespace MplusM
              @param argDescription A description of the command-line argument.
              @param argMode The mode of the command-line argument.
              @param defaultValue The default value for the command-line argument.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value.
              @param addrBuff If non-@c NULL, the variable to be set with the actual address. */
             AddressArgumentDescriptor(const YarpString & argName,
                                       const YarpString & argDescription,
                                       const ArgumentMode argMode,
                                       const YarpString & defaultValue,
-                                      YarpString *       argumentReference = NULL,
                                       struct in_addr *   addrBuff = NULL);
 
             /*! @brief The destructor. */
@@ -110,8 +103,7 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
+            virtual bool validate(const YarpString & value);
             
             COPY_AND_ASSIGNMENT_(AddressArgumentDescriptor);
             

@@ -168,14 +168,13 @@ int main(int      argc,
         bool                                  nameWasSet = false;
         bool                                  reportOnExit = false;
         bool                                  stdinAvailable = CanReadFromStandardInput();
-        YarpString                            recordPath;
         YarpString                            serviceEndpointName;
         YarpString                            servicePortNumber;
         YarpString                            tag;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
                                                        Utilities::kArgModeOptionalModifiable,
                                                        TEMP_ROOT_ + kDirectorySeparator + "record_",
-                                                       ".txt", true, true, &recordPath);
+                                                       ".txt", true, true);
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);
@@ -196,6 +195,8 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    YarpString recordPath(firstArg.getCurrentValue());
+                    
                     if (0 == recordPath.size())
                     {
                         std::stringstream buff;

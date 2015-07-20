@@ -423,14 +423,11 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        int                                 listenPort;
-        YarpString                          tag;
         Utilities::PortArgumentDescriptor   firstArg("port", "The outgoing port",
-                                                     Utilities::kArgModeRequired, 12345, false,
-                                                     &listenPort);
+                                                     Utilities::kArgModeRequired, 12345, false);
         Utilities::StringArgumentDescriptor secondArg("tag",
                                                       T_("Tag for the service to be connnected to"),
-                                                      Utilities::kArgModeOptional, "", &tag);
+                                                      Utilities::kArgModeOptional, "");
         Utilities::DescriptorVector         argumentList;
         OutputFlavour                       flavour; // ignored
         
@@ -455,6 +452,9 @@ int main(int      argc,
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {
+                        int        listenPort = firstArg.getCurrentValue();
+                        YarpString tag(secondArg.getCurrentValue());
+                        
 #if defined(MpM_ReportOnConnections)
                         setUpAndGo(listenPort, tag, reporter);
 #else // ! defined(MpM_ReportOnConnections)

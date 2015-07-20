@@ -62,7 +62,7 @@ namespace MplusM
          
          The external representation of a trailing arguments description is:
          
-         extraTagAndInfo ::= 'E' | 'e';
+         extraTagAndInfo ::= 'E';
          
          Note that the concept of 'optional' versus 'mandatory' is not applicable to trailing
          arguments, as it's possible to have zero or more of them.
@@ -127,8 +127,7 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
+            virtual bool validate(const YarpString & value);
             
             COPY_AND_ASSIGNMENT_(ExtraArgumentDescriptor);
             

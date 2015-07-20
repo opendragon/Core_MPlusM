@@ -629,8 +629,8 @@
 		DFEDCA271B46E0CD0034C881 /* m+mGeneralChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mGeneralChannel.h"; path = "m+m/m+mGeneralChannel.h"; sourceTree = "<group>"; };
 		DFEDCA2C1B46E0CD0034C881 /* m+mInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mInfoRequestHandler.cpp"; path = "m+m/m+mInfoRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFEDCA2D1B46E0CD0034C881 /* m+mInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mInfoRequestHandler.h"; path = "m+m/m+mInfoRequestHandler.h"; sourceTree = "<group>"; };
-		DFEDCA2E1B46E0CD0034C881 /* m+mIntegerArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mIntegerArgumentDescriptor.cpp"; path = "m+m/m+mIntegerArgumentDescriptor.cpp"; sourceTree = "<group>"; };
-		DFEDCA2F1B46E0CD0034C881 /* m+mIntegerArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mIntegerArgumentDescriptor.h"; path = "m+m/m+mIntegerArgumentDescriptor.h"; sourceTree = "<group>"; };
+		DFEDCA2E1B46E0CD0034C881 /* m+mIntArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mIntArgumentDescriptor.cpp"; path = "m+m/m+mIntArgumentDescriptor.cpp"; sourceTree = "<group>"; };
+		DFEDCA2F1B46E0CD0034C881 /* m+mIntArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mIntArgumentDescriptor.h"; path = "m+m/m+mIntArgumentDescriptor.h"; sourceTree = "<group>"; };
 		DFEDCA301B46E0CD0034C881 /* m+mListRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mListRequestHandler.cpp"; path = "m+m/m+mListRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFEDCA311B46E0CD0034C881 /* m+mListRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mListRequestHandler.h"; path = "m+m/m+mListRequestHandler.h"; sourceTree = "<group>"; };
 		DFEDCA321B46E0CD0034C881 /* m+mMatchConstraint.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mMatchConstraint.cpp"; path = "m+m/m+mMatchConstraint.cpp"; sourceTree = "<group>"; };
@@ -1820,8 +1820,8 @@
 				DFEDCA251B46E0CD0034C881 /* m+mFilePathArgumentDescriptor.h */,
 				DFEDCA261B46E0CD0034C881 /* m+mGeneralChannel.cpp */,
 				DFEDCA271B46E0CD0034C881 /* m+mGeneralChannel.h */,
-				DFEDCA2E1B46E0CD0034C881 /* m+mIntegerArgumentDescriptor.cpp */,
-				DFEDCA2F1B46E0CD0034C881 /* m+mIntegerArgumentDescriptor.h */,
+				DFEDCA2E1B46E0CD0034C881 /* m+mIntArgumentDescriptor.cpp */,
+				DFEDCA2F1B46E0CD0034C881 /* m+mIntArgumentDescriptor.h */,
 				DFEDCA321B46E0CD0034C881 /* m+mMatchConstraint.cpp */,
 				DFEDCA331B46E0CD0034C881 /* m+mMatchConstraint.h */,
 				DFEDCA341B46E0CD0034C881 /* m+mMatchExpression.cpp */,

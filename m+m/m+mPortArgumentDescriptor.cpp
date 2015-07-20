@@ -86,11 +86,10 @@ PortArgumentDescriptor::PortArgumentDescriptor(const YarpString & argName,
                                                const YarpString & argDescription,
                                                const ArgumentMode argMode,
                                                const int          defaultValue,
-                                               const bool         isSystemPort,
-                                               int *              argumentReference) :
+                                               const bool         isSystemPort) :
     inherited(argName, argDescription, argMode, defaultValue, true,
-              isSystemPort ? 0 : MINIMUM_PORT_ALLOWED_, true, MAXIMUM_PORT_ALLOWED_,
-              argumentReference), _isSystemPort(isSystemPort)
+              isSystemPort ? 0 : MINIMUM_PORT_ALLOWED_, true, MAXIMUM_PORT_ALLOWED_),
+    _isSystemPort(isSystemPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
@@ -181,7 +180,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
         if (okSoFar)
         {
             result = new PortArgumentDescriptor(name, description, argMode, defaultValue,
-                                                isSystemPort, NULL);
+                                                isSystemPort);
         }
     }
     OD_LOG_EXIT_P(result); //####

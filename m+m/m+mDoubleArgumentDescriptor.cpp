@@ -89,18 +89,16 @@ DoubleArgumentDescriptor::DoubleArgumentDescriptor(const YarpString & argName,
                                                    const bool         hasMinimumValue,
                                                    const double       minimumValue,
                                                    const bool         hasMaximumValue,
-                                                   const double       maximumValue,
-                                                   double *           argumentReference) :
-    inherited(argName, argDescription, argMode), _argumentReference(argumentReference),
-    _defaultValue(defaultValue),  _maximumValue(maximumValue), _minimumValue(minimumValue),
-    _hasMaximumValue(hasMaximumValue), _hasMinimumValue(hasMinimumValue)
+                                                   const double       maximumValue) :
+    inherited(argName, argDescription, argMode), _defaultValue(defaultValue),
+    _maximumValue(maximumValue), _minimumValue(minimumValue), _hasMaximumValue(hasMaximumValue),
+    _hasMinimumValue(hasMinimumValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
     OD_LOG_D3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
               "maximumValue = ", maximumValue); //####
     OD_LOG_B2("hasMinimumValue = ", hasMinimumValue, "hasMaximumValue = ", hasMaximumValue); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // DoubleArgumentDescriptor::DoubleArgumentDescriptor
 
@@ -119,7 +117,7 @@ void DoubleArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_ENTER(); //####
     OD_LOG_P1("container = ", &container); //####
     
-    container.addDouble(_argumentReference ? *_argumentReference : _defaultValue);
+    container.addDouble(_currentValue);
     OD_LOG_EXIT(); //####
 } // DoubleArgumentDescriptor::addValueToBottle
 
@@ -154,7 +152,7 @@ YarpString DoubleArgumentDescriptor::getProcessedValue(void)
     YarpString        result;
     std::stringstream buff;
 
-    buff << (_argumentReference ? *_argumentReference : _defaultValue);
+    buff << _currentValue;
     result = buff.str();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
@@ -235,8 +233,7 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
 
             result = new DoubleArgumentDescriptor(name, description, argMode, defaultValue,
                                                   hasMinimumValue, hasMinimumValue ? minValue : 0,
-                                                  hasMaximumValue, hasMaximumValue ? maxValue : 0,
-                                                  NULL);
+                                                  hasMaximumValue, hasMaximumValue ? maxValue : 0);
         }
     }
     OD_LOG_EXIT_P(result); //####
@@ -246,10 +243,7 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
 void DoubleArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
-    if (_argumentReference)
-    {
-        *_argumentReference = _defaultValue;
-    }
+    _currentValue = _defaultValue;
     OD_LOG_OBJEXIT(); //####
 } // DoubleArgumentDescriptor::setToDefaultValue
 
@@ -280,7 +274,6 @@ YarpString DoubleArgumentDescriptor::toString(void)
 } // DoubleArgumentDescriptor::toString
 
 bool DoubleArgumentDescriptor::validate(const YarpString & value)
-const
 {
     OD_LOG_OBJENTER(); //####
     bool         result = false;
@@ -300,9 +293,9 @@ const
             result = false;
         }
     }
-    if (result && _argumentReference)
+    if (result)
     {
-        *_argumentReference = dblValue;
+        _currentValue = dblValue;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;

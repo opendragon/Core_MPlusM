@@ -103,10 +103,8 @@ int main(int      argc,
     OD_LOG_ENTER(); //####
     try
     {
-        int                               listenPort;
         Utilities::PortArgumentDescriptor firstArg("port", "The outgoing port",
-                                                   Utilities::kArgModeRequired, 12345, false,
-                                                   &listenPort);
+                                                   Utilities::kArgModeRequired, 12345, false);
         Utilities::DescriptorVector       argumentList;
         OutputFlavour                     flavour; // ignored
         
@@ -119,6 +117,7 @@ int main(int      argc,
             Utilities::SetUpGlobalStatusReporter();
             try
             {
+                int     listenPort = firstArg.getCurrentValue();
                 SOCKET  listenSocket;
 #if ! MAC_OR_LINUX_
                 WORD    wVersionRequested = MAKEWORD(2, 2);

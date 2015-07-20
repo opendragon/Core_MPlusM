@@ -62,14 +62,9 @@ namespace MplusM
          
          The external representation of a filepath-type argument description is:
          
-         filePathTagAndInfo ::= optionalFilePathTag filePathDirection |
-                                    mandatoryFilePathTag filePathDirection;
+         filePathTagAndInfo ::= 'F' sep filePathDirection;
          
-         optionalFilePathTag ::= 'f';
-         
-         mandatoryFilePathTag ::= 'F';
-         
-         filePathDirection ::= sep directionValue sep suffixValue sep isRandom;
+         filePathDirection ::= directionValue sep suffixValue sep isRandom;
          
          directionValue ::= 'i' | 'o';
          
@@ -89,17 +84,14 @@ namespace MplusM
              @param isOptional @c true if the argument is optional and @c false otherwise.
              @param forOutput @c true if the file will be used for output and @c false otherwise.
              @param useRandomPath @c true if the file path will be constructed with a random number
-             and @c false if the file path is fixed.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
+             and @c false if the file path is fixed. */
             FilePathArgumentDescriptor(const YarpString & argName,
                                        const YarpString & argDescription,
                                        const ArgumentMode argMode,
                                        const YarpString & pathPrefix,
                                        const YarpString & pathSuffix,
                                        const bool         forOutput = false,
-                                       const bool         useRandomPath = false,
-                                       YarpString *       argumentReference = NULL);
+                                       const bool         useRandomPath = false);
             
             /*! @brief The destructor. */
             virtual ~FilePathArgumentDescriptor(void);
@@ -113,10 +105,6 @@ namespace MplusM
         
         private :
             
-            /*! @brief Add the processed value to a bottle.
-             @param container The bottle to be modified. */
-            virtual void addValueToBottle(yarp::os::Bottle & container);
-            
             /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
              @returns A copy of the descriptor, with only non-pointer types duplicated. */
             virtual BaseArgumentDescriptor * clone(void);
@@ -124,10 +112,6 @@ namespace MplusM
             /*! @brief Return the default value.
              @returns The default value. */
             virtual YarpString getDefaultValue(void);
-            
-            /*! @brief Return the processed value.
-             @returns The processed value. */
-            virtual YarpString getProcessedValue(void);
             
             /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
              @param isForOutput Set to @c true if the argument is for output files and @c false
@@ -151,8 +135,7 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
+            virtual bool validate(const YarpString & value);
             
             COPY_AND_ASSIGNMENT_(FilePathArgumentDescriptor);
             
@@ -186,7 +169,7 @@ namespace MplusM
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[6];
+            char _filler[5];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

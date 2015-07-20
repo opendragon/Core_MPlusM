@@ -148,9 +148,8 @@ FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argNam
                                                        const YarpString & pathPrefix,
                                                        const YarpString & pathSuffix,
                                                        const bool         forOutput,
-                                                       const bool         useRandomPath,
-                                                       YarpString *       argumentReference) :
-    inherited(argName, argDescription, argMode, pathPrefix, argumentReference),
+                                                       const bool         useRandomPath) :
+    inherited(argName, argDescription, argMode, pathPrefix),
     _pathPrefix(pathPrefix), _pathSuffix(pathSuffix), _defaultSet(false), _forOutput(forOutput),
     _useRandomPath(useRandomPath)
 {
@@ -158,7 +157,6 @@ FilePathArgumentDescriptor::FilePathArgumentDescriptor(const YarpString & argNam
     OD_LOG_S4s("argName = ", argName, "argDescription = ", argDescription, "pathPrefix = ", //####
                pathPrefix, "pathSuffix = ", pathSuffix); //####
     OD_LOG_B2("forOutput = ", forOutput, "useRandomPath = ", useRandomPath); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
     getDefaultValue();
     OD_LOG_EXIT_P(this); //####
 } // FilePathArgumentDescriptor::FilePathArgumentDescriptor
@@ -172,14 +170,6 @@ FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
-
-void FilePathArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("container = ", &container); //####
-    container.addString(getProcessedValue());
-    OD_LOG_EXIT(); //####
-} // FilePathArgumentDescriptor::addValueToBottle
 
 BaseArgumentDescriptor * FilePathArgumentDescriptor::clone(void)
 {
@@ -211,27 +201,6 @@ YarpString FilePathArgumentDescriptor::getDefaultValue(void)
     OD_LOG_OBJEXIT_s(_defaultValue); //####
     return _defaultValue;
 } // FilePathArgumentDescriptor::getDefaultValue
-
-YarpString FilePathArgumentDescriptor::getProcessedValue(void)
-{
-    OD_LOG_OBJENTER(); //####
-    YarpString result;
-    
-    if (_argumentReference)
-    {
-        result = *_argumentReference;
-    }
-    else
-    {
-        if (! _defaultSet)
-        {
-            getDefaultValue();
-        }
-        result = _defaultValue;
-    }
-    OD_LOG_OBJEXIT_s(result); //####
-    return result;
-} // FilePathArgumentDescriptor::getProcessedValue
 
 BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
 {
@@ -304,7 +273,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
         if (okSoFar)
         {
             result = new FilePathArgumentDescriptor(name, description, argMode, defaultString,
-                                                    suffixValue, forOutput, usesRandom, NULL);
+                                                    suffixValue, forOutput, usesRandom);
         }
     }
     OD_LOG_EXIT_P(result); //####
@@ -314,14 +283,11 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
 void FilePathArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
-    if (_argumentReference)
+    if (! _defaultSet)
     {
-        if (! _defaultSet)
-        {
-            getDefaultValue();
-        }
-        *_argumentReference = _defaultValue;
+        getDefaultValue();
     }
+    _currentValue = _defaultValue;
     OD_LOG_OBJEXIT(); //####
 } // FilePathArgumentDescriptor::setToDefaultValue
 
@@ -340,14 +306,13 @@ YarpString FilePathArgumentDescriptor::toString(void)
 } // FilePathArgumentDescriptor::toString
 
 bool FilePathArgumentDescriptor::validate(const YarpString & value)
-const
 {
     OD_LOG_OBJENTER(); //####
     bool result = checkFilePath(value.c_str(), _forOutput, false);
     
-    if (result && _argumentReference)
+    if (result)
     {
-        *_argumentReference = value;
+        _currentValue = value;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;

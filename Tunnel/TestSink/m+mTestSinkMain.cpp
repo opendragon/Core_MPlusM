@@ -102,15 +102,12 @@ int main(int      argc,
     OD_LOG_ENTER(); //####
     try
     {
-        int                                  hostPort;
-        YarpString                           hostName;
         struct in_addr                       addrBuff;
         Utilities::AddressArgumentDescriptor firstArg("hostname", T_("IP address to connect to"),
                                                       Utilities::kArgModeRequired,
-                                                      SELF_ADDRESS_IPADDR_, &hostName, &addrBuff);
+                                                      SELF_ADDRESS_IPADDR_, &addrBuff);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to connect to"),
-                                                       Utilities::kArgModeRequired, 12345, true,
-                                                       &hostPort);
+                                                       Utilities::kArgModeRequired, 12345, true);
         Utilities::DescriptorVector          argumentList;
         OutputFlavour                        flavour; // ignored
 
@@ -153,6 +150,7 @@ int main(int      argc,
                 sinkSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                 if (INVALID_SOCKET != sinkSocket)
                 {
+                    int                hostPort = secondArg.getCurrentValue();
 #if MAC_OR_LINUX_
                     struct sockaddr_in addr;
 #else // ! MAC_OR_LINUX_

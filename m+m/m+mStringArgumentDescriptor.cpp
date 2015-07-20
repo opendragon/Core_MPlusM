@@ -85,15 +85,12 @@ using namespace MplusM::Utilities;
 StringArgumentDescriptor::StringArgumentDescriptor(const YarpString & argName,
                                                    const YarpString & argDescription,
                                                    const ArgumentMode argMode,
-                                                   const YarpString & defaultValue,
-                                                   YarpString *       argumentReference) :
-    inherited(argName, argDescription, argMode), _defaultValue(defaultValue),
-    _argumentReference(argumentReference)
+                                                   const YarpString & defaultValue) :
+    inherited(argName, argDescription, argMode), _defaultValue(defaultValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // StringArgumentDescriptor::StringArgumentDescriptor
 
@@ -138,10 +135,8 @@ YarpString StringArgumentDescriptor::getDefaultValue(void)
 YarpString StringArgumentDescriptor::getProcessedValue(void)
 {
     OD_LOG_OBJENTER(); //####
-    YarpString result = (_argumentReference ? *_argumentReference : _defaultValue);
-
-    OD_LOG_OBJEXIT_s(result); //####
-    return result;
+    OD_LOG_OBJEXIT_s(_currentValue); //####
+    return _currentValue;
 } // StringArgumentDescriptor::getProcessedValue
 
 BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpString & inString)
@@ -176,8 +171,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
         }
         if (okSoFar)
         {
-            result = new StringArgumentDescriptor(name, description, argMode, defaultString,
-                                                  NULL);
+            result = new StringArgumentDescriptor(name, description, argMode, defaultString);
         }
     }
     OD_LOG_EXIT_P(result); //####
@@ -187,10 +181,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
 void StringArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
-    if (_argumentReference)
-    {
-        *_argumentReference = _defaultValue;
-    }
+    _currentValue = _defaultValue;
     OD_LOG_OBJEXIT(); //####
 } // StringArgumentDescriptor::setToDefaultValue
 
@@ -205,14 +196,13 @@ YarpString StringArgumentDescriptor::toString(void)
 } // StringArgumentDescriptor::toString
 
 bool StringArgumentDescriptor::validate(const YarpString & value)
-const
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-    if (result && _argumentReference)
+    if (result)
     {
-        *_argumentReference = value;
+        _currentValue = value;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;

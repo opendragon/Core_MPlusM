@@ -62,13 +62,9 @@ namespace MplusM
          
          The external representation of a floating point argument description is:
          
-         doubleTagAndInfo ::= optionalDoubleTag doubleRange | mandatoryDoubleTag doubleRange;
+         doubleTagAndInfo ::= 'D' sep doubleRange;
          
-         optionalDoubleTag ::= 'i';
-         
-         mandatoryDoubleTag ::= 'I';
-         
-         doubleRange ::= sep minDoubleValue sep maxDoubleValue;
+         doubleRange ::= minDoubleValue sep maxDoubleValue;
          
          minDoubleValue ::= doubleValue | ;
          # empty value indicates no minimum constraint.
@@ -89,9 +85,7 @@ namespace MplusM
              @param minimumValue The minimum value that is acceptable.
              @param hasMaximumValue @c true if the value must be less than or equal to a specified
              maximum and @c false otherwise.
-             @param maximumValue The maximum value that is acceptable.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
+             @param maximumValue The maximum value that is acceptable. */
             DoubleArgumentDescriptor(const YarpString & argName,
                                      const YarpString & argDescription,
                                      const ArgumentMode argMode,
@@ -99,11 +93,18 @@ namespace MplusM
                                      const bool         hasMinimumValue,
                                      const double       minimumValue,
                                      const bool         hasMaximumValue,
-                                     const double       maximumValue,
-                                     double *           argumentReference = NULL);
+                                     const double       maximumValue);
             
             /*! @brief The destructor. */
             virtual ~DoubleArgumentDescriptor(void);
+            
+            /*! @brief Return the current value.
+             @returns The current value. */
+            inline double getCurrentValue(void)
+            const
+            {
+                return _currentValue;
+            } // getCurrentValue
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
@@ -141,8 +142,7 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const;
+            virtual bool validate(const YarpString & value);
             
             COPY_AND_ASSIGNMENT_(DoubleArgumentDescriptor);
             
@@ -155,8 +155,8 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
             
-            /*! @brief The address of the variable to be set with the argument value. */
-            double * _argumentReference;
+            /*! @brief The current value of the command-line argument. */
+            double _currentValue;
 
             /*! @brief The default value for the command-line argument. */
             double _defaultValue;

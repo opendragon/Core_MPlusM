@@ -40,7 +40,7 @@
 #if (! defined(MpMPortArgumentDescriptor_H_))
 # define MpMPortArgumentDescriptor_H_ /* Header guard */
 
-# include <m+m/m+mIntegerArgumentDescriptor.h>
+# include <m+m/m+mIntArgumentDescriptor.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -62,16 +62,10 @@ namespace MplusM
          
          The external representation of a port number argument description is:
          
-         portTagAndInfo ::= optionalPortTag portClass | mandatoryPortTag portClass;
-         
-         optionalPortTag ::= 'p';
-         
-         mandatoryPortTag ::= 'P';
-         
-         portClass ::= sep systemOrRegular;
+         portTagAndInfo ::= 'P' sep systemOrRegular;
          
          systemOrRegular ::= 's' | 'r'; */
-        class PortArgumentDescriptor : public IntegerArgumentDescriptor
+        class PortArgumentDescriptor : public IntArgumentDescriptor
         {
         public :
             
@@ -80,15 +74,13 @@ namespace MplusM
              @param argDescription A description of the command-line argument.
              @param argMode The mode of the command-line argument.
              @param defaultValue The default value for the command-line argument.
-             @param isSystemPort @c true if the value can be a system port and @c false otherwise.
-             @param argumentReference If non-@c NULL, the variable to be set with the argument
-             value. */
+             @param isSystemPort @c true if the value can be a system port and @c false
+             otherwise. */
             PortArgumentDescriptor(const YarpString & argName,
                                    const YarpString & argDescription,
                                    const ArgumentMode argMode,
                                    const int          defaultValue,
-                                   const bool         isSystemPort,
-                                   int *              argumentReference = NULL);
+                                   const bool         isSystemPort);
             
             /*! @brief The destructor. */
             virtual ~PortArgumentDescriptor(void);
@@ -119,7 +111,7 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef IntegerArgumentDescriptor inherited;
+            typedef IntArgumentDescriptor inherited;
             
             /*! @brief @c true if the value can be a system port and @c false otherwise. */
             bool _isSystemPort;

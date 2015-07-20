@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+m/m+mIntegerArgumentDescriptor.cpp
+//  File:       m+m/m+mIntArgumentDescriptor.cpp
 //
 //  Project:    m+m
 //
@@ -37,7 +37,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mIntegerArgumentDescriptor.h"
+#include "m+mIntArgumentDescriptor.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -82,61 +82,58 @@ using namespace MplusM::Utilities;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-IntegerArgumentDescriptor::IntegerArgumentDescriptor(const YarpString & argName,
-                                                     const YarpString & argDescription,
-                                                     const ArgumentMode argMode,
-                                                     const int          defaultValue,
-                                                     const bool         hasMinimumValue,
-                                                     const int          minimumValue,
-                                                     const bool         hasMaximumValue,
-                                                     const int          maximumValue,
-                                                     int *              argumentReference) :
-    inherited(argName, argDescription, argMode), _argumentReference(argumentReference),
-    _defaultValue(defaultValue), _maximumValue(maximumValue), _minimumValue(minimumValue),
-    _hasMaximumValue(hasMaximumValue), _hasMinimumValue(hasMinimumValue)
+IntArgumentDescriptor::IntArgumentDescriptor(const YarpString & argName,
+                                             const YarpString & argDescription,
+                                             const ArgumentMode argMode,
+                                             const int          defaultValue,
+                                             const bool         hasMinimumValue,
+                                             const int          minimumValue,
+                                             const bool         hasMaximumValue,
+                                             const int          maximumValue) :
+    inherited(argName, argDescription, argMode), _defaultValue(defaultValue),
+    _maximumValue(maximumValue), _minimumValue(minimumValue), _hasMaximumValue(hasMaximumValue),
+    _hasMinimumValue(hasMinimumValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
     OD_LOG_LL3("defaultValue = ", defaultValue, "minimumValue = ", minimumValue, //####
                "maximumValue = ", maximumValue); //####
     OD_LOG_B2("hasMinimumValue = ", hasMinimumValue, "hasMaximumValue = ", hasMaximumValue); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
-} // IntegerArgumentDescriptor::IntegerArgumentDescriptor
+} // IntArgumentDescriptor::IntArgumentDescriptor
 
-IntegerArgumentDescriptor::~IntegerArgumentDescriptor(void)
+IntArgumentDescriptor::~IntArgumentDescriptor(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // IntegerArgumentDescriptor::~IntegerArgumentDescriptor
+} // IntArgumentDescriptor::~IntArgumentDescriptor
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void IntegerArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+void IntArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("container = ", &container); //####
-    container.addInt(_argumentReference ? *_argumentReference : _defaultValue);
+    container.addInt(_currentValue);
     OD_LOG_EXIT(); //####
-} // IntegerArgumentDescriptor::addValueToBottle
+} // IntArgumentDescriptor::addValueToBottle
 
-BaseArgumentDescriptor * IntegerArgumentDescriptor::clone(void)
+BaseArgumentDescriptor * IntArgumentDescriptor::clone(void)
 {
     OD_LOG_OBJENTER(); //####
-    BaseArgumentDescriptor * result = new IntegerArgumentDescriptor(argumentName(),
-                                                                    argumentDescription(),
-                                                                    argumentMode(), _defaultValue,
-                                                                    _hasMinimumValue, _minimumValue,
-                                                                    _hasMaximumValue,
-                                                                    _maximumValue);
+    BaseArgumentDescriptor * result = new IntArgumentDescriptor(argumentName(),
+                                                                argumentDescription(),
+                                                                argumentMode(), _defaultValue,
+                                                                _hasMinimumValue, _minimumValue,
+                                                                _hasMaximumValue, _maximumValue);
 
     OD_LOG_EXIT_P(result);
     return result;
-} // IntegerArgumentDescriptor::clone
+} // IntArgumentDescriptor::clone
 
-YarpString IntegerArgumentDescriptor::getDefaultValue(void)
+YarpString IntArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -146,21 +143,21 @@ YarpString IntegerArgumentDescriptor::getDefaultValue(void)
     result = buff.str();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // IntegerArgumentDescriptor::getDefaultValue
+} // IntArgumentDescriptor::getDefaultValue
 
-YarpString IntegerArgumentDescriptor::getProcessedValue(void)
+YarpString IntArgumentDescriptor::getProcessedValue(void)
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
     std::stringstream buff;
 
-    buff << (_argumentReference ? *_argumentReference : _defaultValue);
+    buff << _currentValue;
     result = buff.str();
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // IntegerArgumentDescriptor::getProcessedValue
+} // IntArgumentDescriptor::getProcessedValue
 
-BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpString & inString)
+BaseArgumentDescriptor * IntArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -233,27 +230,23 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
             bool hasMaximumValue = (0 < maxValString.length());
             bool hasMinimumValue = (0 < minValString.length());
 
-            result = new IntegerArgumentDescriptor(name, description, argMode, defaultValue,
-                                                   hasMinimumValue, hasMinimumValue ? minValue : 0,
-                                                   hasMaximumValue, hasMaximumValue ? maxValue : 0,
-                                                   NULL);
+            result = new IntArgumentDescriptor(name, description, argMode, defaultValue,
+                                               hasMinimumValue, hasMinimumValue ? minValue : 0,
+                                               hasMaximumValue, hasMaximumValue ? maxValue : 0);
         }
     }
     OD_LOG_EXIT_P(result); //####
     return result;
-} // IntegerArgumentDescriptor::parseArgString
+} // IntArgumentDescriptor::parseArgString
 
-void IntegerArgumentDescriptor::setToDefaultValue(void)
+void IntArgumentDescriptor::setToDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
-    if (_argumentReference)
-    {
-        *_argumentReference = _defaultValue;
-    }
+    _currentValue = _defaultValue;
     OD_LOG_OBJEXIT(); //####
-} // IntegerArgumentDescriptor::setToDefaultValue
+} // IntArgumentDescriptor::setToDefaultValue
 
-YarpString IntegerArgumentDescriptor::toString(void)
+YarpString IntArgumentDescriptor::toString(void)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("I"));
@@ -277,10 +270,9 @@ YarpString IntegerArgumentDescriptor::toString(void)
     result += suffixFields(getDefaultValue());
     OD_LOG_OBJEXIT_s(result); //####
     return result;
-} // IntegerArgumentDescriptor::toString
+} // IntArgumentDescriptor::toString
 
-bool IntegerArgumentDescriptor::validate(const YarpString & value)
-const
+bool IntArgumentDescriptor::validate(const YarpString & value)
 {
     OD_LOG_OBJENTER(); //####
     bool         result = false;
@@ -300,13 +292,13 @@ const
             result = false;
         }
     }
-    if (result && _argumentReference)
+    if (result)
     {
-        *_argumentReference = intValue;
+        _currentValue = intValue;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // IntegerArgumentDescriptor::validate
+} // IntArgumentDescriptor::validate
 
 #if defined(__APPLE__)
 # pragma mark Global functions

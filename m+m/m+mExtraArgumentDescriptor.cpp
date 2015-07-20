@@ -193,7 +193,6 @@ YarpString ExtraArgumentDescriptor::toString(void)
 } // ExtraArgumentDescriptor::toString
 
 bool ExtraArgumentDescriptor::validate(const YarpString & value)
-const
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;

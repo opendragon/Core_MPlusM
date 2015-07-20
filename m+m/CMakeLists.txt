@@ -89,7 +89,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mInfoRequestHandler.cpp"
-            "${MpM_SOURCE_DIR}/m+m/m+mIntegerArgumentDescriptor.cpp"
+            "${MpM_SOURCE_DIR}/m+m/m+mIntArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mListRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mMatchConstraint.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mMatchExpression.cpp"
@@ -178,7 +178,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/m+m/m+mExtraArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.h"
-        "${MpM_SOURCE_DIR}/m+m/m+mIntegerArgumentDescriptor.h"
+        "${MpM_SOURCE_DIR}/m+m/m+mIntArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/m+m/m+mMatchConstraint.h"
         "${MpM_SOURCE_DIR}/m+m/m+mMatchExpression.h"
         "${MpM_SOURCE_DIR}/m+m/m+mMatchFieldName.h"
@@ -230,7 +230,7 @@ if(MpM_DO_SWIG)
         M+MExtraArgumentDescriptor.h M+MExtraArgumentDescriptor.cpp
         M+MFilePathArgumentDescriptor.h M+MFilePathArgumentDescriptor.cpp
         M+MGeneralChannel.h M+MGeneralChannel.cpp
-        M+MIntegerArgumentDescriptor.h M+MIntegerArgumentDescriptor.cpp
+        M+MIntArgumentDescriptor.h M+MIntArgumentDescriptor.cpp
         M+MMatchConstraint.h M+MMatchConstraint.cpp
         M+MMatchExpression.h M+MMatchExpression.cpp
         M+MMatchFieldName.h M+MMatchFieldName.cpp

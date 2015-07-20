@@ -311,16 +311,13 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        YarpString                          outputMode;
-        YarpString                          tag;
         Utilities::StringArgumentDescriptor firstArg("outputMode", T_("The mode of the output "
                                                                       "['address', 'port' or "
                                                                       "'both']"),
-                                                     Utilities::kArgModeOptional, "both",
-                                                     &outputMode);
+                                                     Utilities::kArgModeOptional, "both");
         Utilities::StringArgumentDescriptor secondArg("tag", T_("The tag for the service to be "
                                                                 "connnected to"),
-                                                      Utilities::kArgModeOptional, "", &tag);
+                                                      Utilities::kArgModeOptional, "");
         Utilities::DescriptorVector         argumentList;
         OutputFlavour                       flavour;
         
@@ -345,6 +342,9 @@ int main(int      argc,
                     Initialize(progName);
                     if (Utilities::CheckForRegistryService())
                     {
+                        YarpString outputMode(firstArg.getCurrentValue());
+                        YarpString tag(secondArg.getCurrentValue());
+
 #if defined(MpM_ReportOnConnections)
                         setUpAndGo(outputMode, tag, flavour, reporter);
 #else // ! defined(MpM_ReportOnConnections)

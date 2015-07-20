@@ -210,13 +210,12 @@ int main(int      argc,
         bool                                 goWasSet = false; // not used
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
-        YarpString                           databaseAddress;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("dbAddress", "Network address for database",
                                                       Utilities::kArgModeRequired,
-                                                      SELF_ADDRESS_IPADDR_, &databaseAddress);
+                                                      SELF_ADDRESS_IPADDR_);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);
@@ -236,6 +235,8 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    YarpString databaseAddress(firstArg.getCurrentValue());
+
                     setUpAndGo(databaseAddress, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, reportOnExit);
                 }

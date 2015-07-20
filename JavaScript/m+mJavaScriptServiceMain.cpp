@@ -2200,14 +2200,13 @@ int main(int      argc,
         bool                                  nameWasSet = false;
         bool                                  reportOnExit = false;
         bool                                  stdinAvailable = CanReadFromStandardInput();
-        YarpString                            scriptPath;
         YarpString                            serviceEndpointName;
         YarpString                            servicePortNumber;
         YarpString                            tag;
         YarpStringVector                      arguments;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to script file to use"),
                                                        Utilities::kArgModeRequired, "", "", false,
-                                                       false, &scriptPath);
+                                                       false);
         Utilities::ExtraArgumentDescriptor    secondArg("scriptArgument",
                                                         T_("Additional script arguments"));
         Utilities::DescriptorVector           argumentList;
@@ -2230,6 +2229,7 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    YarpString scriptPath(firstArg.getCurrentValue());
                     YarpString tagModifier =
                                 Utilities::GetFileNameBase(Utilities::GetFileNamePart(scriptPath));
                     

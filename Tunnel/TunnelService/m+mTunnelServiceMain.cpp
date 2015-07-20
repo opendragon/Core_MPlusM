@@ -210,18 +210,15 @@ int main(int      argc,
         bool                                 goWasSet = false; // not used
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
-        int                                  hostPort;
-        YarpString                           hostName;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("hostname",
                                                       T_("IP address to provide access to"),
                                                       Utilities::kArgModeRequired,
-                                                      SELF_ADDRESS_IPADDR_, &hostName);
+                                                      SELF_ADDRESS_IPADDR_);
         Utilities::PortArgumentDescriptor    secondArg("port", T_("Port to provide access to"),
-                                                       Utilities::kArgModeRequired, 12345, false,
-                                                       &hostPort);
+                                                       Utilities::kArgModeRequired, 12345, false);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);
@@ -242,6 +239,9 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    YarpString hostName(firstArg.getCurrentValue());
+                    int        hostPort = secondArg.getCurrentValue();
+
                     setUpAndGo(hostName, hostPort, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, reportOnExit);
                 }

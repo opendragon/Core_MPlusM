@@ -231,8 +231,7 @@ namespace MplusM
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
              otherwise. */
-            virtual bool validate(const YarpString & value)
-            const = 0;
+            virtual bool validate(const YarpString & value) = 0;
             
         protected :
 

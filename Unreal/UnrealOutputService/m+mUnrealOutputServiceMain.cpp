@@ -165,17 +165,15 @@ int main(int      argc,
         bool                                nameWasSet = false; // not used
         bool                                reportOnExit = false;
         bool                                stdinAvailable = CanReadFromStandardInput();
-        double                              translationScale = 1;
-        int                                 outPort = 9876;
         YarpString                          serviceEndpointName;
         YarpString                          servicePortNumber;
         YarpString                          tag;
         Utilities::PortArgumentDescriptor   firstArg("port", T_("Port to use to connect"),
                                                      Utilities::kArgModeOptionalModifiable, 9876,
-                                                     false, &outPort);
+                                                     false);
         Utilities::DoubleArgumentDescriptor secondArg("scale", T_("Translation scale"),
                                                       Utilities::kArgModeOptionalModifiable, 1,
-                                                      true, 0, false, 0, &translationScale);
+                                                      true, 0, false, 0);
         Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);

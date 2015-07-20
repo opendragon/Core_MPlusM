@@ -87,14 +87,12 @@ using namespace MplusM::Utilities;
 ChannelArgumentDescriptor::ChannelArgumentDescriptor(const YarpString & argName,
                                                      const YarpString & argDescription,
                                                      const ArgumentMode argMode,
-                                                     const YarpString & defaultValue,
-                                                     YarpString *       argumentReference) :
-    inherited(argName, argDescription, argMode, defaultValue, argumentReference)
+                                                     const YarpString & defaultValue) :
+    inherited(argName, argDescription, argMode, defaultValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
-    OD_LOG_P1("argumentReference = ", argumentReference); //####
     OD_LOG_EXIT_P(this); //####
 } // ChannelArgumentDescriptor::ChannelArgumentDescriptor
 
@@ -156,8 +154,7 @@ BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpStr
         }
         if (okSoFar)
         {
-            result = new ChannelArgumentDescriptor(name, description, argMode, defaultString,
-                                                   NULL);
+            result = new ChannelArgumentDescriptor(name, description, argMode, defaultString);
         }
     }
     OD_LOG_EXIT_P(result); //####
@@ -175,14 +172,13 @@ YarpString ChannelArgumentDescriptor::toString(void)
 } // ChannelArgumentDescriptor::toString
 
 bool ChannelArgumentDescriptor::validate(const YarpString & value)
-const
 {
     OD_LOG_OBJENTER(); //####
     bool result = Endpoint::CheckEndpointName(value);
     
-    if (result && _argumentReference)
+    if (result)
     {
-        *_argumentReference = value;
+        _currentValue = value;
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;

@@ -165,23 +165,19 @@ int main(int      argc,
         bool                                 nameWasSet = false; // not used
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
-        double                               translationScale = 1;
-        int                                  hostPort;
-        YarpString                           hostName;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::DoubleArgumentDescriptor  firstArg("scale", T_("Translation scale"),
                                                       Utilities::kArgModeOptionalModifiable, 1,
-                                                      true, 0, false, 0, &translationScale);
+                                                      true, 0, false, 0);
         Utilities::AddressArgumentDescriptor secondArg("hostname",
                                                        T_("IP address for the device server"),
                                                        Utilities::kArgModeOptionalModifiable,
-													   SELF_ADDRESS_NAME_, &hostName);
+													   SELF_ADDRESS_NAME_);
         Utilities::PortArgumentDescriptor    thirdArg("port", T_("Port for the device server"),
 			                                          Utilities::kArgModeOptionalModifiable,
-                                                      VICONBLOBINPUT_DEFAULT_PORT_, true,
-                                                      &hostPort);
+                                                      VICONBLOBINPUT_DEFAULT_PORT_, true);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

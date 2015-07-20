@@ -163,13 +163,12 @@ int main(int      argc,
         bool                              nameWasSet = false; // not used
         bool                              reportOnExit = false;
         bool                              stdinAvailable = CanReadFromStandardInput();
-        int                               outPort = 9876;
         YarpString                        serviceEndpointName;
         YarpString                        servicePortNumber;
         YarpString                        tag;
         Utilities::PortArgumentDescriptor firstArg("port", T_("Port to use to connect"),
                                                    Utilities::kArgModeOptionalModifiable, 9876,
-                                                   false, &outPort);
+                                                   false);
         Utilities::DescriptorVector       argumentList;
 
         argumentList.push_back(&firstArg);
