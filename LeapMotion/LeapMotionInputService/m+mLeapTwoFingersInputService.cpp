@@ -85,21 +85,27 @@ using namespace MplusM::LeapTwoFingers;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LeapTwoFingersInputService::LeapTwoFingersInputService(const YarpString & launchPath,
-                                                       const int          argc,
-                                                       char * *           argv,
-                                                       const YarpString & tag,
-                                                       const YarpString & serviceEndpointName,
-                                                       const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME_,
-              LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _controller(new Leap::Controller), _listener(NULL)
+LeapTwoFingersInputService::LeapTwoFingersInputService(const Utilities::DescriptorVector &
+                                                                                    argumentList,
+                                                       const YarpString &
+                                                                                    launchPath,
+                                                       const int                           argc,
+                                                       char * *                            argv,
+                                                       const YarpString &                  tag,
+                                                       const YarpString &
+                                                                                serviceEndpointName,
+                                                       const YarpString &
+                                                                                servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true,
+              MpM_LEAPTWOFINGERSINPUT_CANONICAL_NAME_, LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION_, "",
+              serviceEndpointName, servicePortNumber), _controller(new Leap::Controller),
+    _listener(NULL)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // LeapTwoFingersInputService::LeapTwoFingersInputService
 
@@ -119,8 +125,17 @@ LeapTwoFingersInputService::~LeapTwoFingersInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool LeapTwoFingersInputService::configure(const yarp::os::Bottle & details)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(details)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = false;
@@ -138,6 +153,20 @@ bool LeapTwoFingersInputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // LeapTwoFingersInputService::configure
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
+
+bool LeapTwoFingersInputService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // LeapTwoFingersInputService::getConfiguration
 
 void LeapTwoFingersInputService::restartStreams(void)
 {

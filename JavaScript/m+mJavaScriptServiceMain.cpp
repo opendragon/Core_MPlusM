@@ -2104,9 +2104,10 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     }
                     if (okSoFar)
                     {
-                        JavaScriptService * aService = new JavaScriptService(jct, global,
-                                                                             scriptPath, argc, argv,
-                                                                             tag, description,
+                        JavaScriptService * aService = new JavaScriptService(argumentList, jct,
+                                                                             global, scriptPath,
+                                                                             argc, argv, tag,
+                                                                             description,
                                                                          loadedInletDescriptions,
                                                                          loadedOutletDescriptions,
                                                                              loadedInletHandlers,
@@ -2120,8 +2121,8 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 
                         if (aService)
                         {
-                            aService->performLaunch(argumentList, helpText, goWasSet,
-                                                    stdinAvailable, reportOnExit);
+                            aService->performLaunch(helpText, goWasSet, stdinAvailable,
+                                                    reportOnExit);
                             delete aService;
                         }
                         else

@@ -65,6 +65,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments passed to the executable used to launch the service.
@@ -76,34 +77,33 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
-            BaseAdapterService(const YarpString & launchPath,
-                               const int          argc,
-                               char * *           argv,
-                               const YarpString & tag,
-                               const bool         useMultipleHandlers,
-                               const YarpString & canonicalName,
-                               const YarpString & description,
-                               const YarpString & requestsDescription,
-                               const YarpString & serviceEndpointName,
-                               const YarpString & servicePortNumber = "");
+            BaseAdapterService(const Utilities::DescriptorVector & argumentList,
+                               const YarpString &                  launchPath,
+                               const int                           argc,
+                               char * *                            argv,
+                               const YarpString &                  tag,
+                               const bool                          useMultipleHandlers,
+                               const YarpString &                  canonicalName,
+                               const YarpString &                  description,
+                               const YarpString &                  requestsDescription,
+                               const YarpString &                  serviceEndpointName,
+                               const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~BaseAdapterService(void);
             
             /*! @brief Start the service and set up its configuration.
              @param sharedData The shared data for the input handlers.
-             @param argumentList Descriptions of the arguments to the executable.
              @param helpText The help text to be displayed.
              @param goWasSet @c true if the service is to be started immediately.
              @param stdinAvailable @c true if running in the foreground and @c false otherwise.
              @param reportOnExit @c true if service metrics are to be reported on exit and @c false
              otherwise. */
-            void performLaunch(BaseAdapterData &                   sharedData,
-                               const Utilities::DescriptorVector & argumentList,
-                               const YarpString &                  helpText,
-                               const bool                          goWasSet,
-                               const bool                          stdinAvailable,
-                               const bool                          reportOnExit);
+            void performLaunch(BaseAdapterData &  sharedData,
+                               const YarpString & helpText,
+                               const bool         goWasSet,
+                               const bool         stdinAvailable,
+                               const bool         reportOnExit);
             
         protected :
             

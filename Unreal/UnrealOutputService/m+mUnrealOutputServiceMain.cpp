@@ -114,13 +114,13 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    UnrealOutputService * aService = new UnrealOutputService(progName, argc, argv, tag,
-                                                             serviceEndpointName,
+    UnrealOutputService * aService = new UnrealOutputService(argumentList, progName, argc, argv,
+                                                             tag, serviceEndpointName,
                                                              servicePortNumber);
     
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -171,11 +171,11 @@ int main(int      argc,
         YarpString                          servicePortNumber;
         YarpString                          tag;
         Utilities::PortArgumentDescriptor   firstArg("port", T_("Port to use to connect"),
-                                                     Utilities::kArgModeOptional, 9876, false,
-                                                     &outPort);
+                                                     Utilities::kArgModeOptionalModifiable, 9876,
+                                                     false, &outPort);
         Utilities::DoubleArgumentDescriptor secondArg("scale", T_("Translation scale"),
-                                                      Utilities::kArgModeOptional, 1, true, 0,
-                                                      false, 0, &translationScale);
+                                                      Utilities::kArgModeOptionalModifiable, 1,
+                                                      true, 0, false, 0, &translationScale);
         Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);

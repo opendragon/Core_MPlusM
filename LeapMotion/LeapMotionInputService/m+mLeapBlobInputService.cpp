@@ -85,21 +85,22 @@ using namespace MplusM::LeapBlob;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-LeapBlobInputService::LeapBlobInputService(const YarpString & launchPath,
-                                           const int          argc,
-                                           char * *           argv,
-                                           const YarpString & tag,
-                                           const YarpString & serviceEndpointName,
-                                           const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_LEAPBLOBINPUT_CANONICAL_NAME_,
+LeapBlobInputService::LeapBlobInputService(const Utilities::DescriptorVector & argumentList,
+                                           const YarpString &                  launchPath,
+                                           const int                           argc,
+                                           char * *                            argv,
+                                           const YarpString &                  tag,
+                                           const YarpString &                  serviceEndpointName,
+                                           const YarpString &                  servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_LEAPBLOBINPUT_CANONICAL_NAME_,
               LEAPBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _translationScale(1), _controller(new Leap::Controller), _listener(NULL)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // LeapBlobInputService::LeapBlobInputService
 
@@ -160,6 +161,18 @@ bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // LeapBlobInputService::configure
+
+bool LeapBlobInputService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    details.addDouble(_translationScale);
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // LeapBlobInputService::getConfiguration
 
 void LeapBlobInputService::restartStreams(void)
 {

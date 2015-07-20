@@ -118,13 +118,14 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    RecordAsJSONOutputService * aService = new RecordAsJSONOutputService(progName, argc, argv, tag,
+    RecordAsJSONOutputService * aService = new RecordAsJSONOutputService(argumentList, progName,
+                                                                         argc, argv, tag,
                                                                          serviceEndpointName,
                                                                          servicePortNumber);
     
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -172,7 +173,7 @@ int main(int      argc,
         YarpString                            servicePortNumber;
         YarpString                            tag;
         Utilities::FilePathArgumentDescriptor firstArg("filePath", T_("Path to output file"),
-                                                       Utilities::kArgModeOptional,
+                                                       Utilities::kArgModeOptionalModifiable,
                                                        TEMP_ROOT_ + kDirectorySeparator + "record_",
                                                        ".txt", true, true, &recordPath);
         Utilities::DescriptorVector           argumentList;

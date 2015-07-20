@@ -78,6 +78,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param argumentList Descriptions of the arguments to the executable.
              @param context The %JavaScript engine context.
              @param global The %JavaScript global object.
              @param launchPath The command-line name used to launch the service.
@@ -96,23 +97,24 @@ namespace MplusM
              output-generating thread.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            JavaScriptService(JSContext *                   context,
-                              JS::RootedObject &            global,
-                              const YarpString &            launchPath,
-                              const int                     argc,
-                              char * *                      argv,
-                              const YarpString &            tag,
-                              const YarpString &            description,
-                              const Common::ChannelVector & loadedInletDescriptions,
-                              const Common::ChannelVector & loadedOutletDescriptions,
-                              const JS::AutoValueVector &   loadedInletHandlers,
-                              const JS::RootedValue &       loadedStartingFunction,
-                              const JS::RootedValue &       loadedStoppingFunction,
-                              const bool                    sawThread,
-                              const JS::RootedValue &       loadedThreadFunction,
-                              const double                  loadedInterval,
-                              const YarpString &            serviceEndpointName,
-                              const YarpString &            servicePortNumber = "");
+            JavaScriptService(const Utilities::DescriptorVector & argumentList,
+                              JSContext *                         context,
+                              JS::RootedObject &                  global,
+                              const YarpString &                  launchPath,
+                              const int                           argc,
+                              char * *                            argv,
+                              const YarpString &                  tag,
+                              const YarpString &                  description,
+                              const Common::ChannelVector &       loadedInletDescriptions,
+                              const Common::ChannelVector &       loadedOutletDescriptions,
+                              const JS::AutoValueVector &         loadedInletHandlers,
+                              const JS::RootedValue &             loadedStartingFunction,
+                              const JS::RootedValue &             loadedStoppingFunction,
+                              const bool                          sawThread,
+                              const JS::RootedValue &             loadedThreadFunction,
+                              const double                        loadedInterval,
+                              const YarpString &                  serviceEndpointName,
+                              const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~JavaScriptService(void);
@@ -122,6 +124,12 @@ namespace MplusM
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool configure(const yarp::os::Bottle & details);
             
+            /*! @brief Get the configuration of the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the configuration was successfully retrieved and @c false
+             otherwise. */
+            virtual bool getConfiguration(yarp::os::Bottle & details);
+
             /*! @brief Return the %JavaScript execution environment.
              @returns The %JavaScript execution environment. */
             JSContext * getContext(void)

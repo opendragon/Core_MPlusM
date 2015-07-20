@@ -116,13 +116,13 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    OpenStageInputService * aService = new OpenStageInputService(progName, argc, argv, tag,
-                                                                 serviceEndpointName,
+    OpenStageInputService * aService = new OpenStageInputService(argumentList, progName, argc, argv,
+                                                                 tag, serviceEndpointName,
                                                                  servicePortNumber);
 
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -178,10 +178,10 @@ int main(int      argc,
         YarpString                           tag;
 		Utilities::AddressArgumentDescriptor firstArg("hostname",
 			                                          T_("IP address for the device server"),
-			                                          Utilities::kArgModeOptional,
+			                                          Utilities::kArgModeOptionalModifiable,
 													  SELF_ADDRESS_NAME_, &hostName);
 		Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
-			                                           Utilities::kArgModeOptional,
+			                                           Utilities::kArgModeOptionalModifiable,
                                                        OPENSTAGEINPUT_DEFAULT_PORT_, false,
                                                        &hostPort);
 		Utilities::DescriptorVector          argumentList;

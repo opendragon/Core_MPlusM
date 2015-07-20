@@ -1,14 +1,15 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+m/m+mGetMetricsRequestHandler.cpp
+//  File:       m+m/m+mArgumentDescriptionsRequestHandler.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the request handler for the standard 'getMetrics' request.
+//  Contains:   The class definition for the request handler for the standard 'argumentDescriptions'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,13 +33,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-10-09
+//  Created:    2015-07-19
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mGetMetricsRequestHandler.h"
+#include "m+mArgumentDescriptionsRequestHandler.h"
 
-#include <m+m/m+mBaseService.h>
+#include <m+m/m+mBaseInputOutputService.h>
 #include <m+m/m+mRequests.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -50,7 +51,8 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the request handler for the standard 'getMetrics' request. */
+ @brief The class definition for the request handler for the standard 'argumentDescriptions'
+ request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -66,8 +68,8 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'getMetrics' request. */
-#define GETMETRICS_REQUEST_VERSION_NUMBER_ "1.0"
+/*! @brief The protocol version number for the 'argumentDescriptions' request. */
+#define ARGUMENTDESCRIPTIONS_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -85,19 +87,20 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-GetMetricsRequestHandler::GetMetricsRequestHandler(BaseService & service) :
-    inherited(MpM_GETMETRICS_REQUEST_, service)
+ArgumentDescriptionsRequestHandler::ArgumentDescriptionsRequestHandler(BaseInputOutputService &
+                                                                                        service) :
+    inherited(MpM_ARGUMENTDESCRIPTIONS_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // GetMetricsRequestHandler::GetMetricsRequestHandler
+} // ArgumentDescriptionsRequestHandler::ArgumentDescriptionsRequestHandler
 
-GetMetricsRequestHandler::~GetMetricsRequestHandler(void)
+ArgumentDescriptionsRequestHandler::~ArgumentDescriptionsRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // GetMetricsRequestHandler::~GetMetricsRequestHandler
+} // ArgumentDescriptionsRequestHandler::~ArgumentDescriptionsRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
@@ -107,7 +110,7 @@ GetMetricsRequestHandler::~GetMetricsRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void GetMetricsRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+void ArgumentDescriptionsRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -117,13 +120,13 @@ void GetMetricsRequestHandler::fillInAliases(YarpStringVector & alternateNames)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // GetMetricsRequestHandler::fillInAliases
+} // ArgumentDescriptionsRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void GetMetricsRequestHandler::fillInDescription(const YarpString &   request,
-                                                 yarp::os::Property & info)
+void ArgumentDescriptionsRequestHandler::fillInDescription(const YarpString &   request,
+                                                           yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -131,13 +134,12 @@ void GetMetricsRequestHandler::fillInDescription(const YarpString &   request,
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_DICT_START_
-                 MpM_REQREP_DICT_END_ MpM_REQREP_1_OR_MORE_ MpM_REQREP_LIST_END_);
-        info.put(MpM_REQREP_DICT_VERSION_KEY_, GETMETRICS_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return the measurements for the channels of the "
-                 "service\n"
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_STRING_
+                 MpM_REQREP_0_OR_MORE_ MpM_REQREP_LIST_START_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, ARGUMENTDESCRIPTIONS_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return the argument descriptions for the service\n"
                  "Input: nothing\n"
-                 "Output: a list of dictionaries containing measurements for the service channels");
+                 "Output: a list of argument descriptions for the service configuration");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
@@ -150,16 +152,16 @@ void GetMetricsRequestHandler::fillInDescription(const YarpString &   request,
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // GetMetricsRequestHandler::fillInDescription
+} // ArgumentDescriptionsRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool GetMetricsRequestHandler::processRequest(const YarpString &           request,
-                                              const yarp::os::Bottle &     restOfInput,
-                                              const YarpString &           senderChannel,
-                                              yarp::os::ConnectionWriter * replyMechanism)
+bool ArgumentDescriptionsRequestHandler::processRequest(const YarpString &           request,
+                                                        const yarp::os::Bottle &     restOfInput,
+                                                        const YarpString &           senderChannel,
+                                                        yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -174,14 +176,25 @@ bool GetMetricsRequestHandler::processRequest(const YarpString &           reque
     
     try
     {
+        yarp::os::Bottle                    response;
+        const Utilities::DescriptorVector & argDescriptions =
+                        static_cast<BaseInputOutputService &>(_service).getArgumentDescriptions();
+
+        for (size_t ii = 0, numArgs = argDescriptions.size(); numArgs > ii; ++ii)
+        {
+            Utilities::BaseArgumentDescriptor * anArg = argDescriptions[ii];
+
+            if (anArg)
+            {
+                response.addString(anArg->toString());
+            }
+        }
         if (replyMechanism)
         {
             OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            
-            _service.gatherMetrics(reply);
-            sendResponse(reply, replyMechanism);
+            sendResponse(response, replyMechanism);
         }
+
     }
     catch (...)
     {
@@ -190,7 +203,7 @@ bool GetMetricsRequestHandler::processRequest(const YarpString &           reque
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // GetMetricsRequestHandler::processRequest
+} // ArgumentDescriptionsRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_

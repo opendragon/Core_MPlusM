@@ -114,13 +114,13 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    ExemplarInputService * aService = new ExemplarInputService(progName, argc, argv, tag,
-                                                               serviceEndpointName,
+    ExemplarInputService * aService = new ExemplarInputService(argumentList, progName, argc, argv,
+                                                               tag, serviceEndpointName,
                                                                servicePortNumber);
 
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -175,11 +175,11 @@ int main(int      argc,
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"),
-                                                      Utilities::kArgModeOptional, 1, true, 0,
-                                                      false, 0, &burstPeriod);
+                                                      Utilities::kArgModeOptionalModifiable, 1,
+                                                      true, 0, false, 0, &burstPeriod);
         Utilities::IntegerArgumentDescriptor secondArg("size", T_("Burst size"),
-                                                       Utilities::kArgModeOptional, 1, true, 1,
-                                                       false, 0, &burstSize);
+                                                       Utilities::kArgModeOptionalModifiable, 1,
+                                                       true, 1, false, 0, &burstSize);
         Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);

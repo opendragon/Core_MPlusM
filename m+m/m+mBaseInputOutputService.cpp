@@ -39,6 +39,8 @@
 
 #include "m+mBaseInputOutputService.h"
 
+#include "m+mArgumentDescriptionsRequestHandler.h"
+#include "m+mConfigurationRequestHandler.h"
 #include "m+mConfigureRequestHandler.h"
 #include "m+mRestartStreamsRequestHandler.h"
 #include "m+mStartStreamsRequestHandler.h"
@@ -119,27 +121,35 @@ static void displayCommands(const YarpString & helpText,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseInputOutputService::BaseInputOutputService(const ServiceKind  theKind,
-                                               const YarpString & launchPath,
-                                               const int          argc,
-                                               char * *           argv,
-                                               const YarpString & tag,
-                                               const bool         useMultipleHandlers,
-                                               const YarpString & canonicalName,
-                                               const YarpString & description,
-                                               const YarpString & requestsDescription,
-                                               const YarpString & serviceEndpointName,
-                                               const YarpString & servicePortNumber) :
+BaseInputOutputService::BaseInputOutputService(const Utilities::DescriptorVector & argumentList,
+                                               const ServiceKind                   theKind,
+                                               const YarpString &                  launchPath,
+                                               const int                           argc,
+                                               char * *                            argv,
+                                               const YarpString &                  tag,
+                                               const bool
+                                                                               useMultipleHandlers,
+                                               const YarpString &                  canonicalName,
+                                               const YarpString &                  description,
+                                               const YarpString &
+                                                                               requestsDescription,
+                                               const YarpString &
+                                                                               serviceEndpointName,
+                                               const YarpString &
+                                                                               servicePortNumber) :
     inherited(theKind, launchPath, argc, argv, tag, useMultipleHandlers, canonicalName, description,
-              requestsDescription, serviceEndpointName, servicePortNumber), _active(false)
+              requestsDescription, serviceEndpointName, servicePortNumber),
+    _argumentList(argumentList), _argumentDescriptionsHandler(NULL), _configurationHandler(NULL),
+    _configureHandler(NULL), _restartStreamsHandler(NULL), _startStreamsHandler(NULL),
+    _stopStreamsHandler(NULL), _active(false)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
                "description = ", description); //####
     OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
@@ -372,13 +382,17 @@ void BaseInputOutputService::attachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
+        _argumentDescriptionsHandler = new ArgumentDescriptionsRequestHandler(*this);
+        _configurationHandler = new ConfigurationRequestHandler(*this);
         _configureHandler = new ConfigureRequestHandler(*this);
         _restartStreamsHandler = new RestartStreamsRequestHandler(*this);
         _startStreamsHandler = new StartStreamsRequestHandler(*this);
         _stopStreamsHandler = new StopStreamsRequestHandler(*this);
-        if (_configureHandler && _restartStreamsHandler && _startStreamsHandler &&
-            _stopStreamsHandler)
+        if (_argumentDescriptionsHandler && _configurationHandler && _configureHandler &&
+            _restartStreamsHandler && _startStreamsHandler && _stopStreamsHandler)
         {
+            registerRequestHandler(_argumentDescriptionsHandler);
+            registerRequestHandler(_configurationHandler);
             registerRequestHandler(_configureHandler);
             registerRequestHandler(_restartStreamsHandler);
             registerRequestHandler(_startStreamsHandler);
@@ -386,8 +400,9 @@ void BaseInputOutputService::attachRequestHandlers(void)
         }
         else
         {
-            OD_LOG("! (_configureHandler && _restartStreamsHandler && " //####
-                   "_startStreamsHandler && _stopStreamsHandler)"); //####
+            OD_LOG("! (_argumentDescriptionsHandler && _configurationHandler && " //####
+                   "_configureHandler && _restartStreamsHandler && _startStreamsHandler && " //####
+                   "_stopStreamsHandler)"); //####
         }
     }
     catch (...)
@@ -403,6 +418,18 @@ void BaseInputOutputService::detachRequestHandlers(void)
     OD_LOG_OBJENTER(); //####
     try
     {
+        if (_argumentDescriptionsHandler)
+        {
+            unregisterRequestHandler(_argumentDescriptionsHandler);
+            delete _argumentDescriptionsHandler;
+            _argumentDescriptionsHandler = NULL;
+        }
+        if (_configurationHandler)
+        {
+            unregisterRequestHandler(_configurationHandler);
+            delete _configurationHandler;
+            _configurationHandler = NULL;
+        }
         if (_configureHandler)
         {
             unregisterRequestHandler(_configureHandler);
@@ -718,14 +745,12 @@ const
     return result;
 } // BaseInputOutputService::getOutletStream
 
-void BaseInputOutputService::performLaunch(const Utilities::DescriptorVector & argumentList,
-                                           const YarpString &                  helpText,
-                                           const bool                          goWasSet,
-                                           const bool                          stdinAvailable,
-                                           const bool                          reportOnExit)
+void BaseInputOutputService::performLaunch(const YarpString & helpText,
+                                           const bool         goWasSet,
+                                           const bool         stdinAvailable,
+                                           const bool         reportOnExit)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("argumentList = ", &argumentList); //####
     OD_LOG_S1s("helpText = ", helpText); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
@@ -739,7 +764,7 @@ void BaseInputOutputService::performLaunch(const Utilities::DescriptorVector & a
             StartRunning();
             SetSignalHandlers(SignalRunningStop);
             startPinger();
-            startupService(argumentList, helpText, false, goWasSet, stdinAvailable, reportOnExit);
+            runService(helpText, false, goWasSet, stdinAvailable, reportOnExit);
             UnregisterLocalService(channelName, *this);
             if (reportOnExit)
             {
@@ -773,6 +798,141 @@ void BaseInputOutputService::performLaunch(const Utilities::DescriptorVector & a
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::performLaunch
+
+void BaseInputOutputService::runService(const YarpString & helpText,
+                                        const bool         forAdapter,
+                                        const bool         goWasSet,
+                                        const bool         stdinAvailable,
+                                        const bool         reportOnExit)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("helpText = ", helpText); //####
+    OD_LOG_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####
+              stdinAvailable, "reportOnExit = ", reportOnExit); //####
+    bool             configured = false;
+    yarp::os::Bottle configureData;
+
+    if (goWasSet || (! stdinAvailable))
+    {
+        Utilities::CopyArgumentsToBottle(_argumentList, configureData);
+        if (configure(configureData))
+        {
+            startStreams();
+        }
+    }
+    for ( ; IsRunning(); )
+    {
+        if ((! goWasSet) && stdinAvailable)
+        {
+            char inChar;
+
+            cout << "Operation: [? b c e q r]? ";
+            cout.flush();
+            cin >> inChar;
+            switch (inChar)
+            {
+                case '?' :
+                    // Help
+                    displayCommands(helpText, forAdapter);
+                    break;
+
+                case 'b' :
+                case 'B' :
+                    // Start streams
+                    if (! configured)
+                    {
+                        configured = Utilities::PromptForValues(_argumentList);
+                        if (configured)
+                        {
+                            Utilities::CopyArgumentsToBottle(_argumentList, configureData);
+                            if (! configure(configureData))
+                            {
+                                configured = false;
+                            }
+                        }
+                        else
+                        {
+                            cout << "One or more values out of range." << endl;
+                        }
+                    }
+                    if (configured)
+                    {
+                        startStreams();
+                    }
+                    break;
+
+                case 'c' :
+                case 'C' :
+                    // Configure
+                    configured = Utilities::PromptForValues(_argumentList);
+                    if (configured)
+                    {
+                        Utilities::CopyArgumentsToBottle(_argumentList, configureData);
+                        if (! configure(configureData))
+                        {
+                            configured = false;
+                        }
+                    }
+                    else
+                    {
+                        cout << "One or more values out of range." << endl;
+                    }
+                    break;
+
+                case 'e' :
+                case 'E' :
+                    // Stop streams
+                    stopStreams();
+                    break;
+
+                case 'q' :
+                case 'Q' :
+                    // Quit
+                    StopRunning();
+                    break;
+
+                case 'r' :
+                case 'R' :
+                    // Restart streams
+                    if (! configured)
+                    {
+                        configured = Utilities::PromptForValues(_argumentList);
+                        if (configured)
+                        {
+                            Utilities::CopyArgumentsToBottle(_argumentList, configureData);
+                            if (! configure(configureData))
+                            {
+                                configured = false;
+                            }
+                        }
+                        else
+                        {
+                            cout << "One or more values out of range." << endl;
+                        }
+                    }
+                    if (configured)
+                    {
+                        restartStreams();
+                    }
+                    break;
+
+                default :
+                    cout << "Unrecognized request '" << inChar << "'." << endl;
+                    break;
+                    
+            }
+        }
+        else
+        {
+#if defined(MpM_MainDoesDelayNotYield)
+            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+            yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::runService
 
 bool BaseInputOutputService::setUpClientStreams(void)
 {
@@ -905,143 +1065,6 @@ bool BaseInputOutputService::start(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // BaseInputOutputService::start
-
-void BaseInputOutputService::startupService(const Utilities::DescriptorVector & argumentList,
-                                            const YarpString &                  helpText,
-                                            const bool                          forAdapter,
-                                            const bool                          goWasSet,
-                                            const bool                          stdinAvailable,
-                                            const bool                          reportOnExit)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("argumentList = ", &argumentList); //####
-    OD_LOG_S1s("helpText = ", helpText); //####
-    OD_LOG_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####
-              stdinAvailable, "reportOnExit = ", reportOnExit); //####
-    bool             configured = false;
-    yarp::os::Bottle configureData;
-    
-    if (goWasSet || (! stdinAvailable))
-    {
-        Utilities::CopyArgumentsToBottle(argumentList, configureData);
-        if (configure(configureData))
-        {
-            startStreams();
-        }
-    }
-    for ( ; IsRunning(); )
-    {
-        if ((! goWasSet) && stdinAvailable)
-        {
-            char inChar;
-            
-            cout << "Operation: [? b c e q r]? ";
-            cout.flush();
-            cin >> inChar;
-            switch (inChar)
-            {
-                case '?' :
-                    // Help
-                    displayCommands(helpText, forAdapter);
-                    break;
-                    
-                case 'b' :
-                case 'B' :
-                    // Start streams
-                    if (! configured)
-                    {
-						configured = Utilities::PromptForValues(argumentList);
-						if (configured)
-						{
-							Utilities::CopyArgumentsToBottle(argumentList, configureData);
-							if (! configure(configureData))
-							{
-								configured = false;
-							}
-						}
-						else
-						{
-							cout << "One or more values out of range." << endl;
-						}
-                    }
-                    if (configured)
-                    {
-                        startStreams();
-                    }
-                    break;
-                    
-                case 'c' :
-                case 'C' :
-                    // Configure
-                    configured = Utilities::PromptForValues(argumentList);
-                    if (configured)
-                    {
-                        Utilities::CopyArgumentsToBottle(argumentList, configureData);
-                        if (! configure(configureData))
-                        {
-                            configured = false;
-                        }
-                    }
-                    else
-                    {
-                        cout << "One or more values out of range." << endl;
-                    }
-                    break;
-                    
-                case 'e' :
-                case 'E' :
-                    // Stop streams
-                    stopStreams();
-                    break;
-                    
-                case 'q' :
-                case 'Q' :
-                    // Quit
-                    StopRunning();
-                    break;
-                    
-                case 'r' :
-                case 'R' :
-                    // Restart streams
-                    if (! configured)
-                    {
-						configured = Utilities::PromptForValues(argumentList);
-						if (configured)
-						{
-							Utilities::CopyArgumentsToBottle(argumentList, configureData);
-							if (! configure(configureData))
-							{
-								configured = false;
-							}
-						}
-						else
-						{
-							cout << "One or more values out of range." << endl;
-						}
-                    }
-                    if (configured)
-                    {
-                        restartStreams();
-                    }
-                    break;
-                    
-                default :
-                    cout << "Unrecognized request '" << inChar << "'." << endl;
-                    break;
-                    
-            }
-        }
-        else
-        {
-#if defined(MpM_MainDoesDelayNotYield)
-            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-            yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-        }
-    }
-    OD_LOG_OBJEXIT(); //####
-} // BaseInputOutputService::startupService
 
 bool BaseInputOutputService::stop(void)
 {

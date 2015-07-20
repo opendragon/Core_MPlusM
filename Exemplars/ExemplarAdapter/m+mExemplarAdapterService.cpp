@@ -87,21 +87,24 @@ using namespace MplusM::Exemplar;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ExemplarAdapterService::ExemplarAdapterService(const YarpString & launchPath,
-                                               const int          argc,
-                                               char * *           argv,
-                                               const YarpString & tag,
-                                               const YarpString & serviceEndpointName,
-                                               const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLARADAPTER_CANONICAL_NAME_,
+ExemplarAdapterService::ExemplarAdapterService(const Utilities::DescriptorVector & argumentList,
+                                               const YarpString &                  launchPath,
+                                               const int                           argc,
+                                               char * *                            argv,
+                                               const YarpString &                  tag,
+                                               const YarpString &
+                                                                               serviceEndpointName,
+                                               const YarpString &
+                                                                               servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_EXEMPLARADAPTER_CANONICAL_NAME_,
               EXEMPLARADAPTER_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _inHandler(NULL)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // ExemplarAdapterService::ExemplarAdapterService
 
@@ -148,6 +151,17 @@ bool ExemplarAdapterService::configure(const yarp::os::Bottle & details)
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
+
+bool ExemplarAdapterService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ExemplarAdapterService::getConfiguration
 
 void ExemplarAdapterService::restartStreams(void)
 {

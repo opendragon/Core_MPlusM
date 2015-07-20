@@ -243,38 +243,41 @@ static void fillBottleFromValue(JSContext *        jct,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptService::JavaScriptService(JSContext *                 context,
-                                     JS::RootedObject &          global,
-                                     const YarpString &          launchPath,
-                                     const int                   argc,
-                                     char * *                    argv,
-                                     const YarpString &          tag,
-                                     const YarpString &          description,
-                                     const ChannelVector &       loadedInletDescriptions,
-                                     const ChannelVector &       loadedOutletDescriptions,
-                                     const JS::AutoValueVector & loadedInletHandlers,
-                                     const JS::RootedValue &     loadedStartingFunction,
-                                     const JS::RootedValue &     loadedStoppingFunction,
-                                     const bool                  sawThread,
-                                     const JS::RootedValue &     loadedThreadFunction,
-                                     const double                loadedInterval,
-                                     const YarpString &          serviceEndpointName,
-                                     const YarpString &          servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME_, description, "",
-              serviceEndpointName, servicePortNumber), _inletHandlers(context), _inHandlers(),
-    _generator(NULL), _context(context), _global(global),
+JavaScriptService::JavaScriptService(const Utilities::DescriptorVector & argumentList,
+                                     JSContext *                         context,
+                                     JS::RootedObject &                  global,
+                                     const YarpString &                  launchPath,
+                                     const int                           argc,
+                                     char * *                            argv,
+                                     const YarpString &                  tag,
+                                     const YarpString &                  description,
+                                     const Common::ChannelVector &       loadedInletDescriptions,
+                                     const Common::ChannelVector &       loadedOutletDescriptions,
+                                     const JS::AutoValueVector &         loadedInletHandlers,
+                                     const JS::RootedValue &             loadedStartingFunction,
+                                     const JS::RootedValue &             loadedStoppingFunction,
+                                     const bool                          sawThread,
+                                     const JS::RootedValue &             loadedThreadFunction,
+                                     const double                        loadedInterval,
+                                     const YarpString &                  serviceEndpointName,
+                                     const YarpString &                  servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME_,
+              description, "", serviceEndpointName, servicePortNumber), _inletHandlers(context),
+    _inHandlers(), _generator(NULL), _context(context), _global(global),
     _loadedInletDescriptions(loadedInletDescriptions),
     _loadedOutletDescriptions(loadedOutletDescriptions), _scriptStartingFunc(context),
     _scriptStoppingFunc(context), _scriptThreadFunc(context), _threadInterval(loadedInterval),
     _isThreaded(sawThread)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P4("context = ", context, "global = ", &global, "argv = ", argv, //####
-              "loadedInletDescriptions = ", &loadedInletDescriptions); //####
-    OD_LOG_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+    OD_LOG_P4("argumentList = ", &argumentList, "context = ", context, "global = ", &global, //####
+              "argv = ", argv); //####
+    OD_LOG_P4("loadedInletDescriptions = ", &loadedInletDescriptions, //####
+              "loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
               "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
-    OD_LOG_P1("loadedThreadFunction = ", &loadedThreadFunction); //####
+              &loadedStartingFunction); //####
+    OD_LOG_P2("loadedStoppingFunction = ", &loadedStoppingFunction, //####
+              "loadedThreadFunction = ", &loadedThreadFunction); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
@@ -385,6 +388,17 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
+
+bool JavaScriptService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // JavaScriptService::getConfiguration
 
 void JavaScriptService::releaseHandlers(void)
 {

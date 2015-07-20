@@ -84,7 +84,13 @@ namespace MplusM
             
             /*! @brief The argument is modifiable. */
             kArgModeModifiable = 0x02,
-            
+
+            /*! @brief The argument is both required and modifiable. */
+            kArgModeRequiredModifiable = kArgModeRequired + kArgModeModifiable,
+
+            /*! @brief The argument is both optional and modifiable. */
+            kArgModeOptionalModifiable = kArgModeOptional + kArgModeOptional,
+
             /*! @brief The mode of the argument is undefined. */
             kArgModeUnknown = -1
             
@@ -149,6 +155,14 @@ namespace MplusM
                 return _argDescription;
             } // argumentDescription
 
+            /*! @brief Return the mode of the command-line argument.
+             @returns The mode of the command-line argument. */
+            ArgumentMode argumentMode(void)
+            const
+            {
+                return _argMode;
+            } // argumentMode
+
             /*! @brief Return the name of the command-line argument.
              @returns The name of the command-line argument. */
             inline const YarpString & argumentName(void)
@@ -156,7 +170,11 @@ namespace MplusM
             {
                 return _argName;
             } // argumentName
-            
+
+            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
+             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+            virtual BaseArgumentDescriptor * clone(void) = 0;
+
             /*! @brief Return the default value.
              @returns The default value. */
             virtual YarpString getDefaultValue(void) = 0;

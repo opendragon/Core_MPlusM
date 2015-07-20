@@ -85,21 +85,22 @@ using namespace MplusM::ProComp2;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ProComp2InputService::ProComp2InputService(const YarpString & launchPath,
-                                           const int          argc,
-                                           char * *           argv,
-                                           const YarpString & tag,
-                                           const YarpString & serviceEndpointName,
-                                           const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME_,
+ProComp2InputService::ProComp2InputService(const Utilities::DescriptorVector & argumentList,
+                                           const YarpString &                  launchPath,
+                                           const int                           argc,
+                                           char * *                            argv,
+                                           const YarpString &                  tag,
+                                           const YarpString &                  serviceEndpointName,
+                                           const YarpString &                  servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME_,
               PROCOMP2INPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
 			  _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // ProComp2InputService::ProComp2InputService
 
@@ -114,8 +115,17 @@ ProComp2InputService::~ProComp2InputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 bool ProComp2InputService::configure(const yarp::os::Bottle & details)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(details)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = false;
@@ -132,6 +142,20 @@ bool ProComp2InputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ProComp2InputService::configure
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
+
+bool ProComp2InputService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ProComp2InputService::getConfiguration
 
 void ProComp2InputService::restartStreams(void)
 {

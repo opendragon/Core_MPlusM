@@ -113,12 +113,12 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    BlobOutputService * aService = new BlobOutputService(progName, argc, argv, tag,
+    BlobOutputService * aService = new BlobOutputService(argumentList, progName, argc, argv, tag,
                                                          serviceEndpointName, servicePortNumber);
     
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -168,8 +168,8 @@ int main(int      argc,
         YarpString                        servicePortNumber;
         YarpString                        tag;
         Utilities::PortArgumentDescriptor firstArg("port", T_("Port to use to connect"),
-                                                   Utilities::kArgModeOptional, 9876, false,
-                                                   &outPort);
+                                                   Utilities::kArgModeOptionalModifiable, 9876,
+                                                   false, &outPort);
         Utilities::DescriptorVector       argumentList;
 
         argumentList.push_back(&firstArg);
@@ -192,7 +192,6 @@ int main(int      argc,
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
-                    
                 }
                 else
                 {

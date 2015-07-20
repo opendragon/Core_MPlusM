@@ -110,6 +110,18 @@ PortArgumentDescriptor::~PortArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+BaseArgumentDescriptor * PortArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new PortArgumentDescriptor(argumentName(),
+                                                                 argumentDescription(),
+                                                                 argumentMode(), _defaultValue,
+                                                                 _isSystemPort);
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // PortArgumentDescriptor::clone
+
 BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
@@ -119,7 +131,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
 
     if (partitionString(inString, 4, inVector))
     {
-        ArgumentMode argMode = kArgModeRequired;
+        ArgumentMode argMode;
         bool         okSoFar = true;
         bool         isSystemPort = false;
         int          defaultValue;
@@ -138,6 +150,10 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
         {
             argMode = ModeFromString(modeString);
             okSoFar = (kArgModeUnknown != argMode);
+        }
+        else
+        {
+            argMode = kArgModeUnknown;
         }
         if (okSoFar)
         {

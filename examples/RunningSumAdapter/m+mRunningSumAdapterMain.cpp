@@ -125,7 +125,8 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
         SetSignalHandlers(SignalRunningStop);
         if (aClient->findService(MATCHING_CRITERIA_))
         {
-            RunningSumAdapterService * aService = new RunningSumAdapterService(progName, argc, argv,
+            RunningSumAdapterService * aService = new RunningSumAdapterService(argumentList,
+                                                                               progName, argc, argv,
                                                                                tag,
                                                                                serviceEndpointName,
                                                                                servicePortNumber);
@@ -148,8 +149,8 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                             RunningSumAdapterData sharedData(aClient, aService->getOutletStream(0));
                             
                             aService->setUpInputHandlers(sharedData);
-                            aService->performLaunch(sharedData, argumentList, "", goWasSet,
-                                                    stdinAvailable, reportOnExit);
+                            aService->performLaunch(sharedData, "", goWasSet, stdinAvailable,
+                                                    reportOnExit);
                         }
                         else
                         {

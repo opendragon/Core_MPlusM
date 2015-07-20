@@ -42,10 +42,10 @@
 #include "m+mChannelsRequestHandler.h"
 #include "m+mClientsRequestHandler.h"
 #include "m+mDetachRequestHandler.h"
-#include "m+mGetMetricsRequestHandler.h"
-#include "m+mGetMetricsStateRequestHandler.h"
 #include "m+mInfoRequestHandler.h"
 #include "m+mListRequestHandler.h"
+#include "m+mMetricsRequestHandler.h"
+#include "m+mMetricsStateRequestHandler.h"
 #include "m+mNameRequestHandler.h"
 #include "m+mPingThread.h"
 #include "m+mSetMetricsStateRequestHandler.h"
@@ -134,11 +134,11 @@ BaseService::BaseService(const ServiceKind  theKind,
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
     _auxCounters(), _argumentsHandler(NULL), _channelsHandler(NULL), _clientsHandler(NULL),
-    _detachHandler(NULL), _getMetricsHandler(NULL), _getMetricsStateHandler(NULL),
-    _infoHandler(NULL), _listHandler(NULL), _nameHandler(NULL),
-    _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
-    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
-    _started(false), _useMultipleHandlers(useMultipleHandlers)
+    _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _metricsHandler(NULL),
+    _metricsStateHandler(NULL), _nameHandler(NULL), _setMetricsStateHandler(NULL),
+    _stopHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
+    _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_), _started(false),
+    _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -188,12 +188,11 @@ BaseService::BaseService(const ServiceKind  theKind,
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription),
     _serviceName(canonicalName), _tag(), _auxCounters(), _argumentsHandler(NULL),
-    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL),
-    _getMetricsHandler(NULL), _getMetricsStateHandler(NULL), _infoHandler(NULL),
-    _listHandler(NULL), _nameHandler(NULL), _setMetricsStateHandler(NULL),
-    _stopHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL),
-    _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_), _started(false),
-    _useMultipleHandlers(useMultipleHandlers)
+    _channelsHandler(NULL), _clientsHandler(NULL), _detachHandler(NULL), _infoHandler(NULL),
+    _listHandler(NULL), _metricsHandler(NULL), _metricsStateHandler(NULL), _nameHandler(NULL),
+    _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
+    _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -289,25 +288,25 @@ void BaseService::attachRequestHandlers(void)
         _channelsHandler = new ChannelsRequestHandler(*this);
         _clientsHandler = new ClientsRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
-        _getMetricsHandler = new GetMetricsRequestHandler(*this);
-        _getMetricsStateHandler = new GetMetricsStateRequestHandler(*this);
         _infoHandler = new InfoRequestHandler(*this);
         _listHandler = new ListRequestHandler(*this);
+        _metricsHandler = new MetricsRequestHandler(*this);
+        _metricsStateHandler = new MetricsStateRequestHandler(*this);
         _nameHandler = new NameRequestHandler(*this);
         _setMetricsStateHandler = new SetMetricsStateRequestHandler(*this);
         _stopHandler = new StopRequestHandler(*this);
         if (_argumentsHandler && _channelsHandler && _clientsHandler && _detachHandler &&
-            _getMetricsHandler && _getMetricsStateHandler && _infoHandler && _listHandler &&
+            _infoHandler && _listHandler && _metricsHandler && _metricsStateHandler &&
             _nameHandler && _setMetricsStateHandler && _stopHandler)
         {
             _requestHandlers.registerRequestHandler(_argumentsHandler);
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
             _requestHandlers.registerRequestHandler(_detachHandler);
-            _requestHandlers.registerRequestHandler(_getMetricsHandler);
-            _requestHandlers.registerRequestHandler(_getMetricsStateHandler);
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
+            _requestHandlers.registerRequestHandler(_metricsHandler);
+            _requestHandlers.registerRequestHandler(_metricsStateHandler);
             _requestHandlers.registerRequestHandler(_nameHandler);
             _requestHandlers.registerRequestHandler(_setMetricsStateHandler);
             _requestHandlers.registerRequestHandler(_stopHandler);
@@ -315,9 +314,9 @@ void BaseService::attachRequestHandlers(void)
         else
         {
             OD_LOG("! (_argumentsHandler && _channelsHandler && _clientsHandler && " //####
-                   "_detachHandler && _getMetricsHandler && _getMetricsStateHandler && " //####
-                   "_infoHandler && _listHandler && _nameHandler && " //####
-                   "_setMetricsStateHandler && _stopHandler)"); //####
+                   "_detachHandler && _infoHandler && _listHandler && _metricsHandler && " //####
+                   "_metricsStateHandler && _nameHandler && _setMetricsStateHandler && " //####
+                   "_stopHandler)"); //####
         }
     }
     catch (...)
@@ -395,18 +394,6 @@ void BaseService::detachRequestHandlers(void)
             delete _detachHandler;
             _detachHandler = NULL;
         }
-        if (_getMetricsHandler)
-        {
-            _requestHandlers.unregisterRequestHandler(_getMetricsHandler);
-            delete _getMetricsHandler;
-            _getMetricsHandler = NULL;
-        }
-        if (_getMetricsStateHandler)
-        {
-            _requestHandlers.unregisterRequestHandler(_getMetricsStateHandler);
-            delete _getMetricsStateHandler;
-            _getMetricsStateHandler = NULL;
-        }
         if (_infoHandler)
         {
             _requestHandlers.unregisterRequestHandler(_infoHandler);
@@ -418,6 +405,18 @@ void BaseService::detachRequestHandlers(void)
             _requestHandlers.unregisterRequestHandler(_listHandler);
             delete _listHandler;
             _listHandler = NULL;
+        }
+        if (_metricsHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_metricsHandler);
+            delete _metricsHandler;
+            _metricsHandler = NULL;
+        }
+        if (_metricsStateHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_metricsStateHandler);
+            delete _metricsStateHandler;
+            _metricsStateHandler = NULL;
         }
         if (_nameHandler)
         {
@@ -584,7 +583,7 @@ bool BaseService::processRequest(const YarpString &           request,
             if (replyMechanism)
             {
                 OD_LOG("(replyMechanism)"); //####
-                yarp::os::Bottle errorMessage("unrecognized request");
+                yarp::os::Bottle errorMessage(UNRECOGNIZED_REQUEST_);
                 
                 OD_LOG_S1s("errorMessage <- ", errorMessage.toString()); //####
                 if (! errorMessage.write(*replyMechanism))

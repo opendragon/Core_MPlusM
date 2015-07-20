@@ -108,13 +108,13 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    LeapBlobInputService * aService = new LeapBlobInputService(progName, argc, argv, tag,
-                                                               serviceEndpointName,
+    LeapBlobInputService * aService = new LeapBlobInputService(argumentList, progName, argc, argv,
+                                                               tag, serviceEndpointName,
                                                                servicePortNumber);
 
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -160,8 +160,8 @@ int main(int      argc,
         YarpString                          servicePortNumber;
         YarpString                          tag;
         Utilities::DoubleArgumentDescriptor firstArg("scale", T_("Translation scale"),
-                                                     Utilities::kArgModeOptional, 1, true, 0,
-                                                     false, 0, &translationScale);
+                                                     Utilities::kArgModeOptionalModifiable, 1, true,
+                                                     0, false, 0, &translationScale);
         Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);

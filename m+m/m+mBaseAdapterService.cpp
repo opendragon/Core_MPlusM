@@ -85,26 +85,28 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BaseAdapterService::BaseAdapterService(const YarpString & launchPath,
-                                       const int          argc,
-                                       char * *           argv,
-                                       const YarpString & tag,
-                                       const bool         useMultipleHandlers,
-                                       const YarpString & canonicalName,
-                                       const YarpString & description,
-                                       const YarpString & requestsDescription,
-                                       const YarpString & serviceEndpointName,
-                                       const YarpString & servicePortNumber) :
-    inherited(kServiceKindAdapter, launchPath, argc, argv, tag, useMultipleHandlers, canonicalName,
-              description, requestsDescription, serviceEndpointName, servicePortNumber)
+BaseAdapterService::BaseAdapterService(const Utilities::DescriptorVector & argumentList,
+                                       const YarpString &                  launchPath,
+                                       const int                           argc,
+                                       char * *                            argv,
+                                       const YarpString &                  tag,
+                                       const bool                          useMultipleHandlers,
+                                       const YarpString &                  canonicalName,
+                                       const YarpString &                  description,
+                                       const YarpString &                  requestsDescription,
+                                       const YarpString &                  serviceEndpointName,
+                                       const YarpString &                  servicePortNumber) :
+    inherited(argumentList, kServiceKindAdapter, launchPath, argc, argv, tag, useMultipleHandlers,
+              canonicalName, description, requestsDescription, serviceEndpointName,
+              servicePortNumber)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "canonicalName = ", canonicalName, //####
                "description = ", description); //####
     OD_LOG_S3s("requestsDescription = ", requestsDescription, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
     OD_LOG_EXIT_P(this); //####
 } // BaseAdapterService::BaseAdapterService
@@ -119,14 +121,13 @@ BaseAdapterService::~BaseAdapterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseAdapterService::performLaunch(BaseAdapterData &                   sharedData,
-                                       const Utilities::DescriptorVector & argumentList,
-                                       const YarpString &                  helpText,
-                                       const bool                          goWasSet,
-                                       const bool                          stdinAvailable,
-                                       const bool                          reportOnExit)
+void BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
+                                       const YarpString & helpText,
+                                       const bool         goWasSet,
+                                       const bool         stdinAvailable,
+                                       const bool         reportOnExit)
 {
-    OD_LOG_P2("sharedData = ", &sharedData, "argumentList = ", &argumentList); //####
+    OD_LOG_P1("sharedData = ", &sharedData); //####
     OD_LOG_S1s("helpText = ", helpText); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
@@ -134,7 +135,7 @@ void BaseAdapterService::performLaunch(BaseAdapterData &                   share
     
     startPinger();
     sharedData.activate();
-    startupService(argumentList, "", true, goWasSet, stdinAvailable, reportOnExit);
+    runService("", true, goWasSet, stdinAvailable, reportOnExit);
     sharedData.deactivate();
     if (! aClient->disconnectFromService())
     {

@@ -112,13 +112,13 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    ExemplarFilterService * aService = new ExemplarFilterService(progName, argc, argv, tag,
-                                                                 serviceEndpointName,
+    ExemplarFilterService * aService = new ExemplarFilterService(argumentList, progName, argc, argv,
+                                                                 tag, serviceEndpointName,
                                                                  servicePortNumber);
     
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else

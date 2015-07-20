@@ -63,6 +63,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments passed to the executable used to launch the service.
@@ -74,16 +75,17 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
-            BaseInputService(const YarpString & launchPath,
-                             const int          argc,
-                             char * *           argv,
-                             const YarpString & tag,
-                             const bool         useMultipleHandlers,
-                             const YarpString & canonicalName,
-                             const YarpString & description,
-                             const YarpString & requestsDescription,
-                             const YarpString & serviceEndpointName,
-                             const YarpString & servicePortNumber = "");
+            BaseInputService(const Utilities::DescriptorVector & argumentList,
+                             const YarpString &                  launchPath,
+                             const int                           argc,
+                             char * *                            argv,
+                             const YarpString &                  tag,
+                             const bool                          useMultipleHandlers,
+                             const YarpString &                  canonicalName,
+                             const YarpString &                  description,
+                             const YarpString &                  requestsDescription,
+                             const YarpString &                  serviceEndpointName,
+                             const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~BaseInputService(void);

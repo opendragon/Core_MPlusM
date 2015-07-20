@@ -86,21 +86,24 @@ using namespace MplusM::Exemplar;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ExemplarOutputService::ExemplarOutputService(const YarpString & launchPath,
-                                             const int          argc,
-                                             char * *           argv,
-                                             const YarpString & tag,
-                                             const YarpString & serviceEndpointName,
-                                             const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLAROUTPUT_CANONICAL_NAME_,
+ExemplarOutputService::ExemplarOutputService(const Utilities::DescriptorVector & argumentList,
+                                             const YarpString &                  launchPath,
+                                             const int                           argc,
+                                             char * *                            argv,
+                                             const YarpString &                  tag,
+                                             const YarpString &
+                                                                             serviceEndpointName,
+                                             const YarpString &
+                                                                             servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_EXEMPLAROUTPUT_CANONICAL_NAME_,
               EXEMPLAROUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _outFile(NULL), _inHandler(new ExemplarOutputInputHandler)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // ExemplarOutputService::ExemplarOutputService
 
@@ -149,6 +152,18 @@ bool ExemplarOutputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ExemplarOutputService::configure
+
+bool ExemplarOutputService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    details.addString(_outPath);
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ExemplarOutputService::getConfiguration
 
 void ExemplarOutputService::restartStreams(void)
 {

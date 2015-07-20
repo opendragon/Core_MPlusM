@@ -108,6 +108,18 @@ ChannelArgumentDescriptor::~ChannelArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+BaseArgumentDescriptor * ChannelArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new ChannelArgumentDescriptor(argumentName(),
+                                                                    argumentDescription(),
+                                                                    argumentMode(),
+                                                                    getDefaultValue());
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // ChannelArgumentDescriptor::clone
+
 BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
@@ -117,7 +129,7 @@ BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpStr
 
     if (partitionString(inString, 3, inVector))
     {
-        ArgumentMode argMode = kArgModeRequired;
+        ArgumentMode argMode;
         bool         okSoFar = true;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
@@ -133,6 +145,10 @@ BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpStr
         {
             argMode = ModeFromString(modeString);
             okSoFar = (kArgModeUnknown != argMode);
+        }
+        else
+        {
+            argMode = kArgModeUnknown;
         }
         if (okSoFar)
         {

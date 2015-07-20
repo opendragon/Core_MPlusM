@@ -240,6 +240,9 @@ executable. */
 /*! @brief A simple macro to hold the pieces of a string together. */
 # define T_(xx_)                    xx_
 
+/*! @brief The string returned for an unrecognized request. */
+# define UNRECOGNIZED_REQUEST_      "unrecognized request"
+
 /*! @brief The standard copy constructor and assignment operator declarations. */
 # define COPY_AND_ASSIGNMENT_(xx_) \
     xx_(const xx_ & other_);\

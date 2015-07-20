@@ -113,13 +113,13 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    LeapMotionInputService * aService = new LeapMotionInputService(progName, argc, argv, tag,
-                                                                   serviceEndpointName,
+    LeapMotionInputService * aService = new LeapMotionInputService(argumentList, progName, argc,
+                                                                   argv, tag, serviceEndpointName,
                                                                    servicePortNumber);
     
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else

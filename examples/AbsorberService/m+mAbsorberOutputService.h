@@ -70,18 +70,20 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments passed to the executable used to launch the service.
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            AbsorberOutputService(const YarpString & launchPath,
-                                  const int          argc,
-                                  char * *           argv,
-                                  const YarpString & tag,
-                                  const YarpString & serviceEndpointName,
-                                  const YarpString & servicePortNumber = "");
+            AbsorberOutputService(const Utilities::DescriptorVector & argumentList,
+                                  const YarpString &                  launchPath,
+                                  const int                           argc,
+                                  char * *                            argv,
+                                  const YarpString &                  tag,
+                                  const YarpString &                  serviceEndpointName,
+                                  const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~AbsorberOutputService(void);
@@ -91,6 +93,12 @@ namespace MplusM
              @returns @c true if the service was successfully configured and @c false otherwise. */
             virtual bool configure(const yarp::os::Bottle & details);
             
+            /*! @brief Get the configuration of the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the configuration was successfully retrieved and @c false
+             otherwise. */
+            virtual bool getConfiguration(yarp::os::Bottle & details);
+
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
             

@@ -112,6 +112,18 @@ AddressArgumentDescriptor::~AddressArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
+BaseArgumentDescriptor * AddressArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new AddressArgumentDescriptor(argumentName(),
+                                                                    argumentDescription(),
+                                                                    argumentMode(),
+                                                                    getDefaultValue());
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // AddressArgumentDescriptor::clone
+
 BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####

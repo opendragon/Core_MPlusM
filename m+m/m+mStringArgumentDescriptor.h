@@ -105,6 +105,10 @@ namespace MplusM
              @param container The bottle to be modified. */
             virtual void addValueToBottle(yarp::os::Bottle & container);
             
+            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
+             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+            virtual BaseArgumentDescriptor * clone(void);
+
             /*! @brief Return the processed value.
              @returns The processed value. */
             virtual YarpString getProcessedValue(void);

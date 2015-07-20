@@ -122,6 +122,20 @@ void IntegerArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // IntegerArgumentDescriptor::addValueToBottle
 
+BaseArgumentDescriptor * IntegerArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new IntegerArgumentDescriptor(argumentName(),
+                                                                    argumentDescription(),
+                                                                    argumentMode(), _defaultValue,
+                                                                    _hasMinimumValue, _minimumValue,
+                                                                    _hasMaximumValue,
+                                                                    _maximumValue);
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // IntegerArgumentDescriptor::clone
+
 YarpString IntegerArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -155,7 +169,7 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
 
     if (partitionString(inString, 5, inVector))
     {
-        ArgumentMode argMode = kArgModeRequired;
+        ArgumentMode argMode;
         bool         okSoFar = true;
         int          defaultValue;
         int          maxValue;
@@ -176,6 +190,10 @@ BaseArgumentDescriptor * IntegerArgumentDescriptor::parseArgString(const YarpStr
         {
             argMode = ModeFromString(modeString);
             okSoFar = (kArgModeUnknown != argMode);
+        }
+        else
+        {
+            argMode = kArgModeUnknown;
         }
         if (okSoFar && (0 < defaultString.length()))
         {

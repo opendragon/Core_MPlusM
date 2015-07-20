@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+m/m+mGetMetricsStateRequestHandler.cpp
+//  File:       m+m/m+mMetricsRequestHandler.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the request handler for the standard 'getMetricsState'
-//              request.
+//  Contains:   The class definition for the request handler for the standard 'metrics' request.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-11-25
+//  Created:    2014-10-09
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mGetMetricsStateRequestHandler.h"
+#include "m+mMetricsRequestHandler.h"
 
 #include <m+m/m+mBaseService.h>
 #include <m+m/m+mRequests.h>
@@ -51,7 +50,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the request handler for the standard 'getMetricsState' request. */
+ @brief The class definition for the request handler for the standard 'metrics' request. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -67,8 +66,8 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'getMetricsState' request. */
-#define GETMETRICSSTATE_REQUEST_VERSION_NUMBER_ "1.0"
+/*! @brief The protocol version number for the 'metrics' request. */
+#define METRICS_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -86,19 +85,19 @@ using namespace MplusM::Common;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-GetMetricsStateRequestHandler::GetMetricsStateRequestHandler(BaseService & service) :
-    inherited(MpM_GETMETRICSSTATE_REQUEST_, service)
+MetricsRequestHandler::MetricsRequestHandler(BaseService & service) :
+    inherited(MpM_METRICS_REQUEST_, service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // GetMetricsStateRequestHandler::GetMetricsStateRequestHandler
+} // MetricsRequestHandler::MetricsRequestHandler
 
-GetMetricsStateRequestHandler::~GetMetricsStateRequestHandler(void)
+MetricsRequestHandler::~MetricsRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // GetMetricsStateRequestHandler::~GetMetricsStateRequestHandler
+} // MetricsRequestHandler::~MetricsRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions
@@ -108,7 +107,7 @@ GetMetricsStateRequestHandler::~GetMetricsStateRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void GetMetricsStateRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+void MetricsRequestHandler::fillInAliases(YarpStringVector & alternateNames)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -118,13 +117,13 @@ void GetMetricsStateRequestHandler::fillInAliases(YarpStringVector & alternateNa
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // GetMetricsStateRequestHandler::fillInAliases
+} // MetricsRequestHandler::fillInAliases
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void GetMetricsStateRequestHandler::fillInDescription(const YarpString &   request,
-                                                      yarp::os::Property & info)
+void MetricsRequestHandler::fillInDescription(const YarpString &   request,
+                                              yarp::os::Property & info)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -132,12 +131,13 @@ void GetMetricsStateRequestHandler::fillInDescription(const YarpString &   reque
     try
     {
         info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
-        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_INT_);
-        info.put(MpM_REQREP_DICT_VERSION_KEY_, GETMETRICSSTATE_REQUEST_VERSION_NUMBER_);
-        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return the state of metrics collection for the "
+        info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_LIST_START_ MpM_REQREP_DICT_START_
+                 MpM_REQREP_DICT_END_ MpM_REQREP_1_OR_MORE_ MpM_REQREP_LIST_END_);
+        info.put(MpM_REQREP_DICT_VERSION_KEY_, METRICS_REQUEST_VERSION_NUMBER_);
+        info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Return the measurements for the channels of the "
                  "service\n"
                  "Input: nothing\n"
-                 "Output: 0 if metrics are disabled and 1 if they are enabled");
+                 "Output: a list of dictionaries containing measurements for the service channels");
         yarp::os::Value    keywords;
         yarp::os::Bottle * asList = keywords.asList();
         
@@ -150,16 +150,16 @@ void GetMetricsStateRequestHandler::fillInDescription(const YarpString &   reque
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // GetMetricsStateRequestHandler::fillInDescription
+} // MetricsRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool GetMetricsStateRequestHandler::processRequest(const YarpString &           request,
-                                                   const yarp::os::Bottle &     restOfInput,
-                                                   const YarpString &           senderChannel,
-                                                   yarp::os::ConnectionWriter * replyMechanism)
+bool MetricsRequestHandler::processRequest(const YarpString &           request,
+                                           const yarp::os::Bottle &     restOfInput,
+                                           const YarpString &           senderChannel,
+                                           yarp::os::ConnectionWriter * replyMechanism)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -179,7 +179,7 @@ bool GetMetricsStateRequestHandler::processRequest(const YarpString &           
             OD_LOG("(replyMechanism)"); //####
             yarp::os::Bottle reply;
             
-            reply.addInt(_service.metricsAreEnabled() ? 1 : 0);
+            _service.gatherMetrics(reply);
             sendResponse(reply, replyMechanism);
         }
     }
@@ -190,7 +190,7 @@ bool GetMetricsStateRequestHandler::processRequest(const YarpString &           
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // GetMetricsStateRequestHandler::processRequest
+} // MetricsRequestHandler::processRequest
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_

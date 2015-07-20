@@ -58,7 +58,9 @@ namespace MplusM
 {
     namespace Common
     {
+        class ArgumentDescriptionsRequestHandler;
         class ClientChannel;
+        class ConfigurationRequestHandler;
         class ConfigureRequestHandler;
         class GeneralChannel;
         class RestartStreamsRequestHandler;
@@ -71,6 +73,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param argumentList Descriptions of the arguments to the executable.
              @param theKind The behavioural model for the service.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -83,17 +86,18 @@ namespace MplusM
              @param requestsDescription The description of the requests for the service.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The channel being used by the service. */
-            BaseInputOutputService(const ServiceKind  theKind,
-                                   const YarpString & launchPath,
-                                   const int          argc,
-                                   char * *           argv,
-                                   const YarpString & tag,
-                                   const bool         useMultipleHandlers,
-                                   const YarpString & canonicalName,
-                                   const YarpString & description,
-                                   const YarpString & requestsDescription,
-                                   const YarpString & serviceEndpointName,
-                                   const YarpString & servicePortNumber = "");
+            BaseInputOutputService(const Utilities::DescriptorVector & argumentList,
+                                   const ServiceKind                   theKind,
+                                   const YarpString &                  launchPath,
+                                   const int                           argc,
+                                   char * *                            argv,
+                                   const YarpString &                  tag,
+                                   const bool                          useMultipleHandlers,
+                                   const YarpString &                  canonicalName,
+                                   const YarpString &                  description,
+                                   const YarpString &                  requestsDescription,
+                                   const YarpString &                  serviceEndpointName,
+                                   const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
             virtual ~BaseInputOutputService(void);
@@ -112,7 +116,15 @@ namespace MplusM
             /*! @brief Fill in the metrics for the service.
              @param metrics The gathered metrics. */
             virtual void gatherMetrics(yarp::os::Bottle & metrics);
-            
+
+            /*! @brief Returns the descriptions of the arguments to the application.
+             @returns The descriptions of the arguments to the application. */
+            inline const Utilities::DescriptorVector & getArgumentDescriptions(void)
+            const
+            {
+                return _argumentList;
+            } // getArgumentDescriptions
+
             /*! @brief Returns the number of client streams.
              @returns The number of client streams. */
             size_t getClientCount(void)
@@ -124,6 +136,12 @@ namespace MplusM
             ClientChannel * getClientStream(const size_t index)
             const;
             
+            /*! @brief Get the configuration of the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the configuration was successfully retrieved and @c false
+             otherwise. */
+            virtual bool getConfiguration(yarp::os::Bottle & details) = 0;
+
             /*! @brief Returns the number of input streams.
              @returns The number of input streams. */
             size_t getInletCount(void)
@@ -155,17 +173,15 @@ namespace MplusM
             } // isActive
             
             /*! @brief Start the service and set up its configuration.
-             @param argumentList Descriptions of the arguments to the executable.
              @param helpText The help text to be displayed.
              @param goWasSet @c true if the service is to be started immediately.
              @param stdinAvailable @c true if running in the foreground and @c false otherwise.
              @param reportOnExit @c true if service metrics are to be reported on exit and @c false
              otherwise. */
-            void performLaunch(const Utilities::DescriptorVector & argumentList,
-                               const YarpString &                  helpText,
-                               const bool                          goWasSet,
-                               const bool                          stdinAvailable,
-                               const bool                          reportOnExit);
+            void performLaunch(const YarpString & helpText,
+                               const bool         goWasSet,
+                               const bool         stdinAvailable,
+                               const bool         reportOnExit);
             
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void) = 0;
@@ -213,6 +229,20 @@ namespace MplusM
                 _active = false;
             } // clearActive
             
+            /*! @brief If interactive, prompt for commands and then start the service. Otherwise,
+             start the service immediately.
+             @param helpText The help text to be displayed.
+             @param forAdapter @c true if for an adapter and @c false for a service.
+             @param goWasSet @c true if the service is to be started immediately.
+             @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+             @param reportOnExit @c true if service metrics are to be reported on exit and @c false
+             otherwise. */
+            void runService(const YarpString & helpText,
+                            const bool         forAdapter,
+                            const bool         goWasSet,
+                            const bool         stdinAvailable,
+                            const bool         reportOnExit);
+
             /*! @brief Indicate that the streams are processing data. */
             inline void setActive(void)
             {
@@ -248,22 +278,6 @@ namespace MplusM
              @returns @c true if the channels were shut down and @c false otherwise. */
             virtual bool shutDownOutputStreams(void);
             
-            /*! @brief If interactive, prompt for commands and then start the service. Otherwise,
-             start the service immediately.
-             @param argumentList Descriptions of the arguments to the executable.
-             @param helpText The help text to be displayed.
-             @param forAdapter @c true if for an adapter and @c false for a service.
-             @param goWasSet @c true if the service is to be started immediately.
-             @param stdinAvailable @c true if running in the foreground and @c false otherwise.
-             @param reportOnExit @c true if service metrics are to be reported on exit and @c false
-             otherwise. */
-            void startupService(const Utilities::DescriptorVector & argumentList,
-                                const YarpString &                  helpText,
-                                const bool                          forAdapter,
-                                const bool                          goWasSet,
-                                const bool                          stdinAvailable,
-                                const bool                          reportOnExit);
-            
         private :
             
             /*! @brief Enable the standard request handlers. */
@@ -294,7 +308,7 @@ namespace MplusM
             
             /*! @brief The class that this class is derived from. */
             typedef BaseService inherited;
-            
+
             /*! @brief The set of client channels. */
             ClientChannelVector _clientStreams;
             
@@ -303,7 +317,17 @@ namespace MplusM
             
             /*! @brief The set of output channels. */
             GeneralChannelVector _outStreams;
-            
+
+            /*! @brief The descriptions of the arguments to be filled in by a calling application.
+             */
+            const Utilities::DescriptorVector & _argumentList;
+
+            /*! @brief The request handler for the 'argumentDescriptions' request. */
+            ArgumentDescriptionsRequestHandler * _argumentDescriptionsHandler;
+
+            /*! @brief The request handler for the 'configuration' request. */
+            ConfigurationRequestHandler * _configurationHandler;
+
             /*! @brief The request handler for the 'configure' request. */
             ConfigureRequestHandler * _configureHandler;
             

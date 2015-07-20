@@ -51,76 +51,82 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The standard name for the %Registry Service request channel. */
-# define MpM_REGISTRY_ENDPOINT_NAME_  "/$ervice"
+# define MpM_REGISTRY_ENDPOINT_NAME_       "/$ervice"
 
 /*! @brief The channel-independent name of the %Registry Service. */
-# define MpM_REGISTRY_CANONICAL_NAME_ "Registry"
+# define MpM_REGISTRY_CANONICAL_NAME_      "Registry"
 
 /*! @brief The name of the secondary port for the %Registry Service. */
-# define MpM_REGISTRY_STATUS_NAME_    T_(MpM_REGISTRY_ENDPOINT_NAME_ "/status")
+# define MpM_REGISTRY_STATUS_NAME_         T_(MpM_REGISTRY_ENDPOINT_NAME_ "/status")
+
+/*! @brief The name for an 'argumentDescriptions' request. */
+# define MpM_ARGUMENTDESCRIPTIONS_REQUEST_ "argumentDescriptions"
 
 /*! @brief The name for an 'arguments' request. */
-# define MpM_ARGUMENTS_REQUEST_       "arguments"
+# define MpM_ARGUMENTS_REQUEST_            "arguments"
 
 /*! @brief The standard name for a 'channels' request. */
-# define MpM_CHANNELS_REQUEST_        "channels"
+# define MpM_CHANNELS_REQUEST_             "channels"
 
 /*! @brief The standard name for the 'clients' request. */
-# define MpM_CLIENTS_REQUEST_         "clients"
+# define MpM_CLIENTS_REQUEST_              "clients"
+
+/*! @brief The standard name for the 'configuration' request. */
+# define MpM_CONFIGURATION_REQUEST_        "configuration"
 
 /*! @brief The standard name for the 'configure' request. */
-# define MpM_CONFIGURE_REQUEST_       "configure"
+# define MpM_CONFIGURE_REQUEST_            "configure"
 
 /*! @brief The standard name for the 'detach' request. */
-# define MpM_DETACH_REQUEST_          "detach"
+# define MpM_DETACH_REQUEST_               "detach"
 
 /*! @brief The name for the 'echo' request. */
-# define MpM_ECHO_REQUEST_            "echo"
-
-/*! @brief The standard name for a 'getMetrics' request. */
-# define MpM_GETMETRICS_REQUEST_      "getMetrics"
-
-/*! @brief The name for a 'getMetricsState' request. */
-# define MpM_GETMETRICSSTATE_REQUEST_ "getMetricsState"
+# define MpM_ECHO_REQUEST_                 "echo"
 
 /*! @brief The standard name for an 'info' request. */
-# define MpM_INFO_REQUEST_            "info"
+# define MpM_INFO_REQUEST_                 "info"
 
 /*! @brief The standard name for a 'list' request. */
-# define MpM_LIST_REQUEST_            "list"
+# define MpM_LIST_REQUEST_                 "list"
 
 /*! @brief The name for a 'match' request. */
-# define MpM_MATCH_REQUEST_           "match"
+# define MpM_MATCH_REQUEST_                "match"
+
+/*! @brief The standard name for a 'metrics' request. */
+# define MpM_METRICS_REQUEST_              "metrics"
+
+/*! @brief The name for a 'metricsState' request. */
+# define MpM_METRICSSTATE_REQUEST_         "metricsState"
 
 /*! @brief The standard name for a 'name' request. */
-# define MpM_NAME_REQUEST_            "name"
+# define MpM_NAME_REQUEST_                 "name"
 
 /*! @brief The standard name for a 'ping' request. */
-# define MpM_PING_REQUEST_            "ping"
+# define MpM_PING_REQUEST_                 "ping"
 
 /*! @brief The name for a 'register' request. */
-# define MpM_REGISTER_REQUEST_        "register"
+# define MpM_REGISTER_REQUEST_             "register"
 
 /*! @brief The name for a 'restartStreams' request. */
-# define MpM_RESTARTSTREAMS_REQUEST_  "restartStreams"
+# define MpM_RESTARTSTREAMS_REQUEST_       "restartStreams"
 
 /*! @brief The name for a 'setMetricsState' request. */
-# define MpM_SETMETRICSSTATE_REQUEST_ "setMetricsState"
+# define MpM_SETMETRICSSTATE_REQUEST_      "setMetricsState"
 
 /*! @brief The name for a 'startStreams' request. */
-# define MpM_STARTSTREAMS_REQUEST_    "startStreams"
+# define MpM_STARTSTREAMS_REQUEST_         "startStreams"
 
 /*! @brief The name for a 'stop' request. */
-# define MpM_STOP_REQUEST_            "stop"
+# define MpM_STOP_REQUEST_                 "stop"
 
 /*! @brief The name for a 'stopStreams' request. */
-# define MpM_STOPSTREAMS_REQUEST_     "stopStreams"
+# define MpM_STOPSTREAMS_REQUEST_          "stopStreams"
 
 /*! @brief The name for an 'unregister' request. */
-# define MpM_UNREGISTER_REQUEST_      "unregister"
+# define MpM_UNREGISTER_REQUEST_           "unregister"
 
 /*! @brief The name for a 'where' request. */
-# define MpM_WHERE_REQUEST_           "where"
+# define MpM_WHERE_REQUEST_                "where"
 
 /*! @brief The number of elements expected in a channel description. */
 # define MpM_EXPECTED_CHANNEL_DESCRIPTOR_SIZE_ 3
@@ -134,8 +140,8 @@
 /*! @brief The number of elements expected in the output of a 'detach' request. */
 # define MpM_EXPECTED_DETACH_RESPONSE_SIZE_          1
 
-/*! @brief The number of elements expected in the output of a 'getMetricsState' request. */
-# define MpM_EXPECTED_GETMETRICSSTATE_RESPONSE_SIZE_ 1
+/*! @brief The number of elements expected in the output of a 'metricsState' request. */
+# define MpM_EXPECTED_METRICSSTATE_RESPONSE_SIZE_    1
 
 /*! @brief The number of elements expected in the output of a 'match' request. */
 # define MpM_EXPECTED_MATCH_RESPONSE_SIZE_           2

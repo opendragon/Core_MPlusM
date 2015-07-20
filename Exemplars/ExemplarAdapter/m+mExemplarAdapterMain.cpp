@@ -126,8 +126,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
         SetSignalHandlers(SignalRunningStop);
         if (aClient->findService(MATCHING_CRITERIA_))
         {
-            ExemplarAdapterService * aService = new ExemplarAdapterService(progName, argc, argv,
-                                                                           tag, serviceEndpointName,
+            ExemplarAdapterService * aService = new ExemplarAdapterService(argumentList, progName,
+                                                                           argc, argv, tag,
+                                                                           serviceEndpointName,
                                                                            servicePortNumber);
             
 #if defined(MpM_ReportOnConnections)
@@ -149,8 +150,8 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                            aService->getOutletStream(0));
                             
                             aService->setUpInputHandlers(sharedData);
-                            aService->performLaunch(sharedData, argumentList, "", goWasSet,
-                                                    stdinAvailable, reportOnExit);
+                            aService->performLaunch(sharedData, "", goWasSet, stdinAvailable,
+                                                    reportOnExit);
                         }
                         else
                         {

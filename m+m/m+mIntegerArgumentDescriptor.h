@@ -123,6 +123,10 @@ namespace MplusM
              @param container The bottle to be modified. */
             virtual void addValueToBottle(yarp::os::Bottle & container);
             
+            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
+             @returns A copy of the descriptor, with only non-pointer types duplicated. */
+            virtual BaseArgumentDescriptor * clone(void);
+
             /*! @brief Return the processed value.
              @returns The processed value. */
             virtual YarpString getProcessedValue(void);
@@ -150,14 +154,14 @@ namespace MplusM
             /*! @brief The address of the variable to be set with the argument value. */
             int * _argumentReference;
             
+            /*! @brief The default value for the command-line argument. */
+            int _defaultValue;
+
         private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseArgumentDescriptor inherited;
             
-            /*! @brief The default value for the command-line argument. */
-            int _defaultValue;
-
             /*! @brief The maximum value that is acceptable. */
             int _maximumValue;
             

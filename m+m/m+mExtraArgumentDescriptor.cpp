@@ -109,6 +109,16 @@ void ExtraArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // ExtraArgumentDescriptor::addValueToBottle
 
+BaseArgumentDescriptor * ExtraArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new ExtraArgumentDescriptor(argumentName(),
+                                                                  argumentDescription());
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // ExtraArgumentDescriptor::clone
+
 YarpString ExtraArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -136,7 +146,7 @@ BaseArgumentDescriptor * ExtraArgumentDescriptor::parseArgString(const YarpStrin
 
     if (partitionString(inString, 3, inVector))
     {
-        ArgumentMode argMode = kArgModeRequired;
+        ArgumentMode argMode;
         bool         okSoFar = true;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
@@ -152,6 +162,10 @@ BaseArgumentDescriptor * ExtraArgumentDescriptor::parseArgString(const YarpStrin
         {
             argMode = ModeFromString(modeString);
             okSoFar = (kArgModeUnknown != argMode);
+        }
+        else
+        {
+            argMode = kArgModeUnknown;
         }
         if (okSoFar)
         {

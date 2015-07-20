@@ -627,10 +627,6 @@
 		DFEDCA251B46E0CD0034C881 /* m+mFilePathArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mFilePathArgumentDescriptor.h"; path = "m+m/m+mFilePathArgumentDescriptor.h"; sourceTree = "<group>"; };
 		DFEDCA261B46E0CD0034C881 /* m+mGeneralChannel.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mGeneralChannel.cpp"; path = "m+m/m+mGeneralChannel.cpp"; sourceTree = "<group>"; };
 		DFEDCA271B46E0CD0034C881 /* m+mGeneralChannel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mGeneralChannel.h"; path = "m+m/m+mGeneralChannel.h"; sourceTree = "<group>"; };
-		DFEDCA281B46E0CD0034C881 /* m+mGetMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mGetMetricsRequestHandler.cpp"; path = "m+m/m+mGetMetricsRequestHandler.cpp"; sourceTree = "<group>"; };
-		DFEDCA291B46E0CD0034C881 /* m+mGetMetricsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mGetMetricsRequestHandler.h"; path = "m+m/m+mGetMetricsRequestHandler.h"; sourceTree = "<group>"; };
-		DFEDCA2A1B46E0CD0034C881 /* m+mGetMetricsStateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mGetMetricsStateRequestHandler.cpp"; path = "m+m/m+mGetMetricsStateRequestHandler.cpp"; sourceTree = "<group>"; };
-		DFEDCA2B1B46E0CD0034C881 /* m+mGetMetricsStateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mGetMetricsStateRequestHandler.h"; path = "m+m/m+mGetMetricsStateRequestHandler.h"; sourceTree = "<group>"; };
 		DFEDCA2C1B46E0CD0034C881 /* m+mInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mInfoRequestHandler.cpp"; path = "m+m/m+mInfoRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFEDCA2D1B46E0CD0034C881 /* m+mInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mInfoRequestHandler.h"; path = "m+m/m+mInfoRequestHandler.h"; sourceTree = "<group>"; };
 		DFEDCA2E1B46E0CD0034C881 /* m+mIntegerArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mIntegerArgumentDescriptor.cpp"; path = "m+m/m+mIntegerArgumentDescriptor.cpp"; sourceTree = "<group>"; };
@@ -727,6 +723,14 @@
 		F655C6191B3B520800933D40 /* m+mViconBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mViconBlobInputServiceMain.cpp"; path = "ViconDataStream/ViconDataStreamInputService/m+mViconBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
 		F655C61A1B3B520800933D40 /* m+mViconBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mViconBlobInputService.rc.in"; path = "ViconDataStream/ViconDataStreamInputService/m+mViconBlobInputService.rc.in"; sourceTree = "<group>"; };
 		F655C61B1B3B520800933D40 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = ViconDataStream/ViconDataStreamInputService/resource1.h; sourceTree = "<group>"; };
+		F685DAE41B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mConfigurationRequestHandler.cpp"; path = "m+m/m+mConfigurationRequestHandler.cpp"; sourceTree = "<group>"; };
+		F685DAE51B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mConfigurationRequestHandler.h"; path = "m+m/m+mConfigurationRequestHandler.h"; sourceTree = "<group>"; };
+		F685DAE61B5C1B4200B7EC9C /* m+mMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mMetricsRequestHandler.cpp"; path = "m+m/m+mMetricsRequestHandler.cpp"; sourceTree = "<group>"; };
+		F685DAE71B5C1B4200B7EC9C /* m+mMetricsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mMetricsRequestHandler.h"; path = "m+m/m+mMetricsRequestHandler.h"; sourceTree = "<group>"; };
+		F685DAE81B5C1BFB00B7EC9C /* m+mMetricsStateRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mMetricsStateRequestHandler.cpp"; path = "m+m/m+mMetricsStateRequestHandler.cpp"; sourceTree = "<group>"; };
+		F685DAE91B5C1BFB00B7EC9C /* m+mMetricsStateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mMetricsStateRequestHandler.h"; path = "m+m/m+mMetricsStateRequestHandler.h"; sourceTree = "<group>"; };
+		F685DAEA1B5C200200B7EC9C /* m+mArgumentDescriptionsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mArgumentDescriptionsRequestHandler.cpp"; path = "m+m/m+mArgumentDescriptionsRequestHandler.cpp"; sourceTree = "<group>"; };
+		F685DAEB1B5C200200B7EC9C /* m+mArgumentDescriptionsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mArgumentDescriptionsRequestHandler.h"; path = "m+m/m+mArgumentDescriptionsRequestHandler.h"; sourceTree = "<group>"; };
 		F6DA54581A1D83C000238986 /* m+mUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/m+mUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* m+mUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/m+mUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1104,24 +1108,28 @@
 		DF36EEF21958DE9F00E7D889 /* RequestHandlers */ = {
 			isa = PBXGroup;
 			children = (
+				F685DAEA1B5C200200B7EC9C /* m+mArgumentDescriptionsRequestHandler.cpp */,
+				F685DAEB1B5C200200B7EC9C /* m+mArgumentDescriptionsRequestHandler.h */,
 				DFEDC9E51B46E0CD0034C881 /* m+mArgumentsRequestHandler.cpp */,
 				DFEDC9E61B46E0CD0034C881 /* m+mArgumentsRequestHandler.h */,
 				DFEDCA0D1B46E0CD0034C881 /* m+mChannelsRequestHandler.cpp */,
 				DFEDCA0E1B46E0CD0034C881 /* m+mChannelsRequestHandler.h */,
 				DFEDCA131B46E0CD0034C881 /* m+mClientsRequestHandler.cpp */,
 				DFEDCA141B46E0CD0034C881 /* m+mClientsRequestHandler.h */,
+				F685DAE41B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.cpp */,
+				F685DAE51B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.h */,
 				DFEDCA181B46E0CD0034C881 /* m+mConfigureRequestHandler.cpp */,
 				DFEDCA191B46E0CD0034C881 /* m+mConfigureRequestHandler.h */,
 				DFEDCA1A1B46E0CD0034C881 /* m+mDetachRequestHandler.cpp */,
 				DFEDCA1B1B46E0CD0034C881 /* m+mDetachRequestHandler.h */,
-				DFEDCA281B46E0CD0034C881 /* m+mGetMetricsRequestHandler.cpp */,
-				DFEDCA291B46E0CD0034C881 /* m+mGetMetricsRequestHandler.h */,
-				DFEDCA2A1B46E0CD0034C881 /* m+mGetMetricsStateRequestHandler.cpp */,
-				DFEDCA2B1B46E0CD0034C881 /* m+mGetMetricsStateRequestHandler.h */,
 				DFEDCA2C1B46E0CD0034C881 /* m+mInfoRequestHandler.cpp */,
 				DFEDCA2D1B46E0CD0034C881 /* m+mInfoRequestHandler.h */,
 				DFEDCA301B46E0CD0034C881 /* m+mListRequestHandler.cpp */,
 				DFEDCA311B46E0CD0034C881 /* m+mListRequestHandler.h */,
+				F685DAE61B5C1B4200B7EC9C /* m+mMetricsRequestHandler.cpp */,
+				F685DAE71B5C1B4200B7EC9C /* m+mMetricsRequestHandler.h */,
+				F685DAE81B5C1BFB00B7EC9C /* m+mMetricsStateRequestHandler.cpp */,
+				F685DAE91B5C1BFB00B7EC9C /* m+mMetricsStateRequestHandler.h */,
 				DFEDCA3E1B46E0CD0034C881 /* m+mNameRequestHandler.cpp */,
 				DFEDCA3F1B46E0CD0034C881 /* m+mNameRequestHandler.h */,
 				DFEDCA471B46E0CD0034C881 /* m+mRestartStreamsRequestHandler.cpp */,

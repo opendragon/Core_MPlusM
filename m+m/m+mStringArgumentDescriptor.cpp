@@ -115,6 +115,17 @@ void StringArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // StringArgumentDescriptor::addValueToBottle
 
+BaseArgumentDescriptor * StringArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new StringArgumentDescriptor(argumentName(),
+                                                                   argumentDescription(),
+                                                                   argumentMode(), _defaultValue);
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // StringArgumentDescriptor::clone
+
 YarpString StringArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -142,7 +153,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
 
     if (partitionString(inString, 3, inVector))
     {
-        ArgumentMode argMode = kArgModeRequired;
+        ArgumentMode argMode;
         bool         okSoFar = true;
         YarpString   name(inVector[0]);
         YarpString   typeTag(inVector[1]);
@@ -158,6 +169,10 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
         {
             argMode = ModeFromString(modeString);
             okSoFar = (kArgModeUnknown != argMode);
+        }
+        else
+        {
+            argMode = kArgModeUnknown;
         }
         if (okSoFar)
         {

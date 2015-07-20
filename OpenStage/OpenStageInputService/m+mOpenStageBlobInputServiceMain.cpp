@@ -111,13 +111,14 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    OpenStageBlobInputService * aService = new OpenStageBlobInputService(progName, argc, argv, tag,
+    OpenStageBlobInputService * aService = new OpenStageBlobInputService(argumentList, progName,
+                                                                         argc, argv, tag,
                                                                          serviceEndpointName,
                                                                          servicePortNumber);
 
     if (aService)
     {
-        aService->performLaunch(argumentList, "", goWasSet, stdinAvailable, reportOnExit);
+        aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
         delete aService;
     }
     else
@@ -173,14 +174,14 @@ int main(int      argc,
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::DoubleArgumentDescriptor  firstArg("scale", T_("Translation scale"),
-                                                      Utilities::kArgModeOptional, 1, true, 0,
-                                                      false, 0, &translationScale);
+                                                      Utilities::kArgModeOptionalModifiable, 1,
+                                                      true, 0, false, 0, &translationScale);
         Utilities::AddressArgumentDescriptor secondArg("hostname",
                                                        T_("IP address for the device server"),
-                                                       Utilities::kArgModeOptional,
+                                                       Utilities::kArgModeOptionalModifiable,
                                                        SELF_ADDRESS_NAME_, &hostName);
         Utilities::PortArgumentDescriptor    thirdArg("port", T_("Port for the device server"),
-                                                      Utilities::kArgModeOptional,
+                                                      Utilities::kArgModeOptionalModifiable,
                                                       OPENSTAGEBLOBINPUT_DEFAULT_PORT_, false,
                                                       &hostPort);
 		Utilities::DescriptorVector          argumentList;

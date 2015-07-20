@@ -1,14 +1,15 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+m/m+mConfigureRequestHandler.h
+//  File:       m+m/m+mConfigurationRequestHandler.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the request handler for a 'configure' request.
+//  Contains:   The class declaration for the request handler for the standard 'configuration'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,12 +33,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-06-25
+//  Created:    2015-07-19
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMConfigureRequestHandler_H_))
-# define MpMConfigureRequestHandler_H_ /* Header guard */
+#if (! defined(MpMConfigurationRequestHandler_H_))
+# define MpMConfigurationRequestHandler_H_ /* Header guard */
 
 # include <m+m/m+mBaseRequestHandler.h>
 
@@ -47,7 +48,8 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the request handler for a 'configure' request. */
+ @brief The class declaration for the request handler for the standard 'configuration'
+ request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -57,20 +59,21 @@ namespace MplusM
     namespace Common
     {
         class BaseInputOutputService;
-        
-        /*! @brief The standard 'configure' request handler.
+
+        /*! @brief The standard 'configuration' request handler.
          
-         The input for the request depends on the service and there is no output. */
-        class ConfigureRequestHandler : public BaseRequestHandler
+         There is no input for the request and the output is a list of values of the configuration
+         for the service. */
+        class ConfigurationRequestHandler : public BaseRequestHandler
         {
         public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ConfigureRequestHandler(BaseInputOutputService & service);
+            ConfigurationRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
-            virtual ~ConfigureRequestHandler(void);
+            virtual ~ConfigurationRequestHandler(void);
             
         protected :
             
@@ -96,7 +99,7 @@ namespace MplusM
                                         const YarpString &           senderChannel,
                                         yarp::os::ConnectionWriter * replyMechanism);
             
-            COPY_AND_ASSIGNMENT_(ConfigureRequestHandler);
+            COPY_AND_ASSIGNMENT_(ConfigurationRequestHandler);
             
         public :
         
@@ -107,10 +110,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-        }; // ConfigureRequestHandler
+        }; // ConfigurationRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMConfigureRequestHandler_H_)
+#endif // ! defined(MpMConfigurationRequestHandler_H_)

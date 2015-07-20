@@ -122,40 +122,43 @@ namespace MplusM
             
         }; // PortDescriptor
         
-        /*! @brief The attributes of a service. */
+        /*! @brief The attributes of a service or adapter. */
         struct ServiceDescriptor
         {
-            /*! @brief The standard name for the service. */
+            /*! @brief The standard name for the service or adapter. */
             YarpString _serviceName;
             
-            /*! @brief The standard channel for the service. */
+            /*! @brief The standard channel for the service or adapter. */
             YarpString _channelName;
             
-            /*! @brief The description of the service. */
+            /*! @brief The description of the service or adapter. */
             YarpString _description;
             
-            /*! @brief The extra information for the service. */
+            /*! @brief The extra information for the service or adapter. */
             YarpString _extraInfo;
 
-            /*! @brief The set of secondary client channels for the service. */
+            /*! @brief The argument descriptions for the service. */
+            DescriptorVector _argumentList;
+
+            /*! @brief The set of secondary client channels for the service or adapter. */
             Common::ChannelVector _clientChannels;
             
-            /*! @brief The set of secondary input channels for the service. */
+            /*! @brief The set of secondary input channels for the service or adapter. */
             Common::ChannelVector _inputChannels;
             
-            /*! @brief The set of secondary output channels for the service. */
+            /*! @brief The set of secondary output channels for the service or adapter. */
             Common::ChannelVector _outputChannels;
             
-            /*! @brief The description of the behavioural model for the service. */
+            /*! @brief The description of the behavioural model for the service or adapter. */
             YarpString _kind;
             
-            /*! @brief The name of the input channel for the service. */
+            /*! @brief The name of the input channel for the service or adapter. */
             YarpString _path;
             
-            /*! @brief The description of the requests for the service. */
+            /*! @brief The description of the requests for the service or adapter. */
             YarpString _requestsDescription;
             
-            /*! @brief The modifier tag for the service. */
+            /*! @brief The modifier tag for the service or adapter. */
             YarpString _tag;
             
         }; // ServiceDescriptor
@@ -481,6 +484,17 @@ namespace MplusM
          @param timeout The number of seconds to allow YARP to check a port. */
         void RemoveStalePorts(const float timeout = 5);
         
+        /*! @brief Restart a service.
+         @param serviceChannelName The channel for the service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service was restarted and @c false otherwise. */
+        bool RestartAService(const YarpString &    serviceChannelName,
+                             const double          timeToWait,
+                             Common::CheckFunction checker = NULL,
+                             void *                checkStuff = NULL);
+
         /*! @brief Set the state of the channel metrics for a service.
          @param serviceChannelName The channel for the service.
          @param newMetricsState The desired state of metrics collection for the channels of a

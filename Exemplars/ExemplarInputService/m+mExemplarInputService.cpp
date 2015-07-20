@@ -85,21 +85,22 @@ using namespace MplusM::Exemplar;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ExemplarInputService::ExemplarInputService(const YarpString & launchPath,
-                                           const int          argc,
-                                           char * *           argv,
-                                           const YarpString & tag,
-                                           const YarpString & serviceEndpointName,
-                                           const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_EXEMPLARINPUT_CANONICAL_NAME_,
+ExemplarInputService::ExemplarInputService(const Utilities::DescriptorVector & argumentList,
+                                           const YarpString &                  launchPath,
+                                           const int                           argc,
+                                           char * *                            argv,
+                                           const YarpString &                  tag,
+                                           const YarpString &                  serviceEndpointName,
+                                           const YarpString &                  servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_EXEMPLARINPUT_CANONICAL_NAME_,
               EXEMPLARINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _generator(NULL), _burstPeriod(1), _burstSize(1)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // ExemplarInputService::ExemplarInputService
 
@@ -157,6 +158,19 @@ bool ExemplarInputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ExemplarInputService::configure
+
+bool ExemplarInputService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    details.addDouble(_burstPeriod);
+    details.addInt(_burstSize);
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ExemplarInputService::getConfiguration
 
 void ExemplarInputService::restartStreams(void)
 {

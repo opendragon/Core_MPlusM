@@ -125,7 +125,8 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
         SetSignalHandlers(SignalRunningStop);
         if (aClient->findService(MATCHING_CRITERIA))
         {
-            RandomNumberAdapterService * aService = new RandomNumberAdapterService(progName, argc,
+            RandomNumberAdapterService * aService = new RandomNumberAdapterService(argumentList,
+                                                                                   progName, argc,
                                                                                    argv, tag,
                                                                                serviceEndpointName,
                                                                                servicePortNumber);
@@ -149,8 +150,8 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                                aService->getOutletStream(0));
                             
                             aService->setUpInputHandlers(sharedData);
-                            aService->performLaunch(sharedData, argumentList, "", goWasSet,
-                                                    stdinAvailable, reportOnExit);
+                            aService->performLaunch(sharedData, "", goWasSet, stdinAvailable,
+                                                    reportOnExit);
                         }
                         else
                         {

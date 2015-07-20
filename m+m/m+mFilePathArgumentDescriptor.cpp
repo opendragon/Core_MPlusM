@@ -181,6 +181,19 @@ void FilePathArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // FilePathArgumentDescriptor::addValueToBottle
 
+BaseArgumentDescriptor * FilePathArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new FilePathArgumentDescriptor(argumentName(),
+                                                                     argumentDescription(),
+                                                                     argumentMode(), _pathPrefix,
+                                                                     _pathSuffix, _forOutput,
+                                                                     _useRandomPath);
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // FilePathArgumentDescriptor::clone
+
 YarpString FilePathArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -229,7 +242,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
 
     if (partitionString(inString, 6, inVector))
     {
-        ArgumentMode argMode = kArgModeRequired;
+        ArgumentMode argMode;
         bool         forOutput = false;
         bool         okSoFar = true;
         bool         usesRandom = false;
@@ -250,6 +263,10 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
         {
             argMode = ModeFromString(modeString);
             okSoFar = (kArgModeUnknown != argMode);
+        }
+        else
+        {
+            argMode = kArgModeUnknown;
         }
         if (okSoFar)
         {

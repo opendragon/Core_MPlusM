@@ -123,6 +123,19 @@ void DoubleArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // DoubleArgumentDescriptor::addValueToBottle
 
+BaseArgumentDescriptor * DoubleArgumentDescriptor::clone(void)
+{
+    OD_LOG_OBJENTER(); //####
+    BaseArgumentDescriptor * result = new DoubleArgumentDescriptor(argumentName(),
+                                                                   argumentDescription(),
+                                                                   argumentMode(), _defaultValue,
+                                                                   _hasMinimumValue, _minimumValue,
+                                                                   _hasMaximumValue, _maximumValue);
+
+    OD_LOG_EXIT_P(result);
+    return result;
+} // DoubleArgumentDescriptor::clone
+
 YarpString DoubleArgumentDescriptor::getDefaultValue(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -156,7 +169,7 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
 
     if (partitionString(inString, 5, inVector))
     {
-        ArgumentMode argMode = kArgModeRequired;
+        ArgumentMode argMode;
         bool         okSoFar = true;
         double       defaultValue = 0;
         double       maxValue = 0;
@@ -177,6 +190,10 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
         {
             argMode = ModeFromString(modeString);
             okSoFar = (kArgModeUnknown != argMode);
+        }
+        else
+        {
+            argMode = kArgModeUnknown;
         }
         if (okSoFar && (0 < defaultString.length()))
         {

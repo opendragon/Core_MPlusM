@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+m/m+mConfigureRequestHandler.h
+//  File:       m+m/m+mMetricsStateRequestHandler.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the request handler for a 'configure' request.
+//  Contains:   The class declaration for the request handler for the standard 'metricsState'
+//              request.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,12 +33,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-06-25
+//  Created:    2014-11-25
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMConfigureRequestHandler_H_))
-# define MpMConfigureRequestHandler_H_ /* Header guard */
+#if (! defined(MpMMetricsStateRequestHandler_H_))
+# define MpMMetricsStateRequestHandler_H_ /* Header guard */
 
 # include <m+m/m+mBaseRequestHandler.h>
 
@@ -47,7 +48,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the request handler for a 'configure' request. */
+ @brief The class declaration for the request handler for the standard 'metricsState' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -56,21 +57,20 @@ namespace MplusM
 {
     namespace Common
     {
-        class BaseInputOutputService;
-        
-        /*! @brief The standard 'configure' request handler.
+        /*! @brief The standard 'metricsState' request handler.
          
-         The input for the request depends on the service and there is no output. */
-        class ConfigureRequestHandler : public BaseRequestHandler
+         There is no input for the request and the output is a @c 0 if metrics are disabled and @c 1
+         if they are enabled. */
+        class MetricsStateRequestHandler : public BaseRequestHandler
         {
         public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ConfigureRequestHandler(BaseInputOutputService & service);
+            MetricsStateRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~ConfigureRequestHandler(void);
+            virtual ~MetricsStateRequestHandler(void);
             
         protected :
             
@@ -96,7 +96,7 @@ namespace MplusM
                                         const YarpString &           senderChannel,
                                         yarp::os::ConnectionWriter * replyMechanism);
             
-            COPY_AND_ASSIGNMENT_(ConfigureRequestHandler);
+            COPY_AND_ASSIGNMENT_(MetricsStateRequestHandler);
             
         public :
         
@@ -107,10 +107,10 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseRequestHandler inherited;
             
-        }; // ConfigureRequestHandler
+        }; // MetricsStateRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMConfigureRequestHandler_H_)
+#endif // ! defined(MpMMetricsStateRequestHandler_H_)

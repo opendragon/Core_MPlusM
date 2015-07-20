@@ -85,22 +85,27 @@ using namespace MplusM::ViconDataStream;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-ViconDataStreamInputService::ViconDataStreamInputService(const YarpString & launchPath,
-                                                         const int          argc,
-                                                         char * *           argv,
-                                                         const YarpString & tag,
-                                                         const YarpString & serviceEndpointName,
-                                                         const YarpString & servicePortNumber) :
-    inherited(launchPath, argc, argv, tag, true, MpM_VICONDATASTREAMINPUT_CANONICAL_NAME_,
-              VICONDATASTREAMINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName,
-			  servicePortNumber), _eventThread(NULL), _hostName(SELF_ADDRESS_NAME_),
-	_hostPort(VICONDATASTREAMINPUT_DEFAULT_PORT_)
+ViconDataStreamInputService::ViconDataStreamInputService(const Utilities::DescriptorVector &
+                                                                                    argumentList,
+                                                         const YarpString &
+                                                                                    launchPath,
+                                                         const int                           argc,
+                                                         char * *                            argv,
+                                                         const YarpString &                  tag,
+                                                         const YarpString &
+                                                                                serviceEndpointName,
+                                                         const YarpString &
+                                                                                servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true,
+              MpM_VICONDATASTREAMINPUT_CANONICAL_NAME_, VICONDATASTREAMINPUT_SERVICE_DESCRIPTION_,
+              "", serviceEndpointName, servicePortNumber), _eventThread(NULL),
+    _hostName(SELF_ADDRESS_NAME_), _hostPort(VICONDATASTREAMINPUT_DEFAULT_PORT_)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
-    OD_LOG_P1("argv = ", argv); //####
     OD_LOG_EXIT_P(this); //####
 } // ViconDataStreamInputService::ViconDataStreamInputService
 
@@ -160,6 +165,19 @@ bool ViconDataStreamInputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamInputService::configure
+
+bool ViconDataStreamInputService::getConfiguration(yarp::os::Bottle & details)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("details = ", &details); //####
+    bool result = true;
+
+    details.clear();
+    details.addString(_hostName);
+    details.addInt(_hostPort);
+    OD_LOG_OBJEXIT_B(result); //####
+    return result;
+} // ViconDataStreamInputService::getConfiguration
 
 void ViconDataStreamInputService::restartStreams(void)
 {

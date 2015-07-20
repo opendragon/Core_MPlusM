@@ -65,10 +65,10 @@ namespace MplusM
         class ClientsRequestHandler;
         class DetachRequestHandler;
         class Endpoint;
-        class GetMetricsRequestHandler;
-        class GetMetricsStateRequestHandler;
         class InfoRequestHandler;
         class ListRequestHandler;
+        class MetricsRequestHandler;
+        class MetricsStateRequestHandler;
         class NameRequestHandler;
         class PingThread;
         class ServiceInputHandler;
@@ -447,18 +447,18 @@ namespace MplusM
             /*! @brief The request handler for the 'detach' request. */
             DetachRequestHandler * _detachHandler;
             
-            /*! @brief The request handler for the 'getMetrics' request. */
-            GetMetricsRequestHandler * _getMetricsHandler;
-            
-            /*! @brief The request handler for the 'getMetricsState' request. */
-            GetMetricsStateRequestHandler * _getMetricsStateHandler;
-            
             /*! @brief The request handler for the 'info' request. */
             InfoRequestHandler * _infoHandler;
             
             /*! @brief The request handler for the 'list' request. */
             ListRequestHandler * _listHandler;
             
+            /*! @brief The request handler for the 'metrics' request. */
+            MetricsRequestHandler * _metricsHandler;
+
+            /*! @brief The request handler for the 'metricsState' request. */
+            MetricsStateRequestHandler * _metricsStateHandler;
+
             /*! @brief The request handler for the 'name' request. */
             NameRequestHandler * _nameHandler;
             

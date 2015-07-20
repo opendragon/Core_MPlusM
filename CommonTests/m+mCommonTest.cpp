@@ -1248,10 +1248,10 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
  @param sawClients Set to @c true if a valid 'clients' entry appears.
  @param sawDetach Set to @c true if a valid 'detach' entry appears.
  @param sawEcho Set to @c true if a valid 'echo' entry appears.
- @param sawGetMetrics Set to @c true if a valid 'getMetrics' entry appears.
- @param sawGetMetricsState Set to @c true if a valid 'getMetricsState' entry appears.
  @param sawInfo Set to @c true if a valid 'info' entry appears.
  @param sawList Set to @c true if a valid 'list' entry appears.
+ @param sawMetrics Set to @c true if a valid 'getMetrics' entry appears.
+ @param sawMetricsState Set to @c true if a valid 'getMetricsState' entry appears.
  @param sawName Set to @c true if a valid 'name' entry appears.
  @param sawSetMetricsState Set to @c true if a valid 'setMetricsState' entry appears.
  @returns @c false if an unexpected value appears and @c true otherwise. */
@@ -1261,20 +1261,20 @@ static bool checkListDictionary(yarp::os::Property & asDict,
                                 bool &               sawClients,
                                 bool &               sawDetach,
                                 bool &               sawEcho,
-                                bool &               sawGetMetrics,
-                                bool &               sawGetMetricsState,
                                 bool &               sawInfo,
                                 bool &               sawList,
+                                bool &               sawMetrics,
+                                bool &               sawMetricsState,
                                 bool &               sawName,
                                 bool &               sawSetMetricsState)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("asDict = ", &asDict, "sawArguments = ", &sawArguments, "sawChannels = ", //####
               &sawChannels, "sawClients = ", &sawClients); //####
-    OD_LOG_P4("sawDetach = ", &sawDetach, "sawEcho = ", &sawEcho, "sawGetMetrics = ", //####
-              &sawGetMetrics, "sawGetMetricsState = ", &sawGetMetricsState);
-    OD_LOG_P4("sawInfo = ", &sawInfo, "sawList = ", &sawList, "sawName = ", &sawName, //####
-              "sawSetMetricsState = ", &sawSetMetricsState); //####
+    OD_LOG_P4("sawDetach = ", &sawDetach, "sawEcho = ", &sawEcho, "sawInfo = ", &sawInfo, //####
+              "sawList = ", &sawList);
+    OD_LOG_P4("sawMetrics = ", &sawMetrics, "sawMetricsState = ", &sawMetricsState, //####
+              "sawName = ", &sawName, "sawSetMetricsState = ", &sawSetMetricsState); //####
     bool result = true;
     bool hasInput = asDict.check(MpM_REQREP_DICT_INPUT_KEY_);
     bool hasOutput = asDict.check(MpM_REQREP_DICT_OUTPUT_KEY_);
@@ -1374,9 +1374,9 @@ static bool checkListDictionary(yarp::os::Property & asDict,
                 sawList = (itsOutput == "([]+)");
             }
         }
-        else if (aName == MpM_GETMETRICS_REQUEST_)
+        else if (aName == MpM_METRICS_REQUEST_)
         {
-            if (sawGetMetrics)
+            if (sawMetrics)
             {
                 result = false;
             }
@@ -1384,12 +1384,12 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
-                sawGetMetrics = (itsOutput == "([]+)");
+                sawMetrics = (itsOutput == "([]+)");
             }
         }
-        else if (aName == MpM_GETMETRICSSTATE_REQUEST_)
+        else if (aName == MpM_METRICSSTATE_REQUEST_)
         {
-            if (sawGetMetricsState)
+            if (sawMetricsState)
             {
                 result = false;
             }
@@ -1397,7 +1397,7 @@ static bool checkListDictionary(yarp::os::Property & asDict,
             {
                 YarpString itsOutput(asDict.find(MpM_REQREP_DICT_OUTPUT_KEY_).asString());
                 
-                sawGetMetricsState = (itsOutput == "i");
+                sawMetricsState = (itsOutput == "i");
             }
         }
         else if (aName == MpM_NAME_REQUEST_)
@@ -1455,10 +1455,10 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
             bool sawClients = false;
             bool sawDetach = false;
             bool sawEcho = false;
-            bool sawGetMetrics = false;
-            bool sawGetMetricsState = false;
             bool sawInfo = false;
             bool sawList = false;
+            bool sawMetrics = false;
+            bool sawMetricsState = false;
             bool sawName = false;
             bool sawSetMetricsState = false;
             
@@ -1474,8 +1474,8 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                     if (asDict)
                     {
                         result = checkListDictionary(*asDict, sawArguments, sawChannels, sawClients,
-                                                     sawDetach, sawEcho, sawGetMetrics,
-                                                     sawGetMetricsState, sawInfo, sawList, sawName,
+                                                     sawDetach, sawEcho, sawInfo, sawList,
+                                                     sawMetrics, sawMetricsState, sawName,
                                                      sawSetMetricsState);
                     }
                 }
@@ -1490,9 +1490,9 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                         if (ListIsReallyDictionary(*asList, asDict))
                         {
                             result = checkListDictionary(asDict, sawArguments, sawChannels,
-                                                         sawClients, sawDetach, sawEcho,
-                                                         sawGetMetrics, sawGetMetricsState, sawInfo,
-                                                         sawList, sawName, sawSetMetricsState);
+                                                         sawClients, sawDetach, sawEcho, sawInfo,
+                                                         sawList, sawMetrics, sawMetricsState,
+                                                         sawName, sawSetMetricsState);
                         }
                         else
                         {
@@ -1510,7 +1510,7 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
                 }
             }
             result &= (sawArguments && sawChannels && sawClients && sawDetach && sawEcho &&
-                       sawGetMetrics && sawGetMetricsState && sawInfo && sawList && sawName &&
+                       sawInfo && sawList && sawMetrics && sawMetricsState && sawName &&
                        sawSetMetricsState);
         }
         else
