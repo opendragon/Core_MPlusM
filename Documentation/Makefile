@@ -98,7 +98,8 @@ JSbitmapepsfiles = $(IMAGE_DIR)/javaScriptWithEndpoint.eps \
 KV2bitmapepsfiles = $(IMAGE_DIR)/launchKinectV2InputService.eps \
 		$(IMAGE_DIR)/runningKinectV2InputService.eps
 
-LMbitmapepsfiles = $(IMAGE_DIR)/launchLeapBlobInputService.eps \
+LMbitmapepsfiles = $(IMAGE_DIR)/configureLeapBlobInputService.eps \
+		$(IMAGE_DIR)/launchLeapBlobInputService.eps \
 		$(IMAGE_DIR)/launchLeapMotionInputService.eps \
 		$(IMAGE_DIR)/launchLeapTwoFingersInputService.eps \
 		$(IMAGE_DIR)/launchLeapTwoPalmsInputService.eps \
@@ -155,7 +156,12 @@ MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/stopRegistryService.eps $(IMAGE_DIR)/stopService.eps \
 		$(IMAGE_DIR)/viewMenuNoSelection.eps $(IMAGE_DIR)/viewMenuWithSelection.eps
 
-MpMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
+MpMbitmapepsfiles = $(IMAGE_DIR)/configureBlobOutputService.eps \
+		$(IMAGE_DIR)/configureRandomBurstInputService.eps \
+		$(IMAGE_DIR)/configureRecordAsJSONOutputService.eps \
+		$(IMAGE_DIR)/configureRecordBlobOutputService.eps \
+		$(IMAGE_DIR)/configureRecordIntegersOutputService.eps \
+		$(IMAGE_DIR)/launchAbsorberOutputService.eps \
 		$(IMAGE_DIR)/launchAddressService.eps \
 		$(IMAGE_DIR)/launchBlobOutputService.eps \
 		$(IMAGE_DIR)/launchEchoService.eps \
@@ -192,7 +198,9 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/launchAbsorberOutputService.eps \
 
 NNbitmapepsfiles =
 
-OSbitmapepsfiles = $(IMAGE_DIR)/launchOpenStageBlobInputService.eps \
+OSbitmapepsfiles = $(IMAGE_DIR)/configureOpenStageBlobInputService.eps \
+		$(IMAGE_DIR)/configureOpenStageInputService.eps \
+		$(IMAGE_DIR)/launchOpenStageBlobInputService.eps \
 		$(IMAGE_DIR)/launchOpenStageInputService.eps \
 		$(IMAGE_DIR)/runningOpenStageBlobInputService.eps \
 		$(IMAGE_DIR)/runningOpenStageInputService.eps
@@ -200,7 +208,9 @@ OSbitmapepsfiles = $(IMAGE_DIR)/launchOpenStageBlobInputService.eps \
 PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \
 		$(IMAGE_DIR)/runningProComp2InputService.eps
 
-VDSbitmapepsfiles = $(IMAGE_DIR)/launchViconBlobInputService.eps \
+VDSbitmapepsfiles = $(IMAGE_DIR)/configureViconBlobInputService.eps \
+		$(IMAGE_DIR)/configureViconDataStreamInputService.eps \
+		$(IMAGE_DIR)/launchViconBlobInputService.eps \
 		$(IMAGE_DIR)/launchViconDataStreamInputService.eps \
 		$(IMAGE_DIR)/runningViconBlobInputService.eps \
 		$(IMAGE_DIR)/runningViconDataStreamInputService.eps

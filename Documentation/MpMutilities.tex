@@ -720,6 +720,11 @@ Once the options are set, the following image will appear in the \emph{\MMMU} wi
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningBlobOutputService}%
 {serviceRunningBlob}{The \emph{\MMMU} entity for the \emph{Blob Output} service}{1.0}
+\condPage{}
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureBlobOutputService}%
+{configureServiceBlob}{Configuration window for the \emph{Blob Output} service}{1.0}
 \tertiaryEnd{\utilityNameE{m+mBlobOutputService}}
 \condPage
 \tertiaryStart{\utilityNameP{m+mRecordBlobOutputService}}
@@ -770,9 +775,15 @@ the service has successfully started:
 {serviceRunningRecordBlob}{The \emph{\MMMU} entity for the \emph{Record Blob Output}
 service}{1.0}
 
-The output file name forms part of the names of the channels and is added to the title bar
-of the service, as though it were a `tag'.
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureRecordBlobOutputService}%
+{configureServiceRecordBlob}{Configuration window for the \emph{Record Blob Output}
+service}{1.0}
 \condPage{}
+The output file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.\\
+
 If a `tag' value is supplied, it is merged with the output file name, as shown here:
 \objScaledDiagram{mpm_images/recordBlobWithTag}%
 {recordBlobWithTag}{The \emph{\MMMU} entity for the \emph{Record Blob Output} service with
