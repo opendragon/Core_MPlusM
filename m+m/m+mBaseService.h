@@ -65,6 +65,7 @@ namespace MplusM
         class ClientsRequestHandler;
         class DetachRequestHandler;
         class Endpoint;
+        class ExtraInfoRequestHandler;
         class InfoRequestHandler;
         class ListRequestHandler;
         class MetricsRequestHandler;
@@ -168,7 +169,7 @@ namespace MplusM
             
             /*! @brief Return the description of the service.
              @returns The description of the service. */
-            inline YarpString description(void)
+            inline const YarpString & description(void)
             const
             {
                 return _description;
@@ -186,7 +187,7 @@ namespace MplusM
             
             /*! @brief Return the extra information for the service.
              @returns The extra information for the service. */
-            inline YarpString extraInformation(void)
+            inline const YarpString & extraInformation(void)
             const
             {
                 return _extraInfo;
@@ -250,7 +251,7 @@ namespace MplusM
             
             /*! @brief Return the command-line name used to launch the service.
              @returns The command-line name used to launch the service. */
-            inline YarpString launchPath(void)
+            inline const YarpString & launchPath(void)
             const
             {
                 return _launchPath;
@@ -278,7 +279,7 @@ namespace MplusM
             
             /*! @brief Return the description of the requests for the service.
              @returns The description of the requests for the service. */
-            inline YarpString requestsDescription(void)
+            inline const YarpString & requestsDescription(void)
             const
             {
                 return _requestsDescription;
@@ -294,7 +295,7 @@ namespace MplusM
             
             /*! @brief Return the working name of the service.
              @returns The working name of the service. */
-            inline YarpString serviceName(void)
+            inline const YarpString & serviceName(void)
             const
             {
                 return _serviceName;
@@ -317,7 +318,7 @@ namespace MplusM
             
             /*! @brief Return the modifier tag of the service.
              @returns The modifier tag of the service. */
-            inline YarpString tag(void)
+            inline const YarpString & tag(void)
             const
             {
                 return _tag;
@@ -446,6 +447,9 @@ namespace MplusM
             
             /*! @brief The request handler for the 'detach' request. */
             DetachRequestHandler * _detachHandler;
+            
+            /*! @brief The request handler for the 'extraInfo' request. */
+            ExtraInfoRequestHandler * _extraInfoHandler;
             
             /*! @brief The request handler for the 'info' request. */
             InfoRequestHandler * _infoHandler;

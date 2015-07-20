@@ -128,28 +128,25 @@ bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
+        if (1 == details.size())
         {
-            if (1 == details.size())
+            yarp::os::Value firstValue(details.get(0));
+            
+            if (firstValue.isDouble() || firstValue.isInt())
             {
-                yarp::os::Value firstValue(details.get(0));
-
-                if (firstValue.isDouble() || firstValue.isInt())
+                std::stringstream buff;
+                
+                if (firstValue.isDouble())
                 {
-                    std::stringstream buff;
-
-                    if (firstValue.isDouble())
-                    {
-                        _translationScale = firstValue.asDouble();
-                    }
-                    else
-                    {
-                        _translationScale = firstValue.asInt();
-                    }
-                    buff << "Translation scale is " << _translationScale;
-                    setExtraInformation(buff.str());
-                    result = true;
+                    _translationScale = firstValue.asDouble();
                 }
+                else
+                {
+                    _translationScale = firstValue.asInt();
+                }
+                buff << "Translation scale is " << _translationScale;
+                setExtraInformation(buff.str());
+                result = true;
             }
         }
     }

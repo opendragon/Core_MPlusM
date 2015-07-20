@@ -127,21 +127,18 @@ bool BlobOutputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
+        if (1 == details.size())
         {
-            if (1 == details.size())
+            yarp::os::Value firstValue(details.get(0));
+            
+            if (firstValue.isInt())
             {
-                yarp::os::Value firstValue(details.get(0));
+                std::stringstream buff;
                 
-				if (firstValue.isInt())
-				{
-                    std::stringstream buff;
-
-					_outPort = firstValue.asInt();
-                    buff << "Output port is " << _outPort;
-                    setExtraInformation(buff.str());
-					result = true;
-				}
+                _outPort = firstValue.asInt();
+                buff << "Output port is " << _outPort;
+                setExtraInformation(buff.str());
+                result = true;
             }
         }
     }

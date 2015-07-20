@@ -131,24 +131,21 @@ bool UnrealOutputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
+        if (2 == details.size())
         {
-            if (2 == details.size())
+            yarp::os::Value firstValue(details.get(0));
+            yarp::os::Value secondValue(details.get(1));
+            
+            if (firstValue.isInt() && secondValue.isDouble())
             {
-                yarp::os::Value firstValue(details.get(0));
-                yarp::os::Value secondValue(details.get(1));
+                std::stringstream buff;
                 
-				if (firstValue.isInt() && secondValue.isDouble())
-				{
-                    std::stringstream buff;
-
-                    _outPort = firstValue.asInt();
-                    _translationScale = secondValue.asDouble();
-                    buff << "Output port is " << _outPort << ", translation scale is " <<
-                            _translationScale;
-                    setExtraInformation(buff.str());
-					result = true;
-				}
+                _outPort = firstValue.asInt();
+                _translationScale = secondValue.asDouble();
+                buff << "Output port is " << _outPort << ", translation scale is " <<
+                        _translationScale;
+                setExtraInformation(buff.str());
+                result = true;
             }
         }
     }

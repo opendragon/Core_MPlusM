@@ -123,29 +123,25 @@ bool EmotivInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
+        if (2 == details.size())
         {
-            if (2 == details.size())
+            yarp::os::Value firstValue(details.get(0));
+            yarp::os::Value secondValue(details.get(1));
+            
+            if (firstValue.isDouble() && secondValue.isInt())
             {
-                yarp::os::Value firstValue(details.get(0));
-                yarp::os::Value secondValue(details.get(1));
+                double firstNumber = firstValue.asDouble();
+                int    secondNumber = secondValue.asInt();
                 
-                if (firstValue.isDouble() && secondValue.isInt())
+                if ((0 < firstNumber) && (0 < secondNumber))
                 {
-                    double firstNumber = firstValue.asDouble();
-                    int    secondNumber = secondValue.asInt();
+                    std::stringstream buff;
                     
-                    if ((0 < firstNumber) && (0 < secondNumber))
-                    {
-                        std::stringstream buff;
-
-                        _burstPeriod = firstNumber;
-                        _burstSize = secondNumber;
-                        buff << "Burst period is " << _burstPeriod << ", burst size is " <<
-                                _burstSize;
-                        setExtraInformation(buff.str());
-                        result = true;
-                    }
+                    _burstPeriod = firstNumber;
+                    _burstSize = secondNumber;
+                    buff << "Burst period is " << _burstPeriod << ", burst size is " << _burstSize;
+                    setExtraInformation(buff.str());
+                    result = true;
                 }
             }
         }

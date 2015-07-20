@@ -86,6 +86,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/m+m/m+mEndpoint.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mException.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mExtraArgumentDescriptor.cpp"
+            "${MpM_SOURCE_DIR}/m+m/m+mExtraInfoRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mFilePathArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mGeneralChannel.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mInfoRequestHandler.cpp"

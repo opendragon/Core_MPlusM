@@ -86,10 +86,10 @@ namespace MplusM
             kArgModeModifiable = 0x02,
 
             /*! @brief The argument is both required and modifiable. */
-            kArgModeRequiredModifiable = kArgModeRequired + kArgModeModifiable,
+            kArgModeRequiredModifiable = (kArgModeRequired | kArgModeModifiable),
 
             /*! @brief The argument is both optional and modifiable. */
-            kArgModeOptionalModifiable = kArgModeOptional + kArgModeOptional,
+            kArgModeOptionalModifiable = (kArgModeOptional | kArgModeModifiable),
 
             /*! @brief The mode of the argument is undefined. */
             kArgModeUnknown = -1

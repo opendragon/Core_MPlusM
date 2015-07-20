@@ -235,6 +235,19 @@ namespace MplusM
                                    Common::CheckFunction   checker = NULL,
                                    void *                  checkStuff = NULL);
         
+        /*! @brief Retrieve the configuration values for a service.
+         @param serviceChannelName The channel for the service.
+         @param values The configuration values for a service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service returned the desired information and @c false otherwise. */
+        bool GetConfigurationForService(const YarpString &    serviceChannelName,
+                                        YarpStringVector &    values,
+                                        const double          timeToWait,
+                                        Common::CheckFunction checker = NULL,
+                                        void *                checkStuff = NULL);
+        
         /*! @brief Return the time since 1 January, 1970, as milliseconds.
          @returns The time elapsed since 1 January, 1970. */
         int64_t GetCurrentTimeInMilliseconds(void);
@@ -263,6 +276,19 @@ namespace MplusM
          @returns @c true if the list of ports is valid and @c false otherwise. */
         bool GetDetectedPortList(PortVector & ports,
                                  const bool   includeHiddenPorts = false);
+        
+        /*! @brief Retrieve the extra information string for a service.
+         @param serviceChannelName The channel for the service.
+         @param extraInfo The extra information for a service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service returned the desired information and @c false otherwise. */
+        bool GetExtraInformationForService(const YarpString &    serviceChannelName,
+                                           YarpString &          extraInfo,
+                                           const double          timeToWait,
+                                           Common::CheckFunction checker = NULL,
+                                           void *                checkStuff = NULL);
         
         /*! @brief Return the base name of a file name.
          @param inFileName The file name to be processed.
@@ -495,6 +521,19 @@ namespace MplusM
                              Common::CheckFunction checker = NULL,
                              void *                checkStuff = NULL);
 
+        /*! @brief Send new configuration values to a service.
+         @param serviceChannelName The channel for the service.
+         @param newValues The new configuration values for a service.
+         @param timeToWait The number of seconds allowed before a failure is considered.
+         @param checker A function that provides for early exit from loops.
+         @param checkStuff The private data for the early exit function.
+         @returns @c true if the service returned the desired information and @c false otherwise. */
+        bool SetConfigurationForService(const YarpString &       serviceChannelName,
+                                        const yarp::os::Bottle & newValues,
+                                        const double             timeToWait,
+                                        Common::CheckFunction    checker = NULL,
+                                        void *                   checkStuff = NULL);
+        
         /*! @brief Set the state of the channel metrics for a service.
          @param serviceChannelName The channel for the service.
          @param newMetricsState The desired state of metrics collection for the channels of a

@@ -91,7 +91,7 @@ namespace MplusM
             
             /*! @brief Returns the name associated with the channel.
              @returns The name associated with the channel. */
-            inline YarpString name(void)
+            inline const YarpString & name(void)
             const
             {
                 return _name;

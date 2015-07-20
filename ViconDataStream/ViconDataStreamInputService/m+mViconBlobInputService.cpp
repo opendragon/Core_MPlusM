@@ -126,41 +126,38 @@ bool ViconBlobInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
+        if (3 == details.size())
         {
-            if (3 == details.size())
+            yarp::os::Value firstValue(details.get(0));
+            yarp::os::Value secondValue(details.get(1));
+            yarp::os::Value thirdValue(details.get(2));
+            
+            if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
+                thirdValue.isInt())
             {
-                yarp::os::Value firstValue(details.get(0));
-                yarp::os::Value secondValue(details.get(1));
-                yarp::os::Value thirdValue(details.get(2));
-
-                if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
-                    thirdValue.isInt())
+                int thirdNumber = thirdValue.asInt();
+                
+                if (firstValue.isDouble())
                 {
-                    int thirdNumber = thirdValue.asInt();
-
-                    if (firstValue.isDouble())
-                    {
-                        _translationScale = firstValue.asDouble();
-                    }
-                    else
-                    {
-                        _translationScale = firstValue.asInt();
-                    }
-					if ((0 < _translationScale) && (0 < thirdNumber))
-                    {
-                        std::stringstream buff;
-
-                        _hostName = secondValue.asString();
-						OD_LOG_S1s("_hostName <- ", _hostName); //####
-                        _hostPort = thirdNumber;
-                        OD_LOG_LL1("_hostPort <- ", _hostPort); //####
-                        buff << "Translation scale is " << _translationScale <<
-                                ", host name is '" << _hostName.c_str() << "', host port is " <<
-                                _hostPort;
-                        setExtraInformation(buff.str());
-                        result = true;
-                    }
+                    _translationScale = firstValue.asDouble();
+                }
+                else
+                {
+                    _translationScale = firstValue.asInt();
+                }
+                if ((0 < _translationScale) && (0 < thirdNumber))
+                {
+                    std::stringstream buff;
+                    
+                    _hostName = secondValue.asString();
+                    OD_LOG_S1s("_hostName <- ", _hostName); //####
+                    _hostPort = thirdNumber;
+                    OD_LOG_LL1("_hostPort <- ", _hostPort); //####
+                    buff << "Translation scale is " << _translationScale <<
+                            ", host name is '" << _hostName.c_str() << "', host port is " <<
+                            _hostPort;
+                    setExtraInformation(buff.str());
+                    result = true;
                 }
             }
         }

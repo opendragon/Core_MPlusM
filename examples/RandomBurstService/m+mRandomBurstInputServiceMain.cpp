@@ -168,7 +168,7 @@ int main(int      argc,
         Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"),
                                                       Utilities::kArgModeOptionalModifiable, 1,
                                                       true, 0, false, 0);
-        Utilities::IntArgumentDescriptor secondArg("size", T_("Burst size"),
+        Utilities::IntArgumentDescriptor     secondArg("size", T_("Burst size"),
                                                        Utilities::kArgModeOptionalModifiable, 1,
                                                        true, 1, false, 0);
         Utilities::DescriptorVector          argumentList;

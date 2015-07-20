@@ -129,20 +129,17 @@ bool RecordAsJSONOutputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (! isActive())
+        if (1 == details.size())
         {
-            if (1 == details.size())
+            yarp::os::Value firstValue(details.get(0));
+            
+            if (firstValue.isString())
             {
-                yarp::os::Value firstValue(details.get(0));
-                
-                if (firstValue.isString())
-                {
-                    _outPath = firstValue.asString();
-                    OD_LOG_S1s("_outPath <- ", _outPath); //####
-                    setExtraInformation(YarpString("Output file path is '") + _outPath +
-                                        YarpString("'"));
-                    result = true;
-                }
+                _outPath = firstValue.asString();
+                OD_LOG_S1s("_outPath <- ", _outPath); //####
+                setExtraInformation(YarpString("Output file path is '") + _outPath +
+                                    YarpString("'"));
+                result = true;
             }
         }
     }

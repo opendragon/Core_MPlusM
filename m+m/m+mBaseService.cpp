@@ -42,6 +42,7 @@
 #include "m+mChannelsRequestHandler.h"
 #include "m+mClientsRequestHandler.h"
 #include "m+mDetachRequestHandler.h"
+#include "m+mExtraInfoRequestHandler.h"
 #include "m+mInfoRequestHandler.h"
 #include "m+mListRequestHandler.h"
 #include "m+mMetricsRequestHandler.h"
@@ -134,11 +135,11 @@ BaseService::BaseService(const ServiceKind  theKind,
     _launchPath(launchPath), _contextsLock(), _requestHandlers(*this), _contexts(),
     _description(description), _requestsDescription(requestsDescription), _tag(tag),
     _auxCounters(), _argumentsHandler(NULL), _channelsHandler(NULL), _clientsHandler(NULL),
-    _detachHandler(NULL), _infoHandler(NULL), _listHandler(NULL), _metricsHandler(NULL),
-    _metricsStateHandler(NULL), _nameHandler(NULL), _setMetricsStateHandler(NULL),
-    _stopHandler(NULL), _endpoint(NULL), _handler(NULL), _handlerCreator(NULL), _pinger(NULL),
-    _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_), _started(false),
-    _useMultipleHandlers(useMultipleHandlers)
+    _detachHandler(NULL), _extraInfoHandler(NULL), _infoHandler(NULL), _listHandler(NULL),
+    _metricsHandler(NULL), _metricsStateHandler(NULL), _nameHandler(NULL),
+    _setMetricsStateHandler(NULL), _stopHandler(NULL), _endpoint(NULL), _handler(NULL),
+    _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
+    _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
@@ -288,6 +289,7 @@ void BaseService::attachRequestHandlers(void)
         _channelsHandler = new ChannelsRequestHandler(*this);
         _clientsHandler = new ClientsRequestHandler(*this);
         _detachHandler = new DetachRequestHandler(*this);
+        _extraInfoHandler = new ExtraInfoRequestHandler(*this);
         _infoHandler = new InfoRequestHandler(*this);
         _listHandler = new ListRequestHandler(*this);
         _metricsHandler = new MetricsRequestHandler(*this);
@@ -296,13 +298,14 @@ void BaseService::attachRequestHandlers(void)
         _setMetricsStateHandler = new SetMetricsStateRequestHandler(*this);
         _stopHandler = new StopRequestHandler(*this);
         if (_argumentsHandler && _channelsHandler && _clientsHandler && _detachHandler &&
-            _infoHandler && _listHandler && _metricsHandler && _metricsStateHandler &&
-            _nameHandler && _setMetricsStateHandler && _stopHandler)
+            _extraInfoHandler && _infoHandler && _listHandler && _metricsHandler &&
+            _metricsStateHandler && _nameHandler && _setMetricsStateHandler && _stopHandler)
         {
             _requestHandlers.registerRequestHandler(_argumentsHandler);
             _requestHandlers.registerRequestHandler(_channelsHandler);
             _requestHandlers.registerRequestHandler(_clientsHandler);
             _requestHandlers.registerRequestHandler(_detachHandler);
+            _requestHandlers.registerRequestHandler(_extraInfoHandler);
             _requestHandlers.registerRequestHandler(_infoHandler);
             _requestHandlers.registerRequestHandler(_listHandler);
             _requestHandlers.registerRequestHandler(_metricsHandler);
@@ -314,9 +317,9 @@ void BaseService::attachRequestHandlers(void)
         else
         {
             OD_LOG("! (_argumentsHandler && _channelsHandler && _clientsHandler && " //####
-                   "_detachHandler && _infoHandler && _listHandler && _metricsHandler && " //####
-                   "_metricsStateHandler && _nameHandler && _setMetricsStateHandler && " //####
-                   "_stopHandler)"); //####
+                   "_detachHandler && _extraInfoHandler && _infoHandler && _listHandler && " //####
+                   "_metricsHandler && _metricsStateHandler && _nameHandler && " //####
+                   "_setMetricsStateHandler && _stopHandler)"); //####
         }
     }
     catch (...)
@@ -393,6 +396,12 @@ void BaseService::detachRequestHandlers(void)
             _requestHandlers.unregisterRequestHandler(_detachHandler);
             delete _detachHandler;
             _detachHandler = NULL;
+        }
+        if (_extraInfoHandler)
+        {
+            _requestHandlers.unregisterRequestHandler(_extraInfoHandler);
+            delete _extraInfoHandler;
+            _extraInfoHandler = NULL;
         }
         if (_infoHandler)
         {
@@ -583,7 +592,7 @@ bool BaseService::processRequest(const YarpString &           request,
             if (replyMechanism)
             {
                 OD_LOG("(replyMechanism)"); //####
-                yarp::os::Bottle errorMessage(UNRECOGNIZED_REQUEST_);
+                yarp::os::Bottle errorMessage(MpM_UNRECOGNIZED_REQUEST_);
                 
                 OD_LOG_S1s("errorMessage <- ", errorMessage.toString()); //####
                 if (! errorMessage.write(*replyMechanism))
@@ -1055,15 +1064,18 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     
     if (parse.error())
     {
+        OD_LOG("(parse.error())"); //####
         keepGoing = false;
     }
     else if (options[kOptionHELP] || options[kOptionUNKNOWN])
     {
+        OD_LOG("(options[kOptionHELP] || options[kOptionUNKNOWN])"); //####
         Option_::printUsage(cout, usage, HELP_LINE_LENGTH_);
         keepGoing = false;
     }
     else if (options[kOptionVERSION])
     {
+        OD_LOG("(options[kOptionVERSION])"); //####
         YarpString mpmVersionString(SanitizeString(MpM_VERSION_, true));
         
         cout << "Version " << mpmVersionString.c_str() << ": Copyright (c) " << year << " by " <<
@@ -1072,6 +1084,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionARGS])
     {
+        OD_LOG("(options[kOptionARGS])"); //####
         for (size_t ii = 0, mm = argumentDescriptions.size(); mm > ii; ++ii)
         {
             Utilities::BaseArgumentDescriptor * anArg = argumentDescriptions[ii];
@@ -1090,6 +1103,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (options[kOptionINFO])
     {
+        OD_LOG("(options[kOptionINFO])"); //####
         bool needTab = true;
         
         // Note that we don't report the 'h' and 'v' options, as they are not involved in
@@ -1176,6 +1190,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else if (ProcessArguments(argumentDescriptions, parse))
     {
+        OD_LOG("(ProcessArguments(argumentDescriptions, parse))"); //####
         if (options[kOptionGO])
         {
             goWasSet = true;
@@ -1225,6 +1240,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else
     {
+        OD_LOG("! (ProcessArguments(argumentDescriptions, parse))"); //####
         cout << "One or more invalid or missing arguments." << endl;
         keepGoing = false;
     }

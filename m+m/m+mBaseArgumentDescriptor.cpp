@@ -451,6 +451,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     size_t numToCheck = min(numArgs, numValues);
 #endif // ! MAC_OR_LINUX_
 
+    OD_LOG_LL1("numToCheck <- ", numToCheck); //####
 	// Set all arguments to their default values, so that they all are defined.
 	for (size_t ii = 0; numArgs > ii; ++ii)
 	{
@@ -471,18 +472,23 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
         
         if (anArg)
         {
+            OD_LOG("(anArg)"); //####
             if (anArg->isExtra())
             {
+                OD_LOG("(anArg->isExtra())"); //####
                 sawExtra = true;
             }
             else if (anArg->isOptional())
             {
+                OD_LOG("(anArg->isOptional())"); //####
                 result = (! sawExtra);
+                OD_LOG_B1("result <- ", result); //####
                 sawOptional = true;
             }
             else
             {
                 result = (! sawOptional) && (! sawExtra);
+                OD_LOG_B1("result <- ", result); //####
             }
         }
     }
@@ -494,7 +500,9 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
         
         if (anArg && (! anArg->isExtra()))
         {
+            OD_LOG("(anArg && (! anArg->isExtra()))"); //####
             result = anArg->validate(parseResult.nonOption(ii));
+            OD_LOG_B1("result <- ", result); //####
         }
     }
     // Check the unmatched descriptions: if extra, just skip since it is a placeholder for trailing
@@ -502,15 +510,20 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     // unsatisfied.
     if (result && (numToCheck < numArgs))
     {
+        OD_LOG("(result && (numToCheck < numArgs))"); //####
         for (size_t ii = numToCheck; result && (numArgs > ii); ++ii)
         {
             BaseArgumentDescriptor * anArg = arguments[ii];
             
             if (anArg && (! anArg->isExtra()))
             {
+                OD_LOG("(anArg && (! anArg->isExtra()))"); //####
+                OD_LOG_LL1("arg mode = ", anArg->argumentMode()); //####
                 if (! anArg->isOptional())
                 {
+                    OD_LOG("(! anArg->isOptional())"); //####
                     result = false;
+                    OD_LOG_B1("result <- ", result); //####
                 }
             }
         }
@@ -518,6 +531,8 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::ProcessArguments
+#include <odl/ODDisableLogging.h>
+#include <odl/ODLogging.h>
 
 bool Utilities::PromptForValues(const DescriptorVector & arguments)
 {
@@ -545,7 +560,8 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
             std::string inputLine;
             
 			std::cout << anArg->argumentDescription().c_str();
-			std::cout << " (default=" << anArg->getDefaultValue().c_str() << "): ";
+			std::cout << " (default=" << anArg->getDefaultValue().c_str() << ", current = " <<
+                        anArg->getProcessedValue().c_str() << "): ";
             std::cout.flush();
             // Eat whitespace until we get something useful.
             for ( ; ; )

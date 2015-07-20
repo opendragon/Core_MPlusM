@@ -78,7 +78,7 @@ namespace MplusM
             
             /*! @brief Returns the protocol associated with the channel.
              @returns The protocol associated with the channel. */
-            inline YarpString protocol(void)
+            inline const YarpString & protocol(void)
             const
             {
                 return _protocol;
@@ -86,7 +86,7 @@ namespace MplusM
             
             /*! @brief Returns the description of the protocol associated with the channel.
              @returns The description of the protocol associated with the channel. */
-            inline YarpString protocolDescription(void)
+            inline const YarpString & protocolDescription(void)
             const
             {
                 return _protocolDescription;

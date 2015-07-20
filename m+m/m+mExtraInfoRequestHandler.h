@@ -1,15 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+m/m+mBaseRequestHandler.h
+//  File:       m+m/m+mExtraInfoRequestHandler.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the minimal functionality required for an m+m request
-//              handler.
+//  Contains:   The class declaration for the request handler for the standard 'extraInfo' request.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-02-26
+//  Created:    2015-07-20
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMBaseRequestHandler_H_))
-# define MpMBaseRequestHandler_H_ /* Header guard */
+#if (! defined(MpMExtraInfoRequestHandler_H_))
+# define MpMExtraInfoRequestHandler_H_ /* Header guard */
 
-# include <m+m/m+mCommon.h>
+# include <m+m/m+mBaseRequestHandler.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the minimal functionality required for an m+m request handler. */
+ @brief The class declaration for the request handler for the standard 'extraInfo' request. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -57,40 +56,34 @@ namespace MplusM
 {
     namespace Common
     {
-        class RequestMap;
-        class BaseService;
-        
-        /*! @brief A convenience class to provide function objects for requests. */
-        class BaseRequestHandler
+        /*! @brief The standard 'extraInfo' request handler.
+         
+         There is no input for the request and the output is the extra information for the
+         service. */
+        class ExtraInfoRequestHandler : public BaseRequestHandler
         {
         public :
             
             /*! @brief The constructor.
-             @param request The name of the request.
-             @param service The service associated with the request. */
-            BaseRequestHandler(const YarpString & request,
-                               BaseService &      service);
+             @param service The service that has registered this request. */
+            ExtraInfoRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~BaseRequestHandler(void);
+            virtual ~ExtraInfoRequestHandler(void);
+            
+        protected :
+            
+        private :
             
             /*! @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(YarpStringVector & alternateNames) = 0;
+            virtual void fillInAliases(YarpStringVector & alternateNames);
             
             /*! @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
             virtual void fillInDescription(const YarpString &   request,
-                                           yarp::os::Property & info) = 0;
-            
-            /*! @brief Return the name of the request.
-             @returns The name of the request. */
-            inline const YarpString & name(void)
-            const
-            {
-                return _name;
-            } // name
+                                           yarp::os::Property & info);
             
             /*! @brief Process a request.
              @param request The actual request name.
@@ -100,35 +93,9 @@ namespace MplusM
             virtual bool processRequest(const YarpString &           request,
                                         const yarp::os::Bottle &     restOfInput,
                                         const YarpString &           senderChannel,
-                                        yarp::os::ConnectionWriter * replyMechanism) = 0;
+                                        yarp::os::ConnectionWriter * replyMechanism);
             
-            /*! @brief Send a response to a request.
-             @param reply The response to send.
-             @param replyMechanism The destination for the response. */
-            void sendResponse(yarp::os::Bottle &           reply,
-                              yarp::os::ConnectionWriter * replyMechanism);
-            
-            /*! @brief Send a response to a request.
-             @param reply The response to send.
-             @param replyMechanism The destination for the response. */
-            void sendResponse(const YarpString &           reply,
-                              yarp::os::ConnectionWriter * replyMechanism);
-            
-            /*! @brief Connect the handler to a map.
-             @param owner The map that contains this handler. */
-            void setOwner(RequestMap & owner);
-            
-        protected :
-            
-            /*! @brief The service that is associated with the request. */
-            BaseService & _service;
-            
-            /*! @brief The request map that 'owns' this handler. */
-            RequestMap * _owner;
-            
-        private :
-            
-            COPY_AND_ASSIGNMENT_(BaseRequestHandler);
+            COPY_AND_ASSIGNMENT_(ExtraInfoRequestHandler);
             
         public :
         
@@ -136,13 +103,13 @@ namespace MplusM
         
         private :
             
-            /*! @brief The name of the request. */
-            YarpString _name;
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
             
-        }; // BaseRequestHandler
+        }; // ExtraInfoRequestHandler
         
     } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMBaseRequestHandler_H_)
+#endif // ! defined(MpMExtraInfoRequestHandler_H_)

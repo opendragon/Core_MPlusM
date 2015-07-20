@@ -701,6 +701,8 @@
 		DFFFBFDC19D9A4B900BBD7A7 /* m+mKinectV2InputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2InputService.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2InputService.h"; sourceTree = SOURCE_ROOT; };
 		DFFFBFDD19D9A4B900BBD7A7 /* m+mKinectV2InputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2InputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2InputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
+		DFFFC1C41B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mExtraInfoRequestHandler.cpp"; path = "m+m/m+mExtraInfoRequestHandler.cpp"; sourceTree = "<group>"; };
+		DFFFC1C51B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mExtraInfoRequestHandler.h"; path = "m+m/m+mExtraInfoRequestHandler.h"; sourceTree = "<group>"; };
 		F64A5FE81A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapTwoFingersInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputListener.cpp"; sourceTree = SOURCE_ROOT; };
 		F64A5FE91A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoFingersInputListener.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputListener.h"; sourceTree = SOURCE_ROOT; };
 		F64A5FEA1A9BFB2D0015A21E /* m+mLeapTwoFingersInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoFingersInputRequests.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputRequests.h"; sourceTree = SOURCE_ROOT; };
@@ -1122,6 +1124,8 @@
 				DFEDCA191B46E0CD0034C881 /* m+mConfigureRequestHandler.h */,
 				DFEDCA1A1B46E0CD0034C881 /* m+mDetachRequestHandler.cpp */,
 				DFEDCA1B1B46E0CD0034C881 /* m+mDetachRequestHandler.h */,
+				DFFFC1C41B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.cpp */,
+				DFFFC1C51B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.h */,
 				DFEDCA2C1B46E0CD0034C881 /* m+mInfoRequestHandler.cpp */,
 				DFEDCA2D1B46E0CD0034C881 /* m+mInfoRequestHandler.h */,
 				DFEDCA301B46E0CD0034C881 /* m+mListRequestHandler.cpp */,

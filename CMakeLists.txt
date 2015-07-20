@@ -47,8 +47,8 @@ endif(WIN32)
 project(m+m)
 
 set(MpM_VERSION_MAJOR 1)
-set(MpM_VERSION_MINOR 5)
-set(MpM_VERSION_PATCH 7)
+set(MpM_VERSION_MINOR 6)
+set(MpM_VERSION_PATCH 0)
 set(MpM_VERSION_STRING "${MpM_VERSION_MAJOR}.${MpM_VERSION_MINOR}.${MpM_VERSION_PATCH}")
 set(MpM_COMPANY "H Plus Technologies Ltd. and Simon Fraser University")
 

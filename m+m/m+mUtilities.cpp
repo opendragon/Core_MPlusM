@@ -1294,6 +1294,84 @@ void Utilities::GatherPortConnections(const YarpString &    portName,
     OD_LOG_EXIT(); //####
 } // Utilities::GatherPortConnections
 
+bool Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
+                                           YarpStringVector & values,
+                                           const double       timeToWait,
+                                           CheckFunction      checker,
+                                           void *             checkStuff)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    OD_LOG_P2("values = ", &values, "checkStuff = ", checkStuff); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    bool            result = false;
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "configuration_/"
+                                               DEFAULT_CHANNEL_ROOT_));
+    ClientChannel * newChannel = new ClientChannel;
+    
+    values.clear();
+    if (newChannel)
+    {
+        if (newChannel->openWithRetries(aName, timeToWait))
+        {
+            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                          checkStuff))
+            {
+                yarp::os::Bottle parameters;
+                ServiceRequest   request(MpM_CONFIGURATION_REQUEST_, parameters);
+                ServiceResponse  response;
+                
+                if (request.send(*newChannel, response))
+                {
+                    OD_LOG_S1s("response <- ", response.asString()); //####
+                    // Note that only input / output services will respond to this request.
+                    if (response.asString() != MpM_UNRECOGNIZED_REQUEST_)
+                    {
+                        for (int ii = 0, howMany = response.count(); howMany > ii; ++ii)
+                        {
+                            yarp::os::Value aValue(response.element(ii));
+                            
+                            values.push_back(aValue.toString());
+                        }
+                        result = true;
+                    }
+                }
+                else
+                {
+                    OD_LOG("! (request.send(*newChannel, response))"); //####
+                }
+#if defined(MpM_DoExplicitDisconnect)
+                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
+                                                   checkStuff))
+                {
+                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
+                           "timeToWait, checker, checkStuff))"); //####
+                }
+#endif // defined(MpM_DoExplicitDisconnect)
+            }
+            else
+            {
+                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
+                       "false, checker, checkStuff))"); //####
+            }
+#if defined(MpM_DoExplicitClose)
+            newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+        }
+        else
+        {
+            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
+        }
+        delete newChannel;
+    }
+    else
+    {
+        OD_LOG("! (newChannel)"); //####
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::GetConfigurationForService
+
 int64_t Utilities::GetCurrentTimeInMilliseconds(void)
 {
     OD_LOG_ENTER(); //####
@@ -1405,6 +1483,102 @@ bool Utilities::GetDetectedPortList(PortVector & ports,
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // Utilities::GetDetectedPortList
+
+bool Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
+                                              YarpString &        extraInfo,
+                                              const double        timeToWait,
+                                              CheckFunction       checker,
+                                              void *              checkStuff)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    OD_LOG_P2("extraInfo = ", &extraInfo, "checkStuff = ", checkStuff); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    bool result = false;
+    
+    try
+    {
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "extraInfo_/"
+                                                   DEFAULT_CHANNEL_ROOT_));
+        ClientChannel * newChannel = new ClientChannel;
+        
+        if (newChannel)
+        {
+            if (newChannel->openWithRetries(aName, timeToWait))
+            {
+                if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                              checkStuff))
+                {
+                    yarp::os::Bottle parameters1;
+                    ServiceRequest   request1(MpM_EXTRAINFO_REQUEST_, parameters1);
+                    ServiceResponse  response1;
+                    
+                    if (request1.send(*newChannel, response1))
+                    {
+                        OD_LOG_S1s("response1 <- ", response1.asString()); //####
+                        if (MpM_EXPECTED_EXTRAINFO_RESPONSE_SIZE_ == response1.count())
+                        {
+                            yarp::os::Value theExtraInfo(response1.element(0));
+                            
+                            OD_LOG_S1s("theExtraInfo <- ", theExtraInfo.toString()); //####
+                            if (theExtraInfo.isString())
+                            {
+                                extraInfo = theExtraInfo.toString();
+                                result = true;
+                            }
+                            else
+                            {
+                                OD_LOG("! (theExtraInfo.isString())"); //####
+                            }
+                        }
+                        else
+                        {
+                            OD_LOG("! (MpM_EXPECTED_EXTRAINFO_RESPONSE_SIZE_ == " //####
+                                   "response1.count())"); //####
+                            OD_LOG_S1s("response1 = ", response1.asString()); //####
+                        }
+                    }
+                    else
+                    {
+                        OD_LOG("! (request1.send(*newChannel, response1))"); //####
+                    }
+#if defined(MpM_DoExplicitDisconnect)
+                    if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait,
+                                                       checker, checkStuff))
+                    {
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
+                               "timeToWait, checker, checkStuff))"); //####
+                    }
+#endif // defined(MpM_DoExplicitDisconnect)
+                }
+                else
+                {
+                    OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, "
+                           "timetoWait, false, checker, checkStuff))"); //####
+                }
+#if defined(MpM_DoExplicitClose)
+                newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
+            }
+            delete newChannel;
+        }
+        else
+        {
+            OD_LOG("! (newChannel)"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::GetExtraInformationForService
 
 YarpString Utilities::GetFileNameBase(const YarpString & inFileName)
 {
@@ -1520,9 +1694,6 @@ bool Utilities::GetMetricsForService(const YarpString & serviceChannelName,
                 {
                     OD_LOG("! (request.send(*newChannel, response))"); //####
                 }
-                if (result)
-                {
-                }
 #if defined(MpM_DoExplicitDisconnect)
                 if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
                                                    checkStuff))
@@ -1606,9 +1777,6 @@ bool Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
                 else
                 {
                     OD_LOG("! (request.send(*newChannel, response))"); //####
-                }
-                if (result)
-                {
                 }
 #if defined(MpM_DoExplicitDisconnect)
                 if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
@@ -1954,7 +2122,7 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
                         {
                             OD_LOG_S1s("response3 <- ", response3.asString()); //####
                             // Note that only input / output services will respond to this request.
-                            if (response3.asString() != UNRECOGNIZED_REQUEST_)
+                            if (response3.asString() != MpM_UNRECOGNIZED_REQUEST_)
                             {
                                 for (int ii = 0, howMany = response3.count();
                                      result && (howMany > ii); ++ii)
@@ -2938,6 +3106,75 @@ bool Utilities::RestartAService(const YarpString & serviceChannelName,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::RestartAService
+
+bool Utilities::SetConfigurationForService(const YarpString &       serviceChannelName,
+                                           const yarp::os::Bottle & newValues,
+                                           const double             timeToWait,
+                                           Common::CheckFunction    checker,
+                                           void *                   checkStuff)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
+    OD_LOG_P2("newValues = ", &newValues, "checkStuff = ", checkStuff); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
+    bool            result = false;
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "configure_/"
+                                               DEFAULT_CHANNEL_ROOT_));
+    ClientChannel * newChannel = new ClientChannel;
+    
+    if (newChannel)
+    {
+        if (newChannel->openWithRetries(aName, timeToWait))
+        {
+            if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                          checkStuff))
+            {
+                ServiceRequest  request(MpM_CONFIGURE_REQUEST_, newValues);
+                ServiceResponse response;
+                
+                if (request.send(*newChannel, response))
+                {
+                    OD_LOG_S1s("response <- ", response.asString()); //####
+                    result = true;
+                }
+                else
+                {
+                    OD_LOG("! (request.send(*newChannel, response))"); //####
+                }
+                if (result)
+                {
+                }
+#if defined(MpM_DoExplicitDisconnect)
+                if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait, checker,
+                                                   checkStuff))
+                {
+                    OD_LOG("(! NetworkDisconnectWithRetries(aName, destinationName, " //####
+                           "timeToWait, checker, checkStuff))"); //####
+                }
+#endif // defined(MpM_DoExplicitDisconnect)
+            }
+            else
+            {
+                OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, timetoWait, " //####
+                       "false, checker, checkStuff))"); //####
+            }
+#if defined(MpM_DoExplicitClose)
+            newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+        }
+        else
+        {
+            OD_LOG("! (newChannel->openWithRetries(aName, timeToWait))"); //####
+        }
+        delete newChannel;
+    }
+    else
+    {
+        OD_LOG("! (newChannel)"); //####
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // Utilities::SetConfigurationForService
 
 bool Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
                                           const bool         newMetricsState,

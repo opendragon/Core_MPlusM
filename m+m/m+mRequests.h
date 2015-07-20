@@ -83,6 +83,9 @@
 /*! @brief The name for the 'echo' request. */
 # define MpM_ECHO_REQUEST_                 "echo"
 
+/*! @brief The name for the 'extraInfo' request. */
+# define MpM_EXTRAINFO_REQUEST_            "extraInfo"
+
 /*! @brief The standard name for an 'info' request. */
 # define MpM_INFO_REQUEST_                 "info"
 
@@ -140,6 +143,9 @@
 /*! @brief The number of elements expected in the output of a 'detach' request. */
 # define MpM_EXPECTED_DETACH_RESPONSE_SIZE_          1
 
+/*! @brief The number of elements expected in the output of a 'extraInfo' request. */
+# define MpM_EXPECTED_EXTRAINFO_RESPONSE_SIZE_       1
+
 /*! @brief The number of elements expected in the output of a 'metricsState' request. */
 # define MpM_EXPECTED_METRICSSTATE_RESPONSE_SIZE_    1
 
@@ -177,10 +183,13 @@
 # define MpM_EXPECTED_WHERE_RESPONSE_SIZE_           2
 
 /*! @brief The standard response to an invalid %Registry Service request. */
-# define MpM_FAILED_RESPONSE_ "FAILED"
+# define MpM_FAILED_RESPONSE_      "FAILED"
 
 /*! @brief The standard response to a valid %Registry Service request. */
-# define MpM_OK_RESPONSE_     "OK"
+# define MpM_OK_RESPONSE_          "OK"
+
+/*! @brief The string returned for an unrecognized request. */
+# define MpM_UNRECOGNIZED_REQUEST_ "unrecognized request"
 
 /*! @brief The number of elements expected in the %Registry Service status message. */
 # define MpM_EXPECTED_REGISTRY_STATUS_SIZE_ 4
