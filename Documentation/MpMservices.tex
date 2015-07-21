@@ -111,8 +111,8 @@ They constitute the fundamental mechanism that is used by the
 The \requestsNameX{Basic}{Basic}{arguments} request returns a list of the original
 arguments given when the executable containing the active service was launched.\\
 
-It is used by the \emph{\MMMU} to record the actual arguments used to launch the
-executable containing a service.
+It is used by the \emph{\MMMU} application to record the actual arguments used to launch
+the executable containing a service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{arguments}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
@@ -142,17 +142,14 @@ It is used by all client applications and adapters, such as
 \examplesNameR{Clients}{m+mRunningSumClient}, to cleanly disconnect from their
 corresponding service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{detach}}
-\tertiaryStart{\requestsNameD{Basic}{Basic}{getMetrics}}
-The \requestsNameX{Basic}{Basic}{getMetrics} request returns measurements of the channels
-associated with a service.
-The measurements include the number of bytes and the number of messages sent and
-received on each channel.
-\tertiaryEnd{\requestsNameE{Basic}{Basic}{getMetrics}}
-\tertiaryStart{\requestsNameD{Basic}{Basic}{getMetricsState}}
-The \requestsNameX{Basic}{Basic}{getMetricsState} request returns the state of the metrics
-collection for the service, with \asCode{0} indicating that the metrics collection is
-disabled and \asCode{1} indicating that it is enabled.
-\tertiaryEnd{\requestsNameE{Basic}{Basic}{getMetricsState}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{extraInfo}}
+The \requestsNameX{Basic}{Basic}{extraInfo} request returns extra information from a
+service.
+The request details include the `extra information' returned by the
+\requestsNameR{Basic}{Basic}{name} request.\\
+
+It is used by the \emph{\MMMU} application to update the details for an active service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{extraInfo}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{info}}
 The \requestsNameX{Basic}{Basic}{info} request returns details about a single request
 handled by a service.
@@ -177,11 +174,23 @@ It is used by the \serviceNameR[\RS]{RegistryService} and the
 \utilityNameR{m+mRequestInfo} utility to gather information about the requests available
 from each active service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{metrics}}
+The \requestsNameX{Basic}{Basic}{metrics} request returns measurements of the channels
+associated with a service.
+The measurements include the number of bytes and the number of messages sent and
+received on each channel.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{metrics}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{metricsState}}
+The \requestsNameX{Basic}{Basic}{metricsState} request returns the state of the metrics
+collection for the service, with \asCode{0} indicating that the metrics collection is
+disabled and \asCode{1} indicating that it is enabled.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{metricsState}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{name}, alias:\ %
 \requestsNameA{Basic}{Basic}{n}}
 The \requestsNameX{Basic}{Basic}{name} request returns details about its service, in the
 form of the canonical name of the service, its description, its kind, the path to the
-executable for the service and a description of the requests for the service.\\
+executable for the service, some extra information and a description of the requests for
+the service.\\
 
 It is used by the \serviceNameR[\RS]{RegistryService} and the
 \utilityNameR{m+mServiceLister} and \emph{\MMMU} applications to collect basic information
@@ -250,6 +259,21 @@ are related to the service being removed.
 \secondaryStart[InputOutputRequests]{\inputOutput{}~Requests}
 These requests are implemented in all \mplusm{} \inputOutput{} services, via the
 \classNameR{Common}{BaseInputOutputService} class.
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{argumentDescriptions}}
+The \requestsNameX{\inputOutput}{InputOutput}{argumentDescriptions} request allows client
+applications to determine the format of the configuration data of the service.\\
+
+It is used by the \emph{\MMMU} application to set up the dialog that is used to configure
+services.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{argumentDescriptions}}
+
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{configuration}}
+The \requestsNameX{\inputOutput}{InputOutput}{configuration} request allows client
+applications to retrieve the current values for the configuration data of the service.\\
+
+It is used by the \emph{\MMMU} application to initialize the fields of the dialog that is
+used to configure services.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{configuration}}
 \tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{configure}}
 The \requestsNameX{\inputOutput}{InputOutput}{configure} request is available for
 \inputOutput{} services that require special setup information, such as a device

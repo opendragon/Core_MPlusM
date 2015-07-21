@@ -592,7 +592,5 @@ clean :
 	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_ARCHIVE)
 #	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
-#all : $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) $(MpMtarget) \
-#		$(NNtarget) $(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
 all : $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) $(MpMtarget) \
-		$(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
+		$(NNtarget) $(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
