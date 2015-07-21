@@ -46,13 +46,6 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
-if(WIN32)
-	#include_directories(${MpMNATNET_SOURCE_DIR}/NatNetInputService/KinectLib/inc)
-	#add_library(Kinect SHARED IMPORTED)
-	#set_property(TARGET NatNet PROPERTY IMPORTED_IMPLIB
-        #        ${MpMNATNET_SOURCE_DIR}/NatNetInputService/KinectLib/Lib/x86/Kinect20.lib)
-endif(WIN32)
-
 # Set up our program
 add_executable(${THIS_TARGET}
                m+mNatNetInputServiceMain.cpp
@@ -60,11 +53,26 @@ add_executable(${THIS_TARGET}
                m+mNatNetInputThread.cpp
                ${VERS_RESOURCE})
 
+if(WIN32)
+	include_directories("${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/include")
+	if(WIN64)
+		set(MpMNATNET_LIB_DIR "${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/lib/x64")
+	else(WIN64)
+		set(MpMNATNET_LIB_DIR "${MpMNATNET_SOURCE_DIR}/NatNetInputService/NatNetSDK/lib")
+	endif(WIN64)
+	add_library(NatNet SHARED IMPORTED)
+	set_property(TARGET NatNet PROPERTY IMPORTED_IMPLIB "${MpMNATNET_LIB_DIR}/NatNetLib.lib")
+	set_property(TARGET NatNet PROPERTY IMPORTED_LOCATION "${MpMNATNET_LIB_DIR}/NatNetLib.dll")
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+						"${MpMNATNET_LIB_DIR}"
+						$<TARGET_FILE_DIR:m+mNatNetInputService>)
+endif(WIN32)
+
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
 target_link_libraries(${THIS_TARGET}
                       m+mCommon
-#Kinect
+					  NatNet
                       odLogging
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
