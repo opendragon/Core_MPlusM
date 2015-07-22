@@ -46,6 +46,13 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
+# Set up our program
+add_executable(${THIS_TARGET}
+               m+mKinectV2InputServiceMain.cpp
+               m+mKinectV2EventThread.cpp
+               m+mKinectV2InputService.cpp
+               ${VERS_RESOURCE})
+
 if(WIN32)
 	include_directories(${MpMKINECTV2_SOURCE_DIR}/KinectV2InputService/KinectLib/inc)
 	if(WIN64)
@@ -56,17 +63,13 @@ if(WIN32)
 	add_library(Kinect SHARED IMPORTED)
 	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB "${MpMKINECT_LIB_DIR}/Kinect20.lib")
 	set_property(TARGET Kinect PROPERTY IMPORTED_LOCATION "${MpMKINECT_LIB_DIR}/Kinect20.dll")
+	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+						"${MpMKINECT_LIB_DIR}"
+						$<TARGET_FILE_DIR:m+mKinectV2InputService>)
 	install(FILES "${MpMKINECT_LIB_DIR}/Kinect20.dll"
 			DESTINATION bin
 			COMPONENT applications)
 endif(WIN32)
-
-# Set up our program
-add_executable(${THIS_TARGET}
-               m+mKinectV2InputServiceMain.cpp
-               m+mKinectV2EventThread.cpp
-               m+mKinectV2InputService.cpp
-               ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

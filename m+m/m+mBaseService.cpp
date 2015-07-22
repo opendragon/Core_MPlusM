@@ -853,7 +853,12 @@ void BaseService::startPinger(void)
     if ((! _pinger) && _endpoint)
     {
         _pinger = new PingThread(_endpoint->getName(), *this);
-        _pinger->start();
+		if (! _pinger->start())
+		{
+			OD_LOG("(! _pinger->start())"); //####
+			delete _pinger;
+			_pinger = NULL;
+		}
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseService::startPinger

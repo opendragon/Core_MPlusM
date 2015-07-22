@@ -543,7 +543,12 @@ void JavaScriptService::startStreams(void)
             {
                 _generator = new JavaScriptThread(_threadInterval, _context, _global,
                                                   _scriptThreadFunc);
-                _generator->start();
+				if ( !_generator->start())
+				{
+					OD_LOG("(! _generator->start())"); //####
+					delete _generator;
+					_generator = NULL;
+				}
             }
             else
             {
@@ -600,13 +605,16 @@ void JavaScriptService::stopStreams(void)
         {
             if (_isThreaded)
             {
-                _generator->stop();
-                for ( ; _generator->isRunning(); )
-                {
-                    yarp::os::Time::delay(_threadInterval / 3.9);
-                }
-                delete _generator;
-                _generator = NULL;
+				if (_generator)
+				{
+					_generator->stop();
+					for ( ; _generator->isRunning(); )
+					{
+						yarp::os::Time::delay(_threadInterval / 3.9);
+					}
+					delete _generator;
+					_generator = NULL;
+				}
             }
             else
             {

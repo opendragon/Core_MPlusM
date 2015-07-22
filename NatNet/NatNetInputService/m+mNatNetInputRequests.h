@@ -57,4 +57,10 @@
 /*! @brief The channel-independent name of the Natural Point %NatNet input service. */
 # define MpM_NATNETINPUT_CANONICAL_NAME_ "NatNetInput"
 
+/*! @brief The default port number to be used as the command port. */
+# define NATNETINPUT_DEFAULT_COMMAND_PORT_ 1510
+
+/*! @brief The default port number to be used as the data port. */
+# define NATNETINPUT_DEFAULT_DATA_PORT_ 1511
+
 #endif // ! defined(MpMNatNetInputRequests_H_)

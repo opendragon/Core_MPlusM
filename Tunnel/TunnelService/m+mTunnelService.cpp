@@ -198,16 +198,24 @@ bool TunnelService::start(void)
                 
                 _listenAddress = where.getHost();
                 _listenPort = -1;
-                if (_connection->isRunning())
-                {
-                    _connection->stop();
-                    for ( ; _connection->isRunning(); )
-                    {
-                        yarp::os::Time::delay(STANDARD_WAIT_TIME_ / 3.1);
-                    }
-                }
-                _connection->setSourceAddress(_sourceAddress, _sourcePort);
-                _connection->start();
+				if (_connection)
+				{
+					if (_connection->isRunning())
+					{
+						_connection->stop();
+						for ( ; _connection->isRunning(); )
+						{
+							yarp::os::Time::delay(STANDARD_WAIT_TIME_ / 3.1);
+						}
+					}
+					_connection->setSourceAddress(_sourceAddress, _sourcePort);
+					if (! _connection->start())
+					{
+						OD_LOG("(! _connection->start())"); //####
+						delete _connection;
+						_connection = NULL;
+					}
+				}
             }
             else
             {

@@ -122,8 +122,15 @@ static void setUpAndGo(const YarpString & progName,
             
             StartRunning();
             SetSignalHandlers(SignalRunningStop);
-            aService->startChecker();
-            reporter->start();
+			if (reporter->start())
+			{
+				aService->startChecker();
+			}
+			else
+			{
+				delete reporter;
+				reporter = NULL;
+			}
             for ( ; IsRunning(); )
             {
 #if defined(MpM_MainDoesDelayNotYield)
@@ -132,12 +139,15 @@ static void setUpAndGo(const YarpString & progName,
                 yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
             }
-            reporter->stop();
-            for ( ; reporter->isRunning(); )
-            {
-                yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 3.1);
-            }
-            delete reporter;
+			if (reporter)
+			{
+				reporter->stop();
+				for ( ; reporter->isRunning(); )
+				{
+					yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 3.1);
+				}
+				delete reporter;
+			}
             if (reportOnExit)
             {
                 yarp::os::Bottle metrics;

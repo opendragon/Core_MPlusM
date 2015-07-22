@@ -53,7 +53,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_NATNETINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/naturalpoint")
+# define DEFAULT_NATNETINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/natnet")
 
 /*! @brief The description of the service. */
 # define NATNETINPUT_SERVICE_DESCRIPTION_ T_("NatNet input service")
@@ -139,14 +139,17 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputService inherited;
             
-            /*! @brief The output thread to use. */
-            NatNetInputThread * _generator;
-            
-            /*! @brief The number of seconds between data bursts. */
-            double _burstPeriod;
-            
-            /*! @brief The number of values in each data burst. */
-            int _burstSize;
+			/*! @brief The name of the Natural Point %NatNet device server. */
+			YarpString _hostName;
+
+			/*! @brief The command port to connect to the Natural Point %NatNet device server. */
+			int _commandPort;
+
+			/*! @brief The data port to connect to the Natural Point %NatNet device server. */
+			int _dataPort;
+
+			/*! @brief The output thread to use. */
+            NatNetInputThread * _eventThread;
             
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

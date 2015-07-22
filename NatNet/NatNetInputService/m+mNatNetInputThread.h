@@ -41,6 +41,9 @@
 
 # include <m+m/m+mGeneralChannel.h>
 
+# include <NatNetTypes.h>
+# include <NatNetClient.h>
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -51,6 +54,9 @@
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
+
+/*! @brief The number of characters allowed in an IP address string. */
+# define IPADDRESS_BUFFER_SIZE 256
 
 namespace MplusM
 {
@@ -66,8 +72,9 @@ namespace MplusM
              @param timeToWait The number of seconds to delay before triggering.
              @param numValues The number of values to send in each burst. */
             NatNetInputThread(Common::GeneralChannel * outChannel,
-                              const double             timeToWait,
-                              const int                numValues);
+				              const YarpString &       name,
+				              const int                commandPort,
+				              const int                dataPort);
             
             /*! @brief The destructor. */
             virtual ~NatNetInputThread(void);
@@ -75,6 +82,10 @@ namespace MplusM
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
             
+			/*! @brief Send a message via the output channel.
+			@param message The message to send. */
+			void sendMessage(yarp::os::Bottle & message);
+
         protected :
             
         private :
@@ -113,25 +124,24 @@ namespace MplusM
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
             
-            /*! @brief The time at which the thread will send data. */
-            double _nextTime;
+			/*! @brief The address of the Natural Point %NatNet device. */
+			YarpString _address;
+
+			/*! @brief The command port of the Natural Point %NatNet device. */
+			int _commandPort;
+
+			/*! @brief The command port of the Natural Point %NatNet device. */
+			int _dataPort;
             
-            /*! @brief The number of seconds to delay before triggering. */
-            double _timeToWait;
-            
-            /*! @brief The number of values to send in each burst. */
-            int _numValues;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
+			/*! @brief The connection to the Natural Point %NatNet device. */
+			NatNetClient * _client;
+
+			/*! @brief The local copy of the client IP address. */
+			char _clientIPAddress[IPADDRESS_BUFFER_SIZE];
+
+			/*! @brief The local copy of the server IP address. */
+			char _serverIPAddress[IPADDRESS_BUFFER_SIZE];
+
         }; // NatNetInputThread
         
     } // NatNet

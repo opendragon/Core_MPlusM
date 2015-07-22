@@ -345,7 +345,7 @@ static void setUpAndGo(const YarpString &  channelName,
                     {
                         cout << "[ ";
                     }
-                    for (int ii = 0; ii < matchesCount; ++ii)
+                    for (size_t ii = 0; ii < matchesCount; ++ii)
                     {
                         YarpString aMatch(services[ii]);
 

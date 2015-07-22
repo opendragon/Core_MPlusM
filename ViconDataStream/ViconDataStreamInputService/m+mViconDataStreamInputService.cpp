@@ -262,8 +262,16 @@ void ViconDataStreamInputService::startStreams(void)
 
 			nameAndPort << _hostName.c_str() << ":" << _hostPort;
             _eventThread = new ViconDataStreamEventThread(getOutletStream(0), nameAndPort.str());
-            _eventThread->start();
-            setActive();
+			if (_eventThread->start())
+			{
+				setActive();
+			}
+			else
+			{
+				OD_LOG("! (_eventThread->start())"); //####
+				delete _eventThread;
+				_eventThread = NULL;
+			}
         }
     }
     catch (...)
@@ -299,13 +307,16 @@ void ViconDataStreamInputService::stopStreams(void)
     {
         if (isActive())
         {
-            _eventThread->stop();
-            for ( ; _eventThread->isRunning(); )
-            {
-                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-            }
-            delete _eventThread;
-            _eventThread = NULL;
+			if (_eventThread)
+			{
+				_eventThread->stop();
+				for ( ; _eventThread->isRunning(); )
+				{
+					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+				}
+				delete _eventThread;
+				_eventThread = NULL;
+			}
             clearActive();
         }
     }

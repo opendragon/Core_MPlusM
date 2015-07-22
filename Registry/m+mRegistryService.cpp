@@ -2618,7 +2618,12 @@ void RegistryService::startChecker(void)
     {
         _checker = new RegistryCheckThread(*this);
         OD_LOG_P1("_checker <- ", _checker); //####
-        _checker->start();
+		if (! _checker->start())
+		{
+			OD_LOG("(! _checker->start())"); //####
+			delete _checker;
+			_checker = NULL;
+		}
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::startChecker

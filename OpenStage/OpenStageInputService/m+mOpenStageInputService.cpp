@@ -253,8 +253,16 @@ void OpenStageInputService::startStreams(void)
 		if (! isActive())
         {
 			_eventThread = new OpenStageInputThread(getOutletStream(0), _hostName, _hostPort);
-			_eventThread->start();
-            setActive();
+			if (_eventThread->start())
+			{
+				setActive();
+			}
+			else
+			{
+				OD_LOG("! (_eventThread->start())"); //####
+				delete _eventThread;
+				_eventThread = NULL;
+			}
         }
     }
     catch (...)
@@ -290,13 +298,16 @@ void OpenStageInputService::stopStreams(void)
     {
 		if (isActive())
         {
-			_eventThread->stop();
-			for (; _eventThread->isRunning();)
-            {
-				yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-            }
-            delete _eventThread;
-            _eventThread = NULL;
+			if (_eventThread)
+			{
+				_eventThread->stop();
+				for ( ; _eventThread->isRunning();)
+				{
+					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+				}
+				delete _eventThread;
+				_eventThread = NULL;
+			}
             clearActive();
         }
     }

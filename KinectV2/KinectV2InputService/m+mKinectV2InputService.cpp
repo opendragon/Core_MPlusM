@@ -240,8 +240,16 @@ void KinectV2InputService::startStreams(void)
         if (! isActive())
         {
             _eventThread = new KinectV2EventThread(getOutletStream(0));
-            _eventThread->start();
-            setActive();
+            if (_eventThread->start())
+			{
+				setActive();
+			}
+			else
+			{
+				OD_LOG("! (_eventThread->start())"); //####
+				delete _eventThread;
+				_eventThread = NULL;
+			}
         }
     }
     catch (...)
@@ -277,13 +285,16 @@ void KinectV2InputService::stopStreams(void)
     {
         if (isActive())
         {
-            _eventThread->stop();
-            for ( ; _eventThread->isRunning(); )
-            {
-                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-            }
-            delete _eventThread;
-            _eventThread = NULL;
+			if (_eventThread)
+			{
+				_eventThread->stop();
+				for ( ; _eventThread->isRunning(); )
+				{
+					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+				}
+				delete _eventThread;
+				_eventThread = NULL;
+			}
             clearActive();
         }
     }

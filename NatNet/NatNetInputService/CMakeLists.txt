@@ -66,6 +66,10 @@ if(WIN32)
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
 						"${MpMNATNET_LIB_DIR}"
 						$<TARGET_FILE_DIR:m+mNatNetInputService>)
+	install(FILES
+			"${MpMNATNET_LIB_DIR}/NatNetLib.dll"
+			DESTINATION bin
+			COMPONENT applications)			
 endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

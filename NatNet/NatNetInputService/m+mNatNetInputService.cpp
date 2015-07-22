@@ -94,7 +94,8 @@ NatNetInputService::NatNetInputService(const Utilities::DescriptorVector & argum
                                        const YarpString &                  servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_NATNETINPUT_CANONICAL_NAME_,
               NATNETINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _generator(NULL), _burstPeriod(1), _burstSize(1)
+    _commandPort(NATNETINPUT_DEFAULT_COMMAND_PORT_), _dataPort(NATNETINPUT_DEFAULT_DATA_PORT_),
+	_eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -123,29 +124,35 @@ bool NatNetInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (2 == details.size())
-        {
-            yarp::os::Value firstValue(details.get(0));
-            yarp::os::Value secondValue(details.get(1));
-            
-            if (firstValue.isDouble() && secondValue.isInt())
-            {
-                double firstNumber = firstValue.asDouble();
-                int    secondNumber = secondValue.asInt();
-                
-                if ((0 < firstNumber) && (0 < secondNumber))
-                {
-                    std::stringstream buff;
-                    
-                    _burstPeriod = firstNumber;
-                    _burstSize = secondNumber;
-                    buff << "Burst period is " << _burstPeriod << ", burst size is " << _burstSize;
-                    setExtraInformation(buff.str());
-                    result = true;
-                }
-            }
-        }
-    }
+		if (3 == details.size())
+		{
+			yarp::os::Value firstValue(details.get(0));
+			yarp::os::Value secondValue(details.get(1));
+			yarp::os::Value thirdValue(details.get(2));
+
+			if (firstValue.isString() && secondValue.isInt() && thirdValue.isInt())
+			{
+				int secondNumber = secondValue.asInt();
+				int thirdNumber = thirdValue.asInt();
+
+				if ((0 < secondNumber) && (0 < thirdNumber))
+				{
+					std::stringstream buff;
+
+					_hostName = firstValue.asString();
+					OD_LOG_S1s("_hostName <- ", _hostName); //####
+					_commandPort = secondNumber;
+					OD_LOG_LL1("_commandPort <- ", _commandPort); //####
+					_dataPort = thirdNumber;
+					OD_LOG_LL1("_dataPort <- ", _dataPort); //####
+					buff << "Host name is '" << _hostName.c_str() << "', command port is " <<
+						_commandPort << ", data port is " << _dataPort;
+					setExtraInformation(buff.str());
+					result = true;
+				}
+			}
+		}
+	}
     catch (...)
     {
         OD_LOG("Exception caught"); //####
@@ -162,8 +169,9 @@ bool NatNetInputService::getConfiguration(yarp::os::Bottle & details)
     bool result = true;
 
     details.clear();
-    details.addDouble(_burstPeriod);
-    details.addInt(_burstSize);
+	details.addString(_hostName);
+	details.addInt(_commandPort);
+	details.addInt(_dataPort);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // NatNetInputService::getConfiguration
@@ -194,9 +202,9 @@ bool NatNetInputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-    description._portProtocol = "d+";
-    description._protocolDescription = "One or more numeric values";
-    _outDescriptions.push_back(description);
+	description._portProtocol = "NN";
+	description._protocolDescription = "A dictionary with position values";
+	_outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // NatNetInputService::setUpStreamDescriptions
@@ -206,9 +214,9 @@ bool NatNetInputService::shutDownOutputStreams(void)
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-    if (_generator)
+    if (_eventThread)
     {
-        _generator->clearOutputChannel();
+		_eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -248,9 +256,17 @@ void NatNetInputService::startStreams(void)
     {
         if (! isActive())
         {
-            _generator = new NatNetInputThread(getOutletStream(0), _burstPeriod, _burstSize);
-            _generator->start();
-            setActive();
+			_eventThread = new NatNetInputThread(getOutletStream(0), _hostName, _commandPort, _dataPort);
+			if (_eventThread->start())
+			{
+				setActive();
+			}
+			else
+			{
+				OD_LOG("! (_eventThread->start())"); //####
+				delete _eventThread;
+				_eventThread = NULL;
+			}
         }
     }
     catch (...)
@@ -286,13 +302,17 @@ void NatNetInputService::stopStreams(void)
     {
         if (isActive())
         {
-            _generator->stop();
-            for ( ; _generator->isRunning(); )
-            {
-                yarp::os::Time::delay(_burstSize / 3.9);
-            }
-            delete _generator;
-            _generator = NULL;
+			if (_eventThread)
+			{
+
+				_eventThread->stop();
+				for ( ; _eventThread->isRunning(); )
+				{
+					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+				}
+				delete _eventThread;
+				_eventThread = NULL;
+			}
             clearActive();
         }
     }

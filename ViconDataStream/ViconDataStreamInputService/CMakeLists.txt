@@ -98,14 +98,19 @@ if(WIN32)
 		set_property(TARGET BoostPython PROPERTY IMPORTED_LOCATION "${MpMVICON_BOOST3_DLL}")
 		add_library(BoostSystem SHARED IMPORTED)
 		set_property(TARGET BoostSystem PROPERTY IMPORTED_LOCATION "${MpMVICON_BOOST4_DLL}")
+		install(FILES
+				"${MpMVICON_BOOST1_DLL}"
+				"${MpMVICON_BOOST2_DLL}"
+				"${MpMVICON_BOOST3_DLL}"
+				"${MpMVICON_BOOST4_DLL}"
+				DESTINATION bin
+				COMPONENT applications)			
+	else(WIN64)
+		install(FILES
+				"${MpMVICON_BOOST1_DLL}"
+				DESTINATION bin
+				COMPONENT applications)			
 	endif(WIN64)
-	install(FILES
-			"${MpMVICON_BOOST1_DLL}"
-			"${MpMVICON_BOOST2_DLL}"
-			"${MpMVICON_BOOST3_DLL}"
-			"${MpMVICON_BOOST4_DLL}"
-            DESTINATION bin
-            COMPONENT applications)			
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                         "${MpMVICON_LIB_DIR}"
                         $<TARGET_FILE_DIR:m+mViconDataStreamInputService>)

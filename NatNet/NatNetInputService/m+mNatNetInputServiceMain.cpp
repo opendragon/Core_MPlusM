@@ -36,9 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
+#include "m+mNatNetInputRequests.h"
 #include "m+mNatNetInputService.h"
 
-#include <m+m/m+mBaseArgumentDescriptor.h>
+#include <m+m/m+mAddressArgumentDescriptor.h>
+#include <m+m/m+mPortArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mUtilities.h>
 
@@ -166,15 +168,30 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                        goWasSet = false;
-        bool                        nameWasSet = false; // not used
-        bool                        reportOnExit = false;
-        bool                        stdinAvailable = CanReadFromStandardInput();
-        YarpString                  serviceEndpointName;
-        YarpString                  servicePortNumber;
-        YarpString                  tag;
-        Utilities::DescriptorVector argumentList;
+        bool                                 goWasSet = false;
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        bool                                 stdinAvailable = CanReadFromStandardInput();
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+		Utilities::AddressArgumentDescriptor firstArg("hostname",
+			                                          T_("IP address for the device server"),
+			                                          Utilities::kArgModeOptionalModifiable,
+			                                          SELF_ADDRESS_NAME_);
+		Utilities::PortArgumentDescriptor    secondArg("command",
+			                                           T_("Command port for the device server"),
+			                                           Utilities::kArgModeOptionalModifiable,
+			                                           NATNETINPUT_DEFAULT_COMMAND_PORT_, false);
+		Utilities::PortArgumentDescriptor    thirdArg("data",
+			                                          T_("Data port for the device server"),
+			                                          Utilities::kArgModeOptionalModifiable,
+													  NATNETINPUT_DEFAULT_DATA_PORT_, false);
+		Utilities::DescriptorVector          argumentList;
 
+		argumentList.push_back(&firstArg);
+		argumentList.push_back(&secondArg);
+		argumentList.push_back(&thirdArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_NATNETINPUT_SERVICE_NAME_,
                                           NATNETINPUT_SERVICE_DESCRIPTION_, "", 2015,

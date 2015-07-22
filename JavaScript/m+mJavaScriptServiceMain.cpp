@@ -1065,7 +1065,7 @@ static bool addArgvObject(JSContext *              jct,
             JS::RootedValue anElement(jct);
             JS::RootedId    aRootedId(jct);
             
-            for (int ii = 0; okSoFar && (argc > ii); ++ii)
+            for (size_t ii = 0; okSoFar && (argc > ii); ++ii)
             {
                 const char * anArg = argv[ii].c_str();
                 
@@ -1101,7 +1101,7 @@ static bool addArgvObject(JSContext *              jct,
                 }
                 if (okSoFar)
                 {
-                    if (JS_IndexToId(jct, ii, &aRootedId))
+                    if (JS_IndexToId(jct, static_cast<uint32_t>(ii), &aRootedId))
                     {
                         JS_SetPropertyById(jct, argObject, aRootedId, anElement);
                     }

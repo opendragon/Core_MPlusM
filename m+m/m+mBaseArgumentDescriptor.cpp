@@ -494,14 +494,14 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     }
     // Check the arguments with matching descriptions, unless it is a placeholder for extra
     // arguments.
-    for (int ii = 0; result && (numToCheck > ii); ++ii)
+    for (size_t ii = 0; result && (numToCheck > ii); ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
         if (anArg && (! anArg->isExtra()))
         {
             OD_LOG("(anArg && (! anArg->isExtra()))"); //####
-            result = anArg->validate(parseResult.nonOption(ii));
+            result = anArg->validate(parseResult.nonOption(static_cast<int>(ii)));
             OD_LOG_B1("result <- ", result); //####
         }
     }

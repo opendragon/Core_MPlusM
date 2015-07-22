@@ -268,8 +268,16 @@ void OpenStageBlobInputService::startStreams(void)
         {
             _eventThread = new OpenStageBlobInputThread(getOutletStream(0), _hostName, _hostPort);
             _eventThread->setScale(_translationScale);
-			_eventThread->start();
-            setActive();
+			if (_eventThread->start())
+			{
+				setActive();
+			}
+			else
+			{
+				OD_LOG("! (_eventThread->start())"); //####
+				delete _eventThread;
+				_eventThread = NULL;
+			}
         }
     }
     catch (...)
@@ -305,13 +313,16 @@ void OpenStageBlobInputService::stopStreams(void)
     {
         if (isActive())
         {
-            _eventThread->stop();
-			for (; _eventThread->isRunning();)
-            {
-				yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-            }
-            delete _eventThread;
-            _eventThread = NULL;
+			if (_eventThread)
+			{
+				_eventThread->stop();
+				for ( ; _eventThread->isRunning();)
+				{
+					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+				}
+				delete _eventThread;
+				_eventThread = NULL;
+			}
             clearActive();
         }
     }

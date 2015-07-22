@@ -251,8 +251,16 @@ void RandomBurstInputService::startStreams(void)
         if (! isActive())
         {
             _generator = new RandomBurstInputThread(getOutletStream(0), _burstPeriod, _burstSize);
-            _generator->start();
-            setActive();
+			if (_generator->start())
+			{
+				setActive();
+			}
+			else
+			{
+				OD_LOG("! (generator->start())"); //####
+				delete _generator;
+				_generator = NULL;
+			}
         }
     }
     catch (...)
@@ -288,13 +296,16 @@ void RandomBurstInputService::stopStreams(void)
     {
         if (isActive())
         {
-            _generator->stop();
-            for ( ; _generator->isRunning(); )
-            {
-                yarp::os::Time::delay(_burstSize / 3.9);
-            }
-            delete _generator;
-            _generator = NULL;
+			if (_generator)
+			{
+				_generator->stop();
+				for ( ; _generator->isRunning(); )
+				{
+					yarp::os::Time::delay(_burstSize / 3.9);
+				}
+				delete _generator;
+				_generator = NULL;
+			}
             clearActive();
         }
     }
