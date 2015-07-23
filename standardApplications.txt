@@ -10,6 +10,7 @@ m+mLeapBlobInputService
 m+mLeapMotionInputService
 m+mLeapTwoFingersInputService
 m+mLeapTwoPalmsInputService
+m+mNatNetBlobInputService
 m+mNatNetInputService
 m+mOpenStageBlobInputService
 m+mOpenStageInputService
