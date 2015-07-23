@@ -64,6 +64,8 @@ using namespace MplusM::NatNet;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+//#define REPORT_NATNET_MESSAGES_ /* if defined, be verbose */
+
 /*! @brief The connection mode for the client object. */
 #define NATNET_CONNECTION_MODE_ 0 /* 0=multicast, 1=unicast */
 
@@ -152,13 +154,29 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
 	OD_LOG_EXIT(); //####
 } // dataReceived
 
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
 static void __cdecl messageReceived(int    messageType,
 	                                char * message)
 {
+#if ((! defined(OD_ENABLE_LOGGING)) || (! defined(REPORT_NATNET_MESSAGES_)))
+# if MAC_OR_LINUX_
+#  pragma unused(messageType,message)
+# endif // MAC_OR_LINUX_
+#endif // (! defined(OD_ENABLE_LOGGING)) || (! defined(REPORT_NATNET_MESSAGES_))
 	OD_LOG_ENTER(); //####
+	OD_LOG_LL1("messageType = ", messageType); //####
+	OD_LOG_S1("message = ", message); //####
+#if defined(REPORT_NATNET_MESSAGES_)
 	std::cerr << messageType << ": " << message << std::endl;
+#endif // defined(REPORT_NATNET_MESSAGES_)
 	OD_LOG_EXIT(); //####
 } // messageReceived
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Class methods
