@@ -1,5 +1,5 @@
 \ProvidesFile{OSmessageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format}
+\primaryStart{The~Message~Format: \OSI}
 Each time that the Organic Motion OpenStage controller reports that there is information
 available, the \asCode{OpenStageInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
@@ -16,10 +16,10 @@ Z\closeSq{} of the `translation' of the joint
 \item\exSp\textbf{rotation} The rotation quaternion \openSq{}x, y, z, w\closeSq{} for the
 joint
 \end{itemize}
-\primaryEnd{}
+\primaryEnd
 \primaryStart{The~Message~Format: \OSBI}
 Each time that the Organic Motion OpenStage controller reports that there is information
-available, the \asCode{OpenStageInputService} packages it into a single message
+available, the \asCode{OpenStageBlobInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing a single binary blob, with the following
 format:
 \begin{itemize}

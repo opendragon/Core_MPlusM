@@ -63,7 +63,6 @@
 		DF1C1C8F1B41B2A800E816A4 /* m+mNatNetInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mNatNetInputService.h"; path = "NatNet/NatNetInputService/m+mNatNetInputService.h"; sourceTree = SOURCE_ROOT; };
 		DF1C1C901B41B2A800E816A4 /* m+mNatNetInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputThread.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputThread.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1C1C911B41B2A800E816A4 /* m+mNatNetInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mNatNetInputThread.h"; path = "NatNet/NatNetInputService/m+mNatNetInputThread.h"; sourceTree = SOURCE_ROOT; };
-		DF1C1C921B41B2A800E816A4 /* m+mNatNetServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetServiceMain.cpp"; path = "NatNet/NatNetInputService/m+mNatNetServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF1C1C931B41B2A800E816A4 /* m+mNatNetInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetInputService.rc.in"; sourceTree = SOURCE_ROOT; };
 		DF1C1C941B41B2A800E816A4 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = NatNet/NatNetInputService/resource.h; sourceTree = SOURCE_ROOT; };
 		DF1C1C951B42F44900E816A4 /* m+mMatchRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mMatchRequestHandler.cpp"; path = "Registry/m+mMatchRequestHandler.cpp"; sourceTree = "<group>"; };
@@ -703,6 +702,14 @@
 		DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = stdafx.h; path = KinectV2/KinectV2InputService/stdafx.h; sourceTree = SOURCE_ROOT; };
 		DFFFC1C41B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mExtraInfoRequestHandler.cpp"; path = "m+m/m+mExtraInfoRequestHandler.cpp"; sourceTree = "<group>"; };
 		DFFFC1C51B5D8F2D00DA3C4D /* m+mExtraInfoRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mExtraInfoRequestHandler.h"; path = "m+m/m+mExtraInfoRequestHandler.h"; sourceTree = "<group>"; };
+		DFFFC1C61B6129B900DA3C4D /* m+mNatNetBlobInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputThread.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFC1C71B6129B900DA3C4D /* m+mNatNetBlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mNatNetBlobInputRequests.h"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputRequests.h"; sourceTree = SOURCE_ROOT; };
+		DFFFC1C81B6129B900DA3C4D /* m+mNatNetBlobInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputService.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFC1C91B6129B900DA3C4D /* m+mNatNetBlobInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mNatNetBlobInputService.h"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.h"; sourceTree = SOURCE_ROOT; };
+		DFFFC1CA1B6129B900DA3C4D /* m+mNatNetBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetBlobInputServiceMain.cpp"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFC1CB1B6129B900DA3C4D /* m+mNatNetBlobInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mNatNetBlobInputThread.h"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputThread.h"; sourceTree = SOURCE_ROOT; };
+		DFFFC1CC1B6129B900DA3C4D /* m+mNatNetInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mNatNetInputServiceMain.cpp"; path = "NatNet/NatNetInputService/m+mNatNetInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetBlobInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.rc.in"; sourceTree = SOURCE_ROOT; };
 		F64A5FE81A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapTwoFingersInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputListener.cpp"; sourceTree = SOURCE_ROOT; };
 		F64A5FE91A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoFingersInputListener.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputListener.h"; sourceTree = SOURCE_ROOT; };
 		F64A5FEA1A9BFB2D0015A21E /* m+mLeapTwoFingersInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoFingersInputRequests.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputRequests.h"; sourceTree = SOURCE_ROOT; };
@@ -1983,12 +1990,19 @@
 			isa = PBXGroup;
 			children = (
 				DF1C1C8C1B41B2A800E816A4 /* CMakeLists.txt */,
+				DFFFC1C71B6129B900DA3C4D /* m+mNatNetBlobInputRequests.h */,
+				DFFFC1C81B6129B900DA3C4D /* m+mNatNetBlobInputService.cpp */,
+				DFFFC1C91B6129B900DA3C4D /* m+mNatNetBlobInputService.h */,
+				DFFFC1CA1B6129B900DA3C4D /* m+mNatNetBlobInputServiceMain.cpp */,
+				DFFFC1C61B6129B900DA3C4D /* m+mNatNetBlobInputThread.cpp */,
+				DFFFC1CB1B6129B900DA3C4D /* m+mNatNetBlobInputThread.h */,
+				DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */,
 				DF1C1C8D1B41B2A800E816A4 /* m+mNatNetInputRequests.h */,
 				DF1C1C8E1B41B2A800E816A4 /* m+mNatNetInputService.cpp */,
 				DF1C1C8F1B41B2A800E816A4 /* m+mNatNetInputService.h */,
+				DFFFC1CC1B6129B900DA3C4D /* m+mNatNetInputServiceMain.cpp */,
 				DF1C1C901B41B2A800E816A4 /* m+mNatNetInputThread.cpp */,
 				DF1C1C911B41B2A800E816A4 /* m+mNatNetInputThread.h */,
-				DF1C1C921B41B2A800E816A4 /* m+mNatNetServiceMain.cpp */,
 				DF1C1C931B41B2A800E816A4 /* m+mNatNetInputService.rc.in */,
 				DF1C1C941B41B2A800E816A4 /* resource.h */,
 			);

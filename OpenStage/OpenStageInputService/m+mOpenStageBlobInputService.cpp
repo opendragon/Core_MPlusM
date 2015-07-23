@@ -212,8 +212,9 @@ bool OpenStageBlobInputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-    description._portProtocol = "OM";
-    description._protocolDescription = "A dictionary with position values";
+    description._portProtocol = "b";
+    description._protocolDescription = T_("A binary blob containing the segment positions and "
+                                          "directions");
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

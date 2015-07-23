@@ -138,7 +138,7 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 	{
 		std::stringstream outBuffer;
 
-		// Write out the number of hands == bodies.
+		// Write out the number of actors == bodies.
 		outBuffer << numActors << LINE_END_;
 		for (size_t ii = 0; ii < numActors; ++ii)
 		{

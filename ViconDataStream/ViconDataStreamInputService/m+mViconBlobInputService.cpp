@@ -213,7 +213,7 @@ bool ViconBlobInputService::setUpStreamDescriptions(void)
     _outDescriptions.clear();
     description._portName = rootName + "output";
     description._portProtocol = "b";
-    description._protocolDescription = T_("A binary blob containing the finger positions and "
+    description._protocolDescription = T_("A binary blob containing the segment positions and "
                                           "directions");
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####

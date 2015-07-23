@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mNatNetInputService.cpp
+//  File:       m+mNatNetBlobInputService.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the Natural Point NatNet input service.
+//  Contains:   The class definition for the Natural Point NatNet Blob input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-04-13
+//  Created:    2015-07-23
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mNatNetInputService.h"
+#include "m+mNatNetBlobInputService.h"
 
-#include "m+mNatNetInputRequests.h"
-#include "m+mNatNetInputThread.h"
+#include "m+mNatNetBlobInputRequests.h"
+#include "m+mNatNetBlobInputThread.h"
 
 #include <m+m/m+mEndpoint.h>
 
@@ -52,7 +52,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the Natural Point %NatNet input service. */
+ @brief The class definition for the Natural Point %NatNet %Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -85,17 +85,20 @@ using namespace MplusM::NatNet;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-NatNetInputService::NatNetInputService(const Utilities::DescriptorVector & argumentList,
-                                       const YarpString &                  launchPath,
-                                       const int                           argc,
-                                       char * *                            argv,
-                                       const YarpString &                  tag,
-                                       const YarpString &                  serviceEndpointName,
-                                       const YarpString &                  servicePortNumber) :
-    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_NATNETINPUT_CANONICAL_NAME_,
-              NATNETINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _commandPort(NATNETINPUT_DEFAULT_COMMAND_PORT_), _dataPort(NATNETINPUT_DEFAULT_DATA_PORT_),
-	_eventThread(NULL)
+NatNetBlobInputService::NatNetBlobInputService(const Utilities::DescriptorVector & argumentList,
+                                               const YarpString &                  launchPath,
+                                               const int                           argc,
+                                               char * *                            argv,
+                                               const YarpString &                  tag,
+                                               const YarpString &
+                                                                                serviceEndpointName,
+                                               const YarpString &
+                                                                                servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_NATNETBLOBINPUT_CANONICAL_NAME_,
+              NATNETBLOBINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+    _hostName(SELF_ADDRESS_NAME_), _translationScale(1),
+    _commandPort(NATNETBLOBINPUT_DEFAULT_COMMAND_PORT_),
+    _dataPort(NATNETBLOBINPUT_DEFAULT_DATA_PORT_), _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -103,20 +106,20 @@ NatNetInputService::NatNetInputService(const Utilities::DescriptorVector & argum
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_EXIT_P(this); //####
-} // NatNetInputService::NatNetInputService
+} // NatNetBlobInputService::NatNetBlobInputService
 
-NatNetInputService::~NatNetInputService(void)
+NatNetBlobInputService::~NatNetBlobInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     OD_LOG_OBJEXIT(); //####
-} // NatNetInputService::~NatNetInputService
+} // NatNetBlobInputService::~NatNetBlobInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool NatNetInputService::configure(const yarp::os::Bottle & details)
+bool NatNetBlobInputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -124,29 +127,40 @@ bool NatNetInputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-		if (3 == details.size())
+		if (4 == details.size())
 		{
 			yarp::os::Value firstValue(details.get(0));
 			yarp::os::Value secondValue(details.get(1));
 			yarp::os::Value thirdValue(details.get(2));
+            yarp::os::Value fourthValue(details.get(3));
 
-			if (firstValue.isString() && secondValue.isInt() && thirdValue.isInt())
+			if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
+                thirdValue.isInt() && fourthValue.isInt())
 			{
-				int secondNumber = secondValue.asInt();
 				int thirdNumber = thirdValue.asInt();
+                int fourthNumber = fourthValue.asInt();
 
-				if ((0 < secondNumber) && (0 < thirdNumber))
+                if (firstValue.isDouble())
+                {
+                    _translationScale = firstValue.asDouble();
+                }
+                else
+                {
+                    _translationScale = firstValue.asInt();
+                }
+				if ((0 < _translationScale) && (0 < thirdNumber) && (0 < fourthNumber))
 				{
 					std::stringstream buff;
 
-					_hostName = firstValue.asString();
+					_hostName = secondValue.asString();
 					OD_LOG_S1s("_hostName <- ", _hostName); //####
-					_commandPort = secondNumber;
+					_commandPort = thirdNumber;
 					OD_LOG_LL1("_commandPort <- ", _commandPort); //####
-					_dataPort = thirdNumber;
+					_dataPort = fourthNumber;
 					OD_LOG_LL1("_dataPort <- ", _dataPort); //####
-					buff << "Host name is '" << _hostName.c_str() << "', command port is " <<
-                            _commandPort << ", data port is " << _dataPort;
+					buff << "Translation scale is " << _translationScale << ", host name is '" <<
+                            _hostName.c_str() << "', command port is " << _commandPort <<
+                            ", data port is " << _dataPort;
 					setExtraInformation(buff.str());
 					result = true;
 				}
@@ -160,9 +174,9 @@ bool NatNetInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NatNetInputService::configure
+} // NatNetBlobInputService::configure
 
-bool NatNetInputService::getConfiguration(yarp::os::Bottle & details)
+bool NatNetBlobInputService::getConfiguration(yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -174,9 +188,9 @@ bool NatNetInputService::getConfiguration(yarp::os::Bottle & details)
 	details.addInt(_dataPort);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NatNetInputService::getConfiguration
+} // NatNetBlobInputService::getConfiguration
 
-void NatNetInputService::restartStreams(void)
+void NatNetBlobInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -191,9 +205,9 @@ void NatNetInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // NatNetInputService::restartStreams
+} // NatNetBlobInputService::restartStreams
 
-bool NatNetInputService::setUpStreamDescriptions(void)
+bool NatNetBlobInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -202,14 +216,15 @@ bool NatNetInputService::setUpStreamDescriptions(void)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-	description._portProtocol = "NN";
-	description._protocolDescription = "A list of dictionaries with position values";
+    description._portProtocol = "b";
+    description._protocolDescription = T_("A binary blob containing the segment positions and "
+                                          "directions");
 	_outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NatNetInputService::setUpStreamDescriptions
+} // NatNetBlobInputService::setUpStreamDescriptions
 
-bool NatNetInputService::shutDownOutputStreams(void)
+bool NatNetBlobInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -220,9 +235,9 @@ bool NatNetInputService::shutDownOutputStreams(void)
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // NatNetInputService::shutDownOutputStreams
+} // NatNetBlobInputService::shutDownOutputStreams
 
-bool NatNetInputService::start(void)
+bool NatNetBlobInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -247,17 +262,18 @@ bool NatNetInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // NatNetInputService::start
+} // NatNetBlobInputService::start
 
-void NatNetInputService::startStreams(void)
+void NatNetBlobInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-			_eventThread = new NatNetInputThread(getOutletStream(0), _hostName, _commandPort,
-                                                 _dataPort);
+			_eventThread = new NatNetBlobInputThread(getOutletStream(0), _hostName, _commandPort,
+                                                     _dataPort);
+            _eventThread->setScale(_translationScale);
 			if (_eventThread->start())
 			{
 				setActive();
@@ -276,9 +292,9 @@ void NatNetInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // NatNetInputService::startStreams
+} // NatNetBlobInputService::startStreams
 
-bool NatNetInputService::stop(void)
+bool NatNetBlobInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -294,9 +310,9 @@ bool NatNetInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NatNetInputService::stop
+} // NatNetBlobInputService::stop
 
-void NatNetInputService::stopStreams(void)
+void NatNetBlobInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -323,7 +339,7 @@ void NatNetInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // NatNetInputService::stopStreams
+} // NatNetBlobInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions
