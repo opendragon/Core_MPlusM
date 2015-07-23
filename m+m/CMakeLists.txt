@@ -116,6 +116,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/m+m/m+mStopRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mStopStreamsRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mStringArgumentDescriptor.cpp"
+            "${MpM_SOURCE_DIR}/m+m/m+mStringBuffer.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mUtilities.cpp")
 
 target_link_libraries(${THIS_TARGET}
@@ -196,58 +197,60 @@ install(FILES
         "${MpM_SOURCE_DIR}/m+m/m+mServiceRequest.h"
         "${MpM_SOURCE_DIR}/m+m/m+mServiceResponse.h"
         "${MpM_SOURCE_DIR}/m+m/m+mStringArgumentDescriptor.h"
+        "${MpM_SOURCE_DIR}/m+m/m+mStringBuffer.h"
         "${MpM_SOURCE_DIR}/m+m/m+mUtilities.h"
         DESTINATION include/m+m
 		COMPONENT headers)
 
 if(MpM_DO_SWIG)
     set(MPM_SWIG_SOURCES swig_m+m_in/m+mCommon.i
-        M+MAddressArgumentDescriptor.h M+MAddressArgumentDescriptor.cpp
-        M+MBaseArgumentDescriptor.h M+MBaseArgumentDescriptor.cpp
-        M+MBailOut.h M+MBailOut.cpp
-        M+MBailOutThread.h M+MBailOutThread.cpp
-        M+MBaseAdapterData.h M+MBaseAdapterData.cpp
-        M+MBaseAdapterService.h M+MBaseAdapterService.cpp
-        M+MBaseChannel.h M+MBaseChannel.cpp
-        M+MBaseClient.h M+MBaseClient.cpp
-        M+MBaseContext.h M+MBaseContext.cpp
-        M+MBaseFilterService.h M+MBaseFilterService.cpp
-        M+MBaseInputHandler.h M+MBaseInputHandler.cpp
-        M+MBaseInputHandlerCreator.h M+MBaseInputHandlerCreator.cpp
-        M+MBaseInputOutputService.h M+MBaseInputOutputService.cpp
-        M+MBaseInputService.h M+MBaseInputService.cpp
-        M+MBaseMatcher.h M+MBaseMatcher.cpp
-        M+MBaseNameValidator.h M+MBaseNameValidator.cpp
-        M+MBaseOutputService.h M+MBaseOutputService.cpp
-        M+MBaseRequestHandler.h M+MBaseRequestHandler.cpp
-        M+MBaseService.h M+MBaseService.cpp
-        M+MChannelArgumentDescriptor.h M+MChannelArgumentDescriptor.cpp
-        M+MChannelStatusReporter.h M+MChannelStatusReporter.cpp
-        M+MClientChannel.h M+MClientChannel.cpp
-        M+MCommon.h M+MCommon.cpp
-        M+MDoubleArgumentDescriptor.h M+MDoubleArgumentDescriptor.cpp
-        M+MEndpoint.h M+MEndpoint.cpp
-        M+MException.h M+MException.cpp
-        M+MExtraArgumentDescriptor.h M+MExtraArgumentDescriptor.cpp
-        M+MFilePathArgumentDescriptor.h M+MFilePathArgumentDescriptor.cpp
-        M+MGeneralChannel.h M+MGeneralChannel.cpp
-        M+MIntArgumentDescriptor.h M+MIntArgumentDescriptor.cpp
-        M+MMatchConstraint.h M+MMatchConstraint.cpp
-        M+MMatchExpression.h M+MMatchExpression.cpp
-        M+MMatchFieldName.h M+MMatchFieldName.cpp
-        M+MMatchFieldWithValues.h M+MMatchFieldWithValues.cpp
-        M+MMatchValue.h M+MMatchValue.cpp
-        M+MMatchValueList.h M+MMatchValueList.cpp
-        M+MPortArgumentDescriptor.h M+MPortArgumentDescriptor.cpp
-        M+MRequestMap.h M+MRequestMap.cpp
-        M+MSendReceiveCounters.h M+MSendReceiveCounters.cpp
-        M+MServiceChannel.h M+MServiceChannel.cpp
-        M+MServiceInputHandler.h M+MServiceInputHandler.cpp
-        M+MServiceInputHandlerCreator.h M+MServiceInputHandlerCreator.cpp
-        M+MServiceRequest.h M+MServiceRequest.cpp
-        M+MServiceResponse.h M+MServiceResponse.cpp
-        M+MStringArgumentDescriptor.h M+MStringArgumentDescriptor.cpp
-        M+MUtilities.h M+MUtilities.cpp)
+        m+mAddressArgumentDescriptor.h m+mAddressArgumentDescriptor.cpp
+        m+mBaseArgumentDescriptor.h m+mBaseArgumentDescriptor.cpp
+        m+mBailOut.h m+mBailOut.cpp
+        m+mBailOutThread.h m+mBailOutThread.cpp
+        m+mBaseAdapterData.h m+mBaseAdapterData.cpp
+        m+mBaseAdapterService.h m+mBaseAdapterService.cpp
+        m+mBaseChannel.h m+mBaseChannel.cpp
+        m+mBaseClient.h m+mBaseClient.cpp
+        m+mBaseContext.h m+mBaseContext.cpp
+        m+mBaseFilterService.h m+mBaseFilterService.cpp
+        m+mBaseInputHandler.h m+mBaseInputHandler.cpp
+        m+mBaseInputHandlerCreator.h m+mBaseInputHandlerCreator.cpp
+        m+mBaseInputOutputService.h m+mBaseInputOutputService.cpp
+        m+mBaseInputService.h m+mBaseInputService.cpp
+        m+mBaseMatcher.h m+mBaseMatcher.cpp
+        m+mBaseNameValidator.h m+mBaseNameValidator.cpp
+        m+mBaseOutputService.h m+mBaseOutputService.cpp
+        m+mBaseRequestHandler.h m+mBaseRequestHandler.cpp
+        m+mBaseService.h m+mBaseService.cpp
+        m+mChannelArgumentDescriptor.h m+mChannelArgumentDescriptor.cpp
+        m+mChannelStatusReporter.h m+mChannelStatusReporter.cpp
+        m+mClientChannel.h m+mClientChannel.cpp
+        m+mCommon.h m+mCommon.cpp
+        m+mDoubleArgumentDescriptor.h m+mDoubleArgumentDescriptor.cpp
+        m+mEndpoint.h m+mEndpoint.cpp
+        m+mException.h m+mException.cpp
+        m+mExtraArgumentDescriptor.h m+mExtraArgumentDescriptor.cpp
+        m+mFilePathArgumentDescriptor.h m+mFilePathArgumentDescriptor.cpp
+        m+mGeneralChannel.h m+mGeneralChannel.cpp
+        m+mIntArgumentDescriptor.h m+mIntArgumentDescriptor.cpp
+        m+mMatchConstraint.h m+mMatchConstraint.cpp
+        m+mMatchExpression.h m+mMatchExpression.cpp
+        m+mMatchFieldName.h m+mMatchFieldName.cpp
+        m+mMatchFieldWithValues.h m+mMatchFieldWithValues.cpp
+        m+mMatchValue.h m+mMatchValue.cpp
+        m+mMatchValueList.h m+mMatchValueList.cpp
+        m+mPortArgumentDescriptor.h m+mPortArgumentDescriptor.cpp
+        m+mRequestMap.h m+mRequestMap.cpp
+        m+mSendReceiveCounters.h m+mSendReceiveCounters.cpp
+        m+mServiceChannel.h m+mServiceChannel.cpp
+        m+mServiceInputHandler.h m+mServiceInputHandler.cpp
+        m+mServiceInputHandlerCreator.h m+mServiceInputHandlerCreator.cpp
+        m+mServiceRequest.h m+mServiceRequest.cpp
+        m+mServiceResponse.h m+mServiceResponse.cpp
+        m+mStringArgumentDescriptor.h m+mStringArgumentDescriptor.cpp
+        m+mStringBuffer.h m+mStringBuffer.cpp
+        m+mUtilities.h m+mUtilities.cpp)
 
     include_directories("${MpM_SOURCE_DIR}/m+m")
     set_source_files_properties(swig_m+m_in/m+mCommon.i PROPERTIES CPLUSPLUS ON)
