@@ -107,6 +107,9 @@ namespace MplusM
                 return _currentLength;
             } // length
             
+			/*! @brief Prepare the buffer for reuse. */
+			void reset(void);
+
         protected :
             
         private :

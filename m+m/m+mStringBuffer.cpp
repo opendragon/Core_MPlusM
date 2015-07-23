@@ -221,13 +221,20 @@ void StringBuffer::addString(const YarpString & aString)
     OD_LOG_OBJEXIT(); //####
 } // StringBuffer::addString
 
+void StringBuffer::reset(void)
+{
+	OD_LOG_OBJENTER(); //####
+	_currentLength = 0;
+	OD_LOG_OBJEXIT(); //####
+} // StringBuffer::reset
+
 void StringBuffer::setSize(const size_t newSize)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("newSize = ", newSize); //####
     char * newBuffer = new char[newSize];
     
-    if (_buffer)
+    if (_buffer && (0 < _currentLength))
     {
         memcpy(newBuffer, _buffer, _currentLength);
     }
