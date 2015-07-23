@@ -302,6 +302,8 @@ m+mMovementDbClient
 m+mMovementDbClient.rc
 m+mMovementDbService
 m+mMovementDbService.rc
+m+mNatNetBlobInputService
+m+mNatNetBlobInputService.rc
 m+mNatNetInputService
 m+mNatNetInputService.rc
 m+mOpenStageBlobInputService

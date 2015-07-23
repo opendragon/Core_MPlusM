@@ -183,6 +183,7 @@ bool NatNetBlobInputService::getConfiguration(yarp::os::Bottle & details)
     bool result = true;
 
     details.clear();
+	details.addDouble(_translationScale);
 	details.addString(_hostName);
 	details.addInt(_commandPort);
 	details.addInt(_dataPort);

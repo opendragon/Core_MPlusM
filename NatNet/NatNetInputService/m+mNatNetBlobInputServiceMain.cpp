@@ -40,6 +40,7 @@
 #include "m+mNatNetBlobInputService.h"
 
 #include <m+m/m+mAddressArgumentDescriptor.h>
+#include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mPortArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mUtilities.h>
@@ -186,11 +187,12 @@ int main(int      argc,
         Utilities::PortArgumentDescriptor    thirdArg("command",
                                                       T_("Command port for the device server"),
                                                       Utilities::kArgModeOptionalModifiable,
-                                                      NATNETINPUT_DEFAULT_COMMAND_PORT_, false);
+                                                      NATNETBLOBINPUT_DEFAULT_COMMAND_PORT_,
+													  false);
         Utilities::PortArgumentDescriptor    fourthArg("data",
                                                        T_("Data port for the device server"),
                                                        Utilities::kArgModeOptionalModifiable,
-                                                       NATNETINPUT_DEFAULT_DATA_PORT_, false);
+                                                       NATNETBLOBINPUT_DEFAULT_DATA_PORT_, false);
 		Utilities::DescriptorVector          argumentList;
 
 		argumentList.push_back(&firstArg);

@@ -90,6 +90,14 @@ namespace MplusM
              @param newScale The scale factor for translation values. */
             void setScale(const double newScale);
             
+			/*! @brief Return the translation scale.
+			@returns The translation scale. */
+			double translationScale(void)
+			const
+			{
+				return _translationScale;
+			} // translationScale
+
         protected :
             
         private :
@@ -130,6 +138,9 @@ namespace MplusM
             
 			/*! @brief The address of the Natural Point %NatNet device. */
 			YarpString _address;
+
+			/*! @brief The translation scale to be used. */
+			double _translationScale;
 
 			/*! @brief The command port of the Natural Point %NatNet device. */
 			int _commandPort;

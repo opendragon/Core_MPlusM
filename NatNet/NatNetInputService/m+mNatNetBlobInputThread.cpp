@@ -89,7 +89,8 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
 
 	if (aFrame && theThread)
 	{
-		int numSkeletons = aFrame->nSkeletons;
+		double scale = theThread->translationScale();
+		int    numSkeletons = aFrame->nSkeletons;
 
 		if (0 < numSkeletons)
 		{
@@ -107,14 +108,14 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
                 {
                     sRigidBodyData & aBone = aSkel.RigidBodyData[jj];
                     
-                    outBuffer << aBone.ID << "\t" << (aBone.x * _scale) << "\t" <<
-                                (aBone.y * _scale) << "\t" << (aBone.z * _scale) << "\t" <<
-                                aBone.qx << "\t" << aBone.qy << "\t" << aBone.qz << "\t" <<
-                                aBone.qw << LINE_END_;
+                    outBuffer << aBone.ID << "\t" << (aBone.x * scale) << "\t" <<
+								(aBone.y * scale) << "\t" << (aBone.z * scale) << "\t" <<
+								aBone.qx << "\t" << aBone.qy << "\t" << aBone.qz << "\t" <<
+								aBone.qw << LINE_END_;
                 }
             }
             outBuffer << "END" << LINE_END_;
-			theThread->sendMessage(message);
+			theThread->sendMessage(outBuffer.str().c_str());
 		}
 	}
 	OD_LOG_EXIT(); //####
@@ -153,11 +154,11 @@ static void __cdecl messageReceived(int    messageType,
 #endif // defined(__APPLE__)
 
 NatNetBlobInputThread::NatNetBlobInputThread(Common::GeneralChannel * outChannel,
-	                                 const YarpString &       name,
-	                                 const int                commandPort,
-	                                 const int                dataPort) :
-    inherited(), _outChannel(outChannel), _address(name), _commandPort(commandPort),
-	_dataPort(dataPort), _client(NULL)
+											 const YarpString &       name,
+											 const int                commandPort,
+											 const int                dataPort) :
+    inherited(), _outChannel(outChannel), _address(name), _translationScale(1),
+	_commandPort(commandPort), _dataPort(dataPort), _client(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -237,7 +238,7 @@ void NatNetBlobInputThread::setScale(const double newScale)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("newScale = ", newScale); //####
-    _scale = newScale;
+    _translationScale = newScale;
     OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::setScale
 

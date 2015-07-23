@@ -118,11 +118,11 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef yarp::os::Thread inherited;
             
-            /*! @brief The translation scale to be used. */
-            double _scale;
-                        
 			/*! @brief The address of the Organic Motion %OpenStage device. */
 			YarpString _address;
+
+			/*! @brief The translation scale to be used. */
+			double _scale;
 
 			/*! @brief The port of the Organic Motion %OpenStage device. */
 			int _port;

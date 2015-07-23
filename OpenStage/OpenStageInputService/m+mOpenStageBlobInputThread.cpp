@@ -101,7 +101,7 @@ using namespace om;
 OpenStageBlobInputThread::OpenStageBlobInputThread(Common::GeneralChannel * outChannel,
                                                    const YarpString &       name,
                                                    const int                port) :
-	inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
+	inherited(), _address(name), _scale(1), _port(port), _outChannel(outChannel), _client(NULL),
 	_actorStream(NULL), _actorViewJoint(NULL)
 {
     OD_LOG_ENTER(); //####
