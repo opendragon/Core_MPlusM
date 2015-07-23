@@ -117,38 +117,38 @@ called by the output thread of the service
 The following sequence of actions occur when a \JS{} file is loaded and run:
 \begin{itemize}
 \item The \JS{} environment is set up
-\item\exSp{} The \JS{} file is read from disk and any global statements are executed
-\item\exSp{} The \asCode{scriptDescription} value is retrieved (or the
+\item\exSp{}The \JS{} file is read from disk and any global statements are executed
+\item\exSp{}The \asCode{scriptDescription} value is retrieved (or the
 \asCode{scriptDescription}() function is executed to get a value)
-\item\exSp{} The \asCode{scriptHelp} value is retrieved, if it is present
-\item\exSp{} The \asCode{scriptThread}() function is located, if present
-\item\exSp{} If there was no \asCode{scriptThread}() function defined, the
+\item\exSp{}The \asCode{scriptHelp} value is retrieved, if it is present
+\item\exSp{}The \asCode{scriptThread}() function is located, if present
+\item\exSp{}If there was no \asCode{scriptThread}() function defined, the
 \asCode{scriptInlets} value is retrieved (or the\\
 \asCode{scriptInlets}() function is executed to get a value)
-\item\exSp{} The \asCode{scriptOutlets} value is retrieved (or the
+\item\exSp{}The \asCode{scriptOutlets} value is retrieved (or the
 \asCode{scriptOutlets}() function is executed to get a value)
-\item\exSp{} The \asCode{scriptStarting}() function is located, if present
-\item\exSp{} The \asCode{scriptStopping}() function is located, if present
-\item\exSp{} If there was a \asCode{scriptThread}() function defined, the
+\item\exSp{}The \asCode{scriptStarting}() function is located, if present
+\item\exSp{}The \asCode{scriptStopping}() function is located, if present
+\item\exSp{}If there was a \asCode{scriptThread}() function defined, the
 \asCode{scriptInterval} value is retrieved (or the\\
 \asCode{scriptInterval}() function is executed to get a value)
-\item\exSp{} The required inlets and outlets are created
-\item\exSp{} The service is started
+\item\exSp{}The required inlets and outlets are created
+\item\exSp{}The service is started
 \begin{itemize}
 \item If the \asCode{scriptStarting}() function was defined, it is executed
-\item\exSp{} If the \asCode{scriptThread}() function was defined, a thread is created and
+\item\exSp{}If the \asCode{scriptThread}() function was defined, a thread is created and
 given the \asCode{scriptThread}() function to be executed
-\item\exSp{} If the \asCode{scriptThread}() function was not defined, input handlers are
+\item\exSp{}If the \asCode{scriptThread}() function was not defined, input handlers are
 created for each inlet and given the \asCode{handler}() function from their inlet
 description
 \end{itemize}
-\item\exSp{} The service is stopped
+\item\exSp{}The service is stopped
 \begin{itemize}
 \item If the \asCode{scriptThread}() function was defined, the thread is stopped and
 destroyed
-\item\exSp{} If the \asCode{scriptThread}() function was not defined, the input handlers
+\item\exSp{}If the \asCode{scriptThread}() function was not defined, the input handlers
 for each inlet are deactivated
-\item\exSp{} If the \asCode{scriptStopping}() function was defined, it is executed
+\item\exSp{}If the \asCode{scriptStopping}() function was defined, it is executed
 \end{itemize}
 \end{itemize}
 \secondaryEnd

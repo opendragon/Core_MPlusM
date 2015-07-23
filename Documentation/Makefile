@@ -196,7 +196,12 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/configureBlobOutputService.eps \
 		$(IMAGE_DIR)/runningTruncateFloatFilterService.eps \
 		$(IMAGE_DIR)/runningTunnelService.eps
 
-NNbitmapepsfiles =
+NNbitmapepsfiles = $(IMAGE_DIR)/configureNatNetBlobInputService.eps \
+		$(IMAGE_DIR)/configureNatNetInputService.eps \
+		$(IMAGE_DIR)/launchNatNetBlobInputService.eps \
+		$(IMAGE_DIR)/launchNatNetInputService.eps \
+		$(IMAGE_DIR)/runningNatNetBlobInputService.eps \
+		$(IMAGE_DIR)/runningNatNetInputService.eps
 
 OSbitmapepsfiles = $(IMAGE_DIR)/configureOpenStageBlobInputService.eps \
 		$(IMAGE_DIR)/configureOpenStageInputService.eps \
