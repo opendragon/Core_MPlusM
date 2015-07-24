@@ -176,12 +176,8 @@ bool RGBLEDRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
-        {
-            yarp::os::Bottle argsCopy(restOfInput);
-            
-            sendResponse(argsCopy, replyMechanism);
-        }
+        _response = restOfInput;
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

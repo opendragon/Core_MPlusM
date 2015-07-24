@@ -174,14 +174,9 @@ bool MetricsStateRequestHandler::processRequest(const YarpString &           req
     
     try
     {
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            
-            reply.addInt(_service.metricsAreEnabled() ? 1 : 0);
-            sendResponse(reply, replyMechanism);
-        }
+        _response.clear();
+        _response.addInt(_service.metricsAreEnabled() ? 1 : 0);
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

@@ -172,7 +172,7 @@ bool StopSumRequestHandler::processRequest(const YarpString &           request,
     try
     {
         _service.detachClient(senderChannel);
-        sendResponse(MpM_OK_RESPONSE_, replyMechanism);
+        sendOKResponse(replyMechanism);
     }
     catch (...)
     {

@@ -165,18 +165,14 @@ bool ArgumentsRequestHandler::processRequest(const YarpString &           reques
     
     try
     {
-        if (replyMechanism)
+        const YarpStringVector & args = _service.getArguments();
+        
+        _response.clear();
+        for (size_t ii = 0, mm = args.size(); mm > ii; ++ii)
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle         reply;
-            const YarpStringVector & args = _service.getArguments();
-            
-            for (size_t ii = 0, mm = args.size(); mm > ii; ++ii)
-            {
-                reply.addString(args[ii]);
-            }
-            sendResponse(reply, replyMechanism);
+            _response.addString(args[ii]);
         }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

@@ -173,13 +173,8 @@ bool EchoRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle argsCopy(restOfInput);
-            
-            sendResponse(argsCopy, replyMechanism);
-        }
+        _response = restOfInput;
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

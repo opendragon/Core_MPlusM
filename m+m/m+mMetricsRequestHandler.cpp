@@ -174,14 +174,9 @@ bool MetricsRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            
-            _service.gatherMetrics(reply);
-            sendResponse(reply, replyMechanism);
-        }
+        _response.clear();
+        _service.gatherMetrics(_response);
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

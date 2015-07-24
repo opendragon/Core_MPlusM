@@ -185,14 +185,9 @@ bool ExtraInfoRequestHandler::processRequest(const YarpString &           reques
     
     try
     {
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            
-            reply.addString(_service.extraInformation());
-            sendResponse(reply, replyMechanism);
-        }
+        _response.clear();
+        _response.addString(_service.extraInformation());
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

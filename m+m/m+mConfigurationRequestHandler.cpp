@@ -173,21 +173,14 @@ bool ConfigurationRequestHandler::processRequest(const YarpString &           re
     
     try
     {
-        yarp::os::Bottle response;
-        bool             success =
-                        static_cast<BaseInputOutputService &>(_service).getConfiguration(response);
-
-        if (replyMechanism)
+        _response.clear();
+        if (! static_cast<BaseInputOutputService &>(_service).getConfiguration(_response))
         {
-            OD_LOG("(replyMechanism)"); //####
-            if (! success)
-            {
-                response.clear();
-                response.addString(MpM_FAILED_RESPONSE_);
-                response.addString("Problem getting service configuration");
-            }
-            sendResponse(response, replyMechanism);
+            _response.clear();
+            _response.addString(MpM_FAILED_RESPONSE_);
+            _response.addString("Problem getting service configuration");
         }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

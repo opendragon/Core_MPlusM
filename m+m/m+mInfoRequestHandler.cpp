@@ -162,21 +162,16 @@ bool InfoRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
+        _response.clear();
+        if (_owner && (1 == restOfInput.size()))
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            
-            if (_owner && (1 == restOfInput.size()))
-            {
-                _owner->fillInRequestInfo(reply, restOfInput.get(0).toString());
-            }
-            else
-            {
-                OD_LOG("! (_owner && (1 == restOfInput.size()))"); //####
-            }
-            sendResponse(reply, replyMechanism);
+            _owner->fillInRequestInfo(_response, restOfInput.get(0).toString());
         }
+        else
+        {
+            OD_LOG("! (_owner && (1 == restOfInput.size()))"); //####
+        }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

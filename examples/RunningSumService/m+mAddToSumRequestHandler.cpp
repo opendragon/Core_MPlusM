@@ -162,10 +162,10 @@ bool AddToSumRequestHandler::processRequest(const YarpString &           request
     
     try
     {
-        double           total = 0.0;
-        int              count = restOfInput.size();
-        yarp::os::Bottle response;
+        double total = 0.0;
+        int    count = restOfInput.size();
         
+        _response.clear();
         if (1 <= count)
         {
             int tally = 0;
@@ -189,22 +189,22 @@ bool AddToSumRequestHandler::processRequest(const YarpString &           request
             }
             if (tally)
             {
-                response.addDouble(total);
+                _response.addDouble(total);
             }
             else
             {
                 OD_LOG("! (tally)"); //####
-                response.addString(MpM_FAILED_RESPONSE_);
-                response.addString("No numeric values in list");
+                _response.addString(MpM_FAILED_RESPONSE_);
+                _response.addString("No numeric values in list");
             }
         }
         else
         {
             OD_LOG("! (1 <= count)"); //####
-            response.addString(MpM_FAILED_RESPONSE_);
-            response.addString("No values provided");
+            _response.addString(MpM_FAILED_RESPONSE_);
+            _response.addString("No values provided");
         }
-        sendResponse(response, replyMechanism);
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

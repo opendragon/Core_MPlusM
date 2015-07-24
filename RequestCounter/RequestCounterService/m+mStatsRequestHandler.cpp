@@ -173,19 +173,15 @@ bool StatsRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response;
-            double           elapsedTime;
-            long             counter;
-            
-            static_cast<RequestCounterService &>(_service).getStatistics(senderChannel, counter,
-                                                                         elapsedTime);
-            response.addInt(static_cast<int>(counter));
-            response.addDouble(elapsedTime);
-            sendResponse(response, replyMechanism);
-        }
+        double elapsedTime;
+        long   counter;
+        
+        static_cast<RequestCounterService &>(_service).getStatistics(senderChannel, counter,
+                                                                     elapsedTime);
+        _response.clear();
+        _response.addInt(static_cast<int>(counter));
+        _response.addDouble(elapsedTime);
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

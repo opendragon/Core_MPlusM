@@ -158,14 +158,9 @@ bool Test09DefaultRequestHandler::processRequest(const YarpString &           re
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
-    if (replyMechanism)
-    {
-        OD_LOG("(replyMechanism)"); //####
-        yarp::os::Bottle argsCopy(name());
-        
-        argsCopy.append(restOfInput);
-        sendResponse(argsCopy, replyMechanism);
-    }
+    _response = name();
+    _response.append(restOfInput);
+    sendResponse(replyMechanism);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // Test09DefaultRequestHandler::processRequest

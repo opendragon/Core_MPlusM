@@ -40,6 +40,7 @@
 #include "m+mBaseRequestHandler.h"
 
 #include <m+m/m+mBaseService.h>
+#include <m+m/m+mRequests.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -102,59 +103,56 @@ BaseRequestHandler::~BaseRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseRequestHandler::sendResponse(yarp::os::Bottle &           reply,
-                                      yarp::os::ConnectionWriter * replyMechanism)
+void BaseRequestHandler::sendOKResponse(yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("reply = ", reply.toString()); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     if (replyMechanism)
     {
         OD_LOG("(replyMechanism)"); //####
         size_t messageSize = 0;
         
+        _response.clear();
+        _response.addString(MpM_OK_RESPONSE_);
         if (_service.metricsAreEnabled())
         {
-            reply.toBinary(&messageSize);
+            _response.toBinary(&messageSize);
         }
-        if (reply.write(*replyMechanism))
+        if (_response.write(*replyMechanism))
         {
             _service.updateResponseCounters(messageSize);
         }
         else
         {
-            OD_LOG("(! reply.write(*replyMechanism))"); //####
+            OD_LOG("(! _response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)
         }
     }
     OD_LOG_OBJEXIT(); //####
-} // BaseRequestHandler::sendResponse
+} // BaseRequestHandler::sendOKResponse
 
-void BaseRequestHandler::sendResponse(const YarpString &           reply,
-                                      yarp::os::ConnectionWriter * replyMechanism)
+void BaseRequestHandler::sendResponse(yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("reply = ", reply); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     if (replyMechanism)
     {
         OD_LOG("(replyMechanism)"); //####
-        yarp::os::Bottle response(reply);
-        size_t           messageSize = 0;
-        
-        if (_service.metricsAreEnabled())
+        if (_response.write(*replyMechanism))
         {
-            response.toBinary(&messageSize);
-        }
-        if (response.write(*replyMechanism))
-        {
-            _service.updateResponseCounters(messageSize);
+            if (_service.metricsAreEnabled())
+            {
+                size_t messageSize = 0;
+                
+                _response.toBinary(&messageSize);
+                _service.updateResponseCounters(messageSize);
+            }
         }
         else
         {
-            OD_LOG("(! response(*replyMechanism))"); //####
+            OD_LOG("(! _response.write(*replyMechanism))"); //####
 #if defined(MpM_StallOnSendProblem)
             Stall();
 #endif // defined(MpM_StallOnSendProblem)

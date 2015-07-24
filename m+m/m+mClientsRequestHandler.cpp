@@ -162,21 +162,17 @@ bool ClientsRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
+        YarpStringVector clients;
+        
+        _service.fillInClientList(clients);
+        _response.clear();
+        for (size_t ii = 0, mm = clients.size(); mm > ii; ++ii)
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            YarpStringVector clients;
+            const YarpString & aString = clients.at(ii);
             
-            _service.fillInClientList(clients);
-            for (size_t ii = 0, mm = clients.size(); mm > ii; ++ii)
-            {
-                const YarpString & aString = clients.at(ii);
-                
-                reply.addString(aString.c_str());
-            }
-            sendResponse(reply, replyMechanism);
+            _response.addString(aString.c_str());
         }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

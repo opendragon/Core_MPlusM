@@ -172,7 +172,7 @@ bool ResetCounterRequestHandler::processRequest(const YarpString &           req
     try
     {
         static_cast<RequestCounterService &>(_service).resetCounters(senderChannel);
-        sendResponse(MpM_OK_RESPONSE_, replyMechanism);
+        sendOKResponse(replyMechanism);
     }
     catch (...)
     {

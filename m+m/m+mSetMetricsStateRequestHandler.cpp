@@ -192,11 +192,7 @@ bool SetMetricsStateRequestHandler::processRequest(const YarpString &           
                 }
             }
         }
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            sendResponse(MpM_OK_RESPONSE_, replyMechanism);
-        }
+        sendOKResponse(replyMechanism);
     }
     catch (...)
     {

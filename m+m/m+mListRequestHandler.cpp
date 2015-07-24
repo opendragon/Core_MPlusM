@@ -165,21 +165,16 @@ bool ListRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
+        _response.clear();
+        if (_owner)
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
-            
-            if (_owner)
-            {
-                _owner->fillInListReply(reply);
-            }
-            else
-            {
-                OD_LOG("! (_owner)"); //####
-            }
-            sendResponse(reply, replyMechanism);
+            _owner->fillInListReply(_response);
         }
+        else
+        {
+            OD_LOG("! (_owner)"); //####
+        }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

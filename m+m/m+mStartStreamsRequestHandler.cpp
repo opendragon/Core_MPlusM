@@ -172,11 +172,7 @@ bool StartStreamsRequestHandler::processRequest(const YarpString &           req
     try
     {
         static_cast<BaseInputOutputService &>(_service).startStreams();
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            sendResponse(MpM_OK_RESPONSE_, replyMechanism);
-        }
+        sendOKResponse(replyMechanism);
     }
     catch (...)
     {

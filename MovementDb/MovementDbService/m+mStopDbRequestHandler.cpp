@@ -172,7 +172,7 @@ bool StopDbRequestHandler::processRequest(const YarpString &           request,
     try
     {
         static_cast<MovementDbService &>(_service).detachClient(senderChannel);
-        sendResponse(MpM_OK_RESPONSE_, replyMechanism);
+        sendOKResponse(replyMechanism);
     }
     catch (...)
     {

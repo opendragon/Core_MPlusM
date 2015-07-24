@@ -194,23 +194,19 @@ bool NameRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            char             bigPath[PATH_MAX * 2];
-            yarp::os::Bottle reply;
-            
-            ACE_OS::realpath(_service.launchPath().c_str(), bigPath);
-            OD_LOG_S1("bigPath <- ", bigPath); //####
-            reply.addString(_service.serviceName());
-            reply.addString(_service.description());
-            reply.addString(_service.extraInformation());
-            reply.addString(MapServiceKindToString(_service.kind()));
-            reply.addString(bigPath);
-            reply.addString(_service.requestsDescription());
-            reply.addString(_service.tag());
-            sendResponse(reply, replyMechanism);
-        }
+        char bigPath[PATH_MAX * 2];
+        
+        _response.clear();
+        ACE_OS::realpath(_service.launchPath().c_str(), bigPath);
+        OD_LOG_S1("bigPath <- ", bigPath); //####
+        _response.addString(_service.serviceName());
+        _response.addString(_service.description());
+        _response.addString(_service.extraInformation());
+        _response.addString(MapServiceKindToString(_service.kind()));
+        _response.addString(bigPath);
+        _response.addString(_service.requestsDescription());
+        _response.addString(_service.tag());
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

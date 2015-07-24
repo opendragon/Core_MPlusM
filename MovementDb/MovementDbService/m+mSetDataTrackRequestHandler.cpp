@@ -172,9 +172,8 @@ bool SetDataTrackRequestHandler::processRequest(const YarpString &           req
     
     try
     {
-        yarp::os::Bottle reply;
-
         // Set the data track for the backend database
+        _response.clear();
         if (1 == restOfInput.size())
         {
             yarp::os::Value firstValue(restOfInput.get(0));
@@ -186,29 +185,29 @@ bool SetDataTrackRequestHandler::processRequest(const YarpString &           req
 
                 if (theService.setDataTrack(senderChannel, dataTrack))
                 {
-                    reply.addString(MpM_OK_RESPONSE_);
+                    _response.addString(MpM_OK_RESPONSE_);
                 }
                 else
                 {
                     OD_LOG("! (theService.setDataTrack(senderChannel, dataTrack))"); //####
-                    reply.addString(MpM_FAILED_RESPONSE_);
-                    reply.addString("Could not set the data track");
+                    _response.addString(MpM_FAILED_RESPONSE_);
+                    _response.addString("Could not set the data track");
                 }
             }
             else
             {
                 OD_LOG("! (firstValue.isString())"); //####
-                reply.addString(MpM_FAILED_RESPONSE_);
-                reply.addString("Invalid argument");
+                _response.addString(MpM_FAILED_RESPONSE_);
+                _response.addString("Invalid argument");
             }
         }
         else
         {
             OD_LOG("! (1 == restOfInput.size())"); //####
-            reply.addString(MpM_FAILED_RESPONSE_);
-            reply.addString("Missing or extra arguments to request");
+            _response.addString(MpM_FAILED_RESPONSE_);
+            _response.addString("Missing or extra arguments to request");
         }
-        sendResponse(reply, replyMechanism);
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

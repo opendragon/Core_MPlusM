@@ -172,9 +172,8 @@ bool AddFileRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        yarp::os::Bottle reply;
-
         // Add the file to the backend database
+        _response.clear();
         if (1 == restOfInput.size())
         {
             yarp::os::Value firstValue(restOfInput.get(0));
@@ -186,29 +185,29 @@ bool AddFileRequestHandler::processRequest(const YarpString &           request,
 
                 if (theService.addFileToDb(senderChannel, filePath))
                 {
-                    reply.addString(MpM_OK_RESPONSE_);
+                    _response.addString(MpM_OK_RESPONSE_);
                 }
                 else
                 {
                     OD_LOG("! (theService.addFileToDb(senderChannel, filePath))"); //####
-                    reply.addString(MpM_FAILED_RESPONSE_);
-                    reply.addString("Could not add file to database");
+                    _response.addString(MpM_FAILED_RESPONSE_);
+                    _response.addString("Could not add file to database");
                 }
             }
             else
             {
                 OD_LOG("! (firstValue.isString())"); //####
-                reply.addString(MpM_FAILED_RESPONSE_);
-                reply.addString("Invalid arguments");
+                _response.addString(MpM_FAILED_RESPONSE_);
+                _response.addString("Invalid arguments");
             }
         }
         else
         {
             OD_LOG("! (1 == restOfInput.size())"); //####
-            reply.addString(MpM_FAILED_RESPONSE_);
-            reply.addString("Missing or extra arguments to request");
+            _response.addString(MpM_FAILED_RESPONSE_);
+            _response.addString("Missing or extra arguments to request");
         }
-        sendResponse(reply, replyMechanism);
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

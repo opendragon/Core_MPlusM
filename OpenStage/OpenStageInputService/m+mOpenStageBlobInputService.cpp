@@ -136,7 +136,7 @@ bool OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
             if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
                 thirdValue.isInt())
             {
-                int thirdNumber = secondValue.asInt();
+                int thirdNumber = thirdValue.asInt();
                 
                 if (firstValue.isDouble())
                 {

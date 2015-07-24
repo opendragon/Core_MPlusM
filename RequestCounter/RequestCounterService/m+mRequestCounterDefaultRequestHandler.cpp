@@ -166,7 +166,7 @@ bool RequestCounterDefaultRequestHandler::processRequest(const YarpString &     
     try
     {
         static_cast<RequestCounterService &>(_service).countRequest(senderChannel);
-        sendResponse(MpM_OK_RESPONSE_, replyMechanism);
+        sendOKResponse(replyMechanism);
     }
     catch (...)
     {

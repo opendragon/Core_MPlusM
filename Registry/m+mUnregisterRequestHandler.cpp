@@ -166,64 +166,59 @@ bool UnregisterRequestHandler::processRequest(const YarpString &           reque
     
     try
     {
-        if (replyMechanism)
+        // Validate the name as a channel name
+        _response.clear();
+        if (1 == restOfInput.size())
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
+            yarp::os::Value argument(restOfInput.get(0));
             
-            // Validate the name as a channel name
-            if (1 == restOfInput.size())
+            if (argument.isString())
             {
-                yarp::os::Value argument(restOfInput.get(0));
+                YarpString argAsString(argument.toString());
                 
-                if (argument.isString())
+                if (Endpoint::CheckEndpointName(argAsString))
                 {
-                    YarpString argAsString(argument.toString());
+                    RegistryService & theService = static_cast<RegistryService &>(_service);
                     
-                    if (Endpoint::CheckEndpointName(argAsString))
+                    theService.reportStatusChange(argAsString,
+                                                  RegistryService::kRegistryUnregisterService);
+                    // Forget the information associated with the channel name
+                    if (theService.removeServiceRecord(argAsString))
                     {
-                        RegistryService & theService = static_cast<RegistryService &>(_service);
-
-                        theService.reportStatusChange(argAsString,
-                                                      RegistryService::kRegistryUnregisterService);
-                        // Forget the information associated with the channel name
-                        if (theService.removeServiceRecord(argAsString))
+                        _response.addString(MpM_OK_RESPONSE_);
+                        if (argAsString != MpM_REGISTRY_ENDPOINT_NAME_)
                         {
-                            reply.addString(MpM_OK_RESPONSE_);
-                            if (argAsString != MpM_REGISTRY_ENDPOINT_NAME_)
-                            {
-                                theService.removeCheckedTimeForChannel(argAsString);
-                            }
-                        }
-                        else
-                        {
-                            OD_LOG("! (theService.removeServiceRecord(argAsString))"); //####
-                            reply.addString(MpM_FAILED_RESPONSE_);
-                            reply.addString("Could not remove service");
+                            theService.removeCheckedTimeForChannel(argAsString);
                         }
                     }
                     else
                     {
-                        OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
-                        reply.addString(MpM_FAILED_RESPONSE_);
-                        reply.addString("Invalid channel name");
+                        OD_LOG("! (theService.removeServiceRecord(argAsString))"); //####
+                        _response.addString(MpM_FAILED_RESPONSE_);
+                        _response.addString("Could not remove service");
                     }
                 }
                 else
                 {
-                    OD_LOG("! (argument.isString())"); //####
-                    reply.addString(MpM_FAILED_RESPONSE_);
-                    reply.addString("Invalid channel name");
+                    OD_LOG("! (Endpoint::CheckEndpointName(argAsString))"); //####
+                    _response.addString(MpM_FAILED_RESPONSE_);
+                    _response.addString("Invalid channel name");
                 }
             }
             else
             {
-                OD_LOG("! (1 == restOfInput.size())"); //####
-                reply.addString(MpM_FAILED_RESPONSE_);
-                reply.addString("Missing channel name or extra arguments to request");
+                OD_LOG("! (argument.isString())"); //####
+                _response.addString(MpM_FAILED_RESPONSE_);
+                _response.addString("Invalid channel name");
             }
-            sendResponse(reply, replyMechanism);
         }
+        else
+        {
+            OD_LOG("! (1 == restOfInput.size())"); //####
+            _response.addString(MpM_FAILED_RESPONSE_);
+            _response.addString("Missing channel name or extra arguments to request");
+        }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

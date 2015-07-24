@@ -172,7 +172,7 @@ bool ResetSumRequestHandler::processRequest(const YarpString &           request
     try
     {
         static_cast<RunningSumService &>(_service).resetSum(senderChannel);
-        sendResponse(MpM_OK_RESPONSE_, replyMechanism);
+        sendOKResponse(replyMechanism);
     }
     catch (...)
     {

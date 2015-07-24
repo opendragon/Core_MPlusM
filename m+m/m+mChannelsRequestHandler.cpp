@@ -178,63 +178,59 @@ bool ChannelsRequestHandler::processRequest(const YarpString &           request
     
     try
     {
-        if (replyMechanism)
+        _response.clear();
+        ChannelVector      channels;
+        yarp::os::Bottle & aList1 = _response.addList();
+        
+        _service.fillInSecondaryInputChannelsList(channels);
+        if (0 < channels.size())
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle   reply;
-            ChannelVector      channels;
-            yarp::os::Bottle & aList1 = reply.addList();
-            
-            _service.fillInSecondaryInputChannelsList(channels);
-            if (0 < channels.size())
+            for (ChannelVector::const_iterator walker(channels.begin());
+                 channels.end() != walker; ++walker)
             {
-                for (ChannelVector::const_iterator walker(channels.begin());
-                     channels.end() != walker; ++walker)
-                {
-                    const ChannelDescription & aChannel = *walker;
-                    yarp::os::Bottle &         newBottle = aList1.addList();
-                    
-                    newBottle.addString(aChannel._portName);
-                    newBottle.addString(aChannel._portProtocol);
-                    newBottle.addString(aChannel._protocolDescription);
-                }
+                const ChannelDescription & aChannel = *walker;
+                yarp::os::Bottle &         newBottle = aList1.addList();
+                
+                newBottle.addString(aChannel._portName);
+                newBottle.addString(aChannel._portProtocol);
+                newBottle.addString(aChannel._protocolDescription);
             }
-            // Note that we can't reuse the first list variable; we wind up with duplicate entries
-            // for some reason.
-            yarp::os::Bottle & aList2 = reply.addList();
-            
-            _service.fillInSecondaryOutputChannelsList(channels);
-            if (0 < channels.size())
-            {
-                for (ChannelVector::const_iterator walker(channels.begin());
-                     channels.end() != walker; ++walker)
-                {
-                    const ChannelDescription & aChannel = *walker;
-                    yarp::os::Bottle &         newBottle = aList2.addList();
-                    
-                    newBottle.addString(aChannel._portName);
-                    newBottle.addString(aChannel._portProtocol);
-                    newBottle.addString(aChannel._protocolDescription);
-                }
-            }
-            yarp::os::Bottle & aList3 = reply.addList();
-            
-            _service.fillInSecondaryClientChannelsList(channels);
-            if (0 < channels.size())
-            {
-                for (ChannelVector::const_iterator walker(channels.begin());
-                     channels.end() != walker; ++walker)
-                {
-                    const ChannelDescription & aChannel = *walker;
-                    yarp::os::Bottle &         newBottle = aList3.addList();
-                    
-                    newBottle.addString(aChannel._portName);
-                    newBottle.addString(aChannel._portProtocol);
-                    newBottle.addString(aChannel._protocolDescription);
-                }
-            }
-            sendResponse(reply, replyMechanism);
         }
+        // Note that we can't reuse the first list variable; we wind up with duplicate entries
+        // for some reason.
+        yarp::os::Bottle & aList2 = _response.addList();
+        
+        _service.fillInSecondaryOutputChannelsList(channels);
+        if (0 < channels.size())
+        {
+            for (ChannelVector::const_iterator walker(channels.begin());
+                 channels.end() != walker; ++walker)
+            {
+                const ChannelDescription & aChannel = *walker;
+                yarp::os::Bottle &         newBottle = aList2.addList();
+                
+                newBottle.addString(aChannel._portName);
+                newBottle.addString(aChannel._portProtocol);
+                newBottle.addString(aChannel._protocolDescription);
+            }
+        }
+        yarp::os::Bottle & aList3 = _response.addList();
+        
+        _service.fillInSecondaryClientChannelsList(channels);
+        if (0 < channels.size())
+        {
+            for (ChannelVector::const_iterator walker(channels.begin());
+                 channels.end() != walker; ++walker)
+            {
+                const ChannelDescription & aChannel = *walker;
+                yarp::os::Bottle &         newBottle = aList3.addList();
+                
+                newBottle.addString(aChannel._portName);
+                newBottle.addString(aChannel._portProtocol);
+                newBottle.addString(aChannel._protocolDescription);
+            }
+        }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

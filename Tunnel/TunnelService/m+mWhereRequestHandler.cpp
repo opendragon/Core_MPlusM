@@ -171,14 +171,14 @@ bool WhereRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        yarp::os::Bottle response;
-        YarpString       address;
-        int              port;
+        YarpString address;
+        int        port;
         
         static_cast<TunnelService &>(_service).getAddress(address, port);
-        response.addString(address);
-        response.addInt(port);
-        sendResponse(response, replyMechanism);
+        _response.clear();
+        _response.addString(address);
+        _response.addInt(port);
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

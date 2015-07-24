@@ -171,72 +171,66 @@ bool MatchRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
+        // We are expecting an integer and a string as the parameter
+        _response.clear();
+        if (2 == restOfInput.size())
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle reply;
+            yarp::os::Value condition(restOfInput.get(0));
+            yarp::os::Value argument(restOfInput.get(1));
             
-            // We are expecting an integer and a string as the parameter
-            if (2 == restOfInput.size())
+            if (condition.isInt() && argument.isString())
             {
-                yarp::os::Value condition(restOfInput.get(0));
-                yarp::os::Value argument(restOfInput.get(1));
+                int        conditionAsInt = condition.asInt();
+                YarpString argAsString(argument.toString());
                 
-                if (condition.isInt() && argument.isString())
-                {
-                    int        conditionAsInt = condition.asInt();
-                    YarpString argAsString(argument.toString());
-                    
-                    OD_LOG_S1s("argAsString <- ", argAsString); //####
-                    size_t                    endPos;
-                    Parser::MatchExpression * matcher =
-                                                Parser::MatchExpression::CreateMatcher(argAsString,
+                OD_LOG_S1s("argAsString <- ", argAsString); //####
+                size_t                    endPos;
+                Parser::MatchExpression * matcher =
+                                        Parser::MatchExpression::CreateMatcher(argAsString,
                                                                                argAsString.length(),
-                                                                                       0, endPos,
-                                                                                       _validator);
-
-                    if (matcher)
-                    {
-                        OD_LOG("(matcher)"); //####
-                        // Hand off the processing to the Registry Service. First, put the 'OK'
-                        // response in the output buffer, as we have successfully parsed the
-                        // request.
-                        reply.addString(MpM_OK_RESPONSE_);
-                        if (! static_cast<RegistryService &>(_service).processMatchRequest(matcher,
+                                                                               0, endPos,
+                                                                               _validator);
+                
+                if (matcher)
+                {
+                    OD_LOG("(matcher)"); //####
+                    // Hand off the processing to the Registry Service. First, put the 'OK' response
+                    // in the output buffer, as we have successfully parsed the request.
+                    _response.addString(MpM_OK_RESPONSE_);
+                    if (! static_cast<RegistryService &>(_service).processMatchRequest(matcher,
                                                                                0 != conditionAsInt,
-                                                                                           reply))
-                        {
-                            OD_LOG("(! static_cast<RegistryService &>(_service)." //####
-                                   "processMatchRequest(matcher, 0 != conditionAsInt, " //####
-                                   "reply))"); //####
-                            reply.clear();
-                            reply.addString(MpM_FAILED_RESPONSE_);
-                            reply.addString("Invalid criteria");
-                        }
-                        delete matcher;
-                    }
-                    else
+                                                                                       _response))
                     {
-                        OD_LOG("! (matcher)"); //####
-                        reply.addString(MpM_FAILED_RESPONSE_);
-                        reply.addString("Invalid criteria");
+                        OD_LOG("(! static_cast<RegistryService &>(_service)." //####
+                               "processMatchRequest(matcher, 0 != conditionAsInt, " //####
+                               "_response))"); //####
+                        _response.clear();
+                        _response.addString(MpM_FAILED_RESPONSE_);
+                        _response.addString("Invalid criteria");
                     }
+                    delete matcher;
                 }
                 else
                 {
-                    OD_LOG("! (argument.isString())"); //####
-                    reply.addString(MpM_FAILED_RESPONSE_);
-                    reply.addString("Invalid criteria");
+                    OD_LOG("! (matcher)"); //####
+                    _response.addString(MpM_FAILED_RESPONSE_);
+                    _response.addString("Invalid criteria");
                 }
             }
             else
             {
-                OD_LOG("! (1 == restOfInput.size())"); //####
-                reply.addString(MpM_FAILED_RESPONSE_);
-                reply.addString("Missing criteria or extra arguments to request");
+                OD_LOG("! (argument.isString())"); //####
+                _response.addString(MpM_FAILED_RESPONSE_);
+                _response.addString("Invalid criteria");
             }
-            sendResponse(reply, replyMechanism);
         }
+        else
+        {
+            OD_LOG("! (1 == restOfInput.size())"); //####
+            _response.addString(MpM_FAILED_RESPONSE_);
+            _response.addString("Missing criteria or extra arguments to request");
+        }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

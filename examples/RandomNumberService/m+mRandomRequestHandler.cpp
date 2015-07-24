@@ -162,42 +162,38 @@ bool RandomRequestHandler::processRequest(const YarpString &           request,
     
     try
     {
-        if (replyMechanism)
+        int count;
+        
+        _response.clear();
+        if (0 < restOfInput.size())
         {
-            OD_LOG("(replyMechanism)"); //####
-            yarp::os::Bottle response;
-            int              count;
+            yarp::os::Value number(restOfInput.get(0));
             
-            if (0 < restOfInput.size())
+            if (number.isInt())
             {
-                yarp::os::Value number(restOfInput.get(0));
-                
-                if (number.isInt())
-                {
-                    count = number.asInt();
-                }
-                else
-                {
-                    count = -1;
-                }
+                count = number.asInt();
             }
             else
             {
-                count = 1;
+                count = -1;
             }
-            if (count > 0)
-            {
-                for (int ii = 0; ii < count; ++ii)
-                {
-                    response.addDouble(yarp::os::Random::uniform());
-                }
-            }
-            else
-            {
-                OD_LOG("! (count > 0)"); //####
-            }
-            sendResponse(response, replyMechanism);
         }
+        else
+        {
+            count = 1;
+        }
+        if (count > 0)
+        {
+            for (int ii = 0; ii < count; ++ii)
+            {
+                _response.addDouble(yarp::os::Random::uniform());
+            }
+        }
+        else
+        {
+            OD_LOG("! (count > 0)"); //####
+        }
+        sendResponse(replyMechanism);
     }
     catch (...)
     {

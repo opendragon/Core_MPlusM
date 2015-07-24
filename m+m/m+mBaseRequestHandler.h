@@ -102,23 +102,22 @@ namespace MplusM
                                         const YarpString &           senderChannel,
                                         yarp::os::ConnectionWriter * replyMechanism) = 0;
             
-            /*! @brief Send a response to a request.
-             @param reply The response to send.
+            /*! @brief Send a simple OK response to a request.
              @param replyMechanism The destination for the response. */
-            void sendResponse(yarp::os::Bottle &           reply,
-                              yarp::os::ConnectionWriter * replyMechanism);
+            void sendOKResponse(yarp::os::ConnectionWriter * replyMechanism);
             
             /*! @brief Send a response to a request.
-             @param reply The response to send.
              @param replyMechanism The destination for the response. */
-            void sendResponse(const YarpString &           reply,
-                              yarp::os::ConnectionWriter * replyMechanism);
+            void sendResponse(yarp::os::ConnectionWriter * replyMechanism);
             
             /*! @brief Connect the handler to a map.
              @param owner The map that contains this handler. */
             void setOwner(RequestMap & owner);
             
         protected :
+            
+            /*! @brief The object to use to hold the request response. */
+            yarp::os::Bottle _response;
             
             /*! @brief The service that is associated with the request. */
             BaseService & _service;

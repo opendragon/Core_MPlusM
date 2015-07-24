@@ -176,25 +176,20 @@ bool ArgumentDescriptionsRequestHandler::processRequest(const YarpString &      
     
     try
     {
-        yarp::os::Bottle                    response;
         const Utilities::DescriptorVector & argDescriptions =
                         static_cast<BaseInputOutputService &>(_service).getArgumentDescriptions();
 
+        _response.clear();
         for (size_t ii = 0, numArgs = argDescriptions.size(); numArgs > ii; ++ii)
         {
             Utilities::BaseArgumentDescriptor * anArg = argDescriptions[ii];
 
             if (anArg)
             {
-                response.addString(anArg->toString());
+                _response.addString(anArg->toString());
             }
         }
-        if (replyMechanism)
-        {
-            OD_LOG("(replyMechanism)"); //####
-            sendResponse(response, replyMechanism);
-        }
-
+        sendResponse(replyMechanism);
     }
     catch (...)
     {
