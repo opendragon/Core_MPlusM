@@ -41,6 +41,7 @@
 # define MpMOpenStageBlobInputThread_H_ /* Header guard */
 
 # include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mStringBuffer.h>
 
 # include <om/sdk2/client.h>
 # include <om/sdk2/types.h>
@@ -138,6 +139,10 @@ namespace MplusM
 
 			/*! @brief A view into the actor motion data. */
 			om::sdk2::ActorViewJointPtr _actorViewJoint;
+
+# if defined(MpM_UseCustomStringBuffer)
+			Common::StringBuffer _outBuffer;
+# endif // defined(MpM_UseCustomStringBuffer)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

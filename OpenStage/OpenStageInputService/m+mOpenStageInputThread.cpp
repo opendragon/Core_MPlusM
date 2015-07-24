@@ -143,44 +143,82 @@ void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDa
 		{
 			yarp::os::Bottle &     anActor = actorList.addList();
 			sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
-			sdk2::JointTreePtr     jointTree = sdk2::CreateJointTree();
+			sdk2::JointTreePtr     absJointTree = sdk2::CreateJointTree();
+			sdk2::JointTreePtr     relJointTree = sdk2::CreateJointTree();
 
-			sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &jointTree);
-			sdk2::JointTreeConstIterator jointTreeIt = jointTree->Begin();
-			sdk2::JointTreeConstIterator jointTreeItEnd = jointTree->End();
+			sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &absJointTree);
+			sdk2::ConvertSkeletonToJointTreeRelative(skel, &relJointTree);
+			sdk2::JointTreeConstIterator jointTreeAbsIt = absJointTree->Begin();
+			sdk2::JointTreeConstIterator jointTreeAbsItEnd = absJointTree->End();
+			sdk2::JointTreeConstIterator jointTreeRelItEnd = relJointTree->End();
 
-			for ( ; jointTreeIt != jointTreeItEnd; ++jointTreeIt)
+			for ( ; jointTreeAbsIt != jointTreeAbsItEnd; ++jointTreeAbsIt)
 			{
 				yarp::os::Property & jointProps = anActor.addDict();
-				sdk2::Matrix44       transform = jointTreeIt->second->transform;
-				glm::mat3x3          jointTransform(transform.m[0][0], transform.m[0][1],
-											        transform.m[0][2], transform.m[1][0],
-											        transform.m[1][1], transform.m[1][2],
-					                                transform.m[2][0], transform.m[2][1],
-											        transform.m[2][2]);
-				glm::quat            rotQuat = glm::quat_cast(jointTransform);
+				sdk2::Matrix44       absTransform = jointTreeAbsIt->second->transform;
+				const char *         jointId = static_cast<const char *>(*jointTreeAbsIt->first);
+				yarp::os::Value      absPosStuff;
+				yarp::os::Bottle *   absPosList = absPosStuff.asList();
 
-				jointProps.put("id", static_cast<const char *>(*jointTreeIt->first));
-				yarp::os::Value    posStuff;
-				yarp::os::Bottle * posList = posStuff.asList();
-
-				if (posList)
+				jointProps.put("id", jointId);
+				if (absPosList)
 				{
-					posList->addDouble(transform.m[3][0]);
-					posList->addDouble(transform.m[3][1]);
-					posList->addDouble(transform.m[3][2]);
-					jointProps.put("position", posStuff);
+					absPosList->addDouble(absTransform.m[3][0]);
+					absPosList->addDouble(absTransform.m[3][1]);
+					absPosList->addDouble(absTransform.m[3][2]);
+					jointProps.put("absposition", absPosStuff);
 				}
-				yarp::os::Value    quatStuff;
-				yarp::os::Bottle * quatList = quatStuff.asList();
+				yarp::os::Value    absQuatStuff;
+				yarp::os::Bottle * absQuatList = absQuatStuff.asList();
 
-				if (quatList)
+				if (absQuatList)
 				{
-					quatList->addDouble(rotQuat.x);
-					quatList->addDouble(rotQuat.y);
-					quatList->addDouble(rotQuat.z);
-					quatList->addDouble(rotQuat.w);
-					jointProps.put("rotation", quatStuff);
+					glm::mat3x3 jointAbsTransform(absTransform.m[0][0], absTransform.m[0][1],
+												  absTransform.m[0][2], absTransform.m[1][0],
+												  absTransform.m[1][1], absTransform.m[1][2],
+												  absTransform.m[2][0], absTransform.m[2][1],
+											      absTransform.m[2][2]);
+					glm::quat   absRotQuat = glm::quat_cast(jointAbsTransform);
+
+					absQuatList->addDouble(absRotQuat.x);
+					absQuatList->addDouble(absRotQuat.y);
+					absQuatList->addDouble(absRotQuat.z);
+					absQuatList->addDouble(absRotQuat.w);
+					jointProps.put("absrotation", absQuatStuff);
+				}
+				sdk2::JointTreeConstIterator jointTreeRelIt = relJointTree->Find(jointId);
+
+				if (jointTreeRelIt != jointTreeRelItEnd)
+				{
+					sdk2::Matrix44     relTransform = jointTreeRelIt->second->transform;
+					yarp::os::Value    relPosStuff;
+					yarp::os::Bottle * relPosList = relPosStuff.asList();
+
+					if (relPosList)
+					{
+						relPosList->addDouble(relTransform.m[3][0]);
+						relPosList->addDouble(relTransform.m[3][1]);
+						relPosList->addDouble(relTransform.m[3][2]);
+						jointProps.put("relposition", relPosStuff);
+					}
+					yarp::os::Value    relQuatStuff;
+					yarp::os::Bottle * relQuatList = relQuatStuff.asList();
+
+					if (relQuatList)
+					{
+						glm::mat3x3 jointRelTransform(relTransform.m[0][0], relTransform.m[0][1],
+													  relTransform.m[0][2], relTransform.m[1][0],
+													  relTransform.m[1][1], relTransform.m[1][2],
+													  relTransform.m[2][0], relTransform.m[2][1],
+													  relTransform.m[2][2]);
+						glm::quat   relRotQuat = glm::quat_cast(jointRelTransform);
+
+						relQuatList->addDouble(relRotQuat.x);
+						relQuatList->addDouble(relRotQuat.y);
+						relQuatList->addDouble(relRotQuat.z);
+						relQuatList->addDouble(relRotQuat.w);
+						jointProps.put("relrotation", relQuatStuff);
+					}
 				}
 			}
 		}

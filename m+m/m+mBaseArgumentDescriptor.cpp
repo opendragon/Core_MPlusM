@@ -560,7 +560,7 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
             std::string inputLine;
             
 			std::cout << anArg->argumentDescription().c_str();
-			std::cout << " (default=" << anArg->getDefaultValue().c_str() << ", current = " <<
+			std::cout << " (default=" << anArg->getDefaultValue().c_str() << ", current=" <<
                         anArg->getProcessedValue().c_str() << "): ";
             std::cout.flush();
             // Eat whitespace until we get something useful.

@@ -131,6 +131,9 @@ mark_as_advanced(MpM_UseTestDatabase)
 option(MpM_UseTimeoutsInRetryLoops "Use timeouts in retry loops")
 mark_as_advanced(MpM_UseTimeoutsInRetryLoops)
 
+option(MpM_UseCustomStringBuffer "Use a custom string buffer for large string output")
+mark_as_advanced(MpM_UseCustomStringBuffer)
+
 #if(WIN32)
 #    option(MpM_EMOTIV "Build the Emotiv Input service" ON)
 #else(WIN32)

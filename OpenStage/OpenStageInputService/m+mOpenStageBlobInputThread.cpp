@@ -136,52 +136,131 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 
 	if (0 < numActors)
 	{
+#if (! defined(MpM_UseCustomStringBuffer))
 		std::stringstream outBuffer;
+#endif // ! defined(MpM_UseCustomStringBuffer)
 
 		// Write out the number of actors == bodies.
+#if defined(MpM_UseCustomStringBuffer)
+		_outBuffer.reset().addLong(static_cast<int>(numActors)).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
 		outBuffer << numActors << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
 		for (size_t ii = 0; ii < numActors; ++ii)
 		{
 			sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
-			sdk2::JointTreePtr     jointTree = sdk2::CreateJointTree();
+			sdk2::JointTreePtr     absJointTree = sdk2::CreateJointTree();
+			sdk2::JointTreePtr     relJointTree = sdk2::CreateJointTree();
 
-			sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &jointTree);
-			sdk2::JointTreeConstIterator jointTreeIt = jointTree->Begin();
-			sdk2::JointTreeConstIterator jointTreeItEnd = jointTree->End();
+			sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &absJointTree);
+			sdk2::ConvertSkeletonToJointTreeRelative(skel, &relJointTree);
+			sdk2::JointTreeConstIterator absJointTreeIt = absJointTree->Begin();
+			sdk2::JointTreeConstIterator absJointTreeItEnd = absJointTree->End();
+			sdk2::JointTreeConstIterator relJointTreeItEnd = relJointTree->End();
+			int count = 0;
 
-			outBuffer << ii << "\t" << jointTree->GetSize() << LINE_END_;
-			for ( ; jointTreeIt != jointTreeItEnd; ++jointTreeIt)
+			for ( ; absJointTreeIt != absJointTreeItEnd; ++absJointTreeIt)
 			{
-				sdk2::Matrix44 transform = jointTreeIt->second->transform;
-				glm::mat3x3    jointTransform(transform.m[0][0], transform.m[0][1],
-											  transform.m[0][2], transform.m[1][0],
-											  transform.m[1][1], transform.m[1][2],
-					                          transform.m[2][0], transform.m[2][1],
-											  transform.m[2][2]);
-				glm::quat      rotQuat = glm::quat_cast(jointTransform);
+				const char *                 jointId = *absJointTreeIt->first;
+				sdk2::JointTreeConstIterator relJointTreeIt = relJointTree->Find(jointId);
 
-				outBuffer << *jointTreeIt->first << "\t" << (transform.m[3][0] * _scale) << "\t" <<
-							(transform.m[3][1] * _scale) << "\t" << (transform.m[3][2] * _scale) <<
-                            "\t" << rotQuat.x << "\t" << rotQuat.y << "\t" << rotQuat.z << "\t" <<
-                            rotQuat.w << LINE_END_;
+				if (relJointTreeItEnd != relJointTreeIt)
+				{
+					++count;
+				}
+			}
+#if defined(MpM_UseCustomStringBuffer)
+			_outBuffer.addLong(static_cast<int>(ii)).addChar('\t').addLong(count).
+				addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+			outBuffer << ii << "\t" << count << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+			for (absJointTreeIt = absJointTree->Begin(); absJointTreeIt != absJointTreeItEnd;
+				 ++absJointTreeIt)
+			{
+				const char *                 jointId = *absJointTreeIt->first;
+				sdk2::JointTreeConstIterator relJointTreeIt = relJointTree->Find(jointId);
 
+				if (relJointTreeItEnd != relJointTreeIt)
+				{
+					sdk2::Matrix44 absTransform = absJointTreeIt->second->transform;
+					sdk2::Matrix44 relTransform = relJointTreeIt->second->transform;
+					glm::mat3x3    absJointTransform(absTransform.m[0][0], absTransform.m[0][1],
+													 absTransform.m[0][2], absTransform.m[1][0],
+													 absTransform.m[1][1], absTransform.m[1][2],
+													 absTransform.m[2][0], absTransform.m[2][1],
+													 absTransform.m[2][2]);
+					glm::mat3x3    relJointTransform(relTransform.m[0][0], relTransform.m[0][1],
+													 relTransform.m[0][2], relTransform.m[1][0],
+													 relTransform.m[1][1], relTransform.m[1][2],
+													 relTransform.m[2][0], relTransform.m[2][1],
+													 relTransform.m[2][2]);
+					glm::quat      absRotQuat = glm::quat_cast(absJointTransform);
+					glm::quat      relRotQuat = glm::quat_cast(relJointTransform);
+
+#if defined(MpM_UseCustomStringBuffer)
+					_outBuffer.addString(jointId).addChar('\t');
+					_outBuffer.addDouble(absTransform.m[3][0] * _scale).addChar('\t');
+					_outBuffer.addDouble(absTransform.m[3][1] * _scale).addChar('\t');
+					_outBuffer.addDouble(absTransform.m[3][2] * _scale).addChar('\t');
+					_outBuffer.addDouble(absRotQuat.x).addChar('\t');
+					_outBuffer.addDouble(absRotQuat.y).addChar('\t');
+					_outBuffer.addDouble(absRotQuat.z).addChar('\t');
+					_outBuffer.addDouble(absRotQuat.w).addChar('\t');
+					_outBuffer.addDouble(relTransform.m[3][0] * _scale).addChar('\t');
+					_outBuffer.addDouble(relTransform.m[3][1] * _scale).addChar('\t');
+					_outBuffer.addDouble(relTransform.m[3][2] * _scale).addChar('\t');
+					_outBuffer.addDouble(relRotQuat.x).addChar('\t');
+					_outBuffer.addDouble(relRotQuat.y).addChar('\t');
+					_outBuffer.addDouble(relRotQuat.z).addChar('\t');
+					_outBuffer.addDouble(relRotQuat.w).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+					outBuffer << jointId << "\t" << (absTransform.m[3][0] * _scale) << "\t" <<
+						(absTransform.m[3][1] * _scale) << "\t" <<
+						(absTransform.m[3][2] * _scale) << "\t" << absRotQuat.x << "\t" <<
+						absRotQuat.y << "\t" << absRotQuat.z << "\t" << absRotQuat.w <<
+						"\t" << (relTransform.m[3][0] * _scale) << "\t" <<
+						(relTransform.m[3][1] * _scale) << "\t" <<
+						(relTransform.m[3][2] * _scale) << "\t" << relRotQuat.x << "\t" <<
+						relRotQuat.y << "\t" << relRotQuat.z << "\t" << relRotQuat.w <<
+						LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+				}
 			}
 		}
-		outBuffer << "END" << LINE_END_;
+#if defined(MpM_UseCustomStringBuffer)
+		_outBuffer.addString("END" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+		outBuffer << "END" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
 		if (_outChannel)
 		{
+			const char *     outString;
 			yarp::os::Bottle message;
+			size_t           outLength;
+#if (! defined(MpM_UseCustomStringBuffer))
 			std::string      buffAsString(outBuffer.str());
-			yarp::os::Value  blobValue(const_cast<char *>(buffAsString.c_str()),
-									   static_cast<int>(buffAsString.length()));
+#endif // ! defined(MpM_UseCustomStringBuffer)
 
-			message.add(blobValue);
-			if (!_outChannel->write(message))
+#if defined(MpM_UseCustomStringBuffer)
+			outString = _outBuffer.getString(outLength);
+#else // ! defined(MpM_UseCustomStringBuffer)
+			outString = bufAsString.c_str();
+			outLength = bufAsString.length();
+#endif // ! defined(MpM_UseCustomStringBuffer)
+			if (outString && outLength)
 			{
-				OD_LOG("(! _outChannel->write(message))"); //####
+				void *          rawString = static_cast<void *>(const_cast<char *>(outString));
+				yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
+
+				message.add(blobValue);
+				if (!_outChannel->write(message))
+				{
+					OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-				Stall();
+					Stall();
 #endif // defined(MpM_StallOnSendProblem)
+				}
 			}
 		}
 	}

@@ -68,25 +68,30 @@ namespace MplusM
             virtual ~StringBuffer(void);
             
             /*! @brief Add a character to the buffer.
-             @param aChar The character to add. */
-            void addChar(const char aChar);
+             @param aChar The character to add.
+			 @returns The StringBuffer object so that cascading can be done. */
+            StringBuffer & addChar(const char aChar);
             
             /*! @brief Add a character string representation of a floating-point value to the
              buffer.
-             @param aDouble The value to add. */
-            void addDouble(const double aDouble);
+             @param aDouble The value to add.
+			 @returns The StringBuffer object so that cascading can be done. */
+			StringBuffer & addDouble(const double aDouble);
             
             /*! @brief Add a character string representation of an integer value to the buffer.
-             @param aLong The value to add. */
-            void addLong(const long aLong);
+             @param aLong The value to add.
+			 @returns The StringBuffer object so that cascading can be done. */
+			StringBuffer & addLong(const long aLong);
             
             /*! @brief Add a character string to the buffer.
-             @param aString The value to add. */
-            void addString(const char * aString);
+             @param aString The value to add.
+			 @returns The StringBuffer object so that cascading can be done. */
+			StringBuffer & addString(const char * aString);
             
             /*! @brief Add a character string to the buffer.
-             @param aString The value to add. */
-            void addString(const YarpString & aString);
+             @param aString The value to add.
+			 @returns The StringBuffer object so that cascading can be done. */
+			StringBuffer & addString(const YarpString & aString);
             
             /*! @brief Return a pointer to the characters in the buffer as well as the number of
              valid characters present.
@@ -107,8 +112,9 @@ namespace MplusM
                 return _currentLength;
             } // length
             
-			/*! @brief Prepare the buffer for reuse. */
-			void reset(void);
+			/*! @brief Prepare the buffer for reuse.
+			 @returns The StringBuffer object so that cascading can be done. */
+			StringBuffer & reset(void);
 
         protected :
             
