@@ -42,6 +42,7 @@
 # include "Leap.h"
 
 # include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mStringBuffer.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -157,6 +158,10 @@ namespace MplusM
             /*! @brief The channel to send motion data to. */
             Common::GeneralChannel * _outChannel;
             
+# if defined(MpM_UseCustomStringBuffer)
+            Common::StringBuffer _outBuffer;
+# endif // defined(MpM_UseCustomStringBuffer)
+
         }; // LeapBlobInputListener
         
     } // LeapBlob

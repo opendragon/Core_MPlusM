@@ -65,8 +65,6 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-//#define REPORT_EVENT_COUNT_ /* */
-
 //#define GENERATE_BONES_ /* */
 
 #if defined(__APPLE__)
@@ -492,10 +490,6 @@ HRESULT KinectV2EventThread::initializeDefaultSensor(void)
     return hr;
 } // KinectV2EventThread::initializeDefaultSensor
 
-#if defined(REPORT_EVENT_COUNT_)
-static long lEventCount = 0; //####
-#endif // defined(REPORT_EVENT_COUNT_)
-
 void KinectV2EventThread::processEventData(void)
 {
     OD_LOG_OBJENTER(); //####
@@ -536,10 +530,6 @@ void KinectV2EventThread::processEventData(void)
                     SafeRelease(bodyFrame);
                     if (SUCCEEDED(hr) && _outChannel)
                     {
-#if defined(REPORT_EVENT_COUNT_)
-                        ++lEventCount; //####
-                        cerr << "sending " << lEventCount << endl; //####
-#endif // defined(REPORT_EVENT_COUNT_)
                         if (0 < message.size())
                         {
                             if (! _outChannel->write(message))

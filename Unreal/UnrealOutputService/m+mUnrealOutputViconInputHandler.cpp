@@ -82,11 +82,19 @@ using std::endl;
  @param segmentsAsBottle The segments to write out.
  @param scale The translation scale to use.
  @returns @c true if the segments were properly structured and @c false otherwise. */
+#if defined(MpM_UseCustomStringBuffer)
+static bool dumpSegments(Common::StringBuffer & outBuffer,
+                         yarp::os::Bottle &     segmentsAsBottle,
+                         const double           scale)
+#else // ! defined(MpM_UseCustomStringBuffer)
 static bool dumpSegments(std::stringstream & outBuffer,
                          yarp::os::Bottle &  segmentsAsBottle,
                          const double        scale)
+#endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("outBuffer = ", &outBuffer, "segmentsAsBottle = ", &segmentsAsBottle); //####
+    OD_LOG_D1("scale = ", scale); //####
     bool okSoFar = true;
     int  numSegments = segmentsAsBottle.size();
     
@@ -110,7 +118,11 @@ static bool dumpSegments(std::stringstream & outBuffer,
                         YarpString         keyString = keyValue.asString();
                         yarp::os::Bottle * valueList = valueValue.asList();
                         
+#if defined(MpM_UseCustomStringBuffer)
+                        outBuffer.addString(keyString);
+#else // ! defined(MpM_UseCustomStringBuffer)
                         outBuffer << keyString.c_str();
+#endif // ! defined(MpM_UseCustomStringBuffer)
                         if (valueList && (7 == valueList->size()))
                         {
                             int numValues = valueList->size();
@@ -139,10 +151,18 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                     {
                                         elementAsDouble *= scale;
                                     }
+#if defined(MpM_UseCustomStringBuffer)
+                                    outBuffer.addChar('\t').addDouble(elementAsDouble);
+#else // ! defined(MpM_UseCustomStringBuffer)
                                     outBuffer << "\t" << elementAsDouble;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                 }
                             }
-							outBuffer << LINE_END_;
+#if defined(MpM_UseCustomStringBuffer)
+                            outBuffer.addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                            outBuffer << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                         }
                         else
                         {
@@ -239,10 +259,16 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                 if (0 < numSubjects)
                 {
                     bool              okSoFar = true;
+#if (! defined(MpM_UseCustomStringBuffer))
                     std::stringstream outBuffer;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                     
 //                    cerr << "# subjects = " << numSubjects << endl; //!!!!
+#if defined(MpM_UseCustomStringBuffer)
+                    _outBuffer.reset().addLong(numSubjects).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << numSubjects << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                     for (int ii = 0; okSoFar && (numSubjects > ii); ++ii)
                     {
                         yarp::os::Value & aValue = input.get(ii);
@@ -279,11 +305,19 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                                                 cerr << ":" << segmentsAsBottle.size() << ":" <<
                                                         segmentsAsBottle.toString() << ":" <<
                                                         endl; //!!!!
+#if defined(MpM_UseCustomStringBuffer)
+                                                _outBuffer.addString(subjName).addChar('\t');
+                                                _outBuffer.addLong(segmentsAsBottle.size()).
+                                                    addString("\t0" LINE_END_);
+                                                okSoFar = dumpSegments(_outBuffer, segmentsAsBottle,
+                                                                       _scale);
+#else // ! defined(MpM_UseCustomStringBuffer)
                                                 outBuffer << subjName.c_str() << "\t" <<
-                                                            segmentsAsBottle.size() << "\t0" <<
-                                                            LINE_END_;
+                                                            segmentsAsBottle.size() <<
+                                                            "\t0" LINE_END_;
                                                 okSoFar = dumpSegments(outBuffer, segmentsAsBottle,
                                                                        _scale);
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                             }
                                             else
                                             {
@@ -311,12 +345,21 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                                                     cerr << ":" << segmentsAsBottle.size() << ":" <<
                                                             segmentsAsBottle.toString() << ":" <<
                                                             endl; //!!!!
+#if defined(MpM_UseCustomStringBuffer)
+                                                    _outBuffer.addString(subjName).addChar('\t');
+                                                    _outBuffer.addLong(segmentsAsBottle.size()).
+                                                        addString("\t0" LINE_END_);
+                                                    okSoFar = dumpSegments(_outBuffer,
+                                                                           segmentsAsBottle,
+                                                                           _scale);
+#else // ! defined(MpM_UseCustomStringBuffer)
                                                     outBuffer << subjName.c_str() << "\t" <<
-                                                                segmentsAsBottle.size() << "\t0" <<
-                                                                LINE_END_;
+                                                                segmentsAsBottle.size() <<
+                                                                "\t0" LINE_END_;
                                                     okSoFar = dumpSegments(outBuffer,
                                                                            segmentsAsBottle,
                                                                            _scale);
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                                 }
                                                 else
                                                 {
@@ -362,15 +405,33 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                     }
                     if (okSoFar)
                     {
-                        outBuffer << "END" << LINE_END_;
-                        std::string outString(outBuffer.str());    
-                        int         retVal = send(_outSocket, outString.c_str(),
-												  static_cast<int>(outString.length()), 0);
+#if defined(MpM_UseCustomStringBuffer)
+                        _outBuffer.addString("END" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                        outBuffer << "END" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                        const char * outString;
+                        size_t       outLength;
+#if (! defined(MpM_UseCustomStringBuffer))
+                        std::string  buffAsString(outBuffer.str());
+#endif // ! defined(MpM_UseCustomStringBuffer)
                         
-//                        cerr << "send--> " << retVal << endl; //!!!!
-                        if (0 > retVal)
+#if defined(MpM_UseCustomStringBuffer)
+                        outString = _outBuffer.getString(outLength);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                        outString = buffAsString.c_str();
+                        outLength = buffAsString.length();
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                        if (outString && outLength)
                         {
-                            _owner.deactivateConnection();
+                            int retVal = send(_outSocket, outString,
+                                              static_cast<int>(outLength), 0);
+                            
+                            cerr << "send--> " << retVal << endl; //!!!!
+                            if (0 > retVal)
+                            {
+                                _owner.deactivateConnection();
+                            }
                         }
                     }
                 }

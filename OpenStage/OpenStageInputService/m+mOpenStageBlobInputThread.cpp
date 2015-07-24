@@ -245,8 +245,8 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 #if defined(MpM_UseCustomStringBuffer)
 			outString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
-			outString = bufAsString.c_str();
-			outLength = bufAsString.length();
+			outString = buffAsString.c_str();
+			outLength = buffAsString.length();
 #endif // ! defined(MpM_UseCustomStringBuffer)
 			if (outString && outLength)
 			{

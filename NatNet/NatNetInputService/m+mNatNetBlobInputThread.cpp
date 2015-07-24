@@ -94,28 +94,68 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
 
 		if (0 < numSkeletons)
 		{
+#if (! defined(MpM_UseCustomStringBuffer))
             std::stringstream outBuffer;
+#endif // ! defined(MpM_UseCustomStringBuffer)
             
             // Write out the number of skeletons == bodies.
+#if defined(MpM_UseCustomStringBuffer)
+            _outBuffer.reset().addLong(static_cast<int>(numSkeletons)).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << numSkeletons << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
 			for (int ii = 0; numSkeletons > ii; ++ii)
             {
                 sSkeletonData &  aSkel = aFrame->Skeletons[ii];
                 int              numBones = aSkel.nRigidBodies;
                 
+#if defined(MpM_UseCustomStringBuffer)
+                _outBuffer.addLong(ii).addChar('\t').addLong(numBones).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
                 outBuffer << ii << "\t" << numBones << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                 for (int jj = 0; numBones > jj; ++jj)
                 {
                     sRigidBodyData & aBone = aSkel.RigidBodyData[jj];
                     
+#if defined(MpM_UseCustomStringBuffer)
+                    _outBuffer.addLong(aBone.ID).addChar('\t');
+                    _outBuffer.addDouble(aBone.x * scale).addChar('\t');
+                    _outBuffer.addDouble(aBone.y * scale).addChar('\t');
+                    _outBuffer.addDouble(aBone.z * scale).addChar('\t');
+                    _outBuffer.addDouble(aBone.qx).addChar('\t');
+                    _outBuffer.addDouble(aBone.qy).addChar('\t');
+                    _outBuffer.addDouble(aBone.qz).addChar('\t');
+                    _outBuffer.addDouble(aBone.qw).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << aBone.ID << "\t" << (aBone.x * scale) << "\t" <<
-								(aBone.y * scale) << "\t" << (aBone.z * scale) << "\t" <<
-								aBone.qx << "\t" << aBone.qy << "\t" << aBone.qz << "\t" <<
-								aBone.qw << LINE_END_;
+                    (aBone.y * scale) << "\t" << (aBone.z * scale) << "\t" <<
+                    aBone.qx << "\t" << aBone.qy << "\t" << aBone.qz << "\t" <<
+                    aBone.qw << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                 }
             }
-            outBuffer << "END" << LINE_END_;
-			theThread->sendMessage(outBuffer.str().c_str());
+#if defined(MpM_UseCustomStringBuffer)
+            _outBuffer.addString("END" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+            outBuffer << "END" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+            const char * outString;
+            size_t       outLength;
+#if (! defined(MpM_UseCustomStringBuffer))
+            std::string  buffAsString(outBuffer.str());
+#endif // ! defined(MpM_UseCustomStringBuffer)
+            
+#if defined(MpM_UseCustomStringBuffer)
+            outString = _outBuffer.getString(outLength);
+#else // ! defined(MpM_UseCustomStringBuffer)
+            outString = bufAsString.c_str();
+            outLength = bufAsString.length();
+#endif // ! defined(MpM_UseCustomStringBuffer)
+            if (outString && outLength)
+            {
+                theThread->sendMessage(outString, outLength);
+            }
 		}
 	}
 	OD_LOG_EXIT(); //####
@@ -213,19 +253,20 @@ void NatNetBlobInputThread::run(void)
 	OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::run
 
-void NatNetBlobInputThread::sendMessage(const char * message)
+void NatNetBlobInputThread::sendMessage(const char * message,
+                                        const size_t length)
 {
 	OD_LOG_OBJENTER(); //####
 	OD_LOG_S1("message = ", message); //####
 
 	if (_outChannel)
 	{
-        yarp::os::Bottle actualMessage;
+        void *          rawString = static_cast<void *>(const_cast<char *>(message));
+        yarp::os::Value blobValue(rawString, static_cast<int>(length));
         
-        actualMessage.addString(message);
-		if (! _outChannel->write(actualMessage))
+		if (! _outChannel->write(blobValue))
 		{
-			OD_LOG("(! _outChannel->write(actualMessage))"); //####
+			OD_LOG("(! _outChannel->write(blobValue))"); //####
 #if defined(MpM_StallOnSendProblem)
 			Stall();
 #endif // defined(MpM_StallOnSendProblem)

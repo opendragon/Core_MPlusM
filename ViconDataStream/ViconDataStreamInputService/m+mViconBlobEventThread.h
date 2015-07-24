@@ -42,6 +42,7 @@
 # include "stdafx.h"
 
 # include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mStringBuffer.h>
 
 # include <Client.h>
 
@@ -125,6 +126,10 @@ namespace MplusM
 
 			/*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
+
+# if defined(MpM_UseCustomStringBuffer)
+            Common::StringBuffer _outBuffer;
+# endif // defined(MpM_UseCustomStringBuffer)
 
         }; // ViconBlobEventThread
         

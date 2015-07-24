@@ -41,6 +41,7 @@
 # define MpMUnrealOutputLeapInputHandler_H_ /* Header guard */
 
 # include <m+m/m+mBaseInputHandler.h>
+# include <m+m/m+mStringBuffer.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -117,6 +118,10 @@ namespace MplusM
             /*! @brief The network socket that is to be written to. */
             SOCKET _outSocket;
             
+# if defined(MpM_UseCustomStringBuffer)
+            Common::StringBuffer _outBuffer;
+# endif // defined(MpM_UseCustomStringBuffer)
+
         }; // UnrealOutputLeapInputHandler
         
     } // Unreal

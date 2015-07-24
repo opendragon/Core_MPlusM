@@ -83,8 +83,10 @@ namespace MplusM
             void clearOutputChannel(void);
             
 			/*! @brief Send a message via the output channel.
-			@param message The message to send. */
-			void sendMessage(const char * message);
+             @param message The message to send.
+             @param The length of the message. */
+            void sendMessage(const char * message,
+                             const size_t length);
 
             /*! @brief Set the translation scale.
              @param newScale The scale factor for translation values. */
@@ -151,7 +153,11 @@ namespace MplusM
 			/*! @brief The connection to the Natural Point %NatNet device. */
 			NatNetClient * _client;
 
-			/*! @brief The local copy of the client IP address. */
+# if defined(MpM_UseCustomStringBuffer)
+            Common::StringBuffer _outBuffer;
+# endif // defined(MpM_UseCustomStringBuffer)
+
+            /*! @brief The local copy of the client IP address. */
 			char _clientIPAddress[IPADDRESS_BUFFER_SIZE];
 
 			/*! @brief The local copy of the server IP address. */

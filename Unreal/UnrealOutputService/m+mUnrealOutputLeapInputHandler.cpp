@@ -85,10 +85,17 @@ static const double kLeapScale = 1.0;
  @param fingerProps The dictionary to be checked.
  @param scale The translation scale to use.
  @param okSoFar Set to @c false if an unexpected value appears. */
+#if defined(MpM_UseCustomStringBuffer)
+static void dumpFingerProps(Common::StringBuffer & outBuffer,
+                            yarp::os::Property &   fingerProps,
+                            const double           scale,
+                            bool &                 okSoFar)
+#else // ! defined(MpM_UseCustomStringBuffer)
 static void dumpFingerProps(std::stringstream &  outBuffer,
                             yarp::os::Property & fingerProps,
                             const double         scale,
                             bool &               okSoFar)
+#endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("outBuffer = ", &outBuffer, "fingerProps = ", fingerProps, "okSoFar = ", //####
@@ -108,7 +115,11 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
             (3 == directionData->size()))
         {
             cerr << "Segment = " << fingerTag.c_str() << endl; //!!!!
+#if defined(MpM_UseCustomStringBuffer)
+            outBuffer.addString(fingerTag);
+#else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << fingerTag.c_str();
+#endif // ! defined(MpM_UseCustomStringBuffer)
             for (int jj = 0; okSoFar && (3 > jj); ++jj)
             {
                 double            aValue;
@@ -130,7 +141,11 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
                 if (okSoFar)
                 {
                     aValue *= (scale * kLeapScale);
+#if defined(MpM_UseCustomStringBuffer)
+                    outBuffer.addChar('\t').addDouble(aValue);
+#else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << "\t" << aValue;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                 }
             }
             for (int jj = 0; okSoFar && (3 > jj); ++jj)
@@ -153,13 +168,21 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
                 }
                 if (okSoFar)
                 {
+#if defined(MpM_UseCustomStringBuffer)
+                    outBuffer.addChar('\t').addDouble(aValue);
+#else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << "\t" << aValue;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                 }
             }
             if (okSoFar)
             {
                 // Add a dummy 'w' value.
-                outBuffer << "\t1" << LINE_END_;
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addString("\t1" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << "\t1" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
             }
         }
         else
@@ -181,11 +204,19 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
  @param handData The hand data to write out.
  @param scale The translation scale to use.
  @returns @c true if the had data was properly structured and @c false otherwise. */
+#if defined(MpM_UseCustomStringBuffer)
+static bool dumpHandData(Common::StringBuffer & outBuffer,
+                         yarp::os::Property &   handData,
+                         const double           scale)
+#else // ! defined(MpM_UseCustomStringBuffer)
 static bool dumpHandData(std::stringstream &  outBuffer,
                          yarp::os::Property & handData,
                          const double         scale)
+#endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("outBuffer = ", &outBuffer, "handData = ", &handData); //####
+    OD_LOG_D1("scale = ", scale); //####
     bool              okSoFar = true;
     yarp::os::Value & idValue(handData.find("id"));
     yarp::os::Value & fingerValue(handData.find("fingers"));
@@ -201,7 +232,12 @@ static bool dumpHandData(std::stringstream &  outBuffer,
             int fingerCount = fingers->size();
             
             cerr << "Subject = " << nameTag.c_str() << endl; //!!!!
-            outBuffer << nameTag.c_str() << "\t" << fingerCount << "\t0" << LINE_END_;
+#if defined(MpM_UseCustomStringBuffer)
+            outBuffer.addString(nameTag).addChar('\t').addLong(fingerCount).
+                addString("\t0" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+            outBuffer << nameTag.c_str() << "\t" << fingerCount << "\t0" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
             for (int ii = 0; okSoFar && (fingerCount > ii); ++ii)
             {
                 yarp::os::Value & aFinger = fingers->get(ii);
@@ -340,10 +376,16 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     inpu
                             if (0 < handCount)
                             {
                                 bool              okSoFar = true;
+#if (! defined(MpM_UseCustomStringBuffer))
                                 std::stringstream outBuffer;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                 
 //                                cerr << "# hands = " << handCount << endl; //!!!!
+#if defined(MpM_UseCustomStringBuffer)
+                                _outBuffer.reset().addLong(handCount).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
                                 outBuffer << handCount << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                 for (int ii = 0; okSoFar && (handCount > ii); ++ii)
                                 {
                                     yarp::os::Value & handValue = handList->get(ii);
@@ -354,7 +396,11 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     inpu
                                         
                                         if (handData)
                                         {
+#if defined(MpM_UseCustomStringBuffer)
+                                            okSoFar = dumpHandData(_outBuffer, *handData, _scale);
+#else // ! defined(MpM_UseCustomStringBuffer)
                                             okSoFar = dumpHandData(outBuffer, *handData, _scale);
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                         }
                                         else
                                         {
@@ -372,7 +418,12 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     inpu
                                             
                                             if (ListIsReallyDictionary(*asList, handData))
                                             {
+#if defined(MpM_UseCustomStringBuffer)
+                                                okSoFar = dumpHandData(_outBuffer, handData,
+                                                                       _scale);
+#else // ! defined(MpM_UseCustomStringBuffer)
                                                 okSoFar = dumpHandData(outBuffer, handData, _scale);
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                             }
                                             else
                                             {
@@ -395,16 +446,33 @@ bool UnrealOutputLeapInputHandler::handleInput(const yarp::os::Bottle &     inpu
                                 }
                                 if (okSoFar)
                                 {
-                                    outBuffer << "END" << LINE_END_;
-                                    std::string outString(outBuffer.str());
-                                    int         retVal = send(_outSocket, outString.c_str(),
-                                                              static_cast<int>(outString.length()),
-															  0);
+#if defined(MpM_UseCustomStringBuffer)
+                                    _outBuffer.addString("END" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                                    outBuffer << "END" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                                    const char * outString;
+                                    size_t       outLength;
+#if (! defined(MpM_UseCustomStringBuffer))
+                                    std::string  buffAsString(outBuffer.str());
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                     
-                                    cerr << "send--> " << retVal << endl; //!!!!
-                                    if (0 > retVal)
+#if defined(MpM_UseCustomStringBuffer)
+                                    outString = _outBuffer.getString(outLength);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                                    outString = buffAsString.c_str();
+                                    outLength = buffAsString.length();
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                                    if (outString && outLength)
                                     {
-                                        _owner.deactivateConnection();
+                                        int retVal = send(_outSocket, outString,
+                                                          static_cast<int>(outLength), 0);
+                                        
+                                        cerr << "send--> " << retVal << endl; //!!!!
+                                        if (0 > retVal)
+                                        {
+                                            _owner.deactivateConnection();
+                                        }
                                     }
                                 }
                             }

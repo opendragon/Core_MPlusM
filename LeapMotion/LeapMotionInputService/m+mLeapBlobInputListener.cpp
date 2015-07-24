@@ -191,10 +191,16 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
             }
             if (0 < realHandCount)
             {
+#if (! defined(MpM_UseCustomStringBuffer))
                 std::stringstream outBuffer;
+#endif // ! defined(MpM_UseCustomStringBuffer)
 
                 // Write out the number of hands == bodies.
+#if defined(MpM_UseCustomStringBuffer)
+                _outBuffer.reset().addLong(realHandCount).addString(LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
                 outBuffer << realHandCount << LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                 for (Leap::HandList::const_iterator handWalker(hands.begin());
                      hands.end() != handWalker; ++handWalker)
                 {
@@ -231,7 +237,12 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                             {
                                 side = "unknown";
                             }
-                            outBuffer << side << "\t" << fingersCount << "\t0" << LINE_END_;
+#if defined(MpM_UseCustomStringBuffer)
+                            _outBuffer.addString(side).addChar('\t').addLong(fingersCount).
+                                addString("\t0" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                            outBuffer << side << "\t" << fingersCount << "\t0" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                             for (Leap::FingerList::const_iterator fingerWalker(fingers.begin());
                                  fingers.end() != fingerWalker; ++fingerWalker)
                             {
@@ -270,32 +281,62 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                                             break;
 
                                     }
+#if defined(MpM_UseCustomStringBuffer)
+                                    _outBuffer.addString(fingerType).addChar('\t');
+                                    _outBuffer.addDouble(fingerPosition.x * _scale).addChar('\t');
+                                    _outBuffer.addDouble(fingerPosition.y * _scale).addChar('\t');
+                                    _outBuffer.addDouble(fingerPosition.z * _scale).addChar('\t');
+                                    _outBuffer.addDouble(fingerDirection.x).addChar('\t');
+                                    _outBuffer.addDouble(fingerDirection.y).addChar('\t');
+                                    _outBuffer.addDouble(fingerDirection.z).
+                                        addString("\t1" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
                                     outBuffer << fingerType << "\t" <<
                                                 (fingerPosition.x * _scale) << "\t" <<
                                                 (fingerPosition.y * _scale) << "\t" <<
                                                 (fingerPosition.z * _scale) << "\t" <<
                                                 fingerDirection.x << "\t" << fingerDirection.y <<
-                                                "\t" << fingerDirection.z << "\t1" << LINE_END_;
+                                                "\t" << fingerDirection.z << "\t1" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                                 }
                             }
                         }
                     }
                 }
-                outBuffer << "END" << LINE_END_;
+#if defined(MpM_UseCustomStringBuffer)
+                _outBuffer.addString("END" LINE_END_);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << "END" LINE_END_;
+#endif // ! defined(MpM_UseCustomStringBuffer)
                 if (_outChannel)
                 {
+                    const char *     outString;
                     yarp::os::Bottle message;
+                    size_t           outLength;
+#if (! defined(MpM_UseCustomStringBuffer))
                     std::string      buffAsString(outBuffer.str());
-                    yarp::os::Value  blobValue(const_cast<char *>(buffAsString.c_str()),
-                                               static_cast<int>(buffAsString.length()));
-
-                    message.add(blobValue);
-                    if (! _outChannel->write(message))
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                    
+#if defined(MpM_UseCustomStringBuffer)
+                    outString = _outBuffer.getString(outLength);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                    outString = buffAsString.c_str();
+                    outLength = buffAsString.length();
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                    if (outString && outLength)
                     {
-                        OD_LOG("(! _outChannel->write(message))"); //####
+                        void *          rawString =
+                                                static_cast<void *>(const_cast<char *>(outString));
+                        yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
+                        
+                        message.add(blobValue);
+                        if (!_outChannel->write(message))
+                        {
+                            OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)
-                        Stall();
+                            Stall();
 #endif // defined(MpM_StallOnSendProblem)
+                        }
                     }
                 }
             }

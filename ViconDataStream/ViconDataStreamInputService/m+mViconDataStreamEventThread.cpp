@@ -84,8 +84,6 @@ static const int kNumConnectTries = 17;
  retried. */
 static const int kLittleSleep = 200;
 
-//#define REPORT_EVENT_COUNT_ /* */
-
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -166,10 +164,6 @@ bool ViconDataStreamEventThread::initializeConnection(void)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamEventThread::initializeConnection
-
-#if defined(REPORT_EVENT_COUNT_)
-static long lEventCount = 0; //####
-#endif // defined(REPORT_EVENT_COUNT_)
 
 void ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
 {
@@ -269,10 +263,6 @@ void ViconDataStreamEventThread::processEventData(const unsigned int subjectCoun
 	}
 	if (_outChannel)
 	{
-#if defined(REPORT_EVENT_COUNT_)
-		++lEventCount; //####
-		cerr << "sending " << lEventCount << endl; //####
-#endif // defined(REPORT_EVENT_COUNT_)
 		if (0 < message.size())
 		{
 			if (! _outChannel->write(message))

@@ -144,16 +144,6 @@ namespace MplusM
 			Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler[4];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
         }; // OpenStageBlobInputThread
         
     } // OpenStageBlob
