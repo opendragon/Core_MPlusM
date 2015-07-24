@@ -94,13 +94,15 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
 
 		if (0 < numSkeletons)
 		{
-#if (! defined(MpM_UseCustomStringBuffer))
-            std::stringstream outBuffer;
+#if defined(MpM_UseCustomStringBuffer)
+			Common::StringBuffer & outBuffer = theThread->getOutputBuffer();
+#else // ! defined(MpM_UseCustomStringBuffer)
+            std::stringstream      outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
             
             // Write out the number of skeletons == bodies.
 #if defined(MpM_UseCustomStringBuffer)
-            _outBuffer.reset().addLong(static_cast<int>(numSkeletons)).addString(LINE_END_);
+			outBuffer.reset().addLong(static_cast<int>(numSkeletons)).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << numSkeletons << LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -110,7 +112,7 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
                 int              numBones = aSkel.nRigidBodies;
                 
 #if defined(MpM_UseCustomStringBuffer)
-                _outBuffer.addLong(ii).addChar('\t').addLong(numBones).addString(LINE_END_);
+                outBuffer.addLong(ii).addChar('\t').addLong(numBones).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
                 outBuffer << ii << "\t" << numBones << LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -119,14 +121,14 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
                     sRigidBodyData & aBone = aSkel.RigidBodyData[jj];
                     
 #if defined(MpM_UseCustomStringBuffer)
-                    _outBuffer.addLong(aBone.ID).addChar('\t');
-                    _outBuffer.addDouble(aBone.x * scale).addChar('\t');
-                    _outBuffer.addDouble(aBone.y * scale).addChar('\t');
-                    _outBuffer.addDouble(aBone.z * scale).addChar('\t');
-                    _outBuffer.addDouble(aBone.qx).addChar('\t');
-                    _outBuffer.addDouble(aBone.qy).addChar('\t');
-                    _outBuffer.addDouble(aBone.qz).addChar('\t');
-                    _outBuffer.addDouble(aBone.qw).addString(LINE_END_);
+                    outBuffer.addLong(aBone.ID).addChar('\t');
+                    outBuffer.addDouble(aBone.x * scale).addChar('\t');
+                    outBuffer.addDouble(aBone.y * scale).addChar('\t');
+                    outBuffer.addDouble(aBone.z * scale).addChar('\t');
+                    outBuffer.addDouble(aBone.qx).addChar('\t');
+                    outBuffer.addDouble(aBone.qy).addChar('\t');
+                    outBuffer.addDouble(aBone.qz).addChar('\t');
+                    outBuffer.addDouble(aBone.qw).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << aBone.ID << "\t" << (aBone.x * scale) << "\t" <<
                     (aBone.y * scale) << "\t" << (aBone.z * scale) << "\t" <<
@@ -136,7 +138,7 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
                 }
             }
 #if defined(MpM_UseCustomStringBuffer)
-            _outBuffer.addString("END" LINE_END_);
+            outBuffer.addString("END" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << "END" LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -147,7 +149,7 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
 #endif // ! defined(MpM_UseCustomStringBuffer)
             
 #if defined(MpM_UseCustomStringBuffer)
-            outString = _outBuffer.getString(outLength);
+            outString = outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
             outString = bufAsString.c_str();
             outLength = bufAsString.length();
@@ -261,12 +263,14 @@ void NatNetBlobInputThread::sendMessage(const char * message,
 
 	if (_outChannel)
 	{
-        void *          rawString = static_cast<void *>(const_cast<char *>(message));
-        yarp::os::Value blobValue(rawString, static_cast<int>(length));
+		yarp::os::Bottle response;
+        void *           rawString = static_cast<void *>(const_cast<char *>(message));
+        yarp::os::Value  blobValue(rawString, static_cast<int>(length));
         
-		if (! _outChannel->write(blobValue))
+		response.add(blobValue);
+		if (! _outChannel->write(response))
 		{
-			OD_LOG("(! _outChannel->write(blobValue))"); //####
+			OD_LOG("(! _outChannel->write(response))"); //####
 #if defined(MpM_StallOnSendProblem)
 			Stall();
 #endif // defined(MpM_StallOnSendProblem)

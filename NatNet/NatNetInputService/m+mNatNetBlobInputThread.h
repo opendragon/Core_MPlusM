@@ -40,6 +40,7 @@
 # define MpMNatNetBlobInputThread_H_ /* Header guard */
 
 # include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mStringBuffer.h>
 
 # include <NatNetTypes.h>
 # include <NatNetClient.h>
@@ -82,6 +83,16 @@ namespace MplusM
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
             
+# if defined(MpM_UseCustomStringBuffer)
+			/*! @brief Provide access to the output buffer.
+			This is meant to be used by the data received callback.
+			@returns The output buffer. */
+			inline Common::StringBuffer & getOutputBuffer(void)
+			{
+				return _outBuffer;
+			} // getOutputBuffer
+# endif // defined(MpM_UseCustomStringBuffer)
+
 			/*! @brief Send a message via the output channel.
              @param message The message to send.
              @param The length of the message. */

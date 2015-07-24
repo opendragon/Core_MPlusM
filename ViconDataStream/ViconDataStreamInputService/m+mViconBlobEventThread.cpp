@@ -192,12 +192,13 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 
                 if (CPP::Result::Success == o_gsegc.Result)
                 {
+					const char * subjName = static_cast<std::string>(o_gsubjn.SubjectName).c_str();
+
 #if defined(MpM_UseCustomStringBuffer)
-                    _outBuffer.addString(o_gsubjn.SubjectName).addChar('\t').
-                        addLong(o_gsegc.SegmentCount).addString("\t0" LINE_END_);
+                    _outBuffer.addString(subjName).addChar('\t').addLong(o_gsegc.SegmentCount).
+						addString("\t0" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
-                    outBuffer << static_cast<std::string>(o_gsubjn.SubjectName) << "\t" <<
-                                o_gsegc.SegmentCount << "\t0" LINE_END_;
+                    outBuffer << subjName << "\t" << o_gsegc.SegmentCount << "\t0" LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
                     for (unsigned int jj = 0, segCount = o_gsegc.SegmentCount;
                          okSoFar && (segCount > jj); ++jj)
@@ -207,6 +208,8 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 
                         if (CPP::Result::Success == o_gsegn.Result)
                         {
+							const char *                                  segName =
+											static_cast<std::string>(o_gsegn.SegmentName).c_str();
 #if defined(USE_SEGMENT_LOCAL_DATA_)
                             CPP::Output_GetSegmentLocalTranslation        o_gseglt =
                                     _viconClient.GetSegmentLocalTranslation(o_gsubjn.SubjectName,
@@ -230,8 +233,8 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                             {
                                 if (! (o_gseglt.Occluded || o_gseglrq.Occluded))
                                 {
-#if defined(MpM_UseCustomStringBuffer)
-                                    _outBuffer.addString(o_gsegn.SegmentName).addChar('\t');
+# if defined(MpM_UseCustomStringBuffer)
+                                    _outBuffer.addString(segName).addChar('\t');
                                     _outBuffer.addDouble(o_gseglt.Translation[0] * _scale).
                                         addChar('\t');
                                     _outBuffer.addDouble(o_gseglt.Translation[1] * _scale).
@@ -243,16 +246,16 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                                     _outBuffer.addDouble(o_gseglrq.Rotation[2]).addChar('\t');
                                     _outBuffer.addDouble(o_gseglrq.Rotation[3]).
                                         addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
-                                    outBuffer << static_cast<std::string>(o_gsegn.SegmentName) <<
-                                                "\t" << (o_gseglt.Translation[0] * _scale) <<
-                                                "\t" << (o_gseglt.Translation[1] * _scale) <<
-                                                "\t" << (o_gseglt.Translation[2] * _scale) <<
-                                                "\t" << o_gseglrq.Rotation[0] << "\t" <<
+# else // ! defined(MpM_UseCustomStringBuffer)
+                                    outBuffer << segName << "\t" <<
+												(o_gseglt.Translation[0] * _scale) << "\t" <<
+												(o_gseglt.Translation[1] * _scale) << "\t" <<
+												(o_gseglt.Translation[2] * _scale) << "\t" <<
+												o_gseglrq.Rotation[0] << "\t" <<
                                                 o_gseglrq.Rotation[1] << "\t" <<
                                                 o_gseglrq.Rotation[2] << "\t" <<
                                                 o_gseglrq.Rotation[3] << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                                 }
                             }
 #else // ! defined(USE_SEGMENT_LOCAL_DATA_)
@@ -261,8 +264,8 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                             {
                                 if (! (o_gseggt.Occluded || o_gseggrq.Occluded))
                                 {
-#if defined(MpM_UseCustomStringBuffer)
-                                    _outBuffer.addString(o_gsegn.SegmentName).addChar('\t');
+# if defined(MpM_UseCustomStringBuffer)
+                                    _outBuffer.addString(segName).addChar('\t');
                                     _outBuffer.addDouble(o_gseggt.Translation[0] * _scale).
                                         addChar('\t');
                                     _outBuffer.addDouble(o_gseggt.Translation[1] * _scale).
@@ -272,17 +275,18 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                                     _outBuffer.addDouble(o_gseggrq.Rotation[0]).addChar('\t');
                                     _outBuffer.addDouble(o_gseggrq.Rotation[1]).addChar('\t');
                                     _outBuffer.addDouble(o_gseggrq.Rotation[2]).addChar('\t');
-                                    _outBuffer.addDouble(o_gseggrq.Rotation[3]).
-#else // ! defined(MpM_UseCustomStringBuffer)
-                                    outBuffer << static_cast<std::string>(o_gsegn.SegmentName) <<
-                                                "\t" << (o_gseggt.Translation[0] * _scale) <<
-                                                "\t" << (o_gseggt.Translation[1] * _scale) <<
-                                                "\t" << (o_gseggt.Translation[2] * _scale) <<
-                                                "\t" << o_gseggrq.Rotation[0] << "\t" <<
+									_outBuffer.addDouble(o_gseggrq.Rotation[3]).
+										addString(LINE_END_);
+# else // ! defined(MpM_UseCustomStringBuffer)
+                                    outBuffer << segName << "\t" <<
+												(o_gseggt.Translation[0] * _scale) << "\t" <<
+												(o_gseggt.Translation[1] * _scale) << "\t" <<
+												(o_gseggt.Translation[2] * _scale) << "\t" <<
+												o_gseggrq.Rotation[0] << "\t" <<
                                                 o_gseggrq.Rotation[1] << "\t" <<
                                                 o_gseggrq.Rotation[2] << "\t" <<
                                                 o_gseggrq.Rotation[3] << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                                 }
                             }
 #endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
