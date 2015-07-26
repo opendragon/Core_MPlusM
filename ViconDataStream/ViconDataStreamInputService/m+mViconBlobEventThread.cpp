@@ -195,7 +195,7 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 					const char * subjName = static_cast<std::string>(o_gsubjn.SubjectName).c_str();
 
 #if defined(MpM_UseCustomStringBuffer)
-                    _outBuffer.addString(subjName).addChar('\t').addLong(o_gsegc.SegmentCount).
+                    _outBuffer.addString(subjName).addTab().addLong(o_gsegc.SegmentCount).
 						addString("\t0" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << subjName << "\t" << o_gsegc.SegmentCount << "\t0" LINE_END_;
@@ -234,16 +234,16 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                                 if (! (o_gseglt.Occluded || o_gseglrq.Occluded))
                                 {
 # if defined(MpM_UseCustomStringBuffer)
-                                    _outBuffer.addString(segName).addChar('\t');
+                                    _outBuffer.addString(segName).addTab();
                                     _outBuffer.addDouble(o_gseglt.Translation[0] * _scale).
-                                        addChar('\t');
+                                        addTab();
                                     _outBuffer.addDouble(o_gseglt.Translation[1] * _scale).
-                                        addChar('\t');
+                                        addTab();
                                     _outBuffer.addDouble(o_gseglt.Translation[2] * _scale).
-                                        addChar('\t');
-                                    _outBuffer.addDouble(o_gseglrq.Rotation[0]).addChar('\t');
-                                    _outBuffer.addDouble(o_gseglrq.Rotation[1]).addChar('\t');
-                                    _outBuffer.addDouble(o_gseglrq.Rotation[2]).addChar('\t');
+                                        addTab();
+                                    _outBuffer.addDouble(o_gseglrq.Rotation[0]).addTab();
+                                    _outBuffer.addDouble(o_gseglrq.Rotation[1]).addTab();
+                                    _outBuffer.addDouble(o_gseglrq.Rotation[2]).addTab();
                                     _outBuffer.addDouble(o_gseglrq.Rotation[3]).
                                         addString(LINE_END_);
 # else // ! defined(MpM_UseCustomStringBuffer)
@@ -265,16 +265,16 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                                 if (! (o_gseggt.Occluded || o_gseggrq.Occluded))
                                 {
 # if defined(MpM_UseCustomStringBuffer)
-                                    _outBuffer.addString(segName).addChar('\t');
+                                    _outBuffer.addString(segName).addTab();
                                     _outBuffer.addDouble(o_gseggt.Translation[0] * _scale).
-                                        addChar('\t');
+                                        addTab();
                                     _outBuffer.addDouble(o_gseggt.Translation[1] * _scale).
-                                        addChar('\t');
+                                        addTab();
                                     _outBuffer.addDouble(o_gseggt.Translation[2] * _scale).
-                                        addChar('\t');
-                                    _outBuffer.addDouble(o_gseggrq.Rotation[0]).addChar('\t');
-                                    _outBuffer.addDouble(o_gseggrq.Rotation[1]).addChar('\t');
-                                    _outBuffer.addDouble(o_gseggrq.Rotation[2]).addChar('\t');
+                                        addTab();
+                                    _outBuffer.addDouble(o_gseggrq.Rotation[0]).addTab();
+                                    _outBuffer.addDouble(o_gseggrq.Rotation[1]).addTab();
+                                    _outBuffer.addDouble(o_gseggrq.Rotation[2]).addTab();
 									_outBuffer.addDouble(o_gseggrq.Rotation[3]).
 										addString(LINE_END_);
 # else // ! defined(MpM_UseCustomStringBuffer)
@@ -318,11 +318,10 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
         }
         if (okSoFar && _outChannel)
         {
-            const char *     outString;
-            yarp::os::Bottle message;
-            size_t           outLength;
+            const char * outString;
+            size_t       outLength;
 #if (! defined(MpM_UseCustomStringBuffer))
-            std::string      buffAsString(outBuffer.str());
+            std::string  buffAsString(outBuffer.str());
 #endif // ! defined(MpM_UseCustomStringBuffer)
             
 #if defined(MpM_UseCustomStringBuffer)
@@ -335,11 +334,12 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
             {
                 void *          rawString = static_cast<void *>(const_cast<char *>(outString));
                 yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
-                
-                message.add(blobValue);
-                if (!_outChannel->write(message))
+
+                _messageBottle.clear();
+                _messageBottle.add(blobValue);
+                if (! _outChannel->write(_messageBottle))
                 {
-                    OD_LOG("(! _outChannel->write(message))"); //####
+                    OD_LOG("(! _outChannel->write(_messageBottle))"); //####
 #if defined(MpM_StallOnSendProblem)
                     Stall();
 #endif // defined(MpM_StallOnSendProblem)

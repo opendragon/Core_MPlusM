@@ -41,6 +41,7 @@
 # define MpMRecordAsJSONOutputInputHandler_H_ /* Header guard */
 
 # include <m+m/m+mBaseInputHandler.h>
+# include <m+m/m+mStringBuffer.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -101,6 +102,11 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
             
+# if defined(MpM_UseCustomStringBuffer)
+            /*! @brief The buffer to hold the output data. */
+            Common::StringBuffer _outBuffer;
+# endif // defined(MpM_UseCustomStringBuffer)
+
             /*! @brief The file that is to be written to. */
             FILE * _outFile;
             

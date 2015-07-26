@@ -224,7 +224,7 @@ void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDa
 		}
 		if (_outChannel)
 		{
-			if (!_outChannel->write(message))
+			if (! _outChannel->write(message))
 			{
 				OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)

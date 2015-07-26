@@ -60,7 +60,7 @@ namespace MplusM
 
         /*! @brief A handler for partially-structured input data.
          
-         The data is expected to be in the form of a sequence of %Leap Motion segments. */
+         The data is expected to be in the form of arbitrary YARP messages. */
         class BlobOutputInputHandler : public Common::BaseInputHandler
         {
         public :

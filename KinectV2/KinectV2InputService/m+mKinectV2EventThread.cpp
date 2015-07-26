@@ -173,7 +173,7 @@ static void addJointToList(yarp::os::Bottle &       listToUpdate,
             add4VectorToDictionary(jointProps, "orientation", orientationData.Orientation);
         }
     }
-} // addBoneToList
+} // addJointToList
 #endif // ! defined(GENERATE_BONES_)
 
 /*! @brief Convert a hand state into a string.

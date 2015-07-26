@@ -142,7 +142,7 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
                 {
                     aValue *= (scale * kLeapScale);
 #if defined(MpM_UseCustomStringBuffer)
-                    outBuffer.addChar('\t').addDouble(aValue);
+                    outBuffer.addTab().addDouble(aValue);
 #else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << "\t" << aValue;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -169,7 +169,7 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
                 if (okSoFar)
                 {
 #if defined(MpM_UseCustomStringBuffer)
-                    outBuffer.addChar('\t').addDouble(aValue);
+                    outBuffer.addTab().addDouble(aValue);
 #else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << "\t" << aValue;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -233,7 +233,7 @@ static bool dumpHandData(std::stringstream &  outBuffer,
             
             cerr << "Subject = " << nameTag.c_str() << endl; //!!!!
 #if defined(MpM_UseCustomStringBuffer)
-            outBuffer.addString(nameTag).addChar('\t').addLong(fingerCount).
+            outBuffer.addString(nameTag).addTab().addLong(fingerCount).
                 addString("\t0" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << nameTag.c_str() << "\t" << fingerCount << "\t0" LINE_END_;

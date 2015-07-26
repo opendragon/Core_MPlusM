@@ -81,7 +81,7 @@ namespace MplusM
             /*! @brief Add a character string representation of an integer value to the buffer.
              @param aLong The value to add.
 			 @returns The StringBuffer object so that cascading can be done. */
-			StringBuffer & addLong(const long aLong);
+			StringBuffer & addLong(const int64_t aLong);
             
             /*! @brief Add a character string to the buffer.
              @param aString The value to add.
@@ -93,6 +93,10 @@ namespace MplusM
 			 @returns The StringBuffer object so that cascading can be done. */
 			StringBuffer & addString(const YarpString & aString);
             
+            /*! @brief Add a horizontal tab character to the buffer.
+             @returns The StringBuffer object so that cascading can be done. */
+            StringBuffer & addTab(void);
+
             /*! @brief Return a pointer to the characters in the buffer as well as the number of
              valid characters present.
              @param length Set to the number of valid characters in the buffer.

@@ -159,13 +159,13 @@ StringBuffer & StringBuffer::addDouble(const double aDouble)
 	return *this;
 } // StringBuffer::addDouble
 
-StringBuffer & StringBuffer::addLong(const long aLong)
+StringBuffer & StringBuffer::addLong(const int64_t aLong)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("aLong = ", aLong); //####
     char numBuff[kNumBuffSize];
     
-    snprintf(numBuff, sizeof(numBuff), "%ld", aLong);
+    snprintf(numBuff, sizeof(numBuff), "%lld", aLong);
 	OD_LOG_S1("numBuff <- ", numBuff); //####
     size_t lengthToAdd = strlen(numBuff);
     
@@ -240,6 +240,21 @@ StringBuffer & StringBuffer::addString(const YarpString & aString)
 	OD_LOG_OBJEXIT_P(this); //####
 	return *this;
 } // StringBuffer::addString
+
+StringBuffer & StringBuffer::addTab(void)
+{
+    OD_LOG_OBJENTER(); //####
+    if ((_currentLength + 1) >= _thresholdLength)
+    {
+        OD_LOG("((_currentLength + 1) >= _thresholdLength)"); //####
+        setSize(static_cast<size_t>(_currentSize * kBufferIncreaseFactor));
+    }
+    *(_buffer + _currentLength) = '\t';
+    ++_currentLength;
+    OD_LOG_LL1("_currentLength <- ", _currentLength); //####
+    OD_LOG_OBJEXIT_P(this); //####
+    return *this;
+} // StringBuffer::addTab
 
 StringBuffer & StringBuffer::reset(void)
 {

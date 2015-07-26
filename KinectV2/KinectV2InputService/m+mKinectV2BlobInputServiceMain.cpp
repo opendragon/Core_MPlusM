@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       BlobOutputServiceMain.cpp
+//  File:       m+mKinectV2BlobInputServiceMain.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The main application for the Blob output service.
+//  Contains:   The main application for the Kinect V2 Blob input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,14 +32,15 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-06-23
+//  Created:    2015-07-26
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBlobOutputService.h"
+#include "m+mKinectV2BlobInputService.h"
 
+#include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
-#include <m+m/m+mPortArgumentDescriptor.h>
+#include <m+m/m+mUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -50,13 +51,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the %Blob output service. */
-
-/*! @dir Blob
- @brief The set of files that implement the %Blob output service. */
-
-/*! @dir BlobOutputService
- @brief The set of files that implement the %Blob output service. */
+ @brief The main application for the Kinect V2 %Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -66,8 +61,8 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Blob;
 using namespace MplusM::Common;
+using namespace MplusM::KinectV2Blob;
 using std::cerr;
 using std::endl;
 
@@ -83,11 +78,11 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the environment and start the %Blob output service.
+/*! @brief Set up the environment and start the Kinect V2 %Blob input service.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Blob output service.
+ @param argv The arguments to be used with the Kinect V2 %Blob input service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -113,8 +108,10 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    BlobOutputService * aService = new BlobOutputService(argumentList, progName, argc, argv, tag,
-                                                         serviceEndpointName, servicePortNumber);
+    KinectV2BlobInputService * aService = new KinectV2BlobInputService(argumentList, progName, argc,
+                                                                       argv, tag,
+                                                                       serviceEndpointName,
+                                                                       servicePortNumber);
     
     if (aService)
     {
@@ -125,7 +122,6 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     {
         OD_LOG("! (aService)"); //####
     }
-    
     OD_LOG_EXIT(); //####
 } // setUpAndGo
 
@@ -133,11 +129,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %Blob output service.
- 
- The first, optional, argument is the port to be written to.
+/*! @brief The entry point for running the Kinect V2 %Blob input service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Blob output service.
+ @param argv The arguments to be used with the Kinect V2 %Blob input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -158,25 +152,25 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                              goWasSet = false;
-        bool                              nameWasSet = false; // not used
-        bool                              reportOnExit = false;
-        bool                              stdinAvailable = CanReadFromStandardInput();
-        YarpString                        serviceEndpointName;
-        YarpString                        servicePortNumber;
-        YarpString                        tag;
-        Utilities::PortArgumentDescriptor firstArg("port", T_("Port to use to connect"),
-                                                   Utilities::kArgModeOptionalModifiable, 9876,
-                                                   false);
-        Utilities::DescriptorVector       argumentList;
+        bool                                goWasSet = false;
+        bool                                nameWasSet = false; // not used
+        bool                                reportOnExit = false;
+        bool                                stdinAvailable = CanReadFromStandardInput();
+        YarpString                          serviceEndpointName;
+        YarpString                          servicePortNumber;
+        YarpString                          tag;
+        Utilities::DoubleArgumentDescriptor firstArg("scale", T_("Translation scale"),
+                                                     Utilities::kArgModeOptionalModifiable, 1, true,
+                                                     0, false, 0);
+        Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);
-        if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_BLOBOUTPUT_SERVICE_NAME_,
-                                          BLOBOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
+		if (ProcessStandardServiceOptions(argc, argv, argumentList,
+                                          DEFAULT_KINECTV2BLOBINPUT_SERVICE_NAME_,
+                                          KINECTV2BLOBINPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone))
+                                          reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -189,7 +183,7 @@ int main(int      argc,
                 if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);                    
                 }
                 else
                 {

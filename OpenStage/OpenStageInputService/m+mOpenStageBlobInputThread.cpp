@@ -170,7 +170,7 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 				}
 			}
 #if defined(MpM_UseCustomStringBuffer)
-			_outBuffer.addLong(static_cast<int>(ii)).addChar('\t').addLong(count).
+			_outBuffer.addLong(static_cast<int>(ii)).addTab().addLong(count).
 				addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
 			outBuffer << ii << "\t" << count << LINE_END_;
@@ -199,20 +199,20 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 					glm::quat      relRotQuat = glm::quat_cast(relJointTransform);
 
 #if defined(MpM_UseCustomStringBuffer)
-					_outBuffer.addString(jointId).addChar('\t');
-					_outBuffer.addDouble(absTransform.m[3][0] * _scale).addChar('\t');
-					_outBuffer.addDouble(absTransform.m[3][1] * _scale).addChar('\t');
-					_outBuffer.addDouble(absTransform.m[3][2] * _scale).addChar('\t');
-					_outBuffer.addDouble(absRotQuat.x).addChar('\t');
-					_outBuffer.addDouble(absRotQuat.y).addChar('\t');
-					_outBuffer.addDouble(absRotQuat.z).addChar('\t');
-					_outBuffer.addDouble(absRotQuat.w).addChar('\t');
-					_outBuffer.addDouble(relTransform.m[3][0] * _scale).addChar('\t');
-					_outBuffer.addDouble(relTransform.m[3][1] * _scale).addChar('\t');
-					_outBuffer.addDouble(relTransform.m[3][2] * _scale).addChar('\t');
-					_outBuffer.addDouble(relRotQuat.x).addChar('\t');
-					_outBuffer.addDouble(relRotQuat.y).addChar('\t');
-					_outBuffer.addDouble(relRotQuat.z).addChar('\t');
+					_outBuffer.addString(jointId).addTab();
+					_outBuffer.addDouble(absTransform.m[3][0] * _scale).addTab();
+					_outBuffer.addDouble(absTransform.m[3][1] * _scale).addTab();
+					_outBuffer.addDouble(absTransform.m[3][2] * _scale).addTab();
+					_outBuffer.addDouble(absRotQuat.x).addTab();
+					_outBuffer.addDouble(absRotQuat.y).addTab();
+					_outBuffer.addDouble(absRotQuat.z).addTab();
+					_outBuffer.addDouble(absRotQuat.w).addTab();
+					_outBuffer.addDouble(relTransform.m[3][0] * _scale).addTab();
+					_outBuffer.addDouble(relTransform.m[3][1] * _scale).addTab();
+					_outBuffer.addDouble(relTransform.m[3][2] * _scale).addTab();
+					_outBuffer.addDouble(relRotQuat.x).addTab();
+					_outBuffer.addDouble(relRotQuat.y).addTab();
+					_outBuffer.addDouble(relRotQuat.z).addTab();
 					_outBuffer.addDouble(relRotQuat.w).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
 					outBuffer << jointId << "\t" << (absTransform.m[3][0] * _scale) << "\t" <<
@@ -253,10 +253,11 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
 				void *          rawString = static_cast<void *>(const_cast<char *>(outString));
 				yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
 
-				message.add(blobValue);
-				if (!_outChannel->write(message))
-				{
-					OD_LOG("(! _outChannel->write(message))"); //####
+                _messageBottle.clear();
+                _messageBottle.add(blobValue);
+                if (! _outChannel->write(_messageBottle))
+                {
+                    OD_LOG("(! _outChannel->write(_messageBottle))"); //####
 #if defined(MpM_StallOnSendProblem)
 					Stall();
 #endif // defined(MpM_StallOnSendProblem)

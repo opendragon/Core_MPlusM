@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       BlobOutputServiceMain.cpp
+//  File:       SendToMQOutputServiceMain.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The main application for the Blob output service.
+//  Contains:   The main application for the SendToMQ output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,11 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-06-23
+//  Created:    2015-07-26
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBlobOutputService.h"
+#include "m+mSendToMQOutputService.h"
 
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mPortArgumentDescriptor.h>
@@ -50,13 +50,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the %Blob output service. */
+ @brief The main application for the %SendToMQ output service. */
 
-/*! @dir Blob
- @brief The set of files that implement the %Blob output service. */
+/*! @dir SendToMQ
+ @brief The set of files that implement the %SendToMQ output service. */
 
-/*! @dir BlobOutputService
- @brief The set of files that implement the %Blob output service. */
+/*! @dir SendToMQOutputService
+ @brief The set of files that implement the %SendToMQ output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -66,8 +66,8 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Blob;
 using namespace MplusM::Common;
+using namespace MplusM::SendToMQ;
 using std::cerr;
 using std::endl;
 
@@ -83,11 +83,11 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the environment and start the %Blob output service.
+/*! @brief Set up the environment and start the %SendToMQ output service.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %Blob output service.
+ @param argv The arguments to be used with the %SendToMQ output service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -113,8 +113,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    BlobOutputService * aService = new BlobOutputService(argumentList, progName, argc, argv, tag,
-                                                         serviceEndpointName, servicePortNumber);
+    SendToMQOutputService * aService = new SendToMQOutputService(argumentList, progName, argc, argv,
+                                                                 tag, serviceEndpointName,
+                                                                 servicePortNumber);
     
     if (aService)
     {
@@ -133,7 +134,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %Blob output service.
+/*! @brief The entry point for running the %SendToMQ output service.
  
  The first, optional, argument is the port to be written to.
  @param argc The number of arguments in 'argv'.
@@ -172,8 +173,8 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_BLOBOUTPUT_SERVICE_NAME_,
-                                          BLOBOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
+                                          DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_,
+                                          SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           kSkipNone))

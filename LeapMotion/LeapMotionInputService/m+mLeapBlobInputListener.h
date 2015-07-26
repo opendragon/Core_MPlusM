@@ -159,8 +159,12 @@ namespace MplusM
             Common::GeneralChannel * _outChannel;
             
 # if defined(MpM_UseCustomStringBuffer)
+            /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
+
+            /*! @brief The %Bottle to use send the output data. */
+            yarp::os::Bottle _messageBottle;
 
         }; // LeapBlobInputListener
         

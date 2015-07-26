@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mViconBlobEventThread.h
+//  File:       m+mSendToMQOutputInputHandler.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for a thread that generates output from Vicon data.
+//  Contains:   The class declaration for the input handler used by the SendToMQ output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,113 +32,92 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-06-24
+//  Created:    2015-07-26
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMViconBlobEventThread_H_))
-# define MpMViconBlobEventThread_H_ /* Header guard */
+#if (! defined(MpMSendToMQOutputInputHandler_H_))
+# define MpMSendToMQOutputInputHandler_H_ /* Header guard */
 
-# include "stdafx.h"
-
-# include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mBaseInputHandler.h>
 # include <m+m/m+mStringBuffer.h>
-
-# include <Client.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file
- @brief The class declaration for a thread that generates output from Vicon data. */
+/*! @file 
+ @brief The class declaration for the input handler used by the %SendToMQ output service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace ViconBlob
+    namespace SendToMQ
     {
-        /*! @brief A class to generate output from Vicon data. */
-        class ViconBlobEventThread : public yarp::os::Thread
+        class SendToMQOutputService;
+
+        /*! @brief A handler for partially-structured input data.
+         
+         The data is expected to be in the form of arbitrary YARP messages. */
+        class SendToMQOutputInputHandler : public Common::BaseInputHandler
         {
         public :
             
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-			 @param nameAndPort The host name and port to connect to the Vicon server. */
-            ViconBlobEventThread(Common::GeneralChannel * outChannel,
-                                 const YarpString &       nameAndPort);
+             @param owner The service that this handler is connected to. */
+            SendToMQOutputInputHandler(SendToMQOutputService & owner);
             
             /*! @brief The destructor. */
-            virtual ~ViconBlobEventThread(void);
+            virtual ~SendToMQOutputInputHandler(void);
             
-            /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
-
-            /*! @brief Set the translation scale.
-             @param newScale The scale factor for translation values. */
-            void setScale(const double newScale);
+			/*! @brief Set the network socket to be written to.
+             @param outSocket The network socket to be written to. */
+            void setSocket(const SOCKET outSocket);
 
         protected :
             
         private :
             
-            /*! @brief Initialize the connection to the Vicon device.
-             @returns @c true on success and @c false otherwise. */
-            bool initializeConnection(void);
+            /*! @brief Process partially-structured input data.
+             @param input The partially-structured input data.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
+             @param numBytes The number of bytes available on the connection.
+             @returns @c true if the input was correctly structured and successfully processed. */
+            virtual bool handleInput(const yarp::os::Bottle &     input,
+                                     const YarpString &           senderChannel,
+                                     yarp::os::ConnectionWriter * replyMechanism,
+                                     const size_t                 numBytes);
             
-            /*! @brief Handle the sensor data associated with the current frame.
-             @param subjectCount The number of subjects in the data. */
-            void processEventData(const unsigned int subjectCount);
+            COPY_AND_ASSIGNMENT_(SendToMQOutputInputHandler);
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
-            
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
-            
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
-            
-            COPY_AND_ASSIGNMENT_(ViconBlobEventThread);
-
         public :
-
+        
         protected :
-
+        
         private :
-
+            
             /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-
-            /*! @brief The translation scale to be used. */
-            double _scale;
-
-			/* @brief The connection to the Vicon device. */
-			ViconDataStreamSDK::CPP::Client _viconClient;
-
-			/* @brief The host name and port to connect to the Vicon server. */
-			YarpString _nameAndPort;
-
-			/*! @brief The channel to send data bursts to. */
-            Common::GeneralChannel * _outChannel;
-
+            typedef BaseInputHandler inherited;
+            
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
 
-            /*! @brief The %Bottle to use send the output data. */
-            yarp::os::Bottle _messageBottle;
-
-        }; // ViconBlobEventThread
+            /*! @brief The service that this handler is connected to. */
+            SendToMQOutputService & _owner;
+            
+            /*! @brief The network socket that is to be written to. */
+            SOCKET _outSocket;
+            
+        }; // SendToMQOutputInputHandler
         
-    } // ViconBlob
+    } // SendToMQ
     
 } // MplusM
 
-#endif // ! defined(MpMViconBlobEventThread_H_)
+#endif // ! defined(MpMSendToMQOutputInputHandler_H_)

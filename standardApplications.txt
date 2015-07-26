@@ -5,6 +5,7 @@ m+mBlobOutputService
 m+mEchoService
 m+mEmotivInputService
 m+mJavaScriptService
+m+mKinectV2BlobInputService
 m+mKinectV2InputService
 m+mLeapBlobInputService
 m+mLeapMotionInputService
@@ -22,6 +23,7 @@ m+mRecordBlobOutputService
 m+mRecordIntegersOutputService
 m+mRequestCounterService
 m+mRunningSumService
+m+mSendToMQOutputService
 m+mTruncateFloatFilterService
 m+mTunnelService
 m+mUnrealOutputService

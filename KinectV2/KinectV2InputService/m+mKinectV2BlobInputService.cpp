@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mOpenStageBlobInputService.cpp
+//  File:       m+mKinectV2BlobInputService.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the Organic Motion OpenStage Blob input service.
+//  Contains:   The class definition for the Kinect V2 Blob input service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-07-14
+//  Created:    2015-07-26
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mOpenStageBlobInputService.h"
+#include "m+mKinectV2BlobInputService.h"
 
-#include "m+mOpenStageBlobInputRequests.h"
-#include "m+mOpenStageBlobInputThread.h"
+#include "m+mKinectV2BlobEventThread.h"
+#include "m+mKinectV2BlobInputRequests.h"
 
 #include <m+m/m+mEndpoint.h>
 
@@ -52,7 +52,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the Organic Motion %OpenStage %Blob input service. */
+ @brief The class definition for the Kinect V2 %Blob input service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -63,7 +63,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::OpenStageBlob;
+using namespace MplusM::KinectV2Blob;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -85,20 +85,18 @@ using namespace MplusM::OpenStageBlob;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-OpenStageBlobInputService::OpenStageBlobInputService(const Utilities::DescriptorVector &
-                                                                                     argumentList,
-                                                     const YarpString &                  launchPath,
-                                                     const int                           argc,
-                                                     char * *                            argv,
-                                                     const YarpString &                  tag,
-                                                     const YarpString &
-                                                                             serviceEndpointName,
-                                                     const YarpString &
-                                                                             servicePortNumber) :
+KinectV2BlobInputService::KinectV2BlobInputService(const Utilities::DescriptorVector & argumentList,
+                                                   const YarpString &                  launchPath,
+                                                   const int                           argc,
+                                                   char * *                            argv,
+                                                   const YarpString &                  tag,
+                                                   const YarpString &
+                                                                                serviceEndpointName,
+                                                   const YarpString &
+                                                                                servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true,
-              MpM_OPENSTAGEBLOBINPUT_CANONICAL_NAME_, OPENSTAGEBLOBINPUT_SERVICE_DESCRIPTION_, "",
-              serviceEndpointName, servicePortNumber), _eventThread(NULL),
-    _hostName(SELF_ADDRESS_NAME_), _translationScale(1), _hostPort(OPENSTAGEBLOBINPUT_DEFAULT_PORT_)
+              MpM_KINECTV2BLOBINPUT_CANONICAL_NAME_, KINECTV2BLOBINPUT_SERVICE_DESCRIPTION_, "",
+              serviceEndpointName, servicePortNumber), _translationScale(1), _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -106,38 +104,44 @@ OpenStageBlobInputService::OpenStageBlobInputService(const Utilities::Descriptor
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_EXIT_P(this); //####
-} // OpenStageBlobInputService::OpenStageBlobInputService
+} // KinectV2BlobInputService::KinectV2BlobInputService
 
-OpenStageBlobInputService::~OpenStageBlobInputService(void)
+KinectV2BlobInputService::~KinectV2BlobInputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     OD_LOG_OBJEXIT(); //####
-} // OpenStageBlobInputService::~OpenStageBlobInputService
+} // KinectV2BlobInputService::~KinectV2BlobInputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
+#if (! MAC_OR_LINUX_)
+# pragma warning(push)
+# pragma warning(disable: 4100)
+#endif // ! MAC_OR_LINUX_
+bool KinectV2BlobInputService::configure(const yarp::os::Bottle & details)
 {
+#if (! defined(OD_ENABLE_LOGGING))
+# if MAC_OR_LINUX_
+#  pragma unused(details)
+# endif // MAC_OR_LINUX_
+#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = false;
     
     try
     {
-        if (3 == details.size())
+        if (1 == details.size())
         {
             yarp::os::Value firstValue(details.get(0));
-            yarp::os::Value secondValue(details.get(1));
-            yarp::os::Value thirdValue(details.get(2));
-            
-            if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
-                thirdValue.isInt())
+
+            if (firstValue.isDouble() || firstValue.isInt())
             {
-                int thirdNumber = thirdValue.asInt();
-                
+                std::stringstream buff;
+
                 if (firstValue.isDouble())
                 {
                     _translationScale = firstValue.asDouble();
@@ -146,20 +150,9 @@ bool OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
                 {
                     _translationScale = firstValue.asInt();
                 }
-                if ((0 < _translationScale) && (0 < thirdNumber))
-                {
-                    std::stringstream buff;
-                    
-                    _hostName = secondValue.asString();
-                    OD_LOG_S1s("_hostName <- ", _hostName); //####
-                    _hostPort = thirdNumber;
-                    OD_LOG_LL1("_hostPort <- ", _hostPort); //####
-                    buff << "Translation scale is " << _translationScale <<
-                            ", host name is '" << _hostName.c_str() << "', host port is " <<
-                            _hostPort;
-                    setExtraInformation(buff.str());
-                    result = true;
-                }
+                buff << "Translation scale is " << _translationScale;
+                setExtraInformation(buff.str());
+                result = true;
             }
         }
     }
@@ -170,9 +163,12 @@ bool OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OpenStageBlobInputService::configure
+} // KinectV2BlobInputService::configure
+#if (! MAC_OR_LINUX_)
+# pragma warning(pop)
+#endif // ! MAC_OR_LINUX_
 
-bool OpenStageBlobInputService::getConfiguration(yarp::os::Bottle & details)
+bool KinectV2BlobInputService::getConfiguration(yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -180,13 +176,11 @@ bool OpenStageBlobInputService::getConfiguration(yarp::os::Bottle & details)
 
     details.clear();
     details.addDouble(_translationScale);
-    details.addString(_hostName);
-    details.addInt(_hostPort);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OpenStageBlobInputService::getConfiguration
+} // KinectV2BlobInputService::getConfiguration
 
-void OpenStageBlobInputService::restartStreams(void)
+void KinectV2BlobInputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -201,9 +195,9 @@ void OpenStageBlobInputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // OpenStageBlobInputService::restartStreams
+} // KinectV2BlobInputService::restartStreams
 
-bool OpenStageBlobInputService::setUpStreamDescriptions(void)
+bool KinectV2BlobInputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -214,26 +208,26 @@ bool OpenStageBlobInputService::setUpStreamDescriptions(void)
     description._portName = rootName + "output";
     description._portProtocol = "b";
     description._protocolDescription = T_("A binary blob containing the segment positions and "
-                                          "directions, global and relative");
+                                          "directions");
     _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OpenStageBlobInputService::setUpStreamDescriptions
+} // KinectV2BlobInputService::setUpStreamDescriptions
 
-bool OpenStageBlobInputService::shutDownOutputStreams(void)
+bool KinectV2BlobInputService::shutDownOutputStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
     if (_eventThread)
     {
-		_eventThread->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // OpenStageBlobInputService::shutDownOutputStreams
+} // KinectV2BlobInputService::shutDownOutputStreams
 
-bool OpenStageBlobInputService::start(void)
+bool KinectV2BlobInputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -258,18 +252,18 @@ bool OpenStageBlobInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // OpenStageBlobInputService::start
+} // KinectV2BlobInputService::start
 
-void OpenStageBlobInputService::startStreams(void)
+void KinectV2BlobInputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isActive())
         {
-            _eventThread = new OpenStageBlobInputThread(getOutletStream(0), _hostName, _hostPort);
+            _eventThread = new KinectV2BlobEventThread(getOutletStream(0));
             _eventThread->setScale(_translationScale);
-			if (_eventThread->start())
+            if (_eventThread->start())
 			{
 				setActive();
 			}
@@ -287,9 +281,9 @@ void OpenStageBlobInputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // OpenStageBlobInputService::startStreams
+} // KinectV2BlobInputService::startStreams
 
-bool OpenStageBlobInputService::stop(void)
+bool KinectV2BlobInputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -305,9 +299,9 @@ bool OpenStageBlobInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OpenStageBlobInputService::stop
+} // KinectV2BlobInputService::stop
 
-void OpenStageBlobInputService::stopStreams(void)
+void KinectV2BlobInputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -317,7 +311,7 @@ void OpenStageBlobInputService::stopStreams(void)
 			if (_eventThread)
 			{
 				_eventThread->stop();
-				for ( ; _eventThread->isRunning();)
+				for ( ; _eventThread->isRunning(); )
 				{
 					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
 				}
@@ -333,7 +327,7 @@ void OpenStageBlobInputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // OpenStageBlobInputService::stopStreams
+} // KinectV2BlobInputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

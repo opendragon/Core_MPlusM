@@ -119,6 +119,7 @@ namespace MplusM
             SOCKET _outSocket;
             
 # if defined(MpM_UseCustomStringBuffer)
+            /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
 

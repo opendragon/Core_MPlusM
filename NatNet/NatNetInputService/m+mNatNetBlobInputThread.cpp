@@ -112,7 +112,7 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
                 int              numBones = aSkel.nRigidBodies;
                 
 #if defined(MpM_UseCustomStringBuffer)
-                outBuffer.addLong(ii).addChar('\t').addLong(numBones).addString(LINE_END_);
+                outBuffer.addLong(ii).addTab().addLong(numBones).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
                 outBuffer << ii << "\t" << numBones << LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -121,13 +121,13 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
                     sRigidBodyData & aBone = aSkel.RigidBodyData[jj];
                     
 #if defined(MpM_UseCustomStringBuffer)
-                    outBuffer.addLong(aBone.ID).addChar('\t');
-                    outBuffer.addDouble(aBone.x * scale).addChar('\t');
-                    outBuffer.addDouble(aBone.y * scale).addChar('\t');
-                    outBuffer.addDouble(aBone.z * scale).addChar('\t');
-                    outBuffer.addDouble(aBone.qx).addChar('\t');
-                    outBuffer.addDouble(aBone.qy).addChar('\t');
-                    outBuffer.addDouble(aBone.qz).addChar('\t');
+                    outBuffer.addLong(aBone.ID).addTab();
+                    outBuffer.addDouble(aBone.x * scale).addTab();
+                    outBuffer.addDouble(aBone.y * scale).addTab();
+                    outBuffer.addDouble(aBone.z * scale).addTab();
+                    outBuffer.addDouble(aBone.qx).addTab();
+                    outBuffer.addDouble(aBone.qy).addTab();
+                    outBuffer.addDouble(aBone.qz).addTab();
                     outBuffer.addDouble(aBone.qw).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << aBone.ID << "\t" << (aBone.x * scale) << "\t" <<
@@ -263,14 +263,14 @@ void NatNetBlobInputThread::sendMessage(const char * message,
 
 	if (_outChannel)
 	{
-		yarp::os::Bottle response;
-        void *           rawString = static_cast<void *>(const_cast<char *>(message));
-        yarp::os::Value  blobValue(rawString, static_cast<int>(length));
+        void *          rawString = static_cast<void *>(const_cast<char *>(message));
+        yarp::os::Value blobValue(rawString, static_cast<int>(length));
         
-		response.add(blobValue);
-		if (! _outChannel->write(response))
-		{
-			OD_LOG("(! _outChannel->write(response))"); //####
+        _messageBottle.clear();
+        _messageBottle.add(blobValue);
+        if (! _outChannel->write(_messageBottle))
+        {
+            OD_LOG("(! _outChannel->write(_messageBottle))"); //####
 #if defined(MpM_StallOnSendProblem)
 			Stall();
 #endif // defined(MpM_StallOnSendProblem)

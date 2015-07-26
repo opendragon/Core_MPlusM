@@ -152,7 +152,7 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                         elementAsDouble *= scale;
                                     }
 #if defined(MpM_UseCustomStringBuffer)
-                                    outBuffer.addChar('\t').addDouble(elementAsDouble);
+                                    outBuffer.addTab().addDouble(elementAsDouble);
 #else // ! defined(MpM_UseCustomStringBuffer)
                                     outBuffer << "\t" << elementAsDouble;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -306,7 +306,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                                                         segmentsAsBottle.toString() << ":" <<
                                                         endl; //!!!!
 #if defined(MpM_UseCustomStringBuffer)
-                                                _outBuffer.addString(subjName).addChar('\t');
+                                                _outBuffer.addString(subjName).addTab();
                                                 _outBuffer.addLong(segmentsAsBottle.size()).
                                                     addString("\t0" LINE_END_);
                                                 okSoFar = dumpSegments(_outBuffer, segmentsAsBottle,
@@ -346,7 +346,7 @@ bool UnrealOutputViconInputHandler::handleInput(const yarp::os::Bottle &     inp
                                                             segmentsAsBottle.toString() << ":" <<
                                                             endl; //!!!!
 #if defined(MpM_UseCustomStringBuffer)
-                                                    _outBuffer.addString(subjName).addChar('\t');
+                                                    _outBuffer.addString(subjName).addTab();
                                                     _outBuffer.addLong(segmentsAsBottle.size()).
                                                         addString("\t0" LINE_END_);
                                                     okSoFar = dumpSegments(_outBuffer,

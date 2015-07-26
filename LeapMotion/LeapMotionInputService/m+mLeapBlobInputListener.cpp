@@ -238,7 +238,7 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                                 side = "unknown";
                             }
 #if defined(MpM_UseCustomStringBuffer)
-                            _outBuffer.addString(side).addChar('\t').addLong(fingersCount).
+                            _outBuffer.addString(side).addTab().addLong(fingersCount).
                                 addString("\t0" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
                             outBuffer << side << "\t" << fingersCount << "\t0" LINE_END_;
@@ -282,12 +282,12 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
 
                                     }
 #if defined(MpM_UseCustomStringBuffer)
-                                    _outBuffer.addString(fingerType).addChar('\t');
-                                    _outBuffer.addDouble(fingerPosition.x * _scale).addChar('\t');
-                                    _outBuffer.addDouble(fingerPosition.y * _scale).addChar('\t');
-                                    _outBuffer.addDouble(fingerPosition.z * _scale).addChar('\t');
-                                    _outBuffer.addDouble(fingerDirection.x).addChar('\t');
-                                    _outBuffer.addDouble(fingerDirection.y).addChar('\t');
+                                    _outBuffer.addString(fingerType).addTab();
+                                    _outBuffer.addDouble(fingerPosition.x * _scale).addTab();
+                                    _outBuffer.addDouble(fingerPosition.y * _scale).addTab();
+                                    _outBuffer.addDouble(fingerPosition.z * _scale).addTab();
+                                    _outBuffer.addDouble(fingerDirection.x).addTab();
+                                    _outBuffer.addDouble(fingerDirection.y).addTab();
                                     _outBuffer.addDouble(fingerDirection.z).
                                         addString("\t1" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
@@ -310,11 +310,10 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
 #endif // ! defined(MpM_UseCustomStringBuffer)
                 if (_outChannel)
                 {
-                    const char *     outString;
-                    yarp::os::Bottle message;
-                    size_t           outLength;
+                    const char * outString;
+                    size_t       outLength;
 #if (! defined(MpM_UseCustomStringBuffer))
-                    std::string      buffAsString(outBuffer.str());
+                    std::string  buffAsString(outBuffer.str());
 #endif // ! defined(MpM_UseCustomStringBuffer)
                     
 #if defined(MpM_UseCustomStringBuffer)
@@ -329,8 +328,9 @@ void LeapBlobInputListener::onFrame(const Leap::Controller & theController)
                                                 static_cast<void *>(const_cast<char *>(outString));
                         yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
                         
-                        message.add(blobValue);
-                        if (!_outChannel->write(message))
+                        _messageBottle.clear();
+                        _messageBottle.add(blobValue);
+                        if (! _outChannel->write(_messageBottle))
                         {
                             OD_LOG("(! _outChannel->write(message))"); //####
 #if defined(MpM_StallOnSendProblem)

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mBlobOutputService.cpp
+//  File:       m+mSendToMQOutputService.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the Blob output service.
+//  Contains:   The class definition for the SendToMQ output service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-06-23
+//  Created:    2015-07-26
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mBlobOutputService.h"
+#include "m+mSendToMQOutputService.h"
 
-#include "m+mBlobOutputInputHandler.h"
-#include "m+mBlobOutputRequests.h"
+#include "m+mSendToMQOutputInputHandler.h"
+#include "m+mSendToMQOutputRequests.h"
 
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mGeneralChannel.h>
@@ -53,7 +53,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the %Blob output service. */
+ @brief The class definition for the %SendToMQ output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -63,8 +63,8 @@
 #endif // defined(__APPLE__)
 
 using namespace MplusM;
-using namespace MplusM::Blob;
 using namespace MplusM::Common;
+using namespace MplusM::SendToMQ;
 using std::cerr;
 using std::endl;
 
@@ -88,16 +88,19 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-BlobOutputService::BlobOutputService(const Utilities::DescriptorVector & argumentList,
-                                     const YarpString &                  launchPath,
-                                     const int                           argc,
-                                     char * *                            argv,
-                                     const YarpString &                  tag,
-                                     const YarpString &                  serviceEndpointName,
-                                     const YarpString &                  servicePortNumber) :
-    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_BLOBOUTPUT_CANONICAL_NAME_,
-              BLOBOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-	_outPort(9876), _networkSocket(INVALID_SOCKET), _inHandler(new BlobOutputInputHandler(*this))
+SendToMQOutputService::SendToMQOutputService(const Utilities::DescriptorVector & argumentList,
+                                             const YarpString &                  launchPath,
+                                             const int                           argc,
+                                             char * *                            argv,
+                                             const YarpString &                  tag,
+                                             const YarpString &
+                                                                                serviceEndpointName,
+                                             const YarpString &
+                                                                                servicePortNumber) :
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CANONICAL_NAME_,
+              SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+	_outPort(9876), _networkSocket(INVALID_SOCKET),
+    _inHandler(new SendToMQOutputInputHandler(*this))
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -105,21 +108,21 @@ BlobOutputService::BlobOutputService(const Utilities::DescriptorVector & argumen
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_EXIT_P(this); //####
-} // BlobOutputService::BlobOutputService
+} // SendToMQOutputService::SendToMQOutputService
 
-BlobOutputService::~BlobOutputService(void)
+SendToMQOutputService::~SendToMQOutputService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
     OD_LOG_OBJEXIT(); //####
-} // BlobOutputService::~BlobOutputService
+} // SendToMQOutputService::~SendToMQOutputService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BlobOutputService::configure(const yarp::os::Bottle & details)
+bool SendToMQOutputService::configure(const yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -149,9 +152,9 @@ bool BlobOutputService::configure(const yarp::os::Bottle & details)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BlobOutputService::configure
+} // SendToMQOutputService::configure
 
-bool BlobOutputService::getConfiguration(yarp::os::Bottle & details)
+bool SendToMQOutputService::getConfiguration(yarp::os::Bottle & details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -161,9 +164,9 @@ bool BlobOutputService::getConfiguration(yarp::os::Bottle & details)
     details.addInt(_outPort);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BlobOutputService::getConfiguration
+} // SendToMQOutputService::getConfiguration
 
-void BlobOutputService::deactivateConnection(void)
+void SendToMQOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
     clearActive();
@@ -184,9 +187,9 @@ void BlobOutputService::deactivateConnection(void)
         _networkSocket = INVALID_SOCKET;
     }
     OD_LOG_EXIT(); //####
-} // BlobOutputService::deactivateConnection
+} // SendToMQOutputService::deactivateConnection
 
-void BlobOutputService::restartStreams(void)
+void SendToMQOutputService::restartStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -201,9 +204,9 @@ void BlobOutputService::restartStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // BlobOutputService::restartStreams
+} // SendToMQOutputService::restartStreams
 
-bool BlobOutputService::setUpStreamDescriptions(void)
+bool SendToMQOutputService::setUpStreamDescriptions(void)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -212,14 +215,14 @@ bool BlobOutputService::setUpStreamDescriptions(void)
     
     _inDescriptions.clear();
     description._portName = rootName + "input";
-    description._portProtocol = "b";
-    description._protocolDescription = "A binary blob";
+    description._portProtocol = "*";
+    description._protocolDescription = "Arbitrary YARP messages";
     _inDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BlobOutputService::setUpStreamDescriptions
+} // SendToMQOutputService::setUpStreamDescriptions
 
-bool BlobOutputService::start(void)
+bool SendToMQOutputService::start(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -244,9 +247,9 @@ bool BlobOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // BlobOutputService::start
+} // SendToMQOutputService::start
 
-void BlobOutputService::startStreams(void)
+void SendToMQOutputService::startStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -373,9 +376,9 @@ void BlobOutputService::startStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // BlobOutputService::startStreams
+} // SendToMQOutputService::startStreams
 
-bool BlobOutputService::stop(void)
+bool SendToMQOutputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -391,9 +394,9 @@ bool BlobOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BlobOutputService::stop
+} // SendToMQOutputService::stop
 
-void BlobOutputService::stopStreams(void)
+void SendToMQOutputService::stopStreams(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -409,7 +412,7 @@ void BlobOutputService::stopStreams(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // BlobOutputService::stopStreams
+} // SendToMQOutputService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

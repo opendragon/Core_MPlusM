@@ -543,7 +543,7 @@ void JavaScriptService::startStreams(void)
             {
                 _generator = new JavaScriptThread(_threadInterval, _context, _global,
                                                   _scriptThreadFunc);
-				if ( !_generator->start())
+				if (! _generator->start())
 				{
 					OD_LOG("(! _generator->start())"); //####
 					delete _generator;

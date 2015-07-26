@@ -712,6 +712,14 @@
 		DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetBlobInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.rc.in"; sourceTree = SOURCE_ROOT; };
 		DFFFC1CE1B61550D00DA3C4D /* m+mStringBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mStringBuffer.cpp"; path = "m+m/m+mStringBuffer.cpp"; sourceTree = "<group>"; };
 		DFFFC1CF1B61550D00DA3C4D /* m+mStringBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mStringBuffer.h"; path = "m+m/m+mStringBuffer.h"; sourceTree = "<group>"; };
+		F63BC82D1B65331400BD5ADB /* m+mKinectV2BlobEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2BlobEventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.cpp"; sourceTree = "<group>"; };
+		F63BC82E1B65331400BD5ADB /* m+mKinectV2BlobEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobEventThread.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.h"; sourceTree = "<group>"; };
+		F63BC82F1B65331400BD5ADB /* m+mKinectV2BlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobInputRequests.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputRequests.h"; sourceTree = "<group>"; };
+		F63BC8301B65331400BD5ADB /* m+mKinectV2BlobInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2BlobInputService.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputService.cpp"; sourceTree = "<group>"; };
+		F63BC8311B65331400BD5ADB /* m+mKinectV2BlobInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobInputService.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputService.h"; sourceTree = "<group>"; };
+		F63BC8321B65331400BD5ADB /* m+mKinectV2BlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mKinectV2BlobInputService.rc.in"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputService.rc.in"; sourceTree = "<group>"; };
+		F63BC8331B65331400BD5ADB /* m+mKinectV2BlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2BlobInputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputServiceMain.cpp"; sourceTree = "<group>"; };
+		F63BC8341B65331400BD5ADB /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = KinectV2/KinectV2InputService/resource1.h; sourceTree = "<group>"; };
 		F64A5FE81A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapTwoFingersInputListener.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputListener.cpp"; sourceTree = SOURCE_ROOT; };
 		F64A5FE91A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoFingersInputListener.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputListener.h"; sourceTree = SOURCE_ROOT; };
 		F64A5FEA1A9BFB2D0015A21E /* m+mLeapTwoFingersInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapTwoFingersInputRequests.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputRequests.h"; sourceTree = SOURCE_ROOT; };
@@ -742,6 +750,16 @@
 		F685DAE91B5C1BFB00B7EC9C /* m+mMetricsStateRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mMetricsStateRequestHandler.h"; path = "m+m/m+mMetricsStateRequestHandler.h"; sourceTree = "<group>"; };
 		F685DAEA1B5C200200B7EC9C /* m+mArgumentDescriptionsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mArgumentDescriptionsRequestHandler.cpp"; path = "m+m/m+mArgumentDescriptionsRequestHandler.cpp"; sourceTree = "<group>"; };
 		F685DAEB1B5C200200B7EC9C /* m+mArgumentDescriptionsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mArgumentDescriptionsRequestHandler.h"; path = "m+m/m+mArgumentDescriptionsRequestHandler.h"; sourceTree = "<group>"; };
+		F69C063F1B65590F00A83A7E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = SendToMQ/CMakeLists.txt; sourceTree = "<group>"; };
+		F69C06401B65592200A83A7E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = SendToMQ/SendToMQOutputService/CMakeLists.txt; sourceTree = "<group>"; };
+		F69C06411B65592200A83A7E /* m+mSendToMQOutputInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mSendToMQOutputInputHandler.cpp"; path = "SendToMQ/SendToMQOutputService/m+mSendToMQOutputInputHandler.cpp"; sourceTree = "<group>"; };
+		F69C06421B65592200A83A7E /* m+mSendToMQOutputInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mSendToMQOutputInputHandler.h"; path = "SendToMQ/SendToMQOutputService/m+mSendToMQOutputInputHandler.h"; sourceTree = "<group>"; };
+		F69C06431B65592200A83A7E /* m+mSendToMQOutputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mSendToMQOutputRequests.h"; path = "SendToMQ/SendToMQOutputService/m+mSendToMQOutputRequests.h"; sourceTree = "<group>"; };
+		F69C06441B65592200A83A7E /* m+mSendToMQOutputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mSendToMQOutputService.cpp"; path = "SendToMQ/SendToMQOutputService/m+mSendToMQOutputService.cpp"; sourceTree = "<group>"; };
+		F69C06451B65592200A83A7E /* m+mSendToMQOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mSendToMQOutputService.h"; path = "SendToMQ/SendToMQOutputService/m+mSendToMQOutputService.h"; sourceTree = "<group>"; };
+		F69C06461B65592200A83A7E /* m+mSendToMQOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mSendToMQOutputService.rc.in"; path = "SendToMQ/SendToMQOutputService/m+mSendToMQOutputService.rc.in"; sourceTree = "<group>"; };
+		F69C06471B65592200A83A7E /* m+mSendToMQOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mSendToMQOutputServiceMain.cpp"; path = "SendToMQ/SendToMQOutputService/m+mSendToMQOutputServiceMain.cpp"; sourceTree = "<group>"; };
+		F69C06481B65592200A83A7E /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = SendToMQ/SendToMQOutputService/resource.h; sourceTree = "<group>"; };
 		F6DA54581A1D83C000238986 /* m+mUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/m+mUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* m+mUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/m+mUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
@@ -1691,6 +1709,7 @@
 				DFA3431418C91B8B0053B87C /* Registry */,
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
 				DF20929218D241270093D3DC /* RequestInfo */,
+				F69C063D1B6558DF00A83A7E /* SendToMQ */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
@@ -2224,14 +2243,22 @@
 			isa = PBXGroup;
 			children = (
 				DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */,
+				F63BC82D1B65331400BD5ADB /* m+mKinectV2BlobEventThread.cpp */,
+				F63BC82E1B65331400BD5ADB /* m+mKinectV2BlobEventThread.h */,
+				F63BC82F1B65331400BD5ADB /* m+mKinectV2BlobInputRequests.h */,
+				F63BC8301B65331400BD5ADB /* m+mKinectV2BlobInputService.cpp */,
+				F63BC8311B65331400BD5ADB /* m+mKinectV2BlobInputService.h */,
+				F63BC8331B65331400BD5ADB /* m+mKinectV2BlobInputServiceMain.cpp */,
 				DFFFBFD819D9A4B900BBD7A7 /* m+mKinectV2EventThread.cpp */,
 				DFFFBFD919D9A4B900BBD7A7 /* m+mKinectV2EventThread.h */,
 				DFFFBFDA19D9A4B900BBD7A7 /* m+mKinectV2InputRequests.h */,
 				DFFFBFDB19D9A4B900BBD7A7 /* m+mKinectV2InputService.cpp */,
 				DFFFBFDC19D9A4B900BBD7A7 /* m+mKinectV2InputService.h */,
 				DFFFBFDD19D9A4B900BBD7A7 /* m+mKinectV2InputServiceMain.cpp */,
+				F63BC8321B65331400BD5ADB /* m+mKinectV2BlobInputService.rc.in */,
 				DFA7D13F1ADDB73700A17BD6 /* m+mKinectV2InputService.rc.in */,
 				DFA7D0EF1ADD99FB00A17BD6 /* resource.h */,
+				F63BC8341B65331400BD5ADB /* resource1.h */,
 				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
 			);
 			name = KinectV2InputService;
@@ -2258,6 +2285,31 @@
 			);
 			name = TestSource;
 			sourceTree = SOURCE_ROOT;
+		};
+		F69C063D1B6558DF00A83A7E /* SendToMQ */ = {
+			isa = PBXGroup;
+			children = (
+				F69C063F1B65590F00A83A7E /* CMakeLists.txt */,
+				F69C063E1B6558ED00A83A7E /* SendToMQOutputService */,
+			);
+			name = SendToMQ;
+			sourceTree = "<group>";
+		};
+		F69C063E1B6558ED00A83A7E /* SendToMQOutputService */ = {
+			isa = PBXGroup;
+			children = (
+				F69C06401B65592200A83A7E /* CMakeLists.txt */,
+				F69C06411B65592200A83A7E /* m+mSendToMQOutputInputHandler.cpp */,
+				F69C06421B65592200A83A7E /* m+mSendToMQOutputInputHandler.h */,
+				F69C06431B65592200A83A7E /* m+mSendToMQOutputRequests.h */,
+				F69C06441B65592200A83A7E /* m+mSendToMQOutputService.cpp */,
+				F69C06451B65592200A83A7E /* m+mSendToMQOutputService.h */,
+				F69C06461B65592200A83A7E /* m+mSendToMQOutputService.rc.in */,
+				F69C06471B65592200A83A7E /* m+mSendToMQOutputServiceMain.cpp */,
+				F69C06481B65592200A83A7E /* resource.h */,
+			);
+			name = SendToMQOutputService;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
