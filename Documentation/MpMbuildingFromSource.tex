@@ -258,10 +258,9 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \secondaryEnd
 \secondaryStart{(Optional, used with \textit{\MMMU})~Building~\textbf{OGDF}}
 \textbf{OGDF} (Open Graph Drawing Framework) provides the tools to layout graphs for the
-\MMMU{} application; the files needed to compile and link with OGDF are
-installed as part of the normal \mplusm{} installation procedure, so it's not necessary to
-rebuild OGDF; the source code is provided in case there is an issue with the headers or
-libraries.
+\MMMU{} application; the files needed to compile and link with OGDF are installed as part
+of the normal \mplusm{} installation procedure, so it's not necessary to rebuild OGDF; the
+source code is provided in case there is an issue with the headers or libraries.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
@@ -421,6 +420,52 @@ standard Windows paths for program files, so the target directory is not the fin
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
+\secondaryStart{(Optional)~Building~\textbf{ActiveMQ-CPP}}
+\textbf{ActiveMQ-CPP} is the \emph{ActiveMQ} engine used with the SendToMQ output service;
+the files needed to compile and link with \textbf{ActiveMQ-CPP} are installed as part of
+the normal \mplusm{} installation procedure, so it's not necessary to rebuild
+\textbf{ActiveMQ-CPP}.
+The source files are not provided with the \asCode{Developer} package, but can be obtained
+via the instructions on the web\longDash{}page
+\companyReference{http://activemq.apache.org/cms/activemq-cpp-384-release.html}%
+{\textbf{ActiveMQ-CPP} source code}, as \mplusm{} does not use a modified version of
+\textbf{ActiveMQ-CPP} and does not depend on a particular version \longDash{} other than
+it must be at least \textbf{ActiveMQ-CPP} \textbf{3.8}.\\
+
+Make sure that all the dependencies for \textbf{ActiveMQ-CPP} are installed before
+building \textbf{ActiveMQ-CPP}, as described on the web\longDash{}page
+\companyReference{http://activemq.apache.org/cms/building.html}%
+{Building \textbf{ActiveMQ}}.
+\tertiaryStart{Building~on~Macintosh~OS~X}
+\begin{itemize}
+\item Select a directory to hold the \textbf{ActiveMQ-CPP} source code, which will be
+referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
+\asCode{\textbf{devel}} directory, but it need not be
+\item\exSp{}On the command\longDash{}line, execute the following commands:
+\begin{itemize}
+\item\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
+\textbf{ActiveMQ}}
+\item\exSp\asCode{cd \textbf{ActiveMQ}}
+\item\exSp\asCode{cd activemq-cpp}
+\item\exSp\asCode{export CFLAGS=``-arch i386 -arch x86\fUS{}64''}
+\item\exSp\asCode{export CXXFLAGS=``-arch i386 -arch x86\fUS{}64''}
+\item\exSp\asCode{./autogen.sh}
+\item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo make install}
+\end{itemize}
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~Microsoft~Windows}
+\begin{itemize}
+\item\TBD
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~Linux}
+\begin{itemize}
+\item\TBD
+\end{itemize}
+\tertiaryEnd
 \secondaryStart{Building~Core~\mplusm}
 If you need to update the version number of \mplusm, refer to the
 \appendixRef{UpdatingVersionNumber}{Updating~the~Version~Number} appendix for what files

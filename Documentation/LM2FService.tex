@@ -1,7 +1,8 @@
-\ProvidesFile{KV2service.tex}[v1.0.0]
-\primaryStart[TheKV2IService]{The~\KVtwoI{}~Service}
-The \asCode{m+mKinectV2InputService} application is an Input service,
-generating a stream of information on the position and orientation of one or more bodies.
+\ProvidesFile{LM2FService.tex}[v1.0.0]
+\primaryStart[TheLTFIService]{The~\LTFI{}~Service}
+The \asCode{m+mLeapTwoFingersInputService} application is an Input service,
+generating a stream of information on the position of the first detected finger of the
+first two detected hands.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
@@ -9,17 +10,17 @@ The \emph{configure} request request has no arguments and does nothing.\\
 
 The \emph{restartStreams} request stops and then starts the output stream.\\
 
-The \emph{startStreams} request request initiates listening to the Kinect V2 controller.
-Once started, the service will send groups of body data via the output \yarp{} network
-connection.\\
+The \emph{startStreams} request request initiates listening to the Leap Motion controller.
+Once started, the service will send pairs of finger position data via the output \yarp{}
+network connection.\\
 
-The \emph{stopStreams} request stops the Kinect V2 controller listener, which stops the
+The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
 output \yarp{} network connection.\\ 
 
 Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
 \insertAppParameters
-\insertTagDescription{\KVtwoI}
+\insertTagDescription{\LTFI}
 \insertInputServiceComment
 \condPage
 \insertStandardServiceCommands
@@ -28,13 +29,13 @@ Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
-\objScaledDiagram{mpm_images/launchKinectV2InputService}%
-{launchServiceKinectVTwo}{Launch options for the \emph{\KVtwoI} service}{0.8}
+\objScaledDiagram{mpm_images/launchLeapTwoFingersInputService}%
+{launchServiceLeapTwoFingers}{Launch options for the \emph{\LTFI} service}{0.8}
 
 For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
 Once the options are set, the following image will appear in the \emph{\MMMU} window when
 the service has successfully started:
-\objScaledDiagram{mpm_images/runningKinectV2InputService}%
-{serviceRunningKinectVTwo}{The \emph{\MMMU} entity for the \emph{\KVtwoI} service}{1.0}
+\objScaledDiagram{mpm_images/runningLeapTwoFingersInputService}%
+{serviceRunningLeapTwoFingers}{The \emph{\MMMU} entity for the \emph{\LTFI} service}{1.0}
 \secondaryEnd
 \primaryEnd{}

@@ -277,12 +277,14 @@ IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMinstalling.te
 JSsecondaryfiles = JSdocumentationHistory.tex JSfrontispiece.tex JSoverview.tex \
 		JSfileFormat.tex JSservice.tex JSexamples.tex $(Commonsources) $(Commonpngfiles)
 	
-KV2secondaryfiles = KV2documentationHistory.tex KV2frontispiece.tex \
-		KV2messageFormat.tex KV2overview.tex KV2service.tex $(Commonsources) \
-		$(Commonpngfiles)
+KV2secondaryfiles = KV2blobMessageFormat.tex KV2blobService.tex \
+		KV2documentationHistory.tex KV2frontispiece.tex KV2messageFormat.tex \
+		KV2overview.tex KV2service.tex $(Commonsources) $(Commonpngfiles)
 
-LMsecondaryfiles = LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex \
-		LMoverview.tex LMservice.tex $(Commonsources) $(Commonpngfiles)
+LMsecondaryfiles = LM2FMessageFormat.tex LM2FService.tex LM2PMessageFormat.tex \
+		LM2PService.tex LMblobMessageFormat.tex LMblobService.tex \
+		LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex LMoverview.tex \
+		LMservice.tex $(Commonsources) $(Commonpngfiles)
 
 MMMsecondaryfiles = MMMdocumentationHistory.tex MMMfrontispiece.tex \
 		MMMmanagingServices.tex MMMnoRegistryService.tex MMMnoYarp.tex MMMoverview.tex \
@@ -294,21 +296,21 @@ MpMsecondaryfiles = MpMbuildingFromSource.tex MpMcaseStudy.tex MpMclasses.tex \
 		MpMrunningWithHamachi.tex MpMservices.tex MpMupdatingVersionNumber.tex \
 		MpMutilities.tex $(Commonsources) $(Commonpngfiles)
 
-NNsecondaryfiles = NNdocumentationHistory.tex NNfrontispiece.tex \
-		NNmessageFormat.tex NNoverview.tex NNservice.tex $(Commonsources) \
-		$(Commonpngfiles)
+NNsecondaryfiles = NNblobMessageFormat.tex NNblobService.tex NNdocumentationHistory.tex \
+		NNfrontispiece.tex NNmessageFormat.tex NNoverview.tex NNservice.tex \
+		$(Commonsources) $(Commonpngfiles)
 
-OSsecondaryfiles = OSdocumentationHistory.tex OSfrontispiece.tex \
-		OSmessageFormat.tex OSoverview.tex OSservice.tex $(Commonsources) \
-		$(Commonpngfiles)
+OSsecondaryfiles = OSblobMessageFormat.tex OSblobService.tex OSdocumentationHistory.tex \
+		OSfrontispiece.tex OSmessageFormat.tex OSoverview.tex OSservice.tex \
+		$(Commonsources) $(Commonpngfiles)
 
 PC2secondaryfiles = PC2documentationHistory.tex PC2frontispiece.tex \
 		PC2messageFormat.tex PC2overview.tex PC2service.tex $(Commonsources) \
 		$(Commonpngfiles)
 
-VDSsecondaryfiles = VDSdocumentationHistory.tex VDSfrontispiece.tex \
-		VDSmessageFormat.tex VDSoverview.tex VDSservice.tex $(Commonsources) \
-		$(Commonpngfiles)
+VDSsecondaryfiles = VDSblobMessageFormat.tex VDSblobService.tex \
+		VDSdocumentationHistory.tex VDSfrontispiece.tex VDSmessageFormat.tex \
+		VDSoverview.tex VDSservice.tex $(Commonsources) $(Commonpngfiles)
 
 # DVI files
 

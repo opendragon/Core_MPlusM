@@ -15,21 +15,4 @@ Each segment entry consists of the segment name as its key and a value consistin
 list of floating\longDash{}point numbers, with the three\longDash{}dimensional coordinates
 \openSq{}X, Y, Z\closeSq{} of the `translation' of the segment, followed by the rotation
 quaternion \openSq{}x, y, z, w\closeSq{} for the segment.
-\primaryEnd
-\primaryStart{The~Message~Format: \VBI}
-Each time that the Vicon DataStream controller reports that there is information
-available, the \asCode{ViconBlobInputService} packages it into a single message
-\openSq\asCode{Bottle}\closeSq, containing a single binary blob, with the following
-format:
-\begin{itemize}
-\item A line containing the number of subjects to follow
-\item\exSp{}A list of subjects, consisting of
-\begin{itemize}
-\item A line containing the name of the subject and the number of segments
-\item\exSp{}A list of segments, with each segment one per line, with its name, the
-three\longDash{}dimensional coordinates \openSq{}X, Y, Z\closeSq{} of the `translation'
-of the segment, multiplied by the translation scale and the rotation quaternion
-\openSq{}x, y, z, w\closeSq{} for the segment
-\end{itemize}
-\end{itemize}
 \primaryEnd{}
