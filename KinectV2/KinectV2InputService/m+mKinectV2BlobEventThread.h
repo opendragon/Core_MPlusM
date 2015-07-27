@@ -42,6 +42,7 @@
 # include "stdafx.h"
 
 # include <m+m/m+mGeneralChannel.h>
+# include <m+m/m+mStringBuffer.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push

@@ -286,6 +286,8 @@ m+mFindServices
 m+mFindServices.rc
 m+mJavaScriptService
 m+mJavaScriptService.rc
+m+mKinectV2BlobInputService
+m+mKinectV2BlobInputService.rc
 m+mKinectV2InputService
 m+mKinectV2InputService.rc
 m+mLeapBlobInputService
@@ -358,6 +360,8 @@ m+mRunningSumClient
 m+mRunningSumClient.rc
 m+mRunningSumService
 m+mRunningSumService.rc
+m+mSendToMQOutputService
+m+mSendToMQOutputService.rc
 m+mServiceLister
 m+mServiceLister.rc
 m+mServiceMetrics
