@@ -85,12 +85,21 @@ namespace MplusM
             /*! @brief The argument is modifiable. */
             kArgModeModifiable = 0x02,
 
+            /*! @brief The argument is a password (not displayable). */
+            kArgModePassword = 0x04,
+            
             /*! @brief The argument is both required and modifiable. */
             kArgModeRequiredModifiable = (kArgModeRequired | kArgModeModifiable),
 
             /*! @brief The argument is both optional and modifiable. */
             kArgModeOptionalModifiable = (kArgModeOptional | kArgModeModifiable),
 
+            /*! @brief The argument is both required and modifiable. */
+            kArgModeRequiredPassword = (kArgModeRequired | kArgModePassword),
+            
+            /*! @brief The argument is both optional and modifiable. */
+            kArgModeOptionalPassword = (kArgModeOptional | kArgModePassword),
+            
             /*! @brief The mode of the argument is undefined. */
             kArgModeUnknown = -1
             
@@ -220,6 +229,14 @@ namespace MplusM
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModeOptional)));
             } // isOptional
           
+            /*! @brief Return @c true if the argument is a password and @c false otherwise.
+             @returns @c true if the argument is a password and @c false otherwise. */
+            inline bool isPassword(void)
+            const
+            {
+                return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModePassword)));
+            } // isPassword
+            
             /*! @brief Set the associated variable to the default value. */
             virtual void setToDefaultValue(void) = 0;
 

@@ -142,11 +142,17 @@ namespace MplusM
             /*! @brief The class that this class is derived from. */
             typedef BaseOutputService inherited;
             
-			/*! @brief The output port number to be used. */
-			int _outPort;
-
-			/*! @brief The network port to write to. */
-            SOCKET _networkSocket;
+             /*! @brief The name of the MQ broker. */
+            YarpString _hostName;
+            
+            /*! @brief The user password for the MQ broker. */
+            YarpString _password;
+            
+            /*! @brief The user name for the MQ broker. */
+            YarpString _userName;
+            
+            /*! @brief The port to connect to the MQ broker. */
+            int _hostPort;
 
             /*! @brief The handler for input data. */
             SendToMQOutputInputHandler * _inHandler;

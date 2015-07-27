@@ -99,7 +99,7 @@ SendToMQOutputService::SendToMQOutputService(const Utilities::DescriptorVector &
                                                                                 servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CANONICAL_NAME_,
               SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-	_outPort(9876), _networkSocket(INVALID_SOCKET),
+    _hostName(SELF_ADDRESS_NAME_), _hostPort(SENDTOMQOUTPUT_DEFAULT_PORT_),
     _inHandler(new SendToMQOutputInputHandler(*this))
 {
     OD_LOG_ENTER(); //####
@@ -130,18 +130,35 @@ bool SendToMQOutputService::configure(const yarp::os::Bottle & details)
     
     try
     {
-        if (1 == details.size())
+        if (4 == details.size())
         {
             yarp::os::Value firstValue(details.get(0));
+            yarp::os::Value secondValue(details.get(1));
+            yarp::os::Value thirdValue(details.get(2));
+            yarp::os::Value fourthValue(details.get(3));
             
-            if (firstValue.isInt())
+            if (firstValue.isString() && secondValue.isInt() && thirdValue.isString() &&
+                fourthValue.isString())
             {
-                std::stringstream buff;
+                int secondNumber = secondValue.asInt();
                 
-                _outPort = firstValue.asInt();
-                buff << "Output port is " << _outPort;
-                setExtraInformation(buff.str());
-                result = true;
+                if (0 < secondNumber)
+                {
+                    std::stringstream buff;
+                    
+                    _hostName = firstValue.asString();
+                    OD_LOG_S1s("_hostName <- ", _hostName); //####
+                    _hostPort = secondNumber;
+                    OD_LOG_LL1("_hostPort <- ", _hostPort); //####
+                    _userName = thirdValue.asString();
+                    OD_LOG_S1s("_userName <- ", _userName); //####
+                    _password = fourthValue.asString();
+                    // Don't trace the password OR report it via the GUI!!
+                    buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
+                            _hostPort << ", user name is '" << _userName << "'.";
+                    setExtraInformation(buff.str());
+                    result = true;
+                }
             }
         }
     }
@@ -161,7 +178,10 @@ bool SendToMQOutputService::getConfiguration(yarp::os::Bottle & details)
     bool result = true;
 
     details.clear();
-    details.addInt(_outPort);
+    details.addString(_hostName);
+    details.addInt(_hostPort);
+    details.addString(_userName);
+    details.addString(""); // Don't return the password being used!!!
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::getConfiguration
@@ -170,6 +190,8 @@ void SendToMQOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
     clearActive();
+#if 0
+    //TBD
 	cerr << "connection is dead" << endl; //!!!!
     if (_inHandler)
     {
@@ -186,6 +208,7 @@ void SendToMQOutputService::deactivateConnection(void)
 #endif // ! MAC_OR_LINUX_
         _networkSocket = INVALID_SOCKET;
     }
+#endif//0
     OD_LOG_EXIT(); //####
 } // SendToMQOutputService::deactivateConnection
 
@@ -256,6 +279,8 @@ void SendToMQOutputService::startStreams(void)
     {
         if (! isActive())
         {
+#if 0
+            //TBD
 			if (_inHandler)
 			{
 #if MAC_OR_LINUX_
@@ -368,6 +393,7 @@ void SendToMQOutputService::startStreams(void)
 #endif // ! MAC_OR_LINUX_
                 _networkSocket = INVALID_SOCKET;
             }
+#endif//0
 		}
     }
     catch (...)

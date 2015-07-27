@@ -423,8 +423,7 @@ Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
         int holder = modeAsInt;
         
         // Check that only the known bits are set!
-        holder &= ~kArgModeOptional;
-        holder &= ~kArgModeModifiable;
+        holder &= ~(kArgModeOptional | kArgModeModifiable | kArgModePassword);
         if (! holder)
         {
             // Only known bits were set.

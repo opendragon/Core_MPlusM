@@ -56,4 +56,7 @@
 /*! @brief The channel-independent name of the %SendToMQ output service. */
 # define MpM_SENDTOMQOUTPUT_CANONICAL_NAME_ "SendToMQOutput"
 
+/*! @brief The default port number to be used. */
+# define SENDTOMQOUTPUT_DEFAULT_PORT_ 61616
+
 #endif // ! defined(MpMSendToMQOutputRequests_H_)

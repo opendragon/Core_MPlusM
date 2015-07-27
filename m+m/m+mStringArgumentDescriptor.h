@@ -71,8 +71,7 @@ namespace MplusM
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
              @param argMode The mode of the command-line argument.
-             @param defaultValue The default value for the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise. */
+             @param defaultValue The default value for the command-line argument. */
             StringArgumentDescriptor(const YarpString & argName,
                                      const YarpString & argDescription,
                                      const ArgumentMode argMode,

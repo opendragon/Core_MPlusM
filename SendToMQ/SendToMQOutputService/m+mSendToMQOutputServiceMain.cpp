@@ -37,7 +37,9 @@
 //--------------------------------------------------------------------------------------------------
 
 #include "m+mSendToMQOutputService.h"
+#include "m+mSendToMQOutputRequests.h"
 
+#include <m+m/m+mAddressArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mPortArgumentDescriptor.h>
 
@@ -159,19 +161,32 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                              goWasSet = false;
-        bool                              nameWasSet = false; // not used
-        bool                              reportOnExit = false;
-        bool                              stdinAvailable = CanReadFromStandardInput();
-        YarpString                        serviceEndpointName;
-        YarpString                        servicePortNumber;
-        YarpString                        tag;
-        Utilities::PortArgumentDescriptor firstArg("port", T_("Port to use to connect"),
-                                                   Utilities::kArgModeOptionalModifiable, 9876,
-                                                   false);
-        Utilities::DescriptorVector       argumentList;
+        bool                                 goWasSet = false;
+        bool                                 nameWasSet = false; // not used
+        bool                                 reportOnExit = false;
+        bool                                 stdinAvailable = CanReadFromStandardInput();
+        YarpString                           serviceEndpointName;
+        YarpString                           servicePortNumber;
+        YarpString                           tag;
+        Utilities::AddressArgumentDescriptor firstArg("hostname",
+                                                      T_("IP address for the MQ broker"),
+                                                      Utilities::kArgModeRequired,
+                                                      SELF_ADDRESS_NAME_);
+        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the MQ broker"),
+                                                      Utilities::kArgModeRequired,
+                                                      SENDTOMQOUTPUT_DEFAULT_PORT_, true);
+        Utilities::StringArgumentDescriptor  thirdArg("user", T_("The user name for the MQ broker"),
+                                                      Utilities::kArgModeRequired, "");
+        Utilities::StringArgumentDescriptor  fourthArg("password",
+                                                       T_("The user password for the MQ broker"),
+                                                       Utilities::kArgModeRequiredPassword,
+                                                       "ZXYzxy");
+        Utilities::DescriptorVector          argumentList;
 
         argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
+        argumentList.push_back(&thirdArg);
+        argumentList.push_back(&fourthArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_,
                                           SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", 2015,

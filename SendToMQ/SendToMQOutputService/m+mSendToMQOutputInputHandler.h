@@ -73,10 +73,12 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~SendToMQOutputInputHandler(void);
             
-			/*! @brief Set the network socket to be written to.
+#if 0
+            /*! @brief Set the network socket to be written to.
              @param outSocket The network socket to be written to. */
             void setSocket(const SOCKET outSocket);
-
+#endif//0
+            
         protected :
             
         private :
@@ -111,8 +113,10 @@ namespace MplusM
             /*! @brief The service that this handler is connected to. */
             SendToMQOutputService & _owner;
             
+#if 0
             /*! @brief The network socket that is to be written to. */
             SOCKET _outSocket;
+#endif//0
             
         }; // SendToMQOutputInputHandler
         
