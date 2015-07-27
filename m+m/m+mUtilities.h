@@ -61,6 +61,7 @@ namespace MplusM
     namespace Common
     {
         class BaseAdapterArguments;
+        class StringBuffer;
     } // Common
     
     namespace Utilities
@@ -210,6 +211,17 @@ namespace MplusM
          @param ports The set of detected ports.
          @returns @c true if the %Registry Service port is present and @c false otherwise. */
         bool CheckListForRegistryService(const PortVector & ports);
+        
+        /*! @brief Convert a YARP message into a JSON record.
+         @param outBuffer The buffer to be written to.
+         @param input The message to be processed. */
+# if defined(MpM_UseCustomStringBuffer)
+        void ConvertMessageToJSON(Common::StringBuffer &   outBuffer,
+                                  const yarp::os::Bottle & input);
+# else // ! defined(MpM_UseCustomStringBuffer)
+        void ConvertMessageToJSON(std::stringstream &      outBuffer,
+                                  const yarp::os::Bottle & input);
+# endif // ! defined(MpM_UseCustomStringBuffer)
         
         /*! @brief Convert the service metrics into a string.
          @param metrics The metrics to convert.

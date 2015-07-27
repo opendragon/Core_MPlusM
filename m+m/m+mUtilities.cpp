@@ -43,6 +43,7 @@
 #include <m+m/m+mRequests.h>
 #include <m+m/m+mServiceRequest.h>
 #include <m+m/m+mServiceResponse.h>
+#include <m+m/m+mStringBuffer.h>
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -859,6 +860,292 @@ static void processNameServerResponse(const YarpString & received,
     OD_LOG_EXIT(); //####
 } // processNameServerResponse
 
+/*! @brief Convert a YARP value into a JSON element.
+ @param outBuffer The buffer to be written to.
+ @param inputValue The value to be processed. */
+#if defined(MpM_UseCustomStringBuffer)
+static void processValue(Common::StringBuffer &  outBuffer,
+                         const yarp::os::Value & inputValue);
+#else // ! defined(MpM_UseCustomStringBuffer)
+static void processValue(std::stringstream &     outBuffer,
+                         const yarp::os::Value & inputValue);
+#endif // ! defined(MpM_UseCustomStringBuffer)
+
+/*! @brief Convert a YARP string into a JSON string.
+ @param outBuffer The buffer to be written to.
+ @param inputString The string to be processed. */
+#if defined(MpM_UseCustomStringBuffer)
+static void processString(Common::StringBuffer & outBuffer,
+                          const YarpString &     inputString)
+#else // ! defined(MpM_UseCustomStringBuffer)
+static void processString(std::stringstream & outBuffer,
+                          const YarpString &  inputString)
+#endif // ! defined(MpM_UseCustomStringBuffer)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("outBuffer = ", &outBuffer, "inputString = ", &inputString); //####
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.addChar('"');
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer << '"';
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    for (size_t ii = 0, mm = inputString.length(); mm > ii; ++ii)
+    {
+        char aChar = inputString[ii];
+        
+        switch (aChar)
+        {
+            case '\\' :
+            case '"' :
+            case '/' :
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addChar(kEscapeChar).addChar(aChar);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << kEscapeChar << aChar;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                break;
+                
+            case '\b' :
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addChar(kEscapeChar).addChar('b');
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << kEscapeChar << 'b';
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                break;
+                
+            case '\f' :
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addChar(kEscapeChar).addChar('f');
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << kEscapeChar << 'f';
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                break;
+                
+            case '\n' :
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addChar(kEscapeChar).addChar('n');
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << kEscapeChar << 'n';
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                break;
+                
+            case '\r' :
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addChar(kEscapeChar).addChar('r');
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << kEscapeChar << 'r';
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                break;
+                
+            case '\t' :
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addChar(kEscapeChar).addChar('t');
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << kEscapeChar << 't';
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                break;
+                
+            default :
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addChar(aChar);
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << aChar;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                break;
+                
+        }
+    }
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.addChar('"');
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer << '"';
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    OD_LOG_EXIT(); //####
+} // processString
+
+/*! @brief Convert a YARP dictionary into a JSON object.
+ @param outBuffer The buffer to be written to.
+ @param inputDictionary The dictionary to be processed. */
+#if defined(MpM_UseCustomStringBuffer)
+static void processDictionary(Common::StringBuffer &     outBuffer,
+                              const yarp::os::Property & inputDictionary)
+#else // ! defined(MpM_UseCustomStringBuffer)
+static void processDictionary(std::stringstream &        outBuffer,
+                              const yarp::os::Property & inputDictionary)
+#endif // ! defined(MpM_UseCustomStringBuffer)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("outBuffer = ", &outBuffer, "inputDictionary = ", &inputDictionary); //####
+    yarp::os::Bottle asList(inputDictionary.toString());
+    
+    // A dictionary converted to a string is a list of two-element lists, with the key as the first
+    // entry and the value as the second.
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.addString("{ ");
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer << "{ ";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    for (int ii = 0, mm = asList.size(); mm > ii; ++ii)
+    {
+        yarp::os::Value anEntry(asList.get(ii));
+        
+        if (anEntry.isList())
+        {
+            yarp::os::Bottle * entryAsList = anEntry.asList();
+            
+            if (entryAsList && (2 == entryAsList->size()))
+            {
+                if (0 < ii)
+                {
+#if defined(MpM_UseCustomStringBuffer)
+                    outBuffer.addString(", ");
+#else // ! defined(MpM_UseCustomStringBuffer)
+                    outBuffer << ", ";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                }
+                processString(outBuffer, entryAsList->get(0).toString());
+#if defined(MpM_UseCustomStringBuffer)
+                outBuffer.addString(" : ");
+#else // ! defined(MpM_UseCustomStringBuffer)
+                outBuffer << " : ";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+                processValue(outBuffer, entryAsList->get(1));
+            }
+        }
+    }
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.addString(" }");
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer << " }";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    OD_LOG_EXIT(); //####
+} // processDictionary
+
+/*! @brief Convert a YARP list into a JSON array.
+ @param outBuffer The buffer to be written to.
+ @param inputList The list to be processed. */
+#if defined(MpM_UseCustomStringBuffer)
+static void processList(Common::StringBuffer &   outBuffer,
+                        const yarp::os::Bottle & inputList)
+#else // ! defined(MpM_UseCustomStringBuffer)
+static void processList(std::stringstream &      outBuffer,
+                        const yarp::os::Bottle & inputList)
+#endif // ! defined(MpM_UseCustomStringBuffer)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("outBuffer = ", &outBuffer, "inputList = ", &inputList); //####
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.addString("( ");
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer << "( ";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    for (int ii = 0, mm = inputList.size(); mm > ii; ++ii)
+    {
+        yarp::os::Value aValue(inputList.get(ii));
+        
+        if (0 < ii)
+        {
+#if defined(MpM_UseCustomStringBuffer)
+            outBuffer.addString(", ");
+#else // ! defined(MpM_UseCustomStringBuffer)
+            outBuffer << ", ";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+        }
+        processValue(outBuffer, aValue);
+    }
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.addString(" )");
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer << " )";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    OD_LOG_EXIT(); //####
+} // processList
+
+#if defined(MpM_UseCustomStringBuffer)
+static void processValue(Common::StringBuffer &  outBuffer,
+                         const yarp::os::Value & inputValue)
+#else // ! defined(MpM_UseCustomStringBuffer)
+static void processValue(std::stringstream &     outBuffer,
+                         const yarp::os::Value & inputValue)
+#endif // ! defined(MpM_UseCustomStringBuffer)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("outBuffer = ", &outBuffer, "inputValue = ", &inputValue); //####
+    if (inputValue.isBool())
+    {
+        bool value = inputValue.asBool();
+        
+#if defined(MpM_UseCustomStringBuffer)
+        outBuffer.addString(value ? "true" : "false");
+#else // ! defined(MpM_UseCustomStringBuffer)
+        outBuffer << (value ? "true" : "false");
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    }
+    else if (inputValue.isInt())
+    {
+        int value = inputValue.asInt();
+        
+#if defined(MpM_UseCustomStringBuffer)
+        outBuffer.addLong(value);
+#else // ! defined(MpM_UseCustomStringBuffer)
+        outBuffer << value;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    }
+    else if (inputValue.isString())
+    {
+        YarpString value = inputValue.asString();
+        
+        processString(outBuffer, value);
+    }
+    else if (inputValue.isDouble())
+    {
+        double value = inputValue.asDouble();
+        
+#if defined(MpM_UseCustomStringBuffer)
+        outBuffer.addDouble(value);
+#else // ! defined(MpM_UseCustomStringBuffer)
+        outBuffer << value;
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    }
+    else if (inputValue.isDict())
+    {
+        yarp::os::Property * value = inputValue.asDict();
+        
+        if (value)
+        {
+            processDictionary(outBuffer, *value);
+        }
+    }
+    else if (inputValue.isList())
+    {
+        yarp::os::Bottle * value = inputValue.asList();
+        
+        if (value)
+        {
+            yarp::os::Property asDict;
+            
+            if (ListIsReallyDictionary(*value, asDict))
+            {
+                processDictionary(outBuffer, asDict);
+            }
+            else
+            {
+                processList(outBuffer, *value);
+            }
+        }
+    }
+    else
+    {
+        // We don't know what to do with this...
+#if defined(MpM_UseCustomStringBuffer)
+        outBuffer.addString("null");
+#else // ! defined(MpM_UseCustomStringBuffer)
+        outBuffer << "null";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    }
+    OD_LOG_EXIT(); //####
+} // processValue
+
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
@@ -1070,6 +1357,51 @@ bool Utilities::CheckListForRegistryService(const PortVector & ports)
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::CheckListForRegistryService
+
+#if defined(MpM_UseCustomStringBuffer)
+void Utilities::ConvertMessageToJSON(Common::StringBuffer &   outBuffer,
+                                     const yarp::os::Bottle & input)
+#else // ! defined(MpM_UseCustomStringBuffer)
+void Utilities::ConvertMessageToJSON(std::stringstream &      outBuffer,
+                                     const yarp::os::Bottle & input)
+#endif // ! defined(MpM_UseCustomStringBuffer)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("outBuffer = ", &outBuffer, "input = ", &input); //####
+    int     mm = input.size();
+    int64_t now = Utilities::GetCurrentTimeInMilliseconds();
+    
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.reset();
+    outBuffer.addString("{ \"time\" : ");
+    outBuffer.addLong(now).addString(", \"value\" : ");
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer.seekp(0);
+    outBuffer << "{ \"time\" : " << now << ", \"value\" : ";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    if (1 == mm)
+    {
+        processValue(outBuffer, input.get(0));
+    }
+    else if (1 < mm)
+    {
+        processList(outBuffer, input);
+    }
+    else
+    {
+#if defined(MpM_UseCustomStringBuffer)
+        outBuffer.addString("null");
+#else // ! defined(MpM_UseCustomStringBuffer)
+        outBuffer << "null";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    }
+#if defined(MpM_UseCustomStringBuffer)
+    outBuffer.addString(" }\n");
+#else // ! defined(MpM_UseCustomStringBuffer)
+    outBuffer << " }\n";
+#endif // ! defined(MpM_UseCustomStringBuffer)
+    OD_LOG_EXIT(); //####
+} // Utilities::ConvertMessageToJSON
 
 YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
                                              const OutputFlavour      flavour)
