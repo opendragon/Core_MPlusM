@@ -25,7 +25,7 @@ Note that the application will exit if the \emph{\RS} is not running.
 \insertStandardServiceCommands
 \secondaryEnd
 \condPage
-\secondaryStart[StartingFromMMManager]{Starting from \emph{\MMMU}}
+\secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchKinectV2InputService}%
@@ -62,27 +62,28 @@ Note that the application will exit if the \emph{Registry Service} is not runnin
 The application has two optional arguments \longDash{} the host name for the Vicon device
 server and the port for the Vicon device server.
 \insertAppParameters
+\condPage
 \insertTagDescription{\KVtwoBI}
 \insertInputServiceComment\\
 
 \insertStandardServiceCommands
 \secondaryEnd
-\secondaryStart[StartingFromChannelManager]{Starting from \emph{Channel Manager}}
-If the service is selected for execution from within the \emph{Channel Manager}
-application, the following dialog will be presented:
-%\objScaledDiagram{mpm_images/launchKinectV2BlobInputService}%
-%{launchServiceKinectVTwoBlob}{Launch options for the \KVtwoBI{} service}{0.8}
+\secondaryStart[StartingFromChannelManager]{Starting from the \emph{\MMMU} application}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchKinectV2BlobInputService}%
+{launchServiceKinectVTwoBlob}{Launch options for the \KVtwoBI{} service}{0.8}
 \condPage{}
-For details on the usage of the `endpoint' and `tag' options, see the \emph{Channel
-Manager Utility} manual.
-Once the options are set, the following image will appear in the \emph{Channel Manager}
-window when the service has successfully started:
-%\objScaledDiagram{mpm_images/runningKinectV2BlobInputService}%
-%{serviceRunningKinectVTwoBlob}{The \emph{Channel Manager} entity for the \KVtwoBI{} service}{1.0}
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
+Once the options are set, the following image will appear in the \emph{\MMMU} window when
+the service has successfully started:
+\objScaledDiagram{mpm_images/runningKinectV2BlobInputService}%
+{serviceRunningKinectVTwoBlob}{The \emph{\MMMU} entity for the \KVtwoBI{} service}{1.0}
 
 If the \textbf{Configure the service} menu item has been selected, the following will
 appear:
-%\objScaledDiagram{mpm_images/configureKinectV2BlobInputService}%
-%{configureServiceKinectVTwoBlob}{Configuration window for the \emph{\KVtwoBI} service}{1.0}
+\objScaledDiagram{mpm_images/configureKinectV2BlobInputService}%
+{configureServiceKinectVTwoBlob}{Configuration window for the \emph{\KVtwoBI} service}%
+{1.0}
 \secondaryEnd
 \primaryEnd{}

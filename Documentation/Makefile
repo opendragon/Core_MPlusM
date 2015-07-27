@@ -95,7 +95,10 @@ JSbitmapepsfiles = $(IMAGE_DIR)/javaScriptWithEndpoint.eps \
 		$(IMAGE_DIR)/launchJavaScriptFilterService.eps \
 		$(IMAGE_DIR)/runningJavaScriptFilterService.eps
 
-KV2bitmapepsfiles = $(IMAGE_DIR)/launchKinectV2InputService.eps \
+KV2bitmapepsfiles = $(IMAGE_DIR)/configureKinectV2BlobInputService.eps \
+		$(IMAGE_DIR)/launchKinectV2BlobInputService.eps \
+		$(IMAGE_DIR)/launchKinectV2InputService.eps \
+		$(IMAGE_DIR)/runningKinectV2BlobInputService.eps \
 		$(IMAGE_DIR)/runningKinectV2InputService.eps
 
 LMbitmapepsfiles = $(IMAGE_DIR)/configureLeapBlobInputService.eps \
