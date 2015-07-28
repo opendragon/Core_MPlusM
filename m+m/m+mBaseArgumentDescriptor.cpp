@@ -48,7 +48,7 @@
 #include <m+m/m+mPortArgumentDescriptor.h>
 #include <m+m/m+mStringArgumentDescriptor.h>
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -423,7 +423,7 @@ Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
         int holder = modeAsInt;
         
         // Check that only the known bits are set!
-        holder &= ~(kArgModeOptional | kArgModeModifiable | kArgModePassword);
+        holder &= ~kArgModeMask;
         if (! holder)
         {
             // Only known bits were set.
@@ -450,8 +450,9 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     size_t numToCheck = min(numArgs, numValues);
 #endif // ! MAC_OR_LINUX_
 
-    OD_LOG_LL1("numToCheck <- ", numToCheck); //####
-	// Set all arguments to their default values, so that they all are defined.
+    OD_LOG_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", //####
+               numToCheck); //####
+	// Set all arguments to their default values, so that they are all defined.
 	for (size_t ii = 0; numArgs > ii; ++ii)
 	{
 		BaseArgumentDescriptor * anArg = arguments[ii];
@@ -530,8 +531,6 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // Utilities::ProcessArguments
-#include <odl/ODDisableLogging.h>
-#include <odl/ODLogging.h>
 
 bool Utilities::PromptForValues(const DescriptorVector & arguments)
 {
@@ -554,13 +553,14 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
     {
         Utilities::BaseArgumentDescriptor * anArg = arguments[ii];
         
-        if (anArg && (! anArg->isExtra()))
+        if (anArg && (! anArg->isRequired()) && (! anArg->isExtra()))
         {
+            std::string currentValue(anArg->getProcessedValue().c_str());
+            std::string defaultValue(anArg->getDefaultValue().c_str());
             std::string inputLine;
             
 			std::cout << anArg->argumentDescription().c_str();
-			std::cout << " (default=" << anArg->getDefaultValue().c_str() << ", current=" <<
-                        anArg->getProcessedValue().c_str() << "): ";
+			std::cout << " (default=" << defaultValue << ", current=" << currentValue << "): ";
             std::cout.flush();
             // Eat whitespace until we get something useful.
             for ( ; ; )
@@ -591,9 +591,16 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
             {
 				if (! inputLine.length())
 				{
-					inputLine = anArg->getDefaultValue().c_str();
+                    if (currentValue.length())
+                    {
+                        inputLine = currentValue;
+                    }
+                    else
+                    {
+                        inputLine = defaultValue;
+                    }
 				}
-				if (!anArg->validate(inputLine))
+				if (! anArg->validate(inputLine))
 				{
 					result = false;
 				}

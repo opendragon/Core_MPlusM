@@ -125,46 +125,29 @@ bool SendToMQOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
     {
         if (_owner.isActive())
         {
-#if 0
-            if (INVALID_SOCKET == _outSocket)
-            {
-                cerr << "invalid socket" << endl; //!!!!
-            }
-            else
-            {
 #if (! defined(MpM_UseCustomStringBuffer))
-                std::stringstream outBuffer;
+            std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                
+            
 #if defined(MpM_UseCustomStringBuffer)
-                Utilities::ConvertMessageToJSON(_outBuffer, input);
+            Utilities::ConvertMessageToJSON(_outBuffer, input);
 #else // ! defined(MpM_UseCustomStringBuffer)
-                Utilities::ConvertMessageToJSON(outBuffer, input);
+            Utilities::ConvertMessageToJSON(outBuffer, input);
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                const char * outString;
-                size_t       outLength;
-#if (! defined(MpM_UseCustomStringBuffer))
-                std::string  buffAsString(outBuffer.str());
-#endif // ! defined(MpM_UseCustomStringBuffer)
-                
 #if defined(MpM_UseCustomStringBuffer)
-                outString = _outBuffer.getString(outLength);
+            size_t      outLength;
+#endif // defined(MpM_UseCustomStringBuffer)
+            std::string buffAsString;
+            
+#if defined(MpM_UseCustomStringBuffer)
+            buffAsString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
-                outString = buffAsString.c_str();
-                outLength = buffAsString.length();
+            buffAsString = outBuffer.str();
 #endif // ! defined(MpM_UseCustomStringBuffer)
-                if (outString && outLength)
-                {
-                    int retVal = send(_outSocket, outString, static_cast<int>(outLength), 0);
-                    
-                    cerr << "send--> " << retVal << endl; //!!!!
-                    if (0 > retVal)
-                    {
-                        _owner.deactivateConnection();
-                    }
-                }
+            if (buffAsString.length())
+            {
+                _owner.sendMessage(buffAsString);
             }
-#endif//0
         }
     }
     catch (...)

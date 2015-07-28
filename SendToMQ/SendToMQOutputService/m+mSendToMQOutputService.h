@@ -131,6 +131,10 @@ namespace MplusM
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
             
+            /*! @brief Send a message via ActiveMQ.
+             @param aMessage The message to send. */
+            void sendMessage(const std::string & aMessage);
+            
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             virtual bool start(void);
@@ -179,7 +183,20 @@ namespace MplusM
             /*! @brief The handler for input data. */
             SendToMQOutputInputHandler * _inHandler;
 
+            /*! @brief The connection generating factory. */
             std::auto_ptr<cms::ConnectionFactory> _connectionFactory;
+            
+            /*! @brief The active connection. */
+            cms::Connection * _connection;
+        
+            /*! @brief The active session. */
+            cms::Session * _session;
+            
+            /*! @brief The destination for the active session. */
+            cms::Destination * _destination;
+            
+            /*! @brief The message producer that works with the active session. */
+            cms::MessageProducer * _producer;
             
         }; // SendToMQOutputService
         

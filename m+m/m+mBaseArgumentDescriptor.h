@@ -100,6 +100,9 @@ namespace MplusM
             /*! @brief The argument is both optional and modifiable. */
             kArgModeOptionalPassword = (kArgModeOptional | kArgModePassword),
             
+            /*! @brief A mask for the available flags. */
+            kArgModeMask = (kArgModeOptional | kArgModeModifiable | kArgModePassword),
+            
             /*! @brief The mode of the argument is undefined. */
             kArgModeUnknown = -1
             
@@ -229,6 +232,14 @@ namespace MplusM
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModeOptional)));
             } // isOptional
           
+            /*! @brief Return @c true if the argument is required and @c false otherwise.
+             @returns @c true if the argument is required and @c false otherwise. */
+            inline bool isRequired(void)
+            const
+            {
+                return ((kArgModeUnknown != _argMode) && (0 == (_argMode & kArgModeOptional)));
+            } // isRequired
+            
             /*! @brief Return @c true if the argument is a password and @c false otherwise.
              @returns @c true if the argument is a password and @c false otherwise. */
             inline bool isPassword(void)

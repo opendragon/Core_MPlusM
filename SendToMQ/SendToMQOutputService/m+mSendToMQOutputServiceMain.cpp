@@ -204,8 +204,10 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    activemq::library::ActiveMQCPP::initializeLibrary();
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                    activemq::library::ActiveMQCPP::shutdownLibrary();
                 }
                 else
                 {

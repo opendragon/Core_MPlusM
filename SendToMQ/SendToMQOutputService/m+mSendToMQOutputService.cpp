@@ -44,7 +44,7 @@
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mGeneralChannel.h>
 
-#include <odl/ODEnableLogging.h>
+//#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -72,6 +72,15 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief Set to @c true if a transacted session is created and @c false otherwise. */
+static const bool kSessionIsTransacted = false;
+
+/*! @brief Set to @c true to use topics and @c false to use queues. */
+static const bool kUseTopics = true;
+
+/*! @brief The name of the topic or queue that will be the message destination. */
+static const std::string kDestinationName("m+m");
+
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -88,7 +97,8 @@ static std::string constructURI(const YarpString & hostName,
     OD_LOG_LL1("hostPort = ", hostPort); //####
     std::stringstream buff;
     
-    buff << "failover://(http://" << hostName.c_str() << ":" << hostPort << ")";
+    buff << "failover://(tcp://" << hostName.c_str() << ":" << hostPort << ")";
+    //    buff << "tcp://" << hostName.c_str() << ":" << hostPort;
     OD_LOG_EXIT_s(buff.str()); //####
     return buff.str();
 } // constructURI
@@ -113,7 +123,8 @@ SendToMQOutputService::SendToMQOutputService(const Utilities::DescriptorVector &
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CANONICAL_NAME_,
               SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _hostName(SELF_ADDRESS_NAME_), _hostPort(SENDTOMQOUTPUT_DEFAULT_PORT_),
-    _inHandler(new SendToMQOutputInputHandler(*this))
+    _inHandler(new SendToMQOutputInputHandler(*this)), _connection(NULL), _session(NULL),
+    _destination(NULL), _producer(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -203,25 +214,34 @@ void SendToMQOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
     clearActive();
-#if 0
-    //TBD
-	cerr << "connection is dead" << endl; //!!!!
-    if (_inHandler)
+    cerr << "connection is dead" << endl; //!!!!
+    if (_connection)
     {
-        _inHandler->setSocket(INVALID_SOCKET);
+        try
+        {
+            _connection->close();
+        }
+        catch (cms::CMSException & ex)
+        {
+            ex.printStackTrace();
+        }
     }
-    if (INVALID_SOCKET != _networkSocket)
+    // Destroy resources.
+    try
     {
-#if MAC_OR_LINUX_
-        shutdown(_networkSocket, SHUT_RDWR);
-        close(_networkSocket);
-#else // ! MAC_OR_LINUX_
-        shutdown(_networkSocket, SD_BOTH);
-        closesocket(_networkSocket);
-#endif // ! MAC_OR_LINUX_
-        _networkSocket = INVALID_SOCKET;
+        delete _producer;
+        _producer = NULL;
+        delete _destination;
+        _destination = NULL;
+        delete _session;
+        _session = NULL;
+        delete _connection;
+        _connection = NULL;
     }
-#endif//0
+    catch (cms::CMSException & ex)
+    {
+        ex.printStackTrace();
+    }
     OD_LOG_EXIT(); //####
 } // SendToMQOutputService::deactivateConnection
 
@@ -241,6 +261,31 @@ void SendToMQOutputService::restartStreams(void)
     }
     OD_LOG_OBJEXIT(); //####
 } // SendToMQOutputService::restartStreams
+
+void SendToMQOutputService::sendMessage(const std::string & aMessage)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1s("aMessage = ", aMessage); //####
+    try
+    {
+        if (isActive())
+        {
+            std::auto_ptr<cms::TextMessage> stuff(_session->createTextMessage(aMessage));
+            
+            _producer->send(stuff.get());
+        }
+    }
+    catch (cms::CMSException & ex)
+    {
+        ex.printStackTrace();
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT(); //####
+} // SendToMQOutputService::sendMessage
 
 bool SendToMQOutputService::setUpStreamDescriptions(void)
 {
@@ -295,122 +340,64 @@ void SendToMQOutputService::startStreams(void)
             std::string brokerURI(constructURI(_hostName, _hostPort));
             
             _connectionFactory.reset(cms::ConnectionFactory::createCMSConnectionFactory(brokerURI));
-#if 0
-            //TBD
-			if (_inHandler)
-			{
-#if MAC_OR_LINUX_
-                SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-#else // ! MAC_OR_LINUX_
-                WORD    wVersionRequested = MAKEWORD(2, 2);
-                WSADATA ww;
-#endif // ! MAC_OR_LINUX_
-                
-#if MAC_OR_LINUX_
-                if (INVALID_SOCKET == listenSocket)
-				{
-				}
-				else
+            if (_connectionFactory.get())
+            {
+                OD_LOG("(_connectionFactory.get())"); //####
+            }
+            _connection = _connectionFactory->createConnection(_userName, _password);
+            if (_connection)
+            {
+                OD_LOG("(_connection)"); //####
+                try
                 {
-                    struct sockaddr_in addr;
-                    
-                    memset(&addr, 0, sizeof(addr));
-                    addr.sin_family = AF_INET;
-                    addr.sin_port = htons(_outPort);
-                    addr.sin_addr.s_addr = htonl(INADDR_ANY);
-                    if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
-                             sizeof(addr)))
-					{
-					}
-					else
+                    _connection->start();
+                    if (kSessionIsTransacted)
                     {
-                        listen(listenSocket, SOMAXCONN);
-                        _networkSocket = accept(listenSocket, 0, 0);
-                        if (INVALID_SOCKET == _networkSocket)
-						{
-						}
-						else
-                        {
-                            _inHandler->setSocket(_networkSocket);
-                            getInletStream(0)->setReader(*_inHandler);
-                            setActive();
-                        }
-                    }
-                    close(listenSocket);
-                }
-#else // ! MAC_OR_LINUX_
-                if (WSAStartup(wVersionRequested, &ww))
-				{
-					cerr << "could not start up WSA" << endl; //!!!!
-				}
-				else
-                {
-                    if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
-                    {
-						cerr << "creating socket" << endl; //!!!!
-                        SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
-                        
-                        if (INVALID_SOCKET == listenSocket)
-						{
-							cerr << "problem creating socket" << endl; //!!!!
-						}
-						else
-                        {
-                            SOCKADDR_IN addr;
-                            
-                            addr.sin_family = AF_INET;
-                            addr.sin_port = htons(_outPort);
-                            addr.sin_addr.s_addr = htonl(INADDR_ANY);
-							cerr << "binding to port" << endl; //!!!!
-                            if (SOCKET_ERROR == bind(listenSocket,
-                                                     reinterpret_cast<LPSOCKADDR>(&addr),
-                                                     sizeof(addr)))
-							{
-								cerr << "problem binding to socket" << endl; //!!!!
-							}
-							else
-                            {
-								cerr << "listening for connection" << endl; //!!!!
-                                listen(listenSocket, SOMAXCONN);
-								cerr << "accepting the connection" << endl; //!!!!
-                                _networkSocket = accept(listenSocket, 0, 0);
-                                if (INVALID_SOCKET == _networkSocket)
-								{
-									cerr << "problem accepting a connection" << endl; //!!!!
-								}
-								else
-                                {
-									cerr << "connection is live" << endl; //!!!!
-                                    _inHandler->setSocket(_networkSocket);
-                                    getInletStream(0)->setReader(*_inHandler);
-                                    setActive();
-                                }
-                            }
-                            shutdown(listenSocket, SD_BOTH);
-                            closesocket(listenSocket);
-                        }
+                        _session = _connection->createSession(cms::Session::SESSION_TRANSACTED);
                     }
                     else
                     {
-						cerr << "WSA version not available" << endl;
-                        WSACleanup();
+                        _session = _connection->createSession(cms::Session::AUTO_ACKNOWLEDGE);
                     }
                 }
-#endif // ! MAC_OR_LINUX_
-			}
-			else if (INVALID_SOCKET != _networkSocket)
-            {
-#if MAC_OR_LINUX_
-                shutdown(_networkSocket, SHUT_RDWR);
-                close(_networkSocket);
-#else // ! MAC_OR_LINUX_
-                shutdown(_networkSocket, SD_BOTH);
-                closesocket(_networkSocket);
-#endif // ! MAC_OR_LINUX_
-                _networkSocket = INVALID_SOCKET;
+                catch (cms::CMSException & ex)
+                {
+                    // This likely to be a bad password or user name.
+                    OD_LOG("CMSException caught."); //####
+                }
             }
-#endif//0
+            if (_session)
+            {
+                OD_LOG("(_session)"); //####
+                if (kUseTopics)
+                {
+                    _destination = _session->createTopic(kDestinationName);
+                }
+                else
+                {
+                    _destination = _session->createQueue(kDestinationName);
+                }
+            }
+            if (_destination)
+            {
+                OD_LOG("(_destination)"); //####
+                _producer = _session->createProducer(_destination);
+                _producer->setDeliveryMode(cms::DeliveryMode::NON_PERSISTENT);
+            }
+            if (_producer)
+            {
+                OD_LOG("(_producer)"); //####
+                if (_inHandler)
+                {
+                    getInletStream(0)->setReader(*_inHandler);
+                    setActive();
+                }
+            }
 		}
+    }
+    catch (cms::CMSException & ex)
+    {
+        ex.printStackTrace();
     }
     catch (...)
     {
