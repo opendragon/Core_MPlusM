@@ -44,7 +44,7 @@
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mGeneralChannel.h>
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -79,6 +79,19 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Local functions
 #endif // defined(__APPLE__)
+
+static std::string constructURI(const YarpString & hostName,
+                                const int          hostPort)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("hostName = ", hostName); //####
+    OD_LOG_LL1("hostPort = ", hostPort); //####
+    std::stringstream buff;
+    
+    buff << "failover://(http://" << hostName.c_str() << ":" << hostPort << ")";
+    OD_LOG_EXIT_s(buff.str()); //####
+    return buff.str();
+} // constructURI
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -279,6 +292,9 @@ void SendToMQOutputService::startStreams(void)
     {
         if (! isActive())
         {
+            std::string brokerURI(constructURI(_hostName, _hostPort));
+            
+            _connectionFactory.reset(cms::ConnectionFactory::createCMSConnectionFactory(brokerURI));
 #if 0
             //TBD
 			if (_inHandler)

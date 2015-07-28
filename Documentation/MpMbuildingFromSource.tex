@@ -448,7 +448,8 @@ referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \item\exSp\asCode{cd \textbf{ActiveMQ}}
 \item\exSp\asCode{cd activemq-cpp}
 \item\exSp\asCode{export CFLAGS=``-arch i386 -arch x86\fUS{}64''}
-\item\exSp\asCode{export CXXFLAGS=``-arch i386 -arch x86\fUS{}64''}
+\item\exSp\asCode{export CXXFLAGS=``-arch i386 -arch x86\fUS{}64 -std=c++11
+-stdlib=libstdc++''}
 \item\exSp\asCode{./autogen.sh}
 \item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m}
 \item\exSp\asCode{make clean \&\& make}

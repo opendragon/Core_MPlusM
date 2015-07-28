@@ -131,8 +131,6 @@ add_executable(${THIS_TARGET}
                 m+mLeapTwoFingersInputService.cpp
                 ${VERS_RESOURCE})
 
-#add_library(Leap SHARED IMPORTED)
-
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         "@loader_path/libLeap.dylib" "@rpath/libLeap.dylib" ${THIS_TARGET})
