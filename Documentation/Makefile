@@ -24,6 +24,8 @@ OSpsfiles =
 
 PC2psfiles =
 
+SMpsfiles = 
+
 VDSpsfiles =
 
 # Intermediate Encapsulated Postscript files
@@ -46,6 +48,8 @@ NNepsfiles =
 OSepsfiles =
 
 PC2epsfiles =
+
+SMepsfiles =
 
 VDSepsfiles =
 
@@ -71,6 +75,8 @@ NNpngfiles =
 OSpngfiles =
 
 PC2pngfiles =
+
+SMpngfiles =
 
 VDSpngfiles =
 
@@ -216,6 +222,10 @@ OSbitmapepsfiles = $(IMAGE_DIR)/configureOpenStageBlobInputService.eps \
 PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \
 		$(IMAGE_DIR)/runningProComp2InputService.eps
 
+SMbitmapepsfiles = $(IMAGE_DIR)/configureSendToMQOutputService.eps \
+		$(IMAGE_DIR)/launchSendToMQOutputService.eps \
+		$(IMAGE_DIR)/runningSendToMQOutputService.eps
+
 VDSbitmapepsfiles = $(IMAGE_DIR)/configureViconBlobInputService.eps \
 		$(IMAGE_DIR)/configureViconDataStreamInputService.eps \
 		$(IMAGE_DIR)/launchViconBlobInputService.eps \
@@ -243,6 +253,8 @@ OSbitmappngfiles = $(OSbitmapepsfiles:.eps=.png)
 
 PC2bitmappngfiles = $(PC2bitmapepsfiles:.eps=.png)
 
+SMbitmappngfiles = $(SMbitmapepsfiles:.eps=.png)
+
 VDSbitmappngfiles = $(VDSbitmapepsfiles:.eps=.png)
 
 # Main source file
@@ -264,6 +276,8 @@ NNmainsource = NatNetInput_Manual.tex
 OSmainsource = OpenStageInput_Manual.tex
 
 PC2mainsource = ProComp2Input_Manual.tex
+
+SMmainsource = SendToMQOutput_Manual.tex
 
 VDSmainsource = ViconDataStreamInput_Manual.tex
 
@@ -308,6 +322,9 @@ PC2secondaryfiles = PC2documentationHistory.tex PC2frontispiece.tex \
 		PC2messageFormat.tex PC2overview.tex PC2service.tex $(Commonsources) \
 		$(Commonpngfiles)
 
+SMsecondaryfiles = SMdocumentationHistory.tex SMfrontispiece.tex SMoverview.tex \
+		SMservice.tex $(Commonsources) $(Commonpngfiles)
+
 VDSsecondaryfiles = VDSblobMessageFormat.tex VDSblobService.tex \
 		VDSdocumentationHistory.tex VDSfrontispiece.tex VDSmessageFormat.tex \
 		VDSoverview.tex VDSservice.tex $(Commonsources) $(Commonpngfiles)
@@ -332,6 +349,8 @@ OSmaindvi = $(OSmainsource:.tex=.dvi)
 
 PC2maindvi = $(PC2mainsource:.tex=.dvi)
 
+SMmaindvi = $(SMmainsource:.tex=.dvi)
+
 VDSmaindvi = $(VDSmainsource:.tex=.dvi)
 
 # Index files
@@ -353,6 +372,8 @@ NNmainidx = $(NNmainsource:.tex=.idx)
 OSmainidx = $(OSmainsource:.tex=.idx)
 
 PC2mainidx = $(PC2mainsource:.tex=.idx)
+
+SMmainidx = $(SMmainsource:.tex=.idx)
 
 VDSmainidx = $(VDSmainsource:.tex=.idx)
 
@@ -376,6 +397,8 @@ OSmainps = $(OSmainsource:.tex=.ps)
 
 PC2mainps = $(PC2mainsource:.tex=.ps)
 
+SMmainps = $(SMmainsource:.tex=.ps)
+
 VDSmainps = $(VDSmainsource:.tex=.ps)
 
 # Output HTML files
@@ -398,6 +421,8 @@ OSmainhtml = $(OSmainsource:.tex=.html)
 
 PC2mainhtml = $(PC2mainsource:.tex=.html)
 
+SMmainhtml = $(SMmainsource:.tex=.html)
+
 VDSmainhtml = $(VDSmainsource:.tex=.html)
 
 # Output PDF files
@@ -419,6 +444,8 @@ NNmainpdf = $(NNmainsource:.tex=.pdf)
 OSmainpdf = $(OSmainsource:.tex=.pdf)
 
 PC2mainpdf = $(PC2mainsource:.tex=.pdf)
+
+SMmainpdf = $(SMmainsource:.tex=.pdf)
 
 VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 
@@ -443,6 +470,8 @@ NNtarget = $(HOME)/$(NNmainpdf) $(HOME)/$(NNmainhtml)
 OStarget = $(HOME)/$(OSmainpdf) $(HOME)/$(OSmainhtml)
 
 PC2target = $(HOME)/$(PC2mainpdf) $(HOME)/$(PC2mainhtml)
+
+SMtarget = $(HOME)/$(SMmainpdf) $(HOME)/$(SMmainhtml)
 
 VDStarget = $(HOME)/$(VDSmainpdf) $(HOME)/$(VDSmainhtml)
 
@@ -544,6 +573,13 @@ $(PC2maindvi) : $(PC2bitmapepsfiles) $(PC2epsfiles) $(PC2mainsource) $(PC2second
 	makeindex $(PC2mainidx)
 	latex -interaction=batchmode $(PC2mainsource)
 
+$(SMmaindvi) : $(SMbitmapepsfiles) $(SMepsfiles) $(SMmainsource) $(SMsecondaryfiles)
+	-latex -interaction=batchmode $(SMmainsource)
+	-latex -interaction=batchmode $(SMmainsource)
+	-latex -interaction=batchmode $(SMmainsource)
+	makeindex $(SMmainidx)
+	latex -interaction=batchmode $(SMmainsource)
+
 $(VDSmaindvi) : $(VDSbitmapepsfiles) $(VDSepsfiles) $(VDSmainsource) $(VDSsecondaryfiles)
 	-latex -interaction=batchmode $(VDSmainsource)
 	-latex -interaction=batchmode $(VDSmainsource)
@@ -580,15 +616,18 @@ $(OSmainhtml) : $(OSbitmappngfiles) $(OSpngfiles) $(OSmainsource) $(OSsecondaryf
 $(PC2mainhtml) : $(PC2bitmappngfiles) $(PC2pngfiles) $(PC2mainsource) $(PC2secondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(PC2mainsource) -o $@
 
+$(SMmainhtml) : $(SMbitmappngfiles) $(SMpngfiles) $(SMmainsource) $(SMsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(SMmainsource) -o $@
+
 $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(VDSmainsource) -o $@
 
 $(IMAGE_ARCHIVE) : $(IMbitmappngfiles) $(JSbitmappngfiles) $(KV2bitmappngfiles) \
 		$(LMbitmappngfiles) $(MMMbitmappngfiles) $(MpMbitmappngfiles) \
-		$(NNbitmappngfiles) $(OSbitmappngfiles) $(PC2bitmappngfiles) \
+		$(NNbitmappngfiles) $(OSbitmappngfiles) $(PC2bitmappngfiles) $(SMbitmappngfiles) \
 		$(VDSbitmappngfiles) $(Commonpngfiles) $(IMpngfiles) $(JSpngfiles) \
 		$(KV2pngfiles) $(LMpngfiles) $(MMMpngfiles) $(MpMpngfiles) $(NNpngfiles) \
-		$(OSpngfiles) $(PC2pngfiles) $(VDSpngfiles) 
+		$(OSpngfiles) $(PC2pngfiles) $(SMpngfiles) $(VDSpngfiles) 
 	tar -czf $(IMAGE_ARCHIVE) $(IMAGE_DIR)
 
 # Top-level targets
@@ -603,4 +642,4 @@ clean :
 #	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
 all : $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) $(MpMtarget) \
-		$(NNtarget) $(OStarget) $(PC2target) $(VDStarget) $(ARCHIVEtarget)
+		$(NNtarget) $(OStarget) $(PC2target) $(SMtarget) $(VDStarget) $(ARCHIVEtarget)

@@ -47,7 +47,7 @@
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
-/*! @file 
+/*! @file
  @brief The class declaration for the input handler used by the %SendToMQ output service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
@@ -58,13 +58,13 @@ namespace MplusM
     namespace SendToMQ
     {
         class SendToMQOutputService;
-
+        
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of arbitrary YARP messages. */
         class SendToMQOutputInputHandler : public Common::BaseInputHandler
         {
-        public :
+            public :
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
@@ -73,9 +73,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~SendToMQOutputInputHandler(void);
             
-        protected :
+            protected :
             
-        private :
+            private :
             
             /*! @brief Process partially-structured input data.
              @param input The partially-structured input data.
@@ -90,11 +90,11 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(SendToMQOutputInputHandler);
             
-        public :
-        
-        protected :
-        
-        private :
+            public :
+            
+            protected :
+            
+            private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;
@@ -103,7 +103,7 @@ namespace MplusM
             /*! @brief The buffer to hold the output data. */
             Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
-
+            
             /*! @brief The service that this handler is connected to. */
             SendToMQOutputService & _owner;
             

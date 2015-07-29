@@ -54,7 +54,7 @@ if(APPLE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
         "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
-    set(CMAKE_EXE_LINKER_FLAGS "-L/opt/m+m/lib" CACHE STRING "Fixes link path" FORCE)
+    set(CMAKE_EXE_LINKER_FLAGS "-L${CMAKE_INSTALL_PREFIX}/lib" CACHE STRING "Fixes link path" FORCE)
 endif(APPLE)
 
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")

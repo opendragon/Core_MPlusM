@@ -84,7 +84,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 SendToMQOutputInputHandler::SendToMQOutputInputHandler(SendToMQOutputService & owner) :
-    inherited(), _owner(owner)
+inherited(), _owner(owner)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####
@@ -134,19 +134,18 @@ bool SendToMQOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
 #else // ! defined(MpM_UseCustomStringBuffer)
             Utilities::ConvertMessageToJSON(outBuffer, input);
 #endif // ! defined(MpM_UseCustomStringBuffer)
-#if defined(MpM_UseCustomStringBuffer)
             size_t      outLength;
-#endif // defined(MpM_UseCustomStringBuffer)
             std::string buffAsString;
             
 #if defined(MpM_UseCustomStringBuffer)
             buffAsString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
             buffAsString = outBuffer.str();
+            outLength = buffAsString.length();
 #endif // ! defined(MpM_UseCustomStringBuffer)
             if (buffAsString.length())
             {
-                _owner.sendMessage(buffAsString);
+                _owner.sendMessage(buffAsString, outLength);
             }
         }
     }

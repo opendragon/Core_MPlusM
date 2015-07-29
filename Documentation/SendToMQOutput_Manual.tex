@@ -1,0 +1,55 @@
+\ProvidesFile{SendToMQOutput_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\input{commonStrings.tex}
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{\SMO}
+\newcommand{\docKeywords}{ActiveMQ,middleware,output}
+\newcommand{\docSubject}{Output Service}
+\newcommand{\SMO}{SendToMQ Output}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\SMO, \MMV]{\SMO, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\SMO}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%BEGIN LATEX
+\insertpart{List~of~Figures}{\listoffigures}
+%END LATEX
+
+\input{SMdocumentationHistory.tex}
+\input{SMfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{SMoverview.tex}
+
+%% section for the service
+
+\input{SMservice.tex}
+
+%% section for the message format
+
+%\input{SMmessageFormat.tex}
+
+% End of contents
+
+\end{document}
+\end

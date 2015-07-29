@@ -55,13 +55,13 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
-@brief The main application for the %SendToMQ output service. */
+ @brief The main application for the %SendToMQ output service. */
 
 /*! @dir SendToMQ
-@brief The set of files that implement the %SendToMQ output service. */
+ @brief The set of files that implement the %SendToMQ output service. */
 
 /*! @dir SendToMQOutputService
-@brief The set of files that implement the %SendToMQ output service. */
+ @brief The set of files that implement the %SendToMQ output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -89,39 +89,39 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the %SendToMQ output service.
-@param argumentList Descriptions of the arguments to the executable.
-@param progName The path to the executable.
-@param argc The number of arguments in 'argv'.
-@param argv The arguments to be used with the %SendToMQ output service.
-@param tag The modifier for the service name and port names.
-@param serviceEndpointName The YARP name to be assigned to the new service.
-@param servicePortNumber The port being used by the service.
-@param goWasSet @c true if the service is to be started immediately.
-@param stdinAvailable @c true if running in the foreground and @c false otherwise.
-@param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
-*/
+ @param argumentList Descriptions of the arguments to the executable.
+ @param progName The path to the executable.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the %SendToMQ output service.
+ @param tag The modifier for the service name and port names.
+ @param serviceEndpointName The YARP name to be assigned to the new service.
+ @param servicePortNumber The port being used by the service.
+ @param goWasSet @c true if the service is to be started immediately.
+ @param stdinAvailable @c true if running in the foreground and @c false otherwise.
+ @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
+ */
 static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
-    const YarpString &                  progName,
-    const int                           argc,
-    char * *                            argv,
-    const YarpString &                  tag,
-    const YarpString &                  serviceEndpointName,
-    const YarpString &                  servicePortNumber,
-    const bool                          goWasSet,
-    const bool                          stdinAvailable,
-    const bool                          reportOnExit)
+                       const YarpString &                  progName,
+                       const int                           argc,
+                       char * *                            argv,
+                       const YarpString &                  tag,
+                       const YarpString &                  serviceEndpointName,
+                       const YarpString &                  servicePortNumber,
+                       const bool                          goWasSet,
+                       const bool                          stdinAvailable,
+                       const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
-        serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
-        "reportOnExit = ", reportOnExit); //####
+              "reportOnExit = ", reportOnExit); //####
     SendToMQOutputService * aService = new SendToMQOutputService(argumentList, progName, argc, argv,
-        tag, serviceEndpointName,
-        servicePortNumber);
-
+                                                                 tag, serviceEndpointName,
+                                                                 servicePortNumber);
+    
     if (aService)
     {
         aService->performLaunch("", goWasSet, stdinAvailable, reportOnExit);
@@ -131,7 +131,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     {
         OD_LOG("! (aService)"); //####
     }
-
+    
     OD_LOG_EXIT(); //####
 } // setUpAndGo
 
@@ -139,24 +139,24 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-  /*! @brief The entry point for running the %SendToMQ output service.
-
-  The first, optional, argument is the port to be written to.
-  @param argc The number of arguments in 'argv'.
-  @param argv The arguments to be used with the %Blob output service.
-  @returns @c 0 on a successful test and @c 1 on failure. */
+/*! @brief The entry point for running the %SendToMQ output service.
+ 
+ The first, optional, argument is the port to be written to.
+ @param argc The number of arguments in 'argv'.
+ @param argv The arguments to be used with the %Blob output service.
+ @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
-    char * * argv)
+         char * * argv)
 {
     YarpString progName(*argv);
-
+    
 #if defined(MpM_ServicesLogToStandardError)
     OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-        kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
-        kODLoggingOptionEnableThreadSupport); //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionWriteToStderr | //####
+                kODLoggingOptionEnableThreadSupport); //####
 #else // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_INIT(progName.c_str(), kODLoggingOptionIncludeProcessID | //####
-        kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
+                kODLoggingOptionIncludeThreadID | kODLoggingOptionEnableThreadSupport); //####
 #endif // ! defined(MpM_ServicesLogToStandardError)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -172,30 +172,41 @@ int main(int      argc,
         YarpString                           servicePortNumber;
         YarpString                           tag;
         Utilities::AddressArgumentDescriptor firstArg("hostname",
-            T_("IP address for the MQ broker"),
-            Utilities::kArgModeRequired,
-            SELF_ADDRESS_NAME_);
-        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the MQ broker"),
-            Utilities::kArgModeRequired,
-            SENDTOMQOUTPUT_DEFAULT_PORT_, true);
-        Utilities::StringArgumentDescriptor  thirdArg("user", T_("The user name for the MQ broker"),
-            Utilities::kArgModeRequired, "");
+                                                      T_("IP address for the ActiveMQ broker"),
+                                                      Utilities::kArgModeRequired,
+                                                      SELF_ADDRESS_NAME_);
+        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the ActiveMQ broker"),
+                                                       Utilities::kArgModeRequired,
+                                                       SENDTOMQOUTPUT_DEFAULT_PORT_, true);
+        Utilities::StringArgumentDescriptor  thirdArg("user",
+                                                      T_("The user name for the ActiveMQ broker"),
+                                                      Utilities::kArgModeRequired, "");
         Utilities::StringArgumentDescriptor  fourthArg("password",
-            T_("The user password for the MQ broker"),
-            Utilities::kArgModeRequiredPassword,
-            "ZXYzxy");
+                                                       T_("The user password for the ActiveMQ "
+                                                          "broker"),
+                                                       Utilities::kArgModeRequiredPassword, "");
+#if USE_TOPICS_
+        Utilities::StringArgumentDescriptor  fifthArg("topic", T_("The topic for the ActiveMQ "
+                                                                  "broker"),
+                                                      Utilities::kArgModeOptionalModifiable, "m+m");
+#else // ! USE_TOPICS_
+        Utilities::StringArgumentDescriptor  fifthArg("queue", T_("The queue for the ActiveMQ "
+                                                                  "broker"),
+                                                      Utilities::kArgModeOptionalModifiable, "m+m");
+#endif // ! USE_TOPICS_
         Utilities::DescriptorVector          argumentList;
-
+        
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         argumentList.push_back(&thirdArg);
         argumentList.push_back(&fourthArg);
+        argumentList.push_back(&fifthArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-            DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_,
-            SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
-            STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-            reportOnExit, tag, serviceEndpointName, servicePortNumber,
-            kSkipNone))
+                                          DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_,
+                                          SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          kSkipNone))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();
@@ -203,13 +214,13 @@ int main(int      argc,
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
-
+                
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
                     activemq::library::ActiveMQCPP::initializeLibrary();
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
-                        servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                     activemq::library::ActiveMQCPP::shutdownLibrary();
                 }
                 else

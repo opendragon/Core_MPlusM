@@ -203,8 +203,7 @@ where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source c
 \item\exSp{}Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{}Click on the `\asCode{Configure}' button; make sure that the generator
 setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of
-the generator and that `\asCode{Use default native compilers}'
-is selected
+the generator and that `\asCode{Use default native compilers}' is selected
 \item\exSp{}Click on the `\asCode{Finish}' button
 \item\exSp{}Turn on the `\asCode{Advanced}' option once the configuration step completes
 \item\exSp{}Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
@@ -278,8 +277,12 @@ code, \asCode{\textbf{devel}}
 \begin{itemize}
 \item Open a Command Prompt window and move to the directory containing the \mplusm{}
 source code, \asCode{\textbf{devel}}
-\item\exSp{}Execute the command `\asCode{cd OGDF}'
-\item\exSp{}Execute the command `\asCode{python makeVCXProj.py}'
+\item\exSp{}Execute the following commands:
+\begin{itemize}
+\item\asCode{cd OGDF}
+\item\exSp\asCode{python makeVCXProj.py}
+\end{itemize}
+\item\exSp{}Close the Command Prompt window
 \item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}OGDF\textbackslash{}ogdf.sln}' with
@@ -447,9 +450,9 @@ referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \textbf{ActiveMQ}}
 \item\exSp\asCode{cd \textbf{ActiveMQ}}
 \item\exSp\asCode{cd activemq-cpp}
-\item\exSp\asCode{export CFLAGS=``-arch i386 -arch x86\fUS{}64''}
-\item\exSp\asCode{export CXXFLAGS=``-arch i386 -arch x86\fUS{}64 -std=c++11
--stdlib=libstdc++''}
+\item\exSp\asCode{export CFLAGS="-arch i386 -arch x86\fUS{}64"}
+\item\exSp\asCode{export CXXFLAGS="-arch i386 -arch x86\fUS{}64 -std=c++11
+-stdlib=libstdc++"}
 \item\exSp\asCode{./autogen.sh}
 \item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m}
 \item\exSp\asCode{make clean \&\& make}
@@ -459,7 +462,99 @@ referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
-\item\TBD
+\item Select a directory to hold the \textbf{Apache Portable Runtime} source code, which
+will be referred to as `\asCode{APR}'; this can be a sister directory to the
+\asCode{\textbf{devel}} directory, but it need not be
+\item\exSp{}Download the recommended versions of \textbf{APR}, \textbf{APR-util} and
+\textbf{APR-iconv} into \asCode{\textbf{APR}}
+\item\exSp{}\asCode{unzip} the \textbf{ZIP} archive files in the directory
+\asCode{\textbf{APR}}; the result will be three directories, \asCode{apr-\#.\#.\#},\\
+\asCode{apr-iconv-\#.\#.\#} and \asCode{apr-util-\#.\#.\#}, where `\asCode{\#.\#.\#}'
+represents the version number of each piece of \textbf{APR}
+\item Launch the \asCode{CMake} GUI application
+\item\exSp{}Set the source code directory to `\asCode{\textbf{APR}/apr-\#.\#.\#}'
+\item\exSp{}Set the build directory to `\asCode{\textbf{APR}/apr-\#.\#.\#}'
+\item\exSp{}Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
+\item\exSp{}Click on the `\asCode{Configure}' button; make sure that the generator
+setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of
+the generator and that `\asCode{Use default native compilers}' is selected
+\item\exSp{}Click on the `\asCode{Finish}' button
+\item\exSp{}Click on the `\asCode{Configure}' button
+\item\exSp{}Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to
+\asCode{C:/Program Files/m+m}
+\item\exSp{}Click on the `\asCode{Generate}' button
+\item\exSp{}Exit from the \asCode{CMake} GUI application
+\item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{}Open the file
+\asCode{\textbf{APR}\textbackslash{}apr-\#.\#.\#\textbackslash{}apr.sln} with 
+\asCode{Visual Studio}
+\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
+configuration and build it via the menu item
+`\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{}Open the \asCode{Batch Build} panel via the menu item
+`\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
+Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
+checkboxes should be on
+\item\exSp{}Click on the `\asCode{Build}' button to build and install the Release
+version
+\item\exSp{}Exit from \asCode{Visual Studio}
+\item\exSp{}Select a directory to hold the \textbf{ActiveMQ-CPP} source code, which will
+be referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
+\asCode{\textbf{devel}} directory, but it need not be
+\item\exSp{}Open a Command Prompt window
+\item\exSp{}Execute the command:
+\begin{itemize}
+\item\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
+\textbf{ActiveMQ}}
+\end{itemize}
+\item\exSp{}Close the Command Prompt window
+\item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
+\item\exSp{}Open the file
+\asCode{\textbf{ActiveMQ}\textbackslash{}activemq-cpp\textbackslash{}vs2010-build%
+\textbackslash{}active-mq.sln} with \asCode{Visual Studio}, allowing it to upgrade the
+projects
+\item\exSp{}Open the \asCode{Configuration Manager} panel via the menu item
+`\asCode{Build \bigRightArrow{} Configuration Manager\textellipsis}'
+\item\exSp{}Disable the building of all but the `\asCode{activemq-cpp}' project by turning
+off the \asCode{Build} checkboxes for the other projects
+\item\exSp{}Click on the \asCode{Close} to close the \asCode{Configuration Manager} panel
+\item\exSp{}Select the `\asCode{activemq-cpp}' row in the left-hand table and open the
+\asCode{activemq-cpp Property Pages} panel via the menu item
+`\asCode{Project \bigRightArrow{} Project Properties}'
+\item\exSp{}Select the \asCode{All Configurations} configuration from the top-left
+combo-box and the \asCode{x64} platform from the top-right combo-box
+\item\exSp{}Expand the \asCode{Configuration Properties} item in the left-hand panel
+\item\exSp{}Expand the \asCode{C/C++} item
+\item\exSp{}Select the \asCode{General} item
+\item\exSp{}Select the \asCode{Additional Include Directories} item in the middle panel
+\item\exSp{}Click on the `expand' button to the right of the list of paths \longDash{} the
+button with a `v'
+\item\exSp{}Select the `\asCode{<Edit\textellipsis{}>}' item from the popup menu, which
+will open the \asCode{Additional Include Directories}' panel
+\item\exSp{}Click on the `add' button, which is the fourth button from the right on the
+top, just below the title bar for the panel \longDash{} it is a button with an image of a
+folder with an asterisk on its top-left corner
+\item\exSp{}In the blank row that appears, enter the text
+`\asCode{C:\textbackslash{}Program Files\textbackslash{}m+m\textbackslash{}include}',
+without quotes
+\item\exSp{}Click on the \asCode{OK} button on the bottom-right of the panel
+\item\exSp{}Select the \asCode{Debug} :\ \asCode{x64} configuration and build it via
+the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration and build it via
+the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{}Exit from \asCode{Visual Studio}
+\item\exSp{}Open a Command Prompt window, running as Administrator
+\item\exSp{}Execute the following commands
+\begin{itemize}
+\item\asCode{cd \textbf{ActiveMQ}\textbackslash{}activemq-cpp}
+\item\exSp\asCode{set PREFIX="C:\textbackslash{}Program Files\textbackslash{}m+m"}
+\item\exSp\asCode{copy vs2010-build\textbackslash{}x64\textbackslash{}Release%
+\textbackslash{}libactivemq-cpp.lib \%PREFIX\%\textbackslash{}lib}
+\item\exSp\asCode{xcopy src\textbackslash{}main\textbackslash{}*.h
+\%PREFIX\%\textbackslash{}include /s /d}
+\end{itemize}
+\item\exSp{}Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~Linux}
@@ -546,9 +641,11 @@ returned when the \serviceNameR[\RS]{RegistryService} was launched
 \tertiaryStart{Building~on~Microsoft~Windows}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
-\item\exSp{}Set the source code directory to `\asCode{\textbf{devel}/Core\fUS{}MPlusM}',
-where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source code
-\item\exSp{}Set the build directory to `\asCode{\textbf{devel}/Core\fUS{}MPlusM}
+\item\exSp{}Set the source code directory to
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM}', where \asCode{\textbf{devel}}
+is the directory containing the \mplusm{} source code
+\item\exSp{}Set the build directory to
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM}'
 \item\exSp{}Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{}Click on the `\asCode{Configure}' button; make sure that the generator
 setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of

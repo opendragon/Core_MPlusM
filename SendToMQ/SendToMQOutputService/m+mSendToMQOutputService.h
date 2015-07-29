@@ -62,6 +62,9 @@
 /*! @brief The description of the service. */
 # define SENDTOMQOUTPUT_SERVICE_DESCRIPTION_ T_("SendToMQ output service")
 
+/*! @brief Set to @c TRUE to use topics and @c FALSE to use queues. */
+# define USE_TOPICS_ TRUE
+
 // Forward references, since it's not safe to include the ActiveMQ headers after any other headers.
 namespace cms
 {
@@ -77,11 +80,11 @@ namespace MplusM
     namespace SendToMQ
     {
         class SendToMQOutputInputHandler;
-
+        
         /*! @brief The %Blob output service. */
         class SendToMQOutputService : public Common::BaseOutputService
         {
-        public :
+            public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -115,13 +118,15 @@ namespace MplusM
              @returns @c true if the configuration was successfully retrieved and @c false
              otherwise. */
             virtual bool getConfiguration(yarp::os::Bottle & details);
-
+            
             /*! @brief Restart the input/output streams. */
             virtual void restartStreams(void);
             
             /*! @brief Send a message via ActiveMQ.
-             @param aMessage The message to send. */
-            void sendMessage(const std::string & aMessage);
+             @param aMessage The message to send.
+             @param messageLength The length of the message. */
+            void sendMessage(const std::string & aMessage,
+                             const size_t        messageLength);
             
             /*! @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
@@ -137,9 +142,9 @@ namespace MplusM
             /*! @brief Stop the input/output streams. */
             virtual void stopStreams(void);
             
-        protected :
+            protected :
             
-        private :
+            private :
             
             COPY_AND_ASSIGNMENT_(SendToMQOutputService);
             
@@ -147,16 +152,16 @@ namespace MplusM
              streams. */
             virtual bool setUpStreamDescriptions(void);
             
-        public :
-        
-        protected :
-        
-        private :
+            public :
+            
+            protected :
+            
+            private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseOutputService inherited;
             
-             /*! @brief The name of the MQ broker. */
+            /*! @brief The name of the MQ broker. */
             YarpString _hostName;
             
             /*! @brief The user password for the MQ broker. */
@@ -165,18 +170,21 @@ namespace MplusM
             /*! @brief The user name for the MQ broker. */
             YarpString _userName;
             
+            /*! @brief The topic or queue name to use. */
+            YarpString _topicOrQueueName;
+            
             /*! @brief The port to connect to the MQ broker. */
             int _hostPort;
-
+            
             /*! @brief The handler for input data. */
             SendToMQOutputInputHandler * _inHandler;
-
+            
             /*! @brief The connection generating factory. */
             std::auto_ptr<cms::ConnectionFactory> _connectionFactory;
             
             /*! @brief The active connection. */
             cms::Connection * _connection;
-        
+            
             /*! @brief The active session. */
             cms::Session * _session;
             

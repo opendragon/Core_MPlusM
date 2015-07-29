@@ -57,7 +57,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
-@brief The class definition for the %SendToMQ output service. */
+ @brief The class definition for the %SendToMQ output service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -79,12 +79,6 @@ using std::endl;
 /*! @brief Set to @c true if a transacted session is created and @c false otherwise. */
 static const bool kSessionIsTransacted = false;
 
-/*! @brief Set to @c true to use topics and @c false to use queues. */
-static const bool kUseTopics = true;
-
-/*! @brief The name of the topic or queue that will be the message destination. */
-static const std::string kDestinationName("m+m");
-
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -94,13 +88,13 @@ static const std::string kDestinationName("m+m");
 #endif // defined(__APPLE__)
 
 static std::string constructURI(const YarpString & hostName,
-    const int          hostPort)
+                                const int          hostPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("hostName = ", hostName); //####
     OD_LOG_LL1("hostPort = ", hostPort); //####
     std::stringstream buff;
-
+    
     buff << "failover://(tcp://" << hostName.c_str() << ":" << hostPort << ")";
     OD_LOG_EXIT_s(buff.str()); //####
     return buff.str();
@@ -115,16 +109,16 @@ static std::string constructURI(const YarpString & hostName,
 #endif // defined(__APPLE__)
 
 SendToMQOutputService::SendToMQOutputService(const Utilities::DescriptorVector & argumentList,
-    const YarpString &                  launchPath,
-    const int                           argc,
-    char * *                            argv,
-    const YarpString &                  tag,
-    const YarpString &
-    serviceEndpointName,
-    const YarpString &
-    servicePortNumber) :
-    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CANONICAL_NAME_,
-              SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+                                             const YarpString &                  launchPath,
+                                             const int                           argc,
+                                             char * *                            argv,
+                                             const YarpString &                  tag,
+                                             const YarpString &
+                                                                                serviceEndpointName,
+                                             const YarpString &
+                                                                                servicePortNumber) :
+inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CANONICAL_NAME_,
+          SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _hostName(SELF_ADDRESS_NAME_), _hostPort(SENDTOMQOUTPUT_DEFAULT_PORT_),
     _inHandler(new SendToMQOutputInputHandler(*this)), _connection(NULL), _session(NULL),
     _destination(NULL), _producer(NULL)
@@ -132,7 +126,7 @@ SendToMQOutputService::SendToMQOutputService(const Utilities::DescriptorVector &
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-        serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
+               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_EXIT_P(this); //####
 } // SendToMQOutputService::SendToMQOutputService
@@ -154,25 +148,26 @@ bool SendToMQOutputService::configure(const yarp::os::Bottle & details)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = false;
-
+    
     try
     {
-        if (4 == details.size())
+        if (5 == details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
             yarp::os::Value thirdValue(details.get(2));
             yarp::os::Value fourthValue(details.get(3));
-
+            yarp::os::Value fifthValue(details.get(4));
+            
             if (firstValue.isString() && secondValue.isInt() && thirdValue.isString() &&
-                fourthValue.isString())
+                fourthValue.isString() && fifthValue.isString())
             {
                 int secondNumber = secondValue.asInt();
-
+                
                 if (0 < secondNumber)
                 {
                     std::stringstream buff;
-
+                    
                     _hostName = firstValue.asString();
                     OD_LOG_S1s("_hostName <- ", _hostName); //####
                     _hostPort = secondNumber;
@@ -180,9 +175,17 @@ bool SendToMQOutputService::configure(const yarp::os::Bottle & details)
                     _userName = thirdValue.asString();
                     OD_LOG_S1s("_userName <- ", _userName); //####
                     _password = fourthValue.asString();
+                    _topicOrQueueName = fifthValue.asString();
+                    OD_LOG_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
                     // Don't trace the password OR report it via the GUI!!
                     buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
-                        _hostPort << ", user name is '" << _userName << "'.";
+                            _hostPort << ", user name is '" << _userName;
+#if USE_TOPICS_
+                    buff << ", topic is '" << _topicOrQueueName;
+#else // ! USE_TOPICS_
+                    buff << ", queue is '" << _topicOrQueueName;
+#endif // ! USE_TOPICS_
+                    buff << "'.";
                     setExtraInformation(buff.str());
                     result = true;
                 }
@@ -203,12 +206,13 @@ bool SendToMQOutputService::getConfiguration(yarp::os::Bottle & details)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = true;
-
+    
     details.clear();
     details.addString(_hostName);
     details.addInt(_hostPort);
     details.addString(_userName);
     details.addString(""); // Don't return the password being used!!!
+    details.addString(_topicOrQueueName);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::getConfiguration
@@ -265,16 +269,20 @@ void SendToMQOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // SendToMQOutputService::restartStreams
 
-void SendToMQOutputService::sendMessage(const std::string & aMessage)
+void SendToMQOutputService::sendMessage(const std::string & aMessage,
+                                        const size_t        messageLength)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("aMessage = ", aMessage); //####
+    OD_LOG_LL1("messageLength = ", messageLength); //####
     try
     {
         if (isActive())
         {
+            Common::SendReceiveCounters     newCount(0, 0, 1, messageLength);
             std::auto_ptr<cms::TextMessage> stuff(_session->createTextMessage(aMessage));
-
+            
+            incrementAuxiliaryCounters(newCount);
             _producer->send(stuff.get());
         }
     }
@@ -296,7 +304,7 @@ bool SendToMQOutputService::setUpStreamDescriptions(void)
     bool               result = true;
     ChannelDescription description;
     YarpString         rootName(getEndpoint().getName() + "/");
-
+    
     _inDescriptions.clear();
     description._portName = rootName + "input";
     description._portProtocol = "*";
@@ -311,12 +319,12 @@ bool SendToMQOutputService::start(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        if (!isStarted())
+        if (! isStarted())
         {
             inherited::start();
             if (isStarted())
             {
-
+                
             }
             else
             {
@@ -338,10 +346,10 @@ void SendToMQOutputService::startStreams(void)
     OD_LOG_OBJENTER(); //####
     try
     {
-        if (!isActive())
+        if (! isActive())
         {
             std::string brokerURI(constructURI(_hostName, _hostPort));
-
+            
             _connectionFactory.reset(cms::ConnectionFactory::createCMSConnectionFactory(brokerURI));
             if (_connectionFactory.get())
             {
@@ -372,14 +380,11 @@ void SendToMQOutputService::startStreams(void)
             if (_session)
             {
                 OD_LOG("(_session)"); //####
-                if (kUseTopics)
-                {
-                    _destination = _session->createTopic(kDestinationName);
-                }
-                else
-                {
-                    _destination = _session->createQueue(kDestinationName);
-                }
+#if USE_TOPICS_
+                _destination = _session->createTopic(_topicOrQueueName);
+#else // ! USE_TOPICS_
+                _destination = _session->createQueue(_topicOrQueueName);
+#endif // ! USE_TOPICS_
             }
             if (_destination)
             {
@@ -414,7 +419,7 @@ bool SendToMQOutputService::stop(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
-
+    
     try
     {
         result = inherited::stop();

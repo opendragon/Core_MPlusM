@@ -57,7 +57,7 @@ if(WIN32)
 endif(WIN32)
 if(APPLE)
     #set(APR_INC_PATH "/usr/include/apr-1")
-    set(ACTIVEMQ_INC_PATH "/opt/m+m/include/activemq-cpp-3.9.0")
+    set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-3.9.0")
 endif(APPLE)
 
 include_directories(${ACTIVEMQ_INC_PATH})
@@ -76,7 +76,8 @@ if(WIN32)
 	else(WIN64)
         set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INC_PATH}/../lib")
     endif(WIN64)
-    set_property(TARGET activemq PROPERTY IMPORTED_LOCATION "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib") #!!!!
+    set_property(TARGET activemq PROPERTY IMPORTED_LOCATION
+                    "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib")
 	add_library(aprlib STATIC IMPORTED)
     if(WIN64)
         set(MpMAPR_LIB_DIR "${APR_INC_PATH}/../lib")
@@ -84,11 +85,24 @@ if(WIN32)
         set(MpMAPR_LIB_DIR "${APR_INC_PATH}/../lib")
     endif(WIN64)
     set_property(TARGET aprlib PROPERTY IMPORTED_LOCATION "${MpMAPR_LIB_DIR}/libapr-1.lib")
+    install(FILES
+            "${APR_INC_PATH}/../bin/libapr-1.dll"
+            DESTINATION bin
+            COMPONENT applications)
+    install(FILES
+            "${MpMAPR_LIB_DIR}/apr-1.lib"
+            "${MpMAPR_LIB_DIR}/aprapp-1.lib"
+            "${MpMAPR_LIB_DIR}/libapr-1.lib"
+            "${MpMAPR_LIB_DIR}/libaprapp-1.lib"
+            "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib"
+            DESTINATION lib
+            COMPONENT libraries)
 endif(WIN32)
 
 if(APPLE)
 	add_library(activemq SHARED IMPORTED)
-    set_property(TARGET activemq PROPERTY IMPORTED_LOCATION "/opt/m+m/lib/libactivemq-cpp.dylib")
+    set_property(TARGET activemq PROPERTY IMPORTED_LOCATION
+                    "${CMAKE_INSTALL_PREFIX}/lib/libactivemq-cpp.dylib")
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libactivemq-cpp.dylib "@rpath/libactivemq-cpp.dylib" ${THIS_TARGET})

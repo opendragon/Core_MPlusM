@@ -1,0 +1,48 @@
+\ProvidesFile{SMservice.tex}[v1.0.0]
+\primaryStart[TheSMOService]{The~\SMO{}~Service}
+The \asCode{m+mSendToMQOutputService} application is an Output service, sending a stream
+of \yarp{} values as JSON text to an ActiveMQ broker.
+The application responds to the standard Output service requests and can be used as a
+standalone data sink, without the need for a client connection.\\
+
+The \emph{configure} request request has five arguments \longDash{} a string value for the
+host name of the ActiveMQ broker, an integer value for the port on the ActiveMQ broker to
+connect to, a string value for the user identifier to use on the ActiveMQ broker, a string
+value for the password for the user on the ActiveMQ broker, and a string value for the
+topic or queue to set up on the ActiveMQ broker.
+These values will be applied when the input stream is started or restarted.\\
+
+The \emph{restartStreams} request stops and then starts the input stream.\\
+
+The \emph{startStreams} request initiates listening on the input stream and creates a
+connection to the ActiveMQ broker.\\
+
+The \emph{stopStreams} request terminates listening ont the input stream and drops the
+connection to the ActiveMQ broker.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+\insertAppParameters
+\insertTagDescription{\SMO}
+\insertInputServiceComment
+\condPage
+\insertStandardServiceCommands
+\secondaryEnd
+\secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchSendToMQOutputService}%
+{launchServiceSendToMQ}{Launch options for the \emph{\SMO} service}{0.8}
+\condPage{}
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
+Once the options are set, the following image will appear in the \emph{\MMMU} window when
+the service has successfully started:
+\objScaledDiagram{mpm_images/runningSendToMQOutputService}%
+{serviceRunningSendToMQ}{The \emph{\MMMU} entity for the \emph{\SMO} service}{1.0}
+
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureSendToMQOutputService}%
+{configureServiceSendToMQ}{Configuration window for the \emph{\SMO} service}{1.0}
+\secondaryEnd
+\primaryEnd{}

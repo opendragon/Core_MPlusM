@@ -56,7 +56,7 @@ if(WIN32)
     endif(WIN64)
 endif(WIN32)
 if(APPLE)
-    set(SPIDER_PATH "/opt/m+m/spidermonkey")
+    set(SPIDER_PATH "${CMAKE_INSTALL_PREFIX}/spidermonkey")
 endif(APPLE)
 
 if(APPLE)
