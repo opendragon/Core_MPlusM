@@ -42,28 +42,6 @@
 # include <m+m/m+mBaseOutputService.h>
 # include <m+m/m+mUtilities.h>
 
-# include <string>
-# include <activemq/library/ActiveMQCPP.h>
-//#include <decaf/lang/Thread.h>
-//#include <decaf/lang/Runnable.h>
-//#include <decaf/util/concurrent/CountDownLatch.h>
-//  #include <decaf/lang/Integer.h>
-//  #include <decaf/lang/Long.h>
-//  #include <decaf/lang/System.h>
-# include <activemq/core/ActiveMQConnectionFactory.h>
-//#include <activemq/util/Config.h>
-//#include <cms/Connection.h>
-//#include <cms/Session.h>
-//#include <cms/TextMessage.h>
-//#include <cms/BytesMessage.h>
-//#include <cms/MapMessage.h>
-//#include <cms/ExceptionListener.h>
-//#include <cms/MessageListener.h>
-//#include <stdlib.h>
-//#include <stdio.h>
-//#include <iostream>
-//#include <memory>
-
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -83,6 +61,16 @@
 
 /*! @brief The description of the service. */
 # define SENDTOMQOUTPUT_SERVICE_DESCRIPTION_ T_("SendToMQ output service")
+
+// Forward references, since it's not safe to include the ActiveMQ headers after any other headers.
+namespace cms
+{
+    class Connection;
+    class ConnectionFactory;
+    class Destination;
+    class MessageProducer;
+    class Session;
+} // cms
 
 namespace MplusM
 {

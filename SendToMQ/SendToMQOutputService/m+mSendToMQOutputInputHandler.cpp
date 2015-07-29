@@ -84,7 +84,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 SendToMQOutputInputHandler::SendToMQOutputInputHandler(SendToMQOutputService & owner) :
-    inherited(), _owner(owner)//, _outSocket(INVALID_SOCKET)
+    inherited(), _owner(owner)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####
@@ -161,16 +161,6 @@ bool SendToMQOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
-
-#if 0
-void SendToMQOutputInputHandler::setSocket(const SOCKET outSocket)
-{
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_L1("outSocket = ", outSocket); //####
-    _outSocket = outSocket;
-    OD_LOG_OBJEXIT(); //####
-} // SendToMQOutputInputHandler::setSocket
-#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Global functions

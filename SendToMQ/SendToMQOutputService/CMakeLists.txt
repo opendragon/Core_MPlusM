@@ -48,19 +48,18 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
     if(WIN64)
-        set(APR_INC_PATH "")
-        set(ACTIVEMQ_INC_PATH "C:/Program Files/m+m/spidermonkey") #!!!!
+        set(APR_INC_PATH "C:/Program Files/m+m/include")
+        set(ACTIVEMQ_INC_PATH "C:/Program Files/m+m/include")
     else(WIN64)
-        set(APR_INC_PATH "")
-        set(ACTIVEMQ_INC_PATH "C:/Program Files (x86)/m+m/spidermonkey") #!!!!!
+        set(APR_INC_PATH "C:/Program Files (x86)/m+m/include")
+        set(ACTIVEMQ_INC_PATH "C:/Program Files (x86)/m+m/include")
     endif(WIN64)
 endif(WIN32)
 if(APPLE)
-    set(APR_INC_PATH "/usr/include/apr-1")
+    #set(APR_INC_PATH "/usr/include/apr-1")
     set(ACTIVEMQ_INC_PATH "/opt/m+m/include/activemq-cpp-3.9.0")
 endif(APPLE)
 
-#include_directories(${APR_INC_PATH})
 include_directories(${ACTIVEMQ_INC_PATH})
 
 # Set up our program
@@ -70,25 +69,25 @@ add_executable(${THIS_TARGET}
                m+mSendToMQOutputService.cpp
                ${VERS_RESOURCE})
 
-add_library(activemq SHARED IMPORTED)
-
 if(WIN32)
+	add_library(activemq STATIC IMPORTED)
     if(WIN64)
-        set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x64") #!!!!
-    else(WIN64)
-        set(MpMLEAPMOTION_LIB_DIR "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/win_lib/x86") #!!!!
+        set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INC_PATH}/../lib")
+	else(WIN64)
+        set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INC_PATH}/../lib")
     endif(WIN64)
-    set_property(TARGET activemq PROPERTY IMPORTED_LOCATION "${MpMLEAPMOTION_LIB_DIR}/Leap.dll") #!!!!
-    set_property(TARGET activemq PROPERTY IMPORTED_IMPLIB "${MpMLEAPMOTION_LIB_DIR}/Leap.lib") #!!!!
-    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory #!!!!
-                        "${MpMLEAPMOTION_LIB_DIR}" #!!!!
-                        $<TARGET_FILE_DIR:m+mLeapMotionInputService>) #!!!!
-    install(FILES "${MpMLEAPMOTION_LIB_DIR}/Leap.dll" #!!!!
-            DESTINATION bin
-            COMPONENT applications)
+    set_property(TARGET activemq PROPERTY IMPORTED_LOCATION "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib") #!!!!
+	add_library(aprlib STATIC IMPORTED)
+    if(WIN64)
+        set(MpMAPR_LIB_DIR "${APR_INC_PATH}/../lib")
+    else(WIN64)
+        set(MpMAPR_LIB_DIR "${APR_INC_PATH}/../lib")
+    endif(WIN64)
+    set_property(TARGET aprlib PROPERTY IMPORTED_LOCATION "${MpMAPR_LIB_DIR}/libapr-1.lib")
 endif(WIN32)
 
 if(APPLE)
+	add_library(activemq SHARED IMPORTED)
     set_property(TARGET activemq PROPERTY IMPORTED_LOCATION "/opt/m+m/lib/libactivemq-cpp.dylib")
 
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -127,6 +126,7 @@ target_link_libraries(${THIS_TARGET}
 
 if(WIN32)
     target_link_libraries(${THIS_TARGET}
+							aprlib
                             ${BONJOUR_LIB})
 endif(WIN32)
 
