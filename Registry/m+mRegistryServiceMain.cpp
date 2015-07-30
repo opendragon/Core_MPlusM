@@ -53,7 +53,7 @@
 /*! @file 
  @brief The main application for the m+m %Registry Service. */
 
-/*! @dir RegistryService
+/*! @dir Registry
  @brief The set of files that implement the %Registry Service application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop

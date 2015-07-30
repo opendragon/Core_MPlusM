@@ -81,7 +81,6 @@ namespace MplusM
              @param argMode The mode of the command-line argument.
              @param pathPrefix The prefix to the default value for the command-line argument.
              @param pathSuffix The suffix to the default value for the command-line argument.
-             @param isOptional @c true if the argument is optional and @c false otherwise.
              @param forOutput @c true if the file will be used for output and @c false otherwise.
              @param useRandomPath @c true if the file path will be constructed with a random number
              and @c false if the file path is fixed. */

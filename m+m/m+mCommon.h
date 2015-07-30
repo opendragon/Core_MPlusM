@@ -113,7 +113,7 @@
 /*! @file
  @brief The function and variable declarations for common entities for m+m clients and services. */
 
-/*! @dir /mpm
+/*! @dir /m+m
  @brief The set of files that implement the m+m framework. */
 
 /*! @dir /CommonTests

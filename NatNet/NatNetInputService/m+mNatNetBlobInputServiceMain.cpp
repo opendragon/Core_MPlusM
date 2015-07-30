@@ -55,12 +55,6 @@
 #endif // defined(__APPLE__)
 /*! @file
  @brief The main application for the Natural Point %NatNet %Blob input service. */
-
-/*! @dir NatNet
- @brief The set of files that implement the Natural Point %NatNet %Blobinput service. */
-
-/*! @dir NatNetBlobInputService
- @brief The set of files that implement the Natural Point %NatNet %Blobinput service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

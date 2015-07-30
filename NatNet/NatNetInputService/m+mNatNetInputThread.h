@@ -69,8 +69,9 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param numValues The number of values to send in each burst. */
+             @param name The IP address of the Natural Point %NatNet device.
+             @param commandPort The command port for the Natural Point %NatNet device.
+             @param dataPort The data port for the Natural Point %NatNet device. */
             NatNetInputThread(Common::GeneralChannel * outChannel,
 				              const YarpString &       name,
 				              const int                commandPort,
