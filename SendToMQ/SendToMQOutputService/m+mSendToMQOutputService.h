@@ -42,6 +42,13 @@
 # include <m+m/m+mBaseOutputService.h>
 # include <m+m/m+mUtilities.h>
 
+/* Note that the following macro names are used for static integer class variables! */
+# undef MIN_PRIORITY
+# undef MAX_PRIORITY
+# undef NORM_PRIORITY
+# include <activemq/library/ActiveMQCPP.h>
+# include <activemq/core/ActiveMQConnectionFactory.h>
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -64,16 +71,6 @@
 
 /*! @brief Set to @c TRUE to use topics and @c FALSE to use queues. */
 # define USE_TOPICS_ TRUE
-
-// Forward references, since it's not safe to include the ActiveMQ headers after any other headers.
-namespace cms
-{
-    class Connection;
-    class ConnectionFactory;
-    class Destination;
-    class MessageProducer;
-    class Session;
-} // cms
 
 namespace MplusM
 {

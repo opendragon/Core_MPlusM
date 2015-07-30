@@ -48,12 +48,14 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
     if(WIN64)
-        set(APR_INC_PATH "C:/Program Files/m+m/include")
-        set(ACTIVEMQ_INC_PATH "C:/Program Files/m+m/include")
+        set(APR_INSTALL_PATH "C:/Program Files/m+m")
+        set(ACTIVEMQ_INSTALL_PATH "C:/Program Files/m+m")
     else(WIN64)
-        set(APR_INC_PATH "C:/Program Files (x86)/m+m/include")
-        set(ACTIVEMQ_INC_PATH "C:/Program Files (x86)/m+m/include")
+        set(APR_INSTALL_PATH "C:/Program Files (x86)/m+m")
+        set(ACTIVEMQ_INSTALL_PATH "C:/Program Files (x86)/m+m")
     endif(WIN64)
+	set(APR_INC_PATH "${APR_INSTALL_PATH}/include")
+	set(ACTIVEMQ_INC_PATH "${ACTIVEMQ_INSTALL_PATH}/include")
 endif(WIN32)
 if(APPLE)
     #set(APR_INC_PATH "/usr/include/apr-1")
@@ -62,31 +64,25 @@ endif(APPLE)
 
 include_directories(${ACTIVEMQ_INC_PATH})
 
-# Set up our program
-add_executable(${THIS_TARGET}
-               m+mSendToMQOutputServiceMain.cpp
-               m+mSendToMQOutputInputHandler.cpp
-               m+mSendToMQOutputService.cpp
-               ${VERS_RESOURCE})
-
 if(WIN32)
 	add_library(activemq STATIC IMPORTED)
     if(WIN64)
-        set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INC_PATH}/../lib")
+        set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INSTALL_PATH}/lib")
 	else(WIN64)
-        set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INC_PATH}/../lib")
+        set(MpMACTIVEMQ_LIB_DIR "${ACTIVEMQ_INSTALL_PATH}/lib")
     endif(WIN64)
     set_property(TARGET activemq PROPERTY IMPORTED_LOCATION
                     "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib")
 	add_library(aprlib STATIC IMPORTED)
     if(WIN64)
-        set(MpMAPR_LIB_DIR "${APR_INC_PATH}/../lib")
+        set(MpMAPR_LIB_DIR "${APR_INSTALL_PATH}/lib")
     else(WIN64)
-        set(MpMAPR_LIB_DIR "${APR_INC_PATH}/../lib")
+        set(MpMAPR_LIB_DIR "${APR_INSTALL_PATH}/lib")
     endif(WIN64)
     set_property(TARGET aprlib PROPERTY IMPORTED_LOCATION "${MpMAPR_LIB_DIR}/libapr-1.lib")
+	# APR and ActiveMQ libraries
     install(FILES
-            "${APR_INC_PATH}/../bin/libapr-1.dll"
+            "${APR_INSTALL_PATH}/bin/libapr-1.dll"
             DESTINATION bin
             COMPONENT applications)
     install(FILES
@@ -97,7 +93,35 @@ if(WIN32)
             "${MpMACTIVEMQ_LIB_DIR}/libactivemq-cpp.lib"
             DESTINATION lib
             COMPONENT libraries)
+	# ActiveMQ headers
+	install(DIRECTORY
+			"${ACTIVEMQ_INC_PATH}/activemq"
+			DESTINATION include
+			COMPONENT libraries)
+	install(DIRECTORY
+			"${ACTIVEMQ_INC_PATH}/cms"
+			DESTINATION include
+			COMPONENT libraries)
+	install(DIRECTORY
+			"${ACTIVEMQ_INC_PATH}/decaf"
+			DESTINATION include
+			COMPONENT libraries)
+	# APR headers
+	install(DIRECTORY
+			"${APR_INC_PATH}/"
+			DESTINATION include
+			COMPONENT libraries
+			FILES_MATCHING
+			PATTERN "include/include/*" EXCLUDE
+			PATTERN "apr*.h")
 endif(WIN32)
+
+# Set up our program
+add_executable(${THIS_TARGET}
+               m+mSendToMQOutputServiceMain.cpp
+               m+mSendToMQOutputInputHandler.cpp
+               m+mSendToMQOutputService.cpp
+               ${VERS_RESOURCE})
 
 if(APPLE)
 	add_library(activemq SHARED IMPORTED)

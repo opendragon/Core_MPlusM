@@ -119,23 +119,23 @@ if(WIN32)
             COMPONENT libraries)
 
     install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_OS/include"
-            DESTINATION yarp/src/libYARP_OS/
+            DESTINATION yarp/src/libYARP_OS
             COMPONENT libraries)
 
     install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_name/include"
-            DESTINATION yarp/src/libYARP_name/
+            DESTINATION yarp/src/libYARP_name
             COMPONENT libraries)
 
     install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_dev/include"
-            DESTINATION yarp/src/libYARP_dev/
+            DESTINATION yarp/src/libYARP_dev
             COMPONENT libraries)
 
     install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_math/include"
-            DESTINATION yarp/src/libYARP_math/
+            DESTINATION yarp/src/libYARP_math
             COMPONENT libraries)
 
     install(DIRECTORY "${MpM_YARP_DIR}/src/libYARP_sig/include"
-            DESTINATION yarp/src/libYARP_sig/
+            DESTINATION yarp/src/libYARP_sig
             COMPONENT libraries)
 
     #YARP EXES

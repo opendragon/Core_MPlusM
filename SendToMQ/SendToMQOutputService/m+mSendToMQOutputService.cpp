@@ -36,10 +36,6 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-// Note: Compile failures occur with Visual Studio, if these includes do not appear first!
-#include <activemq/library/ActiveMQCPP.h>
-#include <activemq/core/ActiveMQConnectionFactory.h>
-
 #include "m+mSendToMQOutputService.h"
 
 #include "m+mSendToMQOutputInputHandler.h"
