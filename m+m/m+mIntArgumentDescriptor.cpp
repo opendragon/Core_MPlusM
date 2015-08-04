@@ -112,7 +112,7 @@ IntArgumentDescriptor::~IntArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void IntArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+DEFINE_ADDVALUETOBOTTLE_(IntArgumentDescriptor)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("container = ", &container); //####
@@ -120,7 +120,7 @@ void IntArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // IntArgumentDescriptor::addValueToBottle
 
-BaseArgumentDescriptor * IntArgumentDescriptor::clone(void)
+DEFINE_CLONE_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     BaseArgumentDescriptor * result = new IntArgumentDescriptor(argumentName(),
@@ -133,7 +133,7 @@ BaseArgumentDescriptor * IntArgumentDescriptor::clone(void)
     return result;
 } // IntArgumentDescriptor::clone
 
-YarpString IntArgumentDescriptor::getDefaultValue(void)
+DEFINE_GETDEFAULTVALUE_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -145,7 +145,7 @@ YarpString IntArgumentDescriptor::getDefaultValue(void)
     return result;
 } // IntArgumentDescriptor::getDefaultValue
 
-YarpString IntArgumentDescriptor::getProcessedValue(void)
+DEFINE_GETPROCESSEDVALUE_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -239,14 +239,14 @@ BaseArgumentDescriptor * IntArgumentDescriptor::parseArgString(const YarpString 
     return result;
 } // IntArgumentDescriptor::parseArgString
 
-void IntArgumentDescriptor::setToDefaultValue(void)
+DEFINE_SETTODEFAULTVALUE_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _currentValue = _defaultValue;
     OD_LOG_OBJEXIT(); //####
 } // IntArgumentDescriptor::setToDefaultValue
 
-YarpString IntArgumentDescriptor::toString(void)
+DEFINE_TOSTRING_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("I"));
@@ -272,7 +272,7 @@ YarpString IntArgumentDescriptor::toString(void)
     return result;
 } // IntArgumentDescriptor::toString
 
-bool IntArgumentDescriptor::validate(const YarpString & value)
+DEFINE_VALIDATE_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     bool         result = false;

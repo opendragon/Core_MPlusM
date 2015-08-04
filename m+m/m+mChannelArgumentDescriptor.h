@@ -89,19 +89,11 @@ namespace MplusM
         
         private :
             
-            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
-             @returns A copy of the descriptor, with only non-pointer types duplicated. */
-            virtual BaseArgumentDescriptor * clone(void);
+            DECLARE_CLONE_;
 
-            /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void);
+            DECLARE_TOSTRING_;
             
-            /*! @brief Check an input value against the constraints of the descriptor.
-             @param value The value to be checked.
-             @returns @c true if the value is within the domain of the descriptor and @c false
-             otherwise. */
-            virtual bool validate(const YarpString & value);
+            DECLARE_VALIDATE_;
             
             COPY_AND_ASSIGNMENT_(ChannelArgumentDescriptor);
             

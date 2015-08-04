@@ -124,7 +124,7 @@ MovementDbAdapterService::~MovementDbAdapterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool MovementDbAdapterService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(MovementDbAdapterService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -152,7 +152,7 @@ bool MovementDbAdapterService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool MovementDbAdapterService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -163,7 +163,7 @@ bool MovementDbAdapterService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // MovementDbAdapterService::getConfiguration
 
-void MovementDbAdapterService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -191,7 +191,7 @@ void MovementDbAdapterService::setUpInputHandlers(MovementDbAdapterData & shared
     OD_LOG_OBJEXIT(); //####
 } // MovementDbAdapterService::setUpInputHandlers
 
-bool MovementDbAdapterService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -217,14 +217,14 @@ bool MovementDbAdapterService::setUpStreamDescriptions(void)
     return result;
 } // MovementDbAdapterService::setUpStreamDescriptions
 
-bool MovementDbAdapterService::start(void)
+DEFINE_STARTSERVICE_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -242,9 +242,9 @@ bool MovementDbAdapterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // MovementDbAdapterService::start
+} // MovementDbAdapterService::startService
 
-void MovementDbAdapterService::startStreams(void)
+DEFINE_STARTSTREAMS_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -266,14 +266,14 @@ void MovementDbAdapterService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // MovementDbAdapterService::startStreams
 
-bool MovementDbAdapterService::stop(void)
+DEFINE_STOPSERVICE_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -282,9 +282,9 @@ bool MovementDbAdapterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // MovementDbAdapterService::stop
+} // MovementDbAdapterService::stopService
 
-void MovementDbAdapterService::stopStreams(void)
+DEFINE_STOPSTREAMS_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try

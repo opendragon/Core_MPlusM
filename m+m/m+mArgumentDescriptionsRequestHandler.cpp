@@ -110,7 +110,7 @@ ArgumentDescriptionsRequestHandler::~ArgumentDescriptionsRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void ArgumentDescriptionsRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+DEFINE_FILLINALIASES_(ArgumentDescriptionsRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -125,8 +125,7 @@ void ArgumentDescriptionsRequestHandler::fillInAliases(YarpStringVector & altern
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void ArgumentDescriptionsRequestHandler::fillInDescription(const YarpString &   request,
-                                                           yarp::os::Property & info)
+DEFINE_FILLINDESCRIPTION_(ArgumentDescriptionsRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -158,10 +157,7 @@ void ArgumentDescriptionsRequestHandler::fillInDescription(const YarpString &   
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ArgumentDescriptionsRequestHandler::processRequest(const YarpString &           request,
-                                                        const yarp::os::Bottle &     restOfInput,
-                                                        const YarpString &           senderChannel,
-                                                        yarp::os::ConnectionWriter * replyMechanism)
+DEFINE_PROCESSREQUEST_(ArgumentDescriptionsRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

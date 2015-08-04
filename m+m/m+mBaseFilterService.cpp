@@ -118,7 +118,7 @@ BaseFilterService::~BaseFilterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BaseFilterService::setUpInputStreams(void)
+DEFINE_SETUPINPUTSTREAMS_(BaseFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
@@ -131,7 +131,7 @@ bool BaseFilterService::setUpInputStreams(void)
     return result;
 } // BaseFilterService::setUpInputStreams
 
-bool BaseFilterService::setUpOutputStreams(void)
+DEFINE_SETUPOUTPUTSTREAMS_(BaseFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
@@ -144,7 +144,7 @@ bool BaseFilterService::setUpOutputStreams(void)
     return result;
 } // BaseFilterService::setUpOutputStreams
 
-bool BaseFilterService::shutDownInputStreams(void)
+DEFINE_SHUTDOWNINPUTSTREAMS_(BaseFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownInputStreams();
@@ -153,7 +153,7 @@ bool BaseFilterService::shutDownInputStreams(void)
     return result;
 } // BaseFilterService::shutDownInputStreams
 
-bool BaseFilterService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();

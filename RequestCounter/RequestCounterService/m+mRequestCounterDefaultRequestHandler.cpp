@@ -106,7 +106,7 @@ RequestCounterDefaultRequestHandler::~RequestCounterDefaultRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void RequestCounterDefaultRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+DEFINE_FILLINALIASES_(RequestCounterDefaultRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -125,8 +125,7 @@ void RequestCounterDefaultRequestHandler::fillInAliases(YarpStringVector & alter
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void RequestCounterDefaultRequestHandler::fillInDescription(const YarpString &   request,
-                                                            yarp::os::Property & info)
+DEFINE_FILLINDESCRIPTION_(RequestCounterDefaultRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -146,11 +145,7 @@ void RequestCounterDefaultRequestHandler::fillInDescription(const YarpString &  
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RequestCounterDefaultRequestHandler::processRequest(const YarpString &           request,
-                                                         const yarp::os::Bottle &     restOfInput,
-                                                         const YarpString &           senderChannel,
-                                                         yarp::os::ConnectionWriter *
-                                                                                    replyMechanism)
+DEFINE_PROCESSREQUEST_(RequestCounterDefaultRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

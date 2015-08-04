@@ -241,7 +241,7 @@ void RunningSumService::resetSum(const YarpString & key)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumService::resetSum
 
-bool RunningSumService::start(void)
+DEFINE_STARTSERVICE_(RunningSumService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -250,7 +250,7 @@ bool RunningSumService::start(void)
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -269,7 +269,7 @@ bool RunningSumService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RunningSumService::start
+} // RunningSumService::startService
 
 void RunningSumService::startSum(const YarpString & key)
 {
@@ -294,14 +294,14 @@ void RunningSumService::startSum(const YarpString & key)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumService::startSum
 
-bool RunningSumService::stop(void)
+DEFINE_STOPSERVICE_(RunningSumService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -310,7 +310,7 @@ bool RunningSumService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RunningSumService::stop
+} // RunningSumService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

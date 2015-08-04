@@ -121,7 +121,7 @@ RecordAsJSONOutputService::~RecordAsJSONOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RecordAsJSONOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -152,7 +152,7 @@ bool RecordAsJSONOutputService::configure(const yarp::os::Bottle & details)
     return result;
 } // RecordAsJSONOutputService::configure
 
-bool RecordAsJSONOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -164,7 +164,7 @@ bool RecordAsJSONOutputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // RecordAsJSONOutputService::getConfiguration
 
-void RecordAsJSONOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -181,7 +181,7 @@ void RecordAsJSONOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RecordAsJSONOutputService::restartStreams
 
-bool RecordAsJSONOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -197,14 +197,14 @@ bool RecordAsJSONOutputService::setUpStreamDescriptions(void)
     return result;
 } // RecordAsJSONOutputService::setUpStreamDescriptions
 
-bool RecordAsJSONOutputService::start(void)
+DEFINE_STARTSERVICE_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -222,9 +222,9 @@ bool RecordAsJSONOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RecordAsJSONOutputService::start
+} // RecordAsJSONOutputService::startService
 
-void RecordAsJSONOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -263,14 +263,14 @@ void RecordAsJSONOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RecordAsJSONOutputService::startStreams
 
-bool RecordAsJSONOutputService::stop(void)
+DEFINE_STOPSERVICE_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -279,9 +279,9 @@ bool RecordAsJSONOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RecordAsJSONOutputService::stop
+} // RecordAsJSONOutputService::stopService
 
-void RecordAsJSONOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

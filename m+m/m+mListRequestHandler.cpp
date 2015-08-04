@@ -103,7 +103,7 @@ ListRequestHandler::~ListRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void ListRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+DEFINE_FILLINALIASES_(ListRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -111,8 +111,7 @@ void ListRequestHandler::fillInAliases(YarpStringVector & alternateNames)
     OD_LOG_OBJEXIT(); //####
 } // ListRequestHandler::fillInAliases
 
-void ListRequestHandler::fillInDescription(const YarpString &   request,
-                                           yarp::os::Property & info)
+DEFINE_FILLINDESCRIPTION_(ListRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -147,10 +146,7 @@ void ListRequestHandler::fillInDescription(const YarpString &   request,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ListRequestHandler::processRequest(const YarpString &           request,
-                                        const yarp::os::Bottle &     restOfInput,
-                                        const YarpString &           senderChannel,
-                                        yarp::os::ConnectionWriter * replyMechanism)
+DEFINE_PROCESSREQUEST_(ListRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

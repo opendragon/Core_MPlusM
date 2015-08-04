@@ -110,7 +110,7 @@ AddressArgumentDescriptor::~AddressArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-BaseArgumentDescriptor * AddressArgumentDescriptor::clone(void)
+DEFINE_CLONE_(AddressArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     BaseArgumentDescriptor * result = new AddressArgumentDescriptor(argumentName(),
@@ -171,7 +171,7 @@ BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpStr
     return result;
 } // AddressArgumentDescriptor::parseArgString
 
-YarpString AddressArgumentDescriptor::toString(void)
+DEFINE_TOSTRING_(AddressArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("A"));
@@ -181,7 +181,7 @@ YarpString AddressArgumentDescriptor::toString(void)
     return result;
 } // AddressArgumentDescriptor::toString
 
-bool AddressArgumentDescriptor::validate(const YarpString & value)
+DEFINE_VALIDATE_(AddressArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     bool       result;

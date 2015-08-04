@@ -126,7 +126,7 @@ RunningSumAltAdapterService::~RunningSumAltAdapterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RunningSumAltAdapterService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(RunningSumAltAdapterService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -154,7 +154,7 @@ bool RunningSumAltAdapterService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool RunningSumAltAdapterService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -165,7 +165,7 @@ bool RunningSumAltAdapterService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // RunningSumAltAdapterService::getConfiguration
 
-void RunningSumAltAdapterService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -193,7 +193,7 @@ void RunningSumAltAdapterService::setUpInputHandlers(RunningSumAdapterData & sha
     OD_LOG_OBJEXIT(); //####
 } // RunningSumAltAdapterService::setUpInputHandlers
 
-bool RunningSumAltAdapterService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -219,14 +219,14 @@ bool RunningSumAltAdapterService::setUpStreamDescriptions(void)
     return result;
 } // RunningSumAltAdapterService::setUpStreamDescriptions
 
-bool RunningSumAltAdapterService::start(void)
+DEFINE_STARTSERVICE_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -244,9 +244,9 @@ bool RunningSumAltAdapterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RunningSumAltAdapterService::start
+} // RunningSumAltAdapterService::startService
 
-void RunningSumAltAdapterService::startStreams(void)
+DEFINE_STARTSTREAMS_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -268,14 +268,14 @@ void RunningSumAltAdapterService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumAltAdapterService::startStreams
 
-bool RunningSumAltAdapterService::stop(void)
+DEFINE_STOPSERVICE_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -284,9 +284,9 @@ bool RunningSumAltAdapterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RunningSumAltAdapterService::stop
+} // RunningSumAltAdapterService::stopService
 
-void RunningSumAltAdapterService::stopStreams(void)
+DEFINE_STOPSTREAMS_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try

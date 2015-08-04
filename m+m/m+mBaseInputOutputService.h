@@ -54,6 +54,120 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief Declare the configure method, which updates the service configuration from its single
+ argument, details.
+ The method returns @c true if the service was successfully configured and @c false otherwise. */
+# define DECLARE_CONFIGURE_ \
+    virtual bool configure(const yarp::os::Bottle & details)
+
+/*! @brief Declare the getConfiguration method, which retrieves the configuration of the input /
+ output streams of the service.
+ The method returns @c true if the configuration was successfully retrieved and @c false
+ otherwise. */
+# define DECLARE_GETCONFIGURATION_ \
+    virtual bool getConfiguration(yarp::os::Bottle & details)
+
+/*! @brief Declare the restartStreams method, which restarts the input / output streams of the
+ service. */
+# define DECLARE_RESTARTSTREAMS_ \
+    virtual void restartStreams(void)
+
+/*! @brief Declare the setUpClientStreams method, which sets up the client streams of the service.
+ The method returns @c true if the channels were set up and @c false otherwise. */
+# define DECLARE_SETUPCLIENTSTREAMS_ \
+    virtual bool setUpClientStreams(void)
+
+/*! @brief Declare the setUpInputStreams method, which sets up the input streams of the service.
+ The method returns @c true if the channels were set up and @c false otherwise. */
+# define DECLARE_SETUPINPUTSTREAMS_ \
+    virtual bool setUpInputStreams(void)
+
+/*! @brief Declare the setUpOutputStreams method, which sets up the output streams of the service.
+ The method returns @c true if the channels were set up and @c false otherwise. */
+# define DECLARE_SETUPOUTPUTSTREAMS_ \
+    virtual bool setUpOutputStreams(void)
+
+/*! @brief Declare the startStreams method, which sets up the descriptions of the input / output
+ streams of the service.
+ The method returns @c true if the descriptions were set up and @c false otherwise. */
+# define DECLARE_SETUPSTREAMDESCRIPTIONS_ \
+    virtual bool setUpStreamDescriptions(void)
+
+/*! @brief Declare the shutDownClientStreams method, which shuts down the client streams of the
+ service.
+ The method returns @c true if the channels were shut down and @c false otherwise. */
+# define DECLARE_SHUTDOWNCLIENTSTREAMS_ \
+    virtual bool shutDownClientStreams(void)
+
+/*! @brief Declare the shutDownInputStreams method, which shuts down the input streams of the
+ service.
+ The method returns @c true if the channels were shut down and @c false otherwise. */
+# define DECLARE_SHUTDOWNINPUTSTREAMS_ \
+    virtual bool shutDownInputStreams(void)
+
+/*! @brief Declare the shutDownOutputStreams method, which shuts down the output streams of the
+ service.
+ The method returns @c true if the channels were shut down and @c false otherwise. */
+# define DECLARE_SHUTDOWNOUTPUTSTREAMS_ \
+    virtual bool shutDownOutputStreams(void)
+
+/*! @brief Declare the startStreams method, which starts the input / output streams of the
+ service. */
+# define DECLARE_STARTSTREAMS_ \
+    virtual void startStreams(void)
+
+/*! @brief Declare the stopStreams method, which stops the input / output streams of the service. */
+# define DECLARE_STOPSTREAMS_ \
+    virtual void stopStreams(void)
+
+/*! @brief Define the configure method. */
+# define DEFINE_CONFIGURE_(class_) \
+    bool class_::configure(const yarp::os::Bottle & details)
+
+/*! @brief Define the getConfiguration method. */
+# define DEFINE_GETCONFIGURATION_(class_) \
+    bool class_::getConfiguration(yarp::os::Bottle & details)
+
+/*! @brief Define the restartStreams method. */
+# define DEFINE_RESTARTSTREAMS_(class_) \
+    void class_::restartStreams(void)
+
+/*! @brief Define the setUpClientStreams method. */
+# define DEFINE_SETUPCLIENTSTREAMS_(class_) \
+    bool class_::setUpClientStreams(void)
+
+/*! @brief Define the setUpInputStreams method. */
+# define DEFINE_SETUPINPUTSTREAMS_(class_) \
+    bool class_::setUpInputStreams(void)
+
+/*! @brief Define the setUpOutputStreams method. */
+# define DEFINE_SETUPOUTPUTSTREAMS_(class_) \
+    bool class_::setUpOutputStreams(void)
+
+/*! @brief Define the setUpStreamDescriptions method. */
+# define DEFINE_SETUPSTREAMDESCRIPTIONS_(class_) \
+    bool class_::setUpStreamDescriptions(void)
+
+/*! @brief Define the shutDownClientStreams method. */
+# define DEFINE_SHUTDOWNCLIENTSTREAMS_(class_) \
+    bool class_::shutDownClientStreams(void)
+
+/*! @brief Define the shutDownInputStreams method. */
+# define DEFINE_SHUTDOWNINPUTSTREAMS_(class_) \
+    bool class_::shutDownInputStreams(void)
+
+/*! @brief Define the shutDownOutputStreams method. */
+# define DEFINE_SHUTDOWNOUTPUTSTREAMS_(class_) \
+    bool class_::shutDownOutputStreams(void)
+
+/*! @brief Define the startStreams method. */
+# define DEFINE_STARTSTREAMS_(class_) \
+    void class_::startStreams(void)
+
+/*! @brief Define the stopStreams method. */
+# define DEFINE_STOPSTREAMS_(class_) \
+    void class_::stopStreams(void)
+
 namespace MplusM
 {
     namespace Common
@@ -102,20 +216,13 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseInputOutputService(void);
             
-            /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
-            virtual bool configure(const yarp::os::Bottle & details) = 0;
+            DECLARE_CONFIGURE_ = 0;
             
-            /*! @brief Turn off the send / receive metrics collecting. */
-            virtual void disableMetrics(void);
+            DECLARE_DISABLEMETRICS_;
             
-            /*! @brief Turn on the send / receive metrics collecting. */
-            virtual void enableMetrics(void);
+            DECLARE_ENABLEMETRICS_;
             
-            /*! @brief Fill in the metrics for the service.
-             @param metrics The gathered metrics. */
-            virtual void gatherMetrics(yarp::os::Bottle & metrics);
+            DECLARE_GATHERMETRICS_;
 
             /*! @brief Returns the descriptions of the arguments to the application.
              @returns The descriptions of the arguments to the application. */
@@ -136,11 +243,7 @@ namespace MplusM
             ClientChannel * getClientStream(const size_t index)
             const;
             
-            /*! @brief Get the configuration of the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the configuration was successfully retrieved and @c false
-             otherwise. */
-            virtual bool getConfiguration(yarp::os::Bottle & details) = 0;
+            DECLARE_GETCONFIGURATION_ = 0;
 
             /*! @brief Returns the number of input streams.
              @returns The number of input streams. */
@@ -183,22 +286,15 @@ namespace MplusM
                                const bool         stdinAvailable,
                                const bool         reportOnExit);
             
-            /*! @brief Restart the input/output streams. */
-            virtual void restartStreams(void) = 0;
+            DECLARE_RESTARTSTREAMS_ = 0;
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            DECLARE_STARTSERVICE_;
             
-            /*! @brief Start the input/output streams. */
-            virtual void startStreams(void) = 0;
+            DECLARE_STARTSTREAMS_ = 0;
             
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            DECLARE_STOPSERVICE_;
             
-            /*! @brief Stop the input/output streams. */
-            virtual void stopStreams(void) = 0;
+            DECLARE_STOPSTREAMS_ = 0;
             
         protected :
             
@@ -249,34 +345,19 @@ namespace MplusM
                 _active = true;
             } // setActive
             
-            /*! @brief Set up the client streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpClientStreams(void);
+            DECLARE_SETUPCLIENTSTREAMS_;
 
-            /*! @brief Set up the input streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void);
+            DECLARE_SETUPINPUTSTREAMS_;
             
-            /*! @brief Set up the output streams.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpOutputStreams(void);
+            DECLARE_SETUPOUTPUTSTREAMS_;
             
-            /*! @brief Set up the descriptions that will be used to construct the input/output
-             streams.
-             @returns @c true if the descriptions were set up and @c false otherwise. */
-            virtual bool setUpStreamDescriptions(void) = 0;
+            DECLARE_SETUPSTREAMDESCRIPTIONS_ = 0;
             
-            /*! @brief Shut down the client streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownClientStreams(void);
+            DECLARE_SHUTDOWNCLIENTSTREAMS_;
 
-            /*! @brief Shut down the input streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void);
+            DECLARE_SHUTDOWNINPUTSTREAMS_;
             
-            /*! @brief Shut down the output streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
+            DECLARE_SHUTDOWNOUTPUTSTREAMS_;
             
         private :
             
@@ -286,17 +367,11 @@ namespace MplusM
             /*! @brief Disable the standard request handlers. */
             void detachRequestHandlers(void);
             
-            /*! @brief Fill in a list of secondary client channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryClientChannelsList(ChannelVector & channels);
+            DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_;
             
-            /*! @brief Fill in a list of secondary input channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryInputChannelsList(ChannelVector & channels);
+            DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_;
             
-            /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
+            DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_;
             
             COPY_AND_ASSIGNMENT_(BaseInputOutputService);
             

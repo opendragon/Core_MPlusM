@@ -277,7 +277,7 @@ bool MovementDbService::setEmailAddress(const YarpString & key,
     return okSoFar;
 } // MovementDbService::setEmailAddress
 
-bool MovementDbService::start(void)
+DEFINE_STARTSERVICE_(MovementDbService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -286,7 +286,7 @@ bool MovementDbService::start(void)
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -305,16 +305,16 @@ bool MovementDbService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // MovementDbService::start
+} // MovementDbService::startService
 
-bool MovementDbService::stop(void)
+DEFINE_STOPSERVICE_(MovementDbService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -323,7 +323,7 @@ bool MovementDbService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // MovementDbService::stop
+} // MovementDbService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -126,7 +126,7 @@ RunningSumAdapterService::~RunningSumAdapterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RunningSumAdapterService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(RunningSumAdapterService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -154,7 +154,7 @@ bool RunningSumAdapterService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool RunningSumAdapterService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -165,7 +165,7 @@ bool RunningSumAdapterService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // RunningSumAdapterService::getConfiguration
 
-void RunningSumAdapterService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -197,7 +197,7 @@ void RunningSumAdapterService::setUpInputHandlers(RunningSumAdapterData & shared
     OD_LOG_OBJEXIT(); //####
 } // RunningSumAdapterService::setUpInputHandlers
 
-bool RunningSumAdapterService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -227,14 +227,14 @@ bool RunningSumAdapterService::setUpStreamDescriptions(void)
     return result;
 } // RunningSumAdapterService::setUpStreamDescriptions
 
-bool RunningSumAdapterService::start(void)
+DEFINE_STARTSERVICE_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -252,9 +252,9 @@ bool RunningSumAdapterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RunningSumAdapterService::start
+} // RunningSumAdapterService::startService
 
-void RunningSumAdapterService::startStreams(void)
+DEFINE_STARTSTREAMS_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -277,14 +277,14 @@ void RunningSumAdapterService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumAdapterService::startStreams
 
-bool RunningSumAdapterService::stop(void)
+DEFINE_STOPSERVICE_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -293,9 +293,9 @@ bool RunningSumAdapterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RunningSumAdapterService::stop
+} // RunningSumAdapterService::stopService
 
-void RunningSumAdapterService::stopStreams(void)
+DEFINE_STOPSTREAMS_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try

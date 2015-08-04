@@ -117,7 +117,7 @@ TestNameValidator::~TestNameValidator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool TestNameValidator::checkName(const char * aString)
+DEFINE_CHECKNAME_(TestNameValidator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("aString = ", aString); //####
@@ -144,9 +144,7 @@ bool TestNameValidator::checkName(const char * aString)
     return result;
 } // TestNameValidator::checkName
 
-const char * TestNameValidator::getPrefixAndSuffix(const char *   aString,
-                                                   const char * & prefixString,
-                                                   const char * & suffixString)
+DEFINE_GETPREFIXANDSUFFIX_(TestNameValidator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("aString = ", aString); //####

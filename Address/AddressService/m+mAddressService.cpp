@@ -172,7 +172,7 @@ void AddressService::getAddress(YarpString & address,
     OD_LOG_OBJEXIT(); //####
 } // AddressService::getAddress
 
-bool AddressService::start(void)
+DEFINE_STARTSERVICE_(AddressService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -181,7 +181,7 @@ bool AddressService::start(void)
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -200,16 +200,16 @@ bool AddressService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AddressService::start
+} // AddressService::startService
 
-bool AddressService::stop(void)
+DEFINE_STOPSERVICE_(AddressService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -218,7 +218,7 @@ bool AddressService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AddressService::stop
+} // AddressService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -115,7 +115,7 @@ EmotivInputService::~EmotivInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool EmotivInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -155,7 +155,7 @@ bool EmotivInputService::configure(const yarp::os::Bottle & details)
     return result;
 } // EmotivInputService::configure
 
-bool EmotivInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -168,7 +168,7 @@ bool EmotivInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // EmotivInputService::getConfiguration
 
-void EmotivInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -185,7 +185,7 @@ void EmotivInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // EmotivInputService::restartStreams
 
-bool EmotivInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -201,7 +201,7 @@ bool EmotivInputService::setUpStreamDescriptions(void)
     return result;
 } // EmotivInputService::setUpStreamDescriptions
 
-bool EmotivInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -214,14 +214,14 @@ bool EmotivInputService::shutDownOutputStreams(void)
     return result;
 } // EmotivInputService::shutDownOutputStreams
 
-bool EmotivInputService::start(void)
+DEFINE_STARTSERVICE_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -239,9 +239,9 @@ bool EmotivInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // EmotivInputService::start
+} // EmotivInputService::startService
 
-void EmotivInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -261,14 +261,14 @@ void EmotivInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // EmotivInputService::startStreams
 
-bool EmotivInputService::stop(void)
+DEFINE_STOPSERVICE_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -277,9 +277,9 @@ bool EmotivInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // EmotivInputService::stop
+} // EmotivInputService::stopService
 
-void EmotivInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(EmotivInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

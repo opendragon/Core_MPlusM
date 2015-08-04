@@ -109,7 +109,7 @@ PortArgumentDescriptor::~PortArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-BaseArgumentDescriptor * PortArgumentDescriptor::clone(void)
+DEFINE_CLONE_(PortArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     BaseArgumentDescriptor * result = new PortArgumentDescriptor(argumentName(),
@@ -187,7 +187,7 @@ BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString
     return result;
 } // PortArgumentDescriptor::parseArgString
 
-YarpString PortArgumentDescriptor::toString(void)
+DEFINE_TOSTRING_(PortArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("P"));

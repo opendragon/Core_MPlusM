@@ -122,7 +122,7 @@ RecordIntegersOutputService::~RecordIntegersOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RecordIntegersOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -153,7 +153,7 @@ bool RecordIntegersOutputService::configure(const yarp::os::Bottle & details)
     return result;
 } // RecordIntegersOutputService::configure
 
-bool RecordIntegersOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -165,7 +165,7 @@ bool RecordIntegersOutputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // RecordIntegersOutputService::getConfiguration
 
-void RecordIntegersOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -182,7 +182,7 @@ void RecordIntegersOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RecordIntegersOutputService::restartStreams
 
-bool RecordIntegersOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -198,14 +198,14 @@ bool RecordIntegersOutputService::setUpStreamDescriptions(void)
     return result;
 } // RecordIntegersOutputService::setUpStreamDescriptions
 
-bool RecordIntegersOutputService::start(void)
+DEFINE_STARTSERVICE_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -223,9 +223,9 @@ bool RecordIntegersOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RecordIntegersOutputService::start
+} // RecordIntegersOutputService::startService
 
-void RecordIntegersOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -264,14 +264,14 @@ void RecordIntegersOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RecordIntegersOutputService::startStreams
 
-bool RecordIntegersOutputService::stop(void)
+DEFINE_STOPSERVICE_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -280,9 +280,9 @@ bool RecordIntegersOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RecordIntegersOutputService::stop
+} // RecordIntegersOutputService::stopService
 
-void RecordIntegersOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

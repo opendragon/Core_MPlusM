@@ -107,10 +107,7 @@ MovementDbInputHandler::~MovementDbInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool MovementDbInputHandler::handleInput(const yarp::os::Bottle &     input,
-                                         const YarpString &           senderChannel,
-                                         yarp::os::ConnectionWriter * replyMechanism,
-                                         const size_t                 numBytes)
+DEFINE_HANDLE_INPUT_(MovementDbInputHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

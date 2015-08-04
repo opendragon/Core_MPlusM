@@ -108,7 +108,7 @@ MetricsStateRequestHandler::~MetricsStateRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void MetricsStateRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+DEFINE_FILLINALIASES_(MetricsStateRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -123,8 +123,7 @@ void MetricsStateRequestHandler::fillInAliases(YarpStringVector & alternateNames
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void MetricsStateRequestHandler::fillInDescription(const YarpString &   request,
-                                                   yarp::os::Property & info)
+DEFINE_FILLINDESCRIPTION_(MetricsStateRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -156,10 +155,7 @@ void MetricsStateRequestHandler::fillInDescription(const YarpString &   request,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool MetricsStateRequestHandler::processRequest(const YarpString &           request,
-                                                const yarp::os::Bottle &     restOfInput,
-                                                const YarpString &           senderChannel,
-                                                yarp::os::ConnectionWriter * replyMechanism)
+DEFINE_PROCESSREQUEST_(MetricsStateRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

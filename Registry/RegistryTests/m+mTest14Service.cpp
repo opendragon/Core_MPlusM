@@ -152,7 +152,7 @@ void Test14Service::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // Test14Service::detachRequestHandlers
 
-bool Test14Service::start(void)
+DEFINE_STARTSERVICE_(Test14Service)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -161,7 +161,7 @@ bool Test14Service::start(void)
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -180,16 +180,16 @@ bool Test14Service::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // Test14Service::start
+} // Test14Service::startService
 
-bool Test14Service::stop(void)
+DEFINE_STOPSERVICE_(Test14Service)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -198,7 +198,7 @@ bool Test14Service::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // Test14Service::stop
+} // Test14Service::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

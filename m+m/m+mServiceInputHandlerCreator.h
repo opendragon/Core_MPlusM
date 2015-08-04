@@ -75,9 +75,7 @@ namespace MplusM
             
         private :
             
-            /*! @brief Create a new BaseInputHandler object to process input data.
-             @returns A new BaseInputHandler or @c NULL if one cannot be created. */
-            virtual BaseInputHandler * create(void);
+            DECLARE_CREATE_;
             
             COPY_AND_ASSIGNMENT_(ServiceInputHandlerCreator);
             

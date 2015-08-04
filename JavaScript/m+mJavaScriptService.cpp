@@ -308,7 +308,7 @@ JavaScriptService::~JavaScriptService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool JavaScriptService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(JavaScriptService)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -389,7 +389,7 @@ bool JavaScriptService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool JavaScriptService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -421,7 +421,7 @@ void JavaScriptService::releaseHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptService::releaseHandlers
 
-void JavaScriptService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -476,7 +476,7 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
     return okSoFar;
 } // JavaScriptService::sendToChannel
 
-bool JavaScriptService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -505,14 +505,14 @@ bool JavaScriptService::setUpStreamDescriptions(void)
     return result;
 } // JavaScriptService::setUpStreamDescriptions
 
-bool JavaScriptService::start(void)
+DEFINE_STARTSERVICE_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -530,9 +530,9 @@ bool JavaScriptService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // JavaScriptService::start
+} // JavaScriptService::startService
 
-void JavaScriptService::startStreams(void)
+DEFINE_STARTSTREAMS_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -578,14 +578,14 @@ void JavaScriptService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptService::startStreams
 
-bool JavaScriptService::stop(void)
+DEFINE_STOPSERVICE_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -594,9 +594,9 @@ bool JavaScriptService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // JavaScriptService::stop
+} // JavaScriptService::stopService
 
-void JavaScriptService::stopStreams(void)
+DEFINE_STOPSTREAMS_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
     try

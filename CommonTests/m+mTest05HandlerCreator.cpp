@@ -98,7 +98,7 @@ Test05HandlerCreator::~Test05HandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-BaseInputHandler * Test05HandlerCreator::create(void)
+DEFINE_CREATE_(Test05HandlerCreator)
 {
     OD_LOG_OBJENTER(); //####
     Test05Handler * result = new Test05Handler;
@@ -106,7 +106,7 @@ BaseInputHandler * Test05HandlerCreator::create(void)
     result->setChannel(_channel);
     OD_LOG_OBJEXIT_P(result); //####
     return result;
-} // Test05HandlerCreator::create
+} // Test05HandlerCreator::createHandler
 
 #if defined(__APPLE__)
 # pragma mark Global functions

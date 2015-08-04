@@ -113,7 +113,7 @@ static void setUpAndGo(const YarpString & progName,
     
     if (aService)
     {
-        if (aService->start())
+        if (aService->startService())
         {
             YarpString channelName(aService->getEndpoint().getName());
             
@@ -141,7 +141,7 @@ static void setUpAndGo(const YarpString & progName,
                     
                     cout << converted.c_str() << endl;
                 }
-                aService->stop();
+                aService->stopService();
             }
             else
             {
@@ -155,7 +155,7 @@ static void setUpAndGo(const YarpString & progName,
         }
         else
         {
-            OD_LOG("! (aService->start())"); //####
+            OD_LOG("! (aService->startService())"); //####
 #if MAC_OR_LINUX_
             GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_

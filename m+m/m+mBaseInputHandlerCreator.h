@@ -53,6 +53,15 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*@ @brief Declare the createHandler method, which returns a new PortReader or @c NULL if one
+ cannot be created. */
+# define DECLARE_CREATE_ \
+    virtual yarp::os::PortReader * create(void)
+
+/*! @brief Define the createHandler method. */
+# define DEFINE_CREATE_(class_) \
+    yarp::os::PortReader * class_::create(void)
+
 namespace MplusM
 {
     namespace Common
@@ -68,9 +77,7 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseInputHandlerCreator(void);
             
-            /*! @brief Create a new BaseInputHandler object to process input data.
-             @returns A new BaseInputHandler or @c NULL if one cannot be created. */
-            virtual BaseInputHandler * create(void) = 0;
+            DECLARE_CREATE_ = 0;
             
             /*! @brief Remember the channel that is feeding the input handler.
              @param theChannel The channel that is feeding the input handler. */

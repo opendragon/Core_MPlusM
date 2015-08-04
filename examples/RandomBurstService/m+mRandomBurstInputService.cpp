@@ -117,7 +117,7 @@ RandomBurstInputService::~RandomBurstInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RandomBurstInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -157,7 +157,7 @@ bool RandomBurstInputService::configure(const yarp::os::Bottle & details)
     return result;
 } // RandomBurstInputService::configure
 
-bool RandomBurstInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -170,7 +170,7 @@ bool RandomBurstInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // RandomBurstInputService::getConfiguration
 
-void RandomBurstInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -187,7 +187,7 @@ void RandomBurstInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstInputService::restartStreams
 
-bool RandomBurstInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -203,7 +203,7 @@ bool RandomBurstInputService::setUpStreamDescriptions(void)
     return result;
 } // RandomBurstInputService::setUpStreamDescriptions
 
-bool RandomBurstInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -216,14 +216,14 @@ bool RandomBurstInputService::shutDownOutputStreams(void)
     return result;
 } // RandomBurstInputService::shutDownOutputStreams
 
-bool RandomBurstInputService::start(void)
+DEFINE_STARTSERVICE_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -241,9 +241,9 @@ bool RandomBurstInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RandomBurstInputService::start
+} // RandomBurstInputService::startService
 
-void RandomBurstInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -271,14 +271,14 @@ void RandomBurstInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstInputService::startStreams
 
-bool RandomBurstInputService::stop(void)
+DEFINE_STOPSERVICE_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -287,9 +287,9 @@ bool RandomBurstInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomBurstInputService::stop
+} // RandomBurstInputService::stopService
 
-void RandomBurstInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(RandomBurstInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

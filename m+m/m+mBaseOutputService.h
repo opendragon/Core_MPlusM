@@ -99,13 +99,9 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(BaseOutputService);
             
-            /*! @brief Set up the input channels.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void);
+            DECLARE_SETUPINPUTSTREAMS_;
             
-            /*! @brief Shut down the input streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void);
+            DECLARE_SHUTDOWNINPUTSTREAMS_;
             
         public :
         

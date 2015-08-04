@@ -156,14 +156,14 @@ void RandomNumberService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RandomNumberService::detachRequestHandlers
 
-bool RandomNumberService::start(void)
+DEFINE_STARTSERVICE_(RandomNumberService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -181,16 +181,16 @@ bool RandomNumberService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RandomNumberService::start
+} // RandomNumberService::startService
 
-bool RandomNumberService::stop(void)
+DEFINE_STOPSERVICE_(RandomNumberService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -199,7 +199,7 @@ bool RandomNumberService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomNumberService::stop
+} // RandomNumberService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -101,7 +101,7 @@ ServiceInputHandlerCreator::~ServiceInputHandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-BaseInputHandler * ServiceInputHandlerCreator::create(void)
+DEFINE_CREATE_(ServiceInputHandlerCreator)
 {
     OD_LOG_OBJENTER(); //####
     BaseInputHandler * result = new ServiceInputHandler(_service);
@@ -109,7 +109,7 @@ BaseInputHandler * ServiceInputHandlerCreator::create(void)
     result->setChannel(_channel);
     OD_LOG_OBJEXIT_P(result); //####
     return result;
-} // ServiceInputHandlerCreator::create
+} // ServiceInputHandlerCreator::createHandler
 
 #if defined(__APPLE__)
 # pragma mark Global functions

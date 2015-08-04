@@ -139,7 +139,7 @@ SendToMQOutputService::~SendToMQOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool SendToMQOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -197,7 +197,7 @@ bool SendToMQOutputService::configure(const yarp::os::Bottle & details)
     return result;
 } // SendToMQOutputService::configure
 
-bool SendToMQOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -248,7 +248,7 @@ void SendToMQOutputService::deactivateConnection(void)
     OD_LOG_EXIT(); //####
 } // SendToMQOutputService::deactivateConnection
 
-void SendToMQOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -294,7 +294,7 @@ void SendToMQOutputService::sendMessage(const std::string & aMessage,
     OD_LOG_OBJEXIT(); //####
 } // SendToMQOutputService::sendMessage
 
-bool SendToMQOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -310,14 +310,14 @@ bool SendToMQOutputService::setUpStreamDescriptions(void)
     return result;
 } // SendToMQOutputService::setUpStreamDescriptions
 
-bool SendToMQOutputService::start(void)
+DEFINE_STARTSERVICE_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -335,9 +335,9 @@ bool SendToMQOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // SendToMQOutputService::start
+} // SendToMQOutputService::startService
 
-void SendToMQOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -411,14 +411,14 @@ void SendToMQOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // SendToMQOutputService::startStreams
 
-bool SendToMQOutputService::stop(void)
+DEFINE_STOPSERVICE_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -427,9 +427,9 @@ bool SendToMQOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // SendToMQOutputService::stop
+} // SendToMQOutputService::stopService
 
-void SendToMQOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(SendToMQOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

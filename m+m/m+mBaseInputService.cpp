@@ -118,7 +118,7 @@ BaseInputService::~BaseInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BaseInputService::setUpOutputStreams(void)
+DEFINE_SETUPOUTPUTSTREAMS_(BaseInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
@@ -131,7 +131,7 @@ bool BaseInputService::setUpOutputStreams(void)
     return result;
 } // BaseInputService::setUpOutputStreams
 
-bool BaseInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();

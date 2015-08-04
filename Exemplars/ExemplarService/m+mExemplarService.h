@@ -86,13 +86,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~ExemplarService(void);
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            DECLARE_STARTSERVICE_;
             
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            DECLARE_STOPSERVICE_;
             
         protected :
             

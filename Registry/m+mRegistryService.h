@@ -170,19 +170,13 @@ namespace MplusM
             /*! @brief Check for expired services. */
             void checkServiceTimes(void);
             
-            /*! @brief Turn off the send / receive metrics collecting. */
-            virtual void disableMetrics(void);
+            DECLARE_DISABLEMETRICS_;
             
-            /*! @brief Turn on the send / receive metrics collecting. */
-            virtual void enableMetrics(void);
+            DECLARE_ENABLEMETRICS_;
             
-            /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(Common::ChannelVector & channels);
+            DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_;
             
-            /*! @brief Fill in the metrics for the service.
-             @param metrics The gathered metrics. */
-            virtual void gatherMetrics(yarp::os::Bottle & metrics);
+            DECLARE_GATHERMETRICS_;
             
             /*! @brief Return @c true if the service is active.
              @returns @c true if the service is active and @c false otherwise. */
@@ -236,16 +230,12 @@ namespace MplusM
                                     const ServiceStatus newStatus,
                                     const YarpString &  details = "");
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            DECLARE_STARTSERVICE_;
             
             /*! @brief Start the background 'checking' thread. */
             void startChecker(void);
             
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            DECLARE_STOPSERVICE_;
             
             /*! @brief Update the last checked time for a service channel.
              @param serviceChannelName The service channel that is being updated. */

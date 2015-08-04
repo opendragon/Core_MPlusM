@@ -94,13 +94,9 @@ namespace MplusM
         
         private :
             
-            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
-             @returns A copy of the descriptor, with only non-pointer types duplicated. */
-            virtual BaseArgumentDescriptor * clone(void);
+            DECLARE_CLONE_;
 
-            /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void);
+            DECLARE_TOSTRING_;
             
             COPY_AND_ASSIGNMENT_(PortArgumentDescriptor);
             

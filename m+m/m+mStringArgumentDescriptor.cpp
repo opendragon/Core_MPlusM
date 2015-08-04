@@ -104,7 +104,7 @@ StringArgumentDescriptor::~StringArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void StringArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+DEFINE_ADDVALUETOBOTTLE_(StringArgumentDescriptor)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("container = ", &container); //####
@@ -112,7 +112,7 @@ void StringArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // StringArgumentDescriptor::addValueToBottle
 
-BaseArgumentDescriptor * StringArgumentDescriptor::clone(void)
+DEFINE_CLONE_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     BaseArgumentDescriptor * result = new StringArgumentDescriptor(argumentName(),
@@ -123,7 +123,7 @@ BaseArgumentDescriptor * StringArgumentDescriptor::clone(void)
     return result;
 } // StringArgumentDescriptor::clone
 
-YarpString StringArgumentDescriptor::getDefaultValue(void)
+DEFINE_GETDEFAULTVALUE_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(_defaultValue);
@@ -132,7 +132,7 @@ YarpString StringArgumentDescriptor::getDefaultValue(void)
     return result;
 } // StringArgumentDescriptor::getDefaultValue
 
-YarpString StringArgumentDescriptor::getProcessedValue(void)
+DEFINE_GETPROCESSEDVALUE_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT_s(_currentValue); //####
@@ -178,14 +178,14 @@ BaseArgumentDescriptor * StringArgumentDescriptor::parseArgString(const YarpStri
     return result;
 } // StringArgumentDescriptor::parseArgString
 
-void StringArgumentDescriptor::setToDefaultValue(void)
+DEFINE_SETTODEFAULTVALUE_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _currentValue = _defaultValue;
     OD_LOG_OBJEXIT(); //####
 } // StringArgumentDescriptor::setToDefaultValue
 
-YarpString StringArgumentDescriptor::toString(void)
+DEFINE_TOSTRING_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("S"));
@@ -195,7 +195,7 @@ YarpString StringArgumentDescriptor::toString(void)
     return result;
 } // StringArgumentDescriptor::toString
 
-bool StringArgumentDescriptor::validate(const YarpString & value)
+DEFINE_VALIDATE_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;

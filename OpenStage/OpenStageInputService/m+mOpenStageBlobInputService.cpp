@@ -119,7 +119,7 @@ OpenStageBlobInputService::~OpenStageBlobInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -172,7 +172,7 @@ bool OpenStageBlobInputService::configure(const yarp::os::Bottle & details)
     return result;
 } // OpenStageBlobInputService::configure
 
-bool OpenStageBlobInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -186,7 +186,7 @@ bool OpenStageBlobInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // OpenStageBlobInputService::getConfiguration
 
-void OpenStageBlobInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -203,7 +203,7 @@ void OpenStageBlobInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputService::restartStreams
 
-bool OpenStageBlobInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -220,7 +220,7 @@ bool OpenStageBlobInputService::setUpStreamDescriptions(void)
     return result;
 } // OpenStageBlobInputService::setUpStreamDescriptions
 
-bool OpenStageBlobInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -233,14 +233,14 @@ bool OpenStageBlobInputService::shutDownOutputStreams(void)
     return result;
 } // OpenStageBlobInputService::shutDownOutputStreams
 
-bool OpenStageBlobInputService::start(void)
+DEFINE_STARTSERVICE_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -258,9 +258,9 @@ bool OpenStageBlobInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // OpenStageBlobInputService::start
+} // OpenStageBlobInputService::startService
 
-void OpenStageBlobInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -289,14 +289,14 @@ void OpenStageBlobInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputService::startStreams
 
-bool OpenStageBlobInputService::stop(void)
+DEFINE_STOPSERVICE_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -305,9 +305,9 @@ bool OpenStageBlobInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OpenStageBlobInputService::stop
+} // OpenStageBlobInputService::stopService
 
-void OpenStageBlobInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(OpenStageBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

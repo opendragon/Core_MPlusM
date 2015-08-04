@@ -126,7 +126,7 @@ LeapMotionInputService::~LeapMotionInputService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(LeapMotionInputService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -154,7 +154,7 @@ bool LeapMotionInputService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool LeapMotionInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -165,7 +165,7 @@ bool LeapMotionInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // LeapMotionInputService::getConfiguration
 
-void LeapMotionInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -182,7 +182,7 @@ void LeapMotionInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputService::restartStreams
 
-bool LeapMotionInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -201,7 +201,7 @@ bool LeapMotionInputService::setUpStreamDescriptions(void)
     return result;
 } // LeapMotionInputService::setUpStreamDescriptions
 
-bool LeapMotionInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -214,14 +214,14 @@ bool LeapMotionInputService::shutDownOutputStreams(void)
     return result;
 } // LeapMotionInputService::shutDownOutputStreams
 
-bool LeapMotionInputService::start(void)
+DEFINE_STARTSERVICE_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -239,9 +239,9 @@ bool LeapMotionInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // LeapMotionInputService::start
+} // LeapMotionInputService::startService
 
-void LeapMotionInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -264,14 +264,14 @@ void LeapMotionInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputService::startStreams
 
-bool LeapMotionInputService::stop(void)
+DEFINE_STOPSERVICE_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -280,9 +280,9 @@ bool LeapMotionInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapMotionInputService::stop
+} // LeapMotionInputService::stopService
 
-void LeapMotionInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(LeapMotionInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

@@ -113,36 +113,21 @@ namespace MplusM
 
         protected :
         
-            /*! @brief Return the default value.
-             @returns The default value. */
-            virtual YarpString getDefaultValue(void);
+            DECLARE_GETDEFAULTVALUE_;
             
         private :
             
-            /*! @brief Add the processed value to a bottle.
-             @param container The bottle to be modified. */
-            virtual void addValueToBottle(yarp::os::Bottle & container);
+            DECLARE_ADDVALUETOBOTTLE_;
             
-            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
-             @returns A copy of the descriptor, with only non-pointer types duplicated. */
-            virtual BaseArgumentDescriptor * clone(void);
+            DECLARE_CLONE_;
 
-            /*! @brief Return the processed value.
-             @returns The processed value. */
-            virtual YarpString getProcessedValue(void);
+            DECLARE_GETPROCESSEDVALUE_;
             
-            /*! @brief Set the associated variable to the default value. */
-            virtual void setToDefaultValue(void);
+            DECLARE_SETTODEFAULTVALUE_;
             
-            /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void);
+            DECLARE_TOSTRING_;
             
-            /*! @brief Check an input value against the constraints of the descriptor.
-             @param value The value to be checked.
-             @returns @c true if the value is within the domain of the descriptor and @c false
-             otherwise. */
-            virtual bool validate(const YarpString & value);
+            DECLARE_VALIDATE_;
             
             COPY_AND_ASSIGNMENT_(IntArgumentDescriptor);
             

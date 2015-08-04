@@ -54,6 +54,78 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief Declare the disableMetrics method, which turns off the send / receive metrics
+ collecting. */
+# define DECLARE_DISABLEMETRICS_ \
+    virtual void disableMetrics(void)
+
+/*! @brief Declare the enableMetrics method, which turns on the send / receive metrics
+ collecting. */
+# define DECLARE_ENABLEMETRICS_ \
+    virtual void enableMetrics(void)
+
+/*! @brief Declare the fillInSecondaryClientChannelsList method, with a single argument of the list
+ to be filled in with the secondary client channels for the service. */
+# define DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_ \
+    virtual void fillInSecondaryClientChannelsList(ChannelVector & channels)
+
+/*! @brief Declare the fillInSecondaryInputChannelsList, with a single argument of the list to be
+ filled in with the secondary input channels for the service. */
+# define DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_ \
+    virtual void fillInSecondaryInputChannelsList(ChannelVector & channels)
+
+/*! @brief Declare the fillInSecondaryOutputChannelsList, with a single argument of the list to be
+ filled in with the secondary output channels for the service. */
+# define DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_ \
+    virtual void fillInSecondaryOutputChannelsList(Common::ChannelVector & channels)
+
+/*! @brief Declare the gatherMetrics method, which fills its single argument, metrics, with the
+ metrics for the service. */
+# define DECLARE_GATHERMETRICS_ \
+    virtual void gatherMetrics(yarp::os::Bottle & metrics)
+
+/*! @brief Declare the startService method, which starts the service processing requests.
+ The method returns @c true if the service was started and @c false if it was not. */
+# define DECLARE_STARTSERVICE_ \
+    virtual bool startService(void)
+
+/*! @brief Declare the stopService method, which stops the service processing requests.
+ The method returns @c true if the service was stopped and @c false if it was not. */
+# define DECLARE_STOPSERVICE_ \
+    virtual bool stopService(void)
+
+/*! @brief Define the disableMetrics method. */
+# define DEFINE_DISABLEMETRICS_(class_) \
+    void class_::disableMetrics(void)
+
+/*! @brief Define the enableMetrics method. */
+# define DEFINE_ENABLEMETRICS_(class_) \
+    void class_::enableMetrics(void)
+
+/*! @brief Define the fillInSecondaryClientChannelsList method. */
+# define DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(class_) \
+    void class_::fillInSecondaryClientChannelsList(ChannelVector & channels)
+
+/*! @brief Define the fillInSecondaryInputChannelsList method. */
+# define DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(class_) \
+    void class_::fillInSecondaryInputChannelsList(ChannelVector & channels)
+
+/*! @brief Define the fillInSecondaryOutputChannelsList method. */
+# define DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(class_) \
+    void class_::fillInSecondaryOutputChannelsList(ChannelVector & channels)
+
+/*! @brief Define the gatherMetrics method. */
+# define DEFINE_GATHERMETRICS_(class_) \
+    void class_::gatherMetrics(yarp::os::Bottle & metrics)
+
+/*! @brief Define the startService method. */
+# define DEFINE_STARTSERVICE_(class_) \
+    bool class_::startService(void)
+
+/*! @brief Define the stopService method. */
+# define DEFINE_STOPSERVICE_(class_) \
+    bool class_::stopService(void)
+
 namespace MplusM
 {
     namespace Common
@@ -179,11 +251,9 @@ namespace MplusM
              @param key The client-provided key. */
             void detachClient(const YarpString & key);
             
-            /*! @brief Turn off the send / receive metrics collecting. */
-            virtual void disableMetrics(void);
+            DECLARE_DISABLEMETRICS_;
             
-            /*! @brief Turn on the send / receive metrics collecting. */
-            virtual void enableMetrics(void);
+            DECLARE_ENABLEMETRICS_;
             
             /*! @brief Return the extra information for the service.
              @returns The extra information for the service. */
@@ -197,21 +267,13 @@ namespace MplusM
              @param clients The list to be filled in. */
             void fillInClientList(YarpStringVector & clients);
             
-            /*! @brief Fill in a list of secondary client channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryClientChannelsList(ChannelVector & channels);
+            DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_;
             
-            /*! @brief Fill in a list of secondary input channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryInputChannelsList(ChannelVector & channels);
+            DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_;
             
-            /*! @brief Fill in a list of secondary output channels for the service.
-             @param channels The list of channels to be filled in. */
-            virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels);
+            DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_;
             
-            /*! @brief Fill in the metrics for the service.
-             @param metrics The gathered metrics. */
-            virtual void gatherMetrics(yarp::os::Bottle & metrics);
+            DECLARE_GATHERMETRICS_;
             
             /*! @brief Return the list of arguments given to the service.
              @returns The list of arguments given to the service. */
@@ -305,16 +367,12 @@ namespace MplusM
              @param extraInfo The extra information for the service. */
             void setExtraInformation(const YarpString & extraInfo);
 
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            DECLARE_STARTSERVICE_;
             
             /*! @brief Start the background 'pinging' thread. */
             void startPinger(void);
             
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            DECLARE_STOPSERVICE_;
             
             /*! @brief Return the modifier tag of the service.
              @returns The modifier tag of the service. */

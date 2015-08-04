@@ -100,14 +100,14 @@ ChordGeneratorService::ChordGeneratorService(const YarpString & launchPath,
     OD_LOG_P1("argv = ", argv); //####
     attachRequestHandlers();
     OD_LOG_EXIT_P(this); //####
-} // RandomNumberService::RandomNumberService
+} // ChordGeneratorService::ChordGeneratorService
 
 ChordGeneratorService::~ChordGeneratorService(void)
 {
     OD_LOG_OBJENTER(); //####
     detachRequestHandlers();
     OD_LOG_OBJEXIT(); //####
-} // RandomNumberService::~RandomNumberService
+} // ChordGeneratorService::~ChordGeneratorService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
@@ -135,7 +135,7 @@ void ChordGeneratorService::attachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RandomNumberService::attachRequestHandlers
+} // ChordGeneratorService::attachRequestHandlers
 
 void ChordGeneratorService::detachRequestHandlers(void)
 {
@@ -155,16 +155,16 @@ void ChordGeneratorService::detachRequestHandlers(void)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RandomNumberService::detachRequestHandlers
+} // ChordGeneratorService::detachRequestHandlers
 
-bool ChordGeneratorService::start(void)
+DEFINE_STARTSERVICE_(ChordGeneratorService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -182,16 +182,16 @@ bool ChordGeneratorService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RandomNumberService::start
+} // ChordGeneratorService::startService
 
-bool ChordGeneratorService::stop(void)
+DEFINE_STOPSERVICE_(ChordGeneratorService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -200,7 +200,7 @@ bool ChordGeneratorService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomNumberService::stop
+} // ChordGeneratorService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

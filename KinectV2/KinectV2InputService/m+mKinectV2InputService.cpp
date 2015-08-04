@@ -119,7 +119,7 @@ KinectV2InputService::~KinectV2InputService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool KinectV2InputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(KinectV2InputService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -146,7 +146,7 @@ bool KinectV2InputService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool KinectV2InputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -157,7 +157,7 @@ bool KinectV2InputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // KinectV2InputService::getConfiguration
 
-void KinectV2InputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -174,7 +174,7 @@ void KinectV2InputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2InputService::restartStreams
 
-bool KinectV2InputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -192,7 +192,7 @@ bool KinectV2InputService::setUpStreamDescriptions(void)
     return result;
 } // KinectV2InputService::setUpStreamDescriptions
 
-bool KinectV2InputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -205,14 +205,14 @@ bool KinectV2InputService::shutDownOutputStreams(void)
     return result;
 } // KinectV2InputService::shutDownOutputStreams
 
-bool KinectV2InputService::start(void)
+DEFINE_STARTSERVICE_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -230,9 +230,9 @@ bool KinectV2InputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // KinectV2InputService::start
+} // KinectV2InputService::startService
 
-void KinectV2InputService::startStreams(void)
+DEFINE_STARTSTREAMS_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -260,14 +260,14 @@ void KinectV2InputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2InputService::startStreams
 
-bool KinectV2InputService::stop(void)
+DEFINE_STOPSERVICE_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -276,9 +276,9 @@ bool KinectV2InputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // KinectV2InputService::stop
+} // KinectV2InputService::stopService
 
-void KinectV2InputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(KinectV2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try

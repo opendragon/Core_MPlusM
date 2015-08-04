@@ -112,7 +112,7 @@ DoubleArgumentDescriptor::~DoubleArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void DoubleArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+DEFINE_ADDVALUETOBOTTLE_(DoubleArgumentDescriptor)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("container = ", &container); //####
@@ -121,7 +121,7 @@ void DoubleArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // DoubleArgumentDescriptor::addValueToBottle
 
-BaseArgumentDescriptor * DoubleArgumentDescriptor::clone(void)
+DEFINE_CLONE_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     BaseArgumentDescriptor * result = new DoubleArgumentDescriptor(argumentName(),
@@ -134,7 +134,7 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::clone(void)
     return result;
 } // DoubleArgumentDescriptor::clone
 
-YarpString DoubleArgumentDescriptor::getDefaultValue(void)
+DEFINE_GETDEFAULTVALUE_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -146,7 +146,7 @@ YarpString DoubleArgumentDescriptor::getDefaultValue(void)
     return result;
 } // DoubleArgumentDescriptor::getDefaultValue
 
-YarpString DoubleArgumentDescriptor::getProcessedValue(void)
+DEFINE_GETPROCESSEDVALUE_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString        result;
@@ -240,14 +240,14 @@ BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpStri
     return result;
 } // DoubleArgumentDescriptor::parseArgString
 
-void DoubleArgumentDescriptor::setToDefaultValue(void)
+DEFINE_SETTODEFAULTVALUE_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _currentValue = _defaultValue;
     OD_LOG_OBJEXIT(); //####
 } // DoubleArgumentDescriptor::setToDefaultValue
 
-YarpString DoubleArgumentDescriptor::toString(void)
+DEFINE_TOSTRING_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("D"));
@@ -273,7 +273,7 @@ YarpString DoubleArgumentDescriptor::toString(void)
     return result;
 } // DoubleArgumentDescriptor::toString
 
-bool DoubleArgumentDescriptor::validate(const YarpString & value)
+DEFINE_VALIDATE_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     bool         result = false;

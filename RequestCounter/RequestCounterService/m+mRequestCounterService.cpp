@@ -247,7 +247,7 @@ void RequestCounterService::resetCounters(const YarpString & key)
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::resetCounters
 
-bool RequestCounterService::start(void)
+DEFINE_STARTSERVICE_(RequestCounterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -256,7 +256,7 @@ bool RequestCounterService::start(void)
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -275,16 +275,16 @@ bool RequestCounterService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RequestCounterService::start
+} // RequestCounterService::startService
 
-bool RequestCounterService::stop(void)
+DEFINE_STOPSERVICE_(RequestCounterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -293,7 +293,7 @@ bool RequestCounterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RequestCounterService::stop
+} // RequestCounterService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

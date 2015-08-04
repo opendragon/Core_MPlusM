@@ -81,7 +81,7 @@ namespace MplusM
         /*! @brief The %Blob output service. */
         class SendToMQOutputService : public Common::BaseOutputService
         {
-            public :
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -102,22 +102,14 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~SendToMQOutputService(void);
             
-            /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
-            virtual bool configure(const yarp::os::Bottle & details);
+            DECLARE_CONFIGURE_;
             
             /*! @brief Deactivate the network connection. */
             void deactivateConnection(void);
             
-            /*! @brief Get the configuration of the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the configuration was successfully retrieved and @c false
-             otherwise. */
-            virtual bool getConfiguration(yarp::os::Bottle & details);
+            DECLARE_GETCONFIGURATION_;
             
-            /*! @brief Restart the input/output streams. */
-            virtual void restartStreams(void);
+            DECLARE_RESTARTSTREAMS_;
             
             /*! @brief Send a message via ActiveMQ.
              @param aMessage The message to send.
@@ -125,35 +117,27 @@ namespace MplusM
             void sendMessage(const std::string & aMessage,
                              const size_t        messageLength);
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            DECLARE_STARTSERVICE_;
             
-            /*! @brief Start the input/output streams. */
-            virtual void startStreams(void);
+            DECLARE_STARTSTREAMS_;
             
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            DECLARE_STOPSERVICE_;
             
-            /*! @brief Stop the input/output streams. */
-            virtual void stopStreams(void);
+            DECLARE_STOPSTREAMS_;
             
-            protected :
-            
-            private :
+        protected :
+        
+        private :
             
             COPY_AND_ASSIGNMENT_(SendToMQOutputService);
             
-            /*! @brief Set up the descriptions that will be used to construct the input/output
-             streams. */
-            virtual bool setUpStreamDescriptions(void);
+            DECLARE_SETUPSTREAMDESCRIPTIONS_;
             
-            public :
-            
-            protected :
-            
-            private :
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseOutputService inherited;

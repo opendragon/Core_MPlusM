@@ -119,7 +119,7 @@ ExemplarOutputService::~ExemplarOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool ExemplarOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -150,7 +150,7 @@ bool ExemplarOutputService::configure(const yarp::os::Bottle & details)
     return result;
 } // ExemplarOutputService::configure
 
-bool ExemplarOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -162,7 +162,7 @@ bool ExemplarOutputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // ExemplarOutputService::getConfiguration
 
-void ExemplarOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -179,7 +179,7 @@ void ExemplarOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarOutputService::restartStreams
 
-bool ExemplarOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -195,14 +195,14 @@ bool ExemplarOutputService::setUpStreamDescriptions(void)
     return result;
 } // ExemplarOutputService::setUpStreamDescriptions
 
-bool ExemplarOutputService::start(void)
+DEFINE_STARTSERVICE_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -220,9 +220,9 @@ bool ExemplarOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // ExemplarOutputService::start
+} // ExemplarOutputService::startService
 
-void ExemplarOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -254,14 +254,14 @@ void ExemplarOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarOutputService::startStreams
 
-bool ExemplarOutputService::stop(void)
+DEFINE_STOPSERVICE_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -270,9 +270,9 @@ bool ExemplarOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ExemplarOutputService::stop
+} // ExemplarOutputService::stopService
 
-void ExemplarOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(ExemplarOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

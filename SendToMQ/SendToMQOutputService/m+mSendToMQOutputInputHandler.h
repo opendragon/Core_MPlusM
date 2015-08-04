@@ -64,7 +64,7 @@ namespace MplusM
          The data is expected to be in the form of arbitrary YARP messages. */
         class SendToMQOutputInputHandler : public Common::BaseInputHandler
         {
-            public :
+        public :
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
@@ -73,28 +73,19 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~SendToMQOutputInputHandler(void);
             
-            protected :
+        protected :
             
-            private :
+        private :
             
-            /*! @brief Process partially-structured input data.
-             @param input The partially-structured input data.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
-             @param numBytes The number of bytes available on the connection.
-             @returns @c true if the input was correctly structured and successfully processed. */
-            virtual bool handleInput(const yarp::os::Bottle &     input,
-                                     const YarpString &           senderChannel,
-                                     yarp::os::ConnectionWriter * replyMechanism,
-                                     const size_t                 numBytes);
+            DECLARE_HANDLEINPUT_;
             
             COPY_AND_ASSIGNMENT_(SendToMQOutputInputHandler);
             
-            public :
+        public :
             
-            protected :
+        protected :
             
-            private :
+        private :
             
             /*! @brief The class that this class is derived from. */
             typedef BaseInputHandler inherited;

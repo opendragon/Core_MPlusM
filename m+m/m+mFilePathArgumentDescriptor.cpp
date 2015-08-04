@@ -171,7 +171,7 @@ FilePathArgumentDescriptor::~FilePathArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-BaseArgumentDescriptor * FilePathArgumentDescriptor::clone(void)
+DEFINE_CLONE_(FilePathArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     BaseArgumentDescriptor * result = new FilePathArgumentDescriptor(argumentName(),
@@ -184,7 +184,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::clone(void)
     return result;
 } // FilePathArgumentDescriptor::clone
 
-YarpString FilePathArgumentDescriptor::getDefaultValue(void)
+DEFINE_GETDEFAULTVALUE_(FilePathArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _defaultValue = _pathPrefix;
@@ -280,7 +280,7 @@ BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpSt
     return result;
 } // FilePathArgumentDescriptor::parseArgString
 
-void FilePathArgumentDescriptor::setToDefaultValue(void)
+DEFINE_SETTODEFAULTVALUE_(FilePathArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     if (! _defaultSet)
@@ -291,7 +291,7 @@ void FilePathArgumentDescriptor::setToDefaultValue(void)
     OD_LOG_OBJEXIT(); //####
 } // FilePathArgumentDescriptor::setToDefaultValue
 
-YarpString FilePathArgumentDescriptor::toString(void)
+DEFINE_TOSTRING_(FilePathArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString oldDefault(_defaultValue);
@@ -305,7 +305,7 @@ YarpString FilePathArgumentDescriptor::toString(void)
     return result;
 } // FilePathArgumentDescriptor::toString
 
-bool FilePathArgumentDescriptor::validate(const YarpString & value)
+DEFINE_VALIDATE_(FilePathArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     bool result = checkFilePath(value.c_str(), _forOutput, false);

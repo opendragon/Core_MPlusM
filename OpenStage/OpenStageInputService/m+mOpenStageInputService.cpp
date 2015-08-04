@@ -117,7 +117,7 @@ OpenStageInputService::~OpenStageInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool OpenStageInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -159,7 +159,7 @@ bool OpenStageInputService::configure(const yarp::os::Bottle & details)
     return result;
 } // OpenStageInputService::configure
 
-bool OpenStageInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -172,7 +172,7 @@ bool OpenStageInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // OpenStageInputService::getConfiguration
 
-void OpenStageInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -189,7 +189,7 @@ void OpenStageInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputService::restartStreams
 
-bool OpenStageInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -205,7 +205,7 @@ bool OpenStageInputService::setUpStreamDescriptions(void)
     return result;
 } // OpenStageInputService::setUpStreamDescriptions
 
-bool OpenStageInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -218,14 +218,14 @@ bool OpenStageInputService::shutDownOutputStreams(void)
     return result;
 } // OpenStageInputService::shutDownOutputStreams
 
-bool OpenStageInputService::start(void)
+DEFINE_STARTSERVICE_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -243,9 +243,9 @@ bool OpenStageInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // OpenStageInputService::start
+} // OpenStageInputService::startService
 
-void OpenStageInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -273,14 +273,14 @@ void OpenStageInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputService::startStreams
 
-bool OpenStageInputService::stop(void)
+DEFINE_STOPSERVICE_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -289,9 +289,9 @@ bool OpenStageInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // OpenStageInputService::stop
+} // OpenStageInputService::stopService
 
-void OpenStageInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(OpenStageInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

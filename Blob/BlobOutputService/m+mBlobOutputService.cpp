@@ -119,7 +119,7 @@ BlobOutputService::~BlobOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BlobOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -151,7 +151,7 @@ bool BlobOutputService::configure(const yarp::os::Bottle & details)
     return result;
 } // BlobOutputService::configure
 
-bool BlobOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -186,7 +186,7 @@ void BlobOutputService::deactivateConnection(void)
     OD_LOG_EXIT(); //####
 } // BlobOutputService::deactivateConnection
 
-void BlobOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -203,7 +203,7 @@ void BlobOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // BlobOutputService::restartStreams
 
-bool BlobOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -219,14 +219,14 @@ bool BlobOutputService::setUpStreamDescriptions(void)
     return result;
 } // BlobOutputService::setUpStreamDescriptions
 
-bool BlobOutputService::start(void)
+DEFINE_STARTSERVICE_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -246,7 +246,7 @@ bool BlobOutputService::start(void)
     return isStarted();
 } // BlobOutputService::start
 
-void BlobOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -375,14 +375,14 @@ void BlobOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // BlobOutputService::startStreams
 
-bool BlobOutputService::stop(void)
+DEFINE_STOPSERVICE_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -391,9 +391,9 @@ bool BlobOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BlobOutputService::stop
+} // BlobOutputService::stopService
 
-void BlobOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

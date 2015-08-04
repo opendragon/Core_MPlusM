@@ -1882,7 +1882,7 @@ void RegistryService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::detachRequestHandlers
 
-void RegistryService::disableMetrics(void)
+DEFINE_DISABLEMETRICS_(RegistryService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::disableMetrics();
@@ -1893,7 +1893,7 @@ void RegistryService::disableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::disableMetrics
 
-void RegistryService::enableMetrics(void)
+DEFINE_ENABLEMETRICS_(RegistryService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::enableMetrics();
@@ -1904,7 +1904,7 @@ void RegistryService::enableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::enableMetrics
 
-void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
+DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(RegistryService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("channels = ", &channels); //####
@@ -1922,7 +1922,7 @@ void RegistryService::fillInSecondaryOutputChannelsList(ChannelVector & channels
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::fillInSecondaryOutputChannelsList
 
-void RegistryService::gatherMetrics(yarp::os::Bottle & metrics)
+DEFINE_GATHERMETRICS_(RegistryService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("metrics = ", &metrics); //####
@@ -2504,7 +2504,7 @@ bool RegistryService::setUpStatusChannel(void)
     return okSoFar;
 } // RegistryService::setUpStatusChannel
 
-bool RegistryService::start(void)
+DEFINE_STARTSERVICE_(RegistryService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -2513,7 +2513,7 @@ bool RegistryService::start(void)
     {
         if ((! isActive()) && (! isStarted()))
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted() && setUpDatabase() && setUpStatusChannel())
             {
                 // Register ourselves!!!
@@ -2609,7 +2609,7 @@ bool RegistryService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RegistryService::start
+} // RegistryService::startService
 
 void RegistryService::startChecker(void)
 {
@@ -2628,7 +2628,7 @@ void RegistryService::startChecker(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::startChecker
 
-bool RegistryService::stop(void)
+DEFINE_STOPSERVICE_(RegistryService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -2650,7 +2650,7 @@ bool RegistryService::stop(void)
         {
             reportStatusChange("", kRegistryStopped);
         }
-        result = inherited::stop();
+        result = inherited::stopService();
         _isActive = false;
         OD_LOG_B1("_isActive <- ", _isActive); //####
     }
@@ -2661,7 +2661,7 @@ bool RegistryService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RegistryService::stop
+} // RegistryService::stopService
 
 void RegistryService::updateCheckedTimeForChannel(const YarpString & serviceChannelName)
 {

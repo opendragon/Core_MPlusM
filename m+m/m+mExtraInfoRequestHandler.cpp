@@ -126,7 +126,7 @@ ExtraInfoRequestHandler::~ExtraInfoRequestHandler(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void ExtraInfoRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+DEFINE_FILLINALIASES_(ExtraInfoRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
@@ -134,8 +134,7 @@ void ExtraInfoRequestHandler::fillInAliases(YarpStringVector & alternateNames)
     OD_LOG_OBJEXIT(); //####
 } // ExtraInfoRequestHandler::fillInAliases
 
-void ExtraInfoRequestHandler::fillInDescription(const YarpString &   request,
-                                           yarp::os::Property & info)
+DEFINE_FILLINDESCRIPTION_(ExtraInfoRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -167,10 +166,7 @@ void ExtraInfoRequestHandler::fillInDescription(const YarpString &   request,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ExtraInfoRequestHandler::processRequest(const YarpString &           request,
-                                             const yarp::os::Bottle &     restOfInput,
-                                             const YarpString &           senderChannel,
-                                             yarp::os::ConnectionWriter * replyMechanism)
+DEFINE_PROCESSREQUEST_(ExtraInfoRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

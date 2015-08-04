@@ -120,7 +120,7 @@ LeapBlobInputService::~LeapBlobInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -159,7 +159,7 @@ bool LeapBlobInputService::configure(const yarp::os::Bottle & details)
     return result;
 } // LeapBlobInputService::configure
 
-bool LeapBlobInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -171,7 +171,7 @@ bool LeapBlobInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // LeapBlobInputService::getConfiguration
 
-void LeapBlobInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -188,7 +188,7 @@ void LeapBlobInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // LeapBlobInputService::restartStreams
 
-bool LeapBlobInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -205,7 +205,7 @@ bool LeapBlobInputService::setUpStreamDescriptions(void)
     return result;
 } // LeapBlobInputService::setUpStreamDescriptions
 
-bool LeapBlobInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -218,14 +218,14 @@ bool LeapBlobInputService::shutDownOutputStreams(void)
     return result;
 } // LeapBlobInputService::shutDownOutputStreams
 
-bool LeapBlobInputService::start(void)
+DEFINE_STARTSERVICE_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -243,9 +243,9 @@ bool LeapBlobInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // LeapBlobInputService::start
+} // LeapBlobInputService::startService
 
-void LeapBlobInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -269,14 +269,14 @@ void LeapBlobInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // LeapBlobInputService::startStreams
 
-bool LeapBlobInputService::stop(void)
+DEFINE_STOPSERVICE_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -285,9 +285,9 @@ bool LeapBlobInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapBlobInputService::stop
+} // LeapBlobInputService::stopService
 
-void LeapBlobInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(LeapBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

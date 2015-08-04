@@ -95,7 +95,7 @@ RecordAsJSONOutputInputHandler::~RecordAsJSONOutputInputHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // RecordAsJSONInputHandler::~RecordAsJSONInputHandler
+} // RecordAsJSONOutputInputHandler::~RecordAsJSONOutputInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
@@ -105,10 +105,7 @@ RecordAsJSONOutputInputHandler::~RecordAsJSONOutputInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RecordAsJSONOutputInputHandler::handleInput(const yarp::os::Bottle &     input,
-                                                 const YarpString &           senderChannel,
-                                                 yarp::os::ConnectionWriter * replyMechanism,
-                                                 const size_t                 numBytes)
+DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

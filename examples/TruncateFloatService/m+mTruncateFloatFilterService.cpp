@@ -125,7 +125,7 @@ TruncateFloatFilterService::~TruncateFloatFilterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool TruncateFloatFilterService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(TruncateFloatFilterService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -153,7 +153,7 @@ bool TruncateFloatFilterService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool TruncateFloatFilterService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -164,7 +164,7 @@ bool TruncateFloatFilterService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // TruncateFloatFilterService::getConfiguration
 
-void TruncateFloatFilterService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -181,7 +181,7 @@ void TruncateFloatFilterService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // TruncateFloatFilterService::restartStreams
 
-bool TruncateFloatFilterService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -202,14 +202,14 @@ bool TruncateFloatFilterService::setUpStreamDescriptions(void)
     return result;
 } // TruncateFloatFilterService::setUpStreamDescriptions
 
-bool TruncateFloatFilterService::start(void)
+DEFINE_STARTSERVICE_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -227,9 +227,9 @@ bool TruncateFloatFilterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // TruncateFloatFilterService::start
+} // TruncateFloatFilterService::startService
 
-void TruncateFloatFilterService::startStreams(void)
+DEFINE_STARTSTREAMS_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -252,14 +252,14 @@ void TruncateFloatFilterService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // TruncateFloatFilterService::startStreams
 
-bool TruncateFloatFilterService::stop(void)
+DEFINE_STOPSERVICE_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -268,9 +268,9 @@ bool TruncateFloatFilterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TruncateFloatFilterService::stop
+} // TruncateFloatFilterService::stopService
 
-void TruncateFloatFilterService::stopStreams(void)
+DEFINE_STOPSTREAMS_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try

@@ -107,7 +107,7 @@ SetDataTrackRequestHandler::~SetDataTrackRequestHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void SetDataTrackRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+DEFINE_FILLINALIASES_(SetDataTrackRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -122,8 +122,7 @@ void SetDataTrackRequestHandler::fillInAliases(YarpStringVector & alternateNames
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void SetDataTrackRequestHandler::fillInDescription(const YarpString &   request,
-                                                   yarp::os::Property & info)
+DEFINE_FILLINDESCRIPTION_(SetDataTrackRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -154,10 +153,7 @@ void SetDataTrackRequestHandler::fillInDescription(const YarpString &   request,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool SetDataTrackRequestHandler::processRequest(const YarpString &           request,
-                                                const yarp::os::Bottle &     restOfInput,
-                                                const YarpString &           senderChannel,
-                                                yarp::os::ConnectionWriter * replyMechanism)
+DEFINE_PROCESSREQUEST_(SetDataTrackRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

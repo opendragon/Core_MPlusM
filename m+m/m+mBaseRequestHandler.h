@@ -53,6 +53,44 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief Declare the fillInAliases method, which has a single argument, alternateNames, that is to
+ be filled in with the aliases for the request. */
+# define DECLARE_FILLINALIASES_ \
+    virtual void fillInAliases(YarpStringVector & alternateNames)
+
+/*! @brief Declare the fillInDescription method, which has two arguments - the name of the request
+ and a dictionary to be filled in with a description for the request. */
+# define DECLARE_FILLINDESCRIPTION_ \
+    virtual void fillInDescription(const YarpString &   request,\
+                                   yarp::os::Property & info)
+
+/*! @brief Declare the processRequest method, which has four arguments - the name of the request,
+ request, the arguments to the operation, restOfInput, the name of the channel used to send the
+ input data, senderChannel, and replyMechanism, which is non-@c NULL if a reply is expected and
+ @c NULL otherwise.
+ The method returns @c true if the request was processed and @c false otherwise. */
+# define DECLARE_PROCESSREQUEST_ \
+    virtual bool processRequest(const YarpString &           request,\
+                                const yarp::os::Bottle &     restOfInput,\
+                                const YarpString &           senderChannel,\
+                                yarp::os::ConnectionWriter * replyMechanism)
+
+/*! @brief Define the fillInAliases method. */
+# define DEFINE_FILLINALIASES_(class_) \
+    void class_::fillInAliases(YarpStringVector & alternateNames)
+
+/*! @brief Define the fillInDescription method. */
+# define DEFINE_FILLINDESCRIPTION_(class_) \
+    void class_::fillInDescription(const YarpString &   request,\
+                                   yarp::os::Property & info)
+
+/*! @brief Define the processRequest method. */
+# define DEFINE_PROCESSREQUEST_(class_) \
+    bool class_::processRequest(const YarpString &           request,\
+                                const yarp::os::Bottle &     restOfInput,\
+                                const YarpString &           senderChannel,\
+                                yarp::os::ConnectionWriter * replyMechanism)
+
 namespace MplusM
 {
     namespace Common
@@ -74,15 +112,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseRequestHandler(void);
             
-            /*! @brief Fill in a set of aliases for the request.
-             @param alternateNames Aliases for the request. */
-            virtual void fillInAliases(YarpStringVector & alternateNames) = 0;
+            DECLARE_FILLINALIASES_ = 0;
             
-            /*! @brief Fill in a description dictionary for the request.
-             @param request The actual request name.
-             @param info The dictionary to be filled in. */
-            virtual void fillInDescription(const YarpString &   request,
-                                           yarp::os::Property & info) = 0;
+            DECLARE_FILLINDESCRIPTION_ = 0;
             
             /*! @brief Return the name of the request.
              @returns The name of the request. */
@@ -92,15 +124,7 @@ namespace MplusM
                 return _name;
             } // name
             
-            /*! @brief Process a request.
-             @param request The actual request name.
-             @param restOfInput The arguments to the operation.
-             @param senderChannel The name of the channel used to send the input data.
-             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
-            virtual bool processRequest(const YarpString &           request,
-                                        const yarp::os::Bottle &     restOfInput,
-                                        const YarpString &           senderChannel,
-                                        yarp::os::ConnectionWriter * replyMechanism) = 0;
+            DECLARE_PROCESSREQUEST_ = 0;
             
             /*! @brief Send a simple OK response to a request.
              @param replyMechanism The destination for the response. */

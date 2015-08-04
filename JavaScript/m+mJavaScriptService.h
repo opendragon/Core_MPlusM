@@ -119,16 +119,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~JavaScriptService(void);
             
-            /*! @brief Configure the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the service was successfully configured and @c false otherwise. */
-            virtual bool configure(const yarp::os::Bottle & details);
+            DECLARE_CONFIGURE_;
             
-            /*! @brief Get the configuration of the input/output streams.
-             @param details The configuration information for the input/output streams.
-             @returns @c true if the configuration was successfully retrieved and @c false
-             otherwise. */
-            virtual bool getConfiguration(yarp::os::Bottle & details);
+            DECLARE_GETCONFIGURATION_;
 
             /*! @brief Return the %JavaScript execution environment.
              @returns The %JavaScript execution environment. */
@@ -146,8 +139,7 @@ namespace MplusM
                 return _global;
             } // getGlobal
             
-            /*! @brief Restart the input/output streams. */
-            virtual void restartStreams(void);
+            DECLARE_RESTARTSTREAMS_;
             
             /*! @brief Send a value out a specified channel.
              @param channelSlot The output channel to be used.
@@ -156,19 +148,13 @@ namespace MplusM
             bool sendToChannel(const int32_t channelSlot,
                                JS::Value     theData);
             
-            /*! @brief Start processing requests.
-             @returns @c true if the service was started and @c false if it was not. */
-            virtual bool start(void);
+            DECLARE_STARTSERVICE_;
             
-            /*! @brief Start the input/output streams. */
-            virtual void startStreams(void);
+            DECLARE_STARTSTREAMS_;
             
-            /*! @brief Stop processing requests.
-             @returns @c true if the service was stopped and @c false it if was not. */
-            virtual bool stop(void);
+            DECLARE_STOPSERVICE_;
             
-            /*! @brief Stop the input/output streams. */
-            virtual void stopStreams(void);
+            DECLARE_STOPSTREAMS_;
             
         protected :
             
@@ -179,9 +165,7 @@ namespace MplusM
             /*! @brief Release all the allocated handlers. */
             void releaseHandlers(void);
 
-            /*! @brief Set up the descriptions that will be used to construct the input/output
-             streams. */
-            virtual bool setUpStreamDescriptions(void);
+            DECLARE_SETUPSTREAMDESCRIPTIONS_;
             
         public :
         

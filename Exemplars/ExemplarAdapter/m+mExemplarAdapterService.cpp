@@ -124,7 +124,7 @@ ExemplarAdapterService::~ExemplarAdapterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ExemplarAdapterService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(ExemplarAdapterService)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -152,7 +152,7 @@ bool ExemplarAdapterService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool ExemplarAdapterService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -163,7 +163,7 @@ bool ExemplarAdapterService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // ExemplarAdapterService::getConfiguration
 
-void ExemplarAdapterService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -191,7 +191,7 @@ void ExemplarAdapterService::setUpInputHandlers(ExemplarAdapterData & sharedData
     OD_LOG_OBJEXIT(); //####
 } // ExemplarAdapterService::setUpInputHandlers
 
-bool ExemplarAdapterService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -217,14 +217,14 @@ bool ExemplarAdapterService::setUpStreamDescriptions(void)
     return result;
 } // ExemplarAdapterService::setUpStreamDescriptions
 
-bool ExemplarAdapterService::start(void)
+DEFINE_STARTSERVICE_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -242,9 +242,9 @@ bool ExemplarAdapterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // ExemplarAdapterService::start
+} // ExemplarAdapterService::startService
 
-void ExemplarAdapterService::startStreams(void)
+DEFINE_STARTSTREAMS_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -266,14 +266,14 @@ void ExemplarAdapterService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarAdapterService::startStreams
 
-bool ExemplarAdapterService::stop(void)
+DEFINE_STOPSERVICE_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -282,9 +282,9 @@ bool ExemplarAdapterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ExemplarAdapterService::stop
+} // ExemplarAdapterService::stopService
 
-void ExemplarAdapterService::stopStreams(void)
+DEFINE_STOPSTREAMS_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try

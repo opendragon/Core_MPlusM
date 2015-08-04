@@ -244,7 +244,7 @@ BaseService::BaseService(const ServiceKind  theKind,
 BaseService::~BaseService(void)
 {
     OD_LOG_OBJENTER(); //####
-    stop();
+    stopService();
     detachRequestHandlers();
     delete _endpoint;
     delete _handler;
@@ -454,7 +454,7 @@ void BaseService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::detachRequestHandlers
 
-void BaseService::disableMetrics(void)
+DEFINE_DISABLEMETRICS_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = false;
@@ -465,7 +465,7 @@ void BaseService::disableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::disableMetrics
 
-void BaseService::enableMetrics(void)
+DEFINE_ENABLEMETRICS_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     if (_endpoint)
@@ -493,7 +493,7 @@ void BaseService::fillInClientList(YarpStringVector & clients)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInClientList
 
-void BaseService::fillInSecondaryClientChannelsList(ChannelVector & channels)
+DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("channels = ", &channels); //####
@@ -501,7 +501,7 @@ void BaseService::fillInSecondaryClientChannelsList(ChannelVector & channels)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInSecondaryClientChannelsList
 
-void BaseService::fillInSecondaryInputChannelsList(ChannelVector & channels)
+DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("channels = ", &channels); //####
@@ -509,7 +509,7 @@ void BaseService::fillInSecondaryInputChannelsList(ChannelVector & channels)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInSecondaryInputChannelsList
 
-void BaseService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
+DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("channels = ", &channels); //####
@@ -543,7 +543,7 @@ BaseContext * BaseService::findContext(const YarpString & key)
     return result;
 } // BaseService::findContext
 
-void BaseService::gatherMetrics(yarp::os::Bottle & metrics)
+DEFINE_GATHERMETRICS_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("metrics = ", &metrics); //####
@@ -783,7 +783,7 @@ void BaseService::setExtraInformation(const YarpString & extraInfo)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::setExtraInformation
 
-bool BaseService::start(void)
+DEFINE_STARTSERVICE_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -845,7 +845,7 @@ bool BaseService::start(void)
     }
     OD_LOG_OBJEXIT_B(_started); //####
     return _started;
-} // BaseService::start
+} // BaseService::startService
 
 void BaseService::startPinger(void)
 {
@@ -863,7 +863,7 @@ void BaseService::startPinger(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::startPinger
 
-bool BaseService::stop(void)
+DEFINE_STOPSERVICE_(BaseService)
 {
     OD_LOG_OBJENTER(); //####
     if (_pinger)
@@ -874,8 +874,8 @@ bool BaseService::stop(void)
     }
     _started = false;
     OD_LOG_OBJEXIT_B(! _started); //####
-    return ! _started;
-} // BaseService::stop
+    return (! _started);
+} // BaseService::stopService
 
 void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 {

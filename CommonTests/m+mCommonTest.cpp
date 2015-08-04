@@ -1009,7 +1009,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
         
         if (aService)
         {
-            if (aService->start())
+            if (aService->startService())
             {
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
@@ -1041,11 +1041,11 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                aService->stop();
+                aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->start())"); //####
+                OD_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }
@@ -1088,7 +1088,7 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
         
         if (aService)
         {
-            if (aService->start())
+            if (aService->startService())
             {
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
@@ -1120,11 +1120,11 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                aService->stop();
+                aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->start())"); //####
+                OD_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }
@@ -1166,7 +1166,7 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
         
         if (aService)
         {
-            if (aService->start())
+            if (aService->startService())
             {
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
@@ -1215,11 +1215,11 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                aService->stop();
+                aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->start())"); //####
+                OD_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }
@@ -1566,7 +1566,7 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
         
         if (aService)
         {
-            if (aService->start())
+            if (aService->startService())
             {
                 ClientChannel * outChannel = doCreateTestChannel(aService->getEndpoint(),
                                                                  "test/requestechofromservice"
@@ -1605,11 +1605,11 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
                 {
                     OD_LOG("! (outChannel)"); //####
                 }
-                aService->stop();
+                aService->stopService();
             }
             else
             {
-                OD_LOG("! (aService->start())"); //####
+                OD_LOG("! (aService->startService())"); //####
             }
             delete aService;
         }

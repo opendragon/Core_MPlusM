@@ -127,14 +127,14 @@ static int doTestCreateRegistryService(const char * launchPath,
         }
         if (registry)
         {
-            if (registry->start())
+            if (registry->startService())
             {
                 result = (registry->isActive() ? 0 : 1);
-                registry->stop();
+                registry->stopService();
             }
             else
             {
-                OD_LOG("! (registry->start())"); //####
+                OD_LOG("! (registry->startService())"); //####
             }
             delete registry;
         }
@@ -196,7 +196,7 @@ static int doTestRequestRegistryService(const char * launchPath,
         }
         if (registry)
         {
-            if (registry->start())
+            if (registry->startService())
             {
                 if (registry->isActive())
                 {
@@ -206,7 +206,7 @@ static int doTestRequestRegistryService(const char * launchPath,
                     
                     if (aService)
                     {
-                        if (aService->start())
+                        if (aService->startService())
                         {
                             YarpString channelName(aService->getEndpoint().getName());
                             
@@ -218,11 +218,11 @@ static int doTestRequestRegistryService(const char * launchPath,
                             {
                                 OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                             }
-                            aService->stop();
+                            aService->stopService();
                         }
                         else
                         {
-                            OD_LOG("! (aService->start())"); //####
+                            OD_LOG("! (aService->startService())"); //####
                         }
                         delete aService;
                     }
@@ -235,11 +235,11 @@ static int doTestRequestRegistryService(const char * launchPath,
                 {
                     OD_LOG("! (registry->isActive())"); //####
                 }
-                registry->stop();
+                registry->stopService();
             }
             else
             {
-                OD_LOG("! (registry->start())"); //####
+                OD_LOG("! (registry->startService())"); //####
             }
             delete registry;
         }
@@ -301,7 +301,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
         }
         if (registry)
         {
-            if (registry->start())
+            if (registry->startService())
             {
                 if (registry->isActive())
                 {
@@ -311,7 +311,7 @@ static int doTestRequestUnregisterService(const char * launchPath,
                     
                     if (aService)
                     {
-                        if (aService->start())
+                        if (aService->startService())
                         {
                             YarpString channelName(aService->getEndpoint().getName());
                             
@@ -331,11 +331,11 @@ static int doTestRequestUnregisterService(const char * launchPath,
                             {
                                 OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
                             }
-                            aService->stop();
+                            aService->stopService();
                         }
                         else
                         {
-                            OD_LOG("! (aService->start())"); //####
+                            OD_LOG("! (aService->startService())"); //####
                         }
                         delete aService;
                     }
@@ -348,11 +348,11 @@ static int doTestRequestUnregisterService(const char * launchPath,
                 {
                     OD_LOG("! (registry->isActive())"); //####
                 }
-                registry->stop();
+                registry->stopService();
             }
             else
             {
-                OD_LOG("! (registry->start())"); //####
+                OD_LOG("! (registry->startService())"); //####
             }
             delete registry;
         }
@@ -398,9 +398,9 @@ static int doTestRequestSearchService(const char * launchPath,
             if (registry)
             {
                 OD_LOG("(registry)"); //####
-                if (registry->start())
+                if (registry->startService())
                 {
-                    OD_LOG("(registry->start())"); //####
+                    OD_LOG("(registry->startService())"); //####
                     if (registry->isActive())
                     {
                         // Now we start up another service (Test16Service) and register it
@@ -411,7 +411,7 @@ static int doTestRequestSearchService(const char * launchPath,
                         if (aService)
                         {
                             OD_LOG("(aService)"); //####
-                            if (aService->start())
+                            if (aService->startService())
                             {
                                 OD_LOG("(aService->start())"); //####
                                 YarpString channelName(aService->getEndpoint().getName());
@@ -559,7 +559,7 @@ static int doTestRequestSearchService(const char * launchPath,
                                     OD_LOG("! (RegisterLocalService(channelName, " //####
                                            "*aService))"); //####
                                 }
-                                aService->stop();
+                                aService->stopService();
                             }
                             else
                             {
@@ -576,7 +576,7 @@ static int doTestRequestSearchService(const char * launchPath,
                     {
                         OD_LOG("! (registry->isActive())"); //####
                     }
-                    registry->stop();
+                    registry->stopService();
                 }
                 else
                 {

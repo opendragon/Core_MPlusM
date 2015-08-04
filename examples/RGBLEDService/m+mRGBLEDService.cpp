@@ -159,14 +159,14 @@ void RGBLEDService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RGBLEDService::detachRequestHandlers
 
-bool RGBLEDService::start(void)
+DEFINE_STARTSERVICE_(RGBLEDService)
 {
     OD_LOG_OBJENTER();//####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -184,16 +184,16 @@ bool RGBLEDService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted());//####
     return isStarted();
-} // RGBLEDService::start
+} // RGBLEDService::startService
 
-bool RGBLEDService::stop(void)
+DEFINE_STOPSERVICE_(RGBLEDService)
 {
     OD_LOG_OBJENTER();//####
     bool result = false;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -202,4 +202,4 @@ bool RGBLEDService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result);//####
     return result;
-} // RGBLEDService::stop
+} // RGBLEDService::stopService

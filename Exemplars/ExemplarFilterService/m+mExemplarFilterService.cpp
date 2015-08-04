@@ -122,7 +122,7 @@ ExemplarFilterService::~ExemplarFilterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ExemplarFilterService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(ExemplarFilterService)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -150,7 +150,7 @@ bool ExemplarFilterService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool ExemplarFilterService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -161,7 +161,7 @@ bool ExemplarFilterService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // ExemplarFilterService::getConfiguration
 
-void ExemplarFilterService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -178,7 +178,7 @@ void ExemplarFilterService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarFilterService::restartStreams
 
-bool ExemplarFilterService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -199,14 +199,14 @@ bool ExemplarFilterService::setUpStreamDescriptions(void)
     return result;
 } // ExemplarFilterService::setUpStreamDescriptions
 
-bool ExemplarFilterService::start(void)
+DEFINE_STARTSERVICE_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -224,9 +224,9 @@ bool ExemplarFilterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // ExemplarFilterService::start
+} // ExemplarFilterService::startService
 
-void ExemplarFilterService::startStreams(void)
+DEFINE_STARTSTREAMS_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -249,14 +249,14 @@ void ExemplarFilterService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarFilterService::startStreams
 
-bool ExemplarFilterService::stop(void)
+DEFINE_STOPSERVICE_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -265,9 +265,9 @@ bool ExemplarFilterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ExemplarFilterService::stop
+} // ExemplarFilterService::stopService
 
-void ExemplarFilterService::stopStreams(void)
+DEFINE_STOPSTREAMS_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try

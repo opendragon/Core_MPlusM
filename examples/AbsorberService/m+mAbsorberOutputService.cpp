@@ -157,7 +157,7 @@ AbsorberOutputService::~AbsorberOutputService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool AbsorberOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(AbsorberOutputService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -185,7 +185,7 @@ bool AbsorberOutputService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool AbsorberOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -196,7 +196,7 @@ bool AbsorberOutputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // AbsorberOutputService::getConfiguration
 
-void AbsorberOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -213,7 +213,7 @@ void AbsorberOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // AbsorberOutputService::restartStreams
 
-bool AbsorberOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -229,14 +229,14 @@ bool AbsorberOutputService::setUpStreamDescriptions(void)
     return result;
 } // AbsorberOutputService::setUpStreamDescriptions
 
-bool AbsorberOutputService::start(void)
+DEFINE_STARTSERVICE_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -254,9 +254,9 @@ bool AbsorberOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // AbsorberOutputService::start
+} // AbsorberOutputService::startService
 
-void AbsorberOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -278,14 +278,14 @@ void AbsorberOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // AbsorberOutputService::startStreams
 
-bool AbsorberOutputService::stop(void)
+DEFINE_STOPSERVICE_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -294,9 +294,9 @@ bool AbsorberOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AbsorberOutputService::stop
+} // AbsorberOutputService::stopService
 
-void AbsorberOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

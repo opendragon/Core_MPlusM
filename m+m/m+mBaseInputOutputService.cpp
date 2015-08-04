@@ -463,7 +463,7 @@ void BaseInputOutputService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::detachRequestHandlers
 
-void BaseInputOutputService::disableMetrics(void)
+DEFINE_DISABLEMETRICS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::disableMetrics();
@@ -509,7 +509,7 @@ void BaseInputOutputService::disableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::disableMetrics
 
-void BaseInputOutputService::enableMetrics(void)
+DEFINE_ENABLEMETRICS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::enableMetrics();
@@ -555,7 +555,7 @@ void BaseInputOutputService::enableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::enableMetrics
 
-void BaseInputOutputService::fillInSecondaryClientChannelsList(ChannelVector & channels)
+DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("channels = ", &channels); //####
@@ -583,7 +583,7 @@ void BaseInputOutputService::fillInSecondaryClientChannelsList(ChannelVector & c
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryClientChannelsList
 
-void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & channels)
+DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("channels = ", &channels); //####
@@ -611,7 +611,7 @@ void BaseInputOutputService::fillInSecondaryInputChannelsList(ChannelVector & ch
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryInputChannelsList
 
-void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & channels)
+DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("channels = ", &channels); //####
@@ -639,7 +639,7 @@ void BaseInputOutputService::fillInSecondaryOutputChannelsList(ChannelVector & c
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::fillInSecondaryOutputChannelsList
 
-void BaseInputOutputService::gatherMetrics(yarp::os::Bottle & metrics)
+DEFINE_GATHERMETRICS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("metrics = ", &metrics); //####
@@ -754,7 +754,7 @@ void BaseInputOutputService::performLaunch(const YarpString & helpText,
     OD_LOG_S1s("helpText = ", helpText); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    if (start())
+    if (startService())
     {
         YarpString channelName(getEndpoint().getName());
         
@@ -775,7 +775,7 @@ void BaseInputOutputService::performLaunch(const YarpString & helpText,
                 
                 cout << converted.c_str() << endl;
             }
-            stop();
+            stopService();
         }
         else
         {
@@ -789,7 +789,7 @@ void BaseInputOutputService::performLaunch(const YarpString & helpText,
     }
     else
     {
-        OD_LOG("! (start())"); //####
+        OD_LOG("! (startService())"); //####
 #if MAC_OR_LINUX_
         GetLogger().fail("Service could not be started.");
 #else // ! MAC_OR_LINUX_
@@ -934,7 +934,7 @@ void BaseInputOutputService::runService(const YarpString & helpText,
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::runService
 
-bool BaseInputOutputService::setUpClientStreams(void)
+DEFINE_SETUPCLIENTSTREAMS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = shutDownClientStreams(); // clear out existing streams first
@@ -943,7 +943,7 @@ bool BaseInputOutputService::setUpClientStreams(void)
     return result;
 } // BaseInputOutputService::setUpClientStreams
 
-bool BaseInputOutputService::setUpInputStreams(void)
+DEFINE_SETUPINPUTSTREAMS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = shutDownInputStreams(); // clear out existing streams first
@@ -952,7 +952,7 @@ bool BaseInputOutputService::setUpInputStreams(void)
     return result;
 } // BaseInputOutputService::setUpInputStreams
 
-bool BaseInputOutputService::setUpOutputStreams(void)
+DEFINE_SETUPOUTPUTSTREAMS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = shutDownOutputStreams(); // clear out existing streams first
@@ -961,7 +961,7 @@ bool BaseInputOutputService::setUpOutputStreams(void)
     return result;
 } // BaseInputOutputService::setUpOutputStreams
 
-bool BaseInputOutputService::shutDownClientStreams(void)
+DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true; // by default, always true
@@ -985,7 +985,7 @@ bool BaseInputOutputService::shutDownClientStreams(void)
     return result;
 } // BaseInputOutputService::shutDownClientStreams
 
-bool BaseInputOutputService::shutDownInputStreams(void)
+DEFINE_SHUTDOWNINPUTSTREAMS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true; // by default, always true
@@ -1009,7 +1009,7 @@ bool BaseInputOutputService::shutDownInputStreams(void)
     return result;
 } // BaseInputOutputService::shutDownInputStreams
 
-bool BaseInputOutputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true; // by default, always true
@@ -1033,7 +1033,7 @@ bool BaseInputOutputService::shutDownOutputStreams(void)
     return result;
 } // BaseInputOutputService::shutDownOutputStreams
 
-bool BaseInputOutputService::start(void)
+DEFINE_STARTSERVICE_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -1042,7 +1042,7 @@ bool BaseInputOutputService::start(void)
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted() && setUpStreamDescriptions() && setUpClientStreams() &&
                 setUpInputStreams() && setUpOutputStreams())
             {
@@ -1064,9 +1064,9 @@ bool BaseInputOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BaseInputOutputService::start
+} // BaseInputOutputService::startService
 
-bool BaseInputOutputService::stop(void)
+DEFINE_STOPSERVICE_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -1085,7 +1085,7 @@ bool BaseInputOutputService::stop(void)
         {
             result = false;
         }
-        if (! inherited::stop())
+        if (! inherited::stopService())
         {
             result = false;
         }
@@ -1097,7 +1097,7 @@ bool BaseInputOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // BaseInputOutputService::stop
+} // BaseInputOutputService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

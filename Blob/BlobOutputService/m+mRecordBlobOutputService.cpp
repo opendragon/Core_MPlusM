@@ -119,7 +119,7 @@ RecordBlobOutputService::~RecordBlobOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RecordBlobOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -150,7 +150,7 @@ bool RecordBlobOutputService::configure(const yarp::os::Bottle & details)
     return result;
 } // RecordBlobOutputService::configure
 
-bool RecordBlobOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -162,7 +162,7 @@ bool RecordBlobOutputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // RecordBlobOutputService::getConfiguration
 
-void RecordBlobOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -179,7 +179,7 @@ void RecordBlobOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RecordBlobOutputService::restartStreams
 
-bool RecordBlobOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -195,14 +195,14 @@ bool RecordBlobOutputService::setUpStreamDescriptions(void)
     return result;
 } // RecordBlobOutputService::setUpStreamDescriptions
 
-bool RecordBlobOutputService::start(void)
+DEFINE_STARTSERVICE_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -220,9 +220,9 @@ bool RecordBlobOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RecordBlobOutputService::start
+} // RecordBlobOutputService::startService
 
-void RecordBlobOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -261,14 +261,14 @@ void RecordBlobOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RecordBlobOutputService::startStreams
 
-bool RecordBlobOutputService::stop(void)
+DEFINE_STOPSERVICE_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -277,9 +277,9 @@ bool RecordBlobOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RecordBlobOutputService::stop
+} // RecordBlobOutputService::stopService
 
-void RecordBlobOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

@@ -127,7 +127,7 @@ LeapTwoPalmsInputService::~LeapTwoPalmsInputService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool LeapTwoPalmsInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(LeapTwoPalmsInputService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -155,7 +155,7 @@ bool LeapTwoPalmsInputService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool LeapTwoPalmsInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -166,7 +166,7 @@ bool LeapTwoPalmsInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // LeapTwoPalmsInputService::getConfiguration
 
-void LeapTwoPalmsInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -183,7 +183,7 @@ void LeapTwoPalmsInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputService::restartStreams
 
-bool LeapTwoPalmsInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -201,7 +201,7 @@ bool LeapTwoPalmsInputService::setUpStreamDescriptions(void)
     return result;
 } // LeapTwoPalmsInputService::setUpStreamDescriptions
 
-bool LeapTwoPalmsInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -214,14 +214,14 @@ bool LeapTwoPalmsInputService::shutDownOutputStreams(void)
     return result;
 } // LeapTwoPalmsInputService::shutDownOutputStreams
 
-bool LeapTwoPalmsInputService::start(void)
+DEFINE_STARTSERVICE_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -239,9 +239,9 @@ bool LeapTwoPalmsInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // LeapTwoPalmsInputService::start
+} // LeapTwoPalmsInputService::startService
 
-void LeapTwoPalmsInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -264,14 +264,14 @@ void LeapTwoPalmsInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputService::startStreams
 
-bool LeapTwoPalmsInputService::stop(void)
+DEFINE_STOPSERVICE_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -280,9 +280,9 @@ bool LeapTwoPalmsInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // LeapTwoPalmsInputService::stop
+} // LeapTwoPalmsInputService::stopService
 
-void LeapTwoPalmsInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(LeapTwoPalmsInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

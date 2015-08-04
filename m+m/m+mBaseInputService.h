@@ -92,25 +92,21 @@ namespace MplusM
             
         protected :
             
-            /*! @brief The descriptions of the output streams. */
-            ChannelVector _outDescriptions;
-            
-            /*! @brief Shut down the output streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
+            DECLARE_SHUTDOWNOUTPUTSTREAMS_;
             
         private :
             
             COPY_AND_ASSIGNMENT_(BaseInputService);
             
-            /*! @brief Set up the output channels.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpOutputStreams(void);
+            DECLARE_SETUPOUTPUTSTREAMS_;
             
         public :
         
         protected :
         
+            /*! @brief The descriptions of the output streams. */
+            ChannelVector _outDescriptions;
+            
         private :
             
             /*! @brief The class that this class is derived from. */

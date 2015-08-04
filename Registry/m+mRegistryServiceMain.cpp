@@ -113,7 +113,7 @@ static void setUpAndGo(const YarpString & progName,
     if (aService)
     {
         aService->enableMetrics();
-        if (aService->start())
+        if (aService->startService())
         {
             // Note that the Registry Service is self-registering... so we don't
             // need to call RegisterLocalService() _or_ start a 'pinger'.
@@ -157,11 +157,11 @@ static void setUpAndGo(const YarpString & progName,
                 
                 cout << converted.c_str() << endl;
             }
-            aService->stop();
+            aService->stopService();
         }
         else
         {
-            OD_LOG("! (aService->start())"); //####
+            OD_LOG("! (aService->startService())"); //####
         }
         delete aService;
     }

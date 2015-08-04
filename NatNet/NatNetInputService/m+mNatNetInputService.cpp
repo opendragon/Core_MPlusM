@@ -116,7 +116,7 @@ NatNetInputService::~NatNetInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool NatNetInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -162,7 +162,7 @@ bool NatNetInputService::configure(const yarp::os::Bottle & details)
     return result;
 } // NatNetInputService::configure
 
-bool NatNetInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -176,7 +176,7 @@ bool NatNetInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // NatNetInputService::getConfiguration
 
-void NatNetInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -193,7 +193,7 @@ void NatNetInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // NatNetInputService::restartStreams
 
-bool NatNetInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -209,7 +209,7 @@ bool NatNetInputService::setUpStreamDescriptions(void)
     return result;
 } // NatNetInputService::setUpStreamDescriptions
 
-bool NatNetInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -222,14 +222,14 @@ bool NatNetInputService::shutDownOutputStreams(void)
     return result;
 } // NatNetInputService::shutDownOutputStreams
 
-bool NatNetInputService::start(void)
+DEFINE_STARTSERVICE_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -247,9 +247,9 @@ bool NatNetInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // NatNetInputService::start
+} // NatNetInputService::startService
 
-void NatNetInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -278,14 +278,14 @@ void NatNetInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // NatNetInputService::startStreams
 
-bool NatNetInputService::stop(void)
+DEFINE_STOPSERVICE_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -294,9 +294,9 @@ bool NatNetInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // NatNetInputService::stop
+} // NatNetInputService::stopService
 
-void NatNetInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(NatNetInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

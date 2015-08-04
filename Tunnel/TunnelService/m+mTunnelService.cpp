@@ -182,7 +182,7 @@ void TunnelService::getAddress(YarpString & address,
     OD_LOG_OBJEXIT(); //####
 } // TunnelService::getAddress
 
-bool TunnelService::start(void)
+DEFINE_STARTSERVICE_(TunnelService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -191,7 +191,7 @@ bool TunnelService::start(void)
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 yarp::os::Contact where = getEndpoint().where();
@@ -231,9 +231,9 @@ bool TunnelService::start(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TunnelService::start
+} // TunnelService::startService
 
-bool TunnelService::stop(void)
+DEFINE_STOPSERVICE_(TunnelService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = false;
@@ -248,7 +248,7 @@ bool TunnelService::stop(void)
                 yarp::os::Time::delay(STANDARD_WAIT_TIME_ / 4.3);
             }
         }
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -257,7 +257,7 @@ bool TunnelService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // TunnelService::stop
+} // TunnelService::stopService
 
 #if defined(__APPLE__)
 # pragma mark Global functions

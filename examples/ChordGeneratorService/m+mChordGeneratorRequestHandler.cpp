@@ -91,28 +91,27 @@ ChordGeneratorRequestHandler::ChordGeneratorRequestHandler(ChordGeneratorService
     OD_LOG_ENTER(); //####
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // RandomRequestHandler::RandomRequestHandler
+} // ChordGeneratorRequestHandler::ChordGeneratorRequestHandler
 
 ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // RandomRequestHandler::~RandomRequestHandler
+} // ChordGeneratorRequestHandler::~ChordGeneratorRequestHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ChordGeneratorRequestHandler::fillInAliases(YarpStringVector & alternateNames)
+DEFINE_FILLINALIASES_(ChordGeneratorRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     alternateNames.push_back("?");
     OD_LOG_OBJEXIT(); //####
-} // RandomRequestHandler::fillInAliases
+} // ChordGeneratorRequestHandler::fillInAliases
 
-void ChordGeneratorRequestHandler::fillInDescription(const YarpString &   request,
-                                                     yarp::os::Property & info)
+DEFINE_FILLINDESCRIPTION_(ChordGeneratorRequestHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -138,16 +137,13 @@ void ChordGeneratorRequestHandler::fillInDescription(const YarpString &   reques
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // RandomRequestHandler::fillInDescription
+} // ChordGeneratorRequestHandler::fillInDescription
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ChordGeneratorRequestHandler::processRequest(const YarpString &           request,
-                                                  const yarp::os::Bottle &     restOfInput,
-                                                  const YarpString &           senderChannel,
-                                                  yarp::os::ConnectionWriter * replyMechanism)
+DEFINE_PROCESSREQUEST_(ChordGeneratorRequestHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_

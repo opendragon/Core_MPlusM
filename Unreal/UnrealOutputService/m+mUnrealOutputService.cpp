@@ -123,7 +123,7 @@ UnrealOutputService::~UnrealOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool UnrealOutputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -185,7 +185,7 @@ void UnrealOutputService::deactivateConnection(void)
     OD_LOG_EXIT(); //####
 } // UnrealOutputService::deactivateConnection
 
-bool UnrealOutputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -198,7 +198,7 @@ bool UnrealOutputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // UnrealOutputService::getConfiguration
 
-void UnrealOutputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -215,7 +215,7 @@ void UnrealOutputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // UnrealOutputService::restartStreams
 
-bool UnrealOutputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -239,14 +239,14 @@ bool UnrealOutputService::setUpStreamDescriptions(void)
     return result;
 } // UnrealOutputService::setUpStreamDescriptions
 
-bool UnrealOutputService::start(void)
+DEFINE_STARTSERVICE_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -264,9 +264,9 @@ bool UnrealOutputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // UnrealOutputService::start
+} // UnrealOutputService::startService
 
-void UnrealOutputService::startStreams(void)
+DEFINE_STARTSTREAMS_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -403,14 +403,14 @@ void UnrealOutputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // UnrealOutputService::startStreams
 
-bool UnrealOutputService::stop(void)
+DEFINE_STOPSERVICE_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -419,9 +419,9 @@ bool UnrealOutputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // UnrealOutputService::stop
+} // UnrealOutputService::stopService
 
-void UnrealOutputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
     try

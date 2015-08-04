@@ -146,7 +146,7 @@ void BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
     }
 } // BaseAdapterService::performLaunch
 
-bool BaseAdapterService::setUpClientStreams(void)
+DEFINE_SETUPCLIENTSTREAMS_(BaseAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::setUpClientStreams();
@@ -159,7 +159,7 @@ bool BaseAdapterService::setUpClientStreams(void)
     return result;
 } // BaseAdapterService::setUpClientStreams
 
-bool BaseAdapterService::setUpInputStreams(void)
+DEFINE_SETUPINPUTSTREAMS_(BaseAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::setUpInputStreams();
@@ -172,7 +172,7 @@ bool BaseAdapterService::setUpInputStreams(void)
     return result;
 } // BaseAdapterService::setUpInputStreams
 
-bool BaseAdapterService::setUpOutputStreams(void)
+DEFINE_SETUPOUTPUTSTREAMS_(BaseAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::setUpOutputStreams();
@@ -185,7 +185,7 @@ bool BaseAdapterService::setUpOutputStreams(void)
     return result;
 } // BaseAdapterService::setUpOutputStreams
 
-bool BaseAdapterService::shutDownClientStreams(void)
+DEFINE_SHUTDOWNCLIENTSTREAMS_(BaseAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownClientStreams();
@@ -194,7 +194,7 @@ bool BaseAdapterService::shutDownClientStreams(void)
     return result;
 } // BaseAdapterService::shutDownClientStreams
 
-bool BaseAdapterService::shutDownInputStreams(void)
+DEFINE_SHUTDOWNINPUTSTREAMS_(BaseAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownInputStreams();
@@ -203,7 +203,7 @@ bool BaseAdapterService::shutDownInputStreams(void)
     return result;
 } // BaseAdapterService::shutDownInputStreams
 
-bool BaseAdapterService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(BaseAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();

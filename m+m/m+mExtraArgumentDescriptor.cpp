@@ -101,7 +101,7 @@ ExtraArgumentDescriptor::~ExtraArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ExtraArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
+DEFINE_ADDVALUETOBOTTLE_(ExtraArgumentDescriptor)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("container = ", &container); //####
@@ -109,7 +109,7 @@ void ExtraArgumentDescriptor::addValueToBottle(yarp::os::Bottle & container)
     OD_LOG_EXIT(); //####
 } // ExtraArgumentDescriptor::addValueToBottle
 
-BaseArgumentDescriptor * ExtraArgumentDescriptor::clone(void)
+DEFINE_CLONE_(ExtraArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     BaseArgumentDescriptor * result = new ExtraArgumentDescriptor(argumentName(),
@@ -119,7 +119,7 @@ BaseArgumentDescriptor * ExtraArgumentDescriptor::clone(void)
     return result;
 } // ExtraArgumentDescriptor::clone
 
-YarpString ExtraArgumentDescriptor::getDefaultValue(void)
+DEFINE_GETDEFAULTVALUE_(ExtraArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result;
@@ -128,7 +128,7 @@ YarpString ExtraArgumentDescriptor::getDefaultValue(void)
     return result;
 } // ExtraArgumentDescriptor::getDefaultValue
 
-YarpString ExtraArgumentDescriptor::getProcessedValue(void)
+DEFINE_GETPROCESSEDVALUE_(ExtraArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result;
@@ -176,13 +176,13 @@ BaseArgumentDescriptor * ExtraArgumentDescriptor::parseArgString(const YarpStrin
     return result;
 } // ExtraArgumentDescriptor::parseArgString
 
-void ExtraArgumentDescriptor::setToDefaultValue(void)
+DEFINE_SETTODEFAULTVALUE_(ExtraArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
 } // ExtraArgumentDescriptor::setToDefaultValue
 
-YarpString ExtraArgumentDescriptor::toString(void)
+DEFINE_TOSTRING_(ExtraArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     YarpString result(prefixFields("E"));
@@ -192,7 +192,7 @@ YarpString ExtraArgumentDescriptor::toString(void)
     return result;
 } // ExtraArgumentDescriptor::toString
 
-bool ExtraArgumentDescriptor::validate(const YarpString & value)
+DEFINE_VALIDATE_(ExtraArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;

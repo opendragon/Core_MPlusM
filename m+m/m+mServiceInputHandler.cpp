@@ -100,10 +100,7 @@ ServiceInputHandler::~ServiceInputHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool ServiceInputHandler::handleInput(const yarp::os::Bottle &     input,
-                                      const YarpString &           senderChannel,
-                                      yarp::os::ConnectionWriter * replyMechanism,
-                                      const size_t                 numBytes)
+DEFINE_HANDLE_INPUT_(ServiceInputHandler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####

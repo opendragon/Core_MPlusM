@@ -69,6 +69,83 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief Declare the addValueToBottle method, which takes a single argument, container, and adds
+ the processed value to the container. */
+# define DECLARE_ADDVALUETOBOTTLE_ \
+    virtual void addValueToBottle(yarp::os::Bottle & container)
+
+/*! @brief Declare the clone method, which returns a copy of the descriptor, with only
+ non-pointer fields duplicated. */
+# define DECLARE_CLONE_ \
+    virtual BaseArgumentDescriptor * clone(void)
+
+/*! @brief Declare the getDefaultValue method, which returns the default value of the descriptor. */
+# define DECLARE_GETDEFAULTVALUE_ \
+    virtual YarpString getDefaultValue(void)
+
+/*! @brief Declare the getProcessedValue method, which returns the processed value for the
+ descriptor. */
+# define DECLARE_GETPROCESSEDVALUE_ \
+    virtual YarpString getProcessedValue(void)
+
+/*! @brief Declare the isExtra method, which returns @c true if the descriptor is a placeholder for
+ zero or more trailing arguments and @c false otherwise. */
+# define DECLARE_ISEXTRA_ \
+    virtual bool isExtra(void)\
+    const
+
+/*! @brief Declare the isForFiles method, which returns @c true if the descriptor is for file paths
+ and @c false otherwise.
+ The argument isForOutput is set to @c true is the descriptor is for output files and @c false
+ otherwise. */
+# define DECLARE_ISFORFILES_ \
+    virtual bool isForFiles(bool & isForOutput)\
+    const
+
+/*! @brief Declare the setToDefaultValue method, which sets the descriptor to its default value. */
+# define DECLARE_SETTODEFAULTVALUE_ \
+    virtual void setToDefaultValue(void)
+
+/*! @brief Declare the toString method, which returns a printable representation of the
+ descriptor. */
+# define DECLARE_TOSTRING_ \
+    virtual YarpString toString(void)
+
+/*! @brief Declare the validate method, which takes a single argument, value, and checks it against
+ the constraints of the descriptor.
+ The method returns @c true if the argument is within the domain of the descriptor and @c false
+ otherwise. */
+# define DECLARE_VALIDATE_ \
+    virtual bool validate(const YarpString & value)
+
+/*! @brief Define the addValueToBottle method. */
+# define DEFINE_ADDVALUETOBOTTLE_(class_) \
+    void class_::addValueToBottle(yarp::os::Bottle & container)
+
+/*! @brief Define the clone method. */
+# define DEFINE_CLONE_(class_) \
+    BaseArgumentDescriptor * class_::clone(void)
+
+/*! @brief Define the getDefaultValue method. */
+# define DEFINE_GETDEFAULTVALUE_(class_) \
+    YarpString class_::getDefaultValue(void)
+
+/*! @brief Define the getProcessedValue method. */
+# define DEFINE_GETPROCESSEDVALUE_(class_) \
+    YarpString class_::getProcessedValue(void)
+
+/*! @brief Define the setToDefaultValue method. */
+# define DEFINE_SETTODEFAULTVALUE_(class_) \
+    void class_::setToDefaultValue(void)
+
+/*! @brief Define the toString method. */
+# define DEFINE_TOSTRING_(class_) \
+    YarpString class_::toString(void)
+
+/*! @brief Define the validate method. */
+# define DEFINE_VALIDATE_(class_) \
+    bool class_::validate(const YarpString & value)
+
 namespace MplusM
 {
     namespace Utilities
@@ -154,10 +231,8 @@ namespace MplusM
             
             /*! @brief The destructor. */
             virtual ~BaseArgumentDescriptor(void);
-            
-            /*! @brief Add the processed value to a bottle.
-             @param container The bottle to be modified. */
-            virtual void addValueToBottle(yarp::os::Bottle & container) = 0;
+
+            DECLARE_ADDVALUETOBOTTLE_ = 0;
             
             /*! @brief Return the description of the command-line argument.
              @returns The description of the command-line argument. */
@@ -183,34 +258,18 @@ namespace MplusM
                 return _argName;
             } // argumentName
 
-            /*! @brief Return a copy of the descriptor, with only non-pointer types duplicated.
-             @returns A copy of the descriptor, with only non-pointer types duplicated. */
-            virtual BaseArgumentDescriptor * clone(void) = 0;
-
-            /*! @brief Return the default value.
-             @returns The default value. */
-            virtual YarpString getDefaultValue(void) = 0;
-
-            /*! @brief Return the processed value.
-             @returns The processed value. */
-            virtual YarpString getProcessedValue(void) = 0;
+            DECLARE_CLONE_ = 0;
             
-            /*! @brief Return @c true if the argument is a placeholder for zero or more trailing
-             arguments.
-             @returns @c true if the argument is a placeholder for zero of more trailing arguments
-             and @c false otherwise. */
-            virtual bool isExtra(void)
-            const
+            DECLARE_GETDEFAULTVALUE_ = 0;
+
+            DECLARE_GETPROCESSEDVALUE_ = 0;
+            
+            DECLARE_ISEXTRA_
             {
                 return false;
             } // isExtra
             
-            /*! @brief Return @c true if the argument is for file paths and @c false otherwise.
-             @param isForOutput Set to @c true if the argument is for output files and @c false
-             otherwise.
-             @returns @c true if the argument is for file paths and @c false otherwise. */
-            virtual bool isForFiles(bool & isForOutput)
-            const
+            DECLARE_ISFORFILES_
             {
                 isForOutput = false;
                 return false;
@@ -248,18 +307,11 @@ namespace MplusM
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModePassword)));
             } // isPassword
             
-            /*! @brief Set the associated variable to the default value. */
-            virtual void setToDefaultValue(void) = 0;
+            DECLARE_SETTODEFAULTVALUE_ = 0;
 
-            /*! @brief Convert to a printable representation.
-             @returns A printable representation of the descriptor. */
-            virtual YarpString toString(void) = 0;
+            DECLARE_TOSTRING_ = 0;
             
-            /*! @brief Check an input value against the constraints of the descriptor.
-             @param value The value to be checked.
-             @returns @c true if the value is within the domain of the descriptor and @c false
-             otherwise. */
-            virtual bool validate(const YarpString & value) = 0;
+            DECLARE_VALIDATE_ = 0;
             
         protected :
 

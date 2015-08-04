@@ -118,7 +118,7 @@ ViconBlobInputService::~ViconBlobInputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool ViconBlobInputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -172,7 +172,7 @@ bool ViconBlobInputService::configure(const yarp::os::Bottle & details)
     return result;
 } // ViconBlobInputService::configure
 
-bool ViconBlobInputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -186,7 +186,7 @@ bool ViconBlobInputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // ViconBlobInputService::getConfiguration
 
-void ViconBlobInputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -203,7 +203,7 @@ void ViconBlobInputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ViconBlobInputService::restartStreams
 
-bool ViconBlobInputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -220,7 +220,7 @@ bool ViconBlobInputService::setUpStreamDescriptions(void)
     return result;
 } // ViconBlobInputService::setUpStreamDescriptions
 
-bool ViconBlobInputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -233,14 +233,14 @@ bool ViconBlobInputService::shutDownOutputStreams(void)
     return result;
 } // ViconBlobInputService::shutDownOutputStreams
 
-bool ViconBlobInputService::start(void)
+DEFINE_STARTSERVICE_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -258,9 +258,9 @@ bool ViconBlobInputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // ViconBlobInputService::start
+} // ViconBlobInputService::startService
 
-void ViconBlobInputService::startStreams(void)
+DEFINE_STARTSTREAMS_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -292,14 +292,14 @@ void ViconBlobInputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ViconBlobInputService::startStreams
 
-bool ViconBlobInputService::stop(void)
+DEFINE_STOPSERVICE_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -308,9 +308,9 @@ bool ViconBlobInputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ViconBlobInputService::stop
+} // ViconBlobInputService::stopService
 
-void ViconBlobInputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(ViconBlobInputService)
 {
     OD_LOG_OBJENTER(); //####
     try

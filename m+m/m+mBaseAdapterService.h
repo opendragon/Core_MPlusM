@@ -111,29 +111,17 @@ namespace MplusM
             
             COPY_AND_ASSIGNMENT_(BaseAdapterService);
             
-            /*! @brief Set up the client channels.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpClientStreams(void);
+            DECLARE_SETUPCLIENTSTREAMS_;
             
-            /*! @brief Set up the input channels.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpInputStreams(void);
+            DECLARE_SETUPINPUTSTREAMS_;
             
-            /*! @brief Set up the output channels.
-             @returns @c true if the channels were set up and @c false otherwise. */
-            virtual bool setUpOutputStreams(void);
+            DECLARE_SETUPOUTPUTSTREAMS_;
             
-            /*! @brief Shut down the client streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownClientStreams(void);
+            DECLARE_SHUTDOWNCLIENTSTREAMS_;
             
-            /*! @brief Shut down the input streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownInputStreams(void);
+            DECLARE_SHUTDOWNINPUTSTREAMS_;
             
-            /*! @brief Shut down the output streams.
-             @returns @c true if the channels were shut down and @c false otherwise. */
-            virtual bool shutDownOutputStreams(void);
+            DECLARE_SHUTDOWNOUTPUTSTREAMS_;
             
         public :
         

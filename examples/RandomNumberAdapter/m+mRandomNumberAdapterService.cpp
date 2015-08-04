@@ -126,7 +126,7 @@ RandomNumberAdapterService::~RandomNumberAdapterService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool RandomNumberAdapterService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(RandomNumberAdapterService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -154,7 +154,7 @@ bool RandomNumberAdapterService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool RandomNumberAdapterService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -165,7 +165,7 @@ bool RandomNumberAdapterService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // RandomNumberAdapterService::getConfiguration
 
-void RandomNumberAdapterService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -193,7 +193,7 @@ void RandomNumberAdapterService::setUpInputHandlers(RandomNumberAdapterData & sh
     OD_LOG_OBJEXIT(); //####
 } // RandomNumberAdapterService::setUpInputHandlers
 
-bool RandomNumberAdapterService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -219,14 +219,14 @@ bool RandomNumberAdapterService::setUpStreamDescriptions(void)
     return result;
 } // RandomNumberAdapterService::setUpStreamDescriptions
 
-bool RandomNumberAdapterService::start(void)
+DEFINE_STARTSERVICE_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
                 
@@ -244,9 +244,9 @@ bool RandomNumberAdapterService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // RandomNumberAdapterService::start
+} // RandomNumberAdapterService::startService
 
-void RandomNumberAdapterService::startStreams(void)
+DEFINE_STARTSTREAMS_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -268,14 +268,14 @@ void RandomNumberAdapterService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // RandomNumberAdapterService::startStreams
 
-bool RandomNumberAdapterService::stop(void)
+DEFINE_STOPSERVICE_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -284,9 +284,9 @@ bool RandomNumberAdapterService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RandomNumberAdapterService::stop
+} // RandomNumberAdapterService::stopService
 
-void RandomNumberAdapterService::stopStreams(void)
+DEFINE_STOPSTREAMS_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
     try

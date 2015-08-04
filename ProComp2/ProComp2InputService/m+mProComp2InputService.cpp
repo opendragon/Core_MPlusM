@@ -119,7 +119,7 @@ ProComp2InputService::~ProComp2InputService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ProComp2InputService::configure(const yarp::os::Bottle & details)
+DEFINE_CONFIGURE_(ProComp2InputService)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -146,7 +146,7 @@ bool ProComp2InputService::configure(const yarp::os::Bottle & details)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool ProComp2InputService::getConfiguration(yarp::os::Bottle & details)
+DEFINE_GETCONFIGURATION_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -157,7 +157,7 @@ bool ProComp2InputService::getConfiguration(yarp::os::Bottle & details)
     return result;
 } // ProComp2InputService::getConfiguration
 
-void ProComp2InputService::restartStreams(void)
+DEFINE_RESTARTSTREAMS_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -174,7 +174,7 @@ void ProComp2InputService::restartStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputService::restartStreams
 
-bool ProComp2InputService::setUpStreamDescriptions(void)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -190,7 +190,7 @@ bool ProComp2InputService::setUpStreamDescriptions(void)
     return result;
 } // ProComp2InputService::setUpStreamDescriptions
 
-bool ProComp2InputService::shutDownOutputStreams(void)
+DEFINE_SHUTDOWNOUTPUTSTREAMS_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
@@ -203,14 +203,14 @@ bool ProComp2InputService::shutDownOutputStreams(void)
     return result;
 } // ProComp2InputService::shutDownOutputStreams
 
-bool ProComp2InputService::start(void)
+DEFINE_STARTSERVICE_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try
     {
         if (! isStarted())
         {
-            inherited::start();
+            inherited::startService();
             if (isStarted())
             {
             
@@ -228,9 +228,9 @@ bool ProComp2InputService::start(void)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // ProComp2InputService::start
+} // ProComp2InputService::startService
 
-void ProComp2InputService::startStreams(void)
+DEFINE_STARTSTREAMS_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -250,14 +250,14 @@ void ProComp2InputService::startStreams(void)
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputService::startStreams
 
-bool ProComp2InputService::stop(void)
+DEFINE_STOPSERVICE_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
     
     try
     {
-        result = inherited::stop();
+        result = inherited::stopService();
     }
     catch (...)
     {
@@ -266,9 +266,9 @@ bool ProComp2InputService::stop(void)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // ProComp2InputService::stop
+} // ProComp2InputService::stopService
 
-void ProComp2InputService::stopStreams(void)
+DEFINE_STOPSTREAMS_(ProComp2InputService)
 {
     OD_LOG_OBJENTER(); //####
     try
