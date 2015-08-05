@@ -712,6 +712,25 @@
 		DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mNatNetBlobInputService.rc.in"; path = "NatNet/NatNetInputService/m+mNatNetBlobInputService.rc.in"; sourceTree = SOURCE_ROOT; };
 		DFFFC1CE1B61550D00DA3C4D /* m+mStringBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mStringBuffer.cpp"; path = "m+m/m+mStringBuffer.cpp"; sourceTree = "<group>"; };
 		DFFFC1CF1B61550D00DA3C4D /* m+mStringBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mStringBuffer.h"; path = "m+m/m+mStringBuffer.h"; sourceTree = "<group>"; };
+		DFFFC1D11B72ADA700DA3C4D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = CommonLisp/CMakeLists.txt; sourceTree = "<group>"; };
+		DFFFC1D21B72ADA700DA3C4D /* m+mCommonLispCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispCommon.h"; path = "CommonLisp/m+mCommonLispCommon.h"; sourceTree = "<group>"; };
+		DFFFC1D31B72ADA700DA3C4D /* m+mCommonLispInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispInputHandler.cpp"; path = "CommonLisp/m+mCommonLispInputHandler.cpp"; sourceTree = "<group>"; };
+		DFFFC1D41B72ADA700DA3C4D /* m+mCommonLispInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispInputHandler.h"; path = "CommonLisp/m+mCommonLispInputHandler.h"; sourceTree = "<group>"; };
+		DFFFC1D51B72ADA700DA3C4D /* m+mCommonLispRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispRequests.h"; path = "CommonLisp/m+mCommonLispRequests.h"; sourceTree = "<group>"; };
+		DFFFC1D61B72ADA700DA3C4D /* m+mCommonLispService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispService.cpp"; path = "CommonLisp/m+mCommonLispService.cpp"; sourceTree = "<group>"; };
+		DFFFC1D71B72ADA700DA3C4D /* m+mCommonLispService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispService.h"; path = "CommonLisp/m+mCommonLispService.h"; sourceTree = "<group>"; };
+		DFFFC1D81B72ADA700DA3C4D /* m+mCommonLispService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mCommonLispService.rc.in"; path = "CommonLisp/m+mCommonLispService.rc.in"; sourceTree = "<group>"; };
+		DFFFC1D91B72ADA700DA3C4D /* m+mCommonLispServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispServiceMain.cpp"; path = "CommonLisp/m+mCommonLispServiceMain.cpp"; sourceTree = "<group>"; };
+		DFFFC1DA1B72ADA700DA3C4D /* m+mCommonLispThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispThread.cpp"; path = "CommonLisp/m+mCommonLispThread.cpp"; sourceTree = "<group>"; };
+		DFFFC1DB1B72ADA700DA3C4D /* m+mCommonLispThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispThread.h"; path = "CommonLisp/m+mCommonLispThread.h"; sourceTree = "<group>"; };
+		DFFFC1DC1B72ADA700DA3C4D /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = CommonLisp/resource.h; sourceTree = "<group>"; };
+		DFFFC1DD1B72B44B00DA3C4D /* MergeChannels.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MergeChannels.lisp; path = CommonLisp/MergeChannels.lisp; sourceTree = "<group>"; };
+		DFFFC1DE1B72B44B00DA3C4D /* RandomBurst.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RandomBurst.lisp; path = CommonLisp/RandomBurst.lisp; sourceTree = "<group>"; };
+		DFFFC1DF1B72B44B00DA3C4D /* ReadFile.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = ReadFile.lisp; path = CommonLisp/ReadFile.lisp; sourceTree = "<group>"; };
+		DFFFC1E01B72B44B00DA3C4D /* RecordIntegers.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RecordIntegers.lisp; path = CommonLisp/RecordIntegers.lisp; sourceTree = "<group>"; };
+		DFFFC1E11B72B44B00DA3C4D /* RunningSum.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RunningSum.lisp; path = CommonLisp/RunningSum.lisp; sourceTree = "<group>"; };
+		DFFFC1E21B72B44B00DA3C4D /* SampleScript.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SampleScript.lisp; path = CommonLisp/SampleScript.lisp; sourceTree = "<group>"; };
+		DFFFC1E31B72B44B00DA3C4D /* TruncateFloat.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TruncateFloat.lisp; path = CommonLisp/TruncateFloat.lisp; sourceTree = "<group>"; };
 		F63BC82D1B65331400BD5ADB /* m+mKinectV2BlobEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2BlobEventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.cpp"; sourceTree = "<group>"; };
 		F63BC82E1B65331400BD5ADB /* m+mKinectV2BlobEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobEventThread.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.h"; sourceTree = "<group>"; };
 		F63BC82F1B65331400BD5ADB /* m+mKinectV2BlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobInputRequests.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputRequests.h"; sourceTree = "<group>"; };
@@ -1689,6 +1708,7 @@
 				DF1C1C581B39F1DF00E816A4 /* Blob */,
 				DFCB229718EF23D200358EA5 /* ClientList */,
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,
+				DFFFC1D01B72AD8D00DA3C4D /* CommonLisp */,
 				DF38503D198ABBA000A0414E /* CommonTests */,
 				DFD016B71AB9E76B00777451 /* CPack */,
 				DF7623551AFD0189002BDC49 /* Emotiv */,
@@ -2263,6 +2283,32 @@
 			);
 			name = KinectV2InputService;
 			sourceTree = SOURCE_ROOT;
+		};
+		DFFFC1D01B72AD8D00DA3C4D /* CommonLisp */ = {
+			isa = PBXGroup;
+			children = (
+				DFFFC1D11B72ADA700DA3C4D /* CMakeLists.txt */,
+				DFFFC1D21B72ADA700DA3C4D /* m+mCommonLispCommon.h */,
+				DFFFC1D31B72ADA700DA3C4D /* m+mCommonLispInputHandler.cpp */,
+				DFFFC1D41B72ADA700DA3C4D /* m+mCommonLispInputHandler.h */,
+				DFFFC1D51B72ADA700DA3C4D /* m+mCommonLispRequests.h */,
+				DFFFC1D61B72ADA700DA3C4D /* m+mCommonLispService.cpp */,
+				DFFFC1D71B72ADA700DA3C4D /* m+mCommonLispService.h */,
+				DFFFC1D81B72ADA700DA3C4D /* m+mCommonLispService.rc.in */,
+				DFFFC1D91B72ADA700DA3C4D /* m+mCommonLispServiceMain.cpp */,
+				DFFFC1DA1B72ADA700DA3C4D /* m+mCommonLispThread.cpp */,
+				DFFFC1DB1B72ADA700DA3C4D /* m+mCommonLispThread.h */,
+				DFFFC1DC1B72ADA700DA3C4D /* resource.h */,
+				DFFFC1DD1B72B44B00DA3C4D /* MergeChannels.lisp */,
+				DFFFC1DE1B72B44B00DA3C4D /* RandomBurst.lisp */,
+				DFFFC1DF1B72B44B00DA3C4D /* ReadFile.lisp */,
+				DFFFC1E01B72B44B00DA3C4D /* RecordIntegers.lisp */,
+				DFFFC1E11B72B44B00DA3C4D /* RunningSum.lisp */,
+				DFFFC1E21B72B44B00DA3C4D /* SampleScript.lisp */,
+				DFFFC1E31B72B44B00DA3C4D /* TruncateFloat.lisp */,
+			);
+			name = CommonLisp;
+			sourceTree = "<group>";
 		};
 		F66CFB351A9754FD00168727 /* TestSink */ = {
 			isa = PBXGroup;

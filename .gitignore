@@ -264,6 +264,8 @@ m+mChordGeneratorService
 m+mChordGeneratorService.rc
 m+mClientList
 m+mClientList.rc
+m+mCommonLispService
+m+mCommonLispService.rc
 m+mCommonTest
 m+mCommonTest.rc
 m+mEchoClient
