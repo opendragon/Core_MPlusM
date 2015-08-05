@@ -232,6 +232,9 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseArgumentDescriptor(void);
 
+            /*! @fn virtual void addValueToBottle(yarp::os::Bottle & container)
+             @brief Add the processed value to a bottle.
+             @param container The bottle to be modified. */
             DECLARE_ADDVALUETOBOTTLE_ = 0;
             
             /*! @brief Return the description of the command-line argument.
@@ -258,17 +261,36 @@ namespace MplusM
                 return _argName;
             } // argumentName
 
+            /*! @fn virtual BaseArgumentDescriptor * clone(void)
+             @brief Return a copy of the descriptor, with only non-pointer types duplicated.
+             @returns A copy of the descriptor, with only non-pointer types duplicated. */
             DECLARE_CLONE_ = 0;
             
+            /*! @fn virtual YarpString getDefaultValue(void)
+             @brief Return the default value.
+             @returns The default value. */
             DECLARE_GETDEFAULTVALUE_ = 0;
 
+            /*! @fn virtual YarpString getProcessedValue(void)
+             @brief Return the processed value.
+             @returns The processed value. */
             DECLARE_GETPROCESSEDVALUE_ = 0;
             
+            /*! @fn virtual bool isExtra(void) const
+             @brief Return @c true if the argument is a placeholder for zero or more trailing
+             arguments.
+             @returns @c true if the argument is a placeholder for zero of more trailing arguments
+             and @c false otherwise. */
             DECLARE_ISEXTRA_
             {
                 return false;
             } // isExtra
             
+            /*! @fn  virtual bool isForFiles(bool & isForOutput) const
+             @brief Return @c true if the argument is for file paths and @c false otherwise.
+             @param isForOutput Set to @c true if the argument is for output files and @c false
+             otherwise.
+             @returns @c true if the argument is for file paths and @c false otherwise. */
             DECLARE_ISFORFILES_
             {
                 isForOutput = false;
@@ -307,10 +329,20 @@ namespace MplusM
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModePassword)));
             } // isPassword
             
+            /*! @fn virtual void setToDefaultValue(void)
+             @brief Set the associated variable to the default value. */
             DECLARE_SETTODEFAULTVALUE_ = 0;
 
+            /*! @fn virtual YarpString toString(void)
+             @brief Convert to a printable representation.
+             @returns A printable representation of the descriptor. */
             DECLARE_TOSTRING_ = 0;
             
+            /*! @fn  virtual bool validate(const YarpString & value)
+             @brief Check an input value against the constraints of the descriptor.
+             @param value The value to be checked.
+             @returns @c true if the value is within the domain of the descriptor and @c false
+             otherwise. */
             DECLARE_VALIDATE_ = 0;
             
         protected :

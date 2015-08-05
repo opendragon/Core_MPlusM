@@ -251,8 +251,12 @@ namespace MplusM
              @param key The client-provided key. */
             void detachClient(const YarpString & key);
             
+            /*! @fn virtual void disableMetrics(void)
+             @brief Turn off the send / receive metrics collecting. */
             DECLARE_DISABLEMETRICS_;
             
+            /*! @fn virtual void enableMetrics(void)
+             @brief Turn on the send / receive metrics collecting. */
             DECLARE_ENABLEMETRICS_;
             
             /*! @brief Return the extra information for the service.
@@ -267,12 +271,24 @@ namespace MplusM
              @param clients The list to be filled in. */
             void fillInClientList(YarpStringVector & clients);
             
+            /*! @fn virtual void fillInSecondaryClientChannelsList(ChannelVector & channels)
+             @brief Fill in a list of secondary client channels for the service.
+             @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_;
             
+             /*! @fn virtual void fillInSecondaryInputChannelsList(ChannelVector & channels)
+              @brief Fill in a list of secondary input channels for the service.
+              @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_;
             
+             /*! @fn virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels)
+              @brief Fill in a list of secondary output channels for the service.
+              @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_;
             
+             /*! @fn virtual void gatherMetrics(yarp::os::Bottle & metrics)
+              @brief Fill in the metrics for the service.
+              @param metrics The gathered metrics. */
             DECLARE_GATHERMETRICS_;
             
             /*! @brief Return the list of arguments given to the service.
@@ -367,11 +383,17 @@ namespace MplusM
              @param extraInfo The extra information for the service. */
             void setExtraInformation(const YarpString & extraInfo);
 
+            /*! @fn virtual bool startService(void)
+             @brief Start processing requests.
+             @returns @c true if the service was started and @c false if it was not. */
             DECLARE_STARTSERVICE_;
             
             /*! @brief Start the background 'pinging' thread. */
             void startPinger(void);
             
+            /*! @fn virtual bool stopService(void)
+             @brief Stop processing requests.
+             @returns @c true if the service was stopped and @c false it if was not. */
             DECLARE_STOPSERVICE_;
             
             /*! @brief Return the modifier tag of the service.

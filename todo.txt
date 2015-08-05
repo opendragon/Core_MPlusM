@@ -8,7 +8,7 @@
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-* Python, Lua, Tcl (, Common Lisp?) services
+* Python, Lua (, Common Lisp?) services
 
 * integrate Arduino sensors via Linux-based Arduino boards? SmartTag via TouchShare?
 

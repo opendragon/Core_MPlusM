@@ -216,12 +216,23 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseInputOutputService(void);
             
+            /*! @fn virtual bool configure(const yarp::os::Bottle & details)
+             @brief Configure the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the service was successfully configured and @c false otherwise. */
             DECLARE_CONFIGURE_ = 0;
             
+            /*! @fn virtual void disableMetrics(void)
+             @brief Turn off the send / receive metrics collecting. */
             DECLARE_DISABLEMETRICS_;
             
+            /*! @fn virtual void enableMetrics(void)
+             @brief Turn on the send / receive metrics collecting. */
             DECLARE_ENABLEMETRICS_;
             
+            /*! @fn virtual void gatherMetrics(yarp::os::Bottle & metrics)
+             @brief Fill in the metrics for the service.
+             @param metrics The gathered metrics. */
             DECLARE_GATHERMETRICS_;
 
             /*! @brief Returns the descriptions of the arguments to the application.
@@ -243,6 +254,11 @@ namespace MplusM
             ClientChannel * getClientStream(const size_t index)
             const;
             
+            /*! @fn virtual bool getConfiguration(yarp::os::Bottle & details)
+             @brief Get the configuration of the input/output streams.
+             @param details The configuration information for the input/output streams.
+             @returns @c true if the configuration was successfully retrieved and @c false
+             otherwise. */
             DECLARE_GETCONFIGURATION_ = 0;
 
             /*! @brief Returns the number of input streams.
@@ -286,14 +302,20 @@ namespace MplusM
                                const bool         stdinAvailable,
                                const bool         reportOnExit);
             
+            /*! @fn virtual void restartStreams(void)
+             @brief Restart the input / output streams. */
             DECLARE_RESTARTSTREAMS_ = 0;
             
             DECLARE_STARTSERVICE_;
             
+            /*! @fn virtual void startStreams(void)
+             @brief Start the input / output streams. */
             DECLARE_STARTSTREAMS_ = 0;
             
             DECLARE_STOPSERVICE_;
             
+            /*! @fn virtual void stopStreams(void)
+             @brief Stop the input / output streams. */
             DECLARE_STOPSTREAMS_ = 0;
             
         protected :
@@ -345,18 +367,40 @@ namespace MplusM
                 _active = true;
             } // setActive
             
+            /*! @fn virtual bool setUpClientStreams(void)
+             @brief Set up the client streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
             DECLARE_SETUPCLIENTSTREAMS_;
 
+            /*! @fn virtual bool setUpInputStreams(void)
+             @brief Set up the input streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
             DECLARE_SETUPINPUTSTREAMS_;
             
+            /*! @fn virtual bool setUpOutputStreams(void)
+             @brief Set up the output streams.
+             @returns @c true if the channels were set up and @c false otherwise. */
             DECLARE_SETUPOUTPUTSTREAMS_;
             
+            /*! @fn virtual bool setUpStreamDescriptions(void)
+             @brief Set up the descriptions that will be used to construct the input / output
+             streams.
+             @returns @c true if the descriptions were set up and @c false otherwise. */
             DECLARE_SETUPSTREAMDESCRIPTIONS_ = 0;
             
+            /*! @fn virtual bool shutDownClientStreams(void)
+             @brief Shut down the client streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
             DECLARE_SHUTDOWNCLIENTSTREAMS_;
 
+            /*! @fn virtual bool shutDownInputStreams(void)
+             @brief Shut down the input streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
             DECLARE_SHUTDOWNINPUTSTREAMS_;
             
+            /*! @fn virtual bool shutDownOutputStreams(void)
+             @brief Shut down the output streams.
+             @returns @c true if the channels were shut down and @c false otherwise. */
             DECLARE_SHUTDOWNOUTPUTSTREAMS_;
             
         private :

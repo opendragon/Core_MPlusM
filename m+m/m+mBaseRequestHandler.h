@@ -112,8 +112,16 @@ namespace MplusM
             /*! @brief The destructor. */
             virtual ~BaseRequestHandler(void);
             
+            /*! @fn virtual void fillInAliases(YarpStringVector & alternateNames)
+             @brief Fill in a set of aliases for the request.
+             @param alternateNames Aliases for the request. */
             DECLARE_FILLINALIASES_ = 0;
             
+            /*! @fn virtual void fillInDescription(const YarpString &   request,
+                                                   yarp::os::Property & info)
+             @brief Fill in a description dictionary for the request.
+             @param request The actual request name.
+             @param info The dictionary to be filled in. */
             DECLARE_FILLINDESCRIPTION_ = 0;
             
             /*! @brief Return the name of the request.
@@ -124,6 +132,15 @@ namespace MplusM
                 return _name;
             } // name
             
+            /*! @fn virtual bool processRequest(const YarpString &           request,
+                                                const yarp::os::Bottle &     restOfInput,
+                                                const YarpString &           senderChannel,
+                                                yarp::os::ConnectionWriter * replyMechanism)
+             @brief Process a request.
+             @param request The actual request name.
+             @param restOfInput The arguments to the operation.
+             @param senderChannel The name of the channel used to send the input data.
+             @param replyMechanism non-@c NULL if a reply is expected and @c NULL otherwise. */
             DECLARE_PROCESSREQUEST_ = 0;
             
             /*! @brief Send a simple OK response to a request.
