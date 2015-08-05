@@ -2,6 +2,7 @@
 m+mAbsorberOutputService
 m+mAddressService
 m+mBlobOutputService
+m+mCommonLispService
 m+mEchoService
 m+mEmotivInputService
 m+mJavaScriptService
