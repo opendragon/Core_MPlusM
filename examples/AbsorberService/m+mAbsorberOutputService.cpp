@@ -354,7 +354,7 @@ void AbsorberOutputService::reportMessageRate(void)
     OD_LOG_OBJENTER(); //####
     if (0 <= _lastCount)
     {
-        double byteDelta = _totalBytes - _lastBytes;
+        double byteDelta = static_cast<double>(_totalBytes - _lastBytes);
         double countDelta = _count - _lastCount;
         double messageRate = (countDelta / _sampleInterval);
         double byteRate = (byteDelta / _sampleInterval);
