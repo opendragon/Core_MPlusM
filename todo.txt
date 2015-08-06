@@ -35,3 +35,5 @@
 * note that only services and adapters can be recorded in a configuration: YARP endpoints and m+m clients can’t be launched from m+m manager, except for monitor ports or internally-provided input ports - if these are implemented - and all connections to the services and adapters must be recorded
 
 = files that are (mostly) edited on Windows need to be processed by ‘dos2unix’ and, possibly, checked for overlong lines using “CheckLength 100 .”
+
+* if all the optional arguments to a service are supplied - required must have already been satisfied - then launching the service should do a validate / configure, setting the ‘configured’ flag, so that the ‘b’ command doesn’t ask for the arguments again, so that the ‘-g’ option only needs to be used if the default arguments are fine
