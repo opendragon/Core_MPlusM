@@ -65,6 +65,7 @@ using namespace MplusM::CommonLisp;
 using std::cerr;
 using std::endl;
 
+#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -365,3 +366,4 @@ DEFINE_HANDLE_INPUT_(CommonLispInputHandler)
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
+#endif//0

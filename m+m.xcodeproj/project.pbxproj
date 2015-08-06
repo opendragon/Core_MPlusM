@@ -731,6 +731,8 @@
 		DFFFC1E11B72B44B00DA3C4D /* RunningSum.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RunningSum.lisp; path = CommonLisp/RunningSum.lisp; sourceTree = "<group>"; };
 		DFFFC1E21B72B44B00DA3C4D /* SampleScript.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = SampleScript.lisp; path = CommonLisp/SampleScript.lisp; sourceTree = "<group>"; };
 		DFFFC1E31B72B44B00DA3C4D /* TruncateFloat.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TruncateFloat.lisp; path = CommonLisp/TruncateFloat.lisp; sourceTree = "<group>"; };
+		DFFFC1E41B73DF1800DA3C4D /* m+mAbsorberOutputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mAbsorberOutputThread.cpp"; path = "examples/AbsorberService/m+mAbsorberOutputThread.cpp"; sourceTree = "<group>"; };
+		DFFFC1E51B73DF1800DA3C4D /* m+mAbsorberOutputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mAbsorberOutputThread.h"; path = "examples/AbsorberService/m+mAbsorberOutputThread.h"; sourceTree = "<group>"; };
 		F63BC82D1B65331400BD5ADB /* m+mKinectV2BlobEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2BlobEventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.cpp"; sourceTree = "<group>"; };
 		F63BC82E1B65331400BD5ADB /* m+mKinectV2BlobEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobEventThread.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.h"; sourceTree = "<group>"; };
 		F63BC82F1B65331400BD5ADB /* m+mKinectV2BlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobInputRequests.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputRequests.h"; sourceTree = "<group>"; };
@@ -2074,6 +2076,8 @@
 				DFCDE4ED19DB23150051D294 /* m+mAbsorberOutputService.h */,
 				DFCDE4EE19DB23150051D294 /* m+mAbsorberOutputServiceMain.cpp */,
 				DFA7D1281ADDB61F00A17BD6 /* m+mAbsorberOutputService.rc.in */,
+				DFFFC1E41B73DF1800DA3C4D /* m+mAbsorberOutputThread.cpp */,
+				DFFFC1E51B73DF1800DA3C4D /* m+mAbsorberOutputThread.h */,
 				DFA7D0C11ADD925100A17BD6 /* resource.h */,
 			);
 			name = AbsorberService;

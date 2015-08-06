@@ -44,7 +44,7 @@
 #  pragma clang diagnostic ignored "-Winvalid-offsetof"
 # endif // defined(__APPLE__)
 # if MAC_OR_LINUX_
-#  include <js/RequiredDefines.h>
+//#  include <js/RequiredDefines.h>
 # endif // MAC_OR_LINUX_
 # if (! MAC_OR_LINUX_)
 #  pragma warning(push)
@@ -52,9 +52,9 @@
 #  pragma warning(disable: 4251)
 #  pragma warning(disable: 4996)
 # endif // ! MAC_OR_LINUX_
-# include <jsapi.h>
-# include <js/CallArgs.h>
-# include <js/Conversions.h>
+//# include <jsapi.h>
+//# include <js/CallArgs.h>
+//# include <js/Conversions.h>
 # if (! MAC_OR_LINUX_)
 #  pragma warning(pop)
 # endif // ! MAC_OR_LINUX_

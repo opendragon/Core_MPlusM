@@ -203,6 +203,7 @@ ConnectionThread::ConnectionThread(TunnelService & service) :
     _listenSocket(INVALID_SOCKET), _sourceSocket(INVALID_SOCKET)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
 } // ConnectionThread::ConnectionThread
 

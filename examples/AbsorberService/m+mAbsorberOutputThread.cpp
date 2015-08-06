@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispThread.cpp
+//  File:       m+mAbsorberOutputThread.cpp
 //
 //  Project:    m+m
 //
@@ -32,11 +32,13 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-08-05
+//  Created:    2015-08-06
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispThread.h"
+#include "m+mAbsorberOutputThread.h"
+
+#include "m+mAbsorberOutputService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -58,11 +60,8 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::CommonLisp;
-using std::cerr;
-using std::endl;
+using namespace MplusM::Example;
 
-#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -83,37 +82,27 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-CommonLispThread::CommonLispThread(const double            timeToWait,
-                                   JSContext *             context,
-                                   JS::RootedObject &      global,
-                                   const JS::RootedValue & threadFunc) :
-    inherited(), _timeToWait(timeToWait), _threadFunc(context), _global(global), _context(context)
+AbsorberOutputThread::AbsorberOutputThread(AbsorberOutputService & service,
+                                           const double            timeToWait) :
+    inherited(), _service(service), _timeToWait(timeToWait)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("service = ", &service); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_P3("context = ", context, "global = ", &global, "threadFunc = ", &threadFunc); //####
-    _threadFunc = threadFunc;
     OD_LOG_EXIT_P(this); //####
-} // CommonLispThread::CommonLispThread
+} // AbsorberOutputThread::AbsorberOutputThread
 
-CommonLispThread::~CommonLispThread(void)
+AbsorberOutputThread::~AbsorberOutputThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // CommonLispThread::~CommonLispThread
+} // AbsorberOutputThread::~AbsorberOutputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void CommonLispThread::clearOutputChannel(void)
-{
-    OD_LOG_OBJENTER(); //####
-//    _outChannel = NULL;
-    OD_LOG_OBJEXIT(); //####
-} // CommonLispThread::clearOutputChannel
-
-void CommonLispThread::run(void)
+void AbsorberOutputThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -121,44 +110,15 @@ void CommonLispThread::run(void)
         if (_nextTime <= yarp::os::Time::now())
         {
             OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            if (_context && (! _threadFunc.isNullOrUndefined()))
-            {
-                JS::AutoValueVector funcArgs(_context);
-                JS::RootedValue     funcResult(_context);
-                
-                JS_BeginRequest(_context);
-                if (JS_CallFunctionValue(_context, _global, _threadFunc, funcArgs, &funcResult))
-                {
-                    // We don't care about the function result, as it's supposed to just perform an
-                    // iteration of the thread.
-                }
-                else
-                {
-                    OD_LOG("! (JS_CallFunctionValue(_context, _global, _threadFunc, " //####
-                           "funcArgs, &funcResult))"); //####
-                    JS::RootedValue exc(_context);
-                    
-                    if (JS_GetPendingException(_context, &exc))
-                    {
-                        JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Exception occurred while executing scriptThread "
-                                         "function.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Exception occurred while executing scriptThread function." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                JS_EndRequest(_context);
-            }
+            _service.reportMessageRate();
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispThread::run
+} // AbsorberOutputThread::run
 
-bool CommonLispThread::threadInit(void)
+bool AbsorberOutputThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -166,15 +126,14 @@ bool CommonLispThread::threadInit(void)
     _nextTime = yarp::os::Time::now() + _timeToWait;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // CommonLispThread::threadInit
+} // AbsorberOutputThread::threadInit
 
-void CommonLispThread::threadRelease(void)
+void AbsorberOutputThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // CommonLispThread::threadRelease
+} // AbsorberOutputThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-#endif//0

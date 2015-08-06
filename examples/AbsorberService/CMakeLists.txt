@@ -53,6 +53,7 @@ add_executable(${THIS_TARGET}
                m+mAbsorberOutputServiceMain.cpp
                m+mAbsorberOutputInputHandler.cpp
                m+mAbsorberOutputService.cpp
+               m+mAbsorberOutputThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

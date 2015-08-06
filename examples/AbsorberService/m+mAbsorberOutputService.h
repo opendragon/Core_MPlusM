@@ -56,13 +56,14 @@
 # define DEFAULT_ABSORBEROUTPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "output/absorber")
 
 /*! @brief The description of the service. */
-# define ABSORDEROUTPUT_SERVICE_DESCRIPTION_ T_("Absorber output service")
+# define ABSORBEROUTPUT_SERVICE_DESCRIPTION_ T_("Absorber output service")
 
 namespace MplusM
 {
     namespace Example
     {
         class AbsorberOutputInputHandler;
+        class AbsorberOutputThread;
         
         /*! @brief The Absorber output service. */
         class AbsorberOutputService : public Common::BaseOutputService
@@ -102,6 +103,9 @@ namespace MplusM
             
             DECLARE_STOPSTREAMS_;
             
+            /*! @brief Report the average messages per second. */
+            void reportMessageRate(void);
+            
             /*! @brief Increment and report the count.
              @param numBytes The bytes reported on the input channel. */
             void updateCount(const size_t numBytes);
@@ -126,12 +130,24 @@ namespace MplusM
             /*! @brief The handler for input data. */
             AbsorberOutputInputHandler * _inHandler;
             
+            /*! @brief The output thread to use. */
+            AbsorberOutputThread * _generator;
+            
             /*! @brief The number of messages seen. */
             long _count;
+
+            /*! @brief The previous number of messages seen. */
+            long _lastCount;
+            
+            /*! @brief The previous total number of bytes reported. */
+            size_t _lastBytes;
             
             /*! @brief The total number of bytes reported. */
             size_t _totalBytes;
 
+            /*! @brief The number of seconds between samples. */
+            int _sampleInterval;
+            
         }; // AbsorberOutputService
         
     } // Example

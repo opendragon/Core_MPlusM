@@ -69,6 +69,7 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
+#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -826,3 +827,4 @@ std::ostream & CommonLisp::PrintCommonLispValue(std::ostream &    outStream,
     OD_LOG_EXIT_P(&outStream); //####
     return outStream;
 } // CommonLisp::PrintCommonLispValue
+#endif//0

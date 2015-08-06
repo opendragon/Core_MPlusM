@@ -40,6 +40,7 @@
 
 #include "m+mAbsorberOutputInputHandler.h"
 #include "m+mAbsorberOutputRequests.h"
+#include "m+mAbsorberOutputThread.h"
 
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mGeneralChannel.h>
@@ -130,8 +131,9 @@ AbsorberOutputService::AbsorberOutputService(const Utilities::DescriptorVector &
                                              const YarpString &
                                                                              servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_ABSORBEROUTPUT_CANONICAL_NAME_,
-              ABSORDEROUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _inHandler(new AbsorberOutputInputHandler(*this)), _count(0), _totalBytes(0)
+              ABSORBEROUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+    _inHandler(new AbsorberOutputInputHandler(*this)), _generator(NULL), _count(0), _lastCount(-1),
+    _lastBytes(0), _totalBytes(0), _sampleInterval(0)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -153,25 +155,33 @@ AbsorberOutputService::~AbsorberOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
 DEFINE_CONFIGURE_(AbsorberOutputService)
 {
-#if (! defined(OD_ENABLE_LOGGING))
-# if MAC_OR_LINUX_
-#  pragma unused(details)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = false;
     
     try
     {
-        // Nothing needs to be done.
-        result = true;
+        if (1 == details.size())
+        {
+            yarp::os::Value firstValue(details.get(0));
+            
+            if (firstValue.isInt())
+            {
+                int firstNumber = firstValue.asInt();
+                
+                if (0 <= firstNumber)
+                {
+                    std::stringstream buff;
+                    
+                    _sampleInterval = firstNumber;
+                    buff << "Sample interval is " << _sampleInterval;
+                    setExtraInformation(buff.str());
+                    result = true;
+                }
+            }
+        }
     }
     catch (...)
     {
@@ -181,17 +191,15 @@ DEFINE_CONFIGURE_(AbsorberOutputService)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // AbsorberOutputService::configure
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
 
 DEFINE_GETCONFIGURATION_(AbsorberOutputService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = true;
-
+    
     details.clear();
+    details.addInt(_sampleInterval);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // AbsorberOutputService::getConfiguration
@@ -239,7 +247,7 @@ DEFINE_STARTSERVICE_(AbsorberOutputService)
             inherited::startService();
             if (isStarted())
             {
-            
+                
             }
             else
             {
@@ -266,7 +274,24 @@ DEFINE_STARTSTREAMS_(AbsorberOutputService)
             if (_inHandler)
             {
                 getInletStream(0)->setReader(*_inHandler);
-                setActive();
+                if (0 < _sampleInterval)
+                {
+                    _generator = new AbsorberOutputThread(*this, _sampleInterval);
+                    if (_generator->start())
+                    {
+                        setActive();
+                    }
+                    else
+                    {
+                        OD_LOG("! (generator->start())"); //####
+                        delete _generator;
+                        _generator = NULL;
+                    }
+                }
+                else
+                {
+                    setActive();
+                }
             }
         }
     }
@@ -303,6 +328,16 @@ DEFINE_STOPSTREAMS_(AbsorberOutputService)
     {
         if (isActive())
         {
+            if (_generator)
+            {
+                _generator->stop();
+                for ( ; _generator->isRunning(); )
+                {
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                }
+                delete _generator;
+                _generator = NULL;
+            }
             clearActive();
         }
     }
@@ -314,6 +349,22 @@ DEFINE_STOPSTREAMS_(AbsorberOutputService)
     OD_LOG_OBJEXIT(); //####
 } // AbsorberOutputService::stopStreams
 
+void AbsorberOutputService::reportMessageRate(void)
+{
+    OD_LOG_OBJENTER(); //####
+    if (0 <= _lastCount)
+    {
+        double byteDelta = _totalBytes - _lastBytes;
+        double countDelta = _count - _lastCount;
+        double messageRate = (countDelta / _sampleInterval);
+        double byteRate = (byteDelta / _sampleInterval);
+        
+        cout << "rate = " << messageRate << " messages/s, " << byteRate << " bytes/s" << endl;
+    }
+    _lastCount = _count;
+    OD_LOG_OBJEXIT(); //####
+} // AbsorberOutputService::reportMessageRate
+
 void AbsorberOutputService::updateCount(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
@@ -324,11 +375,14 @@ void AbsorberOutputService::updateCount(const size_t numBytes)
         {
             ++_count;
             _totalBytes += numBytes;
-            // Note that the function 'convertToCommaSplitNumber' was used because the locale
-            // mechanism in C++ for OS X is very, very broken.
-            cout << "messages = " << convertToCommaSplitNumber(_count).c_str() << "; bytes = " <<
-                    convertToCommaSplitNumber(numBytes).c_str() << "; total = " <<
-                    convertToCommaSplitNumber(_totalBytes).c_str() << endl;
+            if (0 >= _sampleInterval)
+            {
+                // Note that the function 'convertToCommaSplitNumber' was used because the locale
+                // mechanism in C++ for OS X is very, very broken.
+                cout << "messages = " << convertToCommaSplitNumber(_count).c_str() <<
+                        "; bytes = " << convertToCommaSplitNumber(numBytes).c_str() <<
+                        "; total = " << convertToCommaSplitNumber(_totalBytes).c_str() << endl;
+            }
         }
     }
     catch (...)

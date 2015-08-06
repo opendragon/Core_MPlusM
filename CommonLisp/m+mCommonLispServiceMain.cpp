@@ -72,6 +72,7 @@ using std::cout;
 using std::endl;
 using std::cerr;
 
+#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -2166,6 +2167,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -2256,9 +2258,11 @@ int main(int      argc,
                     {
                         tag = tagModifier;
                     }
+#if 0
                     setUpAndGo(argumentList, scriptPath, arguments, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, nameWasSet,
                                reportOnExit, stdinAvailable);
+#endif//0
                 }
                 else
                 {

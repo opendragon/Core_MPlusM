@@ -76,8 +76,8 @@ namespace MplusM
              @param slotNumber The slot number of the associated channel.
              @param handlerFunc The %CommonLisp handler function for the channel. */
             CommonLispInputHandler(CommonLispService * owner,
-                                   const size_t        slotNumber,
-                                   JS::HandleValue &   handlerFunc);
+                                   const size_t        slotNumber/*,
+                                   JS::HandleValue &   handlerFunc*/);
             
             /*! @brief The destructor. */
             virtual ~CommonLispInputHandler(void);
@@ -114,8 +114,8 @@ namespace MplusM
             /*! @brief The service that owns this handler. */
             CommonLispService * _owner;
             
-            /*! @brief The %CommonLisp input handler function. */
-            JS::HandleValue _handlerFunc;
+//            /*! @brief The %CommonLisp input handler function. */
+//            JS::HandleValue _handlerFunc;
             
             /*! @brief The slot number of the associated channel. */
             size_t _slotNumber;

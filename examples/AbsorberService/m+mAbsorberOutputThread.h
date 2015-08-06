@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispThread.h
+//  File:       m+mAbsorberOutputThread.h
 //
 //  Project:    m+m
 //
@@ -32,14 +32,12 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-08-05
+//  Created:    2015-08-06
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMCommonLispThread_H_))
-# define MpMCommonLispThread_H_ /* Header guard */
-
-# include "m+mCommonLispCommon.h"
+#if (! defined(MpMAbsorberOutputThread_H_))
+# define MpMAbsorberOutputThread_H_ /* Header guard */
 
 # include <m+m/m+mGeneralChannel.h>
 
@@ -54,32 +52,25 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-struct JSContext;
-
 namespace MplusM
 {
-    namespace CommonLisp
+    namespace Example
     {
+        class AbsorberOutputService;
+        
         /*! @brief A convenience class to generate output. */
-        class CommonLispThread : public yarp::os::Thread
+        class AbsorberOutputThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param context The %CommonLisp engine context.
-             @param global The %CommonLisp global object.
-             @param threadFunc The %CommonLisp handler function for the thread. */
-            CommonLispThread(const double            timeToWait/*,
-                             JSContext *             context,
-                             JS::RootedObject &      global,
-                             const JS::RootedValue & threadFunc*/);
+             @param service The service that manages the reporting.
+             @param timeToWait The number of seconds to delay before triggering. */
+            AbsorberOutputThread(AbsorberOutputService & service,
+                                 const double            timeToWait);
             
             /*! @brief The destructor. */
-            virtual ~CommonLispThread(void);
-            
-            /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            virtual ~AbsorberOutputThread(void);
             
         protected :
             
@@ -95,7 +86,7 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-            COPY_AND_ASSIGNMENT_(CommonLispThread);
+            COPY_AND_ASSIGNMENT_(AbsorberOutputThread);
             
         public :
         
@@ -116,14 +107,8 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-//            /*! @brief The %CommonLisp thread function. */
-//            JS::RootedValue _threadFunc;
-            
-//            /*! @brief The %CommonLisp global object for this execution environment. */
-//            JS::RootedObject & _global;
-            
-//            /*! @brief The %CommonLisp execution environment. */
-//            JSContext * _context;
+            /*! @brief The service that manages the reporting. */
+            AbsorberOutputService & _service;
             
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
@@ -131,10 +116,10 @@ namespace MplusM
             /*! @brief The number of seconds to delay before triggering. */
             double _timeToWait;
             
-        }; // CommonLispThread
+        }; // AbsorberOutputThread
         
-    } // CommonLisp
+    } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMCommonLispThread_H_)
+#endif // ! defined(MpMAbsorberOutputThread_H_)

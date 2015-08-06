@@ -23,12 +23,14 @@ That is, they are `faceless' applications and perform their operations without u
 interaction.
 \tertiaryStart{\examplesNameP{Services}{m+mAbsorberOutputService}}
 The \examplesNameX{Services}{m+mAbsorberOutputService} application is an Output
-service, accepting (and ignoring) any input data.
+service, accepting (and ignoring) any input data, while counting the number of messages
+and bytes received.
 The application responds to the standard Output service requests and can be used as a
 standalone data sink, without the need for a client connection.\\
 
-The \requestsNameR{\inputOutput}{InputOutput}{configure} request has no arguments and
-does nothing.\\
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has one argument
+\longDash{} an integer value for the `sample interval'.
+This value will be applied when the service is started or restarted.\\
 
 The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
 starts the input stream.\\
@@ -42,9 +44,20 @@ on the input stream.\\
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
 running.\\
 
+The application has one optional argument \longDash{} the sample interval in seconds.
+If the sample interval is greater than zero, this specifies how often the messages per
+second (and bytes per second) are reported.
+If the sample interval is not greater than zero, each incoming message is reported as it
+is received, along with the total number of bytes received since the service was started
+or restarted.
 \insertAppParameters
 \insertTagDescription{Absorber Output}
 \insertOutputServiceComment\\
+
+The other parameter provides the sample interval; if not specified, no
+time\longDash{}based sampling will be performed.
+Note that the sample interval can also be set via commands, if the application is
+running from a terminal.\\
 
 \insertStandardServiceCommands
 \condPage
@@ -59,6 +72,12 @@ the service has successfully started:
 \objScaledDiagram{mpm_images/runningAbsorberOutputService}%
 {serviceRunningAbsorber}{The \emph{\MMMU} entity for the \emph{Absorber Output} service}%
 {1.0}
+
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureAbsorberOutputService}%
+{configureServiceAbsorber}{Configuration window for the \emph{Absorber Output}
+service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{m+mAbsorberOutputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{m+mEchoService}}

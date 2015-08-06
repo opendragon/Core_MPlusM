@@ -39,6 +39,7 @@
 #include "m+mAbsorberOutputService.h"
 
 #include <m+m/m+mEndpoint.h>
+#include <m+m/m+mIntArgumentDescriptor.h>
 #include <m+m/m+mUtilities.h>
 
 //#include <odl/ODEnableLogging.h>
@@ -154,18 +155,23 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                        goWasSet = false;
-        bool                        nameWasSet = false; // not used
-        bool                        reportOnExit = false;
-        bool                        stdinAvailable = CanReadFromStandardInput();
-        YarpString                  serviceEndpointName;
-        YarpString                  servicePortNumber;
-        YarpString                  tag;
-        Utilities::DescriptorVector argumentList;
-
+        bool                             goWasSet = false;
+        bool                             nameWasSet = false; // not used
+        bool                             reportOnExit = false;
+        bool                             stdinAvailable = CanReadFromStandardInput();
+        YarpString                       serviceEndpointName;
+        YarpString                       servicePortNumber;
+        YarpString                       tag;
+        Utilities::IntArgumentDescriptor firstArg("sampleInterval",
+                                                  T_("Interval between samples (zero for none)"),
+                                                  Utilities::kArgModeOptionalModifiable, 0,
+                                                  true, 0, false, 0);
+        Utilities::DescriptorVector      argumentList;
+        
+        argumentList.push_back(&firstArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_ABSORBEROUTPUT_SERVICE_NAME_,
-                                          ABSORDEROUTPUT_SERVICE_DESCRIPTION_, "", 2014,
+                                          ABSORBEROUTPUT_SERVICE_DESCRIPTION_, "", 2014,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

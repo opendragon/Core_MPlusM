@@ -179,6 +179,7 @@ namespace MplusM
             /*! @brief A sequence of input handlers. */
             typedef std::vector<JavaScriptInputHandler *> HandlerVector;
 
+            /*! @brief The handler functions to use for input. */
             JS::AutoValueVector _inletHandlers;
             
             /*! @brief The set of input handlers. */
