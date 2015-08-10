@@ -28,6 +28,9 @@ and bytes received.
 The application responds to the standard Output service requests and can be used as a
 standalone data sink, without the need for a client connection.\\
 
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the integer value for the `sample interval'.\\
+
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has one argument
 \longDash{} an integer value for the `sample interval'.
 This value will be applied when the service is started or restarted.\\
@@ -113,6 +116,10 @@ number of seconds between groups.
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the floating\longDash{}point value for the `burst period' and an integer value for
+the `burst size'.\\
+
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has two arguments
 \longDash{} a floating\longDash{}point value for the `burst period' and an integer value
 for the `burst size'.
@@ -145,8 +152,7 @@ period of 1 second and burst size of 1 will be used.
 Note that the burst period and size can also be set via commands, if the application is
 running from a terminal.\\
 
-\insertStandardServiceCommands
-\condPage
+\insertStandardServiceCommands{}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRandomBurstInputService}%
@@ -204,6 +210,9 @@ service, recording a stream of \yarp{} values as JSON structures to an external 
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the file\longDash{}system path to use for the output file.\\
+
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
 the file\longDash{}system path to use for the output file.
 The path will be used when the input stream is started or restarted.\\
@@ -239,14 +248,14 @@ following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRecordAsJSONOutputService}%
 {launchServiceRecordAsJSON}{Launch options for the \emph{Record As JSON Output} service}%
 {0.8}
-
+\condPage{}
 For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
 Once the options are set, the following image will appear in the \emph{\MMMU} window when
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningRecordAsJSONOutputService}%
 {serviceRunningRecordAsJSON}{The \emph{\MMMU} entity for the \emph{Record As JSON Output}
 service}{1.0}
-\condPage{}
+
 If the \textbf{Configure the service} menu item has been selected, the following will
 appear:
 \objScaledDiagram{mpm_images/configureRecordAsJSONOutputService}%
@@ -266,7 +275,7 @@ does not affect the channel names:
 \objScaledDiagram{mpm_images/recordJSONWithEndpoint}%
 {recordJSONWithEndpoint}{The \emph{\MMMU} entity for the \emph{Record As JSON Output}
 service with an endpoint}{1.0}
-
+\condPage{}
 If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
 determines the channel names while the `tag' value is combined with the output file name
 as part of the title bar:
@@ -274,12 +283,14 @@ as part of the title bar:
 {recordJSONWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Record As JSON
 Output} service with an endpoint and tag}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{m+mRecordAsJSONOutputService}}
-\condPage
 \tertiaryStart{\examplesNameP{Services}{m+mRecordIntegersOutputService}}
 The \examplesNameX{Services}{m+mRecordIntegersOutputService} application is an Output
 service, recording a stream of integer values to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the file\longDash{}system path to use for the output file.\\
 
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
 the file\longDash{}system path to use for the output file.
@@ -310,7 +321,7 @@ Note that the output file path can also be set via commands, if the application 
 running from a terminal.\\
 
 \insertStandardServiceCommands
-
+\condPage{}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRecordIntegersOutputService}%
@@ -403,6 +414,9 @@ The \examplesNameX{Services}{m+mTruncateFloatFilterService} application is a Fil
 service, converting a stream of floating\longDash{}point values into a stream of integers.
 The application responds to the standard Filter service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns nothing.\\
 
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has no arguments and
 does nothing.\\
@@ -559,7 +573,6 @@ the adapter has successfully started:
 {adapterRunningRandomNumber}{The \emph{\MMMU} entity for the \emph{Random Number}
 adapter}{1.0}
 \tertiaryEnd{\examplesNameE{Adapters}{m+mRandomNumberAdapter}}
-\condPage
 \tertiaryStart{\examplesNameP{Adapters}{m+mRunningSumAdapter}}
 
 The \examplesNameX{Adapters}{m+mRunningSumAdapter} application reads  values from an input

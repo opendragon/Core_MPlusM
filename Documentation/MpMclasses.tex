@@ -120,9 +120,13 @@ interface to an external device or to a simple flow\longDash{}through operation.
 Classes derived from \classNameX{Common}{BaseInputOutputService} are required to provide
 implementations of the following methods:
 \begin{itemize}
-\item\asBoldCode{configure} This method is invoked when a
+\item\exSp\asBoldCode{configure} This method is invoked when a
 \requestsNameR{\inputOutput}{InputOutput}{configure} request is sent to the service; it
 is responsible for setting attributes of the input and output streams of the service
+\item\exSp\asBoldCode{getConfiguration} This method is invoked when a
+\requestsNameR{\inputOutput}{InputOutput}{configuration} request is sent to the service;
+it is responsible for returning the attributes of the input and output streams of the
+service
 \item\exSp\asBoldCode{restartStreams} This method is invoked when a
 \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request is sent to the
 service; it is responsible for stopping and then starting the input and output streams of
@@ -137,8 +141,9 @@ it is responsible for starting the input and output streams of the service
 \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request is sent to the service;
 it is responsible for stopping the input and output streams of the service
 \end{itemize}
-The \asCode{configure}, \asCode{restartStreams}, \asCode{startStreams} and
-\asCode{stopStreams} methods can also be invoked by code that instantiates the service.
+The \asCode{configure}, \asCode{getConfiguration}, \asCode{restartStreams},
+\asCode{startStreams} and \asCode{stopStreams} methods can also be invoked by code that
+instantiates the service.
 \secondaryEnd{\classNameE{Common}{BaseInputOutputService}}
 \secondaryStart{BaseInputService}\classNameM{Common}{BaseInputService}
 The \classNameX{Common}{BaseInputService} class is a subclass of

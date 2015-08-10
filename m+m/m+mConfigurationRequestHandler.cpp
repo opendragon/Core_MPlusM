@@ -4,7 +4,7 @@
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the request handler for the standard 'onfiguration'
+//  Contains:   The class definition for the request handler for the standard 'configuration'
 //              request.
 //
 //  Written by: Norman Jaffe
@@ -67,7 +67,7 @@ using namespace MplusM::Common;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The protocol version number for the 'getConfiguration' request. */
+/*! @brief The protocol version number for the 'configuration' request. */
 #define CONFIGURATION_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)

@@ -689,6 +689,9 @@ rerouting its input data to an internet port.
 The application responds to the standard Output service requests and can be used as a
 standalone data router, without the need for a client connection.\\
 
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the integer value for the output port to be used.\\
+
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument
 \longDash{} an integer value for the output port to be used.\\
 
@@ -732,6 +735,9 @@ The \utilityNameX{m+mRecordBlobOutputService} application is an Output service, 
 a stream of \yarp{} binary blob values to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the file\longDash{}system path to use for the output file.\\
 
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
 the file\longDash{}system path to use for the output file.

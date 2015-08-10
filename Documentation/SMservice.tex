@@ -5,6 +5,13 @@ of \yarp{} values as JSON text to an ActiveMQ broker.
 The application responds to the standard Output service requests and can be used as a
 standalone data sink, without the need for a client connection.\\
 
+The \emph{configuration} request has no arguments and returns the string value for the
+host name of the ActiveMQ broker, the integer value for the port on the ActiveMQ broker to
+connect to, the string value for the user identifier to use on the ActiveMQ broker, an
+empty string value for the password for the user on the ActiveMQ broker \longDash{} the
+actual password is never returned \longDash{} and the string value for the topic or queue
+to set up on the ActiveMQ broker.\\
+
 The \emph{configure} request request has five arguments \longDash{} a string value for the
 host name of the ActiveMQ broker, an integer value for the port on the ActiveMQ broker to
 connect to, a string value for the user identifier to use on the ActiveMQ broker, a string

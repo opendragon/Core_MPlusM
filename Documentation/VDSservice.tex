@@ -5,6 +5,10 @@ generating a stream of information on the position and orientation of one or mor
 The application responds to the standard Input service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
+The \emph{configuration} request has no arguments and returns the string value for the
+host name of the Vicon DataStream server and the integer value for the port on the Vicon
+DataStream server to connect to.\\
+
 The \emph{configure} request has two arguments \longDash{} a string value for the host
 name of the Vicon DataStream server and an integer value for the port on the Vicon
 DataStream server to connect to.
