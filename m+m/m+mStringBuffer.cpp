@@ -141,7 +141,11 @@ StringBuffer & StringBuffer::addDouble(const double aDouble)
     OD_LOG_D1("aDouble = ", aDouble); //####
     char numBuff[kNumBuffSize];
     
+#if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%g", aDouble);
+#else // ! MAC_OR_LINUX_
+    sprintf_s(numBuff, sizeof(numBuff), "%g", aDouble);
+#endif // ! MAC_OR_LINUX_
 	OD_LOG_S1("numBuff <- ", numBuff); //####
 	size_t lengthToAdd = strlen(numBuff);
     
@@ -165,7 +169,11 @@ StringBuffer & StringBuffer::addLong(const int64_t aLong)
     OD_LOG_LL1("aLong = ", aLong); //####
     char numBuff[kNumBuffSize];
     
+#if MAC_OR_LINUX_
     snprintf(numBuff, sizeof(numBuff), "%lld", aLong);
+#else // ! MAC_OR_LINUX_
+    sprintf_s(numBuff, sizeof(numBuff), "%lld", aLong);
+#endif // ! MAC_OR_LINUX_
 	OD_LOG_S1("numBuff <- ", numBuff); //####
     size_t lengthToAdd = strlen(numBuff);
     
