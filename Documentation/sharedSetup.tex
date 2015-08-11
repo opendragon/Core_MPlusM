@@ -1,8 +1,11 @@
 \ProvidesFile{sharedSetup.tex}[v1.0.0]
-\documentclass[letterpaper,titlepage,twoside]{book}
+\documentclass[letterpaper,titlepage,twoside,canadian]{book}
+% Using the British option gives dates in the form d-m-y
+% The Canadian option gives dates in the form m-d-y
 
 \usepackage{times}
 \usepackage{amsmath}
+\usepackage[useregional=text]{datetime2}
 \usepackage{enumerate}
 \usepackage{ifthen}
 \usepackage{alltt}
