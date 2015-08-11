@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputServiceMain.cpp
+//  File:       m+mAbsorberFilterServiceMain.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The main application for the Absorber output service.
+//  Contains:   The main application for the Absorber filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAbsorberOutputService.h"
+#include "m+mAbsorberFilterService.h"
 
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mIntArgumentDescriptor.h>
@@ -51,10 +51,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Absorber output service. */
+ @brief The main application for the Absorber filter service. */
 
 /*! @dir AbsorberService
- @brief The set of files that implement the Absorber output service. */
+ @brief The set of files that implement the Absorber filter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -82,11 +82,11 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Set up the Absorber environment and start the Absorber output service.
+/*! @brief Set up the Absorber environment and start the Absorber filter service.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Absorber output service.
+ @param argv The arguments to be used with the Absorber filter service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service.
@@ -112,7 +112,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    AbsorberOutputService * aService = new AbsorberOutputService(argumentList, progName, argc, argv,
+    AbsorberFilterService * aService = new AbsorberFilterService(argumentList, progName, argc, argv,
                                                                  tag, serviceEndpointName,
                                                                  servicePortNumber);
     
@@ -132,9 +132,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Absorber output service.
+/*! @brief The entry point for running the Absorber filter service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Absorber output service.
+ @param argv The arguments to be used with the Absorber filter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)
@@ -170,8 +170,8 @@ int main(int      argc,
         
         argumentList.push_back(&firstArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_ABSORBEROUTPUT_SERVICE_NAME_,
-                                          ABSORBEROUTPUT_SERVICE_DESCRIPTION_, "", 2014,
+                                          DEFAULT_ABSORBERFILTER_SERVICE_NAME_,
+                                          ABSORBERFILTER_SERVICE_DESCRIPTION_, "", 2014,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
                                           reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber))

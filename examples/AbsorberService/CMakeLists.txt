@@ -4,7 +4,7 @@
 #
 #  Project:    m+m
 #
-#  Contains:   The CMAKE definitions for the Absorber output service application.
+#  Contains:   The CMAKE definitions for the Absorber filter service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -38,7 +38,7 @@
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET m+mAbsorberOutputService)
+set(THIS_TARGET m+mAbsorberFilterService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,10 +50,10 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               m+mAbsorberOutputServiceMain.cpp
-               m+mAbsorberOutputInputHandler.cpp
-               m+mAbsorberOutputService.cpp
-               m+mAbsorberOutputThread.cpp
+               m+mAbsorberFilterServiceMain.cpp
+               m+mAbsorberFilterInputHandler.cpp
+               m+mAbsorberFilterService.cpp
+               m+mAbsorberFilterThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

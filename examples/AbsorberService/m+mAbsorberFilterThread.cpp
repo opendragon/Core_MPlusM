@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputThread.cpp
+//  File:       m+mAbsorberFilterThread.cpp
 //
 //  Project:    m+m
 //
@@ -36,9 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAbsorberOutputThread.h"
+#include "m+mAbsorberFilterThread.h"
 
-#include "m+mAbsorberOutputService.h"
+#include "m+mAbsorberFilterService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -82,7 +82,7 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AbsorberOutputThread::AbsorberOutputThread(AbsorberOutputService & service,
+AbsorberFilterThread::AbsorberFilterThread(AbsorberFilterService & service,
                                            const double            timeToWait) :
     inherited(), _service(service), _timeToWait(timeToWait)
 {
@@ -90,19 +90,19 @@ AbsorberOutputThread::AbsorberOutputThread(AbsorberOutputService & service,
     OD_LOG_P1("service = ", &service); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_EXIT_P(this); //####
-} // AbsorberOutputThread::AbsorberOutputThread
+} // AbsorberFilterThread::AbsorberFilterThread
 
-AbsorberOutputThread::~AbsorberOutputThread(void)
+AbsorberFilterThread::~AbsorberFilterThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputThread::~AbsorberOutputThread
+} // AbsorberFilterThread::~AbsorberFilterThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AbsorberOutputThread::run(void)
+void AbsorberFilterThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -116,9 +116,9 @@ void AbsorberOutputThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputThread::run
+} // AbsorberFilterThread::run
 
-bool AbsorberOutputThread::threadInit(void)
+bool AbsorberFilterThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -126,13 +126,13 @@ bool AbsorberOutputThread::threadInit(void)
     _nextTime = yarp::os::Time::now() + _timeToWait;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AbsorberOutputThread::threadInit
+} // AbsorberFilterThread::threadInit
 
-void AbsorberOutputThread::threadRelease(void)
+void AbsorberFilterThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputThread::threadRelease
+} // AbsorberFilterThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

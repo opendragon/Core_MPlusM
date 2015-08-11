@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputThread.h
+//  File:       m+mAbsorberFilterThread.h
 //
 //  Project:    m+m
 //
@@ -36,8 +36,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAbsorberOutputThread_H_))
-# define MpMAbsorberOutputThread_H_ /* Header guard */
+#if (! defined(MpMAbsorberFilterThread_H_))
+# define MpMAbsorberFilterThread_H_ /* Header guard */
 
 # include <m+m/m+mGeneralChannel.h>
 
@@ -56,21 +56,21 @@ namespace MplusM
 {
     namespace Example
     {
-        class AbsorberOutputService;
+        class AbsorberFilterService;
         
         /*! @brief A convenience class to generate output. */
-        class AbsorberOutputThread : public yarp::os::Thread
+        class AbsorberFilterThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
              @param service The service that manages the reporting.
              @param timeToWait The number of seconds to delay before triggering. */
-            AbsorberOutputThread(AbsorberOutputService & service,
+            AbsorberFilterThread(AbsorberFilterService & service,
                                  const double            timeToWait);
             
             /*! @brief The destructor. */
-            virtual ~AbsorberOutputThread(void);
+            virtual ~AbsorberFilterThread(void);
             
         protected :
             
@@ -86,7 +86,7 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-            COPY_AND_ASSIGNMENT_(AbsorberOutputThread);
+            COPY_AND_ASSIGNMENT_(AbsorberFilterThread);
             
         public :
         
@@ -108,7 +108,7 @@ namespace MplusM
 # endif // defined(__APPLE__)
             
             /*! @brief The service that manages the reporting. */
-            AbsorberOutputService & _service;
+            AbsorberFilterService & _service;
             
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
@@ -116,10 +116,10 @@ namespace MplusM
             /*! @brief The number of seconds to delay before triggering. */
             double _timeToWait;
             
-        }; // AbsorberOutputThread
+        }; // AbsorberFilterThread
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMAbsorberOutputThread_H_)
+#endif // ! defined(MpMAbsorberFilterThread_H_)

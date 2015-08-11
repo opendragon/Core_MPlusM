@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by m+mAbsorberOutputService.rc
+// Used by m+mAbsorberFilterService.rc
 
 // Next default values for new objects
 // 

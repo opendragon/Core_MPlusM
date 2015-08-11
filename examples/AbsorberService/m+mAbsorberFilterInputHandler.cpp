@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputInputHandler.cpp
+//  File:       m+mAbsorberFilterInputHandler.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the input channel input handler used by the Absorber output
+//  Contains:   The class definition for the input channel input handler used by the Absorber filter
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAbsorberOutputInputHandler.h"
-#include "m+mAbsorberOutputService.h"
+#include "m+mAbsorberFilterInputHandler.h"
+#include "m+mAbsorberFilterService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,7 +49,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the input channel input handler used by the Absorber output
+ @brief The class definition for the input channel input handler used by the Absorber filter
  service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
@@ -83,18 +83,18 @@ using namespace MplusM::Example;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AbsorberOutputInputHandler::AbsorberOutputInputHandler(AbsorberOutputService & service) :
+AbsorberFilterInputHandler::AbsorberFilterInputHandler(AbsorberFilterService & service) :
     inherited(), _service(service)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
-} // AbsorberOutputInputHandler::AbsorberOutputInputHandler
+} // AbsorberFilterInputHandler::AbsorberFilterInputHandler
 
-AbsorberOutputInputHandler::~AbsorberOutputInputHandler(void)
+AbsorberFilterInputHandler::~AbsorberFilterInputHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputInputHandler::~AbsorberOutputInputHandler
+} // AbsorberFilterInputHandler::~AbsorberFilterInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
@@ -104,7 +104,7 @@ AbsorberOutputInputHandler::~AbsorberOutputInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_HANDLE_INPUT_(AbsorberOutputInputHandler)
+DEFINE_HANDLE_INPUT_(AbsorberFilterInputHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING))
 # if MAC_OR_LINUX_
@@ -128,7 +128,7 @@ DEFINE_HANDLE_INPUT_(AbsorberOutputInputHandler)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AbsorberOutputInputHandler::handleInput
+} // AbsorberFilterInputHandler::handleInput
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputService.h
+//  File:       m+mAbsorberFilterService.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the Absorber output service.
+//  Contains:   The class declaration for the Absorber filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAbsorberOutputService_H_))
-# define MpMAbsorberOutputService_H_ /* Header guard */
+#if (! defined(MpMAbsorberFilterService_H_))
+# define MpMAbsorberFilterService_H_ /* Header guard */
 
-# include <m+m/m+mBaseOutputService.h>
+# include <m+m/m+mBaseFilterService.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,26 +47,26 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the Absorber output service. */
+ @brief The class declaration for the Absorber filter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_ABSORBEROUTPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "output/absorber")
+# define DEFAULT_ABSORBERFILTER_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "filter/absorber")
 
 /*! @brief The description of the service. */
-# define ABSORBEROUTPUT_SERVICE_DESCRIPTION_ T_("Absorber output service")
+# define ABSORBERFILTER_SERVICE_DESCRIPTION_ T_("Absorber filter service")
 
 namespace MplusM
 {
     namespace Example
     {
-        class AbsorberOutputInputHandler;
-        class AbsorberOutputThread;
+        class AbsorberFilterInputHandler;
+        class AbsorberFilterThread;
         
-        /*! @brief The Absorber output service. */
-        class AbsorberOutputService : public Common::BaseOutputService
+        /*! @brief The Absorber filter service. */
+        class AbsorberFilterService : public Common::BaseFilterService
         {
         public :
             
@@ -78,7 +78,7 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            AbsorberOutputService(const Utilities::DescriptorVector & argumentList,
+            AbsorberFilterService(const Utilities::DescriptorVector & argumentList,
                                   const YarpString &                  launchPath,
                                   const int                           argc,
                                   char * *                            argv,
@@ -87,7 +87,7 @@ namespace MplusM
                                   const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~AbsorberOutputService(void);
+            virtual ~AbsorberFilterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -114,7 +114,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(AbsorberOutputService);
+            COPY_AND_ASSIGNMENT_(AbsorberFilterService);
             
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
             
@@ -125,13 +125,13 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
+            typedef BaseFilterService inherited;
             
             /*! @brief The handler for input data. */
-            AbsorberOutputInputHandler * _inHandler;
+            AbsorberFilterInputHandler * _inHandler;
             
             /*! @brief The output thread to use. */
-            AbsorberOutputThread * _generator;
+            AbsorberFilterThread * _generator;
             
             /*! @brief The number of messages seen. */
             long _count;
@@ -148,10 +148,10 @@ namespace MplusM
             /*! @brief The number of seconds between samples. */
             int _sampleInterval;
             
-        }; // AbsorberOutputService
+        }; // AbsorberFilterService
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMAbsorberOutputService_H_)
+#endif // ! defined(MpMAbsorberFilterService_H_)

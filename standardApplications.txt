@@ -1,5 +1,5 @@
 # Services
-m+mAbsorberOutputService
+m+mAbsorberFilterService
 m+mAddressService
 m+mBlobOutputService
 m+mCommonLispService

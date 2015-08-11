@@ -246,6 +246,8 @@ mpm_images.tar.gz
 *.zip
 debug.txt
 
+m+mAbsorberFilterService
+m+mAbsorberFilterService.rc
 m+mAbsorberOutputService
 m+mAbsorberOutputService.rc
 m+mAbsorberService

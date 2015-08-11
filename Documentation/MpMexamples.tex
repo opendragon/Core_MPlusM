@@ -12,21 +12,21 @@ The set of example services include a pair of simple services
 [\examplesNameR{Services}{m+mEchoService} and
 \examplesNameR{Services}{m+mRandomNumberService}], a service with client context
 [\examplesNameR{Services}{m+mRunningSumService}] as well as an input service
-[\examplesNameR{Services}{m+mRandomBurstInputService}], three output services
-[\examplesNameR{Services}{m+mAbsorberOutputService},
-\examplesNameR{Services}{m+mRecordAsJSONOutputService} and\\
-\examplesNameR{Services}{m+mRecordIntegersOutputService}] and a filter service
-[\examplesNameR{Services}{m+mTruncateFloatFilterService}].\\
+[\examplesNameR{Services}{m+mRandomBurstInputService}], two output services
+[\examplesNameR{Services}{m+mRecordAsJSONOutputService} and\\
+\examplesNameR{Services}{m+mRecordIntegersOutputService}] and two filter services
+[\examplesNameR{Services}{m+mAbsorberFilterService},
+\examplesNameR{Services}{m+mTruncateFloatFilterService}].\\
 
 Note that services normally have no direct interface.
 That is, they are `faceless' applications and perform their operations without user
 interaction.
-\tertiaryStart{\examplesNameP{Services}{m+mAbsorberOutputService}}
-The \examplesNameX{Services}{m+mAbsorberOutputService} application is an Output
+\tertiaryStart{\examplesNameP{Services}{m+mAbsorberFilterService}}
+The \examplesNameX{Services}{m+mAbsorberFilterService} application is a Filter
 service, accepting (and ignoring) any input data, while counting the number of messages
-and bytes received.
-The application responds to the standard Output service requests and can be used as a
-standalone data sink, without the need for a client connection.\\
+and bytes received, which are (optionally) sent out the `stats' outlet.
+The application responds to the standard Filter service requests and can be used as a
+standalone data transformer, without the need for a client connection.\\
 
 The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
 returns the integer value for the `sample interval'.\\
@@ -45,20 +45,21 @@ The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates li
 on the input stream.\\
 
 Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
-running.\\
-
+running.
+\condPage{}
 The application has one optional argument \longDash{} the sample interval in seconds.
 If the sample interval is greater than zero, this specifies how often the messages per
 second (and bytes per second) are reported.
+The statistics are output to the console from which the application was run as well as to
+the `stats' outlet.
 If the sample interval is not greater than zero, each incoming message is reported as it
 is received, along with the total number of bytes received since the service was started
 or restarted.
+The reporting is only done to the console from which the application was run.
 \insertAppParameters
-\insertTagDescription{Absorber Output}
-\insertOutputServiceComment\\
+\insertTagDescription{Absorber Filter}
+\insertFilterServiceComment\\
 
-The other parameter provides the sample interval; if not specified, no
-time\longDash{}based sampling will be performed.
 Note that the sample interval can also be set via commands, if the application is
 running from a terminal.\\
 
@@ -66,23 +67,22 @@ running from a terminal.\\
 \condPage
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
-\objScaledDiagram{mpm_images/launchAbsorberOutputService}%
-{launchServiceAbsorber}{Launch options for the \emph{Absorber Output} service}{0.8}
+\objScaledDiagram{mpm_images/launchAbsorberFilterService}%
+{launchServiceAbsorber}{Launch options for the \emph{Absorber Filter} service}{0.8}
 
 For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
 Once the options are set, the following image will appear in the \emph{\MMMU} window when
 the service has successfully started:
-\objScaledDiagram{mpm_images/runningAbsorberOutputService}%
-{serviceRunningAbsorber}{The \emph{\MMMU} entity for the \emph{Absorber Output} service}%
+\objScaledDiagram{mpm_images/runningAbsorberFilterService}%
+{serviceRunningAbsorber}{The \emph{\MMMU} entity for the \emph{Absorber Filter} service}%
 {1.0}
-
+\condPage{}
 If the \textbf{Configure the service} menu item has been selected, the following will
 appear:
-\objScaledDiagram{mpm_images/configureAbsorberOutputService}%
-{configureServiceAbsorber}{Configuration window for the \emph{Absorber Output}
+\objScaledDiagram{mpm_images/configureAbsorberFilterService}%
+{configureServiceAbsorber}{Configuration window for the \emph{Absorber Filter}
 service}{1.0}
-\tertiaryEnd{\examplesNameE{Services}{m+mAbsorberOutputService}}
-\condPage
+\tertiaryEnd{\examplesNameE{Services}{m+mAbsorberFilterService}}
 \tertiaryStart{\examplesNameP{Services}{m+mEchoService}}
 The \examplesNameX{Services}{m+mEchoService} application responds to
 \requestsNameR{Miscellaneous}{Miscellaneous}{echo} requests from the
@@ -413,7 +413,7 @@ the service has successfully started:
 The \examplesNameX{Services}{m+mTruncateFloatFilterService} application is a Filter
 service, converting a stream of floating\longDash{}point values into a stream of integers.
 The application responds to the standard Filter service requests and can be used as a
-standalone data generator, without the need for a client connection.\\
+standalone data transformer, without the need for a client connection.\\
 
 The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
 returns nothing.\\

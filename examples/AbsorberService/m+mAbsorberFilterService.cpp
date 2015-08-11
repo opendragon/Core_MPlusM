@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputService.cpp
+//  File:       m+mAbsorberFilterService.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the Absorber output service.
+//  Contains:   The class definition for the Absorber filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mAbsorberOutputService.h"
+#include "m+mAbsorberFilterService.h"
 
-#include "m+mAbsorberOutputInputHandler.h"
-#include "m+mAbsorberOutputRequests.h"
-#include "m+mAbsorberOutputThread.h"
+#include "m+mAbsorberFilterInputHandler.h"
+#include "m+mAbsorberFilterRequests.h"
+#include "m+mAbsorberFilterThread.h"
 
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mGeneralChannel.h>
@@ -54,7 +54,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the Absorber output service. */
+ @brief The class definition for the Absorber filter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -121,7 +121,7 @@ static YarpString convertToCommaSplitNumber(const size_t aNumber)
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-AbsorberOutputService::AbsorberOutputService(const Utilities::DescriptorVector & argumentList,
+AbsorberFilterService::AbsorberFilterService(const Utilities::DescriptorVector & argumentList,
                                              const YarpString &                  launchPath,
                                              const int                           argc,
                                              char * *                            argv,
@@ -130,9 +130,9 @@ AbsorberOutputService::AbsorberOutputService(const Utilities::DescriptorVector &
                                                                              serviceEndpointName,
                                              const YarpString &
                                                                              servicePortNumber) :
-    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_ABSORBEROUTPUT_CANONICAL_NAME_,
-              ABSORBEROUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _inHandler(new AbsorberOutputInputHandler(*this)), _generator(NULL), _count(0), _lastCount(-1),
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_ABSORBERFILTER_CANONICAL_NAME_,
+              ABSORBERFILTER_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
+    _inHandler(new AbsorberFilterInputHandler(*this)), _generator(NULL), _count(0), _lastCount(-1),
     _lastBytes(0), _totalBytes(0), _sampleInterval(0)
 {
     OD_LOG_ENTER(); //####
@@ -141,21 +141,21 @@ AbsorberOutputService::AbsorberOutputService(const Utilities::DescriptorVector &
                serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_EXIT_P(this); //####
-} // AbsorberOutputService::AbsorberOutputService
+} // AbsorberFilterService::AbsorberFilterService
 
-AbsorberOutputService::~AbsorberOutputService(void)
+AbsorberFilterService::~AbsorberFilterService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     delete _inHandler;
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputService::~AbsorberOutputService
+} // AbsorberFilterService::~AbsorberFilterService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-DEFINE_CONFIGURE_(AbsorberOutputService)
+DEFINE_CONFIGURE_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -190,9 +190,9 @@ DEFINE_CONFIGURE_(AbsorberOutputService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AbsorberOutputService::configure
+} // AbsorberFilterService::configure
 
-DEFINE_GETCONFIGURATION_(AbsorberOutputService)
+DEFINE_GETCONFIGURATION_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -202,9 +202,9 @@ DEFINE_GETCONFIGURATION_(AbsorberOutputService)
     details.addInt(_sampleInterval);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AbsorberOutputService::getConfiguration
+} // AbsorberFilterService::getConfiguration
 
-DEFINE_RESTARTSTREAMS_(AbsorberOutputService)
+DEFINE_RESTARTSTREAMS_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -219,9 +219,9 @@ DEFINE_RESTARTSTREAMS_(AbsorberOutputService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputService::restartStreams
+} // AbsorberFilterService::restartStreams
 
-DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberOutputService)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -233,11 +233,16 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(AbsorberOutputService)
     description._portProtocol = ""; // Empty, so everything accepted
     description._protocolDescription = "";
     _inDescriptions.push_back(description);
+    _outDescriptions.clear();
+    description._portName = rootName + "stats";
+    description._portProtocol = "dd";
+    description._protocolDescription = "Two floating-point values";
+    _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AbsorberOutputService::setUpStreamDescriptions
+} // AbsorberFilterService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(AbsorberOutputService)
+DEFINE_STARTSERVICE_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -262,9 +267,9 @@ DEFINE_STARTSERVICE_(AbsorberOutputService)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // AbsorberOutputService::startService
+} // AbsorberFilterService::startService
 
-DEFINE_STARTSTREAMS_(AbsorberOutputService)
+DEFINE_STARTSTREAMS_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -276,7 +281,7 @@ DEFINE_STARTSTREAMS_(AbsorberOutputService)
                 getInletStream(0)->setReader(*_inHandler);
                 if (0 < _sampleInterval)
                 {
-                    _generator = new AbsorberOutputThread(*this, _sampleInterval);
+                    _generator = new AbsorberFilterThread(*this, _sampleInterval);
                     if (_generator->start())
                     {
                         setActive();
@@ -301,9 +306,9 @@ DEFINE_STARTSTREAMS_(AbsorberOutputService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputService::startStreams
+} // AbsorberFilterService::startStreams
 
-DEFINE_STOPSERVICE_(AbsorberOutputService)
+DEFINE_STOPSERVICE_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -319,9 +324,9 @@ DEFINE_STOPSERVICE_(AbsorberOutputService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // AbsorberOutputService::stopService
+} // AbsorberFilterService::stopService
 
-DEFINE_STOPSTREAMS_(AbsorberOutputService)
+DEFINE_STOPSTREAMS_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -347,25 +352,40 @@ DEFINE_STOPSTREAMS_(AbsorberOutputService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputService::stopStreams
+} // AbsorberFilterService::stopStreams
 
-void AbsorberOutputService::reportMessageRate(void)
+void AbsorberFilterService::reportMessageRate(void)
 {
     OD_LOG_OBJENTER(); //####
     if (0 <= _lastCount)
     {
-        double byteDelta = static_cast<double>(_totalBytes - _lastBytes);
-        double countDelta = _count - _lastCount;
-        double messageRate = (countDelta / _sampleInterval);
-        double byteRate = (byteDelta / _sampleInterval);
+        double           byteDelta = static_cast<double>(_totalBytes - _lastBytes);
+        double           countDelta = _count - _lastCount;
+        double           messageRate = (countDelta / _sampleInterval);
+        double           byteRate = (byteDelta / _sampleInterval);
+        GeneralChannel * outStream = getOutletStream(0);
         
         cout << "rate = " << messageRate << " messages/s, " << byteRate << " bytes/s" << endl;
+        if (outStream)
+        {
+            yarp::os::Bottle outBottle;
+            
+            outBottle.addDouble(messageRate);
+            outBottle.addDouble(byteRate);
+            if (! outStream->write(outBottle))
+            {
+                OD_LOG("(! outStream->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+                Stall();
+#endif // defined(MpM_StallOnSendProblem)
+            }
+        }
     }
     _lastCount = _count;
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputService::reportMessageRate
+} // AbsorberFilterService::reportMessageRate
 
-void AbsorberOutputService::updateCount(const size_t numBytes)
+void AbsorberFilterService::updateCount(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_L1("numBytes = ", numBytes); //####
@@ -391,7 +411,7 @@ void AbsorberOutputService::updateCount(const size_t numBytes)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // AbsorberOutputService::updateCount
+} // AbsorberFilterService::updateCount
 
 #if defined(__APPLE__)
 # pragma mark Global functions

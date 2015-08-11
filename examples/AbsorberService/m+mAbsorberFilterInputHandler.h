@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputInputHandler.h
+//  File:       m+mAbsorberFilterInputHandler.h
 //
 //  Project:    m+m
 //
 //  Contains:   The class declaration for the input channel input handler used by the Absorber
-//              output service.
+//              filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAbsorberOutputInputHandler_H_))
-# define MpMAbsorberOutputInputHandler_H_ /* Header guard */
+#if (! defined(MpMAbsorberFilterInputHandler_H_))
+# define MpMAbsorberFilterInputHandler_H_ /* Header guard */
 
 # include <m+m/m+mBaseInputHandler.h>
 
@@ -58,21 +58,21 @@ namespace MplusM
 {
     namespace Example
     {
-        class AbsorberOutputService;
+        class AbsorberFilterService;
         
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of integer values. */
-        class AbsorberOutputInputHandler : public Common::BaseInputHandler
+        class AbsorberFilterInputHandler : public Common::BaseInputHandler
         {
         public :
             
             /*! @brief The constructor.
              @param service The service that manages the message count. */
-            AbsorberOutputInputHandler(AbsorberOutputService & service);
+            AbsorberFilterInputHandler(AbsorberFilterService & service);
             
             /*! @brief The destructor. */
-            virtual ~AbsorberOutputInputHandler(void);
+            virtual ~AbsorberFilterInputHandler(void);
             
         protected :
             
@@ -80,7 +80,7 @@ namespace MplusM
             
             DECLARE_HANDLEINPUT_;
             
-            COPY_AND_ASSIGNMENT_(AbsorberOutputInputHandler);
+            COPY_AND_ASSIGNMENT_(AbsorberFilterInputHandler);
             
         public :
         
@@ -92,12 +92,12 @@ namespace MplusM
             typedef BaseInputHandler inherited;
             
             /*! @brief The service that manages the message count. */
-            AbsorberOutputService & _service;
+            AbsorberFilterService & _service;
             
-        }; // AbsorberOutputInputHandler
+        }; // AbsorberFilterInputHandler
         
     } // Example
     
 } // MplusM
 
-#endif // ! defined(MpMAbsorberOutputInputHandler_H_)
+#endif // ! defined(MpMAbsorberFilterInputHandler_H_)

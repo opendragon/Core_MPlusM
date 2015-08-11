@@ -165,13 +165,13 @@ MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/stopRegistryService.eps $(IMAGE_DIR)/stopService.eps \
 		$(IMAGE_DIR)/viewMenuNoSelection.eps $(IMAGE_DIR)/viewMenuWithSelection.eps
 
-MpMbitmapepsfiles = $(IMAGE_DIR)/configureAbsorberOutputService.eps \
+MpMbitmapepsfiles = $(IMAGE_DIR)/configureAbsorberFilterService.eps \
 		$(IMAGE_DIR)/configureBlobOutputService.eps \
 		$(IMAGE_DIR)/configureRandomBurstInputService.eps \
 		$(IMAGE_DIR)/configureRecordAsJSONOutputService.eps \
 		$(IMAGE_DIR)/configureRecordBlobOutputService.eps \
 		$(IMAGE_DIR)/configureRecordIntegersOutputService.eps \
-		$(IMAGE_DIR)/launchAbsorberOutputService.eps \
+		$(IMAGE_DIR)/launchAbsorberFilterService.eps \
 		$(IMAGE_DIR)/launchAddressService.eps \
 		$(IMAGE_DIR)/launchBlobOutputService.eps \
 		$(IMAGE_DIR)/launchEchoService.eps \
@@ -188,7 +188,7 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/configureAbsorberOutputService.eps \
 		$(IMAGE_DIR)/launchRunningSumService.eps \
 		$(IMAGE_DIR)/launchTruncateFloatFilterService.eps \
 		$(IMAGE_DIR)/launchTunnelService.eps \
-		$(IMAGE_DIR)/runningAbsorberOutputService.eps \
+		$(IMAGE_DIR)/runningAbsorberFilterService.eps \
 		$(IMAGE_DIR)/runningAddressService.eps \
 		$(IMAGE_DIR)/runningBlobOutputService.eps \
 		$(IMAGE_DIR)/runningEchoService.eps \

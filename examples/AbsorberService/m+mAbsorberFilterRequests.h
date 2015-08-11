@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mAbsorberOutputRequests.h
+//  File:       m+mAbsorberFilterRequests.h
 //
 //  Project:    m+m
 //
-//  Contains:   The common macro definitions for requests and responses for the Absorber output
+//  Contains:   The common macro definitions for requests and responses for the Absorber filter
 //              service.
 //
 //  Written by: Norman Jaffe
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMAbsorberOutputRequests_H_))
-# define MpMAbsorberOutputRequests_H_ /* Header guard */
+#if (! defined(MpMAbsorberFilterRequests_H_))
+# define MpMAbsorberFilterRequests_H_ /* Header guard */
 
 # include <m+m/m+mRequests.h>
 
@@ -48,13 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the Absorber output
+ @brief The common macro definitions for requests and responses for the Absorber filter
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the Absorber output service. */
-# define MpM_ABSORBEROUTPUT_CANONICAL_NAME_ "AbsorberOutput"
+/*! @brief The channel-independent name of the Absorber filter service. */
+# define MpM_ABSORBERFILTER_CANONICAL_NAME_ "AbsorberFilter"
 
-#endif // ! defined(MpMAbsorberOutputRequests_H_)
+#endif // ! defined(MpMAbsorberFilterRequests_H_)
