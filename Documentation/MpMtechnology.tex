@@ -1,0 +1,45 @@
+\ProvidesFile{MpMtechnology.tex}[v1.0.0]
+\primaryStart{The Technology of \mplusm}
+\objDiagram{mpm_images/MpMmpmDiagram}{mpmDiagram}{\mplusm{} structure}
+\condPage{}
+Figure \objDiagramRef{mpmDiagram} shows the logical organization of an \mplusm{}
+installation, with some of the `physical' elements as well.
+The brown lines represent client\longDash{}service communication, the blue lines represent
+communication with the \serviceNameR[\RS]{RegistryService} and the black lines represent
+(some of) the \yarp{} communication paths.\\
+
+All \mplusm{} programs utilize \yarp{} to facilitate communication \longDash{} it provides
+one\longDash{}to\longDash{}many output and many\longDash{}to\longDash{}one input
+mechanisms, as well as a network\longDash{}based name server.
+These input and output mechanisms are implemented via `mini\longDash{}server' code that is
+a fundamental component of \yarp.\\
+
+The `\yarp{} network' in the figure represents the aggregated TCP/IP connections that
+exist when \yarp{} is active \longDash{} \yarp{} itself does not use any special protocols
+and can operate over a variety of physical networks.\\
+
+What \mplusm{} provides is a standardized client\longDash{}service mechanism, a set of
+naming conventions for \yarp{} ports and a centralized database that is used to locate
+services within the \yarp{} network, based on attributes of the services.\\
+
+The \yarp{} Name Server is used to obtain the physical network address of each \mplusm{}
+channel, given the name of the channel.
+Once the network address is known, all communication between entities in \mplusm{} is via
+either TCP/IP or UDP packets, using \yarp{} low\longDash{}level mechanisms to manage the
+connections.\\
+
+Services perform a sequence of requests and responses with the
+\serviceNameR[\RS]{RegistryService} when they start, in order to be accessible from other
+\mplusm{} entities.
+Once started, they can receive requests from client applications, data streamed via their
+input channels, external sensors or generated algorithmically, and transmit data via their
+output channels, external transducers or files.
+Additionally, they will receive periodic requests from the
+\serviceNameR[\RS]{RegistryService}, inquiring as to their `health' and availability.\\
+
+The \emph{\MMMU} is an essential tool for \mplusm{} applications, as it provides a
+GUI\longDash{}based view into the connections within an \mplusm{} environment.
+It also periodically probes the running services, in order to maintain its visual
+representation of the state of the services, as well as to facilitate sending requests to
+the services.
+\primaryEnd{}
