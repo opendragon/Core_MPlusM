@@ -6,6 +6,21 @@ It is also possible to build a customized \mplusm{} from the source files, which
 done if the \asCode{Developer} package has also been installed.
 \secondaryStart{Prerequisites}
 \tertiaryStart{General~prerequisites}
+In order to successfully build all the pieces for \mplusm{}, it is important that the
+latest version of the installer is run first, selecting the \asCode{Developer} package (on
+Macintosh OS X) of \asCode{Optional} component (on Microsoft Windows).
+If the installer is not run, some of the optional services may fail to build, as they
+depend on pieces that are outside of the \mplusm{} source code but that are installed when
+\mplusm{} is installed.\\
+
+For example, the JavaScript Input / Output service uses the \textbf{SpiderMonkey} engine
+to support \compLang{JavaScript}-based services, but only the minimum files needed for it
+are installed by default \longDash{} in order to build the JavaScript Input / Output
+service, the header files for \textbf{SpiderMonkey}, at least, must be installed.
+Other non\longDash{}core services may not build at all, since the files that they require
+are not Open Source and, thus, can't be built by the end\longDash{}user, but must be
+installed at some point \longDash{} which is what the distribution packages do.\\
+
 At a minimum, the source files from the \asCode{Developer} package must be present on the
 system, along with a \compLang{C++} development environment.
 Note that the source files are provided as \textbf{ZIP} archive files that contain a
@@ -314,10 +329,10 @@ window
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
-\textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript
-service or \mplusm{}; the files needed to compile and link with \textbf{SpiderMonkey} are
-installed as part of the normal \mplusm{} installation procedure, so it's not necessary to
-rebuild \textbf{SpiderMonkey}.
+\textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript Input /
+Output service of \mplusm{}; the files needed to compile and link with
+\textbf{SpiderMonkey} are installed as part of the normal \mplusm{} installation
+procedure, so it's not necessary to rebuild \textbf{SpiderMonkey}.
 The source files are not provided with the \asCode{Developer} package, but can be obtained
 via the instructions on the web\longDash{}page
 \companyReference{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/%
