@@ -238,8 +238,14 @@ DEFINE_STARTSTREAMS_(ProComp2InputService)
         if (! isActive())
         {
 			_eventThread = new ProComp2InputThread(getOutletStream(0));
-			_eventThread->start();
-            setActive();
+			if (_eventThread->start())
+            {
+                setActive();
+            }
+            else
+            {
+                cerr << "Could not start auxiliary thread." << endl;
+            }
         }
     }
     catch (...)

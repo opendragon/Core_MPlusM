@@ -546,6 +546,7 @@ DEFINE_STARTSTREAMS_(JavaScriptService)
 				if (! _generator->start())
 				{
 					OD_LOG("(! _generator->start())"); //####
+                    cerr << "Could not start auxiliary thread." << endl;
 					delete _generator;
 					_generator = NULL;
 				}

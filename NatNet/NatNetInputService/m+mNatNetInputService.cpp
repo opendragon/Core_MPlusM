@@ -64,6 +64,8 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::NatNet;
+using std::cerr;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -124,7 +126,7 @@ DEFINE_CONFIGURE_(NatNetInputService)
     
     try
     {
-		if (3 == details.size())
+		if (3 > details.size())
 		{
 			yarp::os::Value firstValue(details.get(0));
 			yarp::os::Value secondValue(details.get(1));
@@ -150,8 +152,20 @@ DEFINE_CONFIGURE_(NatNetInputService)
 					setExtraInformation(buff.str());
 					result = true;
 				}
+                else
+                {
+                    cerr << "One or more inputs are out of range." << endl;
+                }
 			}
+            else
+            {
+                cerr << "One or more inputs have the wrong type." << endl;
+            }
 		}
+        else
+        {
+            cerr << "Missing input(s)." << endl;
+        }
 	}
     catch (...)
     {
@@ -265,6 +279,7 @@ DEFINE_STARTSTREAMS_(NatNetInputService)
 			else
 			{
 				OD_LOG("! (_eventThread->start())"); //####
+                cerr << "Could not start auxiliary thread." << endl;
 				delete _eventThread;
 				_eventThread = NULL;
 			}

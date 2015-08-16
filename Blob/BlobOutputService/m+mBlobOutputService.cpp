@@ -265,6 +265,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
 #if MAC_OR_LINUX_
                 if (INVALID_SOCKET == listenSocket)
 				{
+                    cerr << "Could not create socket." << endl;
 				}
 				else
                 {
@@ -277,6 +278,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                     if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
                              sizeof(addr)))
 					{
+                        cerr << "Could not bind to socket." << endl;
 					}
 					else
                     {
@@ -284,6 +286,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                         _networkSocket = accept(listenSocket, 0, 0);
                         if (INVALID_SOCKET == _networkSocket)
 						{
+                            cerr << "Could not accept connection." << endl;
 						}
 						else
                         {
@@ -308,7 +311,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                         
                         if (INVALID_SOCKET == listenSocket)
 						{
-							cerr << "problem creating socket" << endl; //!!!!
+                            cerr << "Could not create socket." << endl;
 						}
 						else
                         {
@@ -322,7 +325,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                                                      reinterpret_cast<LPSOCKADDR>(&addr),
                                                      sizeof(addr)))
 							{
-								cerr << "problem binding to socket" << endl; //!!!!
+                                cerr << "Could not create socket." << endl;
 							}
 							else
                             {
@@ -332,7 +335,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                                 _networkSocket = accept(listenSocket, 0, 0);
                                 if (INVALID_SOCKET == _networkSocket)
 								{
-									cerr << "problem accepting a connection" << endl; //!!!!
+                                    cerr << "Could not accept connection." << endl;
 								}
 								else
                                 {

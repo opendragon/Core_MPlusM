@@ -247,6 +247,7 @@ DEFINE_STARTSTREAMS_(KinectV2InputService)
 			else
 			{
 				OD_LOG("! (_eventThread->start())"); //####
+                cerr << "Could not start auxiliary thread." << endl;
 				delete _eventThread;
 				_eventThread = NULL;
 			}

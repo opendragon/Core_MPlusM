@@ -124,7 +124,7 @@ DEFINE_HANDLE_INPUT_(BlobOutputInputHandler)
         {
             if (INVALID_SOCKET == _outSocket)
             {
-                cerr << "invalid socket" << endl; //!!!!
+                cerr << "Invalid socket." << endl;
             }
             else
             {
@@ -149,17 +149,17 @@ DEFINE_HANDLE_INPUT_(BlobOutputInputHandler)
                         }
                         else
                         {
-                            cerr << "Bad blob" << endl; //!!!!
+                            cerr << "Bad blob." << endl;
                         }
                     }
                     else
                     {
-                        cerr << "Input not just a blob" << endl; //!!!!
+                        cerr << "Input not just a blob." << endl;
                     }
                 }
                 else
                 {
-                    cerr << "Input not just a single blob" << endl; //!!!!
+                    cerr << "Input not just a single blob." << endl;
                 }
             }
         }

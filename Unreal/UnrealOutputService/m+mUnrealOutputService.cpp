@@ -131,7 +131,7 @@ DEFINE_CONFIGURE_(UnrealOutputService)
     
     try
     {
-        if (2 == details.size())
+        if (2 > details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
@@ -147,6 +147,14 @@ DEFINE_CONFIGURE_(UnrealOutputService)
                 setExtraInformation(buff.str());
                 result = true;
             }
+            else
+            {
+                cerr << "One or more inputs have the wrong type." << endl;
+            }
+        }
+        else
+        {
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)
@@ -285,6 +293,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
 #if MAC_OR_LINUX_
                 if (INVALID_SOCKET == listenSocket)
 				{
+                    cerr << "Could not create socket." << endl;
 				}
 				else
                 {
@@ -297,6 +306,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                     if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
                              sizeof(addr)))
 					{
+                        cerr << "Could not bind to socket." << endl;
 					}
 					else
                     {
@@ -304,6 +314,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                         _networkSocket = accept(listenSocket, 0, 0);
                         if (INVALID_SOCKET == _networkSocket)
 						{
+                            cerr << "Could not accept connection." << endl;
 						}
 						else
                         {
@@ -321,7 +332,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
 #else // ! MAC_OR_LINUX_
                 if (WSAStartup(wVersionRequested, &ww))
 				{
-					cerr << "could not start up WSA" << endl; //!!!!
+					cerr << "Could not start up WSA" << endl;
 				}
 				else
                 {
@@ -332,7 +343,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                         
                         if (INVALID_SOCKET == listenSocket)
 						{
-							cerr << "problem creating socket" << endl; //!!!!
+                            cerr << "Could not create socket." << endl;
 						}
 						else
                         {
@@ -346,7 +357,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                                                      reinterpret_cast<LPSOCKADDR>(&addr),
                                                      sizeof(addr)))
 							{
-								cerr << "problem binding to socket" << endl; //!!!!
+                                cerr << "Could not bind to socket." << endl;
 							}
 							else
                             {
@@ -356,7 +367,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                                 _networkSocket = accept(listenSocket, 0, 0);
                                 if (INVALID_SOCKET == _networkSocket)
 								{
-									cerr << "problem accepting a connection" << endl; //!!!!
+                                    cerr << "Could not accept connection." << endl;
 								}
 								else
                                 {

@@ -64,6 +64,8 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Exemplar;
+using std::cerr;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -123,7 +125,7 @@ DEFINE_CONFIGURE_(ExemplarInputService)
     
     try
     {
-        if (2 == details.size())
+        if (2 > details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
@@ -143,7 +145,19 @@ DEFINE_CONFIGURE_(ExemplarInputService)
                     setExtraInformation(buff.str());
                     result = true;
                 }
+                else
+                {
+                    cerr << "One or more inputs are out of range." << endl;
+                }
             }
+            else
+            {
+                cerr << "One or more inputs have the wrong type." << endl;
+            }
+        }
+        else
+        {
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)
@@ -249,8 +263,14 @@ DEFINE_STARTSTREAMS_(ExemplarInputService)
         if (! isActive())
         {
             _generator = new ExemplarInputThread(getOutletStream(0), _burstPeriod, _burstSize);
-            _generator->start();
-            setActive();
+            if (_generator->start())
+            {
+                setActive();
+            }
+            else
+            {
+                cerr << "Could not start auxiliary thread." << endl;
+            }
         }
     }
     catch (...)

@@ -64,6 +64,8 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::LeapBlob;
+using std::cerr;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -128,7 +130,7 @@ DEFINE_CONFIGURE_(LeapBlobInputService)
     
     try
     {
-        if (1 == details.size())
+        if (1 > details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             
@@ -148,6 +150,14 @@ DEFINE_CONFIGURE_(LeapBlobInputService)
                 setExtraInformation(buff.str());
                 result = true;
             }
+            else
+            {
+                cerr << "One or more inputs have the wrong type." << endl;
+            }
+        }
+        else
+        {
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)

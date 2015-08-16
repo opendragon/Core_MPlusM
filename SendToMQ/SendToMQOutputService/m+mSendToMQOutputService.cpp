@@ -147,7 +147,7 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     
     try
     {
-        if (5 == details.size())
+        if (5 > details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));
@@ -185,7 +185,19 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
                     setExtraInformation(buff.str());
                     result = true;
                 }
+                else
+                {
+                    cerr << "One or more inputs are out of range." << endl;
+                }
             }
+            else
+            {
+                cerr << "One or more inputs have the wrong type." << endl;
+            }
+        }
+        else
+        {
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)
@@ -366,12 +378,20 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
                     {
                         _session = _connection->createSession(cms::Session::AUTO_ACKNOWLEDGE);
                     }
+                    if (! _session)
+                    {
+                        cerr << "Could not create session." << endl;
+                    }
                 }
                 catch (cms::CMSException & )
                 {
                     // This likely to be a bad password or user name.
                     OD_LOG("CMSException caught."); //####
                 }
+            }
+            else
+            {
+                cerr << "Could not create connection." << endl;
             }
             if (_session)
             {
@@ -381,16 +401,28 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
 #else // ! USE_TOPICS_
                 _destination = _session->createQueue(_topicOrQueueName);
 #endif // ! USE_TOPICS_
+                if (! _destination)
+                {
+#if USE_TOPICS_
+                    cerr << "Could not create topic." << endl;
+#else // ! USE_TOPICS_
+                    cerr << "Could not create queue." << endl;
+#endif // ! USE_TOPICS_
+                }
             }
             if (_destination)
             {
                 OD_LOG("(_destination)"); //####
                 _producer = _session->createProducer(_destination);
-                _producer->setDeliveryMode(cms::DeliveryMode::NON_PERSISTENT);
+                if (! _producer)
+                {
+                    cerr << "Could not create producer." << endl;
+                }
             }
             if (_producer)
             {
                 OD_LOG("(_producer)"); //####
+                _producer->setDeliveryMode(cms::DeliveryMode::NON_PERSISTENT);
                 if (_inHandler)
                 {
                     getInletStream(0)->setReader(*_inHandler);

@@ -65,6 +65,8 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
+using std::cerr;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -142,6 +144,14 @@ DEFINE_CONFIGURE_(RecordIntegersOutputService)
                                     YarpString("'"));
                 result = true;
             }
+            else
+            {
+                cerr << "Input not just a string." << endl;
+            }
+        }
+        else
+        {
+            cerr << "Input not just a string." << endl;            
         }
     }
     catch (...)
@@ -253,6 +263,10 @@ DEFINE_STARTSTREAMS_(RecordIntegersOutputService)
                     fclose(_outFile);
                     _outFile = NULL;
                 }
+            }
+            else
+            {
+                cerr << "Could not open file '" << _outPath.c_str() << "' for writing." << endl;                
             }
         }
     }

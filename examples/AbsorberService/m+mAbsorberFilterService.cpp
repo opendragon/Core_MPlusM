@@ -66,6 +66,7 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Example;
+using std::cerr;
 using std::cout;
 using std::endl;
 
@@ -163,7 +164,7 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
     
     try
     {
-        if (1 == details.size())
+        if (1 > details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             
@@ -180,7 +181,19 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
                     setExtraInformation(buff.str());
                     result = true;
                 }
+                else
+                {
+                    cerr << "One or more inputs are out of range." << endl;
+                }
             }
+            else
+            {
+                cerr << "One or more inputs have the wrong type." << endl;
+            }
+        }
+        else
+        {
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)
@@ -289,6 +302,7 @@ DEFINE_STARTSTREAMS_(AbsorberFilterService)
                     else
                     {
                         OD_LOG("! (generator->start())"); //####
+                        cerr << "Could not start auxiliary thread." << endl;
                         delete _generator;
                         _generator = NULL;
                     }
