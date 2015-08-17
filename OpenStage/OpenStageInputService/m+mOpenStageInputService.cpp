@@ -127,7 +127,7 @@ DEFINE_CONFIGURE_(OpenStageInputService)
     
     try
     {
-        if (2 > details.size())
+        if (2 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));

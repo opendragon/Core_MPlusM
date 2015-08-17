@@ -147,7 +147,7 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     
     try
     {
-        if (5 > details.size())
+        if (5 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));

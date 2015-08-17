@@ -136,7 +136,7 @@ DEFINE_CONFIGURE_(KinectV2BlobInputService)
     
     try
     {
-        if (1 > details.size())
+        if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
 

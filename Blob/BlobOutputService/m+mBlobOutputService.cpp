@@ -127,7 +127,7 @@ DEFINE_CONFIGURE_(BlobOutputService)
     
     try
     {
-        if (1 == details.size())
+        if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             
@@ -140,6 +140,14 @@ DEFINE_CONFIGURE_(BlobOutputService)
                 setExtraInformation(buff.str());
                 result = true;
             }
+            else
+            {
+                cerr << "One or more inputs have the wrong type." << endl;
+            }
+        }
+        else
+        {
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)

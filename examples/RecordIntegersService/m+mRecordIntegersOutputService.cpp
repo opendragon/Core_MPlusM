@@ -132,7 +132,7 @@ DEFINE_CONFIGURE_(RecordIntegersOutputService)
     
     try
     {
-        if (1 == details.size())
+        if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             
@@ -146,12 +146,12 @@ DEFINE_CONFIGURE_(RecordIntegersOutputService)
             }
             else
             {
-                cerr << "Input not just a string." << endl;
+                cerr << "One or more inputs have the wrong type." << endl;
             }
         }
         else
         {
-            cerr << "Input not just a string." << endl;            
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)

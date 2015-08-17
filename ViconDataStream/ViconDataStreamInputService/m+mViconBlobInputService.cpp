@@ -128,7 +128,7 @@ DEFINE_CONFIGURE_(ViconBlobInputService)
     
     try
     {
-        if (3 > details.size())
+        if (3 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             yarp::os::Value secondValue(details.get(1));

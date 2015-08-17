@@ -131,7 +131,7 @@ DEFINE_CONFIGURE_(RecordAsJSONOutputService)
     
     try
     {
-        if (1 > details.size())
+        if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             

@@ -129,7 +129,7 @@ DEFINE_CONFIGURE_(RecordBlobOutputService)
     
     try
     {
-        if (1 == details.size())
+        if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
             
@@ -143,12 +143,12 @@ DEFINE_CONFIGURE_(RecordBlobOutputService)
             }
             else
             {
-                cerr << "Input not just a string." << endl;
+                cerr << "One or more inputs have the wrong type." << endl;
             }
         }
         else
         {
-            cerr << "Input not just a single string." << endl;
+            cerr << "Missing input(s)." << endl;
         }
     }
     catch (...)

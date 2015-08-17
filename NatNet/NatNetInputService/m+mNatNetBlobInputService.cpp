@@ -129,7 +129,7 @@ DEFINE_CONFIGURE_(NatNetBlobInputService)
     
     try
     {
-		if (4 > details.size())
+		if (4 <= details.size())
 		{
 			yarp::os::Value firstValue(details.get(0));
 			yarp::os::Value secondValue(details.get(1));
