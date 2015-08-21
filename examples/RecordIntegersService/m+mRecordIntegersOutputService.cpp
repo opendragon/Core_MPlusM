@@ -242,10 +242,14 @@ DEFINE_STARTSTREAMS_(RecordIntegersOutputService)
     {
         if (! isActive())
         {
+            int why;
+
 #if MAC_OR_LINUX_
             _outFile = fopen(_outPath.c_str(), "w");
+            why = errno;
 #else // ! MAC_OR_LINUX_
-            if (! fopen_s(&_outFile, _outPath.c_str(), "w"))
+            why = fopen_s(&_outFile, _outPath.c_str(), "w");
+            if (why)
             {
                 _outFile = NULL;
             }
@@ -266,7 +270,8 @@ DEFINE_STARTSTREAMS_(RecordIntegersOutputService)
             }
             else
             {
-                cerr << "Could not open file '" << _outPath.c_str() << "' for writing." << endl;                
+                cerr << "Could not open file '" << _outPath.c_str() <<
+                    "' for writing, error code = " << why << "." << endl;
             }
         }
     }
