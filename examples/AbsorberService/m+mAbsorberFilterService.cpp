@@ -396,6 +396,7 @@ void AbsorberFilterService::reportMessageRate(void)
         }
     }
     _lastCount = _count;
+    _lastBytes = _totalBytes;
     OD_LOG_OBJEXIT(); //####
 } // AbsorberFilterService::reportMessageRate
 
