@@ -691,6 +691,15 @@
 		DFEF4B611A1CE6F900FBB838 /* m+mUnrealOutputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mUnrealOutputService.h"; path = "Unreal/UnrealOutputService/m+mUnrealOutputService.h"; sourceTree = SOURCE_ROOT; };
 		DFEF4B621A1CE6F900FBB838 /* m+mUnrealOutputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mUnrealOutputServiceMain.cpp"; path = "Unreal/UnrealOutputService/m+mUnrealOutputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DFEF4BB01A24FE8800FBB838 /* ODLogging.i */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c.preprocessed; name = ODLogging.i; path = odl/swig_odl_in/ODLogging.i; sourceTree = SOURCE_ROOT; };
+		DFEF83D71B8B5B8A00C0ACDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = examples/PlaybackFromJSONService/CMakeLists.txt; sourceTree = "<group>"; };
+		DFEF83D81B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mPlaybackFromJSONInputRequests.h"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputRequests.h"; sourceTree = "<group>"; };
+		DFEF83D91B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlaybackFromJSONInputService.cpp"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputService.cpp"; sourceTree = "<group>"; };
+		DFEF83DA1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mPlaybackFromJSONInputService.h"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputService.h"; sourceTree = "<group>"; };
+		DFEF83DB1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mPlaybackFromJSONInputService.rc.in"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputService.rc.in"; sourceTree = "<group>"; };
+		DFEF83DC1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlaybackFromJSONInputServiceMain.cpp"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputServiceMain.cpp"; sourceTree = "<group>"; };
+		DFEF83DD1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlaybackFromJSONInputThread.cpp"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputThread.cpp"; sourceTree = "<group>"; };
+		DFEF83DE1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mPlaybackFromJSONInputThread.h"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputThread.h"; sourceTree = "<group>"; };
+		DFEF83DF1B8B5B8A00C0ACDD /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/PlaybackFromJSONService/resource.h; sourceTree = "<group>"; };
 		DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/KinectV2InputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD819D9A4B900BBD7A7 /* m+mKinectV2EventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2EventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2EventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1988,6 +1997,7 @@
 				DFA3432018C91BF40053B87C /* EchoClient */,
 				DF7784F918ECA5EA00BDC5C1 /* EchoCommon */,
 				DFA3431B18C91BD10053B87C /* EchoService */,
+				DFEF83D61B8B5B5200C0ACDD /* PlaybackFromJSONService */,
 				DF36EF04195A280900E7D889 /* RandomBurstService */,
 				DF30062A18E4744400B51C22 /* RandomNumberAdapter */,
 				DFA3437E18C91E040053B87C /* RandomNumberClient */,
@@ -2253,6 +2263,22 @@
 			);
 			name = swig_odl_in;
 			sourceTree = SOURCE_ROOT;
+		};
+		DFEF83D61B8B5B5200C0ACDD /* PlaybackFromJSONService */ = {
+			isa = PBXGroup;
+			children = (
+				DFEF83D71B8B5B8A00C0ACDD /* CMakeLists.txt */,
+				DFEF83D81B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputRequests.h */,
+				DFEF83D91B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputService.cpp */,
+				DFEF83DA1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputService.h */,
+				DFEF83DB1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputService.rc.in */,
+				DFEF83DC1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputServiceMain.cpp */,
+				DFEF83DD1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputThread.cpp */,
+				DFEF83DE1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputThread.h */,
+				DFEF83DF1B8B5B8A00C0ACDD /* resource.h */,
+			);
+			name = PlaybackFromJSONService;
+			sourceTree = "<group>";
 		};
 		DFFFBFD219D9A40600BBD7A7 /* KinectV2 */ = {
 			isa = PBXGroup;

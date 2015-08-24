@@ -39,7 +39,3 @@
 * if all the optional arguments to a service are supplied - required must have already been satisfied - then launching the service should do a validate / configure, setting the ‘configured’ flag, so that the ‘b’ command doesn’t ask for the arguments again; the ‘-g’ option only needs to be used if the default arguments are fine
 
 * every service has a hidden ‘pong’ udp port that sends activity message to managers; frequency of update is a global constant - use Absorber service as a prototype - flags for each input and output port, so all m+m channels can be reported, not just output ports; maybe some form of compressed encodings
-
-* PlaybackJSONInputService; use timestamps to regulate the rate, have a rate multiplier as a parameter, read the whole file in before starting
-
-* Absorber doesn’t appear to work correctly on Windows 8

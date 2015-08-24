@@ -318,6 +318,8 @@ m+mOpenStageInputService
 m+mOpenStageInputService.rc
 m+mParserTest
 m+mParserTest.rc
+m+mPlaybackFromJSONInputService
+m+mPlaybackFromJSONInputService.rc
 m+mPortLister
 m+mPortLister.rc
 m+mProComp2InputService

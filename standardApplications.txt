@@ -16,6 +16,7 @@ m+mNatNetBlobInputService
 m+mNatNetInputService
 m+mOpenStageBlobInputService
 m+mOpenStageInputService
+m+mPlaybackFromJSONInputService
 m+mProComp2InputService
 m+mRandomBurstInputService
 m+mRandomNumberService

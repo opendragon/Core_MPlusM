@@ -85,7 +85,7 @@ using namespace MplusM::RecordAsJSON;
 #endif // defined(__APPLE__)
 
 RecordAsJSONOutputInputHandler::RecordAsJSONOutputInputHandler(void) :
-    inherited(), _outFile(NULL)
+    inherited(), _outFile(NULL), _isFirst(true)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(this); //####
@@ -146,6 +146,11 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
 #endif // ! defined(MpM_UseCustomStringBuffer)
             if (outString && outLength)
             {
+                if (! _isFirst)
+                {
+                    fputs(", ", _outFile);
+                }
+                _isFirst = false;
                 fwrite(outString, 1, outLength, _outFile);
                 fflush(_outFile);
             }
@@ -167,6 +172,15 @@ void RecordAsJSONOutputInputHandler::setFile(FILE * outFile)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("outFile = ", outFile); //####
+    if (outFile)
+    {
+        fputs("[ ", outFile);
+        _isFirst = true;
+    }
+    else if (_outFile)
+    {
+        fputs(" ]", _outFile);
+    }
     _outFile = outFile;
     OD_LOG_OBJEXIT(); //####
 } // RecordAsJSONOutputInputHandler::setFile

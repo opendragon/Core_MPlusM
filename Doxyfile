@@ -933,7 +933,10 @@ EXCLUDE                = CMakeFiles \
                          OpenStage/CMakeFiles \
                          SendToMQ/CMakeFiles \
                          SendToMQ/SendToMQOutputService/CMakeFiles \
-                         "not used"
+                         "not used" \
+                         examples/PlaybackFromJSONService/CMakeFiles \
+                         examples/TruncateFloatService/CMakeFiles \
+                         examples/PlaybackFromJSONService/rapidjson
 
 # The EXCLUDE_SYMLINKS tag can be used to select whether or not files or
 # directories that are symbolic links (a Unix file system feature) are excluded

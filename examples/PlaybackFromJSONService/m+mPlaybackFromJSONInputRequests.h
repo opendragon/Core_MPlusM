@@ -1,15 +1,15 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mRecordAsJSONOutputInputHandler.h
+//  File:       m+mPlaybackFromJSONInputRequests.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the input channel input handler used by the Record
-//              As JSON output service.
+//  Contains:   The common macro definitions for requests and responses for the Playback From JSON
+//              input service.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,15 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-11-26
+//  Created:    2015-08-24
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRecordAsJSONOutputInputHandler_H_))
-# define MpMRecordAsJSONOutputInputHandler_H_ /* Header guard */
+#if (! defined(MpMPlaybackFromJSONInputRequests_H_))
+# define MpMPlaybackFromJSONInputRequests_H_ /* Header guard */
 
-# include <m+m/m+mBaseInputHandler.h>
-# include <m+m/m+mStringBuffer.h>
+# include <m+m/m+mRequests.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -49,66 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the input channel input handler used by the Record As JSON output
+ @brief The common macro definitions for requests and responses for the Playback From JSON input
  service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-namespace MplusM
-{
-    namespace RecordAsJSON
-    {
-        /*! @brief A handler for partially-structured input data.
-         
-         The data is expected to be in the form of arbitrary YARP messages. */
-        class RecordAsJSONOutputInputHandler : public Common::BaseInputHandler
-        {
-        public :
-            
-            /*! @brief The constructor. */
-            RecordAsJSONOutputInputHandler(void);
-            
-            /*! @brief The destructor. */
-            virtual ~RecordAsJSONOutputInputHandler(void);
-            
-            /*! @brief Set the file to be written to.
-             @param outFile The file to be written to. */
-            void setFile(FILE * outFile);
-            
-        protected :
-            
-        private :
-            
-            DECLARE_HANDLEINPUT_;
-            
-            COPY_AND_ASSIGNMENT_(RecordAsJSONOutputInputHandler);
-            
-        public :
-        
-        protected :
-        
-        private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
-            
-# if defined(MpM_UseCustomStringBuffer)
-            /*! @brief The buffer to hold the output data. */
-            Common::StringBuffer _outBuffer;
-# endif // defined(MpM_UseCustomStringBuffer)
+/*! @brief The channel-independent name of the Playback From JSON input service. */
+# define MpM_PLAYBACKFROMJSONINPUT_CANONICAL_NAME_ "PlaybackFromJSONInput"
 
-            /*! @brief The file that is to be written to. */
-            FILE * _outFile;
-            
-            /*! @brief @c true if the next output will be the first output written and @c false
-             otherwise. */
-            bool _isFirst;
-            
-        }; // RecordAsJSONOutputInputHandler
-        
-    } // RecordAsJSON
-    
-} // MplusM
-
-#endif // ! defined(MpMRecordAsJSONOutputInputHandler_H_)
+#endif // ! defined(MpMPlaybackFromJSONInputRequests_H_)

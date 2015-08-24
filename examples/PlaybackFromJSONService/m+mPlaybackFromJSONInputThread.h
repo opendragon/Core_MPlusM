@@ -1,15 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mRecordAsJSONOutputInputHandler.h
+//  File:       m+mPlaybackFromJSONInputThread.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the input channel input handler used by the Record
-//              As JSON output service.
+//  Contains:   The class declaration for an output-generating thread for m+m.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -33,15 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-11-26
+//  Created:    2015-08-24
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMRecordAsJSONOutputInputHandler_H_))
-# define MpMRecordAsJSONOutputInputHandler_H_ /* Header guard */
+#if (! defined(MpMPlaybackFromJSONInputThread_H_))
+# define MpMPlaybackFromJSONInputThread_H_ /* Header guard */
 
-# include <m+m/m+mBaseInputHandler.h>
-# include <m+m/m+mStringBuffer.h>
+# include <m+m/m+mGeneralChannel.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -49,40 +47,51 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the input channel input handler used by the Record As JSON output
- service. */
+ @brief The class declaration for an output-generating thread for m+m. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
 namespace MplusM
 {
-    namespace RecordAsJSON
+    namespace PlaybackFromJSON
     {
-        /*! @brief A handler for partially-structured input data.
-         
-         The data is expected to be in the form of arbitrary YARP messages. */
-        class RecordAsJSONOutputInputHandler : public Common::BaseInputHandler
+        /*! @brief A convenience class to generate output. */
+        class PlaybackFromJSONInputThread : public yarp::os::Thread
         {
         public :
             
-            /*! @brief The constructor. */
-            RecordAsJSONOutputInputHandler(void);
+            /*! @brief The constructor.
+             @param outChannel The channel to send data bursts to.
+             @param outMessage The data to be used.
+             @param playbackRatio The speed at which to send data.
+             @param initialDelay The number of seconds to delay before the first message send. */
+            PlaybackFromJSONInputThread(Common::GeneralChannel * outChannel,
+                                        yarp::os::Bottle &       outMessage,
+                                        const double             playbackRatio,
+                                        const double             initialDelay);
             
             /*! @brief The destructor. */
-            virtual ~RecordAsJSONOutputInputHandler(void);
+            virtual ~PlaybackFromJSONInputThread(void);
             
-            /*! @brief Set the file to be written to.
-             @param outFile The file to be written to. */
-            void setFile(FILE * outFile);
+            /*! @brief Stop using the output channel. */
+            void clearOutputChannel(void);
             
         protected :
             
         private :
             
-            DECLARE_HANDLEINPUT_;
+            /*! @brief The thread main body. */
+            virtual void run(void);
             
-            COPY_AND_ASSIGNMENT_(RecordAsJSONOutputInputHandler);
+            /*! @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            virtual bool threadInit(void);
+            
+            /*! @brief The thread termination method. */
+            virtual void threadRelease(void);
+            
+            COPY_AND_ASSIGNMENT_(PlaybackFromJSONInputThread);
             
         public :
         
@@ -91,24 +100,30 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
+            typedef yarp::os::Thread inherited;
             
-# if defined(MpM_UseCustomStringBuffer)
-            /*! @brief The buffer to hold the output data. */
-            Common::StringBuffer _outBuffer;
-# endif // defined(MpM_UseCustomStringBuffer)
-
-            /*! @brief The file that is to be written to. */
-            FILE * _outFile;
+            /*! @brief The data to be used. */
+            yarp::os::Bottle & _outMessage;
             
-            /*! @brief @c true if the next output will be the first output written and @c false
-             otherwise. */
-            bool _isFirst;
+            /*! @brief The channel to send data bursts to. */
+            Common::GeneralChannel * _outChannel;
             
-        }; // RecordAsJSONOutputInputHandler
+            /*! @brief The initial delay. */
+            double _initialDelay;
+            
+            /*! @brief The time at which the thread will send data. */
+            double _nextTime;
+            
+            /*! @brief The speed at which to send data. */
+            double _playbackRatio;
+            
+            /*! @brief The index of the next value to be sent. */
+            int _nextIndex;
+            
+        }; // PlaybackFromJSONInputThread
         
-    } // RecordAsJSON
+    } // PlaybackFromJSON
     
 } // MplusM
 
-#endif // ! defined(MpMRecordAsJSONOutputInputHandler_H_)
+#endif // ! defined(MpMPlaybackFromJSONInputThread_H_)

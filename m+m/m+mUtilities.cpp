@@ -1035,7 +1035,7 @@ static void processList(std::stringstream &      outBuffer,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outBuffer = ", &outBuffer, "inputList = ", &inputList); //####
 #if defined(MpM_UseCustomStringBuffer)
-    outBuffer.addString("( ");
+    outBuffer.addString("[ ");
 #else // ! defined(MpM_UseCustomStringBuffer)
     outBuffer << "( ";
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -1054,9 +1054,9 @@ static void processList(std::stringstream &      outBuffer,
         processValue(outBuffer, aValue);
     }
 #if defined(MpM_UseCustomStringBuffer)
-    outBuffer.addString(" )");
+    outBuffer.addString(" ]");
 #else // ! defined(MpM_UseCustomStringBuffer)
-    outBuffer << " )";
+    outBuffer << " ]";
 #endif // ! defined(MpM_UseCustomStringBuffer)
     OD_LOG_EXIT(); //####
 } // processList
