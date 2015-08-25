@@ -109,11 +109,11 @@ DetachRequestHandler::~DetachRequestHandler(void)
 #endif // ! MAC_OR_LINUX_
 DEFINE_FILLINALIASES_(DetachRequestHandler)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(alternateNames)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
@@ -154,11 +154,11 @@ DEFINE_FILLINDESCRIPTION_(DetachRequestHandler)
 #endif // ! MAC_OR_LINUX_
 DEFINE_PROCESSREQUEST_(DetachRequestHandler)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(request,restOfInput)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_OBJENTER(); //####
     OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####

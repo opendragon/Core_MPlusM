@@ -38,6 +38,7 @@
 
 #include "m+mPlaybackFromJSONInputService.h"
 
+#include <m+m/m+mBoolArgumentDescriptor.h>
 #include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mFilePathArgumentDescriptor.h>
@@ -66,7 +67,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::PlaybackFromJSON;
+using namespace MplusM::Example;
 using std::cerr;
 using std::cin;
 using std::cout;
@@ -85,6 +86,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the Playback From JSON input service.
+ @param inputPath The path to the data file.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
@@ -96,7 +98,8 @@ using std::endl;
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
+static void setUpAndGo(const YarpString &                  inputPath,
+                       const Utilities::DescriptorVector & argumentList,
                        const YarpString &                  progName,
                        const int                           argc,
                        char * *                            argv,
@@ -108,13 +111,15 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                        const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S4s("inputPath = ", inputPath, "progName = ", progName, "tag = ", tag,//####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    PlaybackFromJSONInputService * aService = new PlaybackFromJSONInputService(argumentList,
+    PlaybackFromJSONInputService * aService = new PlaybackFromJSONInputService(inputPath,
+                                                                               argumentList,
                                                                                progName, argc, argv,
                                                                                tag,
                                                                                serviceEndpointName,
@@ -183,11 +188,15 @@ int main(int      argc,
         Utilities::DoubleArgumentDescriptor   thirdArg("initialDelay", T_("Initial delay"),
                                                         Utilities::kArgModeOptionalModifiable, 0,
                                                         true, 0, false, 0);
+        Utilities::BoolArgumentDescriptor     fourthArg("loop", T_("Loop the playback"),
+                                                        Utilities::kArgModeOptionalModifiable,
+                                                        true);
         Utilities::DescriptorVector           argumentList;
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         argumentList.push_back(&thirdArg);
+        argumentList.push_back(&fourthArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_PLAYBACKFROMJSONINPUT_SERVICE_NAME_,
                                           PLAYBACKFROMJSONINPUT_SERVICE_DESCRIPTION_, "", 2015,
@@ -230,8 +239,9 @@ int main(int      argc,
                     {
                         tag = tagModifier;
                     }
-                    setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(inputPath, argumentList, progName, argc, argv, tag,
+                               serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
+                               reportOnExit);
                 }
                 else
                 {

@@ -204,6 +204,8 @@ namespace MplusM
          
          'A' => address
          
+         'B' => boolean
+         
          'C' => channel
          
          'D' => double
@@ -313,6 +315,14 @@ namespace MplusM
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModeOptional)));
             } // isOptional
           
+            /*! @brief Return @c true if the argument is a password and @c false otherwise.
+             @returns @c true if the argument is a password and @c false otherwise. */
+            inline bool isPassword(void)
+            const
+            {
+                return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModePassword)));
+            } // isPassword
+            
             /*! @brief Return @c true if the argument is required and @c false otherwise.
              @returns @c true if the argument is required and @c false otherwise. */
             inline bool isRequired(void)
@@ -321,13 +331,13 @@ namespace MplusM
                 return ((kArgModeUnknown != _argMode) && (0 == (_argMode & kArgModeOptional)));
             } // isRequired
             
-            /*! @brief Return @c true if the argument is a password and @c false otherwise.
-             @returns @c true if the argument is a password and @c false otherwise. */
-            inline bool isPassword(void)
+            /*! @brief Return @c true if the argument is valid and @c false otherwise.
+             @returns @c true if the argument is valid and @c false otherwise. */
+            inline bool isValid(void)
             const
             {
-                return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModePassword)));
-            } // isPassword
+                return _valid;
+            } // isValid
             
             /*! @fn virtual void setToDefaultValue(void)
              @brief Set the associated variable to the default value. */
@@ -385,6 +395,9 @@ namespace MplusM
             /*! @brief The separator string to use when converting to a string. */
             static YarpString _parameterSeparator;
         
+            /*! @brief @c true if the argument was valid and @c false otherwise. */
+            bool _valid;
+            
         private :
             
             /*! @brief The description of the command-line argument for the adapter. */
@@ -452,10 +465,12 @@ namespace MplusM
         /*! @brief Update the arguments data from the parsed argument list.
          @param arguments The argument sequence.
          @param parseResult The parsed argument list.
+         @param badArgs The list of invalid or missing arguments.
          @returns @c true if the parsed argument list matches the argument sequence and @c false
          otherwise. */
         bool ProcessArguments(const DescriptorVector & arguments,
-                              Option_::Parser &        parseResult);
+                              Option_::Parser &        parseResult,
+                              YarpString &             badArgs);
 
         /*! @brief Prompt the user for the value of each of the arguments.
          @param arguments The argument sequence.

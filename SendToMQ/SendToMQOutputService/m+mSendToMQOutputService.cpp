@@ -104,7 +104,11 @@ static std::string constructURI(const YarpString & hostName,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-SendToMQOutputService::SendToMQOutputService(const Utilities::DescriptorVector & argumentList,
+SendToMQOutputService::SendToMQOutputService(const YarpString &                  hostName,
+                                             const int                           hostPort,
+                                             const YarpString &                  userName,
+                                             const YarpString &                  userPassword,
+                                             const Utilities::DescriptorVector & argumentList,
                                              const YarpString &                  launchPath,
                                              const int                           argc,
                                              char * *                            argv,
@@ -115,15 +119,17 @@ SendToMQOutputService::SendToMQOutputService(const Utilities::DescriptorVector &
                                                                                 servicePortNumber) :
 inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CANONICAL_NAME_,
           SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-    _hostName(SELF_ADDRESS_NAME_), _hostPort(SENDTOMQOUTPUT_DEFAULT_PORT_),
+    _hostName(hostName), _password(userPassword), _userName(userName), _hostPort(hostPort),
     _inHandler(new SendToMQOutputInputHandler(*this)), _connection(NULL), _session(NULL),
     _destination(NULL), _producer(NULL)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S4s("hostName = ", hostName, "userName = ", userName, "userPassword = ", //####
+               userPassword, "launchPath = ", launchPath); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     OD_LOG_EXIT_P(this); //####
 } // SendToMQOutputService::SendToMQOutputService
 
@@ -147,48 +153,27 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     
     try
     {
-        if (5 <= details.size())
+        if (1 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
-            yarp::os::Value secondValue(details.get(1));
-            yarp::os::Value thirdValue(details.get(2));
-            yarp::os::Value fourthValue(details.get(3));
-            yarp::os::Value fifthValue(details.get(4));
             
-            if (firstValue.isString() && secondValue.isInt() && thirdValue.isString() &&
-                fourthValue.isString() && fifthValue.isString())
+            if (firstValue.isString())
             {
-                int secondNumber = secondValue.asInt();
+                std::stringstream buff;
                 
-                if (0 < secondNumber)
-                {
-                    std::stringstream buff;
-                    
-                    _hostName = firstValue.asString();
-                    OD_LOG_S1s("_hostName <- ", _hostName); //####
-                    _hostPort = secondNumber;
-                    OD_LOG_LL1("_hostPort <- ", _hostPort); //####
-                    _userName = thirdValue.asString();
-                    OD_LOG_S1s("_userName <- ", _userName); //####
-                    _password = fourthValue.asString();
-                    _topicOrQueueName = fifthValue.asString();
-                    OD_LOG_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
-                    // Don't trace the password OR report it via the GUI!!
-                    buff << "Host name is '" << _hostName.c_str() << "', host port is " <<
-                            _hostPort << ", user name is '" << _userName;
+                _topicOrQueueName = firstValue.asString();
+                OD_LOG_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
+                // Don't trace the password OR report it via the GUI!!
+                buff << "Host name is '" << _hostName.c_str() << "', host port is " << _hostPort <<
+                        ", user name is '" << _userName;
 #if USE_TOPICS_
-                    buff << ", topic is '" << _topicOrQueueName;
+                buff << ", topic is '";
 #else // ! USE_TOPICS_
-                    buff << ", queue is '" << _topicOrQueueName;
+                buff << ", queue is '";
 #endif // ! USE_TOPICS_
-                    buff << "'.";
-                    setExtraInformation(buff.str());
-                    result = true;
-                }
-                else
-                {
-                    cerr << "One or more inputs are out of range." << endl;
-                }
+                buff << _topicOrQueueName << "'.";
+                setExtraInformation(buff.str());
+                result = true;
             }
             else
             {
@@ -216,10 +201,6 @@ DEFINE_GETCONFIGURATION_(SendToMQOutputService)
     bool result = true;
     
     details.clear();
-    details.addString(_hostName);
-    details.addInt(_hostPort);
-    details.addString(_userName);
-    details.addString(""); // Don't return the password being used!!!
     details.addString(_topicOrQueueName);
     OD_LOG_OBJEXIT_B(result); //####
     return result;

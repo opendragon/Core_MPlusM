@@ -195,11 +195,11 @@ BaseService::BaseService(const ServiceKind  theKind,
     _handlerCreator(NULL), _pinger(NULL), _kind(theKind), _metricsEnabled(MEASUREMENTS_ON_),
     _started(false), _useMultipleHandlers(useMultipleHandlers)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(requestsDescription)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("launchPath = ", launchPath, "canonicalName = ", canonicalName, //####
                "description = ", description, "requestsDescription = ", requestsDescription); //####
@@ -1066,6 +1066,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Option * options = new Option_::Option[stats.options_max];
     Option_::Option * buffer = new Option_::Option[stats.buffer_max];
     Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
+    YarpString        badArgs;
     
     if (parse.error())
     {
@@ -1193,9 +1194,9 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         cout << "\t" << matchingCriteria.c_str() << "\t" << serviceDescription.c_str() << endl;
         keepGoing = false;
     }
-    else if (ProcessArguments(argumentDescriptions, parse))
+    else if (ProcessArguments(argumentDescriptions, parse, badArgs))
     {
-        OD_LOG("(ProcessArguments(argumentDescriptions, parse))"); //####
+        OD_LOG("(ProcessArguments(argumentDescriptions, parse, badArgs))"); //####
         if (options[kOptionGO])
         {
             goWasSet = true;
@@ -1245,8 +1246,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     else
     {
-        OD_LOG("! (ProcessArguments(argumentDescriptions, parse))"); //####
-        cout << "One or more invalid or missing arguments." << endl;
+        OD_LOG("! (ProcessArguments(argumentDescriptions, parse, badArgs))"); //####
+        cout << "One or more invalid or missing arguments (" << badArgs.c_str() << ")." << endl;
         keepGoing = false;
     }
     delete[] options;

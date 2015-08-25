@@ -54,7 +54,7 @@
 
 namespace MplusM
 {
-    namespace PlaybackFromJSON
+    namespace Example
     {
         /*! @brief A convenience class to generate output. */
         class PlaybackFromJSONInputThread : public yarp::os::Thread
@@ -62,14 +62,17 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
+             @param outChannel The channel to send the data to.
              @param outMessage The data to be used.
              @param playbackRatio The speed at which to send data.
-             @param initialDelay The number of seconds to delay before the first message send. */
+             @param initialDelay The number of seconds to delay before the first message send.
+             @param loopPlayback @c true if the data is to be repeated indefinitely and @c false
+             otherwise. */
             PlaybackFromJSONInputThread(Common::GeneralChannel * outChannel,
                                         yarp::os::Bottle &       outMessage,
                                         const double             playbackRatio,
-                                        const double             initialDelay);
+                                        const double             initialDelay,
+                                        const bool               loopPlayback);
             
             /*! @brief The destructor. */
             virtual ~PlaybackFromJSONInputThread(void);
@@ -120,9 +123,23 @@ namespace MplusM
             /*! @brief The index of the next value to be sent. */
             int _nextIndex;
             
+            /*! @brief @c true if the output should repeat when the end of the input is reached and
+             @c false otherwise. */
+            bool _loopPlayback;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler1[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+                        
         }; // PlaybackFromJSONInputThread
         
-    } // PlaybackFromJSON
+    } // Example
     
 } // MplusM
 

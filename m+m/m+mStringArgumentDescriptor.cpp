@@ -198,14 +198,14 @@ DEFINE_TOSTRING_(StringArgumentDescriptor)
 DEFINE_VALIDATE_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
-    bool result = true;
-    
-    if (result)
+    _valid = true;
+    OD_LOG_B1("_valid <- ", _valid); //####
+    if (_valid)
     {
         _currentValue = value;
     }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
+    OD_LOG_OBJEXIT_B(_valid); //####
+    return _valid;
 } // StringArgumentDescriptor::validate
 
 #if defined(__APPLE__)

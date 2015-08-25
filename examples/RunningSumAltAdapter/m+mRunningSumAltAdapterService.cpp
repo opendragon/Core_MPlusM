@@ -128,11 +128,11 @@ RunningSumAltAdapterService::~RunningSumAltAdapterService(void)
 #endif // ! MAC_OR_LINUX_
 DEFINE_CONFIGURE_(RunningSumAltAdapterService)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(details)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
     bool result = false;

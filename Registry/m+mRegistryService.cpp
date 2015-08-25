@@ -175,7 +175,7 @@ namespace MplusM
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if defined(OD_ENABLE_LOGGING)
+#if defined(OD_ENABLE_LOGGING_)
 /*! @brief Provide a symbolic name for an SQL status value.
  @param sqlRes The status value to be checked.
  @returns A string representing the symbolic name for the status value. */
@@ -316,7 +316,7 @@ static const char * mapStatusToStringForSQL(const int sqlRes)
     }
     return result;
 } // mapStatusToStringForSQL
-#endif // defined(OD_ENABLE_LOGGING)
+#endif // defined(OD_ENABLE_LOGGING_)
 
 /*! @brief Perform a simple operation on the database.
  @param database The database to be modified.

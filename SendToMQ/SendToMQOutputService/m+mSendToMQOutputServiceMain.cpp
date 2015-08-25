@@ -86,6 +86,10 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Set up the environment and start the %SendToMQ output service.
+ @param hostName The name of the MQ broker.
+ @param hostPort The port to connect to the MQ broker.
+ @param userName The user name for the MQ broker.
+ @param userPassword The user password for the MQ broker.
  @param argumentList Descriptions of the arguments to the executable.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
@@ -97,7 +101,11 @@ using std::endl;
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
+static void setUpAndGo(const YarpString &                  hostName,
+                       const int                           hostPort,
+                       const YarpString &                  userName,
+                       const YarpString &                  userPassword,
+                       const Utilities::DescriptorVector & argumentList,
                        const YarpString &                  progName,
                        const int                           argc,
                        char * *                            argv,
@@ -109,13 +117,15 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                        const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S4s("hostName = ", hostName, "userName = ", userName, "userPassword = ", //####
+               userPassword, "progName = ", progName); //####
+    OD_LOG_S3s("tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
-    OD_LOG_LL1("argc = ", argc); //####
+    OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    SendToMQOutputService * aService = new SendToMQOutputService(argumentList, progName, argc, argv,
+    SendToMQOutputService * aService = new SendToMQOutputService(hostName, hostPort, userName, userPassword, argumentList, progName, argc, argv,
                                                                  tag, serviceEndpointName,
                                                                  servicePortNumber);
     
@@ -215,9 +225,15 @@ int main(int      argc,
                 Initialize(progName);
                 if (Utilities::CheckForRegistryService())
                 {
+                    int        hostPort = secondArg.getCurrentValue();
+                    YarpString hostName(firstArg.getCurrentValue());
+                    YarpString userName(thirdArg.getCurrentValue());
+                    YarpString userPassword(fourthArg.getCurrentValue());
+                    
                     activemq::library::ActiveMQCPP::initializeLibrary();
-                    setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
+                    setUpAndGo(hostName, hostPort, userName, userPassword, argumentList, progName,
+                               argc, argv, tag, serviceEndpointName, servicePortNumber, goWasSet,
+                               stdinAvailable, reportOnExit);
                     activemq::library::ActiveMQCPP::shutdownLibrary();
                 }
                 else

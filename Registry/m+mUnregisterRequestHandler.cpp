@@ -149,11 +149,11 @@ DEFINE_FILLINDESCRIPTION_(UnregisterRequestHandler)
 #endif // ! MAC_OR_LINUX_
 DEFINE_PROCESSREQUEST_(UnregisterRequestHandler)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(request,senderChannel)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_OBJENTER(); //####
     OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
                "senderChannel = ", senderChannel); //####

@@ -65,7 +65,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::PlaybackFromJSON;
+using namespace MplusM::Example;
 using std::cerr;
 using std::endl;
 
@@ -393,7 +393,9 @@ static bool convertJSONtoMessage(yarp::os::Bottle &    outMessage,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-PlaybackFromJSONInputService::PlaybackFromJSONInputService(const Utilities::DescriptorVector &
+PlaybackFromJSONInputService::PlaybackFromJSONInputService(const YarpString &
+                                                                                        inputPath,
+                                                           const Utilities::DescriptorVector &
                                                                                     argumentList,
                                                            const YarpString &
                                                                                         launchPath,
@@ -407,12 +409,13 @@ PlaybackFromJSONInputService::PlaybackFromJSONInputService(const Utilities::Desc
     inherited(argumentList, launchPath, argc, argv, tag, true,
               MpM_PLAYBACKFROMJSONINPUT_CANONICAL_NAME_, PLAYBACKFROMJSONINPUT_SERVICE_DESCRIPTION_,
               "", serviceEndpointName, servicePortNumber),
-    _generator(NULL), _initialDelay(0), _playbackRatio(1)
+    _generator(NULL), _inPath(inputPath), _initialDelay(0), _playbackRatio(1), _loopPlayback(false)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_S4s("launchPath = ", launchPath, "inputPath = ", inputPath, "tag = ", tag, //####
+               "serviceEndpointName = ", serviceEndpointName); //####
+    OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
-    OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "serviceEndpointName = ", //####
-               serviceEndpointName, "servicePortNumber = ", servicePortNumber); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_EXIT_P(this); //####
 } // PlaybackFromJSONInputService::PlaybackFromJSONInputService
@@ -442,24 +445,24 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
             yarp::os::Value secondValue(details.get(1));
             yarp::os::Value thirdValue(details.get(2));
             
-            if (firstValue.isString() && secondValue.isDouble() && thirdValue.isDouble())
+            if (firstValue.isDouble() && secondValue.isDouble() && thirdValue.isInt())
             {
+                double firstNumber = firstValue.asDouble();
                 double secondNumber = secondValue.asDouble();
-                double thirdNumber = thirdValue.asDouble();
+                int    thirdNumber = thirdValue.asInt();
                 
-                _inPath = firstValue.asString();
-                OD_LOG_S1s("_inPath <- ", _inPath); //####
-                if ((0 < secondNumber) && (0 <= thirdNumber))
+                if ((0 < firstNumber) && (0 <= secondNumber))
                 {
                     std::stringstream buff;
 
-                    _playbackRatio = secondNumber;
-                    _initialDelay = thirdNumber;
+                    _playbackRatio = firstNumber;
+                    _initialDelay = secondNumber;
+                    _loopPlayback = (0 != thirdNumber);
                     buff << "Input file path is '" << _inPath.c_str() << "', playback ratio is " <<
-                            _playbackRatio << ", initial delay is " << _initialDelay;
+                            _playbackRatio << ", initial delay is " << _initialDelay <<
+                            ", playback does " << (_loopPlayback ? "loop" : "not loop");
                     setExtraInformation(buff.str());
                     result = true;
-                    
                 }
                 else
                 {
@@ -492,9 +495,9 @@ DEFINE_GETCONFIGURATION_(PlaybackFromJSONInputService)
     bool result = true;
 
     details.clear();
-    details.addString(_inPath);
     details.addDouble(_playbackRatio);
     details.addDouble(_initialDelay);
+    details.addInt(_loopPlayback ? 1 : 0);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // PlaybackFromJSONInputService::getConfiguration
@@ -555,7 +558,59 @@ DEFINE_STARTSERVICE_(PlaybackFromJSONInputService)
             inherited::startService();
             if (isStarted())
             {
-            
+                FILE * inFile;
+                int    why;
+                
+#if MAC_OR_LINUX_
+                inFile = fopen(_inPath.c_str(), "r");
+                why = errno;
+#else // ! MAC_OR_LINUX_
+                why = fopen_s(&inFile, _inPath.c_str(), "r");
+                if (why)
+                {
+                    inFile = NULL;
+                }
+#endif // ! MAC_OR_LINUX_
+                if (inFile)
+                {
+                    // Convert the JSON-formatted data into JSON structures.
+                    YarpString          dataSource;
+                    char                buffer[10240];
+                    size_t              numRead;
+                    rapidjson::Document jsonData;
+                    
+                    for ( ; ! feof(inFile); )
+                    {
+                        numRead = fread(buffer, 1, sizeof(buffer) - 1, inFile);
+                        if (numRead)
+                        {
+                            buffer[numRead] = '\0';
+                            dataSource += buffer;
+                        }
+                    }
+                    fclose(inFile);
+                    jsonData.Parse<rapidjson::kParseFullPrecisionFlag>(dataSource.c_str());
+                    if (jsonData.HasParseError())
+                    {
+                        cerr << "JSON problem at byte " << jsonData.GetErrorOffset() << " = " <<
+                                jsonData.GetParseError() << endl;
+                    }
+                    else
+                    {
+                        _outMessage.clear();
+                        if (! convertJSONtoMessage(_outMessage, jsonData))
+                        {
+                            cerr << "Could not convert JSON input to expected message format." <<
+                                    endl;
+                            _outMessage.clear();
+                        }
+                    }
+                }
+                else
+                {
+                    cerr << "Could not open file '" << _inPath.c_str() <<
+                            "' for reading, error code = " << why << "." << endl;
+                }
             }
             else
             {
@@ -579,70 +634,19 @@ DEFINE_STARTSTREAMS_(PlaybackFromJSONInputService)
     {
         if (! isActive())
         {
-            FILE * inFile;
-            int    why;
-            
-#if MAC_OR_LINUX_
-            inFile = fopen(_inPath.c_str(), "r");
-            why = errno;
-#else // ! MAC_OR_LINUX_
-            why = fopen_s(&inFile, _inPath.c_str(), "r");
-            if (why)
+            if (0 < _outMessage.size())
             {
-                inFile = NULL;
-            }
-#endif // ! MAC_OR_LINUX_
-            if (inFile)
-            {
-                // Convert the JSON-formatted data into JSON structures.
-                YarpString          dataSource;
-                char                buffer[10240];
-                size_t              numRead;
-                rapidjson::Document jsonData;
-                
-                for ( ; ! feof(inFile); )
+                _generator = new PlaybackFromJSONInputThread(getOutletStream(0), _outMessage,
+                                                             _playbackRatio, _initialDelay,
+                                                             _loopPlayback);
+                if (_generator->start())
                 {
-                    numRead = fread(buffer, 1, sizeof(buffer) - 1, inFile);
-                    if (numRead)
-                    {
-                        buffer[numRead] = '\0';
-                        dataSource += buffer;
-                    }
-                }
-                fclose(inFile);
-                jsonData.Parse<rapidjson::kParseFullPrecisionFlag>(dataSource.c_str());
-                if (jsonData.HasParseError())
-                {
-                    cerr << "JSON problem at byte " << jsonData.GetErrorOffset() << " = " <<
-                            jsonData.GetParseError() << endl;
+                    setActive();
                 }
                 else
                 {
-                    _outMessage.clear();
-                    if (convertJSONtoMessage(_outMessage, jsonData))
-                    {
-                        _generator = new PlaybackFromJSONInputThread(getOutletStream(0),
-                                                                     _outMessage, _playbackRatio,
-                                                                     _initialDelay);
-                        if (_generator->start())
-                        {
-                            setActive();
-                        }
-                        else
-                        {
-                            cerr << "Could not start auxiliary thread." << endl;
-                        }
-                    }
-                    else
-                    {
-                        cerr << "Could not convert JSON input to expected message format." << endl;
-                    }
+                    cerr << "Could not start auxiliary thread." << endl;
                 }
-            }
-            else
-            {
-                cerr << "Could not open file '" << _inPath.c_str() <<
-                        "' for reading, error code = " << why << "." << endl;
             }
         }
     }

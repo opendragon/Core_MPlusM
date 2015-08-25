@@ -1,23 +1,16 @@
 \ProvidesFile{SMservice.tex}[v1.0.0]
 \primaryStart[TheSMOService]{The~\SMO{}~Service}
 The \asCode{m+mSendToMQOutputService} application is an Output service, sending a stream
-of \yarp{} values as JSON text to an ActiveMQ broker.
+of \yarp{} values as \json{} text to an ActiveMQ broker.
 The application responds to the standard Output service requests and can be used as a
 standalone data sink, without the need for a client connection.\\
 
 The \emph{configuration} request has no arguments and returns the string value for the
-host name of the ActiveMQ broker, the integer value for the port on the ActiveMQ broker to
-connect to, the string value for the user identifier to use on the ActiveMQ broker, an
-empty string value for the password for the user on the ActiveMQ broker \longDash{} the
-actual password is never returned \longDash{} and the string value for the topic or queue
-to set up on the ActiveMQ broker.\\
+topic or queue to set up on the ActiveMQ broker.\\
 
-The \emph{configure} request request has five arguments \longDash{} a string value for the
-host name of the ActiveMQ broker, an integer value for the port on the ActiveMQ broker to
-connect to, a string value for the user identifier to use on the ActiveMQ broker, a string
-value for the password for the user on the ActiveMQ broker, and a string value for the
+The \emph{configure} request request has one argument \longDash{} a string value for the
 topic or queue to set up on the ActiveMQ broker.
-These values will be applied when the input stream is started or restarted.\\
+This value will be applied when the input stream is started or restarted.\\
 
 The \emph{restartStreams} request stops and then starts the input stream.\\
 
@@ -29,6 +22,12 @@ connection to the ActiveMQ broker.\\
 
 Note that the application will exit if the \emph{\RS} is not running.
 \secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+The application has four required arguments \longDash{} a string value for the host name
+of the ActiveMQ broker, an integer value for the port on the ActiveMQ broker to
+connect to, a string value for the user identifier to use on the ActiveMQ broker and a
+string value for the password for the user on the ActiveMQ broker.
+The application has one optional argument \longDash{} a string value for the
+topic or queue to set up on the ActiveMQ broker.
 \insertAppParameters
 \insertTagDescription{\SMO}
 \insertInputServiceComment

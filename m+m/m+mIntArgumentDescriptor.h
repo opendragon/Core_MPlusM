@@ -78,8 +78,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
              @param argDescription A description of the command-line argument.
-             @param defaultValue The default value for the command-line argument.
              @param argMode The mode of the command-line argument.
+             @param defaultValue The default value for the command-line argument.
              @param hasMinimumValue @c true if the value must be greater than or equal to a
              specified minimum and @c false otherwise.
              @param minimumValue The minimum value that is acceptable.

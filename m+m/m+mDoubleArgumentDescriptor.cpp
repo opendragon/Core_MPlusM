@@ -276,29 +276,36 @@ DEFINE_TOSTRING_(DoubleArgumentDescriptor)
 DEFINE_VALIDATE_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
-    bool         result = false;
     const char * startPtr = value.c_str();
     char *       endPtr;
     double       dblValue = strtod(startPtr, &endPtr);
     
     if ((startPtr != endPtr) && (! *endPtr))
     {
-        result = true;
+        _valid = true;
+        OD_LOG_B1("_valid <- ", _valid); //####
         if (_hasMinimumValue && (dblValue < _minimumValue))
         {
-            result = false;
+            _valid = false;
+            OD_LOG_B1("_valid <- ", _valid); //####
         }
         if (_hasMaximumValue && (dblValue > _maximumValue))
         {
-            result = false;
+            _valid = false;
+            OD_LOG_B1("_valid <- ", _valid); //####
         }
     }
-    if (result)
+    else
+    {
+        _valid = false;
+        OD_LOG_B1("_valid <- ", _valid); //####
+    }
+    if (_valid)
     {
         _currentValue = dblValue;
     }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
+    OD_LOG_OBJEXIT_B(_valid); //####
+    return _valid;
 } // DoubleArgumentDescriptor::validate
 
 #if defined(__APPLE__)

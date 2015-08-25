@@ -103,11 +103,11 @@ Test08Handler::~Test08Handler(void)
 #endif // ! MAC_OR_LINUX_
 DEFINE_HANDLE_INPUT_(Test08Handler)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(senderChannel)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####

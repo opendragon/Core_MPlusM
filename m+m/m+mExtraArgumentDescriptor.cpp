@@ -195,10 +195,10 @@ DEFINE_TOSTRING_(ExtraArgumentDescriptor)
 DEFINE_VALIDATE_(ExtraArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
-    bool result = true;
-    
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
+    _valid = true;
+    OD_LOG_B1("_valid <- ", _valid); //####
+    OD_LOG_OBJEXIT_B(_valid); //####
+    return _valid;
 } // ExtraArgumentDescriptor::validate
 
 #if defined(__APPLE__)

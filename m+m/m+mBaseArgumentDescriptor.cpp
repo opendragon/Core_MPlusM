@@ -40,6 +40,7 @@
 #include "m+mBaseArgumentDescriptor.h"
 
 #include <m+m/m+mAddressArgumentDescriptor.h>
+#include <m+m/m+mBoolArgumentDescriptor.h>
 #include <m+m/m+mChannelArgumentDescriptor.h>
 #include <m+m/m+mDoubleArgumentDescriptor.h>
 #include <m+m/m+mExtraArgumentDescriptor.h>
@@ -96,7 +97,7 @@ YarpString BaseArgumentDescriptor::_parameterSeparator("\t");
 BaseArgumentDescriptor::BaseArgumentDescriptor(const YarpString & argName,
                                                const YarpString & argDescription,
                                                const ArgumentMode argMode) :
-    _argDescription(argDescription), _argName(argName), _argMode(argMode)
+    _valid(true), _argDescription(argDescription), _argName(argName), _argMode(argMode)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("argName = ", argName, "argDescription = ", argDescription); //####
@@ -361,6 +362,10 @@ BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & i
     result = AddressArgumentDescriptor::parseArgString(inString);
     if (! result)
     {
+        result = BoolArgumentDescriptor::parseArgString(inString);
+    }
+    if (! result)
+    {
         result = ChannelArgumentDescriptor::parseArgString(inString);
     }
     if (! result)
@@ -401,7 +406,7 @@ void Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
-        if (anArg)
+        if (anArg && (! anArg->isRequired()) && (! anArg->isExtra()))
         {
             anArg->addValueToBottle(container);
         }
@@ -435,10 +440,12 @@ Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
 } // Utilities::ModeFromString
 
 bool Utilities::ProcessArguments(const DescriptorVector & arguments,
-                                 Option_::Parser &        parseResult)
+                                 Option_::Parser &        parseResult,
+                                 YarpString &             badArgs)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("arguments = ", &arguments, "parseResult = ", &parseResult); //####
+    OD_LOG_P3("arguments = ", &arguments, "parseResult = ", &parseResult, "badArgs = ", //####
+              &badArgs); //####
     bool   result = true;
     bool   sawExtra = false;
     bool   sawOptional = false;
@@ -453,6 +460,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     OD_LOG_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", //####
                numToCheck); //####
 	// Set all arguments to their default values, so that they are all defined.
+    badArgs = "";
 	for (size_t ii = 0; numArgs > ii; ++ii)
 	{
 		BaseArgumentDescriptor * anArg = arguments[ii];
@@ -494,37 +502,49 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     }
     // Check the arguments with matching descriptions, unless it is a placeholder for extra
     // arguments.
-    for (size_t ii = 0; result && (numToCheck > ii); ++ii)
+    if (result)
     {
-        BaseArgumentDescriptor * anArg = arguments[ii];
-        
-        if (anArg && (! anArg->isExtra()))
-        {
-            OD_LOG("(anArg && (! anArg->isExtra()))"); //####
-            result = anArg->validate(parseResult.nonOption(static_cast<int>(ii)));
-            OD_LOG_B1("result <- ", result); //####
-        }
-    }
-    // Check the unmatched descriptions: if extra, just skip since it is a placeholder for trailing
-    // arguments; if optional, use the default and if neither extra nor optional it's mandatory and
-    // unsatisfied.
-    if (result && (numToCheck < numArgs))
-    {
-        OD_LOG("(result && (numToCheck < numArgs))"); //####
-        for (size_t ii = numToCheck; result && (numArgs > ii); ++ii)
+        for (size_t ii = 0; numToCheck > ii; ++ii)
         {
             BaseArgumentDescriptor * anArg = arguments[ii];
             
             if (anArg && (! anArg->isExtra()))
             {
                 OD_LOG("(anArg && (! anArg->isExtra()))"); //####
-                OD_LOG_LL1("arg mode = ", anArg->argumentMode()); //####
-                if (! anArg->isOptional())
+                if (! anArg->validate(parseResult.nonOption(static_cast<int>(ii))))
                 {
-                    OD_LOG("(! anArg->isOptional())"); //####
+                    if (0 < badArgs.size())
+                    {
+                        badArgs += ", ";
+                    }
+                    badArgs += anArg->argumentName();
                     result = false;
                     OD_LOG_B1("result <- ", result); //####
                 }
+            }
+        }
+    }
+    // Check the unmatched descriptions: if extra, just skip since it is a placeholder for trailing
+    // arguments; if optional, use the default and if neither extra nor optional it's mandatory and
+    // unsatisfied.
+    for (size_t ii = numToCheck; numArgs > ii; ++ii)
+    {
+        BaseArgumentDescriptor * anArg = arguments[ii];
+        
+        if (anArg && (! anArg->isExtra()))
+        {
+            OD_LOG("(anArg && (! anArg->isExtra()))"); //####
+            OD_LOG_LL1("arg mode = ", anArg->argumentMode()); //####
+            if (! anArg->isOptional())
+            {
+                OD_LOG("(! anArg->isOptional())"); //####
+                if (0 < badArgs.size())
+                {
+                    badArgs += ", ";
+                }
+                badArgs += anArg->argumentName();
+                result = false;
+                OD_LOG_B1("result <- ", result); //####
             }
         }
     }
@@ -551,7 +571,7 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
 	}
 	for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
-        Utilities::BaseArgumentDescriptor * anArg = arguments[ii];
+        BaseArgumentDescriptor * anArg = arguments[ii];
         
         if (anArg && (! anArg->isRequired()) && (! anArg->isExtra()))
         {

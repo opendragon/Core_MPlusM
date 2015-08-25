@@ -167,6 +167,7 @@ MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 
 MpMbitmapepsfiles = $(IMAGE_DIR)/configureAbsorberFilterService.eps \
 		$(IMAGE_DIR)/configureBlobOutputService.eps \
+		$(IMAGE_DIR)/configurePlaybackFromJSONInputService.eps \
 		$(IMAGE_DIR)/configureRandomBurstInputService.eps \
 		$(IMAGE_DIR)/configureRecordAsJSONOutputService.eps \
 		$(IMAGE_DIR)/configureRecordBlobOutputService.eps \
@@ -175,6 +176,7 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/configureAbsorberFilterService.eps \
 		$(IMAGE_DIR)/launchAddressService.eps \
 		$(IMAGE_DIR)/launchBlobOutputService.eps \
 		$(IMAGE_DIR)/launchEchoService.eps \
+		$(IMAGE_DIR)/launchPlaybackFromJSONInputService.eps \
 		$(IMAGE_DIR)/launchRandomBurstInputService.eps \
 		$(IMAGE_DIR)/launchRandomNumberAdapter.eps \
 		$(IMAGE_DIR)/launchRandomNumberService.eps \
@@ -192,6 +194,7 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/configureAbsorberFilterService.eps \
 		$(IMAGE_DIR)/runningAddressService.eps \
 		$(IMAGE_DIR)/runningBlobOutputService.eps \
 		$(IMAGE_DIR)/runningEchoService.eps \
+		$(IMAGE_DIR)/runningPlaybackFromJSONInputService.eps \
 		$(IMAGE_DIR)/runningRandomBurstInputService.eps \
 		$(IMAGE_DIR)/runningRandomNumberAdapter.eps \
 		$(IMAGE_DIR)/runningRandomNumberService.eps \

@@ -64,7 +64,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::RecordAsJSON;
+using namespace MplusM::Example;
 using std::cerr;
 using std::endl;
 

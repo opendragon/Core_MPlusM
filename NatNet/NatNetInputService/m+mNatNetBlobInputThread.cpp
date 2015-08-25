@@ -170,11 +170,11 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
 static void __cdecl messageReceived(int    messageType,
 	                                char * message)
 {
-#if ((! defined(OD_ENABLE_LOGGING)) || (! defined(REPORT_NATNET_MESSAGES_)))
+#if ((! defined(OD_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_)))
 # if MAC_OR_LINUX_
 #  pragma unused(messageType,message)
 # endif // MAC_OR_LINUX_
-#endif // (! defined(OD_ENABLE_LOGGING)) || (! defined(REPORT_NATNET_MESSAGES_))
+#endif // (! defined(OD_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_))
 	OD_LOG_ENTER(); //####
 	OD_LOG_LL1("messageType = ", messageType); //####
 	OD_LOG_S1("message = ", message); //####

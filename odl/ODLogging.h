@@ -100,9 +100,9 @@
 /*! @brief Write the logging output to 'stderr' as well, if not logging to a file. */
 # define kODLoggingOptionWriteToStderr       16 /* bit mask, must be power of two */
 
-# if defined(OD_DISABLE_LOGGING)
-#  undef OD_ENABLE_LOGGING
-# endif // defined(OD_DISABLE_LOGGING)
+# if defined(OD_DISABLE_LOGGING_)
+#  undef OD_ENABLE_LOGGING_
+# endif // defined(OD_DISABLE_LOGGING_)
 
 # undef OD_OBJPRINTABLE_STRING
 # undef OD_SELF_OR_THIS_OR_NULL_
@@ -199,7 +199,7 @@
 # undef OD_LOG_XL3
 # undef OD_LOG_XL4
 
-# if defined(OD_ENABLE_LOGGING)
+# if defined(OD_ENABLE_LOGGING_)
 #  if defined(__OBJC__)
 /*! @brief The pointer to the calling object for a method. */
 #   define OD_SELF_OR_THIS_OR_NULL_   (__bridge const void *) self
@@ -2093,7 +2093,7 @@ extern "C"
 }
 #   endif // defined(__cplusplus)
 #  endif // ! defined(OD_DEFINITIONS_LOADED)
-# else // ! defined(OD_ENABLE_LOGGING)
+# else // ! defined(OD_ENABLE_LOGGING_)
 #  if defined(__OBJC__)
  /* Return the string description of an Objective-C object. */
 #   define OD_OBJPRINTABLE_STRING(xx) ""
@@ -2626,7 +2626,7 @@ extern "C"
  @param val4 The fourth value to be written. */
 #  define OD_LOG_XL4(text1, val1, text2, val2, text3, val3, text4, val4) /* */
 
-# endif // ! defined(OD_ENABLE_LOGGING)
+# endif // ! defined(OD_ENABLE_LOGGING_)
 
 /*! @brief Write a string function exit string to the log.
  @param val The value being returned by the function. */

@@ -96,11 +96,11 @@ static void DNSSD_API registrationCallback(DNSServiceRef       service,
                                            const char *        domain,
                                            void *              context)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_ENTER(); //####
     OD_LOG_P2("service = ", service, "context = ", context); //####
     OD_LOG_L2("flags = ", flags, "errorCode = ", errorCode); //####

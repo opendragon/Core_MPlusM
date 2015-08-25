@@ -58,7 +58,7 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::PlaybackFromJSON;
+using namespace MplusM::Example;
 using std::cerr;
 using std::endl;
 
@@ -85,13 +85,15 @@ using std::endl;
 PlaybackFromJSONInputThread::PlaybackFromJSONInputThread(Common::GeneralChannel * outChannel,
                                                          yarp::os::Bottle &       outMessage,
                                                          const double             playbackRatio,
-                                                         const double             initialDelay) :
+                                                         const double             initialDelay,
+                                                         const bool               loopPlayback) :
     inherited(), _outChannel(outChannel), _outMessage(outMessage), _nextIndex(0),
-    _initialDelay(initialDelay), _playbackRatio(playbackRatio)
+    _initialDelay(initialDelay), _playbackRatio(playbackRatio), _loopPlayback(loopPlayback)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outChannel = ", outChannel, "outMessage = ", &outMessage); //####
     OD_LOG_D2("playbackRatio = ", playbackRatio, "initialDelay = ", initialDelay); //####
+    OD_LOG_B1("loopPlayback = ", loopPlayback);
     OD_LOG_EXIT_P(this); //####
 } // PlaybackFromJSONInputThread::PlaybackFromJSONInputThread
 
@@ -160,6 +162,16 @@ void PlaybackFromJSONInputThread::run(void)
                     }
                     _nextTime = yarp::os::Time::now() + (deltaTime * _playbackRatio);
                 }
+                else if (_loopPlayback)
+                {
+                    _nextTime = yarp::os::Time::now() + _initialDelay;
+                    _nextIndex = 0;
+                }
+            }
+            else if (_loopPlayback)
+            {
+                _nextTime = yarp::os::Time::now() + _initialDelay;
+                _nextIndex = 0;
             }
             else
             {
@@ -167,6 +179,11 @@ void PlaybackFromJSONInputThread::run(void)
                 atEnd = true;
             }
         }
+        yarp::os::Time::yield();
+    }
+    // If we get here, the data was only sent once, without loopback...
+    for ( ; (! isStopping()); )
+    {
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####

@@ -700,6 +700,8 @@
 		DFEF83DD1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mPlaybackFromJSONInputThread.cpp"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputThread.cpp"; sourceTree = "<group>"; };
 		DFEF83DE1B8B5B8A00C0ACDD /* m+mPlaybackFromJSONInputThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mPlaybackFromJSONInputThread.h"; path = "examples/PlaybackFromJSONService/m+mPlaybackFromJSONInputThread.h"; sourceTree = "<group>"; };
 		DFEF83DF1B8B5B8A00C0ACDD /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/PlaybackFromJSONService/resource.h; sourceTree = "<group>"; };
+		DFEF83E01B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mBoolArgumentDescriptor.cpp"; path = "m+m/m+mBoolArgumentDescriptor.cpp"; sourceTree = "<group>"; };
+		DFEF83E11B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mBoolArgumentDescriptor.h"; path = "m+m/m+mBoolArgumentDescriptor.h"; sourceTree = "<group>"; };
 		DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/KinectV2InputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD819D9A4B900BBD7A7 /* m+mKinectV2EventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2EventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2EventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1862,6 +1864,8 @@
 				DFEDCA081B46E0CD0034C881 /* m+mBaseRequestHandler.h */,
 				DFEDCA091B46E0CD0034C881 /* m+mBaseService.cpp */,
 				DFEDCA0A1B46E0CD0034C881 /* m+mBaseService.h */,
+				DFEF83E01B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.cpp */,
+				DFEF83E11B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.h */,
 				DFEDCA0B1B46E0CD0034C881 /* m+mChannelArgumentDescriptor.cpp */,
 				DFEDCA0C1B46E0CD0034C881 /* m+mChannelArgumentDescriptor.h */,
 				DFEDCA0F1B46E0CD0034C881 /* m+mChannelStatusReporter.cpp */,

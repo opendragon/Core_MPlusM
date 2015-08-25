@@ -57,7 +57,7 @@
 
 namespace MplusM
 {
-    namespace RecordAsJSON
+    namespace Example
     {
         /*! @brief A handler for partially-structured input data.
          
@@ -107,7 +107,7 @@ namespace MplusM
             
         }; // RecordAsJSONOutputInputHandler
         
-    } // RecordAsJSON
+    } // Example
     
 } // MplusM
 

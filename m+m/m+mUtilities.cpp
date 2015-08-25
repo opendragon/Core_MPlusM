@@ -239,11 +239,11 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
                                       const unsigned char * txtRecord,
                                       void *                context)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 //#  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_ENTER(); //####
     OD_LOG_P3("service = ", service, "txtRecord = ", txtRecord, "context = ", context); //####
     OD_LOG_L4("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ",//####
@@ -335,11 +335,11 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
                                      const char *        domain,
                                      void *              context)
 {
-#if (! defined(OD_ENABLE_LOGGING))
+#if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
 #  pragma unused(service,flags,context)
 # endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING)
+#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_ENTER(); //####
     OD_LOG_P2("service = ", service, "context = ", context); //####
     OD_LOG_L3("flags = ", flags, "interfaceIndex = ", interfaceIndex, "errorCode = ",//####
@@ -1369,7 +1369,7 @@ void Utilities::ConvertMessageToJSON(std::stringstream &      outBuffer,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outBuffer = ", &outBuffer, "input = ", &input); //####
     int     mm = input.size();
-    int64_t now = Utilities::GetCurrentTimeInMilliseconds();
+    int64_t now = GetCurrentTimeInMilliseconds();
     
 #if defined(MpM_UseCustomStringBuffer)
     outBuffer.reset();
@@ -2787,11 +2787,11 @@ bool Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                                           CheckFunction      checker,
                                           void *             checkStuff)
 {
-#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
@@ -2830,11 +2830,11 @@ bool Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
                 }
                 
                 OD_LOG("about to connect"); //####
-#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, false);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#else // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::connect(sourceName, destinationName, carrier, true);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#endif // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 OD_LOG("connected?"); //####
                 if (! result)
                 {
@@ -2879,11 +2879,11 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
                                              CheckFunction      checker,
                                              void *             checkStuff)
 {
-#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING)))
+#if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
 #  pragma unused(timeToWait)
 # endif // MAC_OR_LINUX_
-#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING))
+#endif // (! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_))
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("sourceName = ", sourceName, "destinationName = ", destinationName); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
@@ -2912,11 +2912,11 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
                 }
                 
                 OD_LOG("about to disconnect"); //####
-#if (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#if (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, false);
-#else // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#else // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 result = yarp::os::Network::disconnect(sourceName, destinationName, true);
-#endif // ! (defined(OD_ENABLE_LOGGING) && defined(MpM_LogIncludesYarpTrace))
+#endif // ! (defined(OD_ENABLE_LOGGING_) && defined(MpM_LogIncludesYarpTrace))
                 OD_LOG("disconnected?"); //####
                 if (! result)
                 {
@@ -3007,7 +3007,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     {
         YarpStringVector descriptions;
         
-        Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
+        ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
         usageString += " ";
         usageString += argList + "\n\n";
         for (size_t ii = 0, mm = descriptions.size(); mm > ii; ++ii)
@@ -3045,6 +3045,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     Option_::Option * options = new Option_::Option[stats.options_max];
     Option_::Option * buffer = new Option_::Option[stats.buffer_max];
     Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
+    YarpString        badArgs;
     
     if (parse.error())
     {
@@ -3068,7 +3069,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
         cout << "Client\t" << clientDescription.c_str() << endl;
         keepGoing = false;
     }
-    else if (ProcessArguments(argumentDescriptions, parse))
+    else if (ProcessArguments(argumentDescriptions, parse, badArgs))
     {
         if (options[kOptionJSON])
         {
@@ -3089,7 +3090,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     }
     else
     {
-        cout << "One or more invalid or missing arguments." << endl;
+        cout << "One or more invalid or missing arguments (" << badArgs.c_str() << ")." << endl;
         keepGoing = false;
     }
     delete[] options;
@@ -3154,7 +3155,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     {
         YarpStringVector descriptions;
         
-        Utilities::ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
+        ArgumentsToDescriptionArray(argumentDescriptions, descriptions, 2);
         usageString += " ";
         usageString += argList + "\n\n";
         for (size_t ii = 0, mm = descriptions.size(); mm > ii; ++ii)
@@ -3192,6 +3193,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     Option_::Option * options = new Option_::Option[stats.options_max];
     Option_::Option * buffer = new Option_::Option[stats.buffer_max];
     Option_::Parser   parse(usage, argcWork, argvWork, options, buffer, 1);
+    YarpString        badArgs;
     
     if (parse.error())
     {
@@ -3215,7 +3217,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
         cout << "Utility\t" << utilityDescription.c_str() << endl;
         keepGoing = false;
     }
-    else if (ProcessArguments(argumentDescriptions, parse))
+    else if (ProcessArguments(argumentDescriptions, parse, badArgs))
     {
         if (options[kOptionJSON])
         {
@@ -3236,7 +3238,7 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     }
     else
     {
-        cout << "One or more invalid or missing arguments." << endl;
+        cout << "One or more invalid or missing arguments (" << badArgs.c_str() << ")." << endl;
         keepGoing = false;
     }
     delete[] options;
@@ -3381,12 +3383,12 @@ bool Utilities::RestartAService(const YarpString & serviceChannelName,
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(*Utilities::GetGlobalStatusReporter());
+            newChannel->setReporter(*GetGlobalStatusReporter());
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, serviceChannelName, timeToWait,
-                                                         false, checker, checkStuff))
+                if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                              checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     ServiceRequest   request(MpM_RESTARTSTREAMS_REQUEST_, parameters);
@@ -3406,18 +3408,18 @@ bool Utilities::RestartAService(const YarpString & serviceChannelName,
                     }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, serviceChannelName,
-                                                                  timeToWait, checker, checkStuff))
+                    if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait,
+                                                       checker, checkStuff))
                     {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "serviceChannelName, timeToWait, checker, checkStuff))"); //####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, serviceChannelName, " //####
+                               "timeToWait, checker, checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "serviceChannelName, timeToWait, false, checker, checkStuff))"); //####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
+                           "timeToWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();
@@ -3619,12 +3621,12 @@ bool Utilities::StopAService(const YarpString & serviceChannelName,
         if (newChannel)
         {
 #if defined(MpM_ReportOnConnections)
-            newChannel->setReporter(*Utilities::GetGlobalStatusReporter());
+            newChannel->setReporter(*GetGlobalStatusReporter());
 #endif // defined(MpM_ReportOnConnections)
             if (newChannel->openWithRetries(aName, timeToWait))
             {
-                if (Utilities::NetworkConnectWithRetries(aName, serviceChannelName, timeToWait,
-                                                         false, checker, checkStuff))
+                if (NetworkConnectWithRetries(aName, serviceChannelName, timeToWait, false, checker,
+                                              checkStuff))
                 {
                     yarp::os::Bottle parameters;
                     ServiceRequest   request(MpM_STOP_REQUEST_, parameters);
@@ -3644,18 +3646,18 @@ bool Utilities::StopAService(const YarpString & serviceChannelName,
                     }
 #endif // ! defined(MpM_DoExplicitCheckForOK)
 #if defined(MpM_DoExplicitDisconnect)
-                    if (! Utilities::NetworkDisconnectWithRetries(aName, serviceChannelName,
-                                                                  timeToWait, checker, checkStuff))
+                    if (! NetworkDisconnectWithRetries(aName, serviceChannelName, timeToWait,
+                                                       checker, checkStuff))
                     {
-                        OD_LOG("(! Utilities::NetworkDisconnectWithRetries(aName, " //####
-                               "serviceChannelName, timeToWait, checker, checkStuff))"); //####
+                        OD_LOG("(! NetworkDisconnectWithRetries(aName, serviceChannelName, " //####
+                               "timeToWait, checker, checkStuff))"); //####
                     }
 #endif // defined(MpM_DoExplicitDisconnect)
                 }
                 else
                 {
-                    OD_LOG("! (Utilities::NetworkConnectWithRetries(aName, " //####
-                           "serviceChannelName, timeToWait, false, checker, checkStuff))"); //####
+                    OD_LOG("! (NetworkConnectWithRetries(aName, serviceChannelName, " //####
+                           "timeToWait, false, checker, checkStuff))"); //####
                 }
 #if defined(MpM_DoExplicitClose)
                 newChannel->close();

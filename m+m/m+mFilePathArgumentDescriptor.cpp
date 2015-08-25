@@ -308,14 +308,14 @@ DEFINE_TOSTRING_(FilePathArgumentDescriptor)
 DEFINE_VALIDATE_(FilePathArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
-    bool result = checkFilePath(value.c_str(), _forOutput, false);
-    
-    if (result)
+    _valid = checkFilePath(value.c_str(), _forOutput, false);
+    OD_LOG_B1("_valid <- ", _valid); //####
+    if (_valid)
     {
         _currentValue = value;
     }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
+    OD_LOG_OBJEXIT_B(_valid); //####
+    return _valid;
 } // FilePathArgumentDescriptor::validate
 
 #if defined(__APPLE__)

@@ -84,6 +84,10 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param hostName The name of the MQ broker.
+             @param hostPort The port to connect to the MQ broker.
+             @param userName The user name for the MQ broker.
+             @param userPassword The user password for the MQ broker.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -91,7 +95,11 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            SendToMQOutputService(const Utilities::DescriptorVector & argumentList,
+            SendToMQOutputService(const YarpString &                  hostName,
+                                  const int                           hostPort,
+                                  const YarpString &                  userName,
+                                  const YarpString &                  userPassword,
+                                  const Utilities::DescriptorVector & argumentList,
                                   const YarpString &                  launchPath,
                                   const int                           argc,
                                   char * *                            argv,

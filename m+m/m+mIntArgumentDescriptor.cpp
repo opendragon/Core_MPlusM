@@ -275,29 +275,36 @@ DEFINE_TOSTRING_(IntArgumentDescriptor)
 DEFINE_VALIDATE_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
-    bool         result = false;
     const char * startPtr = value.c_str();
     char *       endPtr;
     int          intValue = strtol(startPtr, &endPtr, 10);
     
     if ((startPtr != endPtr) && (! *endPtr))
     {
-        result = true;
+        _valid = true;
+        OD_LOG_B1("_valid <- ", _valid); //####
         if (_hasMinimumValue && (intValue < _minimumValue))
         {
-            result = false;
+            _valid = false;
+            OD_LOG_B1("_valid <- ", _valid); //####
         }
         if (_hasMaximumValue && (intValue > _maximumValue))
         {
-            result = false;
+            _valid = false;
+            OD_LOG_B1("_valid <- ", _valid); //####
         }
     }
-    if (result)
+    else
+    {
+        _valid = false;        
+        OD_LOG_B1("_valid <- ", _valid); //####
+    }
+    if (_valid)
     {
         _currentValue = intValue;
     }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
+    OD_LOG_OBJEXIT_B(_valid); //####
+    return _valid;
 } // IntArgumentDescriptor::validate
 
 #if defined(__APPLE__)

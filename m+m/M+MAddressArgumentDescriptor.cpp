@@ -184,7 +184,6 @@ DEFINE_TOSTRING_(AddressArgumentDescriptor)
 DEFINE_VALIDATE_(AddressArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
-    bool       result;
 	YarpString testValue;
     
 	if (value == SELF_ADDRESS_NAME_)
@@ -198,27 +197,29 @@ DEFINE_VALIDATE_(AddressArgumentDescriptor)
     if (_addrBuff)
     {
 #if MAC_OR_LINUX_
-        result = (0 < inet_pton(AF_INET, testValue.c_str(), _addrBuff));
+        _valid = (0 < inet_pton(AF_INET, testValue.c_str(), _addrBuff));
 #else // ! MAC_OR_LINUX_
-        result = (0 < InetPton(AF_INET, testValue.c_str(), _addrBuff));
+        _valid = (0 < InetPton(AF_INET, testValue.c_str(), _addrBuff));
 #endif // ! MAC_OR_LINUX_
+        OD_LOG_B1("_valid <- ", _valid); //####
     }
     else
     {
         struct in_addr addrBuff;
         
 #if MAC_OR_LINUX_
-        result = (0 < inet_pton(AF_INET, testValue.c_str(), &addrBuff));
+        _valid = (0 < inet_pton(AF_INET, testValue.c_str(), &addrBuff));
 #else // ! MAC_OR_LINUX_
-        result = (0 < InetPton(AF_INET, testValue.c_str(), &addrBuff));
+        _valid = (0 < InetPton(AF_INET, testValue.c_str(), &addrBuff));
 #endif // ! MAC_OR_LINUX_
+        OD_LOG_B1("_valid <- ", _valid); //####
     }
-    if (result)
+    if (_valid)
     {
         _currentValue = testValue;
     }
-    OD_LOG_OBJEXIT_B(result); //####
-    return result;
+    OD_LOG_OBJEXIT_B(_valid); //####
+    return _valid;
 } // AddressArgumentDescriptor::validate
 
 #if defined(__APPLE__)

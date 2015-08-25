@@ -36,7 +36,7 @@ Clients:
    /_client_/examples/runningsum_4896162
 \end{verbatim}
 \outputEnd{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 [ { "Service": "/_service_/examples/runningSum", "Client":
@@ -49,7 +49,7 @@ or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymb
 /\serviceName/examples/runningSum\pseudotab{}%
 /\clientName/examples/runningsum\textunderscore{}4896162
 \outputEnd{}
-Note that, if no clients are found, the JSON\longDash{}formatted output would be:
+Note that, if no clients are found, the \json\longDash{}formatted output would be:
 \outputBegin
 \begin{verbatim}
 [ ]
@@ -68,7 +68,7 @@ If no matching service is found, the default output would be:
 No services found.
 \end{verbatim}
 \outputEnd{}
-and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
+and the \json\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{m+mClientList}}
 \tertiaryStart{\utilityNameP{m+mFindServices}}
 The application \utilityNameX{m+mFindServices} displays the primary channels belonging to
@@ -94,7 +94,7 @@ used:
 \end{verbatim}
 \outputEnd
 \condPage{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 [ "/$ervice", "/_service_/filter/truncatefloat", "/blort" ]
@@ -115,7 +115,7 @@ Match criteria:\ \textbf{tag:blurt}\\
 /\serviceName/input/randomburst/blurt\\
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{q}
 \outputEnd{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin{}
 Operation:\ \openSq{}?\ f q\closeSq{}?\ \textbf{f}\\
 Match criteria:\ \textbf{tag!blurt}\\
@@ -179,7 +179,7 @@ Ports:
 \end{verbatim}
 \outputEnd
 \condPage{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 [ { "PortName": "/$ervice", "PortClass": "Service registry port for 'Registry'",
@@ -206,7 +206,7 @@ reader~UDP\\
 /writer\pseudotab{}Standard~port~at~10.0.1.2:10002\pseudotab/reader~TCP\\
 /writer2\pseudotab{}Standard~port~at~10.0.1.2:10004\pseudotab/reader~TCP
 \outputEnd{}
-Note that, if no ports are found, the JSON\longDash{}formatted output would be:
+Note that, if no ports are found, the \json\longDash{}formatted output would be:
 \outputBegin
 \begin{verbatim}
 [ ]
@@ -273,7 +273,7 @@ Inputs:       s
 Outputs:      s
 \end{verbatim}
 \outputEnd{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 [ { "Port": "/$ervice", "Request": "register", "Version": "1.0", "Details":
@@ -293,8 +293,8 @@ problem encountered\pseudotab{}register add\pseudotab{}s\pseudotab{}s
 \outputEnd{}
 For the default output, multiple entries will be separated by a blank line; for
 tab\longDash{}delimited output each entry is on a line by itself and for
-JSON\longDash{}formatted output, the entries are objects within an array.
-Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
+\json\longDash{}formatted output, the entries are objects within an array.
+Note that, if no matching request is found, the \json\longDash{}formatted output would be:
 \outputBegin
 \begin{verbatim}
 [ ]
@@ -313,7 +313,7 @@ If no matching service is found, the default output would be:
 No services found.
 \end{verbatim}
 \outputEnd{}
-and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
+and the \json\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{m+mRequestInfo}}
 \condPage
 \tertiaryStart{\utilityNameP{m+mServiceLister}}
@@ -394,7 +394,7 @@ Secondary outputs: /shorten/output{protocol=i+}
 \end{verbatim}
 \outputEnd
 \condPage{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 [ { "ServicePort": "/$ervice", "ServiceName": "Registry", "Tag": "", "ServiceKind":
@@ -491,7 +491,7 @@ For example, the default output could be (with the lines wrapped for clarity):
 \end{verbatim}
 \outputEnd
 \condPage{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 [ [ { "channel": "/$ervice", "date": "2014-10-10", "time": "09:18:42", "inBytes":
@@ -526,8 +526,8 @@ auxiliary\pseudotab{}2014-10-10\pseudotab{}09:16:54\pseudotab{}39\pseudotab{}200
 \outputEnd{}
 For the default output, multiple entries will be separated by a blank line; for
 tab\longDash{}delimited output each entry is on a line by itself and for
-JSON\longDash{}formatted output, the entries are objects within an array.
-Note that, if no matching request is found, the JSON\longDash{}formatted output would be:
+\json\longDash{}formatted output, the entries are objects within an array.
+Note that, if no matching request is found, the \json\longDash{}formatted output would be:
 \outputBegin
 \begin{verbatim}
 [ ]
@@ -546,7 +546,7 @@ If no matching service is found, the default output would be:
 No services found.
 \end{verbatim}
 \outputEnd{}
-and the JSON\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
+and the \json\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{m+mServiceMetrics}}
 \condPage
 \tertiaryStart{\utilityNameP{m+mStopService}}
@@ -569,18 +569,18 @@ The application \utilityNameX{m+mVersion} displays the version numbers for \mplu
 For example, the default output could be:
 \outputBegin
 \begin{verbatim}
-Movement And Meaning Version: 1.6.3, YARP Version: 2.3.62.1, ACE Version: 6.3.2
+Movement And Meaning Version: 1.6.4, YARP Version: 2.3.62.1, ACE Version: 6.3.2
 \end{verbatim}
 \outputEnd{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
-{ "m+m": "1.6.3", "YARP": "2.3.62.1", "ACE": "6.3.2" }
+{ "m+m": "1.6.4", "YARP": "2.3.62.1", "ACE": "6.3.2" }
 \end{verbatim}
 \outputEnd{}
 or, if tab\longDash{}delimited output is requested, with tabs shown as `\tabSymbol':
 \outputBegin{}
-1.6.3\pseudotab{}2.3.62.1\pseudotab{}6.3.2
+1.6.4\pseudotab{}2.3.62.1\pseudotab{}6.3.2
 \outputEnd
 \tertiaryEnd{\utilityNameE{m+mVersion}}
 \secondaryEnd
@@ -669,7 +669,7 @@ the output would be:
 Address: 123.123.123.123, Port: 42
 \end{verbatim}
 \outputEnd{}
-or, if JSON\longDash{}formatted output is requested:
+or, if \json\longDash{}formatted output is requested:
 \outputBegin
 \begin{verbatim}
 { "Address": "123.123.123.123", "Address": "42" }

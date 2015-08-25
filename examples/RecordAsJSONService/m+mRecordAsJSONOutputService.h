@@ -48,9 +48,6 @@
 # endif // defined(__APPLE__)
 /*! @file
  @brief The class declaration for the Record As JSON output service. */
-
-/*! @namespace MplusM::RecordAsJSON
- @brief The classes that support recording messages as JSON. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -64,7 +61,7 @@
 
 namespace MplusM
 {
-    namespace RecordAsJSON
+    namespace Example
     {
         class RecordAsJSONOutputInputHandler;
         
@@ -134,7 +131,7 @@ namespace MplusM
             
         }; // RecordAsJSONOutputService
         
-    } // RecordAsJSON
+    } // Example
     
 } // MplusM
 

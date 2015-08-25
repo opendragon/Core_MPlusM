@@ -75,7 +75,7 @@
 #  define EXTERN_C /* */
 # endif // ! defined(__cplusplus)
 
-# if defined(OD_ENABLE_LOGGING)
+# if defined(OD_ENABLE_LOGGING_)
 /*! @brief The number of bytes to be displayed per line when logging a memory region. */
 #  define OD_MAX_BYTES_IN_LINE_ 16
 
@@ -4176,5 +4176,5 @@ EXTERN_C void ODLogXL4_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogXL4_
 
-# endif // defined(OD_ENABLE_LOGGING)
+# endif // defined(OD_ENABLE_LOGGING_)
 #endif // ! defined(ODLOGGING_INC_C_)

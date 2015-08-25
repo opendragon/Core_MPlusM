@@ -61,7 +61,7 @@
 
 namespace MplusM
 {
-    namespace PlaybackFromJSON
+    namespace Example
     {
         class PlaybackFromJSONInputThread;
         
@@ -71,6 +71,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor.
+             @param inputPath The path to the data file.
              @param argumentList Descriptions of the arguments to the executable.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
@@ -78,7 +79,8 @@ namespace MplusM
              @param tag The modifier for the service name and port names.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            PlaybackFromJSONInputService(const Utilities::DescriptorVector & argumentList,
+            PlaybackFromJSONInputService(const YarpString &                  inputPath,
+                                         const Utilities::DescriptorVector & argumentList,
                                          const YarpString &                  launchPath,
                                          const int                           argc,
                                          char * *                            argv,
@@ -138,9 +140,23 @@ namespace MplusM
             /*! @brief The playback ratio. */
             double _playbackRatio;
             
+            /*! @brief @c true if the output should repeat when the end of the input is reached and
+             @c false otherwise. */
+            bool _loopPlayback;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler1[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+            
         }; // PlaybackFromJSONInputService
         
-    } // PlaybackFromJSON
+    } // Example
     
 } // MplusM
 

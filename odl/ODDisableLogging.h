@@ -49,7 +49,7 @@
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
 
-#undef OD_ENABLE_LOGGING
+#undef OD_ENABLE_LOGGING_
 
 // Allow a reload of the logging macros.
 #undef ODLOGGING_H_

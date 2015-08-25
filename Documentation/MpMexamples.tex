@@ -11,11 +11,12 @@ is sent to them.
 The set of example services include a pair of simple services
 [\examplesNameR{Services}{m+mEchoService} and
 \examplesNameR{Services}{m+mRandomNumberService}], a service with client context
-[\examplesNameR{Services}{m+mRunningSumService}] as well as an input service
-[\examplesNameR{Services}{m+mRandomBurstInputService}], two output services
+[\examplesNameR{Services}{m+mRunningSumService}] as well as two input services
+[\examplesNameR{Services}{m+mPlaybackFromJSONInputService} and
+\examplesNameR{Services}{m+mRandomBurstInputService}], two output services
 [\examplesNameR{Services}{m+mRecordAsJSONOutputService} and\\
 \examplesNameR{Services}{m+mRecordIntegersOutputService}] and two filter services
-[\examplesNameR{Services}{m+mAbsorberFilterService},
+[\examplesNameR{Services}{m+mAbsorberFilterService} and\\
 \examplesNameR{Services}{m+mTruncateFloatFilterService}].\\
 
 Note that services normally have no direct interface.
@@ -108,6 +109,85 @@ the service has successfully started:
 \objScaledDiagram{mpm_images/runningEchoService}%
 {serviceRunningEcho}{The \emph{\MMMU} entity for the \emph{Echo} service}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{m+mEchoService}}
+\tertiaryStart{\examplesNameP{Services}{m+mPlaybackFromJSONInputService}}
+The \examplesNameX{Services}{m+mPlaybackFromJSONInputService} application is an Input
+service, generating a stream of \yarp{} messages that have been recorded by the
+\examplesNameR{Services}{m+mRecordAsJSONOutputService} application in a file.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the floating\longDash{}point value for the `playback ratio', the
+floating\longDash{}point value for the initial delay and an integer value for the
+`loop flag'.
+The `playback ratio' is a scaling factor for the interval between the sending of each
+message from the file; a value of \asCode{1} indicates no scaling while, for example, a
+value of \asCode{2} indicates that the messages will be sent half as often as they were
+recorded.
+A value of \asCode{0} for the `loop flag' indicates no looping \longDash{} the data
+contained in the file will be sent once, after the initial delay \longDash{} and a value
+of \asCode{1} indicates that the data contained in the file will be sent continuously.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has three arguments
+\longDash{} a floating\longDash{}point value for the `playback ratio', a
+floating\longDash{}point value for the initial delay and an integer value for the
+`loop flag'.
+These values will be applied when the playback service is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the playback engine, which restarts the output \yarp{} network connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request starts a playback
+engine for the output stream, using the configured `playback ratio', `initial delay' and
+`loop flag'.
+Once started, the playback engine will send the data contained in the specified file via
+the output \yarp{} network connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request stops the playback
+engine, which stops the output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+The application has one required argument \longDash{} the path to the \json{} file
+containing the messages to be used.
+The application has three optional arguments \longDash{} the playback ratio, the initial
+delay in seconds and a flag indicating whether the data is to be sent continuously or just
+once.
+\insertAppParameters
+\insertTagDescription{Playback From JSON Input}
+\insertInputServiceComment\\
+
+The other parameters provide the playback ratio, initial delay and loop flag; if not
+specified, a playback ratio of 1, an initial delay of zero seconds and a loop flag of
+\asCode{1} \longDash{} indicating continuous sending of the data \longDash{} will be used.
+Note that the playback ratio, initial delay and loop flag can also be set via commands,
+if the application is running from a terminal.\\
+
+\insertStandardServiceCommands{}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchPlaybackFromJSONInputService}%
+{launchServicePlaybackFromJSON}{Launch options for the \emph{Playback From JSON Input}
+service}{0.8}
+
+For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
+Once the options are set, the following image will appear in the \emph{\MMMU} window when
+the service has successfully started:
+\objScaledDiagram{mpm_images/runningPlaybackFromJSONInputService}%
+{serviceRunningPlaybackFromJSON}{The \emph{\MMMU} entity for the \emph{Playback From JSON
+Input} service}{1.0}
+\condPage{}
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configurePlaybackFromJSONInputService}%
+{configureServicePlaybackFromJSON}{Configuration window for the \emph{Playback From JSON
+Input} service}{1.0}
+
+Note that the loop flag can be specified by \asBoldCode{0}, \asBoldCode{f} or
+\asBoldCode{n} for sending the data exactly once and \asBoldCode{1}, \asBoldCode{t} or
+\asBoldCode{y} for sending the data continuously.
+\tertiaryEnd{\examplesNameE{Services}{m+mPlaybackFromJSONInputService}}
 \tertiaryStart{\examplesNameP{Services}{m+mRandomBurstInputService}}
 The \examplesNameX{Services}{m+mRandomBurstInputService} application is an Input service,
 generating a stream of random floating\longDash{}point values, with a given `burst size'
@@ -206,7 +286,7 @@ service}{1.0}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{m+mRecordAsJSONOutputService}}
 The \examplesNameX{Services}{m+mRecordAsJSONOutputService} application is an Output
-service, recording a stream of \yarp{} values as JSON structures to an external file.
+service, recording a stream of \yarp{} values as \json{} structures to an external file.
 The application responds to the standard Output service requests and can be used as a
 standalone data generator, without the need for a client connection.\\
 
