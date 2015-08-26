@@ -36,14 +36,14 @@ m+mViconDataStreamInputService
 m+mRandomNumberAdapter
 m+mRunningSumAdapter
 m+mRunningSumAltAdapter
-# Clients!
+# Clients
 m+mAddressClient
 m+mEchoClient
 m+mRandomNumberClient
 m+mRequestCounterClient
 m+mRunningSumClient
 m+mTunnelClient
-# Utilities!
+# Utilities
 m+mClientList
 m+mFindServices
 m+mPortLister
