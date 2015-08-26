@@ -26,9 +26,7 @@
 \maketitle
 
 \insertpart{Contents}{\tableofcontents}
-%BEGIN LATEX
-\insertpart{List~of~Figures}{\listoffigures}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}{}{\insertpart{List~of~Figures}{\listoffigures}}
 
 \input{MpMdocumentationHistory.tex}
 \input{MpMfrontispiece.tex}
@@ -66,8 +64,6 @@
 
 % End of contents
 
-%BEGIN LATEX
-\insertpart{Index}{\printindex}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}{}{\insertpart{Index}{\printindex}}
 \end{document}
 \end

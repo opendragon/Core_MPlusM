@@ -28,9 +28,7 @@
 \maketitle
 
 \insertpart{Contents}{\tableofcontents}
-%BEGIN LATEX
-\insertpart{List~of~Figures}{\listoffigures}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}{}{\insertpart{List~of~Figures}{\listoffigures}}
 
 \input{JSdocumentationHistory.tex}
 \input{JSfrontispiece.tex}

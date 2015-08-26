@@ -25,25 +25,33 @@
 \newboolean{generatingHyperPDF}
 \setboolean{generatingHyperPDF}{true}
 
+\newboolean{heveaActive}
+%HEVEA\setboolean{heveaActive}{true}
+%BEGIN LATEX
+\setboolean{heveaActive}{false}
+%END LATEX
+
 % If the package 'hyperref' is disabled by commenting out the following lines,
 % be sure to set the boolean 'generatingHyperPDF' to false.
 \ifthenelse{\boolean{generatingHyperPDF}}%
- {\usepackage[colorlinks=true,
-    linkcolor=webgreen,
-    filecolor=webbrown,
-    citecolor=webgreen,
-    urlcolor=webblue,
-    pdftitle={\docTitle},
-    pdfauthor={\docAuthor},
-    pdfkeywords={\docKeywords},
-    pdfsubject={\docSubject},
-    bookmarks,
-    raiselinks=true,
-    plainpages=false,
-    bookmarksopen=true,
-    pdfstartview=Fit,
-    pdfpagemode=UseOutlines]{hyperref}}
- {\newcommand{\hyperpage}[1]{#1}}
+	{\ifthenelse{\boolean{heveaActive}}%
+		{\usepackage{hyperref}}
+		{\usepackage[colorlinks=true,
+			linkcolor=webgreen,
+			filecolor=webbrown,
+			citecolor=webgreen,
+			urlcolor=webblue,
+			pdftitle={\docTitle},
+			pdfauthor={\docAuthor},
+			pdfkeywords={\docKeywords},
+			pdfsubject={\docSubject},
+			bookmarks,
+			raiselinks=true,
+			plainpages=false,
+			bookmarksopen=true,
+			pdfstartview=Fit,
+			pdfpagemode=UseOutlines]{hyperref}}}
+	{\newcommand{\hyperpage}[1]{#1}}
 
 \usepackage{mysects}
 
@@ -75,111 +83,103 @@
 
 % Some commands to make examples match actual output more closely:
 
-%HEVEA\newcommand{\pseudotab}{\textbf{ $\vdash$} }%
-%HEVEA\newcommand{\tabSymbol}{\texttt{\textbf{$\vdash$}}}%
-%HEVEA\newcommand{\pseudotwotabs}{\textbf{ $\vdash$ $\vdash$ }}%
-%HEVEA\newcommand{\pseudothreetabs}{\textbf{ $\vdash$ $\vdash$ $\vdash$ }}%
-%BEGIN LATEX
-\newcommand{\pseudotab}{\thinspace\boldmath{$\vdash$}\thinspace}
-\newcommand{\tabSymbol}{\texttt{\boldmath{$\vdash$}}}
-\newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}%
-\thinspace}
-\newcommand{\pseudothreetabs}{\thinspace\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}%
-\thinspace\boldmath{$\vdash$}\thinspace}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\pseudotab}{\textbf{ $\vdash$} }}
+	{\newcommand{\pseudotab}{\thinspace\boldmath{$\vdash$}\thinspace}}
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\tabSymbol}{\texttt{\textbf{$\vdash$}}}}
+	{\newcommand{\tabSymbol}{\texttt{\boldmath{$\vdash$}}}}
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\pseudotwotabs}{\textbf{ $\vdash$ $\vdash$ }}}
+	{\newcommand{\pseudotwotabs}{\thinspace\boldmath{$\vdash$}\thinspace%
+	\boldmath{$\vdash$}\thinspace}}
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\pseudothreetabs}{\textbf{ $\vdash$ $\vdash$ $\vdash$ }}}
+	{\newcommand{\pseudothreetabs}{\thinspace\boldmath{$\vdash$}\thinspace%
+	\boldmath{$\vdash$}\thinspace\boldmath{$\vdash$}\thinspace}}
 
-%HEVEA\newcommand{\fUS}{\textunderscore}%
-%BEGIN LATEX
-\newcommand{\fUS}{\begin{Large}\textbf{\textunderscore}\end{Large}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\fUS}{\textunderscore}}
+	{\newcommand{\fUS}{\begin{Large}\textbf{\textunderscore}\end{Large}}}
 
 \newcommand{\clientName}{\fUS{}client\fUS}
 \newcommand{\dollarService}{\textdollar{}ervice}
 \newcommand{\serviceName}{\fUS{}service\fUS}
 \newcommand{\inputOutput}{Input~/~Output}
 
-%HEVEA\newcommand{\openSq}{\textbf{[}}%
-%BEGIN LATEX
-\newcommand{\openSq}{\boldmath{$\lbrack$}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\openSq}{\textbf{[}}}
+	{\newcommand{\openSq}{\boldmath{$\lbrack$}}}
 
-%HEVEA\newcommand{\closeSq}{\textbf{]}}%
-%BEGIN LATEX
-\newcommand{\closeSq}{\boldmath{$\rbrack$}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\closeSq}{\textbf{]}}}
+	{\newcommand{\closeSq}{\boldmath{$\rbrack$}}}
 
-%HEVEA\newcommand{\sqPair}{\textbf{[ ]}}%
-%BEGIN LATEX
-\newcommand{\sqPair}{\boldmath{$\lbrack\ \rbrack$}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\sqPair}{\textbf{[ ]}}}
+	{\newcommand{\sqPair}{\boldmath{$\lbrack\ \rbrack$}}}
+
 \newcommand{\TBD}{\textbf{\large{TBD}}}
 \newlength{\uL}
 
-%HEVEA\newcommand{\argItem}[2]{\textbf{#1} #2}%
-%BEGIN LATEX
-\newcommand{\argItem}[2]{\makebox[4em][l]{\textbf{#1}} #2}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\argItem}[2]{\textbf{#1} #2}}
+	{\newcommand{\argItem}[2]{\makebox[4em][l]{\textbf{#1}} #2}}
 
-%HEVEA\newcommand{\cmdItem}[2]{\textbf{#1} #2}%
-%BEGIN LATEX
-\newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} \parbox{40em}{#2}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\cmdItem}[2]{\textbf{#1} #2}}
+	{\newcommand{\cmdItem}[2]{\makebox[1em][l]{\textbf{#1}} \parbox{40em}{#2}}}
 
-%HEVEA\newcommand{\optItem}[4]{\textbf{-#1} \textit{#2} | \textbf{--#3} \textit{#2} #4}%
-%BEGIN LATEX
-\newcommand{\optItem}[4]{\makebox[1.75em][l]{\textbf{--#1} \textit{#2}} %
-\textbar{} \makebox[5.5em][l]{\textbf{{-}{-}#3} \textit{#2}} \parbox{35em}{#4}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\optItem}[4]{\textbf{-#1} \textit{#2} | \textbf{--#3} \textit{#2} #4}}
+	{\newcommand{\optItem}[4]{\makebox[1.75em][l]{\textbf{--#1} \textit{#2}} %
+	\textbar{} \makebox[5.5em][l]{\textbf{{-}{-}#3} \textit{#2}} \parbox{35em}{#4}}}
 
-%HEVEA\newcommand{\longDash}{-}%
-%BEGIN LATEX
-\newcommand{\longDash}{--}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\longDash}{-}}
+	{\newcommand{\longDash}{--}}
 
 \newcommand{\bigRightArrow}{$\Rightarrow$}
 
-%HEVEA\newcommand{\exSp}{\ }%
-%BEGIN LATEX
-\newcommand{\exSp}{}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\exSp}{\ }}
+	{\newcommand{\exSp}{}}
 
-%HEVEA\newcommand{\condPage}{\\}%
-%BEGIN LATEX
-\newcommand{\condPage}{\newpage}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\condPage}{\\}}
+	{\newcommand{\condPage}{\newpage}}
 
 \newcommand*{\compLang}[1]{\emphcorr{#1}}
 
 % Use different graphics file formats for HTML versus PDF
-%HEVEA\newcommand*{\objImage}[1]{\imgsrc{#1.png}}%
-%BEGIN LATEX
-\newcommand*{\objImage}[1]{\includegraphics{#1.eps}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand*{\objImage}[1]{\imgsrc{#1.png}}}
+	{\newcommand*{\objImage}[1]{\includegraphics{#1.eps}}}
 
-%HEVEA\newcommand*{\objScaledImage}[2]{\imgsrc{#2.png}}%
-%BEGIN LATEX
-\newcommand*{\objScaledImage}[2]{\includegraphics[scale=#1]{#2.eps}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand*{\objScaledImage}[2]{\imgsrc{#2.png}}}
+	{\newcommand*{\objScaledImage}[2]{\includegraphics[scale=#1]{#2.eps}}}
 
-%HEVEA\newcommand*{\objImageWithWidth}[2]{\imgsrc[width=#1]{#2.png}}%
-%BEGIN LATEX
-\newcommand*{\objImageWithWidth}[2]{\includegraphics[width=#1]{#2.eps}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand*{\objImageWithWidth}[2]{\imgsrc[width=#1]{#2.png}}}
+	{\newcommand*{\objImageWithWidth}[2]{\includegraphics[width=#1]{#2.eps}}}
 
-%HEVEA\newcommand{\mpmLogo}{\objImageWithWidth{150}{mpm_images/m+m_tight_logo}}%
-%BEGIN LATEX
-\newcommand{\mpmLogo}{\objImageWithWidth{5em}{mpm_images/m+m_tight_logo}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\mpmLogo}{\objImageWithWidth{150}{mpm_images/m+m_tight_logo}}}
+	{\newcommand{\mpmLogo}{\objImageWithWidth{5em}{mpm_images/m+m_tight_logo}}}
 
 \newcommand*{\objPicture}[1]{\begin{center}\objImage{#1}\end{center}}
 \newcommand*{\objScaledPicture}[2]{\begin{center}\objScaledImage{#2}{#1}\end{center}}
 \newcommand*{\objDiagram}[3]{\begin{figure}[!ht]\centering\objImage{#1}%
 \caption{#3\ }\label{diagram:#2}\end{figure}}
+
 \newcommand{\objScaledDiagram}[4]{\begin{figure}[!ht]\centering%
 \objScaledImage{#4}{#1}\caption{#3\ }\label{diagram:#2}\end{figure}}
+
 \newcommand*{\objDoubleScaledDiagram}[5]{\begin{figure}[!ht]\centering%
 \objScaledImage{#5}{#1}\hspace{3em}\objScaledImage{#5}{#2}\caption{#4\ }%
 \label{diagram:#3}\end{figure}}
+
 \newcommand*{\objDiagramRef}[1]{\ref{diagram:#1}}
 \newcommand{\stdAuthor}{H~Plus~Technologies~Ltd. and Simon~Fraser~University\\
 Vancouver, British~Columbia, Canada}
@@ -189,50 +189,47 @@ Vancouver, British~Columbia, Canada}
 % Third argument: alternate index subcategory
 % Fourth argument: index name
 % Fifth argument: index suffix
-%HEVEA\newcommand{\multiindex}[5]{}%
-%BEGIN LATEX 
-\newcommand{\multiindex}[5]{%
-  \ifthenelse{\equal{#2}{\default}}%
-    {\index{#1!#4#5}}%
-    {\index{#1!#2!#4#5}}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\multiindex}[5]{}}
+	{\newcommand{\multiindex}[5]{%
+	  \ifthenelse{\equal{#2}{\default}}%
+		{\index{#1!#4#5}}%
+		{\index{#1!#2!#4#5}}}}
 
 % First argument: label category
 % Second argument: label subcategory
 % Third argument: alternate label subcategory
 % Fourth argument: label name
-%HEVEA\newcommand{\multilabel}[4]{}%
-%BEGIN LATEX
-\newcommand{\multilabel}[4]{%
-  \ifthenelse{\equal{#3}{\default}}%
-    {\label{#1:#4}}%
-    {\label{#1:#3:#4}}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\multilabel}[4]{}}
+	{\newcommand{\multilabel}[4]{%
+	  \ifthenelse{\equal{#3}{\default}}%
+		{\label{#1:#4}}%
+		{\label{#1:#3:#4}}}}
 
 % First argument: reference category
 % Second argument: reference subcategory
 % Third argument: alternate reference subcategory
 % Fourth argument: reference name
-%HEVEA\newcommand{\multiref}[4]{}%
-%BEGIN LATEX
-\newcommand{\multiref}[4]{%
-  \ifthenelse{\equal{#3}{\default}}%
-    {\ref{#1:#4}}%
-    {\ref{#1:#3:#4}}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\multiref}[4]{}}
+	{\newcommand{\multiref}[4]{%
+	  \ifthenelse{\equal{#3}{\default}}%
+		{\ref{#1:#4}}%
+		{\ref{#1:#3:#4}}}}
 
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index name
 % Third argument: alternate hyperlink/index name
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\genTag}[3]{\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}%  command if generatingHyperPDF
-  {\newcommand{\genTag}[3]{\textitcorr{#3}}}%  command if not generatingHyperPDF
+  {\newcommand{\genTag}[3]{\hyperlink{hyper.#1.#2}{\textitcorr{#3}}}}
+  {\newcommand{\genTag}[3]{\textitcorr{#3}}}
   
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index name
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\genTarget}[2]{\hypertarget{hyper.#1.#2}{}}}%  command if generatingHyperPDF
-  {\newcommand{\genTarget}[2]{}}%  command if not generatingHyperPDF
+  {\newcommand{\genTarget}[2]{\hypertarget{hyper.#1.#2}{}}}
+  {\newcommand{\genTarget}[2]{}}
 
 % The net effect is as follows:
 %  generatingHyperPDF
@@ -302,7 +299,7 @@ Vancouver, British~Columbia, Canada}
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\newcommand{\entityNameM}[5]{%  command if not generatingHyperPDF
+\newcommand{\entityNameM}[5]{%
   \genTarget{#1}{#4}%
   \ifthenelse{\equal{#5}{\default}}%
     {\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
@@ -314,7 +311,7 @@ Vancouver, British~Columbia, Canada}
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\newcommand{\entityNameP}[5]{%  command if generatingHyperPDF
+\newcommand{\entityNameP}[5]{%
   \genTarget{#1}{#4}%
   \ifthenelse{\equal{#5}{\default}}%
 	{#4\multiindex{#1}{#2}{#3}{#4}{|(textbf}}%
@@ -326,7 +323,7 @@ Vancouver, British~Columbia, Canada}
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\newcommand{\entityNameR}[5]{%  command if generatingHyperPDF
+\newcommand{\entityNameR}[5]{%
   \ifthenelse{\equal{#5}{\default}}%
     {\genTag{#1}{#4}{#4}%
     \ifthenelse{\equal{#1}{#4}}%
@@ -356,7 +353,7 @@ Vancouver, British~Columbia, Canada}
 % Third argument: alternate hyperlink/index subcategory
 % Fourth argument: hyperlink/index name
 % Fifth argument: alternate hyperlink/index name
-\newcommand{\entityNameX}[5]{%  command if generatingHyperPDF
+\newcommand{\entityNameX}[5]{%
   \ifthenelse{\equal{#5}{\default}}%
     {\genTag{#1}{#4}{#4}}%
     {\genTag{#1}{#4}{#5}}}%
@@ -364,8 +361,8 @@ Vancouver, British~Columbia, Canada}
 % First argument: hyperlink/index category
 % Second argument: hyperlink/index name
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\doVpage}[2]{}}%  command if generatingHyperPDF
-  {\newcommand{\doVpage}[2]{ \vpageref[(][(]{#1:#2}}}%  command if not generatingHyperPDF
+  {\newcommand{\doVpage}[2]{}}%
+  {\newcommand{\doVpage}[2]{ \vpageref[(][(]{#1:#2}}}
   
 % Use \entityReference, rather than \entityName, for the first mention of an object within
 % another object, so that page ranges will be present.
@@ -373,8 +370,8 @@ Vancouver, British~Columbia, Canada}
 \doVpage{#1}{#2}}%  command if generatingHyperPDF
 
 \ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%  command if generatingHyperPDF
-  {\newcommand{\companyReference}[2]{#2}}% command if not generatingHyperPDF
+  {\newcommand{\companyReference}[2]{\href{#1}{#2}}}%
+  {\newcommand{\companyReference}[2]{#2}}%
 
 % First argument [optional]: alternate name
 % Second argument: entity name
@@ -465,16 +462,18 @@ Vancouver, British~Columbia, Canada}
 % Third argument: hyperlink section
 % Fourth argument: simplified version of title
 % Fifth argument: prefix to display before title
-%HEVEA\newcommand*{\sectionStart}[5][\default]{\section{#5\texorpdfstring{#2}{#4}}\renewcommand{\mymark}{#4}}%
-%BEGIN LATEX
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5\texorpdfstring{#2}{#4}}%
-   \renewcommand{\mymark}{#4}%
-   \ifthenelse{\equal{#1}{\default}}%
-    {\hypertarget{hyper.#3.#4}{}}%
-    {\hypertarget{hyper.#3.#1}{}}}}%
-  {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5#2}\renewcommand{\mymark}{#4}}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand*{\sectionStart}[5][\default]{\section{#5\texorpdfstring{#2}{#4}}%
+	\renewcommand{\mymark}{#4}}}
+	{\ifthenelse{\boolean{generatingHyperPDF}}%
+	  {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5%
+	  \texorpdfstring{#2}{#4}}%
+	   \renewcommand{\mymark}{#4}%
+	   \ifthenelse{\equal{#1}{\default}}%
+			{\hypertarget{hyper.#3.#4}{}}%
+			{\hypertarget{hyper.#3.#1}{}}}}%
+	  {\newcommand*{\sectionStart}[5][\default]{\clearpage\section{#5#2}%
+	  \renewcommand{\mymark}{#4}}}}
 
 \newcommand*{\sectionEnd}[1]{#1} % just a notational convenience
 
@@ -489,15 +488,14 @@ Vancouver, British~Columbia, Canada}
 % Second argument: subsection title
 % Third argument: hypertarget section
 % Fourth argument: simplified version of title
-%HEVEA\newcommand*{\subsectionStart}[4][\default]{\subsection{\texorpdfstring{#2}{#4}}}%
-%BEGIN LATEX
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand*{\subsectionStart}[4][\default]{\subsection{\texorpdfstring{#2}{#4}}%
-   \ifthenelse{\equal{#1}{\default}}%
-    {\hypertarget{hyper.#3.#4}{}}%
-    {\hypertarget{hyper.#3.#1}{}}}}%
-  {\newcommand*{\subsectionStart}[4][\default]{\subsection{#2}}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand*{\subsectionStart}[4][\default]{\subsection{\texorpdfstring{#2}{#4}}}}
+	{\ifthenelse{\boolean{generatingHyperPDF}}%
+	  {\newcommand*{\subsectionStart}[4][\default]{\subsection{\texorpdfstring{#2}{#4}}%
+	   \ifthenelse{\equal{#1}{\default}}%
+		{\hypertarget{hyper.#3.#4}{}}%
+		{\hypertarget{hyper.#3.#1}{}}}}%
+	  {\newcommand*{\subsectionStart}[4][\default]{\subsection{#2}}}}
 
 \newcommand*{\subsectionEnd}[1]{#1} % just a notational convenience
 
@@ -505,15 +503,16 @@ Vancouver, British~Columbia, Canada}
 % Second argument: subsubsection title
 % Third argument: hypertarget section
 % Fourth argument: simplified version of title
-%HEVEA\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{\texorpdfstring{#2}{#4}}}%
-%BEGIN LATEX
-\ifthenelse{\boolean{generatingHyperPDF}}%
-  {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{\texorpdfstring{#2}{#4}}%
-   \ifthenelse{\equal{#1}{\default}}%
-    {\hypertarget{hyper.#3.#4}{}}%
-    {\hypertarget{hyper.#3.#1}{}}}}%
-  {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{#2}\index{#2}}}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{%
+	\texorpdfstring{#2}{#4}}}}
+	{\ifthenelse{\boolean{generatingHyperPDF}}%
+	  {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{%
+	  \texorpdfstring{#2}{#4}}%
+	   \ifthenelse{\equal{#1}{\default}}%
+		{\hypertarget{hyper.#3.#4}{}}%
+		{\hypertarget{hyper.#3.#1}{}}}}%
+	  {\newcommand*{\subsubsectionStart}[4][\default]{\subsubsection{#2}\index{#2}}}}
 
 \newcommand*{\subsubsectionEnd}[1]{#1} % just a notational convenience
 
@@ -561,6 +560,10 @@ Vancouver, British~Columbia, Canada}
 % Second argument: link title
 \newcommand{\appendixRef}[2]{\sectionRef{Appendix}{#1}{#2}}
 
+\ifthenelse{\boolean{heveaActive}}%
+	{\newcommand{\maybeSpace}{}}
+	{\newcommand{\maybeSpace}{\hspace\fill}}
+
 \newenvironment{histList}
   {\begin{list}
     {}
@@ -568,11 +571,7 @@ Vancouver, British~Columbia, Canada}
     \setlength{\leftmargin}{\labelwidth+\labelsep}
     \setlength{\rightmargin}{36pt}% 0.5"
     \setlength{\parsep}{0ex}
-    %HEVEA\renewcommand{\makelabel}[1]{\textbf{##1}}%
-    %BEGIN LATEX
-    \renewcommand{\makelabel}[1]{\textbf{##1}\hspace\fill}
-    %END LATEX
-    }}
+    \renewcommand{\makelabel}[1]{\textbf{##1}\maybeSpace}}}
   {\end{list}}
 \newcommand*{\histListBegin}{\begin{histList}}
 \newcommand*{\histListEnd}{\end{histList}}
@@ -728,9 +727,9 @@ commands are available:
 \rhead[\fancyplain{}{\textsc{\mymark}}]{}
 \lfoot[Page \thepage]{\today}
 \rfoot[\today]{Page \thepage}
-%BEGIN LATEX
-\renewcommand{\headrulewidth}{0.5bp}
-%END LATEX
+\ifthenelse{\boolean{heveaActive}}%
+	{}
+	{\renewcommand{\headrulewidth}{0.5bp}}
 \pagenumbering{roman}
 
 \date{\MMV: \today}
