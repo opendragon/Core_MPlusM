@@ -163,6 +163,28 @@ DEFINE_CONFIGURE_(RecordIntegersOutputService)
     return result;
 } // RecordIntegersOutputService::configure
 
+DEFINE_DISABLEMETRICS_(RecordIntegersOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RecordIntegersOutputService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(RecordIntegersOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RecordIntegersOutputService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(RecordIntegersOutputService)
 {
     OD_LOG_OBJENTER(); //####
@@ -259,6 +281,7 @@ DEFINE_STARTSTREAMS_(RecordIntegersOutputService)
                 if (_inHandler)
                 {
                     _inHandler->setFile(_outFile);
+                    _inHandler->setChannel(getInletStream(0));
                     getInletStream(0)->setReader(*_inHandler);
                     setActive();
                 }

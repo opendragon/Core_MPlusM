@@ -222,17 +222,10 @@ namespace MplusM
              @returns @c true if the service was successfully configured and @c false otherwise. */
             DECLARE_CONFIGURE_ = 0;
             
-            /*! @fn virtual void disableMetrics(void)
-             @brief Turn off the send / receive metrics collecting. */
             DECLARE_DISABLEMETRICS_;
             
-            /*! @fn virtual void enableMetrics(void)
-             @brief Turn on the send / receive metrics collecting. */
             DECLARE_ENABLEMETRICS_;
             
-            /*! @fn virtual void gatherMetrics(yarp::os::Bottle & metrics)
-             @brief Fill in the metrics for the service.
-             @param metrics The gathered metrics. */
             DECLARE_GATHERMETRICS_;
 
             /*! @brief Returns the descriptions of the arguments to the application.

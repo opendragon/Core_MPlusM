@@ -193,6 +193,36 @@ void UnrealOutputService::deactivateConnection(void)
     OD_LOG_EXIT(); //####
 } // UnrealOutputService::deactivateConnection
 
+DEFINE_DISABLEMETRICS_(UnrealOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inLeapHandler)
+    {
+        _inLeapHandler->disableMetrics();
+    }
+    if (_inViconHandler)
+    {
+        _inViconHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // UnrealOutputService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(UnrealOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inLeapHandler)
+    {
+        _inLeapHandler->enableMetrics();
+    }
+    if (_inViconHandler)
+    {
+        _inViconHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // UnrealOutputService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(UnrealOutputService)
 {
     OD_LOG_OBJENTER(); //####
@@ -320,9 +350,11 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                         {
                             _inLeapHandler->setSocket(_networkSocket);
                             _inLeapHandler->setScale(_translationScale);
+                            _inLeapHandler->setChannel(getInletStream(0));
                             getInletStream(0)->setReader(*_inLeapHandler);
                             _inViconHandler->setSocket(_networkSocket);
                             _inViconHandler->setScale(_translationScale);
+                            _inViconHandler->setChannel(getInletStream(1));
                             getInletStream(1)->setReader(*_inViconHandler);
                             setActive();
                         }
@@ -374,9 +406,11 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
 									cerr << "connection is live" << endl; //!!!!
                                     _inLeapHandler->setSocket(_networkSocket);
                                     _inLeapHandler->setScale(_translationScale);
+                                    _inLeapHandler->setChannel(getInletStream(0));
                                     getInletStream(0)->setReader(*_inLeapHandler);
                                     _inViconHandler->setSocket(_networkSocket);
                                     _inViconHandler->setScale(_translationScale);
+                                    _inViconHandler->setChannel(getInletStream(1));
                                     getInletStream(1)->setReader(*_inViconHandler);
                                     setActive();
                                 }

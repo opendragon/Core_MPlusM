@@ -389,6 +389,40 @@ DEFINE_CONFIGURE_(JavaScriptService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(JavaScriptService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
+         ++walker)
+    {
+        JavaScriptInputHandler * aHandler = *walker;
+        
+        if (aHandler)
+        {
+            aHandler->disableMetrics();
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // JavaScriptService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(JavaScriptService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
+         ++walker)
+    {
+        JavaScriptInputHandler * aHandler = *walker;
+        
+        if (aHandler)
+        {
+            aHandler->enableMetrics();
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // JavaScriptService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(JavaScriptService)
 {
     OD_LOG_OBJENTER(); //####
@@ -563,6 +597,7 @@ DEFINE_STARTSTREAMS_(JavaScriptService)
                     if (aHandler)
                     {
                         _inHandlers.push_back(aHandler);
+                        aHandler->setChannel(getInletStream(ii));
                         getInletStream(ii)->setReader(*aHandler);
                         aHandler->activate();
                     }

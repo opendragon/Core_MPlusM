@@ -162,6 +162,28 @@ DEFINE_CONFIGURE_(RecordAsJSONOutputService)
     return result;
 } // RecordAsJSONOutputService::configure
 
+DEFINE_DISABLEMETRICS_(RecordAsJSONOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RecordAsJSONOutputService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(RecordAsJSONOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RecordAsJSONOutputService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(RecordAsJSONOutputService)
 {
     OD_LOG_OBJENTER(); //####
@@ -258,6 +280,7 @@ DEFINE_STARTSTREAMS_(RecordAsJSONOutputService)
                 if (_inHandler)
                 {
                     _inHandler->setFile(_outFile);
+                    _inHandler->setChannel(getInletStream(0));
                     getInletStream(0)->setReader(*_inHandler);
                     setActive();
                 }

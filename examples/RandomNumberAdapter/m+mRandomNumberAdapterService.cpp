@@ -154,6 +154,28 @@ DEFINE_CONFIGURE_(RandomNumberAdapterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(RandomNumberAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RandomNumberAdapterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(RandomNumberAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RandomNumberAdapterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(RandomNumberAdapterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -255,6 +277,7 @@ DEFINE_STARTSTREAMS_(RandomNumberAdapterService)
         {
             if (_inHandler)
             {
+                _inHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }

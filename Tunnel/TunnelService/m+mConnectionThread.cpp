@@ -262,7 +262,7 @@ void ConnectionThread::run(void)
                 {
                     if (send(destinationSocket, buffer, inSize, 0) == inSize)
                     {
-                        Common::SendReceiveCounters newCount(1, inSize, 1, inSize);
+                        Common::SendReceiveCounters newCount(inSize, 1, inSize, 1);
                         
                         _service.incrementAuxiliaryCounters(newCount);
                     }

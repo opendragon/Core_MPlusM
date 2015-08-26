@@ -142,7 +142,10 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
 #endif // ! defined(MpM_UseCustomStringBuffer)
             if (buffAsString.length())
             {
+                SendReceiveCounters toBeAdded(0, 0, outLength, 1);
+                
                 _owner.sendMessage(buffAsString, outLength);
+                _owner.incrementAuxiliaryCounters(toBeAdded);
             }
         }
     }

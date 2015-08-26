@@ -115,6 +115,10 @@ namespace MplusM
             /*! @brief Deactivate the network connection. */
             void deactivateConnection(void);
             
+            DECLARE_DISABLEMETRICS_;
+            
+            DECLARE_ENABLEMETRICS_;
+            
             DECLARE_GETCONFIGURATION_;
             
             DECLARE_RESTARTSTREAMS_;

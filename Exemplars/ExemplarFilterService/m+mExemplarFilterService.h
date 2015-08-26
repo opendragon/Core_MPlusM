@@ -90,6 +90,10 @@ namespace MplusM
             
             DECLARE_CONFIGURE_;
             
+            DECLARE_DISABLEMETRICS_;
+            
+            DECLARE_ENABLEMETRICS_;
+            
             DECLARE_GETCONFIGURATION_;
 
             DECLARE_RESTARTSTREAMS_;

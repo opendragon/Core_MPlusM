@@ -154,6 +154,36 @@ DEFINE_CONFIGURE_(RunningSumAdapterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(RunningSumAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_controlHandler)
+    {
+        _controlHandler->disableMetrics();
+    }
+    if (_dataHandler)
+    {
+        _dataHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RunningSumAdapterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(RunningSumAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_controlHandler)
+    {
+        _controlHandler->enableMetrics();
+    }
+    if (_dataHandler)
+    {
+        _dataHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RunningSumAdapterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(RunningSumAdapterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -263,7 +293,9 @@ DEFINE_STARTSTREAMS_(RunningSumAdapterService)
         {
             if (_controlHandler && _dataHandler)
             {
+                _controlHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_controlHandler);
+                _dataHandler->setChannel(getInletStream(1));
                 getInletStream(1)->setReader(*_dataHandler);
                 setActive();
             }

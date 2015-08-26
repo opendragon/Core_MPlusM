@@ -167,9 +167,9 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
                 buff << "Host name is '" << _hostName.c_str() << "', host port is " << _hostPort <<
                         ", user name is '" << _userName;
 #if USE_TOPICS_
-                buff << ", topic is '";
+                buff << "', topic is '";
 #else // ! USE_TOPICS_
-                buff << ", queue is '";
+                buff << "', queue is '";
 #endif // ! USE_TOPICS_
                 buff << _topicOrQueueName << "'.";
                 setExtraInformation(buff.str());
@@ -193,6 +193,28 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::configure
+
+DEFINE_DISABLEMETRICS_(SendToMQOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // SendToMQOutputService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(SendToMQOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // SendToMQOutputService::enableMetrics
 
 DEFINE_GETCONFIGURATION_(SendToMQOutputService)
 {
@@ -268,7 +290,7 @@ void SendToMQOutputService::sendMessage(const std::string & aMessage,
     {
         if (isActive())
         {
-            Common::SendReceiveCounters     newCount(0, 0, 1, messageLength);
+            Common::SendReceiveCounters     newCount(0, 0, messageLength, 1);
             std::auto_ptr<cms::TextMessage> stuff(_session->createTextMessage(aMessage));
             
             incrementAuxiliaryCounters(newCount);
@@ -406,6 +428,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
                 _producer->setDeliveryMode(cms::DeliveryMode::NON_PERSISTENT);
                 if (_inHandler)
                 {
+                    _inHandler->setChannel(getInletStream(0));
                     getInletStream(0)->setReader(*_inHandler);
                     setActive();
                 }

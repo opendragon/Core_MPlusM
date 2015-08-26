@@ -152,6 +152,28 @@ DEFINE_CONFIGURE_(MovementDbAdapterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(MovementDbAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // MovementDbAdapterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(MovementDbAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // MovementDbAdapterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(MovementDbAdapterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -253,6 +275,7 @@ DEFINE_STARTSTREAMS_(MovementDbAdapterService)
         {
             if (_inHandler)
             {
+                _inHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }

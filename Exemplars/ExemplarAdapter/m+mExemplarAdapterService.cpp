@@ -152,6 +152,28 @@ DEFINE_CONFIGURE_(ExemplarAdapterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(ExemplarAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ExemplarAdapterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(ExemplarAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ExemplarAdapterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(ExemplarAdapterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -253,6 +275,7 @@ DEFINE_STARTSTREAMS_(ExemplarAdapterService)
         {
             if (_inHandler)
             {
+                _inHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }

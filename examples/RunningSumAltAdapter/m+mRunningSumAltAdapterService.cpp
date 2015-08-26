@@ -154,6 +154,28 @@ DEFINE_CONFIGURE_(RunningSumAltAdapterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(RunningSumAltAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RunningSumAltAdapterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(RunningSumAltAdapterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RunningSumAltAdapterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(RunningSumAltAdapterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -255,6 +277,7 @@ DEFINE_STARTSTREAMS_(RunningSumAltAdapterService)
         {
             if (_inHandler)
             {
+                _inHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }

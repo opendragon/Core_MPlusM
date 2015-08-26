@@ -390,6 +390,40 @@ DEFINE_CONFIGURE_(CommonLispService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(CommonLispService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
+         ++walker)
+    {
+        CommonLispInputHandler * aHandler = *walker;
+        
+        if (aHandler)
+        {
+            aHandler->disableMetrics();
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(CommonLispService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
+         ++walker)
+    {
+        CommonLispInputHandler * aHandler = *walker;
+        
+        if (aHandler)
+        {
+            aHandler->enableMetrics();
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(CommonLispService)
 {
     OD_LOG_OBJENTER(); //####
@@ -564,6 +598,7 @@ DEFINE_STARTSTREAMS_(CommonLispService)
                     if (aHandler)
                     {
                         _inHandlers.push_back(aHandler);
+                        aHandler->setChannel(getInletStream(ii));
                         getInletStream(ii)->setReader(*aHandler);
                         aHandler->activate();
                     }

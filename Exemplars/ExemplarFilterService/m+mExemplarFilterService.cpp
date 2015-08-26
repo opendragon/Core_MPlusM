@@ -150,6 +150,28 @@ DEFINE_CONFIGURE_(ExemplarFilterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(ExemplarFilterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ExemplarFilterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(ExemplarFilterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // ExemplarFilterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(ExemplarFilterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -236,6 +258,7 @@ DEFINE_STARTSTREAMS_(ExemplarFilterService)
             if (_inHandler)
             {
                 _inHandler->setOutput(getOutletStream(0));
+                _inHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }

@@ -159,6 +159,28 @@ DEFINE_CONFIGURE_(BlobOutputService)
     return result;
 } // BlobOutputService::configure
 
+DEFINE_DISABLEMETRICS_(BlobOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BlobOutputService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(BlobOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // BlobOutputService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(BlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
@@ -299,6 +321,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
 						else
                         {
                             _inHandler->setSocket(_networkSocket);
+                            _inHandler->setChannel(getInletStream(0));
                             getInletStream(0)->setReader(*_inHandler);
                             setActive();
                         }
@@ -350,6 +373,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
 									cerr << "connection is live" << endl; //!!!!
                                     _inHandler->setSocket(_networkSocket);
                                     getInletStream(0)->setReader(*_inHandler);
+                                    _inHandler->setChannel(getInletStream(0));
                                     setActive();
                                 }
                             }

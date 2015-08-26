@@ -470,6 +470,12 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
                                         {
                                             _owner.deactivateConnection();
                                         }
+                                        else
+                                        {
+                                            SendReceiveCounters toBeAdded(0, 0, retVal, 1);
+                                            
+                                            _owner.incrementAuxiliaryCounters(toBeAdded);
+                                        }
                                     }
                                 }
                             }

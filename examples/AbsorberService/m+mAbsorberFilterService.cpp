@@ -205,6 +205,28 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
     return result;
 } // AbsorberFilterService::configure
 
+DEFINE_DISABLEMETRICS_(AbsorberFilterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // AbsorberFilterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(AbsorberFilterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // AbsorberFilterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(AbsorberFilterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -291,6 +313,7 @@ DEFINE_STARTSTREAMS_(AbsorberFilterService)
         {
             if (_inHandler)
             {
+                _inHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_inHandler);
                 if (0 < _sampleInterval)
                 {

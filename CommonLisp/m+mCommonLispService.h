@@ -121,6 +121,10 @@ namespace MplusM
             
             DECLARE_CONFIGURE_;
             
+            DECLARE_DISABLEMETRICS_;
+            
+            DECLARE_ENABLEMETRICS_;
+            
             DECLARE_GETCONFIGURATION_;
 
 //            /*! @brief Return the Common Lisp execution environment.

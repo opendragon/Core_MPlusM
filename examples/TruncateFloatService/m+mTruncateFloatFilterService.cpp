@@ -153,6 +153,28 @@ DEFINE_CONFIGURE_(TruncateFloatFilterService)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
+DEFINE_DISABLEMETRICS_(TruncateFloatFilterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // TruncateFloatFilterService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(TruncateFloatFilterService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // TruncateFloatFilterService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(TruncateFloatFilterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -239,6 +261,7 @@ DEFINE_STARTSTREAMS_(TruncateFloatFilterService)
             if (_inHandler)
             {
                 _inHandler->setOutput(getOutletStream(0));
+                _inHandler->setChannel(getInletStream(0));
                 getInletStream(0)->setReader(*_inHandler);
                 setActive();
             }

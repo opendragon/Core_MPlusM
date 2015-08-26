@@ -160,6 +160,28 @@ DEFINE_CONFIGURE_(RecordBlobOutputService)
     return result;
 } // RecordBlobOutputService::configure
 
+DEFINE_DISABLEMETRICS_(RecordBlobOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::disableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->disableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RecordBlobOutputService::disableMetrics
+
+DEFINE_ENABLEMETRICS_(RecordBlobOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    inherited::enableMetrics();
+    if (_inHandler)
+    {
+        _inHandler->enableMetrics();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // RecordBlobOutputService::enableMetrics
+
 DEFINE_GETCONFIGURATION_(RecordBlobOutputService)
 {
     OD_LOG_OBJENTER(); //####
@@ -256,6 +278,7 @@ DEFINE_STARTSTREAMS_(RecordBlobOutputService)
                 if (_inHandler)
                 {
                     _inHandler->setFile(_outFile);
+                    _inHandler->setChannel(getInletStream(0));
                     getInletStream(0)->setReader(*_inHandler);
                     setActive();
                 }

@@ -19,6 +19,7 @@
 #include "m+mBaseOutputService.h"
 #include "m+mBaseRequestHandler.h"
 #include "m+mBaseService.h"
+#include "m+mBoolArgumentDescriptor.h"
 #include "m+mChannelArgumentDescriptor.h"
 #include "m+mChannelStatusReporter.h"
 #include "m+mClientChannel.h"
