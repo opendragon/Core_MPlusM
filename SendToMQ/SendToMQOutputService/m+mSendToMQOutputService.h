@@ -69,9 +69,6 @@
 /*! @brief The description of the service. */
 # define SENDTOMQOUTPUT_SERVICE_DESCRIPTION_ T_("SendToMQ output service")
 
-/*! @brief Set to @c TRUE to use topics and @c FALSE to use queues. */
-# define USE_TOPICS_ TRUE
-
 namespace MplusM
 {
     namespace SendToMQ
@@ -186,6 +183,19 @@ namespace MplusM
             
             /*! @brief The message producer that works with the active session. */
             cms::MessageProducer * _producer;
+            
+            /*! @brief If @c true, use a queue for transmission else use a topic. */
+            bool _useQueue;
+            
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
             
         }; // SendToMQOutputService
         

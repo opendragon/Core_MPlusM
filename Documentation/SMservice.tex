@@ -6,11 +6,14 @@ The application responds to the standard Output service requests and can be used
 standalone data sink, without the need for a client connection.\\
 
 The \emph{configuration} request has no arguments and returns the string value for the
-topic or queue to set up on the ActiveMQ broker.\\
+topic or queue to set up on the ActiveMQ broker and an integer value for the `queue flag'.
+A value of \asBoldCode{0} for the `queue flag' indicates that a topic will be used for
+sending to the ActiveMQ broker and a value of \asBoldCode{1} indicates that a queue will
+be used.\\
 
-The \emph{configure} request request has one argument \longDash{} a string value for the
-topic or queue to set up on the ActiveMQ broker.
-This value will be applied when the input stream is started or restarted.\\
+The \emph{configure} request request has two arguments \longDash{} a string value for the
+topic or queue to set up on the ActiveMQ broker and an integer value for the `queue flag'.
+These values will be applied when the input stream is started or restarted.\\
 
 The \emph{restartStreams} request stops and then starts the input stream.\\
 
@@ -26,14 +29,23 @@ The application has four required arguments \longDash{} a string value for the h
 of the ActiveMQ broker, an integer value for the port on the ActiveMQ broker to
 connect to, a string value for the user identifier to use on the ActiveMQ broker and a
 string value for the password for the user on the ActiveMQ broker.
-The application has one optional argument \longDash{} a string value for the
-topic or queue to set up on the ActiveMQ broker.
+The application has two optional arguments \longDash{} a string value for the
+topic or queue to set up on the ActiveMQ broker and a flag indicating whether a queue will
+be used to send to the ActiveMQ broker.
 \insertAppParameters
 \insertTagDescription{\SMO}
 \insertInputServiceComment
-\condPage
+
+The other parameters provide the topic or queue name to set up on the ActiveMQ broker and
+the queue flag; if not specified, a topic or queue name of \asCode{m+m} and a queue flag
+of \asCode{0} \longDash{} indicating sending of the data via a topic \longDash{} will be
+used.
+Note that the topic or queue name and queue flag can also be set via commands, if the
+application is running from a terminal.\\
+
 \insertStandardServiceCommands
 \secondaryEnd
+\condPage
 \secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
@@ -50,5 +62,9 @@ If the \textbf{Configure the service} menu item has been selected, the following
 appear:
 \objScaledDiagram{mpm_images/configureSendToMQOutputService}%
 {configureServiceSendToMQ}{Configuration window for the \emph{\SMO} service}{1.0}
+
+Note that the queue flag can be specified by \asBoldCode{0}, \asBoldCode{f} or
+\asBoldCode{n} for sending the data via a topic and \asBoldCode{1}, \asBoldCode{t} or
+\asBoldCode{y} for sending the data via a queue.
 \secondaryEnd
 \primaryEnd{}

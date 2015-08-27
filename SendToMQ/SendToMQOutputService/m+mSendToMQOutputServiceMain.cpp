@@ -40,6 +40,7 @@
 #include "m+mSendToMQOutputRequests.h"
 
 #include <m+m/m+mAddressArgumentDescriptor.h>
+#include <m+m/m+mBoolArgumentDescriptor.h>
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mPortArgumentDescriptor.h>
 
@@ -125,8 +126,10 @@ static void setUpAndGo(const YarpString &                  hostName,
     OD_LOG_LL2("hostPort = ", hostPort, "argc = ", argc); //####
     OD_LOG_B3("goWasSet = ", goWasSet, "stdinAvailable = ", stdinAvailable, //####
               "reportOnExit = ", reportOnExit); //####
-    SendToMQOutputService * aService = new SendToMQOutputService(hostName, hostPort, userName, userPassword, argumentList, progName, argc, argv,
-                                                                 tag, serviceEndpointName,
+    SendToMQOutputService * aService = new SendToMQOutputService(hostName, hostPort, userName,
+                                                                 userPassword, argumentList,
+                                                                 progName, argc, argv, tag,
+                                                                 serviceEndpointName,
                                                                  servicePortNumber);
     
     if (aService)
@@ -192,15 +195,13 @@ int main(int      argc,
                                                        T_("The user password for the ActiveMQ "
                                                           "broker"),
                                                        Utilities::kArgModeRequiredPassword, "");
-#if USE_TOPICS_
-        Utilities::StringArgumentDescriptor  fifthArg("topic", T_("The topic for the ActiveMQ "
-                                                                  "broker"),
+        Utilities::StringArgumentDescriptor  fifthArg("topicOrQueue",
+                                                      T_("The topic or queue for the ActiveMQ "
+                                                         "broker"),
                                                       Utilities::kArgModeOptionalModifiable, "m+m");
-#else // ! USE_TOPICS_
-        Utilities::StringArgumentDescriptor  fifthArg("queue", T_("The queue for the ActiveMQ "
-                                                                  "broker"),
-                                                      Utilities::kArgModeOptionalModifiable, "m+m");
-#endif // ! USE_TOPICS_
+        Utilities::BoolArgumentDescriptor    sixthArg("isQueue",
+                                                      T_("Send via a queue (versus a topic)"),
+                                                      Utilities::kArgModeOptionalModifiable, false);
         Utilities::DescriptorVector          argumentList;
         
         argumentList.push_back(&firstArg);
@@ -208,6 +209,7 @@ int main(int      argc,
         argumentList.push_back(&thirdArg);
         argumentList.push_back(&fourthArg);
         argumentList.push_back(&fifthArg);
+        argumentList.push_back(&sixthArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_,
                                           SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", 2015,

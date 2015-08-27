@@ -121,7 +121,7 @@ inherited(argumentList, launchPath, argc, argv, tag, true, MpM_SENDTOMQOUTPUT_CA
           SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _hostName(hostName), _password(userPassword), _userName(userName), _hostPort(hostPort),
     _inHandler(new SendToMQOutputInputHandler(*this)), _connection(NULL), _session(NULL),
-    _destination(NULL), _producer(NULL)
+    _destination(NULL), _producer(NULL), _useQueue(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("hostName = ", hostName, "userName = ", userName, "userPassword = ", //####
@@ -153,25 +153,24 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
     
     try
     {
-        if (1 <= details.size())
+        if (2 <= details.size())
         {
             yarp::os::Value firstValue(details.get(0));
+            yarp::os::Value secondValue(details.get(1));
             
-            if (firstValue.isString())
+            if (firstValue.isString() && secondValue.isInt())
             {
+                int               secondNumber = secondValue.asInt();
                 std::stringstream buff;
                 
                 _topicOrQueueName = firstValue.asString();
                 OD_LOG_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
+                _useQueue = (0 != secondNumber);
                 // Don't trace the password OR report it via the GUI!!
                 buff << "Host name is '" << _hostName.c_str() << "', host port is " << _hostPort <<
-                        ", user name is '" << _userName;
-#if USE_TOPICS_
-                buff << "', topic is '";
-#else // ! USE_TOPICS_
-                buff << "', queue is '";
-#endif // ! USE_TOPICS_
-                buff << _topicOrQueueName << "'.";
+                        ", user name is '" << _userName << "', topic/queue name is '" <<
+                        _topicOrQueueName << "', send via " << (_useQueue ? "queue" : "topic") <<
+                        ".";
                 setExtraInformation(buff.str());
                 result = true;
             }
@@ -224,6 +223,7 @@ DEFINE_GETCONFIGURATION_(SendToMQOutputService)
     
     details.clear();
     details.addString(_topicOrQueueName);
+    details.addInt(_useQueue ? 1 : 0);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // SendToMQOutputService::getConfiguration
@@ -399,18 +399,24 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
             if (_session)
             {
                 OD_LOG("(_session)"); //####
-#if USE_TOPICS_
-                _destination = _session->createTopic(_topicOrQueueName);
-#else // ! USE_TOPICS_
-                _destination = _session->createQueue(_topicOrQueueName);
-#endif // ! USE_TOPICS_
+                if (_useQueue)
+                {
+                    _destination = _session->createQueue(_topicOrQueueName);
+                }
+                else
+                {
+                    _destination = _session->createTopic(_topicOrQueueName);
+                }
                 if (! _destination)
                 {
-#if USE_TOPICS_
-                    cerr << "Could not create topic." << endl;
-#else // ! USE_TOPICS_
-                    cerr << "Could not create queue." << endl;
-#endif // ! USE_TOPICS_
+                    if (_useQueue)
+                    {
+                        cerr << "Could not create queue." << endl;
+                    }
+                    else
+                    {
+                        cerr << "Could not create topic." << endl;
+                    }
                 }
             }
             if (_destination)

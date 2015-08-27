@@ -121,12 +121,13 @@ returns the floating\longDash{}point value for the `playback ratio', the
 floating\longDash{}point value for the initial delay and an integer value for the
 `loop flag'.
 The `playback ratio' is a scaling factor for the interval between the sending of each
-message from the file; a value of \asCode{1} indicates no scaling while, for example, a
-value of \asCode{2} indicates that the messages will be sent half as often as they were
-recorded.
-A value of \asCode{0} for the `loop flag' indicates no looping \longDash{} the data
+message from the file; a value of \asBoldCode{1} indicates no scaling while, for example,
+a value of \asBoldCode{2} indicates that the messages will be sent half as often as they
+were recorded.
+A value of \asBoldCode{0} for the `loop flag' indicates no looping \longDash{} the data
 contained in the file will be sent once, after the initial delay \longDash{} and a value
-of \asCode{1} indicates that the data contained in the file will be sent continuously.\\
+of \asBoldCode{1} indicates that the data contained in the file will be sent
+continuously.\\
 
 The \requestsNameR{\inputOutput}{InputOutput}{configure} request has three arguments
 \longDash{} a floating\longDash{}point value for the `playback ratio', a
@@ -159,25 +160,26 @@ once.
 \insertInputServiceComment\\
 
 The other parameters provide the playback ratio, initial delay and loop flag; if not
-specified, a playback ratio of 1, an initial delay of zero seconds and a loop flag of
-\asCode{1} \longDash{} indicating continuous sending of the data \longDash{} will be used.
+specified, a playback ratio of \asBoldCode{1}, an initial delay of zero seconds and a loop
+flag of \asBoldCode{1} \longDash{} indicating continuous sending of the data \longDash{}
+will be used.
 Note that the playback ratio, initial delay and loop flag can also be set via commands,
-if the application is running from a terminal.\\
-
+if the application is running from a terminal.
+\condPage
 \insertStandardServiceCommands{}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchPlaybackFromJSONInputService}%
 {launchServicePlaybackFromJSON}{Launch options for the \emph{Playback From JSON Input}
 service}{0.8}
-
+\condPage{}
 For details on the usage of the `endpoint' and `tag' options, see the \emph{\MMMU} manual.
 Once the options are set, the following image will appear in the \emph{\MMMU} window when
 the service has successfully started:
 \objScaledDiagram{mpm_images/runningPlaybackFromJSONInputService}%
 {serviceRunningPlaybackFromJSON}{The \emph{\MMMU} entity for the \emph{Playback From JSON
 Input} service}{1.0}
-\condPage{}
+
 If the \textbf{Configure the service} menu item has been selected, the following will
 appear:
 \objScaledDiagram{mpm_images/configurePlaybackFromJSONInputService}%
@@ -230,8 +232,8 @@ the number of random values to generate in each burst.
 The other parameters provide the initial burst period and size; if not specified, a burst
 period of 1 second and burst size of 1 will be used.
 Note that the burst period and size can also be set via commands, if the application is
-running from a terminal.\\
-
+running from a terminal.
+\condPage
 \insertStandardServiceCommands{}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
