@@ -141,7 +141,9 @@ DEFINE_CONFIGURE_(UnrealOutputService)
                 std::stringstream buff;
                 
                 _outPort = firstValue.asInt();
+                OD_LOG_LL1("_outPort <- ", _outPort); //####
                 _translationScale = secondValue.asDouble();
+                OD_LOG_D1("_translationScale <- ", _translationScale); //####
                 buff << "Output port is " << _outPort << ", translation scale is " <<
                         _translationScale;
                 setExtraInformation(buff.str());

@@ -217,6 +217,7 @@ DEFINE_VALIDATE_(AddressArgumentDescriptor)
     if (_valid)
     {
         _currentValue = testValue;
+        OD_LOG_S1s("_currentValue <- ", _currentValue); //####
     }
     OD_LOG_OBJEXIT_B(_valid); //####
     return _valid;

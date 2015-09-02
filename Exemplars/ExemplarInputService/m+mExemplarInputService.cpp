@@ -141,6 +141,8 @@ DEFINE_CONFIGURE_(ExemplarInputService)
                     
                     _burstPeriod = firstNumber;
                     _burstSize = secondNumber;
+                    OD_LOG_D1("_burstPeriod <- ", _burstPeriod); //####
+                    OD_LOG_LL1("_burstSize <- ", _burstSize); //####
                     buff << "Burst period is " << _burstPeriod << ", burst size is " << _burstSize;
                     setExtraInformation(buff.str());
                     result = true;

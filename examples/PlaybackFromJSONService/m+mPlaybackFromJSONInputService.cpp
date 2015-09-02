@@ -458,6 +458,9 @@ DEFINE_CONFIGURE_(PlaybackFromJSONInputService)
                     _playbackRatio = firstNumber;
                     _initialDelay = secondNumber;
                     _loopPlayback = (0 != thirdNumber);
+                    OD_LOG_D2("_playbackRatio <- ", _playbackRatio, "_initialDelay <- ", //####
+                              _initialDelay); //####
+                    OD_LOG_B1("_loopPlayback <- ", _loopPlayback); //####
                     buff << "Input file path is '" << _inPath.c_str() << "', playback ratio is " <<
                             _playbackRatio << ", initial delay is " << _initialDelay <<
                             ", playback does " << (_loopPlayback ? "loop" : "not loop");

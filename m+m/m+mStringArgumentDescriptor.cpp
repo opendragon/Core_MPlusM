@@ -182,6 +182,7 @@ DEFINE_SETTODEFAULTVALUE_(StringArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _currentValue = _defaultValue;
+    OD_LOG_S1s("_currentValue <- ", _currentValue); //####
     OD_LOG_OBJEXIT(); //####
 } // StringArgumentDescriptor::setToDefaultValue
 
@@ -203,6 +204,7 @@ DEFINE_VALIDATE_(StringArgumentDescriptor)
     if (_valid)
     {
         _currentValue = value;
+        OD_LOG_S1s("_currentValue <- ", _currentValue); //####
     }
     OD_LOG_OBJEXIT_B(_valid); //####
     return _valid;

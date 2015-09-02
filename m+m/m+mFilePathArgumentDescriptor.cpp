@@ -288,6 +288,7 @@ DEFINE_SETTODEFAULTVALUE_(FilePathArgumentDescriptor)
         getDefaultValue();
     }
     _currentValue = _defaultValue;
+    OD_LOG_S1s("_currentValue <- ", _currentValue); //####
     OD_LOG_OBJEXIT(); //####
 } // FilePathArgumentDescriptor::setToDefaultValue
 
@@ -313,6 +314,7 @@ DEFINE_VALIDATE_(FilePathArgumentDescriptor)
     if (_valid)
     {
         _currentValue = value;
+        OD_LOG_S1s("_currentValue <- ", _currentValue); //####
     }
     OD_LOG_OBJEXIT_B(_valid); //####
     return _valid;

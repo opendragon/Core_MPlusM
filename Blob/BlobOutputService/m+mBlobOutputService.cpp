@@ -136,6 +136,7 @@ DEFINE_CONFIGURE_(BlobOutputService)
                 std::stringstream buff;
                 
                 _outPort = firstValue.asInt();
+                OD_LOG_LL1("_outPort <- ", _outPort); //####
                 buff << "Output port is " << _outPort;
                 setExtraInformation(buff.str());
                 result = true;

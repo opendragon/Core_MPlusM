@@ -152,6 +152,7 @@ DEFINE_CONFIGURE_(KinectV2BlobInputService)
                 {
                     _translationScale = firstValue.asInt();
                 }
+                OD_LOG_D1("_translationScale <- ", _translationScale); //####
                 buff << "Translation scale is " << _translationScale;
                 setExtraInformation(buff.str());
                 result = true;

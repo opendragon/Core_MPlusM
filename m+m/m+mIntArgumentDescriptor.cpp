@@ -243,6 +243,7 @@ DEFINE_SETTODEFAULTVALUE_(IntArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _currentValue = _defaultValue;
+    OD_LOG_LL1("_currentValue <- ", _currentValue); //####
     OD_LOG_OBJEXIT(); //####
 } // IntArgumentDescriptor::setToDefaultValue
 
@@ -302,6 +303,7 @@ DEFINE_VALIDATE_(IntArgumentDescriptor)
     if (_valid)
     {
         _currentValue = intValue;
+        OD_LOG_LL1("_currentValue <- ", _currentValue); //####
     }
     OD_LOG_OBJEXIT_B(_valid); //####
     return _valid;

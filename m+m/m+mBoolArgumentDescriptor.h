@@ -88,6 +88,14 @@ namespace MplusM
                 return _currentValue;
             } // getCurrentValue
             
+            /*! @fn virtual bool isBoolean(void) const
+             @brief Return @c true if the argument is for Boolean arguments.
+             @returns @c true if the argument is for Boolean arguments and @c false otherwise. */
+            DECLARE_ISBOOLEAN_
+            {
+                return true;
+            } // isBoolean
+            
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */

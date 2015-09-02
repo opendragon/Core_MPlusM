@@ -176,11 +176,11 @@ BaseArgumentDescriptor * BoolArgumentDescriptor::parseArgString(const YarpString
         {
             if (0 < defaultString.length())
             {
-                if (defaultString == "1")
+                if ('1' == defaultString[0])
                 {
                     defaultValue = true;
                 }
-                else if (defaultString == "0")
+                else if ('0' == defaultString[0])
                 {
                     defaultValue = false;
                 }
@@ -207,6 +207,7 @@ DEFINE_SETTODEFAULTVALUE_(BoolArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _currentValue = _defaultValue;
+    OD_LOG_B1("_currentValue <- ", _currentValue); //####
     OD_LOG_OBJEXIT(); //####
 } // BoolArgumentDescriptor::setToDefaultValue
 
@@ -246,6 +247,7 @@ DEFINE_VALIDATE_(BoolArgumentDescriptor)
     if (_valid)
     {
         _currentValue = boolValue;
+        OD_LOG_B1("_currentValue <- ", _currentValue); //####
     }
     OD_LOG_OBJEXIT_B(_valid); //####
     return _valid;

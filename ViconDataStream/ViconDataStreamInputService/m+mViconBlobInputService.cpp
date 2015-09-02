@@ -147,6 +147,7 @@ DEFINE_CONFIGURE_(ViconBlobInputService)
                 {
                     _translationScale = firstValue.asInt();
                 }
+                OD_LOG_D1("_translationScale <- ", _translationScale); //####
                 if ((0 < _translationScale) && (0 < thirdNumber))
                 {
                     std::stringstream buff;

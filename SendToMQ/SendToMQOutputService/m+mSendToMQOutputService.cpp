@@ -166,6 +166,7 @@ DEFINE_CONFIGURE_(SendToMQOutputService)
                 _topicOrQueueName = firstValue.asString();
                 OD_LOG_S1s("_topicOrQueueName <- ", _topicOrQueueName); //####
                 _useQueue = (0 != secondNumber);
+                OD_LOG_B1("_useQueue <- ", _useQueue); //####
                 // Don't trace the password OR report it via the GUI!!
                 buff << "Host name is '" << _hostName.c_str() << "', host port is " << _hostPort <<
                         ", user name is '" << _userName << "', topic/queue name is '" <<

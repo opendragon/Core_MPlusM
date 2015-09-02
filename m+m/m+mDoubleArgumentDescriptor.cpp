@@ -244,6 +244,7 @@ DEFINE_SETTODEFAULTVALUE_(DoubleArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
     _currentValue = _defaultValue;
+    OD_LOG_D1("_currentValue <- ", _currentValue); //####
     OD_LOG_OBJEXIT(); //####
 } // DoubleArgumentDescriptor::setToDefaultValue
 
@@ -303,6 +304,7 @@ DEFINE_VALIDATE_(DoubleArgumentDescriptor)
     if (_valid)
     {
         _currentValue = dblValue;
+        OD_LOG_D1("_currentValue <- ", _currentValue); //####
     }
     OD_LOG_OBJEXIT_B(_valid); //####
     return _valid;

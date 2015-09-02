@@ -177,6 +177,7 @@ DEFINE_CONFIGURE_(AbsorberFilterService)
                     std::stringstream buff;
                     
                     _sampleInterval = firstNumber;
+                    OD_LOG_LL1("_sampleInterval <- ", _sampleInterval); //####
                     buff << "Sample interval is " << _sampleInterval;
                     setExtraInformation(buff.str());
                     result = true;

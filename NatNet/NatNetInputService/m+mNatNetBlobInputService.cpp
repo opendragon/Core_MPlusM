@@ -150,6 +150,7 @@ DEFINE_CONFIGURE_(NatNetBlobInputService)
                 {
                     _translationScale = firstValue.asInt();
                 }
+                OD_LOG_D1("_translationScale <- ", _translationScale); //####
 				if ((0 < _translationScale) && (0 < thirdNumber) && (0 < fourthNumber))
 				{
 					std::stringstream buff;

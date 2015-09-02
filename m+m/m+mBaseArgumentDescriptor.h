@@ -88,6 +88,12 @@
 # define DECLARE_GETPROCESSEDVALUE_ \
     virtual YarpString getProcessedValue(void)
 
+/*! @brief Declare the isBoolean method, which returns @c true if the descriptor is for Boolean
+ arguments and @c false otherwise. */
+# define DECLARE_ISBOOLEAN_ \
+    virtual bool isBoolean(void)\
+    const
+
 /*! @brief Declare the isExtra method, which returns @c true if the descriptor is a placeholder for
  zero or more trailing arguments and @c false otherwise. */
 # define DECLARE_ISEXTRA_ \
@@ -277,6 +283,14 @@ namespace MplusM
              @brief Return the processed value.
              @returns The processed value. */
             DECLARE_GETPROCESSEDVALUE_ = 0;
+            
+            /*! @fn virtual bool isBoolean(void) const
+             @brief Return @c true if the argument is for Boolean arguments.
+             @returns @c true if the argument is for Boolean arguments and @c false otherwise. */
+            DECLARE_ISBOOLEAN_
+            {
+                return false;
+            } // isBoolean
             
             /*! @fn virtual bool isExtra(void) const
              @brief Return @c true if the argument is a placeholder for zero or more trailing
