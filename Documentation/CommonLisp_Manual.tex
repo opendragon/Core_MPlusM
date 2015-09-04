@@ -1,0 +1,57 @@
+\ProvidesFile{CommonLispScript_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\input{commonStrings.tex}
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{\CLIO}
+\newcommand{\docKeywords}{Lisp,middleware,input,output}
+\newcommand{\docSubject}{Input / Output Service}
+\newcommand{\CLIO}{Common Lisp Input / Output}
+\newcommand{\CL}{\compLang{Common Lisp}}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\CLIO, \MMV]{\CLIO, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\CLIO}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+\ifthenelse{\boolean{heveaActive}}{}{\insertpart{List~of~Figures}{\listoffigures}}
+
+\input{CLdocumentationHistory.tex}
+\input{CLfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{CLoverview.tex}
+
+%% section for the service
+
+\input{CLservice.tex}
+
+%% section for the file format
+
+\input{CLfileFormat.tex}
+
+\appendix
+\input{CLexamples.tex}
+
+% End of contents
+
+\end{document}
+\end

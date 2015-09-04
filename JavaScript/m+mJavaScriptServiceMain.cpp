@@ -1944,8 +1944,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
     YarpString scriptSource;
 
-    // Make sure that the scriptPath is valid and construct the modified 'tag' and (optional)
-    // endpoint name.
+    // Make sure that the scriptPath is valid.
     FILE * scratch = fopen(scriptPath.c_str(), "r");
 
     if (scratch)

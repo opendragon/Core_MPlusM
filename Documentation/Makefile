@@ -6,6 +6,8 @@ IMAGE_DIR = mpm_images
 
 # Intermediate Postscript files
 
+CLpsfiles =
+
 IMpsfiles =
 
 JSpsfiles =
@@ -29,6 +31,8 @@ SMpsfiles =
 VDSpsfiles =
 
 # Intermediate Encapsulated Postscript files
+
+CLepsfiles =
 
 IMepsfiles =
 
@@ -54,6 +58,8 @@ SMepsfiles =
 VDSepsfiles =
 
 # Intermediate Portable Network Graphics files
+
+CLpngfiles = 
 
 Commonpngfiles = $(IMAGE_DIR)/m+m_tight_logo.png
 
@@ -81,6 +87,11 @@ SMpngfiles =
 VDSpngfiles =
 
 # Input bitmap EPS files
+
+CLbitmapepsfiles = $(IMAGE_DIR)/commonLispWithEndpoint.eps \
+		$(IMAGE_DIR)/commonLispWithEndpointAndTag.eps $(IMAGE_DIR)/commonLispWithTag.eps \
+		$(IMAGE_DIR)/launchCommonLispFilterService.eps \
+		$(IMAGE_DIR)/runningCommonLispFilterService.eps
 
 IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 		$(IMAGE_DIR)/Installer03.eps $(IMAGE_DIR)/Installer04.eps \
@@ -239,6 +250,8 @@ VDSbitmapepsfiles = $(IMAGE_DIR)/configureViconBlobInputService.eps \
 
 # Input bitmap PNG files
 
+CLbitmappngfiles = $(CLbitmapepsfiles:.eps=.png)
+
 IMbitmappngfiles = $(IMbitmapepsfiles:.eps=.png)
 
 JSbitmappngfiles = $(JSbitmapepsfiles:.eps=.png)
@@ -262,6 +275,8 @@ SMbitmappngfiles = $(SMbitmapepsfiles:.eps=.png)
 VDSbitmappngfiles = $(VDSbitmapepsfiles:.eps=.png)
 
 # Main source file
+
+CLmainsource = CommonLisp_Manual.tex
 
 IMmainsource = Installation_Manual.tex
 
@@ -288,6 +303,9 @@ VDSmainsource = ViconDataStreamInput_Manual.tex
 # Secondary source files
 
 Commonsources = boilerPlate.tex commonStrings.tex sharedSetup.tex
+
+CLsecondaryfiles = CLdocumentationHistory.tex CLfrontispiece.tex CLoverview.tex \
+		CLfileFormat.tex CLservice.tex CLexamples.tex $(Commonsources) $(Commonpngfiles)
 
 IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMinstalling.tex \
 		IMoverview.tex IMuninstalling.tex $(Commonsources) $(Commonpngfiles)
@@ -335,6 +353,8 @@ VDSsecondaryfiles = VDSblobMessageFormat.tex VDSblobService.tex \
 
 # DVI files
 
+CLmaindvi = $(CLmainsource:.tex=.dvi)
+
 IMmaindvi = $(IMmainsource:.tex=.dvi)
 
 JSmaindvi = $(JSmainsource:.tex=.dvi)
@@ -358,6 +378,8 @@ SMmaindvi = $(SMmainsource:.tex=.dvi)
 VDSmaindvi = $(VDSmainsource:.tex=.dvi)
 
 # Index files
+
+CLmainidx = $(CLmainsource:.tex=.idx)
 
 IMmainidx = $(IMmainsource:.tex=.idx)
 
@@ -383,6 +405,8 @@ VDSmainidx = $(VDSmainsource:.tex=.idx)
 
 # Intermediate Postscript files
 
+CLmainps = $(CLmainsource:.tex=.ps)
+
 IMmainps = $(IMmainsource:.tex=.ps)
 
 JSmainps = $(JSmainsource:.tex=.ps)
@@ -407,6 +431,8 @@ VDSmainps = $(VDSmainsource:.tex=.ps)
 
 # Output HTML files
 
+CLmainhtml = $(CLmainsource:.tex=.html)
+
 IMmainhtml = $(IMmainsource:.tex=.html)
 
 JSmainhtml = $(JSmainsource:.tex=.html)
@@ -430,6 +456,8 @@ SMmainhtml = $(SMmainsource:.tex=.html)
 VDSmainhtml = $(VDSmainsource:.tex=.html)
 
 # Output PDF files
+
+CLmainpdf = $(CLmainsource:.tex=.pdf)
 
 IMmainpdf = $(IMmainsource:.tex=.pdf)
 
@@ -456,6 +484,8 @@ VDSmainpdf = $(VDSmainsource:.tex=.pdf)
 # Target files
 
 ARCHIVEtarget = $(HOME)/$(IMAGE_ARCHIVE)
+
+CLtarget = $(HOME)/$(CLmainpdf) $(HOME)/$(CLmainhtml)
 
 IMtarget = $(HOME)/$(IMmainpdf) $(HOME)/$(IMmainhtml)
 
@@ -513,6 +543,13 @@ $(HOME)/%.gz: %.gz
 	cp -f $< $@
 
 # Specific rules (DVI)
+
+$(CLmaindvi) : $(CLbitmapepsfiles) $(CLepsfiles) $(CLmainsource) $(CLsecondaryfiles)
+	-latex -interaction=batchmode $(CLmainsource)
+	-latex -interaction=batchmode $(CLmainsource)
+	-latex -interaction=batchmode $(CLmainsource)
+	makeindex $(CLmainidx)
+	latex -interaction=batchmode $(CLmainsource)
 
 $(IMmaindvi) : $(IMbitmapepsfiles) $(IMepsfiles) $(IMmainsource) $(IMsecondaryfiles)
 	-latex -interaction=batchmode $(IMmainsource)
@@ -593,6 +630,9 @@ $(VDSmaindvi) : $(VDSbitmapepsfiles) $(VDSepsfiles) $(VDSmainsource) $(VDSsecond
 
 # Specific rules (HTML)
 
+$(CLmainhtml) : $(CLbitmappngfiles) $(CLpngfiles) $(CLmainsource) $(CLsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(CLmainsource) -o $@
+
 $(IMmainhtml) : $(IMbitmappngfiles) $(IMpngfiles) $(IMmainsource) $(IMsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(IMmainsource) -o $@
 
@@ -626,12 +666,13 @@ $(SMmainhtml) : $(SMbitmappngfiles) $(SMpngfiles) $(SMmainsource) $(SMsecondaryf
 $(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(VDSmainsource) -o $@
 
-$(IMAGE_ARCHIVE) : $(IMbitmappngfiles) $(JSbitmappngfiles) $(KV2bitmappngfiles) \
-		$(LMbitmappngfiles) $(MMMbitmappngfiles) $(MpMbitmappngfiles) \
-		$(NNbitmappngfiles) $(OSbitmappngfiles) $(PC2bitmappngfiles) $(SMbitmappngfiles) \
-		$(VDSbitmappngfiles) $(Commonpngfiles) $(IMpngfiles) $(JSpngfiles) \
-		$(KV2pngfiles) $(LMpngfiles) $(MMMpngfiles) $(MpMpngfiles) $(NNpngfiles) \
-		$(OSpngfiles) $(PC2pngfiles) $(SMpngfiles) $(VDSpngfiles) 
+$(IMAGE_ARCHIVE) : $(CLbitmappngfiles) $(IMbitmappngfiles) $(JSbitmappngfiles) \
+		$(KV2bitmappngfiles) $(LMbitmappngfiles) $(MMMbitmappngfiles) \
+		$(MpMbitmappngfiles) $(NNbitmappngfiles) $(OSbitmappngfiles) \
+		$(PC2bitmappngfiles) $(SMbitmappngfiles) $(VDSbitmappngfiles) $(Commonpngfiles) \
+		$(CLpngfiles) $(IMpngfiles) $(JSpngfiles) $(KV2pngfiles) $(LMpngfiles) \
+		$(MMMpngfiles) $(MpMpngfiles) $(NNpngfiles) $(OSpngfiles) $(PC2pngfiles) \
+		$(SMpngfiles) $(VDSpngfiles) 
 	tar -czf $(IMAGE_ARCHIVE) $(IMAGE_DIR)
 
 # Top-level targets
@@ -643,7 +684,7 @@ $(IMAGE_ARCHIVE) : $(IMbitmappngfiles) $(JSbitmappngfiles) $(KV2bitmappngfiles) 
 clean :
 	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
 	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_ARCHIVE)
-#	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_DIR)/*.png $(IMAGE_ARCHIVE)
 
-all : $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) $(MpMtarget) \
-		$(NNtarget) $(OStarget) $(PC2target) $(SMtarget) $(VDStarget) $(ARCHIVEtarget)
+all : $(CLtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) \
+		$(MpMtarget) $(NNtarget) $(OStarget) $(PC2target) $(SMtarget) $(VDStarget) \
+		$(ARCHIVEtarget)

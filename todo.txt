@@ -8,11 +8,13 @@
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-* Python, Lua, Common Lisp services
+* (Python, Lua,) Common Lisp services
 
 * integrate Arduino sensors via Linux-based Arduino boards? SmartTag via TouchShare?
 
 * Tunnel Service and Client need to be bidirectional (use nonblocking I/O?)
+
+* m+m input, output and filter services as Max objects - parameters of endpoint, port, tag and one input, one output or both, with wildcard protocols
 
 - check if the SpiderMonkey library can be statically linked on Windows and if this resolves the exit issue; if so, check if it can be statically linked on OS X
 

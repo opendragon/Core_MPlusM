@@ -702,6 +702,7 @@
 		DFEF83DF1B8B5B8A00C0ACDD /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = examples/PlaybackFromJSONService/resource.h; sourceTree = "<group>"; };
 		DFEF83E01B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mBoolArgumentDescriptor.cpp"; path = "m+m/m+mBoolArgumentDescriptor.cpp"; sourceTree = "<group>"; };
 		DFEF83E11B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mBoolArgumentDescriptor.h"; path = "m+m/m+mBoolArgumentDescriptor.h"; sourceTree = "<group>"; };
+		DFEF83F11B99D48600C0ACDD /* sloc.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = sloc.sh; sourceTree = "<group>"; };
 		DFFFBFD319D9A49D00BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD519D9A4B900BBD7A7 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = KinectV2/KinectV2InputService/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DFFFBFD819D9A4B900BBD7A7 /* m+mKinectV2EventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2EventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2EventThread.cpp"; sourceTree = SOURCE_ROOT; };
@@ -1745,6 +1746,7 @@
 				F69C063D1B6558DF00A83A7E /* SendToMQ */,
 				DF20928F18D0DAA50093D3DC /* ServiceLister */,
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
+				DFEF83F11B99D48600C0ACDD /* sloc.sh */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
 				DF7623641B029130002BDC49 /* standardApplications.txt */,
 				DF8888151AEE7EAF001320EB /* StopService */,

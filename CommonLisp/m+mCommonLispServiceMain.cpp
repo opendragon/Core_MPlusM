@@ -72,23 +72,18 @@ using std::cout;
 using std::endl;
 using std::cerr;
 
-#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The number of megabytes before the Common Lisp engine triggers a garbage collection. */
-#define COMMONLISP_GC_SIZE_ 16
+/*! @brief A macro to create a DEFUN abstraction in C++.
 
-/*! @brief The number of bytes for each Common Lisp 'stack chunk'. */
-#define COMMONLISP_STACKCHUNK_SIZE_ 8192
-
-/*! @brief The class of the global object. */
-static JSClass lGlobalClass =
-{
-    "global",            // name
-    JSCLASS_GLOBAL_FLAGS // flags
-}; // lGlobalClass
+ Credit: https://gist.github.com/vwood/662109
+ @param name The string name for the function.
+ @param fun A pointer to the implementing C++ function.
+ @param args The number of arguments to the function. */
+#define DEFUN(name,fun,args) \
+    cl_def_c_function(c_string_to_object(name), (cl_objectfn_fixed) fun, args)
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -98,6 +93,22 @@ static JSClass lGlobalClass =
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Run an arbitrary Lisp expression.
+ @param call The expression to be executed.
+ @returns The result of the execution. */
+static cl_object doLisp(const YarpString & call)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1s("call = ", call);
+    cl_env_ptr env = ecl_process_env();
+    cl_object  result;
+    
+    result = cl_safe_eval(c_string_to_object(call.c_str()), Cnil, Cnil);
+    OD_LOG_EXIT_P(result); //####
+    ecl_return1(env, result);
+} // doLisp
+
+#if 0
 /*! @brief The error reporter callback for the Common Lisp engine.
  @param cx The context in which the error happened.
  @param message An error message.
@@ -126,74 +137,49 @@ static void reportCommonLispError(JSContext *     cx,
         // Suppress any C++ exception caused by this function.
     }
 } // reportCommonLispError
+#endif//0
+
+#define DUMPFORMAT_ "~S~%"
 
 /*! @brief A C-callback function for Common Lisp to write out an object.
- @param jct The context in which the native function is being called.
- @param argc The number of arguments supplied to the function by the caller.
- @param vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
-static bool dumpObjectToStdoutForJs(JSContext * jct,
-                                    unsigned    argc,
-                                    JS::Value * vp)
+ @param caption The caption for the dump.
+ @param anObject The object to be dumped. */
+static cl_object dumpObjectToStdoutForCl(cl_object caption,
+                                         cl_object anObject)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
-    bool         result;
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    OD_LOG_P2("caption = ", caption, "anObject = ", anObject); //####
+    cl_env_ptr env = ecl_process_env();
     
-    if (2 == args.length())
-    {
-        if (args[0].isString())
-        {
-            if (args[1].isObject())
-            {
-                JS::RootedObject asObject(jct);
-                
-                if (JS_ValueToObject(jct, args[1], &asObject))
-                {
-                    JSString * asString = args[0].toString();
-                    char *     asChars = JS_EncodeString(jct, asString);
-                    
-                    cout << asChars << endl;
-                    JS_free(jct, asChars);
-                    PrintCommonLispObject(cout, jct, asObject, 1);
-                    cout.flush();
-                    result = true;
-                }
-            }
-            else
-            {
-                JS_ReportError(jct, "Non-object argument to dumpObjectToStdout");
-                result = false;
-            }
-        }
-        else
-        {
-            JS_ReportError(jct, "Non-string argument to dumpObjectToStdout");
-            result = false;
-        }
-    }
-    else if (2 < args.length())
-    {
-        JS_ReportError(jct, "Extra arguments to dumpObjectToStdout");
-        result = false;
-    }
-    else
-    {
-        JS_ReportError(jct, "Missing arguments to dumpObjectToStdout");
-        result = false;
-    }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // dumpObjectToStdoutForJs
+    cl_princ(1, caption);
+    cl_pprint(1, anObject);
+    cout << endl;
+    OD_LOG_EXIT_P(Cnil); //####
+    ecl_return0(env);
+} // dumpObjectToStdoutForCl
 
+/*! @brief A C-callback function for Common Lisp to send an object to a channel.
+ @param channelIndex The number of the channel to be used.
+ @param message The message to send to the channel. */
+static cl_object sendToChannelForCl(cl_object channelIndex,
+                                    cl_object message)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("channelIndex = ", channelIndex, "message = ", message); //####
+    cl_env_ptr env = ecl_process_env();
+
+    //TBD
+    OD_LOG_EXIT_P(Cnil); //####
+    ecl_return0(env);
+} // sendToChannelForCl
+
+#if 0
 /*! @brief A C-callback function for Common Lisp to send an object to a channel.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool sendToChannelForJs(JSContext * jct,
+static bool sendToChannelForCl(JSContext * jct,
                                unsigned    argc,
                                JS::Value * vp)
 {
@@ -228,77 +214,40 @@ static bool sendToChannelForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // sendToChannelForJs
+} // sendToChannelForCl
+#endif//0
 
 /*! @brief A C-callback function for Common Lisp to write out a string.
- @param jct The context in which the native function is being called.
- @param argc The number of arguments supplied to the function by the caller.
- @param vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
-static bool writeLineToStdoutForJs(JSContext * jct,
-                                   unsigned    argc,
-                                   JS::Value * vp)
+ @param toWrite The argument to the function. */
+static cl_object writeLineToStdoutForCl(cl_object toWrite)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
-    bool         result;
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
-    if (0 == args.length())
-    {
-        JS_ReportError(jct, "Missing argument to writeLineToStdout");
-        result = false;
-    }
-    else if (1 < args.length())
-    {
-        JS_ReportError(jct, "Extra arguments to writeLineToStdout");
-        result = false;
-    }
-    else if (args[0].isString())
-    {
-        JSString * asString = args[0].toString();
-        char *     asChars = JS_EncodeString(jct, asString);
+    OD_LOG_P1("toWrite = ", toWrite); //####
+    cl_env_ptr env = ecl_process_env();
+    cl_object  newString = cl_string(toWrite); // Make sure that we have a string!
 
-        cout << asChars << endl;
-        JS_free(jct, asChars);
-        cout.flush();
-        result = true;
-    }
-    else
+    if (ecl_stringp(newString))
     {
-        JS_ReportError(jct, "Non-string argument to writeLineToStdout");
-        result = false;
+        /* Strings have to be null terminated base strings. */
+        newString = si_copy_to_simple_base_string(newString);
+        cout << reinterpret_cast<char *>(newString->base_string.self) << endl;
     }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // writeLineToStdoutForJs
-
-/*! @brief The table of supplied functions for the service. */
-static const JSFunctionSpec lServiceFunctions[] =
-{
-    // name, call, nargs, flags
-    JS_FS("dumpObjectToStdout", dumpObjectToStdoutForJs, 2, JSPROP_ENUMERATE),
-    JS_FS("sendToChannel", sendToChannelForJs, 2, JSPROP_ENUMERATE),
-    JS_FS("writeLineToStdout", writeLineToStdoutForJs, 1, JSPROP_ENUMERATE),
-    JS_FS_END
-}; // lServiceFunctions
+    OD_LOG_EXIT_P(Cnil); //####
+    ecl_return0(env);
+} // writeLineToStdoutForCl
 
 /*! @brief Add custom functions to the Common Lisp environment.
- @param jct The Common Lisp engine context.
- @param global The Common Lisp global object.
  @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
-static bool addCustomFunctions(JSContext *        jct,
-                               JS::RootedObject & global)
+static void addCustomFunctions(void)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
-    bool okSoFar = JS_DefineFunctions(jct, global, lServiceFunctions);
-    
-    OD_LOG_EXIT_B(okSoFar); //####
-    return okSoFar;
+    DEFUN("dumpObjectToStdout", dumpObjectToStdoutForCl, 2);
+    DEFUN("sendToChannel", sendToChannelForCl, 2);
+    DEFUN("writeLineToStdout", writeLineToStdoutForCl, 1);
+    OD_LOG_EXIT(); //####
 } // addCustomFunctions
 
+#if 0
 // The following forward reference is needed since lStreamClass refers to this function and the
 // function uses lStreamClass.
 /*! @brief Release resources used by a Stream object.
@@ -377,7 +326,7 @@ static bool CreateStreamObject(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamAtEofForJs(JSContext * jct,
+static bool streamAtEofForCl(JSContext * jct,
                              unsigned    argc,
                              JS::Value * vp)
 {
@@ -409,14 +358,14 @@ static bool streamAtEofForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamAtEofForJs
+} // streamAtEofForCl
 
 /*! @brief A C-callback function for Common Lisp to clear the error state of a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamClearErrorForJs(JSContext * jct,
+static bool streamClearErrorForCl(JSContext * jct,
                                   unsigned    argc,
                                   JS::Value * vp)
 {
@@ -443,14 +392,14 @@ static bool streamClearErrorForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamClearErrorForJs
+} // streamClearErrorForCl
 
 /*! @brief A C-callback function for Common Lisp to close a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamCloseForJs(JSContext * jct,
+static bool streamCloseForCl(JSContext * jct,
                              unsigned    argc,
                              JS::Value * vp)
 {
@@ -478,14 +427,14 @@ static bool streamCloseForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamCloseForJs
+} // streamCloseForCl
 
 /*! @brief A C-callback function for Common Lisp to check if a Stream object is in an error state.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamHasErrorForJs(JSContext * jct,
+static bool streamHasErrorForCl(JSContext * jct,
                                 unsigned    argc,
                                 JS::Value * vp)
 {
@@ -517,14 +466,14 @@ static bool streamHasErrorForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamHasErrorForJs
+} // streamHasErrorForCl
 
 /*! @brief A C-callback function for Common Lisp to check if a Stream object is open.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamIsOpenForJs(JSContext * jct,
+static bool streamIsOpenForCl(JSContext * jct,
                              unsigned    argc,
                              JS::Value * vp)
 {
@@ -548,14 +497,14 @@ static bool streamIsOpenForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamIsOpenForJs
+} // streamIsOpenForCl
 
 /*! @brief A C-callback function for Common Lisp to open a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamOpenForJs(JSContext * jct,
+static bool streamOpenForCl(JSContext * jct,
                             unsigned    argc,
                             JS::Value * vp)
 {
@@ -603,7 +552,7 @@ static bool streamOpenForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamOpenForJs
+} // streamOpenForCl
 
 /*! @brief A C-callback function for Common Lisp to read the next non-blank character from a Stream
  object.
@@ -611,7 +560,7 @@ static bool streamOpenForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadCharacterForJs(JSContext * jct,
+static bool streamReadCharacterForCl(JSContext * jct,
                                      unsigned    argc,
                                      JS::Value * vp)
 {
@@ -645,14 +594,14 @@ static bool streamReadCharacterForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamReadCharacterForJs
+} // streamReadCharacterForCl
 
 /*! @brief A C-callback function for Common Lisp to read a line from a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadLineForJs(JSContext * jct,
+static bool streamReadLineForCl(JSContext * jct,
                                 unsigned    argc,
                                 JS::Value * vp)
 {
@@ -714,14 +663,14 @@ static bool streamReadLineForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamReadLineForJs
+} // streamReadLineForCl
 
 /*! @brief A C-callback function for Common Lisp to read the next number from a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadNumberForJs(JSContext * jct,
+static bool streamReadNumberForCl(JSContext * jct,
                                   unsigned    argc,
                                   JS::Value * vp)
 {
@@ -753,14 +702,14 @@ static bool streamReadNumberForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamReadNumberForJs
+} // streamReadNumberForCl
 
 /*! @brief A C-callback function for Common Lisp to read a string from a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadStringForJs(JSContext * jct,
+static bool streamReadStringForCl(JSContext * jct,
                                   unsigned    argc,
                                   JS::Value * vp)
 {
@@ -872,14 +821,14 @@ static bool streamReadStringForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamReadStringForJs
+} // streamReadStringForCl
 
 /*! @brief A C-callback function for Common Lisp to reposition a Stream object to its beginning.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamRewindForJs(JSContext * jct,
+static bool streamRewindForCl(JSContext * jct,
                               unsigned    argc,
                               JS::Value * vp)
 {
@@ -906,14 +855,14 @@ static bool streamRewindForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamRewindForJs
+} // streamRewindForCl
 
 /*! @brief A C-callback function for Common Lisp to write a value to a Stream object.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamWriteForJs(JSContext * jct,
+static bool streamWriteForCl(JSContext * jct,
                              unsigned    argc,
                              JS::Value * vp)
 {
@@ -947,7 +896,7 @@ static bool streamWriteForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamWriteForJs
+} // streamWriteForCl
 
 /*! @brief A C-callback function for Common Lisp to write a value to a Stream object,
  followed by a newline.
@@ -955,7 +904,7 @@ static bool streamWriteForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamWriteLineForJs(JSContext * jct,
+static bool streamWriteLineForCl(JSContext * jct,
                                  unsigned    argc,
                                  JS::Value * vp)
 {
@@ -991,24 +940,24 @@ static bool streamWriteLineForJs(JSContext * jct,
     }
     OD_LOG_EXIT_B(result); //####
     return result;
-} // streamWriteLineForJs
+} // streamWriteLineForCl
 
 /*! @brief The table of supplied functions for the %Stream class. */
 static const JSFunctionSpec lStreamFunctions[] =
 {
-    JS_FS("atEof", streamAtEofForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("clearError", streamClearErrorForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("close", streamCloseForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("hasError", streamHasErrorForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("isOpen", streamIsOpenForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("open", streamOpenForJs, 2, JSPROP_ENUMERATE),
-    JS_FS("readCharacter", streamReadCharacterForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("readLine", streamReadLineForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("readNumber", streamReadNumberForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("readString", streamReadStringForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("rewind", streamRewindForJs, 0, JSPROP_ENUMERATE),
-    JS_FS("write", streamWriteForJs, 1, JSPROP_ENUMERATE),
-    JS_FS("writeLine", streamWriteLineForJs, 1, JSPROP_ENUMERATE),
+    JS_FS("atEof", streamAtEofForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("clearError", streamClearErrorForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("close", streamCloseForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("hasError", streamHasErrorForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("isOpen", streamIsOpenForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("open", streamOpenForCl, 2, JSPROP_ENUMERATE),
+    JS_FS("readCharacter", streamReadCharacterForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("readLine", streamReadLineForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("readNumber", streamReadNumberForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("readString", streamReadStringForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("rewind", streamRewindForCl, 0, JSPROP_ENUMERATE),
+    JS_FS("write", streamWriteForCl, 1, JSPROP_ENUMERATE),
+    JS_FS("writeLine", streamWriteLineForCl, 1, JSPROP_ENUMERATE),
     JS_FS_END
 }; // lStreamFunctions
 
@@ -1036,7 +985,22 @@ static bool addCustomClasses(JSContext *        jct,
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addCustomClasses
+#endif//0
 
+/*! @brief Add an array containing the command-line arguments to the Common Lisp environment.
+ @param argv The arguments to be used with the Common Lisp input / output service. */
+static void addArgvObject(const YarpStringVector & argv)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("argv = ", &argv); //####
+    cl_env_ptr env = ecl_process_env();
+
+    
+    //TBD
+    OD_LOG_EXIT(); //####
+} // addArgvObject
+
+#if 0
 /*! @brief Add an array containing the command-line arguments to the Common Lisp environment.
  @param jct The Common Lisp engine context.
  @param global The Common Lisp global object.
@@ -1125,72 +1089,55 @@ static bool addArgvObject(JSContext *              jct,
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
 } // addArgvObject
+#endif //0
+
+#define SCRIPTTAG_ "SCRIPTTAG"
 
 /*! @brief Add a custom string object to the Common Lisp environment.
- @param jct The Common Lisp engine context.
- @param global The Common Lisp global object.
- @param tag The modifier for the service name and port names.
- @returns @c true if the custom string object was addeded successfully and @c false otherwise. */
-static bool addScriptTagObject(JSContext *        jct,
-                               JS::RootedObject & global,
+ @param ourPackage The package to be used with the new object.
+ @param tag The modifier for the service name and port names. */
+static void addScriptTagObject(cl_object          ourPackage,
                                const YarpString & tag)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "global = ", &global); //####
+    OD_LOG_P1("ourPackage = ", ourPackage); //####
     OD_LOG_S1s("tag = ", tag); //####
-    bool       okSoFar = true;
-    JSString * aString = JS_NewStringCopyZ(jct, tag.c_str());
-    
-    if (aString)
-    {
-        JS::RootedValue argValue(jct);
-        
-        argValue.setString(aString);
-        if (! JS_SetProperty(jct, global, "scriptTag", argValue))
-        {
-            okSoFar = false;
-        }
-    }
-    else
-    {
-        okSoFar = false;
-    }
-    OD_LOG_EXIT_B(okSoFar); //####
-    return okSoFar;
+    cl_env_ptr env = ecl_process_env();
+    cl_object  script_tag = cl_intern(2, ecl_make_simple_base_string(const_cast<char *>(SCRIPTTAG_),
+                                                                     sizeof(SCRIPTTAG_) - 1),
+                                      ourPackage);
+
+    cl_export(2, script_tag, ourPackage);
+    ecl_setq(env, script_tag, ecl_make_simple_base_string(const_cast<char *>(tag.c_str()),
+                                                          tag.length()));
+    OD_LOG_EXIT(); //####
 } // addScriptTagObject
 
 /*! @brief Add custom classes, functions and variables to the Common Lisp environment.
- @param jct The Common Lisp engine context.
- @param global The Common Lisp global object.
  @param tag The modifier for the service name and port names.
- @param argv The arguments to be used with the Common Lisp input / output service.
- @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
-static bool addCustomObjects(JSContext *              jct,
-                             JS::RootedObject &       global,
-                             const YarpString &       tag,
-                             const YarpStringVector & argv)
+ @param argv The arguments to be used with the Common Lisp input / output service. */
+static cl_object addCustomObjects(const YarpString &       tag,
+                                  const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
+    OD_LOG_P1("argv = ", &argv); //####
     OD_LOG_S1s("tag = ", tag); //####
-    bool okSoFar = addCustomFunctions(jct, global);
+    cl_object ourPackage = cl_make_package(5, c_string_to_object(MpM_COMMONLISP_PACKAGE_NAME_),
+                                           c_string_to_object(":nicknames"),
+                                           cl_list(1,
+                                               c_string_to_object(MpM_COMMONLISP_PACKAGE_ABBREV_)),
+                                           c_string_to_object(":use"),
+                                           cl_list(1, c_string_to_object(":common-lisp")));
     
-    if (okSoFar)
-    {
-        okSoFar = addCustomClasses(jct, global);
-    }
-    if (okSoFar)
-    {
-        okSoFar = addArgvObject(jct, global, argv);
-    }
-    if (okSoFar)
-    {
-        okSoFar = addScriptTagObject(jct, global, tag);
-    }
-    OD_LOG_EXIT_B(okSoFar); //####
-    return okSoFar;
+    addCustomFunctions();
+    //addCustomClasses()
+    addArgvObject(argv);
+    addScriptTagObject(ourPackage, tag);
+    OD_LOG_EXIT_P(ourPackage); //####
+    return ourPackage;
 } // addCustomObjects
 
+#if 0
 /*! @brief Load a script into the Common Lisp environment.
  @param jct The Common Lisp engine context.
  @param options The compile options used to retain the compiled script.
@@ -1906,6 +1853,7 @@ static bool validateLoadedScript(JSContext *           jct,
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
 } // validateLoadedScript
+#endif//0
 
 /*! @brief Set up the environment and start the Common Lisp service.
  @param argumentList Descriptions of the arguments to the executable.
@@ -1943,10 +1891,22 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
+    cl_boot(argc, argv);
+    atexit(cl_shutdown);
+    YarpString loadCommand("(load \"");
+    
+    loadCommand += scriptPath + "\")";
+    // Set up our functions before loading the script.
+    cl_object ourPackage = addCustomObjects(tag, arguments);
+    
+    // Load the script!
+    doLisp(loadCommand);
+    // Check for the functions / strings that we need.
+    cout << "did load!" << endl;
+    
+#if 0
     YarpString scriptSource;
 
-    // Make sure that the scriptPath is valid and construct the modified 'tag' and (optional)
-    // endpoint name.
     FILE * scratch = fopen(scriptPath.c_str(), "r");
 
     if (scratch)
@@ -2165,9 +2125,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
         cerr << "Empty script file." << endl;
 #endif // ! MAC_OR_LINUX_
     }
+#endif//0
     OD_LOG_EXIT(); //####
 } // setUpAndGo
-#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Global functions
@@ -2258,11 +2218,9 @@ int main(int      argc,
                     {
                         tag = tagModifier;
                     }
-#if 0
                     setUpAndGo(argumentList, scriptPath, arguments, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, nameWasSet,
                                reportOnExit, stdinAvailable);
-#endif//0
                 }
                 else
                 {
