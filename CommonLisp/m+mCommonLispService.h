@@ -63,14 +63,15 @@
 /*! @brief The description of the service. */
 # define COMMONLISPFILTER_SERVICE_DESCRIPTION_ T_("Common Lisp filter service")
 
-struct JSContext;
-
 namespace MplusM
 {
     namespace CommonLisp
     {
         class CommonLispInputHandler;
         class CommonLispThread;
+        
+        /*! @brief A sequence of object pointers. */
+        typedef std::vector<cl_object> ObjectVector;
         
         /*! @brief The Common Lisp input / output service. */
         class CommonLispService : public Common::BaseFilterService
@@ -79,8 +80,6 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
-             @param context The %CommonLisp engine context.
-             @param global The %CommonLisp global object.
              @param launchPath The command-line name used to launch the service.
              @param argc The number of arguments in 'argv'.
              @param argv The arguments passed to the executable used to launch the service.
@@ -98,8 +97,6 @@ namespace MplusM
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
             CommonLispService(const Utilities::DescriptorVector & argumentList,
-//                              JSContext *                         context,
-//                              JS::RootedObject &                  global,
                               const YarpString &                  launchPath,
                               const int                           argc,
                               char * *                            argv,
@@ -107,11 +104,11 @@ namespace MplusM
                               const YarpString &                  description,
                               const Common::ChannelVector &       loadedInletDescriptions,
                               const Common::ChannelVector &       loadedOutletDescriptions,
-//                              const JS::AutoValueVector &         loadedInletHandlers,
-//                              const JS::RootedValue &             loadedStartingFunction,
-//                              const JS::RootedValue &             loadedStoppingFunction,
+                              const ObjectVector &                loadedInletHandlers,
+                              cl_object                           loadedStartingFunction,
+                              cl_object                           loadedStoppingFunction,
                               const bool                          sawThread,
-//                              const JS::RootedValue &             loadedThreadFunction,
+                              cl_object                           loadedThreadFunction,
                               const double                        loadedInterval,
                               const YarpString &                  serviceEndpointName,
                               const YarpString &                  servicePortNumber = "");
@@ -127,30 +124,17 @@ namespace MplusM
             
             DECLARE_GETCONFIGURATION_;
 
-//            /*! @brief Return the Common Lisp execution environment.
-//             @returns The Common Lisp execution environment. */
-//            JSContext * getContext(void)
-//            const
-//            {
-//                return _context;
-//            } // getContext
-            
-//            /*! @brief Return the global object for the Common Lisp execution environment.
-//             @returns The global object for the Common Lisp execution environment. */
-//            JS::RootedObject & getGlobal(void)
-//            const
-//            {
-//                return _global;
-//            } // getGlobal
-            
             DECLARE_RESTARTSTREAMS_;
             
-//            /*! @brief Send a value out a specified channel.
-//             @param channelSlot The output channel to be used.
-//             @param theData The value to be sent.
-//             @returns @c true if the data was successfully sent and @c false otherwise. */
-//            bool sendToChannel(const int32_t channelSlot,
-//                               JS::Value     theData);
+#if 0
+            //TBD
+            /*! @brief Send a value out a specified channel.
+             @param channelSlot The output channel to be used.
+             @param theData The value to be sent.
+             @returns @c true if the data was successfully sent and @c false otherwise. */
+            bool sendToChannel(const int32_t channelSlot,
+                               JS::Value     theData);
+#endif//0
             
             DECLARE_STARTSERVICE_;
             
@@ -183,20 +167,14 @@ namespace MplusM
             /*! @brief A sequence of input handlers. */
             typedef std::vector<CommonLispInputHandler *> HandlerVector;
 
-//            /*! @brief The handler functions to use for input. */
-//            JS::AutoValueVector _inletHandlers;
-            
+            /*! @brief The handler functions to use for input. */
+            const ObjectVector & _inletHandlers;
+
             /*! @brief The set of input handlers. */
             HandlerVector _inHandlers;
             
             /*! @brief The output thread to use. */
             CommonLispThread * _generator;
-            
-//            /*! @brief The Common Lisp execution environment. */
-//            JSContext * _context;
-            
-//            /*! @brief The Common Lisp global object for this execution environment. */
-//            JS::RootedObject & _global;
             
             /*! @brief The list of loaded inlet stream descriptions. */
             const Common::ChannelVector & _loadedInletDescriptions;
@@ -204,15 +182,15 @@ namespace MplusM
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
             
-//            /*! @brief The Common Lisp script starting function. */
-//            JS::RootedValue _scriptStartingFunc;
-            
-//            /*! @brief The Common Lisp script stopping function. */
-//            JS::RootedValue _scriptStoppingFunc;
-            
-//            /*! @brief The Common Lisp script thread function. */
-//            JS::RootedValue _scriptThreadFunc;
-            
+            /*! @brief The Common Lisp script starting function. */
+            cl_object _scriptStartingFunc;
+
+            /*! @brief The Common Lisp script stopping function. */
+            cl_object _scriptStoppingFunc;
+
+            /*! @brief The Common Lisp script thread function. */
+            cl_object _scriptThreadFunc;
+
             /*! @brief The thread interval. */
             double _threadInterval;
             
@@ -231,6 +209,7 @@ namespace MplusM
 
         }; // CommonLispService
         
+#if 0
         /*! @brief Print out a Common Lisp object.
          @param outStream Where to write the object.
          @param jct The Common Lisp engine context.
@@ -254,6 +233,7 @@ namespace MplusM
                                             const char *      caption,
 //                                            JS::RootedValue & value,
                                             const int         depth);
+#endif//0
 
     } // CommonLisp
     

@@ -69,7 +69,6 @@ using std::cerr;
 using std::cout;
 using std::endl;
 
-#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -82,6 +81,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if 0
 /*! @brief Fill a bottle with the contents of an object.
  @param jct The Common Lisp engine context.
  @param aBottle The bottle to be filled.
@@ -235,6 +235,7 @@ static void fillBottleFromValue(JSContext *        jct,
     }
     OD_LOG_EXIT(); //####
 } // fillBottleFromValue
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -245,8 +246,6 @@ static void fillBottleFromValue(JSContext *        jct,
 #endif // defined(__APPLE__)
 
 CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumentList,
-                                     JSContext *                         context,
-                                     JS::RootedObject &                  global,
                                      const YarpString &                  launchPath,
                                      const int                           argc,
                                      char * *                            argv,
@@ -254,42 +253,36 @@ CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumen
                                      const YarpString &                  description,
                                      const Common::ChannelVector &       loadedInletDescriptions,
                                      const Common::ChannelVector &       loadedOutletDescriptions,
-                                     const JS::AutoValueVector &         loadedInletHandlers,
-                                     const JS::RootedValue &             loadedStartingFunction,
-                                     const JS::RootedValue &             loadedStoppingFunction,
+                                     const ObjectVector &                loadedInletHandlers,
+                                     cl_object                           loadedStartingFunction,
+                                     cl_object                           loadedStoppingFunction,
                                      const bool                          sawThread,
-                                     const JS::RootedValue &             loadedThreadFunction,
+                                     cl_object                           loadedThreadFunction,
                                      const double                        loadedInterval,
                                      const YarpString &                  serviceEndpointName,
                                      const YarpString &                  servicePortNumber) :
-    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME_,
-              description, "", serviceEndpointName, servicePortNumber), _inletHandlers(context),
-    _inHandlers(), _generator(NULL), _context(context), _global(global),
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_COMMONLISP_CANONICAL_NAME_,
+              description, "", serviceEndpointName, servicePortNumber),
+    _inletHandlers(loadedInletHandlers), _inHandlers(), _generator(NULL),
     _loadedInletDescriptions(loadedInletDescriptions),
-    _loadedOutletDescriptions(loadedOutletDescriptions), _scriptStartingFunc(context),
-    _scriptStoppingFunc(context), _scriptThreadFunc(context), _threadInterval(loadedInterval),
+    _loadedOutletDescriptions(loadedOutletDescriptions),
+    _scriptStartingFunc(loadedStartingFunction), _scriptStoppingFunc(loadedStoppingFunction),
+    _scriptThreadFunc(loadedThreadFunction), _threadInterval(loadedInterval),
     _isThreaded(sawThread)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P4("argumentList = ", &argumentList, "context = ", context, "global = ", &global, //####
-              "argv = ", argv); //####
-    OD_LOG_P4("loadedInletDescriptions = ", &loadedInletDescriptions, //####
-              "loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
-              "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
-              &loadedStartingFunction); //####
-    OD_LOG_P2("loadedStoppingFunction = ", &loadedStoppingFunction, //####
-              "loadedThreadFunction = ", &loadedThreadFunction); //####
+    OD_LOG_P4("argumentList = ", &argumentList, "argv = ", argv, //####
+              "loadedInletDescriptions = ", &loadedInletDescriptions, //####
+              "loadedOutletDescriptions = ", &loadedOutletDescriptions); //####
+    OD_LOG_P4("loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+              loadedStartingFunction, "loadedStoppingFunction = ", loadedStoppingFunction, //####
+              "loadedThreadFunction = ", loadedThreadFunction); //####
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_S4s("launchPath = ", launchPath, "tag = ", tag, "description = ", description, //####
                "serviceEndpointName = ", serviceEndpointName); //####
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B1("sawThread = ", sawThread); //####
     OD_LOG_D1("loadedInterval = ", loadedInterval); //####
-    JS_SetContextPrivate(context, this);
-    _inletHandlers.appendAll(loadedInletHandlers);
-    _scriptStartingFunc = loadedStartingFunction;
-    _scriptStoppingFunc = loadedStoppingFunction;
-    _scriptThreadFunc = loadedThreadFunction;
     OD_LOG_EXIT_P(this); //####
 } // CommonLispService::CommonLispService
 
@@ -322,60 +315,36 @@ DEFINE_CONFIGURE_(CommonLispService)
     
     try
     {
-        // Check if the script is happy.
-        if (_context && (! _scriptStartingFunc.isNullOrUndefined()))
+        if (ECL_NIL == _scriptStartingFunc)
         {
-            JS::AutoValueVector funcArgs(_context);
-            JS::RootedValue     funcResult(_context);
-            
-            JS_BeginRequest(_context);
-            if (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, funcArgs, &funcResult))
-            {
-                // Check if we got a result of 'true' - if not, there was a problem and we should
-                // report it.
-                if (funcResult.isBoolean())
-                {
-                    if (funcResult.toBoolean())
-                    {
-                        result = true;
-                    }
-                    else
-                    {
-                        // Script rejected starting, but gave no reason.
-                        cout << "Could not configure -> unknown reason." << endl;
-                    }
-                }
-                else
-                {
-                    // Script rejected starting.
-                    JSString * reason = funcResult.toString();
-                    char *     asChars = JS_EncodeString(_context, reason);
-                    
-                    cout << "Could not configure -> " << asChars << "." << endl;
-                    JS_free(_context, asChars);
-                }
-            }
-            else
-            {
-                OD_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStartingFunc, " //####
-                       "funcArgs, &funcResult))"); //####
-                JS::RootedValue exc(_context);
-                
-                if (JS_GetPendingException(_context, &exc))
-                {
-                    JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Exception occurred while executing scriptStarting function.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Exception occurred while executing scriptStarting function." << endl;
-#endif // ! MAC_OR_LINUX_
-                }
-            }
-            JS_EndRequest(_context);
+            result = true;
         }
         else
         {
-            result = true;
+            cl_object aValue = cl_funcall(1, _scriptStartingFunc);
+
+            if (ECL_T == aValue)
+            {
+                result = true;
+            }
+            else if (ECL_NIL == aValue)
+            {
+                // Script rejected starting, but gave no reason.
+                cout << "Could not configure -> unknown reason." << endl;
+            }
+            else
+            {
+                if (ECL_NIL == cl_stringp(aValue))
+                {
+                    aValue = cl_string(aValue);
+                }
+                aValue = si_coerce_to_base_string(aValue);
+                if (ECL_NIL != aValue)
+                {
+                    cout << "Could not configure -> " <<
+                            reinterpret_cast<char *>(aValue->base_string.self) << "." << endl;
+                }
+            }
         }
     }
     catch (...)
@@ -473,13 +442,15 @@ DEFINE_RESTARTSTREAMS_(CommonLispService)
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::restartStreams
 
+#if 0
+//TBD
 bool CommonLispService::sendToChannel(const int32_t channelSlot,
                                       JS::Value     theData)
 {
     OD_LOG_OBJENTER();
     OD_LOG_L1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
-    
+
     if ((0 <= channelSlot) && (channelSlot < static_cast<int32_t>(getOutletCount())))
     {
         Common::GeneralChannel * outChannel = getOutletStream(channelSlot);
@@ -510,6 +481,7 @@ bool CommonLispService::sendToChannel(const int32_t channelSlot,
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // CommonLispService::sendToChannel
+#endif//0
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispService)
 {
@@ -576,8 +548,7 @@ DEFINE_STARTSTREAMS_(CommonLispService)
         {
             if (_isThreaded)
             {
-                _generator = new CommonLispThread(_threadInterval, _context, _global,
-                                                  _scriptThreadFunc);
+                _generator = new CommonLispThread(_threadInterval, _scriptThreadFunc);
 				if (! _generator->start())
 				{
 					OD_LOG("(! _generator->start())"); //####
@@ -591,7 +562,7 @@ DEFINE_STARTSTREAMS_(CommonLispService)
                 releaseHandlers();
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
-                    JS::HandleValue          handlerFunc = _inletHandlers[ii];
+                    cl_object                handlerFunc = _inletHandlers[ii];
                     CommonLispInputHandler * aHandler = new CommonLispInputHandler(this, ii,
                                                                                    handlerFunc);
                     
@@ -663,41 +634,13 @@ DEFINE_STOPSTREAMS_(CommonLispService)
                     {
                         aHandler->deactivate();
                     }
-                }                
+                }
             }
             clearActive();
             // Tell the script that we're done for now.
-            if (_context && (! _scriptStoppingFunc.isNullOrUndefined()))
+            if (ECL_NIL != _scriptStoppingFunc)
             {
-                JS::AutoValueVector funcArgs(_context);
-                JS::RootedValue     funcResult(_context);
-                
-                JS_BeginRequest(_context);
-                if (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, funcArgs,
-                                         &funcResult))
-                {
-                    // We don't care about the function result, as it's supposed to just tell the
-                    // script that it can clean up.
-                }
-                else
-                {
-                    OD_LOG("! (JS_CallFunctionValue(_context, _global, _scriptStoppingFunc, " //####
-                           "funcArgs, &funcResult))"); //####
-                    JS::RootedValue exc(_context);
-                    
-                    if (JS_GetPendingException(_context, &exc))
-                    {
-                        JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Exception occurred while executing scriptStopping "
-                                         "function.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Exception occurred while executing scriptStopping function." <<
-                                endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                JS_EndRequest(_context);
+                cl_funcall(1, _scriptStoppingFunc);
             }
         }
     }
@@ -713,6 +656,7 @@ DEFINE_STOPSTREAMS_(CommonLispService)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+#if 0
 std::ostream & CommonLisp::PrintCommonLispObject(std::ostream &     outStream,
                                                  JSContext *        jct,
                                                  JS::RootedObject & anObject,

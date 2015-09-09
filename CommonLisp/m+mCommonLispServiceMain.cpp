@@ -76,14 +76,32 @@ using std::cerr;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The name of the 'argv' object. */
+#define ARGV_NAME_ "ARGV"
+
 /*! @brief A macro to create a DEFUN abstraction in C++.
 
  Credit: https://gist.github.com/vwood/662109
  @param name The string name for the function.
  @param fun A pointer to the implementing C++ function.
  @param args The number of arguments to the function. */
-#define DEFUN(name,fun,args) \
+#define DEFUN_(name,fun,args) \
     cl_def_c_function(c_string_to_object(name), (cl_objectfn_fixed) fun, args)
+
+/*! @brief The name of the 'handler' field. */
+#define HANDLER_NAME_ "HANDLER"
+
+/*! @brief The name of the 'name' field. */
+#define NAME_NAME_ "NAME"
+
+/*! @brief The name of the 'protocol' field. */
+#define PROTOCOL_NAME_ "PROTOCOL"
+
+/*! @brief The name of the 'protocolDescription' field. */
+#define PROTOCOLDESCRIPTION_NAME_ "PROTOCOLDESCRIPTION"
+
+/*! @brief The name of the 'scriptTag' object. */
+#define SCRIPTTAG_NAME_ "SCRIPTTAG"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -101,9 +119,8 @@ static cl_object doLisp(const YarpString & call)
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("call = ", call);
     cl_env_ptr env = ecl_process_env();
-    cl_object  result;
-    
-    result = cl_safe_eval(c_string_to_object(call.c_str()), Cnil, Cnil);
+    cl_object  result = cl_safe_eval(c_string_to_object(call.c_str()), ECL_NIL, ECL_NIL);
+
     OD_LOG_EXIT_P(result); //####
     ecl_return1(env, result);
 } // doLisp
@@ -139,25 +156,6 @@ static void reportCommonLispError(JSContext *     cx,
 } // reportCommonLispError
 #endif//0
 
-#define DUMPFORMAT_ "~S~%"
-
-/*! @brief A C-callback function for Common Lisp to write out an object.
- @param caption The caption for the dump.
- @param anObject The object to be dumped. */
-static cl_object dumpObjectToStdoutForCl(cl_object caption,
-                                         cl_object anObject)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("caption = ", caption, "anObject = ", anObject); //####
-    cl_env_ptr env = ecl_process_env();
-    
-    cl_princ(1, caption);
-    cl_pprint(1, anObject);
-    cout << endl;
-    OD_LOG_EXIT_P(Cnil); //####
-    ecl_return0(env);
-} // dumpObjectToStdoutForCl
-
 /*! @brief A C-callback function for Common Lisp to send an object to a channel.
  @param channelIndex The number of the channel to be used.
  @param message The message to send to the channel. */
@@ -169,7 +167,7 @@ static cl_object sendToChannelForCl(cl_object channelIndex,
     cl_env_ptr env = ecl_process_env();
 
     //TBD
-    OD_LOG_EXIT_P(Cnil); //####
+    OD_LOG_EXIT_P(ECL_NIL); //####
     ecl_return0(env);
 } // sendToChannelForCl
 
@@ -217,33 +215,12 @@ static bool sendToChannelForCl(JSContext * jct,
 } // sendToChannelForCl
 #endif//0
 
-/*! @brief A C-callback function for Common Lisp to write out a string.
- @param toWrite The argument to the function. */
-static cl_object writeLineToStdoutForCl(cl_object toWrite)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("toWrite = ", toWrite); //####
-    cl_env_ptr env = ecl_process_env();
-    cl_object  newString = cl_string(toWrite); // Make sure that we have a string!
-
-    if (ecl_stringp(newString))
-    {
-        /* Strings have to be null terminated base strings. */
-        newString = si_copy_to_simple_base_string(newString);
-        cout << reinterpret_cast<char *>(newString->base_string.self) << endl;
-    }
-    OD_LOG_EXIT_P(Cnil); //####
-    ecl_return0(env);
-} // writeLineToStdoutForCl
-
 /*! @brief Add custom functions to the Common Lisp environment.
  @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
 static void addCustomFunctions(void)
 {
     OD_LOG_ENTER(); //####
-    DEFUN("dumpObjectToStdout", dumpObjectToStdoutForCl, 2);
-    DEFUN("sendToChannel", sendToChannelForCl, 2);
-    DEFUN("writeLineToStdout", writeLineToStdoutForCl, 1);
+    DEFUN_("sendToChannel", sendToChannelForCl, 2);
     OD_LOG_EXIT(); //####
 } // addCustomFunctions
 
@@ -988,110 +965,31 @@ static bool addCustomClasses(JSContext *        jct,
 #endif//0
 
 /*! @brief Add an array containing the command-line arguments to the Common Lisp environment.
+ @param ourPackage The package to be used with the new object.
  @param argv The arguments to be used with the Common Lisp input / output service. */
-static void addArgvObject(const YarpStringVector & argv)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P1("argv = ", &argv); //####
-    cl_env_ptr env = ecl_process_env();
-
-    
-    //TBD
-    OD_LOG_EXIT(); //####
-} // addArgvObject
-
-#if 0
-/*! @brief Add an array containing the command-line arguments to the Common Lisp environment.
- @param jct The Common Lisp engine context.
- @param global The Common Lisp global object.
- @param argv The arguments to be used with the Common Lisp input / output service.
- @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
-static bool addArgvObject(JSContext *              jct,
-                          JS::RootedObject &       global,
+static void addArgvObject(cl_object                ourPackage,
                           const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
-    bool       okSoFar = true;
-    JSObject * argArray = JS_NewArrayObject(jct, 0);
-    
-    if (argArray)
-    {
-        JS::RootedObject argObject(jct);
-        JS::RootedValue  argValue(jct);
-        
-        argObject = argArray;
-        argValue.setObject(*argArray);
-        if (JS_SetProperty(jct, global, "argv", argValue))
-        {
-            char *          endPtr;
-            size_t          argc = argv.size();
-            int32_t         tempInt;
-            JS::RootedValue anElement(jct);
-            JS::RootedId    aRootedId(jct);
-            
-            for (size_t ii = 0; okSoFar && (argc > ii); ++ii)
-            {
-                const char * anArg = argv[ii].c_str();
-                
-                // Check for an integer value
-                tempInt = static_cast<int32_t>(strtol(anArg, &endPtr, 10));
-                if ((anArg == endPtr) || *endPtr)
-                {
-                    // Check for an floating-point value
-                    double tempDouble = strtod(anArg, &endPtr);
-                    
-                    if ((anArg == endPtr) || *endPtr)
-                    {
-                        // Otherwise, treat as a string
-                        JSString * aString = JS_NewStringCopyZ(jct, anArg);
-                        
-                        if (aString)
-                        {
-                            anElement.setString(aString);
-                        }
-                        else
-                        {
-                            okSoFar = false;
-                        }
-                    }
-                    else
-                    {
-                        anElement.setDouble(tempDouble);
-                    }
-                }
-                else
-                {
-                    anElement.setInt32(tempInt);
-                }
-                if (okSoFar)
-                {
-                    if (JS_IndexToId(jct, static_cast<uint32_t>(ii), &aRootedId))
-                    {
-                        JS_SetPropertyById(jct, argObject, aRootedId, anElement);
-                    }
-                    else
-                    {
-                        okSoFar = false;
-                    }
-                }
-            }
-        }
-        else
-        {
-            okSoFar = false;
-        }
-    }
-    else
-    {
-        okSoFar = false;
-    }
-    OD_LOG_EXIT_B(okSoFar); //####
-    return okSoFar;
-} // addArgvObject
-#endif //0
+    OD_LOG_P2("ourPackage = ", ourPackage, "argv = ", &argv); //####
+    cl_env_ptr env = ecl_process_env();
+    cl_object  argvObject = cl_intern(2, ecl_make_simple_base_string(const_cast<char *>(ARGV_NAME_),
+                                                                     sizeof(ARGV_NAME_) - 1),
+                                      ourPackage);
 
-#define SCRIPTTAG_ "SCRIPTTAG"
+
+    cl_object  argvValue = ecl_alloc_simple_vector(argv.size(), ecl_aet_object);
+
+    cl_export(2, argvObject, ourPackage);
+    ecl_setq(env, argvObject, argvValue);
+    for (size_t ii = 0, argc = argv.size(); argc > ii; ++ii)
+    {
+        char * anArg = const_cast<char *>(argv[ii].c_str());
+
+        ecl_aset1(argvValue, ii, ecl_make_simple_base_string(anArg, argv[ii].length()));
+    }
+    OD_LOG_EXIT(); //####
+} // addArgvObject
 
 /*! @brief Add a custom string object to the Common Lisp environment.
  @param ourPackage The package to be used with the new object.
@@ -1103,13 +1001,14 @@ static void addScriptTagObject(cl_object          ourPackage,
     OD_LOG_P1("ourPackage = ", ourPackage); //####
     OD_LOG_S1s("tag = ", tag); //####
     cl_env_ptr env = ecl_process_env();
-    cl_object  script_tag = cl_intern(2, ecl_make_simple_base_string(const_cast<char *>(SCRIPTTAG_),
-                                                                     sizeof(SCRIPTTAG_) - 1),
-                                      ourPackage);
+    cl_object  scriptTagObject = cl_intern(2,
+                                   ecl_make_simple_base_string(const_cast<char *>(SCRIPTTAG_NAME_),
+                                                               sizeof(SCRIPTTAG_NAME_) - 1),
+                                           ourPackage);
 
-    cl_export(2, script_tag, ourPackage);
-    ecl_setq(env, script_tag, ecl_make_simple_base_string(const_cast<char *>(tag.c_str()),
-                                                          tag.length()));
+    cl_export(2, scriptTagObject, ourPackage);
+    ecl_setq(env, scriptTagObject, ecl_make_simple_base_string(const_cast<char *>(tag.c_str()),
+                                                               tag.length()));
     OD_LOG_EXIT(); //####
 } // addScriptTagObject
 
@@ -1131,160 +1030,119 @@ static cl_object addCustomObjects(const YarpString &       tag,
     
     addCustomFunctions();
     //addCustomClasses()
-    addArgvObject(argv);
+    addArgvObject(ourPackage, argv);
     addScriptTagObject(ourPackage, tag);
     OD_LOG_EXIT_P(ourPackage); //####
     return ourPackage;
 } // addCustomObjects
 
-#if 0
-/*! @brief Load a script into the Common Lisp environment.
- @param jct The Common Lisp engine context.
- @param options The compile options used to retain the compiled script.
- @param script The Common Lisp source code to be executed.
- @param scriptPath The path to the script file.
- @returns @c true on success and @c false otherwise. */
-static bool loadScript(JSContext *                jct,
-                       JS::OwningCompileOptions & options,
-                       const YarpString &         script,
-                       const YarpString &         scriptPath)
+/*! @brief Check the arity of a function.
+ @param objectFunction The function to be checked.
+ @param arityRequired The required arity for the function.
+ @returns @c true if the function has the required arity or @c false otherwise. */
+static bool checkArity(cl_object      objectFunction,
+                       const uint32_t arityRequired)
 {
-    OD_LOG_ENTER();
-    OD_LOG_P1("jct = ", jct); //####
-    OD_LOG_S1s("scriptPath = ", scriptPath); //####
-    bool            okSoFar;
-    JS::RootedValue result(jct);
-    
-    options.setFileAndLine(jct, scriptPath.c_str(), 1);
-    // We can ignore the returned result, since we are only interested in setting up the functions
-    // and variables in the environment. The documentation states that NULL can be passed as the
-    // last argument, but compiles fail if this is done.
-    okSoFar = JS::Evaluate(jct, options, script.c_str(), script.size(), &result);
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("objectFunction = ", objectFunction); //####
+    OD_LOG_LL1("arityRequired = ", arityRequired); //####
+    bool      okSoFar;
+    cl_object lambdaExpr = cl_function_lambda_expression(objectFunction);
+
+    if (ECL_NIL == lambdaExpr)
+    {
+        okSoFar = true;
+    }
+    else
+    {
+        // The lambda expression is in the form (EXT:LAMBDA-BLOCK functionName functioArgs ...)
+        cl_object argList = cl_caddr(lambdaExpr);
+
+        if (ECL_NIL == argList)
+        {
+            okSoFar = (0 == arityRequired);
+        }
+        else
+        {
+            argList = cl_list_length(argList);
+            okSoFar = (ecl_fixnum(argList) == arityRequired);
+        }
+    }
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
-} // loadScript
+} // checkArity
 
 /*! @brief Check an object for a specific numeric property.
- @param jct The Common Lisp engine context.
- @param anObject The object to check.
  @param propertyName The name of the property being searched for.
  @param canBeFunction @c true if the property can be a function rather than a string and @c false if
  the property must be a string.
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the number, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedDouble(JSContext *        jct,
-                            JS::RootedObject & anObject,
-                            const char *       propertyName,
-                            const bool         canBeFunction,
-                            const bool         isOptional,
-                            double &           result)
+static bool getLoadedDouble(const char * propertyName,
+                            const bool   canBeFunction,
+                            const bool   isOptional,
+                            double &     result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
     OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
-    bool found = false;
-    bool okSoFar;
-    
-    result = 0;
-    if (JS_HasProperty(jct, anObject, propertyName, &found))
+    bool      okSoFar = false;
+    cl_object aSymbol = cl_find_symbol(1,
+                                       ecl_make_simple_base_string(const_cast<char *>(propertyName),
+                                                                   strlen(propertyName)));
+
+    if (ECL_NIL != aSymbol)
     {
-        okSoFar = true;
-    }
-    else
-    {
-        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
-        okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
-    }
-    if (okSoFar && found)
-    {
-        JS::RootedValue value(jct);
-        
-        if (JS_GetProperty(jct, anObject, propertyName, &value))
+        if (ECL_NIL != cl_boundp(aSymbol))
         {
-            okSoFar = false;
-            if (value.isNumber())
+            cl_object aValue = cl_symbol_value(aSymbol);
+
+            if (ECL_NIL != cl_realp(aValue))
             {
-                result = value.toNumber();
+                result = ecl_to_double(aValue);
                 okSoFar = true;
             }
-            else if (canBeFunction)
+        }
+        else if (canBeFunction && (ECL_NIL != cl_fboundp(aSymbol)))
+        {
+            cl_object aFunction = cl_symbol_function(aSymbol);
+
+            if (ECL_NIL != aFunction)
             {
-                if (value.isObject())
+                if (checkArity(aFunction, 0))
                 {
-                    JS::RootedObject asObject(jct);
-                    
-                    if (JS_ValueToObject(jct, value, &asObject))
+                    cl_object aValue = cl_funcall(1, aFunction);
+
+                    if (ECL_NIL != cl_realp(aValue))
                     {
-                        if (JS_ObjectIsFunction(jct, asObject))
-                        {
-                            JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
-                            JS::RootedValue      funcResult(jct);
-                            
-                            JS_BeginRequest(jct);
-                            if (JS_CallFunctionValue(jct, anObject, value, funcArgs, &funcResult))
-                            {
-                                if (funcResult.isNumber())
-                                {
-                                    result = funcResult.toNumber();
-                                    okSoFar = true;
-                                }
-                            }
-                            else
-                            {
-                                OD_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
-                                       "funcArgs, &funcResult))"); //####
-                                JS::RootedValue exc(jct);
-                                
-                                if (JS_GetPendingException(jct, &exc))
-                                {
-                                    JS_ClearPendingException(jct);
-                                    YarpString message("Exception occurred while executing "
-                                                       "function for Property '");
-                                    
-                                    message += propertyName;
-                                    message += "'.";
-#if MAC_OR_LINUX_
-                                    GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                                    cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
-                                }
-                            }
-                            JS_EndRequest(jct);
-                        }
+                        result = ecl_to_double(aValue);
+                        okSoFar = true;
                     }
                 }
-            }
-            if (! okSoFar)
-            {
-                OD_LOG("! (okSoFar)"); //####
-                okSoFar = false;
-                YarpString message("Property '");
-                
-                message += propertyName;
-                message += "' has the wrong type.";
+                else
+                {
 #if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
+                    GetLogger().fail(YarpString("Function (") + YarpString(propertyName) +
+                                     ") has the incorrect number of arguments.");
 #else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
+                    cerr << "Function (" << propertyName <<
+                            ") has the incorrect number of arguments." << endl;
 #endif // ! MAC_OR_LINUX_
+                }
             }
+        }
+        else if (isOptional)
+        {
+            okSoFar = true;
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
-            okSoFar = false;
 #if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a property.");
+            GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a property." << endl;
+            cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
         }
     }
@@ -1293,134 +1151,87 @@ static bool getLoadedDouble(JSContext *        jct,
 } // getLoadedDouble
 
 /*! @brief Check an object for a specific string property.
- @param jct The Common Lisp engine context.
- @param anObject The object to check.
  @param propertyName The name of the property being searched for.
  @param canBeFunction @c true if the property can be a function rather than a string and @c false if
  the property must be a string.
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedString(JSContext *        jct,
-                            JS::RootedObject & anObject,
-                            const char *       propertyName,
-                            const bool         canBeFunction,
-                            const bool         isOptional,
-                            YarpString &       result)
+static bool getLoadedString(const char * propertyName,
+                            const bool   canBeFunction,
+                            const bool   isOptional,
+                            YarpString & result)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    OD_LOG_P1("result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
     OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
-    bool found = false;
-    bool okSoFar;
-    
-    result = "";
-    if (JS_HasProperty(jct, anObject, propertyName, &found))
-    {
-        okSoFar = true;
-    }
-    else
-    {
-        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
-        okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
-    }
-    if (okSoFar && found)
-    {
-        JS::RootedValue value(jct);
+    bool      okSoFar = false;
+    cl_object aSymbol = cl_find_symbol(1,
+                                       ecl_make_simple_base_string(const_cast<char *>(propertyName),
+                                                                   strlen(propertyName)));
 
-        if (JS_GetProperty(jct, anObject, propertyName, &value))
+    if (ECL_NIL != aSymbol)
+    {
+        if (ECL_NIL != cl_boundp(aSymbol))
         {
-            okSoFar = false;
-            if (value.isString())
+            cl_object aValue = cl_symbol_value(aSymbol);
+
+            if (ECL_NIL == cl_stringp(aValue))
             {
-                JSString * asString = value.toString();
-                char *     asChars = JS_EncodeString(jct, asString);
-                
-                result = asChars;
-                JS_free(jct, asChars);
+                aValue = cl_string(aValue);
+            }
+            aValue = si_coerce_to_base_string(aValue);
+            if (ECL_NIL != aValue)
+            {
+                result = reinterpret_cast<char *>(aValue->base_string.self);
                 okSoFar = true;
             }
-            else if (canBeFunction)
+        }
+        else if (canBeFunction && (ECL_NIL != cl_fboundp(aSymbol)))
+        {
+            cl_object aFunction = cl_symbol_function(aSymbol);
+
+            if (ECL_NIL != aFunction)
             {
-                if (value.isObject())
+                if (checkArity(aFunction, 0))
                 {
-                    JS::RootedObject asObject(jct);
-                    
-                    if (JS_ValueToObject(jct, value, &asObject))
+                    cl_object aValue = cl_funcall(1, aFunction);
+
+                    if (ECL_NIL == cl_stringp(aValue))
                     {
-                        if (JS_ObjectIsFunction(jct, asObject))
-                        {
-                            JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
-                            JS::RootedValue      funcResult(jct);
-                            
-                            JS_BeginRequest(jct);
-                            if (JS_CallFunctionValue(jct, anObject, value, funcArgs, &funcResult))
-                            {
-                                if (funcResult.isString())
-                                {
-                                    JSString * asString = funcResult.toString();
-                                    char *     asChars = JS_EncodeString(jct, asString);
-                                    
-                                    result = asChars;
-                                    JS_free(jct, asChars);
-                                    okSoFar = true;
-                                }
-                            }
-                            else
-                            {
-                                OD_LOG("! (JS_CallFunctionValue(jct, anObject, value, " //####
-                                       "funcArgs, &funcResult))"); //####
-                                JS::RootedValue exc(jct);
-                                
-                                if (JS_GetPendingException(jct, &exc))
-                                {
-                                    JS_ClearPendingException(jct);
-                                    YarpString message("Exception occurred while executing "
-                                                       "function for Property '");
-                                    
-                                    message += propertyName;
-                                    message += "'.";
-#if MAC_OR_LINUX_
-                                    GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                                    cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
-                                }
-                            }
-                            JS_EndRequest(jct);
-                        }
+                        aValue = cl_string(aValue);
+                    }
+                    aValue = si_coerce_to_base_string(aValue);
+                    if (ECL_NIL != aValue)
+                    {
+                        result = reinterpret_cast<char *>(aValue->base_string.self);
+                        okSoFar = true;
                     }
                 }
-            }
-            if (! okSoFar)
-            {
-                OD_LOG("! (okSoFar)"); //####
-                okSoFar = false;
-                YarpString message("Property '");
-                
-                message += propertyName;
-                message += "' has the wrong type.";
+                else
+                {
 #if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
+                    GetLogger().fail(YarpString(YarpString("Function (") +
+                                                YarpString(propertyName) +
+                                                ") has the incorrect number of arguments."));
 #else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
+                    cerr << "Function (" << propertyName <<
+                            ") has the incorrect number of arguments." << endl;
 #endif // ! MAC_OR_LINUX_
+                }
             }
+        }
+        else if (isOptional)
+        {
+            okSoFar = true;
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
-            okSoFar = false;
 #if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a property.");
+            GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a property." << endl;
+            cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
         }
     }
@@ -1428,84 +1239,57 @@ static bool getLoadedString(JSContext *        jct,
     return okSoFar;
 } // getLoadedString
 
-/*! @brief Check an object for a specific function property.
- @param jct The Common Lisp engine context.
- @param anObject The object to check.
+/*! @brief Check an object for a specific string property.
  @param propertyName The name of the property being searched for.
- @param arity The required arity for the function.
- @param result The value of the function, if located.
+ @param canBeFunction @c true if the property can be a function rather than a string and @c false if
+ the property must be a string.
+ @param isOptional @c true if the property does not have to be present.
+ @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedFunctionRef(JSContext *        jct,
-                                 JS::RootedObject & anObject,
-                                 const char *       propertyName,
-                                 const uint32_t     arity,
-                                 JS::RootedValue &  result)
+static bool getLoadedFunctionRef(const char *   propertyName,
+                                 const uint32_t arity,
+                                 cl_object &    result)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
+    OD_LOG_P1("result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
-    OD_LOG_L1("arity = ", arity); //####
-    bool found = false;
-    bool okSoFar;
-    
-    if (JS_HasProperty(jct, anObject, propertyName, &found))
+    OD_LOG_LL1("arity = ", arity); //####
+    bool      okSoFar = false;
+    cl_object aSymbol = cl_find_symbol(1,
+                                       ecl_make_simple_base_string(const_cast<char *>(propertyName),
+                                                                   strlen(propertyName)));
+
+    if (ECL_NIL != aSymbol)
     {
-        okSoFar = found;
-    }
-    else
-    {
-        OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
-        okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
-    }
-    if (okSoFar)
-    {
-        if (JS_GetProperty(jct, anObject, propertyName, &result))
+        if (ECL_NIL == cl_fboundp(aSymbol))
         {
-            okSoFar = false;
-            if (result.isObject())
-            {
-                JS::RootedObject asObject(jct);
-                
-                if (JS_ValueToObject(jct, result, &asObject) &&
-                    JS_ObjectIsFunction(jct, asObject) && JS::IsCallable(asObject))
-                {
-                    JSFunction * asFunction = JS_ValueToFunction(jct, result);
-                    
-                    if (asFunction)
-                    {
-                        okSoFar = (arity == JS_GetFunctionArity(asFunction));
-                    }
-                }
-            }
-            if (! okSoFar)
-            {
-                OD_LOG("! (okSoFar)"); //####
-                okSoFar = false;
-                YarpString message("Property '");
-                
-                message += propertyName;
-                message += "' has the wrong type.";
 #if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
+            GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
+            cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
-            }
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &result))"); //####
-            okSoFar = false;
+            result = cl_symbol_function(aSymbol);
+            if (ECL_NIL != result)
+            {
+                if (checkArity(result, arity))
+                {
+                    okSoFar = true;
+                }
+                else
+                {
 #if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a property.");
+                    GetLogger().fail(YarpString(YarpString("Function (") +
+                                                YarpString(propertyName) +
+                                                ") has the incorrect number of arguments."));
 #else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a property." << endl;
+                    cerr << "Function (" << propertyName <<
+                            ") has the incorrect number of arguments." << endl;
 #endif // ! MAC_OR_LINUX_
+                }
+            }
         }
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -1513,69 +1297,159 @@ static bool getLoadedFunctionRef(JSContext *        jct,
 } // getLoadedFunctionRef
 
 /*! @brief Check a stream description.
- @param jct The Common Lisp engine context.
  @param anElement The stream description object to be checked.
  @param inletHandlers non-@c NULL if there must be a handler for the stream description.
  @param description The validated stream description.
  @returns @c true on success and @c false otherwise. */
-static bool processStreamDescription(JSContext *           jct,
-                                     JS::RootedValue &     anElement,
-                                     JS::AutoValueVector * inletHandlers,
-                                     ChannelDescription &  description)
+static bool processStreamDescription(cl_object            anElement,
+                                     ObjectVector *       inletHandlers,
+                                     ChannelDescription & description)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P4("jct = ", jct, "anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
+    OD_LOG_P3("anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
               "description = ", &description); //####
-    bool okSoFar = true;
-    
-    if (! anElement.isObject())
+    bool okSoFar;
+
+    if (ECL_NIL == cl_hash_table_p(anElement))
     {
-        OD_LOG("(! anElement.isObject())"); //####
         okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Array element has the wrong type.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Array element has the wrong type." << endl;
-#endif // ! MAC_OR_LINUX_
     }
-    JS::RootedObject asObject(jct);
-    
-    if (okSoFar)
+    else
     {
-        if (! JS_ValueToObject(jct, anElement, &asObject))
+        cl_env_ptr env = ecl_process_env();
+        cl_object  aSymbol = cl_find_symbol(1,
+                                        ecl_make_simple_base_string(const_cast<char *>(NAME_NAME_),
+                                                                    sizeof(NAME_NAME_) - 1));
+        cl_object  aValue = cl_gethash(2, aSymbol, anElement);
+        cl_object  present = ecl_nth_value(env, 1);
+
+        if (ECL_NIL == present)
         {
-            OD_LOG("(! JS_ValueToObject(jct, anElement, &asObject))"); //####
             okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem converting array element to object.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem converting array element to object." << endl;
-#endif // ! MAC_OR_LINUX_
         }
-    }
-    if (okSoFar)
-    {
-//        PrintCommonLispObject(cout, jct, asObject, 0);
-        okSoFar = getLoadedString(jct, asObject, "name", false, false, description._portName);
-    }
-    if (okSoFar)
-    {
-        okSoFar = getLoadedString(jct, asObject, "protocol", false, false,
-                                  description._portProtocol);
-    }
-    if (okSoFar)
-    {
-        okSoFar = getLoadedString(jct, asObject, "protocolDescription", false, false,
-                                  description._protocolDescription);
-    }
-    if (okSoFar && inletHandlers)
-    {
-        JS::RootedValue result(jct);
-        
-        okSoFar = getLoadedFunctionRef(jct, asObject, "handler", 2, result);
+        else
+        {
+            okSoFar = true;
+            if (ECL_NIL == cl_stringp(aValue))
+            {
+                aValue = cl_string(aValue);
+            }
+            aValue = si_coerce_to_base_string(aValue);
+            if (ECL_NIL != aValue)
+            {
+                description._portName = reinterpret_cast<char *>(aValue->base_string.self);
+            }
+        }
         if (okSoFar)
         {
-            inletHandlers->append(result);
+            aSymbol = cl_find_symbol(1,
+                                     ecl_make_simple_base_string(const_cast<char *>(PROTOCOL_NAME_),
+                                                                 sizeof(PROTOCOL_NAME_) - 1));
+            aValue = cl_gethash(2, aSymbol, anElement);
+            present = ecl_nth_value(env, 1);
+            if (ECL_NIL == present)
+            {
+                okSoFar = false;
+            }
+            else
+            {
+                if (ECL_NIL == cl_stringp(aValue))
+                {
+                    aValue = cl_string(aValue);
+                }
+                aValue = si_coerce_to_base_string(aValue);
+                if (ECL_NIL != aValue)
+                {
+                    description._portProtocol = reinterpret_cast<char *>(aValue->base_string.self);
+                }
+            }
+        }
+        if (okSoFar)
+        {
+            aSymbol = cl_find_symbol(1,
+                                     ecl_make_simple_base_string(const_cast<char *>(PROTOCOL_NAME_),
+                                                                 sizeof(PROTOCOL_NAME_) - 1));
+            aValue = cl_gethash(2, aSymbol, anElement);
+            present = ecl_nth_value(env, 1);
+            if (ECL_NIL == present)
+            {
+                okSoFar = false;
+            }
+            else
+            {
+                if (ECL_NIL == cl_stringp(aValue))
+                {
+                    aValue = cl_string(aValue);
+                }
+                aValue = si_coerce_to_base_string(aValue);
+                if (ECL_NIL != aValue)
+                {
+                    description._portProtocol = reinterpret_cast<char *>(aValue->base_string.self);
+                }
+            }
+        }
+        if (okSoFar)
+        {
+            aSymbol = cl_find_symbol(1,
+                         ecl_make_simple_base_string(const_cast<char *>(PROTOCOLDESCRIPTION_NAME_),
+                                                     sizeof(PROTOCOLDESCRIPTION_NAME_) - 1));
+            aValue = cl_gethash(2, aSymbol, anElement);
+            present = ecl_nth_value(env, 1);
+            if (ECL_NIL == present)
+            {
+                okSoFar = false;
+            }
+            else
+            {
+                if (ECL_NIL == cl_stringp(aValue))
+                {
+                    aValue = cl_string(aValue);
+                }
+                aValue = si_coerce_to_base_string(aValue);
+                if (ECL_NIL != aValue)
+                {
+                    description._portProtocol = reinterpret_cast<char *>(aValue->base_string.self);
+                }
+            }
+        }
+        if (okSoFar && inletHandlers)
+        {
+            aSymbol = cl_find_symbol(1,
+                                     ecl_make_simple_base_string(const_cast<char *>(HANDLER_NAME_),
+                                                                 sizeof(HANDLER_NAME_) - 1));
+            aValue = cl_gethash(2, aSymbol, anElement);
+            present = ecl_nth_value(env, 1);
+            if (ECL_NIL == present)
+            {
+                okSoFar = false;
+            }
+            else
+            {
+                if (ECL_NIL == cl_symbolp(aValue))
+                {
+                    okSoFar = false;
+                }
+                else if (ECL_NIL == cl_fboundp(aValue))
+                {
+                    okSoFar = false;
+                }
+                else
+                {
+                    aValue = cl_symbol_function(aValue);
+                    if (ECL_NIL == aValue)
+                    {
+                        okSoFar = false;
+                    }
+                    else if (checkArity(aValue, 2))
+                    {
+                        inletHandlers->push_back(aValue);
+                    }
+                    else
+                    {
+                        okSoFar = false;
+                    }
+                }
+            }
         }
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -1584,181 +1458,91 @@ static bool processStreamDescription(JSContext *           jct,
 
 /*! @brief Check the Common Lisp environment for a specific array variable containing stream
  descriptions.
- @param jct The Common Lisp engine context.
- @param global The Common Lisp global object.
  @param arrayName The name of the array variable being searched for.
  @param inletHandlers non-@c NULL if there must be a handler for each stream description.
  @param streamDescriptions The list of loaded stream descriptions.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedStreamDescriptions(JSContext *           jct,
-                                        JS::RootedObject &    global,
-                                        const char *          arrayName,
-                                        JS::AutoValueVector * inletHandlers,
-                                        ChannelVector &       streamDescriptions)
+static bool getLoadedStreamDescriptions(const char *    arrayName,
+                                        ObjectVector *  inletHandlers,
+                                        ChannelVector & streamDescriptions)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P4("jct = ", jct, "global = ", &global, "inletHandlers = ", inletHandlers, //####
-              "streamDescriptions = ", &streamDescriptions); //####
+    OD_LOG_P2("inletHandlers = ", inletHandlers, "streamDescriptions = ", //####
+              &streamDescriptions); //####
     OD_LOG_S1("arrayName = ", arrayName); //####
-    bool found = false;
-    bool okSoFar;
-    
+    bool      okSoFar = false;
+    cl_object descriptionArray = ECL_NIL;
+    cl_object aSymbol = cl_find_symbol(1,
+                                       ecl_make_simple_base_string(const_cast<char *>(arrayName),
+                                                                   strlen(arrayName)));
+
     streamDescriptions.clear();
-    if (JS_HasProperty(jct, global, arrayName, &found))
+    if (ECL_NIL != aSymbol)
     {
-        okSoFar = true;
-    }
-    else
-    {
-        OD_LOG("! (JS_HasProperty(jct, global, arrayName, &found))"); //####
-        okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a global property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a global property." << endl;
-#endif // ! MAC_OR_LINUX_
-    }
-    if (okSoFar && found)
-    {
-        JS::RootedValue  value(jct);
-        JS::RootedObject asObject(jct);
-        
-        if (JS_GetProperty(jct, global, arrayName, &value))
+        if (ECL_NIL != cl_boundp(aSymbol))
         {
-            okSoFar = false;
-            if (value.isObject())
+            descriptionArray = cl_symbol_value(aSymbol);
+        }
+        else if (ECL_NIL != cl_fboundp(aSymbol))
+        {
+            cl_object aFunction = cl_symbol_function(aSymbol);
+
+            if (ECL_NIL != aFunction)
             {
-                if (JS_ValueToObject(jct, value, &asObject))
+                if (checkArity(aFunction, 0))
                 {
-                    okSoFar = true;
+                    descriptionArray = cl_funcall(1, aFunction);
                 }
                 else
                 {
-                    OD_LOG("(! JS_ValueToObject(jct, value, &asObject))"); //####
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Problem converting value to object.");
+                    GetLogger().fail(YarpString(YarpString("Function (") + YarpString(arrayName) +
+                                                ") has the incorrect number of arguments."));
 #else // ! MAC_OR_LINUX_
-                    cerr << "Problem converting value to object." << endl;
+                    cerr << "Function (" << arrayName <<
+                            ") has the incorrect number of arguments." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
-            }
-            if (okSoFar)
-            {
-                if (JS_ObjectIsFunction(jct, asObject))
-                {
-                    JS::HandleValueArray funcArgs(JS::HandleValueArray::empty());
-                    JS::RootedValue      funcResult(jct);
-                    
-                    okSoFar = false;
-                    JS_BeginRequest(jct);
-                    if (JS_CallFunctionValue(jct, global, value, funcArgs, &funcResult))
-                    {
-                        if (funcResult.isObject())
-                        {
-                            if (JS_ValueToObject(jct, funcResult, &asObject))
-                            {
-                                value = funcResult;
-                                okSoFar = true;
-                            }
-                            else
-                            {
-                                OD_LOG("(! JS_ValueToObject(jct, funcResult, &asObject))"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Problem converting value to object.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "Problem converting value to object." << endl;
-#endif // ! MAC_OR_LINUX_
-                            }
-                        }
-                    }
-                    else
-                    {
-                        OD_LOG("! (JS_CallFunctionValue(jct, global, value, funcArgs, " //####
-                               "&funcResult))"); //####
-                        JS::RootedValue exc(jct);
-                        
-                        if (JS_GetPendingException(jct, &exc))
-                        {
-                            JS_ClearPendingException(jct);
-                            YarpString message("Exception occurred while executing function for "
-                                               "Property '");
-                                                          
-                            message += arrayName;
-                            message += "'.";
-#if MAC_OR_LINUX_
-                            GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                            cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    JS_EndRequest(jct);
-                }
-            }
-            if (! okSoFar)
-            {
-                OD_LOG("(! okSoFar)"); //####
-                YarpString message("Property '");
-                
-                message += arrayName;
-                message += "' has the wrong type.";
-#if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
             }
         }
         else
         {
-            OD_LOG("! (JS_GetProperty(jct, global, arrayName, &value))"); //####
-            okSoFar = false;
 #if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a global property.");
+            GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a global property." << endl;
+            cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
         }
-        uint32_t arrayLength;
-        
-        if (okSoFar)
+        if (descriptionArray)
         {
-            if (! JS_GetArrayLength(jct, asObject, &arrayLength))
+            if (ECL_NIL != cl_arrayp(descriptionArray))
             {
-                OD_LOG("(! JS_GetArrayLength(jct, asObject, &arrayLength))"); //####
-                okSoFar = false;
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem getting the array length.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Problem getting the array length." << endl;
-#endif // ! MAC_OR_LINUX_
-            }
-        }
-        if (okSoFar)
-        {
-            for (uint32_t ii = 0; okSoFar && (arrayLength > ii); ++ii)
-            {
-                JS::RootedValue anElement(jct);
-                
-                if (JS_GetElement(jct, asObject, ii, &anElement))
+                if (1 == ecl_fixnum(cl_array_rank(descriptionArray)))
                 {
-                    ChannelDescription description;
+                    cl_fixnum numElements = ecl_fixnum(cl_array_dimension(descriptionArray,
+                                                                          ecl_make_fixnum(0)));
 
-                    okSoFar = processStreamDescription(jct, anElement, inletHandlers, description);
-                    if (okSoFar)
+                    okSoFar = true;
+                    for (cl_fixnum ii = 0; okSoFar && (numElements > ii); ++ii)
                     {
-                        streamDescriptions.push_back(description);
+                        cl_object anElement = cl_aref(2, descriptionArray, ecl_make_fixnum(ii));
+
+                        if (ECL_NIL == anElement)
+                        {
+                            okSoFar = false;
+                        }
+                        else
+                        {
+                            ChannelDescription description;
+
+                            okSoFar = processStreamDescription(anElement, inletHandlers,
+                                                               description);
+                            if (okSoFar)
+                            {
+                                streamDescriptions.push_back(description);
+                            }
+                        }
                     }
-                }
-                else
-                {
-                    OD_LOG("! (JS_GetElement(jct, asObject, ii, &anElement))"); //####
-                    okSoFar = false;
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Problem getting an array element.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Problem getting an array element." << endl;
-#endif // ! MAC_OR_LINUX_
                 }
             }
         }
@@ -1768,8 +1552,6 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
 } // getLoadedStreamDescriptions
 
 /*! @brief Check the Common Lisp environment after loading a script.
- @param jct The Common Lisp engine context.
- @param global The Common Lisp global object.
  @param sawThread @c true if a thread function was defined.
  @param description The descriptive text from the script.
  @param helpString The help text from the script.
@@ -1781,22 +1563,19 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
  @param loadedThreadFunction The function to execute on an output-generating thread.
  @param loadedInterval The interval (in seconds) between executions of the output-generating thread.
  @returns @c true on success and @c false otherwise. */
-static bool validateLoadedScript(JSContext *           jct,
-                                 JS::RootedObject &    global,
-                                 bool &                sawThread,
-                                 YarpString &          description,
-                                 YarpString &          helpString,
-                                 ChannelVector &       loadedInletDescriptions,
-                                 ChannelVector &       loadedOutletDescriptions,
-                                 JS::AutoValueVector & loadedInletHandlers,
-                                 JS::RootedValue &     loadedStartingFunction,
-                                 JS::RootedValue &     loadedStoppingFunction,
-                                 JS::RootedValue &     loadedThreadFunction,
-                                 double &              loadedInterval)
+static bool validateLoadedScript(bool &          sawThread,
+                                 YarpString &    description,
+                                 YarpString &    helpString,
+                                 ChannelVector & loadedInletDescriptions,
+                                 ChannelVector & loadedOutletDescriptions,
+                                 ObjectVector &  loadedInletHandlers,
+                                 cl_object &     loadedStartingFunction,
+                                 cl_object &     loadedStoppingFunction,
+                                 cl_object &     loadedThreadFunction,
+                                 double &        loadedInterval)
 {
     OD_LOG_ENTER();
-    OD_LOG_P4("jct = ", jct, "global = ", &global, "sawThread = ", &sawThread, //####
-              "description = ", &description); //####
+    OD_LOG_P2("sawThread = ", &sawThread, "description = ", &description); //####
     OD_LOG_P4("helpString = ", &helpString, "loadedInletDescriptions = ", //####
               &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
               &loadedOutletDescriptions, "loadedInletHandlers = ", &loadedInletHandlers); //####
@@ -1804,20 +1583,19 @@ static bool validateLoadedScript(JSContext *           jct,
               "loadedStoppingFunction = ", &loadedStoppingFunction, //####
               "loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
               &loadedInterval); //####
-    bool okSoFar = true;
+    bool okSoFar;
 
-//    PrintCommonLispObject(cout, jct, global, 0);
     sawThread = false;
     loadedInterval = 1.0;
-    okSoFar = getLoadedString(jct, global, "scriptDescription", true, false, description);
+    loadedThreadFunction = ECL_NIL;
+    okSoFar = getLoadedString("SCRIPTDESCRIPTION", true, false, description);
     if (okSoFar)
     {
-        okSoFar = getLoadedString(jct, global, "scriptHelp", false, true, helpString);
+        okSoFar = getLoadedString("SCRIPTHELP", false, true, helpString);
     }
     if (okSoFar)
     {
-        loadedThreadFunction = JS::NullValue();
-        if (getLoadedFunctionRef(jct, global, "scriptThread", 0, loadedThreadFunction))
+        if (getLoadedFunctionRef("SCRIPTTHREAD", 0, loadedThreadFunction))
         {
 //            cout << "function scriptThread defined" << endl;
             sawThread = true;
@@ -1825,35 +1603,33 @@ static bool validateLoadedScript(JSContext *           jct,
     }
     if (okSoFar && (! sawThread))
     {
-        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", &loadedInletHandlers,
+        okSoFar = getLoadedStreamDescriptions("SCRIPTINLETS", &loadedInletHandlers,
                                               loadedInletDescriptions);
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedStreamDescriptions(jct, global, "scriptOutlets", NULL,
-                                              loadedOutletDescriptions);
+        okSoFar = getLoadedStreamDescriptions("SCRIPTOUTLETS", NULL, loadedOutletDescriptions);
     }
     if (okSoFar)
     {
-        loadedStartingFunction = JS::NullValue();
-        loadedStoppingFunction = JS::NullValue();
-        if (getLoadedFunctionRef(jct, global, "scriptStarting", 0, loadedStartingFunction))
+        loadedStartingFunction = ECL_NIL;
+        loadedStoppingFunction = ECL_NIL;
+        if (getLoadedFunctionRef("SCRIPTSTARTING", 0, loadedStartingFunction))
         {
 //            cout << "function scriptStarting defined" << endl;
         }
-        if (getLoadedFunctionRef(jct, global, "scriptStopping", 0, loadedStoppingFunction))
+        if (getLoadedFunctionRef("SCRIPTSTOPPING", 0, loadedStoppingFunction))
         {
 //            cout << "function scriptStopping defined" << endl;
         }
     }
     if (okSoFar && sawThread)
     {
-        okSoFar = getLoadedDouble(jct, global, "scriptInterval", true, true, loadedInterval);
+        okSoFar = getLoadedDouble("SCRIPTINTERVAL", true, true, loadedInterval);
     }
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
 } // validateLoadedScript
-#endif//0
 
 /*! @brief Set up the environment and start the Common Lisp service.
  @param argumentList Descriptions of the arguments to the executable.
@@ -1891,241 +1667,94 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
+    bool          okSoFar = true;
+    bool          sawThread;
+    ChannelVector loadedInletDescriptions;
+    ChannelVector loadedOutletDescriptions;
+    double        loadedInterval;
+    YarpString    description;
+    YarpString    helpText;
+    ObjectVector  loadedInletHandlers;
+    cl_object     loadedStartingFunction = ECL_NIL;
+    cl_object     loadedStoppingFunction = ECL_NIL;
+    cl_object     loadedThreadFunction = ECL_NIL;
+
     cl_boot(argc, argv);
     atexit(cl_shutdown);
-    YarpString loadCommand("(load \"");
-    
-    loadCommand += scriptPath + "\")";
-    // Set up our functions before loading the script.
-    cl_object ourPackage = addCustomObjects(tag, arguments);
-    
+    // Set up our functions and objects before loading the script.
+    cl_env_ptr env = ecl_process_env();
+    cl_object  ourPackage = addCustomObjects(tag, arguments);
+    cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
     // Load the script!
-    doLisp(loadCommand);
-    // Check for the functions / strings that we need.
-    cout << "did load!" << endl;
-    
-#if 0
-    YarpString scriptSource;
-
-    FILE * scratch = fopen(scriptPath.c_str(), "r");
-
-    if (scratch)
+    loadedInletHandlers.clear();
+    ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
     {
-        // The path given is a readable file, so read it in and prepare to start the service by
-        // filling in the scriptSource.
-        char   buffer[10240];
-        size_t numRead;
+        /* This form is evaluated with bound handlers. */
+        cl_object pathToUse = ecl_make_simple_base_string(const_cast<char *>(scriptPath.c_str()),
+                                                          scriptPath.length());
 
-        for ( ; ! feof(scratch); )
+        if (ECL_NIL != pathToUse)
         {
-            numRead = fread(buffer, 1, sizeof(buffer) - 1, scratch);
-            if (numRead)
-            {
-                buffer[numRead] = '\0';
-                scriptSource += buffer;
-            }
+            cl_load(1, pathToUse);
+            okSoFar = true;
         }
-        fclose(scratch);
     }
-    if (0 < scriptSource.size())
+    ECL_RESTART_CASE(1, condition)
     {
-        if (JS_Init())
-        {
-            JSContext * jct = NULL;
-            JSRuntime * jrt = JS_NewRuntime(COMMONLISP_GC_SIZE_ * 1024 * 1024);
-
-            if (jrt)
-            {
-#if (40 >= MOZJS_MAJOR_VERSION)
-                // Avoid ambiguity between 'var x = ...' and 'x = ...'.
-                JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
-#endif // 40 >= MOZJS_MAJOR_VERSION
-                JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
-                jct = JS_NewContext(jrt, COMMONLISP_STACKCHUNK_SIZE_);
-                if (jct)
-                {
-                    JS::ContextOptionsRef(jct).setDontReportUncaught(true);
-                    JS::ContextOptionsRef(jct).setAutoJSAPIOwnsErrorReporting(true);
-                    JS_SetErrorReporter(jrt, reportCommonLispError);
-                }
-                else
-                {
-                    OD_LOG("! (jct)"); //####
+        /* This code is executed when an error happens. */
+        okSoFar = false;
 #if MAC_OR_LINUX_
-                    GetLogger().fail("Common Lisp context could not be allocated.");
+        GetLogger().fail("Script aborted during load.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Common Lisp context could not be allocated." << endl;
+        cerr << "Script aborted during load." << endl;
 #endif // ! MAC_OR_LINUX_
-                    JS_DestroyRuntime(jrt);
-                    jrt = NULL;
-                }
+    }
+    ECL_RESTART_CASE_END;
+    if (okSoFar)
+    {
+        // Check for the functions / strings that we need.
+        if (validateLoadedScript(sawThread, description, helpText, loadedInletDescriptions,
+                                 loadedOutletDescriptions, loadedInletHandlers,
+                                 loadedStartingFunction, loadedStoppingFunction,
+                                 loadedThreadFunction, loadedInterval))
+        {
+            CommonLispService * aService = new CommonLispService(argumentList, scriptPath, argc,
+                                                                 argv, tag, description,
+                                                                 loadedInletDescriptions,
+                                                                 loadedOutletDescriptions,
+                                                                 loadedInletHandlers,
+                                                                 loadedStartingFunction,
+                                                                 loadedStoppingFunction,
+                                                                 sawThread, loadedThreadFunction,
+                                                                 loadedInterval,
+                                                                 serviceEndpointName,
+                                                                 servicePortNumber);
+
+            if (aService)
+            {
+                aService->performLaunch(helpText, goWasSet, stdinAvailable, reportOnExit);
+                delete aService;
             }
             else
             {
-                OD_LOG("! (jrt)"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Common Lisp runtime could not be allocated.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Common Lisp runtime could not be allocated." << endl;
-#endif // ! MAC_OR_LINUX_
+                OD_LOG("! (aService)"); //####
             }
-            if (jrt && jct)
-            {
-                // Enter a request before running anything in the context. In particular, the
-                // request is needed in order for JS_InitStandardClasses to work properly.
-                JSAutoRequest    ar(jct);
-                JS::RootedObject global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
-                                                                JS::FireOnNewGlobalHook));
-
-                if (global)
-                {
-                    // Enter the new global object's compartment.
-                    bool                     okSoFar;
-                    JSAutoCompartment        ac(jct, global);
-                    JS::OwningCompileOptions options(jct); // this is used so that script
-                                                           // objects persist
-                    YarpString               description;
-
-                    // Populate the global object with the standard globals, like Object and
-                    // Array.
-                    if (JS_InitStandardClasses(jct, global))
-                    {
-                        okSoFar = true;
-                    }
-                    else
-                    {
-                        OD_LOG("! (JS_InitStandardClasses(jct, global))"); //####
-                        okSoFar = false;
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Common Lisp global object could not be initialized.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Common Lisp global object could not be initialized." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                    if (okSoFar)
-                    {
-                        if (! addCustomObjects(jct, global, tag, arguments))
-                        {
-                            OD_LOG("(! addCustomObjects(jct, global, tag, arguments))"); //####
-                            okSoFar = false;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Custom objects could not be added to the CommonLisp "
-                                             "global object.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Custom objects could not be added to the CommonLisp global "
-                                    "object." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    if (okSoFar)
-                    {
-                        if (! loadScript(jct, options, scriptSource, scriptPath))
-                        {
-                            OD_LOG("(! loadScript(jct, options, scriptSource, scriptPath))"); //####
-                            okSoFar = false;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Script could not be loaded.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Script could not be loaded." << endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    bool                sawThread;
-                    YarpString          helpText;
-                    ChannelVector       loadedInletDescriptions;
-                    ChannelVector       loadedOutletDescriptions;
-                    double              loadedInterval;
-                    JS::AutoValueVector loadedInletHandlers(jct);
-                    JS::RootedValue     loadedStartingFunction(jct);
-                    JS::RootedValue     loadedStoppingFunction(jct);
-                    JS::RootedValue     loadedThreadFunction(jct);
-
-                    if (okSoFar)
-                    {
-                        if (! validateLoadedScript(jct, global, sawThread, description, helpText,
-                                                   loadedInletDescriptions,
-                                                   loadedOutletDescriptions,
-                                                   loadedInletHandlers, loadedStartingFunction,
-                                                   loadedStoppingFunction, loadedThreadFunction,
-                                                   loadedInterval))
-                        {
-                            OD_LOG("(! validateLoadedScript(jct, global, sawThread, " //####
-                                   "description, inStreamDescriptions, " //####
-                                   "outStreamDescriptions, loadedInletHandlers, " //####
-                                   "loadedThreadFunction, loadedInterval))"); //####
-                            okSoFar = false;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Script is missing one or more functions or "
-                                             "variables.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Script is missing one or more functions or variables." <<
-                                    endl;
-#endif // ! MAC_OR_LINUX_
-                        }
-                    }
-                    if (okSoFar)
-                    {
-                        CommonLispService * aService = new CommonLispService(argumentList, jct,
-                                                                             global, scriptPath,
-                                                                             argc, argv, tag,
-                                                                             description,
-                                                                         loadedInletDescriptions,
-                                                                         loadedOutletDescriptions,
-                                                                             loadedInletHandlers,
-                                                                             loadedStartingFunction,
-                                                                             loadedStoppingFunction,
-                                                                             sawThread,
-                                                                             loadedThreadFunction,
-                                                                             loadedInterval,
-                                                                             serviceEndpointName,
-                                                                             servicePortNumber);
-
-                        if (aService)
-                        {
-                            aService->performLaunch(helpText, goWasSet, stdinAvailable,
-                                                    reportOnExit);
-                            delete aService;
-                        }
-                        else
-                        {
-                            OD_LOG("! (aService)"); //####
-                        }
-                    }
-                }
-                else
-                {
-                    OD_LOG("! (global)"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Common Lisp global object could not be created.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Common Lisp global object could not be created." << endl;
-#endif // ! MAC_OR_LINUX_
-                }
-                JS_DestroyContext(jct);
-                JS_DestroyRuntime(jrt);
-            }
-            JS_ShutDown();
         }
         else
         {
-            OD_LOG("! (JS_Init())"); //####
+            OD_LOG("! (validateLoadedScript(sawThread, description, helpText, " //####
+                   "loadedInletDescriptions, loadedOutletDescriptions, " //####
+                   "loadedInletHandlers, loadedStartingFunction, loadedStoppingFunction, " //####
+                   "loadedThreadFunction, loadedInterval))"); //####
+            okSoFar = false;
 #if MAC_OR_LINUX_
-            GetLogger().fail("Common Lisp engine could not be started.");
+            GetLogger().fail("Script is missing one or more functions or variables.");
 #else // ! MAC_OR_LINUX_
-            cerr << "Common Lisp engine could not be started." << endl;
+            cerr << "Script is missing one or more functions or variables." << endl;
 #endif // ! MAC_OR_LINUX_
         }
     }
-    else
-    {
-        OD_LOG("! (0 < scriptSource.size())"); //####
-#if MAC_OR_LINUX_
-        GetLogger().fail("Empty script file.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Empty script file." << endl;
-#endif // ! MAC_OR_LINUX_
-    }
-#endif//0
     OD_LOG_EXIT(); //####
 } // setUpAndGo
 

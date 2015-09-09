@@ -133,11 +133,7 @@
 
 ;; Some test Common Lisp...
 
-(format t "~S~%" (list-all-packages))
-(format t "~S~%" (package-nicknames 'mmcl))
-(format t "~S~%" (package-use-list 'mmcl))
-
-;(use-package 'mmcl)
+(use-package 'mmcl)
 
 (setq now (multiple-value-list (decode-universal-time (get-universal-time))))
 (let ((hh (nth 2 now))
@@ -148,44 +144,40 @@
       (dd (nth 3 now)))
   (setq nowString (format nil "~D-~2,'0D-~2,'0D ~2,'0D:~2,'0D:~2,'0D" yy mo dd hh mi ss)))
 
-(writeLineToStdout (concatenate 'string '"Hello " "world, it is " nowString))
+(format t "Hello world, it is ~A~%" nowString)
 
-(setq ww 4.34)
-(setq xx 5)
+(setq ww 4.34 xx 5)
 
 (defun hereWeGo ()
-  (writeLineToStdout "inside hereWeGo"))
+  (format t "inside hereWeGo~%"))
 
 (setq yy ())
 
 (setq zz (make-hash-table))
-(setf (gethash 'aa zz) "first")
-(setf (gethash 'bb zz) "second")
-(setf (gethash 'cc zz) 42)
+(psetf (gethash 'aa zz) "first"
+       (gethash 'bb zz) "second"
+       (gethash 'cc zz) 42)
 
 (defun andAnotherFunction (aa)
-  (writeLineToStdout (format nil "argument is ~S" aa))
+  (format t "argument is ~S~%" aa)
   (hereWeGo))
 
 (andAnotherFunction 42)
 
-(setq argv `("a" "b" "c"))
-
-(dumpObjectToStdout "argv:" argv)
-(writeLineToStdout (format nil "tag is \"~A\"" mmcl:scriptTag))
+(format t "argv:~%~A~%tag is \"~A\"~%" mmcl:argv mmcl:scriptTag)
 
 ;; The real stuff:
 
 (defun handleOurInput (portNumber incomingData)
-  (writeLineToStdout (format nil "input on port ~S" portNumber))
+  (format t "input on port ~S~%" portNumber)
   ;; Convert the input to an integer, if it's a floating-point number; if it's an integer, pass it
   ;; through. If it's an array, process each element. If a value is non-numeric, report an error.
   (sendToChannel 0 incomingData))
 
-;; Specfic named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
+;; Specific named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
 ;; can be provided by either functions or 'global' variables.
 
-;;(setq scriptDescription "An example script")
+;(setq scriptDescription "An example script")
 (defun scriptDescription ()
   "An example script")
 
@@ -193,40 +185,39 @@
 
 ;; The following function will either generate one inlet, called 'incoming' or a set of inlets,
 ;; called 'incoming#',
-;;function scriptInlets()
-;;{
-;;    var inletCount;
-;;    var inlets = [];
-;;    
-;;    if (1 < argv.length)
-;;    {
-;;        inletCount = parseInt(argv[1]);
-;;        if (isNaN(inletCount))
-;;        {
-;;            inletCount = 1;
-;;        }
-;;    }
-;;    if (1 < inletCount)
-;;    {
-;;        for (var ii = 0; inletCount > ii; ++ii)
-;;        {
-;;            inlets[ii] = { name: ('incoming' + (ii + 1)), protocol: '*',
-;;                            protocolDescription: 'Anything',
-;;                            handler: handleOurInput };
-;;        }
-;;    }
-;;    else
-;;    {
-;;        inlets[0] = { name: 'incoming', protocol: '*',
-;;                        protocolDescription: 'Anything',
-;;                        handler: handleOurInput };
-;;    }
-;;    return inlets;
-;;} ;; scriptInlets
-;;;;var scriptInlets = [];
+(defun scriptInlets ()
+  (let* (inlets inletCount anInlet)
+    (setq inletCount (cond ((< 1 (array-dimension mmcl:argv 0))
+			    (parse-integer (aref mmcl:argv 1) :junk-allowed t))
+			   (t 1)))
+    (setq inletCount (cond ((numberp inletCount) inletCount)
+			   (t 1)))
+    (setq inlets (make-array (list inletCount)))
+    (cond ((< 1 inletCount)
+	   (dotimes (ii inletCount)
+	     (let* (scriptInlet)
+	       (setq scriptInlet (make-hash-table))
+	       (psetf (gethash 'name scriptInlet) (format nil "incoming~D" ii)
+		      (gethash 'protocol scriptInlet) "*"
+		      (gethash 'protocolDescription scriptInlet) "Anything"
+		      (gethash 'handler scriptInlet) 'handleOurInput)
+	       (setf (aref inlets ii) scriptInlet))))
+	  (t (let* (scriptInlet)
+	       (setq scriptInlet (make-hash-table))
+	       (psetf (gethash 'name scriptInlet) "incoming"
+		      (gethash 'protocol scriptInlet) "*"
+		      (gethash 'protocolDescription scriptInlet) "Anything"
+		      (gethash 'handler scriptInlet) 'handleOurInput)
+	       (setf (aref inlets 0) scriptInlet))))
+    inlets))
 
-;;var scriptOutlets = [ { name: 'outgoing', protocol: '*',
-;;                        protocolDescription: 'Anything' } ];
+(let* (scriptOutlet1)
+  (setq scriptOutlet1 (make-hash-table))
+  (psetf (gethash 'name scriptOutlet1) "outgoing"
+	 (gethash 'protocol scriptOutlet1) "*"
+	 (gethash 'protocolDescription scriptOutlet1) "Anything")
+  (setq scriptOutlets (make-array '(1)
+				  :initial-element scriptOutlet1)))
 
 ;; The 'scriptStarting' and 'scriptStopping' functions are optional; if 'scriptStarting' returns
 ;; the boolean value true, it's OK to proceed. If, instead, it returns something else, the script
@@ -235,10 +226,8 @@
 ;; executed before the handlers for the inlets are attached and 'scriptStopping' is executed after
 ;; all the inlets are detached.
 (defun scriptStarting ()
-  (writeLineToStdout "script starting")
+  (format t "script starting~%")
   t)
 
 (defun scriptStopping ()
-  (writeLineToStdout "script stopping"))
-
-(writeLineToStdout "got to end of script!")
+  (format t "script stopping~%"))

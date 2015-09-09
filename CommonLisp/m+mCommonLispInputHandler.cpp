@@ -65,7 +65,6 @@ using namespace MplusM::CommonLisp;
 using std::cerr;
 using std::endl;
 
-#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -78,6 +77,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if 0
 /*! @brief Convert a YARP value into a Common Lisp object.
  @param jct The Common Lisp engine context.
  @param theData The output object.
@@ -250,6 +250,7 @@ static void createValueFromBottle(JSContext *              jct,
     convertList(jct, theData, aBottle);
     OD_LOG_EXIT(); //####
 } // createValueFromBottle
+#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -261,11 +262,11 @@ static void createValueFromBottle(JSContext *              jct,
 
 CommonLispInputHandler::CommonLispInputHandler(CommonLispService * owner,
                                                const size_t        slotNumber,
-                                               JS::HandleValue &   handlerFunc) :
+                                               cl_object           handlerFunc) :
     inherited(), _owner(owner), _handlerFunc(handlerFunc), _slotNumber(slotNumber), _active(false)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("owner = ", owner, "handlerFunc = ", &handlerFunc); //####
+    OD_LOG_P2("owner = ", owner, "handlerFunc = ", handlerFunc); //####
     OD_LOG_L1("slotNumber = ", slotNumber); //####
     OD_LOG_EXIT_P(this); //####
 } // CommonLispInputHandler::CommonLispInputHandler
@@ -299,8 +300,14 @@ DEFINE_HANDLE_INPUT_(CommonLispInputHandler)
     
     try
     {
-        if (_active && _owner)
+        if (_active && _owner && _handlerFunc)
         {
+            // need to pass port number and incoming data to function; ignore result
+            cl_object incoming = ECL_NIL; //!!!!
+
+            cl_funcall(1, _handlerFunc, ecl_make_fixnum(_slotNumber), incoming);
+
+#if 0
             JSContext * jct = _owner->getContext();
             
             if (jct)
@@ -349,6 +356,7 @@ DEFINE_HANDLE_INPUT_(CommonLispInputHandler)
                 }
                 JS_EndRequest(jct);
             }
+#endif//0
         }
     }
     catch (...)
@@ -366,4 +374,3 @@ DEFINE_HANDLE_INPUT_(CommonLispInputHandler)
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-#endif//0

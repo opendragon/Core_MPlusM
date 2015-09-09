@@ -62,7 +62,6 @@ using namespace MplusM::CommonLisp;
 using std::cerr;
 using std::endl;
 
-#if 0
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
@@ -83,16 +82,13 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-CommonLispThread::CommonLispThread(const double            timeToWait,
-                                   JSContext *             context,
-                                   JS::RootedObject &      global,
-                                   const JS::RootedValue & threadFunc) :
-    inherited(), _timeToWait(timeToWait), _threadFunc(context), _global(global), _context(context)
+CommonLispThread::CommonLispThread(const double timeToWait,
+                                   cl_object    threadFunc) :
+    inherited(), _timeToWait(timeToWait), _threadFunc(threadFunc)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_P3("context = ", context, "global = ", &global, "threadFunc = ", &threadFunc); //####
-    _threadFunc = threadFunc;
+    OD_LOG_P1("threadFunc = ", threadFunc); //####
     OD_LOG_EXIT_P(this); //####
 } // CommonLispThread::CommonLispThread
 
@@ -121,35 +117,9 @@ void CommonLispThread::run(void)
         if (_nextTime <= yarp::os::Time::now())
         {
             OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            if (_context && (! _threadFunc.isNullOrUndefined()))
+            if (ECL_NIL != _threadFunc)
             {
-                JS::AutoValueVector funcArgs(_context);
-                JS::RootedValue     funcResult(_context);
-                
-                JS_BeginRequest(_context);
-                if (JS_CallFunctionValue(_context, _global, _threadFunc, funcArgs, &funcResult))
-                {
-                    // We don't care about the function result, as it's supposed to just perform an
-                    // iteration of the thread.
-                }
-                else
-                {
-                    OD_LOG("! (JS_CallFunctionValue(_context, _global, _threadFunc, " //####
-                           "funcArgs, &funcResult))"); //####
-                    JS::RootedValue exc(_context);
-                    
-                    if (JS_GetPendingException(_context, &exc))
-                    {
-                        JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Exception occurred while executing scriptThread "
-                                         "function.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Exception occurred while executing scriptThread function." << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                JS_EndRequest(_context);
+                cl_funcall(1, _threadFunc);
             }
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
@@ -177,4 +147,3 @@ void CommonLispThread::threadRelease(void)
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
-#endif//0

@@ -67,13 +67,9 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering.
-             @param context The %CommonLisp engine context.
-             @param global The %CommonLisp global object.
              @param threadFunc The %CommonLisp handler function for the thread. */
-            CommonLispThread(const double            timeToWait/*,
-                             JSContext *             context,
-                             JS::RootedObject &      global,
-                             const JS::RootedValue & threadFunc*/);
+            CommonLispThread(const double timeToWait,
+                             cl_object    threadFunc);
             
             /*! @brief The destructor. */
             virtual ~CommonLispThread(void);
@@ -116,15 +112,9 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-//            /*! @brief The %CommonLisp thread function. */
-//            JS::RootedValue _threadFunc;
-            
-//            /*! @brief The %CommonLisp global object for this execution environment. */
-//            JS::RootedObject & _global;
-            
-//            /*! @brief The %CommonLisp execution environment. */
-//            JSContext * _context;
-            
+            /*! @brief The %CommonLisp thread function. */
+            cl_object _threadFunc;
+
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
             

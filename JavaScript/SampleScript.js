@@ -167,7 +167,7 @@ function handleOurInput(portNumber, incomingData)
     sendToChannel(0, incomingData);
 } // handleOurInput
 
-// Specfic named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
+// Specific named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
 // can be provided by either functions or 'global' variables.
 
 //var scriptDescription = 'An example script';

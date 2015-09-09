@@ -1244,6 +1244,10 @@ static bool getLoadedDouble(JSContext *        jct,
     {
         okSoFar = true;
     }
+    else if (isOptional)
+    {
+        okSoFar = true;
+    }
     else
     {
         OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
@@ -1369,6 +1373,10 @@ static bool getLoadedString(JSContext *        jct,
     
     result = "";
     if (JS_HasProperty(jct, anObject, propertyName, &found))
+    {
+        okSoFar = true;
+    }
+    else if (isOptional)
     {
         okSoFar = true;
     }
@@ -1856,11 +1864,12 @@ static bool validateLoadedScript(JSContext *           jct,
               "loadedStoppingFunction = ", &loadedStoppingFunction, //####
               "loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
               &loadedInterval); //####
-    bool okSoFar = true;
+    bool okSoFar;
 
 //    PrintJavaScriptObject(cout, jct, global, 0);
     sawThread = false;
     loadedInterval = 1.0;
+    loadedThreadFunction = JS::NullValue();
     okSoFar = getLoadedString(jct, global, "scriptDescription", true, false, description);
     if (okSoFar)
     {
@@ -1868,12 +1877,15 @@ static bool validateLoadedScript(JSContext *           jct,
     }
     if (okSoFar)
     {
-        loadedThreadFunction = JS::NullValue();
         if (getLoadedFunctionRef(jct, global, "scriptThread", 0, loadedThreadFunction))
         {
 //            cout << "function scriptThread defined" << endl;
             sawThread = true;
         }
+    }
+    else
+    {
+        cout << __LINE__ << endl;
     }
     if (okSoFar && (! sawThread))
     {
@@ -2022,7 +2034,6 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     JSAutoCompartment        ac(jct, global);
                     JS::OwningCompileOptions options(jct); // this is used so that script
                                                            // objects persist
-                    YarpString               description;
 
                     // Populate the global object with the standard globals, like Object and
                     // Array.
@@ -2069,7 +2080,6 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                         }
                     }
                     bool                sawThread;
-                    YarpString          helpText;
                     ChannelVector       loadedInletDescriptions;
                     ChannelVector       loadedOutletDescriptions;
                     double              loadedInterval;
@@ -2077,6 +2087,8 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     JS::RootedValue     loadedStartingFunction(jct);
                     JS::RootedValue     loadedStoppingFunction(jct);
                     JS::RootedValue     loadedThreadFunction(jct);
+                    YarpString          description;
+                    YarpString          helpText;
 
                     if (okSoFar)
                     {
@@ -2088,8 +2100,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                                    loadedInterval))
                         {
                             OD_LOG("(! validateLoadedScript(jct, global, sawThread, " //####
-                                   "description, inStreamDescriptions, " //####
-                                   "outStreamDescriptions, loadedInletHandlers, " //####
+                                   "description, helpText, loadedInletDescriptions, " //####
+                                   "loadedOutletDescriptions, loadedInletHandlers, " //####
+                                   "loadedStartingFunction, loadedStoppingFunction, " //####
                                    "loadedThreadFunction, loadedInterval))"); //####
                             okSoFar = false;
 #if MAC_OR_LINUX_
