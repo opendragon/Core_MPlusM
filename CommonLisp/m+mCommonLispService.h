@@ -120,6 +120,8 @@ namespace MplusM
             
             DECLARE_DISABLEMETRICS_;
             
+            DECLARE_DOIDLE_;
+
             DECLARE_ENABLEMETRICS_;
             
             DECLARE_GETCONFIGURATION_;
@@ -135,7 +137,9 @@ namespace MplusM
             bool sendToChannel(const int32_t channelSlot,
                                JS::Value     theData);
 #endif//0
-            
+
+            void signalRunFunction(void);
+
             DECLARE_STARTSERVICE_;
             
             DECLARE_STARTSTREAMS_;
@@ -181,7 +185,10 @@ namespace MplusM
             
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
-            
+
+            /*! @brief The communication signal for the thread. */
+            yarp::os::Semaphore _interlock;
+
             /*! @brief The Common Lisp script starting function. */
             cl_object _scriptStartingFunc;
 

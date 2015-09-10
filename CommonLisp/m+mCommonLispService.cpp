@@ -265,7 +265,7 @@ CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumen
               description, "", serviceEndpointName, servicePortNumber),
     _inletHandlers(loadedInletHandlers), _inHandlers(), _generator(NULL),
     _loadedInletDescriptions(loadedInletDescriptions),
-    _loadedOutletDescriptions(loadedOutletDescriptions),
+    _loadedOutletDescriptions(loadedOutletDescriptions), _interlock(0),
     _scriptStartingFunc(loadedStartingFunction), _scriptStoppingFunc(loadedStoppingFunction),
     _scriptThreadFunc(loadedThreadFunction), _threadInterval(loadedInterval),
     _isThreaded(sawThread)
@@ -321,8 +321,26 @@ DEFINE_CONFIGURE_(CommonLispService)
         }
         else
         {
-            cl_object aValue = cl_funcall(1, _scriptStartingFunc);
+            cl_env_ptr env = ecl_process_env();
+            cl_object  aValue;
+            cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
 
+            ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+            {
+                /* This form is evaluated with bound handlers. */
+                aValue = cl_funcall(1, _scriptStartingFunc);
+            }
+            ECL_RESTART_CASE(1, condition)
+            {
+                /* This code is executed when an error happens. */
+                aValue = ECL_NIL;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+            ECL_RESTART_CASE_END;
             if (ECL_T == aValue)
             {
                 result = true;
@@ -375,6 +393,50 @@ DEFINE_DISABLEMETRICS_(CommonLispService)
     }
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::disableMetrics
+
+DEFINE_DOIDLE_(CommonLispService)
+{
+    OD_LOG_OBJENTER(); //####
+    if (isActive())
+    {
+        OD_LOG("(isActive())"); //####
+        if (_interlock.check())
+        {
+            OD_LOG("(_interlock.check())"); //####
+            if (ECL_NIL != _scriptThreadFunc)
+            {
+                OD_LOG("(ECL_NIL != _scriptThreadFunc)"); //####
+                try
+                {
+                    cl_env_ptr env = ecl_process_env();
+                    cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
+                    ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+                    {
+                        /* This form is evaluated with bound handlers. */
+                        cl_funcall(1, _scriptThreadFunc);
+                    }
+                    ECL_RESTART_CASE(1, condition)
+                    {
+                        /* This code is executed when an error happens. */
+#if MAC_OR_LINUX_
+                        GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
+                    ECL_RESTART_CASE_END;
+                }
+                catch (...)
+                {
+                    OD_LOG("Exception caught"); //####
+                    throw;
+                }
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispService::doIdle
 
 DEFINE_ENABLEMETRICS_(CommonLispService)
 {
@@ -512,6 +574,13 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispService)
     return result;
 } // CommonLispService::setUpStreamDescriptions
 
+void CommonLispService::signalRunFunction(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _interlock.post();
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispService::signalRunFunction
+
 DEFINE_STARTSERVICE_(CommonLispService)
 {
     OD_LOG_OBJENTER(); //####
@@ -548,7 +617,7 @@ DEFINE_STARTSTREAMS_(CommonLispService)
         {
             if (_isThreaded)
             {
-                _generator = new CommonLispThread(_threadInterval, _scriptThreadFunc);
+                _generator = new CommonLispThread(*this, _threadInterval);
 				if (! _generator->start())
 				{
 					OD_LOG("(! _generator->start())"); //####
@@ -640,7 +709,24 @@ DEFINE_STOPSTREAMS_(CommonLispService)
             // Tell the script that we're done for now.
             if (ECL_NIL != _scriptStoppingFunc)
             {
-                cl_funcall(1, _scriptStoppingFunc);
+                cl_env_ptr env = ecl_process_env();
+                cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
+                ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+                {
+                    /* This form is evaluated with bound handlers. */
+                    cl_funcall(1, _scriptStoppingFunc);
+                }
+                ECL_RESTART_CASE(1, condition)
+                {
+                    /* This code is executed when an error happens. */
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+                ECL_RESTART_CASE_END;
             }
         }
     }

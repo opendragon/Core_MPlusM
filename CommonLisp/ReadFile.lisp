@@ -37,11 +37,11 @@
 ;;--------------------------------------------------------------------------------------------------
 
 ;;var inStream = null;
-;;
-;;var scriptDescription = 'A script that reads values from a file';
-;;
-;;var scriptHelp = 'The first argument is the path to the input file';
-;;
+
+(setq scriptDescription "A script that reads values from a file")
+
+(setq scriptHelp "The first argument is the path to the input file")
+
 ;;function scriptStarting()
 ;;{
 ;;    var okSoFar = false;
@@ -75,10 +75,18 @@
 ;;    }
 ;;    return okSoFar;
 ;;} ;; scriptStarting
-;;
+(defun scriptStarting ()
+  (format t "script starting~%")
+  ;;TBD
+  t)
+
 ;;function scriptStopping()
 ;;{
 ;;    writeLineToStdout('script stopping');
 ;;    inStream.close();
 ;;    inStream = null;
 ;;} ;; scriptStopping
+(defun scriptStopping ()
+  (format t "script stopping ~%")
+  ;;TBD
+  )

@@ -63,12 +63,24 @@
 ;;    }
 ;;    sendToChannel(0, outValues);
 ;;} ;; doTruncateFloat
-;;
-;;var scriptDescription = 'A script that truncates floating-point numbers';
-;;
-;;var scriptInlets = [ { name: 'incoming', protocol: 'd*',
-;;                        protocolDescription: 'A sequence of floating-point numbers',
-;;                        handler: doTruncateFloat } ];
-;;
-;;var scriptOutlets = [ { name: 'outgoing', protocol: 'i*',
-;;                        protocolDescription: 'A sequence of integers' } ];
+(defun doTruncateFloat (portNumber incomingData)
+  (let* (outValues)
+    ;;TBD
+    (sendToChannel 0 outValues)))
+
+(setq scriptDescription "A script that truncates floating-point numbers")
+
+(let* (scriptInlet1)
+  (setq scriptInlet1 (make-hash-table))
+  (psetf (gethash 'name scriptInlet1) "incoming"
+	 (gethash 'protocol scriptInlet1) "d*"
+	 (gethash 'protocolDescription scriptInlet1) "A sequence of floating-point numbers"
+	 (gethash 'handler scriptInlet1) 'doTruncateFloat)
+  (setq scriptInlet1 (make-array '(1) :initial-element scriptInlet1)))
+
+(let* (scriptOutlet1)
+  (setq scriptOutlet1 (make-hash-table))
+  (psetf (gethash 'name scriptOutlet1) "outgoing"
+	 (gethash 'protocol scriptOutlet1) "i*"
+	 (gethash 'protocolDescription scriptOutlet1) "A sequence of integers")
+  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))

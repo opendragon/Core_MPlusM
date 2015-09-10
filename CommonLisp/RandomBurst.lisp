@@ -36,58 +36,43 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
-;;var burstSize;
-;;
-;;var scriptDescription = 'A script that generates random blocks of floating-point numbers';
-;;
-;;var scriptHelp = 'The first argument is the burst period and the second argument is the burst size';
-;;
+(setq burstSize 1)
+
+(setq scriptDescription "A script that generates random blocks of floating-point numbers")
+
+(setq scriptHelp "The first argument is the burst period and the second argument is the burst size")
+
 ;;;; Note that the following function processes both arguments, since it will be called at a specific
 ;;;; point in the execution sequence.
-;;function scriptInterval()
-;;{
-;;    var interval;
-;;    var inlets = [];
-;;    
-;;    if (1 < argv.length)
-;;    {
-;;        interval = parseInt(argv[1]);
-;;        if (isNaN(interval))
-;;        {
-;;            interval = 1;
-;;        }
-;;        if (2 < argv.length)
-;;        {
-;;            burstSize = parseInt(argv[2]);
-;;            if (isNaN(burstSize))
-;;            {
-;;                burstSize = 1;
-;;            }
-;;        }
-;;        else
-;;        {
-;;            burstSize = 1;
-;;        }
-;;    }
-;;    else
-;;    {
-;;        burstSize = 1;
-;;        interval = 1;
-;;    }
-;;    writeLineToStdout('burst interval is ' + interval + ' and burst size is ' + burstSize);
-;;    return interval;
-;;} ;; scriptInterval
-;;
-;;var scriptOutlets = [ { name: 'output', protocol: 'd+',
-;;                        protocolDescription: 'One or more numeric values' } ];
-;;
-;;function scriptThread()
-;;{
-;;    var outList = [];
-;;    
-;;    for (var ii = 0; burstSize > ii; ++ii)
-;;    {
-;;        outList[ii] = (10000 * Math.random());
-;;    }
-;;    sendToChannel(0, outList);
-;;} ;; scriptThread
+(defun scriptInterval ()
+  (let* (argCount interval)
+    (setq argCount (array-dimension mmcl:argv 0))
+    (cond
+     ((< 1 argCount)
+      (setq interval
+	    (let* ((*read-default-float-format* 'double-float))
+	      (read-from-string (aref mmcl:argv 1))))
+      (setq interval (cond ((numberp interval) interval)
+			   (t 1)))
+      (cond
+       ((< 2 argCount)
+	(setq burstSize (parse-integer (aref mmcl:argv 2) :junk-allowed t))
+	(setq burstSize (cond ((numberp burstSize) burstSize)
+			      (t 1))))
+       (t (setq burstSize 1))))
+     (t (setq burstSize 1) (setq interval 1)))
+    interval))
+
+(let* (scriptOutlet1)
+  (setq scriptOutlet1 (make-hash-table))
+  (psetf (gethash 'name scriptOutlet1) "outgoing"
+	 (gethash 'protocol scriptOutlet1) "d+"
+	 (gethash 'protocolDescription scriptOutlet1) "One or more numeric values")
+  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))
+
+(defun scriptThread ()
+  (let* (outList)
+    (setq outList (make-array (list burstSize)))
+    (dotimes (ii burstSize)
+      (setf (aref outList ii) (* 10000 (random 1.0))))
+    (sendToChannel 0 outList)))

@@ -72,15 +72,22 @@
 ;;        }
 ;;    }
 ;;} ;; doRecordIntegers
-;;
-;;var scriptDescription = 'A script that writes integer values to a file';
-;;
-;;var scriptHelp = 'The first argument is the path to the output file';
-;;
-;;var scriptInlets = [ { name: 'incoming', protocol: 'i*',
-;;                        protocolDescription: 'A sequence of integer values',
-;;                        handler: doRecordIntegers } ];
-;;
+(defun doRecordIntegers (portNumber incomingData)
+  ;;TBD
+  )
+
+(setq scriptDescription "A script that writes integer values to a file")
+
+(setq scriptHelp "The first argument is the path to the output file")
+
+(let* (scriptInlet1)
+  (setq scriptInlet1 (make-hash-table))
+  (psetf (gethash 'name scriptInlet1) "incoming"
+	 (gethash 'protocol scriptInlet1) "i*"
+	 (gethash 'protocolDescription scriptInlet1) "A sequence of integer values"
+	 (gethash 'handler scriptInlet1) 'doRecordIntegers)
+  (setq scriptInlet1 (make-array '(1) :initial-element scriptInlet1)))
+
 ;;function scriptStarting()
 ;;{
 ;;    var okSoFar = false;
@@ -105,10 +112,18 @@
 ;;    }
 ;;    return okSoFar;
 ;;} ;; scriptStarting
-;;
+(defun scriptStarting ()
+  (format t "script starting~%")
+  ;;TBD
+  t)
+
 ;;function scriptStopping()
 ;;{
 ;;    writeLineToStdout('script stopping');
 ;;    outStream.close();
 ;;    outStream = null;
 ;;} ;; scriptStopping
+(defun scriptStopping ()
+  (format t "script stopping~%")
+  ;;TBD
+  )

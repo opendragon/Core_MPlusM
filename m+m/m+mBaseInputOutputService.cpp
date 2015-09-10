@@ -55,6 +55,8 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#include <termios.h>
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -81,6 +83,32 @@ using std::endl;
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
+
+/*! @brief The mode of the input terminal. */
+enum TtyMode
+{
+    /*! @brief The terminal is in 'normal' mode. */
+    TTY_RESET_,
+
+    /*! @brief The terminal is in 'raw' mode. */
+    TTY_RAW_,
+
+    /*! @brief The terminal is in 'cbreak' mode. */
+    TTY_CBREAK_
+
+}; // TtyMode
+
+/*! @brief The active terminal attributes. */
+static struct termios lTermattr;
+
+/*! @brief The save terminal attributes. */
+static struct termios lSaveTermattr;
+
+/*! @brief The saved file descriptor for the input terminal. */
+static int lTtySaveFd = -1;
+
+/*! @brief The mode of the input terminal. */
+static TtyMode lTtyState = TTY_RESET_;
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -112,6 +140,116 @@ static void displayCommands(const YarpString & helpText,
     cout << "  r - restart the input and output streams" << endl;
     OD_LOG_EXIT(); //####
 } // displayCommands
+
+static int set_tty_cbreak(void)
+{
+    int ii = tcgetattr(STDIN_FILENO, &lTermattr);
+    int res;
+
+    if (ii < 0)
+    {
+        printf("tcgetattr() returned %d for fildes=%d\n", ii, STDIN_FILENO);
+        perror("");
+        res = -1;
+    }
+    else
+    {
+        lSaveTermattr = lTermattr;
+        lTermattr.c_lflag &= ~(ECHO | ICANON);
+        lTermattr.c_cc[VMIN] = 1;
+        lTermattr.c_cc[VTIME] = 0;
+        ii = tcsetattr(STDIN_FILENO, TCSANOW, &lTermattr);
+        if (ii < 0)
+        {
+            printf("tcsetattr() returned %d for fildes=%d\n", ii, STDIN_FILENO);
+            perror("");
+            res = -1;
+        }
+        else
+        {
+            lTtyState = TTY_CBREAK_;
+            lTtySaveFd = STDIN_FILENO;
+            res = 0;
+        }
+    }
+    return res;
+} // set_tty_cbreak
+
+static int set_tty_cooked(void)
+{
+    int res = 0;
+
+    if ((TTY_CBREAK_ == lTtyState) || (TTY_RAW_ == lTtyState))
+    {
+        int ii = tcsetattr(STDIN_FILENO, TCSAFLUSH, &lSaveTermattr);
+
+        if (ii < 0)
+        {
+            res = -1;
+        }
+        else
+        {
+            lTtyState = TTY_RESET_;
+        }
+    }
+    return res;
+} // set_tty_cooked
+
+static int set_tty_raw(void)
+{
+    int ii = tcgetattr(STDIN_FILENO, &lTermattr);
+    int res;
+
+    if (ii < 0)
+    {
+        printf("tcgetattr() returned &#37;d for fildes=%d\n", ii, STDIN_FILENO);
+        perror("");
+        res = -1;
+    }
+    else
+    {
+        lSaveTermattr = lTermattr;
+        lTermattr.c_lflag &= ~(ECHO | ICANON | IEXTEN | ISIG);
+        lTermattr.c_iflag &= ~(BRKINT | ICRNL | INPCK | ISTRIP | IXON);
+        lTermattr.c_cflag &= ~(CSIZE | PARENB);
+        lTermattr.c_cflag |= CS8;
+        lTermattr.c_oflag &= ~(OPOST);
+        lTermattr.c_cc[VMIN] = 1;  /* or 0 for some Unices;  see note 1 */
+        lTermattr.c_cc[VTIME] = 0;
+        ii = tcsetattr(STDIN_FILENO, TCSANOW, &lTermattr);
+        if (ii < 0)
+        {
+            printf("tcsetattr() returned %d for fildes=%d\n", ii, STDIN_FILENO);
+            perror("");
+            res = -1;
+        }
+        else
+        {
+            lTtyState = TTY_RAW_;
+            lTtySaveFd = STDIN_FILENO;
+            res = 0;
+        }
+    }
+    return res;
+} // set_tty_raw
+
+static char kb_getc(void)
+{
+    int           ii;
+    unsigned char ch;
+    ssize_t       size;
+
+    lTermattr.c_cc[VMIN] = 0; /* uncomment if needed */
+    ii = tcsetattr(STDIN_FILENO, TCSANOW, &lTermattr);
+    size = read(STDIN_FILENO, &ch, 1);
+    lTermattr.c_cc[VMIN] = 1; /* uncomment if needed */
+    ii = tcsetattr(STDIN_FILENO, TCSANOW, &lTermattr);
+    if (size == 0)
+    {
+        ch = 0;
+    }
+    return static_cast<char>(ch);
+} // kb_getc
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -509,6 +647,12 @@ DEFINE_DISABLEMETRICS_(BaseInputOutputService)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::disableMetrics
 
+DEFINE_DOIDLE_(BaseInputOutputService)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // BaseInputOutputService::doIdle
+
 DEFINE_ENABLEMETRICS_(BaseInputOutputService)
 {
     OD_LOG_OBJENTER(); //####
@@ -810,6 +954,7 @@ void BaseInputOutputService::runService(const YarpString & helpText,
     OD_LOG_B4("forAdapter = ", forAdapter, "goWasSet = ", goWasSet, "stdinAvailable = ", //####
               stdinAvailable, "reportOnExit = ", reportOnExit); //####
     bool             configured = false;
+    bool             firstLine = true;
     yarp::os::Bottle configureData;
 
     if (goWasSet || (! stdinAvailable))
@@ -828,7 +973,72 @@ void BaseInputOutputService::runService(const YarpString & helpText,
 
             cout << "Operation: [? b c e q r]? ";
             cout.flush();
-            cin >> inChar;
+            for (set_tty_cbreak(); ; )
+            {
+                inChar = kb_getc();
+                if (inChar)
+                {
+                    cout << inChar;
+                    cout.flush();
+                    if (! isspace(inChar))
+                    {
+                        break;
+                    }
+
+                }
+                else
+                {
+                    if (isStarted())
+                    {
+                        doIdle();
+                    }
+#if defined(MpM_MainDoesDelayNotYield)
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                    yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                }
+            }
+            // Watch for a newline here!
+            if (! firstLine)
+            {
+                for ( ; ; )
+                {
+                    char peekChar = kb_getc();
+
+                    if (peekChar)
+                    {
+                        if (isspace(peekChar))
+                        {
+                            set_tty_cooked();
+                            break;
+                        }
+
+                    }
+                    else
+                    {
+                        if (isStarted())
+                        {
+                            doIdle();
+                        }
+#if defined(MpM_MainDoesDelayNotYield)
+                        yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                        yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                    }
+                }
+            }
+            set_tty_cooked();
+            if (firstLine)
+            {
+                firstLine = false;
+            }
+            else
+            {
+                cout << endl;
+                cout.flush();
+            }
             switch (inChar)
             {
                 case '?' :
@@ -889,6 +1099,8 @@ void BaseInputOutputService::runService(const YarpString & helpText,
                 case 'Q' :
                     // Quit
                     StopRunning();
+                    cout << endl;
+                    cout.flush();
                     break;
 
                 case 'r' :
@@ -924,8 +1136,9 @@ void BaseInputOutputService::runService(const YarpString & helpText,
         }
         else
         {
+            doIdle();
 #if defined(MpM_MainDoesDelayNotYield)
-            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
             yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)

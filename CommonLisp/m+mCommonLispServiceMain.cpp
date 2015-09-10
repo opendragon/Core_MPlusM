@@ -167,6 +167,8 @@ static cl_object sendToChannelForCl(cl_object channelIndex,
     cl_env_ptr env = ecl_process_env();
 
     //TBD
+    cout << "sending to channel" << endl; //!!!!
+    cout.flush(); //!!!!
     OD_LOG_EXIT_P(ECL_NIL); //####
     ecl_return0(env);
 } // sendToChannelForCl
@@ -1085,66 +1087,96 @@ static bool getLoadedDouble(const char * propertyName,
                             double &     result)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
     OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
-    bool      okSoFar = false;
-    cl_object aSymbol = cl_find_symbol(1,
+    OD_LOG_P1("result = ", &result); //####
+    bool okSoFar = false;
+
+    try
+    {
+        cl_object aSymbol = cl_find_symbol(1,
                                        ecl_make_simple_base_string(const_cast<char *>(propertyName),
                                                                    strlen(propertyName)));
 
-    if (ECL_NIL != aSymbol)
-    {
-        if (ECL_NIL != cl_boundp(aSymbol))
+        if (ECL_NIL != aSymbol)
         {
-            cl_object aValue = cl_symbol_value(aSymbol);
-
-            if (ECL_NIL != cl_realp(aValue))
+            if (ECL_NIL != cl_boundp(aSymbol))
             {
-                result = ecl_to_double(aValue);
-                okSoFar = true;
-            }
-        }
-        else if (canBeFunction && (ECL_NIL != cl_fboundp(aSymbol)))
-        {
-            cl_object aFunction = cl_symbol_function(aSymbol);
+                cl_object aValue = cl_symbol_value(aSymbol);
 
-            if (ECL_NIL != aFunction)
-            {
-                if (checkArity(aFunction, 0))
+                if (ECL_NIL != cl_realp(aValue))
                 {
-                    cl_object aValue = cl_funcall(1, aFunction);
+                    result = ecl_to_double(aValue);
+                    okSoFar = true;
+                }
+            }
+            else if (canBeFunction && (ECL_NIL != cl_fboundp(aSymbol)))
+            {
+                cl_object aFunction = cl_symbol_function(aSymbol);
 
-                    if (ECL_NIL != cl_realp(aValue))
+                if (ECL_NIL != aFunction)
+                {
+                    if (checkArity(aFunction, 0))
                     {
-                        result = ecl_to_double(aValue);
-                        okSoFar = true;
+                        cl_env_ptr env = ecl_process_env();
+                        cl_object  aValue;
+                        cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
+                        ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+                        {
+                            /* This form is evaluated with bound handlers. */
+                            aValue = cl_funcall(1, aFunction);
+                        }
+                        ECL_RESTART_CASE(1, condition)
+                        {
+                            /* This code is executed when an error happens. */
+                            aValue = ECL_NIL;
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+                            cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+                        ECL_RESTART_CASE_END;
+                        if (ECL_NIL != aValue)
+                        {
+                            if (ECL_NIL != cl_realp(aValue))
+                            {
+                                result = ecl_to_double(aValue);
+                                okSoFar = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+#if MAC_OR_LINUX_
+                        GetLogger().fail(YarpString("Function (") + YarpString(propertyName) +
+                                         ") has the incorrect number of arguments.");
+#else // ! MAC_OR_LINUX_
+                        cerr << "Function (" << propertyName <<
+                                ") has the incorrect number of arguments." << endl;
+#endif // ! MAC_OR_LINUX_
                     }
                 }
-                else
-                {
+            }
+            else if (isOptional)
+            {
+                okSoFar = true;
+            }
+            else
+            {
 #if MAC_OR_LINUX_
-                    GetLogger().fail(YarpString("Function (") + YarpString(propertyName) +
-                                     ") has the incorrect number of arguments.");
+                GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Function (" << propertyName <<
-                            ") has the incorrect number of arguments." << endl;
+                cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
-                }
             }
         }
-        else if (isOptional)
-        {
-            okSoFar = true;
-        }
-        else
-        {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
-        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
@@ -1166,74 +1198,104 @@ static bool getLoadedString(const char * propertyName,
     OD_LOG_P1("result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
     OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
-    bool      okSoFar = false;
-    cl_object aSymbol = cl_find_symbol(1,
+    bool okSoFar = false;
+
+    try
+    {
+        cl_object aSymbol = cl_find_symbol(1,
                                        ecl_make_simple_base_string(const_cast<char *>(propertyName),
                                                                    strlen(propertyName)));
 
-    if (ECL_NIL != aSymbol)
-    {
-        if (ECL_NIL != cl_boundp(aSymbol))
+        if (ECL_NIL != aSymbol)
         {
-            cl_object aValue = cl_symbol_value(aSymbol);
+            if (ECL_NIL != cl_boundp(aSymbol))
+            {
+                cl_object aValue = cl_symbol_value(aSymbol);
 
-            if (ECL_NIL == cl_stringp(aValue))
-            {
-                aValue = cl_string(aValue);
+                if (ECL_NIL == cl_stringp(aValue))
+                {
+                    aValue = cl_string(aValue);
+                }
+                aValue = si_coerce_to_base_string(aValue);
+                if (ECL_NIL != aValue)
+                {
+                    result = reinterpret_cast<char *>(aValue->base_string.self);
+                    okSoFar = true;
+                }
             }
-            aValue = si_coerce_to_base_string(aValue);
-            if (ECL_NIL != aValue)
+            else if (canBeFunction && (ECL_NIL != cl_fboundp(aSymbol)))
             {
-                result = reinterpret_cast<char *>(aValue->base_string.self);
+                cl_object aFunction = cl_symbol_function(aSymbol);
+
+                if (ECL_NIL != aFunction)
+                {
+                    if (checkArity(aFunction, 0))
+                    {
+                        cl_env_ptr env = ecl_process_env();
+                        cl_object  aValue;
+                        cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
+                        ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+                        {
+                            /* This form is evaluated with bound handlers. */
+                            aValue = cl_funcall(1, aFunction);
+                        }
+                        ECL_RESTART_CASE(1, condition)
+                        {
+                            /* This code is executed when an error happens. */
+                            aValue = ECL_NIL;
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+                            cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+                        ECL_RESTART_CASE_END;
+                        if (ECL_NIL != aValue)
+                        {
+                            if (ECL_NIL == cl_stringp(aValue))
+                            {
+                                aValue = cl_string(aValue);
+                            }
+                            aValue = si_coerce_to_base_string(aValue);
+                            if (ECL_NIL != aValue)
+                            {
+                                result = reinterpret_cast<char *>(aValue->base_string.self);
+                                okSoFar = true;
+                            }
+                        }
+                    }
+                    else
+                    {
+#if MAC_OR_LINUX_
+                        GetLogger().fail(YarpString(YarpString("Function (") +
+                                                    YarpString(propertyName) +
+                                                    ") has the incorrect number of arguments."));
+#else // ! MAC_OR_LINUX_
+                        cerr << "Function (" << propertyName <<
+                                ") has the incorrect number of arguments." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
+                }
+            }
+            else if (isOptional)
+            {
                 okSoFar = true;
             }
-        }
-        else if (canBeFunction && (ECL_NIL != cl_fboundp(aSymbol)))
-        {
-            cl_object aFunction = cl_symbol_function(aSymbol);
-
-            if (ECL_NIL != aFunction)
+            else
             {
-                if (checkArity(aFunction, 0))
-                {
-                    cl_object aValue = cl_funcall(1, aFunction);
-
-                    if (ECL_NIL == cl_stringp(aValue))
-                    {
-                        aValue = cl_string(aValue);
-                    }
-                    aValue = si_coerce_to_base_string(aValue);
-                    if (ECL_NIL != aValue)
-                    {
-                        result = reinterpret_cast<char *>(aValue->base_string.self);
-                        okSoFar = true;
-                    }
-                }
-                else
-                {
 #if MAC_OR_LINUX_
-                    GetLogger().fail(YarpString(YarpString("Function (") +
-                                                YarpString(propertyName) +
-                                                ") has the incorrect number of arguments."));
+                GetLogger().fail("Problem searching for a property.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Function (" << propertyName <<
-                            ") has the incorrect number of arguments." << endl;
+                cerr << "Problem searching for a property." << endl;
 #endif // ! MAC_OR_LINUX_
-                }
             }
         }
-        else if (isOptional)
-        {
-            okSoFar = true;
-        }
-        else
-        {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
-        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
@@ -1470,82 +1532,110 @@ static bool getLoadedStreamDescriptions(const char *    arrayName,
     OD_LOG_P2("inletHandlers = ", inletHandlers, "streamDescriptions = ", //####
               &streamDescriptions); //####
     OD_LOG_S1("arrayName = ", arrayName); //####
-    bool      okSoFar = false;
-    cl_object descriptionArray = ECL_NIL;
-    cl_object aSymbol = cl_find_symbol(1,
+    bool okSoFar = false;
+
+    try
+    {
+        cl_object descriptionArray = ECL_NIL;
+        cl_object aSymbol = cl_find_symbol(1,
                                        ecl_make_simple_base_string(const_cast<char *>(arrayName),
                                                                    strlen(arrayName)));
 
-    streamDescriptions.clear();
-    if (ECL_NIL != aSymbol)
-    {
-        if (ECL_NIL != cl_boundp(aSymbol))
+        streamDescriptions.clear();
+        if (ECL_NIL != aSymbol)
         {
-            descriptionArray = cl_symbol_value(aSymbol);
-        }
-        else if (ECL_NIL != cl_fboundp(aSymbol))
-        {
-            cl_object aFunction = cl_symbol_function(aSymbol);
-
-            if (ECL_NIL != aFunction)
+            if (ECL_NIL != cl_boundp(aSymbol))
             {
-                if (checkArity(aFunction, 0))
+                descriptionArray = cl_symbol_value(aSymbol);
+            }
+            else if (ECL_NIL != cl_fboundp(aSymbol))
+            {
+                cl_object aFunction = cl_symbol_function(aSymbol);
+
+                if (ECL_NIL != aFunction)
                 {
-                    descriptionArray = cl_funcall(1, aFunction);
-                }
-                else
-                {
+                    if (checkArity(aFunction, 0))
+                    {
+                        cl_env_ptr env = ecl_process_env();
+                        cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
+                        ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+                        {
+                            /* This form is evaluated with bound handlers. */
+                            descriptionArray = cl_funcall(1, aFunction);
+                        }
+                        ECL_RESTART_CASE(1, condition)
+                        {
+                            /* This code is executed when an error happens. */
+                            descriptionArray = ECL_NIL;
 #if MAC_OR_LINUX_
-                    GetLogger().fail(YarpString(YarpString("Function (") + YarpString(arrayName) +
-                                                ") has the incorrect number of arguments."));
+                            GetLogger().fail("Script aborted during load.");
 #else // ! MAC_OR_LINUX_
-                    cerr << "Function (" << arrayName <<
-                            ") has the incorrect number of arguments." << endl;
+                            cerr << "Script aborted during load." << endl;
 #endif // ! MAC_OR_LINUX_
+                        }
+                        ECL_RESTART_CASE_END;
+                    }
+                    else
+                    {
+#if MAC_OR_LINUX_
+                        GetLogger().fail(YarpString(YarpString("Function (") +
+                                                    YarpString(arrayName) +
+                                                    ") has the incorrect number of arguments."));
+#else // ! MAC_OR_LINUX_
+                        cerr << "Function (" << arrayName <<
+                                ") has the incorrect number of arguments." << endl;
+#endif // ! MAC_OR_LINUX_
+                    }
                 }
             }
-        }
-        else
-        {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
-        }
-        if (descriptionArray)
-        {
-            if (ECL_NIL != cl_arrayp(descriptionArray))
+            else
             {
-                if (1 == ecl_fixnum(cl_array_rank(descriptionArray)))
+#if MAC_OR_LINUX_
+                GetLogger().fail("Problem searching for a property.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Problem searching for a property." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+            if (descriptionArray)
+            {
+                if (ECL_NIL != cl_arrayp(descriptionArray))
                 {
-                    cl_fixnum numElements = ecl_fixnum(cl_array_dimension(descriptionArray,
-                                                                          ecl_make_fixnum(0)));
-
-                    okSoFar = true;
-                    for (cl_fixnum ii = 0; okSoFar && (numElements > ii); ++ii)
+                    if (1 == ecl_fixnum(cl_array_rank(descriptionArray)))
                     {
-                        cl_object anElement = cl_aref(2, descriptionArray, ecl_make_fixnum(ii));
+                        cl_fixnum numElements = ecl_fixnum(cl_array_dimension(descriptionArray,
+                                                                              ecl_make_fixnum(0)));
 
-                        if (ECL_NIL == anElement)
+                        okSoFar = true;
+                        for (cl_fixnum ii = 0; okSoFar && (numElements > ii); ++ii)
                         {
-                            okSoFar = false;
-                        }
-                        else
-                        {
-                            ChannelDescription description;
+                            cl_object anElement = cl_aref(2, descriptionArray, ecl_make_fixnum(ii));
 
-                            okSoFar = processStreamDescription(anElement, inletHandlers,
-                                                               description);
-                            if (okSoFar)
+                            if (ECL_NIL == anElement)
                             {
-                                streamDescriptions.push_back(description);
+                                okSoFar = false;
+                            }
+                            else
+                            {
+                                ChannelDescription description;
+
+                                okSoFar = processStreamDescription(anElement, inletHandlers,
+                                                                   description);
+                                if (okSoFar)
+                                {
+                                    streamDescriptions.push_back(description);
+                                }
                             }
                         }
                     }
                 }
             }
         }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
     }
     OD_LOG_EXIT_B(okSoFar); //####
     return okSoFar;
@@ -1667,7 +1757,6 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_B4("goWasSet = ", goWasSet, "nameWasSet = ", nameWasSet, //####
               "reportOnExit = ", reportOnExit, "stdinAvailable = ", stdinAvailable); //####
-    bool          okSoFar = true;
     bool          sawThread;
     ChannelVector loadedInletDescriptions;
     ChannelVector loadedOutletDescriptions;
@@ -1682,78 +1771,89 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     cl_boot(argc, argv);
     atexit(cl_shutdown);
     // Set up our functions and objects before loading the script.
-    cl_env_ptr env = ecl_process_env();
-    cl_object  ourPackage = addCustomObjects(tag, arguments);
-    cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
-
-    // Load the script!
-    loadedInletHandlers.clear();
-    ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+    try
     {
-        /* This form is evaluated with bound handlers. */
-        cl_object pathToUse = ecl_make_simple_base_string(const_cast<char *>(scriptPath.c_str()),
-                                                          scriptPath.length());
+        bool       okSoFar = true;
+        cl_env_ptr env = ecl_process_env();
+        cl_object  ourPackage = addCustomObjects(tag, arguments);
+        cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
 
-        if (ECL_NIL != pathToUse)
+        // Load the script!
+        loadedInletHandlers.clear();
+        ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
         {
-            cl_load(1, pathToUse);
-            okSoFar = true;
-        }
-    }
-    ECL_RESTART_CASE(1, condition)
-    {
-        /* This code is executed when an error happens. */
-        okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
-    }
-    ECL_RESTART_CASE_END;
-    if (okSoFar)
-    {
-        // Check for the functions / strings that we need.
-        if (validateLoadedScript(sawThread, description, helpText, loadedInletDescriptions,
-                                 loadedOutletDescriptions, loadedInletHandlers,
-                                 loadedStartingFunction, loadedStoppingFunction,
-                                 loadedThreadFunction, loadedInterval))
-        {
-            CommonLispService * aService = new CommonLispService(argumentList, scriptPath, argc,
-                                                                 argv, tag, description,
-                                                                 loadedInletDescriptions,
-                                                                 loadedOutletDescriptions,
-                                                                 loadedInletHandlers,
-                                                                 loadedStartingFunction,
-                                                                 loadedStoppingFunction,
-                                                                 sawThread, loadedThreadFunction,
-                                                                 loadedInterval,
-                                                                 serviceEndpointName,
-                                                                 servicePortNumber);
+            /* This form is evaluated with bound handlers. */
+            cl_object pathToUse =
+                                ecl_make_simple_base_string(const_cast<char *>(scriptPath.c_str()),
+                                                            scriptPath.length());
 
-            if (aService)
+            if (ECL_NIL != pathToUse)
             {
-                aService->performLaunch(helpText, goWasSet, stdinAvailable, reportOnExit);
-                delete aService;
+                cl_load(1, pathToUse);
+                okSoFar = true;
+            }
+        }
+        ECL_RESTART_CASE(1, condition)
+        {
+            /* This code is executed when an error happens. */
+            okSoFar = false;
+#if MAC_OR_LINUX_
+            GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        ECL_RESTART_CASE_END;
+        if (okSoFar)
+        {
+            // Check for the functions / strings that we need.
+            if (validateLoadedScript(sawThread, description, helpText, loadedInletDescriptions,
+                                     loadedOutletDescriptions, loadedInletHandlers,
+                                     loadedStartingFunction, loadedStoppingFunction,
+                                     loadedThreadFunction, loadedInterval))
+            {
+                CommonLispService * aService = new CommonLispService(argumentList, scriptPath, argc,
+                                                                     argv, tag, description,
+                                                                     loadedInletDescriptions,
+                                                                     loadedOutletDescriptions,
+                                                                     loadedInletHandlers,
+                                                                     loadedStartingFunction,
+                                                                     loadedStoppingFunction,
+                                                                     sawThread,
+                                                                     loadedThreadFunction,
+                                                                     loadedInterval,
+                                                                     serviceEndpointName,
+                                                                     servicePortNumber);
+
+                if (aService)
+                {
+                    aService->performLaunch(helpText, goWasSet, stdinAvailable, reportOnExit);
+                    delete aService;
+                }
+                else
+                {
+                    OD_LOG("! (aService)"); //####
+                }
             }
             else
             {
-                OD_LOG("! (aService)"); //####
+                OD_LOG("! (validateLoadedScript(sawThread, description, helpText, " //####
+                       "loadedInletDescriptions, loadedOutletDescriptions, " //####
+                       "loadedInletHandlers, loadedStartingFunction, " //####
+                       "loadedStoppingFunction, loadedThreadFunction, loadedInterval))"); //####
+                okSoFar = false;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Script is missing one or more functions or variables.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Script is missing one or more functions or variables." << endl;
+#endif // ! MAC_OR_LINUX_
             }
         }
-        else
-        {
-            OD_LOG("! (validateLoadedScript(sawThread, description, helpText, " //####
-                   "loadedInletDescriptions, loadedOutletDescriptions, " //####
-                   "loadedInletHandlers, loadedStartingFunction, loadedStoppingFunction, " //####
-                   "loadedThreadFunction, loadedInterval))"); //####
-            okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Script is missing one or more functions or variables.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Script is missing one or more functions or variables." << endl;
-#endif // ! MAC_OR_LINUX_
-        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo

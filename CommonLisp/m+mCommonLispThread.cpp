@@ -38,6 +38,8 @@
 
 #include "m+mCommonLispThread.h"
 
+#include "m+mCommonLispService.h"
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -82,13 +84,13 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-CommonLispThread::CommonLispThread(const double timeToWait,
-                                   cl_object    threadFunc) :
-    inherited(), _timeToWait(timeToWait), _threadFunc(threadFunc)
+CommonLispThread::CommonLispThread(CommonLispService & owner,
+                                   const double        timeToWait) :
+    inherited(), _timeToWait(timeToWait), _owner(owner)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P2("owner = ", &owner, "threadFunc = ", threadFunc); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_P1("threadFunc = ", threadFunc); //####
     OD_LOG_EXIT_P(this); //####
 } // CommonLispThread::CommonLispThread
 
@@ -117,10 +119,7 @@ void CommonLispThread::run(void)
         if (_nextTime <= yarp::os::Time::now())
         {
             OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            if (ECL_NIL != _threadFunc)
-            {
-                cl_funcall(1, _threadFunc);
-            }
+            _owner.signalRunFunction();
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
         yarp::os::Time::yield();

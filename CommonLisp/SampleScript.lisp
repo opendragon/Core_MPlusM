@@ -170,8 +170,6 @@
 
 (defun handleOurInput (portNumber incomingData)
   (format t "input on port ~S~%" portNumber)
-  ;; Convert the input to an integer, if it's a floating-point number; if it's an integer, pass it
-  ;; through. If it's an array, process each element. If a value is non-numeric, report an error.
   (sendToChannel 0 incomingData))
 
 ;; Specific named values required by the C++ code, such as 'scriptDescription' and 'scriptInlets',
@@ -216,8 +214,7 @@
   (psetf (gethash 'name scriptOutlet1) "outgoing"
 	 (gethash 'protocol scriptOutlet1) "*"
 	 (gethash 'protocolDescription scriptOutlet1) "Anything")
-  (setq scriptOutlets (make-array '(1)
-				  :initial-element scriptOutlet1)))
+  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))
 
 ;; The 'scriptStarting' and 'scriptStopping' functions are optional; if 'scriptStarting' returns
 ;; the boolean value true, it's OK to proceed. If, instead, it returns something else, the script

@@ -60,6 +60,11 @@
 # define DECLARE_CONFIGURE_ \
     virtual bool configure(const yarp::os::Bottle & details)
 
+/*! @brief Declare the doIdle method, which is executed repeatedly once the service has been set
+ up. */
+# define DECLARE_DOIDLE_ \
+    virtual void doIdle(void)
+
 /*! @brief Declare the getConfiguration method, which retrieves the configuration of the input /
  output streams of the service.
  The method returns @c true if the configuration was successfully retrieved and @c false
@@ -123,6 +128,10 @@
 /*! @brief Define the configure method. */
 # define DEFINE_CONFIGURE_(class_) \
     bool class_::configure(const yarp::os::Bottle & details)
+
+/*! @brief Define the doIdle method. */
+# define DEFINE_DOIDLE_(class_) \
+    void class_::doIdle(void)
 
 /*! @brief Define the getConfiguration method. */
 # define DEFINE_GETCONFIGURATION_(class_) \
@@ -222,6 +231,11 @@ namespace MplusM
              @returns @c true if the service was successfully configured and @c false otherwise. */
             DECLARE_CONFIGURE_ = 0;
             
+            /*! @fn virtual void doIdle(void)
+             @brief Declare the doIdle method, which is executed repeatedly once the service has
+             been set up. */
+            DECLARE_DOIDLE_;
+
             DECLARE_DISABLEMETRICS_;
             
             DECLARE_ENABLEMETRICS_;

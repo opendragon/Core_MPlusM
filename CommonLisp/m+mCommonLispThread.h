@@ -60,16 +60,18 @@ namespace MplusM
 {
     namespace CommonLisp
     {
+        class CommonLispService;
+        
         /*! @brief A convenience class to generate output. */
         class CommonLispThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param threadFunc The %CommonLisp handler function for the thread. */
-            CommonLispThread(const double timeToWait,
-                             cl_object    threadFunc);
+             @param owner The service that owns this thread.
+             @param timeToWait The number of seconds to delay before triggering. */
+            CommonLispThread(CommonLispService & owner,
+                             const double        timeToWait);
             
             /*! @brief The destructor. */
             virtual ~CommonLispThread(void);
@@ -111,9 +113,9 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-            
-            /*! @brief The %CommonLisp thread function. */
-            cl_object _threadFunc;
+
+            /*! @brief The service that owns this thread. */
+            CommonLispService & _owner;
 
             /*! @brief The time at which the thread will send data. */
             double _nextTime;

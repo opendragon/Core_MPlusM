@@ -36,49 +36,46 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
-;;function scriptHandleInput(portNumber, incomingData)
-;;{
-;;    writeLineToStdout('input on port ' + portNumber);
-;;    incomingData.unshift(portNumber);
-;;    sendToChannel(0, incomingData);
-;;} ;; scriptHandleInput
-;;
-;;var scriptDescription = 'A script that merges multiple channels';
-;;
-;;var scriptHelp = 'The first argument to the script is the number of inlets to create';
-;;
-;;;; The following function will either generate one inlet, called 'incoming' or a set of inlets,
-;;;; called 'incoming#',
-;;function scriptInlets()
-;;{
-;;    var inletCount;
-;;    var inlets = [];
-;;    
-;;    if (1 < argv.length)
-;;    {
-;;        inletCount = parseInt(argv[1]);
-;;        if (isNaN(inletCount))
-;;        {
-;;            inletCount = 1;
-;;        }
-;;    }
-;;    if (1 < inletCount)
-;;    {
-;;        for (var ii = 0; inletCount > ii; ++ii)
-;;        {
-;;            inlets[ii] = { name: ('incoming' + (ii + 1)), protocol: '*',
-;;                            protocolDescription: 'An arbitrary sequence of values',
-;;                            handler: scriptHandleInput };
-;;        }
-;;    }
-;;    else
-;;    {
-;;        inlets[0] = { name: 'incoming', protocol: '*',
-;;                        protocolDescription: 'An arbitrary sequence of values',
-;;                        handler: scriptHandleInput };
-;;    }
-;;    return inlets;
-;;} ;; scriptInlets
-;;
-;;var scriptOutlets = [ { name: 'outgoing', protocol: '*',
-;;                        protocolDescription: 'An arbitrary sequence of values' } ];
+(defun scriptHandleInput (portNumber incomingData)
+  (format t "input on port ~S~%" portNumber)
+  (setq incomingData (concatenate 'array (list portNumber) incomingData))
+  (sendToChannel 0 incomingData))
+
+(setq scriptDescription "A script that merges multiple channels")
+
+(setq scriptHelp "The first argument to the script is the number of inlets to create")
+
+;; The following function will either generate one inlet, called 'incoming' or a set of inlets,
+;; called 'incoming#',
+(defun scriptInlets ()
+  (let* (inlets inletCount anInlet)
+    (setq inletCount (cond ((< 1 (array-dimension mmcl:argv 0))
+			    (parse-integer (aref mmcl:argv 1) :junk-allowed t))
+			   (t 1)))
+    (setq inletCount (cond ((numberp inletCount) inletCount)
+			   (t 1)))
+    (setq inlets (make-array (list inletCount)))
+    (cond ((< 1 inletCount)
+	   (dotimes (ii inletCount)
+	     (let* (scriptInlet)
+	       (setq scriptInlet (make-hash-table))
+	       (psetf (gethash 'name scriptInlet) (format nil "incoming~D" ii)
+		      (gethash 'protocol scriptInlet) "*"
+		      (gethash 'protocolDescription scriptInlet) "Anything"
+		      (gethash 'handler scriptInlet) 'scriptHandleInput)
+	       (setf (aref inlets ii) scriptInlet))))
+	  (t (let* (scriptInlet)
+	       (setq scriptInlet (make-hash-table))
+	       (psetf (gethash 'name scriptInlet) "incoming"
+		      (gethash 'protocol scriptInlet) "*"
+		      (gethash 'protocolDescription scriptInlet) "Anything"
+		      (gethash 'handler scriptInlet) 'scriptHandleInput)
+	       (setf (aref inlets 0) scriptInlet))))
+    inlets))
+
+(let* (scriptOutlet1)
+  (setq scriptOutlet1 (make-hash-table))
+  (psetf (gethash 'name scriptOutlet1) "outgoing"
+	 (gethash 'protocol scriptOutlet1) "*"
+	 (gethash 'protocolDescription scriptOutlet1) "An arbitrary sequence of values")
+  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))

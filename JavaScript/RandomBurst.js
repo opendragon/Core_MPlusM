@@ -47,11 +47,10 @@ var scriptHelp = 'The first argument is the burst period and the second argument
 function scriptInterval()
 {
     var interval;
-    var inlets = [];
     
     if (1 < argv.length)
     {
-        interval = parseInt(argv[1]);
+        interval = parseFloat(argv[1]);
         if (isNaN(interval))
         {
             interval = 1;

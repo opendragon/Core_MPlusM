@@ -36,8 +36,8 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
-;;var runningSum = 0;
-;;
+(setq runningSum 0)
+
 ;;function doCommand(aCommand, itsArgs)
 ;;{
 ;;    var aValue;
@@ -90,12 +90,23 @@
 ;;    }
 ;;    sendToChannel(0, runningSum);
 ;;} ;; doRunningSum
-;;
-;;var scriptDescription = 'A script that calculates running sums';
-;;
-;;var scriptInlets = [ { name: 'incoming', protocol: 'sd*',
-;;                        protocolDescription: 'A command and data',
-;;                        handler: doRunningSum } ];
-;;
-;;var scriptOutlets = [ { name: 'outgoing', protocol: 'd',
-;;                        protocolDescription: 'The running sum' } ];
+(defun doRunningSum (portNumber incomingData)
+  ;;TBD
+  (sendToChannel 0 runningSum))
+
+(setq scriptDescription "A script that calculates running sums")
+
+(let* (scriptInlet1)
+  (setq scriptInlet1 (make-hash-table))
+  (psetf (gethash 'name scriptInlet1) "incoming"
+	 (gethash 'protocol scriptInlet1) "sd*"
+	 (gethash 'protocolDescription scriptInlet1) "A command and data"
+	 (gethash 'handler scriptInlet1) 'doRunningSum)
+  (setq scriptInlet1 (make-array '(1) :initial-element scriptInlet1)))
+
+(let* (scriptOutlet1)
+  (setq scriptOutlet1 (make-hash-table))
+  (psetf (gethash 'name scriptOutlet1) "outgoing"
+	 (gethash 'protocol scriptOutlet1) "d"
+	 (gethash 'protocolDescription scriptOutlet1) "The running sum")
+  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))

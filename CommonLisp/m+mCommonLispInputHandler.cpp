@@ -303,9 +303,29 @@ DEFINE_HANDLE_INPUT_(CommonLispInputHandler)
         if (_active && _owner && _handlerFunc)
         {
             // need to pass port number and incoming data to function; ignore result
-            cl_object incoming = ECL_NIL; //!!!!
+            cl_object  incoming = ECL_NIL; //!!!!
 
-            cl_funcall(1, _handlerFunc, ecl_make_fixnum(_slotNumber), incoming);
+
+            cl_env_ptr env = ecl_process_env();
+            cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
+            ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+            {
+                /* This form is evaluated with bound handlers. */
+                cl_funcall(1, _handlerFunc, ecl_make_fixnum(_slotNumber), incoming);
+            }
+            ECL_RESTART_CASE(1, condition)
+            {
+                /* This code is executed when an error happens. */
+                result = false;
+#if MAC_OR_LINUX_
+                GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+                cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+            }
+            ECL_RESTART_CASE_END;
+
 
 #if 0
             JSContext * jct = _owner->getContext();
