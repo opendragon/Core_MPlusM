@@ -84,7 +84,7 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 SendToMQOutputInputHandler::SendToMQOutputInputHandler(SendToMQOutputService & owner) :
-inherited(), _owner(owner)
+    inherited(), _owner(owner)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####
@@ -122,6 +122,7 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
     {
         if (_owner.isActive())
         {
+            OD_LOG("(_owner.isActive())"); //####
 #if (! defined(MpM_UseCustomStringBuffer))
             std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -142,6 +143,7 @@ DEFINE_HANDLE_INPUT_(SendToMQOutputInputHandler)
 #endif // ! defined(MpM_UseCustomStringBuffer)
             if (buffAsString.length())
             {
+                OD_LOG("(buffAsString.length())"); //####
                 SendReceiveCounters toBeAdded(0, 0, outLength, 1);
                 
                 _owner.sendMessage(buffAsString, outLength);

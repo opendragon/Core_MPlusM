@@ -124,7 +124,7 @@ static void fillBottleFromValue(JSContext *        jct,
         JSString * asString = theData.toString();
         char *     asChars = JS_EncodeString(jct, asString);
         
-        aBottle.addString(YarpString(asChars));
+        aBottle.addString(asChars);
         JS_free(jct, asChars);
     }
     else if (theData.isObject())

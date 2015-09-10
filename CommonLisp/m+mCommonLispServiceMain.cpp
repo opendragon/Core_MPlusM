@@ -103,6 +103,9 @@ using std::cerr;
 /*! @brief The name of the 'scriptTag' object. */
 #define SCRIPTTAG_NAME_ "SCRIPTTAG"
 
+/*! @brief A pointer to the active service, for use in callbacks. */
+static CommonLispService * lActiveService = NULL;
+
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -166,56 +169,13 @@ static cl_object sendToChannelForCl(cl_object channelIndex,
     OD_LOG_P2("channelIndex = ", channelIndex, "message = ", message); //####
     cl_env_ptr env = ecl_process_env();
 
-    //TBD
-    cout << "sending to channel" << endl; //!!!!
-    cout.flush(); //!!!!
+    if (lActiveService && (ECL_NIL != cl_integerp(channelIndex)))
+    {
+        lActiveService->sendToChannel(ecl_to_fixnum(channelIndex), message);
+    }
     OD_LOG_EXIT_P(ECL_NIL); //####
     ecl_return0(env);
 } // sendToChannelForCl
-
-#if 0
-/*! @brief A C-callback function for Common Lisp to send an object to a channel.
- @param jct The context in which the native function is being called.
- @param argc The number of arguments supplied to the function by the caller.
- @param vp The arguments to the function.
- @returns @c true on success and @c false otherwise. */
-static bool sendToChannelForCl(JSContext * jct,
-                               unsigned    argc,
-                               JS::Value * vp)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
-    OD_LOG_L1("argc = ", argc); //####
-    bool         result = false;
-    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
-    
-    if (2 == args.length())
-    {
-        // Check that the first argument is a valid integer.
-        if (args[0].isInt32())
-        {
-            int32_t             channelSlot = args[0].toInt32();
-            CommonLispService * theService =
-                                reinterpret_cast<CommonLispService *>(JS_GetContextPrivate(jct));
-            
-            if (theService)
-            {
-                result = theService->sendToChannel(channelSlot, args[1]);
-            }
-        }
-    }
-    else if (2 < args.length())
-    {
-        JS_ReportError(jct, "Extra arguments to sendToChannel");
-    }
-    else
-    {
-        JS_ReportError(jct, "Missing argument(s) to sendToChannel");
-    }
-    OD_LOG_EXIT_B(result); //####
-    return result;
-} // sendToChannelForCl
-#endif//0
 
 /*! @brief Add custom functions to the Common Lisp environment.
  @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
@@ -978,8 +938,6 @@ static void addArgvObject(cl_object                ourPackage,
     cl_object  argvObject = cl_intern(2, ecl_make_simple_base_string(const_cast<char *>(ARGV_NAME_),
                                                                      sizeof(ARGV_NAME_) - 1),
                                       ourPackage);
-
-
     cl_object  argvValue = ecl_alloc_simple_vector(argv.size(), ecl_aet_object);
 
     cl_export(2, argvObject, ourPackage);
@@ -1827,7 +1785,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 
                 if (aService)
                 {
+                    lActiveService = aService;
                     aService->performLaunch(helpText, goWasSet, stdinAvailable, reportOnExit);
+                    lActiveService = NULL;
                     delete aService;
                 }
                 else

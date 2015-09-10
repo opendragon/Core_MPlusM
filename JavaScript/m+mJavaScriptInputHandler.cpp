@@ -88,12 +88,10 @@ static void convertValue(JSContext *             jct,
 /*! @brief Convert a YARP dictionary into a %JavaScript object.
  @param jct The %JavaScript engine context.
  @param theData The output object.
- @param inputValue The value to be processed.
  @param inputAsList The input dictionary as a list. */
-static void convertDictionary(JSContext *                jct,
-                              JS::MutableHandleValue     theData,
-                              const yarp::os::Property & inputValue,
-                              const yarp::os::Bottle &   inputAsList)
+static void convertDictionary(JSContext *              jct,
+                              JS::MutableHandleValue   theData,
+                              const yarp::os::Bottle & inputAsList)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "inputValue = ", &inputValue, "inputAsList = ", &inputAsList); //####
@@ -129,7 +127,6 @@ static void convertDictionary(JSContext *                jct,
     OD_LOG_EXIT(); //####
 } // convertDictionary
 
-// convertList
 /*! @brief Convert a YARP list into a %JavaScript object.
  @param jct The %JavaScript engine context.
  @param theData The output object.
@@ -172,15 +169,11 @@ static void convertValue(JSContext *             jct,
     OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
     if (inputValue.isBool())
     {
-        bool value = inputValue.asBool();
-        
-        theData.setBoolean(value);
+        theData.setBoolean(inputValue.asBool());
     }
     else if (inputValue.isInt())
     {
-        int value = inputValue.asInt();
-        
-        theData.setInt32(value);
+        theData.setInt32(inputValue.asInt());
     }
     else if (inputValue.isString())
     {
@@ -194,9 +187,7 @@ static void convertValue(JSContext *             jct,
     }
     else if (inputValue.isDouble())
     {
-        double value = inputValue.asDouble();
-        
-        theData.setDouble(value);
+        theData.setDouble(inputValue.asDouble());
     }
     else if (inputValue.isDict())
     {
@@ -206,7 +197,7 @@ static void convertValue(JSContext *             jct,
         {
             yarp::os::Bottle asList(value->toString());
 
-            convertDictionary(jct, theData, *value, asList);
+            convertDictionary(jct, theData, asList);
         }
     }
     else if (inputValue.isList())
@@ -219,7 +210,7 @@ static void convertValue(JSContext *             jct,
             
             if (ListIsReallyDictionary(*value, asDict))
             {
-                convertDictionary(jct, theData, asDict, *value);
+                convertDictionary(jct, theData, *value);
             }
             else
             {
@@ -235,10 +226,10 @@ static void convertValue(JSContext *             jct,
     OD_LOG_EXIT(); //####
 } // convertValue
 
-/*! @brief Fill a bottle with the contents of an object.
+/*! @brief Fill an object with the contents of a bottle.
  @param jct The %JavaScript engine context.
- @param aBottle The bottle to be filled.
- @param theData The value to be sent. */
+ @param aBottle The bottle to be used.
+ @param theData The value to be filled. */
 static void createValueFromBottle(JSContext *              jct,
                                   const yarp::os::Bottle & aBottle,
                                   JS::MutableHandleValue   theData)

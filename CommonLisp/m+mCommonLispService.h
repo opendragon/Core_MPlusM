@@ -128,16 +128,15 @@ namespace MplusM
 
             DECLARE_RESTARTSTREAMS_;
             
-#if 0
-            //TBD
             /*! @brief Send a value out a specified channel.
              @param channelSlot The output channel to be used.
              @param theData The value to be sent.
              @returns @c true if the data was successfully sent and @c false otherwise. */
-            bool sendToChannel(const int32_t channelSlot,
-                               JS::Value     theData);
-#endif//0
+            bool sendToChannel(const cl_fixnum channelSlot,
+                               cl_object       theData);
 
+            /*! @brief Signal to the background process that the thread function should be
+             performed. */
             void signalRunFunction(void);
 
             DECLARE_STARTSERVICE_;
@@ -197,6 +196,9 @@ namespace MplusM
 
             /*! @brief The Common Lisp script thread function. */
             cl_object _scriptThreadFunc;
+
+            /*! @brief The hash2assoc function. */
+            cl_object _hash2assocFunc;
 
             /*! @brief The thread interval. */
             double _threadInterval;

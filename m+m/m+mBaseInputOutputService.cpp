@@ -279,7 +279,7 @@ BaseInputOutputService::BaseInputOutputService(const Utilities::DescriptorVector
               requestsDescription, serviceEndpointName, servicePortNumber),
     _argumentList(argumentList), _argumentDescriptionsHandler(NULL), _configurationHandler(NULL),
     _configureHandler(NULL), _restartStreamsHandler(NULL), _startStreamsHandler(NULL),
-    _stopStreamsHandler(NULL), _active(false)
+    _stopStreamsHandler(NULL), _active(false), _needsIdle(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -973,44 +973,17 @@ void BaseInputOutputService::runService(const YarpString & helpText,
 
             cout << "Operation: [? b c e q r]? ";
             cout.flush();
-            for (set_tty_cbreak(); ; )
+            if (_needsIdle)
             {
-                inChar = kb_getc();
-                if (inChar)
+                for (set_tty_cbreak(); ; )
                 {
-                    cout << inChar;
-                    cout.flush();
-                    if (! isspace(inChar))
+                    inChar = kb_getc();
+                    if (inChar)
                     {
-                        break;
-                    }
-
-                }
-                else
-                {
-                    if (isStarted())
-                    {
-                        doIdle();
-                    }
-#if defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                }
-            }
-            // Watch for a newline here!
-            if (! firstLine)
-            {
-                for ( ; ; )
-                {
-                    char peekChar = kb_getc();
-
-                    if (peekChar)
-                    {
-                        if (isspace(peekChar))
+                        cout << inChar;
+                        cout.flush();
+                        if (! isspace(inChar))
                         {
-                            set_tty_cooked();
                             break;
                         }
 
@@ -1028,16 +1001,50 @@ void BaseInputOutputService::runService(const YarpString & helpText,
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                     }
                 }
-            }
-            set_tty_cooked();
-            if (firstLine)
-            {
-                firstLine = false;
+                // Watch for a newline here!
+                if (! firstLine)
+                {
+                    for ( ; ; )
+                    {
+                        char peekChar = kb_getc();
+
+                        if (peekChar)
+                        {
+                            if (isspace(peekChar))
+                            {
+                                set_tty_cooked();
+                                break;
+                            }
+
+                        }
+                        else
+                        {
+                            if (isStarted())
+                            {
+                                doIdle();
+                            }
+#if defined(MpM_MainDoesDelayNotYield)
+                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                            yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                        }
+                    }
+                }
+                set_tty_cooked();
+                if (firstLine)
+                {
+                    firstLine = false;
+                }
+                else
+                {
+                    cout << endl;
+                    cout.flush();
+                }
             }
             else
             {
-                cout << endl;
-                cout.flush();
+                cin >> inChar;
             }
             switch (inChar)
             {
@@ -1136,12 +1143,23 @@ void BaseInputOutputService::runService(const YarpString & helpText,
         }
         else
         {
-            doIdle();
+            if (_needsIdle)
+            {
+                doIdle();
 #if defined(MpM_MainDoesDelayNotYield)
-            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
+                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-            yarp::os::Time::yield();
+                yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
+            }
+            else
+            {
+#if defined(MpM_MainDoesDelayNotYield)
+                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+            }
         }
     }
     OD_LOG_OBJEXIT(); //####

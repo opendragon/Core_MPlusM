@@ -373,6 +373,12 @@ namespace MplusM
             {
                 _active = true;
             } // setActive
+
+            /*! @brief Indicate that the service needs frequent calls to doIdle. */
+            inline void setNeedsIdle(void)
+            {
+                _needsIdle = true;
+            } // setNeedsIdle
             
             /*! @fn virtual bool setUpClientStreams(void)
              @brief Set up the client streams.
@@ -468,13 +474,17 @@ namespace MplusM
             
             /*! @brief @c true if the streams are processing data and @c false otherwise. */
             bool _active;
-            
+
+            /*! @brief @c true if the service needs frequent calls to doIdle and @c false
+             otherwise. */
+            bool _needsIdle;
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunused-private-field"
 # endif // defined(__APPLE__)
             /*! @brief Filler to pad to alignment boundary */
-            char _filler[7];
+            char _filler[6];
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)

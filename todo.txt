@@ -8,7 +8,7 @@
 
 + if a connection is made outside of the viewer / manager, make sure that a repaint is triggered, not just for a new entity
 
-* (Python, Lua,) Common Lisp services
+* (Python, Lua) services
 
 * integrate Arduino sensors via Linux-based Arduino boards? SmartTag via TouchShare?
 
@@ -41,8 +41,6 @@
 * if some of the optional arguments to a service are supplied - required must have already been satisfied - then launching the service should do a validate / configure, setting the ‘configured’ flag, so that the ‘b’ command doesn’t ask for the arguments again; the ‘-g’ option only needs to be used if the default arguments are fine
 
 * every service has a hidden ‘pong’ UDP port that sends activity message to managers; frequency of update is a global constant - use Absorber service as a prototype - flags for each input and output port, so all m+m channels can be reported, not just output ports; maybe some form of compressed encodings
-
-* implement Lisp <-> YARP mapping
 
 * fix the JavaScript documentation to match the examples
 

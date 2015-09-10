@@ -73,6 +73,9 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The name of the 'hash2assoc' function. */
+#define HASH2ASSOC_NAME_ "HASH2ASSOC"
+
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
 #endif // defined(__APPLE__)
@@ -81,161 +84,231 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-#if 0
 /*! @brief Fill a bottle with the contents of an object.
- @param jct The Common Lisp engine context.
  @param aBottle The bottle to be filled.
  @param theData The value to be sent.
+ @param hashMapFunction The function to be applied to hash tables to get values that can be placed
+ in a bottle.
  @param topLevel @c true if this is the outermost list of an object. */
-static void fillBottleFromValue(JSContext *        jct,
-                                yarp::os::Bottle & aBottle,
-                                JS::Value          theData,
+static void fillBottleFromValue(yarp::os::Bottle & aBottle,
+                                cl_object          theData,
+                                cl_object          hashMapFunction,
                                 const bool         topLevel)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
+    OD_LOG_P3("aBottle = ", &aBottle, "theData = ", theData, "hashMapFunction = ", //####
+              hashMapFunction); //####
     OD_LOG_B1("topLevel = ", topLevel); //####
-    JS::RootedValue asRootedValue(jct);
+    if (ECL_NIL != cl_integerp(theData))
+    {
+        aBottle.addInt(ecl_to_fixnum(theData));
+    }
+    else if (ECL_NIL != cl_realp(theData))
+    {
+        aBottle.addDouble(ecl_to_double(theData));
+    }
+    else if (ECL_NIL != cl_stringp(theData))
+    {
+        cl_object aValue = si_coerce_to_base_string(theData);
 
-    asRootedValue = theData;
-    if (theData.isBoolean())
-    {
-        aBottle.addInt(JS::ToBoolean(asRootedValue) ? 1 : 0);
-    }
-    else if (theData.isDouble())
-    {
-        double aValue;
-        
-        if (JS::ToNumber(jct, asRootedValue, &aValue))
+        if (ECL_NIL == aValue)
         {
-            aBottle.addDouble(aValue);
+            aBottle.addString("<unconvertible string>");
+        }
+        else
+        {
+            aBottle.addString(reinterpret_cast<char *>(aValue->base_string.self));
         }
     }
-    else if (theData.isInt32())
+    else if (ECL_NIL != cl_symbolp(theData))
     {
-        int32_t aValue;
-        
-        if (JS::ToInt32(jct, asRootedValue, &aValue))
+        cl_object aName = cl_symbol_name(theData);
+
+        if (ECL_NIL == aName)
         {
-            aBottle.addInt(aValue);
+            aBottle.addString("<problematic symbol>");
         }
-    }
-    else if (theData.isString())
-    {
-        JSString * asString = theData.toString();
-        char *     asChars = JS_EncodeString(jct, asString);
-        
-        aBottle.addString(YarpString(asChars));
-        JS_free(jct, asChars);
-    }
-    else if (theData.isObject())
-    {
-        JS::RootedObject asObject(jct);
-        
-        if (JS_ValueToObject(jct, asRootedValue, &asObject))
+        else
         {
-            bool processed = false;
-            
-            if (JS_IsArrayObject(jct, asObject))
+            if (ECL_NIL == cl_stringp(aName))
             {
-                uint32_t arrayLength;
-                
-                if (JS_GetArrayLength(jct, asObject, &arrayLength))
-                {
-                    // Treat as a list
-                    if (topLevel)
-                    {
-                        for (uint32_t ii = 0; arrayLength > ii; ++ii)
-                        {
-                            JS::RootedValue anElement(jct);
-                            
-                            if (JS_GetElement(jct, asObject, ii, &anElement))
-                            {
-                                fillBottleFromValue(jct, aBottle, anElement, false);
-                            }
-                        }
-                    }
-                    else
-                    {
-                        yarp::os::Bottle & innerList(aBottle.addList());
-                        
-                        for (uint32_t ii = 0; arrayLength > ii; ++ii)
-                        {
-                            JS::RootedValue anElement(jct);
-                            
-                            if (JS_GetElement(jct, asObject, ii, &anElement))
-                            {
-                                fillBottleFromValue(jct, innerList, anElement, false);
-                            }
-                        }
-                        
-                    }
-                    processed = true;
-                }
+                aName = cl_string(aName);
             }
-            if (! processed)
+            aName = si_coerce_to_base_string(aName);
+            if (ECL_NIL == aName)
             {
-                // Treat as a dictionary
-                JS::AutoIdArray      ids(jct, JS_Enumerate(jct, asObject));
-                yarp::os::Property & innerDict(aBottle.addDict());
-                
-                // Note that only operator! is defined, so we need to do a 'double-negative'.
-                if (!! ids)
+                aBottle.addString("<unconvertible symbol>");
+            }
+            else
+            {
+                aBottle.addString(reinterpret_cast<char *>(aName->base_string.self));
+            }
+        }
+    }
+    else if (ECL_NIL != cl_characterp(theData))
+    {
+        cl_object asString = cl_string(theData);
+
+        if (ECL_NIL == asString)
+        {
+            aBottle.addString("<unconvertible character>");
+        }
+        else
+        {
+            aBottle.addString(reinterpret_cast<char *>(asString->base_string.self));
+        }
+    }
+    else if (ECL_NIL != cl_hash_table_p(theData))
+    {
+        cl_env_ptr env = ecl_process_env();
+        cl_object  aList;
+        cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+
+        ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+        {
+            /* This form is evaluated with bound handlers. */
+            aList = cl_funcall(1, hashMapFunction, theData);
+        }
+        ECL_RESTART_CASE(1, condition)
+        {
+            /* This code is executed when an error happens. */
+            aList = ECL_NIL;
+#if MAC_OR_LINUX_
+            GetLogger().fail("Script aborted during load.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Script aborted during load." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        ECL_RESTART_CASE_END;
+        if (ECL_NIL != aList)
+        {
+            yarp::os::Property & innerDict(aBottle.addDict());
+
+            for ( ; ECL_NIL != aList; aList = cl_cdr(aList))
+            {
+                cl_object  aPair = cl_car(aList);
+                cl_object  aKey = cl_car(aPair);
+                cl_object  aValue = cl_cdr(aPair);
+                YarpString keyToUse;
+
+                if (ECL_NIL != cl_stringp(aKey))
                 {
-                    bool okSoFar = true;
+                    cl_object keyValue = si_coerce_to_base_string(aKey);
+
+                    if (ECL_NIL != aValue)
+                    {
+                        keyToUse = reinterpret_cast<char *>(aValue->base_string.self);
+                    }
+                }
+                else if (ECL_NIL != cl_symbolp(aKey))
+                {
+                    cl_object aName = cl_symbol_name(theData);
+
+                    if (ECL_NIL != aName)
+                    {
+                        if (ECL_NIL == cl_stringp(aName))
+                        {
+                            aName = cl_string(aName);
+                        }
+                        aName = si_coerce_to_base_string(aName);
+                        if (ECL_NIL != aName)
+                        {
+                            keyToUse = reinterpret_cast<char *>(aName->base_string.self);
+                        }
+                    }
+                }
+                else if (ECL_NIL != cl_characterp(aKey))
+                {
+                    cl_object asString = cl_string(aKey);
                     
-                    for (size_t ii = 0, len = ids.length(); len > ii; ++ii)
+                    if (ECL_NIL != asString)
                     {
-                        JS::RootedValue key(jct);
-                        
-                        if (JS_IdToValue(jct, ids[ii], &key))
+                        keyToUse = reinterpret_cast<char *>(asString->base_string.self);
+                    }
+                }
+                if (0 < keyToUse.length())
+                {
+                    yarp::os::Bottle convertedResult;
+
+                    fillBottleFromValue(convertedResult, aValue, hashMapFunction, false);
+                    if (1 == convertedResult.size())
+                    {
+                        yarp::os::Value anElement(convertedResult.get(0));
+
+                        if (anElement.isInt())
                         {
-                            JS::RootedValue key(jct);
-                            JS::RootedValue result(jct);
-                            JS::RootedId    aRootedId(jct);
-                            
-                            aRootedId = ids[ii];
-                            if (JS_IdToValue(jct, ids[ii], &key) &&
-                                JS_GetPropertyById(jct, asObject, aRootedId, &result))
-                            {
-                                JSString *       keyString = key.toString();
-                                char *           keyAsChars = JS_EncodeString(jct, keyString);
-                                YarpString       keyToUse(keyAsChars);
-                                yarp::os::Bottle convertedResult;
-                                
-                                JS_free(jct, keyAsChars);
-                                fillBottleFromValue(jct, convertedResult, result, false);
-                                if (1 == convertedResult.size())
-                                {
-                                    yarp::os::Value anElement(convertedResult.get(0));
-                                    
-                                    if (anElement.isInt())
-                                    {
-                                        innerDict.put(keyToUse, anElement.asInt());
-                                    }
-                                    else if (anElement.isDouble())
-                                    {
-                                        innerDict.put(keyToUse, anElement.asDouble());
-                                    }
-                                    else if (anElement.isString())
-                                    {
-                                        innerDict.put(keyToUse, anElement.asString());
-                                    }
-                                    else
-                                    {
-                                        innerDict.put(keyToUse, anElement);
-                                    }
-                                }
-                            }
+                            innerDict.put(keyToUse, anElement.asInt());
+                        }
+                        else if (anElement.isDouble())
+                        {
+                            innerDict.put(keyToUse, anElement.asDouble());
+                        }
+                        else if (anElement.isString())
+                        {
+                            innerDict.put(keyToUse, anElement.asString());
+                        }
+                        else
+                        {
+                            innerDict.put(keyToUse, anElement);
                         }
                     }
                 }
             }
         }
+    }
+    else if (ECL_NIL != cl_listp(theData))
+    {
+        for ( ; ECL_NIL != theData; theData = cl_cdr(theData))
+        {
+            cl_object anElement = cl_car(theData);
+
+            if (ECL_NIL != anElement)
+            {
+                fillBottleFromValue(aBottle, anElement, hashMapFunction, false);
+            }
+        }
+    }
+    else if (ECL_NIL != cl_arrayp(theData))
+    {
+        if (1 == ecl_fixnum(cl_array_rank(theData)))
+        {
+            cl_fixnum numElements = ecl_fixnum(cl_array_dimension(theData, ecl_make_fixnum(0)));
+
+            // Treat as a list
+            if (topLevel)
+            {
+                for (cl_fixnum ii = 0; numElements > ii; ++ii)
+                {
+                    cl_object anElement = cl_aref(2, theData, ecl_make_fixnum(ii));
+
+                    if (ECL_NIL != anElement)
+                    {
+                        fillBottleFromValue(aBottle, anElement, hashMapFunction, false);
+                    }
+                }
+            }
+            else
+            {
+                yarp::os::Bottle & innerList(aBottle.addList());
+
+                for (cl_fixnum ii = 0; numElements > ii; ++ii)
+                {
+                    cl_object anElement = cl_aref(2, theData, ecl_make_fixnum(ii));
+
+                    if (ECL_NIL != anElement)
+                    {
+                        fillBottleFromValue(innerList, anElement, hashMapFunction, false);
+                    }
+                }
+            }
+        }
+    }
+    else
+    {
+        aBottle.addString("<untranslatable>");
     }
     OD_LOG_EXIT(); //####
 } // fillBottleFromValue
-#endif//0
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -267,8 +340,8 @@ CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumen
     _loadedInletDescriptions(loadedInletDescriptions),
     _loadedOutletDescriptions(loadedOutletDescriptions), _interlock(0),
     _scriptStartingFunc(loadedStartingFunction), _scriptStoppingFunc(loadedStoppingFunction),
-    _scriptThreadFunc(loadedThreadFunction), _threadInterval(loadedInterval),
-    _isThreaded(sawThread)
+    _scriptThreadFunc(loadedThreadFunction), _hash2assocFunc(ECL_NIL),
+    _threadInterval(loadedInterval), _isThreaded(sawThread)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("argumentList = ", &argumentList, "argv = ", argv, //####
@@ -283,6 +356,28 @@ CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumen
     OD_LOG_S1s("servicePortNumber = ", servicePortNumber); //####
     OD_LOG_B1("sawThread = ", sawThread); //####
     OD_LOG_D1("loadedInterval = ", loadedInterval); //####
+    if (_isThreaded && (ECL_NIL != _scriptThreadFunc))
+    {
+        setNeedsIdle();
+    }
+    try
+    {
+        // The following can't be directly expressed in C/C++, but is better described as Common
+        // Lisp -
+        cl_object definition = c_string_to_object("((aTable) "
+                                                  "(let (asList) "
+                                                  "(maphash #'(lambda (key val) "
+                                                  "(setq asList (acons key val asList))) aTable)"
+                                                  " asList))");
+        cl_object aName = cl_find_symbol(1,
+                                 ecl_make_simple_base_string(const_cast<char *>(HASH2ASSOC_NAME_),
+                                                             sizeof(HASH2ASSOC_NAME_) - 1));
+
+        _hash2assocFunc = si_make_lambda(aName, definition);
+    }
+    catch (...)
+    {
+    }
     OD_LOG_EXIT_P(this); //####
 } // CommonLispService::CommonLispService
 
@@ -504,21 +599,19 @@ DEFINE_RESTARTSTREAMS_(CommonLispService)
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::restartStreams
 
-#if 0
-//TBD
-bool CommonLispService::sendToChannel(const int32_t channelSlot,
-                                      JS::Value     theData)
+bool CommonLispService::sendToChannel(const cl_fixnum channelSlot,
+                                      cl_object       theData)
 {
     OD_LOG_OBJENTER();
-    OD_LOG_L1("channelSlot = ", channelSlot); //####
+    OD_LOG_LL1("channelSlot = ", channelSlot); //####
     bool okSoFar = false;
 
-    if ((0 <= channelSlot) && (channelSlot < static_cast<int32_t>(getOutletCount())))
+    if ((0 <= channelSlot) && (channelSlot < static_cast<cl_fixnum>(getOutletCount())))
     {
         Common::GeneralChannel * outChannel = getOutletStream(channelSlot);
         yarp::os::Bottle         outBottle;
-        
-        fillBottleFromValue(_context, outBottle, theData, true);
+
+        fillBottleFromValue(outBottle, theData, _hash2assocFunc, true);
         if ((0 < outBottle.size()) && outChannel)
         {
             if (outChannel->write(outBottle))
@@ -543,7 +636,6 @@ bool CommonLispService::sendToChannel(const int32_t channelSlot,
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
 } // CommonLispService::sendToChannel
-#endif//0
 
 DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispService)
 {

@@ -117,6 +117,9 @@ namespace MplusM
             /*! @brief The %CommonLisp input handler function. */
             cl_object _handlerFunc;
 
+            /*! @brief The setHash function. */
+            cl_object _setHashFunc;
+
             /*! @brief The slot number of the associated channel. */
             size_t _slotNumber;
             
