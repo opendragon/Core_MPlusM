@@ -43,3 +43,5 @@
 * every service has a hidden ‘pong’ UDP port that sends activity message to managers; frequency of update is a global constant - use Absorber service as a prototype - flags for each input and output port, so all m+m channels can be reported, not just output ports; maybe some form of compressed encodings
 
 time ./configure --prefix=/opt/m+m --enable-gengc --with-cxx --with-dffi --enable-shared --disable-threads --enable-unicode --enable-longdouble --with-tcp --with-clos-streams --with-cmp --enable-boehm
+
+@ fix the JavaScript RunningSum file to use the ‘requestStop’ operation and add support in the JavaScript service for it
