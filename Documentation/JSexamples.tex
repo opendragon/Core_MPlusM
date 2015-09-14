@@ -249,7 +249,6 @@ var scriptHelp = 'Argument 1 is the burst period and argument 2 is the burst siz
 function scriptInterval()
 {
     var interval;
-    var inlets = [];
     
     if (1 < argv.length)
     {
@@ -295,9 +294,9 @@ function scriptThread()
 } // scriptThread
 \end{listing}
 \codeEnd{}
-The function \asCode{scriptThread}(), defined on lines \asCode{46}\longDash\asCode{55}, is
+The function \asCode{scriptThread}(), defined on lines \asCode{45}\longDash\asCode{54}, is
 executed repetitively, at an interval defined by the output of the function
-\asCode{scriptInterval}(), defined on lines \asCode{9}\longDash\asCode{41}.\\
+\asCode{scriptInterval}(), defined on lines \asCode{9}\longDash\asCode{40}.\\
 
 Note that the \asCode{scriptInterval}() function processes the arguments to the script and
 records the size of the burst as well as the burst period, before returning the burst
