@@ -76,23 +76,30 @@ namespace MplusM
              @param slotNumber The slot number of the associated channel.
              @param handlerFunc The %CommonLisp handler function for the channel. */
             CommonLispInputHandler(CommonLispService * owner,
-                                   const size_t        slotNumber,
-                                   cl_object           handlerFunc);
+                                   const size_t        slotNumber);
             
             /*! @brief The destructor. */
             virtual ~CommonLispInputHandler(void);
             
             /*! @brief Turn on input processing. */
-            void activate(void)
+            inline void activate(void)
             {
                 _active = true;
             } // activate
             
             /*! @brief Turn off input processing. */
-            void deactivate(void)
+            inline void deactivate(void)
             {
                 _active = false;
             } // deactivate
+            
+            /*! @brief Return the most recently received data.
+             @returns The most recently received data. */
+            inline const yarp::os::Bottle & getReceivedData(void)
+            const
+            {
+                return _received;
+            } // getReceivedData
             
         protected :
             
@@ -114,12 +121,9 @@ namespace MplusM
             /*! @brief The service that owns this handler. */
             CommonLispService * _owner;
             
-            /*! @brief The %CommonLisp input handler function. */
-            cl_object _handlerFunc;
-
-            /*! @brief The setHash function. */
-            cl_object _setHashFunc;
-
+            /*! @brief The data received by this handler. */
+            yarp::os::Bottle _received;
+            
             /*! @brief The slot number of the associated channel. */
             size_t _slotNumber;
             

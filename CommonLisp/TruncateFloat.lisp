@@ -36,51 +36,27 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
-;;function doTruncateFloat(portNumber, incomingData)
-;;{
-;;    var aValue;
-;;    var outValues;
-;;    
-;;    if (Array.isArray(incomingData))
-;;    {
-;;        outValues = [];
-;;        for (var ii = 0, mm = incomingData.length; mm > ii; ++ii)
-;;        {
-;;            aValue = Number(incomingData[ii]);
-;;            if (! isNaN(aValue))
-;;            {
-;;                outValues.push(Math.floor(aValue));
-;;            }
-;;        }
-;;    }
-;;    else
-;;    {
-;;        aValue = Number(incomingData);
-;;        if (! isNaN(aValue))
-;;        {
-;;            outValues = Math.floor(aValue);
-;;        }
-;;    }
-;;    sendToChannel(0, outValues);
-;;} ;; doTruncateFloat
+(defun truncAValue (inValue)
+  (cond	((numberp inValue) (truncate inValue))
+	(t inValue)))
+
 (defun doTruncateFloat (portNumber incomingData)
   (let* (outValues)
-    ;;TBD
+    (cond ((arrayp incomingData)
+	   (setq outSize (array-dimension incomingData 0))
+	   (setq outValues (make-array (list outSize)))
+	   (dotimes (ii outSize)
+	     (setf (aref outValues ii) (truncAValue (aref incomingData ii)))))
+	  (t (setq outValues (truncAValue incomingData))))
     (sendToChannel 0 outValues)))
 
 (setq scriptDescription "A script that truncates floating-point numbers")
 
-(let* (scriptInlet1)
-  (setq scriptInlet1 (make-hash-table))
-  (psetf (gethash 'name scriptInlet1) "incoming"
-	 (gethash 'protocol scriptInlet1) "d*"
-	 (gethash 'protocolDescription scriptInlet1) "A sequence of floating-point numbers"
-	 (gethash 'handler scriptInlet1) 'doTruncateFloat)
-  (setq scriptInlet1 (make-array '(1) :initial-element scriptInlet1)))
+(setq scriptInlets (make-array '(1) :initial-element
+			       (create-inlet-entry "incoming" "d+"
+						   "A sequence of floating-point numbers"
+						   'doTruncateFloat)))
 
-(let* (scriptOutlet1)
-  (setq scriptOutlet1 (make-hash-table))
-  (psetf (gethash 'name scriptOutlet1) "outgoing"
-	 (gethash 'protocol scriptOutlet1) "i*"
-	 (gethash 'protocolDescription scriptOutlet1) "A sequence of integers")
-  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "i+"
+						     "A sequence of integers")))

@@ -83,13 +83,13 @@ namespace MplusM
             virtual ~JavaScriptInputHandler(void);
             
             /*! @brief Turn on input processing. */
-            void activate(void)
+            inline void activate(void)
             {
                 _active = true;
             } // activate
             
             /*! @brief Turn off input processing. */
-            void deactivate(void)
+            inline void deactivate(void)
             {
                 _active = false;
             } // deactivate

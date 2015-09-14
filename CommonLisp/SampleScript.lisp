@@ -193,28 +193,11 @@
     (setq inlets (make-array (list inletCount)))
     (cond ((< 1 inletCount)
 	   (dotimes (ii inletCount)
-	     (let* (scriptInlet)
-	       (setq scriptInlet (make-hash-table))
-	       (psetf (gethash 'name scriptInlet) (format nil "incoming~D" ii)
-		      (gethash 'protocol scriptInlet) "*"
-		      (gethash 'protocolDescription scriptInlet) "Anything"
-		      (gethash 'handler scriptInlet) 'handleOurInput)
-	       (setf (aref inlets ii) scriptInlet))))
-	  (t (let* (scriptInlet)
-	       (setq scriptInlet (make-hash-table))
-	       (psetf (gethash 'name scriptInlet) "incoming"
-		      (gethash 'protocol scriptInlet) "*"
-		      (gethash 'protocolDescription scriptInlet) "Anything"
-		      (gethash 'handler scriptInlet) 'handleOurInput)
-	       (setf (aref inlets 0) scriptInlet))))
+	     (setf (aref inlets ii) (create-inlet-entry (format nil "incoming~D" ii) "*" "Anything" 'handleOurInput))))
+	  (t (setf (aref inlets 0) (create-inlet-entry "incoming" "*" "Anything" 'handleOurInput))))
     inlets))
 
-(let* (scriptOutlet1)
-  (setq scriptOutlet1 (make-hash-table))
-  (psetf (gethash 'name scriptOutlet1) "outgoing"
-	 (gethash 'protocol scriptOutlet1) "*"
-	 (gethash 'protocolDescription scriptOutlet1) "Anything")
-  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))
+(setq scriptOutlets (make-array '(1) :initial-element (create-outlet-entry "outgoing" "*" "Anything")))
 
 ;; The 'scriptStarting' and 'scriptStopping' functions are optional; if 'scriptStarting' returns
 ;; the boolean value true, it's OK to proceed. If, instead, it returns something else, the script

@@ -44,7 +44,7 @@
 
 #include <m+m/m+mEndpoint.h>
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -73,8 +73,8 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
-/*! @brief The name of the 'hash2assoc' function. */
-#define HASH2ASSOC_NAME_ "HASH2ASSOC"
+/*! @brief The name of the 'hash-to-assoc' function. */
+#define HASH_TO_ASSOC_NAME_ "hash-to-assoc"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -101,65 +101,80 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
     OD_LOG_B1("topLevel = ", topLevel); //####
     if (ECL_NIL != cl_integerp(theData))
     {
+        OD_LOG("(ECL_NIL != cl_integerp(theData))"); //####
         aBottle.addInt(ecl_to_fixnum(theData));
     }
     else if (ECL_NIL != cl_realp(theData))
     {
+        OD_LOG("(ECL_NIL != cl_realp(theData))"); //####
         aBottle.addDouble(ecl_to_double(theData));
     }
     else if (ECL_NIL != cl_stringp(theData))
     {
+        OD_LOG("(ECL_NIL != cl_stringp(theData))"); //####
         cl_object aValue = si_coerce_to_base_string(theData);
 
         if (ECL_NIL == aValue)
         {
+            OD_LOG("(ECL_NIL == aValue)"); //####
             aBottle.addString("<unconvertible string>");
         }
         else
         {
+            OD_LOG("! (ECL_NIL == aValue)"); //####
             aBottle.addString(reinterpret_cast<char *>(aValue->base_string.self));
         }
     }
     else if (ECL_NIL != cl_symbolp(theData))
     {
+        OD_LOG("(ECL_NIL != cl_symbolp(theData))"); //####
         cl_object aName = cl_symbol_name(theData);
 
         if (ECL_NIL == aName)
         {
+            OD_LOG("(ECL_NIL == aName)"); //####
             aBottle.addString("<problematic symbol>");
         }
         else
         {
+            OD_LOG("! (ECL_NIL == aName)"); //####
             if (ECL_NIL == cl_stringp(aName))
             {
+                OD_LOG("(ECL_NIL == cl_stringp(aName))"); //####
                 aName = cl_string(aName);
             }
             aName = si_coerce_to_base_string(aName);
             if (ECL_NIL == aName)
             {
+                OD_LOG("(ECL_NIL == aName)"); //####
                 aBottle.addString("<unconvertible symbol>");
             }
             else
             {
+                OD_LOG("! (ECL_NIL == aName)"); //####
                 aBottle.addString(reinterpret_cast<char *>(aName->base_string.self));
             }
         }
     }
     else if (ECL_NIL != cl_characterp(theData))
     {
+        OD_LOG("(ECL_NIL != cl_characterp(theData))"); //####
         cl_object asString = cl_string(theData);
 
         if (ECL_NIL == asString)
         {
+            OD_LOG("(ECL_NIL == asString)"); //####
             aBottle.addString("<unconvertible character>");
         }
         else
         {
+            OD_LOG("! (ECL_NIL == asString)"); //####
             aBottle.addString(reinterpret_cast<char *>(asString->base_string.self));
         }
     }
     else if (ECL_NIL != cl_hash_table_p(theData))
     {
+        OD_LOG("(ECL_NIL != cl_hash_table_p(theData))"); //####
         cl_env_ptr env = ecl_process_env();
         cl_object  aList;
         cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
@@ -174,14 +189,15 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
             /* This code is executed when an error happens. */
             aList = ECL_NIL;
 #if MAC_OR_LINUX_
-            GetLogger().fail("Script aborted during load.");
+            GetLogger().fail("The 'hashMap' function failed.");
 #else // ! MAC_OR_LINUX_
-            cerr << "Script aborted during load." << endl;
+            cerr << "The 'hashMap' function failed." << endl;
 #endif // ! MAC_OR_LINUX_
         }
         ECL_RESTART_CASE_END;
         if (ECL_NIL != aList)
         {
+            OD_LOG("(ECL_NIL != aList)"); //####
             yarp::os::Property & innerDict(aBottle.addDict());
 
             for ( ; ECL_NIL != aList; aList = cl_cdr(aList))
@@ -197,58 +213,71 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
 
                     if (ECL_NIL != aValue)
                     {
+                        OD_LOG("(ECL_NIL != aValue)"); //####
                         keyToUse = reinterpret_cast<char *>(aValue->base_string.self);
                     }
                 }
                 else if (ECL_NIL != cl_symbolp(aKey))
                 {
+                    OD_LOG("(ECL_NIL != cl_symbolp(aKey))"); //####
                     cl_object aName = cl_symbol_name(theData);
 
                     if (ECL_NIL != aName)
                     {
+                        OD_LOG("(ECL_NIL != aName)"); //####
                         if (ECL_NIL == cl_stringp(aName))
                         {
+                            OD_LOG("(ECL_NIL == cl_stringp(aName))"); //####
                             aName = cl_string(aName);
                         }
                         aName = si_coerce_to_base_string(aName);
                         if (ECL_NIL != aName)
                         {
+                            OD_LOG("(ECL_NIL != aName)"); //####
                             keyToUse = reinterpret_cast<char *>(aName->base_string.self);
                         }
                     }
                 }
                 else if (ECL_NIL != cl_characterp(aKey))
                 {
+                    OD_LOG("(ECL_NIL != cl_characterp(aKey))"); //####
                     cl_object asString = cl_string(aKey);
                     
                     if (ECL_NIL != asString)
                     {
+                        OD_LOG("(ECL_NIL != asString)"); //####
                         keyToUse = reinterpret_cast<char *>(asString->base_string.self);
                     }
                 }
                 if (0 < keyToUse.length())
                 {
+                    OD_LOG("(0 < keyToUse.length())"); //####
                     yarp::os::Bottle convertedResult;
 
                     fillBottleFromValue(convertedResult, aValue, hashMapFunction, false);
                     if (1 == convertedResult.size())
                     {
+                        OD_LOG("(1 == convertedResult.size())"); //####
                         yarp::os::Value anElement(convertedResult.get(0));
 
                         if (anElement.isInt())
                         {
+                            OD_LOG("(anElement.isInt())"); //####
                             innerDict.put(keyToUse, anElement.asInt());
                         }
                         else if (anElement.isDouble())
                         {
+                            OD_LOG("(anElement.isDouble())"); //####
                             innerDict.put(keyToUse, anElement.asDouble());
                         }
                         else if (anElement.isString())
                         {
+                            OD_LOG("(anElement.isString())"); //####
                             innerDict.put(keyToUse, anElement.asString());
                         }
                         else
                         {
+                            OD_LOG("! (anElement.isString())"); //####
                             innerDict.put(keyToUse, anElement);
                         }
                     }
@@ -258,37 +287,45 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
     }
     else if (ECL_NIL != cl_listp(theData))
     {
+        OD_LOG("(ECL_NIL != cl_listp(theData))"); //####
         for ( ; ECL_NIL != theData; theData = cl_cdr(theData))
         {
             cl_object anElement = cl_car(theData);
 
             if (ECL_NIL != anElement)
             {
+                OD_LOG("(ECL_NIL != anElement)"); //####
                 fillBottleFromValue(aBottle, anElement, hashMapFunction, false);
             }
         }
     }
     else if (ECL_NIL != cl_arrayp(theData))
     {
+        OD_LOG("(ECL_NIL != cl_arrayp(theData))"); //####
         if (1 == ecl_fixnum(cl_array_rank(theData)))
         {
+            OD_LOG("(1 == ecl_fixnum(cl_array_rank(theData)))"); //####
             cl_fixnum numElements = ecl_fixnum(cl_array_dimension(theData, ecl_make_fixnum(0)));
 
             // Treat as a list
+            OD_LOG_LL1("numElements <- ", numElements); //####
             if (topLevel)
             {
+                OD_LOG("(topLevel)"); //####
                 for (cl_fixnum ii = 0; numElements > ii; ++ii)
                 {
                     cl_object anElement = cl_aref(2, theData, ecl_make_fixnum(ii));
 
                     if (ECL_NIL != anElement)
                     {
+                        OD_LOG("(ECL_NIL != anElement)"); //####
                         fillBottleFromValue(aBottle, anElement, hashMapFunction, false);
                     }
                 }
             }
             else
             {
+                OD_LOG("! (topLevel)"); //####
                 yarp::os::Bottle & innerList(aBottle.addList());
 
                 for (cl_fixnum ii = 0; numElements > ii; ++ii)
@@ -297,6 +334,7 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
 
                     if (ECL_NIL != anElement)
                     {
+                        OD_LOG("(ECL_NIL != anElement)"); //####
                         fillBottleFromValue(innerList, anElement, hashMapFunction, false);
                     }
                 }
@@ -305,10 +343,196 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
     }
     else
     {
+        OD_LOG("! (ECL_NIL != cl_arrayp(theData))"); //####
         aBottle.addString("<untranslatable>");
     }
     OD_LOG_EXIT(); //####
 } // fillBottleFromValue
+
+/*! @brief Convert a YARP value into a Common Lisp object.
+ @param setHashFunction The function object to use when setting a hash table entry.
+ @param inputValue The value to be processed.
+ @returns The output object. */
+static cl_object convertValue(cl_object               setHashFunction,
+                              const yarp::os::Value & inputValue);
+
+/*! @brief Convert a YARP dictionary into a Common Lisp object.
+ @param setHashFunction The function object to use when setting a hash table entry.
+ @param inputAsList The input dictionary as a list.
+ @returns The output object. */
+static cl_object convertDictionary(cl_object                setHashFunction,
+                                   const yarp::os::Bottle & inputAsList)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("setHashFunction = ", setHashFunction, "inputAsList = ", &inputAsList); //####
+    cl_object result = cl_make_hash_table(0);
+    OD_LOG_P1("result <- ", result); //####
+    
+    for (int ii = 0, mm = inputAsList.size(); mm > ii; ++ii)
+    {
+        yarp::os::Value anEntry(inputAsList.get(ii));
+        
+        if (anEntry.isList())
+        {
+            OD_LOG("(anEntry.isList())"); //####
+            yarp::os::Bottle * entryAsList = anEntry.asList();
+            
+            if (entryAsList && (2 == entryAsList->size()))
+            {
+                OD_LOG("(entryAsList && (2 == entryAsList->size()))"); //####
+                YarpString      aKey(entryAsList->get(0).toString());
+                yarp::os::Value aValue(entryAsList->get(1));
+                cl_object       anElement = convertValue(setHashFunction, aValue);
+                
+                OD_LOG_P1("anElement <- ", anElement); //####
+                cl_object       elementKey = CreateBaseString(aKey.c_str(), aKey.length());
+                cl_env_ptr      env = ecl_process_env();
+                cl_object       errorSymbol = ecl_make_symbol("ERROR", "CL");
+                
+                ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+                {
+                    /* This form is evaluated with bound handlers. */
+                    cl_funcall(4, setHashFunction, result, elementKey, anElement);
+                }
+                ECL_RESTART_CASE(1, condition)
+                {
+                    /* This code is executed when an error happens. */
+#if MAC_OR_LINUX_
+                    GetLogger().fail("Function 'setHash' failed.");
+#else // ! MAC_OR_LINUX_
+                    cerr << "Function 'setHash' failed." << endl;
+#endif // ! MAC_OR_LINUX_
+                }
+                ECL_RESTART_CASE_END;
+            }
+        }
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // convertDictionary
+
+/*! @brief Convert a YARP list into a Common Lisp object.
+ @param setHashFunction The function object to use when setting a hash table entry.
+ @param inputValue The value to be processed.
+ @returns The result object. */
+static cl_object convertList(cl_object                setHashFunction,
+                             const yarp::os::Bottle & inputValue)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
+    cl_object result = ecl_alloc_simple_vector(inputValue.size(), ecl_aet_object);
+    
+    OD_LOG_P1("result <- ", result); //####
+    for (int ii = 0, mm = inputValue.size(); mm > ii; ++ii)
+    {
+        yarp::os::Value aValue(inputValue.get(ii));
+        cl_object       anElement = convertValue(setHashFunction, aValue);
+        OD_LOG_P1("anElement <- ", anElement); //####
+        
+        ecl_aset1(result, ii, anElement);
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // convertList
+
+static cl_object convertValue(cl_object               setHashFunction,
+                              const yarp::os::Value & inputValue)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
+    cl_object result = ECL_NIL;
+    
+    if (inputValue.isBool())
+    {
+        OD_LOG("(inputValue.isBool())"); //####
+        result = ecl_make_fixnum(inputValue.asBool() ? 1 : 0);
+        OD_LOG_P1("result <- ", result); //####
+    }
+    else if (inputValue.isInt())
+    {
+        OD_LOG("(inputValue.isInt())"); //####
+        result = ecl_make_fixnum(inputValue.asInt());
+        OD_LOG_P1("result <- ", result); //####
+    }
+    else if (inputValue.isString())
+    {
+        OD_LOG("(inputValue.isString())"); //####
+        YarpString value = inputValue.asString();
+        
+        result = CreateBaseString(value.c_str(), value.length());
+        OD_LOG_P1("result <- ", result); //####
+    }
+    else if (inputValue.isDouble())
+    {
+        OD_LOG("(inputValue.isDouble())"); //####
+        result = ecl_make_double_float(inputValue.asDouble());
+        OD_LOG_P1("result <- ", result); //####
+    }
+    else if (inputValue.isDict())
+    {
+        OD_LOG("(inputValue.isDict())"); //####
+        yarp::os::Property * value = inputValue.asDict();
+        
+        if (value)
+        {
+            OD_LOG("(value)"); //####
+            yarp::os::Bottle asList(value->toString());
+            
+            result = convertDictionary(setHashFunction, asList);
+            OD_LOG_P1("result <- ", result); //####
+        }
+    }
+    else if (inputValue.isList())
+    {
+        OD_LOG("(inputValue.isList())"); //####
+        yarp::os::Bottle * value = inputValue.asList();
+        
+        if (value)
+        {
+            OD_LOG("(value)"); //####
+            yarp::os::Property asDict;
+            
+            if (ListIsReallyDictionary(*value, asDict))
+            {
+                OD_LOG("(ListIsReallyDictionary(*value, asDict))"); //####
+                result = convertDictionary(setHashFunction, *value);
+                OD_LOG_P1("result <- ", result); //####
+            }
+            else
+            {
+                OD_LOG("! (ListIsReallyDictionary(*value, asDict))"); //####
+                result = convertList(setHashFunction, *value);
+                OD_LOG_P1("result <- ", result); //####
+            }
+        }
+    }
+    else
+    {
+        OD_LOG("! (inputValue.isList())"); //####
+        // We don't know what to do with this...
+        result = ECL_NIL;
+        OD_LOG_P1("result <- ", result); //####
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // convertValue
+
+/*! @brief Create a Common Lisp structure with the contents of a bottle.
+ @param setHashFunction The function object to use when setting a hash table entry.
+ @param aBottle The bottle to be used.
+ @returns The bottle as a Common Lisp structure. */
+static cl_object createObjectFromBottle(cl_object                setHashFunction,
+                                        const yarp::os::Bottle & aBottle)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("setHashFunction = ", setHashFunction, "aBottle = ", &aBottle); //####
+    cl_object result;
+    
+//    cerr << "'" << aBottle.toString().c_str() << "'" << endl;
+    result = convertList(setHashFunction, aBottle);
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // createObjectFromBottle
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -338,10 +562,10 @@ CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumen
               description, "", serviceEndpointName, servicePortNumber),
     _inletHandlers(loadedInletHandlers), _inHandlers(), _generator(NULL),
     _loadedInletDescriptions(loadedInletDescriptions),
-    _loadedOutletDescriptions(loadedOutletDescriptions), _interlock(0),
+    _loadedOutletDescriptions(loadedOutletDescriptions), _goAhead(0), _staller(1),
     _scriptStartingFunc(loadedStartingFunction), _scriptStoppingFunc(loadedStoppingFunction),
-    _scriptThreadFunc(loadedThreadFunction), _hash2assocFunc(ECL_NIL),
-    _threadInterval(loadedInterval), _isThreaded(sawThread)
+    _scriptThreadFunc(loadedThreadFunction), _hash2assocFunc(ECL_NIL), _setHashFunc(ECL_NIL),
+    _threadInterval(loadedInterval), _mostRecentSlot(0), _isThreaded(sawThread)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("argumentList = ", &argumentList, "argv = ", argv, //####
@@ -360,20 +584,43 @@ CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumen
     {
         setNeedsIdle();
     }
+    else if (0 < loadedInletHandlers.size())
+    {
+        setNeedsIdle();
+    }
     try
     {
         // The following can't be directly expressed in C/C++, but is better described as Common
         // Lisp -
-        cl_object definition = c_string_to_object("((aTable) "
-                                                  "(let (asList) "
-                                                  "(maphash #'(lambda (key val) "
-                                                  "(setq asList (acons key val asList))) aTable)"
-                                                  " asList))");
-        cl_object aName = cl_find_symbol(1,
-                                 ecl_make_simple_base_string(const_cast<char *>(HASH2ASSOC_NAME_),
-                                                             sizeof(HASH2ASSOC_NAME_) - 1));
-
-        _hash2assocFunc = si_make_lambda(aName, definition);
+        cl_object form = c_string_to_object("(defun hash-to-assoc (aTable) "
+                                            "(let (asList) "
+                                            "(maphash #'(lambda (key val) "
+                                            "(setq asList (acons key val asList))) aTable)"
+                                            " asList))");
+        
+        _hash2assocFunc = cl_safe_eval(form, ECL_NIL, ECL_NIL);
+        if (ECL_NIL == _hash2assocFunc)
+        {
+#if MAC_OR_LINUX_
+            GetLogger().fail("Could not create 'hash-to-assoc' function.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Could not create 'hash-to-assoc' function." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
+        // The following can't be directly expressed in C/C++, but is better described as Common
+        // Lisp -
+        form = c_string_to_object("(defun setHash (table key value) "
+                                  "(setf (gethash key table) value))");
+        
+        _setHashFunc = cl_safe_eval(form, ECL_NIL, ECL_NIL);
+        if (ECL_NIL == _setHashFunc)
+        {
+#if MAC_OR_LINUX_
+            GetLogger().fail("Could not create 'setHash' function.");
+#else // ! MAC_OR_LINUX_
+            cerr << "Could not create 'setHash' function." << endl;
+#endif // ! MAC_OR_LINUX_
+        }
     }
     catch (...)
     {
@@ -489,16 +736,64 @@ DEFINE_DISABLEMETRICS_(CommonLispService)
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::disableMetrics
 
+#include <odl/ODDisableLogging.h>
+#include <odl/ODLogging.h>
+
 DEFINE_DOIDLE_(CommonLispService)
 {
     OD_LOG_OBJENTER(); //####
     if (isActive())
     {
         OD_LOG("(isActive())"); //####
-        if (_interlock.check())
+        if (_goAhead.check())
         {
-            OD_LOG("(_interlock.check())"); //####
-            if (ECL_NIL != _scriptThreadFunc)
+#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
+            OD_LOG("(_goAhead.check())"); //####
+            if (ECL_NIL == _scriptThreadFunc)
+            {
+                OD_LOG("(ECL_NIL == _scriptThreadFunc)"); //####
+                // We have a request from an input handler.
+                if (_inletHandlers.size() > _mostRecentSlot)
+                {
+                    OD_LOG("(_inletHandlers.size() > _mostRecentSlot)"); //####
+                    cl_object                handlerFunc = _inletHandlers[_mostRecentSlot];
+                    CommonLispInputHandler * aHandler = _inHandlers.at(_mostRecentSlot);
+                    
+                    if (aHandler && (ECL_NIL != handlerFunc))
+                    {
+                        OD_LOG("(aHandler && (ECL_NIL != handlerFunc))"); //####
+                        cl_object incoming = createObjectFromBottle(_setHashFunc,
+                                                                    aHandler->getReceivedData());
+                        
+                        if (ECL_NIL != incoming)
+                        {
+                            OD_LOG("(ECL_NIL != incoming)"); //####
+                            cl_env_ptr env = ecl_process_env();
+                            cl_object  errorSymbol = ecl_make_symbol("ERROR", "CL");
+                            
+                            ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
+                            {
+                                /* This form is evaluated with bound handlers. */
+                                cl_funcall(3, handlerFunc, ecl_make_fixnum(_mostRecentSlot),
+                                           incoming);
+                            }
+                            ECL_RESTART_CASE(1, condition)
+                            {
+                                /* This code is executed when an error happens. */
+#if MAC_OR_LINUX_
+                                GetLogger().fail("Input handler function failed.");
+#else // ! MAC_OR_LINUX_
+                                cerr << "Input handler function failed." << endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                            ECL_RESTART_CASE_END;
+                        }
+                    }
+                }
+                _staller.post();
+            }
+            else
             {
                 OD_LOG("(ECL_NIL != _scriptThreadFunc)"); //####
                 try
@@ -528,10 +823,15 @@ DEFINE_DOIDLE_(CommonLispService)
                     throw;
                 }
             }
+#include <odl/ODDisableLogging.h>
+#include <odl/ODLogging.h>
         }
     }
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::doIdle
+
+#include <odl/ODEnableLogging.h>
+#include <odl/ODLogging.h>
 
 DEFINE_ENABLEMETRICS_(CommonLispService)
 {
@@ -614,6 +914,7 @@ bool CommonLispService::sendToChannel(const cl_fixnum channelSlot,
         fillBottleFromValue(outBottle, theData, _hash2assocFunc, true);
         if ((0 < outBottle.size()) && outChannel)
         {
+            OD_LOG("((0 < outBottle.size()) && outChannel)"); //####
             if (outChannel->write(outBottle))
             {
                 okSoFar = true;
@@ -628,6 +929,7 @@ bool CommonLispService::sendToChannel(const cl_fixnum channelSlot,
         }
         else
         {
+            OD_LOG("! ((0 < outBottle.size()) && outChannel)"); //####
             // If there's nothing to write, or the channel is gone, continue as if everything is
             // fine.
             okSoFar = true;
@@ -669,9 +971,18 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispService)
 void CommonLispService::signalRunFunction(void)
 {
     OD_LOG_OBJENTER(); //####
-    _interlock.post();
+    _goAhead.post();
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::signalRunFunction
+
+void CommonLispService::stallUntilIdle(const size_t slotNumber)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("slotNumber = ", slotNumber); //####
+    _staller.wait();
+    _mostRecentSlot = slotNumber;
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispService::stallUntilIdle
 
 DEFINE_STARTSERVICE_(CommonLispService)
 {
@@ -724,8 +1035,7 @@ DEFINE_STARTSTREAMS_(CommonLispService)
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
                     cl_object                handlerFunc = _inletHandlers[ii];
-                    CommonLispInputHandler * aHandler = new CommonLispInputHandler(this, ii,
-                                                                                   handlerFunc);
+                    CommonLispInputHandler * aHandler = new CommonLispInputHandler(this, ii);
                     
                     if (aHandler)
                     {
@@ -833,6 +1143,30 @@ DEFINE_STOPSTREAMS_(CommonLispService)
 #if defined(__APPLE__)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
+
+cl_object CommonLisp::CreateBaseString(const char * inString,
+                                       const size_t inLength)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S1("inString = ", inString); //####
+    OD_LOG_LL1("inLength = ", inLength); //####
+    cl_object result;
+    
+    if (inString)
+    {
+        result = ecl_alloc_simple_base_string(inLength);
+        if (ECL_NIL != result)
+        {
+            strcpy(reinterpret_cast<char *>(result->base_string.self), inString);
+        }
+    }
+    else
+    {
+        result = ECL_NIL;
+    }
+    OD_LOG_EXIT_P(result); //####
+    return result;
+} // CreateBaseString
 
 #if 0
 std::ostream & CommonLisp::PrintCommonLispObject(std::ostream &     outStream,

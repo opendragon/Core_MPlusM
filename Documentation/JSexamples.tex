@@ -36,11 +36,11 @@ function doTruncateFloat(portNumber, incomingData)
 
 var scriptDescription = 'A script that truncates floating-point numbers';
 
-var scriptInlets = [ { name: 'incoming', protocol: 'd*',
+var scriptInlets = [ { name: 'incoming', protocol: 'd+',
                         protocolDescription: 'A sequence of floating-point numbers',
                         handler: doTruncateFloat } ];
 
-var scriptOutlets = [ { name: 'outgoing', protocol: 'i*',
+var scriptOutlets = [ { name: 'outgoing', protocol: 'i+',
                         protocolDescription: 'A sequence of integers' } ];
 \end{listing}
 \codeEnd{}

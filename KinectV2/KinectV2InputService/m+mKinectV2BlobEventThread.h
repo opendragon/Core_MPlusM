@@ -80,7 +80,7 @@ namespace MplusM
 
             /*! @brief Return the translation scale.
              @returns The translation scale. */
-            double translationScale(void)
+            inline double translationScale(void)
             const
             {
                 return _translationScale;

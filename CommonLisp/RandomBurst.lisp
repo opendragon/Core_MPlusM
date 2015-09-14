@@ -63,12 +63,7 @@
      (t (setq burstSize 1) (setq interval 1)))
     interval))
 
-(let* (scriptOutlet1)
-  (setq scriptOutlet1 (make-hash-table))
-  (psetf (gethash 'name scriptOutlet1) "outgoing"
-	 (gethash 'protocol scriptOutlet1) "d+"
-	 (gethash 'protocolDescription scriptOutlet1) "One or more numeric values")
-  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))
+(setq scriptOutlets (make-array '(1) :initial-element (create-outlet-entry "outgoing" "d+" "One or more numberic values")))
 
 (defun scriptThread ()
   (let* (outList)

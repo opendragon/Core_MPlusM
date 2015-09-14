@@ -129,7 +129,7 @@ namespace MplusM
 
             /*! @brief Return the %JavaScript execution environment.
              @returns The %JavaScript execution environment. */
-            JSContext * getContext(void)
+            inline JSContext * getContext(void)
             const
             {
                 return _context;
@@ -137,7 +137,7 @@ namespace MplusM
             
             /*! @brief Return the global object for the %JavaScript execution environment.
              @returns The global object for the %JavaScript execution environment. */
-            JS::RootedObject & getGlobal(void)
+            inline JS::RootedObject & getGlobal(void)
             const
             {
                 return _global;

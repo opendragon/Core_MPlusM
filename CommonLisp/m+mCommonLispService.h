@@ -135,10 +135,15 @@ namespace MplusM
             bool sendToChannel(const cl_fixnum channelSlot,
                                cl_object       theData);
 
-            /*! @brief Signal to the background process that the thread function should be
-             performed. */
+            /*! @brief Signal to the background process that the thread or handler function should
+             be performed. */
             void signalRunFunction(void);
 
+            /*! @brief Stall a thread until the main thread can process the request and then process
+             the request.
+             @param slotNumber The slot number of the input handler making the request. */
+            void stallUntilIdle(const size_t slotNumber);
+            
             DECLARE_STARTSERVICE_;
             
             DECLARE_STARTSTREAMS_;
@@ -185,9 +190,12 @@ namespace MplusM
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
 
-            /*! @brief The communication signal for the thread. */
-            yarp::os::Semaphore _interlock;
+            /*! @brief The communication signal for the thread or handlers. */
+            yarp::os::Semaphore _goAhead;
 
+            /*! @brief The communication signal for the handlers. */
+            yarp::os::Semaphore _staller;
+            
             /*! @brief The Common Lisp script starting function. */
             cl_object _scriptStartingFunc;
 
@@ -200,9 +208,15 @@ namespace MplusM
             /*! @brief The hash2assoc function. */
             cl_object _hash2assocFunc;
 
+            /*! @brief The setHash function. */
+            cl_object _setHashFunc;
+            
             /*! @brief The thread interval. */
             double _threadInterval;
             
+            /*! @brief The slot of the most recent input handler. */
+            size_t _mostRecentSlot;
+
             /*! @brief @c true if a thread is being used. */
             bool _isThreaded;
             
@@ -218,6 +232,16 @@ namespace MplusM
 
         }; // CommonLispService
         
+        /*! @brief Create a new base-string.
+         
+         Note that there is a bug in the ecl_make_simple_base_string where, instead of freshly
+         allocating storage, the input character pointer is shared, resulting in garbage data being
+         retained.
+         @param inString The string contents to be used.
+         @param inLength The string length to be used.
+         @returns A new base-string with the given contents and length. */
+        cl_object CreateBaseString(const char * inString,
+                                   const size_t inLength);
 #if 0
         /*! @brief Print out a Common Lisp object.
          @param outStream Where to write the object.

@@ -98,6 +98,9 @@ enum TtyMode
 
 }; // TtyMode
 
+/*! @brief Set to @c true to simulate a request to stop the service. */
+static bool lStopTheService = false;
+
 /*! @brief The active terminal attributes. */
 static struct termios lTermattr;
 
@@ -943,6 +946,13 @@ void BaseInputOutputService::performLaunch(const YarpString & helpText,
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::performLaunch
 
+void BaseInputOutputService::requestServiceStop(void)
+{
+    OD_LOG_ENTER(); //####
+    lStopTheService = true;
+    OD_LOG_EXIT(); //####
+} // BaseInputOutputService::requestServiceStop
+
 void BaseInputOutputService::runService(const YarpString & helpText,
                                         const bool         forAdapter,
                                         const bool         goWasSet,
@@ -993,6 +1003,11 @@ void BaseInputOutputService::runService(const YarpString & helpText,
                         if (isStarted())
                         {
                             doIdle();
+                            if (lStopTheService)
+                            {
+                                break;
+                            }
+                            
                         }
 #if defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
@@ -1002,7 +1017,7 @@ void BaseInputOutputService::runService(const YarpString & helpText,
                     }
                 }
                 // Watch for a newline here!
-                if (! firstLine)
+                if (IsRunning() && (! firstLine))
                 {
                     for ( ; ; )
                     {
@@ -1022,6 +1037,11 @@ void BaseInputOutputService::runService(const YarpString & helpText,
                             if (isStarted())
                             {
                                 doIdle();
+                                if (lStopTheService)
+                                {
+                                    break;
+                                }
+                                
                             }
 #if defined(MpM_MainDoesDelayNotYield)
                             yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
@@ -1102,6 +1122,7 @@ void BaseInputOutputService::runService(const YarpString & helpText,
                     stopStreams();
                     break;
 
+                case 0 : // Some external event has caused us to exit!
                 case 'q' :
                 case 'Q' :
                     // Quit

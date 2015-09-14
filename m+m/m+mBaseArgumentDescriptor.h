@@ -255,7 +255,7 @@ namespace MplusM
 
             /*! @brief Return the mode of the command-line argument.
              @returns The mode of the command-line argument. */
-            ArgumentMode argumentMode(void)
+            inline ArgumentMode argumentMode(void)
             const
             {
                 return _argMode;

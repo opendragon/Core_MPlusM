@@ -36,77 +36,37 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
+(setq summing nil)
 (setq runningSum 0)
 
-;;function doCommand(aCommand, itsArgs)
-;;{
-;;    var aValue;
-;;    
-;;    switch (aCommand)
-;;    {
-;;        case 'add' :
-;;            if (Array.isArray(itsArgs))
-;;            {
-;;                for (var ii = 0, mm = itsArgs.length; mm > ii; ++ii)
-;;                {
-;;                    aValue = Number(itsArgs[ii]);
-;;                    if (! isNaN(aValue))
-;;                    {
-;;                        runningSum += Number(aValue);
-;;                    }
-;;                }
-;;            }
-;;            else
-;;            {
-;;                aValue = Number(itsArgs);
-;;                if (! isNaN(aValue))
-;;                {
-;;                    runningSum += Number(aValue);
-;;                }
-;;            }
-;;            break;
-;;            
-;;        case 'reset' :
-;;            runningSum = 0;
-;;            break;
-;;            
-;;        default :
-;;            break;
-;;            
-;;    }
-;;} ;; doCommand
-;;
-;;function doRunningSum(portNumber, incomingData)
-;;{
-;;    if (Array.isArray(incomingData))
-;;    {
-;;        var cmd = String(incomingData.shift());
-;;        
-;;        doCommand(cmd, incomingData);
-;;    }
-;;    else
-;;    {
-;;        doCommand(String(incomingData), []);
-;;    }
-;;    sendToChannel(0, runningSum);
-;;} ;; doRunningSum
+(defun do-a-command (aCommand)
+  (cond ((numberp aCommand)
+	 (incf runningSum (if summing aCommand 0)))
+	((stringp aCommand)
+	 (setq bCommand (string-downcase aCommand))
+	 (cond ((string= "quit" bCommand) (requestStop))
+	       ((string= "addtosum" bCommand) ()) ; no direct effect, since any numbers are simply added
+	       ((string= "startsum" bCommand) (setq summing t))
+	       ((string= "resetsum" bCommand) (setq runningSum 0))
+	       ((string= "stopsum" bCommand) (setq summing nil))
+	       (t (format t "unrecognized~%"))))
+	(t (format t "no match for ~A~%" aCommand))))
+
+(defun do-input-sequence (incomingData)
+  (cond
+   ((stringp incomingData)
+    (do-a-command incomingData))
+   ((arrayp incomingData)
+    (dotimes (ii (array-dimension incomingData 0))
+      (do-input-sequence (aref incomingData ii))))
+   (t (do-a-command incomingData))))
+
 (defun doRunningSum (portNumber incomingData)
-  ;;TBD
+  (do-input-sequence incomingData)
   (sendToChannel 0 runningSum))
 
 (setq scriptDescription "A script that calculates running sums")
 
-(let* (scriptInlet1)
-  (setq scriptInlet1 (make-hash-table))
-  (psetf (gethash 'name scriptInlet1) "incoming"
-	 (gethash 'protocol scriptInlet1) "sd*"
-	 (gethash 'protocolDescription scriptInlet1) "A command and data"
-	 (gethash 'handler scriptInlet1) 'doRunningSum)
-  (setq scriptInlet1 (make-array '(1) :initial-element scriptInlet1)))
+(setq scriptInlets (make-array '(1) :initial-element (create-inlet-entry "incoming" "sd*" "A command and data" 'doRunningSum)))
 
-(let* (scriptOutlet1)
-  (setq scriptOutlet1 (make-hash-table))
-  (psetf (gethash 'name scriptOutlet1) "outgoing"
-	 (gethash 'protocol scriptOutlet1) "d"
-	 (gethash 'protocolDescription scriptOutlet1) "The running sum")
-  (setq scriptOutlets (make-array '(1) :initial-element scriptOutlet1)))
+(setq scriptOutlets (make-array '(1) :initial-element (create-outlet-entry "outgoing" "d" "The running sum")))

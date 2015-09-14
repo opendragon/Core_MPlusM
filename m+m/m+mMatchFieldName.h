@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
-            const YarpString & asSQLString(void)
+            inline const YarpString & asSQLString(void)
             const
             {
                 return _matchingString;
@@ -76,7 +76,7 @@ namespace MplusM
             
             /*! @brief Return the match value.
              @returns The matching substring. */
-            const YarpString & asString(void)
+            inline const YarpString & asString(void)
             const
             {
                 return _matchingString;
@@ -100,7 +100,7 @@ namespace MplusM
             /*! @brief Return whether or not the field name was followed by the negation character.
              @returns @c true if the field name was followed by the negation character and @c false
              otherwise. */
-            bool isNegated(void)
+            inline bool isNegated(void)
             const
             {
                 return _isNegated;

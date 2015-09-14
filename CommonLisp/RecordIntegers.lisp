@@ -80,13 +80,9 @@
 
 (setq scriptHelp "The first argument is the path to the output file")
 
-(let* (scriptInlet1)
-  (setq scriptInlet1 (make-hash-table))
-  (psetf (gethash 'name scriptInlet1) "incoming"
-	 (gethash 'protocol scriptInlet1) "i*"
-	 (gethash 'protocolDescription scriptInlet1) "A sequence of integer values"
-	 (gethash 'handler scriptInlet1) 'doRecordIntegers)
-  (setq scriptInlet1 (make-array '(1) :initial-element scriptInlet1)))
+(setq scriptInlets (make-array '(1) :initial-element
+			       (create-inlet-entry "incoming" "i*"
+						   "A sequence of integer values" 'doRecordIntegers)))
 
 ;;function scriptStarting()
 ;;{

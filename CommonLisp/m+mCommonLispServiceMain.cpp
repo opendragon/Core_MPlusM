@@ -43,7 +43,7 @@
 #include <m+m/m+mFilePathArgumentDescriptor.h>
 #include <m+m/m+mUtilities.h>
 
-//#include <odl/ODEnableLogging.h>
+#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -78,6 +78,12 @@ using std::cerr;
 
 /*! @brief The name of the 'argv' object. */
 #define ARGV_NAME_ "ARGV"
+
+/*! @brief The name of the Common Lisp function to create an inlet entry. */
+#define CREATE_INLET_ENTRY_NAME_ "CREATE-INLET-ENTRY"
+
+/*! @brief The name of the Common Lisp function to create an outlet entry. */
+#define CREATE_OUTLET_ENTRY_NAME_ "CREATE-OUTLET-ENTRY"
 
 /*! @brief A macro to create a DEFUN abstraction in C++.
 
@@ -114,6 +120,7 @@ static CommonLispService * lActiveService = NULL;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if 0
 /*! @brief Run an arbitrary Lisp expression.
  @param call The expression to be executed.
  @returns The result of the execution. */
@@ -127,6 +134,7 @@ static cl_object doLisp(const YarpString & call)
     OD_LOG_EXIT_P(result); //####
     ecl_return1(env, result);
 } // doLisp
+#endif//0
 
 #if 0
 /*! @brief The error reporter callback for the Common Lisp engine.
@@ -159,6 +167,20 @@ static void reportCommonLispError(JSContext *     cx,
 } // reportCommonLispError
 #endif//0
 
+/*! @brief A C-callback function for Common Lisp to stop the service. */
+static cl_object requestStopForCl(void)
+{
+    OD_LOG_ENTER(); //####
+    cl_env_ptr env = ecl_process_env();
+    
+    if (lActiveService)
+    {
+        lActiveService->requestServiceStop();
+    }
+    OD_LOG_EXIT_P(ECL_NIL); //####
+    ecl_return0(env);
+} // requestStopForCl
+
 /*! @brief A C-callback function for Common Lisp to send an object to a channel.
  @param channelIndex The number of the channel to be used.
  @param message The message to send to the channel. */
@@ -182,7 +204,41 @@ static cl_object sendToChannelForCl(cl_object channelIndex,
 static void addCustomFunctions(void)
 {
     OD_LOG_ENTER(); //####
+    DEFUN_("requestStop", requestStopForCl, 0);
     DEFUN_("sendToChannel", sendToChannelForCl, 2);
+    // The following can't be directly expressed in C/C++, but is better described as Common
+    // Lisp -
+    cl_object form = c_string_to_object("(defun create-inlet-entry "
+                                        "(name protocol protocolDescription handler) "
+                                        "(let ((entry (make-hash-table))) "
+                                        "(psetf (gethash 'name entry) name "
+                                        "(gethash 'protocol entry) protocol "
+                                        "(gethash 'protocolDescription entry) protocolDescription "
+                                        "(gethash 'handler entry) handler) entry))");
+    cl_object aFunction = cl_safe_eval(form, ECL_NIL, ECL_NIL);
+    
+    if (ECL_NIL == aFunction)
+    {
+#if MAC_OR_LINUX_
+        GetLogger().fail("Could not create 'create-inlet-entry' function.");
+#else // ! MAC_OR_LINUX_
+        cerr << "Could not create 'create-inlet-entry' function." << endl;
+#endif // ! MAC_OR_LINUX_
+    }
+    form = c_string_to_object("(defun create-outlet-entry (name protocol protocolDescription) "
+                              "(let ((entry (make-hash-table))) "
+                              "(psetf (gethash 'name entry) name "
+                              "(gethash 'protocol entry) protocol "
+                              "(gethash 'protocolDescription entry) protocolDescription) entry))");
+    aFunction = cl_safe_eval(form, ECL_NIL, ECL_NIL);
+    if (ECL_NIL == aFunction)
+    {
+#if MAC_OR_LINUX_
+        GetLogger().fail("Could not create 'create-outlet-entry' function.");
+#else // ! MAC_OR_LINUX_
+        cerr << "Could not create 'create-outlet-entry' function." << endl;
+#endif // ! MAC_OR_LINUX_
+    }
     OD_LOG_EXIT(); //####
 } // addCustomFunctions
 
@@ -935,8 +991,7 @@ static void addArgvObject(cl_object                ourPackage,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("ourPackage = ", ourPackage, "argv = ", &argv); //####
     cl_env_ptr env = ecl_process_env();
-    cl_object  argvObject = cl_intern(2, ecl_make_simple_base_string(const_cast<char *>(ARGV_NAME_),
-                                                                     sizeof(ARGV_NAME_) - 1),
+    cl_object  argvObject = cl_intern(2, CreateBaseString(ARGV_NAME_, sizeof(ARGV_NAME_) - 1),
                                       ourPackage);
     cl_object  argvValue = ecl_alloc_simple_vector(argv.size(), ecl_aet_object);
 
@@ -944,9 +999,7 @@ static void addArgvObject(cl_object                ourPackage,
     ecl_setq(env, argvObject, argvValue);
     for (size_t ii = 0, argc = argv.size(); argc > ii; ++ii)
     {
-        char * anArg = const_cast<char *>(argv[ii].c_str());
-
-        ecl_aset1(argvValue, ii, ecl_make_simple_base_string(anArg, argv[ii].length()));
+        ecl_aset1(argvValue, ii, CreateBaseString(argv[ii].c_str(), argv[ii].length()));
     }
     OD_LOG_EXIT(); //####
 } // addArgvObject
@@ -961,14 +1014,12 @@ static void addScriptTagObject(cl_object          ourPackage,
     OD_LOG_P1("ourPackage = ", ourPackage); //####
     OD_LOG_S1s("tag = ", tag); //####
     cl_env_ptr env = ecl_process_env();
-    cl_object  scriptTagObject = cl_intern(2,
-                                   ecl_make_simple_base_string(const_cast<char *>(SCRIPTTAG_NAME_),
+    cl_object  scriptTagObject = cl_intern(2, CreateBaseString(SCRIPTTAG_NAME_,
                                                                sizeof(SCRIPTTAG_NAME_) - 1),
                                            ourPackage);
 
     cl_export(2, scriptTagObject, ourPackage);
-    ecl_setq(env, scriptTagObject, ecl_make_simple_base_string(const_cast<char *>(tag.c_str()),
-                                                               tag.length()));
+    ecl_setq(env, scriptTagObject, CreateBaseString(tag.c_str(), tag.length()));
     OD_LOG_EXIT(); //####
 } // addScriptTagObject
 
@@ -1052,9 +1103,7 @@ static bool getLoadedDouble(const char * propertyName,
 
     try
     {
-        cl_object aSymbol = cl_find_symbol(1,
-                                       ecl_make_simple_base_string(const_cast<char *>(propertyName),
-                                                                   strlen(propertyName)));
+        cl_object aSymbol = cl_find_symbol(1, CreateBaseString(propertyName, strlen(propertyName)));
 
         if (ECL_NIL != aSymbol)
         {
@@ -1140,7 +1189,7 @@ static bool getLoadedDouble(const char * propertyName,
     return okSoFar;
 } // getLoadedDouble
 
-/*! @brief Check an object for a specific string property.
+/*! @brief Check  script for a specific string property.
  @param propertyName The name of the property being searched for.
  @param canBeFunction @c true if the property can be a function rather than a string and @c false if
  the property must be a string.
@@ -1153,18 +1202,24 @@ static bool getLoadedString(const char * propertyName,
                             YarpString & result)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
     OD_LOG_B2("canBeFunction = ", canBeFunction, "isOptional = ", isOptional); //####
+    OD_LOG_P1("result = ", &result); //####
     bool okSoFar = false;
 
     try
     {
-        cl_object aSymbol = cl_find_symbol(1,
-                                       ecl_make_simple_base_string(const_cast<char *>(propertyName),
-                                                                   strlen(propertyName)));
+        cl_object aSymbol = cl_find_symbol(1, CreateBaseString(propertyName, strlen(propertyName)));
 
-        if (ECL_NIL != aSymbol)
+        if (ECL_NIL == aSymbol)
+        {
+            if (isOptional)
+            {
+                result = "";
+                okSoFar = true;
+            }
+        }
+        else
         {
             if (ECL_NIL != cl_boundp(aSymbol))
             {
@@ -1259,27 +1314,34 @@ static bool getLoadedString(const char * propertyName,
     return okSoFar;
 } // getLoadedString
 
-/*! @brief Check an object for a specific string property.
+/*! @brief Check a script for a specific function property.
  @param propertyName The name of the property being searched for.
- @param canBeFunction @c true if the property can be a function rather than a string and @c false if
- the property must be a string.
+ @param arity The expected number of arguments for the function.
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
 static bool getLoadedFunctionRef(const char *   propertyName,
                                  const uint32_t arity,
+                                 const bool     isOptional,
                                  cl_object &    result)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("result = ", &result); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
     OD_LOG_LL1("arity = ", arity); //####
+    OD_LOG_B1("isOptional = ", isOptional); //####
+    OD_LOG_P1("result = ", &result); //####
     bool      okSoFar = false;
-    cl_object aSymbol = cl_find_symbol(1,
-                                       ecl_make_simple_base_string(const_cast<char *>(propertyName),
-                                                                   strlen(propertyName)));
+    cl_object aSymbol = cl_find_symbol(1, CreateBaseString(propertyName, strlen(propertyName)));
 
-    if (ECL_NIL != aSymbol)
+    if (ECL_NIL == aSymbol)
+    {
+        if (isOptional)
+        {
+            result = ECL_NIL;
+            okSoFar = true;
+        }
+    }
+    else
     {
         if (ECL_NIL == cl_fboundp(aSymbol))
         {
@@ -1337,9 +1399,8 @@ static bool processStreamDescription(cl_object            anElement,
     else
     {
         cl_env_ptr env = ecl_process_env();
-        cl_object  aSymbol = cl_find_symbol(1,
-                                        ecl_make_simple_base_string(const_cast<char *>(NAME_NAME_),
-                                                                    sizeof(NAME_NAME_) - 1));
+        cl_object  aSymbol = cl_find_symbol(1, CreateBaseString(NAME_NAME_,
+                                                                sizeof(NAME_NAME_) - 1));
         cl_object  aValue = cl_gethash(2, aSymbol, anElement);
         cl_object  present = ecl_nth_value(env, 1);
 
@@ -1362,9 +1423,8 @@ static bool processStreamDescription(cl_object            anElement,
         }
         if (okSoFar)
         {
-            aSymbol = cl_find_symbol(1,
-                                     ecl_make_simple_base_string(const_cast<char *>(PROTOCOL_NAME_),
-                                                                 sizeof(PROTOCOL_NAME_) - 1));
+            aSymbol = cl_find_symbol(1, CreateBaseString(PROTOCOL_NAME_,
+                                                         sizeof(PROTOCOL_NAME_) - 1));
             aValue = cl_gethash(2, aSymbol, anElement);
             present = ecl_nth_value(env, 1);
             if (ECL_NIL == present)
@@ -1386,9 +1446,8 @@ static bool processStreamDescription(cl_object            anElement,
         }
         if (okSoFar)
         {
-            aSymbol = cl_find_symbol(1,
-                                     ecl_make_simple_base_string(const_cast<char *>(PROTOCOL_NAME_),
-                                                                 sizeof(PROTOCOL_NAME_) - 1));
+            aSymbol = cl_find_symbol(1, CreateBaseString(PROTOCOLDESCRIPTION_NAME_,
+                                                         sizeof(PROTOCOLDESCRIPTION_NAME_) - 1));
             aValue = cl_gethash(2, aSymbol, anElement);
             present = ecl_nth_value(env, 1);
             if (ECL_NIL == present)
@@ -1404,39 +1463,14 @@ static bool processStreamDescription(cl_object            anElement,
                 aValue = si_coerce_to_base_string(aValue);
                 if (ECL_NIL != aValue)
                 {
-                    description._portProtocol = reinterpret_cast<char *>(aValue->base_string.self);
-                }
-            }
-        }
-        if (okSoFar)
-        {
-            aSymbol = cl_find_symbol(1,
-                         ecl_make_simple_base_string(const_cast<char *>(PROTOCOLDESCRIPTION_NAME_),
-                                                     sizeof(PROTOCOLDESCRIPTION_NAME_) - 1));
-            aValue = cl_gethash(2, aSymbol, anElement);
-            present = ecl_nth_value(env, 1);
-            if (ECL_NIL == present)
-            {
-                okSoFar = false;
-            }
-            else
-            {
-                if (ECL_NIL == cl_stringp(aValue))
-                {
-                    aValue = cl_string(aValue);
-                }
-                aValue = si_coerce_to_base_string(aValue);
-                if (ECL_NIL != aValue)
-                {
-                    description._portProtocol = reinterpret_cast<char *>(aValue->base_string.self);
+                    description._protocolDescription =
+                                                reinterpret_cast<char *>(aValue->base_string.self);
                 }
             }
         }
         if (okSoFar && inletHandlers)
         {
-            aSymbol = cl_find_symbol(1,
-                                     ecl_make_simple_base_string(const_cast<char *>(HANDLER_NAME_),
-                                                                 sizeof(HANDLER_NAME_) - 1));
+            aSymbol = cl_find_symbol(1, CreateBaseString(HANDLER_NAME_, sizeof(HANDLER_NAME_) - 1));
             aValue = cl_gethash(2, aSymbol, anElement);
             present = ecl_nth_value(env, 1);
             if (ECL_NIL == present)
@@ -1495,12 +1529,14 @@ static bool getLoadedStreamDescriptions(const char *    arrayName,
     try
     {
         cl_object descriptionArray = ECL_NIL;
-        cl_object aSymbol = cl_find_symbol(1,
-                                       ecl_make_simple_base_string(const_cast<char *>(arrayName),
-                                                                   strlen(arrayName)));
+        cl_object aSymbol = cl_find_symbol(1, CreateBaseString(arrayName, strlen(arrayName)));
 
         streamDescriptions.clear();
-        if (ECL_NIL != aSymbol)
+        if (ECL_NIL == aSymbol)
+        {
+            okSoFar = true;
+        }
+        else
         {
             if (ECL_NIL != cl_boundp(aSymbol))
             {
@@ -1610,7 +1646,8 @@ static bool getLoadedStreamDescriptions(const char *    arrayName,
  @param loadedStoppingFunction The function to execute on stopping the service streams.
  @param loadedThreadFunction The function to execute on an output-generating thread.
  @param loadedInterval The interval (in seconds) between executions of the output-generating thread.
- @returns @c true on success and @c false otherwise. */
+ @returns @c true on success and @c false otherwise.
+ @param missingStuff A list of the missing functions or variables. */
 static bool validateLoadedScript(bool &          sawThread,
                                  YarpString &    description,
                                  YarpString &    helpString,
@@ -1620,60 +1657,100 @@ static bool validateLoadedScript(bool &          sawThread,
                                  cl_object &     loadedStartingFunction,
                                  cl_object &     loadedStoppingFunction,
                                  cl_object &     loadedThreadFunction,
-                                 double &        loadedInterval)
+                                 double &        loadedInterval,
+                                 YarpString &    missingStuff)
 {
     OD_LOG_ENTER();
-    OD_LOG_P2("sawThread = ", &sawThread, "description = ", &description); //####
-    OD_LOG_P4("helpString = ", &helpString, "loadedInletDescriptions = ", //####
-              &loadedInletDescriptions, "loadedOutletDescriptions = ", //####
-              &loadedOutletDescriptions, "loadedInletHandlers = ", &loadedInletHandlers); //####
-    OD_LOG_P4("loadedStartingFunction = ", &loadedStartingFunction, //####
-              "loadedStoppingFunction = ", &loadedStoppingFunction, //####
-              "loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
-              &loadedInterval); //####
+    OD_LOG_P4("sawThread = ", &sawThread, "description = ", &description, "helpString = ", //####
+              &helpString, "loadedInletDescriptions = ", &loadedInletDescriptions);
+    OD_LOG_P4("loadedOutletDescriptions = ", &loadedOutletDescriptions, //####
+              "loadedInletHandlers = ", &loadedInletHandlers, "loadedStartingFunction = ", //####
+              &loadedStartingFunction, "loadedStoppingFunction = ", &loadedStoppingFunction); //####
+    OD_LOG_P3("loadedThreadFunction = ", &loadedThreadFunction, "loadedInterval = ", //####
+              &loadedInterval, "missingStuff = ", &missingStuff); //####
     bool okSoFar;
 
     sawThread = false;
     loadedInterval = 1.0;
     loadedThreadFunction = ECL_NIL;
-    okSoFar = getLoadedString("SCRIPTDESCRIPTION", true, false, description);
-    if (okSoFar)
+    loadedStartingFunction = ECL_NIL;
+    loadedStoppingFunction = ECL_NIL;
+    missingStuff = "";
+    if (getLoadedString("SCRIPTDESCRIPTION", true, false, description))
     {
-        okSoFar = getLoadedString("SCRIPTHELP", false, true, helpString);
+        okSoFar = true;
     }
-    if (okSoFar)
+    else
     {
-        if (getLoadedFunctionRef("SCRIPTTHREAD", 0, loadedThreadFunction))
+        missingStuff = "scriptDescription";
+        okSoFar = false;
+    }
+    if (! getLoadedString("SCRIPTHELP", false, true, helpString))
+    {
+        if (0 < missingStuff.length())
         {
-//            cout << "function scriptThread defined" << endl;
-            sawThread = true;
+            missingStuff += ", ";
+        }
+        missingStuff += "scriptHelp";
+        okSoFar = false;
+    }
+    if (getLoadedFunctionRef("SCRIPTTHREAD", 0, true, loadedThreadFunction))
+    {
+        sawThread = (ECL_NIL != loadedThreadFunction);
+    }
+    else
+    {
+        if (0 < missingStuff.length())
+        {
+            missingStuff += ", ";
+        }
+        missingStuff += "scriptThread";
+        okSoFar = false;
+    }
+    if (! sawThread)
+    {
+        if (! getLoadedStreamDescriptions("SCRIPTINLETS", &loadedInletHandlers,
+                                          loadedInletDescriptions))
+        {
+            if (0 < missingStuff.length())
+            {
+                missingStuff += ", ";
+            }
+            missingStuff += "scriptInlets";
+            okSoFar = false;
         }
     }
-    if (okSoFar && (! sawThread))
+    if (! getLoadedStreamDescriptions("SCRIPTOUTLETS", NULL, loadedOutletDescriptions))
     {
-        okSoFar = getLoadedStreamDescriptions("SCRIPTINLETS", &loadedInletHandlers,
-                                              loadedInletDescriptions);
+        if (0 < missingStuff.length())
+        {
+            missingStuff += ", ";
+        }
+        missingStuff += "scriptOutlets";
+        okSoFar = false;
+    }
+    if (sawThread)
+    {
+        if (! getLoadedDouble("SCRIPTINTERVAL", true, true, loadedInterval))
+        {
+            if (0 < missingStuff.length())
+            {
+                missingStuff += ", ";
+            }
+            missingStuff += "scriptInterval";
+            okSoFar = false;
+        }
     }
     if (okSoFar)
     {
-        okSoFar = getLoadedStreamDescriptions("SCRIPTOUTLETS", NULL, loadedOutletDescriptions);
-    }
-    if (okSoFar)
-    {
-        loadedStartingFunction = ECL_NIL;
-        loadedStoppingFunction = ECL_NIL;
-        if (getLoadedFunctionRef("SCRIPTSTARTING", 0, loadedStartingFunction))
+        if (getLoadedFunctionRef("SCRIPTSTARTING", 0, true, loadedStartingFunction))
         {
 //            cout << "function scriptStarting defined" << endl;
         }
-        if (getLoadedFunctionRef("SCRIPTSTOPPING", 0, loadedStoppingFunction))
+        if (getLoadedFunctionRef("SCRIPTSTOPPING", 0, true, loadedStoppingFunction))
         {
 //            cout << "function scriptStopping defined" << endl;
         }
-    }
-    if (okSoFar && sawThread)
-    {
-        okSoFar = getLoadedDouble("SCRIPTINTERVAL", true, true, loadedInterval);
     }
     OD_LOG_EXIT_B(okSoFar);
     return okSoFar;
@@ -1721,6 +1798,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     double        loadedInterval;
     YarpString    description;
     YarpString    helpText;
+    YarpString    missingStuff;
     ObjectVector  loadedInletHandlers;
     cl_object     loadedStartingFunction = ECL_NIL;
     cl_object     loadedStoppingFunction = ECL_NIL;
@@ -1741,9 +1819,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
         ECL_RESTART_CASE_BEGIN(env, ecl_list1(errorSymbol))
         {
             /* This form is evaluated with bound handlers. */
-            cl_object pathToUse =
-                                ecl_make_simple_base_string(const_cast<char *>(scriptPath.c_str()),
-                                                            scriptPath.length());
+            cl_object pathToUse = CreateBaseString(scriptPath.c_str(), scriptPath.length());
 
             if (ECL_NIL != pathToUse)
             {
@@ -1768,7 +1844,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
             if (validateLoadedScript(sawThread, description, helpText, loadedInletDescriptions,
                                      loadedOutletDescriptions, loadedInletHandlers,
                                      loadedStartingFunction, loadedStoppingFunction,
-                                     loadedThreadFunction, loadedInterval))
+                                     loadedThreadFunction, loadedInterval, missingStuff))
             {
                 CommonLispService * aService = new CommonLispService(argumentList, scriptPath, argc,
                                                                      argv, tag, description,
@@ -1803,9 +1879,11 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                        "loadedStoppingFunction, loadedThreadFunction, loadedInterval))"); //####
                 okSoFar = false;
 #if MAC_OR_LINUX_
-                GetLogger().fail("Script is missing one or more functions or variables.");
+                GetLogger().fail(YarpString("Script is missing one or more functions or "
+                                            "variables (") + missingStuff + ").");
 #else // ! MAC_OR_LINUX_
-                cerr << "Script is missing one or more functions or variables." << endl;
+                cerr << "Script is missing one or more functions or variables (" <<
+                        missingStuff.c_str() << ")." << endl;
 #endif // ! MAC_OR_LINUX_
             }
         }

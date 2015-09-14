@@ -89,7 +89,7 @@ namespace MplusM
             /*! @brief Return @c true if the string has wildcard characters.
              @returns @c true if there are wildcard characters in the string and @c false
              otherwise. */
-            bool hasWildcardCharacters(void)
+            inline bool hasWildcardCharacters(void)
             const
             {
                 return _hasWildcards;

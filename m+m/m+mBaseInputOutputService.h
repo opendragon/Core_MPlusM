@@ -309,6 +309,9 @@ namespace MplusM
                                const bool         stdinAvailable,
                                const bool         reportOnExit);
             
+            /*! @brief Request that the service stop as soon as possible. */
+            void requestServiceStop(void);
+            
             /*! @fn virtual void restartStreams(void)
              @brief Restart the input / output streams. */
             DECLARE_RESTARTSTREAMS_ = 0;

@@ -96,7 +96,7 @@ namespace MplusM
             
             /*! @brief Return the full set of values.
              @returns All the values in the response. */
-            yarp::os::Bottle values(void)
+            inline yarp::os::Bottle values(void)
             const
             {
                 return _values;
