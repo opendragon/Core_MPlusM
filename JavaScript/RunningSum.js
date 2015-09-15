@@ -66,6 +66,10 @@ function doCommand(aCommand, itsArgs)
             }
             break;
             
+        case 'quit' :
+            requestStop();
+            break;
+            
         case 'reset' :
             runningSum = 0;
             break;

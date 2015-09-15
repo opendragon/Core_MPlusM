@@ -975,39 +975,67 @@ void BaseInputOutputService::runService(const YarpString & helpText,
             startStreams();
         }
     }
-    for ( ; IsRunning(); )
+    for ( ; IsRunning() && (! lStopTheService); )
     {
         if ((! goWasSet) && stdinAvailable)
         {
             char inChar;
-
+            
             cout << "Operation: [? b c e q r]? ";
             cout.flush();
-            if (_needsIdle)
+            for (set_tty_cbreak(); ! lStopTheService; )
             {
-                for (set_tty_cbreak(); ; )
+                inChar = kb_getc();
+                if (inChar)
                 {
-                    inChar = kb_getc();
-                    if (inChar)
+                    cout << inChar;
+                    cout.flush();
+                    if (! isspace(inChar))
                     {
-                        cout << inChar;
-                        cout.flush();
-                        if (! isspace(inChar))
+                        break;
+                    }
+                    
+                }
+                else
+                {
+                    if (isStarted())
+                    {
+                        if (_needsIdle)
                         {
+                            doIdle();
+                        }
+                    }
+#if defined(MpM_MainDoesDelayNotYield)
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
+#else // ! defined(MpM_MainDoesDelayNotYield)
+                    yarp::os::Time::yield();
+#endif // ! defined(MpM_MainDoesDelayNotYield)
+                }
+            }
+            // Watch for a newline here!
+            if (IsRunning() && (! firstLine))
+            {
+                for ( ; ! lStopTheService; )
+                {
+                    char peekChar = kb_getc();
+                    
+                    if (peekChar)
+                    {
+                        if (isspace(peekChar))
+                        {
+                            set_tty_cooked();
                             break;
                         }
-
+                        
                     }
                     else
                     {
                         if (isStarted())
                         {
-                            doIdle();
-                            if (lStopTheService)
+                            if (_needsIdle)
                             {
-                                break;
+                                doIdle();
                             }
-                            
                         }
 #if defined(MpM_MainDoesDelayNotYield)
                         yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
@@ -1016,68 +1044,54 @@ void BaseInputOutputService::runService(const YarpString & helpText,
 #endif // ! defined(MpM_MainDoesDelayNotYield)
                     }
                 }
-                // Watch for a newline here!
-                if (IsRunning() && (! firstLine))
-                {
-                    for ( ; ; )
-                    {
-                        char peekChar = kb_getc();
-
-                        if (peekChar)
-                        {
-                            if (isspace(peekChar))
-                            {
-                                set_tty_cooked();
-                                break;
-                            }
-
-                        }
-                        else
-                        {
-                            if (isStarted())
-                            {
-                                doIdle();
-                                if (lStopTheService)
-                                {
-                                    break;
-                                }
-                                
-                            }
-#if defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                            yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                        }
-                    }
-                }
-                set_tty_cooked();
-                if (firstLine)
-                {
-                    firstLine = false;
-                }
-                else
-                {
-                    cout << endl;
-                    cout.flush();
-                }
+            }
+            set_tty_cooked();
+            if (firstLine)
+            {
+                firstLine = false;
             }
             else
             {
-                cin >> inChar;
+                cout << endl;
+                cout.flush();
             }
-            switch (inChar)
+            if (! lStopTheService)
             {
-                case '?' :
-                    // Help
-                    displayCommands(helpText, forAdapter);
-                    break;
-
-                case 'b' :
-                case 'B' :
-                    // Start streams
-                    if (! configured)
-                    {
+                switch (inChar)
+                {
+                    case '?' :
+                        // Help
+                        displayCommands(helpText, forAdapter);
+                        break;
+                        
+                    case 'b' :
+                    case 'B' :
+                        // Start streams
+                        if (! configured)
+                        {
+                            configured = Utilities::PromptForValues(_argumentList);
+                            if (configured)
+                            {
+                                Utilities::CopyArgumentsToBottle(_argumentList, configureData);
+                                if (! configure(configureData))
+                                {
+                                    configured = false;
+                                }
+                            }
+                            else
+                            {
+                                cout << "One or more values out of range." << endl;
+                            }
+                        }
+                        if (configured)
+                        {
+                            startStreams();
+                        }
+                        break;
+                        
+                    case 'c' :
+                    case 'C' :
+                        // Configure
                         configured = Utilities::PromptForValues(_argumentList);
                         if (configured)
                         {
@@ -1091,75 +1105,53 @@ void BaseInputOutputService::runService(const YarpString & helpText,
                         {
                             cout << "One or more values out of range." << endl;
                         }
-                    }
-                    if (configured)
-                    {
-                        startStreams();
-                    }
-                    break;
-
-                case 'c' :
-                case 'C' :
-                    // Configure
-                    configured = Utilities::PromptForValues(_argumentList);
-                    if (configured)
-                    {
-                        Utilities::CopyArgumentsToBottle(_argumentList, configureData);
-                        if (! configure(configureData))
+                        break;
+                        
+                    case 'e' :
+                    case 'E' :
+                        // Stop streams
+                        stopStreams();
+                        break;
+                        
+                    case 0 : // Some external event has caused us to exit!
+                    case 'q' :
+                    case 'Q' :
+                        // Quit
+                        StopRunning();
+                        cout << endl;
+                        cout.flush();
+                        break;
+                        
+                    case 'r' :
+                    case 'R' :
+                        // Restart streams
+                        if (! configured)
                         {
-                            configured = false;
-                        }
-                    }
-                    else
-                    {
-                        cout << "One or more values out of range." << endl;
-                    }
-                    break;
-
-                case 'e' :
-                case 'E' :
-                    // Stop streams
-                    stopStreams();
-                    break;
-
-                case 0 : // Some external event has caused us to exit!
-                case 'q' :
-                case 'Q' :
-                    // Quit
-                    StopRunning();
-                    cout << endl;
-                    cout.flush();
-                    break;
-
-                case 'r' :
-                case 'R' :
-                    // Restart streams
-                    if (! configured)
-                    {
-                        configured = Utilities::PromptForValues(_argumentList);
-                        if (configured)
-                        {
-                            Utilities::CopyArgumentsToBottle(_argumentList, configureData);
-                            if (! configure(configureData))
+                            configured = Utilities::PromptForValues(_argumentList);
+                            if (configured)
                             {
-                                configured = false;
+                                Utilities::CopyArgumentsToBottle(_argumentList, configureData);
+                                if (! configure(configureData))
+                                {
+                                    configured = false;
+                                }
+                            }
+                            else
+                            {
+                                cout << "One or more values out of range." << endl;
                             }
                         }
-                        else
+                        if (configured)
                         {
-                            cout << "One or more values out of range." << endl;
+                            restartStreams();
                         }
-                    }
-                    if (configured)
-                    {
-                        restartStreams();
-                    }
-                    break;
-
-                default :
-                    cout << "Unrecognized request '" << inChar << "'." << endl;
-                    break;
-                    
+                        break;
+                        
+                    default :
+                        cout << "Unrecognized request '" << inChar << "'." << endl;
+                        break;
+                        
+                }
             }
         }
         else
@@ -1167,20 +1159,12 @@ void BaseInputOutputService::runService(const YarpString & helpText,
             if (_needsIdle)
             {
                 doIdle();
-#if defined(MpM_MainDoesDelayNotYield)
-                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
             }
-            else
-            {
 #if defined(MpM_MainDoesDelayNotYield)
-                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
 #else // ! defined(MpM_MainDoesDelayNotYield)
-                yarp::os::Time::yield();
+            yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
-            }
         }
     }
     OD_LOG_OBJEXIT(); //####

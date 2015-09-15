@@ -64,6 +64,8 @@ The \CLIO{} service provides the following functions as part of the \CL{} enviro
 \begin{itemize}
 \item\textbf{\asCode{dumpObjectToStdout}(\textit{obj})} \longDash{} writes out the object
 `\textit{obj}' to the standard output, including its properties
+\item\exSp\textbf{\asCode{requestStop}()} \longDash{} signals that the service is to stop
+at the first opportunity
 \item\exSp\textbf{\asCode{sendToChannel}(\textit{n}, \textit{x})} \longDash{} converts the
 value `\textit{x}' to \yarp{} format and sends it to the channel numbered `\textit{n}',
 with zero being the first outlet channel
