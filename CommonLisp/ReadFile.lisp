@@ -36,57 +36,29 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
-;;var inStream = null;
+(setq in-stream nil)
 
 (setq scriptDescription "A script that reads values from a file")
 
 (setq scriptHelp "The first argument is the path to the input file")
 
-;;function scriptStarting()
-;;{
-;;    var okSoFar = false;
-;;    
-;;    writeLineToStdout('script starting');
-;;    if (1 < argv.length)
-;;    {
-;;        var path = argv[1];
-;;        
-;;        writeLineToStdout('path = ' + path);
-;;        inStream = new Stream();
-;;        inStream.open(path, "r");
-;;        dumpObjectToStdout('inStream:', inStream);
-;;        if (inStream.isOpen())
-;;        {
-;;            var inString;
-;;            
-;;            writeLineToStdout('inStream isOpen = true');
-;;            writeLineToStdout('inStream atEof = ' + inStream.atEof());
-;;            writeLineToStdout('inStream hasError = ' + inStream.hasError());
-;;            for ( ; ! inStream.atEof(); )
-;;            {
-;;                inString = inStream.readLine();
-;;                if (! inStream.atEof())
-;;                {
-;;                    writeLineToStdout('inStream read = "' + inString + '"');
-;;                }
-;;            }
-;;        }
-;;        okSoFar = true;
-;;    }
-;;    return okSoFar;
-;;} ;; scriptStarting
 (defun scriptStarting ()
   (format t "script starting~%")
-  ;;TBD
-  t)
+  (if (< 1 (array-dimension mmcl:argv 0))
+      (let ((file-path (aref mmcl:argv 1)))
+	(setq in-stream (open file-path :direction :input
+			       :if-does-not-exist :error))
+	(if (open-stream-p in-stream)
+	    (progn
+	      (format t "in-stream open~%")
+	      (do ((in-line (read-line in-stream nil 'eof)
+			    (read-line in-stream nil 'eof)))
+		  ((eq in-line 'eof))
+		  (format t "in-stream read = \"~A\"~%" in-line)))
+	  (setq in-stream nil))
+	t)
+    nil))
 
-;;function scriptStopping()
-;;{
-;;    writeLineToStdout('script stopping');
-;;    inStream.close();
-;;    inStream = null;
-;;} ;; scriptStopping
 (defun scriptStopping ()
   (format t "script stopping ~%")
-  ;;TBD
-  )
+  (if in-stream (close in-stream)))

@@ -77,7 +77,7 @@ var scriptDescription = 'A script that writes integer values to a file';
 
 var scriptHelp = 'The first argument is the path to the output file';
 
-var scriptInlets = [ { name: 'incoming', protocol: 'i*',
+var scriptInlets = [ { name: 'incoming', protocol: 'i+',
                         protocolDescription: 'A sequence of integer values',
                         handler: doRecordIntegers } ];
 

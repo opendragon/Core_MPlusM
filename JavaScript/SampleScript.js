@@ -64,6 +64,8 @@
 //   dumpObjectToStdout(t, x) - writes out the object 'x' to the standard output, including its
 //                              properties, with a title of 't'
 //
+//   requestStop() - signal that the service should be stopped at the next opportunity
+//
 //   sendToChannel(n, x) - converts the value 'x' to YARP format and sends it to the channel
 //                         numbered 'n', with zero being the first outlet channel
 //

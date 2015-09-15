@@ -13,10 +13,10 @@ If the installer is not run, some of the optional services may fail to build, as
 depend on pieces that are outside of the \mplusm{} source code but that are installed when
 \mplusm{} is installed.\\
 
-For example, the JavaScript Input / Output service uses the \textbf{SpiderMonkey} engine
-to support \compLang{JavaScript}-based services, but only the minimum files needed for it
-are installed by default \longDash{} in order to build the JavaScript Input / Output
-service, the header files for \textbf{SpiderMonkey}, at least, must be installed.
+For example, the JavaScript Filter service uses the \textbf{SpiderMonkey} engine to
+support \compLang{JavaScript}-based services, but only the minimum files needed for it are
+installed by default \longDash{} in order to build the JavaScript Filter service, the
+header files for \textbf{SpiderMonkey}, at least, must be installed.
 Other non\longDash{}core services may not build at all, since the files that they require
 are not Open Source and, thus, can't be built by the end\longDash{}user, but must be
 installed at some point \longDash{} which is what the distribution packages do.\\
@@ -329,10 +329,10 @@ window
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
-\textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript Input /
-Output service of \mplusm{}; the files needed to compile and link with
-\textbf{SpiderMonkey} are installed as part of the normal \mplusm{} installation
-procedure, so it's not necessary to rebuild \textbf{SpiderMonkey}.
+\textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript Filter
+service of \mplusm{}; the files needed to compile and link with \textbf{SpiderMonkey} are
+installed as part of the normal \mplusm{} installation procedure, so it's not necessary to
+rebuild \textbf{SpiderMonkey}.
 The source files are not provided with the \asCode{Developer} package, but can be obtained
 via the instructions on the web\longDash{}page
 \companyReference{https://developer.mozilla.org/en-US/docs/Mozilla/Projects/SpiderMonkey/%
@@ -430,6 +430,46 @@ standard Windows paths for program files, so the target directory is not the fin
 \item\exSp\asCode{exit}
 \end{itemize}
 \item\exSp{}Close the Command Prompt window
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~Linux}
+\begin{itemize}
+\item\TBD
+\end{itemize}
+\tertiaryEnd
+\secondaryEnd
+\secondaryStart{(Optional)~Building~\textbf{ECL}}
+\textbf{ECL} (\textit{E}mbeddable \textit{C}ommon \textit{L}isp) is the
+\compLang{Common Lisp} engine used with the CommonLisp Filter service of \mplusm{}; the
+files needed to compile and link with \textbf{ECL} are installed as part of the normal
+\mplusm{} installation procedure, so it's not necessary to rebuild \textbf{ECL}.
+The source files are not provided with the \asCode{Developer} package, but can be obtained
+via the instructions on the web\longDash{}page
+\companyReference{https://common-lisp.net/project/ecl/}{\textbf{ECL} source code}, as
+\mplusm{} does not use a modified version of \textbf{ECL} and does not depend on a
+particular version \longDash{} other than it must be at least \textbf{15.3.7}.
+\tertiaryStart{Building~on~Macintosh~OS~X}
+\begin{itemize}
+\item Select a directory to hold the \textbf{ECL} source code, which will be referred to
+as `\asCode{ecl}'; this can be a sister directory to the \asCode{\textbf{devel}}
+directory, but it need not be
+\item\exSp{}On the command\longDash{}line, execute the following commands:
+\begin{itemize}
+\item\asCode{git clone https://gitlab.com/embeddable-common-lisp/ecl.git \textbf{ecl}}
+\item\exSp\asCode{cd \textbf{ecl}}
+\item\exSp\asCode{make clean}
+\item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}enable-gengc {-}{-}with-cxx
+{-}{-}with-dffi\\
+{-}{-}enable-shared {-}{-}disable-threads {-}{-}enable-unicode {-}{-}enable-longdouble\\
+{-}{-}with-tcp {-}{-}with-clos-streams {-}{-}with-cmp {-}{-}enable-boehm}
+\item\exSp\asCode{make}
+\item\exSp\asCode{sudo make install}
+\end{itemize}
+\end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~Microsoft~Windows}
+\begin{itemize}
+\item\TBD
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~Linux}

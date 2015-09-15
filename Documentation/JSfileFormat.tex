@@ -1,11 +1,11 @@
 \ProvidesFile{JSfileFormat.tex}[v1.0.0]
 \primaryStart{The~JavaScript~File~Format}
-The \JSIO{} service loads a \JS{} file that contains a number of required and optional
+The \JSF{} service loads a \JS{} file that contains a number of required and optional
 values.
 Once loaded, the \JS{} functions and values are used to define the behaviour of the
 service itself.
 \secondaryStart{The~JavaScript~Standard~Classes}
-The \JSIO{} service provides the following standard classes as part of the \JS{}
+The \JSF{} service provides the following standard classes as part of the \JS{}
 environment:\\
 \asCode{Array}, \asCode{Boolean}, \asCode{Date}, \asCode{decodeURI},
 \asCode{decodeURIComponent}, \asCode{encodeURI}, \asCode{encodeURIComponent},
@@ -16,7 +16,7 @@ environment:\\
 \asCode{TypeError}, \asCode{undefined} and \asCode{URIError}.
 \secondaryEnd
 \secondaryStart{Service~Provided~Classes}
-The \JSIO{} service provides the following class as part of the \JS{} environment:
+The \JSF{} service provides the following class as part of the \JS{} environment:
 \tertiaryStart{Stream}
 Objects of the \asCode{Stream} class encapsulate access to standard text files on the
 system.
@@ -60,7 +60,7 @@ until \asCode{clearError}() is called.
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Service~Provided~Functions}
-The \JSIO{} service provides the following functions as part of the \JS{} environment:
+The \JSF{} service provides the following functions as part of the \JS{} environment:
 \begin{itemize}
 \item\textbf{\asCode{dumpObjectToStdout}(\textit{obj})} \longDash{} writes out the object
 `\textit{obj}' to the standard output, including its properties
@@ -74,7 +74,7 @@ with zero being the first outlet channel
 \end{itemize}
 \secondaryEnd
 \secondaryStart{Service~Provided~Values}
-The \JSIO{} service provides the following values as part of the \JS{} environment:
+The \JSF{} service provides the following values as part of the \JS{} environment:
 \begin{itemize}
 \item\exSp\textbf{\asCode{argv}\openSq\closeSq} \longDash{} a list of the arguments passed
 to the script
@@ -83,14 +83,14 @@ script
 \end{itemize}
 \secondaryEnd
 \secondaryStart{The~Required~Values}
-The \JSIO{} service requires that the following values are supplied by the \JS{} file:
+The \JSF{} service requires that the following values are supplied by the \JS{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptDescription}} \longDash{} a variable or a function that
 provides a string describing the script; if defined as a function, it takes no arguments
 \end{itemize}
 \secondaryEnd
 \secondaryStart{The~Optional~Values}
-The \JSIO{} service will use the following values, if they are supplied by the \JS{} file:
+The \JSF{} service will use the following values, if they are supplied by the \JS{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptHelp}} \longDash{} a variable or a function that provides a
 string that can be presented to the user when requested by the `\asCode{?}' command; note

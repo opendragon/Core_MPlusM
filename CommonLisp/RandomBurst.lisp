@@ -40,30 +40,28 @@
 
 (setq scriptDescription "A script that generates random blocks of floating-point numbers")
 
-(setq scriptHelp "The first argument is the burst period and the second argument is the burst size")
+(setq scriptHelp
+      "The first argument is the burst period and the second argument is the burst size")
 
-;;;; Note that the following function processes both arguments, since it will be called at a specific
-;;;; point in the execution sequence.
+(defun numberOr1 (inValue)
+  (if (numberp inValue) inValue 1))
+
+;; Note that the following function processes both arguments, since it will be called at a
+;; specific point in the execution sequence.
 (defun scriptInterval ()
-  (let* (argCount interval)
-    (setq argCount (array-dimension mmcl:argv 0))
-    (cond
-     ((< 1 argCount)
-      (setq interval
-	    (let* ((*read-default-float-format* 'double-float))
-	      (read-from-string (aref mmcl:argv 1))))
-      (setq interval (cond ((numberp interval) interval)
-			   (t 1)))
-      (cond
-       ((< 2 argCount)
-	(setq burstSize (parse-integer (aref mmcl:argv 2) :junk-allowed t))
-	(setq burstSize (cond ((numberp burstSize) burstSize)
-			      (t 1))))
-       (t (setq burstSize 1))))
-     (t (setq burstSize 1) (setq interval 1)))
+  (let* ((argCount (array-dimension mmcl:argv 0)) interval)
+    (if (< 1 argCount)
+	(setq interval (numberOr1 (let* ((*read-default-float-format* 'double-float))
+				    (read-from-string (aref mmcl:argv 1))))
+	      burstSize (if (< 2 argCount)
+			    (numberOr1 (parse-integer (aref mmcl:argv 2) :junk-allowed t))
+			  1))
+      (setq burstSize 1 interval 1))
     interval))
 
-(setq scriptOutlets (make-array '(1) :initial-element (create-outlet-entry "outgoing" "d+" "One or more numberic values")))
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "d+"
+						     "One or more numeric values")))
 
 (defun scriptThread ()
   (let* (outList)

@@ -39,35 +39,12 @@
 
 ;; Classes available to Common Lisp code:
 ;;
-;;   Stream: objects that connect to external text files
-;;     atEof() - returns true if the file is at end-of-file
-;;     clearError() - clears the end-of-file and error flags
-;;     close() - disconnects from the external file
-;;     hasError() - returns true if the error flag was set by a previous operation
-;;     isOpen() - returns true if there is an external file connected
-;;     open(fn, fm) - connects to an external file at path 'fn' with mode 'fm' [mode can be 'r',
-;;                    'w', et cetera]
-;;     readCharacter() - returns a string containing the next non-blank character from the external
-;;                       file
-;;     readLine() - returns a string containing the next line from the external file
-;;     readNumber() - returns the next numeric value from the external file, or zero. Note that EOF
-;;                    or error will be set if the number could not be read
-;;     readString() - returns a string from the external file; if the string starts with '"' or "'",
-;;                    it ends with the same character while, otherwise it starts with the next
-;;                    non-blank character and ends when a blank is read
-;;     rewind() - moves back to the beginning of the external file
-;;     write(...) - writes the arguments, as strings, to the external file
-;;     writeLine(...) - writes the arguments, as strings, to the external file and adds a newline
-;;
 ;; Functions available to Common Lisp code:
 ;;
-;;   (dumpObjectToStdout t x) - writes out the object 'x' to the standard output, with a title of
-;;                              't'
+;;   (requestStop) - signal that the service should be stopped at the next opportunity
 ;;
 ;;   (sendToChannel n x) - converts the value 'x' to YARP format and sends it to the channel
 ;;                         numbered 'n', with zero being the first outlet channel
-;;
-;;   (writeLineToStdout x) - writes the string 'x' to the standard output.
 ;;
 ;; Global variables available to Common Lisp code:
 ;;
@@ -81,28 +58,28 @@
 ;;
 ;; Values that may be provided by the Common Lisp code:
 ;;
-;;   scriptHelp:       a variable or a function that provides a string that can be presented to the
-;;                     user when requested by the '?' command; note that it should not end with a
-;;                     newline
+;;   scriptHelp:      a variable or a function that provides a string that can be presented to the
+;;                    user when requested by the '?' command; note that it should not end with a
+;;                    newline
 ;;
-;;   scriptInlets:     a variable or a function that provides an array of inlet descriptions [name,
-;;                     protocol, protocolDescription, handler]; note that this is ignored if
-;;                     scriptThread() is defined
+;;   scriptInlets:    a variable or a function that provides an array of inlet descriptions [name,
+;;                    protocol, protocolDescription, handler]; note that this is ignored if
+;;                    scriptThread is defined
 ;;
-;;   scriptInterval:   a variable or a function that provides the interval between executions of the
-;;                     scriptThread() function; note that this is ignored if scriptThread() is not
-;;                     defined, and it is executed only once, after all the other values have been
-;;                     processed
+;;   scriptInterval:  a variable or a function that provides the interval between executions of the
+;;                    scriptThread function; note that this is ignored if scriptThread is not
+;;                    defined, and it is executed only once, after all the other values have been
+;;                    processed
 ;;
-;;   scriptOutlets:    a variable or a function that provides an array of outlet descriptions [name,
-;;                     protocol, protocolDescription]
+;;   scriptOutlets:   a variable or a function that provides an array of outlet descriptions [name,
+;;                    protocol, protocolDescription]
 ;;
-;;   scriptStarting(): a function that is called before any inlets are attached or threads started
+;;   scriptStarting: a function that is called before any inlets are attached or threads started
 ;;
-;;   scriptStopping(): a function that is called after all the inlets are detached and threads are
-;;                     stopped
+;;   scriptStopping: a function that is called after all the inlets are detached and threads are
+;;                   stopped
 ;;
-;;   scriptThread():   a function that is repeatedly called by the output thread of the service
+;;   scriptThread:   a function that is repeatedly called by the output thread of the service
 ;;
 ;; Order of reference / execution:
 ;;
@@ -151,7 +128,7 @@
 (defun hereWeGo ()
   (format t "inside hereWeGo~%"))
 
-(setq yy ())
+(setq yy nil)
 
 (setq zz (make-hash-table))
 (psetf (gethash 'aa zz) "first"
@@ -167,6 +144,9 @@
 (format t "argv:~%~A~%tag is \"~A\"~%" mmcl:argv mmcl:scriptTag)
 
 ;; The real stuff:
+
+(defun numberOr1 (inValue)
+  (if (numberp inValue) inValue 1))
 
 (defun handleOurInput (portNumber incomingData)
   (format t "input on port ~S~%" portNumber)
@@ -184,20 +164,19 @@
 ;; The following function will either generate one inlet, called 'incoming' or a set of inlets,
 ;; called 'incoming#',
 (defun scriptInlets ()
-  (let* (inlets inletCount anInlet)
-    (setq inletCount (cond ((< 1 (array-dimension mmcl:argv 0))
-			    (parse-integer (aref mmcl:argv 1) :junk-allowed t))
-			   (t 1)))
-    (setq inletCount (cond ((numberp inletCount) inletCount)
-			   (t 1)))
-    (setq inlets (make-array (list inletCount)))
-    (cond ((< 1 inletCount)
-	   (dotimes (ii inletCount)
-	     (setf (aref inlets ii) (create-inlet-entry (format nil "incoming~D" ii) "*" "Anything" 'handleOurInput))))
-	  (t (setf (aref inlets 0) (create-inlet-entry "incoming" "*" "Anything" 'handleOurInput))))
-    inlets))
+  (let ((inletCount (numberOr1 (if (< 1 (array-dimension mmcl:argv 0))
+				    (parse-integer (aref mmcl:argv 1) :junk-allowed t)
+				 1))))
+    (let ((inlets (make-array (list inletCount))))
+      (if (< 1 inletCount)
+	  (dotimes (ii inletCount)
+	    (setf (aref inlets ii)
+		  (create-inlet-entry (format nil "incoming~D" ii) "*" "Anything" 'handleOurInput)))
+	(setf (aref inlets 0) (create-inlet-entry "incoming" "*" "Anything" 'handleOurInput)))
+      inlets)))
 
-(setq scriptOutlets (make-array '(1) :initial-element (create-outlet-entry "outgoing" "*" "Anything")))
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "*" "Anything")))
 
 ;; The 'scriptStarting' and 'scriptStopping' functions are optional; if 'scriptStarting' returns
 ;; the boolean value true, it's OK to proceed. If, instead, it returns something else, the script

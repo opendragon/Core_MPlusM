@@ -53,8 +53,8 @@ input handler.
 \condPage
 \secondaryStart{RunningSum.js}
 This script reproduces the behaviour of the example service,
-\emph{m+mRunningSumService}; it accepts commands (`\asBoldCode{add}' and
-`\asBoldCode{reset}') and tallies up the values coming from its inlet.
+\emph{m+mRunningSumService}; it accepts commands (`\asBoldCode{add}', `\asBoldCode{quit}'
+and `\asBoldCode{reset}') and tallies up the values coming from its inlet.
 \codeBegin
 \begin{listing}[5]{1}
 var runningSum = 0;
@@ -183,7 +183,7 @@ var scriptDescription = 'A script that writes integer values to a file';
 
 var scriptHelp = 'The first argument is the path to the output file';
 
-var scriptInlets = [ { name: 'incoming', protocol: 'i*',
+var scriptInlets = [ { name: 'incoming', protocol: 'i+',
                         protocolDescription: 'A sequence of integer values',
                         handler: doRecordIntegers } ];
 

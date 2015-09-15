@@ -37,17 +37,16 @@
 ;;--------------------------------------------------------------------------------------------------
 
 (defun truncAValue (inValue)
-  (cond	((numberp inValue) (truncate inValue))
-	(t inValue)))
-
+  (if (numberp inValue) (truncate inValue) inValue))
+  
 (defun doTruncateFloat (portNumber incomingData)
   (let* (outValues)
-    (cond ((arrayp incomingData)
-	   (setq outSize (array-dimension incomingData 0))
-	   (setq outValues (make-array (list outSize)))
-	   (dotimes (ii outSize)
-	     (setf (aref outValues ii) (truncAValue (aref incomingData ii)))))
-	  (t (setq outValues (truncAValue incomingData))))
+    (if (arrayp incomingData)
+	(let ((outSize (array-dimension incomingData 0)))
+	  (setq outValues (make-array (list outSize)))
+	  (dotimes (ii outSize)
+	    (setf (aref outValues ii) (truncAValue (aref incomingData ii)))))
+      (setq outValues (truncAValue incomingData)))
     (sendToChannel 0 outValues)))
 
 (setq scriptDescription "A script that truncates floating-point numbers")

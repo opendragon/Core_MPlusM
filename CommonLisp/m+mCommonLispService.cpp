@@ -44,7 +44,7 @@
 
 #include <m+m/m+mEndpoint.h>
 
-#include <odl/ODEnableLogging.h>
+//#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
 #if defined(__APPLE__)
@@ -736,9 +736,6 @@ DEFINE_DISABLEMETRICS_(CommonLispService)
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::disableMetrics
 
-#include <odl/ODDisableLogging.h>
-#include <odl/ODLogging.h>
-
 DEFINE_DOIDLE_(CommonLispService)
 {
     OD_LOG_OBJENTER(); //####
@@ -747,8 +744,6 @@ DEFINE_DOIDLE_(CommonLispService)
         OD_LOG("(isActive())"); //####
         if (_goAhead.check())
         {
-#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
             OD_LOG("(_goAhead.check())"); //####
             if (ECL_NIL == _scriptThreadFunc)
             {
@@ -823,15 +818,10 @@ DEFINE_DOIDLE_(CommonLispService)
                     throw;
                 }
             }
-#include <odl/ODDisableLogging.h>
-#include <odl/ODLogging.h>
         }
     }
     OD_LOG_OBJEXIT(); //####
 } // CommonLispService::doIdle
-
-#include <odl/ODEnableLogging.h>
-#include <odl/ODLogging.h>
 
 DEFINE_ENABLEMETRICS_(CommonLispService)
 {
@@ -1167,156 +1157,3 @@ cl_object CommonLisp::CreateBaseString(const char * inString,
     OD_LOG_EXIT_P(result); //####
     return result;
 } // CreateBaseString
-
-#if 0
-std::ostream & CommonLisp::PrintCommonLispObject(std::ostream &     outStream,
-                                                 JSContext *        jct,
-                                                 JS::RootedObject & anObject,
-                                                 const int          depth)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
-    OD_LOG_L1("depth = ", depth); //####
-    JS::AutoIdArray ids(jct, JS_Enumerate(jct, anObject));
-    
-    // Note that only operator! is defined, so we need to do a 'double-negative'.
-    if (!! ids)
-    {
-        bool okSoFar = true;
-        
-        for (size_t ii = 0, len = ids.length(); (len > ii) && okSoFar; ++ii)
-        {
-            JS::RootedValue key(jct);
-            
-            if (JS_IdToValue(jct, ids[ii], &key))
-            {
-                PrintCommonLispValue(outStream, jct, "id = ", key, depth);
-            }
-            else
-            {
-                okSoFar = false;
-            }
-            if (okSoFar)
-            {
-                JS::RootedValue result(jct);
-                JS::RootedId    aRootedId(jct);
-                
-                aRootedId = ids[ii];
-                if (JS_GetPropertyById(jct, anObject, aRootedId, &result))
-                {
-                    PrintCommonLispValue(outStream, jct, ", property = ", result, 0);
-                }
-                else
-                {
-                    okSoFar = false;
-                }
-                if (okSoFar)
-                {
-                    if (result.isObject())
-                    {
-                        JS::RootedObject asObject(jct);
-                        
-                        if (JS_ValueToObject(jct, result, &asObject))
-                        {
-                            if (JS_IsArrayObject(jct, result))
-                            {
-                                outStream << "array";
-                                uint32_t arrayLength;
-                                
-                                if (JS_GetArrayLength(jct, asObject, &arrayLength))
-                                {
-                                    outStream << ", size = " << arrayLength;
-                                }
-                            }
-                            else if (JS_ObjectIsFunction(jct, asObject))
-                            {
-                                outStream << "function";
-                                JSFunction * asFunction = JS_ValueToFunction(jct, result);
-                                
-                                if (asFunction)
-                                {
-                                    outStream << ", arity = " << JS_GetFunctionArity(asFunction);
-                                    if (! JS::IsCallable(asObject))
-                                    {
-                                        outStream << ", not callable";
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                outStream << "object";
-                            }
-                        }
-                        else
-                        {
-                            okSoFar = false;
-                        }
-                        outStream << endl;
-                        if (okSoFar)
-                        {
-                            PrintCommonLispObject(outStream, jct, asObject, depth + 1);
-                        }
-                    }
-                    else
-                    {
-                        outStream << endl;
-                    }
-                }
-            }
-        }
-    }
-    OD_LOG_EXIT_P(&outStream); //####
-    return outStream;
-} // CommonLisp::PrintCommonLispObject
-
-std::ostream & CommonLisp::PrintCommonLispValue(std::ostream &    outStream,
-                                                JSContext *       jct,
-                                                const char *      caption,
-                                                JS::RootedValue & value,
-                                                const int         depth)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("outStream = ", &outStream, "jct = ", jct, "value = ", &value); //####
-    OD_LOG_S1("caption = ", caption); //####
-    if (0 < depth)
-    {
-        outStream.width(depth);
-        outStream << " ";
-    }
-    cout << caption;
-    if (value.isString())
-    {
-        JSString * asString = value.toString();
-        char *     asChars = JS_EncodeString(jct, asString);
-        
-        outStream << "string(" << asChars << ")";
-        JS_free(jct, asChars);
-    }
-    else if (value.isObject())
-    {
-        // Objects will be processed separately.
-    }
-    else if (value.isInt32())
-    {
-        outStream << "int32(" << value.toInt32() << ")";
-    }
-    else if (value.isBoolean())
-    {
-        outStream << "boolean(" << (value.toBoolean() ? "true" : "false") << ")";
-    }
-    else if (value.isDouble())
-    {
-        outStream << "double(" << value.toDouble() << ")";
-    }
-    else if (value.isNullOrUndefined())
-    {
-        outStream << "null or undefined";
-    }
-    else
-    {
-        outStream << "other";
-    }
-    OD_LOG_EXIT_P(&outStream); //####
-    return outStream;
-} // CommonLisp::PrintCommonLispValue
-#endif//0

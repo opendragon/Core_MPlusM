@@ -6,130 +6,88 @@ This script reproduces the behaviour of the example service,
 numbers and sends the corresponding integral values.
 \codeBegin
 \begin{listing}[5]{1}
-function doTruncateFloat(portNumber, incomingData)
-{
-    var aValue;
-    var outValues;
-    
-    if (Array.isArray(incomingData))
-    {
-        outValues = [];
-        for (var ii = 0, mm = incomingData.length; mm > ii; ++ii)
-        {
-            aValue = Number(incomingData[ii]);
-            if (! isNaN(aValue))
-            {
-                outValues.push(Math.floor(aValue));
-            }
-        }
-    }
-    else
-    {
-        aValue = Number(incomingData);
-        if (! isNaN(aValue))
-        {
-            outValues = Math.floor(aValue);
-        }
-    }
-    sendToChannel(0, outValues);
-} // doTruncateFloat
+(defun truncAValue (inValue)
+  (if (numberp inValue) (truncate inValue) inValue))
+  
+(defun doTruncateFloat (portNumber incomingData)
+  (let* (outValues)
+    (if (arrayp incomingData)
+	(let ((outSize (array-dimension incomingData 0)))
+	  (setq outValues (make-array (list outSize)))
+	  (dotimes (ii outSize)
+	    (setf (aref outValues ii) (truncAValue (aref incomingData ii)))))
+      (setq outValues (truncAValue incomingData)))
+    (sendToChannel 0 outValues)))
 
-var scriptDescription = 'A script that truncates floating-point numbers';
+(setq scriptDescription "A script that truncates floating-point numbers")
 
-var scriptInlets = [ { name: 'incoming', protocol: 'd*',
-                        protocolDescription: 'A sequence of floating-point numbers',
-                        handler: doTruncateFloat } ];
+(setq scriptInlets (make-array '(1) :initial-element
+			       (create-inlet-entry "incoming" "d+"
+						   "A sequence of floating-point numbers"
+						   'doTruncateFloat)))
 
-var scriptOutlets = [ { name: 'outgoing', protocol: 'i*',
-                        protocolDescription: 'A sequence of integers' } ];
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "i+"
+						     "A sequence of integers")))
 \end{listing}
 \codeEnd{}
-The function \asCode{doTruncateFloat}(), defined on lines \asCode{1}\longDash\asCode{27},
+The function \asCode{doTruncateFloat}, defined on lines \asCode{4}\longDash\asCode{12},
 acts as the input handler for the inlet stream, defined on lines
-\asCode{31}\longDash\asCode{33}.
-The function \asCode{isNaN}() is used to protect against invalid data received by the
-input handler.
+\asCode{16}\longDash\asCode{19}.
 \secondaryEnd
 \condPage
 \secondaryStart{RunningSum.lisp}
 This script reproduces the behaviour of the example service,
-\emph{m+mRunningSumService}; it accepts commands (`\asBoldCode{add}' and
-`\asBoldCode{reset}') and tallies up the values coming from its inlet.
+\emph{m+mRunningSumService}; it accepts commands (`\asBoldCode{addtosum}',
+`\asBoldCode{quit}', `\asBoldCode{resetsum}', `\asBoldCode{startsum}' and
+`\asBoldCode{stopsum}') and tallies up the values coming from its inlet.
 \codeBegin
 \begin{listing}[5]{1}
-var runningSum = 0;
+(setq summing nil)
+(setq runningSum 0)
 
-function doCommand(aCommand, itsArgs)
-{
-    var aValue;
-    
-    switch (aCommand)
-    {
-        case 'add' :
-            if (Array.isArray(itsArgs))
-            {
-                for (var ii = 0, mm = itsArgs.length; mm > ii; ++ii)
-                {
-                    aValue = Number(itsArgs[ii]);
-                    if (! isNaN(aValue))
-                    {
-                        runningSum += Number(aValue);
-                    }
-                }
-            }
-            else
-            {
-                aValue = Number(itsArgs);
-                if (! isNaN(aValue))
-                {
-                    runningSum += Number(aValue);
-                }
-            }
-            break;
-            
-        case 'reset' :
-            runningSum = 0;
-            break;
-            
-        default :
-            break;
-            
-    }
-} // doCommand
+(defun do-a-command (aCommand)
+  (cond ((numberp aCommand)
+	 (incf runningSum (if summing aCommand 0)))
+	((stringp aCommand)
+	 (setq bCommand (string-downcase aCommand))
+	 (cond ((string= "addtosum" bCommand))
+	       ((string= "quit" bCommand) (requestStop))
+	       ((string= "resetsum" bCommand) (setq runningSum 0))
+	       ((string= "startsum" bCommand) (setq summing t))
+	       ((string= "stopsum" bCommand) (setq summing nil))
+	       (t (format t "unrecognized~%"))))
+	(t (format t "no match for ~A~%" aCommand))))
 
-function doRunningSum(portNumber, incomingData)
-{
-    if (Array.isArray(incomingData))
-    {
-        var cmd = String(incomingData.shift());
-        
-        doCommand(cmd, incomingData);
-    }
-    else
-    {
-        doCommand(String(incomingData), []);
-    }
-    sendToChannel(0, runningSum);
-} // doRunningSum
+(defun do-input-sequence (incomingData)
+  (cond
+   ((stringp incomingData)
+    (do-a-command incomingData))
+   ((arrayp incomingData)
+    (dotimes (ii (array-dimension incomingData 0))
+      (do-input-sequence (aref incomingData ii))))
+   (t (do-a-command incomingData))))
 
-var scriptDescription = 'A script that calculates running sums';
+(defun doRunningSum (portNumber incomingData)
+  (do-input-sequence incomingData)
+  (sendToChannel 0 runningSum))
 
-var scriptInlets = [ { name: 'incoming', protocol: 'sd*',
-                        protocolDescription: 'A command and data',
-                        handler: doRunningSum } ];
+(setq scriptDescription "A script that calculates running sums")
 
-var scriptOutlets = [ { name: 'outgoing', protocol: 'd',
-                        protocolDescription: 'The running sum' } ];
+(setq scriptInlets (make-array '(1) :initial-element
+			       (create-inlet-entry "incoming" "sd*" "A command and data"
+						   'doRunningSum)))
+
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "d" "The running sum")))
 \end{listing}
 \codeEnd{}
-The function \asCode{doRunningSum}(), defined on lines \asCode{41}\longDash\asCode{54},
+The function \asCode{doRunningSum}, defined on lines \asCode{26}\longDash\asCode{28},
 acts as the input handler for the inlet stream, defined on lines
-\asCode{58}\longDash\asCode{60}.\\
+\asCode{32}\longDash\asCode{34}.\\
 
-The function \asCode{doCommand}(), defined on lines \asCode{3}\longDash\asCode{39}, parses
-the commands sent to the script \longDash{} note the use of string values as \asCode{case}
-expressions to simplify the command interpretation and the use of the function
-\asCode{isNaN}() to protect against invalid data received by the input handler.
+The function \asCode{do-a-command}, defined on lines \asCode{4}\longDash\asCode{15},
+parses the commands sent to the script.
 \secondaryEnd
 \condPage
 \secondaryStart{RecordIntegers.lisp}
@@ -138,98 +96,54 @@ This script reproduces the behaviour of the example service,
 a text file.
 \codeBegin
 \begin{listing}[5]{1}
-var outStream = null;
+(setq out-stream nil)
 
-function doRecordIntegers(portNumber, incomingData)
-{
-    var aValue;
-    
-    if (Array.isArray(incomingData))
-    {
-        var mm = incomingData.length;
-        
-        for (var ii = 0; mm > ii; ++ii)
-        {
-            if (0 < ii)
-            {
-                outStream.write(' ');
-            }
-            aValue = Number(incomingData[ii]);
-            if (! isNaN(aValue))
-            {
-                outStream.write(aValue);
-            }
-        }
-        if (0 < mm)
-        {
-            outStream.writeLine('');
-        }
-    }
-    else
-    {
-        aValue = Number(incomingData);
-        if (! isNaN(aValue))
-        {
-            outStream.writeLine(aValue);
-        }
-    }
-} // doRecordIntegers
+(defun doRecordIntegers (portNumber incomingData)
+  (if (arrayp incomingData)
+      (let ((outSize (array-dimension incomingData 0)))
+	(dotimes (ii outSize)
+	  (format out-stream (if (< 0 ii) " ~A" "~A") (aref incomingData ii)))
+	(if (< 0 outSize) (format out-stream "~%")))
+    (format out-stream "~A~%" incomingData)))
 
-var scriptDescription = 'A script that writes integer values to a file';
+(setq scriptDescription "A script that writes integer values to a file")
 
-var scriptHelp = 'The first argument is the path to the output file';
+(setq scriptHelp "The first argument is the path to the output file")
 
-var scriptInlets = [ { name: 'incoming', protocol: 'i*',
-                        protocolDescription: 'A sequence of integer values',
-                        handler: doRecordIntegers } ];
+(setq scriptInlets (make-array '(1) :initial-element
+			       (create-inlet-entry "incoming" "i+"
+						   "A sequence of integer values"
+						   'doRecordIntegers)))
 
-function scriptStarting()
-{
-    var okSoFar = false;
-    
-    writeLineToStdout('script starting');
-    dumpObjectToStdout('argv:', argv);
-    if (1 < argv.length)
-    {
-        var path = argv[1];
-        
-        writeLineToStdout('path = ' + path);
-        outStream = new Stream();
-        outStream.open(path, "w");
-        dumpObjectToStdout('outStream:', outStream);
-        if (outStream.isOpen())
-        {
-            writeLineToStdout('outStream isOpen = true');
-            writeLineToStdout('outStream atEof = ' + outStream.atEof());
-            writeLineToStdout('outStream hasError = ' + outStream.hasError());
-        }
-        okSoFar = true;
-    }
-    return okSoFar;
-} // scriptStarting
+(defun scriptStarting ()
+  (format t "script starting~%")
+  (if (< 1 (array-dimension mmcl:argv 0))
+      (let ((file-path (aref mmcl:argv 1)))
+	(setq out-stream (open file-path :direction :output
+			       :if-exists :overwrite
+			       :if-does-not-exist :create))
+	(if (open-stream-p out-stream)
+	    (format t "out-stream open~%")
+	  (setq out-stream nil))
+	t)
+    nil))
 
-function scriptStopping()
-{
-    writeLineToStdout('script stopping');
-    outStream.close();
-    outStream = null;
-} // scriptStopping
+(defun scriptStopping ()
+  (format t "script stopping~%")
+  (if out-stream (close out-stream)))
 \end{listing}
 \codeEnd{}
-The function \asCode{doRecordIntegers}(), defined on lines \asCode{3}\longDash\asCode{36},
+The function \asCode{doRecordIntegers}, defined on lines \asCode{3}\longDash\asCode{9},
 acts as the input handler for the inlet stream, defined on lines
-\asCode{42}\longDash\asCode{44}.\\
+\asCode{15}\longDash\asCode{18}.\\
 
-The function \asCode{scriptStarting}(), defined on lines \asCode{46}\longDash\asCode{69},
-is executed as soon as the script is loaded, and the function \asCode{scriptStopping}(),
-defined on lines \asCode{71}\longDash\asCode{76}, is executed after the main function of
+The function \asCode{scriptStarting}, defined on lines \asCode{20}\longDash\asCode{31},
+is executed as soon as the script is loaded, and the function \asCode{scriptStopping},
+defined on lines \asCode{33}\longDash\asCode{35}, is executed after the main function of
 the script stops.\\
 
-Note the use of the function \asCode{writeLineToStdout}() as a means of communicating the
-script status to the user, the use of the function \asCode{isNaN}() to protect
-against invalid data received by the input handler and the presence of a
-\asCode{scriptHelp} string, defined on line \asCode{40}, which is used with the \textbf{?}
-application command.
+Note the presence of a \asCode{scriptHelp} string, defined on line \asCode{13}, which is
+used with the \textbf{?} application command.
 \secondaryEnd
 \condPage
 \secondaryStart{RandomBurst.lisp}
@@ -238,68 +152,46 @@ This script reproduces the behaviour of the example service,
 its outlet.
 \codeBegin
 \begin{listing}[5]{1}
-var burstSize;
+(setq burstSize 1)
 
-var scriptDescription = 'A script that generates random blocks of floating-point numbers';
+(setq scriptDescription "A script that generates random blocks of floating-point numbers")
 
-var scriptHelp = 'Argument 1 is the burst period and argument 2 is the burst size';
+(setq scriptHelp
+      "The first argument is the burst period and the second argument is the burst size")
 
-// Note that the following function processes both arguments, since it will be called at
-// a specific point in the execution sequence.
-function scriptInterval()
-{
-    var interval;
-    var inlets = [];
-    
-    if (1 < argv.length)
-    {
-        interval = parseInt(argv[1]);
-        if (isNaN(interval))
-        {
-            interval = 1;
-        }
-        if (2 < argv.length)
-        {
-            burstSize = parseInt(argv[2]);
-            if (isNaN(burstSize))
-            {
-                burstSize = 1;
-            }
-        }
-        else
-        {
-            burstSize = 1;
-        }
-    }
-    else
-    {
-        burstSize = 1;
-        interval = 1;
-    }
-    writeLineToStdout('burst interval is ' + interval + ' and burst size is ' + burstSize);
-    return interval;
-} // scriptInterval
+(defun numberOr1 (inValue)
+  (if (numberp inValue) inValue 1))
 
-var scriptOutlets = [ { name: 'output', protocol: 'd+',
-                        protocolDescription: 'One or more numeric values' } ];
+;; Note that the following function processes both arguments, since it will be called at a
+;; specific point in the execution sequence.
+(defun scriptInterval ()
+  (let* ((argCount (array-dimension mmcl:argv 0)) interval)
+    (if (< 1 argCount)
+	(setq interval (numberOr1 (let* ((*read-default-float-format* 'double-float))
+				    (read-from-string (aref mmcl:argv 1))))
+	      burstSize (if (< 2 argCount)
+			    (numberOr1 (parse-integer (aref mmcl:argv 2) :junk-allowed t))
+			  1))
+      (setq burstSize 1 interval 1))
+    interval))
 
-function scriptThread()
-{
-    var outList = [];
-    
-    for (var ii = 0; burstSize > ii; ++ii)
-    {
-        outList[ii] = (10000 * Math.random());
-    }
-    sendToChannel(0, outList);
-} // scriptThread
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "d+"
+						     "One or more numeric values")))
+
+(defun scriptThread ()
+  (let* (outList)
+    (setq outList (make-array (list burstSize)))
+    (dotimes (ii burstSize)
+      (setf (aref outList ii) (* 10000 (random 1.0))))
+    (sendToChannel 0 outList)))
 \end{listing}
 \codeEnd{}
-The function \asCode{scriptThread}(), defined on lines \asCode{46}\longDash\asCode{55}, is
+The function \asCode{scriptThread}, defined on lines \asCode{28}\longDash\asCode{33}, is
 executed repetitively, at an interval defined by the output of the function
-\asCode{scriptInterval}(), defined on lines \asCode{9}\longDash\asCode{41}.\\
+\asCode{scriptInterval}, defined on lines \asCode{13}\longDash\asCode{22}.\\
 
-Note that the \asCode{scriptInterval}() function processes the arguments to the script and
+Note that the \asCode{scriptInterval} function processes the arguments to the script and
 records the size of the burst as well as the burst period, before returning the burst
 period as its result.
 \secondaryEnd

@@ -1,96 +1,44 @@
 \ProvidesFile{CLfileFormat.tex}[v1.0.0]
 \primaryStart{The~Common~Lisp~File~Format}
-The \CLIO{} service loads a \CL{} file that contains a number of required and optional
+The \CLF{} service loads a \CL{} file that contains a number of required and optional
 values.
 Once loaded, the \CL{} functions and values are used to define the behaviour of the
 service itself.
-\secondaryStart{The~JavaScript~Standard~Classes}
-The \CLIO{} service provides the following standard classes as part of the \CL{}
-environment:\\
-\asCode{Array}, \asCode{Boolean}, \asCode{Date}, \asCode{decodeURI},
-\asCode{decodeURIComponent}, \asCode{encodeURI}, \asCode{encodeURIComponent},
-\asCode{Error}, \asCode{eval}, \asCode{EvalError}, \asCode{Function}, \asCode{Infinity},
-\asCode{isNaN}, \asCode{isFinite}, \asCode{Math}, \asCode{NaN}, \asCode{Number},
-\asCode{Object}, \asCode{parseInt}, \asCode{parseFloat}, \asCode{RangeError},
-\asCode{ReferenceError}, \asCode{RegExp}, \asCode{String}, \asCode{SyntaxError},
-\asCode{TypeError}, \asCode{undefined} and \asCode{URIError}.
+\secondaryStart{The~Common~Lisp~Standard~Classes}
+The \CLF{} service provides the standard classes of ECL (Embeddable Common Lisp) as part
+of the \CL{} environment.
 \secondaryEnd
 \secondaryStart{Service~Provided~Classes}
-The \CLIO{} service provides the following class as part of the \CL{} environment:
-\tertiaryStart{Stream}
-Objects of the \asCode{Stream} class encapsulate access to standard text files on the
-system.
-They have the following function properties:
-\begin{itemize}
-\item\textbf{\asCode{atEof}()} \longDash{} returns \asCode{true} if the file is at
-end\longDash{}of\longDash{}file
-\item\exSp\textbf{\asCode{clearError}()} \longDash{} clears the
-end\longDash{}of\longDash{}file and error flags
-\item\exSp\textbf{\asCode{close}()} \longDash{} disconnects from the external file
-\item\exSp\textbf{\asCode{hasError}()} \longDash{} returns \asCode{true} if the error flag
-was set by a previous operation
-\item\exSp\textbf{\asCode{isOpen}()} \longDash{} returns \asCode{true} if there is an
-external file connected
-\item\exSp\textbf{\asCode{open}(\textit{fn}, \textit{fm})} \longDash{} connects to an
-external file at path `\textit{fn}' with mode `\textit{fm}' \openSq{}mode can be
-\asCode{"r"}, \asCode{"w"}, et cetera\closeSq
-\item\exSp\textbf{\asCode{readCharacter}()} \longDash{} returns a string containing the
-next non\longDash{}blank character from the external file
-\item\exSp\textbf{\asCode{readLine}()} \longDash{} returns a string containing the next
-line from the external file
-\item\exSp\textbf{\asCode{readNumber}()} \longDash{} returns the next numeric value from
-the external file, or zero; note that end\longDash{}of\longDash{}file or error will be set
-if the number could not be read
-\item\exSp\textbf{\asCode{readString}()} \longDash{} returns a string from the external
-file; if the string starts with \asCode{"} or \asCode{'}, it ends with the same character
-while, otherwise, it starts with the next non\longDash{}blank character and ends when a
-blank is read
-\item\exSp\textbf{\asCode{rewind}()} \longDash{} moves back to the beginning of the
-external file
-\item\exSp\textbf{\asCode{write}(\textellipsis)} \longDash{} writes the arguments, as
-strings, to the external file
-\item\exSp\textbf{\asCode{writeLine}(\textellipsis)} \longDash{} writes the arguments, as
-strings, to the external file and adds a newline
-\end{itemize}
-A \asCode{Stream} object can only be used between calls to its \asCode{open}() and
-\asCode{close}() functions; if reading a file and \asCode{atEof}() returns \asCode{true},
-no further reading will succeed.
-if \asCode{hasError}() returns true, operations other than \asCode{close}() will fail
-until \asCode{clearError}() is called.
-\tertiaryEnd
+The \CLF{} service provides no extra classes as part of the \CL{} environment.
 \secondaryEnd
 \secondaryStart{Service~Provided~Functions}
-The \CLIO{} service provides the following functions as part of the \CL{} environment:
+The \CLF{} service provides the following functions as part of the \CL{} environment:
 \begin{itemize}
-\item\textbf{\asCode{dumpObjectToStdout}(\textit{obj})} \longDash{} writes out the object
-`\textit{obj}' to the standard output, including its properties
-\item\exSp\textbf{\asCode{requestStop}()} \longDash{} signals that the service is to stop
+\item\exSp\textbf{(\asCode{requestStop})} \longDash{} signals that the service is to stop
 at the first opportunity
-\item\exSp\textbf{\asCode{sendToChannel}(\textit{n}, \textit{x})} \longDash{} converts the
+\item\exSp\textbf{(\asCode{sendToChannel} \textit{n} \textit{x})} \longDash{} converts the
 value `\textit{x}' to \yarp{} format and sends it to the channel numbered `\textit{n}',
 with zero being the first outlet channel
-\item\exSp\textbf{\asCode{writeLineToStdout}(\textit{x})} \longDash{} writes the string
-`\textit{x}' to the standard output
 \end{itemize}
 \secondaryEnd
 \secondaryStart{Service~Provided~Values}
-The \CLIO{} service provides the following values as part of the \CL{} environment:
+The \CLF{} service provides the following values as part of the \CL{} environment:
 \begin{itemize}
-\item\exSp\textbf{\asCode{argv}\openSq\closeSq} \longDash{} a list of the arguments passed
-to the script
+\item\exSp\textbf{\asCode{argv}} \longDash{} an array of the arguments passed to the
+script
 \item\exSp\textbf{\asCode{tag}} \longDash{} the (optional) tag argument for the service
 script
 \end{itemize}
 \secondaryEnd
 \secondaryStart{The~Required~Values}
-The \CLIO{} service requires that the following values are supplied by the \CL{} file:
+The \CLF{} service requires that the following values are supplied by the \CL{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptDescription}} \longDash{} a variable or a function that
 provides a string describing the script; if defined as a function, it takes no arguments
 \end{itemize}
 \secondaryEnd
 \secondaryStart{The~Optional~Values}
-The \CLIO{} service will use the following values, if they are supplied by the \CL{} file:
+The \CLF{} service will use the following values, if they are supplied by the \CL{} file:
 \begin{itemize}
 \item\textbf{\asCode{scriptHelp}} \longDash{} a variable or a function that provides a
 string that can be presented to the user when requested by the `\asCode{?}' command; note
@@ -98,19 +46,19 @@ that it should not end with a newline; if defined as a function it takes no argu
 \item\exSp\textbf{\asCode{scriptInlets}} \longDash{} a variable or a function that
 provides an array of inlet descriptions \openSq\asCode{name}, \asCode{protocol},
 \asCode{protocolDescription}, \asCode{handler}\closeSq; note that this is ignored if
-\asCode{scriptThread}() is defined
+\asCode{scriptThread} is defined
 \item\exSp\textbf{\asCode{scriptInterval}} \longDash{} a variable or a function that
-provides the interval between executions of the \asCode{scriptThread}() function; note
-that this is ignored if \asCode{scriptThread}() is not defined, and it is executed only
-once, after all the other values have been processed
+provides the interval between executions of the \asCode{scriptThread} function; note that
+this is ignored if \asCode{scriptThread} is not defined, and it is executed only once,
+after all the other values have been processed
 \item\exSp\textbf{\asCode{scriptOutlets}} \longDash{} a variable or a function that
 provides an array of outlet descriptions \openSq\asCode{name}, \asCode{protocol},
 \asCode{protocolDescription}\closeSq
-\item\exSp\textbf{\asCode{scriptStarting}()} \longDash{} a function that is called before
+\item\exSp\textbf{\asCode{scriptStarting}} \longDash{} a function that is called before
 any inlets are attached or threads started
-\item\exSp\textbf{\asCode{scriptStopping}()} \longDash{} a function that is called after
-all the inlets are detached and threads are stopped
-\item\exSp\textbf{\asCode{scriptThread}()} \longDash{} a function that is repeatedly
+\item\exSp\textbf{\asCode{scriptStopping}} \longDash{} a function that is called after all
+the inlets are detached and threads are stopped
+\item\exSp\textbf{\asCode{scriptThread}} \longDash{} a function that is repeatedly
 called by the output thread of the service
 \end{itemize}
 \secondaryEnd
@@ -121,36 +69,36 @@ The following sequence of actions occur when a \CL{} file is loaded and run:
 \item The \CL{} environment is set up
 \item\exSp{}The \CL{} file is read from disk and any global statements are executed
 \item\exSp{}The \asCode{scriptDescription} value is retrieved (or the
-\asCode{scriptDescription}() function is executed to get a value)
+\asCode{scriptDescription} function is executed to get a value)
 \item\exSp{}The \asCode{scriptHelp} value is retrieved, if it is present
-\item\exSp{}The \asCode{scriptThread}() function is located, if present
-\item\exSp{}If there was no \asCode{scriptThread}() function defined, the
+\item\exSp{}The \asCode{scriptThread} function is located, if present
+\item\exSp{}If there was no \asCode{scriptThread} function defined, the
 \asCode{scriptInlets} value is retrieved (or the\\
-\asCode{scriptInlets}() function is executed to get a value)
+\asCode{scriptInlets} function is executed to get a value)
 \item\exSp{}The \asCode{scriptOutlets} value is retrieved (or the
-\asCode{scriptOutlets}() function is executed to get a value)
-\item\exSp{}The \asCode{scriptStarting}() function is located, if present
-\item\exSp{}The \asCode{scriptStopping}() function is located, if present
-\item\exSp{}If there was a \asCode{scriptThread}() function defined, the
+\asCode{scriptOutlets} function is executed to get a value)
+\item\exSp{}The \asCode{scriptStarting} function is located, if present
+\item\exSp{}The \asCode{scriptStopping} function is located, if present
+\item\exSp{}If there was a \asCode{scriptThread} function defined, the
 \asCode{scriptInterval} value is retrieved (or the\\
-\asCode{scriptInterval}() function is executed to get a value)
+\asCode{scriptInterval} function is executed to get a value)
 \item\exSp{}The required inlets and outlets are created
 \item\exSp{}The service is started
 \begin{itemize}
-\item If the \asCode{scriptStarting}() function was defined, it is executed
-\item\exSp{}If the \asCode{scriptThread}() function was defined, a thread is created and
-given the \asCode{scriptThread}() function to be executed
-\item\exSp{}If the \asCode{scriptThread}() function was not defined, input handlers are
-created for each inlet and given the \asCode{handler}() function from their inlet
+\item If the \asCode{scriptStarting} function was defined, it is executed
+\item\exSp{}If the \asCode{scriptThread} function was defined, a thread is created and
+given the \asCode{scriptThread} function to be executed
+\item\exSp{}If the \asCode{scriptThread} function was not defined, input handlers are
+created for each inlet and given the \asCode{handler} function from their inlet
 description
 \end{itemize}
 \item\exSp{}The service is stopped
 \begin{itemize}
-\item If the \asCode{scriptThread}() function was defined, the thread is stopped and
+\item If the \asCode{scriptThread} function was defined, the thread is stopped and
 destroyed
-\item\exSp{}If the \asCode{scriptThread}() function was not defined, the input handlers
+\item\exSp{}If the \asCode{scriptThread} function was not defined, the input handlers
 for each inlet are deactivated
-\item\exSp{}If the \asCode{scriptStopping}() function was defined, it is executed
+\item\exSp{}If the \asCode{scriptStopping} function was defined, it is executed
 \end{itemize}
 \end{itemize}
 \secondaryEnd

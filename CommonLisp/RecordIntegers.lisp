@@ -36,90 +36,38 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
-;;var outStream = null;
-;;
-;;function doRecordIntegers(portNumber, incomingData)
-;;{
-;;    var aValue;
-;;    
-;;    if (Array.isArray(incomingData))
-;;    {
-;;        var mm = incomingData.length;
-;;        
-;;        for (var ii = 0; mm > ii; ++ii)
-;;        {
-;;            if (0 < ii)
-;;            {
-;;                outStream.write(' ');
-;;            }
-;;            aValue = Number(incomingData[ii]);
-;;            if (! isNaN(aValue))
-;;            {
-;;                outStream.write(aValue);
-;;            }
-;;        }
-;;        if (0 < mm)
-;;        {
-;;            outStream.writeLine('');
-;;        }
-;;    }
-;;    else
-;;    {
-;;        aValue = Number(incomingData);
-;;        if (! isNaN(aValue))
-;;        {
-;;            outStream.writeLine(aValue);
-;;        }
-;;    }
-;;} ;; doRecordIntegers
+(setq out-stream nil)
+
 (defun doRecordIntegers (portNumber incomingData)
-  ;;TBD
-  )
+  (if (arrayp incomingData)
+      (let ((outSize (array-dimension incomingData 0)))
+	(dotimes (ii outSize)
+	  (format out-stream (if (< 0 ii) " ~A" "~A") (aref incomingData ii)))
+	(if (< 0 outSize) (format out-stream "~%")))
+    (format out-stream "~A~%" incomingData)))
 
 (setq scriptDescription "A script that writes integer values to a file")
 
 (setq scriptHelp "The first argument is the path to the output file")
 
 (setq scriptInlets (make-array '(1) :initial-element
-			       (create-inlet-entry "incoming" "i*"
-						   "A sequence of integer values" 'doRecordIntegers)))
+			       (create-inlet-entry "incoming" "i+"
+						   "A sequence of integer values"
+						   'doRecordIntegers)))
 
-;;function scriptStarting()
-;;{
-;;    var okSoFar = false;
-;;    
-;;    writeLineToStdout('script starting');
-;;    dumpObjectToStdout('argv:', argv);
-;;    if (1 < argv.length)
-;;    {
-;;        var path = argv[1];
-;;        
-;;        writeLineToStdout('path = ' + path);
-;;        outStream = new Stream();
-;;        outStream.open(path, "w");
-;;        dumpObjectToStdout('outStream:', outStream);
-;;        if (outStream.isOpen())
-;;        {
-;;            writeLineToStdout('outStream isOpen = true');
-;;            writeLineToStdout('outStream atEof = ' + outStream.atEof());
-;;            writeLineToStdout('outStream hasError = ' + outStream.hasError());
-;;        }
-;;        okSoFar = true;
-;;    }
-;;    return okSoFar;
-;;} ;; scriptStarting
 (defun scriptStarting ()
   (format t "script starting~%")
-  ;;TBD
-  t)
+  (if (< 1 (array-dimension mmcl:argv 0))
+      (let ((file-path (aref mmcl:argv 1)))
+	(setq out-stream (open file-path :direction :output
+			       :if-exists :overwrite
+			       :if-does-not-exist :create))
+	(if (open-stream-p out-stream)
+	    (format t "out-stream open~%")
+	  (setq out-stream nil))
+	t)
+    nil))
 
-;;function scriptStopping()
-;;{
-;;    writeLineToStdout('script stopping');
-;;    outStream.close();
-;;    outStream = null;
-;;} ;; scriptStopping
 (defun scriptStopping ()
   (format t "script stopping~%")
-  ;;TBD
-  )
+  (if out-stream (close out-stream)))

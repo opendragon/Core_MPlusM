@@ -44,10 +44,10 @@
 	 (incf runningSum (if summing aCommand 0)))
 	((stringp aCommand)
 	 (setq bCommand (string-downcase aCommand))
-	 (cond ((string= "quit" bCommand) (requestStop))
-	       ((string= "addtosum" bCommand) ()) ; no direct effect, since any numbers are simply added
-	       ((string= "startsum" bCommand) (setq summing t))
+	 (cond ((string= "addtosum" bCommand))
+	       ((string= "quit" bCommand) (requestStop))
 	       ((string= "resetsum" bCommand) (setq runningSum 0))
+	       ((string= "startsum" bCommand) (setq summing t))
 	       ((string= "stopsum" bCommand) (setq summing nil))
 	       (t (format t "unrecognized~%"))))
 	(t (format t "no match for ~A~%" aCommand))))
@@ -67,6 +67,9 @@
 
 (setq scriptDescription "A script that calculates running sums")
 
-(setq scriptInlets (make-array '(1) :initial-element (create-inlet-entry "incoming" "sd*" "A command and data" 'doRunningSum)))
+(setq scriptInlets (make-array '(1) :initial-element
+			       (create-inlet-entry "incoming" "sd*" "A command and data"
+						   'doRunningSum)))
 
-(setq scriptOutlets (make-array '(1) :initial-element (create-outlet-entry "outgoing" "d" "The running sum")))
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "d" "The running sum")))

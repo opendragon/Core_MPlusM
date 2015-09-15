@@ -39,28 +39,6 @@
 #if (! defined(MpMCommonLispCommon_H_))
 # define MpMCommonLispCommon_H_ /* Header guard */
 
-//# if defined(__APPLE__)
-//#  pragma clang diagnostic push
-//#  pragma clang diagnostic ignored "-Winvalid-offsetof"
-//# endif // defined(__APPLE__)
-//# if MAC_OR_LINUX_
-////#  include <js/RequiredDefines.h>
-//# endif // MAC_OR_LINUX_
-//# if (! MAC_OR_LINUX_)
-//#  pragma warning(push)
-//#  pragma warning(disable: 4800)
-//#  pragma warning(disable: 4251)
-//#  pragma warning(disable: 4996)
-//# endif // ! MAC_OR_LINUX_
-////# include <jsapi.h>
-////# include <js/CallArgs.h>
-////# include <js/Conversions.h>
-//# if (! MAC_OR_LINUX_)
-//#  pragma warning(pop)
-//# endif // ! MAC_OR_LINUX_
-//# if defined(__APPLE__)
-//#  pragma clang diagnostic pop
-//# endif // defined(__APPLE__)
 # include <ecl/ecl.h>
 
 # if defined(__APPLE__)

@@ -242,31 +242,6 @@ namespace MplusM
          @returns A new base-string with the given contents and length. */
         cl_object CreateBaseString(const char * inString,
                                    const size_t inLength);
-#if 0
-        /*! @brief Print out a Common Lisp object.
-         @param outStream Where to write the object.
-         @param jct The Common Lisp engine context.
-         @param anObject The object to be printed.
-         @param depth The indentation level to be used.
-         @returns The stream that was written to. */
-        std::ostream & PrintCommonLispObject(std::ostream &     outStream,
-//                                             JSContext *        jct,
-//                                             JS::RootedObject & anObject,
-                                             const int          depth);
-        
-        /*! @brief Print out a value.
-         @param outStream Where to write the value.
-         @param jct The Common Lisp engine context.
-         @param caption A title for the output.
-         @param value The value to be printed.
-         @param depth The indentation level to be used.
-         @returns The stream that was written to. */
-        std::ostream & PrintCommonLispValue(std::ostream &    outStream,
-//                                            JSContext *       jct,
-                                            const char *      caption,
-//                                            JS::RootedValue & value,
-                                            const int         depth);
-#endif//0
 
     } // CommonLisp
     

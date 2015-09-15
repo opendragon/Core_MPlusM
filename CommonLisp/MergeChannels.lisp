@@ -36,6 +36,9 @@
 ;;
 ;;--------------------------------------------------------------------------------------------------
 
+(defun numberOr1 (inValue)
+  (if (numberp inValue) inValue 1))
+
 (defun scriptHandleInput (portNumber incomingData)
   (format t "input on port ~S~%" portNumber)
   (setq incomingData (concatenate 'array (list portNumber) incomingData))
@@ -48,17 +51,17 @@
 ;; The following function will either generate one inlet, called 'incoming' or a set of inlets,
 ;; called 'incoming#',
 (defun scriptInlets ()
-  (let* (inlets inletCount anInlet)
-    (setq inletCount (cond ((< 1 (array-dimension mmcl:argv 0))
-			    (parse-integer (aref mmcl:argv 1) :junk-allowed t))
-			   (t 1)))
-    (setq inletCount (cond ((numberp inletCount) inletCount)
-			   (t 1)))
+  (let* (inlets inletCount)
+    (setq inletCount (numberOr1 (if (< 1 (array-dimension mmcl:argv 0))
+				    (parse-integer (aref mmcl:argv 1) :junk-allowed t)
+				  1)))
     (setq inlets (make-array (list inletCount)))
-    (cond ((< 1 inletCount)
-	   (dotimes (ii inletCount)
-	     (setf (aref inlets ii) (create-inlet-entry (format nil "incoming~D" ii) "*" "Anything" 'scriptHandleInput))))
-	  (t (setf (aref inlets 0) (create-inlet-entry "incoming" "*" "Anything" 'scriptHandleInput))))
+    (if (< 1 inletCount)
+	(dotimes (ii inletCount)
+	  (setf (aref inlets ii)
+		(create-inlet-entry (format nil "incoming~D" ii) "*" "Anything" 'scriptHandleInput)))
+      (setf (aref inlets 0) (create-inlet-entry "incoming" "*" "Anything" 'scriptHandleInput)))
     inlets))
 
-(setq scriptOutlets (make-array '(1) :initial-element (create-outlet-entry "outgoing" "*" "An arbitrary sequence of values")))
+(setq scriptOutlets (make-array '(1) :initial-element
+				(create-outlet-entry "outgoing" "*" "An arbitrary sequence of values")))
