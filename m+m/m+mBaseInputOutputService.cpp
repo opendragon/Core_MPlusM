@@ -55,7 +55,11 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
-#include <termios.h>
+#if MAC_OR_LINUX_
+# include <termios.h>
+#else // ! MAC_OR_LINUX_
+# include <conio.h>
+#endif // ! MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma clang diagnostic push
@@ -101,17 +105,25 @@ enum TtyMode
 /*! @brief Set to @c true to simulate a request to stop the service. */
 static bool lStopTheService = false;
 
+#if MAC_OR_LINUX_
 /*! @brief The active terminal attributes. */
 static struct termios lTermattr;
+#endif // MAC_OR_LINUX_
 
+#if MAC_OR_LINUX_
 /*! @brief The save terminal attributes. */
 static struct termios lSaveTermattr;
+#endif // MAC_OR_LINUX_
 
+#if MAC_OR_LINUX_
 /*! @brief The saved file descriptor for the input terminal. */
 static int lTtySaveFd = -1;
+#endif // MAC_OR_LINUX_
 
+#if MAC_OR_LINUX_
 /*! @brief The mode of the input terminal. */
 static TtyMode lTtyState = TTY_RESET_;
+#endif // MAC_OR_LINUX_
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -144,11 +156,15 @@ static void displayCommands(const YarpString & helpText,
     OD_LOG_EXIT(); //####
 } // displayCommands
 
+/*! @brief Place the standard input in 'cbreak' mode. */
 static int set_tty_cbreak(void)
 {
+#if MAC_OR_LINUX_
     int ii = tcgetattr(STDIN_FILENO, &lTermattr);
-    int res;
+#endif // MAC_OR_LINUX_
+    int res = 0;
 
+#if MAC_OR_LINUX_
     if (ii < 0)
     {
         printf("tcgetattr() returned %d for fildes=%d\n", ii, STDIN_FILENO);
@@ -172,16 +188,18 @@ static int set_tty_cbreak(void)
         {
             lTtyState = TTY_CBREAK_;
             lTtySaveFd = STDIN_FILENO;
-            res = 0;
         }
     }
+#endif // MAC_OR_LINUX_
     return res;
 } // set_tty_cbreak
 
+/*! @brief Restore the standard input to its original mode. */
 static int set_tty_cooked(void)
 {
     int res = 0;
 
+#if MAC_OR_LINUX_
     if ((TTY_CBREAK_ == lTtyState) || (TTY_RAW_ == lTtyState))
     {
         int ii = tcsetattr(STDIN_FILENO, TCSAFLUSH, &lSaveTermattr);
@@ -195,14 +213,19 @@ static int set_tty_cooked(void)
             lTtyState = TTY_RESET_;
         }
     }
+#endif // MAC_OR_LINUX_
     return res;
 } // set_tty_cooked
 
+/*! @brief Place the standard input in 'raw' mode. */
 static int set_tty_raw(void)
 {
+#if MAC_OR_LINUX_
     int ii = tcgetattr(STDIN_FILENO, &lTermattr);
-    int res;
+#endif // MAC_OR_LINUX_
+    int res = 0;
 
+#if MAC_OR_LINUX_
     if (ii < 0)
     {
         printf("tcgetattr() returned &#37;d for fildes=%d\n", ii, STDIN_FILENO);
@@ -230,27 +253,42 @@ static int set_tty_raw(void)
         {
             lTtyState = TTY_RAW_;
             lTtySaveFd = STDIN_FILENO;
-            res = 0;
         }
     }
+#endif // MAC_OR_LINUX_
     return res;
 } // set_tty_raw
 
+/*! @brief Get the next character available, or @c 0 if none is available.
+ @returns The next available character or @c 0 if none is available. */
 static char kb_getc(void)
 {
+#if MAC_OR_LINUX_
     int           ii;
-    unsigned char ch;
     ssize_t       size;
+#endif // MAC_OR_LINUX_
+    unsigned char ch;
 
+#if MAC_OR_LINUX_
     lTermattr.c_cc[VMIN] = 0; /* uncomment if needed */
     ii = tcsetattr(STDIN_FILENO, TCSANOW, &lTermattr);
     size = read(STDIN_FILENO, &ch, 1);
     lTermattr.c_cc[VMIN] = 1; /* uncomment if needed */
     ii = tcsetattr(STDIN_FILENO, TCSANOW, &lTermattr);
-    if (size == 0)
+    if (0 == size)
     {
         ch = 0;
     }
+#else // ! MAC_OR_LINUX_
+    if (_kbhit())
+    {
+        ch = _getch();
+    }
+    else
+    {
+        ch = 0;
+    }
+#endif // ! MAC_OR_LINUX_
     return static_cast<char>(ch);
 } // kb_getc
 
@@ -985,6 +1023,10 @@ void BaseInputOutputService::runService(const YarpString & helpText,
             cout.flush();
             for (set_tty_cbreak(); ! lStopTheService; )
             {
+#if MAC_OR_LINUX_
+                inChar = kb_getc();
+#else // ! MAC_OR_LINUX_
+#endif // ! MAC_OR_LINUX_
                 inChar = kb_getc();
                 if (inChar)
                 {
