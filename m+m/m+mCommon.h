@@ -459,7 +459,7 @@ namespace MplusM
      @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
      @returns A string with special characters escaped. */
     YarpString SanitizeString(const YarpString & inString,
-                                      const bool                 allowDoubleQuotes = false);
+                              const bool         allowDoubleQuotes = false);
     
     /*! @brief The signal handler to catch requests to stop the service.
      @param signal The signal being handled. */
