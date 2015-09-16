@@ -14,6 +14,12 @@ The \CLF{} service provides no extra classes as part of the \CL{} environment.
 \secondaryStart{Service~Provided~Functions}
 The \CLF{} service provides the following functions as part of the \CL{} environment:
 \begin{itemize}
+\item\textbf{(\asCode{create-inlet-entry} \textit{n} \textit{p} \textit{d} \textit{h})}
+\longDash{} creates an inlet description with name `\textit{n}', protocol `\textit{p}',
+protocol description `\textit{d}' and handler function `\textit{h}'
+\item\exSp\textbf{(\asCode{create-outlet-entry} \textit{n} \textit{p} \textit{d})}
+\longDash{} creates an outlet description with name `\textit{n}', protocol `\textit{p}'
+and protocol description `\textit{d}' 
 \item\exSp\textbf{(\asCode{requestStop})} \longDash{} signals that the service is to stop
 at the first opportunity
 \item\exSp\textbf{(\asCode{sendToChannel} \textit{n} \textit{x})} \longDash{} converts the
