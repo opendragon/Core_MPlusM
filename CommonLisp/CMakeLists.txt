@@ -4,7 +4,7 @@
 #
 #  Project:    m+m
 #
-#  Contains:   The CMAKE definitions for the Common Lisp input / output service application.
+#  Contains:   The CMAKE definitions for the CommonLisp filter service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET m+mCommonLispService)
+set(THIS_TARGET m+mCommonLispFilterService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -100,10 +100,10 @@ endif(APPLE)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               m+mCommonLispServiceMain.cpp
-               m+mCommonLispInputHandler.cpp
-               m+mCommonLispService.cpp
-               m+mCommonLispThread.cpp
+               m+mCommonLispFilterServiceMain.cpp
+               m+mCommonLispFilterInputHandler.cpp
+               m+mCommonLispFilterService.cpp
+               m+mCommonLispFilterThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
@@ -111,7 +111,7 @@ add_executable(${THIS_TARGET}
 target_link_libraries(${THIS_TARGET}
                       m+mCommon
                       odLogging
-                     ECL
+                      ECL
                       ${YARP_LIBRARIES}
                       ${ACE_LIBRARIES}
                       ${BONJOUR_LIB})

@@ -4,7 +4,7 @@
 #
 #  Project:    m+m
 #
-#  Contains:   The CMAKE definitions for the JavaScript input / output service application.
+#  Contains:   The CMAKE definitions for the JavaScript filter service application.
 #
 #  Written by: Norman Jaffe
 #
@@ -36,7 +36,7 @@
 #
 #--------------------------------------------------------------------------------------------------
 
-set(THIS_TARGET m+mJavaScriptService)
+set(THIS_TARGET m+mJavaScriptFilterService)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -105,10 +105,10 @@ endif(APPLE)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               m+mJavaScriptServiceMain.cpp
-               m+mJavaScriptInputHandler.cpp
-               m+mJavaScriptService.cpp
-               m+mJavaScriptThread.cpp
+               m+mJavaScriptFilterServiceMain.cpp
+               m+mJavaScriptFilterInputHandler.cpp
+               m+mJavaScriptFilterService.cpp
+               m+mJavaScriptFilterThread.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

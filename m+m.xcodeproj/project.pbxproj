@@ -245,12 +245,12 @@
 		DF38507C198AC50200A0414E /* m+mTestNameValidator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mTestNameValidator.cpp"; path = "ParserTest/m+mTestNameValidator.cpp"; sourceTree = SOURCE_ROOT; };
 		DF38507D198AC50200A0414E /* m+mTestNameValidator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mTestNameValidator.h"; path = "ParserTest/m+mTestNameValidator.h"; sourceTree = SOURCE_ROOT; };
 		DF4179A11A60596F006552F0 /* MergeChannels.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = MergeChannels.js; path = JavaScript/MergeChannels.js; sourceTree = SOURCE_ROOT; };
-		DF45F21A1A5AF9500090E161 /* m+mJavaScriptInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptInputHandler.cpp"; path = "JavaScript/m+mJavaScriptInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
-		DF45F21B1A5AF9500090E161 /* m+mJavaScriptInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptInputHandler.h"; path = "JavaScript/m+mJavaScriptInputHandler.h"; sourceTree = SOURCE_ROOT; };
-		DF45F21C1A5AF9500090E161 /* m+mJavaScriptRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptRequests.h"; path = "JavaScript/m+mJavaScriptRequests.h"; sourceTree = SOURCE_ROOT; };
-		DF45F21D1A5AF9500090E161 /* m+mJavaScriptService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptService.cpp"; path = "JavaScript/m+mJavaScriptService.cpp"; sourceTree = SOURCE_ROOT; };
-		DF45F21E1A5AF9500090E161 /* m+mJavaScriptService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptService.h"; path = "JavaScript/m+mJavaScriptService.h"; sourceTree = SOURCE_ROOT; };
-		DF45F21F1A5AF9500090E161 /* m+mJavaScriptServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptServiceMain.cpp"; path = "JavaScript/m+mJavaScriptServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
+		DF45F21A1A5AF9500090E161 /* m+mJavaScriptFilterInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptFilterInputHandler.cpp"; path = "JavaScript/m+mJavaScriptFilterInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
+		DF45F21B1A5AF9500090E161 /* m+mJavaScriptFilterInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptFilterInputHandler.h"; path = "JavaScript/m+mJavaScriptFilterInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		DF45F21C1A5AF9500090E161 /* m+mJavaScriptFilterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptFilterRequests.h"; path = "JavaScript/m+mJavaScriptFilterRequests.h"; sourceTree = SOURCE_ROOT; };
+		DF45F21D1A5AF9500090E161 /* m+mJavaScriptFilterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptFilterService.cpp"; path = "JavaScript/m+mJavaScriptFilterService.cpp"; sourceTree = SOURCE_ROOT; };
+		DF45F21E1A5AF9500090E161 /* m+mJavaScriptFilterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptFilterService.h"; path = "JavaScript/m+mJavaScriptFilterService.h"; sourceTree = SOURCE_ROOT; };
+		DF45F21F1A5AF9500090E161 /* m+mJavaScriptFilterServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptFilterServiceMain.cpp"; path = "JavaScript/m+mJavaScriptFilterServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF45F2201A5AF9500090E161 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = JavaScript/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF45F2211A5C4CA30090E161 /* SampleScript.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = SampleScript.js; path = JavaScript/SampleScript.js; sourceTree = SOURCE_ROOT; };
 		DF4FB5261B166A4800534D59 /* m+mRandomNumberAdapterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mRandomNumberAdapterRequests.h"; path = "examples/RandomNumberAdapter/m+mRandomNumberAdapterRequests.h"; sourceTree = "<group>"; };
@@ -291,8 +291,8 @@
 		DF6EAFA21A65C97000FC0085 /* TruncateFloat.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = TruncateFloat.js; path = JavaScript/TruncateFloat.js; sourceTree = SOURCE_ROOT; };
 		DF6EAFA31A65CD1700FC0085 /* RecordIntegers.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RecordIntegers.js; path = JavaScript/RecordIntegers.js; sourceTree = SOURCE_ROOT; };
 		DF6EAFA41A67156400FC0085 /* ReadFile.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = ReadFile.js; path = JavaScript/ReadFile.js; sourceTree = SOURCE_ROOT; };
-		DF6EAFA51A68255E00FC0085 /* m+mJavaScriptThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptThread.cpp"; path = "JavaScript/m+mJavaScriptThread.cpp"; sourceTree = SOURCE_ROOT; };
-		DF6EAFA61A68255E00FC0085 /* m+mJavaScriptThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptThread.h"; path = "JavaScript/m+mJavaScriptThread.h"; sourceTree = SOURCE_ROOT; };
+		DF6EAFA51A68255E00FC0085 /* m+mJavaScriptFilterThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mJavaScriptFilterThread.cpp"; path = "JavaScript/m+mJavaScriptFilterThread.cpp"; sourceTree = SOURCE_ROOT; };
+		DF6EAFA61A68255E00FC0085 /* m+mJavaScriptFilterThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptFilterThread.h"; path = "JavaScript/m+mJavaScriptFilterThread.h"; sourceTree = SOURCE_ROOT; };
 		DF6EAFA71A68274C00FC0085 /* RandomBurst.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = RandomBurst.js; path = JavaScript/RandomBurst.js; sourceTree = SOURCE_ROOT; };
 		DF7623561AFD01A0002BDC49 /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Emotiv/CMakeLists.txt; sourceTree = "<group>"; };
 		DF7623581AFD01C4002BDC49 /* m+mEmotivInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mEmotivInputServiceMain.cpp"; path = "Emotiv/EmotivInputService/m+mEmotivInputServiceMain.cpp"; sourceTree = "<group>"; };
@@ -393,7 +393,7 @@
 		DF8D35581AA4B54900322DDD /* m+mWhereRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mWhereRequestHandler.cpp"; path = "Tunnel/TunnelService/m+mWhereRequestHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		DF8D35591AA4B54900322DDD /* m+mWhereRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mWhereRequestHandler.h"; path = "Tunnel/TunnelService/m+mWhereRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF8D355A1AA4B56900322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF91F18D1ACAEA57003D9F6D /* m+mJavaScriptCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptCommon.h"; path = "JavaScript/m+mJavaScriptCommon.h"; sourceTree = "<group>"; };
+		DF91F18D1ACAEA57003D9F6D /* m+mJavaScriptFilterCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mJavaScriptFilterCommon.h"; path = "JavaScript/m+mJavaScriptFilterCommon.h"; sourceTree = "<group>"; };
 		DFA7D0BB1ADD90E700A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Address/AddressClient/resource.h; sourceTree = "<group>"; };
 		DFA7D0BD1ADD910300A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Address/AddressService/resource.h; sourceTree = "<group>"; };
 		DFA7D0BF1ADD91F300A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ClientList/resource.h; sourceTree = "<group>"; };
@@ -465,7 +465,7 @@
 		DFA7D13B1ADDB6FA00A17BD6 /* m+mExemplarOutputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mExemplarOutputService.rc.in"; path = "Exemplars/ExemplarOutputService/m+mExemplarOutputService.rc.in"; sourceTree = "<group>"; };
 		DFA7D13C1ADDB70600A17BD6 /* m+mExemplarService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mExemplarService.rc.in"; path = "Exemplars/ExemplarService/m+mExemplarService.rc.in"; sourceTree = "<group>"; };
 		DFA7D13D1ADDB71E00A17BD6 /* m+mFindServices.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mFindServices.rc.in"; path = "FindServices/m+mFindServices.rc.in"; sourceTree = "<group>"; };
-		DFA7D13E1ADDB72B00A17BD6 /* m+mJavaScriptService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mJavaScriptService.rc.in"; path = "JavaScript/m+mJavaScriptService.rc.in"; sourceTree = "<group>"; };
+		DFA7D13E1ADDB72B00A17BD6 /* m+mJavaScriptFilterService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mJavaScriptFilterService.rc.in"; path = "JavaScript/m+mJavaScriptFilterService.rc.in"; sourceTree = "<group>"; };
 		DFA7D13F1ADDB73700A17BD6 /* m+mKinectV2InputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mKinectV2InputService.rc.in"; path = "KinectV2/KinectV2InputService/m+mKinectV2InputService.rc.in"; sourceTree = "<group>"; };
 		DFA7D1401ADDB74800A17BD6 /* m+mLeapMotionInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mLeapMotionInputService.rc.in"; path = "LeapMotion/LeapMotionInputService/m+mLeapMotionInputService.rc.in"; sourceTree = "<group>"; };
 		DFA7D1411ADDB74800A17BD6 /* m+mLeapTwoFingersInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mLeapTwoFingersInputService.rc.in"; path = "LeapMotion/LeapMotionInputService/m+mLeapTwoFingersInputService.rc.in"; sourceTree = "<group>"; };
@@ -725,16 +725,16 @@
 		DFFFC1CE1B61550D00DA3C4D /* m+mStringBuffer.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mStringBuffer.cpp"; path = "m+m/m+mStringBuffer.cpp"; sourceTree = "<group>"; };
 		DFFFC1CF1B61550D00DA3C4D /* m+mStringBuffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mStringBuffer.h"; path = "m+m/m+mStringBuffer.h"; sourceTree = "<group>"; };
 		DFFFC1D11B72ADA700DA3C4D /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = CommonLisp/CMakeLists.txt; sourceTree = "<group>"; };
-		DFFFC1D21B72ADA700DA3C4D /* m+mCommonLispCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispCommon.h"; path = "CommonLisp/m+mCommonLispCommon.h"; sourceTree = "<group>"; };
-		DFFFC1D31B72ADA700DA3C4D /* m+mCommonLispInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispInputHandler.cpp"; path = "CommonLisp/m+mCommonLispInputHandler.cpp"; sourceTree = "<group>"; };
-		DFFFC1D41B72ADA700DA3C4D /* m+mCommonLispInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispInputHandler.h"; path = "CommonLisp/m+mCommonLispInputHandler.h"; sourceTree = "<group>"; };
-		DFFFC1D51B72ADA700DA3C4D /* m+mCommonLispRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispRequests.h"; path = "CommonLisp/m+mCommonLispRequests.h"; sourceTree = "<group>"; };
-		DFFFC1D61B72ADA700DA3C4D /* m+mCommonLispService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispService.cpp"; path = "CommonLisp/m+mCommonLispService.cpp"; sourceTree = "<group>"; };
-		DFFFC1D71B72ADA700DA3C4D /* m+mCommonLispService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispService.h"; path = "CommonLisp/m+mCommonLispService.h"; sourceTree = "<group>"; };
-		DFFFC1D81B72ADA700DA3C4D /* m+mCommonLispService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mCommonLispService.rc.in"; path = "CommonLisp/m+mCommonLispService.rc.in"; sourceTree = "<group>"; };
-		DFFFC1D91B72ADA700DA3C4D /* m+mCommonLispServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispServiceMain.cpp"; path = "CommonLisp/m+mCommonLispServiceMain.cpp"; sourceTree = "<group>"; };
-		DFFFC1DA1B72ADA700DA3C4D /* m+mCommonLispThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispThread.cpp"; path = "CommonLisp/m+mCommonLispThread.cpp"; sourceTree = "<group>"; };
-		DFFFC1DB1B72ADA700DA3C4D /* m+mCommonLispThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispThread.h"; path = "CommonLisp/m+mCommonLispThread.h"; sourceTree = "<group>"; };
+		DFFFC1D21B72ADA700DA3C4D /* m+mCommonLispFilterCommon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispFilterCommon.h"; path = "CommonLisp/m+mCommonLispFilterCommon.h"; sourceTree = "<group>"; };
+		DFFFC1D31B72ADA700DA3C4D /* m+mCommonLispFilterInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispFilterInputHandler.cpp"; path = "CommonLisp/m+mCommonLispFilterInputHandler.cpp"; sourceTree = "<group>"; };
+		DFFFC1D41B72ADA700DA3C4D /* m+mCommonLispFilterInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispFilterInputHandler.h"; path = "CommonLisp/m+mCommonLispFilterInputHandler.h"; sourceTree = "<group>"; };
+		DFFFC1D51B72ADA700DA3C4D /* m+mCommonLispFilterRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispFilterRequests.h"; path = "CommonLisp/m+mCommonLispFilterRequests.h"; sourceTree = "<group>"; };
+		DFFFC1D61B72ADA700DA3C4D /* m+mCommonLispFilterService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispFilterService.cpp"; path = "CommonLisp/m+mCommonLispFilterService.cpp"; sourceTree = "<group>"; };
+		DFFFC1D71B72ADA700DA3C4D /* m+mCommonLispFilterService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispFilterService.h"; path = "CommonLisp/m+mCommonLispFilterService.h"; sourceTree = "<group>"; };
+		DFFFC1D81B72ADA700DA3C4D /* m+mCommonLispFilterService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mCommonLispFilterService.rc.in"; path = "CommonLisp/m+mCommonLispFilterService.rc.in"; sourceTree = "<group>"; };
+		DFFFC1D91B72ADA700DA3C4D /* m+mCommonLispFilterServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispFilterServiceMain.cpp"; path = "CommonLisp/m+mCommonLispFilterServiceMain.cpp"; sourceTree = "<group>"; };
+		DFFFC1DA1B72ADA700DA3C4D /* m+mCommonLispFilterThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mCommonLispFilterThread.cpp"; path = "CommonLisp/m+mCommonLispFilterThread.cpp"; sourceTree = "<group>"; };
+		DFFFC1DB1B72ADA700DA3C4D /* m+mCommonLispFilterThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mCommonLispFilterThread.h"; path = "CommonLisp/m+mCommonLispFilterThread.h"; sourceTree = "<group>"; };
 		DFFFC1DC1B72ADA700DA3C4D /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = CommonLisp/resource.h; sourceTree = "<group>"; };
 		DFFFC1DD1B72B44B00DA3C4D /* MergeChannels.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = MergeChannels.lisp; path = CommonLisp/MergeChannels.lisp; sourceTree = "<group>"; };
 		DFFFC1DE1B72B44B00DA3C4D /* RandomBurst.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = RandomBurst.lisp; path = CommonLisp/RandomBurst.lisp; sourceTree = "<group>"; };
@@ -1369,17 +1369,17 @@
 			isa = PBXGroup;
 			children = (
 				DF45F2201A5AF9500090E161 /* CMakeLists.txt */,
-				DF91F18D1ACAEA57003D9F6D /* m+mJavaScriptCommon.h */,
-				DF45F21A1A5AF9500090E161 /* m+mJavaScriptInputHandler.cpp */,
-				DF45F21B1A5AF9500090E161 /* m+mJavaScriptInputHandler.h */,
-				DF45F21C1A5AF9500090E161 /* m+mJavaScriptRequests.h */,
-				DF45F21D1A5AF9500090E161 /* m+mJavaScriptService.cpp */,
-				DF45F21E1A5AF9500090E161 /* m+mJavaScriptService.h */,
-				DF45F21F1A5AF9500090E161 /* m+mJavaScriptServiceMain.cpp */,
-				DF6EAFA51A68255E00FC0085 /* m+mJavaScriptThread.cpp */,
-				DF6EAFA61A68255E00FC0085 /* m+mJavaScriptThread.h */,
+				DF91F18D1ACAEA57003D9F6D /* m+mJavaScriptFilterCommon.h */,
+				DF45F21A1A5AF9500090E161 /* m+mJavaScriptFilterInputHandler.cpp */,
+				DF45F21B1A5AF9500090E161 /* m+mJavaScriptFilterInputHandler.h */,
+				DF45F21C1A5AF9500090E161 /* m+mJavaScriptFilterRequests.h */,
+				DF45F21D1A5AF9500090E161 /* m+mJavaScriptFilterService.cpp */,
+				DF45F21E1A5AF9500090E161 /* m+mJavaScriptFilterService.h */,
+				DFA7D13E1ADDB72B00A17BD6 /* m+mJavaScriptFilterService.rc.in */,
+				DF45F21F1A5AF9500090E161 /* m+mJavaScriptFilterServiceMain.cpp */,
+				DF6EAFA51A68255E00FC0085 /* m+mJavaScriptFilterThread.cpp */,
+				DF6EAFA61A68255E00FC0085 /* m+mJavaScriptFilterThread.h */,
 				DF4179A11A60596F006552F0 /* MergeChannels.js */,
-				DFA7D13E1ADDB72B00A17BD6 /* m+mJavaScriptService.rc.in */,
 				DF6EAFA71A68274C00FC0085 /* RandomBurst.js */,
 				DF6EAFA41A67156400FC0085 /* ReadFile.js */,
 				DF6EAFA31A65CD1700FC0085 /* RecordIntegers.js */,
@@ -2324,16 +2324,16 @@
 			isa = PBXGroup;
 			children = (
 				DFFFC1D11B72ADA700DA3C4D /* CMakeLists.txt */,
-				DFFFC1D21B72ADA700DA3C4D /* m+mCommonLispCommon.h */,
-				DFFFC1D31B72ADA700DA3C4D /* m+mCommonLispInputHandler.cpp */,
-				DFFFC1D41B72ADA700DA3C4D /* m+mCommonLispInputHandler.h */,
-				DFFFC1D51B72ADA700DA3C4D /* m+mCommonLispRequests.h */,
-				DFFFC1D61B72ADA700DA3C4D /* m+mCommonLispService.cpp */,
-				DFFFC1D71B72ADA700DA3C4D /* m+mCommonLispService.h */,
-				DFFFC1D81B72ADA700DA3C4D /* m+mCommonLispService.rc.in */,
-				DFFFC1D91B72ADA700DA3C4D /* m+mCommonLispServiceMain.cpp */,
-				DFFFC1DA1B72ADA700DA3C4D /* m+mCommonLispThread.cpp */,
-				DFFFC1DB1B72ADA700DA3C4D /* m+mCommonLispThread.h */,
+				DFFFC1D21B72ADA700DA3C4D /* m+mCommonLispFilterCommon.h */,
+				DFFFC1D31B72ADA700DA3C4D /* m+mCommonLispFilterInputHandler.cpp */,
+				DFFFC1D41B72ADA700DA3C4D /* m+mCommonLispFilterInputHandler.h */,
+				DFFFC1D51B72ADA700DA3C4D /* m+mCommonLispFilterRequests.h */,
+				DFFFC1D61B72ADA700DA3C4D /* m+mCommonLispFilterService.cpp */,
+				DFFFC1D71B72ADA700DA3C4D /* m+mCommonLispFilterService.h */,
+				DFFFC1D81B72ADA700DA3C4D /* m+mCommonLispFilterService.rc.in */,
+				DFFFC1D91B72ADA700DA3C4D /* m+mCommonLispFilterServiceMain.cpp */,
+				DFFFC1DA1B72ADA700DA3C4D /* m+mCommonLispFilterThread.cpp */,
+				DFFFC1DB1B72ADA700DA3C4D /* m+mCommonLispFilterThread.h */,
 				DFFFC1DC1B72ADA700DA3C4D /* resource.h */,
 				DFFFC1DD1B72B44B00DA3C4D /* MergeChannels.lisp */,
 				DFFFC1DE1B72B44B00DA3C4D /* RandomBurst.lisp */,

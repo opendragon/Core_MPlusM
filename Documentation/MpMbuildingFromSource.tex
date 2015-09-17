@@ -158,7 +158,6 @@ window
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-% Note that we can't use \yarp here, since an environment isn't legal here
 \secondaryStart{(Optional)~Building~\textbf{\yarp}}
 \textbf{\yarp} (Yet Another Robot Platform) provides the connection management support
 used within \mplusm{}; the files needed to compile and link with \yarp{} are installed as
@@ -438,19 +437,19 @@ standard Windows paths for program files, so the target directory is not the fin
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
-\secondaryStart{(Optional)~Building~\textbf{ECL}}
-\textbf{ECL} (\textit{E}mbeddable \textit{C}ommon \textit{L}isp) is the
+\secondaryStart{(Optional)~Building~\textbf{\ECL}}
+\textbf{\ECL} (\textit{E}mbeddable \textit{C}ommon \textit{L}isp) is the
 \compLang{Common Lisp} engine used with the CommonLisp Filter service of \mplusm{}; the
-files needed to compile and link with \textbf{ECL} are installed as part of the normal
-\mplusm{} installation procedure, so it's not necessary to rebuild \textbf{ECL}.
+files needed to compile and link with \textbf{\ECL} are installed as part of the normal
+\mplusm{} installation procedure, so it's not necessary to rebuild \textbf{\ECL}.
 The source files are not provided with the \asCode{Developer} package, but can be obtained
 via the instructions on the web\longDash{}page
-\companyReference{https://common-lisp.net/project/ecl/}{\textbf{ECL} source code}, as
-\mplusm{} does not use a modified version of \textbf{ECL} and does not depend on a
+\companyReference{https://common-lisp.net/project/ecl/}{\textbf{\ECL} source code}, as
+\mplusm{} does not use a modified version of \textbf{\ECL} and does not depend on a
 particular version \longDash{} other than it must be at least \textbf{15.3.7}.
 \tertiaryStart{Building~on~Macintosh~OS~X}
 \begin{itemize}
-\item Select a directory to hold the \textbf{ECL} source code, which will be referred to
+\item Select a directory to hold the \textbf{\ECL} source code, which will be referred to
 as `\asCode{ecl}'; this can be a sister directory to the \asCode{\textbf{devel}}
 directory, but it need not be
 \item\exSp{}On the command\longDash{}line, execute the following commands:

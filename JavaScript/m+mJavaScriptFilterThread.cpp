@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptThread.cpp
+//  File:       m+mJavaScriptFilterThread.cpp
 //
 //  Project:    m+m
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mJavaScriptThread.h"
+#include "m+mJavaScriptFilterThread.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -82,10 +82,10 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptThread::JavaScriptThread(const double            timeToWait,
-                                   JSContext *             context,
-                                   JS::RootedObject &      global,
-                                   const JS::RootedValue & threadFunc) :
+JavaScriptFilterThread::JavaScriptFilterThread(const double            timeToWait,
+                                               JSContext *             context,
+                                               JS::RootedObject &      global,
+                                               const JS::RootedValue & threadFunc) :
     inherited(), _timeToWait(timeToWait), _threadFunc(context), _global(global), _context(context)
 {
     OD_LOG_ENTER(); //####
@@ -93,26 +93,26 @@ JavaScriptThread::JavaScriptThread(const double            timeToWait,
     OD_LOG_P3("context = ", context, "global = ", &global, "threadFunc = ", &threadFunc); //####
     _threadFunc = threadFunc;
     OD_LOG_EXIT_P(this); //####
-} // JavaScriptThread::JavaScriptThread
+} // JavaScriptFilterThread::JavaScriptFilterThread
 
-JavaScriptThread::~JavaScriptThread(void)
+JavaScriptFilterThread::~JavaScriptFilterThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptThread::~JavaScriptThread
+} // JavaScriptFilterThread::~JavaScriptFilterThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void JavaScriptThread::clearOutputChannel(void)
+void JavaScriptFilterThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
 //    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptThread::clearOutputChannel
+} // JavaScriptFilterThread::clearOutputChannel
 
-void JavaScriptThread::run(void)
+void JavaScriptFilterThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -141,10 +141,11 @@ void JavaScriptThread::run(void)
                     {
                         JS_ClearPendingException(_context);
 #if MAC_OR_LINUX_
-                        GetLogger().fail("Exception occurred while executing scriptThread "
+                        GetLogger().fail("Exception occurred while executing the scriptThread "
                                          "function.");
 #else // ! MAC_OR_LINUX_
-                        cerr << "Exception occurred while executing scriptThread function." << endl;
+                        cerr << "Exception occurred while executing the scriptThread function." <<
+                                endl;
 #endif // ! MAC_OR_LINUX_
                     }
                 }
@@ -155,9 +156,9 @@ void JavaScriptThread::run(void)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptThread::run
+} // JavaScriptFilterThread::run
 
-bool JavaScriptThread::threadInit(void)
+bool JavaScriptFilterThread::threadInit(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -165,13 +166,13 @@ bool JavaScriptThread::threadInit(void)
     _nextTime = yarp::os::Time::now() + _timeToWait;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // JavaScriptThread::threadInit
+} // JavaScriptFilterThread::threadInit
 
-void JavaScriptThread::threadRelease(void)
+void JavaScriptFilterThread::threadRelease(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptThread::threadRelease
+} // JavaScriptFilterThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

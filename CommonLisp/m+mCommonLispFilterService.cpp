@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispService.cpp
+//  File:       m+mCommonLispFilterService.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the Common Lisp input / output service.
+//  Contains:   The class definition for the CommonLisp filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispService.h"
+#include "m+mCommonLispFilterService.h"
 
-#include "m+mCommonLispInputHandler.h"
-#include "m+mCommonLispRequests.h"
-#include "m+mCommonLispThread.h"
+#include "m+mCommonLispFilterInputHandler.h"
+#include "m+mCommonLispFilterRequests.h"
+#include "m+mCommonLispFilterThread.h"
 
 #include <m+m/m+mEndpoint.h>
 
@@ -53,7 +53,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the Common Lisp input / output service. */
+ @brief The class definition for the %CommonLisp filter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -542,22 +542,30 @@ static cl_object createObjectFromBottle(cl_object                setHashFunction
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumentList,
-                                     const YarpString &                  launchPath,
-                                     const int                           argc,
-                                     char * *                            argv,
-                                     const YarpString &                  tag,
-                                     const YarpString &                  description,
-                                     const Common::ChannelVector &       loadedInletDescriptions,
-                                     const Common::ChannelVector &       loadedOutletDescriptions,
-                                     const ObjectVector &                loadedInletHandlers,
-                                     cl_object                           loadedStartingFunction,
-                                     cl_object                           loadedStoppingFunction,
-                                     const bool                          sawThread,
-                                     cl_object                           loadedThreadFunction,
-                                     const double                        loadedInterval,
-                                     const YarpString &                  serviceEndpointName,
-                                     const YarpString &                  servicePortNumber) :
+CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVector & argumentList,
+                                                 const YarpString &                  launchPath,
+                                                 const int                           argc,
+                                                 char * *                            argv,
+                                                 const YarpString &                  tag,
+                                                 const YarpString &                  description,
+                                                 const Common::ChannelVector &
+                                                                            loadedInletDescriptions,
+                                                 const Common::ChannelVector &
+                                                                        loadedOutletDescriptions,
+                                                 const ObjectVector &
+                                                                                loadedInletHandlers,
+                                                 cl_object
+                                                                            loadedStartingFunction,
+                                                 cl_object
+                                                                            loadedStoppingFunction,
+                                                 const bool                          sawThread,
+                                                 cl_object
+                                                                            loadedThreadFunction,
+                                                 const double                        loadedInterval,
+                                                 const YarpString &
+                                                                                serviceEndpointName,
+                                                 const YarpString &
+                                                                                servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_COMMONLISP_CANONICAL_NAME_,
               description, "", serviceEndpointName, servicePortNumber),
     _inletHandlers(loadedInletHandlers), _inHandlers(), _generator(NULL),
@@ -626,15 +634,15 @@ CommonLispService::CommonLispService(const Utilities::DescriptorVector & argumen
     {
     }
     OD_LOG_EXIT_P(this); //####
-} // CommonLispService::CommonLispService
+} // CommonLispFilterService::CommonLispFilterService
 
-CommonLispService::~CommonLispService(void)
+CommonLispFilterService::~CommonLispFilterService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     releaseHandlers();
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::~CommonLispService
+} // CommonLispFilterService::~CommonLispFilterService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
@@ -644,7 +652,7 @@ CommonLispService::~CommonLispService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(CommonLispService)
+DEFINE_CONFIGURE_(CommonLispFilterService)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -714,19 +722,19 @@ DEFINE_CONFIGURE_(CommonLispService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // CommonLispService::configure
+} // CommonLispFilterService::configure
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-DEFINE_DISABLEMETRICS_(CommonLispService)
+DEFINE_DISABLEMETRICS_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::disableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
     {
-        CommonLispInputHandler * aHandler = *walker;
+        CommonLispFilterInputHandler * aHandler = *walker;
         
         if (aHandler)
         {
@@ -734,9 +742,9 @@ DEFINE_DISABLEMETRICS_(CommonLispService)
         }
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::disableMetrics
+} // CommonLispFilterService::disableMetrics
 
-DEFINE_DOIDLE_(CommonLispService)
+DEFINE_DOIDLE_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     if (isActive())
@@ -752,8 +760,8 @@ DEFINE_DOIDLE_(CommonLispService)
                 if (_inletHandlers.size() > _mostRecentSlot)
                 {
                     OD_LOG("(_inletHandlers.size() > _mostRecentSlot)"); //####
-                    cl_object                handlerFunc = _inletHandlers[_mostRecentSlot];
-                    CommonLispInputHandler * aHandler = _inHandlers.at(_mostRecentSlot);
+                    cl_object                      handlerFunc = _inletHandlers[_mostRecentSlot];
+                    CommonLispFilterInputHandler * aHandler = _inHandlers.at(_mostRecentSlot);
                     
                     if (aHandler && (ECL_NIL != handlerFunc))
                     {
@@ -821,16 +829,16 @@ DEFINE_DOIDLE_(CommonLispService)
         }
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::doIdle
+} // CommonLispFilterService::doIdle
 
-DEFINE_ENABLEMETRICS_(CommonLispService)
+DEFINE_ENABLEMETRICS_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::enableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
     {
-        CommonLispInputHandler * aHandler = *walker;
+        CommonLispFilterInputHandler * aHandler = *walker;
         
         if (aHandler)
         {
@@ -838,9 +846,9 @@ DEFINE_ENABLEMETRICS_(CommonLispService)
         }
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::enableMetrics
+} // CommonLispFilterService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(CommonLispService)
+DEFINE_GETCONFIGURATION_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -849,9 +857,9 @@ DEFINE_GETCONFIGURATION_(CommonLispService)
     details.clear();
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // CommonLispService::getConfiguration
+} // CommonLispFilterService::getConfiguration
 
-void CommonLispService::releaseHandlers(void)
+void CommonLispFilterService::releaseHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     if (0 < _inHandlers.size())
@@ -859,7 +867,7 @@ void CommonLispService::releaseHandlers(void)
         for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
              ++walker)
         {
-            CommonLispInputHandler * aHandler = *walker;
+            CommonLispFilterInputHandler * aHandler = *walker;
             
             if (aHandler)
             {
@@ -870,9 +878,9 @@ void CommonLispService::releaseHandlers(void)
         _inHandlers.clear();
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::releaseHandlers
+} // CommonLispFilterService::releaseHandlers
 
-DEFINE_RESTARTSTREAMS_(CommonLispService)
+DEFINE_RESTARTSTREAMS_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -887,10 +895,10 @@ DEFINE_RESTARTSTREAMS_(CommonLispService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::restartStreams
+} // CommonLispFilterService::restartStreams
 
-bool CommonLispService::sendToChannel(const cl_fixnum channelSlot,
-                                      cl_object       theData)
+bool CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
+                                            cl_object       theData)
 {
     OD_LOG_OBJENTER();
     OD_LOG_LL1("channelSlot = ", channelSlot); //####
@@ -927,9 +935,9 @@ bool CommonLispService::sendToChannel(const cl_fixnum channelSlot,
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
-} // CommonLispService::sendToChannel
+} // CommonLispFilterService::sendToChannel
 
-DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispService)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -956,25 +964,25 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // CommonLispService::setUpStreamDescriptions
+} // CommonLispFilterService::setUpStreamDescriptions
 
-void CommonLispService::signalRunFunction(void)
+void CommonLispFilterService::signalRunFunction(void)
 {
     OD_LOG_OBJENTER(); //####
     _goAhead.post();
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::signalRunFunction
+} // CommonLispFilterService::signalRunFunction
 
-void CommonLispService::stallUntilIdle(const size_t slotNumber)
+void CommonLispFilterService::stallUntilIdle(const size_t slotNumber)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("slotNumber = ", slotNumber); //####
     _staller.wait();
     _mostRecentSlot = slotNumber;
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::stallUntilIdle
+} // CommonLispFilterService::stallUntilIdle
 
-DEFINE_STARTSERVICE_(CommonLispService)
+DEFINE_STARTSERVICE_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -999,9 +1007,9 @@ DEFINE_STARTSERVICE_(CommonLispService)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // CommonLispService::startService
+} // CommonLispFilterService::startService
 
-DEFINE_STARTSTREAMS_(CommonLispService)
+DEFINE_STARTSTREAMS_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -1010,7 +1018,7 @@ DEFINE_STARTSTREAMS_(CommonLispService)
         {
             if (_isThreaded)
             {
-                _generator = new CommonLispThread(*this, _threadInterval);
+                _generator = new CommonLispFilterThread(*this, _threadInterval);
 				if (! _generator->start())
 				{
 					OD_LOG("(! _generator->start())"); //####
@@ -1024,8 +1032,9 @@ DEFINE_STARTSTREAMS_(CommonLispService)
                 releaseHandlers();
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
-                    cl_object                handlerFunc = _inletHandlers[ii];
-                    CommonLispInputHandler * aHandler = new CommonLispInputHandler(this, ii);
+                    cl_object                      handlerFunc = _inletHandlers[ii];
+                    CommonLispFilterInputHandler * aHandler = new CommonLispFilterInputHandler(this,
+                                                                                               ii);
                     
                     if (aHandler)
                     {
@@ -1045,9 +1054,9 @@ DEFINE_STARTSTREAMS_(CommonLispService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::startStreams
+} // CommonLispFilterService::startStreams
 
-DEFINE_STOPSERVICE_(CommonLispService)
+DEFINE_STOPSERVICE_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -1063,9 +1072,9 @@ DEFINE_STOPSERVICE_(CommonLispService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // CommonLispService::stopService
+} // CommonLispFilterService::stopService
 
-DEFINE_STOPSTREAMS_(CommonLispService)
+DEFINE_STOPSTREAMS_(CommonLispFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -1089,7 +1098,7 @@ DEFINE_STOPSTREAMS_(CommonLispService)
             {
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
-                    CommonLispInputHandler * aHandler = _inHandlers.at(ii);
+                    CommonLispFilterInputHandler * aHandler = _inHandlers.at(ii);
                     
                     if (aHandler)
                     {
@@ -1128,7 +1137,7 @@ DEFINE_STOPSTREAMS_(CommonLispService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // CommonLispService::stopStreams
+} // CommonLispFilterService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

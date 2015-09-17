@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by m+mJavaScriptService.rc
+// Used by m+mJavaScriptFilterService.rc
 
 // Next default values for new objects
 // 

@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptService.cpp
+//  File:       m+mJavaScriptFilterService.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the JavaScript input / output service.
+//  Contains:   The class definition for the JavaScript filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,11 +36,11 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mJavaScriptService.h"
+#include "m+mJavaScriptFilterService.h"
 
-#include "m+mJavaScriptInputHandler.h"
-#include "m+mJavaScriptRequests.h"
-#include "m+mJavaScriptThread.h"
+#include "m+mJavaScriptFilterInputHandler.h"
+#include "m+mJavaScriptFilterRequests.h"
+#include "m+mJavaScriptFilterThread.h"
 
 #include <m+m/m+mEndpoint.h>
 
@@ -53,7 +53,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the %JavaScript input / output service. */
+ @brief The class definition for the %JavaScript filter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -243,24 +243,32 @@ static void fillBottleFromValue(JSContext *        jct,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptService::JavaScriptService(const Utilities::DescriptorVector & argumentList,
-                                     JSContext *                         context,
-                                     JS::RootedObject &                  global,
-                                     const YarpString &                  launchPath,
-                                     const int                           argc,
-                                     char * *                            argv,
-                                     const YarpString &                  tag,
-                                     const YarpString &                  description,
-                                     const Common::ChannelVector &       loadedInletDescriptions,
-                                     const Common::ChannelVector &       loadedOutletDescriptions,
-                                     const JS::AutoValueVector &         loadedInletHandlers,
-                                     const JS::RootedValue &             loadedStartingFunction,
-                                     const JS::RootedValue &             loadedStoppingFunction,
-                                     const bool                          sawThread,
-                                     const JS::RootedValue &             loadedThreadFunction,
-                                     const double                        loadedInterval,
-                                     const YarpString &                  serviceEndpointName,
-                                     const YarpString &                  servicePortNumber) :
+JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVector & argumentList,
+                                                 JSContext *                         context,
+                                                 JS::RootedObject &                  global,
+                                                 const YarpString &                  launchPath,
+                                                 const int                           argc,
+                                                 char * *                            argv,
+                                                 const YarpString &                  tag,
+                                                 const YarpString &                  description,
+                                                 const Common::ChannelVector &
+                                                                            loadedInletDescriptions,
+                                                 const Common::ChannelVector &
+                                                                        loadedOutletDescriptions,
+                                                 const JS::AutoValueVector &
+                                                                                loadedInletHandlers,
+                                                 const JS::RootedValue &
+                                                                            loadedStartingFunction,
+                                                 const JS::RootedValue &
+                                                                            loadedStoppingFunction,
+                                                 const bool                          sawThread,
+                                                 const JS::RootedValue &
+                                                                            loadedThreadFunction,
+                                                 const double                        loadedInterval,
+                                                 const YarpString &
+                                                                                serviceEndpointName,
+                                                 const YarpString &
+                                                                                servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME_,
               description, "", serviceEndpointName, servicePortNumber), _inletHandlers(context),
     _inHandlers(), _generator(NULL), _context(context), _global(global),
@@ -290,15 +298,15 @@ JavaScriptService::JavaScriptService(const Utilities::DescriptorVector & argumen
     _scriptStoppingFunc = loadedStoppingFunction;
     _scriptThreadFunc = loadedThreadFunction;
     OD_LOG_EXIT_P(this); //####
-} // JavaScriptService::JavaScriptService
+} // JavaScriptFilterService::JavaScriptFilterService
 
-JavaScriptService::~JavaScriptService(void)
+JavaScriptFilterService::~JavaScriptFilterService(void)
 {
     OD_LOG_OBJENTER(); //####
     stopStreams();
     releaseHandlers();
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptService::~JavaScriptService
+} // JavaScriptFilterService::~JavaScriptFilterService
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
@@ -308,7 +316,7 @@ JavaScriptService::~JavaScriptService(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_CONFIGURE_(JavaScriptService)
+DEFINE_CONFIGURE_(JavaScriptFilterService)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -384,19 +392,19 @@ DEFINE_CONFIGURE_(JavaScriptService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // JavaScriptService::configure
+} // JavaScriptFilterService::configure
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-DEFINE_DISABLEMETRICS_(JavaScriptService)
+DEFINE_DISABLEMETRICS_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::disableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
     {
-        JavaScriptInputHandler * aHandler = *walker;
+        JavaScriptFilterInputHandler * aHandler = *walker;
         
         if (aHandler)
         {
@@ -404,16 +412,16 @@ DEFINE_DISABLEMETRICS_(JavaScriptService)
         }
     }
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptService::disableMetrics
+} // JavaScriptFilterService::disableMetrics
 
-DEFINE_ENABLEMETRICS_(JavaScriptService)
+DEFINE_ENABLEMETRICS_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     inherited::enableMetrics();
     for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
          ++walker)
     {
-        JavaScriptInputHandler * aHandler = *walker;
+        JavaScriptFilterInputHandler * aHandler = *walker;
         
         if (aHandler)
         {
@@ -421,9 +429,9 @@ DEFINE_ENABLEMETRICS_(JavaScriptService)
         }
     }
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptService::enableMetrics
+} // JavaScriptFilterService::enableMetrics
 
-DEFINE_GETCONFIGURATION_(JavaScriptService)
+DEFINE_GETCONFIGURATION_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("details = ", &details); //####
@@ -432,9 +440,9 @@ DEFINE_GETCONFIGURATION_(JavaScriptService)
     details.clear();
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // JavaScriptService::getConfiguration
+} // JavaScriptFilterService::getConfiguration
 
-void JavaScriptService::releaseHandlers(void)
+void JavaScriptFilterService::releaseHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     if (0 < _inHandlers.size())
@@ -442,7 +450,7 @@ void JavaScriptService::releaseHandlers(void)
         for (HandlerVector::const_iterator walker(_inHandlers.begin()); _inHandlers.end() != walker;
              ++walker)
         {
-            JavaScriptInputHandler * aHandler = *walker;
+            JavaScriptFilterInputHandler * aHandler = *walker;
             
             if (aHandler)
             {
@@ -453,9 +461,9 @@ void JavaScriptService::releaseHandlers(void)
         _inHandlers.clear();
     }
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptService::releaseHandlers
+} // JavaScriptFilterService::releaseHandlers
 
-DEFINE_RESTARTSTREAMS_(JavaScriptService)
+DEFINE_RESTARTSTREAMS_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -470,10 +478,10 @@ DEFINE_RESTARTSTREAMS_(JavaScriptService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptService::restartStreams
+} // JavaScriptFilterService::restartStreams
 
-bool JavaScriptService::sendToChannel(const int32_t channelSlot,
-                                      JS::Value     theData)
+bool JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
+                                            JS::Value     theData)
 {
     OD_LOG_OBJENTER();
     OD_LOG_L1("channelSlot = ", channelSlot); //####
@@ -508,9 +516,9 @@ bool JavaScriptService::sendToChannel(const int32_t channelSlot,
     }
     OD_LOG_OBJEXIT_B(okSoFar); //####
     return okSoFar;
-} // JavaScriptService::sendToChannel
+} // JavaScriptFilterService::sendToChannel
 
-DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptService)
+DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool               result = true;
@@ -537,9 +545,9 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // JavaScriptService::setUpStreamDescriptions
+} // JavaScriptFilterService::setUpStreamDescriptions
 
-DEFINE_STARTSERVICE_(JavaScriptService)
+DEFINE_STARTSERVICE_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -564,9 +572,9 @@ DEFINE_STARTSERVICE_(JavaScriptService)
     }
     OD_LOG_OBJEXIT_B(isStarted()); //####
     return isStarted();
-} // JavaScriptService::startService
+} // JavaScriptFilterService::startService
 
-DEFINE_STARTSTREAMS_(JavaScriptService)
+DEFINE_STARTSTREAMS_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -575,8 +583,8 @@ DEFINE_STARTSTREAMS_(JavaScriptService)
         {
             if (_isThreaded)
             {
-                _generator = new JavaScriptThread(_threadInterval, _context, _global,
-                                                  _scriptThreadFunc);
+                _generator = new JavaScriptFilterThread(_threadInterval, _context, _global,
+                                                        _scriptThreadFunc);
 				if (! _generator->start())
 				{
 					OD_LOG("(! _generator->start())"); //####
@@ -590,9 +598,10 @@ DEFINE_STARTSTREAMS_(JavaScriptService)
                 releaseHandlers();
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
-                    JS::HandleValue          handlerFunc = _inletHandlers[ii];
-                    JavaScriptInputHandler * aHandler = new JavaScriptInputHandler(this, ii,
-                                                                                   handlerFunc);
+                    JS::HandleValue                handlerFunc = _inletHandlers[ii];
+                    JavaScriptFilterInputHandler * aHandler = new JavaScriptFilterInputHandler(this,
+                                                                                               ii,
+                                                                                       handlerFunc);
                     
                     if (aHandler)
                     {
@@ -612,9 +621,9 @@ DEFINE_STARTSTREAMS_(JavaScriptService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptService::startStreams
+} // JavaScriptFilterService::startStreams
 
-DEFINE_STOPSERVICE_(JavaScriptService)
+DEFINE_STOPSERVICE_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     bool result;
@@ -630,9 +639,9 @@ DEFINE_STOPSERVICE_(JavaScriptService)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // JavaScriptService::stopService
+} // JavaScriptFilterService::stopService
 
-DEFINE_STOPSTREAMS_(JavaScriptService)
+DEFINE_STOPSTREAMS_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -656,7 +665,7 @@ DEFINE_STOPSTREAMS_(JavaScriptService)
             {
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
-                    JavaScriptInputHandler * aHandler = _inHandlers.at(ii);
+                    JavaScriptFilterInputHandler * aHandler = _inHandlers.at(ii);
                     
                     if (aHandler)
                     {
@@ -706,7 +715,7 @@ DEFINE_STOPSTREAMS_(JavaScriptService)
         throw;
     }
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptService::stopStreams
+} // JavaScriptFilterService::stopStreams
 
 #if defined(__APPLE__)
 # pragma mark Global functions

@@ -5,7 +5,7 @@
 //  Project:    m+m
 //
 //  Contains:   An example script that meets the requirements for a JavaScript file to be used with
-//              the JavaScript input / output service.
+//              the JavaScript filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -75,7 +75,7 @@
 //
 //   argv: a list of the arguments passed to the script
 //
-//   tag:  the (optional) tag argument for the JavaScript service
+//   tag:  the (optional) tag argument for the JavaScript filter service
 //
 // Values that must be provided by the JavaScript code:
 //

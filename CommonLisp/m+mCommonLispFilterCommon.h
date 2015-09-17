@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptStreamRequests.h
+//  File:       m+mCommonLispFilterCommon.h
 //
 //  Project:    m+m
 //
-//  Contains:   The common macro definitions for requests and responses for the JavaScript
-//              input / output service.
+//  Contains:   The common header files for the CommonLisp filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -33,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-01-05
+//  Created:    2015-08-05
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMJavaScriptStreamRequests_H_))
-# define MpMJavaScriptStreamRequests_H_ /* Header guard */
+#if (! defined(MpMCommonLispFilterCommon_H_))
+# define MpMCommonLispFilterCommon_H_ /* Header guard */
 
-# include <m+m/m+mRequests.h>
+# include <ecl/ecl.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -48,13 +47,15 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common macro definitions for requests and responses for the %JavaScript input / output
- service. */
+ @brief The common header files for the CommonLisp filter service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-/*! @brief The channel-independent name of the %JavaScript input / output service. */
-# define MpM_JAVASCRIPT_CANONICAL_NAME_ "JavaScript"
+/*! @brief The abbreviation of the Common Lisp package name for our globals. */
+# define MpM_COMMONLISP_PACKAGE_ABBREV_ "MMCL"
 
-#endif // ! defined(MpMJavaScriptStreamRequests_H_)
+/*! @brief The Common Lisp package name for our globals. */
+# define MpM_COMMONLISP_PACKAGE_NAME_ "MM-COMMON-LISP"
+
+#endif // ! defined(MpMCommonLispFilterCommon_H_)

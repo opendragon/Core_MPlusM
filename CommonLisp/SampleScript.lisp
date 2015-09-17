@@ -5,7 +5,7 @@
 ;;  Project:    m+m
 ;;
 ;;  Contains:   An example script that meets the requirements for a Common Lisp file to be used with
-;;              the Common Lisp input / output service.
+;;              the CommonLisp filter service.
 ;;
 ;;  Written by: Norman Jaffe
 ;;
@@ -50,7 +50,7 @@
 ;;
 ;;   argv: a list of the arguments passed to the script
 ;;
-;;   tag:  the (optional) tag argument for the JavaScript service
+;;   tag:  the (optional) tag argument for the CommonLisp filter service
 ;;
 ;; Values that must be provided by the Common Lisp code:
 ;;

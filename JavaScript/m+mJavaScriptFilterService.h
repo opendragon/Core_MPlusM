@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptService.h
+//  File:       m+mJavaScriptFilterService.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the JavaScript input / output service.
+//  Contains:   The class declaration for the JavaScript filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -39,7 +39,7 @@
 #if (! defined(MpMJavaScriptService_H_))
 # define MpMJavaScriptService_H_ /* Header guard */
 
-# include "m+mJavaScriptCommon.h"
+# include "m+mJavaScriptFilterCommon.h"
 
 # include <m+m/m+mBaseFilterService.h>
 
@@ -49,7 +49,7 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the %JavaScript input / output service. */
+ @brief The class declaration for the %JavaScript filter service. */
 
 /*! @namespace MplusM::JavaScript
  @brief A set of classes to support executing %JavaScript in an m+m installation. */
@@ -69,11 +69,11 @@ namespace MplusM
 {
     namespace JavaScript
     {
-        class JavaScriptInputHandler;
-        class JavaScriptThread;
+        class JavaScriptFilterInputHandler;
+        class JavaScriptFilterThread;
         
-        /*! @brief The %JavaScript input / output service. */
-        class JavaScriptService : public Common::BaseFilterService
+        /*! @brief The %JavaScript filter service. */
+        class JavaScriptFilterService : public Common::BaseFilterService
         {
         public :
             
@@ -97,27 +97,27 @@ namespace MplusM
              output-generating thread.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            JavaScriptService(const Utilities::DescriptorVector & argumentList,
-                              JSContext *                         context,
-                              JS::RootedObject &                  global,
-                              const YarpString &                  launchPath,
-                              const int                           argc,
-                              char * *                            argv,
-                              const YarpString &                  tag,
-                              const YarpString &                  description,
-                              const Common::ChannelVector &       loadedInletDescriptions,
-                              const Common::ChannelVector &       loadedOutletDescriptions,
-                              const JS::AutoValueVector &         loadedInletHandlers,
-                              const JS::RootedValue &             loadedStartingFunction,
-                              const JS::RootedValue &             loadedStoppingFunction,
-                              const bool                          sawThread,
-                              const JS::RootedValue &             loadedThreadFunction,
-                              const double                        loadedInterval,
-                              const YarpString &                  serviceEndpointName,
-                              const YarpString &                  servicePortNumber = "");
+            JavaScriptFilterService(const Utilities::DescriptorVector & argumentList,
+                                    JSContext *                         context,
+                                    JS::RootedObject &                  global,
+                                    const YarpString &                  launchPath,
+                                    const int                           argc,
+                                    char * *                            argv,
+                                    const YarpString &                  tag,
+                                    const YarpString &                  description,
+                                    const Common::ChannelVector &       loadedInletDescriptions,
+                                    const Common::ChannelVector &       loadedOutletDescriptions,
+                                    const JS::AutoValueVector &         loadedInletHandlers,
+                                    const JS::RootedValue &             loadedStartingFunction,
+                                    const JS::RootedValue &             loadedStoppingFunction,
+                                    const bool                          sawThread,
+                                    const JS::RootedValue &             loadedThreadFunction,
+                                    const double                        loadedInterval,
+                                    const YarpString &                  serviceEndpointName,
+                                    const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~JavaScriptService(void);
+            virtual ~JavaScriptFilterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -164,7 +164,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(JavaScriptService);
+            COPY_AND_ASSIGNMENT_(JavaScriptFilterService);
             
             /*! @brief Release all the allocated handlers. */
             void releaseHandlers(void);
@@ -181,7 +181,7 @@ namespace MplusM
             typedef BaseFilterService inherited;
             
             /*! @brief A sequence of input handlers. */
-            typedef std::vector<JavaScriptInputHandler *> HandlerVector;
+            typedef std::vector<JavaScriptFilterInputHandler *> HandlerVector;
 
             /*! @brief The handler functions to use for input. */
             JS::AutoValueVector _inletHandlers;
@@ -190,7 +190,7 @@ namespace MplusM
             HandlerVector _inHandlers;
             
             /*! @brief The output thread to use. */
-            JavaScriptThread * _generator;
+            JavaScriptFilterThread * _generator;
             
             /*! @brief The %JavaScript execution environment. */
             JSContext * _context;
@@ -229,7 +229,7 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-        }; // JavaScriptService
+        }; // JavaScriptFilterService
         
         /*! @brief Print out a %JavaScript object.
          @param outStream Where to write the object.

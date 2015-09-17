@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptThread.h
+//  File:       m+mJavaScriptFilterInputHandler.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for an output-generating thread for m+m.
+//  Contains:   The class declaration for the input channel input handler used by the JavaScript
+//              filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,15 +33,16 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-01-15
+//  Created:    2015-01-05
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMJavaScriptThread_H_))
-# define MpMJavaScriptThread_H_ /* Header guard */
+#if (! defined(MpMJavaScriptFilterInputHandler_H_))
+# define MpMJavaScriptFilterInputHandler_H_ /* Header guard */
 
-# include "m+mJavaScriptCommon.h"
+# include "m+mJavaScriptFilterCommon.h"
 
+# include <m+m/m+mBaseInputHandler.h>
 # include <m+m/m+mGeneralChannel.h>
 
 # if defined(__APPLE__)
@@ -49,53 +51,56 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for an output-generating thread for m+m. */
+ @brief The class declaration for the input channel input handler used by the %JavaScript filter
+ service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-
-struct JSContext;
 
 namespace MplusM
 {
     namespace JavaScript
     {
-        /*! @brief A convenience class to generate output. */
-        class JavaScriptThread : public yarp::os::Thread
+        class JavaScriptFilterService;
+        
+        /*! @brief A handler for partially-structured input data.
+         
+         The data is expected to be in the form of a sequence of integer or floating point
+         values. */
+        class JavaScriptFilterInputHandler : public Common::BaseInputHandler
         {
         public :
             
             /*! @brief The constructor.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param context The %JavaScript engine context.
-             @param global The %JavaScript global object.
-             @param threadFunc The %JavaScript handler function for the thread. */
-            JavaScriptThread(const double            timeToWait,
-                             JSContext *             context,
-                             JS::RootedObject &      global,
-                             const JS::RootedValue & threadFunc);
+             @param owner The service that owns this handler.
+             @param slotNumber The slot number of the associated channel.
+             @param handlerFunc The %JavaScript handler function for the channel. */
+            JavaScriptFilterInputHandler(JavaScriptFilterService * owner,
+                                         const size_t              slotNumber,
+                                         JS::HandleValue &         handlerFunc);
             
             /*! @brief The destructor. */
-            virtual ~JavaScriptThread(void);
+            virtual ~JavaScriptFilterInputHandler(void);
             
-            /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            /*! @brief Turn on input processing. */
+            inline void activate(void)
+            {
+                _active = true;
+            } // activate
+            
+            /*! @brief Turn off input processing. */
+            inline void deactivate(void)
+            {
+                _active = false;
+            } // deactivate
             
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_HANDLEINPUT_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
-            
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
-            
-            COPY_AND_ASSIGNMENT_(JavaScriptThread);
+            COPY_AND_ASSIGNMENT_(JavaScriptFilterInputHandler);
             
         public :
         
@@ -104,37 +109,24 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
+            typedef BaseInputHandler inherited;
             
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+            /*! @brief The service that owns this handler. */
+            JavaScriptFilterService * _owner;
             
-            /*! @brief The %JavaScript thread function. */
-            JS::RootedValue _threadFunc;
+            /*! @brief The %JavaScript input handler function. */
+            JS::HandleValue _handlerFunc;
             
-            /*! @brief The %JavaScript global object for this execution environment. */
-            JS::RootedObject & _global;
+            /*! @brief The slot number of the associated channel. */
+            size_t _slotNumber;
             
-            /*! @brief The %JavaScript execution environment. */
-            JSContext * _context;
+            /*! @brief @c true if the input is to be processed and @c false otherwise. */
+            bool _active;
             
-            /*! @brief The time at which the thread will send data. */
-            double _nextTime;
-            
-            /*! @brief The number of seconds to delay before triggering. */
-            double _timeToWait;
-            
-        }; // JavaScriptThread
+        }; // JavaScriptFilterInputHandler
         
     } // JavaScript
     
 } // MplusM
 
-#endif // ! defined(MpMJavaScriptThread_H_)
+#endif // ! defined(MpMJavaScriptFilterInputHandler_H_)

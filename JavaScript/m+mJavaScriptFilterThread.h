@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispThread.h
+//  File:       m+mJavaScriptFilterThread.h
 //
 //  Project:    m+m
 //
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-08-05
+//  Created:    2015-01-15
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMCommonLispThread_H_))
-# define MpMCommonLispThread_H_ /* Header guard */
+#if (! defined(MpMJavaScriptFilterThread_H_))
+# define MpMJavaScriptFilterThread_H_ /* Header guard */
 
-# include "m+mCommonLispCommon.h"
+# include "m+mJavaScriptFilterCommon.h"
 
 # include <m+m/m+mGeneralChannel.h>
 
@@ -58,23 +58,25 @@ struct JSContext;
 
 namespace MplusM
 {
-    namespace CommonLisp
+    namespace JavaScript
     {
-        class CommonLispService;
-        
         /*! @brief A convenience class to generate output. */
-        class CommonLispThread : public yarp::os::Thread
+        class JavaScriptFilterThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
-             @param owner The service that owns this thread.
-             @param timeToWait The number of seconds to delay before triggering. */
-            CommonLispThread(CommonLispService & owner,
-                             const double        timeToWait);
+             @param timeToWait The number of seconds to delay before triggering.
+             @param context The %JavaScript engine context.
+             @param global The %JavaScript global object.
+             @param threadFunc The %JavaScript handler function for the thread. */
+            JavaScriptFilterThread(const double            timeToWait,
+                                   JSContext *             context,
+                                   JS::RootedObject &      global,
+                                   const JS::RootedValue & threadFunc);
             
             /*! @brief The destructor. */
-            virtual ~CommonLispThread(void);
+            virtual ~JavaScriptFilterThread(void);
             
             /*! @brief Stop using the output channel. */
             void clearOutputChannel(void);
@@ -93,7 +95,7 @@ namespace MplusM
             /*! @brief The thread termination method. */
             virtual void threadRelease(void);
             
-            COPY_AND_ASSIGNMENT_(CommonLispThread);
+            COPY_AND_ASSIGNMENT_(JavaScriptFilterThread);
             
         public :
         
@@ -113,20 +115,26 @@ namespace MplusM
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
-
-            /*! @brief The service that owns this thread. */
-            CommonLispService & _owner;
-
+            
+            /*! @brief The %JavaScript thread function. */
+            JS::RootedValue _threadFunc;
+            
+            /*! @brief The %JavaScript global object for this execution environment. */
+            JS::RootedObject & _global;
+            
+            /*! @brief The %JavaScript execution environment. */
+            JSContext * _context;
+            
             /*! @brief The time at which the thread will send data. */
             double _nextTime;
             
             /*! @brief The number of seconds to delay before triggering. */
             double _timeToWait;
             
-        }; // CommonLispThread
+        }; // JavaScriptFilterThread
         
-    } // CommonLisp
+    } // JavaScript
     
 } // MplusM
 
-#endif // ! defined(MpMCommonLispThread_H_)
+#endif // ! defined(MpMJavaScriptFilterThread_H_)

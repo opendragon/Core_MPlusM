@@ -1,11 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispInputHandler.cpp
+//  File:       m+mCommonLispFilterThread.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for the input channel input handler used by the Common Lisp
-//              input / output service.
+//  Contains:   The class definition for an output-generating thread for m+m.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +36,9 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispInputHandler.h"
-#include "m+mCommonLispService.h"
+#include "m+mCommonLispFilterThread.h"
+
+#include "m+mCommonLispFilterService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,8 +49,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the input channel input handler used by the Common Lisp
- input / output service. */
+ @brief The class definition for an output-generating thread for m+m. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -85,63 +84,64 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-CommonLispInputHandler::CommonLispInputHandler(CommonLispService * owner,
-                                               const size_t        slotNumber) :
-    inherited(), _owner(owner), _slotNumber(slotNumber), _active(false)
+CommonLispFilterThread::CommonLispFilterThread(CommonLispFilterService & owner,
+                                               const double              timeToWait) :
+    inherited(), _timeToWait(timeToWait), _owner(owner)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("owner = ", owner); //####
-    OD_LOG_L1("slotNumber = ", slotNumber); //####
+    OD_LOG_P2("owner = ", &owner, "threadFunc = ", threadFunc); //####
+    OD_LOG_D1("timeToWait = ", timeToWait); //####
     OD_LOG_EXIT_P(this); //####
-} // CommonLispInputHandler::CommonLispInputHandler
+} // CommonLispFilterThread::CommonLispFilterThread
 
-CommonLispInputHandler::~CommonLispInputHandler(void)
+CommonLispFilterThread::~CommonLispFilterThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // CommonLispInputHandler::~CommonLispInputHandler
+} // CommonLispFilterThread::~CommonLispFilterThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_HANDLE_INPUT_(CommonLispInputHandler)
+void CommonLispFilterThread::clearOutputChannel(void)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(senderChannel,replyMechanism)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S2s("senderChannel = ", senderChannel, "got ", input.toString()); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
-    OD_LOG_L1("numBytes = ", numBytes); //####
+//    _outChannel = NULL;
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispFilterThread::clearOutputChannel
+
+void CommonLispFilterThread::run(void)
+{
+    OD_LOG_OBJENTER(); //####
+    for ( ; ! isStopping(); )
+    {
+        if (_nextTime <= yarp::os::Time::now())
+        {
+            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+            _owner.signalRunFunction();
+            _nextTime = yarp::os::Time::now() + _timeToWait;
+        }
+        yarp::os::Time::yield();
+    }
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispFilterThread::run
+
+bool CommonLispFilterThread::threadInit(void)
+{
+    OD_LOG_OBJENTER(); //####
     bool result = true;
     
-    try
-    {
-        if (_active && _owner)
-        {
-            _received = input;
-            _owner->stallUntilIdle(_slotNumber);
-            _owner->signalRunFunction();
-        }
-    }
-    catch (...)
-    {
-        OD_LOG("Exception caught"); //####
-        throw;
-    }
+    _nextTime = yarp::os::Time::now() + _timeToWait;
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // CommonLispInputHandler::handleInput
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+} // CommonLispFilterThread::threadInit
+
+void CommonLispFilterThread::threadRelease(void)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // CommonLispFilterThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

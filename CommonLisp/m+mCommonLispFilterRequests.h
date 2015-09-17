@@ -1,10 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptCommon.h
+//  File:       m+mCommonLispStreamRequests.h
 //
 //  Project:    m+m
 //
-//  Contains:   The common header files for the JavaScript input / output service.
+//  Contains:   The common macro definitions for requests and responses for the CommonLisp filter
+//              service.
 //
 //  Written by: Norman Jaffe
 //
@@ -32,35 +33,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2015-03-31
+//  Created:    2015-08-05
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMJavaScriptCommon_H_))
-# define MpMJavaScriptCommon_H_ /* Header guard */
+#if (! defined(MpMCommonLispFilterRequests_H_))
+# define MpMCommonLispFilterRequests_H_ /* Header guard */
 
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Winvalid-offsetof"
-# endif // defined(__APPLE__)
-# if MAC_OR_LINUX_
-#  include <js/RequiredDefines.h>
-# endif // MAC_OR_LINUX_
-# if (! MAC_OR_LINUX_)
-#  pragma warning(push)
-#  pragma warning(disable: 4800)
-#  pragma warning(disable: 4251)
-#  pragma warning(disable: 4996)
-# endif // ! MAC_OR_LINUX_
-# include <jsapi.h>
-# include <js/CallArgs.h>
-# include <js/Conversions.h>
-# if (! MAC_OR_LINUX_)
-#  pragma warning(pop)
-# endif // ! MAC_OR_LINUX_
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
+# include <m+m/m+mRequests.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -68,9 +48,13 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The common header files for the %JavaScript input / output service. */
+ @brief The common macro definitions for requests and responses for the %CommonLisp filter
+ service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-#endif // ! defined(MpMJavaScriptCommon_H_)
+/*! @brief The channel-independent name of the %CommonLisp filter service. */
+# define MpM_COMMONLISP_CANONICAL_NAME_ "CommonLisp"
+
+#endif // ! defined(MpMCommonLispFilterRequests_H_)

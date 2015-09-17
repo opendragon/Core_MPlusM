@@ -266,6 +266,8 @@ m+mChordGeneratorService
 m+mChordGeneratorService.rc
 m+mClientList
 m+mClientList.rc
+m+mCommonLispFilterService
+m+mCommonLispFilterService.rc
 m+mCommonLispService
 m+mCommonLispService.rc
 m+mCommonTest
@@ -288,6 +290,8 @@ m+mExemplarService
 m+mExemplarService.rc
 m+mFindServices
 m+mFindServices.rc
+m+mJavaScriptFilterService
+m+mJavaScriptFilterService.rc
 m+mJavaScriptService
 m+mJavaScriptService.rc
 m+mKinectV2BlobInputService

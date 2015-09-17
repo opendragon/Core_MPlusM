@@ -2,10 +2,10 @@
 m+mAbsorberFilterService
 m+mAddressService
 m+mBlobOutputService
-m+mCommonLispService
+m+mCommonLispFilterService
 m+mEchoService
 m+mEmotivInputService
-m+mJavaScriptService
+m+mJavaScriptFilterService
 m+mKinectV2BlobInputService
 m+mKinectV2InputService
 m+mLeapBlobInputService

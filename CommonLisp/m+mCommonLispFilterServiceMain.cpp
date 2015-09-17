@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispServiceMain.cpp
+//  File:       m+mCommonLispFilterServiceMain.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The main application for the Common Lisp input / output service.
+//  Contains:   The main application for the CommonLisp filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mCommonLispService.h"
+#include "m+mCommonLispFilterService.h"
 
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mExtraArgumentDescriptor.h>
@@ -52,10 +52,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the Common Lisp input / output service. */
+ @brief The main application for the %CommonLisp filter service. */
 
 /*! @dir CommonLisp
- @brief The set of files that implement the Common Lisp input / output service. */
+ @brief The set of files that implement the %CommonLisp filter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -110,7 +110,7 @@ using std::cerr;
 #define SCRIPTTAG_NAME_ "SCRIPTTAG"
 
 /*! @brief A pointer to the active service, for use in callbacks. */
-static CommonLispService * lActiveService = NULL;
+static CommonLispFilterService * lActiveService = NULL;
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -210,7 +210,7 @@ static bool addCustomClasses(cl_object ourPackage)
 
 /*! @brief Add an array containing the command-line arguments to the Common Lisp environment.
  @param ourPackage The package to be used with the new object.
- @param argv The arguments to be used with the Common Lisp input / output service. */
+ @param argv The arguments to be used with the %CommonLisp filter service. */
 static void addArgvObject(cl_object                ourPackage,
                           const YarpStringVector & argv)
 {
@@ -251,7 +251,7 @@ static void addScriptTagObject(cl_object          ourPackage,
 
 /*! @brief Add custom classes, functions and variables to the Common Lisp environment.
  @param tag The modifier for the service name and port names.
- @param argv The arguments to be used with the Common Lisp input / output service. */
+ @param argv The arguments to be used with the %CommonLisp filter service. */
 static cl_object addCustomObjects(const YarpString &       tag,
                                   const YarpStringVector & argv)
 {
@@ -982,13 +982,13 @@ static bool validateLoadedScript(bool &          sawThread,
     return okSoFar;
 } // validateLoadedScript
 
-/*! @brief Set up the environment and start the Common Lisp service.
+/*! @brief Set up the environment and start the %CommonLisp filter service.
  @param argumentList Descriptions of the arguments to the executable.
  @param scriptPath The script file to be processed.
  @param arguments The arguments for the service.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Common Lisp service.
+ @param argv The arguments to be used with the %CommonLisp filter service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service. 
@@ -1072,18 +1072,20 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                      loadedStartingFunction, loadedStoppingFunction,
                                      loadedThreadFunction, loadedInterval, missingStuff))
             {
-                CommonLispService * aService = new CommonLispService(argumentList, scriptPath, argc,
-                                                                     argv, tag, description,
-                                                                     loadedInletDescriptions,
-                                                                     loadedOutletDescriptions,
-                                                                     loadedInletHandlers,
-                                                                     loadedStartingFunction,
-                                                                     loadedStoppingFunction,
-                                                                     sawThread,
-                                                                     loadedThreadFunction,
-                                                                     loadedInterval,
-                                                                     serviceEndpointName,
-                                                                     servicePortNumber);
+                CommonLispFilterService * aService = new CommonLispFilterService(argumentList,
+                                                                                 scriptPath, argc,
+                                                                                 argv, tag,
+                                                                                 description,
+                                                                             loadedInletDescriptions,
+                                                                         loadedOutletDescriptions,
+                                                                             loadedInletHandlers,
+                                                                             loadedStartingFunction,
+                                                                             loadedStoppingFunction,
+                                                                                 sawThread,
+                                                                             loadedThreadFunction,
+                                                                                 loadedInterval,
+                                                                             serviceEndpointName,
+                                                                                 servicePortNumber);
 
                 if (aService)
                 {
@@ -1126,11 +1128,11 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the Common Lisp input / output service.
+/*! @brief The entry point for running the %CommonLisp filter service.
 
  The first argument is the path of the script to be run by the service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the Common Lisp input / output service.
+ @param argv The arguments to be used with the %CommonLisp filter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

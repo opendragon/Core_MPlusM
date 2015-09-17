@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispService.h
+//  File:       m+mCommonLispFilterService.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the Common Lisp input / output service.
+//  Contains:   The class declaration for the CommonLisp filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,10 +36,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMCommonLispService_H_))
-# define MpMCommonLispService_H_ /* Header guard */
+#if (! defined(MpMCommonLispFilterService_H_))
+# define MpMCommonLispFilterService_H_ /* Header guard */
 
-# include "m+mCommonLispCommon.h"
+# include "m+mCommonLispFilterCommon.h"
 
 # include <m+m/m+mBaseFilterService.h>
 
@@ -49,10 +49,10 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the Common Lisp input / output service. */
+ @brief The class declaration for the %CommonLisp filter service. */
 
 /*! @namespace MplusM::CommonLisp
- @brief A set of classes to support executing Common Lisp in an m+m installation. */
+ @brief A set of classes to support executing %CommonLisp in an m+m installation. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -61,20 +61,20 @@
 # define DEFAULT_COMMONLISP_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "filter/commonlisp")
 
 /*! @brief The description of the service. */
-# define COMMONLISPFILTER_SERVICE_DESCRIPTION_ T_("Common Lisp filter service")
+# define COMMONLISPFILTER_SERVICE_DESCRIPTION_ T_("CommonLisp filter service")
 
 namespace MplusM
 {
     namespace CommonLisp
     {
-        class CommonLispInputHandler;
-        class CommonLispThread;
+        class CommonLispFilterInputHandler;
+        class CommonLispFilterThread;
         
         /*! @brief A sequence of object pointers. */
         typedef std::vector<cl_object> ObjectVector;
         
-        /*! @brief The Common Lisp input / output service. */
-        class CommonLispService : public Common::BaseFilterService
+        /*! @brief The %CommonLisp filter service. */
+        class CommonLispFilterService : public Common::BaseFilterService
         {
         public :
             
@@ -96,25 +96,25 @@ namespace MplusM
              output-generating thread.
              @param serviceEndpointName The YARP name to be assigned to the new service.
              @param servicePortNumber The port being used by the service. */
-            CommonLispService(const Utilities::DescriptorVector & argumentList,
-                              const YarpString &                  launchPath,
-                              const int                           argc,
-                              char * *                            argv,
-                              const YarpString &                  tag,
-                              const YarpString &                  description,
-                              const Common::ChannelVector &       loadedInletDescriptions,
-                              const Common::ChannelVector &       loadedOutletDescriptions,
-                              const ObjectVector &                loadedInletHandlers,
-                              cl_object                           loadedStartingFunction,
-                              cl_object                           loadedStoppingFunction,
-                              const bool                          sawThread,
-                              cl_object                           loadedThreadFunction,
-                              const double                        loadedInterval,
-                              const YarpString &                  serviceEndpointName,
-                              const YarpString &                  servicePortNumber = "");
+            CommonLispFilterService(const Utilities::DescriptorVector & argumentList,
+                                    const YarpString &                  launchPath,
+                                    const int                           argc,
+                                    char * *                            argv,
+                                    const YarpString &                  tag,
+                                    const YarpString &                  description,
+                                    const Common::ChannelVector &       loadedInletDescriptions,
+                                    const Common::ChannelVector &       loadedOutletDescriptions,
+                                    const ObjectVector &                loadedInletHandlers,
+                                    cl_object                           loadedStartingFunction,
+                                    cl_object                           loadedStoppingFunction,
+                                    const bool                          sawThread,
+                                    cl_object                           loadedThreadFunction,
+                                    const double                        loadedInterval,
+                                    const YarpString &                  serviceEndpointName,
+                                    const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~CommonLispService(void);
+            virtual ~CommonLispFilterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -156,7 +156,7 @@ namespace MplusM
             
         private :
             
-            COPY_AND_ASSIGNMENT_(CommonLispService);
+            COPY_AND_ASSIGNMENT_(CommonLispFilterService);
             
             /*! @brief Release all the allocated handlers. */
             void releaseHandlers(void);
@@ -173,7 +173,7 @@ namespace MplusM
             typedef BaseFilterService inherited;
             
             /*! @brief A sequence of input handlers. */
-            typedef std::vector<CommonLispInputHandler *> HandlerVector;
+            typedef std::vector<CommonLispFilterInputHandler *> HandlerVector;
 
             /*! @brief The handler functions to use for input. */
             const ObjectVector & _inletHandlers;
@@ -182,7 +182,7 @@ namespace MplusM
             HandlerVector _inHandlers;
             
             /*! @brief The output thread to use. */
-            CommonLispThread * _generator;
+            CommonLispFilterThread * _generator;
             
             /*! @brief The list of loaded inlet stream descriptions. */
             const Common::ChannelVector & _loadedInletDescriptions;
@@ -230,7 +230,7 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
-        }; // CommonLispService
+        }; // CommonLispFilterService
         
         /*! @brief Create a new base-string.
          
@@ -247,4 +247,4 @@ namespace MplusM
     
 } // MplusM
 
-#endif // ! defined(MpMCommonLispService_H_)
+#endif // ! defined(MpMCommonLispFilterService_H_)

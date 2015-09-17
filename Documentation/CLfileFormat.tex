@@ -5,8 +5,11 @@ values.
 Once loaded, the \CL{} functions and values are used to define the behaviour of the
 service itself.
 \secondaryStart{The~Common~Lisp~Standard~Classes}
-The \CLF{} service provides the standard classes of ECL (Embeddable Common Lisp) as part
-of the \CL{} environment.
+The \CLF{} service provides the standard classes of \ECL{} (Embeddable Common Lisp) as part
+of the \CL{} environment.\\
+
+Note that, due to some issues with the threading support in \ECL{} and in \yarp{}, the
+multithreading support within \ECL{} is not available.
 \secondaryEnd
 \secondaryStart{Service~Provided~Classes}
 The \CLF{} service provides no extra classes as part of the \CL{} environment.
@@ -36,6 +39,7 @@ script
 script
 \end{itemize}
 \secondaryEnd
+\condPage
 \secondaryStart{The~Required~Values}
 The \CLF{} service requires that the following values are supplied by the \CL{} file:
 \begin{itemize}

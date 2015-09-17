@@ -1,10 +1,10 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptServiceMain.cpp
+//  File:       m+mJavaScriptFilterServiceMain.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The main application for the JavaScript input / output service.
+//  Contains:   The main application for the JavaScript filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -36,7 +36,7 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mJavaScriptService.h"
+#include "m+mJavaScriptFilterService.h"
 
 #include <m+m/m+mEndpoint.h>
 #include <m+m/m+mExtraArgumentDescriptor.h>
@@ -52,10 +52,10 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The main application for the %JavaScript input / output service. */
+ @brief The main application for the %JavaScript filter service. */
 
 /*! @dir JavaScript
- @brief The set of files that implement the %JavaScript input / output service. */
+ @brief The set of files that implement the %JavaScript filter service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -209,8 +209,8 @@ static bool requestStopForJs(JSContext * jct,
     }
     else
     {
-        JavaScriptService * theService =
-                                reinterpret_cast<JavaScriptService *>(JS_GetContextPrivate(jct));
+        JavaScriptFilterService * theService =
+                            reinterpret_cast<JavaScriptFilterService *>(JS_GetContextPrivate(jct));
         
         if (theService)
         {
@@ -242,9 +242,9 @@ static bool sendToChannelForJs(JSContext * jct,
         // Check that the first argument is a valid integer.
         if (args[0].isInt32())
         {
-            int32_t             channelSlot = args[0].toInt32();
-            JavaScriptService * theService =
-                                reinterpret_cast<JavaScriptService *>(JS_GetContextPrivate(jct));
+            int32_t                   channelSlot = args[0].toInt32();
+            JavaScriptFilterService * theService =
+                            reinterpret_cast<JavaScriptFilterService *>(JS_GetContextPrivate(jct));
             
             if (theService)
             {
@@ -1075,7 +1075,7 @@ static bool addCustomClasses(JSContext *        jct,
 /*! @brief Add an array containing the command-line arguments to the %JavaScript environment.
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
- @param argv The arguments to be used with the %JavaScript input / output service.
+ @param argv The arguments to be used with the %JavaScript filter service.
  @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
 static bool addArgvObject(JSContext *              jct,
                           JS::RootedObject &       global,
@@ -1198,7 +1198,7 @@ static bool addScriptTagObject(JSContext *        jct,
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
  @param tag The modifier for the service name and port names.
- @param argv The arguments to be used with the %JavaScript input / output service.
+ @param argv The arguments to be used with the %JavaScript filter service.
  @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
 static bool addCustomObjects(JSContext *              jct,
                              JS::RootedObject &       global,
@@ -1954,13 +1954,13 @@ static bool validateLoadedScript(JSContext *           jct,
     return okSoFar;
 } // validateLoadedScript
 
-/*! @brief Set up the environment and start the %JavaScript service.
+/*! @brief Set up the environment and start the %JavaScript filter service.
  @param argumentList Descriptions of the arguments to the executable.
  @param scriptPath The script file to be processed.
  @param arguments The arguments for the service.
  @param progName The path to the executable.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %JavaScript service.
+ @param argv The arguments to be used with the %JavaScript filter service.
  @param tag The modifier for the service name and port names.
  @param serviceEndpointName The YARP name to be assigned to the new service.
  @param servicePortNumber The port being used by the service. 
@@ -2152,20 +2152,22 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     }
                     if (okSoFar)
                     {
-                        JavaScriptService * aService = new JavaScriptService(argumentList, jct,
-                                                                             global, scriptPath,
-                                                                             argc, argv, tag,
-                                                                             description,
-                                                                         loadedInletDescriptions,
-                                                                         loadedOutletDescriptions,
-                                                                             loadedInletHandlers,
-                                                                             loadedStartingFunction,
-                                                                             loadedStoppingFunction,
-                                                                             sawThread,
-                                                                             loadedThreadFunction,
-                                                                             loadedInterval,
-                                                                             serviceEndpointName,
-                                                                             servicePortNumber);
+                        JavaScriptFilterService * aService =
+                                                        new JavaScriptFilterService(argumentList,
+                                                                                    jct, global,
+                                                                                    scriptPath,
+                                                                                    argc, argv, tag,
+                                                                                    description,
+                                                                            loadedInletDescriptions,
+                                                                        loadedOutletDescriptions,
+                                                                                loadedInletHandlers,
+                                                                            loadedStartingFunction,
+                                                                            loadedStoppingFunction,
+                                                                                    sawThread,
+                                                                            loadedThreadFunction,
+                                                                                    loadedInterval,
+                                                                                serviceEndpointName,
+                                                                                servicePortNumber);
 
                         if (aService)
                         {
@@ -2219,11 +2221,11 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-/*! @brief The entry point for running the %JavaScript input / output service.
+/*! @brief The entry point for running the %JavaScript filter service.
 
  The first argument is the path of the script to be run by the service.
  @param argc The number of arguments in 'argv'.
- @param argv The arguments to be used with the %JavaScript input / output service.
+ @param argv The arguments to be used with the %JavaScript filter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
 int main(int      argc,
          char * * argv)

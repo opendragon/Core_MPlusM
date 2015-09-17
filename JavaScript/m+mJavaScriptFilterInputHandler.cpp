@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mJavaScriptInputHandler.cpp
+//  File:       m+mJavaScriptFilterInputHandler.cpp
 //
 //  Project:    m+m
 //
 //  Contains:   The class definition for the input channel input handler used by the JavaScript
-//              input / output service.
+//              filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,8 +37,8 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mJavaScriptInputHandler.h"
-#include "m+mJavaScriptService.h"
+#include "m+mJavaScriptFilterInputHandler.h"
+#include "m+mJavaScriptFilterService.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,8 +49,8 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for the input channel input handler used by the %JavaScript
- input / output service. */
+ @brief The class definition for the input channel input handler used by the %JavaScript filter
+ service. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -249,22 +249,22 @@ static void createValueFromBottle(JSContext *              jct,
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptInputHandler::JavaScriptInputHandler(JavaScriptService * owner,
-                                               const size_t        slotNumber,
-                                               JS::HandleValue &   handlerFunc) :
+JavaScriptFilterInputHandler::JavaScriptFilterInputHandler(JavaScriptFilterService * owner,
+                                                           const size_t              slotNumber,
+                                                           JS::HandleValue &         handlerFunc) :
     inherited(), _owner(owner), _handlerFunc(handlerFunc), _slotNumber(slotNumber), _active(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("owner = ", owner, "handlerFunc = ", &handlerFunc); //####
     OD_LOG_L1("slotNumber = ", slotNumber); //####
     OD_LOG_EXIT_P(this); //####
-} // JavaScriptInputHandler::JavaScriptInputHandler
+} // JavaScriptFilterInputHandler::JavaScriptFilterInputHandler
 
-JavaScriptInputHandler::~JavaScriptInputHandler(void)
+JavaScriptFilterInputHandler::~JavaScriptFilterInputHandler(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // JavaScriptInputHandler::~JavaScriptInputHandler
+} // JavaScriptFilterInputHandler::~JavaScriptFilterInputHandler
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
@@ -274,7 +274,7 @@ JavaScriptInputHandler::~JavaScriptInputHandler(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-DEFINE_HANDLE_INPUT_(JavaScriptInputHandler)
+DEFINE_HANDLE_INPUT_(JavaScriptFilterInputHandler)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -348,7 +348,7 @@ DEFINE_HANDLE_INPUT_(JavaScriptInputHandler)
     }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // JavaScriptInputHandler::handleInput
+} // JavaScriptFilterInputHandler::handleInput
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_

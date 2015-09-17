@@ -1,11 +1,11 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mCommonLispInputHandler.h
+//  File:       m+mCommonLispFilterInputHandler.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for the input channel input handler used by the Common Lisp
-//              input / output service.
+//  Contains:   The class declaration for the input channel input handler used by the CommonLisp
+//              filter service.
 //
 //  Written by: Norman Jaffe
 //
@@ -37,10 +37,10 @@
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMCommonLispInputHandler_H_))
-# define MpMCommonLispInputHandler_H_ /* Header guard */
+#if (! defined(MpMCommonLispFilterInputHandler_H_))
+# define MpMCommonLispFilterInputHandler_H_ /* Header guard */
 
-# include "m+mCommonLispCommon.h"
+# include "m+mCommonLispFilterCommon.h"
 
 # include <m+m/m+mBaseInputHandler.h>
 # include <m+m/m+mGeneralChannel.h>
@@ -51,8 +51,8 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for the input channel input handler used by the Common Lisp
- input / output service. */
+ @brief The class declaration for the input channel input handler used by the %CommonLisp filter
+ service. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
@@ -61,13 +61,13 @@ namespace MplusM
 {
     namespace CommonLisp
     {
-        class CommonLispService;
+        class CommonLispFilterService;
         
         /*! @brief A handler for partially-structured input data.
          
          The data is expected to be in the form of a sequence of integer or floating point
          values. */
-        class CommonLispInputHandler : public Common::BaseInputHandler
+        class CommonLispFilterInputHandler : public Common::BaseInputHandler
         {
         public :
             
@@ -75,11 +75,11 @@ namespace MplusM
              @param owner The service that owns this handler.
              @param slotNumber The slot number of the associated channel.
              @param handlerFunc The %CommonLisp handler function for the channel. */
-            CommonLispInputHandler(CommonLispService * owner,
-                                   const size_t        slotNumber);
+            CommonLispFilterInputHandler(CommonLispFilterService * owner,
+                                         const size_t        slotNumber);
             
             /*! @brief The destructor. */
-            virtual ~CommonLispInputHandler(void);
+            virtual ~CommonLispFilterInputHandler(void);
             
             /*! @brief Turn on input processing. */
             inline void activate(void)
@@ -107,7 +107,7 @@ namespace MplusM
             
             DECLARE_HANDLEINPUT_;
             
-            COPY_AND_ASSIGNMENT_(CommonLispInputHandler);
+            COPY_AND_ASSIGNMENT_(CommonLispFilterInputHandler);
             
         public :
         
@@ -119,7 +119,7 @@ namespace MplusM
             typedef BaseInputHandler inherited;
             
             /*! @brief The service that owns this handler. */
-            CommonLispService * _owner;
+            CommonLispFilterService * _owner;
             
             /*! @brief The data received by this handler. */
             yarp::os::Bottle _received;
@@ -130,10 +130,10 @@ namespace MplusM
             /*! @brief @c true if the input is to be processed and @c false otherwise. */
             bool _active;
             
-        }; // CommonLispInputHandler
+        }; // CommonLispFilterInputHandler
         
     } // CommonLisp
     
 } // MplusM
 
-#endif // ! defined(MpMCommonLispInputHandler_H_)
+#endif // ! defined(MpMCommonLispFilterInputHandler_H_)
