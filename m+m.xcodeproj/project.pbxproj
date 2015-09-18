@@ -835,10 +835,10 @@
 				DFDAF5D01AE7F950009FD326 /* m+mProComp2InputRequests.h */,
 				DFDAF5D11AE7F950009FD326 /* m+mProComp2InputService.cpp */,
 				DFDAF5D21AE7F950009FD326 /* m+mProComp2InputService.h */,
+				DFDAF5D61AE7F950009FD326 /* m+mProComp2InputService.rc.in */,
 				DFDAF5D31AE7F950009FD326 /* m+mProComp2InputServiceMain.cpp */,
 				DFDAF5D41AE7F950009FD326 /* m+mProComp2InputThread.cpp */,
 				DFDAF5D51AE7F950009FD326 /* m+mProComp2InputThread.h */,
-				DFDAF5D61AE7F950009FD326 /* m+mProComp2InputService.rc.in */,
 				DFDAF5D71AE7F950009FD326 /* resource.h */,
 			);
 			name = ProComp2InputService;
@@ -922,8 +922,8 @@
 				DF8D35541AA4B53300322DDD /* m+mConnectionThread.h */,
 				DF8D35551AA4B53300322DDD /* m+mTunnelService.cpp */,
 				DF8D35561AA4B53300322DDD /* m+mTunnelService.h */,
-				DF8D35571AA4B53300322DDD /* m+mTunnelServiceMain.cpp */,
 				DFA7D1551ADDB91800A17BD6 /* m+mTunnelService.rc.in */,
+				DF8D35571AA4B53300322DDD /* m+mTunnelServiceMain.cpp */,
 				DF1BD3441A8C01A50070A09C /* RequestHandlers */,
 				DFA7D11D1ADD9D9300A17BD6 /* resource.h */,
 			);
@@ -953,8 +953,8 @@
 				DF8D354D1AA4B4F500322DDD /* CMakeLists.txt */,
 				DF8D354E1AA4B4F500322DDD /* m+mTunnelClient.cpp */,
 				DF8D354F1AA4B4F500322DDD /* m+mTunnelClient.h */,
-				DF8D35501AA4B4F500322DDD /* m+mTunnelClientMain.cpp */,
 				DFA7D1541ADDB90C00A17BD6 /* m+mTunnelClient.rc.in */,
+				DF8D35501AA4B4F500322DDD /* m+mTunnelClientMain.cpp */,
 				DFA7D11B1ADD9D7500A17BD6 /* resource.h */,
 			);
 			name = TunnelClient;
@@ -978,15 +978,15 @@
 				DF1C1C5E1B39F22A00E816A4 /* m+mBlobOutputRequests.h */,
 				DF1C1C5F1B39F22A00E816A4 /* m+mBlobOutputService.cpp */,
 				DF1C1C601B39F22A00E816A4 /* m+mBlobOutputService.h */,
+				DF1C1C621B39F22A00E816A4 /* m+mBlobOutputService.rc.in */,
 				DF1C1C611B39F22A00E816A4 /* m+mBlobOutputServiceMain.cpp */,
 				DF1C1C641B3C410400E816A4 /* m+mRecordBlobOutputInputHandler.cpp */,
 				DF1C1C651B3C410400E816A4 /* m+mRecordBlobOutputInputHandler.h */,
 				DF1C1C661B3C410400E816A4 /* m+mRecordBlobOutputRequests.h */,
 				DF1C1C671B3C410400E816A4 /* m+mRecordBlobOutputService.cpp */,
 				DF1C1C681B3C410400E816A4 /* m+mRecordBlobOutputService.h */,
-				DF1C1C691B3C410400E816A4 /* m+mRecordBlobOutputServiceMain.cpp */,
-				DF1C1C621B39F22A00E816A4 /* m+mBlobOutputService.rc.in */,
 				DF1C1C6A1B3C410400E816A4 /* m+mRecordBlobOutputService.rc.in */,
+				DF1C1C691B3C410400E816A4 /* m+mRecordBlobOutputServiceMain.cpp */,
 				DF1C1C631B39F22A00E816A4 /* resource.h */,
 				DF1C1C6B1B3C410400E816A4 /* resource1.h */,
 			);
@@ -1016,10 +1016,10 @@
 				DF1C1C831B41B20D00E816A4 /* m+mOpenStageInputRequests.h */,
 				DF1C1C841B41B20D00E816A4 /* m+mOpenStageInputService.cpp */,
 				DF1C1C851B41B20D00E816A4 /* m+mOpenStageInputService.h */,
+				DF1C1C891B41B20D00E816A4 /* m+mOpenStageInputService.rc.in */,
 				DF1C1C861B41B20D00E816A4 /* m+mOpenStageInputServiceMain.cpp */,
 				DF1C1C871B41B20D00E816A4 /* m+mOpenStageInputThread.cpp */,
 				DF1C1C881B41B20D00E816A4 /* m+mOpenStageInputThread.h */,
-				DF1C1C891B41B20D00E816A4 /* m+mOpenStageInputService.rc.in */,
 				DF1C1C8A1B41B20D00E816A4 /* resource.h */,
 			);
 			name = OpenStageInputService;
@@ -1029,8 +1029,8 @@
 			isa = PBXGroup;
 			children = (
 				DF385017198A9DBE00A0414E /* CMakeLists.txt */,
-				DF385018198A9DBE00A0414E /* m+mServiceListerMain.cpp */,
 				DFA7D14E1ADDB8B900A17BD6 /* m+mServiceLister.rc.in */,
+				DF385018198A9DBE00A0414E /* m+mServiceListerMain.cpp */,
 				DFA7D10F1ADD9CA100A17BD6 /* resource.h */,
 			);
 			name = ServiceLister;
@@ -1040,8 +1040,8 @@
 			isa = PBXGroup;
 			children = (
 				DF385015198A9DA800A0414E /* CMakeLists.txt */,
-				DF385016198A9DA800A0414E /* m+mRequestInfoMain.cpp */,
 				DFA7D14D1ADDB8AC00A17BD6 /* m+mRequestInfo.rc.in */,
+				DF385016198A9DA800A0414E /* m+mRequestInfoMain.cpp */,
 				DFA7D10D1ADD9C8200A17BD6 /* resource.h */,
 			);
 			name = RequestInfo;
@@ -1055,8 +1055,8 @@
 				DF38500B198A9D6A00A0414E /* m+mRequestCounterContext.h */,
 				DF38500E198A9D6A00A0414E /* m+mRequestCounterService.cpp */,
 				DF38500F198A9D6A00A0414E /* m+mRequestCounterService.h */,
-				DF385010198A9D6A00A0414E /* m+mRequestCounterServiceMain.cpp */,
 				DFA7D14C1ADDB89B00A17BD6 /* m+mRequestCounterService.rc.in */,
+				DF385010198A9D6A00A0414E /* m+mRequestCounterServiceMain.cpp */,
 				DF36EEF31958E0A500E7D889 /* RequestHandlers */,
 				DFA7D10B1ADD9C5400A17BD6 /* resource.h */,
 			);
@@ -1089,8 +1089,8 @@
 				DF385004198A9D4A00A0414E /* CMakeLists.txt */,
 				DF385005198A9D4A00A0414E /* m+mRequestCounterClient.cpp */,
 				DF385006198A9D4A00A0414E /* m+mRequestCounterClient.h */,
-				DF385007198A9D4A00A0414E /* m+mRequestCounterClientMain.cpp */,
 				DF2934481B4B180A0067FBB0 /* m+mRequestCounterClient.rc.in */,
+				DF385007198A9D4A00A0414E /* m+mRequestCounterClientMain.cpp */,
 				DFA7D1091ADD9C2B00A17BD6 /* resource.h */,
 			);
 			name = RequestCounterClient;
@@ -1104,8 +1104,8 @@
 				DF384FB1198A9C0500A0414E /* m+mRunningSumContext.h */,
 				DF384FB2198A9C0500A0414E /* m+mRunningSumService.cpp */,
 				DF384FB3198A9C0500A0414E /* m+mRunningSumService.h */,
-				DF384FB4198A9C0500A0414E /* m+mRunningSumServiceMain.cpp */,
 				DFA7D1351ADDB6AE00A17BD6 /* m+mRunningSumService.rc.in */,
+				DF384FB4198A9C0500A0414E /* m+mRunningSumServiceMain.cpp */,
 				DFA7D0DB1ADD962700A17BD6 /* resource.h */,
 				DF36EEF51958E11B00E7D889 /* RequestHandlers */,
 			);
@@ -1118,8 +1118,8 @@
 				DF384FA6198A9BE800A0414E /* CMakeLists.txt */,
 				DF384FA7198A9BE800A0414E /* m+mRunningSumClient.cpp */,
 				DF384FA8198A9BE800A0414E /* m+mRunningSumClient.h */,
-				DF384FA9198A9BE800A0414E /* m+mRunningSumClientMain.cpp */,
 				DFA7D1341ADDB6A200A17BD6 /* m+mRunningSumClient.rc.in */,
+				DF384FA9198A9BE800A0414E /* m+mRunningSumClientMain.cpp */,
 				DFA7D0D91ADD95F400A17BD6 /* resource.h */,
 			);
 			name = RunningSumClient;
@@ -1130,9 +1130,9 @@
 			children = (
 				DF38507A198AC50200A0414E /* CMakeLists.txt */,
 				DF38507B198AC50200A0414E /* m+mParserTest.cpp */,
+				DFA7D1461ADDB7B600A17BD6 /* m+mParserTest.rc.in */,
 				DF38507C198AC50200A0414E /* m+mTestNameValidator.cpp */,
 				DF38507D198AC50200A0414E /* m+mTestNameValidator.h */,
-				DFA7D1461ADDB7B600A17BD6 /* m+mParserTest.rc.in */,
 				DFA7D0FF1ADD9B7500A17BD6 /* resource.h */,
 			);
 			name = ParserTest;
@@ -1142,6 +1142,7 @@
 			isa = PBXGroup;
 			children = (
 				DF384F82198A9B3100A0414E /* CMakeLists.txt */,
+				DF4FB52A1B166A4800534D59 /* m+mRandomNumberAdapter.rc.in */,
 				DF384F83198A9B3100A0414E /* m+mRandomNumberAdapterData.cpp */,
 				DF384F84198A9B3100A0414E /* m+mRandomNumberAdapterData.h */,
 				DF4FB5291B166A4800534D59 /* m+mRandomNumberAdapterMain.cpp */,
@@ -1150,7 +1151,6 @@
 				DF4FB5281B166A4800534D59 /* m+mRandomNumberAdapterService.h */,
 				DF384F86198A9B3100A0414E /* m+mRandomNumberInputHandler.cpp */,
 				DF384F87198A9B3100A0414E /* m+mRandomNumberInputHandler.h */,
-				DF4FB52A1B166A4800534D59 /* m+mRandomNumberAdapter.rc.in */,
 				DFA7D0CB1ADD939B00A17BD6 /* resource.h */,
 			);
 			name = RandomNumberAdapter;
@@ -1160,8 +1160,8 @@
 			isa = PBXGroup;
 			children = (
 				DF384FDD198A9CA600A0414E /* CMakeLists.txt */,
-				DF384FDE198A9CA600A0414E /* m+mPortListerMain.cpp */,
 				DFA7D1471ADDB7C300A17BD6 /* m+mPortLister.rc.in */,
+				DF384FDE198A9CA600A0414E /* m+mPortListerMain.cpp */,
 				DFA7D1011ADD9B9400A17BD6 /* resource.h */,
 			);
 			name = PortLister;
@@ -1287,10 +1287,10 @@
 				DF824B8419C7460C004D13AC /* m+mRandomBurstInputRequests.h */,
 				DF824B8519C7460C004D13AC /* m+mRandomBurstInputService.cpp */,
 				DF824B8619C7460C004D13AC /* m+mRandomBurstInputService.h */,
+				DFA7D12C1ADDB64F00A17BD6 /* m+mRandomBurstInputService.rc.in */,
 				DF824B8719C7460C004D13AC /* m+mRandomBurstInputServiceMain.cpp */,
 				DF824B8819C7460C004D13AC /* m+mRandomBurstInputThread.cpp */,
 				DF824B8919C7460C004D13AC /* m+mRandomBurstInputThread.h */,
-				DFA7D12C1ADDB64F00A17BD6 /* m+mRandomBurstInputService.rc.in */,
 				DFA7D0C91ADD936E00A17BD6 /* resource.h */,
 			);
 			name = RandomBurstService;
@@ -1305,8 +1305,8 @@
 				DF824B7F19C744CC004D13AC /* m+mRecordIntegersOutputRequests.h */,
 				DF824B8019C744CC004D13AC /* m+mRecordIntegersOutputService.cpp */,
 				DF824B8119C744CC004D13AC /* m+mRecordIntegersOutputService.h */,
-				DF824B8219C744CC004D13AC /* m+mRecordIntegersOutputServiceMain.cpp */,
 				DFA7D1301ADDB67800A17BD6 /* m+mRecordIntegersOutputService.rc.in */,
+				DF824B8219C744CC004D13AC /* m+mRecordIntegersOutputServiceMain.cpp */,
 				DFA7D0D11ADD94CF00A17BD6 /* resource.h */,
 			);
 			name = RecordIntegersService;
@@ -1321,8 +1321,8 @@
 				DFCDE4F219DB2B6B0051D294 /* m+mTruncateFloatFilterRequests.h */,
 				DFCDE4F319DB2B6B0051D294 /* m+mTruncateFloatFilterService.cpp */,
 				DFCDE4F419DB2B6B0051D294 /* m+mTruncateFloatFilterService.h */,
-				DFCDE4F519DB2B6B0051D294 /* m+mTruncateFloatFilterServiceMain.cpp */,
 				DFA7D1361ADDB6BB00A17BD6 /* m+mTruncateFloatFilterService.rc.in */,
+				DFCDE4F519DB2B6B0051D294 /* m+mTruncateFloatFilterServiceMain.cpp */,
 				DFA7D0DD1ADD964F00A17BD6 /* resource.h */,
 			);
 			name = TruncateFloatService;
@@ -1333,6 +1333,7 @@
 			children = (
 				DF38503E198ABBBB00A0414E /* CMakeLists.txt */,
 				DF385059198ABC2000A0414E /* m+mCommonTest.cpp */,
+				DFA7D1271ADDB5FB00A17BD6 /* m+mCommonTest.rc.in */,
 				DF38503F198ABBBB00A0414E /* m+mTest03Handler.cpp */,
 				DF385040198ABBBB00A0414E /* m+mTest03Handler.h */,
 				DF385041198ABBBB00A0414E /* m+mTest04Handler.cpp */,
@@ -1359,7 +1360,6 @@
 				DF385056198ABBBB00A0414E /* m+mTest12EchoRequestHandler.h */,
 				DF385057198ABBBB00A0414E /* m+mTest12Service.cpp */,
 				DF385058198ABBBB00A0414E /* m+mTest12Service.h */,
-				DFA7D1271ADDB5FB00A17BD6 /* m+mCommonTest.rc.in */,
 				DFA7D0FB1ADD9B1900A17BD6 /* resource.h */,
 			);
 			name = CommonTests;
@@ -1395,13 +1395,13 @@
 			isa = PBXGroup;
 			children = (
 				DF384FA2198A9BCF00A0414E /* CMakeLists.txt */,
+				DF4FB5341B166B9A00534D59 /* m+mRunningSumAltAdapter.rc.in */,
 				DF4FB5331B166B9A00534D59 /* m+mRunningSumAltAdapterMain.cpp */,
 				DF4FB5301B166B9A00534D59 /* m+mRunningSumAltAdapterRequests.h */,
 				DF4FB5311B166B9A00534D59 /* m+mRunningSumAltAdapterService.cpp */,
 				DF4FB5321B166B9A00534D59 /* m+mRunningSumAltAdapterService.h */,
 				DF384FA4198A9BCF00A0414E /* m+mRunningSumInputHandler.cpp */,
 				DF384FA5198A9BCF00A0414E /* m+mRunningSumInputHandler.h */,
-				DF4FB5341B166B9A00534D59 /* m+mRunningSumAltAdapter.rc.in */,
 				DFA7D0D71ADD95CF00A17BD6 /* resource.h */,
 			);
 			name = RunningSumAltAdapter;
@@ -1416,8 +1416,8 @@
 				DF1C1C6F1B3C4A2600E816A4 /* m+mRecordAsJSONOutputRequests.h */,
 				DF1C1C701B3C4A2600E816A4 /* m+mRecordAsJSONOutputService.cpp */,
 				DF1C1C711B3C4A2600E816A4 /* m+mRecordAsJSONOutputService.h */,
-				DF1C1C721B3C4A2600E816A4 /* m+mRecordAsJSONOutputServiceMain.cpp */,
 				DF1C1C731B3C4A2600E816A4 /* m+mRecordAsJSONOutputService.rc.in */,
+				DF1C1C721B3C4A2600E816A4 /* m+mRecordAsJSONOutputServiceMain.cpp */,
 				DF1C1C741B3C4A2600E816A4 /* resource.h */,
 			);
 			name = RecordAsJSONService;
@@ -1441,15 +1441,15 @@
 				F655C6161B3B520800933D40 /* m+mViconBlobInputRequests.h */,
 				F655C6171B3B520800933D40 /* m+mViconBlobInputService.cpp */,
 				F655C6181B3B520800933D40 /* m+mViconBlobInputService.h */,
+				F655C61A1B3B520800933D40 /* m+mViconBlobInputService.rc.in */,
 				F655C6191B3B520800933D40 /* m+mViconBlobInputServiceMain.cpp */,
 				DF6DFCC31A0D265000E8CEF5 /* m+mViconDataStreamEventThread.cpp */,
 				DF6DFCC41A0D265000E8CEF5 /* m+mViconDataStreamEventThread.h */,
 				DF6DFCC51A0D265000E8CEF5 /* m+mViconDataStreamInputRequests.h */,
 				DF6DFCC61A0D265000E8CEF5 /* m+mViconDataStreamInputService.cpp */,
 				DF6DFCC71A0D265000E8CEF5 /* m+mViconDataStreamInputService.h */,
-				DF6DFCC81A0D265000E8CEF5 /* m+mViconDataStreamInputServiceMain.cpp */,
-				F655C61A1B3B520800933D40 /* m+mViconBlobInputService.rc.in */,
 				DFA7D1581ADDB94700A17BD6 /* m+mViconDataStreamInputService.rc.in */,
+				DF6DFCC81A0D265000E8CEF5 /* m+mViconDataStreamInputServiceMain.cpp */,
 				DFA7D1231ADD9E7000A17BD6 /* resource.h */,
 				F655C61B1B3B520800933D40 /* resource1.h */,
 				DF6DFCC91A0D265000E8CEF5 /* stdafx.h */,
@@ -1473,10 +1473,10 @@
 				DF76235B1AFD01C4002BDC49 /* m+mEmotivInputRequests.h */,
 				DF7623591AFD01C4002BDC49 /* m+mEmotivInputService.cpp */,
 				DF76235C1AFD01C4002BDC49 /* m+mEmotivInputService.h */,
+				DF76235D1AFD01C4002BDC49 /* m+mEmotivInputService.rc.in */,
 				DF7623581AFD01C4002BDC49 /* m+mEmotivInputServiceMain.cpp */,
 				DF76235A1AFD01C4002BDC49 /* m+mEmotivInputThread.cpp */,
 				DF7623601AFD01C4002BDC49 /* m+mEmotivInputThread.h */,
-				DF76235D1AFD01C4002BDC49 /* m+mEmotivInputService.rc.in */,
 				DF76235F1AFD01C4002BDC49 /* resource.h */,
 			);
 			name = EmotivInputService;
@@ -1533,6 +1533,7 @@
 			isa = PBXGroup;
 			children = (
 				DF824B8B19C7535F004D13AC /* CMakeLists.txt */,
+				DF4FB5391B166C4C00534D59 /* m+mExemplarAdapter.rc.in */,
 				DF824B8C19C7535F004D13AC /* m+mExemplarAdapterData.cpp */,
 				DF824B8D19C7535F004D13AC /* m+mExemplarAdapterData.h */,
 				DF4FB5381B166C4C00534D59 /* m+mExemplarAdapterMain.cpp */,
@@ -1541,7 +1542,6 @@
 				DF4FB5371B166C4C00534D59 /* m+mExemplarAdapterService.h */,
 				DF824B8F19C7535F004D13AC /* m+mExemplarInputHandler.cpp */,
 				DF824B9019C7535F004D13AC /* m+mExemplarInputHandler.h */,
-				DF4FB5391B166C4C00534D59 /* m+mExemplarAdapter.rc.in */,
 				DFA7D0DF1ADD98CF00A17BD6 /* resource.h */,
 			);
 			name = ExemplarAdapter;
@@ -1553,8 +1553,8 @@
 				DF824B9719C7545A004D13AC /* CMakeLists.txt */,
 				DF824B9819C7545A004D13AC /* m+mExemplarClient.cpp */,
 				DF824B9919C7545A004D13AC /* m+mExemplarClient.h */,
-				DF824B9A19C7545A004D13AC /* m+mExemplarClientMain.cpp */,
 				DFA7D1381ADDB6DC00A17BD6 /* m+mExemplarClient.rc.in */,
+				DF824B9A19C7545A004D13AC /* m+mExemplarClientMain.cpp */,
 				DFA7D0E11ADD98F200A17BD6 /* resource.h */,
 			);
 			name = ExemplarClient;
@@ -1577,8 +1577,8 @@
 				DF824B9F19C7554B004D13AC /* m+mExemplarFilterRequests.h */,
 				DF824BA019C7554B004D13AC /* m+mExemplarFilterService.cpp */,
 				DF824BA119C7554B004D13AC /* m+mExemplarFilterService.h */,
-				DF824BA219C7554B004D13AC /* m+mExemplarFilterServiceMain.cpp */,
 				DFA7D1391ADDB6E500A17BD6 /* m+mExemplarFilterService.rc.in */,
+				DF824BA219C7554B004D13AC /* m+mExemplarFilterServiceMain.cpp */,
 				DFA7D0E31ADD991700A17BD6 /* resource.h */,
 			);
 			name = ExemplarFilterService;
@@ -1591,10 +1591,10 @@
 				DF824BA419C7556C004D13AC /* m+mExemplarInputRequests.h */,
 				DF824BA519C7556C004D13AC /* m+mExemplarInputService.cpp */,
 				DF824BA619C7556C004D13AC /* m+mExemplarInputService.h */,
+				DFA7D13A1ADDB6F000A17BD6 /* m+mExemplarInputService.rc.in */,
 				DF824BA719C7556C004D13AC /* m+mExemplarInputServiceMain.cpp */,
 				DF824BA819C7556C004D13AC /* m+mExemplarInputThread.cpp */,
 				DF824BA919C7556C004D13AC /* m+mExemplarInputThread.h */,
-				DFA7D13A1ADDB6F000A17BD6 /* m+mExemplarInputService.rc.in */,
 				DFA7D0E51ADD993B00A17BD6 /* resource.h */,
 			);
 			name = ExemplarInputService;
@@ -1609,8 +1609,8 @@
 				DF824BAD19C75591004D13AC /* m+mExemplarOutputRequests.h */,
 				DF824BAE19C75591004D13AC /* m+mExemplarOutputService.cpp */,
 				DF824BAF19C75591004D13AC /* m+mExemplarOutputService.h */,
-				DF824BB019C75591004D13AC /* m+mExemplarOutputServiceMain.cpp */,
 				DFA7D13B1ADDB6FA00A17BD6 /* m+mExemplarOutputService.rc.in */,
+				DF824BB019C75591004D13AC /* m+mExemplarOutputServiceMain.cpp */,
 				DFA7D0E71ADD995800A17BD6 /* resource.h */,
 			);
 			name = ExemplarOutputService;
@@ -1622,10 +1622,10 @@
 				DF824BB119C755AD004D13AC /* CMakeLists.txt */,
 				DF824BB219C755AD004D13AC /* m+mExemplarService.cpp */,
 				DF824BB319C755AD004D13AC /* m+mExemplarService.h */,
+				DFA7D13C1ADDB70600A17BD6 /* m+mExemplarService.rc.in */,
 				DF824BB419C755AD004D13AC /* m+mExemplarServiceMain.cpp */,
 				DF824BB519C755AD004D13AC /* m+mSimpleRequestHandler.cpp */,
 				DF824BB619C755AD004D13AC /* m+mSimpleRequestHandler.h */,
-				DFA7D13C1ADDB70600A17BD6 /* m+mExemplarService.rc.in */,
 				DFA7D0E91ADD997A00A17BD6 /* resource.h */,
 			);
 			name = ExemplarService;
@@ -1651,22 +1651,22 @@
 				F655C60E1B3B27DC00933D40 /* m+mLeapBlobInputRequests.h */,
 				F655C60F1B3B27DC00933D40 /* m+mLeapBlobInputService.cpp */,
 				F655C6101B3B27DC00933D40 /* m+mLeapBlobInputService.h */,
+				F655C6121B3B282000933D40 /* m+mLeapBlobInputService.rc.in */,
 				F655C6111B3B27DC00933D40 /* m+mLeapBlobInputServiceMain.cpp */,
 				DF824BCE19C8E4C5004D13AC /* m+mLeapMotionInputListener.cpp */,
 				DF824BCF19C8E4C5004D13AC /* m+mLeapMotionInputListener.h */,
 				DF824BD019C8E4C5004D13AC /* m+mLeapMotionInputRequests.h */,
 				DF824BD119C8E4C5004D13AC /* m+mLeapMotionInputService.cpp */,
 				DF824BD219C8E4C5004D13AC /* m+mLeapMotionInputService.h */,
+				DFA7D1401ADDB74800A17BD6 /* m+mLeapMotionInputService.rc.in */,
 				DF824BD319C8E4C5004D13AC /* m+mLeapMotionInputServiceMain.cpp */,
 				F64A5FE81A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.cpp */,
 				F64A5FE91A9BFB2D0015A21E /* m+mLeapTwoFingersInputListener.h */,
 				F64A5FEA1A9BFB2D0015A21E /* m+mLeapTwoFingersInputRequests.h */,
 				F64A5FEB1A9BFB2D0015A21E /* m+mLeapTwoFingersInputService.cpp */,
 				F64A5FEC1A9BFB2D0015A21E /* m+mLeapTwoFingersInputService.h */,
-				F64A5FED1A9BFB2D0015A21E /* m+mLeapTwoFingersInputServiceMain.cpp */,
-				F655C6121B3B282000933D40 /* m+mLeapBlobInputService.rc.in */,
-				DFA7D1401ADDB74800A17BD6 /* m+mLeapMotionInputService.rc.in */,
 				DFA7D1411ADDB74800A17BD6 /* m+mLeapTwoFingersInputService.rc.in */,
+				F64A5FED1A9BFB2D0015A21E /* m+mLeapTwoFingersInputServiceMain.cpp */,
 				DF29344A1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputListener.cpp */,
 				DF29344B1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputListener.h */,
 				DF29344C1B4D5E6F0067FBB0 /* m+mLeapTwoPalmsInputRequests.h */,
@@ -1686,8 +1686,8 @@
 			isa = PBXGroup;
 			children = (
 				DF88881E1AEFD2B7001320EB /* CMakeLists.txt */,
-				DF88881F1AEFD2B7001320EB /* m+mStopServiceMain.cpp */,
 				DF8888201AEFD2B7001320EB /* m+mStopService.rc.in */,
+				DF88881F1AEFD2B7001320EB /* m+mStopServiceMain.cpp */,
 				DF8888211AEFD2B7001320EB /* resource.h */,
 			);
 			name = StopService;
@@ -1697,8 +1697,8 @@
 			isa = PBXGroup;
 			children = (
 				DF8D35471AA4B49B00322DDD /* CMakeLists.txt */,
-				DF8D35481AA4B49B00322DDD /* m+mTestLoopbackResponderMain.cpp */,
 				DFA7D1511ADDB8E500A17BD6 /* m+mTestLoopbackResponder.rc.in */,
+				DF8D35481AA4B49B00322DDD /* m+mTestLoopbackResponderMain.cpp */,
 				DFA7D1151ADD9D0800A17BD6 /* resource.h */,
 			);
 			name = TesLoopbackResponder;
@@ -1708,8 +1708,8 @@
 			isa = PBXGroup;
 			children = (
 				DF8D35451AA4B34300322DDD /* CMakeLists.txt */,
-				DF8D35461AA4B34300322DDD /* m+mTestLoopbackControlMain.cpp */,
 				DFA7D1501ADDB8D800A17BD6 /* m+mTestLoopbackControl.rc.in */,
+				DF8D35461AA4B34300322DDD /* m+mTestLoopbackControlMain.cpp */,
 				DFA7D1131ADD9CEB00A17BD6 /* resource.h */,
 			);
 			name = TestLoopbackControl;
@@ -1770,9 +1770,9 @@
 				DF1C1CB01B42F49C00E816A4 /* m+mRegistryCheckThread.h */,
 				DF1C1CB11B42F49C00E816A4 /* m+mRegistryService.cpp */,
 				DF1C1CB21B42F49C00E816A4 /* m+mRegistryService.h */,
+				DF1C1CB51B42F49C00E816A4 /* m+mRegistryService.rc.in */,
 				DF1C1CB31B42F49C00E816A4 /* m+mRegistryServiceMain.cpp */,
 				DF1C1CB41B42F49C00E816A4 /* m+mRegistryTest.cpp */,
-				DF1C1CB51B42F49C00E816A4 /* m+mRegistryService.rc.in */,
 				DF1C1CB61B42F49C00E816A4 /* m+mRegistryTest.rc.in */,
 				DF2092A118D360DE0093D3DC /* RegistryTests */,
 				DF36EEF41958E0C800E7D889 /* RequestHandlers */,
@@ -1788,8 +1788,8 @@
 				DF384F75198A9ACC00A0414E /* CMakeLists.txt */,
 				DF384F78198A9ACC00A0414E /* m+mEchoService.cpp */,
 				DF384F79198A9ACC00A0414E /* m+mEchoService.h */,
-				DF384F7A198A9ACC00A0414E /* m+mEchoServiceMain.cpp */,
 				DFA7D12B1ADDB64400A17BD6 /* m+mEchoService.rc.in */,
+				DF384F7A198A9ACC00A0414E /* m+mEchoServiceMain.cpp */,
 				DF36EEF71958E15100E7D889 /* RequestHandlers */,
 				DFA7D0C71ADD934100A17BD6 /* resource.h */,
 			);
@@ -1802,8 +1802,8 @@
 				DF384F70198A9AAA00A0414E /* CMakeLists.txt */,
 				DF384F71198A9AAA00A0414E /* m+mEchoClient.cpp */,
 				DF384F72198A9AAA00A0414E /* m+mEchoClient.h */,
-				DF384F73198A9AAA00A0414E /* m+mEchoClientMain.cpp */,
 				DFA7D12A1ADDB63900A17BD6 /* m+mEchoClient.rc.in */,
+				DF384F73198A9AAA00A0414E /* m+mEchoClientMain.cpp */,
 				DFA7D0C51ADD92B200A17BD6 /* resource.h */,
 			);
 			name = EchoClient;
@@ -1942,8 +1942,8 @@
 				DF384F88198A9B4B00A0414E /* CMakeLists.txt */,
 				DF384F89198A9B4B00A0414E /* m+mRandomNumberClient.cpp */,
 				DF384F8A198A9B4B00A0414E /* m+mRandomNumberClient.h */,
-				DF384F8B198A9B4B00A0414E /* m+mRandomNumberClientMain.cpp */,
 				DFA7D12E1ADDB66400A17BD6 /* m+mRandomNumberClient.rc.in */,
+				DF384F8B198A9B4B00A0414E /* m+mRandomNumberClientMain.cpp */,
 				DFA7D0CD1ADD93C900A17BD6 /* resource.h */,
 			);
 			name = RandomNumberClient;
@@ -1955,8 +1955,8 @@
 				DF384F8D198A9B6800A0414E /* CMakeLists.txt */,
 				DF384F8E198A9B6800A0414E /* m+mRandomNumberService.cpp */,
 				DF384F8F198A9B6800A0414E /* m+mRandomNumberService.h */,
-				DF384F90198A9B6800A0414E /* m+mRandomNumberServiceMain.cpp */,
 				DFA7D12F1ADDB66F00A17BD6 /* m+mRandomNumberService.rc.in */,
+				DF384F90198A9B6800A0414E /* m+mRandomNumberServiceMain.cpp */,
 				DF36EEF61958E13B00E7D889 /* RequestHandlers */,
 				DFA7D0CF1ADD93F900A17BD6 /* resource.h */,
 			);
@@ -1967,8 +1967,8 @@
 			isa = PBXGroup;
 			children = (
 				DF38501C198A9DEB00A0414E /* CMakeLists.txt */,
-				DF38501D198A9DEB00A0414E /* m+mVersionMain.cpp */,
 				DFA7D1571ADDB93900A17BD6 /* m+mVersion.rc.in */,
+				DF38501D198A9DEB00A0414E /* m+mVersionMain.cpp */,
 				DFA7D1211ADD9E4900A17BD6 /* resource.h */,
 			);
 			name = Version;
@@ -1978,6 +1978,7 @@
 			isa = PBXGroup;
 			children = (
 				DF384F9A198A9BB400A0414E /* CMakeLists.txt */,
+				DF4FB52F1B166B2100534D59 /* m+mRunningSumAdapter.rc.in */,
 				DF384F9B198A9BB400A0414E /* m+mRunningSumAdapterData.cpp */,
 				DF384F9C198A9BB400A0414E /* m+mRunningSumAdapterData.h */,
 				DF4FB52E1B166B2100534D59 /* m+mRunningSumAdapterMain.cpp */,
@@ -1988,7 +1989,6 @@
 				DF384F9F198A9BB400A0414E /* m+mRunningSumControlInputHandler.h */,
 				DF384FA0198A9BB400A0414E /* m+mRunningSumDataInputHandler.cpp */,
 				DF384FA1198A9BB400A0414E /* m+mRunningSumDataInputHandler.h */,
-				DF4FB52F1B166B2100534D59 /* m+mRunningSumAdapter.rc.in */,
 				DFA7D0D51ADD95A600A17BD6 /* resource.h */,
 			);
 			name = RunningSumAdapter;
@@ -2029,8 +2029,8 @@
 				DF384F6A198A9A5A00A0414E /* m+mChordGeneratorRequests.h */,
 				DF384F6B198A9A5A00A0414E /* m+mChordGeneratorService.cpp */,
 				DF384F6C198A9A5A00A0414E /* m+mChordGeneratorService.h */,
-				DF384F6D198A9A5A00A0414E /* m+mChordGeneratorServiceMain.cpp */,
 				DFA7D1291ADDB62E00A17BD6 /* m+mChordGeneratorService.rc.in */,
+				DF384F6D198A9A5A00A0414E /* m+mChordGeneratorServiceMain.cpp */,
 				DFA7D0C31ADD928200A17BD6 /* resource.h */,
 				DF36EEF81958E16400E7D889 /* RequestHandlers */,
 			);
@@ -2054,17 +2054,17 @@
 				DFFFC1C71B6129B900DA3C4D /* m+mNatNetBlobInputRequests.h */,
 				DFFFC1C81B6129B900DA3C4D /* m+mNatNetBlobInputService.cpp */,
 				DFFFC1C91B6129B900DA3C4D /* m+mNatNetBlobInputService.h */,
+				DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */,
 				DFFFC1CA1B6129B900DA3C4D /* m+mNatNetBlobInputServiceMain.cpp */,
 				DFFFC1C61B6129B900DA3C4D /* m+mNatNetBlobInputThread.cpp */,
 				DFFFC1CB1B6129B900DA3C4D /* m+mNatNetBlobInputThread.h */,
-				DFFFC1CD1B6129B900DA3C4D /* m+mNatNetBlobInputService.rc.in */,
 				DF1C1C8D1B41B2A800E816A4 /* m+mNatNetInputRequests.h */,
 				DF1C1C8E1B41B2A800E816A4 /* m+mNatNetInputService.cpp */,
 				DF1C1C8F1B41B2A800E816A4 /* m+mNatNetInputService.h */,
+				DF1C1C931B41B2A800E816A4 /* m+mNatNetInputService.rc.in */,
 				DFFFC1CC1B6129B900DA3C4D /* m+mNatNetInputServiceMain.cpp */,
 				DF1C1C901B41B2A800E816A4 /* m+mNatNetInputThread.cpp */,
 				DF1C1C911B41B2A800E816A4 /* m+mNatNetInputThread.h */,
-				DF1C1C931B41B2A800E816A4 /* m+mNatNetInputService.rc.in */,
 				DF1C1C941B41B2A800E816A4 /* resource.h */,
 			);
 			name = NatNetInputService;
@@ -2074,8 +2074,8 @@
 			isa = PBXGroup;
 			children = (
 				DFCB229818EF23DF00358EA5 /* CMakeLists.txt */,
-				DFCB229918EF23DF00358EA5 /* m+mClientListMain.cpp */,
 				DFA7D1241ADDA10F00A17BD6 /* m+mClientList.rc.in */,
+				DFCB229918EF23DF00358EA5 /* m+mClientListMain.cpp */,
 				DFA7D0BF1ADD91F300A17BD6 /* resource.h */,
 			);
 			name = ClientList;
@@ -2090,8 +2090,8 @@
 				DFCDE4EB19DB23150051D294 /* m+mAbsorberFilterRequests.h */,
 				DFCDE4EC19DB23150051D294 /* m+mAbsorberFilterService.cpp */,
 				DFCDE4ED19DB23150051D294 /* m+mAbsorberFilterService.h */,
-				DFCDE4EE19DB23150051D294 /* m+mAbsorberFilterServiceMain.cpp */,
 				DFA7D1281ADDB61F00A17BD6 /* m+mAbsorberFilterService.rc.in */,
+				DFCDE4EE19DB23150051D294 /* m+mAbsorberFilterServiceMain.cpp */,
 				DFFFC1E41B73DF1800DA3C4D /* m+mAbsorberFilterThread.cpp */,
 				DFFFC1E51B73DF1800DA3C4D /* m+mAbsorberFilterThread.h */,
 				DFA7D0C11ADD925100A17BD6 /* resource.h */,
@@ -2103,8 +2103,8 @@
 			isa = PBXGroup;
 			children = (
 				DFCDE4F719E3029B0051D294 /* CMakeLists.txt */,
-				DFCDE4F819E3029B0051D294 /* m+mFindServicesMain.cpp */,
 				DFA7D13D1ADDB71E00A17BD6 /* m+mFindServices.rc.in */,
+				DFCDE4F819E3029B0051D294 /* m+mFindServicesMain.cpp */,
 				DFA7D0EB1ADD999E00A17BD6 /* resource.h */,
 			);
 			name = FindServices;
@@ -2119,8 +2119,8 @@
 				DFCDE4FF19E6CE710051D294 /* m+mRGBLEDRequests.h */,
 				DFCDE50019E6CE710051D294 /* m+mRGBLEDService.cpp */,
 				DFCDE50119E6CE710051D294 /* m+mRGBLEDService.h */,
-				DFCDE50219E6CE710051D294 /* m+mRGBLEDServiceMain.cpp */,
 				DFA7D1311ADDB68200A17BD6 /* m+mRGBLEDService.rc.in */,
+				DFCDE50219E6CE710051D294 /* m+mRGBLEDServiceMain.cpp */,
 				DFA7D0D31ADD958E00A17BD6 /* resource.h */,
 			);
 			name = RGBLEDService;
@@ -2130,8 +2130,8 @@
 			isa = PBXGroup;
 			children = (
 				DFCDE50819E73A210051D294 /* CMakeLists.txt */,
-				DFCDE50919E73A210051D294 /* m+mServiceMetricsMain.cpp */,
 				DFA7D14F1ADDB8C500A17BD6 /* m+mServiceMetrics.rc.in */,
+				DFCDE50919E73A210051D294 /* m+mServiceMetricsMain.cpp */,
 				DFA7D1111ADD9CC000A17BD6 /* resource.h */,
 			);
 			name = ServiceMetrics;
@@ -2163,8 +2163,8 @@
 				DFE83AE019B67207003A7EDE /* CMakeLists.txt */,
 				DFE83AD019B671D1003A7EDE /* m+mMovementDbClient.cpp */,
 				DFE83AD119B671D1003A7EDE /* m+mMovementDbClient.h */,
-				DFE83AD219B671D1003A7EDE /* m+mMovementDbClientMain.cpp */,
 				DFA7D1431ADDB76D00A17BD6 /* m+mMovementDbClient.rc.in */,
+				DFE83AD219B671D1003A7EDE /* m+mMovementDbClientMain.cpp */,
 				DFA7D0F71ADD9AA800A17BD6 /* resource.h */,
 			);
 			name = MovementDbClient;
@@ -2186,8 +2186,8 @@
 				DFE83AE819B8AE4B003A7EDE /* m+mMovementDbContext.h */,
 				DFE83AD819B671D1003A7EDE /* m+mMovementDbService.cpp */,
 				DFE83AD919B671D1003A7EDE /* m+mMovementDbService.h */,
-				DFE83ADA19B671D1003A7EDE /* m+mMovementDbServiceMain.cpp */,
 				DFA7D1441ADDB77C00A17BD6 /* m+mMovementDbService.rc.in */,
+				DFE83ADA19B671D1003A7EDE /* m+mMovementDbServiceMain.cpp */,
 				DFE83AE219B8AB1A003A7EDE /* RequestHandlers */,
 				DFA7D0F91ADD9AC900A17BD6 /* resource.h */,
 			);
@@ -2213,6 +2213,7 @@
 			isa = PBXGroup;
 			children = (
 				DFE83AEC19B8C58B003A7EDE /* CMakeLists.txt */,
+				DF4FB53E1B166CD200534D59 /* m+mMovementDbAdapter.rc.in */,
 				DFE83AF019B8C7D0003A7EDE /* m+mMovementDbAdapterData.cpp */,
 				DFE83AF119B8C7D0003A7EDE /* m+mMovementDbAdapterData.h */,
 				DF4FB53D1B166CD200534D59 /* m+mMovementDbAdapterMain.cpp */,
@@ -2221,7 +2222,6 @@
 				DF4FB53C1B166CD200534D59 /* m+mMovementDbAdapterService.h */,
 				DFE83AEE19B8C58B003A7EDE /* m+mMovementDbInputHandler.cpp */,
 				DFE83AEF19B8C58B003A7EDE /* m+mMovementDbInputHandler.h */,
-				DF4FB53E1B166CD200534D59 /* m+mMovementDbAdapter.rc.in */,
 				DFA7D0F51ADD9A8300A17BD6 /* resource.h */,
 			);
 			name = MovementDbAdapter;
@@ -2245,10 +2245,10 @@
 				DFEF4B5F1A1CE6F900FBB838 /* m+mUnrealOutputRequests.h */,
 				DFEF4B601A1CE6F900FBB838 /* m+mUnrealOutputService.cpp */,
 				DFEF4B611A1CE6F900FBB838 /* m+mUnrealOutputService.h */,
+				DFA7D1561ADDB92900A17BD6 /* m+mUnrealOutputService.rc.in */,
 				DFEF4B621A1CE6F900FBB838 /* m+mUnrealOutputServiceMain.cpp */,
 				DFEF4B5D1A1CE6F900FBB838 /* m+mUnrealOutputViconInputHandler.cpp */,
 				DFEF4B5E1A1CE6F900FBB838 /* m+mUnrealOutputViconInputHandler.h */,
-				DFA7D1561ADDB92900A17BD6 /* m+mUnrealOutputService.rc.in */,
 				DFA7D11F1ADD9DC000A17BD6 /* resource.h */,
 			);
 			name = UnrealOutputService;
@@ -2304,15 +2304,15 @@
 				F63BC82F1B65331400BD5ADB /* m+mKinectV2BlobInputRequests.h */,
 				F63BC8301B65331400BD5ADB /* m+mKinectV2BlobInputService.cpp */,
 				F63BC8311B65331400BD5ADB /* m+mKinectV2BlobInputService.h */,
+				F63BC8321B65331400BD5ADB /* m+mKinectV2BlobInputService.rc.in */,
 				F63BC8331B65331400BD5ADB /* m+mKinectV2BlobInputServiceMain.cpp */,
 				DFFFBFD819D9A4B900BBD7A7 /* m+mKinectV2EventThread.cpp */,
 				DFFFBFD919D9A4B900BBD7A7 /* m+mKinectV2EventThread.h */,
 				DFFFBFDA19D9A4B900BBD7A7 /* m+mKinectV2InputRequests.h */,
 				DFFFBFDB19D9A4B900BBD7A7 /* m+mKinectV2InputService.cpp */,
 				DFFFBFDC19D9A4B900BBD7A7 /* m+mKinectV2InputService.h */,
-				DFFFBFDD19D9A4B900BBD7A7 /* m+mKinectV2InputServiceMain.cpp */,
-				F63BC8321B65331400BD5ADB /* m+mKinectV2BlobInputService.rc.in */,
 				DFA7D13F1ADDB73700A17BD6 /* m+mKinectV2InputService.rc.in */,
+				DFFFBFDD19D9A4B900BBD7A7 /* m+mKinectV2InputServiceMain.cpp */,
 				DFA7D0EF1ADD99FB00A17BD6 /* resource.h */,
 				F63BC8341B65331400BD5ADB /* resource1.h */,
 				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
@@ -2350,8 +2350,8 @@
 			isa = PBXGroup;
 			children = (
 				DF8D35491AA4B4BA00322DDD /* CMakeLists.txt */,
-				DF8D354A1AA4B4BA00322DDD /* m+mTestSinkMain.cpp */,
 				DFA7D1521ADDB8F200A17BD6 /* m+mTestSink.rc.in */,
+				DF8D354A1AA4B4BA00322DDD /* m+mTestSinkMain.cpp */,
 				DFA7D1171ADD9D3100A17BD6 /* resource.h */,
 			);
 			name = TestSink;
@@ -2361,8 +2361,8 @@
 			isa = PBXGroup;
 			children = (
 				DF8D354B1AA4B4D700322DDD /* CMakeLists.txt */,
-				DF8D354C1AA4B4D700322DDD /* m+mTestSourceMain.cpp */,
 				DFA7D1531ADDB8FF00A17BD6 /* m+mTestSource.rc.in */,
+				DF8D354C1AA4B4D700322DDD /* m+mTestSourceMain.cpp */,
 				DFA7D1191ADD9D5400A17BD6 /* resource.h */,
 			);
 			name = TestSource;

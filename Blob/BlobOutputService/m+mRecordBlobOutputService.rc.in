@@ -67,12 +67,12 @@ BEGIN
         BLOCK "100904b0"
         BEGIN
             VALUE "CompanyName", "@MpM_COMPANY@\0"
-            VALUE "FileDescription", "Record Blob Service\0"
+            VALUE "FileDescription", "Record Blob Output Service\0"
             VALUE "FileVersion", "@MpM_VERSION_STRING@.0\0"
             VALUE "InternalName", "m+mRecor.exe\0"
             VALUE "LegalCopyright", "(c) 2015 by @MpM_COMPANY@.\0"
             VALUE "OriginalFilename", "m+mRecor.exe\0"
-            VALUE "ProductName", "Record Blob Service\0"
+            VALUE "ProductName", "Record Blob Output Service\0"
             VALUE "ProductVersion", "@MpM_VERSION_STRING@.0\0"
         END
     END
