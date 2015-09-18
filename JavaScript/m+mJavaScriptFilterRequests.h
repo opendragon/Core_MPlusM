@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %JavaScript filter service. */
-# define MpM_JAVASCRIPT_CANONICAL_NAME_ "JavaScript"
+# define MpM_JAVASCRIPTFILTER_CANONICAL_NAME_ "JavaScriptFilter"
 
 #endif // ! defined(MpMJavaScriptFilterRequests_H_)

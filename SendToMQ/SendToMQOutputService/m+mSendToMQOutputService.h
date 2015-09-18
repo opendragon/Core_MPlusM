@@ -67,7 +67,7 @@
 # define DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "output/sendtoMQ")
 
 /*! @brief The description of the service. */
-# define SENDTOMQOUTPUT_SERVICE_DESCRIPTION_ T_("SendToMQ output service")
+# define SENDTOMQOUTPUT_SERVICE_DESCRIPTION_ T_("Send To MQ output service")
 
 namespace MplusM
 {

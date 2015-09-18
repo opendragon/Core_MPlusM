@@ -61,7 +61,7 @@
 # define DEFAULT_COMMONLISP_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "filter/commonlisp")
 
 /*! @brief The description of the service. */
-# define COMMONLISPFILTER_SERVICE_DESCRIPTION_ T_("CommonLisp filter service")
+# define COMMONLISPFILTER_SERVICE_DESCRIPTION_ T_("Common Lisp filter service")
 
 namespace MplusM
 {

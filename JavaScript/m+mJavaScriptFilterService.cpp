@@ -269,7 +269,7 @@ JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVect
                                                                                 serviceEndpointName,
                                                  const YarpString &
                                                                                 servicePortNumber) :
-    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_JAVASCRIPT_CANONICAL_NAME_,
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_JAVASCRIPTFILTER_CANONICAL_NAME_,
               description, "", serviceEndpointName, servicePortNumber), _inletHandlers(context),
     _inHandlers(), _generator(NULL), _context(context), _global(global),
     _loadedInletDescriptions(loadedInletDescriptions),

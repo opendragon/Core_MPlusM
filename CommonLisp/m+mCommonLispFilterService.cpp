@@ -566,7 +566,7 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
                                                                                 serviceEndpointName,
                                                  const YarpString &
                                                                                 servicePortNumber) :
-    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_COMMONLISP_CANONICAL_NAME_,
+    inherited(argumentList, launchPath, argc, argv, tag, true, MpM_COMMONLISPFILTER_CANONICAL_NAME_,
               description, "", serviceEndpointName, servicePortNumber),
     _inletHandlers(loadedInletHandlers), _inHandlers(), _generator(NULL),
     _loadedInletDescriptions(loadedInletDescriptions),

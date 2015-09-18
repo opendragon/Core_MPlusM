@@ -529,18 +529,18 @@ VDStarget = $(HOME)/$(VDSmainpdf) $(HOME)/$(VDSmainhtml)
 		-c save pop -f $< -sFONTPATH=.
 
 $(IMAGE_DIR)/%.eps: %.eps
-	cp -f $< $@
+	cp -f -p $< $@
 
 $(HOME)/%.pdf : %.pdf
-	cp -f $< $@
+	cp -f -p $< $@
 
 $(HOME)/%.html : %.html
-	cp -f $< $@
+	cp -f -p $< $@
 	-mkdir $(HOME)/$(IMAGE_DIR)
-	cp -f $(IMAGE_DIR)/*.png $(HOME)/$(IMAGE_DIR)
+	cp -f -p $(IMAGE_DIR)/*.png $(HOME)/$(IMAGE_DIR)
 	
 $(HOME)/%.gz: %.gz
-	cp -f $< $@
+	cp -f -p $< $@
 
 # Specific rules (DVI)
 

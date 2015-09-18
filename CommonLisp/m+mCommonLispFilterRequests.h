@@ -55,6 +55,6 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel-independent name of the %CommonLisp filter service. */
-# define MpM_COMMONLISP_CANONICAL_NAME_ "CommonLisp"
+# define MpM_COMMONLISPFILTER_CANONICAL_NAME_ "CommonLispFilter"
 
 #endif // ! defined(MpMCommonLispFilterRequests_H_)
