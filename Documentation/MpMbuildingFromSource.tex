@@ -439,7 +439,7 @@ standard Windows paths for program files, so the target directory is not the fin
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\ECL}}
 \textbf{\ECL} (\textit{E}mbeddable \textit{C}ommon \textit{L}isp) is the
-\compLang{Common Lisp} engine used with the CommonLisp Filter service of \mplusm{}; the
+\compLang{Common Lisp} engine used with the Common Lisp Filter service of \mplusm{}; the
 files needed to compile and link with \textbf{\ECL} are installed as part of the normal
 \mplusm{} installation procedure, so it's not necessary to rebuild \textbf{\ECL}.
 The source files are not provided with the \asCode{Developer} package, but can be obtained
@@ -467,9 +467,9 @@ directory, but it need not be
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~Microsoft~Windows}
-\begin{itemize}
-\item\TBD
-\end{itemize}
+Note that, due to incompatibilities between some type declarations in \textbf{\ECL} and in
+the Microsoft Windows SDK, it is currently not possible to build the Common Lisp Filter
+service on Microsoft Windows, so there's no need to build \textbf{\ECL}.
 \tertiaryEnd
 \tertiaryStart{Building~on~Linux}
 \begin{itemize}
