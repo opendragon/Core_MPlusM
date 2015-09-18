@@ -46,18 +46,9 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
-#set(SPIDER_VERSION "42a1")
-
-#if(WIN32)
-#    if(WIN64)
-#        set(SPIDER_PATH "C:/Program Files/m+m/spidermonkey")
-#    else(WIN64)
-#        set(SPIDER_PATH "C:/Program Files (x86)/m+m/spidermonkey")
-#    endif(WIN64)
-#endif(WIN32)
-#if(APPLE)
-#    set(SPIDER_PATH "${CMAKE_INSTALL_PREFIX}/spidermonkey")
-#endif(APPLE)
+if(WIN32)
+	set(ECL_PATH "${CMAKE_INSTALL_PREFIX}/ecl")
+endif(WIN32)
 
 if(APPLE)
 # There's a problem with building ECL as a Universal - it can't be configured correctly
@@ -68,33 +59,16 @@ endif(APPLE)
 
 add_library(ECL SHARED IMPORTED)
 
-#if(WIN32)
-#    include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
-#    set_property(TARGET JS PROPERTY IMPORTED_LOCATION
-#                "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll")
-#    set_property(TARGET JS PROPERTY IMPORTED_IMPLIB
-#                "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.lib")
-#    install(FILES "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll"
-#            DESTINATION bin
-#            COMPONENT applications)
-#    install(FILES
-#			"${SPIDER_PATH}/lib/mozglue.dll"
-#			"${SPIDER_PATH}/lib/nspr4.dll"
-#           "${SPIDER_PATH}/lib/plds4.dll"
-#			"${SPIDER_PATH}/lib/plc4.dll"
-#			DESTINATION bin
-#           COMPONENT applications)
-#	if(WIN64)
-#		install(FILES
-#				"${SPIDER_PATH}/lib/icudt55.dll"
-#				"${SPIDER_PATH}/lib/icuin55.dll"
-#				"${SPIDER_PATH}/lib/icuuc55.dll"
-#				DESTINATION bin
-#				COMPONENT applications)
-#	endif(WIN64)
-#endif(WIN32)
+if(WIN32)
+	include_directories("${ECL_PATH}")
+	set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${ECL_PATH}/ecl.dll")
+	set_property(TARGET ECL PROPERTY IMPORTED_IMPLIB "${ECL_PATH}/ecl.lib")
+	install(FILES
+			"${ECL_PATH}/ecl.dll"
+			DESTINATION bin
+			COMPONENT applications)
+endif(WIN32)
 if(APPLE)
-#    include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
     set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/libecl.dylib")
 endif(APPLE)
 
@@ -117,9 +91,6 @@ target_link_libraries(${THIS_TARGET}
                       ${BONJOUR_LIB})
 
 if(APPLE)
-#    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
-#                        "${E_PATH}/libmozjs-${SPIDER_VERSION}.dylib"
-#                        "@rpath/libmozjs-${SPIDER_VERSION}.dylib" ${THIS_TARGET})
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         "${E_PATH}/libecl.dylib" "@rpath/libecl.dylib" ${THIS_TARGET})
 

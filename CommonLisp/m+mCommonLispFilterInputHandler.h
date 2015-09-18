@@ -45,6 +45,8 @@
 # include <m+m/m+mBaseInputHandler.h>
 # include <m+m/m+mGeneralChannel.h>
 
+# include <ecl/ecl.h>
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"

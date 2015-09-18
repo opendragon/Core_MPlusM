@@ -43,6 +43,8 @@
 
 # include <m+m/m+mBaseFilterService.h>
 
+# include <ecl/ecl.h>
+
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"
