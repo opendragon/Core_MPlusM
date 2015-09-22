@@ -1023,10 +1023,6 @@ void BaseInputOutputService::runService(const YarpString & helpText,
             cout.flush();
             for (set_tty_cbreak(); ! lStopTheService; )
             {
-#if MAC_OR_LINUX_
-                inChar = kb_getc();
-#else // ! MAC_OR_LINUX_
-#endif // ! MAC_OR_LINUX_
                 inChar = kb_getc();
                 if (inChar)
                 {
