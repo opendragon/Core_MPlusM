@@ -47,3 +47,5 @@
 @ note that OpenStage is 64-bit and Windows only, Common Lisp is 32-bit only on Windows but normal on Macintosh, ProComp2 is 32-bit and Windows only, SendToMQ is 64-bit only on Windows and normal on Macintosh, KinectV2 is Windows only, NatNet is Windows only, Vicon is Windows only
 
 @ a new document - Available Services, which identifies the versions of non-core services available and the platforms on which they run
+
+@ for the Common Lisp filter service, make sure to copy the E_C_L directory into Program Files (x86) and update the CMake script to use this… test it, of course, and if is doesn’t work then remove support for Common Lisp for Windows
