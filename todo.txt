@@ -42,4 +42,8 @@
 
 * every service has a hidden ‘pong’ UDP port that sends activity message to managers; frequency of update is a global constant - use Absorber service as a prototype - flags for each input and output port, so all m+m channels can be reported, not just output ports; maybe some form of compressed encodings
 
-- implement ECL on Windows - perhaps try cygwin?
+@ note that the Common Lisp and ProComp2 services should mention that they need to be built as 32-bit on Windows - this should be in the ‘building’ section, and a description of how to build for 32-bit (select the non-64 version of the IDE when running CMake, x86 instead of x64, et cetera), including disabling WIN64 in CMake; also mention that ECL can’t be built using the most recent version of Visual Studio, so just install it from the distribution site
+
+@ note that OpenStage is 64-bit and Windows only, Common Lisp is 32-bit only on Windows but normal on Macintosh, ProComp2 is 32-bit and Windows only, SendToMQ is 64-bit only on Windows and normal on Macintosh, KinectV2 is Windows only, NatNet is Windows only, Vicon is Windows only
+
+@ a new document - Available Services, which identifies the versions of non-core services available and the platforms on which they run
