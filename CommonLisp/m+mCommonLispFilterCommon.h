@@ -39,8 +39,6 @@
 #if (! defined(MpMCommonLispFilterCommon_H_))
 # define MpMCommonLispFilterCommon_H_ /* Header guard */
 
-//# include <ecl/ecl.h>
-
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
 #  pragma clang diagnostic ignored "-Wunknown-pragmas"

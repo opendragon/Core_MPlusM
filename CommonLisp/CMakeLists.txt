@@ -47,7 +47,7 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
-	set(ECL_PATH "${CMAKE_INSTALL_PREFIX}/ecl")
+	set(ECL_PATH "C:/E_C_L")
 endif(WIN32)
 
 if(APPLE)
