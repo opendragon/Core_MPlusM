@@ -58,7 +58,6 @@ if(WIN32)
 	set(ACTIVEMQ_INC_PATH "${ACTIVEMQ_INSTALL_PATH}/include")
 endif(WIN32)
 if(APPLE)
-    #set(APR_INC_PATH "/usr/include/apr-1")
     set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-3.9.0")
 endif(APPLE)
 

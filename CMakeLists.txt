@@ -228,9 +228,6 @@ configure_file("${MpM_SOURCE_DIR}/m+m/m+mConfig.h.in" "${MpM_SOURCE_DIR}/m+m/m+m
 
 include_directories("${MpM_SOURCE_DIR}")
 
-#TODO: add bonjour to package
-#TODO: deal with ACE dependency
-
 if(WIN32)
     set(BONJOUR_DIR "C:/Program Files/Bonjour SDK")
 	if(WIN64)

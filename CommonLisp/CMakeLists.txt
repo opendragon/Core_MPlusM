@@ -47,7 +47,11 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
-	set(ECL_PATH "C:/E_C_L")
+    if(WIN64)
+        set(ECL_PATH "C:/Program Files/m+m/ecl_src")
+    else(WIN64)
+        set(ECL_PATH "C:/Program Files (x86)/m+m/ecl_src")
+    endif(WIN64)
 endif(WIN32)
 
 if(APPLE)
@@ -67,6 +71,10 @@ if(WIN32)
 			"${ECL_PATH}/ecl.dll"
 			DESTINATION bin
 			COMPONENT applications)
+	install(DIRECTORY
+			"${ECL_PATH}/ecl"
+			DESTINATION ecl
+			COMPONENT libraries)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/libecl.dylib")

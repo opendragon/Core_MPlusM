@@ -64,8 +64,6 @@ set(CPACK_COMPONENTS_ALL applications exampleapps headers libraries sourcecode m
 
 # platform independent install step:
 #
-# TODO: copy our yarp headers to m+m install location/yarp
-# TODO: copy our ace headers to m+m install location/ACE_wrappers
 # NOTE: since we're not currently using CPack on mac, everything falls under WIN32 below:
 #
 
@@ -88,11 +86,6 @@ if(WIN32)
 	# as they contain backslashes when building for Windows!
     set(MpM_ACE_ROOT "${MpM_SOURCE_DIR}/../ACE_wrappers")
     set(MpM_YARP_DIR "${MpM_SOURCE_DIR}/../yarp_MPlusM")
-
-    #ACE HEADERS
-    #install(DIRECTORY "${MpM_ACE_ROOT}/ace"
-    #		DESTINATION ACE_wrappers
-    #		COMPONENT libraries)
 
     #ACE DLL
     install(FILES
