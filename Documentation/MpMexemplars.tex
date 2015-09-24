@@ -236,9 +236,9 @@ set
 \tertiaryEnd
 \tertiaryStart{Build the application(s)}
 At this point, it should be possible to build the custom applications.
-The procedures are different for Macintosh~OS~X, Windows and Linux, although they start
-from the same source files. 
-\begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
+The procedures are different for \osx{} and \win{}, although they start from the same
+source files. 
+\begin{center}\textbf{On~\osx:}\end{center}
 \begin{itemize}
 \item Execute `\asCode{ccmake~.}' from a terminal session that has the current directory
 set to the top\longDash{}level directory for the custom files and then perform the
@@ -255,13 +255,7 @@ this point will be a result of incomplete or incorrect edits and should be easy 
 desired, via the command\\
 `\asCode{sudo~make~install}'
 \end{itemize}
-\begin{center}\textbf{On~Windows:}\end{center}
-\begin{itemize}
-\item Execute the tool \asCode{cmake} to create the project files used to construct the
-application
-\item\exSp\TBD
-\end{itemize}
-\begin{center}\textbf{On~Linux:}\end{center}
+\begin{center}\textbf{On~\win:}\end{center}
 \begin{itemize}
 \item Execute the tool \asCode{cmake} to create the project files used to construct the
 application
@@ -300,13 +294,11 @@ the \asCode{FooAdapter} class.
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Install the applications}
-\begin{center}\textbf{On~Macintosh~OS~X:}\end{center}
+\begin{center}\textbf{On~\osx:}\end{center}
 Once all the customization has been developed and tested, the applications can then be
 installed by executing\\
 `\asCode{sudo~make~install}' from a terminal session in the top\longDash{}level directory.
-\begin{center}\textbf{On~Windows:}\end{center}
-\TBD
-\begin{center}\textbf{On~Linux:}\end{center}
+\begin{center}\textbf{On~\win:}\end{center}
 \TBD
 \tertiaryEnd
 \secondaryEnd

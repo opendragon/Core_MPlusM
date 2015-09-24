@@ -8,7 +8,7 @@ done if the \asCode{Developer} package has also been installed.
 \tertiaryStart{General~prerequisites}
 In order to successfully build all the pieces for \mplusm{}, it is important that the
 latest version of the installer is run first, selecting the \asCode{Developer} package (on
-Macintosh OS X) of \asCode{Optional} component (on Microsoft Windows).
+\osx) of \asCode{Optional} component (on \win).
 If the installer is not run, some of the optional services may fail to build, as they
 depend on pieces that are outside of the \mplusm{} source code but that are installed when
 \mplusm{} is installed.\\
@@ -26,10 +26,10 @@ system, along with a \compLang{C++} development environment.
 Note that the source files are provided as \textbf{ZIP} archive files that contain a
 snapshot of the \asCode{git} repositories where the source code is stored.
 \tertiaryEnd
-\tertiaryStart{Prerequisites~for~Macintosh~OS~X}
+\tertiaryStart{Prerequisites~for~\osx}
 \begin{itemize}
-\item\asCode{Xcode} is available from the Macintosh App Store and provides the
-\compLang{C++} development environment for Macintosh OS~X
+\item\asCode{Xcode} is available from the Mac App Store and provides the
+\compLang{C++} development environment for \osx{}
 \item\exSp{}The \asCode{Xcode} command\longDash{}line tools must be installed, using the
 command `\asCode{xcode-select {-}{-}install}'
 \item\exSp{}The \asCode{ccmake} and \asCode{cmake} command\longDash{}line tools, which
@@ -43,10 +43,10 @@ built
 this is only needed if you wish to create installer packages after building \mplusm
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Prerequisites~for~Microsoft~Windows}
+\tertiaryStart{Prerequisites~for~\win}
 \begin{itemize}
 \item\asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
-development environment for Microsoft Windows; the version used for development is
+development environment for \win; the version used for development is
 `\asCode{Visual Studio Community 2015}', but newer versions should also work
 %; note that older versions are not supported with \textbf{SpiderMonkey}
 \item\exSp{}The \asCode{cmake} tool, which can be installed from the web\longDash{}page
@@ -60,23 +60,16 @@ version, not a version \textbf{3} or newer, and make sure that the install direc
 the executable is added to the system \asCode{Path} variable
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Prerequisites~for~Linux}
-\begin{itemize}
-\item\TBD
-\end{itemize}
-\tertiaryEnd
 \secondaryEnd
 \secondaryStart{Initial~Steps}
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed; we'll
 refer to it from now on as `\asCode{\textbf{devel}}'
 \item\exSp{}Copy the desired \textbf{ZIP} archive files from their installation location
-(\asCode{/opt/m+m/src} on Macintosh OS~X,\\
+(\asCode{/opt/m+m/src} on \osx,\\
 \asCode{C:\textbackslash{}Program Files (x86)\textbackslash{}m+m\textbackslash{}src} for
-Microsoft Windows and \TBD{} for Linux) to the new directory \asCode{\textbf{devel}}; all
-but the files \asCode{Core\fUS{}MPlusM.zip} and
-\asCode{Utilities\fUS{}mm\fUS{}manager.zip}
-are optional
+\win{}) to the new directory \asCode{\textbf{devel}}; all but the files
+\asCode{Core\fUS{}MPlusM.zip} and \asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional
 \item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory
 \asCode{\textbf{devel}}
 \item\exSp{}Rename the new directories, stripping off the `\asCode{-master}' suffix if
@@ -91,9 +84,8 @@ necessary to rebuild ACE; the source code is provided in case there is an issue 
 headers or libraries.\\
 
 Note that the file \asCode{ACE\fUS{}wrappers/ace/config.h} will select the correct
-configuration file for Macintosh OS~X, Microsoft Windows or Linux, so it does not need to
-be modified.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+configuration file for \osx{} or \win{}, so it does not need to be modified.
+\tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{\textbf{devel}}
@@ -116,19 +108,23 @@ code, \asCode{\textbf{devel}}
 unneeded files
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
+\tertiaryStart{Building~on~\win}
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers\fUS{}vc12.sln}' with
 \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration and clear out any older binary files via the menu item
+configuration; if building 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
+configuration instead
+\item\exSp{}Clear out any older binary files via the menu item
 `\asCode{Build \bigRightArrow{} Clean Solution}'
 \item\exSp{}Build the Debug version via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration and clear out any
-older binary files via the menu item `\asCode{Build \bigRightArrow{} Clean Solution}'
+\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building 32-bit,
+select the \asCode{Release} :\ \asCode{Win32} configuration instead
+\item\exSp{}Clear out any older binary files via the menu item
+`\asCode{Build \bigRightArrow{} Clean Solution}'
 \item\exSp{}Build the Release version via the menu item
 `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Exit from \asCode{Visual Studio}
@@ -152,11 +148,6 @@ panel
 window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Linux}
-\begin{itemize}
-\item\TBD
-\end{itemize}
-\tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\yarp}}
 \textbf{\yarp} (Yet Another Robot Platform) provides the connection management support
@@ -164,7 +155,7 @@ used within \mplusm{}; the files needed to compile and link with \yarp{} are ins
 part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
 \yarp{}; the source code is provided in case there is an issue with the headers or
 libraries.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+\tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{\textbf{devel}}
@@ -208,7 +199,7 @@ linking issues with \yarp{} caused by installing it in a non\longDash{}default l
 command `\asCode{make~test}'
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
+\tertiaryStart{Building~on~\win}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
 \item\exSp{}Set the source code directory to `\asCode{\textbf{devel}/yarp\fUS{}MPlusM}',
@@ -217,7 +208,8 @@ where \asCode{\textbf{devel}} is the directory containing the \mplusm{} source c
 \item\exSp{}Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{}Click on the `\asCode{Configure}' button; make sure that the generator
 setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of
-the generator and that `\asCode{Use default native compilers}' is selected
+the generator and that `\asCode{Use default native compilers}' is selected; if building
+for 32-bit, do not select the \asCode{Win64} variant
 \item\exSp{}Click on the `\asCode{Finish}' button
 \item\exSp{}Turn on the `\asCode{Advanced}' option once the configuration step completes
 \item\exSp{}Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
@@ -236,13 +228,15 @@ the generator and that `\asCode{Use default native compilers}' is selected
 `\asCode{\textbf{devel}\textbackslash{}yarp\fUS{}MPlusM\textbackslash{}YARP.sln}' with
 \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration and build it via the menu item
-`\asCode{Build \bigRightArrow{} Build Solution}'
+configuration; if building for 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
+configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
-\item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
-Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
-checkboxes should be on
+\item\exSp{}Select the `\asCode{INSTALL}' project and the `\asCode{Release|x64}'
+configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
+`\asCode{Release|Win32}' configuration if building for 32-bit; no other checkboxes should
+be on
 \item\exSp{}Click on the `\asCode{Build}' button to build and install the Release version
 \item\exSp{}Exit from \asCode{Visual Studio}
 \item\exSp{}Open the \asCode{System} Control Panel
@@ -263,18 +257,13 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \yarp{} server is running or indicate how to start one up
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Linux}
-\begin{itemize}
-\item\TBD
-\end{itemize}
-\tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional, used with \textit{\MMMU})~Building~\textbf{OGDF}}
 \textbf{OGDF} (Open Graph Drawing Framework) provides the tools to layout graphs for the
 \MMMU{} application; the files needed to compile and link with OGDF are installed as part
 of the normal \mplusm{} installation procedure, so it's not necessary to rebuild OGDF; the
 source code is provided in case there is an issue with the headers or libraries.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+\tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{\textbf{devel}}
@@ -287,7 +276,7 @@ code, \asCode{\textbf{devel}}
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
+\tertiaryStart{Building~on~\win}
 \begin{itemize}
 \item Open a Command Prompt window and move to the directory containing the \mplusm{}
 source code, \asCode{\textbf{devel}}
@@ -302,10 +291,11 @@ source code, \asCode{\textbf{devel}}
 `\asCode{\textbf{devel}\textbackslash{}OGDF\textbackslash{}ogdf.sln}' with
 \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration and build it via the menu item
-`\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration and build it via
-the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+configuration; if building for 32-bit, select the \asCode{Debug} :\ \asCode{Win32} instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building for
+32-bit, select the \asCode{Release} :\ \asCode{Win32} configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Exit from \asCode{Visual Studio}
 \item\exSp{}Open the \asCode{System} Control Panel
 \item\exSp{}Click on the \asCode{Advanced system settings} button
@@ -321,11 +311,6 @@ panel
 window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Linux}
-\begin{itemize}
-\item\TBD
-\end{itemize}
-\tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
 \textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript Filter
@@ -339,7 +324,7 @@ Getting\_SpiderMonkey\_source\_code}%
 {\textbf{SpiderMonkey} source code}, as \mplusm{} does not use a modified version of
 \textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
 it must be at least \textbf{SpiderMonkey} \textbf{39}.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+\tertiaryStart{Building~on~\osx}
 \newcommand{\spiderversion}{42a1}%
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `make install' process.
@@ -375,9 +360,9 @@ header directories for \textbf{SpiderMonkey} with the original items, so that it
 to distribute the resulting directories
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
-The most recent version of \textbf{SpiderMonkey} can be built on Microsoft Windows with
-the `\asCode{Visual Studio Community 2013}' version of \asCode{Visual Studio} - there are
+\tertiaryStart{Building~on~\win}
+The most recent version of \textbf{SpiderMonkey} can be built on \win{} with the
+`\asCode{Visual Studio Community 2013}' version of \asCode{Visual Studio} - there are
 no scripts that support newer versions than this, and older versions are not supported at
 all, even though the scripts exist.
 \begin{itemize}
@@ -409,7 +394,7 @@ must not be `\asCode{C:\textbackslash{}spidermonkey}'
 {-}{-}enable-more-deterministic\\
 {-}{-}enable-build-nspr {-}{-}prefix=c:/spidermonkey {-}{-}target=x86\fUS{}64-pc-mingw32\\
 {-}{-}host=x86\fUS{}64-pc-mingw32}'; note that the build environment has problems with the
-standard Windows paths for program files, so the target directory is not the final one
+standard \win{} paths for program files, so the target directory is not the final one
 \item\exSp{}Execute the following commands:
 \begin{itemize}
 \item \asCode{mozmake}
@@ -431,11 +416,6 @@ standard Windows paths for program files, so the target directory is not the fin
 \item\exSp{}Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Linux}
-\begin{itemize}
-\item\TBD
-\end{itemize}
-\tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\ECL}}
 \textbf{\ECL} (\textit{E}mbeddable \textit{C}ommon \textit{L}isp) is the
@@ -447,7 +427,7 @@ via the instructions on the web\longDash{}page
 \companyReference{https://common-lisp.net/project/ecl/}{\textbf{\ECL} source code}, as
 \mplusm{} does not use a modified version of \textbf{\ECL} and does not depend on a
 particular version \longDash{} other than it must be at least \textbf{15.3.7}.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+\tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item Select a directory to hold the \textbf{\ECL} source code, which will be referred to
 as `\asCode{ecl}'; this can be a sister directory to the \asCode{\textbf{devel}}
@@ -466,14 +446,20 @@ directory, but it need not be
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
+\tertiaryStart{Building~on~\win}
 Note that, due to incompatibilities between some type declarations in \textbf{\ECL} and in
-the Microsoft Windows SDK, it is currently not possible to build the Common Lisp Filter
-service on Microsoft Windows, so there's no need to build \textbf{\ECL}.
-\tertiaryEnd
-\tertiaryStart{Building~on~Linux}
+the \win{} SDK, it is currently not possible to build the Common Lisp Filter service on
+\win, so there's no need to build \textbf{\ECL}.
+Instead, do the following:
 \begin{itemize}
-\item\TBD
+\item Download the
+\companyReference{https://common-lisp.net/project/ecl/files/%
+ecl-16.0.0-msvc-win32-installer.exe}
+{\win{} binary distribution installer}
+\item\exSp{}Run the installer, and select a directory to contain the \ECL{} files
+\item\exSp{}Copy the new directory to the directory
+\asCode{C:\textbackslash{}Program Files (x86)}
+\item\exSp{}Rename the copy to \asCode{ecl\fUS{}src}
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
@@ -493,7 +479,7 @@ Make sure that all the dependencies for \textbf{ActiveMQ-CPP} are installed befo
 building \textbf{ActiveMQ-CPP}, as described on the web\longDash{}page
 \companyReference{http://activemq.apache.org/cms/building.html}%
 {Building \textbf{ActiveMQ}}.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+\tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item Select a directory to hold the \textbf{ActiveMQ-CPP} source code, which will be
 referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
@@ -514,7 +500,7 @@ referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
+\tertiaryStart{Building~on~\win}
 \begin{itemize}
 \item Select a directory to hold the \textbf{Apache Portable Runtime} source code, which
 will be referred to as `\asCode{APR}'; this can be a sister directory to the
@@ -531,7 +517,8 @@ represents the version number of each piece of \textbf{APR}
 \item\exSp{}Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{}Click on the `\asCode{Configure}' button; make sure that the generator
 setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of
-the generator and that `\asCode{Use default native compilers}' is selected
+the generator and that `\asCode{Use default native compilers}' is selected; if building
+for 32-bit, do not select the \asCode{Win64} variant
 \item\exSp{}Click on the `\asCode{Finish}' button
 \item\exSp{}Click on the `\asCode{Configure}' button
 \item\exSp{}Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to
@@ -543,13 +530,15 @@ the generator and that `\asCode{Use default native compilers}' is selected
 \asCode{\textbf{APR}\textbackslash{}apr-\#.\#.\#\textbackslash{}apr.sln} with 
 \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration and build it via the menu item
-`\asCode{Build \bigRightArrow{} Build Solution}'
+configuration; if building for 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
+configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
-\item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
-Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
-checkboxes should be on
+\item\exSp{}Select the `\asCode{INSTALL}' project and the `\asCode{Release|x64}'
+configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
+`\asCode{Release|Win32} configuration if building for 32-bit; no other checkboxes should
+be on
 \item\exSp{}Click on the `\asCode{Build}' button to build and install the Release
 version
 \item\exSp{}Exit from \asCode{Visual Studio}
@@ -577,7 +566,8 @@ off the \asCode{Build} checkboxes for the other projects
 \asCode{activemq-cpp Property Pages} panel via the menu item
 `\asCode{Project \bigRightArrow{} Project Properties}'
 \item\exSp{}Select the \asCode{All Configurations} configuration from the top-left
-combo-box and the \asCode{x64} platform from the top-right combo-box
+combo-box and the \asCode{x64} platform from the top-right combo-box, unless building for
+32-bit, in wich case the \asCode{Win32} platform should be selected
 \item\exSp{}Expand the \asCode{Configuration Properties} item in the left-hand panel
 \item\exSp{}Expand the \asCode{C/C++} item
 \item\exSp{}Select the \asCode{General} item
@@ -593,10 +583,12 @@ folder with an asterisk on its top-left corner
 `\asCode{C:\textbackslash{}Program Files\textbackslash{}m+m\textbackslash{}include}',
 without quotes
 \item\exSp{}Click on the \asCode{OK} button on the bottom-right of the panel
-\item\exSp{}Select the \asCode{Debug} :\ \asCode{x64} configuration and build it via
-the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration and build it via
-the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{}Select the \asCode{Debug} :\ \asCode{x64} configuration; if building 32-bit,
+select the \asCode{Debug} :\ \asCode{Win32} configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building 32-bit,
+select the \asCode{Release} :\ \asCode{Win32} configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Exit from \asCode{Visual Studio}
 \item\exSp{}Open a Command Prompt window, running as Administrator
 \item\exSp{}Execute the following commands
@@ -611,16 +603,11 @@ the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Linux}
-\begin{itemize}
-\item\TBD
-\end{itemize}
-\tertiaryEnd
 \secondaryStart{Building~Core~\mplusm}
 If you need to update the version number of \mplusm, refer to the
 \appendixRef{UpdatingVersionNumber}{Updating~the~Version~Number} appendix for what files
 need to be modified.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+\tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
 code, \asCode{\textbf{devel}}
@@ -692,7 +679,7 @@ returned when the \serviceNameR[\RS]{RegistryService} was launched
 \end{itemize}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
+\tertiaryStart{Building~on~\win}
 \begin{itemize}
 \item Launch the \asCode{CMake} GUI application
 \item\exSp{}Set the source code directory to
@@ -703,11 +690,13 @@ is the directory containing the \mplusm{} source code
 \item\exSp{}Select the menu item `\asCode{File \bigRightArrow{} Delete Cache}'
 \item\exSp{}Click on the `\asCode{Configure}' button; make sure that the generator
 setting is for \asCode{Visual Studio 12} (or newer), with the \asCode{Win64} variant of
-the generator and that `\asCode{Use default native compilers}'
-is selected
+the generator and that `\asCode{Use default native compilers}' is selected; if building
+for 32-bit, do not select the \asCode{Win64} variant
 \item\exSp{}Click on the `\asCode{Finish}' button
 \item\exSp{}Click on the `\asCode{Configure}' button once the configuration step
 completes
+\item\exSp{}If building for 32-bit, make sure that the checkbox \asCode{WIN64} is off
+\longDash{} it is normally on
 \item\exSp{}Click on the `\asCode{Generate}' button
 \item\exSp{}Exit from the \asCode{CMake} GUI application
 \item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
@@ -715,28 +704,25 @@ completes
 `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}m+m.sln}' with
 \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration and build it via the menu item
-`\asCode{Build \bigRightArrow{} Build Solution}'
+configuration; if building 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
+configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
 \item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
-Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
-checkboxes should be on
+configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
+`\asCode{Release|Win32}' configuration if building for 32-bit; no other checkboxes should
+be on
 \item\exSp{}Click on the `\asCode{Build}' button to build and install the Release
 version; note that this will fail the first time, since it attempts to install
 \textit{\MMMU}, which has not been built yet
 \item\exSp{}Exit from \asCode{Visual Studio}
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Linux}
-\begin{itemize}
-\item\TBD
-\end{itemize}
-\tertiaryEnd
 \secondaryEnd
 \secondaryStart{Building~\textit{\MMMU}}
 \textit{\MMMU} is not built from the command\longDash{}line but, rather, from the IDE.
-\tertiaryStart{Building~on~Macintosh~OS~X}
+\tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item In Finder, open the directory containing the \mplusm{} source code,
 \asCode{\textbf{devel}}
@@ -760,7 +746,7 @@ rename it to \asCode{m+m manager}
 directory
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Building~on~Microsoft~Windows}
+\tertiaryStart{Building~on~\win}
 \begin{itemize}
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
@@ -768,22 +754,19 @@ directory
 Builds\textbackslash{}VisualStudio2015\textbackslash{}m+m manager.sln}' with
 \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration and build it via the menu item
-`\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration and build it via
-the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\end{itemize}
-\tertiaryEnd
-\tertiaryStart{Building~on~Linux}
-\begin{itemize}
-\item\TBD
+configuration; if building 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
+configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
+\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building 32-bit,
+select the \asCode{Release} :\ \asCode{Win32} configuration instead
+\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Creating~the~Distribution~Packages}
 The distribution packages are standalone files that can be used to create a complete
 \mplusm{} installation.
-\tertiaryStart{Creating~on~Macintosh~OS~X}
+\tertiaryStart{Creating~on~\osx}
 \begin{itemize}
 \item If any source files have been modified in the `\asCode{Core\fUS{}MPlusM}' or
 `\asCode{Utilities\fUS{}mm\fUS{}manager}' directories, commit the changes to the
@@ -811,7 +794,7 @@ directory
 \asCode{Core\fUS{}MPlusM/Packages/build} directory
 \end{itemize}
 \tertiaryEnd
-\tertiaryStart{Creating~on~Microsoft~Windows}
+\tertiaryStart{Creating~on~\win}
 \begin{itemize}
 \item Make sure to update the date recorded in the last line of the \asCode{license.txt}
 file, located in the `\asCode{Core\fUS{}MPlusM}' directory
@@ -837,21 +820,19 @@ distribution packages successfully
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
 \item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
-Configuration by clicking on the corresponding `\asCode{Build}' checkbox; no other
-checkboxes should be on
-\item\exSp{}Select the `\asCode{PACKAGE}' Project and the `\asCode{Release|x64}'
-Configuration by clicking on the corresponding `\asCode{Build}' checkbox; the only other
-checkbox that should be on is the `\asCode{INSTALL}' Project and the
-`\asCode{Release|x64}' Configuration
-\item\exSp{}Click on the `\asCode{Build}' button to install the Release
-version and create the distribution package
-\item\exSp{}The distribution package is the \asCode{m+m-\MMVn-win64.exe} file located in
-the `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM}' directory
-\end{itemize}
-\tertiaryEnd
-\tertiaryStart{Creating~on~Linux}
-\begin{itemize}
-\item\TBD
+configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
+`\asCode{Release|Win32}' configuration if building for 32-bit; no other checkboxes should
+be on
+\item\exSp{}Select the `\asCode{PACKAGE}' project and the `\asCode{Release|x64}'
+configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
+`\asCode{Release|Win32}' configuration for 32-bit; the only other checkbox that should be
+on is the `\asCode{INSTALL}' project and the `\asCode{Release|x64}' (or
+`\asCode{Release|Win32}' if building for 32-bit) configuration
+\item\exSp{}Click on the `\asCode{Build}' button to install the Release version and create
+the distribution package
+\item\exSp{}The distribution package is the \asCode{m+m-\MMVn-win64.exe} (or
+\asCode{m+m-\MMVn-x86.exe}, if building for 32-bit) file located in the
+`\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM}' directory
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd

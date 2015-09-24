@@ -6,9 +6,8 @@ It provides detailed information on each finger and the bones that constitute th
 well as the overall parameters of a hand.\\
 
 The SDK \textbraceleft\companyReference{https://developer.leapmotion.com}{https://%
-developer.leapmotion.com}\textbraceright{} is readily available for Windows and Macintosh
-OS~X, so implementing an Input Service for a Leap Motion Controller should be
-straightforward.\\
+developer.leapmotion.com}\textbraceright{} is readily available for \win{} and \osx, so
+implementing an Input Service for a Leap Motion Controller should be straightforward.\\
 
 With the Leap Motion API, there are two approaches to gathering the data from the
 controller \longDash{} polling or responding to an event.
@@ -19,9 +18,9 @@ separate \asCode{Leap::Listener} subclass to respond to the events.\\
 For simplicity, we will use event\longDash{}handling with a separate
 \asCode{Leap::Listener} subclass, and a namespace of\\
 \asCode{LeapMotion}.
-The steps being described are for Macintosh~OS~X; the section
+The steps being described are for \osx; the section
 \appendixRef{UsingExemplars}{Using~the~Exemplar~Files} describes the steps that would be
-involved in building the Leap Motion Input Service on Windows.
+involved in building the Leap Motion Input Service on \win.
 \secondaryStart{Implementation}
 \tertiaryStart{First~step}
 Following the steps outlined in \appendixRef{UsingExemplars}{Using~the~Exemplar~Files},
@@ -38,7 +37,7 @@ Leap Motion controller.
 \tertiaryStart{Third~step}
 We now install the Leap Motion API, copying the header files \asCode{Leap.h} and
 \asCode{LeapMath.h} into our directory.
-There is also a dynamic library to be copied and, for the Macintosh, this is
+There is also a dynamic library to be copied and, for the \osx, this is
 \asCode{libLeap.dylib}; we will edit the\\
 \asCode{LeapMotionInputService/CMakeLists.txt} file to include this in the
 `\asCode{target\textunderscore{}link\textunderscore{}libraries}' statement.

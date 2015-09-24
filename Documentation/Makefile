@@ -329,8 +329,8 @@ MMMsecondaryfiles = MMMdocumentationHistory.tex MMMfrontispiece.tex \
 MpMsecondaryfiles = MpMbuildingFromSource.tex MpMcaseStudy.tex MpMclasses.tex \
 		MpMdocumentationHistory.tex MpMexamples.tex MpMexemplars.tex MpMfrontispiece.tex \
 		MpMinternalDb.tex MpMmatchSyntax.tex MpMoverview.tex MpMregistrationSequence.tex \
-		MpMrunningWithHamachi.tex MpMservices.tex MpMtechnology.tex \
-		MpMupdatingVersionNumber.tex MpMutilities.tex $(Commonsources) $(Commonpngfiles)
+		MpMservices.tex MpMtechnology.tex MpMupdatingVersionNumber.tex MpMutilities.tex \
+		$(Commonsources) $(Commonpngfiles)
 
 NNsecondaryfiles = NNblobMessageFormat.tex NNblobService.tex NNdocumentationHistory.tex \
 		NNfrontispiece.tex NNmessageFormat.tex NNoverview.tex NNservice.tex \

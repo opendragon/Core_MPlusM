@@ -1,0 +1,85 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1348\cocoasubrtf170
+{\fonttbl\f0\fnil\fcharset0 TrebuchetMS;\f1\froman\fcharset0 Times-Roman;\f2\fswiss\fcharset0 ArialMT;
+}
+{\colortbl;\red255\green255\blue255;\red154\green154\blue154;\red128\green128\blue128;}
+{\*\listtable{\list\listtemplateid1\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid1\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{circle\}}{\leveltext\leveltemplateid2\'01\uc0\u9702 ;}{\levelnumbers;}\fi-360\li1440\lin1440 }{\listname ;}\listid1}
+{\list\listtemplateid2\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid101\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid2}
+{\list\listtemplateid3\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid201\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid3}
+{\list\listtemplateid4\listhybrid{\listlevel\levelnfc23\levelnfcn23\leveljc0\leveljcn0\levelfollow0\levelstartat1\levelspace360\levelindent0{\*\levelmarker \{disc\}}{\leveltext\leveltemplateid301\'01\uc0\u8226 ;}{\levelnumbers;}\fi-360\li720\lin720 }{\listname ;}\listid4}}
+{\*\listoverridetable{\listoverride\listid1\listoverridecount0\ls1}{\listoverride\listid2\listoverridecount0\ls2}{\listoverride\listid3\listoverridecount0\ls3}{\listoverride\listid4\listoverridecount0\ls4}}
+\margl1440\margr1440\vieww24820\viewh19100\viewkind0
+\deftab720
+\pard\pardeftab720\sl460
+
+\f0\b\fs34 \cf2 \expnd0\expndtw0\kerning0
+Relationship between GUI and yarp server / services
+\f1\fs36 \expnd0\expndtw0\kerning0
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls1\ilvl0
+\f2\b0\fs30 \cf2 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+If at GUI launch no running yarp server is detected:\uc0\u8232 \
+\pard\tx940\tx1440\pardeftab720\li1440\fi-1440\sl400
+\ls1\ilvl1\cf2 \kerning1\expnd0\expndtw0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+Prompt user to launch a local server or manually launch remote server (launching a local server also starts the Registry Service) or exiting the program\uc0\u8232 \
+\ls1\ilvl1\kerning1\expnd0\expndtw0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+Configuration of yarp from GUI\uc0\u8232 \
+\ls1\ilvl1\kerning1\expnd0\expndtw0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+If yarp is launched, also launch the Registry Service; if yarp was already running, disable the ability to launch other services if the Registry Service is not running - until the Registry Service appears\uc0\u8232 \
+\ls1\ilvl1\kerning1\expnd0\expndtw0 {\listtext	\uc0\u9702 	}\expnd0\expndtw0\kerning0
+Add a menu item to allow launching the Registry Service locally, that is disabled if it is already running\uc0\u8232 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls1\ilvl0\cf2 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+GUI will search for launchable local services and present them in a side-panel; use a configuration file to define the available local services, that includes the path to the executable - two files, one that has the \'91standard\'92 services that get installed and a \'91local\'92 file that isn\'92t overwritten by the installation - or use the \'91standard\'92 installation path to build a list of services?\uc0\u8232 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls1\ilvl0\cf3 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Add a mechanism - if possible - to allow stopping a service that has been launched\uc0\u8232 \
+\pard\pardeftab720\sl460
+
+\f0\b\fs34 \cf0 \expnd0\expndtw0\kerning0
+Configurations
+\f1\fs36 \expnd0\expndtw0\kerning0
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls2\ilvl0
+\f2\b0\fs30 \cf0 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Ability to save current configuration of running services and connections; the configuration should include the \'91tag\'92 of the service or custom endpoint, as well as it\'92s visual position; actually, a running service should be able to return the argument list of the executable!\uc0\u8232 \
+\ls2\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Reading a config will launch local services (if available and not detected)\uc0\u8232 \
+\pard\pardeftab720\sl460
+
+\f0\b\fs34 \cf0 \expnd0\expndtw0\kerning0
+Misc GUI
+\f1\fs36 \expnd0\expndtw0\kerning0
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls3\ilvl0
+\f2\b0\fs30 \cf2 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Add menu bar to GUI that includes the right-mouse click operations\uc0\u8232 \
+\ls3\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Ability to hide services and their connections\uc0\u8232 \
+\ls3\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Unhiding a service should automatically reposition the service icon to avoid overlapping icons - note that \'91unhiding\'92 is an all-or-nothing operation, as the hidden services can\'92t be selected\uc0\u8232 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls3\ilvl0\cf0 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Add activity icon to service icons\uc0\u8232 \
+\pard\pardeftab720\sl460
+
+\f0\b\fs34 \cf0 \expnd0\expndtw0\kerning0
+Misc
+\f1\fs36 \expnd0\expndtw0\kerning0
+\
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls4\ilvl0
+\f2\b0\fs30 \cf2 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Services should have \'93--info\'94 / \'93-i\'94 command line argument to provide the GUI with meta-infos, used to fill in menu items\uc0\u8232 \
+\pard\tx220\tx720\pardeftab720\li720\fi-720\sl400
+\ls4\ilvl0\cf0 \kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Services should have echo capability that allows Registry Service to estimate data round-trip timing; thus can be done by any simple request, rather than a new request - should this be in Channel Manager instead of the Registry Service?\uc0\u8232 \
+\ls4\ilvl0\kerning1\expnd0\expndtw0 {\listtext	\'95	}\expnd0\expndtw0\kerning0
+Add feature to Registry Service to send echo request to each service and report on round-trip timing - perhaps in Channel Manager?\uc0\u8232 \
+\pard\pardeftab720
+
+\f1\fs24 \cf0 \expnd0\expndtw0\kerning0
+\
+}
