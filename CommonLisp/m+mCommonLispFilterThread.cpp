@@ -107,7 +107,6 @@ CommonLispFilterThread::~CommonLispFilterThread(void)
 void CommonLispFilterThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
-//    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // CommonLispFilterThread::clearOutputChannel
 

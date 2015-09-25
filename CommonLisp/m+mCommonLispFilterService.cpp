@@ -590,10 +590,12 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
     OD_LOG_D1("loadedInterval = ", loadedInterval); //####
     if (_isThreaded && (ECL_NIL != _scriptThreadFunc))
     {
+        OD_LOG("(_isThreaded && (ECL_NIL != _scriptThreadFunc))"); //####
         setNeedsIdle();
     }
     else if (0 < loadedInletHandlers.size())
     {
+        OD_LOG("(0 < loadedInletHandlers.size())"); //####
         setNeedsIdle();
     }
     try

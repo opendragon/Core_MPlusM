@@ -77,170 +77,6 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-/*! @brief Convert a YARP value into a %JavaScript object.
- @param jct The %JavaScript engine context.
- @param theData The output object.
- @param inputValue The value to be processed. */
-static void convertValue(JSContext *             jct,
-                         JS::MutableHandleValue  theData,
-                         const yarp::os::Value & inputValue);
-
-/*! @brief Convert a YARP dictionary into a %JavaScript object.
- @param jct The %JavaScript engine context.
- @param theData The output object.
- @param inputAsList The input dictionary as a list. */
-static void convertDictionary(JSContext *              jct,
-                              JS::MutableHandleValue   theData,
-                              const yarp::os::Bottle & inputAsList)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P3("jct = ", jct, "inputValue = ", &inputValue, "inputAsList = ", &inputAsList); //####
-    JS::RootedObject empty(jct);
-    JSObject *       valueObject = JS_NewObject(jct, NULL);
-
-    if (valueObject)
-    {
-        JS::RootedObject objectRooted(jct);
-        JS::RootedValue  anElement(jct);
-        
-        objectRooted = valueObject;
-        for (int ii = 0, mm = inputAsList.size(); mm > ii; ++ii)
-        {
-            yarp::os::Value anEntry(inputAsList.get(ii));
-            
-            if (anEntry.isList())
-            {
-                yarp::os::Bottle * entryAsList = anEntry.asList();
-                
-                if (entryAsList && (2 == entryAsList->size()))
-                {
-                    yarp::os::Value aValue(entryAsList->get(1));
-
-                    convertValue(jct, &anElement, aValue);
-                    JS_SetProperty(jct, objectRooted, entryAsList->get(0).toString().c_str(),
-                                   anElement);
-                }
-            }
-        }
-        theData.setObject(*valueObject);
-    }
-    OD_LOG_EXIT(); //####
-} // convertDictionary
-
-/*! @brief Convert a YARP list into a %JavaScript object.
- @param jct The %JavaScript engine context.
- @param theData The output object.
- @param inputValue The value to be processed. */
-static void convertList(JSContext *              jct,
-                        JS::MutableHandleValue   theData,
-                        const yarp::os::Bottle & inputValue)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
-    JSObject * valueArray = JS_NewArrayObject(jct, 0);
-    
-    if (valueArray)
-    {
-        JS::RootedObject arrayRooted(jct);
-        JS::RootedValue  anElement(jct);
-        JS::RootedId     aRootedId(jct);
-
-        arrayRooted = valueArray;
-        for (int ii = 0, mm = inputValue.size(); mm > ii; ++ii)
-        {
-            yarp::os::Value aValue(inputValue.get(ii));
-            
-            convertValue(jct, &anElement, aValue);
-            if (JS_IndexToId(jct, ii, &aRootedId))
-            {
-                JS_SetPropertyById(jct, arrayRooted, aRootedId, anElement);
-            }
-        }
-        theData.setObject(*valueArray);
-    }
-    OD_LOG_EXIT(); //####
-} // convertList
-
-static void convertValue(JSContext *             jct,
-                         JS::MutableHandleValue  theData,
-                         const yarp::os::Value & inputValue)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
-    if (inputValue.isBool())
-    {
-        theData.setBoolean(inputValue.asBool());
-    }
-    else if (inputValue.isInt())
-    {
-        theData.setInt32(inputValue.asInt());
-    }
-    else if (inputValue.isString())
-    {
-        YarpString value = inputValue.asString();
-        JSString * aString = JS_NewStringCopyZ(jct, value.c_str());
-        
-        if (aString)
-        {
-            theData.setString(aString);
-        }
-    }
-    else if (inputValue.isDouble())
-    {
-        theData.setDouble(inputValue.asDouble());
-    }
-    else if (inputValue.isDict())
-    {
-        yarp::os::Property * value = inputValue.asDict();
-        
-        if (value)
-        {
-            yarp::os::Bottle asList(value->toString());
-
-            convertDictionary(jct, theData, asList);
-        }
-    }
-    else if (inputValue.isList())
-    {
-        yarp::os::Bottle * value = inputValue.asList();
-        
-        if (value)
-        {
-            yarp::os::Property asDict;
-            
-            if (ListIsReallyDictionary(*value, asDict))
-            {
-                convertDictionary(jct, theData, *value);
-            }
-            else
-            {
-                convertList(jct, theData, *value);
-            }
-        }
-    }
-    else
-    {
-        // We don't know what to do with this...
-        theData.setNull();
-    }
-    OD_LOG_EXIT(); //####
-} // convertValue
-
-/*! @brief Fill an object with the contents of a bottle.
- @param jct The %JavaScript engine context.
- @param aBottle The bottle to be used.
- @param theData The value to be filled. */
-static void createValueFromBottle(JSContext *              jct,
-                                  const yarp::os::Bottle & aBottle,
-                                  JS::MutableHandleValue   theData)
-{
-    OD_LOG_ENTER(); //####
-    OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
-//    cerr << "'" << aBottle.toString().c_str() << "'" << endl << endl;
-    convertList(jct, theData, aBottle);
-    OD_LOG_EXIT(); //####
-} // createValueFromBottle
-
 #if defined(__APPLE__)
 # pragma mark Class methods
 #endif // defined(__APPLE__)
@@ -250,12 +86,11 @@ static void createValueFromBottle(JSContext *              jct,
 #endif // defined(__APPLE__)
 
 JavaScriptFilterInputHandler::JavaScriptFilterInputHandler(JavaScriptFilterService * owner,
-                                                           const size_t              slotNumber,
-                                                           JS::HandleValue &         handlerFunc) :
-    inherited(), _owner(owner), _handlerFunc(handlerFunc), _slotNumber(slotNumber), _active(false)
+                                                           const size_t              slotNumber) :
+    inherited(), _owner(owner), _slotNumber(slotNumber), _active(false)
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P2("owner = ", owner, "handlerFunc = ", &handlerFunc); //####
+    OD_LOG_P1("owner = ", owner); //####
     OD_LOG_L1("slotNumber = ", slotNumber); //####
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptFilterInputHandler::JavaScriptFilterInputHandler
@@ -291,54 +126,9 @@ DEFINE_HANDLE_INPUT_(JavaScriptFilterInputHandler)
     {
         if (_active && _owner)
         {
-            JSContext * jct = _owner->getContext();
-            
-            if (jct)
-            {
-                JS::RootedValue argValue(jct);
-                JS::Value       slotNumberValue;
-
-                slotNumberValue.setInt32(static_cast<int32_t>(_slotNumber));
-                createValueFromBottle(jct, input, &argValue);
-                JS::AutoValueVector funcArgs(jct);
-                JS::RootedValue     funcResult(jct);
-                
-                result = false;
-                funcArgs.append(slotNumberValue);
-                funcArgs.append(argValue);
-                JS_BeginRequest(jct);
-                if (JS_CallFunctionValue(jct, _owner->getGlobal(), _handlerFunc, funcArgs,
-                                         &funcResult))
-                {
-                    // We don't care about the function result, as it's supposed to just write to
-                    // the outlet stream(s).
-                    result = true;
-                }
-                else
-                {
-                    OD_LOG("! (JS_CallFunctionValue(jct, _owner->getGlobal(), _handlerFunc, " //####
-                           "funcArgs, &funcResult))"); //####
-                    JS::RootedValue exc(jct);
-                    
-                    if (JS_GetPendingException(jct, &exc))
-                    {
-                        JS_ClearPendingException(jct);
-                        std::stringstream buff;
-                        YarpString        message("Exception occurred while executing "
-                                                  "handler function for inlet ");
-                        
-                        buff << _slotNumber;
-                        message += buff.str();
-                        message += ".";
-#if MAC_OR_LINUX_
-                        GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                        cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                JS_EndRequest(jct);
-            }
+            _received = input;
+            _owner->stallUntilIdle(_slotNumber);
+            _owner->signalRunFunction();
         }
     }
     catch (...)

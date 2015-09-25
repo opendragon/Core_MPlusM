@@ -73,11 +73,9 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param owner The service that owns this handler.
-             @param slotNumber The slot number of the associated channel.
-             @param handlerFunc The %JavaScript handler function for the channel. */
+             @param slotNumber The slot number of the associated channel. */
             JavaScriptFilterInputHandler(JavaScriptFilterService * owner,
-                                         const size_t              slotNumber,
-                                         JS::HandleValue &         handlerFunc);
+                                         const size_t              slotNumber);
             
             /*! @brief The destructor. */
             virtual ~JavaScriptFilterInputHandler(void);
@@ -93,6 +91,14 @@ namespace MplusM
             {
                 _active = false;
             } // deactivate
+            
+            /*! @brief Return the most recently received data.
+             @returns The most recently received data. */
+            inline const yarp::os::Bottle & getReceivedData(void)
+            const
+            {
+                return _received;
+            } // getReceivedData
             
         protected :
             
@@ -114,8 +120,8 @@ namespace MplusM
             /*! @brief The service that owns this handler. */
             JavaScriptFilterService * _owner;
             
-            /*! @brief The %JavaScript input handler function. */
-            JS::HandleValue _handlerFunc;
+            /*! @brief The data received by this handler. */
+            yarp::os::Bottle _received;
             
             /*! @brief The slot number of the associated channel. */
             size_t _slotNumber;

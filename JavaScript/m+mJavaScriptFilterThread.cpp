@@ -38,6 +38,8 @@
 
 #include "m+mJavaScriptFilterThread.h"
 
+#include "m+mJavaScriptFilterService.h"
+
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
@@ -82,16 +84,13 @@ using std::endl;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-JavaScriptFilterThread::JavaScriptFilterThread(const double            timeToWait,
-                                               JSContext *             context,
-                                               JS::RootedObject &      global,
-                                               const JS::RootedValue & threadFunc) :
-    inherited(), _timeToWait(timeToWait), _threadFunc(context), _global(global), _context(context)
+JavaScriptFilterThread::JavaScriptFilterThread(JavaScriptFilterService & owner,
+                                               const double              timeToWait) :
+    inherited(), _timeToWait(timeToWait), _owner(owner)
 {
     OD_LOG_ENTER(); //####
+    OD_LOG_P1("owner = ", &owner); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
-    OD_LOG_P3("context = ", context, "global = ", &global, "threadFunc = ", &threadFunc); //####
-    _threadFunc = threadFunc;
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptFilterThread::JavaScriptFilterThread
 
@@ -115,45 +114,22 @@ void JavaScriptFilterThread::clearOutputChannel(void)
 void JavaScriptFilterThread::run(void)
 {
     OD_LOG_OBJENTER(); //####
-    for ( ; ! isStopping(); )
+    try
     {
-        if (_nextTime <= yarp::os::Time::now())
+        for ( ; ! isStopping(); )
         {
-            OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
-            if (_context && (! _threadFunc.isNullOrUndefined()))
+            if (_nextTime <= yarp::os::Time::now())
             {
-                JS::AutoValueVector funcArgs(_context);
-                JS::RootedValue     funcResult(_context);
-                
-                JS_BeginRequest(_context);
-                if (JS_CallFunctionValue(_context, _global, _threadFunc, funcArgs, &funcResult))
-                {
-                    // We don't care about the function result, as it's supposed to just perform an
-                    // iteration of the thread.
-                }
-                else
-                {
-                    OD_LOG("! (JS_CallFunctionValue(_context, _global, _threadFunc, " //####
-                           "funcArgs, &funcResult))"); //####
-                    JS::RootedValue exc(_context);
-                    
-                    if (JS_GetPendingException(_context, &exc))
-                    {
-                        JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Exception occurred while executing the scriptThread "
-                                         "function.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Exception occurred while executing the scriptThread function." <<
-                                endl;
-#endif // ! MAC_OR_LINUX_
-                    }
-                }
-                JS_EndRequest(_context);
+                OD_LOG("(_nextTime <= yarp::os::Time::now())"); //####
+                _owner.signalRunFunction();
+                _nextTime = yarp::os::Time::now() + _timeToWait;
             }
-            _nextTime = yarp::os::Time::now() + _timeToWait;
+            yarp::os::Time::yield();
         }
-        yarp::os::Time::yield();
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
     }
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptFilterThread::run

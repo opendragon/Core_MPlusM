@@ -60,20 +60,18 @@ namespace MplusM
 {
     namespace JavaScript
     {
+        class JavaScriptFilterService;
+
         /*! @brief A convenience class to generate output. */
         class JavaScriptFilterThread : public yarp::os::Thread
         {
         public :
             
             /*! @brief The constructor.
-             @param timeToWait The number of seconds to delay before triggering.
-             @param context The %JavaScript engine context.
-             @param global The %JavaScript global object.
-             @param threadFunc The %JavaScript handler function for the thread. */
-            JavaScriptFilterThread(const double            timeToWait,
-                                   JSContext *             context,
-                                   JS::RootedObject &      global,
-                                   const JS::RootedValue & threadFunc);
+             @param owner The service that owns this thread.
+             @param timeToWait The number of seconds to delay before triggering. */
+            JavaScriptFilterThread(JavaScriptFilterService & owner,
+                                   const double              timeToWait);
             
             /*! @brief The destructor. */
             virtual ~JavaScriptFilterThread(void);
@@ -116,14 +114,8 @@ namespace MplusM
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
             
-            /*! @brief The %JavaScript thread function. */
-            JS::RootedValue _threadFunc;
-            
-            /*! @brief The %JavaScript global object for this execution environment. */
-            JS::RootedObject & _global;
-            
-            /*! @brief The %JavaScript execution environment. */
-            JSContext * _context;
+            /*! @brief The service that owns this thread. */
+            JavaScriptFilterService & _owner;
             
             /*! @brief The time at which the thread will send data. */
             double _nextTime;

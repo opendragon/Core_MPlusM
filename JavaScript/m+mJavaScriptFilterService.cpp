@@ -81,6 +81,170 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief Convert a YARP value into a %JavaScript object.
+ @param jct The %JavaScript engine context.
+ @param theData The output object.
+ @param inputValue The value to be processed. */
+static void convertValue(JSContext *             jct,
+                         JS::MutableHandleValue  theData,
+                         const yarp::os::Value & inputValue);
+
+/*! @brief Convert a YARP dictionary into a %JavaScript object.
+ @param jct The %JavaScript engine context.
+ @param theData The output object.
+ @param inputAsList The input dictionary as a list. */
+static void convertDictionary(JSContext *              jct,
+                              JS::MutableHandleValue   theData,
+                              const yarp::os::Bottle & inputAsList)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P3("jct = ", jct, "theData = ", &theData, "inputAsList = ", &inputAsList); //####
+    JS::RootedObject empty(jct);
+    JSObject *       valueObject = JS_NewObject(jct, NULL);
+    
+    if (valueObject)
+    {
+        JS::RootedObject objectRooted(jct);
+        JS::RootedValue  anElement(jct);
+        
+        objectRooted = valueObject;
+        for (int ii = 0, mm = inputAsList.size(); mm > ii; ++ii)
+        {
+            yarp::os::Value anEntry(inputAsList.get(ii));
+            
+            if (anEntry.isList())
+            {
+                yarp::os::Bottle * entryAsList = anEntry.asList();
+                
+                if (entryAsList && (2 == entryAsList->size()))
+                {
+                    yarp::os::Value aValue(entryAsList->get(1));
+                    
+                    convertValue(jct, &anElement, aValue);
+                    JS_SetProperty(jct, objectRooted, entryAsList->get(0).toString().c_str(),
+                                   anElement);
+                }
+            }
+        }
+        theData.setObject(*valueObject);
+    }
+    OD_LOG_EXIT(); //####
+} // convertDictionary
+
+/*! @brief Convert a YARP list into a %JavaScript object.
+ @param jct The %JavaScript engine context.
+ @param theData The output object.
+ @param inputValue The value to be processed. */
+static void convertList(JSContext *              jct,
+                        JS::MutableHandleValue   theData,
+                        const yarp::os::Bottle & inputValue)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
+    JSObject * valueArray = JS_NewArrayObject(jct, 0);
+    
+    if (valueArray)
+    {
+        JS::RootedObject arrayRooted(jct);
+        JS::RootedValue  anElement(jct);
+        JS::RootedId     aRootedId(jct);
+        
+        arrayRooted = valueArray;
+        for (int ii = 0, mm = inputValue.size(); mm > ii; ++ii)
+        {
+            yarp::os::Value aValue(inputValue.get(ii));
+            
+            convertValue(jct, &anElement, aValue);
+            if (JS_IndexToId(jct, ii, &aRootedId))
+            {
+                JS_SetPropertyById(jct, arrayRooted, aRootedId, anElement);
+            }
+        }
+        theData.setObject(*valueArray);
+    }
+    OD_LOG_EXIT(); //####
+} // convertList
+
+static void convertValue(JSContext *             jct,
+                         JS::MutableHandleValue  theData,
+                         const yarp::os::Value & inputValue)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
+    if (inputValue.isBool())
+    {
+        theData.setBoolean(inputValue.asBool());
+    }
+    else if (inputValue.isInt())
+    {
+        theData.setInt32(inputValue.asInt());
+    }
+    else if (inputValue.isString())
+    {
+        YarpString value = inputValue.asString();
+        JSString * aString = JS_NewStringCopyZ(jct, value.c_str());
+        
+        if (aString)
+        {
+            theData.setString(aString);
+        }
+    }
+    else if (inputValue.isDouble())
+    {
+        theData.setDouble(inputValue.asDouble());
+    }
+    else if (inputValue.isDict())
+    {
+        yarp::os::Property * value = inputValue.asDict();
+        
+        if (value)
+        {
+            yarp::os::Bottle asList(value->toString());
+            
+            convertDictionary(jct, theData, asList);
+        }
+    }
+    else if (inputValue.isList())
+    {
+        yarp::os::Bottle * value = inputValue.asList();
+        
+        if (value)
+        {
+            yarp::os::Property asDict;
+            
+            if (ListIsReallyDictionary(*value, asDict))
+            {
+                convertDictionary(jct, theData, *value);
+            }
+            else
+            {
+                convertList(jct, theData, *value);
+            }
+        }
+    }
+    else
+    {
+        // We don't know what to do with this...
+        theData.setNull();
+    }
+    OD_LOG_EXIT(); //####
+} // convertValue
+
+/*! @brief Fill an object with the contents of a bottle.
+ @param jct The %JavaScript engine context.
+ @param aBottle The bottle to be used.
+ @param theData The value to be filled. */
+static void createValueFromBottle(JSContext *              jct,
+                                  const yarp::os::Bottle & aBottle,
+                                  JS::MutableHandleValue   theData)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
+//    cerr << "'" << aBottle.toString().c_str() << "'" << endl << endl;
+    convertList(jct, theData, aBottle);
+    OD_LOG_EXIT(); //####
+} // createValueFromBottle
+
 /*! @brief Fill a bottle with the contents of an object.
  @param jct The %JavaScript engine context.
  @param aBottle The bottle to be filled.
@@ -273,9 +437,9 @@ JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVect
               description, "", serviceEndpointName, servicePortNumber), _inletHandlers(context),
     _inHandlers(), _generator(NULL), _context(context), _global(global),
     _loadedInletDescriptions(loadedInletDescriptions),
-    _loadedOutletDescriptions(loadedOutletDescriptions), _scriptStartingFunc(context),
-    _scriptStoppingFunc(context), _scriptThreadFunc(context), _threadInterval(loadedInterval),
-    _isThreaded(sawThread)
+    _loadedOutletDescriptions(loadedOutletDescriptions), _goAhead(0), _staller(1),
+    _scriptStartingFunc(context), _scriptStoppingFunc(context), _scriptThreadFunc(context),
+    _threadInterval(loadedInterval), _mostRecentSlot(0), _isThreaded(sawThread)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("argumentList = ", &argumentList, "context = ", context, "global = ", &global, //####
@@ -297,6 +461,16 @@ JavaScriptFilterService::JavaScriptFilterService(const Utilities::DescriptorVect
     _scriptStartingFunc = loadedStartingFunction;
     _scriptStoppingFunc = loadedStoppingFunction;
     _scriptThreadFunc = loadedThreadFunction;
+    if (_isThreaded && (! _scriptThreadFunc.isNullOrUndefined()))
+    {
+        OD_LOG("(_isThreaded && (! _scriptThreadFunc.isNullOrUndefined()))"); //####
+        setNeedsIdle();
+    }
+    else if (0 < _inletHandlers.length())
+    {
+        OD_LOG("(0 < _inletHandlers.length())"); //####
+        setNeedsIdle();
+    }
     OD_LOG_EXIT_P(this); //####
 } // JavaScriptFilterService::JavaScriptFilterService
 
@@ -413,6 +587,121 @@ DEFINE_DISABLEMETRICS_(JavaScriptFilterService)
     }
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptFilterService::disableMetrics
+
+DEFINE_DOIDLE_(JavaScriptFilterService)
+{
+    OD_LOG_OBJENTER(); //####
+    if (isActive())
+    {
+        OD_LOG("(isActive())"); //####
+        if (_goAhead.check())
+        {
+            OD_LOG("(_goAhead.check())"); //####
+            if (_scriptThreadFunc.isNullOrUndefined())
+            {
+                OD_LOG("(_scriptThreadFunc.isNullOrUndefined())"); //####
+                // We have a request from an input handler.
+                if (_inHandlers.size() > _mostRecentSlot)
+                {
+                    OD_LOG("(getInletCount() > _mostRecentSlot)"); //####
+                    JS::HandleValue                handlerFunc = _inletHandlers[_mostRecentSlot];
+                    JavaScriptFilterInputHandler * aHandler = _inHandlers.at(_mostRecentSlot);
+
+                    if (aHandler && (! handlerFunc.isNullOrUndefined()))
+                    {
+                        OD_LOG("(aHandler && (! handlerFunc.isNullOrUndefined()))"); //####
+                        JS::RootedValue     argValue(_context);
+                        JS::Value           slotNumberValue;
+                        JS::AutoValueVector funcArgs(_context);
+                        JS::RootedValue     funcResult(_context);
+                        
+                        slotNumberValue.setInt32(static_cast<int32_t>(_mostRecentSlot));
+                        createValueFromBottle(_context, aHandler->getReceivedData(), &argValue);
+                        funcArgs.append(slotNumberValue);
+                        funcArgs.append(argValue);
+                        JS_BeginRequest(_context);
+                        if (JS_CallFunctionValue(_context, _global, handlerFunc, funcArgs,
+                                                 &funcResult))
+                        {
+                            // We don't care about the function result, as it's supposed to just
+                            // write to the outlet stream(s).
+                        }
+                        else
+                        {
+                            OD_LOG("! (JS_CallFunctionValue(_context, _global, handlerFunc, " //####
+                                   "funcArgs, &funcResult))"); //####
+                            JS::RootedValue exc(_context);
+                            
+                            if (JS_GetPendingException(_context, &exc))
+                            {
+                                JS_ClearPendingException(_context);
+                                std::stringstream buff;
+                                YarpString        message("Exception occurred while executing "
+                                                          "handler function for inlet ");
+                                
+                                buff << _mostRecentSlot;
+                                message += buff.str();
+                                message += ".";
+#if MAC_OR_LINUX_
+                                GetLogger().fail(message.c_str());
+#else // ! MAC_OR_LINUX_
+                                cerr << message.c_str() << endl;
+#endif // ! MAC_OR_LINUX_
+                            }
+                        }
+                        JS_EndRequest(_context);
+                    }
+                }
+                _staller.post();
+            }
+            else
+            {
+                OD_LOG("! (_scriptThreadFunc.isNullOrUndefined())"); //####
+                try
+                {
+                    JS::AutoValueVector funcArgs(_context);
+                    JS::RootedValue     funcResult(_context);
+                    
+                    JS_BeginRequest(_context);
+                    if (JS_CallFunctionValue(_context, _global, _scriptThreadFunc, funcArgs,
+                                             &funcResult))
+                    {
+                        OD_LOG("(JS_CallFunctionValue(_context, _global, _scriptThreadFunc, " //####
+                               "funcArgs, &funcResult))"); //####
+                        // We don't care about the function result, as it's supposed to just perform
+                        // an iteration of the thread.
+                    }
+                    else
+                    {
+                        OD_LOG("! (JS_CallFunctionValue(_context, _global, " //####
+                               "_scriptThreadFunc, funcArgs, &funcResult))"); //####
+                        JS::RootedValue exc(_context);
+                        
+                        if (JS_GetPendingException(_context, &exc))
+                        {
+                            OD_LOG("(JS_GetPendingException(_context, &exc))"); //####
+                            JS_ClearPendingException(_context);
+#if MAC_OR_LINUX_
+                            GetLogger().fail("Exception occurred while executing the scriptThread "
+                                             "function.");
+#else // ! MAC_OR_LINUX_
+                            cerr << "Exception occurred while executing the scriptThread "
+                                    "function." << endl;
+#endif // ! MAC_OR_LINUX_
+                        }
+                    }
+                    JS_EndRequest(_context);
+                }
+                catch (...)
+                {
+                    OD_LOG("Exception caught"); //####
+                    throw;
+                }
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // JavaScriptFilterService::doIdle
 
 DEFINE_ENABLEMETRICS_(JavaScriptFilterService)
 {
@@ -547,6 +836,22 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptFilterService)
     return result;
 } // JavaScriptFilterService::setUpStreamDescriptions
 
+void JavaScriptFilterService::signalRunFunction(void)
+{
+    OD_LOG_OBJENTER(); //####
+    _goAhead.post();
+    OD_LOG_OBJEXIT(); //####
+} // JavaScriptFilterService::signalRunFunction
+
+void JavaScriptFilterService::stallUntilIdle(const size_t slotNumber)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_LL1("slotNumber = ", slotNumber); //####
+    _staller.wait();
+    _mostRecentSlot = slotNumber;
+    OD_LOG_OBJEXIT(); //####
+} // JavaScriptFilterService::stallUntilIdle
+
 DEFINE_STARTSERVICE_(JavaScriptFilterService)
 {
     OD_LOG_OBJENTER(); //####
@@ -583,8 +888,7 @@ DEFINE_STARTSTREAMS_(JavaScriptFilterService)
         {
             if (_isThreaded)
             {
-                _generator = new JavaScriptFilterThread(_threadInterval, _context, _global,
-                                                        _scriptThreadFunc);
+                _generator = new JavaScriptFilterThread(*this, _threadInterval);
 				if (! _generator->start())
 				{
 					OD_LOG("(! _generator->start())"); //####
@@ -598,10 +902,8 @@ DEFINE_STARTSTREAMS_(JavaScriptFilterService)
                 releaseHandlers();
                 for (size_t ii = 0, mm = getInletCount(); mm > ii; ++ii)
                 {
-                    JS::HandleValue                handlerFunc = _inletHandlers[ii];
                     JavaScriptFilterInputHandler * aHandler = new JavaScriptFilterInputHandler(this,
-                                                                                               ii,
-                                                                                       handlerFunc);
+                                                                                               ii);
                     
                     if (aHandler)
                     {

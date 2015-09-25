@@ -123,6 +123,8 @@ namespace MplusM
             
             DECLARE_DISABLEMETRICS_;
             
+            DECLARE_DOIDLE_;
+
             DECLARE_ENABLEMETRICS_;
             
             DECLARE_GETCONFIGURATION_;
@@ -151,6 +153,15 @@ namespace MplusM
              @returns @c true if the data was successfully sent and @c false otherwise. */
             bool sendToChannel(const int32_t channelSlot,
                                JS::Value     theData);
+            
+            /*! @brief Signal to the background process that the thread or handler function should
+             be performed. */
+            void signalRunFunction(void);
+            
+            /*! @brief Stall a thread until the main thread can process the request and then process
+             the request.
+             @param slotNumber The slot number of the input handler making the request. */
+            void stallUntilIdle(const size_t slotNumber);
             
             DECLARE_STARTSERVICE_;
             
@@ -204,6 +215,12 @@ namespace MplusM
             /*! @brief The list of loaded outlet stream descriptions. */
             const Common::ChannelVector & _loadedOutletDescriptions;
             
+            /*! @brief The communication signal for the thread or handlers. */
+            yarp::os::Semaphore _goAhead;
+            
+            /*! @brief The communication signal for the handlers. */
+            yarp::os::Semaphore _staller;
+            
             /*! @brief The %JavaScript script starting function. */
             JS::RootedValue _scriptStartingFunc;
             
@@ -215,6 +232,9 @@ namespace MplusM
             
             /*! @brief The thread interval. */
             double _threadInterval;
+            
+            /*! @brief The slot of the most recent input handler. */
+            size_t _mostRecentSlot;
             
             /*! @brief @c true if a thread is being used. */
             bool _isThreaded;

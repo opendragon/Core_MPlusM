@@ -187,6 +187,35 @@ static bool dumpObjectToStdoutForJs(JSContext * jct,
     return result;
 } // dumpObjectToStdoutForJs
 
+/*! @brief A C-callback function for %JavaScript to get the current time in seconds.
+ @param jct The context in which the native function is being called.
+ @param argc The number of arguments supplied to the function by the caller.
+ @param vp The arguments to the function.
+ @returns @c true on success and @c false otherwise. */
+static bool getTimeNowForJs(JSContext * jct,
+                            unsigned    argc,
+                            JS::Value * vp)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
+    OD_LOG_L1("argc = ", argc); //####
+    bool         result;
+    JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
+    
+    if (0 < args.length())
+    {
+        JS_ReportError(jct, "Extra arguments to requestStop");
+        result = false;
+    }
+    else
+    {
+        args.rval().setDouble(yarp::os::Time::now());
+        result = true;
+    }
+    OD_LOG_EXIT_B(result); //####
+    return result;
+} // getTimeNowForJs
+
 /*! @brief A C-callback function for %JavaScript to stop the service.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
@@ -313,6 +342,7 @@ static const JSFunctionSpec lServiceFunctions[] =
 {
     // name, call, nargs, flags
     JS_FS("dumpObjectToStdout", dumpObjectToStdoutForJs, 2, JSPROP_ENUMERATE),
+    JS_FS("getTimeNow", getTimeNowForJs, 0, JSPROP_ENUMERATE),
     JS_FS("requestStop", requestStopForJs, 0, JSPROP_ENUMERATE),
     JS_FS("sendToChannel", sendToChannelForJs, 2, JSPROP_ENUMERATE),
     JS_FS("writeLineToStdout", writeLineToStdoutForJs, 1, JSPROP_ENUMERATE),

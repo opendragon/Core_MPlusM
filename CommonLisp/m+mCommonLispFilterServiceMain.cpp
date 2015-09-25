@@ -120,6 +120,17 @@ static CommonLispFilterService * lActiveService = NULL;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+/*! @brief A C-callback function for Common Lisp to get the current time in seconds. */
+static cl_object getTimeNowForCl(void)
+{
+    OD_LOG_ENTER(); //####
+    cl_env_ptr env = ecl_process_env();
+    cl_object  result = ecl_make_double_float(yarp::os::Time::now());
+    
+    OD_LOG_EXIT_P(result); //####
+    ecl_return1(env, result);
+} // getTimeNowForCl
+
 /*! @brief A C-callback function for Common Lisp to stop the service. */
 static cl_object requestStopForCl(void)
 {
@@ -157,6 +168,7 @@ static cl_object sendToChannelForCl(cl_object channelIndex,
 static void addCustomFunctions(void)
 {
     OD_LOG_ENTER(); //####
+    DEFUN_("getTimeNow", getTimeNowForCl, 0);
     DEFUN_("requestStop", requestStopForCl, 0);
     DEFUN_("sendToChannel", sendToChannelForCl, 2);
     // The following can't be directly expressed in C/C++, but is better described as Common
