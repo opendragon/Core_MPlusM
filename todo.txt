@@ -42,4 +42,4 @@
 
 * every service has a hidden ‘pong’ UDP port that sends activity message to managers; frequency of update is a global constant - use Absorber service as a prototype - flags for each input and output port, so all m+m channels can be reported, not just output ports; maybe some form of compressed encodings
 
-@ create Simple Sine script in CL and JS, C++ Simple Sine input service, videos on how to build; add gettimenow function to CL and JS, to access yarp::os::Time::now —> needs to be documented!
+@ create Simple Sine script in CL and JS, C++ Simple Sine input service, videos on how to build

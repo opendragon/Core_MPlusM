@@ -22,7 +22,9 @@ The \CLF{} service provides the following functions as part of the \CL{} environ
 protocol description `\textit{d}' and handler function `\textit{h}'
 \item\exSp\textbf{(\asCode{create-outlet-entry} \textit{n} \textit{p} \textit{d})}
 \longDash{} creates an outlet description with name `\textit{n}', protocol `\textit{p}'
-and protocol description `\textit{d}' 
+and protocol description `\textit{d}'
+\item\exSp\textbf{(\asCode{getTimeNow})} \longDash{} returns the current time in seconds, relative
+to an arbitrary time in the past
 \item\exSp\textbf{(\asCode{requestStop})} \longDash{} signals that the service is to stop
 at the first opportunity
 \item\exSp\textbf{(\asCode{sendToChannel} \textit{n} \textit{x})} \longDash{} converts the
