@@ -45,19 +45,35 @@ endif(WIN32)
 
 project(m+mExemplars)
 
-# Make some flags to control the build visible
+# Make some flags to control the build flags visibilities
 mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
 mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
+mark_as_advanced(SET CMAKE_INSTALL_RPATH)
+mark_as_advanced(SET CMAKE_BUILD_WITH_INSTALL_RPATH)
 
 if(APPLE)
+    set(E_PATH "@executable_path")
     set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
         "Fixes linking error for m+m/ACE" FORCE)
+    set(CMAKE_EXE_LINKER_FLAGS "-headerpad_max_install_names -L${CMAKE_INSTALL_PREFIX}/lib" CACHE
+        STRING "Increases link limit" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
-    set(CMAKE_EXE_LINKER_FLAGS "-L${CMAKE_INSTALL_PREFIX}/lib" CACHE STRING "Fixes link path" FORCE)
+    set(CMAKE_INSTALL_RPATH
+"${E_PATH}/../lib;${E_PATH}/../m+m;${E_PATH}/../odl;${E_PATH}/../../m+m;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
+        CACHE STRING "Fixes rpath" FORCE)
+    set(CMAKE_BUILD_WITH_INSTALL_RPATH ON CACHE BOOL "Make sure to use rpath")
+# 'rpath' warning
+    cmake_policy(SET CMP0042 OLD)
 endif(APPLE)
 
 set(CMAKE_USE_RELATIVE_PATHS ON CACHE BOOL "Always set file paths as relative")
+
+if(WIN32)
+    option(WIN64 "Build 64-bit binaries" ON)
+else(WIN32)
+    set(WIN64 OFF)
+endif(WIN32)
 
 # Add the m+m target path so that YARP and ACE can be found
 list(APPEND CMAKE_PREFIX_PATH "${CMAKE_INSTALL_PREFIX}")
