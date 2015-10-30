@@ -765,6 +765,14 @@
 		F655C6191B3B520800933D40 /* m+mViconBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mViconBlobInputServiceMain.cpp"; path = "ViconDataStream/ViconDataStreamInputService/m+mViconBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
 		F655C61A1B3B520800933D40 /* m+mViconBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mViconBlobInputService.rc.in"; path = "ViconDataStream/ViconDataStreamInputService/m+mViconBlobInputService.rc.in"; sourceTree = "<group>"; };
 		F655C61B1B3B520800933D40 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = ViconDataStream/ViconDataStreamInputService/resource1.h; sourceTree = "<group>"; };
+		F6753CA11BE3BB7B00DCE040 /* m+mKinectV2SpecialEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2SpecialEventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialEventThread.cpp"; sourceTree = "<group>"; };
+		F6753CA21BE3BB7B00DCE040 /* m+mKinectV2SpecialEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2SpecialEventThread.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialEventThread.h"; sourceTree = "<group>"; };
+		F6753CA31BE3BB7B00DCE040 /* m+mKinectV2SpecialInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2SpecialInputRequests.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputRequests.h"; sourceTree = "<group>"; };
+		F6753CA41BE3BB7B00DCE040 /* m+mKinectV2SpecialInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2SpecialInputService.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputService.cpp"; sourceTree = "<group>"; };
+		F6753CA51BE3BB7B00DCE040 /* m+mKinectV2SpecialInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2SpecialInputService.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputService.h"; sourceTree = "<group>"; };
+		F6753CA61BE3BB7B00DCE040 /* m+mKinectV2SpecialInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mKinectV2SpecialInputService.rc.in"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputService.rc.in"; sourceTree = "<group>"; };
+		F6753CA71BE3BB7B00DCE040 /* m+mKinectV2SpecialInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2SpecialInputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputServiceMain.cpp"; sourceTree = "<group>"; };
+		F6753CA81BE3BB7B00DCE040 /* resource2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource2.h; path = KinectV2/KinectV2InputService/resource2.h; sourceTree = "<group>"; };
 		F685DAE41B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mConfigurationRequestHandler.cpp"; path = "m+m/m+mConfigurationRequestHandler.cpp"; sourceTree = "<group>"; };
 		F685DAE51B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mConfigurationRequestHandler.h"; path = "m+m/m+mConfigurationRequestHandler.h"; sourceTree = "<group>"; };
 		F685DAE61B5C1B4200B7EC9C /* m+mMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mMetricsRequestHandler.cpp"; path = "m+m/m+mMetricsRequestHandler.cpp"; sourceTree = "<group>"; };
@@ -2277,8 +2285,16 @@
 				DFFFBFDC19D9A4B900BBD7A7 /* m+mKinectV2InputService.h */,
 				DFA7D13F1ADDB73700A17BD6 /* m+mKinectV2InputService.rc.in */,
 				DFFFBFDD19D9A4B900BBD7A7 /* m+mKinectV2InputServiceMain.cpp */,
+				F6753CA11BE3BB7B00DCE040 /* m+mKinectV2SpecialEventThread.cpp */,
+				F6753CA21BE3BB7B00DCE040 /* m+mKinectV2SpecialEventThread.h */,
+				F6753CA31BE3BB7B00DCE040 /* m+mKinectV2SpecialInputRequests.h */,
+				F6753CA41BE3BB7B00DCE040 /* m+mKinectV2SpecialInputService.cpp */,
+				F6753CA51BE3BB7B00DCE040 /* m+mKinectV2SpecialInputService.h */,
+				F6753CA61BE3BB7B00DCE040 /* m+mKinectV2SpecialInputService.rc.in */,
+				F6753CA71BE3BB7B00DCE040 /* m+mKinectV2SpecialInputServiceMain.cpp */,
 				DFA7D0EF1ADD99FB00A17BD6 /* resource.h */,
 				F63BC8341B65331400BD5ADB /* resource1.h */,
+				F6753CA81BE3BB7B00DCE040 /* resource2.h */,
 				DFFFBFE019D9A4B900BBD7A7 /* stdafx.h */,
 			);
 			name = KinectV2InputService;
@@ -2379,7 +2395,7 @@
 		DFA3430718C91B4F0053B87C /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0710;
 				ORGANIZATIONNAME = "Movement Meaning";
 			};
 			buildConfigurationList = DFA3430A18C91B4F0053B87C /* Build configuration list for PBXProject "m+m" */;
@@ -2415,6 +2431,7 @@
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;

@@ -7,6 +7,7 @@ m+mEchoService
 m+mJavaScriptFilterService
 m+mKinectV2BlobInputService
 m+mKinectV2InputService
+m+mKinectV2SpecialInputService
 m+mLeapBlobInputService
 m+mLeapMotionInputService
 m+mLeapTwoFingersInputService
