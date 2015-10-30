@@ -175,6 +175,7 @@ static void addBodyToMessage(yarp::os::Bottle &       message,
     OD_LOG_P3("message = ", &message, "jointData = ", jointData, "orientationData = ", //####
               orientationData); //####
     message.addInt(index);
+    message.addDouble(yarp::os::Time::now());
     message.addInt(static_cast<int>(leftHandState));
     message.addInt(static_cast<int>(rightHandState));
     message.addInt(static_cast<int>(leftHandConfidence));
