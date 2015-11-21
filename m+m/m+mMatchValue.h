@@ -101,7 +101,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param inString The matching segment of the original string. */
-            MatchValue(const YarpString & inString);
+            explicit MatchValue(const YarpString & inString);
             
             COPY_AND_ASSIGNMENT_(MatchValue);
             

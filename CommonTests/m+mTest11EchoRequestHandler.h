@@ -63,7 +63,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            Test11EchoRequestHandler(Common::BaseService & service);
+            explicit Test11EchoRequestHandler(Common::BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~Test11EchoRequestHandler(void);

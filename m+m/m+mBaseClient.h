@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param baseChannelName The name to be used as the root for the client channel. */
-            BaseClient(const YarpString & baseChannelName = DEFAULT_CHANNEL_ROOT_);
+            explicit BaseClient(const YarpString & baseChannelName = DEFAULT_CHANNEL_ROOT_);
             
             /*! @brief The destructor. */
             virtual ~BaseClient(void);

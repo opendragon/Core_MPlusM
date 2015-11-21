@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
-            SendToMQOutputInputHandler(SendToMQOutputService & owner);
+            explicit SendToMQOutputInputHandler(SendToMQOutputService & owner);
             
             /*! @brief The destructor. */
             virtual ~SendToMQOutputInputHandler(void);

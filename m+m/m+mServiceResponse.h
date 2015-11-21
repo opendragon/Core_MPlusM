@@ -66,7 +66,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param values The (optional) values for the response. */
-            ServiceResponse(const yarp::os::Bottle & values);
+            explicit ServiceResponse(const yarp::os::Bottle & values);
             
             /*! @brief The destructor. */
             virtual ~ServiceResponse(void);

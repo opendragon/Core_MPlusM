@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ResetCounterRequestHandler(RequestCounterService & service);
+            explicit ResetCounterRequestHandler(RequestCounterService & service);
             
             /*! @brief The destructor. */
             virtual ~ResetCounterRequestHandler(void);

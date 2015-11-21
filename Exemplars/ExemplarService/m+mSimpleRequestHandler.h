@@ -69,7 +69,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            SimpleRequestHandler(ExemplarService & service);
+            explicit SimpleRequestHandler(ExemplarService & service);
             
             /*! @brief The destructor. */
             virtual ~SimpleRequestHandler(void);

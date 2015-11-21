@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            AddFileRequestHandler(MovementDbService & service);
+            explicit AddFileRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
             virtual ~AddFileRequestHandler(void);

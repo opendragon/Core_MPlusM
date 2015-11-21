@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            StatsRequestHandler(RequestCounterService & service);
+            explicit StatsRequestHandler(RequestCounterService & service);
             
             /*! @brief The destructor. */
             virtual ~StatsRequestHandler(void);

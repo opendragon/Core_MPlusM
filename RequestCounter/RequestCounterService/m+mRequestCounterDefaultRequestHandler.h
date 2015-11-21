@@ -66,7 +66,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            RequestCounterDefaultRequestHandler(RequestCounterService & service);
+            explicit RequestCounterDefaultRequestHandler(RequestCounterService & service);
             
             /*! @brief The destructor. */
             virtual ~RequestCounterDefaultRequestHandler(void);

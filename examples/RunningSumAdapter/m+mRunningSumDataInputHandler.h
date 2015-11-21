@@ -70,7 +70,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
-            RunningSumDataInputHandler(RunningSumAdapterData & shared);
+            explicit RunningSumDataInputHandler(RunningSumAdapterData & shared);
             
             /*! @brief The destructor. */
             virtual ~RunningSumDataInputHandler(void);

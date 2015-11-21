@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            SetEmailRequestHandler(MovementDbService & service);
+            explicit SetEmailRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
             virtual ~SetEmailRequestHandler(void);

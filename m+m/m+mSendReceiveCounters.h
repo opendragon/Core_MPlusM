@@ -87,10 +87,10 @@ namespace MplusM
              @param initialInMessages The initial number of messages received.
              @param initialOutBytes The initial number of bytes sent.
              @param initialOutMessages The initial number of messages sent. */
-            SendReceiveCounters(const int64_t initialInBytes = 0,
-                                const size_t  initialInMessages = 0,
-                                const int64_t initialOutBytes = 0,
-                                const size_t  initialOutMessages = 0);
+            explicit SendReceiveCounters(const int64_t initialInBytes = 0,
+                                         const size_t  initialInMessages = 0,
+                                         const int64_t initialOutBytes = 0,
+                                         const size_t  initialOutMessages = 0);
             
             /*! @brief Add a dictionary to a list from the send / receive counters.
              @param counterList The list to be modified.

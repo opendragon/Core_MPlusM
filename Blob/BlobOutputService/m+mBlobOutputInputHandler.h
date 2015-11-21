@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
-            BlobOutputInputHandler(BlobOutputService & owner);
+            explicit BlobOutputInputHandler(BlobOutputService & owner);
             
             /*! @brief The destructor. */
             virtual ~BlobOutputInputHandler(void);

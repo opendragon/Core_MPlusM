@@ -65,7 +65,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
-            KinectV2SpecialEventThread(Common::GeneralChannel * outChannel);
+            explicit KinectV2SpecialEventThread(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
             virtual ~KinectV2SpecialEventThread(void);

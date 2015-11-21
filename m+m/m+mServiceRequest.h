@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param requestName The request to be processed. */
-            ServiceRequest(const YarpString & requestName);
+            explicit ServiceRequest(const YarpString & requestName);
             
             /*! @brief The constructor.
              @param requestName The request to be processed.

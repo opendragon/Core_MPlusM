@@ -86,7 +86,7 @@ namespace MplusM
              @param slotNumber The slot number of the associated channel.
              @param handlerFunc The %CommonLisp handler function for the channel. */
             CommonLispFilterInputHandler(CommonLispFilterService * owner,
-                                         const size_t        slotNumber);
+                                         const size_t              slotNumber);
             
             /*! @brief The destructor. */
             virtual ~CommonLispFilterInputHandler(void);

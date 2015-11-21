@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            StopStreamsRequestHandler(BaseInputOutputService & service);
+            explicit StopStreamsRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
             virtual ~StopStreamsRequestHandler(void);

@@ -70,7 +70,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
-            UnrealOutputLeapInputHandler(UnrealOutputService & owner);
+            explicit UnrealOutputLeapInputHandler(UnrealOutputService & owner);
             
             /*! @brief The destructor. */
             virtual ~UnrealOutputLeapInputHandler(void);

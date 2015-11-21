@@ -66,7 +66,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param outChannel The channel to send motion data to. */
-            LeapBlobInputListener(Common::GeneralChannel * outChannel);
+            explicit LeapBlobInputListener(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
             virtual ~LeapBlobInputListener(void);

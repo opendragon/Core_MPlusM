@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            PingRequestHandler(RegistryService & service);
+            explicit PingRequestHandler(RegistryService & service);
             
             /*! @brief The destructor. */
             virtual ~PingRequestHandler(void);

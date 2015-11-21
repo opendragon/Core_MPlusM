@@ -63,7 +63,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param isOutput @c true if the channel is used for output and @c false otherwise. */
-            GeneralChannel(const bool isOutput);
+            explicit GeneralChannel(const bool isOutput);
             
             /*! @brief The destructor. */
             virtual ~GeneralChannel(void);

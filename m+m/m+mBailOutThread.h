@@ -65,7 +65,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
-            BailOutThread(const double timeToWait);
+            explicit BailOutThread(const double timeToWait);
             
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.

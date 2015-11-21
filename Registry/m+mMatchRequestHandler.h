@@ -100,8 +100,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param service The service that has registered this request.
              @param validator The field validator to use. */
-            MatchRequestHandler(RegistryService &           service,
-                                Parser::BaseNameValidator * validator = NULL);
+            explicit MatchRequestHandler(RegistryService &           service,
+                                         Parser::BaseNameValidator * validator = NULL);
             
             /*! @brief The destructor. */
             virtual ~MatchRequestHandler(void);

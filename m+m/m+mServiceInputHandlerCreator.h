@@ -65,8 +65,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            ServiceInputHandlerCreator(BaseService & service);
+            /*! @brief The constructor.
+             @param service The service that uses the object. */
+            explicit ServiceInputHandlerCreator(BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~ServiceInputHandlerCreator(void);

@@ -70,7 +70,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
-            UnrealOutputViconInputHandler(UnrealOutputService & owner);
+            explicit UnrealOutputViconInputHandler(UnrealOutputService & owner);
             
             /*! @brief The destructor. */
             virtual ~UnrealOutputViconInputHandler(void);

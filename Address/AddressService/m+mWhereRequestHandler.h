@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            WhereRequestHandler(AddressService & service);
+            explicit WhereRequestHandler(AddressService & service);
             
             /*! @brief The destructor. */
             virtual ~WhereRequestHandler(void);

@@ -66,7 +66,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ChannelsRequestHandler(BaseService & service);
+            explicit ChannelsRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~ChannelsRequestHandler(void);

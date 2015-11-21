@@ -71,8 +71,8 @@ namespace MplusM
             /*! @brief The constructor.
              @param endpointName The YARP name to be assigned to the new endpoint.
              @param portNumber The port being used by the endpoint. */
-            Endpoint(const YarpString & endpointName,
-                     const YarpString & portNumber = "");
+            explicit Endpoint(const YarpString & endpoint,
+                              const YarpString & portNumber = "");
             
             /*! @brief The destructor. */
             virtual ~Endpoint(void);

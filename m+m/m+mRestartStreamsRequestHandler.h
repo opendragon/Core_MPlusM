@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            RestartStreamsRequestHandler(BaseInputOutputService & service);
+            explicit RestartStreamsRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
             virtual ~RestartStreamsRequestHandler(void);

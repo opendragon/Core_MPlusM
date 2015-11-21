@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            EchoRequestHandler(EchoService & service);
+            explicit EchoRequestHandler(EchoService & service);
             
             /*! @brief The destructor. */
             virtual ~EchoRequestHandler(void);

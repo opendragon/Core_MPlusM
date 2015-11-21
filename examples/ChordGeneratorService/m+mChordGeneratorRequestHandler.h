@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ChordGeneratorRequestHandler(ChordGeneratorService & service);
+            explicit ChordGeneratorRequestHandler(ChordGeneratorService & service);
             
             /*! @brief The destructor. */
             virtual ~ChordGeneratorRequestHandler(void);

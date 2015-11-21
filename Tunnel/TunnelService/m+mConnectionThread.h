@@ -65,7 +65,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that manages the network connection. */
-            ConnectionThread(TunnelService & service);
+            explicit ConnectionThread(TunnelService & service);
             
             /*! @brief The destructor. */
             virtual ~ConnectionThread(void);

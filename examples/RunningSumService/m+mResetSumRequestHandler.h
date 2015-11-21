@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ResetSumRequestHandler(RunningSumService & service);
+            explicit ResetSumRequestHandler(RunningSumService & service);
             
             /*! @brief The destructor. */
             virtual ~ResetSumRequestHandler(void);

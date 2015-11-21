@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            StopDbRequestHandler(MovementDbService & service);
+            explicit StopDbRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
             virtual ~StopDbRequestHandler(void);

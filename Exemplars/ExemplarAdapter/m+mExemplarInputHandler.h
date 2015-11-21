@@ -70,7 +70,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
-            ExemplarInputHandler(ExemplarAdapterData & shared);
+            explicit ExemplarInputHandler(ExemplarAdapterData & shared);
             
             /*! @brief The destructor. */
             virtual ~ExemplarInputHandler(void);

@@ -69,7 +69,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            RandomRequestHandler(RandomNumberService & service);
+            explicit RandomRequestHandler(RandomNumberService & service);
             
             /*! @brief The destructor. */
             virtual ~RandomRequestHandler(void);

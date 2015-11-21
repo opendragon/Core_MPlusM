@@ -70,7 +70,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
-            RandomNumberInputHandler(RandomNumberAdapterData & shared);
+            explicit RandomNumberInputHandler(RandomNumberAdapterData & shared);
             
             /*! @brief The destructor. */
             virtual ~RandomNumberInputHandler(void);

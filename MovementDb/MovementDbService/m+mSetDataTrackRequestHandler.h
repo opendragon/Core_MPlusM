@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            SetDataTrackRequestHandler(MovementDbService & service);
+            explicit SetDataTrackRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
             virtual ~SetDataTrackRequestHandler(void);

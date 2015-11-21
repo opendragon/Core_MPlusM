@@ -64,8 +64,9 @@ namespace MplusM
         {
         public :
             
-            /*! @brief The constructor. */
-            RequestMap(BaseService & owner);
+            /*! @brief The constructor.
+             @param owner The service that owns the mapping. */
+            explicit RequestMap(BaseService & owner);
             
             /*! @brief The destructor. */
             virtual ~RequestMap(void);

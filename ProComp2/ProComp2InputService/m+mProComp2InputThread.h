@@ -63,7 +63,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
-            ProComp2InputThread(Common::GeneralChannel * outChannel);
+            explicit ProComp2InputThread(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
             virtual ~ProComp2InputThread(void);

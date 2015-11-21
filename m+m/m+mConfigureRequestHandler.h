@@ -67,7 +67,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ConfigureRequestHandler(BaseInputOutputService & service);
+            explicit ConfigureRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
             virtual ~ConfigureRequestHandler(void);

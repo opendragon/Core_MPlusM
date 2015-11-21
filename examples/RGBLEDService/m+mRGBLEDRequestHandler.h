@@ -69,7 +69,7 @@ namespace MplusM
         public :
             
             /*! @brief The constructor. */
-            RGBLEDRequestHandler(RGBLEDService & service);
+            explicit RGBLEDRequestHandler(RGBLEDService & service);
             
             /*! @brief The destructor. */
             virtual ~RGBLEDRequestHandler(void);

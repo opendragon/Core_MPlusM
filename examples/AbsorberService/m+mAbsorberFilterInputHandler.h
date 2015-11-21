@@ -69,7 +69,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that manages the message count. */
-            AbsorberFilterInputHandler(AbsorberFilterService & service);
+            explicit AbsorberFilterInputHandler(AbsorberFilterService & service);
             
             /*! @brief The destructor. */
             virtual ~AbsorberFilterInputHandler(void);

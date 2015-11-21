@@ -66,7 +66,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ExtraInfoRequestHandler(BaseService & service);
+            explicit ExtraInfoRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~ExtraInfoRequestHandler(void);

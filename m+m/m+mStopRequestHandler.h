@@ -65,7 +65,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            StopRequestHandler(BaseService & service);
+            explicit StopRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~StopRequestHandler(void);

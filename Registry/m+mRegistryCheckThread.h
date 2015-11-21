@@ -65,7 +65,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has owns this thread. */
-            RegistryCheckThread(RegistryService & service);
+            explicit RegistryCheckThread(RegistryService & service);
             
             /*! @brief The destructor. */
             virtual ~RegistryCheckThread(void);

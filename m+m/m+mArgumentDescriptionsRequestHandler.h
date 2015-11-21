@@ -70,7 +70,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            ArgumentDescriptionsRequestHandler(BaseInputOutputService & service);
+            explicit ArgumentDescriptionsRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
             virtual ~ArgumentDescriptionsRequestHandler(void);

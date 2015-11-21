@@ -65,7 +65,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            DetachRequestHandler(BaseService & service);
+            explicit DetachRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
             virtual ~DetachRequestHandler(void);

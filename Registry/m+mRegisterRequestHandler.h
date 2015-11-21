@@ -68,7 +68,7 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            RegisterRequestHandler(RegistryService & service);
+            explicit RegisterRequestHandler(RegistryService & service);
             
             /*! @brief The destructor. */
             virtual ~RegisterRequestHandler(void);
