@@ -225,7 +225,7 @@ const
             }
             result += element->asSQLString();
         }
-        if ((0 < result.size()) && suffixString)
+        if ((0 < result.length()) && suffixString)
         {
             result += suffixString;
         }

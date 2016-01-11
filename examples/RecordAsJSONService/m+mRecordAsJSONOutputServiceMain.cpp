@@ -164,8 +164,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                    modFlag = kModificationNone;
         bool                                  goWasSet = false;
-        bool                                  nameWasSet = false;
+        bool                                  reportEndpoint = false;
         bool                                  reportOnExit = false;
         bool                                  stdinAvailable = CanReadFromStandardInput();
         YarpString                            serviceEndpointName;
@@ -179,11 +180,10 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME_,
                                           RECORDASJSONOUTPUT_SERVICE_DESCRIPTION_, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone	))
+                                          modFlag, kSkipNone))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -193,44 +193,28 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                YarpString recordPath(firstArg.getCurrentValue());
+                
+                if (0 == recordPath.length())
                 {
-                    YarpString recordPath(firstArg.getCurrentValue());
+                    std::stringstream buff;
                     
-                    if (0 == recordPath.size())
-                    {
-                        std::stringstream buff;
-                        
-                        buff << (TEMP_ROOT_+ kDirectorySeparator + "record_").c_str();
-                        buff << (Utilities::GetRandomHexString() + ".txt").c_str();
-                        recordPath = buff.str();
-                        OD_LOG_S1s("recordPath <- ", recordPath); //####
-                    }
-                    YarpString tagModifier =
+                    buff << (TEMP_ROOT_+ kDirectorySeparator + "record_").c_str();
+                    buff << (Utilities::GetRandomHexString() + ".txt").c_str();
+                    recordPath = buff.str();
+                    OD_LOG_S1s("recordPath <- ", recordPath); //####
+                }
+                YarpString tagModifier =
                                 Utilities::GetFileNameBase(Utilities::GetFileNamePart(recordPath));
-                    
-                    if (0 < tagModifier.length())
-                    {
-                        char lastChar = tagModifier[tagModifier.length() - 1];
-                        
-                        // Drop a trailing period, if present.
-                        if ('.' == lastChar)
-                        {
-                            tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
-                        }
-                    }
-                    if (! nameWasSet)
-                    {
-                        serviceEndpointName += YarpString("/") + tagModifier;
-                    }
-                    if (0 < tag.length())
-                    {
-                        tag += YarpString(":") + tagModifier;
-                    }
-                    else
-                    {
-                        tag = tagModifier;
-                    }
+                
+                AdjustEndpointName(DEFAULT_RECORDASJSONOUTPUT_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName, tagModifier);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
+                {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }

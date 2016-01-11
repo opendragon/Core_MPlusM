@@ -168,8 +168,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                   modFlag = kModificationNone;
         bool                                 goWasSet = false;
-        bool                                 nameWasSet = false; // not used
+        bool                                 reportEndpoint = false;
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
         YarpString                           serviceEndpointName;
@@ -193,11 +194,10 @@ int main(int      argc,
 		argumentList.push_back(&secondArg);
 		argumentList.push_back(&thirdArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_NATNETINPUT_SERVICE_NAME_,
                                           NATNETINPUT_SERVICE_DESCRIPTION_, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone))
+                                          modFlag, kSkipNone))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -206,7 +206,13 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_NATNETINPUT_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);

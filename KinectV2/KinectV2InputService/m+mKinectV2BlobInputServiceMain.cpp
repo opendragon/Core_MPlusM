@@ -152,8 +152,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                  modFlag = kModificationNone;
         bool                                goWasSet = false;
-        bool                                nameWasSet = false; // not used
+        bool                                reportEndpoint = false;
         bool                                reportOnExit = false;
         bool                                stdinAvailable = CanReadFromStandardInput();
         YarpString                          serviceEndpointName;
@@ -166,11 +167,10 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_KINECTV2BLOBINPUT_SERVICE_NAME_,
                                           KINECTV2BLOBINPUT_SERVICE_DESCRIPTION_, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          modFlag))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -180,10 +180,16 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_KINECTV2BLOBINPUT_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
-                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);                    
+                               servicePortNumber, goWasSet, stdinAvailable, reportOnExit);
                 }
                 else
                 {

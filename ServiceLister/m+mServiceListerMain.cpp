@@ -179,7 +179,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                                 inChannelNames += " ";
                             }
                             inChannelNames += iDescriptor._portName;
-                            if (0 < iDescriptor._portProtocol.size())
+                            if (0 < iDescriptor._portProtocol.length())
                             {
                                 inChannelNames += "{protocol=";
                                 inChannelNames += iDescriptor._portProtocol + "}";
@@ -220,7 +220,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                                 outChannelNames += " ";
                             }
                             outChannelNames += oDescriptor._portName;
-                            if (0 < oDescriptor._portProtocol.size())
+                            if (0 < oDescriptor._portProtocol.length())
                             {
                                 outChannelNames += "{protocol=";
                                 outChannelNames += oDescriptor._portProtocol + "}";
@@ -261,7 +261,7 @@ static void setUpAndGo(const OutputFlavour flavour)
                                 clientChannelNames += " ";
                             }
                             clientChannelNames += cDescriptor._portName;
-                            if (0 < cDescriptor._portProtocol.size())
+                            if (0 < cDescriptor._portProtocol.length())
                             {
                                 clientChannelNames += "{protocol=";
                                 clientChannelNames += cDescriptor._portProtocol + "}";

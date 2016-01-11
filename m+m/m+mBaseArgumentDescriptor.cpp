@@ -513,7 +513,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
                 OD_LOG("(anArg && (! anArg->isExtra()))"); //####
                 if (! anArg->validate(parseResult.nonOption(static_cast<int>(ii))))
                 {
-                    if (0 < badArgs.size())
+                    if (0 < badArgs.length())
                     {
                         badArgs += ", ";
                     }
@@ -538,7 +538,7 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
             if (! anArg->isOptional())
             {
                 OD_LOG("(! anArg->isOptional())"); //####
-                if (0 < badArgs.size())
+                if (0 < badArgs.length())
                 {
                     badArgs += ", ";
                 }

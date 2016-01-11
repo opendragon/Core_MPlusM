@@ -355,6 +355,17 @@ namespace MplusM
             
         }; // ChannelDescription
         
+        /*! @brief An IPv4 address. */
+        struct NetworkAddress
+        {
+            /*! @brief The bytes of the address, in the order MSB .. LSB. */
+            int _ipBytes[4];
+            
+            /*! @brief The port number of the address. */
+            int _ipPort;
+            
+        }; // NetworkAddress
+        
         /*! @brief A sequence of connections. */
         typedef std::vector<ChannelDescription> ChannelVector;
         

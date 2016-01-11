@@ -161,8 +161,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier          modFlag = kModificationNone;
         bool                        goWasSet = false;
-        bool                        nameWasSet = false; // not used
+        bool                        reportEndpoint = false;
         bool                        reportOnExit = false;
         bool                        stdinAvailable = CanReadFromStandardInput();
         YarpString                  serviceEndpointName;
@@ -171,11 +172,10 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_EXEMPLARFILTER_SERVICE_NAME_,
                                           EXEMPLARFILTER_SERVICE_DESCRIPTION_, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          modFlag))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -184,7 +184,13 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_EXEMPLARFILTER_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);

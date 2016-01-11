@@ -172,8 +172,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                    modFlag = kModificationNone;
         bool                                  goWasSet = false;
-        bool                                  nameWasSet = false; // not used
+        bool                                  reportEndpoint = false;
         bool                                  reportOnExit = false;
         bool                                  stdinAvailable = CanReadFromStandardInput();
         YarpString                            serviceEndpointName;
@@ -198,11 +199,10 @@ int main(int      argc,
         argumentList.push_back(&thirdArg);
         argumentList.push_back(&fourthArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_PLAYBACKFROMJSONINPUT_SERVICE_NAME_,
                                           PLAYBACKFROMJSONINPUT_SERVICE_DESCRIPTION_, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone))
+                                          modFlag, kSkipNone))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -211,34 +211,18 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
-                {
-                    YarpString inputPath(firstArg.getCurrentValue());
-                    YarpString tagModifier =
+                YarpString inputPath(firstArg.getCurrentValue());
+                YarpString tagModifier =
                                 Utilities::GetFileNameBase(Utilities::GetFileNamePart(inputPath));
-                    
-                    if (0 < tagModifier.length())
-                    {
-                        char lastChar = tagModifier[tagModifier.length() - 1];
-                        
-                        // Drop a trailing period, if present.
-                        if ('.' == lastChar)
-                        {
-                            tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
-                        }
-                    }
-                    if (! nameWasSet)
-                    {
-                        serviceEndpointName += YarpString("/") + tagModifier;
-                    }
-                    if (0 < tag.length())
-                    {
-                        tag += YarpString(":") + tagModifier;
-                    }
-                    else
-                    {
-                        tag = tagModifier;
-                    }
+                
+                AdjustEndpointName(DEFAULT_PLAYBACKFROMJSONINPUT_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName, tagModifier);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
+                {
                     setUpAndGo(inputPath, argumentList, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, stdinAvailable,
                                reportOnExit);

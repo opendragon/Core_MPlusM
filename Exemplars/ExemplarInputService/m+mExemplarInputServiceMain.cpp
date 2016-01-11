@@ -165,29 +165,29 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        bool                                 goWasSet = false;
-        bool                                 nameWasSet = false; // not used
-        bool                                 reportOnExit = false;
-        bool                                 stdinAvailable = CanReadFromStandardInput();
-        YarpString                           serviceEndpointName;
-        YarpString                           servicePortNumber;
-        YarpString                           tag;
-        Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"),
+        AddressTagModifier                  modFlag = kModificationNone;
+        bool                                goWasSet = false;
+        bool                                reportEndpoint = false;
+        bool                                reportOnExit = false;
+        bool                                stdinAvailable = CanReadFromStandardInput();
+        YarpString                          serviceEndpointName;
+        YarpString                          servicePortNumber;
+        YarpString                          tag;
+        Utilities::DoubleArgumentDescriptor firstArg("period", T_("Interval between bursts"),
+                                                     Utilities::kArgModeOptionalModifiable, 1,
+                                                     true, 0, false, 0);
+        Utilities::IntArgumentDescriptor    secondArg("size", T_("Burst size"),
                                                       Utilities::kArgModeOptionalModifiable, 1,
-                                                      true, 0, false, 0);
-        Utilities::IntArgumentDescriptor     secondArg("size", T_("Burst size"),
-                                                       Utilities::kArgModeOptionalModifiable, 1,
-                                                       true, 1, false, 0);
-        Utilities::DescriptorVector          argumentList;
+                                                      true, 1, false, 0);
+        Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_EXEMPLARINPUT_SERVICE_NAME_,
                                           EXEMPLARINPUT_SERVICE_DESCRIPTION_, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone))
+                                          modFlag, kSkipNone))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -196,7 +196,13 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_EXEMPLARINPUT_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);

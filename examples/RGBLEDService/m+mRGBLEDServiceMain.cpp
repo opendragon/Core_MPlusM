@@ -197,19 +197,19 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier          modFlag = kModificationNone;
         bool                        goWasSet = false; // not used
-        bool                        nameWasSet = false; // not used
+        bool                        reportEndpoint = false;
         bool                        reportOnExit = false;
         YarpString                  serviceEndpointName;
         YarpString                  servicePortNumber;
         YarpString                  tag;
         Utilities::DescriptorVector argumentList;
 
-        if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_RGBLED_SERVICE_NAME_,
-                                          RGBLED_SERVICE_DESCRIPTION_, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber, kSkipGoOption))
+        if (ProcessStandardServiceOptions(argc, argv, argumentList, RGBLED_SERVICE_DESCRIPTION_, "",
+                                          2014, STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          modFlag, kSkipGoOption))
         {
             Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
@@ -218,7 +218,12 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_RGBLED_SERVICE_NAME_, modFlag, tag, serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(progName, argc, argv, tag, serviceEndpointName, servicePortNumber,
                                reportOnExit);

@@ -142,7 +142,7 @@ static void displayCommands(const YarpString & helpText,
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("helpText = ", helpText); //####
     OD_LOG_B1("forAdapter = ", forAdapter); //####
-    if (0 < helpText.size())
+    if (0 < helpText.length())
     {
         cout << helpText.c_str() << endl;
     }

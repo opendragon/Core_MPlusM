@@ -199,20 +199,22 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier          modFlag = kModificationNone;
         bool                        goWasSet = false; // not used
-        bool                        nameWasSet = false; // not used
+        bool                        reportEndpoint = false;
         bool                        reportOnExit = false;
         YarpString                  serviceEndpointName; // not used
         YarpString                  servicePortNumber;
         YarpString                  tag; // not used
         Utilities::DescriptorVector argumentList;
 
-		if (ProcessStandardServiceOptions(argc, argv, argumentList, MpM_REGISTRY_ENDPOINT_NAME_,
-                                          REGISTRY_SERVICE_DESCRIPTION_, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+		if (ProcessStandardServiceOptions(argc, argv, argumentList, REGISTRY_SERVICE_DESCRIPTION_,
+                                          "", 2014, STANDARD_COPYRIGHT_NAME_, goWasSet,
+                                          reportEndpoint, reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber, modFlag,
                                           static_cast<OptionsMask>(kSkipGoOption |
                                                                    kSkipEndpointOption |
+                                                                   kSkipModOption |
                                                                    kSkipTagOption)))
         {
 			Utilities::SetUpGlobalStatusReporter();
@@ -223,7 +225,12 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(MpM_REGISTRY_ENDPOINT_NAME_, modFlag, tag, serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     OD_LOG("Utilities::CheckForRegistryService()"); //####
 #if MAC_OR_LINUX_

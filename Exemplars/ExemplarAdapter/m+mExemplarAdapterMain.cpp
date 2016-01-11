@@ -245,8 +245,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier          modFlag = kModificationNone;
         bool                        goWasSet = false;
-        bool                        nameWasSet = false; // ignored
+        bool                        reportEndpoint = false;
         bool                        reportOnExit = false;
         bool                        stdinAvailable = CanReadFromStandardInput();
         YarpString                  serviceEndpointName;
@@ -255,11 +256,10 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_EXEMPLARADAPTER_SERVICE_NAME_,
                                           EXEMPLARADAPTER_SERVICE_DESCRIPTION_, MATCHING_CRITERIA_,
-                                          2015, STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName,
-                                          servicePortNumber))
+                                          2015, STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
+                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
+                                          modFlag))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -269,7 +269,13 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_EXEMPLARADAPTER_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(argumentList, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, goWasSet, stdinAvailable, reportOnExit);

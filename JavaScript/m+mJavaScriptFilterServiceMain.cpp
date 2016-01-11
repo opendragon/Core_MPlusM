@@ -2043,7 +2043,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
         }
         fclose(scratch);
     }
-    if (0 < scriptSource.size())
+    if (0 < scriptSource.length())
     {
         if (JS_Init())
         {
@@ -2237,7 +2237,7 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
     }
     else
     {
-        OD_LOG("! (0 < scriptSource.size())"); //####
+        OD_LOG("! (0 < scriptSource.length())"); //####
 #if MAC_OR_LINUX_
         GetLogger().fail("Empty script file.");
 #else // ! MAC_OR_LINUX_
@@ -2276,8 +2276,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                    modFlag = kModificationNone;
         bool                                  goWasSet = false;
-        bool                                  nameWasSet = false;
+        bool                                  reportEndpoint = false;
         bool                                  reportOnExit = false;
         bool                                  stdinAvailable = CanReadFromStandardInput();
         YarpString                            serviceEndpointName;
@@ -2293,11 +2294,11 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_JAVASCRIPT_SERVICE_NAME_,
+		if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           JAVASCRIPTFILTER_SERVICE_DESCRIPTION_, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone, &arguments))
+                                          modFlag, kSkipNone, &arguments))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -2307,34 +2308,19 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
-                {
-                    YarpString scriptPath(firstArg.getCurrentValue());
-                    YarpString tagModifier =
+                YarpString scriptPath(firstArg.getCurrentValue());
+                YarpString tagModifier =
                                 Utilities::GetFileNameBase(Utilities::GetFileNamePart(scriptPath));
-                    
-                    if (0 < tagModifier.length())
-                    {
-                        char lastChar = tagModifier[tagModifier.length() - 1];
-                        
-                        // Drop a trailing period, if present.
-                        if ('.' == lastChar)
-                        {
-                            tagModifier = tagModifier.substr(0, tagModifier.length() - 1);
-                        }
-                    }
-                    if (! nameWasSet)
-                    {
-                        serviceEndpointName += YarpString("/") + tagModifier;
-                    }
-                    if (0 < tag.length())
-                    {
-                        tag += YarpString(":") + tagModifier;
-                    }
-                    else
-                    {
-                        tag = tagModifier;
-                    }
+                bool       nameWasSet = AdjustEndpointName(DEFAULT_JAVASCRIPT_SERVICE_NAME_,
+                                                           modFlag, tag, serviceEndpointName,
+                                                           tagModifier);
+                
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
+                {
                     setUpAndGo(argumentList, scriptPath, arguments, progName, argc, argv, tag,
                                serviceEndpointName, servicePortNumber, goWasSet, nameWasSet,
                                reportOnExit, stdinAvailable);

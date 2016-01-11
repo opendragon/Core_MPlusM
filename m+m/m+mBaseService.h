@@ -149,6 +149,26 @@ namespace MplusM
         class SetMetricsStateRequestHandler;
         class StopRequestHandler;
         
+        /*! @brief The modification values to be used with the service channel tag. */
+        enum AddressTagModifier
+        {
+            /*! @brief Apply no modification. */
+            kModificationNone,
+            
+            /*! @brief Use the LSB of the IP address as a modifier. */
+            kModificationBottomByte,
+            
+            /*! @brief Use the low byte pair of the IP address as a modifier. */
+            kModificationBottomTwoBytes,
+            
+            /*! @brief Use all but the MSB of the IP address as a modifier. */
+            kModificationBottomThreeBytes,
+            
+            /*! @brief Use all the bytes of the IP address as a modifier. */
+            kModificationAllBytes
+            
+        }; // AddressTagModifier
+        
         /*! @brief The command-line options to skip.
          Note that the 'help' and 'version' options are always present. */
         enum OptionsMask
@@ -171,14 +191,17 @@ namespace MplusM
             /*! @brief Skip the 'info' option. */
             kSkipInfoOption      = 0x0010,
             
+            /*! @brief Skip the 'mod' option. */
+            kSkipModOption       = 0x0020,
+            
             /*! @brief Skip the 'port' option. */
-            kSkipPortOption      = 0x0020,
+            kSkipPortOption      = 0x0040,
             
             /*! @brief Skip the 'report' option. */
-            kSkipReportOption    = 0x0040,
+            kSkipReportOption    = 0x0080,
             
             /*! @brief Skip the 'tag' option. */
-            kSkipTagOption       = 0x0080,
+            kSkipTagOption       = 0x0100,
             
             /*! @brief Skip all the options. */
             kSkipAllOptions      = 0xFFFF
@@ -590,6 +613,26 @@ namespace MplusM
             
         }; // BaseService
         
+        /*! @brief Update the endpoint name based on the provided arguments to the service.
+         @param defaultEndpointNameRoot The default endpoint root name.
+         @param modFlag The address-based modifier to apply to the tag value.
+         @param tag Set to the argument of the last -t option seen.
+         @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
+         options.
+         @param tagModifier The string to be applied to the tag and endpoint for customization.
+         @returns @c true if the endpoint name was set in the arguments and @c false if it was
+         not. */
+        bool AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
+                                const AddressTagModifier modFlag,
+                                YarpString &             tag,
+                                YarpString &             serviceEndpointName,
+                                const YarpString &       tagModifier = "");
+
+        /*! @brief Determine the address that the Registry Service will use to connect to us.
+         @param ourAddress The IP address that we are using.
+         @returns @c true if the address was determined and @c false otherwise. */
+        bool GetOurEffectiveAddress(NetworkAddress & ourAddress);
+        
         /*! @brief Process the standard options for service executables.
          The option '-c' / '--channel' displays the endpoint name after applying all other
          options and retunrs @c false.
@@ -599,6 +642,9 @@ namespace MplusM
          returns @c false.
          The option '-i' / '--info' displays the type of the executable, the available options and
          the description of the executable and returns @c false.
+         The option '-m' / '--mod' specifies that the IP address will be used to modify the tag,
+         if present, or to replace the tag. The argument is the number of bytes of the IP address to
+         use, starting from the LSB.
          The option '-p' / '--port' specifie the port number to be used.
          The option '-r' / '--report' indicates that the service metrics are to be reported on exit.
          The option '-t' / '--tag' specifies the tag modifier, which is applied to the name of the
@@ -608,36 +654,36 @@ namespace MplusM
          @param argc The number of arguments in 'argv'.
          @param argv The arguments to be used with the service.
          @param argumentDescriptions Descriptions of the arguments to the service.
-         @param defaultEndpointNameRoot The default endpoint root name.
          @param serviceDescription A description of the service.
          @param matchingCriteria The criteria used to locate the service that the service requires
          to be running.
          @param year The copyright year for the calling application.
          @param copyrightHolder The name of the entity holding the copyright to the utility.
          @param goWasSet Set to @c true if the service is to be started immediately.
-         @param nameWasSet Set to @c true if the service endpoint option appeared.
+         @param reportEndpoint Set to @c true if the service endpoint is to be reported.
          @param reportOnExit Set to @c true if the -r option is seen.
          @param tag Set to the argument of the last -t option seen.
          @param serviceEndpointName Set to the endpoint name to be used, based on the last -e and -t
          options.
          @param servicePortNumber Set to the argument of the last -p option seen.
+         @param modFlag The address-based modifier to apply to the tag value.
          @param skipOptions The command-line options to be skipped.
          @param arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
         bool ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
                                            Utilities::DescriptorVector & argumentDescriptions,
-                                           const YarpString &            defaultEndpointNameRoot,
                                            const YarpString &            serviceDescription,
                                            const YarpString &            matchingCriteria,
                                            const int                     year,
                                            const char *                  copyrightHolder,
                                            bool &                        goWasSet,
-                                           bool &                        nameWasSet,
+                                           bool &                        reportEndpoint,
                                            bool &                        reportOnExit,
                                            YarpString &                  tag,
                                            YarpString &                  serviceEndpointName,
                                            YarpString &                  servicePortNumber,
+                                           AddressTagModifier &          modFlag,
                                            const OptionsMask             skipOptions = kSkipNone,
                                            YarpStringVector *            arguments = NULL);
         

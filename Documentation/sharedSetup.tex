@@ -685,6 +685,9 @@ service name}
 installation can support multiple copies of the #1 service, but the \emph{\MMMU}
 application cannot display them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.}
+\newcommand{\insertTagAndEndpointDescription}[4]{For details on the usage of the `endpoint' and `tag' options, see the \emph{\WTE} appendix in the \emph{\MMMU} manual.
+Once the options are set, an image similar to the following will appear in the \emph{\MMMU} window when the service has successfully started:
+\objScaledDiagram{#1}{#2}{#3}{#4}}
 
 \newcommand{\insertFilterServiceComment}{As well as the service name, the input and output
 stream names are modified if a tag is specified and the default endpoint is being used.}

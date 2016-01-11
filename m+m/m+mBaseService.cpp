@@ -149,7 +149,7 @@ BaseService::BaseService(const ServiceKind  theKind,
     OD_LOG_LL1("argc = ", argc); //####
     OD_LOG_P1("argv = ", argv); //####
     OD_LOG_B1("useMultipleHandlers = ", useMultipleHandlers); //####
-    if (0 < _tag.size())
+    if (0 < _tag.length())
     {
         _serviceName = canonicalName + " " + _tag;
     }
@@ -900,30 +900,205 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
+bool Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
+                                const AddressTagModifier modFlag,
+                                YarpString &             tag,
+                                YarpString &             serviceEndpointName,
+                                const YarpString &       tagModifier)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_S4s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
+               "tag = ", tag, "serviceEndpointName = ", serviceEndpointName, //####
+               "tagModifier = ", tagModifier); //####
+    bool       nameWasSet = false;
+    YarpString trimmedModifier;
+    
+    if (kModificationNone != modFlag)
+    {
+        NetworkAddress    ourAddress;
+        std::stringstream buff;
+        YarpString        addressModifier;
+        
+        GetOurEffectiveAddress(ourAddress);
+        switch (modFlag)
+        {
+            case kModificationBottomByte :
+                buff << ourAddress._ipBytes[3];
+                break;
+                
+            case kModificationBottomTwoBytes :
+                buff << ourAddress._ipBytes[2] << "." << ourAddress._ipBytes[3];
+                break;
+                
+            case kModificationBottomThreeBytes :
+                buff << ourAddress._ipBytes[1] << "." << ourAddress._ipBytes[2] << "." <<
+                        ourAddress._ipBytes[3];
+                break;
+                
+            case kModificationAllBytes :
+                buff << ourAddress._ipBytes[0] << "." << ourAddress._ipBytes[1] << "." <<
+                        ourAddress._ipBytes[2] << "." << ourAddress._ipBytes[3];
+                break;
+                
+            default :
+                break;            
+                
+        }
+        addressModifier = YarpString(buff.str());
+        if (0 < tag.length())
+        {
+            tag += YarpString(".") + addressModifier;
+        }
+        else
+        {
+            tag = addressModifier;
+        }
+    }
+    if (0 < tagModifier.length())
+    {
+        char lastChar = tagModifier[tagModifier.length() - 1];
+        
+        // Drop a trailing period, if present.
+        if ('.' == lastChar)
+        {
+            trimmedModifier = tagModifier.substr(0, tagModifier.length() - 1);
+        }
+        else
+        {
+            trimmedModifier = tagModifier;
+        }
+    }
+    if (0 < serviceEndpointName.length())
+    {
+        nameWasSet = true;
+    }
+    else
+    {
+        if (0 < tag.length())
+        {
+            serviceEndpointName = defaultEndpointNameRoot + "/" + tag;
+        }
+        else
+        {
+            serviceEndpointName = defaultEndpointNameRoot;
+        }
+        if (0 < trimmedModifier.length())
+        {
+            serviceEndpointName += YarpString("/") + trimmedModifier;
+        }
+    }
+    if (0 < tag.length())
+    {
+        if (0 < trimmedModifier.length())
+        {
+            tag += YarpString(":") + trimmedModifier;
+        }
+    }
+    else
+    {
+        tag = trimmedModifier;
+    }
+    OD_LOG_EXIT_B(nameWasSet); //####
+    return nameWasSet;
+} // Common::AdjustEndpointName
+
+bool Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
+{
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("convertedAddress = ", &convertedAddress); //####
+    bool okSoFar = false;
+    
+    try
+    {
+        YarpString    aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "whereAmI_/"
+                                                 DEFAULT_CHANNEL_ROOT_));
+        BaseChannel * newChannel = new BaseChannel;
+        
+        if (newChannel)
+        {
+            if (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))
+            {
+                yarp::os::Contact aContact(newChannel->where());
+                YarpString        hostName(aContact.getHost());
+                struct in_addr    rawAddress;
+                
+                if (hostName == SELF_ADDRESS_NAME_)
+                {
+                    hostName = SELF_ADDRESS_IPADDR_;
+                }
+#if MAC_OR_LINUX_
+                int res = inet_pton(AF_INET, hostName.c_str(), &rawAddress);
+#else // ! MAC_OR_LINUX_
+                int res = InetPton(AF_INET, hostName.c_str(), &rawAddress);
+#endif // ! MAC_OR_LINUX_
+                
+                if (0 < res)
+                {
+                    char              buffer[INET_ADDRSTRLEN + 5];
+#if MAC_OR_LINUX_
+                    const char *      converted = inet_ntop(AF_INET, &rawAddress, buffer,
+                                                            sizeof(buffer));
+#else // ! MAC_OR_LINUX_
+                    const char *      converted = InetNtop(AF_INET, &rawAddress, buffer,
+                                                           sizeof(buffer));
+#endif // ! MAC_OR_LINUX_
+                    std::stringstream buff(converted);
+                    char              sep_0_1;
+                    char              sep_1_2;
+                    char              sep_2_3;
+                    
+                    ourAddress._ipPort = aContact.getPort();
+                    buff >> ourAddress._ipBytes[0] >> sep_0_1 >> ourAddress._ipBytes[1] >>
+                    sep_1_2 >> ourAddress._ipBytes[2] >> sep_2_3 >> ourAddress._ipBytes[3];
+                    okSoFar = (! buff.fail());
+                }
+#if defined(MpM_DoExplicitClose)
+                newChannel->close();
+#endif // defined(MpM_DoExplicitClose)
+            }
+            else
+            {
+                OD_LOG("! (newChannel->openWithRetries(aName, STANDARD_WAIT_TIME_))"); //####
+            }
+            BaseChannel::RelinquishChannel(newChannel);
+        }
+        else
+        {
+            OD_LOG("! (newChannel)"); //####
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT_B(okSoFar); //####
+    return okSoFar;
+} // Common::GetOurEffectiveAddress
+
 bool Common::ProcessStandardServiceOptions(const int                     argc,
                                            char * *                      argv,
                                            Utilities::DescriptorVector & argumentDescriptions,
-                                           const YarpString &            defaultEndpointNameRoot,
                                            const YarpString &            serviceDescription,
                                            const YarpString &            matchingCriteria,
                                            const int                     year,
                                            const char *                  copyrightHolder,
                                            bool &                        goWasSet,
-                                           bool &                        nameWasSet,
+                                           bool &                        reportEndpoint,
                                            bool &                        reportOnExit,
                                            YarpString &                  tag,
                                            YarpString &                  serviceEndpointName,
                                            YarpString &                  servicePortNumber,
+                                           AddressTagModifier &          modFlag,
                                            const OptionsMask             skipOptions,
                                            YarpStringVector *            arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
     OD_LOG_P4("argv = ", argv, "argumentDescriptions = ", &argumentDescriptions, //####
-              "nameWasSet = ", &nameWasSet, "reportOnExit = ", &reportOnExit); //####
-    OD_LOG_P1("arguments = ", arguments); //####
-    OD_LOG_S3s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
-               "serviceDescription = ", serviceDescription, "matchingCriteria = ", //####
+              "reportEndpoint = ", &reportEndpoint, "reportOnExit = ", &reportOnExit); //####
+    OD_LOG_P2("modFlag = ", &modFlag, "arguments = ", arguments); //####
+    OD_LOG_S2s("serviceDescription = ", serviceDescription, "matchingCriteria = ", //####
                matchingCriteria); //####
     OD_LOG_S1("copyrightHolder = ", copyrightHolder); //####
     enum optionIndex
@@ -935,6 +1110,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         kOptionGO,
         kOptionHELP,
         kOptionINFO,
+        kOptionMOD,
         kOptionPORT,
         kOptionREPORT,
         kOptionTAG,
@@ -943,10 +1119,10 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     
     bool       isAdapter = (0 < matchingCriteria.length());
     bool       keepGoing = true;
-    bool       reportEndpoint = false;
     YarpString serviceKindName(isAdapter ? "adapter" : "service");
     YarpString goPartText("  --go, -g          Start the ");
     YarpString infoPartText("  --info, -i        Print executable type, supported ");
+    YarpString modPartText("  --mod, -m         Use the IP address as a modifier for the tag");
     YarpString reportPartText("  --report, -r      Report the ");
     YarpString tagPartText("  --tag, -t         Specify the tag to be used as part of the ");
     
@@ -975,6 +1151,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                          T_("  --help, -h        Print usage and exit"));
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
                                          infoPartText.c_str());
+    Option_::Descriptor   modDescriptor(kOptionMOD, 0, "m", "mod", Option_::Arg::Required,
+                                        modPartText.c_str());
     Option_::Descriptor   portDescriptor(kOptionPORT, 0, "p", "port", Option_::Arg::Required,
                                          T_("  --port, -p        Specify a non-default port to be "
                                             "used"));
@@ -993,8 +1171,9 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     YarpString            usageString("USAGE: ");
     YarpString            argList(ArgumentsToArgString(argumentDescriptions));
 
-    reportOnExit = nameWasSet = goWasSet = false;
+    reportEndpoint = reportOnExit = goWasSet = false;
     tag = serviceEndpointName = serviceEndpointName = "";
+    modFlag = kModificationNone;
     if (arguments)
     {
         arguments->clear();
@@ -1045,6 +1224,10 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     if (! (skipOptions & kSkipInfoOption))
     {
         memcpy(usageWalker++, &infoDescriptor, sizeof(infoDescriptor));
+    }
+    if (! (skipOptions & kSkipModOption))
+    {
+        memcpy(usageWalker++, &modDescriptor, sizeof(modDescriptor));
     }
     if (! (skipOptions & kSkipPortOption))
     {
@@ -1160,6 +1343,15 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
             }
             cout << "i";
         }
+        if (! (skipOptions & kSkipModOption))
+        {
+            if (needTab)
+            {
+                cout << "\t";
+                needTab = false;
+            }
+            cout << "m";
+        }
         if (! (skipOptions & kSkipPortOption))
         {
             if (needTab)
@@ -1204,6 +1396,54 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         if (options[kOptionCHANNEL])
         {
             reportEndpoint = true;
+        }
+        if (options[kOptionMOD])
+        {
+            YarpString modArg = options[kOptionMOD].arg;
+            
+            if (0 < modArg.length())
+            {
+                const char * startPtr = modArg.c_str();
+                char *       endPtr;
+                int          numBytes = static_cast<int>(strtol(startPtr, &endPtr, 10));
+                
+                if ((startPtr == endPtr) || *endPtr)
+                {
+                    cout << "Bad byte count." << endl;
+                    keepGoing = false;
+                }
+                else
+                {
+                    switch (numBytes)
+                    {
+                        case 0 :
+                            modFlag = kModificationNone;
+                            break;
+                            
+                        case 1 :
+                            modFlag = kModificationBottomByte;
+                            break;
+                            
+                        case 2 :
+                            modFlag = kModificationBottomTwoBytes;
+                            break;
+                            
+                        case 3 :
+                            modFlag = kModificationBottomThreeBytes;
+                            break;
+                            
+                        case 4 :
+                            modFlag = kModificationAllBytes;
+                            break;
+                            
+                        default :
+                            cout << "Byte count is out of range." << endl;
+                            keepGoing = false;
+                            break;
+                            
+                    }
+                }
+            }
         }
         if (options[kOptionREPORT])
         {
@@ -1252,23 +1492,6 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     delete[] options;
     delete[] buffer;
-    if (0 < serviceEndpointName.size())
-    {
-        nameWasSet = true;
-    }
-    else if (0 < tag.size())
-    {
-        serviceEndpointName = defaultEndpointNameRoot + "/" + tag;
-    }
-    else
-    {
-        serviceEndpointName = defaultEndpointNameRoot;
-    }
-    if (reportEndpoint)
-    {
-        cout << serviceEndpointName.c_str() << endl;
-        keepGoing = false;
-    }
     OD_LOG_EXIT_B(keepGoing); //####
     return keepGoing;
 } // Common::ProcessStandardServiceOptions

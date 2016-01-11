@@ -671,7 +671,7 @@ void MplusM::OutputDescription(std::ostream &     outStream,
                                const char *       heading,
                                const YarpString & description)
 {
-    size_t     descriptionLength = description.size();
+    size_t     descriptionLength = description.length();
     size_t     indentSize = strlen(heading);
     size_t     pieceStart = 0;
     YarpString blanks(indentSize, ' ');
@@ -703,7 +703,7 @@ YarpString MplusM::SanitizeString(const YarpString & inString,
     
     try
     {
-        for (size_t ii = 0, mm = inString.size(); mm > ii; )
+        for (size_t ii = 0, mm = inString.length(); mm > ii; )
         {
             char cc = inString[ii++];
             

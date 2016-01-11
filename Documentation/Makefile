@@ -681,6 +681,8 @@ $(IMAGE_ARCHIVE) : $(CLbitmappngfiles) $(IMbitmappngfiles) $(JSbitmappngfiles) \
 
 .PRECIOUS : %.eps %.ps %.pdf
 
+.DEFAULT_GOAL := all
+
 clean :
 	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
 	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_ARCHIVE)

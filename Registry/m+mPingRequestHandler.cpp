@@ -221,14 +221,15 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                                     
                                     if (outChannel->write(message1, reply))
                                     {
-                                        if (theService.processNameResponse(argAsString, reply))
+                                        if (theService.processNameResponse(argAsString,
+                                                                           ServiceResponse(reply)))
                                         {
                                             yarp::os::Bottle message2(MpM_LIST_REQUEST_);
                                             
                                             if (outChannel->write(message2, reply))
                                             {
                                                 if (theService.processListResponse(argAsString,
-                                                                                   reply))
+                                                                           ServiceResponse(reply)))
                                                 {
                                                     // Remember the response
                                                     _response.addString(MpM_OK_RESPONSE_);

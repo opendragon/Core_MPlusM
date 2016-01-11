@@ -207,8 +207,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                   modFlag = kModificationNone;
         bool                                 goWasSet = false; // not used
-        bool                                 nameWasSet = false; // not used
+        bool                                 reportEndpoint = false;
         bool                                 reportOnExit = false;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
@@ -223,11 +224,10 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-        if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_TUNNEL_SERVICE_NAME_,
-                                          TUNNEL_SERVICE_DESCRIPTION_, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+        if (ProcessStandardServiceOptions(argc, argv, argumentList, TUNNEL_SERVICE_DESCRIPTION_, "",
+                                          2015, STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipGoOption))
+                                          modFlag, kSkipGoOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -237,11 +237,16 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_TUNNEL_SERVICE_NAME_, modFlag, tag, serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     YarpString hostName(firstArg.getCurrentValue());
                     int        hostPort = secondArg.getCurrentValue();
-
+                    
                     setUpAndGo(hostName, hostPort, progName, argc, argv, tag, serviceEndpointName,
                                servicePortNumber, reportOnExit);
                 }

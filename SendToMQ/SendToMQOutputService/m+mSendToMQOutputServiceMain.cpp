@@ -174,8 +174,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                   modFlag = kModificationNone;
         bool                                 goWasSet = false;
-        bool                                 nameWasSet = false; // not used
+        bool                                 reportEndpoint = false;
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
         YarpString                           serviceEndpointName;
@@ -211,11 +212,10 @@ int main(int      argc,
         argumentList.push_back(&fifthArg);
         argumentList.push_back(&sixthArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_,
                                           SENDTOMQOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipNone))
+                                          modFlag, kSkipNone))
         {
             Utilities::SetUpGlobalStatusReporter();
             Utilities::CheckForNameServerReporter();
@@ -225,7 +225,13 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_SENDTOMQOUTPUT_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     int        hostPort = secondArg.getCurrentValue();
                     YarpString hostName(firstArg.getCurrentValue());

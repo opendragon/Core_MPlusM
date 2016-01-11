@@ -207,8 +207,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier                   modFlag = kModificationNone;
         bool                                 goWasSet = false; // not used
-        bool                                 nameWasSet = false; // not used
+        bool                                 reportEndpoint = false;
         bool                                 reportOnExit = false;
         YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
@@ -222,11 +223,10 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-		if (ProcessStandardServiceOptions(argc, argv, argumentList, DEFAULT_ADDRESS_SERVICE_NAME_,
-                                          ADDRESS_SERVICE_DESCRIPTION_, "", 2015,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
-                                          reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          kSkipGoOption))
+		if (ProcessStandardServiceOptions(argc, argv, argumentList, ADDRESS_SERVICE_DESCRIPTION_,
+                                          "", 2015, STANDARD_COPYRIGHT_NAME_, goWasSet,
+                                          reportEndpoint, reportOnExit, tag, serviceEndpointName,
+                                          servicePortNumber, modFlag, kSkipGoOption))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -236,7 +236,13 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_ADDRESS_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     int        hostPort = secondArg.getCurrentValue();
                     YarpString hostName(firstArg.getCurrentValue());

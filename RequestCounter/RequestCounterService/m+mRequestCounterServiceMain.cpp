@@ -200,8 +200,9 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
+        AddressTagModifier          modFlag = kModificationNone;
         bool                        goWasSet = false; // not used
-        bool                        nameWasSet = false; // not used
+        bool                        reportEndpoint = false;
         bool                        reportOnExit = false;
         YarpString                  serviceEndpointName; // not used
         YarpString                  servicePortNumber;
@@ -209,13 +210,13 @@ int main(int      argc,
         Utilities::DescriptorVector argumentList;
 
 		if (ProcessStandardServiceOptions(argc, argv, argumentList,
-                                          DEFAULT_REQUESTCOUNTER_SERVICE_NAME_,
                                           REQUESTCOUNTER_SERVICE_DESCRIPTION_, "", 2014,
-                                          STANDARD_COPYRIGHT_NAME_, goWasSet, nameWasSet,
+                                          STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          static_cast<OptionsMask>(kSkipGoOption |
-                                                                   kSkipEndpointOption |
-                                                                   kSkipTagOption)))
+                                          modFlag, static_cast<OptionsMask>(kSkipGoOption |
+                                                                            kSkipEndpointOption |
+                                                                            kSkipModOption |
+                                                                            kSkipTagOption)))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
@@ -225,10 +226,16 @@ int main(int      argc,
                                         // YARP infrastructure
                 
                 Initialize(progName);
-                if (Utilities::CheckForRegistryService())
+                AdjustEndpointName(DEFAULT_REQUESTCOUNTER_SERVICE_NAME_, modFlag, tag,
+                                   serviceEndpointName);
+                if (reportEndpoint)
+                {
+                    cout << serviceEndpointName.c_str() << endl;
+                }
+                else if (Utilities::CheckForRegistryService())
                 {
                     setUpAndGo(progName, argc, argv, DEFAULT_REQUESTCOUNTER_SERVICE_NAME_,
-                               servicePortNumber, reportOnExit);                    
+                               servicePortNumber, reportOnExit);
                 }
                 else
                 {

@@ -1433,7 +1433,7 @@ YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
                         
                         if (theChannel.isString())
                         {
-                            size_t ww = theChannel.toString().size();
+                            size_t ww = theChannel.toString().length();
                             
                             if (channelWidth < ww)
                             {
@@ -1461,7 +1461,7 @@ YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
                             
                             if (theChannel.isString())
                             {
-                                size_t ww = theChannel.toString().size();
+                                size_t ww = theChannel.toString().length();
                                 
                                 if (channelWidth < ww)
                                 {
