@@ -2993,7 +2993,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[7];
+    Option_::Descriptor   usage[7]; //$$$ DANGER - UPDATE THIS IF THE LIST ABOVE CHANGES!!!
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;

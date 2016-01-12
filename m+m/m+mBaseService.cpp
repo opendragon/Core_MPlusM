@@ -1122,7 +1122,6 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     YarpString serviceKindName(isAdapter ? "adapter" : "service");
     YarpString goPartText("  --go, -g          Start the ");
     YarpString infoPartText("  --info, -i        Print executable type, supported ");
-    YarpString modPartText("  --mod, -m         Use the IP address as a modifier for the tag");
     YarpString reportPartText("  --report, -r      Report the ");
     YarpString tagPartText("  --tag, -t         Specify the tag to be used as part of the ");
     
@@ -1152,7 +1151,8 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     Option_::Descriptor   infoDescriptor(kOptionINFO, 0, "i", "info", Option_::Arg::None,
                                          infoPartText.c_str());
     Option_::Descriptor   modDescriptor(kOptionMOD, 0, "m", "mod", Option_::Arg::Required,
-                                        modPartText.c_str());
+                                        "  --mod, -m         Use the IP address as a modifier for "
+                                        "the tag");
     Option_::Descriptor   portDescriptor(kOptionPORT, 0, "p", "port", Option_::Arg::Required,
                                          T_("  --port, -p        Specify a non-default port to be "
                                             "used"));
@@ -1164,7 +1164,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[12];
+    Option_::Descriptor   usage[13]; //$$$ DANGER - UPDATE THIS IF THE LIST ABOVE CHANGES!!!
     Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
@@ -1407,12 +1407,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                 char *       endPtr;
                 int          numBytes = static_cast<int>(strtol(startPtr, &endPtr, 10));
                 
-                if ((startPtr == endPtr) || *endPtr)
-                {
-                    cout << "Bad byte count." << endl;
-                    keepGoing = false;
-                }
-                else
+                if ((startPtr != endPtr) && (!*endPtr))
                 {
                     switch (numBytes)
                     {
@@ -1437,8 +1432,6 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                             break;
                             
                         default :
-                            cout << "Byte count is out of range." << endl;
-                            keepGoing = false;
                             break;
                             
                     }
@@ -1492,6 +1485,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     delete[] options;
     delete[] buffer;
+    free(const_cast<char *>(firstDescriptor.help));
     OD_LOG_EXIT_B(keepGoing); //####
     return keepGoing;
 } // Common::ProcessStandardServiceOptions

@@ -1949,10 +1949,6 @@ static bool validateLoadedScript(JSContext *           jct,
             sawThread = true;
         }
     }
-    else
-    {
-        cout << __LINE__ << endl;
-    }
     if (okSoFar && (! sawThread))
     {
         okSoFar = getLoadedStreamDescriptions(jct, global, "scriptInlets", &loadedInletHandlers,

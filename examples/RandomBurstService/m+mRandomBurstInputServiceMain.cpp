@@ -158,21 +158,21 @@ int main(int      argc,
 #endif // MAC_OR_LINUX_
     try
     {
-        AddressTagModifier                   modFlag = kModificationNone;
-        bool                                 goWasSet = false;
-        bool                                 reportEndpoint = false;
-        bool                                 reportOnExit = false;
-        bool                                 stdinAvailable = CanReadFromStandardInput();
-        YarpString                           serviceEndpointName;
-        YarpString                           servicePortNumber;
-        YarpString                           tag;
-        Utilities::DoubleArgumentDescriptor  firstArg("period", T_("Interval between bursts"),
+        AddressTagModifier                  modFlag = kModificationNone;
+        bool                                goWasSet = false;
+        bool                                reportEndpoint = false;
+        bool                                reportOnExit = false;
+        bool                                stdinAvailable = CanReadFromStandardInput();
+        YarpString                          serviceEndpointName;
+        YarpString                          servicePortNumber;
+        YarpString                          tag;
+        Utilities::DoubleArgumentDescriptor firstArg("period", T_("Interval between bursts"),
+                                                     Utilities::kArgModeOptionalModifiable, 1,
+                                                     true, 0, false, 0);
+        Utilities::IntArgumentDescriptor    secondArg("size", T_("Burst size"),
                                                       Utilities::kArgModeOptionalModifiable, 1,
-                                                      true, 0, false, 0);
-        Utilities::IntArgumentDescriptor     secondArg("size", T_("Burst size"),
-                                                       Utilities::kArgModeOptionalModifiable, 1,
-                                                       true, 1, false, 0);
-        Utilities::DescriptorVector          argumentList;
+                                                      true, 1, false, 0);
+        Utilities::DescriptorVector         argumentList;
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);

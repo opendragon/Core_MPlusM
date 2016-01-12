@@ -179,7 +179,7 @@ int main(int      argc,
                                           RECORDBLOBOUTPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
-                                          modFlag, kSkipNone	))
+                                          modFlag, kSkipNone))
         {
 			Utilities::SetUpGlobalStatusReporter();
 			Utilities::CheckForNameServerReporter();
