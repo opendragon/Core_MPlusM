@@ -1164,8 +1164,6 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
                                             T_("  --vers, -v        Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[13]; //$$$ DANGER - UPDATE THIS IF THE LIST ABOVE CHANGES!!!
-    Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
     YarpString            usageString("USAGE: ");
@@ -1198,6 +1196,48 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
         }
     }
     usageString += "\n\nOptions:";
+    // firstDescriptor, helpDescriptor, versionDescriptor, lastDescriptor
+    size_t descriptorCount = 4;
+    
+    if (! (skipOptions & kSkipArgsOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipChannelOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipEndpointOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipGoOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipInfoOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipModOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipPortOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipReportOption))
+    {
+        ++descriptorCount;
+    }
+    if (! (skipOptions & kSkipTagOption))
+    {
+        ++descriptorCount;
+    }
+    Option_::Descriptor * usage = new Option_::Descriptor[descriptorCount];
+    Option_::Descriptor * usageWalker = usage;
+    
 #if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
 #else // ! MAC_OR_LINUX_
@@ -1486,6 +1526,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     delete[] options;
     delete[] buffer;
     free(const_cast<char *>(firstDescriptor.help));
+    delete[] usage;
     OD_LOG_EXIT_B(keepGoing); //####
     return keepGoing;
 } // Common::ProcessStandardServiceOptions

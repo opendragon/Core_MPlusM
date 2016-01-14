@@ -2993,8 +2993,6 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
                                             T_("  --vers, -v    Print version information and "
                                                "exit"));
     Option_::Descriptor   lastDescriptor(0, 0, NULL, NULL, NULL, NULL);
-    Option_::Descriptor   usage[7]; //$$$ DANGER - UPDATE THIS IF THE LIST ABOVE CHANGES!!!
-    Option_::Descriptor * usageWalker = usage;
     int                   argcWork = argc;
     char * *              argvWork = argv;
     YarpString            usageString("USAGE: ");
@@ -3021,6 +3019,16 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
         }
     }
     usageString += "\n\nOptions:";
+    // firstDescriptor, helpDescriptor, infoDescriptor, versionDescriptor, lastDescriptor
+    size_t descriptorCount = 5;
+    
+    if (! ignoreFlavours)
+    {
+        descriptorCount += 2;
+    }
+    Option_::Descriptor * usage = new Option_::Descriptor[descriptorCount];
+    Option_::Descriptor * usageWalker = usage;
+    
 #if MAC_OR_LINUX_
     firstDescriptor.help = strdup(usageString.c_str());
 #else // ! MAC_OR_LINUX_
@@ -3095,6 +3103,7 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     }
     delete[] options;
     delete[] buffer;
+    delete[] usage;
     OD_LOG_EXIT_B(keepGoing); //####
     return keepGoing;
 } // Utilities::ProcessStandardClientOptions
