@@ -5,7 +5,7 @@
 //  Project:    m+m
 //
 //  Contains:   The class definition for a thread that generates output from Organic Motion
-//				OpenStage data.
+//                OpenStage data.
 //
 //  Written by: Norman Jaffe
 //
@@ -99,10 +99,10 @@ using namespace om;
 #endif // defined(__APPLE__)
 
 OpenStageInputThread::OpenStageInputThread(Common::GeneralChannel * outChannel,
-	                                       const YarpString &       name,
-										   const int                port) :
-	inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
-	_actorStream(NULL), _actorViewJoint(NULL)
+                                           const YarpString &       name,
+                                           const int                port) :
+    inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
+    _actorStream(NULL), _actorViewJoint(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -121,161 +121,163 @@ OpenStageInputThread::~OpenStageInputThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void OpenStageInputThread::clearOutputChannel(void)
+void
+OpenStageInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::clearOutputChannel
 
-void OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
-{
-	OD_LOG_OBJENTER(); //####
-	OD_LOG_P1("actorData = ", &actorData); //####
-	size_t numActors = actorData->GetSize();
-
-	if (0 < numActors)
-	{
-		yarp::os::Bottle   message;
-		yarp::os::Bottle & actorList = message.addList();
-
-		for (size_t ii = 0; ii < numActors; ++ii)
-		{
-			yarp::os::Bottle &     anActor = actorList.addList();
-			sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
-			sdk2::JointTreePtr     absJointTree = sdk2::CreateJointTree();
-			sdk2::JointTreePtr     relJointTree = sdk2::CreateJointTree();
-
-			sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &absJointTree);
-			sdk2::ConvertSkeletonToJointTreeRelative(skel, &relJointTree);
-			sdk2::JointTreeConstIterator jointTreeAbsIt = absJointTree->Begin();
-			sdk2::JointTreeConstIterator jointTreeAbsItEnd = absJointTree->End();
-			sdk2::JointTreeConstIterator jointTreeRelItEnd = relJointTree->End();
-
-			for ( ; jointTreeAbsIt != jointTreeAbsItEnd; ++jointTreeAbsIt)
-			{
-				yarp::os::Property & jointProps = anActor.addDict();
-				sdk2::Matrix44       absTransform = jointTreeAbsIt->second->transform;
-				const char *         jointId = static_cast<const char *>(*jointTreeAbsIt->first);
-				yarp::os::Value      absPosStuff;
-				yarp::os::Bottle *   absPosList = absPosStuff.asList();
-
-				jointProps.put("id", jointId);
-				if (absPosList)
-				{
-					absPosList->addDouble(absTransform.m[3][0]);
-					absPosList->addDouble(absTransform.m[3][1]);
-					absPosList->addDouble(absTransform.m[3][2]);
-					jointProps.put("absposition", absPosStuff);
-				}
-				yarp::os::Value    absQuatStuff;
-				yarp::os::Bottle * absQuatList = absQuatStuff.asList();
-
-				if (absQuatList)
-				{
-					glm::mat3x3 jointAbsTransform(absTransform.m[0][0], absTransform.m[0][1],
-												  absTransform.m[0][2], absTransform.m[1][0],
-												  absTransform.m[1][1], absTransform.m[1][2],
-												  absTransform.m[2][0], absTransform.m[2][1],
-											      absTransform.m[2][2]);
-					glm::quat   absRotQuat = glm::quat_cast(jointAbsTransform);
-
-					absQuatList->addDouble(absRotQuat.x);
-					absQuatList->addDouble(absRotQuat.y);
-					absQuatList->addDouble(absRotQuat.z);
-					absQuatList->addDouble(absRotQuat.w);
-					jointProps.put("absrotation", absQuatStuff);
-				}
-				sdk2::JointTreeConstIterator jointTreeRelIt = relJointTree->Find(jointId);
-
-				if (jointTreeRelIt != jointTreeRelItEnd)
-				{
-					sdk2::Matrix44     relTransform = jointTreeRelIt->second->transform;
-					yarp::os::Value    relPosStuff;
-					yarp::os::Bottle * relPosList = relPosStuff.asList();
-
-					if (relPosList)
-					{
-						relPosList->addDouble(relTransform.m[3][0]);
-						relPosList->addDouble(relTransform.m[3][1]);
-						relPosList->addDouble(relTransform.m[3][2]);
-						jointProps.put("relposition", relPosStuff);
-					}
-					yarp::os::Value    relQuatStuff;
-					yarp::os::Bottle * relQuatList = relQuatStuff.asList();
-
-					if (relQuatList)
-					{
-						glm::mat3x3 jointRelTransform(relTransform.m[0][0], relTransform.m[0][1],
-													  relTransform.m[0][2], relTransform.m[1][0],
-													  relTransform.m[1][1], relTransform.m[1][2],
-													  relTransform.m[2][0], relTransform.m[2][1],
-													  relTransform.m[2][2]);
-						glm::quat   relRotQuat = glm::quat_cast(jointRelTransform);
-
-						relQuatList->addDouble(relRotQuat.x);
-						relQuatList->addDouble(relRotQuat.y);
-						relQuatList->addDouble(relRotQuat.z);
-						relQuatList->addDouble(relRotQuat.w);
-						jointProps.put("relrotation", relQuatStuff);
-					}
-				}
-			}
-		}
-		if (_outChannel)
-		{
-			if (! _outChannel->write(message))
-			{
-				OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
-				Stall();
-#endif // defined(MpM_StallOnSendProblem)
-			}
-		}
-	}
-	OD_LOG_OBJEXIT(); //####
-} // OpenStageInputThread::processData
-
-void OpenStageInputThread::run(void)
+void
+OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 {
     OD_LOG_OBJENTER(); //####
-	_actorStream->Start();
-	for ( ; ! isStopping(); )
-    {
-		if (_client->WaitAnyUpdateAll())
-		{
-			// The streams are updated, now get the data.
-			sdk2::ActorDataListConstPtr actorData;
+    OD_LOG_P1("actorData = ", &actorData); //####
+    size_t numActors = actorData->GetSize();
 
-			_actorStream->GetData(&actorData);
-			processData(actorData);
-		}
+    if (0 < numActors)
+    {
+        yarp::os::Bottle   message;
+        yarp::os::Bottle & actorList = message.addList();
+
+        for (size_t ii = 0; ii < numActors; ++ii)
+        {
+            yarp::os::Bottle &     anActor = actorList.addList();
+            sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
+            sdk2::JointTreePtr     absJointTree = sdk2::CreateJointTree();
+            sdk2::JointTreePtr     relJointTree = sdk2::CreateJointTree();
+
+            sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &absJointTree);
+            sdk2::ConvertSkeletonToJointTreeRelative(skel, &relJointTree);
+            sdk2::JointTreeConstIterator jointTreeAbsIt = absJointTree->Begin();
+            sdk2::JointTreeConstIterator jointTreeAbsItEnd = absJointTree->End();
+            sdk2::JointTreeConstIterator jointTreeRelItEnd = relJointTree->End();
+
+            for ( ; jointTreeAbsIt != jointTreeAbsItEnd; ++jointTreeAbsIt)
+            {
+                yarp::os::Property & jointProps = anActor.addDict();
+                sdk2::Matrix44       absTransform = jointTreeAbsIt->second->transform;
+                const char *         jointId = static_cast<const char *>(*jointTreeAbsIt->first);
+                yarp::os::Value      absPosStuff;
+                yarp::os::Bottle *   absPosList = absPosStuff.asList();
+
+                jointProps.put("id", jointId);
+                if (absPosList)
+                {
+                    absPosList->addDouble(absTransform.m[3][0]);
+                    absPosList->addDouble(absTransform.m[3][1]);
+                    absPosList->addDouble(absTransform.m[3][2]);
+                    jointProps.put("absposition", absPosStuff);
+                }
+                yarp::os::Value    absQuatStuff;
+                yarp::os::Bottle * absQuatList = absQuatStuff.asList();
+
+                if (absQuatList)
+                {
+                    glm::mat3x3 jointAbsTransform(absTransform.m[0][0], absTransform.m[0][1],
+                                                  absTransform.m[0][2], absTransform.m[1][0],
+                                                  absTransform.m[1][1], absTransform.m[1][2],
+                                                  absTransform.m[2][0], absTransform.m[2][1],
+                                                  absTransform.m[2][2]);
+                    glm::quat   absRotQuat = glm::quat_cast(jointAbsTransform);
+
+                    absQuatList->addDouble(absRotQuat.x);
+                    absQuatList->addDouble(absRotQuat.y);
+                    absQuatList->addDouble(absRotQuat.z);
+                    absQuatList->addDouble(absRotQuat.w);
+                    jointProps.put("absrotation", absQuatStuff);
+                }
+                sdk2::JointTreeConstIterator jointTreeRelIt = relJointTree->Find(jointId);
+
+                if (jointTreeRelIt != jointTreeRelItEnd)
+                {
+                    sdk2::Matrix44     relTransform = jointTreeRelIt->second->transform;
+                    yarp::os::Value    relPosStuff;
+                    yarp::os::Bottle * relPosList = relPosStuff.asList();
+
+                    if (relPosList)
+                    {
+                        relPosList->addDouble(relTransform.m[3][0]);
+                        relPosList->addDouble(relTransform.m[3][1]);
+                        relPosList->addDouble(relTransform.m[3][2]);
+                        jointProps.put("relposition", relPosStuff);
+                    }
+                    yarp::os::Value    relQuatStuff;
+                    yarp::os::Bottle * relQuatList = relQuatStuff.asList();
+
+                    if (relQuatList)
+                    {
+                        glm::mat3x3 jointRelTransform(relTransform.m[0][0], relTransform.m[0][1],
+                                                      relTransform.m[0][2], relTransform.m[1][0],
+                                                      relTransform.m[1][1], relTransform.m[1][2],
+                                                      relTransform.m[2][0], relTransform.m[2][1],
+                                                      relTransform.m[2][2]);
+                        glm::quat   relRotQuat = glm::quat_cast(jointRelTransform);
+
+                        relQuatList->addDouble(relRotQuat.x);
+                        relQuatList->addDouble(relRotQuat.y);
+                        relQuatList->addDouble(relRotQuat.z);
+                        relQuatList->addDouble(relRotQuat.w);
+                        jointProps.put("relrotation", relQuatStuff);
+                    }
+                }
+            }
+        }
+        if (_outChannel)
+        {
+            if (! _outChannel->write(message))
+            {
+                OD_LOG("(! _outChannel->write(message))"); //####
+#if defined(MpM_StallOnSendProblem)
+                Stall();
+#endif // defined(MpM_StallOnSendProblem)
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
+} // OpenStageInputThread::processData
+
+DEFINE_RUN_(OpenStageInputThread)
+{
+    OD_LOG_OBJENTER(); //####
+    _actorStream->Start();
+    for ( ; ! isStopping(); )
+    {
+        if (_client->WaitAnyUpdateAll())
+        {
+            // The streams are updated, now get the data.
+            sdk2::ActorDataListConstPtr actorData;
+
+            _actorStream->GetData(&actorData);
+            processData(actorData);
+        }
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::run
 
-bool OpenStageInputThread::threadInit(void)
+DEFINE_THREADINIT_(OpenStageInputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-	// Create the necessary objects.
-	_client = sdk2::CreateClient();
+    // Create the necessary objects.
+    _client = sdk2::CreateClient();
 
-	// Connect to the device.
-	_client->SetEndpoint(_address.c_str(), _port);
-	_actorStream = sdk2::CreateActorStream(_client);
-	_actorViewJoint = sdk2::CreateActorViewJoint();
-	_actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
-	OD_LOG_OBJEXIT_B(result); //####
+    // Connect to the device.
+    _client->SetEndpoint(_address.c_str(), _port);
+    _actorStream = sdk2::CreateActorStream(_client);
+    _actorViewJoint = sdk2::CreateActorViewJoint();
+    _actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // OpenStageInputThread::threadInit
 
-void OpenStageInputThread::threadRelease(void)
+DEFINE_THREADRELEASE_(OpenStageInputThread)
 {
     OD_LOG_OBJENTER(); //####
-	_actorStream->Stop();
+    _actorStream->Stop();
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::threadRelease
 

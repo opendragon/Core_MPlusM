@@ -174,7 +174,8 @@ static tOdThreadData lOdThreadData_ =
 /*! @brief Return a string corresponding to each @c bool value.
  @param val The input value.
  @returns Either "true" or "false", depending on the input value. */
-inline static const char * odBoolToString_(const bool val)
+inline static const char *
+odBoolToString_(const bool val)
 {
     return (val ? "true" : "false");
 } // odBoolToString_
@@ -183,7 +184,8 @@ inline static const char * odBoolToString_(const bool val)
 /*! @brief Return either the @c description string for an object or a fixed string.
  @param value The input object.
  @returns The description of the object or "<>". */
-static const char * odNullOrDescription(id value)
+static const char *
+odNullOrDescription(id value)
 {
     const char * result;
     
@@ -202,7 +204,8 @@ static const char * odNullOrDescription(id value)
 /*! @brief Return either the input string or a fixed string, if the input is @c NULL.
  @param aString The input string.
  @returns The input string or "<>". */
-static const char * odNullOrString(const char * aString)
+static const char *
+odNullOrString(const char * aString)
 {
     const char * result;
     
@@ -220,7 +223,8 @@ static const char * odNullOrString(const char * aString)
 #  if MAC_OR_LINUX_
 /*! @brief Release the data associated with a thread.
  @param data A pointer to the data to be released. */
-static void odReleaseThreadSpecificData_(void * data)
+static void
+odReleaseThreadSpecificData_(void * data)
 {
     tOdThreadData * stuff = (tOdThreadData *) data;
     
@@ -231,7 +235,8 @@ static void odReleaseThreadSpecificData_(void * data)
 
 #  if MAC_OR_LINUX_
 /*! @brief Create the thread key and record the 'release' function for thread-specific data. */
-static void odSetUpThreadKey_(void)
+static void
+odSetUpThreadKey_(void)
 {
     if (pthread_key_create(&lOdThreadSpecificKey_, odReleaseThreadSpecificData_))
     {
@@ -249,7 +254,8 @@ static void odSetUpThreadKey_(void)
  If this is the first call for a thread, create the data. If threading is not supported, return the
  address of the shared thread data.
  @returns A pointer to the thread-specific data. */
-inline static tOdThreadData * odGetThreadData_(void)
+inline static tOdThreadData *
+odGetThreadData_(void)
 {
     tOdThreadData * stuff;
     
@@ -276,7 +282,8 @@ inline static tOdThreadData * odGetThreadData_(void)
 /*! @brief Return the portion of a file name that does not include the path to the file.
  @param fileName The input file path.
  @returns The file name part of a file path. */
-static const char * odFileNameRoot_(const char * fileName)
+static const char *
+odFileNameRoot_(const char * fileName)
 {
     const char * result = strrchr(fileName, '/');
     
@@ -285,7 +292,8 @@ static const char * odFileNameRoot_(const char * fileName)
 
 /*! @brief Return the current indentation level for the active thread.
  @returns The current indentation level for the active thread. */
-inline static int odGetIndent_(void)
+inline static int
+odGetIndent_(void)
 {
     tOdThreadData * stuff = odGetThreadData_();
     
@@ -294,7 +302,8 @@ inline static int odGetIndent_(void)
 
 /*! @brief Set the current indentation level for the active thread.
  @param value The new indentation level. */
-inline static void odSetIndent_(const int value)
+inline static void
+odSetIndent_(const int value)
 {
     tOdThreadData * stuff = odGetThreadData_();
     
@@ -304,7 +313,8 @@ inline static void odSetIndent_(const int value)
 /*! @brief Generate an indentation string.
  @returns A string of alternating spaces and periods that whose length matches the current
  indentation level for the active thread. */
-static char * odBuildIndent_(void)
+static char *
+odBuildIndent_(void)
 {
     int    level = odGetIndent_();
     int    length = ((level > 0) ? level : 1);
@@ -321,7 +331,8 @@ static char * odBuildIndent_(void)
 /*! @brief Generate a prefix string.
  @returns A string containing the process identifier and / or the thread identifier, if they are
  enabled for logging. */
-static char * odBuildPrefix_(void)
+static char *
+odBuildPrefix_(void)
 {
     char *              result;
     size_t              length;
@@ -364,19 +375,22 @@ static char * odBuildPrefix_(void)
 } // odBuildPrefix_
 
 /*! @brief Reduce the current indentation level for the active thread. */
-inline static void odDecreaseIndent_(void)
+inline static void
+odDecreaseIndent_(void)
 {
     odSetIndent_(odGetIndent_() - 1);
 } // odDecreaseIndent_
 
 /*! @brief Increase the current indentation level for the active thread. */
-inline static void odIncreaseIndent_(void)
+inline static void
+odIncreaseIndent_(void)
 {
     odSetIndent_(odGetIndent_() + 1);
 } // odIncreaseIndent_
 
 /*! @brief Write the date and time to a file stream. */
-static void odWriteTime_(FILE * outFile)
+static void
+odWriteTime_(FILE * outFile)
 {
     char      buffer[80];
     time_t    rawtime;
@@ -508,10 +522,11 @@ static void odWriteTime_(FILE * outFile)
 /*! @brief The message string to be used when setting up logging for the first time. */
 #  define OD_INIT_FORMAT_      "* %s%s" OD_FUNC_WHERE_ " started *"
 
-EXTERN_C void ODLog_(const char * fileName,
-                     const char * funcName,
-                     const int    lineNumber,
-                     const char * text)
+EXTERN_C void
+ODLog_(const char * fileName,
+       const char * funcName,
+       const int    lineNumber,
+       const char * text)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -544,11 +559,12 @@ EXTERN_C void ODLog_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLog_
 
-EXTERN_C void ODLogB1_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const bool   val1)
+EXTERN_C void
+ODLogB1_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const bool   val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -582,13 +598,14 @@ EXTERN_C void ODLogB1_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogB1_
 
-EXTERN_C void ODLogB2_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const bool   val1,
-                       const char * text2,
-                       const bool   val2)
+EXTERN_C void
+ODLogB2_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const bool   val1,
+         const char * text2,
+         const bool   val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -623,15 +640,16 @@ EXTERN_C void ODLogB2_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogB2_
 
-EXTERN_C void ODLogB3_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const bool   val1,
-                       const char * text2,
-                       const bool   val2,
-                       const char * text3,
-                       const bool   val3)
+EXTERN_C void
+ODLogB3_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const bool   val1,
+         const char * text2,
+         const bool   val2,
+         const char * text3,
+         const bool   val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -675,17 +693,18 @@ EXTERN_C void ODLogB3_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogB3_
 
-EXTERN_C void ODLogB4_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const bool   val1,
-                       const char * text2,
-                       const bool   val2,
-                       const char * text3,
-                       const bool   val3,
-                       const char * text4,
-                       const bool   val4)
+EXTERN_C void
+ODLogB4_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const bool   val1,
+         const char * text2,
+         const bool   val2,
+         const char * text3,
+         const bool   val3,
+         const char * text4,
+         const bool   val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -729,11 +748,12 @@ EXTERN_C void ODLogB4_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogB4_
 
-EXTERN_C void ODLogC1_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char   val1)
+EXTERN_C void
+ODLogC1_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char   val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -766,13 +786,14 @@ EXTERN_C void ODLogC1_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogC1_
 
-EXTERN_C void ODLogC2_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char   val1,
-                       const char * text2,
-                       const char   val2)
+EXTERN_C void
+ODLogC2_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char   val1,
+         const char * text2,
+         const char   val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -806,15 +827,16 @@ EXTERN_C void ODLogC2_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogC2_
 
-EXTERN_C void ODLogC3_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char   val1,
-                       const char * text2,
-                       const char   val2,
-                       const char * text3,
-                       const char   val3)
+EXTERN_C void
+ODLogC3_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char   val1,
+         const char * text2,
+         const char   val2,
+         const char * text3,
+         const char   val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -857,17 +879,18 @@ EXTERN_C void ODLogC3_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogC3_
 
-EXTERN_C void ODLogC4_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char   val1,
-                       const char * text2,
-                       const char   val2,
-                       const char * text3,
-                       const char   val3,
-                       const char * text4,
-                       const char   val4)
+EXTERN_C void
+ODLogC4_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char   val1,
+         const char * text2,
+         const char   val2,
+         const char * text3,
+         const char   val3,
+         const char * text4,
+         const char   val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -911,11 +934,12 @@ EXTERN_C void ODLogC4_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogC4_
 
-EXTERN_C void ODLogD1_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const double val1)
+EXTERN_C void
+ODLogD1_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const double val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -948,13 +972,14 @@ EXTERN_C void ODLogD1_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogD1_
 
-EXTERN_C void ODLogD2_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const double val1,
-                       const char * text2,
-                       const double val2)
+EXTERN_C void
+ODLogD2_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const double val1,
+         const char * text2,
+         const double val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -987,15 +1012,16 @@ EXTERN_C void ODLogD2_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogD2_
 
-EXTERN_C void ODLogD3_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const double val1,
-                       const char * text2,
-                       const double val2,
-                       const char * text3,
-                       const double val3)
+EXTERN_C void
+ODLogD3_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const double val1,
+         const char * text2,
+         const double val2,
+         const char * text3,
+         const double val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1037,17 +1063,18 @@ EXTERN_C void ODLogD3_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogD3_
 
-EXTERN_C void ODLogD4_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const double val1,
-                       const char * text2,
-                       const double val2,
-                       const char * text3,
-                       const double val3,
-                       const char * text4,
-                       const double val4)
+EXTERN_C void
+ODLogD4_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const double val1,
+         const char * text2,
+         const double val2,
+         const char * text3,
+         const double val3,
+         const char * text4,
+         const double val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1089,9 +1116,10 @@ EXTERN_C void ODLogD4_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogD4_
 
-EXTERN_C void ODLogEnter_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber)
+EXTERN_C void
+ODLogEnter_(const char * fileName,
+            const char * funcName,
+            const int    lineNumber)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1122,9 +1150,10 @@ EXTERN_C void ODLogEnter_(const char * fileName,
     odIncreaseIndent_();
 } // ODLogEnter_
 
-EXTERN_C void ODLogExit_(const char * fileName,
-                         const char * funcName,
-                         const int    lineNumber)
+EXTERN_C void
+ODLogExit_(const char * fileName,
+           const char * funcName,
+           const int    lineNumber)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1155,10 +1184,11 @@ EXTERN_C void ODLogExit_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogExit_
 
-EXTERN_C void ODLogExitB_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const bool   val)
+EXTERN_C void
+ODLogExitB_(const char * fileName,
+            const char * funcName,
+            const int    lineNumber,
+            const bool   val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1193,10 +1223,11 @@ EXTERN_C void ODLogExitB_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogExitB_
 
-EXTERN_C void ODLogExitC_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const char   val)
+EXTERN_C void
+ODLogExitC_(const char * fileName,
+            const char * funcName,
+            const int    lineNumber,
+            const char   val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1230,10 +1261,11 @@ EXTERN_C void ODLogExitC_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogExitC_
 
-EXTERN_C void ODLogExitD_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const double val)
+EXTERN_C void
+ODLogExitD_(const char * fileName,
+            const char * funcName,
+            const int    lineNumber,
+            const double val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1267,10 +1299,11 @@ EXTERN_C void ODLogExitD_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogExitD_
 
-EXTERN_C void ODLogExitExit_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const long   val)
+EXTERN_C void
+ODLogExitExit_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const long   val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1304,10 +1337,11 @@ EXTERN_C void ODLogExitExit_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogExitExit_
 
-EXTERN_C void ODLogExitL_(const char *  fileName,
-                          const char *  funcName,
-                          const int     lineNumber,
-                          const int32_t val)
+EXTERN_C void
+ODLogExitL_(const char *  fileName,
+            const char *  funcName,
+            const int     lineNumber,
+            const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1341,10 +1375,11 @@ EXTERN_C void ODLogExitL_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogExitL_
 
-EXTERN_C void ODLogExitLL_(const char *  fileName,
-                           const char *  funcName,
-                           const int     lineNumber,
-                           const int64_t val)
+EXTERN_C void
+ODLogExitLL_(const char *  fileName,
+             const char *  funcName,
+             const int     lineNumber,
+             const int64_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1379,10 +1414,11 @@ EXTERN_C void ODLogExitLL_(const char *  fileName,
 } // ODLogExitLL_
 
 #  if defined(__OBJC__)
-EXTERN_C void ODLogExitO_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const id     val)
+EXTERN_C void
+ODLogExitO_(const char * fileName,
+            const char * funcName,
+            const int    lineNumber,
+            const id     val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     const char * valString = odNullOrDescription(val);
@@ -1406,10 +1442,11 @@ EXTERN_C void ODLogExitO_(const char * fileName,
 } // ODLogExitO_
 #  endif // defined(__OBJC__)
 
-EXTERN_C void ODLogExitP_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const void * val)
+EXTERN_C void
+ODLogExitP_(const char * fileName,
+            const char * funcName,
+            const int    lineNumber,
+            const void * val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1444,10 +1481,11 @@ EXTERN_C void ODLogExitP_(const char * fileName,
 } // ODLogExitP_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogExitRect_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const CGRect val)
+EXTERN_C void
+ODLogExitRect_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const CGRect val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1476,10 +1514,11 @@ EXTERN_C void ODLogExitRect_(const char * fileName,
 } // ODLogExitRect_
 #  endif // defined(__APPLE__)
 
-EXTERN_C void ODLogExitS_(const char * fileName,
-                          const char * funcName,
-                          const int    lineNumber,
-                          const char * val)
+EXTERN_C void
+ODLogExitS_(const char * fileName,
+            const char * funcName,
+            const int    lineNumber,
+            const char * val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1515,10 +1554,11 @@ EXTERN_C void ODLogExitS_(const char * fileName,
 } // ODLogExitS_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogExitSize_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const CGSize val)
+EXTERN_C void
+ODLogExitSize_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const CGSize val)
 {
     const char * rootName = odFileNameRoot_(fileName);
 
@@ -1547,10 +1587,11 @@ EXTERN_C void ODLogExitSize_(const char * fileName,
 } // ODLogExitSize_
 #  endif // defined(__APPLE__)
 
-EXTERN_C void ODLogExitThrowL_(const char *  fileName,
-                               const char *  funcName,
-                               const int     lineNumber,
-                               const int32_t val)
+EXTERN_C void
+ODLogExitThrowL_(const char *  fileName,
+                 const char *  funcName,
+                 const int     lineNumber,
+                 const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1584,10 +1625,11 @@ EXTERN_C void ODLogExitThrowL_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogExitThrowL_
 
-EXTERN_C void ODLogExitThrowS_(const char * fileName,
-                               const char * funcName,
-                               const int    lineNumber,
-                               const char * val)
+EXTERN_C void
+ODLogExitThrowS_(const char * fileName,
+                 const char * funcName,
+                 const int    lineNumber,
+                 const char * val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1621,10 +1663,11 @@ EXTERN_C void ODLogExitThrowS_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogExitThrowS_
 
-EXTERN_C void ODLogExitThrowX_(const char *  fileName,
-                               const char *  funcName,
-                               const int     lineNumber,
-                               const int32_t val)
+EXTERN_C void
+ODLogExitThrowX_(const char *  fileName,
+                 const char *  funcName,
+                 const int     lineNumber,
+                 const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1658,10 +1701,11 @@ EXTERN_C void ODLogExitThrowX_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogExitThrowX_
 
-EXTERN_C void ODLogExitX_(const char *  fileName,
-                          const char *  funcName,
-                          const int     lineNumber,
-                          const int32_t val)
+EXTERN_C void
+ODLogExitX_(const char *  fileName,
+            const char *  funcName,
+            const int     lineNumber,
+            const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1695,10 +1739,11 @@ EXTERN_C void ODLogExitX_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogExitX_
 
-EXTERN_C void ODLogExitXL_(const char *  fileName,
-                           const char *  funcName,
-                           const int     lineNumber,
-                           const int64_t val)
+EXTERN_C void
+ODLogExitXL_(const char *  fileName,
+             const char *  funcName,
+             const int     lineNumber,
+             const int64_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1736,11 +1781,12 @@ EXTERN_C void ODLogExitXL_(const char *  fileName,
 #   pragma warning(push)
 #   pragma warning(disable: 4100)
 #  endif // ! MAC_OR_LINUX_
-EXTERN_C void ODLogInit_(const char * prefix,
-                         const int    options,
-                         const char * fileName,
-                         const char * funcName,
-                         const int    lineNumber)
+EXTERN_C void
+ODLogInit_(const char * prefix,
+           const int    options,
+           const char * fileName,
+           const char * funcName,
+           const int    lineNumber)
 {
 #  if (defined(__OBJC__) || (! MAC_OR_LINUX_))
 #   if MAC_OR_LINUX_
@@ -1877,12 +1923,13 @@ EXTERN_C void ODLogInit_(const char * prefix,
 #   pragma warning(pop)
 #  endif // ! MAC_OR_LINUX_
 
-EXTERN_C void ODLogIP_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1,
-                       const int     val2)
+EXTERN_C void
+ODLogIP_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1,
+         const int     val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1926,11 +1973,12 @@ EXTERN_C void ODLogIP_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogIP_
 
-EXTERN_C void ODLogL1_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1)
+EXTERN_C void
+ODLogL1_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -1963,13 +2011,14 @@ EXTERN_C void ODLogL1_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogL1_
 
-EXTERN_C void ODLogL2_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1,
-                       const char *  text2,
-                       const int32_t val2)
+EXTERN_C void
+ODLogL2_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1,
+         const char *  text2,
+         const int32_t val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2002,15 +2051,16 @@ EXTERN_C void ODLogL2_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogL2_
 
-EXTERN_C void ODLogL3_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1,
-                       const char *  text2,
-                       const int32_t val2,
-                       const char *  text3,
-                       const int32_t val3)
+EXTERN_C void
+ODLogL3_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1,
+         const char *  text2,
+         const int32_t val2,
+         const char *  text3,
+         const int32_t val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2052,17 +2102,18 @@ EXTERN_C void ODLogL3_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogL3_
 
-EXTERN_C void ODLogL4_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1,
-                       const char *  text2,
-                       const int32_t val2,
-                       const char *  text3,
-                       const int32_t val3,
-                       const char *  text4,
-                       const int32_t val4)
+EXTERN_C void
+ODLogL4_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1,
+         const char *  text2,
+         const int32_t val2,
+         const char *  text3,
+         const int32_t val3,
+         const char *  text4,
+         const int32_t val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2104,11 +2155,12 @@ EXTERN_C void ODLogL4_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogL4_
 
-EXTERN_C void ODLogLL1_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1)
+EXTERN_C void
+ODLogLL1_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2141,13 +2193,14 @@ EXTERN_C void ODLogLL1_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogLL1_
 
-EXTERN_C void ODLogLL2_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1,
-                        const char *  text2,
-                        const int64_t val2)
+EXTERN_C void
+ODLogLL2_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1,
+          const char *  text2,
+          const int64_t val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2180,15 +2233,16 @@ EXTERN_C void ODLogLL2_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogLL2_
 
-EXTERN_C void ODLogLL3_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1,
-                        const char *  text2,
-                        const int64_t val2,
-                        const char *  text3,
-                        const int64_t val3)
+EXTERN_C void
+ODLogLL3_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1,
+          const char *  text2,
+          const int64_t val2,
+          const char *  text3,
+          const int64_t val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2230,17 +2284,18 @@ EXTERN_C void ODLogLL3_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogLL3_
 
-EXTERN_C void ODLogLL4_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1,
-                        const char *  text2,
-                        const int64_t val2,
-                        const char *  text3,
-                        const int64_t val3,
-                        const char *  text4,
-                        const int64_t val4)
+EXTERN_C void
+ODLogLL4_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1,
+          const char *  text2,
+          const int64_t val2,
+          const char *  text3,
+          const int64_t val3,
+          const char *  text4,
+          const int64_t val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2282,11 +2337,12 @@ EXTERN_C void ODLogLL4_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogLL4_
 
-EXTERN_C void ODLogLS_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char * val1)
+EXTERN_C void
+ODLogLS_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char * val1)
 {
     const char * heading = text1;
     const char * rootName = odFileNameRoot_(fileName);
@@ -2410,11 +2466,12 @@ EXTERN_C void ODLogLS_(const char * fileName,
 } // ODLogLS_
 
 #  if defined(__OBJC__)
-EXTERN_C void ODLogO1_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const id     obj1)
+EXTERN_C void
+ODLogO1_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const id     obj1)
 {
     const char * obj1String = odNullOrDescription(obj1);
     const char * rootName = odFileNameRoot_(fileName);
@@ -2438,13 +2495,14 @@ EXTERN_C void ODLogO1_(const char * fileName,
 #  endif // defined(__OBJC__)
 
 #  if defined(__OBJC__)
-EXTERN_C void ODLogO2_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const id     obj1,
-                       const char * text2,
-                       const id     obj2)
+EXTERN_C void
+ODLogO2_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const id     obj1,
+         const char * text2,
+         const id     obj2)
 {
     const char * obj1String = odNullOrDescription(obj1);
     const char * obj2String = odNullOrDescription(obj2);
@@ -2470,15 +2528,16 @@ EXTERN_C void ODLogO2_(const char * fileName,
 #  endif // defined(__OBJC__)
 
 #  if defined(__OBJC__)
-EXTERN_C void ODLogO3_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const id     obj1,
-                       const char * text2,
-                       const id     obj2,
-                       const char * text3,
-                       const id     obj3)
+EXTERN_C void
+ODLogO3_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const id     obj1,
+         const char * text2,
+         const id     obj2,
+         const char * text3,
+         const id     obj3)
 {
     const char * obj1String = odNullOrDescription(obj1);
     const char * obj2String = odNullOrDescription(obj2);
@@ -2508,17 +2567,18 @@ EXTERN_C void ODLogO3_(const char * fileName,
 #  endif // defined(__OBJC__)
 
 #  if defined(__OBJC__)
-EXTERN_C void ODLogO4_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const id     obj1,
-                       const char * text2,
-                       const id     obj2,
-                       const char * text3,
-                       const id     obj3,
-                       const char * text4,
-                       const id     obj4)
+EXTERN_C void
+ODLogO4_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const id     obj1,
+         const char * text2,
+         const id     obj2,
+         const char * text3,
+         const id     obj3,
+         const char * text4,
+         const id     obj4)
 {
     const char * obj1String = odNullOrDescription(obj1);
     const char * obj2String = odNullOrDescription(obj2);
@@ -2549,10 +2609,11 @@ EXTERN_C void ODLogO4_(const char * fileName,
 } // ODLogO4_
 #  endif // defined(__OBJC__)
 
-EXTERN_C void ODLogObjEnter_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr)
+EXTERN_C void
+ODLogObjEnter_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const void * objPtr)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2584,10 +2645,11 @@ EXTERN_C void ODLogObjEnter_(const char * fileName,
     odIncreaseIndent_();
 } // ODLogObjEnter_
 
-EXTERN_C void ODLogObjExit_(const char * fileName,
-                            const char * funcName,
-                            const int    lineNumber,
-                            const void * objPtr)
+EXTERN_C void
+ODLogObjExit_(const char * fileName,
+              const char * funcName,
+              const int    lineNumber,
+              const void * objPtr)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2619,11 +2681,12 @@ EXTERN_C void ODLogObjExit_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExit_
 
-EXTERN_C void ODLogObjExitB_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr,
-                             const bool   val)
+EXTERN_C void
+ODLogObjExitB_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const void * objPtr,
+               const bool   val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2658,11 +2721,12 @@ EXTERN_C void ODLogObjExitB_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitB_
 
-EXTERN_C void ODLogObjExitC_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr,
-                             const char   val)
+EXTERN_C void
+ODLogObjExitC_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const void * objPtr,
+               const char   val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2697,11 +2761,12 @@ EXTERN_C void ODLogObjExitC_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitC_
 
-EXTERN_C void ODLogObjExitD_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr,
-                             const double val)
+EXTERN_C void
+ODLogObjExitD_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const void * objPtr,
+               const double val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2735,11 +2800,12 @@ EXTERN_C void ODLogObjExitD_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitD_
 
-EXTERN_C void ODLogObjExitExit_(const char * fileName,
-                                const char * funcName,
-                                const int    lineNumber,
-                                const void * objPtr,
-                                const long   val)
+EXTERN_C void
+ODLogObjExitExit_(const char * fileName,
+                  const char * funcName,
+                  const int    lineNumber,
+                  const void * objPtr,
+                  const long   val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2773,11 +2839,12 @@ EXTERN_C void ODLogObjExitExit_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitExit_
 
-EXTERN_C void ODLogObjExitL_(const char *  fileName,
-                             const char *  funcName,
-                             const int     lineNumber,
-                             const void *  objPtr,
-                             const int32_t val)
+EXTERN_C void
+ODLogObjExitL_(const char *  fileName,
+               const char *  funcName,
+               const int     lineNumber,
+               const void *  objPtr,
+               const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2811,11 +2878,12 @@ EXTERN_C void ODLogObjExitL_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitL_
 
-EXTERN_C void ODLogObjExitLL_(const char *  fileName,
-                              const char *  funcName,
-                              const int     lineNumber,
-                              const void *  objPtr,
-                              const int64_t val)
+EXTERN_C void
+ODLogObjExitLL_(const char *  fileName,
+                const char *  funcName,
+                const int     lineNumber,
+                const void *  objPtr,
+                const int64_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2850,11 +2918,12 @@ EXTERN_C void ODLogObjExitLL_(const char *  fileName,
 } // ODLogObjExitLL_
 
 #  if defined(__OBJC__)
-EXTERN_C void ODLogObjExitO_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr,
-                             const id     val)
+EXTERN_C void
+ODLogObjExitO_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const void * objPtr,
+               const id     val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     const char * valString = odNullOrDescription(val);
@@ -2879,11 +2948,12 @@ EXTERN_C void ODLogObjExitO_(const char * fileName,
 } // ODLogObjExitO_
 #  endif // defined(__OBJC__)
 
-EXTERN_C void ODLogObjExitP_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr,
-                             const void * val)
+EXTERN_C void
+ODLogObjExitP_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const void * objPtr,
+               const void * val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2918,11 +2988,12 @@ EXTERN_C void ODLogObjExitP_(const char * fileName,
 } // ODLogObjExitP_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogObjExitRect_(const char * fileName,
-                                const char * funcName,
-                                const int    lineNumber,
-                                const void * objPtr,
-                                const CGRect val)
+EXTERN_C void
+ODLogObjExitRect_(const char * fileName,
+                  const char * funcName,
+                  const int    lineNumber,
+                  const void * objPtr,
+                  const CGRect val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2951,11 +3022,12 @@ EXTERN_C void ODLogObjExitRect_(const char * fileName,
 } // ODLogObjExitRect_
 #  endif // defined(__APPLE__)
 
-EXTERN_C void ODLogObjExitS_(const char * fileName,
-                             const char * funcName,
-                             const int    lineNumber,
-                             const void * objPtr,
-                             const char * val)
+EXTERN_C void
+ODLogObjExitS_(const char * fileName,
+               const char * funcName,
+               const int    lineNumber,
+               const void * objPtr,
+               const char * val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -2991,11 +3063,12 @@ EXTERN_C void ODLogObjExitS_(const char * fileName,
 } // ODLogObjExitS_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogObjExitSize_(const char * fileName,
-                                const char * funcName,
-                                const int    lineNumber,
-                                const void * objPtr,
-                                const CGSize val)
+EXTERN_C void
+ODLogObjExitSize_(const char * fileName,
+                  const char * funcName,
+                  const int    lineNumber,
+                  const void * objPtr,
+                  const CGSize val)
 {
     const char * rootName = odFileNameRoot_(fileName);
 
@@ -3024,11 +3097,12 @@ EXTERN_C void ODLogObjExitSize_(const char * fileName,
 } // ODLogObjExitSize_
 #  endif // defined(__APPLE__)
 
-EXTERN_C void ODLogObjExitThrowL_(const char *  fileName,
-                                  const char *  funcName,
-                                  const int     lineNumber,
-                                  const void *  objPtr,
-                                  const int32_t val)
+EXTERN_C void
+ODLogObjExitThrowL_(const char *  fileName,
+                    const char *  funcName,
+                    const int     lineNumber,
+                    const void *  objPtr,
+                    const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3062,11 +3136,12 @@ EXTERN_C void ODLogObjExitThrowL_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitThrowL_
 
-EXTERN_C void ODLogObjExitThrowS_(const char * fileName,
-                                  const char * funcName,
-                                  const int    lineNumber,
-                                  const void * objPtr,
-                                  const char * val)
+EXTERN_C void
+ODLogObjExitThrowS_(const char * fileName,
+                    const char * funcName,
+                    const int    lineNumber,
+                    const void * objPtr,
+                    const char * val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3101,11 +3176,12 @@ EXTERN_C void ODLogObjExitThrowS_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitThrowS_
 
-EXTERN_C void ODLogObjExitThrowX_(const char *  fileName,
-                                  const char *  funcName,
-                                  const int     lineNumber,
-                                  const void *  objPtr,
-                                  const int32_t val)
+EXTERN_C void
+ODLogObjExitThrowX_(const char *  fileName,
+                    const char *  funcName,
+                    const int     lineNumber,
+                    const void *  objPtr,
+                    const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3139,11 +3215,12 @@ EXTERN_C void ODLogObjExitThrowX_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitThrowX_
 
-EXTERN_C void ODLogObjExitX_(const char *  fileName,
-                             const char *  funcName,
-                             const int     lineNumber,
-                             const void *  objPtr,
-                             const int32_t val)
+EXTERN_C void
+ODLogObjExitX_(const char *  fileName,
+               const char *  funcName,
+               const int     lineNumber,
+               const void *  objPtr,
+               const int32_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3178,11 +3255,12 @@ EXTERN_C void ODLogObjExitX_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitX_
 
-EXTERN_C void ODLogObjExitXL_(const char *  fileName,
-                              const char *  funcName,
-                              const int     lineNumber,
-                              const void *  objPtr,
-                              const int64_t val)
+EXTERN_C void
+ODLogObjExitXL_(const char *  fileName,
+                const char *  funcName,
+                const int     lineNumber,
+                const void *  objPtr,
+                const int64_t val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3217,11 +3295,12 @@ EXTERN_C void ODLogObjExitXL_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogObjExitXL_
 
-EXTERN_C void ODLogP1_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const void * ptr1)
+EXTERN_C void
+ODLogP1_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const void * ptr1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3254,13 +3333,14 @@ EXTERN_C void ODLogP1_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogP1_
 
-EXTERN_C void ODLogP2_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const void * ptr1,
-                       const char * text2,
-                       const void * ptr2)
+EXTERN_C void
+ODLogP2_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const void * ptr1,
+         const char * text2,
+         const void * ptr2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3293,15 +3373,16 @@ EXTERN_C void ODLogP2_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogP2_
 
-EXTERN_C void ODLogP3_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const void * ptr1,
-                       const char * text2,
-                       const void * ptr2,
-                       const char * text3,
-                       const void * ptr3)
+EXTERN_C void
+ODLogP3_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const void * ptr1,
+         const char * text2,
+         const void * ptr2,
+         const char * text3,
+         const void * ptr3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3343,17 +3424,18 @@ EXTERN_C void ODLogP3_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogP3_
 
-EXTERN_C void ODLogP4_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const void * ptr1,
-                       const char * text2,
-                       const void * ptr2,
-                       const char * text3,
-                       const void * ptr3,
-                       const char * text4,
-                       const void * ptr4)
+EXTERN_C void
+ODLogP4_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const void * ptr1,
+         const char * text2,
+         const void * ptr2,
+         const char * text3,
+         const void * ptr3,
+         const char * text4,
+         const void * ptr4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3395,12 +3477,13 @@ EXTERN_C void ODLogP4_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogP4_
 
-EXTERN_C void ODLogPacket_(const char * fileName,
-                           const char * funcName,
-                           const int    lineNumber,
-                           const char * caption,
-                           const char * buffer,
-                           const int    size)
+EXTERN_C void
+ODLogPacket_(const char * fileName,
+             const char * funcName,
+             const int    lineNumber,
+             const char * caption,
+             const char * buffer,
+             const int    size)
 {
     const char * heading = caption;
     const char * rootName = odFileNameRoot_(fileName);
@@ -3492,11 +3575,12 @@ EXTERN_C void ODLogPacket_(const char * fileName,
 } // ODLogPacket_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogRect_(const char * fileName,
-                         const char * funcName,
-                         const int    lineNumber,
-                         const char * caption,
-                         const CGRect rect)
+EXTERN_C void
+ODLogRect_(const char * fileName,
+           const char * funcName,
+           const int    lineNumber,
+           const char * caption,
+           const CGRect rect)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3524,11 +3608,12 @@ EXTERN_C void ODLogRect_(const char * fileName,
 } // ODLogRect_
 #  endif // defined(__APPLE__)
 
-EXTERN_C void ODLogS1_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char * val1)
+EXTERN_C void
+ODLogS1_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char * val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3562,13 +3647,14 @@ EXTERN_C void ODLogS1_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogS1_
 
-EXTERN_C void ODLogS2_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char * val1,
-                       const char * text2,
-                       const char * val2)
+EXTERN_C void
+ODLogS2_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char * val1,
+         const char * text2,
+         const char * val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3602,15 +3688,16 @@ EXTERN_C void ODLogS2_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogS2_
 
-EXTERN_C void ODLogS3_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char * val1,
-                       const char * text2,
-                       const char * val2,
-                       const char * text3,
-                       const char * val3)
+EXTERN_C void
+ODLogS3_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char * val1,
+         const char * text2,
+         const char * val2,
+         const char * text3,
+         const char * val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3654,17 +3741,18 @@ EXTERN_C void ODLogS3_(const char * fileName,
     OD_FREE_INDENT_();
 } // ODLogS3_
 
-EXTERN_C void ODLogS4_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text1,
-                       const char * val1,
-                       const char * text2,
-                       const char * val2,
-                       const char * text3,
-                       const char * val3,
-                       const char * text4,
-                       const char * val4)
+EXTERN_C void
+ODLogS4_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text1,
+         const char * val1,
+         const char * text2,
+         const char * val2,
+         const char * text3,
+         const char * val3,
+         const char * text4,
+         const char * val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3709,11 +3797,12 @@ EXTERN_C void ODLogS4_(const char * fileName,
 } // ODLogS4_
 
 #  if defined(__APPLE__)
-EXTERN_C void ODLogSize_(const char * fileName,
-                         const char * funcName,
-                         const int    lineNumber,
-                         const char * caption,
-                         const CGSize size)
+EXTERN_C void
+ODLogSize_(const char * fileName,
+           const char * funcName,
+           const int    lineNumber,
+           const char * caption,
+           const CGSize size)
 {
     const char * rootName = odFileNameRoot_(fileName);
 
@@ -3741,12 +3830,13 @@ EXTERN_C void ODLogSize_(const char * fileName,
 } // ODLogRect_
 #  endif // defined(__APPLE__)
 
-EXTERN_C void ODLogSp_(const char * fileName,
-                       const char * funcName,
-                       const int    lineNumber,
-                       const char * text,
-                       const int    len,
-                       const char * val)
+EXTERN_C void
+ODLogSp_(const char * fileName,
+         const char * funcName,
+         const int    lineNumber,
+         const char * text,
+         const int    len,
+         const char * val)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3780,11 +3870,12 @@ EXTERN_C void ODLogSp_(const char * fileName,
 } // ODLogSp_
 
 #  if MAC_OR_LINUX_
-EXTERN_C void ODLogTime_(const char *           fileName,
-                         const char *           funcName,
-                         const int              lineNumber,
-                         const char *           text1,
-                         const struct timeval * val1)
+EXTERN_C void
+ODLogTime_(const char *           fileName,
+           const char *           funcName,
+           const int              lineNumber,
+           const char *           text1,
+           const struct timeval * val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3812,11 +3903,12 @@ EXTERN_C void ODLogTime_(const char *           fileName,
 } // ODLogTime_
 #  endif // MAC_OR_LINUX_
 
-EXTERN_C void ODLogX1_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1)
+EXTERN_C void
+ODLogX1_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3849,13 +3941,14 @@ EXTERN_C void ODLogX1_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogX1_
 
-EXTERN_C void ODLogX2_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1,
-                       const char *  text2,
-                       const int32_t val2)
+EXTERN_C void
+ODLogX2_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1,
+         const char *  text2,
+         const int32_t val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3889,15 +3982,16 @@ EXTERN_C void ODLogX2_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogX2_
 
-EXTERN_C void ODLogX3_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1,
-                       const char *  text2,
-                       const int32_t val2,
-                       const char *  text3,
-                       const int32_t val3)
+EXTERN_C void
+ODLogX3_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1,
+         const char *  text2,
+         const int32_t val2,
+         const char *  text3,
+         const int32_t val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3940,17 +4034,18 @@ EXTERN_C void ODLogX3_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogX3_
 
-EXTERN_C void ODLogX4_(const char *  fileName,
-                       const char *  funcName,
-                       const int     lineNumber,
-                       const char *  text1,
-                       const int32_t val1,
-                       const char *  text2,
-                       const int32_t val2,
-                       const char *  text3,
-                       const int32_t val3,
-                       const char *  text4,
-                       const int32_t val4)
+EXTERN_C void
+ODLogX4_(const char *  fileName,
+         const char *  funcName,
+         const int     lineNumber,
+         const char *  text1,
+         const int32_t val1,
+         const char *  text2,
+         const int32_t val2,
+         const char *  text3,
+         const int32_t val3,
+         const char *  text4,
+         const int32_t val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -3994,11 +4089,12 @@ EXTERN_C void ODLogX4_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogX4_
 
-EXTERN_C void ODLogXL1_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1)
+EXTERN_C void
+ODLogXL1_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -4031,13 +4127,14 @@ EXTERN_C void ODLogXL1_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogXL1_
 
-EXTERN_C void ODLogXL2_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1,
-                        const char *  text2,
-                        const int64_t val2)
+EXTERN_C void
+ODLogXL2_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1,
+          const char *  text2,
+          const int64_t val2)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -4071,15 +4168,16 @@ EXTERN_C void ODLogXL2_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogXL2_
 
-EXTERN_C void ODLogXL3_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1,
-                        const char *  text2,
-                        const int64_t val2,
-                        const char *  text3,
-                        const int64_t val3)
+EXTERN_C void
+ODLogXL3_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1,
+          const char *  text2,
+          const int64_t val2,
+          const char *  text3,
+          const int64_t val3)
 {
     const char * rootName = odFileNameRoot_(fileName);
     
@@ -4122,17 +4220,18 @@ EXTERN_C void ODLogXL3_(const char *  fileName,
     OD_FREE_INDENT_();
 } // ODLogXL3_
 
-EXTERN_C void ODLogXL4_(const char *  fileName,
-                        const char *  funcName,
-                        const int     lineNumber,
-                        const char *  text1,
-                        const int64_t val1,
-                        const char *  text2,
-                        const int64_t val2,
-                        const char *  text3,
-                        const int64_t val3,
-                        const char *  text4,
-                        const int64_t val4)
+EXTERN_C void
+ODLogXL4_(const char *  fileName,
+          const char *  funcName,
+          const int     lineNumber,
+          const char *  text1,
+          const int64_t val1,
+          const char *  text2,
+          const int64_t val2,
+          const char *  text3,
+          const int64_t val3,
+          const char *  text4,
+          const int64_t val4)
 {
     const char * rootName = odFileNameRoot_(fileName);
     

@@ -71,6 +71,15 @@ namespace MplusM
         class MovementDbService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -89,28 +98,32 @@ namespace MplusM
                               const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~MovementDbService(void);
+            virtual
+            ~MovementDbService(void);
             
             /*! @brief Add a file entry to the backend database.
              @param key The client-provided key.
              @param filePath The filesystem path to the file.
              @returns @c true if the file entry was added successfully and @c false otherwise. */
-            bool addFileToDb(const YarpString & key,
-                             const YarpString & filePath);
+            bool
+            addFileToDb(const YarpString & key,
+                        const YarpString & filePath);
             
             /*! @brief Set the active data track.
              @param key The client-provided key.
              @param dataTrack The data track to use with subsequent files.
              @returns @c true if the data track was successfully set and @c false otherwise. */
-            bool setDataTrack(const YarpString & key,
-                              const YarpString & dataTrack);
+            bool
+            setDataTrack(const YarpString & key,
+                         const YarpString & dataTrack);
 
             /*! @brief Set the active e-mail address.
              @param key The client-provided key.
              @param emailAddress The e-mail address of the user that will own subsequent files.
              @returns @c true if the e-mail address was successfully set and @c false otherwise. */
-            bool setEmailAddress(const YarpString & key,
-                                 const YarpString & emailAddress);
+            bool
+            setEmailAddress(const YarpString & key,
+                            const YarpString & emailAddress);
 
             DECLARE_STARTSERVICE_;
             
@@ -123,19 +136,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(MovementDbService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The IP address of the backend database server. */
             YarpString _databaseAddress;

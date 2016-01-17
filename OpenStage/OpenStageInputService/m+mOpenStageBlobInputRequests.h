@@ -5,7 +5,7 @@
 //  Project:    m+m
 //
 //  Contains:   The common macro definitions for requests and responses for the Organic Motion
-//				Blob input service.
+//                Blob input service.
 //
 //  Written by: Norman Jaffe
 //

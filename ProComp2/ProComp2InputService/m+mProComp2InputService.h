@@ -71,6 +71,15 @@ namespace MplusM
         class ProComp2InputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -89,7 +98,8 @@ namespace MplusM
                                  const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~ProComp2InputService(void);
+            virtual
+            ~ProComp2InputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -120,9 +130,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
             ProComp2InputThread * _eventThread;

@@ -96,24 +96,25 @@ ChannelStatusReporter::~ChannelStatusReporter(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ChannelStatusReporter::report(const yarp::os::PortInfo & info)
+void
+ChannelStatusReporter::report(const yarp::os::PortInfo & info)
 {
     OD_LOG_LL1("tag = ", info.tag); //####
     switch (info.tag)
     {
-	    case yarp::os::PortInfo::PORTINFO_NULL :
+        case yarp::os::PortInfo::PORTINFO_NULL :
             OD_LOG("No information"); //####
             break;
             
-	    case yarp::os::PortInfo::PORTINFO_CONNECTION :
+        case yarp::os::PortInfo::PORTINFO_CONNECTION :
             OD_LOG("Information about an incoming or outgoing connection"); //####
             break;
             
-	    case yarp::os::PortInfo::PORTINFO_MISC :
+        case yarp::os::PortInfo::PORTINFO_MISC :
             OD_LOG("Unspecified information"); //####
             break;
             
-	    default :
+        default :
             OD_LOG("<unknown>"); //####
             break;
             

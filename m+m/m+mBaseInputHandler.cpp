@@ -99,21 +99,24 @@ BaseInputHandler::~BaseInputHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseInputHandler::disableMetrics(void)
+void
+BaseInputHandler::disableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = false;
     OD_LOG_OBJEXIT(); //####
 } // BaseInputHandler::disableMetrics
 
-void BaseInputHandler::enableMetrics(void)
+void
+BaseInputHandler::enableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = true;
     OD_LOG_OBJEXIT(); //####
 } // BaseInputHandler::enableMetrics
 
-bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
+bool
+BaseInputHandler::read(yarp::os::ConnectionReader & connection)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("connection = ", &connection); //####
@@ -149,7 +152,8 @@ bool BaseInputHandler::read(yarp::os::ConnectionReader & connection)
     return result;
 } // BaseInputHandler::read
 
-void BaseInputHandler::setChannel(BaseChannel * theChannel)
+void
+BaseInputHandler::setChannel(BaseChannel * theChannel)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theChannel = ", theChannel); //####
@@ -157,7 +161,8 @@ void BaseInputHandler::setChannel(BaseChannel * theChannel)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputHandler::setChannel
 
-void BaseInputHandler::stopProcessing(void)
+void
+BaseInputHandler::stopProcessing(void)
 {
     OD_LOG_OBJENTER(); //####
     _canProcessInput = false;

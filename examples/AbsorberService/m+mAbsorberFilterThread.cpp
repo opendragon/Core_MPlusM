@@ -102,7 +102,7 @@ AbsorberFilterThread::~AbsorberFilterThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AbsorberFilterThread::run(void)
+DEFINE_RUN_(AbsorberFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -118,7 +118,7 @@ void AbsorberFilterThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // AbsorberFilterThread::run
 
-bool AbsorberFilterThread::threadInit(void)
+DEFINE_THREADINIT_(AbsorberFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -128,7 +128,7 @@ bool AbsorberFilterThread::threadInit(void)
     return result;
 } // AbsorberFilterThread::threadInit
 
-void AbsorberFilterThread::threadRelease(void)
+DEFINE_THREADRELEASE_(AbsorberFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

@@ -130,7 +130,8 @@ TunnelService::~TunnelService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void TunnelService::attachRequestHandlers(void)
+void
+TunnelService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -153,7 +154,8 @@ void TunnelService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // TunnelService::attachRequestHandlers
 
-void TunnelService::detachRequestHandlers(void)
+void
+TunnelService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -173,8 +175,9 @@ void TunnelService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // TunnelService::detachRequestHandlers
 
-void TunnelService::getAddress(YarpString & address,
-                               int &        port)
+void
+TunnelService::getAddress(YarpString & address,
+                          int &        port)
 {
     OD_LOG_OBJENTER(); //####
     address = _listenAddress;
@@ -198,24 +201,24 @@ DEFINE_STARTSERVICE_(TunnelService)
                 
                 _listenAddress = where.getHost();
                 _listenPort = -1;
-				if (_connection)
-				{
-					if (_connection->isRunning())
-					{
-						_connection->stop();
-						for ( ; _connection->isRunning(); )
-						{
-							yarp::os::Time::delay(STANDARD_WAIT_TIME_ / 3.1);
-						}
-					}
-					_connection->setSourceAddress(_sourceAddress, _sourcePort);
-					if (! _connection->start())
-					{
-						OD_LOG("(! _connection->start())"); //####
-						delete _connection;
-						_connection = NULL;
-					}
-				}
+                if (_connection)
+                {
+                    if (_connection->isRunning())
+                    {
+                        _connection->stop();
+                        for ( ; _connection->isRunning(); )
+                        {
+                            yarp::os::Time::delay(STANDARD_WAIT_TIME_ / 3.1);
+                        }
+                    }
+                    _connection->setSourceAddress(_sourceAddress, _sourcePort);
+                    if (! _connection->start())
+                    {
+                        OD_LOG("(! _connection->start())"); //####
+                        delete _connection;
+                        _connection = NULL;
+                    }
+                }
             }
             else
             {

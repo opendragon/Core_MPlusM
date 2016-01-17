@@ -129,17 +129,17 @@ DEFINE_CONFIGURE_(NatNetBlobInputService)
     
     try
     {
-		if (4 <= details.size())
-		{
-			yarp::os::Value firstValue(details.get(0));
-			yarp::os::Value secondValue(details.get(1));
-			yarp::os::Value thirdValue(details.get(2));
+        if (4 <= details.size())
+        {
+            yarp::os::Value firstValue(details.get(0));
+            yarp::os::Value secondValue(details.get(1));
+            yarp::os::Value thirdValue(details.get(2));
             yarp::os::Value fourthValue(details.get(3));
 
-			if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
+            if ((firstValue.isDouble() || firstValue.isInt()) && secondValue.isString() &&
                 thirdValue.isInt() && fourthValue.isInt())
-			{
-				int thirdNumber = thirdValue.asInt();
+            {
+                int thirdNumber = thirdValue.asInt();
                 int fourthNumber = fourthValue.asInt();
 
                 if (firstValue.isDouble())
@@ -151,37 +151,37 @@ DEFINE_CONFIGURE_(NatNetBlobInputService)
                     _translationScale = firstValue.asInt();
                 }
                 OD_LOG_D1("_translationScale <- ", _translationScale); //####
-				if ((0 < _translationScale) && (0 < thirdNumber) && (0 < fourthNumber))
-				{
-					std::stringstream buff;
+                if ((0 < _translationScale) && (0 < thirdNumber) && (0 < fourthNumber))
+                {
+                    std::stringstream buff;
 
-					_hostName = secondValue.asString();
-					OD_LOG_S1s("_hostName <- ", _hostName); //####
-					_commandPort = thirdNumber;
-					OD_LOG_LL1("_commandPort <- ", _commandPort); //####
-					_dataPort = fourthNumber;
-					OD_LOG_LL1("_dataPort <- ", _dataPort); //####
-					buff << "Translation scale is " << _translationScale << ", host name is '" <<
+                    _hostName = secondValue.asString();
+                    OD_LOG_S1s("_hostName <- ", _hostName); //####
+                    _commandPort = thirdNumber;
+                    OD_LOG_LL1("_commandPort <- ", _commandPort); //####
+                    _dataPort = fourthNumber;
+                    OD_LOG_LL1("_dataPort <- ", _dataPort); //####
+                    buff << "Translation scale is " << _translationScale << ", host name is '" <<
                             _hostName.c_str() << "', command port is " << _commandPort <<
                             ", data port is " << _dataPort;
-					setExtraInformation(buff.str());
-					result = true;
-				}
+                    setExtraInformation(buff.str());
+                    result = true;
+                }
                 else
                 {
                     cerr << "One or more inputs are out of range." << endl;
                 }
-			}
+            }
             else
             {
                 cerr << "One or more inputs have the wrong type." << endl;
             }
-		}
+        }
         else
         {
             cerr << "Missing input(s)." << endl;
         }
-	}
+    }
     catch (...)
     {
         OD_LOG("Exception caught"); //####
@@ -198,10 +198,10 @@ DEFINE_GETCONFIGURATION_(NatNetBlobInputService)
     bool result = true;
 
     details.clear();
-	details.addDouble(_translationScale);
-	details.addString(_hostName);
-	details.addInt(_commandPort);
-	details.addInt(_dataPort);
+    details.addDouble(_translationScale);
+    details.addString(_hostName);
+    details.addInt(_commandPort);
+    details.addInt(_dataPort);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // NatNetBlobInputService::getConfiguration
@@ -235,7 +235,7 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetBlobInputService)
     description._portProtocol = "b";
     description._protocolDescription = T_("A binary blob containing the segment positions and "
                                           "directions");
-	_outDescriptions.push_back(description);
+    _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // NatNetBlobInputService::setUpStreamDescriptions
@@ -247,7 +247,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetBlobInputService)
     
     if (_eventThread)
     {
-		_eventThread->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -287,20 +287,20 @@ DEFINE_STARTSTREAMS_(NatNetBlobInputService)
     {
         if (! isActive())
         {
-			_eventThread = new NatNetBlobInputThread(getOutletStream(0), _hostName, _commandPort,
+            _eventThread = new NatNetBlobInputThread(getOutletStream(0), _hostName, _commandPort,
                                                      _dataPort);
             _eventThread->setScale(_translationScale);
-			if (_eventThread->start())
-			{
-				setActive();
-			}
-			else
-			{
-				OD_LOG("! (_eventThread->start())"); //####
+            if (_eventThread->start())
+            {
+                setActive();
+            }
+            else
+            {
+                OD_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                delete _eventThread;
+                _eventThread = NULL;
+            }
         }
     }
     catch (...)
@@ -336,17 +336,17 @@ DEFINE_STOPSTREAMS_(NatNetBlobInputService)
     {
         if (isActive())
         {
-			if (_eventThread)
-			{
+            if (_eventThread)
+            {
 
-				_eventThread->stop();
-				for ( ; _eventThread->isRunning(); )
-				{
-					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-				}
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                _eventThread->stop();
+                for ( ; _eventThread->isRunning(); )
+                {
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                }
+                delete _eventThread;
+                _eventThread = NULL;
+            }
             clearActive();
         }
     }

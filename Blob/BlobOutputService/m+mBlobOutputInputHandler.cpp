@@ -182,7 +182,8 @@ DEFINE_HANDLE_INPUT_(BlobOutputInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void BlobOutputInputHandler::setSocket(const SOCKET outSocket)
+void
+BlobOutputInputHandler::setSocket(const SOCKET outSocket)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_L1("outSocket = ", outSocket); //####

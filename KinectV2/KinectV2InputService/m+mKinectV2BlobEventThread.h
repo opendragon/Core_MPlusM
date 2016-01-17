@@ -41,6 +41,7 @@
 
 # include "stdafx.h"
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 # include <m+m/m+mStringBuffer.h>
 
@@ -60,27 +61,41 @@ namespace MplusM
     namespace KinectV2Blob
     {
         /*! @brief A class to generate output from Kinect V2 data. */
-        class KinectV2BlobEventThread : public yarp::os::Thread
+        class KinectV2BlobEventThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
-            explicit KinectV2BlobEventThread(Common::GeneralChannel * outChannel);
+            explicit
+            KinectV2BlobEventThread(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
-            virtual ~KinectV2BlobEventThread(void);
+            virtual
+            ~KinectV2BlobEventThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
 
             /*! @brief Set the translation scale.
              @param newScale The scale factor for translation values. */
-            void setScale(const double newScale);
+            void
+            setScale(const double newScale);
 
             /*! @brief Return the translation scale.
              @returns The translation scale. */
-            inline double translationScale(void)
+            inline double
+            translationScale(void)
             const
             {
                 return _translationScale;
@@ -90,33 +105,28 @@ namespace MplusM
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
-            
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
-            
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
-            
-            COPY_AND_ASSIGNMENT_(KinectV2BlobEventThread);
-
             /*! @brief Initialize the default Kinect V2 sensor.
              @returns @c S_OK on success, a failure code otherwise. */
-            HRESULT initializeDefaultSensor(void);
-
+            HRESULT
+            initializeDefaultSensor(void);
+            
             /*! @brief Handle the sensor data associated with the event. */
-            void processEventData(void);
+            void
+            processEventData(void);
+            
+            DECLARE_RUN_;
+            
+            DECLARE_THREADINIT_;
+            
+            DECLARE_THREADRELEASE_;
+            
+            COPY_AND_ASSIGNMENT_(KinectV2BlobEventThread);
 
         public :
 
         protected :
 
         private :
-
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
 
             /*! @brief The translation scale to be used. */
             double _translationScale;

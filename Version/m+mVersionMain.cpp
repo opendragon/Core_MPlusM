@@ -64,7 +64,7 @@
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
-		
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -110,8 +110,9 @@ using std::endl;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     Utilities::DescriptorVector argumentList;
     OutputFlavour               flavour;

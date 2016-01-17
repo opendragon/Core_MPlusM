@@ -68,6 +68,15 @@ namespace MplusM
         class EchoService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -84,7 +93,8 @@ namespace MplusM
                         const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~EchoService(void);
+            virtual
+            ~EchoService(void);
             
             DECLARE_STARTSERVICE_;
             
@@ -97,19 +107,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(EchoService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The request handler for the 'echo' request. */
             EchoRequestHandler * _echoHandler;

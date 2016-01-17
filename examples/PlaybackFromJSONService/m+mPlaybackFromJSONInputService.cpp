@@ -84,14 +84,16 @@ using std::endl;
 /*! @brief Convert a JSON element into a YARP entity and add it to a message.
  @param outMessage The message to be added to.
  @param aValue The value to be processed. */
-static void addJSONValueToMessage(yarp::os::Bottle &       outMessage,
-                                  const rapidjson::Value & aValue);
+static void
+addJSONValueToMessage(yarp::os::Bottle &       outMessage,
+                      const rapidjson::Value & aValue);
 
 /*! @brief Convert a JSON array into a list of YARP entities and add it to a message.
  @param outMessage The message to be added to.
  @param inValue The value to be processed. */
-static void addJSONArrayToMessage(yarp::os::Bottle &       outMessage,
-                                  const rapidjson::Value & inValue)
+static void
+addJSONArrayToMessage(yarp::os::Bottle &       outMessage,
+                      const rapidjson::Value & inValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
@@ -108,8 +110,9 @@ static void addJSONArrayToMessage(yarp::os::Bottle &       outMessage,
 /*! @brief Convert a JSON value to a YARP value.
  @brief outValue The value to be set.
  @brief inValue The value to be processed. */
-static void convertJSONValueToValue(yarp::os::Value &        outValue,
-                                    const rapidjson::Value & inValue)
+static void
+convertJSONValueToValue(yarp::os::Value &        outValue,
+                        const rapidjson::Value & inValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outValue = ", &outValue, "inValue = ", &inValue); //####
@@ -198,8 +201,9 @@ static void convertJSONValueToValue(yarp::os::Value &        outValue,
 /*! @brief Convert a JSON object into a dictionary of YARP entities and add it to a message.
  @param outMessage The message to be added to.
  @param inValue The value to be processed. */
-static void addJSONObjectToMessage(yarp::os::Bottle &       outMessage,
-                                   const rapidjson::Value & inValue)
+static void
+addJSONObjectToMessage(yarp::os::Bottle &       outMessage,
+                       const rapidjson::Value & inValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outMessage = ", &outMessage, "inValue = ", &inValue); //####
@@ -216,8 +220,9 @@ static void addJSONObjectToMessage(yarp::os::Bottle &       outMessage,
     OD_LOG_EXIT(); //####
 } // addJSONObjectToMessage
 
-static void addJSONValueToMessage(yarp::os::Bottle &       outMessage,
-                                  const rapidjson::Value & inValue)
+static void
+addJSONValueToMessage(yarp::os::Bottle &       outMessage,
+                      const rapidjson::Value & inValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outMessage = ", &outMessage, "aValue = ", &inValue); //####
@@ -287,8 +292,9 @@ static void addJSONValueToMessage(yarp::os::Bottle &       outMessage,
  @param inData The input JSON-formatted data.
  @returns @c true if the input data is recognized as the correct format for JSON-formatted message
  data and @c false otherwise. */
-static bool convertJSONtoMessage(yarp::os::Bottle &    outMessage,
-                                 rapidjson::Document & inData)
+static bool
+convertJSONtoMessage(yarp::os::Bottle &    outMessage,
+                     rapidjson::Document & inData)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outMessage = ", &outMessage, "inData = ", &inData); //####

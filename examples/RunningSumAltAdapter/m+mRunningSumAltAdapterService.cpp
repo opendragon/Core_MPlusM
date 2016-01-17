@@ -204,7 +204,8 @@ DEFINE_RESTARTSTREAMS_(RunningSumAltAdapterService)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumAltAdapterService::restartStreams
 
-void RunningSumAltAdapterService::setUpInputHandlers(RunningSumAdapterData & sharedData)
+void
+RunningSumAltAdapterService::setUpInputHandlers(RunningSumAdapterData & sharedData)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("sharedData = ", &sharedData); //####

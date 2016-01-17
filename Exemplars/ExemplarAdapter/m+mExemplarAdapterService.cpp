@@ -202,7 +202,8 @@ DEFINE_RESTARTSTREAMS_(ExemplarAdapterService)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarAdapterService::restartStreams
 
-void ExemplarAdapterService::setUpInputHandlers(ExemplarAdapterData & sharedData)
+void
+ExemplarAdapterService::setUpInputHandlers(ExemplarAdapterData & sharedData)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("sharedData = ", &sharedData); //####

@@ -98,7 +98,7 @@ UnrealOutputService::UnrealOutputService(const Utilities::DescriptorVector & arg
                                          const YarpString &                  servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_UNREALOUTPUT_CANONICAL_NAME_,
               UNREALOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-	_translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
+    _translationScale(1.0), _outPort(9876), _networkSocket(INVALID_SOCKET),
     _inLeapHandler(new UnrealOutputLeapInputHandler(*this)),
     _inViconHandler(new UnrealOutputViconInputHandler(*this))
 {
@@ -168,11 +168,12 @@ DEFINE_CONFIGURE_(UnrealOutputService)
     return result;
 } // UnrealOutputService::configure
 
-void UnrealOutputService::deactivateConnection(void)
+void
+UnrealOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
     clearActive();
-	cerr << "connection is dead" << endl; //!!!!
+    cerr << "connection is dead" << endl; //!!!!
     if (_inLeapHandler)
     {
         _inLeapHandler->setSocket(INVALID_SOCKET);
@@ -313,8 +314,8 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
     {
         if (! isActive())
         {
-			if (_inLeapHandler && _inViconHandler)
-			{
+            if (_inLeapHandler && _inViconHandler)
+            {
 #if MAC_OR_LINUX_
                 SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 #else // ! MAC_OR_LINUX_
@@ -324,10 +325,10 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                 
 #if MAC_OR_LINUX_
                 if (INVALID_SOCKET == listenSocket)
-				{
+                {
                     cerr << "Could not create socket." << endl;
-				}
-				else
+                }
+                else
                 {
                     struct sockaddr_in addr;
                     
@@ -337,18 +338,18 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                     addr.sin_addr.s_addr = htonl(INADDR_ANY);
                     if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
                              sizeof(addr)))
-					{
+                    {
                         cerr << "Could not bind to socket." << endl;
-					}
-					else
+                    }
+                    else
                     {
                         listen(listenSocket, SOMAXCONN);
                         _networkSocket = accept(listenSocket, 0, 0);
                         if (INVALID_SOCKET == _networkSocket)
-						{
+                        {
                             cerr << "Could not accept connection." << endl;
-						}
-						else
+                        }
+                        else
                         {
                             _inLeapHandler->setSocket(_networkSocket);
                             _inLeapHandler->setScale(_translationScale);
@@ -365,47 +366,47 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                 }
 #else // ! MAC_OR_LINUX_
                 if (WSAStartup(wVersionRequested, &ww))
-				{
-					cerr << "Could not start up WSA" << endl;
-				}
-				else
+                {
+                    cerr << "Could not start up WSA" << endl;
+                }
+                else
                 {
                     if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
                     {
-						cerr << "creating socket" << endl; //!!!!
+                        cerr << "creating socket" << endl; //!!!!
                         SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                         
                         if (INVALID_SOCKET == listenSocket)
-						{
+                        {
                             cerr << "Could not create socket." << endl;
-						}
-						else
+                        }
+                        else
                         {
                             SOCKADDR_IN addr;
                             
                             addr.sin_family = AF_INET;
                             addr.sin_port = htons(_outPort);
                             addr.sin_addr.s_addr = htonl(INADDR_ANY);
-							cerr << "binding to port" << endl; //!!!!
+                            cerr << "binding to port" << endl; //!!!!
                             if (SOCKET_ERROR == bind(listenSocket,
                                                      reinterpret_cast<LPSOCKADDR>(&addr),
                                                      sizeof(addr)))
-							{
-                                cerr << "Could not bind to socket." << endl;
-							}
-							else
                             {
-								cerr << "listening for connection" << endl; //!!!!
+                                cerr << "Could not bind to socket." << endl;
+                            }
+                            else
+                            {
+                                cerr << "listening for connection" << endl; //!!!!
                                 listen(listenSocket, SOMAXCONN);
-								cerr << "accepting the connection" << endl; //!!!!
+                                cerr << "accepting the connection" << endl; //!!!!
                                 _networkSocket = accept(listenSocket, 0, 0);
                                 if (INVALID_SOCKET == _networkSocket)
-								{
-                                    cerr << "Could not accept connection." << endl;
-								}
-								else
                                 {
-									cerr << "connection is live" << endl; //!!!!
+                                    cerr << "Could not accept connection." << endl;
+                                }
+                                else
+                                {
+                                    cerr << "connection is live" << endl; //!!!!
                                     _inLeapHandler->setSocket(_networkSocket);
                                     _inLeapHandler->setScale(_translationScale);
                                     _inLeapHandler->setChannel(getInletStream(0));
@@ -423,13 +424,13 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
                     }
                     else
                     {
-						cerr << "WSA version not available" << endl;
+                        cerr << "WSA version not available" << endl;
                         WSACleanup();
                     }
                 }
 #endif // ! MAC_OR_LINUX_
-			}
-			else if (INVALID_SOCKET != _networkSocket)
+            }
+            else if (INVALID_SOCKET != _networkSocket)
             {
 #if MAC_OR_LINUX_
                 shutdown(_networkSocket, SHUT_RDWR);
@@ -440,7 +441,7 @@ DEFINE_STARTSTREAMS_(UnrealOutputService)
 #endif // ! MAC_OR_LINUX_
                 _networkSocket = INVALID_SOCKET;
             }
-		}
+        }
     }
     catch (...)
     {

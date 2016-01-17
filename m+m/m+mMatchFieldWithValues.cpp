@@ -81,11 +81,12 @@ using namespace MplusM::Parser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchFieldWithValues * MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
-                                                           const size_t        inLength,
-                                                           const size_t        startPos,
-                                                           size_t &            endPos,
-                                                           BaseNameValidator * validator)
+MatchFieldWithValues *
+MatchFieldWithValues::CreateMatcher(const YarpString &  inString,
+                                    const size_t        inLength,
+                                    const size_t        startPos,
+                                    size_t &            endPos,
+                                    BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -201,7 +202,8 @@ MatchFieldWithValues::~MatchFieldWithValues(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString MatchFieldWithValues::asSQLString(void)
+YarpString
+MatchFieldWithValues::asSQLString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -267,7 +269,8 @@ const
     return converted;
 } // MatchFieldWithValues::asSQLString
 
-YarpString MatchFieldWithValues::asString(void)
+YarpString
+MatchFieldWithValues::asString(void)
 const
 {
     YarpString result;

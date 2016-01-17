@@ -122,12 +122,22 @@ namespace MplusM
         class ColumnNameValidator : public MplusM::Parser::BaseNameValidator
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseNameValidator inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             ColumnNameValidator(void);
             
             /*! @brief The destructor. */
-            virtual ~ColumnNameValidator(void);
+            virtual
+            ~ColumnNameValidator(void);
             
         protected :
             
@@ -144,9 +154,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseNameValidator inherited;
             
         }; // ColumnNameValidator
         

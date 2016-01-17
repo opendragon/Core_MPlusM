@@ -267,17 +267,17 @@ DEFINE_STARTSTREAMS_(RandomBurstInputService)
         if (! isActive())
         {
             _generator = new RandomBurstInputThread(getOutletStream(0), _burstPeriod, _burstSize);
-			if (_generator->start())
-			{
-				setActive();
-			}
-			else
-			{
-				OD_LOG("! (generator->start())"); //####
+            if (_generator->start())
+            {
+                setActive();
+            }
+            else
+            {
+                OD_LOG("! (generator->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
-				delete _generator;
-				_generator = NULL;
-			}
+                delete _generator;
+                _generator = NULL;
+            }
         }
     }
     catch (...)
@@ -313,16 +313,16 @@ DEFINE_STOPSTREAMS_(RandomBurstInputService)
     {
         if (isActive())
         {
-			if (_generator)
-			{
-				_generator->stop();
-				for ( ; _generator->isRunning(); )
-				{
-					yarp::os::Time::delay(_burstSize / 3.9);
-				}
-				delete _generator;
-				_generator = NULL;
-			}
+            if (_generator)
+            {
+                _generator->stop();
+                for ( ; _generator->isRunning(); )
+                {
+                    yarp::os::Time::delay(_burstSize / 3.9);
+                }
+                delete _generator;
+                _generator = NULL;
+            }
             clearActive();
         }
     }

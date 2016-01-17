@@ -85,6 +85,7 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+/*! @brief The main interface pointer. */
 static ITTLLive2Ptr lTTLLive;
 
 #if defined(__APPLE__)
@@ -95,10 +96,13 @@ static ITTLLive2Ptr lTTLLive;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-static void show_error(_com_error & ee)
+/*! @brief Display an error.
+ @param ee The error to be displayed. */
+static void
+show_error(_com_error & ee)
 {
-	cerr << "(0x" << std::hex << ee.Error() << std::dec << ")" << endl;
-	cerr << static_cast<char *>(ee.Description()) << endl;
+    cerr << "(0x" << std::hex << ee.Error() << std::dec << ")" << endl;
+    cerr << static_cast<char *>(ee.Description()) << endl;
 } // show_error
 
 #if defined(__APPLE__)
@@ -120,21 +124,23 @@ ProComp2InputThread::ProComp2InputThread(GeneralChannel * outChannel) :
 ProComp2InputThread::~ProComp2InputThread(void)
 {
     OD_LOG_OBJENTER(); //####
-	OD_LOG_OBJEXIT(); //####
+    OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::~ProComp2InputThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ProComp2InputThread::clearOutputChannel(void)
+void
+ProComp2InputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::clearOutputChannel
 
-void ProComp2InputThread::readChannelData(const DWORD time)
+void
+ProComp2InputThread::readChannelData(const DWORD time)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("time = ", time); //####
@@ -223,7 +229,7 @@ void ProComp2InputThread::readChannelData(const DWORD time)
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::readChannelData
 
-void ProComp2InputThread::run(void)
+DEFINE_RUN_(ProComp2InputThread)
 {
     OD_LOG_OBJENTER(); //####
     MSG      aMessage;
@@ -257,10 +263,11 @@ void ProComp2InputThread::run(void)
     {
         lTTLLive.Release();
     }
-	OD_LOG_OBJEXIT(); //####
+    OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::run
 
-bool ProComp2InputThread::setupEncoders(void)
+bool
+ProComp2InputThread::setupEncoders(void)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -292,20 +299,20 @@ bool ProComp2InputThread::setupEncoders(void)
     return result;
 } // ProComp2InputThread::setupEncoders
 
-bool ProComp2InputThread::threadInit(void)
+DEFINE_THREADINIT_(ProComp2InputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool    result = true;
-	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
-	
-	if (SUCCEEDED(hr))
-	{
+    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    
+    if (SUCCEEDED(hr))
+    {
         OD_LOG("Creating instance"); //####
-		hr = lTTLLive.CreateInstance(CLSID_TTLLive);
-		if (SUCCEEDED(hr))
-		{
-			try
-			{
+        hr = lTTLLive.CreateInstance(CLSID_TTLLive);
+        if (SUCCEEDED(hr))
+        {
+            try
+            {
                 T_Version sV;
              
                 OD_LOG("Getting version"); //####
@@ -314,51 +321,51 @@ bool ProComp2InputThread::threadInit(void)
                         static_cast<int>(sV.byMinor) << "." << static_cast<int>(sV.woBuild) << endl;
                 result = setupEncoders();
             }
-			catch (_com_error & ee)
-			{
-				OD_LOG("_com_error caught"); //####
-				show_error(ee);
-				result = false;
-			}
-			catch (...)
-			{
-				OD_LOG("Exception caught"); //####
-				throw;
-			}
-		}
-		else
-		{
-			OD_LOG("! (SUCCEEDED(hr))"); //####
-			CheckHRESULT(hr);
-			result = false;
-		}
-	}
-	else
-	{
-		OD_LOG("! (SUCCEEDED(hr)"); //####
-		CheckHRESULT(hr);
+            catch (_com_error & ee)
+            {
+                OD_LOG("_com_error caught"); //####
+                show_error(ee);
+                result = false;
+            }
+            catch (...)
+            {
+                OD_LOG("Exception caught"); //####
+                throw;
+            }
+        }
+        else
+        {
+            OD_LOG("! (SUCCEEDED(hr))"); //####
+            CheckHRESULT(hr);
+            result = false;
+        }
+    }
+    else
+    {
+        OD_LOG("! (SUCCEEDED(hr)"); //####
+        CheckHRESULT(hr);
 #if MAC_OR_LINUX_
-		GetLogger().fail("CoInitializeEx() failed.");
+        GetLogger().fail("CoInitializeEx() failed.");
 #else // ! MAC_OR_LINUX_
-		cerr << "CoInitializeEx() failed." << endl;
+        cerr << "CoInitializeEx() failed." << endl;
 #endif // ! MAC_OR_LINUX_
-	}
-	if (! result)
-	{
-		if (lTTLLive)
-		{
-			lTTLLive.Release();
-		}
-	}
-	OD_LOG_OBJEXIT_B(result); //####
+    }
+    if (! result)
+    {
+        if (lTTLLive)
+        {
+            lTTLLive.Release();
+        }
+    }
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ProComp2InputThread::threadInit
 
-void ProComp2InputThread::threadRelease(void)
+DEFINE_THREADRELEASE_(ProComp2InputThread)
 {
     OD_LOG_OBJENTER(); //####
-	CoUninitialize();
-	OD_LOG_OBJEXIT(); //####
+    CoUninitialize();
+    OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::threadRelease
 
 #if defined(__APPLE__)

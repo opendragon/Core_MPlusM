@@ -83,13 +83,15 @@ using std::endl;
  @param scale The translation scale to use.
  @returns @c true if the segments were properly structured and @c false otherwise. */
 #if defined(MpM_UseCustomStringBuffer)
-static bool dumpSegments(Common::StringBuffer & outBuffer,
-                         yarp::os::Bottle &     segmentsAsBottle,
-                         const double           scale)
+static bool
+dumpSegments(Common::StringBuffer & outBuffer,
+             yarp::os::Bottle &     segmentsAsBottle,
+             const double           scale)
 #else // ! defined(MpM_UseCustomStringBuffer)
-static bool dumpSegments(std::stringstream & outBuffer,
-                         yarp::os::Bottle &  segmentsAsBottle,
-                         const double        scale)
+static bool
+dumpSegments(std::stringstream & outBuffer,
+             yarp::os::Bottle &  segmentsAsBottle,
+             const double        scale)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -142,7 +144,7 @@ static bool dumpSegments(std::stringstream & outBuffer,
                                 }
                                 else
                                 {
-									cerr << "value not an integer or a float" << endl; //!!!!
+                                    cerr << "value not an integer or a float" << endl; //!!!!
                                     okSoFar = false;
                                 }
                                 if (okSoFar)
@@ -166,32 +168,32 @@ static bool dumpSegments(std::stringstream & outBuffer,
                         }
                         else
                         {
-							cerr << "bad list pointer or incorrect list size" << endl; //!!!!
+                            cerr << "bad list pointer or incorrect list size" << endl; //!!!!
                             okSoFar = false;
                         }
                     }
                     else
                     {
-						cerr << "segment not a string and a list" << endl; //!!!!
+                        cerr << "segment not a string and a list" << endl; //!!!!
                         okSoFar = false;
                     }
                 }
                 else
                 {
-					cerr << "segment not a 2-element list" << endl; //!!!!
+                    cerr << "segment not a 2-element list" << endl; //!!!!
                     okSoFar = false;
                 }
             }
             else
             {
-				cerr << "segment not a list" << endl; //!!!!
+                cerr << "segment not a list" << endl; //!!!!
                 okSoFar = false;
             }
         }
     }
     else
     {
-		cerr << "no segments" << endl; //!!!!
+        cerr << "no segments" << endl; //!!!!
         okSoFar = false;
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -457,7 +459,8 @@ DEFINE_HANDLE_INPUT_(UnrealOutputViconInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void UnrealOutputViconInputHandler::setScale(const double newScale)
+void
+UnrealOutputViconInputHandler::setScale(const double newScale)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("newScale = ", newScale); //####
@@ -465,7 +468,8 @@ void UnrealOutputViconInputHandler::setScale(const double newScale)
     OD_LOG_OBJEXIT(); //####
 } // UnrealOutputViconInputHandler::setScale
 
-void UnrealOutputViconInputHandler::setSocket(const SOCKET outSocket)
+void
+UnrealOutputViconInputHandler::setSocket(const SOCKET outSocket)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_L1("outSocket = ", outSocket); //####

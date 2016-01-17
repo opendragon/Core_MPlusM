@@ -39,7 +39,7 @@
 #if (! defined(MpMBailOutThread_H_))
 # define MpMBailOutThread_H_ /* Header guard */
 
-# include <m+m/m+mCommon.h>
+# include <m+m/m+mBaseThread.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -59,13 +59,23 @@ namespace MplusM
         class BaseChannel;
         
         /*! @brief A convenience class to timeout objects. */
-        class BailOutThread : public yarp::os::Thread
+        class BailOutThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
-            explicit BailOutThread(const double timeToWait);
+            explicit
+            BailOutThread(const double timeToWait);
             
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
@@ -74,21 +84,18 @@ namespace MplusM
                           const double  timeToWait);
                         
             /*! @brief The destructor. */
-            virtual ~BailOutThread(void);
+            virtual
+            ~BailOutThread(void);
             
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(BailOutThread);
             
@@ -97,19 +104,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
             
             /*! @brief The base channel that we are waiting on. */
             BaseChannel * _baseChannel;

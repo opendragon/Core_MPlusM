@@ -60,19 +60,30 @@ namespace MplusM
         class AddressClient : public Common::BaseClient
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             AddressClient(void);
             
             /*! @brief The destructor. */
-            virtual ~AddressClient(void);
+            virtual
+            ~AddressClient(void);
             
             /*! @brief Get the address from the service.
              @param address The remembered address.
              @param port The remembered port.
              @returns @c true if the address was retrieved successfully and @c false otherwise. */
-            bool getAddress(YarpString & address,
-                            int &        port);
+            bool
+            getAddress(YarpString & address,
+                       int &        port);
             
         protected :
             
@@ -85,9 +96,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
             
         }; // AddressClient
         

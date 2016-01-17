@@ -93,10 +93,10 @@ AddressArgumentDescriptor::AddressArgumentDescriptor(const YarpString & argName,
     OD_LOG_S3s("argName = ", argName, "argDescription = ", argDescription, "defaultValue = ", //####
                defaultValue); //####
     OD_LOG_P1("addrBuff = ", addrBuff); //####
-	if (_defaultValue == SELF_ADDRESS_NAME_)
-	{
-		_defaultValue = SELF_ADDRESS_IPADDR_;
-	}
+    if (_defaultValue == SELF_ADDRESS_NAME_)
+    {
+        _defaultValue = SELF_ADDRESS_IPADDR_;
+    }
     OD_LOG_EXIT_P(this); //####
 } // AddressArgumentDescriptor::AddressArgumentDescriptor
 
@@ -122,7 +122,8 @@ DEFINE_CLONE_(AddressArgumentDescriptor)
     return result;
 } // AddressArgumentDescriptor::clone
 
-BaseArgumentDescriptor * AddressArgumentDescriptor::parseArgString(const YarpString & inString)
+BaseArgumentDescriptor *
+AddressArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -184,16 +185,16 @@ DEFINE_TOSTRING_(AddressArgumentDescriptor)
 DEFINE_VALIDATE_(AddressArgumentDescriptor)
 {
     OD_LOG_OBJENTER(); //####
-	YarpString testValue;
+    YarpString testValue;
     
-	if (value == SELF_ADDRESS_NAME_)
-	{
-		testValue = SELF_ADDRESS_IPADDR_;
-	}
-	else
-	{
-		testValue = value;
-	}
+    if (value == SELF_ADDRESS_NAME_)
+    {
+        testValue = SELF_ADDRESS_IPADDR_;
+    }
+    else
+    {
+        testValue = value;
+    }
     if (_addrBuff)
     {
 #if MAC_OR_LINUX_

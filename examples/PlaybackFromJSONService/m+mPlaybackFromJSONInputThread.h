@@ -39,6 +39,7 @@
 #if (! defined(MpMPlaybackFromJSONInputThread_H_))
 # define MpMPlaybackFromJSONInputThread_H_ /* Header guard */
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
 # if defined(__APPLE__)
@@ -57,8 +58,17 @@ namespace MplusM
     namespace Example
     {
         /*! @brief A convenience class to generate output. */
-        class PlaybackFromJSONInputThread : public yarp::os::Thread
+        class PlaybackFromJSONInputThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
@@ -75,24 +85,22 @@ namespace MplusM
                                         const bool               loopPlayback);
             
             /*! @brief The destructor. */
-            virtual ~PlaybackFromJSONInputThread(void);
+            virtual
+            ~PlaybackFromJSONInputThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
             
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(PlaybackFromJSONInputThread);
             
@@ -101,9 +109,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
             
             /*! @brief The data to be used. */
             yarp::os::Bottle & _outMessage;

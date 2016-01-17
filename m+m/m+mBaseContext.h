@@ -60,12 +60,19 @@ namespace MplusM
         class BaseContext
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor. */
             BaseContext(void);
             
             /*! @brief The destructor. */
-            virtual ~BaseContext(void);
+            virtual
+            ~BaseContext(void);
             
         protected :
             

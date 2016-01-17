@@ -83,8 +83,9 @@ static const bool kSessionIsTransacted = false;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
-static std::string constructURI(const YarpString & hostName,
-                                const int          hostPort)
+static std::string
+constructURI(const YarpString & hostName,
+             const int          hostPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("hostName = ", hostName); //####
@@ -229,7 +230,8 @@ DEFINE_GETCONFIGURATION_(SendToMQOutputService)
     return result;
 } // SendToMQOutputService::getConfiguration
 
-void SendToMQOutputService::deactivateConnection(void)
+void
+SendToMQOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
     clearActive();
@@ -281,8 +283,9 @@ DEFINE_RESTARTSTREAMS_(SendToMQOutputService)
     OD_LOG_OBJEXIT(); //####
 } // SendToMQOutputService::restartStreams
 
-void SendToMQOutputService::sendMessage(const std::string & aMessage,
-                                        const size_t        messageLength)
+void
+SendToMQOutputService::sendMessage(const std::string & aMessage,
+                                   const size_t        messageLength)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("aMessage = ", aMessage); //####

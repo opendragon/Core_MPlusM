@@ -101,8 +101,9 @@ RequestCounterClient::~RequestCounterClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RequestCounterClient::getServiceStatistics(long &   counter,
-                                                double & elapsedTime)
+bool
+RequestCounterClient::getServiceStatistics(long &   counter,
+                                           double & elapsedTime)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P2("counter = ", &counter, "elapsedTime = ", &elapsedTime); //####
@@ -152,7 +153,8 @@ bool RequestCounterClient::getServiceStatistics(long &   counter,
     return okSoFar;
 } // RequestCounterClient::getServiceStatistics
 
-bool RequestCounterClient::pokeService(void)
+bool
+RequestCounterClient::pokeService(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
@@ -179,7 +181,8 @@ bool RequestCounterClient::pokeService(void)
     return okSoFar;
 } // RequestCounterClient::pokeService
 
-bool RequestCounterClient::resetServiceCounters(void)
+bool
+RequestCounterClient::resetServiceCounters(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;

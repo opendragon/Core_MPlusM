@@ -65,18 +65,30 @@ namespace MplusM
         class MatchFieldWithValues : public BaseMatcher
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseMatcher inherited;
+            
+        public :
             
             /*! @brief The destructor. */
-            virtual ~MatchFieldWithValues(void);
+            virtual
+            ~MatchFieldWithValues(void);
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
-            YarpString asSQLString(void)
+            YarpString
+            asSQLString(void)
             const;
             
             /*! @brief Return the match value as a printable string.
              @returns The matching substring as a printable string. */
-            YarpString asString(void)
+            YarpString
+            asString(void)
             const;
             
             /*! @brief Create a pattern matcher if the next substring would be a valid field with
@@ -89,11 +101,12 @@ namespace MplusM
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchFieldWithValues * CreateMatcher(const YarpString &  inString,
-                                                        const size_t        inLength,
-                                                        const size_t        startPos,
-                                                        size_t &            endPos,
-                                                        BaseNameValidator * validator = NULL);
+            static MatchFieldWithValues *
+            CreateMatcher(const YarpString &  inString,
+                          const size_t        inLength,
+                          const size_t        startPos,
+                          size_t &            endPos,
+                          BaseNameValidator * validator = NULL);
             
         protected :
             
@@ -124,9 +137,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseMatcher inherited;
             
             /*! @brief The validator function object that was used for this field. */
             BaseNameValidator * _validator;

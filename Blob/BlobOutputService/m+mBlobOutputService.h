@@ -72,6 +72,15 @@ namespace MplusM
         class BlobOutputService : public Common::BaseOutputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseOutputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -90,12 +99,14 @@ namespace MplusM
                               const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~BlobOutputService(void);
+            virtual
+            ~BlobOutputService(void);
             
             DECLARE_CONFIGURE_;
             
             /*! @brief Deactivate the network connection. */
-            void deactivateConnection(void);
+            void
+            deactivateConnection(void);
             
             DECLARE_DISABLEMETRICS_;
             
@@ -127,13 +138,10 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
-            
-			/*! @brief The output port number to be used. */
-			int _outPort;
+            /*! @brief The output port number to be used. */
+            int _outPort;
 
-			/*! @brief The network port to write to. */
+            /*! @brief The network port to write to. */
             SOCKET _networkSocket;
 
             /*! @brief The handler for input data. */

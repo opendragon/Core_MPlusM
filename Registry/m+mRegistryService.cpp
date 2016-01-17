@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------------------
+
 //
 //  File:       m+mRegistryService.cpp
 //
@@ -179,137 +179,138 @@ namespace MplusM
 /*! @brief Provide a symbolic name for an SQL status value.
  @param sqlRes The status value to be checked.
  @returns A string representing the symbolic name for the status value. */
-static const char * mapStatusToStringForSQL(const int sqlRes)
+static const char *
+mapStatusToStringForSQL(const int sqlRes)
 {
     const char * result;
     
     switch (sqlRes)
     {
-	    case SQLITE_OK :
+        case SQLITE_OK :
             result = "SQLITE_OK";
             break;
             
-	    case SQLITE_ERROR :
+        case SQLITE_ERROR :
             result = "SQLITE_ERROR";
             break;
             
-	    case SQLITE_INTERNAL :
+        case SQLITE_INTERNAL :
             result = "SQLITE_INTERNAL";
             break;
             
-	    case SQLITE_PERM :
+        case SQLITE_PERM :
             result = "SQLITE_PERM";
             break;
             
-	    case SQLITE_ABORT :
+        case SQLITE_ABORT :
             result = "SQLITE_ABORT";
             break;
             
-	    case SQLITE_BUSY :
+        case SQLITE_BUSY :
             result = "SQLITE_BUSY";
             break;
             
-	    case SQLITE_LOCKED :
+        case SQLITE_LOCKED :
             result = "SQLITE_LOCKED";
             break;
             
-	    case SQLITE_NOMEM :
+        case SQLITE_NOMEM :
             result = "SQLITE_NOMEM";
             break;
             
-	    case SQLITE_READONLY :
+        case SQLITE_READONLY :
             result = "SQLITE_READONLY";
             break;
             
-	    case SQLITE_INTERRUPT :
+        case SQLITE_INTERRUPT :
             result = "SQLITE_INTERRUPT";
             break;
             
-	    case SQLITE_IOERR :
+        case SQLITE_IOERR :
             result = "SQLITE_IOERR";
             break;
             
-	    case SQLITE_CORRUPT :
+        case SQLITE_CORRUPT :
             result = "SQLITE_CORRUPT";
             break;
             
-	    case SQLITE_NOTFOUND :
+        case SQLITE_NOTFOUND :
             result = "SQLITE_NOTFOUND";
             break;
             
-	    case SQLITE_FULL :
+        case SQLITE_FULL :
             result = "SQLITE_FULL";
             break;
             
-	    case SQLITE_CANTOPEN :
+        case SQLITE_CANTOPEN :
             result = "SQLITE_CANTOPEN";
             break;
             
-	    case SQLITE_PROTOCOL :
+        case SQLITE_PROTOCOL :
             result = "SQLITE_PROTOCOL";
             break;
             
-	    case SQLITE_EMPTY :
+        case SQLITE_EMPTY :
             result = "SQLITE_EMPTY";
             break;
             
-	    case SQLITE_SCHEMA :
+        case SQLITE_SCHEMA :
             result = "SQLITE_SCHEMA";
             break;
             
-	    case SQLITE_TOOBIG :
+        case SQLITE_TOOBIG :
             result = "SQLITE_TOOBIG";
             break;
             
-	    case SQLITE_CONSTRAINT :
+        case SQLITE_CONSTRAINT :
             result = "SQLITE_CONSTRAINT";
             break;
             
-	    case SQLITE_MISMATCH :
+        case SQLITE_MISMATCH :
             result = "SQLITE_MISMATCH";
             break;
             
-	    case SQLITE_MISUSE :
+        case SQLITE_MISUSE :
             result = "SQLITE_MISUSE";
             break;
             
-	    case SQLITE_NOLFS :
+        case SQLITE_NOLFS :
             result = "SQLITE_NOLFS";
             break;
             
-	    case SQLITE_AUTH :
+        case SQLITE_AUTH :
             result = "SQLITE_AUTH";
             break;
             
-	    case SQLITE_FORMAT :
+        case SQLITE_FORMAT :
             result = "SQLITE_FORMAT";
             break;
             
-	    case SQLITE_RANGE :
+        case SQLITE_RANGE :
             result = "SQLITE_RANGE";
             break;
             
-	    case SQLITE_NOTADB :
+        case SQLITE_NOTADB :
             result = "SQLITE_NOTADB";
             break;
             
-	    case SQLITE_NOTICE :
+        case SQLITE_NOTICE :
             result = "SQLITE_NOTICE";
             break;
             
-	    case SQLITE_WARNING :
+        case SQLITE_WARNING :
             result = "SQLITE_WARNING";
             break;
             
-	    case SQLITE_ROW :
+        case SQLITE_ROW :
             result = "SQLITE_ROW";
             break;
             
-	    case SQLITE_DONE :
+        case SQLITE_DONE :
             result = "SQLITE_DONE";
             break;
             
-	    default :
+        default :
             result = "<Unknown>";
             break;
             
@@ -324,10 +325,11 @@ static const char * mapStatusToStringForSQL(const int sqlRes)
  @param doBinds A function that will fill in any parameters in the statement.
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithNoResults(sqlite3 *    database,
-                                             const char * sqlStatement,
-                                             BindFunction doBinds,
-                                             const void * data)
+static bool
+performSQLstatementWithNoResults(sqlite3 *    database,
+                                 const char * sqlStatement,
+                                 BindFunction doBinds,
+                                 const void * data)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("database = ", database, "data = ", data); //####
@@ -400,8 +402,9 @@ static bool performSQLstatementWithNoResults(sqlite3 *    database,
  @param database The database to be modified.
  @param sqlStatement The operation to be performed.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
-                                                   const char * sqlStatement)
+static bool
+performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
+                                       const char * sqlStatement)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("database = ", database); //####
@@ -469,10 +472,11 @@ static bool performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
  @param doBinds A function that will fill in any parameters in the statement.
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
-                                                            const char * sqlStatement,
-                                                            BindFunction doBinds,
-                                                            const void * data)
+static bool
+performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
+                                                const char * sqlStatement,
+                                                BindFunction doBinds,
+                                                const void * data)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("database = ", database, "data = ", data); //####
@@ -550,13 +554,14 @@ static bool performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    databas
  @param doBinds A function that will fill in any parameters in the statement.
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
-                                                       yarp::os::Bottle & resultList,
-                                                       const char *       sqlStatement,
-                                                       const int          columnOfInterest1,
-                                                       const int          columnOfInterest2,
-                                                       BindFunction       doBinds,
-                                                       const void *       data)
+static bool
+performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
+                                           yarp::os::Bottle & resultList,
+                                           const char *       sqlStatement,
+                                           const int          columnOfInterest1,
+                                           const int          columnOfInterest2,
+                                           BindFunction       doBinds,
+                                           const void *       data)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
@@ -668,12 +673,13 @@ static bool performSQLstatementWithDoubleColumnResults(sqlite3 *          databa
  @param doBinds A function that will fill in any parameters in the statement.
  @param data The custom information used with the binding function.
  @returns @c true if the operation was successfully performed and @c false otherwise. */
-static bool performSQLstatementWithSingleColumnResults(sqlite3 *          database,
-                                                       yarp::os::Bottle & resultList,
-                                                       const char *       sqlStatement,
-                                                       const int          columnOfInterest = 0,
-                                                       BindFunction       doBinds = NULL,
-                                                       const void *       data = NULL)
+static bool
+performSQLstatementWithSingleColumnResults(sqlite3 *          database,
+                                           yarp::os::Bottle & resultList,
+                                           const char *       sqlStatement,
+                                           const int          columnOfInterest = 0,
+                                           BindFunction       doBinds = NULL,
+                                           const void *       data = NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("database = ", database, "resultList = ", &resultList, "data = ", data); //####
@@ -769,7 +775,8 @@ static bool performSQLstatementWithSingleColumnResults(sqlite3 *          databa
 /*! @brief Start a transaction.
  @param database The database to be modified.
  @returns @c true if the transaction was initiated and @c false otherwise. */
-static bool doBeginTransaction(sqlite3 * database)
+static bool
+doBeginTransaction(sqlite3 * database)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("database = ", database); //####
@@ -802,8 +809,9 @@ static bool doBeginTransaction(sqlite3 * database)
  @param database The database to be modified.
  @param wasOK @c true if the transaction was successful and @c false otherwise.
  @returns @c true if the transaction was closed successfully and @c false otherwise. */
-static bool doEndTransaction(sqlite3 *  database,
-                             const bool wasOK)
+static bool
+doEndTransaction(sqlite3 *  database,
+                 const bool wasOK)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("database = ", database); //####
@@ -838,7 +846,8 @@ static bool doEndTransaction(sqlite3 *  database,
 /*! @brief Construct the tables needed in the database.
  @param database The database to be modified.
  @returns @c true if the tables were successfully built and @c false otherwise. */
-static bool constructTables(sqlite3 * database)
+static bool
+constructTables(sqlite3 * database)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("database = ", database); //####
@@ -919,8 +928,9 @@ static bool constructTables(sqlite3 * database)
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupCheckService(sqlite3_stmt * statement,
-                             const void *   stuff)
+static int
+setupCheckService(sqlite3_stmt * statement,
+                  const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -961,8 +971,9 @@ static int setupCheckService(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupCollectAssociates(sqlite3_stmt * statement,
-                                  const void *   stuff)
+static int
+setupCollectAssociates(sqlite3_stmt * statement,
+                       const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1003,8 +1014,9 @@ static int setupCollectAssociates(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupInsertIntoChannels(sqlite3_stmt * statement,
-                                   const void *   stuff)
+static int
+setupInsertIntoChannels(sqlite3_stmt * statement,
+                        const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1044,8 +1056,9 @@ static int setupInsertIntoChannels(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupInsertIntoKeywords(sqlite3_stmt * statement,
-                                   const void *   stuff)
+static int
+setupInsertIntoKeywords(sqlite3_stmt * statement,
+                        const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1085,8 +1098,9 @@ static int setupInsertIntoKeywords(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupInsertIntoRequests(sqlite3_stmt * statement,
-                                   const void *   stuff)
+static int
+setupInsertIntoRequests(sqlite3_stmt * statement,
+                        const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1174,8 +1188,9 @@ static int setupInsertIntoRequests(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
-                                           const void *   stuff)
+static int
+setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
+                                const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1235,8 +1250,9 @@ static int setupInsertIntoRequestsKeywords(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupInsertIntoServices(sqlite3_stmt * statement,
-                                   const void *   stuff)
+static int
+setupInsertIntoServices(sqlite3_stmt * statement,
+                        const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1339,8 +1355,9 @@ static int setupInsertIntoServices(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupRemoveFromChannels(sqlite3_stmt * statement,
-                                   const void *   stuff)
+static int
+setupRemoveFromChannels(sqlite3_stmt * statement,
+                        const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1379,8 +1396,9 @@ static int setupRemoveFromChannels(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
-                                             const void *   stuff)
+static int
+setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
+                                  const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1419,8 +1437,9 @@ static int setupRemoveFromChannelsAssociates(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupRemoveFromRequests(sqlite3_stmt * statement,
-                                   const void *   stuff)
+static int
+setupRemoveFromRequests(sqlite3_stmt * statement,
+                        const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1459,8 +1478,9 @@ static int setupRemoveFromRequests(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
-                                           const void *   stuff)
+static int
+setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
+                                const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1499,8 +1519,9 @@ static int setupRemoveFromRequestsKeywords(sqlite3_stmt * statement,
  @param statement The prepared statement that is to be updated.
  @param stuff The source of data that is to be bound.
  @returns The SQLite error from the bind operation. */
-static int setupRemoveFromServices(sqlite3_stmt * statement,
-                                   const void *   stuff)
+static int
+setupRemoveFromServices(sqlite3_stmt * statement,
+                        const void *   stuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("statement = ", statement, "stuff = ", stuff); //####
@@ -1595,8 +1616,9 @@ RegistryService::~RegistryService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
-                                       const RequestDescription & description)
+bool
+RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
+                                  const RequestDescription & description)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
@@ -1681,13 +1703,14 @@ bool RegistryService::addRequestRecord(const yarp::os::Bottle &   keywordList,
     return okSoFar;
 } // RegistryService::addRequestRecord
 
-bool RegistryService::addServiceRecord(const YarpString & channelName,
-                                       const YarpString & name,
-                                       const YarpString & tag,
-                                       const YarpString & description,
-                                       const YarpString & extraInfo,
-                                       const YarpString & executable,
-                                       const YarpString & requestsDescription)
+bool
+RegistryService::addServiceRecord(const YarpString & channelName,
+                                  const YarpString & name,
+                                  const YarpString & tag,
+                                  const YarpString & description,
+                                  const YarpString & extraInfo,
+                                  const YarpString & executable,
+                                  const YarpString & requestsDescription)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S4s("channelName = ", channelName, "name = ", name, "description = ", description, //####
@@ -1738,7 +1761,8 @@ bool RegistryService::addServiceRecord(const YarpString & channelName,
     return okSoFar;
 } // RegistryService::addServiceRecord
 
-void RegistryService::attachRequestHandlers(void)
+void
+RegistryService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -1768,7 +1792,8 @@ void RegistryService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::attachRequestHandlers
 
-bool RegistryService::checkForExistingService(const YarpString & channelName)
+bool
+RegistryService::checkForExistingService(const YarpString & channelName)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -1805,7 +1830,8 @@ bool RegistryService::checkForExistingService(const YarpString & channelName)
     return okSoFar;
 } // RegistryService::checkForExistingService
 
-void RegistryService::checkServiceTimes(void)
+void
+RegistryService::checkServiceTimes(void)
 {
     OD_LOG_OBJENTER(); //####
     double           now = yarp::os::Time::now();
@@ -1844,7 +1870,8 @@ void RegistryService::checkServiceTimes(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::checkServiceTimes
 
-void RegistryService::detachRequestHandlers(void)
+void
+RegistryService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -1937,8 +1964,9 @@ DEFINE_GATHERMETRICS_(RegistryService)
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::gatherMetrics
 
-bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
-                                             const YarpString &   channelName)
+bool
+RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
+                                        const YarpString &   channelName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("asDict = ", &asDict); //####
@@ -2056,8 +2084,9 @@ bool RegistryService::processDictionaryEntry(yarp::os::Property & asDict,
     return result;
 } // RegistryService::processDictionaryEntry
 
-bool RegistryService::processListResponse(const YarpString &      channelName,
-                                          const ServiceResponse & response)
+bool
+RegistryService::processListResponse(const YarpString &      channelName,
+                                     const ServiceResponse & response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
@@ -2128,9 +2157,10 @@ bool RegistryService::processListResponse(const YarpString &      channelName,
     return result;
 } // RegistryService::processListResponse
 
-bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
-                                          const bool                getNames,
-                                          yarp::os::Bottle &        reply)
+bool
+RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
+                                     const bool                getNames,
+                                     yarp::os::Bottle &        reply)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("matcher = ", matcher); //####
@@ -2174,8 +2204,9 @@ bool RegistryService::processMatchRequest(Parser::MatchExpression * matcher,
     return okSoFar;
 } // RegistryService::processMatchRequest
 
-bool RegistryService::processNameResponse(const YarpString &      channelName,
-                                          const ServiceResponse & response)
+bool
+RegistryService::processNameResponse(const YarpString &      channelName,
+                                     const ServiceResponse & response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "response = ", response.asString()); //####
@@ -2232,7 +2263,8 @@ bool RegistryService::processNameResponse(const YarpString &      channelName,
     return result;
 } // RegistryService::processNameResponse
 
-void RegistryService::removeCheckedTimeForChannel(const YarpString & serviceChannelName)
+void
+RegistryService::removeCheckedTimeForChannel(const YarpString & serviceChannelName)
 {
     OD_LOG_OBJENTER(); //####
     _checkedTimeLock.lock();
@@ -2241,7 +2273,8 @@ void RegistryService::removeCheckedTimeForChannel(const YarpString & serviceChan
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::removeCheckedTimeForChannel
 
-bool RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
+bool
+RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -2294,9 +2327,10 @@ bool RegistryService::removeServiceRecord(const YarpString & serviceChannelName)
     return okSoFar;
 } // RegistryService::removeServiceRecord
 
-void RegistryService::reportStatusChange(const YarpString &  channelName,
-                                         const ServiceStatus newStatus,
-                                         const YarpString &  details)
+void
+RegistryService::reportStatusChange(const YarpString &  channelName,
+                                    const ServiceStatus newStatus,
+                                    const YarpString &  details)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "details = ", details); //####
@@ -2397,7 +2431,8 @@ void RegistryService::reportStatusChange(const YarpString &  channelName,
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::reportStatusChange
 
-bool RegistryService::setUpDatabase(void)
+bool
+RegistryService::setUpDatabase(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = true;
@@ -2452,7 +2487,8 @@ bool RegistryService::setUpDatabase(void)
     return okSoFar;
 } // RegistryService::setUpDatabase
 
-bool RegistryService::setUpStatusChannel(void)
+bool
+RegistryService::setUpStatusChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
@@ -2611,19 +2647,20 @@ DEFINE_STARTSERVICE_(RegistryService)
     return result;
 } // RegistryService::startService
 
-void RegistryService::startChecker(void)
+void
+RegistryService::startChecker(void)
 {
     OD_LOG_OBJENTER(); //####
     if (! _checker)
     {
         _checker = new RegistryCheckThread(*this);
         OD_LOG_P1("_checker <- ", _checker); //####
-		if (! _checker->start())
-		{
-			OD_LOG("(! _checker->start())"); //####
-			delete _checker;
-			_checker = NULL;
-		}
+        if (! _checker->start())
+        {
+            OD_LOG("(! _checker->start())"); //####
+            delete _checker;
+            _checker = NULL;
+        }
     }
     OD_LOG_OBJEXIT(); //####
 } // RegistryService::startChecker
@@ -2663,7 +2700,8 @@ DEFINE_STOPSERVICE_(RegistryService)
     return result;
 } // RegistryService::stopService
 
-void RegistryService::updateCheckedTimeForChannel(const YarpString & serviceChannelName)
+void
+RegistryService::updateCheckedTimeForChannel(const YarpString & serviceChannelName)
 {
     OD_LOG_OBJENTER(); //####
     _checkedTimeLock.lock();

@@ -81,12 +81,13 @@ using namespace MplusM::Common;
  @param realPort The numeric value of 'portNumber'.
  @param portNumber The port number as a string to be checked.
  @returns @c true if the port number string is numeric or empty. */
-static bool checkHostPort(int &              realPort,
-                          const YarpString & portNumber)
+static bool
+checkHostPort(int &              realPort,
+              const YarpString & portNumber)
 {
-	OD_LOG_ENTER(); //####
-	OD_LOG_P1("realPort = ", &realPort); //####
-	OD_LOG_S1s("portNumber = ", portNumber); //####
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("realPort = ", &realPort); //####
+    OD_LOG_S1s("portNumber = ", portNumber); //####
     bool result = true;
     
     try
@@ -119,7 +120,7 @@ static bool checkHostPort(int &              realPort,
         OD_LOG("Exception caught"); //####
         throw;
     }
-	OD_LOG_EXIT_B(result); //####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // checkHostPort
 
@@ -128,14 +129,15 @@ static bool checkHostPort(int &              realPort,
  @param endpointName The desired endpoint name.
  @param portNumber The port number to be applied to the connection.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
-static bool setEndpointIPAddress(yarp::os::Contact & workingContact,
-                                 const YarpString &  endpointName,
-                                 const int           portNumber)
+static bool
+setEndpointIPAddress(yarp::os::Contact & workingContact,
+                     const YarpString &  endpointName,
+                     const int           portNumber)
 {
-	OD_LOG_ENTER(); //####
-	OD_LOG_P1("workingContact = ", &workingContact); //####
-	OD_LOG_S1s("endpointName = ", endpointName); //####
-	OD_LOG_L1("portNumber = ", portNumber); //####
+    OD_LOG_ENTER(); //####
+    OD_LOG_P1("workingContact = ", &workingContact); //####
+    OD_LOG_S1s("endpointName = ", endpointName); //####
+    OD_LOG_L1("portNumber = ", portNumber); //####
 #if defined(MpM_ReportContactDetails)
     DumpContactToLog("enter setEndpointIPAddress", workingContact); //####
 #endif // defined(MpM_ReportContactDetails)
@@ -159,7 +161,7 @@ static bool setEndpointIPAddress(yarp::os::Contact & workingContact,
         OD_LOG("Exception caught"); //####
         throw;
     }
-	OD_LOG_EXIT_B(result); //####
+    OD_LOG_EXIT_B(result); //####
     return result;
 } // setEndpointIPAddress
 
@@ -167,7 +169,8 @@ static bool setEndpointIPAddress(yarp::os::Contact & workingContact,
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-bool Endpoint::CheckEndpointName(const YarpString & channelName)
+bool
+Endpoint::CheckEndpointName(const YarpString & channelName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -264,7 +267,8 @@ Endpoint::~Endpoint(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void Endpoint::close(void)
+void
+Endpoint::close(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -304,7 +308,8 @@ void Endpoint::close(void)
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::close
 
-void Endpoint::disableMetrics(void)
+void
+Endpoint::disableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = false;
@@ -319,7 +324,8 @@ void Endpoint::disableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::disableMetrics
 
-void Endpoint::enableMetrics(void)
+void
+Endpoint::enableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     if (_handler)
@@ -334,7 +340,8 @@ void Endpoint::enableMetrics(void)
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::enableMetrics
 
-YarpString Endpoint::getName(void)
+YarpString
+Endpoint::getName(void)
 const
 {
     YarpString result;
@@ -358,7 +365,8 @@ const
     return result;
 } // Endpoint::getName
 
-void Endpoint::getSendReceiveCounters(SendReceiveCounters & counters)
+void
+Endpoint::getSendReceiveCounters(SendReceiveCounters & counters)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("counters = ", &counters); //####
@@ -373,7 +381,8 @@ void Endpoint::getSendReceiveCounters(SendReceiveCounters & counters)
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::getSendReceiveCounters
 
-bool Endpoint::open(const double timeToWait)
+bool
+Endpoint::open(const double timeToWait)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
@@ -387,9 +396,9 @@ bool Endpoint::open(const double timeToWait)
             {
                 OD_LOG("(_channel)"); //####
 #if defined(MpM_ReportContactDetails)
-				DumpContactToLog("after registerContact", _contact); //####
+                DumpContactToLog("after registerContact", _contact); //####
 #endif // defined(MpM_ReportContactDetails)
-				if (0 < _contact.getHost().length())
+                if (0 < _contact.getHost().length())
                 {
                     OD_LOG("(0 < _contact.getHost().length())"); //####
                     _contact = yarp::os::Network::registerContact(_contact);
@@ -438,7 +447,8 @@ bool Endpoint::open(const double timeToWait)
     return result;
 } // Endpoint::open
 
-bool Endpoint::setInputHandler(BaseInputHandler & handler)
+bool
+Endpoint::setInputHandler(BaseInputHandler & handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", &handler); //####
@@ -479,7 +489,8 @@ bool Endpoint::setInputHandler(BaseInputHandler & handler)
     return result;
 } // Endpoint::setInputHandler
 
-bool Endpoint::setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator)
+bool
+Endpoint::setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handlerCreator = ", &handlerCreator); //####
@@ -519,8 +530,9 @@ bool Endpoint::setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator)
     return result;
 } // Endpoint::setInputHandlerCreator
 
-bool Endpoint::setReporter(ChannelStatusReporter & reporter,
-                           const bool              andReportNow)
+bool
+Endpoint::setReporter(ChannelStatusReporter & reporter,
+                      const bool              andReportNow)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("reporter = ", &reporter); //####
@@ -552,7 +564,8 @@ bool Endpoint::setReporter(ChannelStatusReporter & reporter,
     return result;
 } // Endpoint::setReporter
 
-void Endpoint::updateSendCounters(const size_t numBytes)
+void
+Endpoint::updateSendCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
@@ -564,7 +577,8 @@ void Endpoint::updateSendCounters(const size_t numBytes)
     OD_LOG_OBJEXIT(); //####
 } // Endpoint::updateSendCounters
 
-yarp::os::Contact Endpoint::where(void)
+yarp::os::Contact
+Endpoint::where(void)
 const
 {
     OD_LOG_OBJENTER(); //####

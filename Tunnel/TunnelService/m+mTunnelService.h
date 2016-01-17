@@ -69,6 +69,15 @@ namespace MplusM
         class TunnelService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param sourceName The data source address to be connected to.
@@ -89,17 +98,20 @@ namespace MplusM
                           const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~TunnelService(void);
+            virtual
+            ~TunnelService(void);
             
             /*! @brief Return the remembered address.
              @param address The remembered address.
              @param port The remembered port. */
-            void getAddress(YarpString & address,
-                            int &        port);
+            void
+            getAddress(YarpString & address,
+                       int &        port);
             
             /*! @brief Set the port that will be remembered.
              @param port The port to be remembered. */
-            inline void setPort(const int port)
+            inline void
+            setPort(const int port)
             {
                 _listenPort = port;
             } // setPort
@@ -115,19 +127,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(TunnelService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The remembered address. */
             YarpString _listenAddress;

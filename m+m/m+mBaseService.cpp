@@ -209,15 +209,15 @@ BaseService::BaseService(const ServiceKind  theKind,
     switch (argc)
     {
             // Argument order = endpoint name [, port]
-	    case 1 :
+        case 1 :
             _endpoint = new Endpoint(*argv);
             break;
             
-	    case 2 :
+        case 2 :
             _endpoint = new Endpoint(*argv, argv[1]);
             break;
             
-	    default :
+        default :
             OD_LOG_EXIT_THROW_S("Invalid parameters for service endpoint"); //####
             throw new Exception("Invalid parameters for service endpoint");
             
@@ -257,8 +257,9 @@ BaseService::~BaseService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseService::addContext(const YarpString & key,
-                             BaseContext *      context)
+void
+BaseService::addContext(const YarpString & key,
+                        BaseContext *      context)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -280,7 +281,8 @@ void BaseService::addContext(const YarpString & key,
     OD_LOG_OBJEXIT(); //####
 } // BaseService::addContext
 
-void BaseService::attachRequestHandlers(void)
+void
+BaseService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -330,7 +332,8 @@ void BaseService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::attachRequestHandlers
 
-void BaseService::clearContexts(void)
+void
+BaseService::clearContexts(void)
 {
     OD_LOG_OBJENTER(); //####
     lockContexts();
@@ -352,7 +355,8 @@ void BaseService::clearContexts(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::clearContexts
 
-void BaseService::detachClient(const YarpString & key)
+void
+BaseService::detachClient(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -368,7 +372,8 @@ void BaseService::detachClient(const YarpString & key)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::detachClient
 
-void BaseService::detachRequestHandlers(void)
+void
+BaseService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -476,7 +481,8 @@ DEFINE_ENABLEMETRICS_(BaseService)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::enableMetrics
 
-void BaseService::fillInClientList(YarpStringVector & clients)
+void
+BaseService::fillInClientList(YarpStringVector & clients)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("clients = ", &clients); //####
@@ -517,7 +523,8 @@ DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(BaseService)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::fillInSecondaryOutputChannelsList
 
-BaseContext * BaseService::findContext(const YarpString & key)
+BaseContext *
+BaseService::findContext(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -558,7 +565,8 @@ DEFINE_GATHERMETRICS_(BaseService)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::gatherMetrics
 
-void BaseService::incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters)
+void
+BaseService::incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("additionalCounters = ", &additionalCounters); //####
@@ -566,10 +574,11 @@ void BaseService::incrementAuxiliaryCounters(const SendReceiveCounters & additio
     OD_LOG_OBJEXIT(); //####
 } // BaseService::incrementAuxiliaryCounters
 
-bool BaseService::processRequest(const YarpString &           request,
-                                 const yarp::os::Bottle &     restOfInput,
-                                 const YarpString &           senderChannel,
-                                 yarp::os::ConnectionWriter * replyMechanism)
+bool
+BaseService::processRequest(const YarpString &           request,
+                            const yarp::os::Bottle &     restOfInput,
+                            const YarpString &           senderChannel,
+                            yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
@@ -615,7 +624,8 @@ bool BaseService::processRequest(const YarpString &           request,
     return result;
 } // BaseService::processRequest
 
-void BaseService::registerRequestHandler(BaseRequestHandler * handler)
+void
+BaseService::registerRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", handler); //####
@@ -623,7 +633,8 @@ void BaseService::registerRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::registerRequestHandler
 
-void BaseService::removeContext(const YarpString & key)
+void
+BaseService::removeContext(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -652,9 +663,10 @@ void BaseService::removeContext(const YarpString & key)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::removeContext
 
-bool BaseService::sendPingForChannel(const YarpString & channelName,
-                                     CheckFunction      checker,
-                                     void *             checkStuff)
+bool
+BaseService::sendPingForChannel(const YarpString & channelName,
+                                CheckFunction      checker,
+                                void *             checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -767,7 +779,8 @@ bool BaseService::sendPingForChannel(const YarpString & channelName,
     return result;
 } // BaseService::sendPingForChannel
 
-void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
+void
+BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", handler); //####
@@ -775,7 +788,8 @@ void BaseService::setDefaultRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::setDefaultRequestHandler
 
-void BaseService::setExtraInformation(const YarpString & extraInfo)
+void
+BaseService::setExtraInformation(const YarpString & extraInfo)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("extraInfo = ", extraInfo); //####
@@ -847,18 +861,19 @@ DEFINE_STARTSERVICE_(BaseService)
     return _started;
 } // BaseService::startService
 
-void BaseService::startPinger(void)
+void
+BaseService::startPinger(void)
 {
     OD_LOG_OBJENTER(); //####
     if ((! _pinger) && _endpoint)
     {
         _pinger = new PingThread(_endpoint->getName(), *this);
-		if (! _pinger->start())
-		{
-			OD_LOG("(! _pinger->start())"); //####
-			delete _pinger;
-			_pinger = NULL;
-		}
+        if (! _pinger->start())
+        {
+            OD_LOG("(! _pinger->start())"); //####
+            delete _pinger;
+            _pinger = NULL;
+        }
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseService::startPinger
@@ -877,7 +892,8 @@ DEFINE_STOPSERVICE_(BaseService)
     return (! _started);
 } // BaseService::stopService
 
-void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
+void
+BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", handler); //####
@@ -885,7 +901,8 @@ void BaseService::unregisterRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // BaseService::unregisterRequestHandler
 
-void BaseService::updateResponseCounters(const size_t numBytes)
+void
+BaseService::updateResponseCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
@@ -900,11 +917,12 @@ void BaseService::updateResponseCounters(const size_t numBytes)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
-                                const AddressTagModifier modFlag,
-                                YarpString &             tag,
-                                YarpString &             serviceEndpointName,
-                                const YarpString &       tagModifier)
+bool
+Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
+                           const AddressTagModifier modFlag,
+                           YarpString &             tag,
+                           YarpString &             serviceEndpointName,
+                           const YarpString &       tagModifier)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("defaultEndpointNameRoot = ", defaultEndpointNameRoot, //####
@@ -1002,7 +1020,8 @@ bool Common::AdjustEndpointName(const YarpString &       defaultEndpointNameRoot
     return nameWasSet;
 } // Common::AdjustEndpointName
 
-bool Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
+bool
+Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("convertedAddress = ", &convertedAddress); //####
@@ -1076,22 +1095,23 @@ bool Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
     return okSoFar;
 } // Common::GetOurEffectiveAddress
 
-bool Common::ProcessStandardServiceOptions(const int                     argc,
-                                           char * *                      argv,
-                                           Utilities::DescriptorVector & argumentDescriptions,
-                                           const YarpString &            serviceDescription,
-                                           const YarpString &            matchingCriteria,
-                                           const int                     year,
-                                           const char *                  copyrightHolder,
-                                           bool &                        goWasSet,
-                                           bool &                        reportEndpoint,
-                                           bool &                        reportOnExit,
-                                           YarpString &                  tag,
-                                           YarpString &                  serviceEndpointName,
-                                           YarpString &                  servicePortNumber,
-                                           AddressTagModifier &          modFlag,
-                                           const OptionsMask             skipOptions,
-                                           YarpStringVector *            arguments)
+bool
+Common::ProcessStandardServiceOptions(const int                     argc,
+                                      char * *                      argv,
+                                      Utilities::DescriptorVector & argumentDescriptions,
+                                      const YarpString &            serviceDescription,
+                                      const YarpString &            matchingCriteria,
+                                      const int                     year,
+                                      const char *                  copyrightHolder,
+                                      bool &                        goWasSet,
+                                      bool &                        reportEndpoint,
+                                      bool &                        reportOnExit,
+                                      YarpString &                  tag,
+                                      YarpString &                  serviceEndpointName,
+                                      YarpString &                  servicePortNumber,
+                                      AddressTagModifier &          modFlag,
+                                      const OptionsMask             skipOptions,
+                                      YarpStringVector *            arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
@@ -1243,7 +1263,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
 #else // ! MAC_OR_LINUX_
     firstDescriptor.help = _strdup(usageString.c_str());
 #endif // ! MAC_OR_LINUX_
-	memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
+    memcpy(usageWalker++, &firstDescriptor, sizeof(firstDescriptor));
     if (! (skipOptions & kSkipArgsOption))
     {
         memcpy(usageWalker++, &argsDescriptor, sizeof(argsDescriptor));
@@ -1254,7 +1274,7 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     if (! (skipOptions & kSkipEndpointOption))
     {
-		memcpy(usageWalker++, &endpointDescriptor, sizeof(endpointDescriptor));
+        memcpy(usageWalker++, &endpointDescriptor, sizeof(endpointDescriptor));
     }
     if (! (skipOptions & kSkipGoOption))
     {
@@ -1279,10 +1299,10 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     }
     if (! (skipOptions & kSkipTagOption))
     {
-		memcpy(usageWalker++, &tagDescriptor, sizeof(tagDescriptor));
+        memcpy(usageWalker++, &tagDescriptor, sizeof(tagDescriptor));
     }
-	memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
-	memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
+    memcpy(usageWalker++, &versionDescriptor, sizeof(versionDescriptor));
+    memcpy(usageWalker++, &lastDescriptor, sizeof(lastDescriptor));
     argcWork -= (argc > 0);
     argvWork += (argc > 0); // skip program name argv[0] if present
     Option_::Stats    stats(usage, argcWork, argvWork);
@@ -1531,10 +1551,11 @@ bool Common::ProcessStandardServiceOptions(const int                     argc,
     return keepGoing;
 } // Common::ProcessStandardServiceOptions
 
-bool Common::RegisterLocalService(const YarpString & channelName,
-                                  BaseService &      service,
-                                  CheckFunction      checker,
-                                  void *             checkStuff)
+bool
+Common::RegisterLocalService(const YarpString & channelName,
+                             BaseService &      service,
+                             CheckFunction      checker,
+                             void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -1647,10 +1668,11 @@ bool Common::RegisterLocalService(const YarpString & channelName,
     return result;
 } // Common::RegisterLocalService
 
-bool Common::UnregisterLocalService(const YarpString & channelName,
-                                    BaseService &      service,
-                                    CheckFunction      checker,
-                                    void *             checkStuff)
+bool
+Common::UnregisterLocalService(const YarpString & channelName,
+                               BaseService &      service,
+                               CheckFunction      checker,
+                               void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####

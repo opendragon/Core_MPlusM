@@ -99,7 +99,8 @@ RequestMap::~RequestMap(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RequestMap::fillInListReply(yarp::os::Bottle & reply)
+void
+RequestMap::fillInListReply(yarp::os::Bottle & reply)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -126,7 +127,8 @@ void RequestMap::fillInListReply(yarp::os::Bottle & reply)
     OD_LOG_OBJEXIT(); //####
 } // RequestMap::fillInListReply
 
-void RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
+void
+RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
                                    const YarpString & requestName)
 {
     OD_LOG_OBJENTER(); //####
@@ -156,7 +158,8 @@ void RequestMap::fillInRequestInfo(yarp::os::Bottle & reply,
     OD_LOG_OBJEXIT(); //####
 } // RequestMap::fillInRequestInfo
 
-BaseRequestHandler * RequestMap::lookupRequestHandler(const YarpString & request)
+BaseRequestHandler *
+RequestMap::lookupRequestHandler(const YarpString & request)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("request = ", request); //####
@@ -188,7 +191,8 @@ BaseRequestHandler * RequestMap::lookupRequestHandler(const YarpString & request
     return result;
 } // RequestMap::lookupRequestHandler
 
-void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
+void
+RequestMap::registerRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", handler); //####
@@ -221,7 +225,8 @@ void RequestMap::registerRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // RequestMap::registerRequestHandler
 
-void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
+void
+RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", handler); //####
@@ -231,7 +236,8 @@ void RequestMap::setDefaultRequestHandler(BaseRequestHandler * handler)
     OD_LOG_OBJEXIT(); //####
 } // RequestMap::setDefaultRequestHandler
 
-void RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
+void
+RequestMap::unregisterRequestHandler(BaseRequestHandler * handler)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("handler = ", handler); //####

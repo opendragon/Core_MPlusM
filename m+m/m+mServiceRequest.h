@@ -64,10 +64,17 @@ namespace MplusM
         class ServiceRequest
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param requestName The request to be processed. */
-            explicit ServiceRequest(const YarpString & requestName);
+            explicit
+            ServiceRequest(const YarpString & requestName);
             
             /*! @brief The constructor.
              @param requestName The request to be processed.
@@ -76,21 +83,24 @@ namespace MplusM
                            const yarp::os::Bottle & parameters);
             
             /*! @brief The destructor. */
-            virtual ~ServiceRequest(void);
+            virtual
+            ~ServiceRequest(void);
             
             /*! @brief Send the request to an endpoint for processing.
              @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
              channel is to be used.
              @returns @c true if the request was successfully transmitted. */
-            bool send(ClientChannel & usingChannel);
+            bool
+            send(ClientChannel & usingChannel);
             
             /*! @brief Send the request to an endpoint for processing.
              @param usingChannel The channel that is to send the request, or @c NULL if an arbitrary
              channel is to be used.
              @param response The response from the request.
              @returns @c true if the request was successfully transmitted. */
-            bool send(ClientChannel &   usingChannel,
-                      ServiceResponse & response);
+            bool
+            send(ClientChannel &   usingChannel,
+                 ServiceResponse & response);
 
         protected :
             

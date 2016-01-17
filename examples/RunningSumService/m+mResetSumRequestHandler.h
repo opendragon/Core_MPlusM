@@ -64,13 +64,24 @@ namespace MplusM
         class ResetSumRequestHandler : public Common::BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit ResetSumRequestHandler(RunningSumService & service);
+            explicit
+            ResetSumRequestHandler(RunningSumService & service);
             
             /*! @brief The destructor. */
-            virtual ~ResetSumRequestHandler(void);
+            virtual
+            ~ResetSumRequestHandler(void);
             
         protected :
             
@@ -89,9 +100,6 @@ namespace MplusM
         protected :
             
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // ResetSumRequestHandler
         

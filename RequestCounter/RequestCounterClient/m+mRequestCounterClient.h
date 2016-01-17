@@ -60,28 +60,41 @@ namespace MplusM
         class RequestCounterClient : public Common::BaseClient
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             RequestCounterClient(void);
             
             /*! @brief The destructor. */
-            virtual ~RequestCounterClient(void);
+            virtual
+            ~RequestCounterClient(void);
             
             /*! @brief Get the statistics from the service.
              @param counter The number of requests since the last reset.
              @param elapsedTime The number of seconds since the last reset.
              @returns @c true if the statistics were retrieved successfully and @c false
              otherwise. */
-            bool getServiceStatistics(long &   counter,
-                                      double & elapsedTime);
+            bool
+            getServiceStatistics(long &   counter,
+                                 double & elapsedTime);
             
             /*! @brief Trigger the service counter.
              @returns @c true if the service handled the request and @c false otherwise. */
-            bool pokeService(void);
+            bool
+            pokeService(void);
             
             /*! @brief Reset the service counters.
              @returns @c true if the service handled the request and @c false otherwise. */
-            bool resetServiceCounters(void);
+            bool
+            resetServiceCounters(void);
             
         protected :
             
@@ -94,9 +107,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
             
         }; // RequestCounterClient
         

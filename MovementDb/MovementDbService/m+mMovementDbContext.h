@@ -61,21 +61,33 @@ namespace MplusM
         class MovementDbContext : public Common::BaseContext
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseContext inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             MovementDbContext(void);
             
             /*! @brief The destructor. */
-            virtual ~MovementDbContext(void);
+            virtual
+            ~MovementDbContext(void);
             
             /*! @brief An accessor for the data track. */
-            inline YarpString & dataTrack(void)
+            inline YarpString &
+            dataTrack(void)
             {
                 return _dataTrack;
             } // dataTrack
             
             /*! @brief An accessor for the e-mail address. */
-            inline YarpString & emailAddress(void)
+            inline YarpString &
+            emailAddress(void)
             {
                 return _emailAddress;
             } // emailAddress
@@ -91,9 +103,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseContext inherited;
             
             /*! @brief The data track to use. */
             YarpString _dataTrack;

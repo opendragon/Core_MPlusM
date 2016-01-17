@@ -141,7 +141,8 @@ DEFINE_GETPROCESSEDVALUE_(BoolArgumentDescriptor)
     return result;
 } // BoolArgumentDescriptor::getProcessedValue
 
-BaseArgumentDescriptor * BoolArgumentDescriptor::parseArgString(const YarpString & inString)
+BaseArgumentDescriptor *
+BoolArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####

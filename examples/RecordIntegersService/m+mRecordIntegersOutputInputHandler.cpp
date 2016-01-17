@@ -156,7 +156,8 @@ DEFINE_HANDLE_INPUT_(RecordIntegersOutputInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void RecordIntegersOutputInputHandler::setFile(FILE * outFile)
+void
+RecordIntegersOutputInputHandler::setFile(FILE * outFile)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("outFile = ", outFile); //####

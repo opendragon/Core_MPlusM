@@ -5,7 +5,7 @@
 //  Project:    m+m
 //
 //  Contains:   The class definition for a thread that generates output from Organic Motion
-//				OpenStage Blob data.
+//                OpenStage Blob data.
 //
 //  Written by: Norman Jaffe
 //
@@ -101,8 +101,8 @@ using namespace om;
 OpenStageBlobInputThread::OpenStageBlobInputThread(Common::GeneralChannel * outChannel,
                                                    const YarpString &       name,
                                                    const int                port) :
-	inherited(), _address(name), _scale(1), _port(port), _outChannel(outChannel), _client(NULL),
-	_actorStream(NULL), _actorViewJoint(NULL)
+    inherited(), _address(name), _scale(1), _port(port), _outChannel(outChannel), _client(NULL),
+    _actorStream(NULL), _actorViewJoint(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -121,137 +121,139 @@ OpenStageBlobInputThread::~OpenStageBlobInputThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void OpenStageBlobInputThread::clearOutputChannel(void)
+void
+OpenStageBlobInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::clearOutputChannel
 
-void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
+void
+OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 {
-	OD_LOG_OBJENTER(); //####
-	OD_LOG_P1("actorData = ", &actorData); //####
-	size_t numActors = actorData->GetSize();
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_P1("actorData = ", &actorData); //####
+    size_t numActors = actorData->GetSize();
 
-	if (0 < numActors)
-	{
+    if (0 < numActors)
+    {
 #if (! defined(MpM_UseCustomStringBuffer))
-		std::stringstream outBuffer;
+        std::stringstream outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
 
-		// Write out the number of actors == bodies.
+        // Write out the number of actors == bodies.
 #if defined(MpM_UseCustomStringBuffer)
-		_outBuffer.reset().addLong(static_cast<int>(numActors)).addString(LINE_END_);
+        _outBuffer.reset().addLong(static_cast<int>(numActors)).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
-		outBuffer << numActors << LINE_END_;
+        outBuffer << numActors << LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-		for (size_t ii = 0; ii < numActors; ++ii)
-		{
-			sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
-			sdk2::JointTreePtr     absJointTree = sdk2::CreateJointTree();
-			sdk2::JointTreePtr     relJointTree = sdk2::CreateJointTree();
+        for (size_t ii = 0; ii < numActors; ++ii)
+        {
+            sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
+            sdk2::JointTreePtr     absJointTree = sdk2::CreateJointTree();
+            sdk2::JointTreePtr     relJointTree = sdk2::CreateJointTree();
 
-			sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &absJointTree);
-			sdk2::ConvertSkeletonToJointTreeRelative(skel, &relJointTree);
-			sdk2::JointTreeConstIterator absJointTreeIt = absJointTree->Begin();
-			sdk2::JointTreeConstIterator absJointTreeItEnd = absJointTree->End();
-			sdk2::JointTreeConstIterator relJointTreeItEnd = relJointTree->End();
-			int count = 0;
+            sdk2::ConvertSkeletonToJointTreeAbsolute(skel, &absJointTree);
+            sdk2::ConvertSkeletonToJointTreeRelative(skel, &relJointTree);
+            sdk2::JointTreeConstIterator absJointTreeIt = absJointTree->Begin();
+            sdk2::JointTreeConstIterator absJointTreeItEnd = absJointTree->End();
+            sdk2::JointTreeConstIterator relJointTreeItEnd = relJointTree->End();
+            int count = 0;
 
-			for ( ; absJointTreeIt != absJointTreeItEnd; ++absJointTreeIt)
-			{
-				const char *                 jointId = *absJointTreeIt->first;
-				sdk2::JointTreeConstIterator relJointTreeIt = relJointTree->Find(jointId);
+            for ( ; absJointTreeIt != absJointTreeItEnd; ++absJointTreeIt)
+            {
+                const char *                 jointId = *absJointTreeIt->first;
+                sdk2::JointTreeConstIterator relJointTreeIt = relJointTree->Find(jointId);
 
-				if (relJointTreeItEnd != relJointTreeIt)
-				{
-					++count;
-				}
-			}
+                if (relJointTreeItEnd != relJointTreeIt)
+                {
+                    ++count;
+                }
+            }
 #if defined(MpM_UseCustomStringBuffer)
-			_outBuffer.addLong(static_cast<int>(ii)).addTab().addLong(count).
-				addString(LINE_END_);
+            _outBuffer.addLong(static_cast<int>(ii)).addTab().addLong(count).
+                addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
-			outBuffer << ii << "\t" << count << LINE_END_;
+            outBuffer << ii << "\t" << count << LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-			for (absJointTreeIt = absJointTree->Begin(); absJointTreeIt != absJointTreeItEnd;
-				 ++absJointTreeIt)
-			{
-				const char *                 jointId = *absJointTreeIt->first;
-				sdk2::JointTreeConstIterator relJointTreeIt = relJointTree->Find(jointId);
+            for (absJointTreeIt = absJointTree->Begin(); absJointTreeIt != absJointTreeItEnd;
+                 ++absJointTreeIt)
+            {
+                const char *                 jointId = *absJointTreeIt->first;
+                sdk2::JointTreeConstIterator relJointTreeIt = relJointTree->Find(jointId);
 
-				if (relJointTreeItEnd != relJointTreeIt)
-				{
-					sdk2::Matrix44 absTransform = absJointTreeIt->second->transform;
-					sdk2::Matrix44 relTransform = relJointTreeIt->second->transform;
-					glm::mat3x3    absJointTransform(absTransform.m[0][0], absTransform.m[0][1],
-													 absTransform.m[0][2], absTransform.m[1][0],
-													 absTransform.m[1][1], absTransform.m[1][2],
-													 absTransform.m[2][0], absTransform.m[2][1],
-													 absTransform.m[2][2]);
-					glm::mat3x3    relJointTransform(relTransform.m[0][0], relTransform.m[0][1],
-													 relTransform.m[0][2], relTransform.m[1][0],
-													 relTransform.m[1][1], relTransform.m[1][2],
-													 relTransform.m[2][0], relTransform.m[2][1],
-													 relTransform.m[2][2]);
-					glm::quat      absRotQuat = glm::quat_cast(absJointTransform);
-					glm::quat      relRotQuat = glm::quat_cast(relJointTransform);
+                if (relJointTreeItEnd != relJointTreeIt)
+                {
+                    sdk2::Matrix44 absTransform = absJointTreeIt->second->transform;
+                    sdk2::Matrix44 relTransform = relJointTreeIt->second->transform;
+                    glm::mat3x3    absJointTransform(absTransform.m[0][0], absTransform.m[0][1],
+                                                     absTransform.m[0][2], absTransform.m[1][0],
+                                                     absTransform.m[1][1], absTransform.m[1][2],
+                                                     absTransform.m[2][0], absTransform.m[2][1],
+                                                     absTransform.m[2][2]);
+                    glm::mat3x3    relJointTransform(relTransform.m[0][0], relTransform.m[0][1],
+                                                     relTransform.m[0][2], relTransform.m[1][0],
+                                                     relTransform.m[1][1], relTransform.m[1][2],
+                                                     relTransform.m[2][0], relTransform.m[2][1],
+                                                     relTransform.m[2][2]);
+                    glm::quat      absRotQuat = glm::quat_cast(absJointTransform);
+                    glm::quat      relRotQuat = glm::quat_cast(relJointTransform);
 
 #if defined(MpM_UseCustomStringBuffer)
-					_outBuffer.addString(jointId).addTab();
-					_outBuffer.addDouble(absTransform.m[3][0] * _scale).addTab();
-					_outBuffer.addDouble(absTransform.m[3][1] * _scale).addTab();
-					_outBuffer.addDouble(absTransform.m[3][2] * _scale).addTab();
-					_outBuffer.addDouble(absRotQuat.x).addTab();
-					_outBuffer.addDouble(absRotQuat.y).addTab();
-					_outBuffer.addDouble(absRotQuat.z).addTab();
-					_outBuffer.addDouble(absRotQuat.w).addTab();
-					_outBuffer.addDouble(relTransform.m[3][0] * _scale).addTab();
-					_outBuffer.addDouble(relTransform.m[3][1] * _scale).addTab();
-					_outBuffer.addDouble(relTransform.m[3][2] * _scale).addTab();
-					_outBuffer.addDouble(relRotQuat.x).addTab();
-					_outBuffer.addDouble(relRotQuat.y).addTab();
-					_outBuffer.addDouble(relRotQuat.z).addTab();
-					_outBuffer.addDouble(relRotQuat.w).addString(LINE_END_);
+                    _outBuffer.addString(jointId).addTab();
+                    _outBuffer.addDouble(absTransform.m[3][0] * _scale).addTab();
+                    _outBuffer.addDouble(absTransform.m[3][1] * _scale).addTab();
+                    _outBuffer.addDouble(absTransform.m[3][2] * _scale).addTab();
+                    _outBuffer.addDouble(absRotQuat.x).addTab();
+                    _outBuffer.addDouble(absRotQuat.y).addTab();
+                    _outBuffer.addDouble(absRotQuat.z).addTab();
+                    _outBuffer.addDouble(absRotQuat.w).addTab();
+                    _outBuffer.addDouble(relTransform.m[3][0] * _scale).addTab();
+                    _outBuffer.addDouble(relTransform.m[3][1] * _scale).addTab();
+                    _outBuffer.addDouble(relTransform.m[3][2] * _scale).addTab();
+                    _outBuffer.addDouble(relRotQuat.x).addTab();
+                    _outBuffer.addDouble(relRotQuat.y).addTab();
+                    _outBuffer.addDouble(relRotQuat.z).addTab();
+                    _outBuffer.addDouble(relRotQuat.w).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
-					outBuffer << jointId << "\t" << (absTransform.m[3][0] * _scale) << "\t" <<
-						(absTransform.m[3][1] * _scale) << "\t" <<
-						(absTransform.m[3][2] * _scale) << "\t" << absRotQuat.x << "\t" <<
-						absRotQuat.y << "\t" << absRotQuat.z << "\t" << absRotQuat.w <<
-						"\t" << (relTransform.m[3][0] * _scale) << "\t" <<
-						(relTransform.m[3][1] * _scale) << "\t" <<
-						(relTransform.m[3][2] * _scale) << "\t" << relRotQuat.x << "\t" <<
-						relRotQuat.y << "\t" << relRotQuat.z << "\t" << relRotQuat.w <<
-						LINE_END_;
+                    outBuffer << jointId << "\t" << (absTransform.m[3][0] * _scale) << "\t" <<
+                        (absTransform.m[3][1] * _scale) << "\t" <<
+                        (absTransform.m[3][2] * _scale) << "\t" << absRotQuat.x << "\t" <<
+                        absRotQuat.y << "\t" << absRotQuat.z << "\t" << absRotQuat.w <<
+                        "\t" << (relTransform.m[3][0] * _scale) << "\t" <<
+                        (relTransform.m[3][1] * _scale) << "\t" <<
+                        (relTransform.m[3][2] * _scale) << "\t" << relRotQuat.x << "\t" <<
+                        relRotQuat.y << "\t" << relRotQuat.z << "\t" << relRotQuat.w <<
+                        LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-				}
-			}
-		}
+                }
+            }
+        }
 #if defined(MpM_UseCustomStringBuffer)
-		_outBuffer.addString("END" LINE_END_);
+        _outBuffer.addString("END" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
-		outBuffer << "END" LINE_END_;
+        outBuffer << "END" LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-		if (_outChannel)
-		{
-			const char *     outString;
-			yarp::os::Bottle message;
-			size_t           outLength;
+        if (_outChannel)
+        {
+            const char *     outString;
+            yarp::os::Bottle message;
+            size_t           outLength;
 #if (! defined(MpM_UseCustomStringBuffer))
-			std::string      buffAsString(outBuffer.str());
+            std::string      buffAsString(outBuffer.str());
 #endif // ! defined(MpM_UseCustomStringBuffer)
 
 #if defined(MpM_UseCustomStringBuffer)
-			outString = _outBuffer.getString(outLength);
+            outString = _outBuffer.getString(outLength);
 #else // ! defined(MpM_UseCustomStringBuffer)
-			outString = buffAsString.c_str();
-			outLength = buffAsString.length();
+            outString = buffAsString.c_str();
+            outLength = buffAsString.length();
 #endif // ! defined(MpM_UseCustomStringBuffer)
-			if (outString && outLength)
-			{
-				void *          rawString = static_cast<void *>(const_cast<char *>(outString));
-				yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
+            if (outString && outLength)
+            {
+                void *          rawString = static_cast<void *>(const_cast<char *>(outString));
+                yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
 
                 _messageBottle.clear();
                 _messageBottle.add(blobValue);
@@ -259,35 +261,36 @@ void OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & act
                 {
                     OD_LOG("(! _outChannel->write(_messageBottle))"); //####
 #if defined(MpM_StallOnSendProblem)
-					Stall();
+                    Stall();
 #endif // defined(MpM_StallOnSendProblem)
-				}
-			}
-		}
-	}
-	OD_LOG_OBJEXIT(); //####
+                }
+            }
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::processData
 
-void OpenStageBlobInputThread::run(void)
+DEFINE_RUN_(OpenStageBlobInputThread)
 {
     OD_LOG_OBJENTER(); //####
-	_actorStream->Start();
-	for ( ; ! isStopping(); )
+    _actorStream->Start();
+    for ( ; ! isStopping(); )
     {
-		if (_client->WaitAnyUpdateAll())
-		{
-			// The streams are updated, now get the data.
-			sdk2::ActorDataListConstPtr actorData;
+        if (_client->WaitAnyUpdateAll())
+        {
+            // The streams are updated, now get the data.
+            sdk2::ActorDataListConstPtr actorData;
 
-			_actorStream->GetData(&actorData);
-			processData(actorData);
-		}
+            _actorStream->GetData(&actorData);
+            processData(actorData);
+        }
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::run
 
-void OpenStageBlobInputThread::setScale(const double newScale)
+void
+OpenStageBlobInputThread::setScale(const double newScale)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("newScale = ", newScale); //####
@@ -295,27 +298,27 @@ void OpenStageBlobInputThread::setScale(const double newScale)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::setScale
 
-bool OpenStageBlobInputThread::threadInit(void)
+DEFINE_THREADINIT_(OpenStageBlobInputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
-	// Create the necessary objects.
-	_client = sdk2::CreateClient();
+    // Create the necessary objects.
+    _client = sdk2::CreateClient();
 
-	// Connect to the device.
-	_client->SetEndpoint(_address.c_str(), _port);
-	_actorStream = sdk2::CreateActorStream(_client);
-	_actorViewJoint = sdk2::CreateActorViewJoint();
-	_actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
-	OD_LOG_OBJEXIT_B(result); //####
+    // Connect to the device.
+    _client->SetEndpoint(_address.c_str(), _port);
+    _actorStream = sdk2::CreateActorStream(_client);
+    _actorViewJoint = sdk2::CreateActorViewJoint();
+    _actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // OpenStageBlobInputThread::threadInit
 
-void OpenStageBlobInputThread::threadRelease(void)
+DEFINE_THREADRELEASE_(OpenStageBlobInputThread)
 {
     OD_LOG_OBJENTER(); //####
-	_actorStream->Stop();
+    _actorStream->Stop();
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::threadRelease
 

@@ -72,6 +72,15 @@ namespace MplusM
         class RGBLEDService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -88,7 +97,8 @@ namespace MplusM
                           const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RGBLEDService(void);
+            virtual
+            ~RGBLEDService(void);
             
             DECLARE_STARTSERVICE_;
             
@@ -101,19 +111,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(RGBLEDService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The request handler for the 'rgbled' request. */
             RGBLEDRequestHandler * _rgbledHandler;

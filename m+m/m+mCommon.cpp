@@ -133,7 +133,8 @@ const YarpString MplusM::kDirectorySeparator = "\\";
 #if MAC_OR_LINUX_
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
-static void localCatcher(int signal)
+static void
+localCatcher(int signal)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
@@ -154,8 +155,9 @@ static void localCatcher(int signal)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-void Common::DumpContactToLog(const char *              tag,
-                              const yarp::os::Contact & aContact)
+void
+Common::DumpContactToLog(const char *              tag,
+                         const yarp::os::Contact & aContact)
 {
 #if MAC_OR_LINUX_
     if (lLogger)
@@ -175,7 +177,8 @@ void Common::DumpContactToLog(const char *              tag,
 } // Common::DumpContactToLog
 
 #if MAC_OR_LINUX_
-yarp::os::impl::Logger & Common::GetLogger(void)
+yarp::os::impl::Logger &
+Common::GetLogger(void)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_P(lLogger);
@@ -183,7 +186,8 @@ yarp::os::impl::Logger & Common::GetLogger(void)
 } // Common::GetLogger
 #endif // MAC_OR_LINUX_
 
-YarpString Common::GetRandomChannelName(const char * channelRoot)
+YarpString
+Common::GetRandomChannelName(const char * channelRoot)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("channelRoot = ", channelRoot); //####
@@ -224,7 +228,8 @@ YarpString Common::GetRandomChannelName(const char * channelRoot)
     return result;
 } // Common::GetRandomChannelName
 
-YarpString Common::GetRandomChannelName(const YarpString & channelRoot)
+YarpString
+Common::GetRandomChannelName(const YarpString & channelRoot)
 {
     return GetRandomChannelName(channelRoot.c_str());
 } // Common::GetRandomChannelName
@@ -233,7 +238,8 @@ YarpString Common::GetRandomChannelName(const YarpString & channelRoot)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void Common::Initialize(const YarpString & progName)
+void
+Common::Initialize(const YarpString & progName)
 {
 #if ((! defined(MpM_ChattyStart)) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
@@ -279,7 +285,8 @@ void Common::Initialize(const YarpString & progName)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
+void
+Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -315,14 +322,14 @@ void Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
 #else // ! MAC_OR_LINUX_
 # if (defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_))
     //yarp::os::signal(SIGABRT, theHandler);
-	signal(SIGABRT, theHandler); //windows doesn't like the yarp signals for some reason
+    signal(SIGABRT, theHandler); //windows doesn't like the yarp signals for some reason
 # endif // defined(SIGABRT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
 # if (defined(SIGHUP) && (SIGHUP != STANDARD_SIGNAL_TO_USE_))
     yarp::os::signal(SIGHUP, theHandler);
 # endif // defined(SIGHUP) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
 # if (defined(SIGINT) && (SIGINT != STANDARD_SIGNAL_TO_USE_))
     //yarp::os::signal(SIGINT, theHandler);
-	signal(SIGINT, theHandler); //windows doesn't like the yarp signals for some reason
+    signal(SIGINT, theHandler); //windows doesn't like the yarp signals for some reason
 # endif // defined(SIGINT) && (SIGABRT != STANDARD_SIGNAL_TO_USE_)
 # if (defined(SIGQUIT) && (SIGQUIT != STANDARD_SIGNAL_TO_USE_))
     yarp::os::signal(SIGQUIT, theHandler);
@@ -338,7 +345,8 @@ void Common::SetSignalHandlers(yarp::os::YarpSignalHandler theHandler)
     OD_LOG_EXIT(); //####
 } // Common::SetSignalHandlers
 
-void Common::SetUpCatcher(void)
+void
+Common::SetUpCatcher(void)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -360,7 +368,8 @@ void Common::SetUpCatcher(void)
 } // Common::SetUpCatcher
 
 #if MAC_OR_LINUX_
-void Common::SetUpLogger(const YarpString & progName)
+void
+Common::SetUpLogger(const YarpString & progName)
 {
     OD_LOG_ENTER(); //####
     lLogger = new yarp::os::impl::Logger(progName.c_str());
@@ -372,7 +381,8 @@ void Common::SetUpLogger(const YarpString & progName)
 } // Common::SetUpLogger
 #endif // MAC_OR_LINUX_
 
-void Common::ShutDownCatcher(void)
+void
+Common::ShutDownCatcher(void)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -393,7 +403,8 @@ void Common::ShutDownCatcher(void)
     OD_LOG_EXIT(); //####
 } // Common::ShutDownCatcher
 
-void Common::Stall(void)
+void
+Common::Stall(void)
 {
     for ( ; ; )
     {
@@ -401,7 +412,8 @@ void Common::Stall(void)
     }
 } // Common::Stall
 
-bool MplusM::CanReadFromStandardInput(void)
+bool
+MplusM::CanReadFromStandardInput(void)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -427,7 +439,7 @@ bool MplusM::CanReadFromStandardInput(void)
     }
 #else // ! MAC_OR_LINUX_
       // How do we check on Windows??
-	HWND wind = GetConsoleWindow();
+    HWND wind = GetConsoleWindow();
     
     result = (NULL != wind);
 #endif // ! MAC_OR_LINUX_
@@ -435,15 +447,17 @@ bool MplusM::CanReadFromStandardInput(void)
     return result;
 } // MplusM::CanReadFromStandardInput
 
-bool MplusM::IsRunning(void)
+bool
+MplusM::IsRunning(void)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_EXIT_B(lKeepRunning); //####
     return lKeepRunning;
 } // MplusM::IsRunning
 
-bool MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
-                                    yarp::os::Property &     aDictionary)
+bool
+MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
+                               yarp::os::Property &     aDictionary)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("aList = ", &aList, "aDictionary = ", &aDictionary); //####
@@ -499,150 +513,151 @@ bool MplusM::ListIsReallyDictionary(const yarp::os::Bottle & aList,
     return isDictionary;
 } // MplusM::ListIsReallyDictionary
 
-const char * MplusM::NameOfSignal(const int theSignal)
+const char *
+MplusM::NameOfSignal(const int theSignal)
 {
     const char * result;
     
 #if MAC_OR_LINUX_
     switch (theSignal)
     {
-	    case SIGHUP :
+        case SIGHUP :
             result = "SIGHUP[hangup]";
             break;
             
-	    case SIGINT :
+        case SIGINT :
             result = "SIGINT[interrupt]";
             break;
             
-	    case SIGQUIT :
+        case SIGQUIT :
             result = "SIGQUIT[quit]";
             break;
             
-	    case SIGILL :
+        case SIGILL :
             result = "SIGILL[illegal instruction]";
             break;
             
-	    case SIGTRAP :
+        case SIGTRAP :
             result = "SIGTRAP[trace trap]";
             break;
             
-	    case SIGABRT :
+        case SIGABRT :
             result = "SIGABRT[abort()]";
             break;
             
 # if (defined(_POSIX_C_SOURCE) && (! defined(_DARWIN_C_SOURCE)))
-	    case SIGPOLL :
+        case SIGPOLL :
             result = "SIGPOLL[pollable evebt]";
             break;
 # else // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
-	    case SIGEMT :
+        case SIGEMT :
             result = "SIGEMT[EMT instruction]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
             
-	    case SIGFPE :
+        case SIGFPE :
             result = "SIGFPE[floating point exception]";
             break;
             
-	    case SIGKILL :
+        case SIGKILL :
             result = "SIGKILL[kill]";
             break;
             
-	    case SIGBUS :
+        case SIGBUS :
             result = "SIGBUS[bus error]";
             break;
             
-	    case SIGSEGV :
+        case SIGSEGV :
             result = "SIGSEGV[segmentation violation]";
             break;
             
-	    case SIGSYS :
+        case SIGSYS :
             result = "SIGSYS[bad argument to system call]";
             break;
             
-	    case SIGPIPE :
+        case SIGPIPE :
             result = "SIGPIPE[write on a pipe with no one to read it]";
             break;
             
-	    case SIGALRM :
+        case SIGALRM :
             result = "SIGALRM[alarm clock]";
             break;
             
-	    case SIGTERM :
+        case SIGTERM :
             result = "SIGTERM[software termination signal from kill]";
             break;
             
-	    case SIGURG :
+        case SIGURG :
             result = "SIGURG[urgent condition on IO channel]";
             break;
             
-	    case SIGSTOP :
+        case SIGSTOP :
             result = "SIGSTOP[sendable stop signal not from tty]";
             break;
             
-	    case SIGTSTP :
+        case SIGTSTP :
             result = "SIGTSTP[stop signal from tty]";
             break;
             
-	    case SIGCONT :
+        case SIGCONT :
             result = "SIGCONT[continue a stopped process]";
             break;
             
-	    case SIGCHLD :
+        case SIGCHLD :
             result = "SIGCHLD[to parent on child stop or exit]";
             break;
             
-	    case SIGTTIN :
+        case SIGTTIN :
             result = "SIGTTIN[to readers pgrp upon background tty read]";
             break;
             
-	    case SIGTTOU :
+        case SIGTTOU :
             result = "SIGTTOU[like TTIN for output if (tp->t_local&LTOSTOP)]";
             break;
             
 # if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
-	    case SIGIO :
+        case SIGIO :
             result = "SIGIO[input/output possible signal]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
             
-	    case SIGXCPU :
+        case SIGXCPU :
             result = "SIGXCPU[exceeded CPU time limit]";
             break;
             
-	    case SIGXFSZ :
+        case SIGXFSZ :
             result = "SIGXFSZ[exceeded file size limit]";
             break;
             
-	    case SIGVTALRM :
+        case SIGVTALRM :
             result = "SIGVTALRM[virtual time alarm]";
             break;
             
-	    case SIGPROF :
+        case SIGPROF :
             result = "SIGPROF[profiling time alarm]";
             break;
             
 # if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
-	    case SIGWINCH :
+        case SIGWINCH :
             result = "SIGWINCH[window size changes]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
             
 # if ((! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE))
-	    case SIGINFO :
+        case SIGINFO :
             result = "SIGINFO[information request]";
             break;
 # endif // (! defined(_POSIX_C_SOURCE)) || defined(_DARWIN_C_SOURCE)
             
-	    case SIGUSR1 :
+        case SIGUSR1 :
             result = "SIGUSR1[user defined signal 1]";
             break;
             
-	    case SIGUSR2 :
+        case SIGUSR2 :
             result = "SIGUSR2[user defined signal 2]";
             break;
             
-	    default :
+        default :
             result = "unknown";
             break;
             
@@ -650,15 +665,15 @@ const char * MplusM::NameOfSignal(const int theSignal)
 #else // ! MAC_OR_LINUX_
     switch (theSignal)
     {
-	    case SIGINT :
+        case SIGINT :
             result = "SIGINT[interrupt]";
             break;
             
-	    case SIGABRT :
+        case SIGABRT :
             result = "SIGABRT[abort()]";
             break;
             
-	    default :
+        default :
             result = "unknown";
             break;
             
@@ -667,9 +682,10 @@ const char * MplusM::NameOfSignal(const int theSignal)
     return result;
 } // MplusM::NameOfSignal
 
-void MplusM::OutputDescription(std::ostream &     outStream,
-                               const char *       heading,
-                               const YarpString & description)
+void
+MplusM::OutputDescription(std::ostream &     outStream,
+                          const char *       heading,
+                          const YarpString & description)
 {
     size_t     descriptionLength = description.length();
     size_t     indentSize = strlen(heading);
@@ -693,8 +709,9 @@ void MplusM::OutputDescription(std::ostream &     outStream,
     outStream << indent << piece.c_str() << endl;
 } // MplusM::OutputDescription
 
-YarpString MplusM::SanitizeString(const YarpString & inString,
-                                  const bool         allowDoubleQuotes)
+YarpString
+MplusM::SanitizeString(const YarpString & inString,
+                       const bool         allowDoubleQuotes)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelRoot = ", inString); //####
@@ -746,14 +763,16 @@ YarpString MplusM::SanitizeString(const YarpString & inString,
     return outString;
 } // MplusM::SanitizeString
 
-void MplusM::StartRunning(void)
+void
+MplusM::StartRunning(void)
 {
     OD_LOG_ENTER(); //####
     lKeepRunning = true;
     OD_LOG_EXIT(); //####
 } // MplusM::StartRunning
 
-void MplusM::StopRunning(void)
+void
+MplusM::StopRunning(void)
 {
     OD_LOG_ENTER(); //####
     lKeepRunning = false;
@@ -764,7 +783,8 @@ void MplusM::StopRunning(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-void MplusM::SignalRunningStop(const int signal)
+void
+MplusM::SignalRunningStop(const int signal)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_

@@ -62,6 +62,15 @@ namespace MplusM
         class Test11Service : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -72,7 +81,8 @@ namespace MplusM
                           char * *           argv);
             
             /*! @brief The destructor. */
-            virtual ~Test11Service(void);
+            virtual
+            ~Test11Service(void);
             
             DECLARE_STARTSERVICE_;
             
@@ -85,19 +95,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(Test11Service);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The request handler for the 'echo' request. */
             Test11EchoRequestHandler * _echoHandler;

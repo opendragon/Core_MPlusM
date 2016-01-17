@@ -74,6 +74,15 @@ namespace MplusM
         class IntArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseArgumentDescriptor inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
@@ -96,11 +105,13 @@ namespace MplusM
                                   const int          maximumValue);
             
             /*! @brief The destructor. */
-            virtual ~IntArgumentDescriptor(void);
+            virtual
+            ~IntArgumentDescriptor(void);
             
             /*! @brief Return the current value.
              @returns The current value. */
-            inline int getCurrentValue(void)
+            inline int
+            getCurrentValue(void)
             const
             {
                 return _currentValue;
@@ -109,7 +120,8 @@ namespace MplusM
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+            static BaseArgumentDescriptor *
+            parseArgString(const YarpString & inString);
 
         protected :
         
@@ -142,9 +154,6 @@ namespace MplusM
             int _defaultValue;
 
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseArgumentDescriptor inherited;
             
             /*! @brief The current value of the command-line argument. */
             int _currentValue;

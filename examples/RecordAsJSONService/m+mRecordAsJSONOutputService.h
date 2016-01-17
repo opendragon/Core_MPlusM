@@ -69,6 +69,15 @@ namespace MplusM
         class RecordAsJSONOutputService : public Common::BaseOutputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseOutputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -87,7 +96,8 @@ namespace MplusM
                                       const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RecordAsJSONOutputService(void);
+            virtual
+            ~RecordAsJSONOutputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -120,9 +130,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
             
             /*! @brief The path to the output file used for recording. */
             YarpString _outPath;

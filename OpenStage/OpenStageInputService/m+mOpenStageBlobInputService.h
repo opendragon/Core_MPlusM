@@ -61,13 +61,22 @@
 
 namespace MplusM
 {
-	namespace OpenStageBlob
+    namespace OpenStageBlob
     {
-		class OpenStageBlobInputThread;
+        class OpenStageBlobInputThread;
         
         /*! @brief The Organic Motion %OpenStageBlob input service. */
-		class OpenStageBlobInputService : public Common::BaseInputService
+        class OpenStageBlobInputService : public Common::BaseInputService
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
         public :
             
             /*! @brief The constructor.
@@ -87,7 +96,8 @@ namespace MplusM
                                       const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-			virtual ~OpenStageBlobInputService(void);
+            virtual
+            ~OpenStageBlobInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -109,7 +119,7 @@ namespace MplusM
             
         private :
             
-			COPY_AND_ASSIGNMENT_(OpenStageBlobInputService);
+            COPY_AND_ASSIGNMENT_(OpenStageBlobInputService);
             
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
             
@@ -119,20 +129,17 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
-            
-			/*! @brief The name of the Organic Motion %OpenStage %Blob device server. */
-			YarpString _hostName;
+            /*! @brief The name of the Organic Motion %OpenStage %Blob device server. */
+            YarpString _hostName;
 
             /*! @brief The scale factor to apply to the translation data. */
             double _translationScale;
             
-			/*! @brief The port to connect to the Organic Motion %OpenStage %Blob device server. */
-			int _hostPort;
+            /*! @brief The port to connect to the Organic Motion %OpenStage %Blob device server. */
+            int _hostPort;
 
-			/*! @brief The output thread to use. */
-			OpenStageBlobInputThread * _eventThread;
+            /*! @brief The output thread to use. */
+            OpenStageBlobInputThread * _eventThread;
             
         }; // OpenStageBlobInputService
         

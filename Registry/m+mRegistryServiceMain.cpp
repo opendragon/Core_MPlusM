@@ -95,11 +95,12 @@ using std::endl;
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false
  otherwise. */
-static void setUpAndGo(const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & servicePortNumber,
-                       const bool         reportOnExit)
+static void
+setUpAndGo(const YarpString & progName,
+           const int          argc,
+           char * *           argv,
+           const YarpString & servicePortNumber,
+           const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("progName = ", progName, "servicePortNumber = ", servicePortNumber); //####
@@ -122,15 +123,15 @@ static void setUpAndGo(const YarpString & progName,
             
             StartRunning();
             SetSignalHandlers(SignalRunningStop);
-			if (reporter->start())
-			{
-				aService->startChecker();
-			}
-			else
-			{
-				delete reporter;
-				reporter = NULL;
-			}
+            if (reporter->start())
+            {
+                aService->startChecker();
+            }
+            else
+            {
+                delete reporter;
+                reporter = NULL;
+            }
             for ( ; IsRunning(); )
             {
 #if defined(MpM_MainDoesDelayNotYield)
@@ -139,15 +140,15 @@ static void setUpAndGo(const YarpString & progName,
                 yarp::os::Time::yield();
 #endif // ! defined(MpM_MainDoesDelayNotYield)
             }
-			if (reporter)
-			{
-				reporter->stop();
-				for ( ; reporter->isRunning(); )
-				{
-					yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 3.1);
-				}
-				delete reporter;
-			}
+            if (reporter)
+            {
+                reporter->stop();
+                for ( ; reporter->isRunning(); )
+                {
+                    yarp::os::Time::delay(PING_CHECK_INTERVAL_ / 3.1);
+                }
+                delete reporter;
+            }
             if (reportOnExit)
             {
                 yarp::os::Bottle metrics;
@@ -180,8 +181,9 @@ static void setUpAndGo(const YarpString & progName,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Registry Service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -208,7 +210,7 @@ int main(int      argc,
         YarpString                  tag; // not used
         Utilities::DescriptorVector argumentList;
 
-		if (ProcessStandardServiceOptions(argc, argv, argumentList, REGISTRY_SERVICE_DESCRIPTION_,
+        if (ProcessStandardServiceOptions(argc, argv, argumentList, REGISTRY_SERVICE_DESCRIPTION_,
                                           "", 2014, STANDARD_COPYRIGHT_NAME_, goWasSet,
                                           reportEndpoint, reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, modFlag,
@@ -217,9 +219,9 @@ int main(int      argc,
                                                                    kSkipModOption |
                                                                    kSkipTagOption)))
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
-			if (Utilities::CheckForValidNetwork())
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
+            if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
                                         // YARP infrastructure
@@ -253,8 +255,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
     }
     catch (...)
     {

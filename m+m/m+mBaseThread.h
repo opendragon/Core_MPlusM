@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       ParserTest/m+mTestNameValidator.h
+//  File:       m+m/m+mBaseThread.h
 //
 //  Project:    m+m
 //
-//  Contains:   The class declaration for a field name validator used by the unit tests.
+//  Contains:   The class declaration for the common thread class for m+m.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,14 +32,14 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-03-24
+//  Created:    2016-01-17
 //
 //--------------------------------------------------------------------------------------------------
 
-#if (! defined(MpMTestNameValidator_H_))
-# define MpMTestNameValidator_H_ /* Header guard */
+#if (! defined(MpMBaseThread_H_))
+# define MpMBaseThread_H_ /* Header guard */
 
-# include <m+m/m+mBaseNameValidator.h>
+# include <m+m/m+mCommon.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -47,17 +47,47 @@
 #  pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 # endif // defined(__APPLE__)
 /*! @file
- @brief The class declaration for a field name validator used by the unit tests. */
+ @brief The class declaration for the common thread class for m+m. */
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief Declare the run method. */
+# define DECLARE_RUN_ \
+    virtual void\
+    run(void)
+
+/*! @brief Declare the threadInit method, which returns @c true if the thread is ready to run. */
+# define DECLARE_THREADINIT_ \
+    virtual bool\
+    threadInit(void)
+
+/*! @brief Declare the threadRelease method. */
+# define DECLARE_THREADRELEASE_ \
+    virtual void\
+    threadRelease(void)
+
+/*! @brief Define the run method. */
+# define DEFINE_RUN_(class_) \
+    void\
+    class_::run(void)
+
+/*! @brief Define the threadInit method. */
+# define DEFINE_THREADINIT_(class_) \
+    bool\
+    class_::threadInit(void)
+
+/*! @brief Define the threadInit method. */
+# define DEFINE_THREADRELEASE_(class_) \
+    void\
+    class_::threadRelease(void)
+
 namespace MplusM
 {
-    namespace Test
+    namespace Common
     {
-        /*! @brief A convenience class to provide function objects for field name handling. */
-        class TestNameValidator : public MplusM::Parser::BaseNameValidator
+        /*! @brief A convenience class for threads. */
+        class BaseThread : public yarp::os::Thread
         {
         public :
         
@@ -66,26 +96,38 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef BaseNameValidator inherited;
+            typedef yarp::os::Thread inherited;
             
         public :
             
             /*! @brief The constructor. */
-            TestNameValidator(void);
-            
+            BaseThread(void);
+                        
             /*! @brief The destructor. */
             virtual
-            ~TestNameValidator(void);
+            ~BaseThread(void);
             
         protected :
             
         private :
             
-            DECLARE_CHECKNAME_;
+            /*! @fn virtual void
+                    run(void)
+             @brief The thread main body. */
+            DECLARE_RUN_;
             
-            DECLARE_GETPREFIXANDSUFFIX_;
+            /*! @fn virtual bool
+                    threadInit(void)
+             @brief The thread initialization method.
+             @returns @c true if the thread is ready to run. */
+            DECLARE_THREADINIT_;
             
-            COPY_AND_ASSIGNMENT_(TestNameValidator);
+            /*! @fn virtual void
+                    threadRelease(void)
+             @brief The thread termination method. */
+            DECLARE_THREADRELEASE_;
+            
+            COPY_AND_ASSIGNMENT_(BaseThread);
             
         public :
         
@@ -93,10 +135,20 @@ namespace MplusM
         
         private :
             
-        }; // TestNameValidator
+# if defined(__APPLE__)
+#  pragma clang diagnostic push
+#  pragma clang diagnostic ignored "-Wunused-private-field"
+# endif // defined(__APPLE__)
+            /*! @brief Filler to pad to alignment boundary */
+            char _filler1[7];
+# if defined(__APPLE__)
+#  pragma clang diagnostic pop
+# endif // defined(__APPLE__)
+            
+        }; // BaseThread
         
-    } // Test
+    } // Common
     
 } // MplusM
 
-#endif // ! defined(MpMTestNameValidator_H_)
+#endif // ! defined(MpMBaseThread_H_)

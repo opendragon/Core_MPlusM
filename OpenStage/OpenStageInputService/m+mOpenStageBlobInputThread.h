@@ -5,7 +5,7 @@
 //  Project:    m+m
 //
 //  Contains:   The class declaration for a thread that generates output from Organic Motion
-//				OpenStage data.
+//              OpenStage data.
 //
 //  Written by: Norman Jaffe
 //
@@ -40,6 +40,7 @@
 #if (! defined(MpMOpenStageBlobInputThread_H_))
 # define MpMOpenStageBlobInputThread_H_ /* Header guard */
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 # include <m+m/m+mStringBuffer.h>
 
@@ -65,51 +66,11 @@
 
 namespace MplusM
 {
-	namespace OpenStageBlob
+    namespace OpenStageBlob
     {
-		/*! @brief A class to generate output from Organic Motion %OpenStage data. */
-		class OpenStageBlobInputThread : public yarp::os::Thread
+        /*! @brief A class to generate output from Organic Motion %OpenStage data. */
+        class OpenStageBlobInputThread : public Common::BaseThread
         {
-        public :
-            
-            /*! @brief The constructor.
-             @param outChannel The channel to send data bursts to.
-			 @param name The host name to connect to the Organic Motion %OpenStage  server.
-			 @param port The host port to connect to the Organic Motion %OpenStage server. */
-            OpenStageBlobInputThread(Common::GeneralChannel * outChannel,
-                                     const YarpString &       name,
-                                     const int                port);
-            
-            /*! @brief The destructor. */
-			virtual ~OpenStageBlobInputThread(void);
-            
-            /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
-            
-            /*! @brief Set the translation scale.
-             @param newScale The scale factor for translation values. */
-            void setScale(const double newScale);
-            
-        protected :
-            
-        private :
-            
-			/*! @brief Process the received data.
-			 @param actorData The data to be processed. */
-			void processData(om::sdk2::ActorDataListConstPtr & actorData);
-
-            /*! @brief The thread main body. */
-            virtual void run(void);
-            
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
-            
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
-            
-			COPY_AND_ASSIGNMENT_(OpenStageBlobInputThread);
-            
         public :
         
         protected :
@@ -117,32 +78,78 @@ namespace MplusM
         private :
             
             /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
+            typedef BaseThread inherited;
             
-			/*! @brief The address of the Organic Motion %OpenStage device. */
-			YarpString _address;
+        public :
+            
+            /*! @brief The constructor.
+             @param outChannel The channel to send data bursts to.
+             @param name The host name to connect to the Organic Motion %OpenStage  server.
+             @param port The host port to connect to the Organic Motion %OpenStage server. */
+            OpenStageBlobInputThread(Common::GeneralChannel * outChannel,
+                                     const YarpString &       name,
+                                     const int                port);
+            
+            /*! @brief The destructor. */
+            virtual
+            ~OpenStageBlobInputThread(void);
+            
+            /*! @brief Stop using the output channel. */
+            void
+            clearOutputChannel(void);
+            
+            /*! @brief Set the translation scale.
+             @param newScale The scale factor for translation values. */
+            void
+            setScale(const double newScale);
+            
+        protected :
+            
+        private :
+            
+            /*! @brief Process the received data.
+             @param actorData The data to be processed. */
+            void
+            processData(om::sdk2::ActorDataListConstPtr & actorData);
 
-			/*! @brief The translation scale to be used. */
-			double _scale;
+            DECLARE_RUN_;
+            
+            DECLARE_THREADINIT_;
+            
+            DECLARE_THREADRELEASE_;
+            
+            COPY_AND_ASSIGNMENT_(OpenStageBlobInputThread);
+            
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The address of the Organic Motion %OpenStage device. */
+            YarpString _address;
 
-			/*! @brief The port of the Organic Motion %OpenStage device. */
-			int _port;
+            /*! @brief The translation scale to be used. */
+            double _scale;
+
+            /*! @brief The port of the Organic Motion %OpenStage device. */
+            int _port;
 
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
             
-			/*! @brief The connection to the device. */
-			om::sdk2::ClientPtr _client;
+            /*! @brief The connection to the device. */
+            om::sdk2::ClientPtr _client;
 
-			/*! @brief The stream of actor motion data. */
-			om::sdk2::ActorStreamPtr _actorStream;
+            /*! @brief The stream of actor motion data. */
+            om::sdk2::ActorStreamPtr _actorStream;
 
-			/*! @brief A view into the actor motion data. */
-			om::sdk2::ActorViewJointPtr _actorViewJoint;
+            /*! @brief A view into the actor motion data. */
+            om::sdk2::ActorViewJointPtr _actorViewJoint;
 
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
-			Common::StringBuffer _outBuffer;
+            Common::StringBuffer _outBuffer;
 # endif // defined(MpM_UseCustomStringBuffer)
 
             /*! @brief The %Bottle to use send the output data. */

@@ -62,13 +62,24 @@ namespace MplusM
         class MatchFieldName : public BaseMatcher
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseMatcher inherited;
+            
+        public :
             
             /*! @brief The destructor. */
-            virtual ~MatchFieldName(void);
+            virtual
+            ~MatchFieldName(void);
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
-            inline const YarpString & asSQLString(void)
+            inline const YarpString &
+            asSQLString(void)
             const
             {
                 return _matchingString;
@@ -76,7 +87,8 @@ namespace MplusM
             
             /*! @brief Return the match value.
              @returns The matching substring. */
-            inline const YarpString & asString(void)
+            inline const YarpString &
+            asString(void)
             const
             {
                 return _matchingString;
@@ -91,16 +103,18 @@ namespace MplusM
              false otherwise.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchFieldName * CreateMatcher(const YarpString &  inString,
-                                                  const size_t        inLength,
-                                                  const size_t        startPos,
-                                                  size_t &            endPos,
-                                                  BaseNameValidator * validator = NULL);
+            static MatchFieldName *
+            CreateMatcher(const YarpString &  inString,
+                          const size_t        inLength,
+                          const size_t        startPos,
+                          size_t &            endPos,
+                          BaseNameValidator * validator = NULL);
             
             /*! @brief Return whether or not the field name was followed by the negation character.
              @returns @c true if the field name was followed by the negation character and @c false
              otherwise. */
-            inline bool isNegated(void)
+            inline bool
+            isNegated(void)
             const
             {
                 return _isNegated;
@@ -124,9 +138,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseMatcher inherited;
             
             /*! @brief The subtring that (maximally) matched as a value. */
             YarpString _matchingString;

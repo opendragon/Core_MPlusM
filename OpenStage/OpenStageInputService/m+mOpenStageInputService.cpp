@@ -226,7 +226,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(OpenStageInputService)
     
     if (_eventThread)
     {
-		_eventThread->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -264,20 +264,20 @@ DEFINE_STARTSTREAMS_(OpenStageInputService)
     OD_LOG_OBJENTER(); //####
     try
     {
-		if (! isActive())
+        if (! isActive())
         {
-			_eventThread = new OpenStageInputThread(getOutletStream(0), _hostName, _hostPort);
-			if (_eventThread->start())
-			{
-				setActive();
-			}
-			else
-			{
-				OD_LOG("! (_eventThread->start())"); //####
+            _eventThread = new OpenStageInputThread(getOutletStream(0), _hostName, _hostPort);
+            if (_eventThread->start())
+            {
+                setActive();
+            }
+            else
+            {
+                OD_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                delete _eventThread;
+                _eventThread = NULL;
+            }
         }
     }
     catch (...)
@@ -311,18 +311,18 @@ DEFINE_STOPSTREAMS_(OpenStageInputService)
     OD_LOG_OBJENTER(); //####
     try
     {
-		if (isActive())
+        if (isActive())
         {
-			if (_eventThread)
-			{
-				_eventThread->stop();
-				for ( ; _eventThread->isRunning();)
-				{
-					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-				}
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+            if (_eventThread)
+            {
+                _eventThread->stop();
+                for ( ; _eventThread->isRunning();)
+                {
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                }
+                delete _eventThread;
+                _eventThread = NULL;
+            }
             clearActive();
         }
     }

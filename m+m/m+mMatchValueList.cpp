@@ -87,10 +87,11 @@ static const char kRoundOpenBracket = '(';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchValueList * MatchValueList::CreateMatcher(const YarpString & inString,
-                                               const size_t       inLength,
-                                               const size_t       startPos,
-                                               size_t &           endPos)
+MatchValueList *
+MatchValueList::CreateMatcher(const YarpString & inString,
+                              const size_t       inLength,
+                              const size_t       startPos,
+                              size_t &           endPos)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -189,17 +190,20 @@ MatchValueList * MatchValueList::CreateMatcher(const YarpString & inString,
     return result;
 } // MatchValueList::CreateMatcher
 
-char MatchValueList::ListInitiatorCharacter(void)
+char
+MatchValueList::ListInitiatorCharacter(void)
 {
     return kRoundOpenBracket;
 } // MatchValueList::ListInitiatorCharacter
 
-char MatchValueList::ListSeparatorCharacter(void)
+char
+MatchValueList::ListSeparatorCharacter(void)
 {
     return kComma;
 } // MatchValueList::ListSeparatorCharacter
 
-char MatchValueList::ListTerminatorCharacter(void)
+char
+MatchValueList::ListTerminatorCharacter(void)
 {
     return kRoundCloseBracket;
 } // MatchValueList::ListTerminatorCharacter
@@ -226,8 +230,9 @@ MatchValueList::~MatchValueList(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString MatchValueList::asSQLString(const char * fieldName,
-                                       const bool   negated)
+YarpString
+MatchValueList::asSQLString(const char * fieldName,
+                            const bool   negated)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -362,7 +367,8 @@ const
     return result;
 } // MatchValueList::asSQLString
 
-const YarpString MatchValueList::asString(void)
+const YarpString
+MatchValueList::asString(void)
 const
 {
     YarpString result;
@@ -391,13 +397,15 @@ const
     return result;
 } // MatchValueList::asString
 
-int MatchValueList::count(void)
+int
+MatchValueList::count(void)
 const
 {
     return static_cast<int>(_values.size());
 } // MatchValueList::count
 
-const MatchValue * MatchValueList::element(const int index)
+const MatchValue *
+MatchValueList::element(const int index)
 const
 {
     MatchValue * result = NULL;
@@ -422,7 +430,8 @@ const
     return result;
 } // MatchValueList::element
 
-void MatchValueList::empty(void)
+void
+MatchValueList::empty(void)
 {
     OD_LOG_OBJENTER(); //####
     try

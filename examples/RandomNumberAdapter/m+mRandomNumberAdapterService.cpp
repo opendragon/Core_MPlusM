@@ -204,7 +204,8 @@ DEFINE_RESTARTSTREAMS_(RandomNumberAdapterService)
     OD_LOG_OBJEXIT(); //####
 } // RandomNumberAdapterService::restartStreams
 
-void RandomNumberAdapterService::setUpInputHandlers(RandomNumberAdapterData & sharedData)
+void
+RandomNumberAdapterService::setUpInputHandlers(RandomNumberAdapterData & sharedData)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("sharedData = ", &sharedData); //####

@@ -84,10 +84,11 @@ using std::endl;
  @param portName The port to be inspected.
  @param checker A function that provides for early exit from loops.
  @param checkStuff The private data for the early exit function. */
-static void reportConnections(const OutputFlavour flavour,
-                              const YarpString &  portName,
-                              CheckFunction       checker,
-                              void *              checkStuff)
+static void
+reportConnections(const OutputFlavour flavour,
+                  const YarpString &  portName,
+                  CheckFunction       checker,
+                  void *              checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
@@ -292,18 +293,18 @@ static void reportConnections(const OutputFlavour flavour,
     }
     switch (flavour)
     {
-	    case kOutputFlavourTabs :
+        case kOutputFlavourTabs :
             cout << inputsAsString.c_str() << "\t" << outputsAsString.c_str();
             break;
             
-	    case kOutputFlavourJSON :
+        case kOutputFlavourJSON :
             cout << T_(CHAR_DOUBLEQUOTE_ "Inputs" CHAR_DOUBLEQUOTE_ ": [ ") <<
                     inputsAsString.c_str() << T_(" ], " CHAR_DOUBLEQUOTE_ "Outputs"
                                                  CHAR_DOUBLEQUOTE_ ": [ ") <<
                     outputsAsString.c_str() << " ]";
             break;
             
-	    case kOutputFlavourNormal :
+        case kOutputFlavourNormal :
             if (sawInputs || sawOutputs)
             {
                 if (sawInputs)
@@ -334,9 +335,10 @@ static void reportConnections(const OutputFlavour flavour,
  @param checkWithRegistry @c true if the %Registry Service is available for requests and @c false
  otherwise.
  @returns @c true if information was written out and @c false otherwise. */
-static bool reportPortStatus(const OutputFlavour               flavour,
-                             const Utilities::PortDescriptor & aDescriptor,
-                             const bool                        checkWithRegistry)
+static bool
+reportPortStatus(const OutputFlavour               flavour,
+                 const Utilities::PortDescriptor & aDescriptor,
+                 const bool                        checkWithRegistry)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("aDescriptor = ", &aDescriptor); //####
@@ -607,8 +609,9 @@ static bool reportPortStatus(const OutputFlavour               flavour,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -628,8 +631,8 @@ int main(int      argc,
     {
         try
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 bool                  found = false;
@@ -737,8 +740,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
         catch (...)
         {
             OD_LOG("Exception caught"); //####

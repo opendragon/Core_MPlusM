@@ -60,13 +60,24 @@ namespace MplusM
         class Test15EchoRequestHandler : public Common::BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit Test15EchoRequestHandler(Common::BaseService & service);
+            explicit
+            Test15EchoRequestHandler(Common::BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~Test15EchoRequestHandler(void);
+            virtual
+            ~Test15EchoRequestHandler(void);
             
         protected :
             
@@ -85,9 +96,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // Test15EchoRequestHandler
         

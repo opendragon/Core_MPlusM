@@ -156,7 +156,8 @@ DEFINE_HANDLE_INPUT_(ExemplarFilterInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void ExemplarFilterInputHandler::setOutput(GeneralChannel * output)
+void
+ExemplarFilterInputHandler::setOutput(GeneralChannel * output)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("output = ", output); //####

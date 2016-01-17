@@ -60,13 +60,21 @@ namespace MplusM
         class Exception
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param reason A description of the exception being reported. */
-            explicit Exception(const YarpString & reason);
+            explicit
+            Exception(const YarpString & reason);
             
             /*! @brief The destructor. */
-            virtual ~Exception(void);
+            virtual
+            ~Exception(void);
             
         protected :
             

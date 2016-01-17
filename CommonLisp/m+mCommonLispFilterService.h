@@ -87,6 +87,18 @@ namespace MplusM
         class CommonLispFilterService : public Common::BaseFilterService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseFilterService inherited;
+            
+            /*! @brief A sequence of input handlers. */
+            typedef std::vector<CommonLispFilterInputHandler *> HandlerVector;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -124,7 +136,8 @@ namespace MplusM
                                     const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~CommonLispFilterService(void);
+            virtual
+            ~CommonLispFilterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -142,8 +155,9 @@ namespace MplusM
              @param channelSlot The output channel to be used.
              @param theData The value to be sent.
              @returns @c true if the data was successfully sent and @c false otherwise. */
-            bool sendToChannel(const cl_fixnum channelSlot,
-                               cl_object       theData);
+            bool
+            sendToChannel(const cl_fixnum channelSlot,
+                          cl_object       theData);
 
             /*! @brief Signal to the background process that the thread or handler function should
              be performed. */
@@ -152,7 +166,8 @@ namespace MplusM
             /*! @brief Stall a thread until the main thread can process the request and then process
              the request.
              @param slotNumber The slot number of the input handler making the request. */
-            void stallUntilIdle(const size_t slotNumber);
+            void
+            stallUntilIdle(const size_t slotNumber);
             
             DECLARE_STARTSERVICE_;
             
@@ -169,7 +184,8 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(CommonLispFilterService);
             
             /*! @brief Release all the allocated handlers. */
-            void releaseHandlers(void);
+            void
+            releaseHandlers(void);
 
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
             
@@ -179,12 +195,6 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseFilterService inherited;
-            
-            /*! @brief A sequence of input handlers. */
-            typedef std::vector<CommonLispFilterInputHandler *> HandlerVector;
-
             /*! @brief The handler functions to use for input. */
             const ObjectVector & _inletHandlers;
 
@@ -250,8 +260,9 @@ namespace MplusM
          @param inString The string contents to be used.
          @param inLength The string length to be used.
          @returns A new base-string with the given contents and length. */
-        cl_object CreateBaseString(const char * inString,
-                                   const size_t inLength);
+        cl_object
+        CreateBaseString(const char * inString,
+                         const size_t inLength);
 
     } // CommonLisp
     

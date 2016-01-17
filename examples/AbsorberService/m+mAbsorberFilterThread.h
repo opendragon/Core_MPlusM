@@ -39,6 +39,7 @@
 #if (! defined(MpMAbsorberFilterThread_H_))
 # define MpMAbsorberFilterThread_H_ /* Header guard */
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
 # if defined(__APPLE__)
@@ -59,8 +60,17 @@ namespace MplusM
         class AbsorberFilterService;
         
         /*! @brief A convenience class to generate output. */
-        class AbsorberFilterThread : public yarp::os::Thread
+        class AbsorberFilterThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
@@ -70,21 +80,18 @@ namespace MplusM
                                  const double            timeToWait);
             
             /*! @brief The destructor. */
-            virtual ~AbsorberFilterThread(void);
+            virtual
+            ~AbsorberFilterThread(void);
             
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(AbsorberFilterThread);
             
@@ -93,19 +100,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
             
             /*! @brief The service that manages the reporting. */
             AbsorberFilterService & _service;

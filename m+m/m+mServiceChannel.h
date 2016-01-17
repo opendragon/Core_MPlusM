@@ -61,12 +61,22 @@ namespace MplusM
         class ServiceChannel : public BaseChannel
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseChannel inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             ServiceChannel(void);
             
             /*! @brief The destructor. */
-            virtual ~ServiceChannel(void);
+            virtual
+            ~ServiceChannel(void);
             
         protected :
             
@@ -79,9 +89,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseChannel inherited;
             
         }; // ServiceChannel
         

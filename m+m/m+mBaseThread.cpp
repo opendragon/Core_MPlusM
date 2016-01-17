@@ -1,14 +1,14 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       CommonTests/m+mTest12EchoRequestHandler.cpp
+//  File:       m+m/m+mBailOutThread.cpp
 //
 //  Project:    m+m
 //
-//  Contains:   The class definition for a simple request handler used by the unit tests.
+//  Contains:   The class definition for the common thread class for m+m.
 //
 //  Written by: Norman Jaffe
 //
-//  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+//  Copyright:  (c) 2016 by H Plus Technologies Ltd. and Simon Fraser University.
 //
 //              All rights reserved. Redistribution and use in source and binary forms, with or
 //              without modification, are permitted provided that the following conditions are met:
@@ -32,13 +32,11 @@
 //              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 //              DAMAGE.
 //
-//  Created:    2014-02-28
+//  Created:    2016-01-17
 //
 //--------------------------------------------------------------------------------------------------
 
-#include "m+mTest12EchoRequestHandler.h"
-
-#include <m+m/m+mRequests.h>
+#include "m+mBaseThread.h"
 
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
@@ -49,7 +47,7 @@
 # pragma clang diagnostic ignored "-Wdocumentation-unknown-command"
 #endif // defined(__APPLE__)
 /*! @file
- @brief The class definition for a simple request handler used by the unit tests. */
+ @brief The class definition for the common thread class for m+m. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -60,14 +58,10 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
-using namespace MplusM::Test;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
-
-/*! @brief The protocol version number for the 'echo' request. */
-#define ECHO_REQUEST_VERSION_NUMBER_ "1.0"
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -85,86 +79,43 @@ using namespace MplusM::Test;
 # pragma mark Constructors and Destructors
 #endif // defined(__APPLE__)
 
-Test12EchoRequestHandler::Test12EchoRequestHandler(BaseService & service) :
-    inherited(MpM_ECHO_REQUEST_, service)
+BaseThread::BaseThread(void) :
+    inherited()
 {
     OD_LOG_ENTER(); //####
-    OD_LOG_P1("service = ", &service); //####
     OD_LOG_EXIT_P(this); //####
-} // Test12EchoRequestHandler::Test12EchoRequestHandler
+} // BaseThread::BaseThread
 
-Test12EchoRequestHandler::~Test12EchoRequestHandler(void)
+BaseThread::~BaseThread(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
-} // Test12EchoRequestHandler::~Test12EchoRequestHandler
+} // BaseThread::~BaseThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_FILLINALIASES_(Test12EchoRequestHandler)
+DEFINE_RUN_(BaseThread)
 {
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(alternateNames)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
     OD_LOG_OBJENTER(); //####
-    OD_LOG_P1("alternateNames = ", &alternateNames); //####
     OD_LOG_OBJEXIT(); //####
-} // Test12EchoRequestHandler::fillInAliases
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+} // BaseThread::run
 
-DEFINE_FILLINDESCRIPTION_(Test12EchoRequestHandler)
+DEFINE_THREADINIT_(BaseThread)
 {
     OD_LOG_OBJENTER(); //####
-    OD_LOG_S1s("request = ", request); //####
-    OD_LOG_P1("info = ", &info); //####
-    info.put(MpM_REQREP_DICT_REQUEST_KEY_, request);
-    info.put(MpM_REQREP_DICT_INPUT_KEY_, MpM_REQREP_ANYTHING_ MpM_REQREP_0_OR_MORE_);
-    info.put(MpM_REQREP_DICT_OUTPUT_KEY_, MpM_REQREP_ANYTHING_ MpM_REQREP_0_OR_MORE_);
-    info.put(MpM_REQREP_DICT_VERSION_KEY_, ECHO_REQUEST_VERSION_NUMBER_);
-    info.put(MpM_REQREP_DICT_DETAILS_KEY_, "Echo back any input");
-    yarp::os::Value    keywords;
-    yarp::os::Bottle * asList = keywords.asList();
-    
-    asList->addString(request);
-    info.put(MpM_REQREP_DICT_KEYWORDS_KEY_, keywords);
-    OD_LOG_OBJEXIT(); //####
-} // Test12EchoRequestHandler::fillInDescription
-
-#if (! MAC_OR_LINUX_)
-# pragma warning(push)
-# pragma warning(disable: 4100)
-#endif // ! MAC_OR_LINUX_
-DEFINE_PROCESSREQUEST_(Test12EchoRequestHandler)
-{
-#if (! defined(OD_ENABLE_LOGGING_))
-# if MAC_OR_LINUX_
-#  pragma unused(request,senderChannel)
-# endif // MAC_OR_LINUX_
-#endif // ! defined(OD_ENABLE_LOGGING_)
-    OD_LOG_OBJENTER(); //####
-    OD_LOG_S3s("request = ", request, "restOfInput = ", restOfInput.toString(), //####
-               "senderChannel = ", senderChannel); //####
-    OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
     
-    _response = restOfInput;
-    sendResponse(replyMechanism);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // Test12EchoRequestHandler::processRequest
-#if (! MAC_OR_LINUX_)
-# pragma warning(pop)
-#endif // ! MAC_OR_LINUX_
+} // BaseThread::threadInit
+
+DEFINE_THREADRELEASE_(BaseThread)
+{
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_OBJEXIT(); //####
+} // BaseThread::threadRelease
 
 #if defined(__APPLE__)
 # pragma mark Global functions

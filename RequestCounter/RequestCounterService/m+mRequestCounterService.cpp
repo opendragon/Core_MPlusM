@@ -118,7 +118,8 @@ RequestCounterService::~RequestCounterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RequestCounterService::attachRequestHandlers(void)
+void
+RequestCounterService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -145,7 +146,8 @@ void RequestCounterService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::attachRequestHandlers
 
-void RequestCounterService::countRequest(const YarpString & key)
+void
+RequestCounterService::countRequest(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -167,7 +169,8 @@ void RequestCounterService::countRequest(const YarpString & key)
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::countRequest
 
-void RequestCounterService::detachRequestHandlers(void)
+void
+RequestCounterService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -199,9 +202,10 @@ void RequestCounterService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::detachRequestHandlers
 
-void RequestCounterService::getStatistics(const YarpString & key,
-                                          long &             counter,
-                                          double &           elapsedTime)
+void
+RequestCounterService::getStatistics(const YarpString & key,
+                                     long &             counter,
+                                     double &           elapsedTime)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -224,7 +228,8 @@ void RequestCounterService::getStatistics(const YarpString & key,
     OD_LOG_OBJEXIT(); //####
 } // RequestCounterService::getStatistics
 
-void RequestCounterService::resetCounters(const YarpString & key)
+void
+RequestCounterService::resetCounters(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     try

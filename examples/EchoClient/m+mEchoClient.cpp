@@ -101,8 +101,9 @@ EchoClient::~EchoClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool EchoClient::sendAndReceive(const YarpString & outgoing,
-                                YarpString &       incoming)
+bool
+EchoClient::sendAndReceive(const YarpString & outgoing,
+                           YarpString &       incoming)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("outgoing = ", outgoing); //####

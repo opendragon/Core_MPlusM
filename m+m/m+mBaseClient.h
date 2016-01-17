@@ -64,28 +64,38 @@ namespace MplusM
         class BaseClient
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param baseChannelName The name to be used as the root for the client channel. */
-            explicit BaseClient(const YarpString & baseChannelName = DEFAULT_CHANNEL_ROOT_);
+            explicit
+            BaseClient(const YarpString & baseChannelName = DEFAULT_CHANNEL_ROOT_);
             
             /*! @brief The destructor. */
-            virtual ~BaseClient(void);
+            virtual
+            ~BaseClient(void);
             
             /*! @brief Create a connection with the service.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function.
              @returns @c true if the client is connected to the service and @c false otherwise. */
-            bool connectToService(CheckFunction checker = NULL,
-                                  void *        checkStuff = NULL);
+            bool
+            connectToService(CheckFunction checker = NULL,
+                             void *        checkStuff = NULL);
             
             /*! @brief Disconnect from the service.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function.
              @returns @c true if the client is no longer connected to the service and @ false
              otherwise. */
-            bool disconnectFromService(CheckFunction checker = NULL,
-                                       void *        checkStuff = NULL);
+            bool
+            disconnectFromService(CheckFunction checker = NULL,
+                                  void *        checkStuff = NULL);
             
             /*! @brief Find a matching service and prepare to send requests to it.
              @param criteria The criteria to use to locate the service.
@@ -95,37 +105,42 @@ namespace MplusM
              @param checkStuff The private data for the early exit function.
              @returns @c true if a matching service was found and @c false if no matching service or
              too many services were found. */
-            bool findService(const char *  criteria,
-                             const bool    allowOnlyOneMatch = false,
-                             CheckFunction checker = NULL,
-                             void *        checkStuff = NULL);
+            bool
+            findService(const char *  criteria,
+                        const bool    allowOnlyOneMatch = false,
+                        CheckFunction checker = NULL,
+                        void *        checkStuff = NULL);
             
             /*! @brief Set the channel for the client to use.
              @param newChannel The channel to be used. */
-            void setChannel(ClientChannel * newChannel = NULL);
+            void
+            setChannel(ClientChannel * newChannel = NULL);
             
             /*! @brief Set the channel status reporter for the private channel.
              @param reporter The channel status reporter to be used by the private channel.
              @param andReportNow @c true if the channel status reporter is to be activated
              immediately on open. */
-            void setReporter(ChannelStatusReporter & reporter,
-                             const bool              andReportNow = false);
+            void
+            setReporter(ChannelStatusReporter & reporter,
+                        const bool              andReportNow = false);
             
         protected :
             
             /*! @brief Re-establish the service connection if it has dropped.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
-            void reconnectIfDisconnected(CheckFunction checker = NULL,
-                                         void *        checkStuff = NULL);
+            void
+            reconnectIfDisconnected(CheckFunction checker = NULL,
+                                    void *        checkStuff = NULL);
             
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
              @param parameters The required parameters for the request.
              @returns @c true on a successful communication with the service and @c false
              otherwise. */
-            bool send(const char *             request,
-                      const yarp::os::Bottle & parameters);
+            bool
+            send(const char *             request,
+                 const yarp::os::Bottle & parameters);
             
             /*! @brief Send a request to the service associated with the client.
              @param request The name of the request.
@@ -133,9 +148,10 @@ namespace MplusM
              @param response The response from the request.
              @returns @c true on a successful communication with the service and @c false
              otherwise. */
-            bool send(const char *             request,
-                      const yarp::os::Bottle & parameters,
-                      ServiceResponse &        response);
+            bool
+            send(const char *             request,
+                 const yarp::os::Bottle & parameters,
+                 ServiceResponse &        response);
 
         private :
             
@@ -192,10 +208,11 @@ namespace MplusM
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns A (possibly empty) list of matching service ports or service names. */
-        yarp::os::Bottle FindMatchingServices(const YarpString & criteria,
-                                              const bool         getNames = false,
-                                              CheckFunction      checker = NULL,
-                                              void *             checkStuff = NULL);
+        yarp::os::Bottle
+        FindMatchingServices(const YarpString & criteria,
+                             const bool         getNames = false,
+                             CheckFunction      checker = NULL,
+                             void *             checkStuff = NULL);
         
     } // Common
     

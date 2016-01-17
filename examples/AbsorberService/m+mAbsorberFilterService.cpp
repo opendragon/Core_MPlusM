@@ -392,7 +392,8 @@ DEFINE_STOPSTREAMS_(AbsorberFilterService)
     OD_LOG_OBJEXIT(); //####
 } // AbsorberFilterService::stopStreams
 
-void AbsorberFilterService::reportMessageRate(void)
+void
+AbsorberFilterService::reportMessageRate(void)
 {
     OD_LOG_OBJENTER(); //####
     if (0 <= _lastCount)
@@ -424,7 +425,8 @@ void AbsorberFilterService::reportMessageRate(void)
     OD_LOG_OBJEXIT(); //####
 } // AbsorberFilterService::reportMessageRate
 
-void AbsorberFilterService::updateCount(const size_t numBytes)
+void
+AbsorberFilterService::updateCount(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_L1("numBytes = ", numBytes); //####

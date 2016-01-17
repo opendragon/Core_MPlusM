@@ -101,6 +101,18 @@ namespace MplusM
         class RegistryService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+            /*! @brief A mapping from strings to time values. */
+            typedef std::map<YarpString, double> TimeMap;
+            
+        public :
             
             /*! @brief The current state of the service. */
             enum ServiceStatus
@@ -160,15 +172,18 @@ namespace MplusM
                             const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RegistryService(void);
+            virtual
+            ~RegistryService(void);
             
             /*! @brief Check if a service is already in the registry.
              @param channelName The service channel for the service.
              @returns @c true if the service is present and @c false otherwise. */
-            bool checkForExistingService(const YarpString & channelName);
+            bool
+            checkForExistingService(const YarpString & channelName);
             
             /*! @brief Check for expired services. */
-            void checkServiceTimes(void);
+            void
+            checkServiceTimes(void);
             
             DECLARE_DISABLEMETRICS_;
             
@@ -180,7 +195,8 @@ namespace MplusM
             
             /*! @brief Return @c true if the service is active.
              @returns @c true if the service is active and @c false otherwise. */
-            inline bool isActive(void)
+            inline bool
+            isActive(void)
             const
             {
                 return _isActive;
@@ -191,8 +207,9 @@ namespace MplusM
              @param response The response to be analyzed.
              @returns @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
-            bool processListResponse(const YarpString &              channelName,
-                                     const Common::ServiceResponse & response);
+            bool
+            processListResponse(const YarpString &              channelName,
+                                const Common::ServiceResponse & response);
             
             /*! @brief Convert a match expression into SQL and process it.
              @param matcher The match expression to be processed.
@@ -201,34 +218,39 @@ namespace MplusM
              @param reply The result from performing a SELECT with the converted match expression.
              @returns @c true if the match request was successfully performed and @c false
              otherwise. */
-            bool processMatchRequest(Parser::MatchExpression * matcher,
-                                     const bool                getNames,
-                                     yarp::os::Bottle &        reply);
+            bool
+            processMatchRequest(Parser::MatchExpression * matcher,
+                                const bool                getNames,
+                                yarp::os::Bottle &        reply);
             
             /*! @brief Check the response from the 'name' request.
              @param channelName The channel that sent the response.
              @param response The response to be analyzed.
              @returns @c true if the expected values are all present and @c false if they are not or
              if unexpected values appear. */
-            bool processNameResponse(const YarpString &              channelName,
-                                     const Common::ServiceResponse & response);
+            bool
+            processNameResponse(const YarpString &              channelName,
+                                const Common::ServiceResponse & response);
             
             /*! @brief Remove the last checked time for a service channel.
              @param serviceChannelName The service channel that is being removed. */
-            void removeCheckedTimeForChannel(const YarpString & serviceChannelName);
+            void
+            removeCheckedTimeForChannel(const YarpString & serviceChannelName);
             
             /*! @brief Remove a service entry from the registry.
              @param serviceChannelName The service channel that is being removed.
              @returns @c true if the service was successfully removed and @c false otherwise. */
-            bool removeServiceRecord(const YarpString & serviceChannelName);
+            bool
+            removeServiceRecord(const YarpString & serviceChannelName);
             
             /*! @brief Report a change to a service.
              @param channelName The service channel for the service.
              @param newStatus The updated state of the service.
              @param details Details on the change. */
-            void reportStatusChange(const YarpString &  channelName,
-                                    const ServiceStatus newStatus,
-                                    const YarpString &  details = "");
+            void
+            reportStatusChange(const YarpString &  channelName,
+                               const ServiceStatus newStatus,
+                               const YarpString &  details = "");
             
             DECLARE_STARTSERVICE_;
             
@@ -239,7 +261,8 @@ namespace MplusM
             
             /*! @brief Update the last checked time for a service channel.
              @param serviceChannelName The service channel that is being updated. */
-            void updateCheckedTimeForChannel(const YarpString & serviceChannelName);
+            void
+            updateCheckedTimeForChannel(const YarpString & serviceChannelName);
             
         protected :
             
@@ -257,8 +280,9 @@ namespace MplusM
              @param keywordList The list of keywords associated with the request.
              @param description The attributes of the request.
              @returns @c true if the request was successfully added and @c false otherwise. */
-            bool addRequestRecord(const yarp::os::Bottle &   keywordList,
-                                  const RequestDescription & description);
+            bool
+            addRequestRecord(const yarp::os::Bottle &   keywordList,
+                             const RequestDescription & description);
             
             /*! @brief Add a service to the registry.
              @param channelName The service channel for the service.
@@ -269,46 +293,46 @@ namespace MplusM
              @param executable The path to the executable for the service.
              @param requestsDescription The description of the requests for the service.
              @returns @c true if the request was successfully added and @c false otherwise. */
-            bool addServiceRecord(const YarpString & channelName,
-                                  const YarpString & name,
-                                  const YarpString & tag,
-                                  const YarpString & description,
-                                  const YarpString & extraInfo,
-                                  const YarpString & executable,
-                                  const YarpString & requestsDescription);
+            bool
+            addServiceRecord(const YarpString & channelName,
+                             const YarpString & name,
+                             const YarpString & tag,
+                             const YarpString & description,
+                             const YarpString & extraInfo,
+                             const YarpString & executable,
+                             const YarpString & requestsDescription);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
             /*! @brief Check the dictionary entry from the 'list' response.
              @param asDict The dictionary to be checked.
              @param channelName The channel that sent the response.
              @returns @c false if an unexpected value appears and @c true otherwise. */
-            bool processDictionaryEntry(yarp::os::Property & asDict,
-                                        const YarpString &   channelName);
+            bool
+            processDictionaryEntry(yarp::os::Property & asDict,
+                                   const YarpString &   channelName);
             
             /*! @brief Set up the %Registry Service database.
              @returns @c true if the database was set up and @c false otherwise. */
-            bool setUpDatabase(void);
+            bool
+            setUpDatabase(void);
             
             /*! @brief Set up the status reporting channel.
              @returns @c true if the channel was set up and @c false otherwise. */
-            bool setUpStatusChannel(void);
+            bool
+            setUpStatusChannel(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
-            
-            /*! @brief A mapping from strings to time values. */
-            typedef std::map<YarpString, double> TimeMap;
             
             /*! @brief The last time that a channel 'checked-in'. */
             TimeMap _lastCheckedTime;

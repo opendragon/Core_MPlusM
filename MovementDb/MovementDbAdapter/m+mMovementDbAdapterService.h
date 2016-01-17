@@ -69,6 +69,15 @@ namespace MplusM
         class MovementDbAdapterService : public Common::BaseAdapterService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseAdapterService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -87,7 +96,8 @@ namespace MplusM
                                      const YarpString &                  servicePortNumber = "");
 
             /*! @brief The destructor. */
-            virtual ~MovementDbAdapterService(void);
+            virtual
+            ~MovementDbAdapterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -101,7 +111,8 @@ namespace MplusM
             
             /*! @brief Set up the input handlers.
              @param sharedData The shared data for the input handlers. */
-            void setUpInputHandlers(MovementDbAdapterData & sharedData);
+            void
+            setUpInputHandlers(MovementDbAdapterData & sharedData);
             
             DECLARE_STARTSERVICE_;
             
@@ -124,9 +135,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseAdapterService inherited;
             
             /*! @brief The handler for input data. */
             MovementDbInputHandler * _inHandler;

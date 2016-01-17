@@ -64,15 +64,26 @@ namespace MplusM
         class MovementDbAdapterData : public Common::BaseAdapterData
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseAdapterData inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            explicit MovementDbAdapterData(MovementDbClient *    client = NULL,
-                                           Common::BaseChannel * output = NULL);
+            explicit
+            MovementDbAdapterData(MovementDbClient *    client = NULL,
+                                  Common::BaseChannel * output = NULL);
             
             /*! @brief The destructor. */
-            virtual ~MovementDbAdapterData(void);
+            virtual
+            ~MovementDbAdapterData(void);
             
         protected :
             
@@ -85,9 +96,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseAdapterData inherited;
             
         }; // MovementDbAdapterData
         

@@ -56,13 +56,15 @@
 /*! @brief Declare the fillInAliases method, which has a single argument, alternateNames, that is to
  be filled in with the aliases for the request. */
 # define DECLARE_FILLINALIASES_ \
-    virtual void fillInAliases(YarpStringVector & alternateNames)
+    virtual void\
+    fillInAliases(YarpStringVector & alternateNames)
 
 /*! @brief Declare the fillInDescription method, which has two arguments - the name of the request
  and a dictionary to be filled in with a description for the request. */
 # define DECLARE_FILLINDESCRIPTION_ \
-    virtual void fillInDescription(const YarpString &   request,\
-                                   yarp::os::Property & info)
+    virtual void\
+    fillInDescription(const YarpString &   request,\
+                      yarp::os::Property & info)
 
 /*! @brief Declare the processRequest method, which has four arguments - the name of the request,
  request, the arguments to the operation, restOfInput, the name of the channel used to send the
@@ -70,26 +72,30 @@
  @c NULL otherwise.
  The method returns @c true if the request was processed and @c false otherwise. */
 # define DECLARE_PROCESSREQUEST_ \
-    virtual bool processRequest(const YarpString &           request,\
-                                const yarp::os::Bottle &     restOfInput,\
-                                const YarpString &           senderChannel,\
-                                yarp::os::ConnectionWriter * replyMechanism)
+    virtual bool\
+    processRequest(const YarpString &           request,\
+                   const yarp::os::Bottle &     restOfInput,\
+                   const YarpString &           senderChannel,\
+                   yarp::os::ConnectionWriter * replyMechanism)
 
 /*! @brief Define the fillInAliases method. */
 # define DEFINE_FILLINALIASES_(class_) \
-    void class_::fillInAliases(YarpStringVector & alternateNames)
+    void\
+    class_::fillInAliases(YarpStringVector & alternateNames)
 
 /*! @brief Define the fillInDescription method. */
 # define DEFINE_FILLINDESCRIPTION_(class_) \
-    void class_::fillInDescription(const YarpString &   request,\
-                                   yarp::os::Property & info)
+    void\
+    class_::fillInDescription(const YarpString &   request,\
+                              yarp::os::Property & info)
 
 /*! @brief Define the processRequest method. */
 # define DEFINE_PROCESSREQUEST_(class_) \
-    bool class_::processRequest(const YarpString &           request,\
-                                const yarp::os::Bottle &     restOfInput,\
-                                const YarpString &           senderChannel,\
-                                yarp::os::ConnectionWriter * replyMechanism)
+    bool\
+    class_::processRequest(const YarpString &           request,\
+                           const yarp::os::Bottle &     restOfInput,\
+                           const YarpString &           senderChannel,\
+                           yarp::os::ConnectionWriter * replyMechanism)
 
 namespace MplusM
 {
@@ -102,6 +108,12 @@ namespace MplusM
         class BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param request The name of the request.
@@ -110,15 +122,18 @@ namespace MplusM
                                BaseService &      service);
             
             /*! @brief The destructor. */
-            virtual ~BaseRequestHandler(void);
+            virtual
+            ~BaseRequestHandler(void);
             
-            /*! @fn virtual void fillInAliases(YarpStringVector & alternateNames)
+            /*! @fn virtual void
+                    fillInAliases(YarpStringVector & alternateNames)
              @brief Fill in a set of aliases for the request.
              @param alternateNames Aliases for the request. */
             DECLARE_FILLINALIASES_ = 0;
             
-            /*! @fn virtual void fillInDescription(const YarpString &   request,
-                                                   yarp::os::Property & info)
+            /*! @fn virtual void
+                    fillInDescription(const YarpString &   request,
+                                      yarp::os::Property & info)
              @brief Fill in a description dictionary for the request.
              @param request The actual request name.
              @param info The dictionary to be filled in. */
@@ -126,16 +141,18 @@ namespace MplusM
             
             /*! @brief Return the name of the request.
              @returns The name of the request. */
-            inline const YarpString & name(void)
+            inline const YarpString &
+            name(void)
             const
             {
                 return _name;
             } // name
             
-            /*! @fn virtual bool processRequest(const YarpString &           request,
-                                                const yarp::os::Bottle &     restOfInput,
-                                                const YarpString &           senderChannel,
-                                                yarp::os::ConnectionWriter * replyMechanism)
+            /*! @fn virtual bool
+                    processRequest(const YarpString &           request,
+                                   const yarp::os::Bottle &     restOfInput,
+                                   const YarpString &           senderChannel,
+                                   yarp::os::ConnectionWriter * replyMechanism)
              @brief Process a request.
              @param request The actual request name.
              @param restOfInput The arguments to the operation.
@@ -145,15 +162,18 @@ namespace MplusM
             
             /*! @brief Send a simple OK response to a request.
              @param replyMechanism The destination for the response. */
-            void sendOKResponse(yarp::os::ConnectionWriter * replyMechanism);
+            void
+            sendOKResponse(yarp::os::ConnectionWriter * replyMechanism);
             
             /*! @brief Send a response to a request.
              @param replyMechanism The destination for the response. */
-            void sendResponse(yarp::os::ConnectionWriter * replyMechanism);
+            void
+            sendResponse(yarp::os::ConnectionWriter * replyMechanism);
             
             /*! @brief Connect the handler to a map.
              @param owner The map that contains this handler. */
-            void setOwner(RequestMap & owner);
+            void
+            setOwner(RequestMap & owner);
             
         protected :
             

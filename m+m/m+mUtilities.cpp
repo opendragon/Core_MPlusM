@@ -1,4 +1,4 @@
-//--------------------------------------------------------------------------------------------------
+
 //
 //  File:       m+m/m+mUtilities.cpp
 //
@@ -173,7 +173,8 @@ static const char * kMagicName = "<$probe>";
 /*@ brief Get the port names from the YARP name server.
  @param response The list returned from the YARP name server.
  @returns @c true if the list was successfully retrieved and @c false otherwise. */
-static bool getNameServerPortList(yarp::os::Bottle & response)
+static bool
+getNameServerPortList(yarp::os::Bottle & response)
 {
     OD_LOG_ENTER(); //####
     bool                   okSoFar;
@@ -228,16 +229,17 @@ static bool getNameServerPortList(yarp::os::Bottle & response)
  @param txtLen The length of the txt record, in bytes.
  @param txtRecord The service's primary txt record, in standard txt record format.
  @param context The context pointer that was passed by DNSServiceResolve. */
-static void DNSSD_API resolveCallback(DNSServiceRef         service,
-                                      DNSServiceFlags       flags,
-                                      uint32_t              interfaceIndex,
-                                      DNSServiceErrorType   errorCode,
-                                      const char *          fullname,
-                                      const char *          hostTarget,
-                                      uint16_t              port, /* In network byte order */
-                                      uint16_t              txtLen,
-                                      const unsigned char * txtRecord,
-                                      void *                context)
+static void DNSSD_API
+resolveCallback(DNSServiceRef         service,
+                DNSServiceFlags       flags,
+                uint32_t              interfaceIndex,
+                DNSServiceErrorType   errorCode,
+                const char *          fullname,
+                const char *          hostTarget,
+                uint16_t              port, /* In network byte order */
+                uint16_t              txtLen,
+                const unsigned char * txtRecord,
+                void *                context)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -326,14 +328,15 @@ static void DNSSD_API resolveCallback(DNSServiceRef         service,
  @param type The type of service that was registered.
  @param domain The domain on which the service was registered.
  @param context The context pointer that was passed by DNSServiceBrowse. */
-static void DNSSD_API browseCallBack(DNSServiceRef       service,
-                                     DNSServiceFlags     flags,
-                                     uint32_t            interfaceIndex,
-                                     DNSServiceErrorType errorCode,
-                                     const char *        name,
-                                     const char *        type,
-                                     const char *        domain,
-                                     void *              context)
+static void DNSSD_API
+browseCallBack(DNSServiceRef       service,
+               DNSServiceFlags     flags,
+               uint32_t            interfaceIndex,
+               DNSServiceErrorType errorCode,
+               const char *        name,
+               const char *        type,
+               const char *        domain,
+               void *              context)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -432,8 +435,9 @@ static void DNSSD_API browseCallBack(DNSServiceRef       service,
 /*! @brief Check if the response is for an input connection.
  @param response The response from the port that is being checked.
  @param inputs The collected inputs for the port. */
-static void checkForInputConnection(const yarp::os::Bottle & response,
-                                    ChannelVector &          inputs)
+static void
+checkForInputConnection(const yarp::os::Bottle & response,
+                        ChannelVector &          inputs)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("response = ", response.toString()); //####
@@ -494,8 +498,9 @@ static void checkForInputConnection(const yarp::os::Bottle & response,
 /*! @brief Check if the response is for an output connection.
  @param response The response from the port that is being checked.
  @param outputs The collected outputs for the port. */
-static void checkForOutputConnection(const yarp::os::Bottle & response,
-                                     ChannelVector &          outputs)
+static void
+checkForOutputConnection(const yarp::os::Bottle & response,
+                         ChannelVector &          outputs)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("response = ", response.toString()); //####
@@ -560,11 +565,12 @@ static void checkForOutputConnection(const yarp::os::Bottle & response,
  @param channelWidth The width used for output alignment.
  @param sawSome @c true if some output has been generated and @c false otherwise.
  @param result The string to be added to. */
-static void convertMetricPropertyToString(yarp::os::Property & propList,
-                                          const OutputFlavour  flavour,
-                                          const size_t         channelWidth,
-                                          bool &               sawSome,
-                                          std::stringstream &  result)
+static void
+convertMetricPropertyToString(yarp::os::Property & propList,
+                              const OutputFlavour  flavour,
+                              const size_t         channelWidth,
+                              bool &               sawSome,
+                              std::stringstream &  result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("propList = ", &propList, "sawSome = ", &sawSome, "result = ", &result); //####
@@ -752,9 +758,10 @@ static void convertMetricPropertyToString(yarp::os::Property & propList,
  @param includeHiddenPorts @c true if all ports are returned and @c false is 'hidden' ports are
  ignored.
  @param ports The list of non-default ports/ipaddress/portnumber found. */
-static void processNameServerResponse(const YarpString & received,
-                                      const bool         includeHiddenPorts,
-                                      PortVector &       ports)
+static void
+processNameServerResponse(const YarpString & received,
+                          const bool         includeHiddenPorts,
+                          PortVector &       ports)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("received = ", received); //####
@@ -864,22 +871,26 @@ static void processNameServerResponse(const YarpString & received,
  @param outBuffer The buffer to be written to.
  @param inputValue The value to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
-static void processValue(Common::StringBuffer &  outBuffer,
-                         const yarp::os::Value & inputValue);
+static void
+processValue(Common::StringBuffer &  outBuffer,
+             const yarp::os::Value & inputValue);
 #else // ! defined(MpM_UseCustomStringBuffer)
-static void processValue(std::stringstream &     outBuffer,
-                         const yarp::os::Value & inputValue);
+static void
+processValue(std::stringstream &     outBuffer,
+             const yarp::os::Value & inputValue);
 #endif // ! defined(MpM_UseCustomStringBuffer)
 
 /*! @brief Convert a YARP string into a JSON string.
  @param outBuffer The buffer to be written to.
  @param inputString The string to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
-static void processString(Common::StringBuffer & outBuffer,
-                          const YarpString &     inputString)
+static void
+processString(Common::StringBuffer & outBuffer,
+              const YarpString &     inputString)
 #else // ! defined(MpM_UseCustomStringBuffer)
-static void processString(std::stringstream & outBuffer,
-                          const YarpString &  inputString)
+static void
+processString(std::stringstream & outBuffer,
+              const YarpString &  inputString)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -967,11 +978,13 @@ static void processString(std::stringstream & outBuffer,
  @param outBuffer The buffer to be written to.
  @param inputDictionary The dictionary to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
-static void processDictionary(Common::StringBuffer &     outBuffer,
-                              const yarp::os::Property & inputDictionary)
+static void
+processDictionary(Common::StringBuffer &     outBuffer,
+                  const yarp::os::Property & inputDictionary)
 #else // ! defined(MpM_UseCustomStringBuffer)
-static void processDictionary(std::stringstream &        outBuffer,
-                              const yarp::os::Property & inputDictionary)
+static void
+processDictionary(std::stringstream &        outBuffer,
+                  const yarp::os::Property & inputDictionary)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -1025,11 +1038,13 @@ static void processDictionary(std::stringstream &        outBuffer,
  @param outBuffer The buffer to be written to.
  @param inputList The list to be processed. */
 #if defined(MpM_UseCustomStringBuffer)
-static void processList(Common::StringBuffer &   outBuffer,
-                        const yarp::os::Bottle & inputList)
+static void
+processList(Common::StringBuffer &   outBuffer,
+            const yarp::os::Bottle & inputList)
 #else // ! defined(MpM_UseCustomStringBuffer)
-static void processList(std::stringstream &      outBuffer,
-                        const yarp::os::Bottle & inputList)
+static void
+processList(std::stringstream &      outBuffer,
+            const yarp::os::Bottle & inputList)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -1062,11 +1077,13 @@ static void processList(std::stringstream &      outBuffer,
 } // processList
 
 #if defined(MpM_UseCustomStringBuffer)
-static void processValue(Common::StringBuffer &  outBuffer,
-                         const yarp::os::Value & inputValue)
+static void
+processValue(Common::StringBuffer &  outBuffer,
+             const yarp::os::Value & inputValue)
 #else // ! defined(MpM_UseCustomStringBuffer)
-static void processValue(std::stringstream &     outBuffer,
-                         const yarp::os::Value & inputValue)
+static void
+processValue(std::stringstream &     outBuffer,
+             const yarp::os::Value & inputValue)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -1150,12 +1167,13 @@ static void processValue(std::stringstream &     outBuffer,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-bool Utilities::AddConnection(const YarpString & fromPortName,
-                              const YarpString & toPortName,
-                              const double       timeToWait,
-                              const bool         isUDP,
-                              CheckFunction      checker,
-                              void *             checkStuff)
+bool
+Utilities::AddConnection(const YarpString & fromPortName,
+                         const YarpString & toPortName,
+                         const double       timeToWait,
+                         const bool         isUDP,
+                         CheckFunction      checker,
+                         void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
@@ -1169,8 +1187,9 @@ bool Utilities::AddConnection(const YarpString & fromPortName,
     return result;
 } // Utilities::AddConnection
 
-bool Utilities::CheckConnection(const YarpString & fromPortName,
-                                const YarpString & toPortName)
+bool
+Utilities::CheckConnection(const YarpString & fromPortName,
+                           const YarpString & toPortName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
@@ -1180,7 +1199,8 @@ bool Utilities::CheckConnection(const YarpString & fromPortName,
     return result;
 } // Utilities::CheckConnection
 
-bool Utilities::CheckForChannel(const YarpString & channelName)
+bool
+Utilities::CheckForChannel(const YarpString & channelName)
 {
     OD_LOG_ENTER(); //####
     bool result = yarp::os::Network::exists(channelName);
@@ -1189,10 +1209,11 @@ bool Utilities::CheckForChannel(const YarpString & channelName)
     return result;
 } // Utilities::CheckForChannel
 
-void Utilities::CheckForNameServerReporter(void)
+void
+Utilities::CheckForNameServerReporter(void)
 {
     OD_LOG_ENTER(); //####
-	bool                       skipNameServerScan = false;
+    bool                       skipNameServerScan = false;
     yarp::os::impl::NameConfig nc;
 
     // First, see if there is a configuration file and it points to a real server.
@@ -1289,7 +1310,8 @@ void Utilities::CheckForNameServerReporter(void)
     OD_LOG_EXIT(); //####
 } // Utilities::CheckForNameServerReporter
 
-bool Utilities::CheckForRegistryService(void)
+bool
+Utilities::CheckForRegistryService(void)
 {
     OD_LOG_ENTER(); //####
     bool result = CheckForChannel(MpM_REGISTRY_ENDPOINT_NAME_);
@@ -1298,7 +1320,8 @@ bool Utilities::CheckForRegistryService(void)
     return result;
 } // Utilities::CheckForRegistryService
 
-bool Utilities::CheckForValidNetwork(const bool quiet)
+bool
+Utilities::CheckForValidNetwork(const bool quiet)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_B1("quiet =", quiet); //####
@@ -1336,7 +1359,8 @@ bool Utilities::CheckForValidNetwork(const bool quiet)
     return result;
 } // Utilities::CheckForValidNetwork
 
-bool Utilities::CheckListForRegistryService(const PortVector & ports)
+bool
+Utilities::CheckListForRegistryService(const PortVector & ports)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ports = ", &ports); //####
@@ -1359,11 +1383,13 @@ bool Utilities::CheckListForRegistryService(const PortVector & ports)
 } // Utilities::CheckListForRegistryService
 
 #if defined(MpM_UseCustomStringBuffer)
-void Utilities::ConvertMessageToJSON(Common::StringBuffer &   outBuffer,
-                                     const yarp::os::Bottle & input)
+void
+Utilities::ConvertMessageToJSON(Common::StringBuffer &   outBuffer,
+                                const yarp::os::Bottle & input)
 #else // ! defined(MpM_UseCustomStringBuffer)
-void Utilities::ConvertMessageToJSON(std::stringstream &      outBuffer,
-                                     const yarp::os::Bottle & input)
+void
+Utilities::ConvertMessageToJSON(std::stringstream &      outBuffer,
+                                const yarp::os::Bottle & input)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -1403,8 +1429,9 @@ void Utilities::ConvertMessageToJSON(std::stringstream &      outBuffer,
     OD_LOG_EXIT(); //####
 } // Utilities::ConvertMessageToJSON
 
-YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
-                                             const OutputFlavour      flavour)
+YarpString
+Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
+                                  const OutputFlavour      flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("metrics = ", &metrics); //####
@@ -1514,13 +1541,14 @@ YarpString Utilities::ConvertMetricsToString(const yarp::os::Bottle & metrics,
     return result.str();
 } // Utilities::ConvertMetricsToString
 
-void Utilities::GatherPortConnections(const YarpString &    portName,
-                                      ChannelVector &       inputs,
-                                      ChannelVector &       outputs,
-                                      const InputOutputFlag which,
-                                      const bool            quiet,
-                                      CheckFunction         checker,
-                                      void *                checkStuff)
+void
+Utilities::GatherPortConnections(const YarpString &    portName,
+                                 ChannelVector &       inputs,
+                                 ChannelVector &       outputs,
+                                 const InputOutputFlag which,
+                                 const bool            quiet,
+                                 CheckFunction         checker,
+                                 void *                checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
@@ -1626,11 +1654,12 @@ void Utilities::GatherPortConnections(const YarpString &    portName,
     OD_LOG_EXIT(); //####
 } // Utilities::GatherPortConnections
 
-bool Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
-                                           YarpStringVector & values,
-                                           const double       timeToWait,
-                                           CheckFunction      checker,
-                                           void *             checkStuff)
+bool
+Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
+                                      YarpStringVector & values,
+                                      const double       timeToWait,
+                                      CheckFunction      checker,
+                                      void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -1704,7 +1733,8 @@ bool Utilities::GetConfigurationForService(const YarpString & serviceChannelName
     return result;
 } // Utilities::GetConfigurationForService
 
-int64_t Utilities::GetCurrentTimeInMilliseconds(void)
+int64_t
+Utilities::GetCurrentTimeInMilliseconds(void)
 {
     OD_LOG_ENTER(); //####
     int64_t        result;
@@ -1725,8 +1755,9 @@ int64_t Utilities::GetCurrentTimeInMilliseconds(void)
     return result;
 } // Utilities::GetCurrentTimeInMilliseconds
 
-bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
-                                            int &            serverPort)
+bool
+Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
+                                       int &            serverPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("serverAddress = ", &serverAddress, "serverPort = ", &serverPort); //####
@@ -1738,10 +1769,10 @@ bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
         yarp::os::Contact aContact(nc.getAddress());
         YarpString        hostName(aContact.getHost());
 
-		if (hostName == SELF_ADDRESS_NAME_)
-		{
-			hostName = SELF_ADDRESS_IPADDR_;
-		}
+        if (hostName == SELF_ADDRESS_NAME_)
+        {
+            hostName = SELF_ADDRESS_IPADDR_;
+        }
 #if MAC_OR_LINUX_
         int res = inet_pton(AF_INET, hostName.c_str(), &serverAddress);
 #else // ! MAC_OR_LINUX_
@@ -1755,10 +1786,11 @@ bool Utilities::GetCurrentYarpConfiguration(struct in_addr & serverAddress,
     return okSoFar;
 } // Utilities::GetCurrentYarpConfiguration
 
-void Utilities::GetDateAndTime(char *       dateBuffer,
-                               const size_t dateBufferSize,
-                               char *       timeBuffer,
-                               const size_t timeBufferSize)
+void
+Utilities::GetDateAndTime(char *       dateBuffer,
+                          const size_t dateBufferSize,
+                          char *       timeBuffer,
+                          const size_t timeBufferSize)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("dateBuffer = ", dateBuffer, "timeBuffer = ", timeBuffer); //####
@@ -1780,8 +1812,9 @@ void Utilities::GetDateAndTime(char *       dateBuffer,
     OD_LOG_EXIT(); //####
 } // Utilities::GetDateAndTime
 
-bool Utilities::GetDetectedPortList(PortVector & ports,
-                                    const bool   includeHiddenPorts)
+bool
+Utilities::GetDetectedPortList(PortVector & ports,
+                               const bool   includeHiddenPorts)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ports = ", &ports); //####
@@ -1816,11 +1849,12 @@ bool Utilities::GetDetectedPortList(PortVector & ports,
     return okSoFar;
 } // Utilities::GetDetectedPortList
 
-bool Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
-                                              YarpString &        extraInfo,
-                                              const double        timeToWait,
-                                              CheckFunction       checker,
-                                              void *              checkStuff)
+bool
+Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
+                                         YarpString &        extraInfo,
+                                         const double        timeToWait,
+                                         CheckFunction       checker,
+                                         void *              checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -1912,7 +1946,8 @@ bool Utilities::GetExtraInformationForService(const YarpString &  serviceChannel
     return result;
 } // Utilities::GetExtraInformationForService
 
-YarpString Utilities::GetFileNameBase(const YarpString & inFileName)
+YarpString
+Utilities::GetFileNameBase(const YarpString & inFileName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inFileName = ", inFileName);
@@ -1931,7 +1966,8 @@ YarpString Utilities::GetFileNameBase(const YarpString & inFileName)
     return result;
 } // Utilities::GetFileNameBase
 
-YarpString Utilities::GetFileNamePart(const YarpString & inFileName)
+YarpString
+Utilities::GetFileNamePart(const YarpString & inFileName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inFileName = ", inFileName); //####
@@ -1957,14 +1993,16 @@ YarpString Utilities::GetFileNamePart(const YarpString & inFileName)
     return result;
 } // Utilities::GetFileNamePart
 
-ChannelStatusReporter * Utilities::GetGlobalStatusReporter(void)
+ChannelStatusReporter *
+Utilities::GetGlobalStatusReporter(void)
 {
-	OD_LOG_ENTER(); //####
-	OD_LOG_EXIT_P(lReporter); //####
+    OD_LOG_ENTER(); //####
+    OD_LOG_EXIT_P(lReporter); //####
     return lReporter;
 } // Utilities::GetGlobalStatusReporter
 
-void Utilities::GetMachineIPs(YarpStringVector & result)
+void
+Utilities::GetMachineIPs(YarpStringVector & result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("result = ", &result); //####
@@ -1990,11 +2028,12 @@ void Utilities::GetMachineIPs(YarpStringVector & result)
     OD_LOG_EXIT(); //####
 } // Utilities::GetMachineIPs
 
-bool Utilities::GetMetricsForService(const YarpString & serviceChannelName,
-                                     yarp::os::Bottle & metrics,
-                                     const double       timeToWait,
-                                     CheckFunction      checker,
-                                     void *             checkStuff)
+bool
+Utilities::GetMetricsForService(const YarpString & serviceChannelName,
+                                yarp::os::Bottle & metrics,
+                                const double       timeToWait,
+                                CheckFunction      checker,
+                                void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -2058,11 +2097,12 @@ bool Utilities::GetMetricsForService(const YarpString & serviceChannelName,
     return result;
 } // Utilities::GetMetricsForService
 
-bool Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
-                                          bool &             metricsState,
-                                          const double       timeToWait,
-                                          CheckFunction      checker,
-                                          void *             checkStuff)
+bool
+Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
+                                     bool &             metricsState,
+                                     const double       timeToWait,
+                                     CheckFunction      checker,
+                                     void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -2142,11 +2182,12 @@ bool Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
     return result;
 } // Utilities::GetMetricsStateForService
 
-bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelName,
-                                                ServiceDescriptor & descriptor,
-                                                const double        timeToWait,
-                                                CheckFunction       checker,
-                                                void *              checkStuff)
+bool
+Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelName,
+                                           ServiceDescriptor & descriptor,
+                                           const double        timeToWait,
+                                           CheckFunction       checker,
+                                           void *              checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -2531,7 +2572,8 @@ bool Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChann
     return result;
 } // Utilities::GetNameAndDescriptionForService
 
-Utilities::PortKind Utilities::GetPortKind(const YarpString & portName)
+Utilities::PortKind
+Utilities::GetPortKind(const YarpString & portName)
 {
     const char * portNameChars = portName.c_str();
     const size_t kAdapterPortNameBaseLen = sizeof(DEFAULT_ADAPTER_NAME_BASE_) - 1;
@@ -2562,7 +2604,8 @@ Utilities::PortKind Utilities::GetPortKind(const YarpString & portName)
     return result;
 } // Utilities::GetPortKind
 
-YarpString Utilities::GetPortLocation(const YarpString & portName)
+YarpString
+Utilities::GetPortLocation(const YarpString & portName)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("portName = ", portName); //####
@@ -2584,7 +2627,8 @@ YarpString Utilities::GetPortLocation(const YarpString & portName)
     return result;
 } // Utilities::GetPortLocation
 
-YarpString Utilities::GetRandomHexString(void)
+YarpString
+Utilities::GetRandomHexString(void)
 {
     OD_LOG_ENTER(); //####
     int               randNumb;
@@ -2607,10 +2651,11 @@ YarpString Utilities::GetRandomHexString(void)
     return result;
 } // Utilities::GetRandomHexString
 
-bool Utilities::GetServiceNames(YarpStringVector & services,
-                                const bool         quiet,
-                                CheckFunction      checker,
-                                void *             checkStuff)
+bool
+Utilities::GetServiceNames(YarpStringVector & services,
+                           const bool         quiet,
+                           CheckFunction      checker,
+                           void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("services = ", &services, "checkStuff = ", checkStuff); //####
@@ -2622,11 +2667,12 @@ bool Utilities::GetServiceNames(YarpStringVector & services,
     return okSoFar;
 } // Utilities::GetServiceNames
 
-bool Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
-                                            YarpStringVector & services,
-                                            const bool         quiet,
-                                            CheckFunction      checker,
-                                            void *             checkStuff)
+bool
+Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
+                                       YarpStringVector & services,
+                                       const bool         quiet,
+                                       CheckFunction      checker,
+                                       void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("criteria = ", criteria); //####
@@ -2689,7 +2735,8 @@ bool Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
     return okSoFar;
 } // Utilities::GetServiceNamesFromCriteria
 
-void Utilities::GoToSleep(const int milliseconds)
+void
+Utilities::GoToSleep(const int milliseconds)
 {
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
@@ -2700,7 +2747,8 @@ void Utilities::GoToSleep(const int milliseconds)
     OD_LOG_EXIT(); //####
 } // Utilities::GoToSleep
 
-const char * Utilities::MapServiceKindToString(const ServiceKind kind)
+const char *
+Utilities::MapServiceKindToString(const ServiceKind kind)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L1("kind = ", static_cast<int>(kind)); //####
@@ -2716,15 +2764,15 @@ const char * Utilities::MapServiceKindToString(const ServiceKind kind)
             result = "Filter";
             break;
             
-	    case kServiceKindInput :
+        case kServiceKindInput :
             result = "Input";
             break;
             
-	    case kServiceKindOutput :
+        case kServiceKindOutput :
             result = "Output";
             break;
             
-	    case kServiceKindRegistry :
+        case kServiceKindRegistry :
             result = "Registry";
             break;
             
@@ -2741,7 +2789,8 @@ const char * Utilities::MapServiceKindToString(const ServiceKind kind)
     return result;
 } // Utilities::MapServiceKindToString
 
-ServiceKind Utilities::MapStringToServiceKind(const YarpString & kindString)
+ServiceKind
+Utilities::MapStringToServiceKind(const YarpString & kindString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("kindString = ", kindString); //####
@@ -2780,12 +2829,13 @@ ServiceKind Utilities::MapStringToServiceKind(const YarpString & kindString)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
-                                          const YarpString & destinationName,
-                                          const double       timeToWait,
-                                          const bool         isUDP,
-                                          CheckFunction      checker,
-                                          void *             checkStuff)
+bool
+Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
+                                     const YarpString & destinationName,
+                                     const double       timeToWait,
+                                     const bool         isUDP,
+                                     CheckFunction      checker,
+                                     void *             checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
@@ -2873,11 +2923,12 @@ bool Utilities::NetworkConnectWithRetries(const YarpString & sourceName,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
-                                             const YarpString & destinationName,
-                                             const double       timeToWait,
-                                             CheckFunction      checker,
-                                             void *             checkStuff)
+bool
+Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
+                                        const YarpString & destinationName,
+                                        const double       timeToWait,
+                                        CheckFunction      checker,
+                                        void *             checkStuff)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
@@ -2951,15 +3002,16 @@ bool Utilities::NetworkDisconnectWithRetries(const YarpString & sourceName,
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-bool Utilities::ProcessStandardClientOptions(const int          argc,
-                                             char * *           argv,
-                                             DescriptorVector & argumentDescriptions,
-                                             const YarpString & clientDescription,
-                                             const int          year,
-                                             const char *       copyrightHolder,
-                                             OutputFlavour &    flavour,
-                                             const bool         ignoreFlavours,
-                                             YarpStringVector * arguments)
+bool
+Utilities::ProcessStandardClientOptions(const int          argc,
+                                        char * *           argv,
+                                        DescriptorVector & argumentDescriptions,
+                                        const YarpString & clientDescription,
+                                        const int          year,
+                                        const char *       copyrightHolder,
+                                        OutputFlavour &    flavour,
+                                        const bool         ignoreFlavours,
+                                        YarpStringVector * arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
@@ -3108,15 +3160,16 @@ bool Utilities::ProcessStandardClientOptions(const int          argc,
     return keepGoing;
 } // Utilities::ProcessStandardClientOptions
 
-bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
-                                                char * *           argv,
-                                                DescriptorVector & argumentDescriptions,
-                                                const YarpString & utilityDescription,
-                                                const int          year,
-                                                const char *       copyrightHolder,
-                                                OutputFlavour &    flavour,
-                                                const bool         ignoreFlavours,
-                                                YarpStringVector * arguments)
+bool
+Utilities::ProcessStandardUtilitiesOptions(const int          argc,
+                                           char * *           argv,
+                                           DescriptorVector & argumentDescriptions,
+                                           const YarpString & utilityDescription,
+                                           const int          year,
+                                           const char *       copyrightHolder,
+                                           OutputFlavour &    flavour,
+                                           const bool         ignoreFlavours,
+                                           YarpStringVector * arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("argc = ", argc, "year = ", year); //####
@@ -3256,10 +3309,11 @@ bool Utilities::ProcessStandardUtilitiesOptions(const int          argc,
     return keepGoing;
 } // Utilities::ProcessStandardUtilitiesOptions
 
-bool Utilities::RemoveConnection(const YarpString & fromPortName,
-                                 const YarpString & toPortName,
-                                 CheckFunction      checker,
-                                 void *             checkStuff)
+bool
+Utilities::RemoveConnection(const YarpString & fromPortName,
+                            const YarpString & toPortName,
+                            CheckFunction      checker,
+                            void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("fromPortName = ", fromPortName, "toPortName = ", toPortName); //####
@@ -3271,7 +3325,8 @@ bool Utilities::RemoveConnection(const YarpString & fromPortName,
     return result;
 } // Utilities::RemoveConnection
 
-void Utilities::RemoveStalePorts(const float timeout)
+void
+Utilities::RemoveStalePorts(const float timeout)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_D1("timeout = ", timeout); //####
@@ -3372,10 +3427,11 @@ void Utilities::RemoveStalePorts(const float timeout)
     OD_LOG_EXIT(); //####
 } // Utilities::RemoveStalePorts
 
-bool Utilities::RestartAService(const YarpString & serviceChannelName,
-                                const double       timeToWait,
-                                CheckFunction      checker,
-                                void *             checkStuff)
+bool
+Utilities::RestartAService(const YarpString & serviceChannelName,
+                           const double       timeToWait,
+                           CheckFunction      checker,
+                           void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -3450,11 +3506,12 @@ bool Utilities::RestartAService(const YarpString & serviceChannelName,
     return result;
 } // Utilities::RestartAService
 
-bool Utilities::SetConfigurationForService(const YarpString &       serviceChannelName,
-                                           const yarp::os::Bottle & newValues,
-                                           const double             timeToWait,
-                                           Common::CheckFunction    checker,
-                                           void *                   checkStuff)
+bool
+Utilities::SetConfigurationForService(const YarpString &       serviceChannelName,
+                                      const yarp::os::Bottle & newValues,
+                                      const double             timeToWait,
+                                      Common::CheckFunction    checker,
+                                      void *                   checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -3519,11 +3576,12 @@ bool Utilities::SetConfigurationForService(const YarpString &       serviceChann
     return result;
 } // Utilities::SetConfigurationForService
 
-bool Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
-                                          const bool         newMetricsState,
-                                          const double       timeToWait,
-                                          CheckFunction      checker,
-                                          void *             checkStuff)
+bool
+Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
+                                     const bool         newMetricsState,
+                                     const double       timeToWait,
+                                     CheckFunction      checker,
+                                     void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####
@@ -3592,28 +3650,31 @@ bool Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
     return result;
 } // Utilities::SetMetricsStateForService
 
-void Utilities::SetUpGlobalStatusReporter(void)
+void
+Utilities::SetUpGlobalStatusReporter(void)
 {
-	OD_LOG_ENTER(); //####
+    OD_LOG_ENTER(); //####
     if (! lReporter)
     {
         lReporter = new ChannelStatusReporter;
     }
-	OD_LOG_ENTER(); //####
+    OD_LOG_ENTER(); //####
 } // Utilities::SetUpGlobalStatusReporter
 
-void Utilities::ShutDownGlobalStatusReporter(void)
+void
+Utilities::ShutDownGlobalStatusReporter(void)
 {
-	OD_LOG_ENTER(); //####
+    OD_LOG_ENTER(); //####
     delete lReporter;
     lReporter = NULL;
-	OD_LOG_EXIT(); //####
+    OD_LOG_EXIT(); //####
 } // Utilities::ShutDownGlobalStatusReporter
 
-bool Utilities::StopAService(const YarpString & serviceChannelName,
-                             const double       timeToWait,
-                             CheckFunction      checker,
-                             void *             checkStuff)
+bool
+Utilities::StopAService(const YarpString & serviceChannelName,
+                        const double       timeToWait,
+                        CheckFunction      checker,
+                        void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceChannelName = ", serviceChannelName); //####

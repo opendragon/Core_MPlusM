@@ -70,21 +70,33 @@ namespace MplusM
         class BaseInputHandlerCreator : public yarp::os::PortReaderCreator
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::PortReaderCreator inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             BaseInputHandlerCreator(void);
             
             /*! @brief The destructor. */
-            virtual ~BaseInputHandlerCreator(void);
+            virtual
+            ~BaseInputHandlerCreator(void);
             
-            /*! @fn virtual yarp::os::PortReader * create(void)
+            /*! @fn virtual yarp::os::PortReader *
+                    create(void)
              @brief Create a new BaseInputHandler object to process input data.
              @returns A new PortReader or @c NULL if one cannot be created. */
             DECLARE_CREATE_ = 0;
             
             /*! @brief Remember the channel that is feeding the input handler.
              @param theChannel The channel that is feeding the input handler. */
-            void setChannel(BaseChannel * theChannel);
+            void
+            setChannel(BaseChannel * theChannel);
             
         protected :
             
@@ -100,9 +112,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::PortReaderCreator inherited;
             
         }; // BaseInputHandlerCreator
         

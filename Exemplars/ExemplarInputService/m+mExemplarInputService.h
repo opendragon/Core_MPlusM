@@ -68,6 +68,15 @@ namespace MplusM
         class ExemplarInputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -86,7 +95,8 @@ namespace MplusM
                                  const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~ExemplarInputService(void);
+            virtual
+            ~ExemplarInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -117,9 +127,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
             ExemplarInputThread * _generator;

@@ -67,13 +67,24 @@ namespace MplusM
         class RandomNumberInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
-            explicit RandomNumberInputHandler(RandomNumberAdapterData & shared);
+            explicit
+            RandomNumberInputHandler(RandomNumberAdapterData & shared);
             
             /*! @brief The destructor. */
-            virtual ~RandomNumberInputHandler(void);
+            virtual
+            ~RandomNumberInputHandler(void);
             
         protected :
             
@@ -88,9 +99,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The shared data that describes the connection to the service that we are
              using. */

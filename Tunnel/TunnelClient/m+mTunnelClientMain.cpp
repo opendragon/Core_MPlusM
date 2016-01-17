@@ -85,8 +85,9 @@ using std::endl;
 /*! @brief Process the argument list for the application.
  @param arguments The arguments to analyze.
  @param namePattern The generated search value. */
-static void processArguments(const YarpStringVector & arguments,
-                             YarpString &             namePattern)
+static void
+processArguments(const YarpStringVector & arguments,
+                 YarpString &             namePattern)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "namePattern = ", &namePattern); //####
@@ -108,7 +109,8 @@ static void processArguments(const YarpStringVector & arguments,
 /*! @brief Create a 'listen' socket.
  @param listenPort The network port to attach the new socket to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET setUpListeningPost(const int listenPort)
+static SOCKET
+setUpListeningPost(const int listenPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L1("listenPort = ", listenPort); //####
@@ -175,8 +177,9 @@ static SOCKET setUpListeningPost(const int listenPort)
  @param serviceAddress The IP address to connect to.
  @param servicePort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET connectToTunnel(const YarpString & serviceAddress,
-                              const int          servicePort)
+static SOCKET
+connectToTunnel(const YarpString & serviceAddress,
+                const int          servicePort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceAddress = ", serviceAddress); //####
@@ -236,9 +239,10 @@ static SOCKET connectToTunnel(const YarpString & serviceAddress,
  @param listenSocket The 'listen' socket to use.
  @param serviceAddress The IP address to connect to.
  @param servicePort The port number to connect to. */
-static void handleConnections(SOCKET             listenSocket,
-                              const YarpString & serviceAddress,
-                              const int          servicePort)
+static void
+handleConnections(SOCKET             listenSocket,
+                  const YarpString & serviceAddress,
+                  const int          servicePort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_L2("listenSocket = ", listenSocket, "servicePort = ", servicePort); //####
@@ -301,12 +305,14 @@ static void handleConnections(SOCKET             listenSocket,
  @param listenPort The outgoing port.
  @param tag The tag for the service to be connected to. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(const int               listenPort,
-                       const YarpString &      tag,
-                       ChannelStatusReporter * reporter)
+static void
+setUpAndGo(const int               listenPort,
+           const YarpString &      tag,
+           ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const int          listenPort,
-                       const YarpString & tag)
+static void
+setUpAndGo(const int          listenPort,
+           const YarpString & tag)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -406,8 +412,9 @@ static void setUpAndGo(const int          listenPort,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Tunnel client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)

@@ -65,15 +65,26 @@ namespace MplusM
         class RandomNumberAdapterData : public Common::BaseAdapterData
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseAdapterData inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            explicit RandomNumberAdapterData(RandomNumberClient *  client = NULL,
-                                             Common::BaseChannel * output = NULL);
+            explicit
+            RandomNumberAdapterData(RandomNumberClient *  client = NULL,
+                                    Common::BaseChannel * output = NULL);
             
             /*! @brief The destructor. */
-            virtual ~RandomNumberAdapterData(void);
+            virtual
+            ~RandomNumberAdapterData(void);
             
         protected :
             
@@ -86,9 +97,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseAdapterData inherited;
             
         }; // RandomNumberAdapterData
         

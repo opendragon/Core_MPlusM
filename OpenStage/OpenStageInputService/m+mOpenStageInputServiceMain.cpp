@@ -98,16 +98,17 @@ using std::endl;
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
-					   const YarpString &                  progName,
-                       const int                           argc,
-                       char * *                            argv,
-                       const YarpString &                  tag,
-                       const YarpString &                  serviceEndpointName,
-                       const YarpString &                  servicePortNumber,
-                       const bool                          goWasSet,
-                       const bool                          stdinAvailable,
-                       const bool                          reportOnExit)
+static void
+setUpAndGo(const Utilities::DescriptorVector & argumentList,
+           const YarpString &                  progName,
+           const int                           argc,
+           char * *                            argv,
+           const YarpString &                  tag,
+           const YarpString &                  serviceEndpointName,
+           const YarpString &                  servicePortNumber,
+           const bool                          goWasSet,
+           const bool                          stdinAvailable,
+           const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -148,8 +149,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Organic Motion %OpenStage input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -172,20 +174,20 @@ int main(int      argc,
         bool                                 reportEndpoint = false;
         bool                                 reportOnExit = false;
         bool                                 stdinAvailable = CanReadFromStandardInput();
-		YarpString                           serviceEndpointName;
+        YarpString                           serviceEndpointName;
         YarpString                           servicePortNumber;
         YarpString                           tag;
-		Utilities::AddressArgumentDescriptor firstArg("hostname",
-			                                          T_("IP address for the device server"),
-			                                          Utilities::kArgModeOptionalModifiable,
-													  SELF_ADDRESS_NAME_);
-		Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
-			                                           Utilities::kArgModeOptionalModifiable,
+        Utilities::AddressArgumentDescriptor firstArg("hostname",
+                                                      T_("IP address for the device server"),
+                                                      Utilities::kArgModeOptionalModifiable,
+                                                      SELF_ADDRESS_NAME_);
+        Utilities::PortArgumentDescriptor    secondArg("port", T_("Port for the device server"),
+                                                       Utilities::kArgModeOptionalModifiable,
                                                        OPENSTAGEINPUT_DEFAULT_PORT_, false);
-		Utilities::DescriptorVector          argumentList;
+        Utilities::DescriptorVector          argumentList;
 
-		argumentList.push_back(&firstArg);
-		argumentList.push_back(&secondArg);
+        argumentList.push_back(&firstArg);
+        argumentList.push_back(&secondArg);
         if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           OPENSTAGEINPUT_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,

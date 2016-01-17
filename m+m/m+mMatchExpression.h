@@ -63,67 +63,6 @@ namespace MplusM
         class MatchExpression : public BaseMatcher
         {
         public :
-            
-            /*! @brief The destructor. */
-            virtual ~MatchExpression(void);
-            
-            /*! @brief Generate a proper SQL string value corresponding to this match value.
-             @param prefixString The SELECT prefix to be applied before each expression.
-             @param suffixString The SELECT suffix to be applied after each expression.
-             @returns A string representing the value as a string suitable for use with SQL. */
-            YarpString asSQLString(const char * prefixString,
-                                   const char * suffixString = NULL)
-            const;
-            
-            /*! @brief Return the match value as a printable string.
-             @returns The matching substring as a printable string. */
-            YarpString asString(void)
-            const;
-            
-            /*! @brief Return the number of elements in the expression list.
-             @returns The number of elements in the expression list. */
-            int count(void)
-            const;
-            
-            /*! @brief Create a pattern matcher if the next substring would be a valid expression.
-             @param inString The string being scanned.
-             @param inLength The length of the string being scanned.
-             @param startPos Where in the string to start scanning.
-             @param endPos Where the scan terminated, if successful.
-             @param validator A function that returns @c true if the field name is valid and @c
-             false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
-             otherwise. */
-            static MatchExpression * CreateMatcher(const YarpString &  inString,
-                                                   const size_t        inLength,
-                                                   const size_t        startPos,
-                                                   size_t &            endPos,
-                                                   BaseNameValidator * validator = NULL);
-            
-            /*! @brief Return an element from the expression list.
-             @param index The zero-origin index of the element.
-             @returns An element of the expression list or @c NULL if the index is outside the range
-             of the expression list. */
-            const MatchConstraint * element(const int index)
-            const;
-            
-            /*! @brief The character used between expression list elements.
-             @returns The character that separates expression list elements. */
-            static char ExpressionSeparatorCharacter(void);
-            
-        protected :
-            
-        private :
-            
-            /*! @brief The constructor. */
-            MatchExpression(void);
-            
-            COPY_AND_ASSIGNMENT_(MatchExpression);
-            
-            /*! @brief Remove all the list elements. */
-            void empty(void);
-            
-        public :
         
         protected :
         
@@ -137,6 +76,81 @@ namespace MplusM
             
             /*! @brief The size-type for sequence data. */
             typedef MatchExpressionListData::size_type MatchExpressionListSize;
+            
+        public :
+            
+            /*! @brief The destructor. */
+            virtual
+            ~MatchExpression(void);
+            
+            /*! @brief Generate a proper SQL string value corresponding to this match value.
+             @param prefixString The SELECT prefix to be applied before each expression.
+             @param suffixString The SELECT suffix to be applied after each expression.
+             @returns A string representing the value as a string suitable for use with SQL. */
+            YarpString
+            asSQLString(const char * prefixString,
+                        const char * suffixString = NULL)
+            const;
+            
+            /*! @brief Return the match value as a printable string.
+             @returns The matching substring as a printable string. */
+            YarpString
+            asString(void)
+            const;
+            
+            /*! @brief Return the number of elements in the expression list.
+             @returns The number of elements in the expression list. */
+            int
+            count(void)
+            const;
+            
+            /*! @brief Create a pattern matcher if the next substring would be a valid expression.
+             @param inString The string being scanned.
+             @param inLength The length of the string being scanned.
+             @param startPos Where in the string to start scanning.
+             @param endPos Where the scan terminated, if successful.
+             @param validator A function that returns @c true if the field name is valid and @c
+             false otherwise.
+             @returns A non-null matcher if the string would be a valid value and @c NULL
+             otherwise. */
+            static MatchExpression *
+            CreateMatcher(const YarpString &  inString,
+                          const size_t        inLength,
+                          const size_t        startPos,
+                          size_t &            endPos,
+                          BaseNameValidator * validator = NULL);
+            
+            /*! @brief Return an element from the expression list.
+             @param index The zero-origin index of the element.
+             @returns An element of the expression list or @c NULL if the index is outside the range
+             of the expression list. */
+            const MatchConstraint *
+            element(const int index)
+            const;
+            
+            /*! @brief The character used between expression list elements.
+             @returns The character that separates expression list elements. */
+            static char
+            ExpressionSeparatorCharacter(void);
+            
+        protected :
+            
+        private :
+            
+            /*! @brief The constructor. */
+            MatchExpression(void);
+            
+            COPY_AND_ASSIGNMENT_(MatchExpression);
+            
+            /*! @brief Remove all the list elements. */
+            void
+            empty(void);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The elements of the list. */
             MatchExpressionListData _constraints;

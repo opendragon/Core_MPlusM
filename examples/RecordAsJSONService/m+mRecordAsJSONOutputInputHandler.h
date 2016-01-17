@@ -65,16 +65,27 @@ namespace MplusM
         class RecordAsJSONOutputInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             RecordAsJSONOutputInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~RecordAsJSONOutputInputHandler(void);
+            virtual
+            ~RecordAsJSONOutputInputHandler(void);
             
             /*! @brief Set the file to be written to.
              @param outFile The file to be written to. */
-            void setFile(FILE * outFile);
+            void
+            setFile(FILE * outFile);
             
         protected :
             
@@ -89,9 +100,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */

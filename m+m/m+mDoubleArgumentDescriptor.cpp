@@ -158,7 +158,8 @@ DEFINE_GETPROCESSEDVALUE_(DoubleArgumentDescriptor)
     return result;
 } // DoubleArgumentDescriptor::getProcessedValue
 
-BaseArgumentDescriptor * DoubleArgumentDescriptor::parseArgString(const YarpString & inString)
+BaseArgumentDescriptor *
+DoubleArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####

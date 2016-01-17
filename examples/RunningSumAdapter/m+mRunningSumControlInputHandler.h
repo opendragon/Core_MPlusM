@@ -66,13 +66,24 @@ namespace MplusM
         class RunningSumControlInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param shared The data shared between the input handlers and the main thread. */
-            explicit RunningSumControlInputHandler(RunningSumAdapterData & shared);
+            explicit
+            RunningSumControlInputHandler(RunningSumAdapterData & shared);
             
             /*! @brief The destructor. */
-            virtual ~RunningSumControlInputHandler(void);
+            virtual
+            ~RunningSumControlInputHandler(void);
             
         protected :
             
@@ -87,9 +98,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The shared data that describes the connection to the service that we are
              using. */

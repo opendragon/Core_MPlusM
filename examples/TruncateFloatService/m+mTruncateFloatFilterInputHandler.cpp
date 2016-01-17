@@ -156,7 +156,8 @@ DEFINE_HANDLE_INPUT_(TruncateFloatFilterInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void TruncateFloatFilterInputHandler::setOutput(GeneralChannel * output)
+void
+TruncateFloatFilterInputHandler::setOutput(GeneralChannel * output)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("output = ", output); //####

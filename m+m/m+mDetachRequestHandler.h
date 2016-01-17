@@ -62,13 +62,24 @@ namespace MplusM
         class DetachRequestHandler : public BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit DetachRequestHandler(BaseService & service);
+            explicit
+            DetachRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~DetachRequestHandler(void);
+            virtual
+            ~DetachRequestHandler(void);
             
         protected :
             
@@ -88,9 +99,6 @@ namespace MplusM
         
         private :
         
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
-            
         }; // DetachRequestHandler
         
     } // Common

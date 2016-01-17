@@ -62,6 +62,15 @@ namespace MplusM
         class Test09Service : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -72,7 +81,8 @@ namespace MplusM
                           char * *           argv);
             
             /*! @brief The destructor. */
-            virtual ~Test09Service(void);
+            virtual
+            ~Test09Service(void);
             
             DECLARE_STARTSERVICE_;
             
@@ -85,19 +95,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(Test09Service);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The request handler for unrecognized requests. */
             Test09DefaultRequestHandler * _defaultHandler;

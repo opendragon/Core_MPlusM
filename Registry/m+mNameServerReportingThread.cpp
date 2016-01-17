@@ -88,13 +88,14 @@ using std::endl;
  @param type The type of service that was registered.
  @param domain The domain on which the service was registered.
  @param context The context pointer that was passed by DSNServiceRegister. */
-static void DNSSD_API registrationCallback(DNSServiceRef       service,
-                                           DNSServiceFlags     flags,
-                                           DNSServiceErrorType errorCode,
-                                           const char *        name,
-                                           const char *        type,
-                                           const char *        domain,
-                                           void *              context)
+static void DNSSD_API
+registrationCallback(DNSServiceRef       service,
+                     DNSServiceFlags     flags,
+                     DNSServiceErrorType errorCode,
+                     const char *        name,
+                     const char *        type,
+                     const char *        domain,
+                     void *              context)
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -144,7 +145,7 @@ NameServerReportingThread::~NameServerReportingThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void NameServerReportingThread::run(void)
+DEFINE_RUN_(NameServerReportingThread)
 {
     OD_LOG_OBJENTER(); //####
     int            dns_sd_fd = DNSServiceRefSockFD(_serviceRef);
@@ -197,7 +198,7 @@ void NameServerReportingThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // NameServerReportingThread::run
 
-bool NameServerReportingThread::threadInit(void)
+DEFINE_THREADINIT_(NameServerReportingThread)
 {
     OD_LOG_OBJENTER(); //####
     yarp::os::Contact   nsContact = yarp::os::Network::getNameServerContact();
@@ -230,9 +231,9 @@ bool NameServerReportingThread::threadInit(void)
     TXTRecordDeallocate(&txtRecord);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
-} // RegistryCheckThread::threadInit
+} // NameServerReportingThread::threadInit
 
-void NameServerReportingThread::threadRelease(void)
+DEFINE_THREADRELEASE_(NameServerReportingThread)
 {
     OD_LOG_OBJENTER(); //####
     DNSServiceRefDeallocate(_serviceRef);

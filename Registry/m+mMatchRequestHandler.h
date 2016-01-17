@@ -96,15 +96,26 @@ namespace MplusM
         class MatchRequestHandler : public Common::BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request.
              @param validator The field validator to use. */
-            explicit MatchRequestHandler(RegistryService &           service,
-                                         Parser::BaseNameValidator * validator = NULL);
+            explicit
+            MatchRequestHandler(RegistryService &           service,
+                                Parser::BaseNameValidator * validator = NULL);
             
             /*! @brief The destructor. */
-            virtual ~MatchRequestHandler(void);
+            virtual
+            ~MatchRequestHandler(void);
             
         protected :
             
@@ -123,9 +134,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
             /*! @brief The field name validator to be used. */
             Parser::BaseNameValidator * _validator;

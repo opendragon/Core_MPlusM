@@ -90,10 +90,11 @@ using std::endl;
  @param hashMapFunction The function to be applied to hash tables to get values that can be placed
  in a bottle.
  @param topLevel @c true if this is the outermost list of an object. */
-static void fillBottleFromValue(yarp::os::Bottle & aBottle,
-                                cl_object          theData,
-                                cl_object          hashMapFunction,
-                                const bool         topLevel)
+static void
+fillBottleFromValue(yarp::os::Bottle & aBottle,
+                    cl_object          theData,
+                    cl_object          hashMapFunction,
+                    const bool         topLevel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("aBottle = ", &aBottle, "theData = ", theData, "hashMapFunction = ", //####
@@ -353,15 +354,17 @@ static void fillBottleFromValue(yarp::os::Bottle & aBottle,
  @param setHashFunction The function object to use when setting a hash table entry.
  @param inputValue The value to be processed.
  @returns The output object. */
-static cl_object convertValue(cl_object               setHashFunction,
-                              const yarp::os::Value & inputValue);
+static cl_object
+convertValue(cl_object               setHashFunction,
+             const yarp::os::Value & inputValue);
 
 /*! @brief Convert a YARP dictionary into a Common Lisp object.
  @param setHashFunction The function object to use when setting a hash table entry.
  @param inputAsList The input dictionary as a list.
  @returns The output object. */
-static cl_object convertDictionary(cl_object                setHashFunction,
-                                   const yarp::os::Bottle & inputAsList)
+static cl_object
+convertDictionary(cl_object                setHashFunction,
+                  const yarp::os::Bottle & inputAsList)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("setHashFunction = ", setHashFunction, "inputAsList = ", &inputAsList); //####
@@ -415,8 +418,9 @@ static cl_object convertDictionary(cl_object                setHashFunction,
  @param setHashFunction The function object to use when setting a hash table entry.
  @param inputValue The value to be processed.
  @returns The result object. */
-static cl_object convertList(cl_object                setHashFunction,
-                             const yarp::os::Bottle & inputValue)
+static cl_object
+convertList(cl_object                setHashFunction,
+            const yarp::os::Bottle & inputValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
@@ -435,8 +439,9 @@ static cl_object convertList(cl_object                setHashFunction,
     return result;
 } // convertList
 
-static cl_object convertValue(cl_object               setHashFunction,
-                              const yarp::os::Value & inputValue)
+static cl_object
+convertValue(cl_object               setHashFunction,
+             const yarp::os::Value & inputValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("setHashFunction = ", setHashFunction, "inputValue = ", &inputValue); //####
@@ -521,8 +526,9 @@ static cl_object convertValue(cl_object               setHashFunction,
  @param setHashFunction The function object to use when setting a hash table entry.
  @param aBottle The bottle to be used.
  @returns The bottle as a Common Lisp structure. */
-static cl_object createObjectFromBottle(cl_object                setHashFunction,
-                                        const yarp::os::Bottle & aBottle)
+static cl_object
+createObjectFromBottle(cl_object                setHashFunction,
+                       const yarp::os::Bottle & aBottle)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("setHashFunction = ", setHashFunction, "aBottle = ", &aBottle); //####
@@ -861,7 +867,8 @@ DEFINE_GETCONFIGURATION_(CommonLispFilterService)
     return result;
 } // CommonLispFilterService::getConfiguration
 
-void CommonLispFilterService::releaseHandlers(void)
+void
+CommonLispFilterService::releaseHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     if (0 < _inHandlers.size())
@@ -899,8 +906,9 @@ DEFINE_RESTARTSTREAMS_(CommonLispFilterService)
     OD_LOG_OBJEXIT(); //####
 } // CommonLispFilterService::restartStreams
 
-bool CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
-                                            cl_object       theData)
+bool
+CommonLispFilterService::sendToChannel(const cl_fixnum channelSlot,
+                                       cl_object       theData)
 {
     OD_LOG_OBJENTER();
     OD_LOG_LL1("channelSlot = ", channelSlot); //####
@@ -968,14 +976,16 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(CommonLispFilterService)
     return result;
 } // CommonLispFilterService::setUpStreamDescriptions
 
-void CommonLispFilterService::signalRunFunction(void)
+void
+CommonLispFilterService::signalRunFunction(void)
 {
     OD_LOG_OBJENTER(); //####
     _goAhead.post();
     OD_LOG_OBJEXIT(); //####
 } // CommonLispFilterService::signalRunFunction
 
-void CommonLispFilterService::stallUntilIdle(const size_t slotNumber)
+void
+CommonLispFilterService::stallUntilIdle(const size_t slotNumber)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("slotNumber = ", slotNumber); //####
@@ -1021,13 +1031,13 @@ DEFINE_STARTSTREAMS_(CommonLispFilterService)
             if (_isThreaded)
             {
                 _generator = new CommonLispFilterThread(*this, _threadInterval);
-				if (! _generator->start())
-				{
-					OD_LOG("(! _generator->start())"); //####
+                if (! _generator->start())
+                {
+                    OD_LOG("(! _generator->start())"); //####
                     cerr << "Could not start auxiliary thread." << endl;
-					delete _generator;
-					_generator = NULL;
-				}
+                    delete _generator;
+                    _generator = NULL;
+                }
             }
             else
             {
@@ -1085,16 +1095,16 @@ DEFINE_STOPSTREAMS_(CommonLispFilterService)
         {
             if (_isThreaded)
             {
-				if (_generator)
-				{
-					_generator->stop();
-					for ( ; _generator->isRunning(); )
-					{
-						yarp::os::Time::delay(_threadInterval / 3.9);
-					}
-					delete _generator;
-					_generator = NULL;
-				}
+                if (_generator)
+                {
+                    _generator->stop();
+                    for ( ; _generator->isRunning(); )
+                    {
+                        yarp::os::Time::delay(_threadInterval / 3.9);
+                    }
+                    delete _generator;
+                    _generator = NULL;
+                }
             }
             else
             {
@@ -1145,8 +1155,9 @@ DEFINE_STOPSTREAMS_(CommonLispFilterService)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-cl_object CommonLisp::CreateBaseString(const char * inString,
-                                       const size_t inLength)
+cl_object
+CommonLisp::CreateBaseString(const char * inString,
+                             const size_t inLength)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("inString = ", inString); //####

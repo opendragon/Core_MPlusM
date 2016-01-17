@@ -41,6 +41,7 @@
 
 # include "stdafx.h"
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
 # if defined(__APPLE__)
@@ -59,51 +60,58 @@ namespace MplusM
     namespace KinectV2Special
     {
         /*! @brief A class to generate output from Kinect V2 data. */
-        class KinectV2SpecialEventThread : public yarp::os::Thread
+        class KinectV2SpecialEventThread : public COmmon::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
-            explicit KinectV2SpecialEventThread(Common::GeneralChannel * outChannel);
+            explicit
+            KinectV2SpecialEventThread(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
-            virtual ~KinectV2SpecialEventThread(void);
+            virtual
+            ~KinectV2SpecialEventThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
 
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
-            
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
-            
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
-            
-            COPY_AND_ASSIGNMENT_(KinectV2SpecialEventThread);
-
             /*! @brief Initialize the default Kinect V2 sensor.
              @returns @c S_OK on success, a failure code otherwise. */
-            HRESULT initializeDefaultSensor(void);
-
+            HRESULT
+            initializeDefaultSensor(void);
+            
             /*! @brief Handle the sensor data associated with the event. */
-            void processEventData(void);
+            void
+            processEventData(void);
+            
+            DECLARE_RUN_;
+            
+            DECLARE_THREADINIT_;
+            
+            DECLARE_THREADRELEASE_;
+            
+            COPY_AND_ASSIGNMENT_(KinectV2SpecialEventThread);
 
         public :
 
         protected :
 
         private :
-
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
 
             /* @brief The event from the device that we are waiting for. */
             WAITABLE_HANDLE _frameEventHandle;

@@ -97,16 +97,17 @@ using std::endl;
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
-                       const YarpString &                  progName,
-                       const int                           argc,
-                       char * *                            argv,
-                       const YarpString &                  tag,
-                       const YarpString &                  serviceEndpointName,
-                       const YarpString &                  servicePortNumber,
-                       const bool                          goWasSet,
-                       const bool                          stdinAvailable,
-                       const bool                          reportOnExit)
+static void
+setUpAndGo(const Utilities::DescriptorVector & argumentList,
+           const YarpString &                  progName,
+           const int                           argc,
+           char * *                            argv,
+           const YarpString &                  tag,
+           const YarpString &                  serviceEndpointName,
+           const YarpString &                  servicePortNumber,
+           const bool                          goWasSet,
+           const bool                          stdinAvailable,
+           const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -147,8 +148,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %ProComp2 input service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -164,20 +166,20 @@ int main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
-	HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
 
-	if (SUCCEEDED(hr))
-	{
-		try
-		{
+    if (SUCCEEDED(hr))
+    {
+        try
+        {
             AddressTagModifier          modFlag = kModificationNone;
-			bool                        goWasSet = false;
+            bool                        goWasSet = false;
             bool                        reportEndpoint = false;
-			bool                        reportOnExit = false;
-			bool                        stdinAvailable = CanReadFromStandardInput();
-			YarpString                  serviceEndpointName;
-			YarpString                  servicePortNumber;
-			YarpString                  tag;
+            bool                        reportOnExit = false;
+            bool                        stdinAvailable = CanReadFromStandardInput();
+            YarpString                  serviceEndpointName;
+            YarpString                  servicePortNumber;
+            YarpString                  tag;
             Utilities::DescriptorVector argumentList;
 
             if (ProcessStandardServiceOptions(argc, argv, argumentList,
@@ -185,8 +187,8 @@ int main(int      argc,
                                               STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                               reportOnExit, tag, serviceEndpointName,
                                               servicePortNumber, modFlag, kSkipNone))
-			{
-				Utilities::CheckForNameServerReporter();
+            {
+                Utilities::CheckForNameServerReporter();
                 if (Utilities::CheckForValidNetwork())
                 {
                     yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -223,24 +225,24 @@ int main(int      argc,
                     cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
-			}
-		}
-		catch (...)
-		{
-			OD_LOG("Exception caught"); //####
-		}
-	}
-	else
-	{
-		OD_LOG("! (SUCCEEDED(hr)"); //####
+            }
+        }
+        catch (...)
+        {
+            OD_LOG("Exception caught"); //####
+        }
+    }
+    else
+    {
+        OD_LOG("! (SUCCEEDED(hr)"); //####
 #if MAC_OR_LINUX_
-		GetLogger().fail("CoInitializeEx() failed.");
+        GetLogger().fail("CoInitializeEx() failed.");
 #else // ! MAC_OR_LINUX_
-		cerr << "CoInitializeEx() failed." << endl;
+        cerr << "CoInitializeEx() failed." << endl;
 #endif // ! MAC_OR_LINUX_
-	}
+    }
     yarp::os::Network::fini();
-	CoUninitialize();
-	OD_LOG_EXIT_L(0); //####
+    CoUninitialize();
+    OD_LOG_EXIT_L(0); //####
     return 0;
 } // main

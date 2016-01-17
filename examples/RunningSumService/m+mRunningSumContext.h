@@ -60,15 +60,26 @@ namespace MplusM
         class RunningSumContext : public Common::BaseContext
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseContext inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             RunningSumContext(void);
             
             /*! @brief The destructor. */
-            virtual ~RunningSumContext(void);
+            virtual
+            ~RunningSumContext(void);
             
             /*! @brief An accessor for the running sum. */
-            inline double & sum(void)
+            inline double &
+            sum(void)
             {
                 return _sum;
             } // sum
@@ -84,9 +95,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseContext inherited;
             
             /*! @brief The running sum. */
             double _sum;

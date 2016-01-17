@@ -104,7 +104,8 @@ MovementDbClient::~MovementDbClient(void)
 /*! @brief Add a file entry to the backend database.
  @param filePath The filesystem path to the file.
  @returns @c true if the file entry was added successfully and @c false otherwise. */
-bool MovementDbClient::addFileToDb(const YarpString & filePath)
+bool
+MovementDbClient::addFileToDb(const YarpString & filePath)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("filePath = ", filePath); //####
@@ -153,7 +154,8 @@ bool MovementDbClient::addFileToDb(const YarpString & filePath)
     return okSoFar;
 } // MovementDbClient::addFileToDb
 
-bool MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
+bool
+MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("dataTrack = ", dataTrack); //####
@@ -202,7 +204,8 @@ bool MovementDbClient::setDataTrackForDb(const YarpString & dataTrack)
     return okSoFar;
 } // MovementDbClient::setDataTrackForDb
 
-bool MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
+bool
+MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("emailAddress = ", emailAddress); //####
@@ -251,7 +254,8 @@ bool MovementDbClient::setEmailAddressForDb(const YarpString & emailAddress)
     return okSoFar;
 } // MovementDbClient::setEmailAddressForDb
 
-bool MovementDbClient::stopDbConnection(void)
+bool
+MovementDbClient::stopDbConnection(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;

@@ -90,8 +90,9 @@ using std::endl;
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestParseValue(const bool   expected,
-                            const char * inString) // create value matcher
+static int
+doTestParseValue(const bool   expected,
+                 const char * inString) // create value matcher
 {
     OD_LOG_ENTER(); //####
     OD_LOG_B1("expected = ", expected); //####
@@ -137,8 +138,9 @@ static int doTestParseValue(const bool   expected,
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestParseValueList(const bool   expected,
-                                const char * inString) // create value matcher
+static int
+doTestParseValueList(const bool   expected,
+                     const char * inString) // create value matcher
 {
     OD_LOG_ENTER(); //####
     OD_LOG_B1("expected = ", expected); //####
@@ -185,8 +187,9 @@ static int doTestParseValueList(const bool   expected,
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestParseFieldName(const bool   expected,
-                                const char * inString) // create value matcher
+static int
+doTestParseFieldName(const bool   expected,
+                     const char * inString) // create value matcher
 {
     OD_LOG_ENTER(); //####
     OD_LOG_B1("expected = ", expected); //####
@@ -236,8 +239,9 @@ static int doTestParseFieldName(const bool   expected,
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestParseFieldWithValues(const bool   expected,
-                                      const char * inString) // create value matcher
+static int
+doTestParseFieldWithValues(const bool   expected,
+                           const char * inString) // create value matcher
 {
     OD_LOG_ENTER(); //####
     OD_LOG_B1("expected = ", expected); //####
@@ -289,8 +293,9 @@ static int doTestParseFieldWithValues(const bool   expected,
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestParseConstraintList(const bool   expected,
-                                     const char * inString) // create value matcher
+static int
+doTestParseConstraintList(const bool   expected,
+                          const char * inString) // create value matcher
 {
     OD_LOG_ENTER(); //####
     OD_LOG_B1("expected = ", expected); //####
@@ -340,8 +345,9 @@ static int doTestParseConstraintList(const bool   expected,
  @param expected @c true if the test is expected to succeed, and @c false otherwise.
  @param inString The string to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestParseExpression(const bool   expected,
-                                 const char * inString) // create value matcher
+static int
+doTestParseExpression(const bool   expected,
+                      const char * inString) // create value matcher
 {
     OD_LOG_ENTER(); //####
     OD_LOG_B1("expected = ", expected); //####
@@ -385,7 +391,8 @@ static int doTestParseExpression(const bool   expected,
 
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
-static void catchSignal(int signal)
+static void
+catchSignal(int signal)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
@@ -415,8 +422,9 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####
                 kODLoggingOptionEnableThreadSupport | kODLoggingOptionWriteToStderr); //####

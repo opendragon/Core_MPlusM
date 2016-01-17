@@ -60,18 +60,30 @@ namespace MplusM
         class MatchValue : public BaseMatcher
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseMatcher inherited;
+            
+        public :
             
             /*! @brief The destructor. */
-            virtual ~MatchValue(void);
+            virtual
+            ~MatchValue(void);
             
             /*! @brief Generate a proper SQL string value corresponding to this match value.
              @returns A string representing the value as a string suitable for use with SQL. */
-            YarpString asSQLString(void)
+            YarpString
+            asSQLString(void)
             const;
             
             /*! @brief Return the match value as a printable string.
              @returns The matching substring as a printable string. */
-            YarpString asString(void)
+            YarpString
+            asString(void)
             const;
             
             /*! @brief Create a pattern matcher if the next substring would be a valid value.
@@ -81,15 +93,17 @@ namespace MplusM
              @param endPos Where the scan terminated, if successful.
              @returns A non-null matcher if the string would be a valid value and @c NULL
              otherwise. */
-            static MatchValue * CreateMatcher(const YarpString & inString,
-                                              const size_t       inLength,
-                                              const size_t       startPos,
-                                              size_t &           endPos);
+            static MatchValue *
+            CreateMatcher(const YarpString & inString,
+                          const size_t       inLength,
+                          const size_t       startPos,
+                          size_t &           endPos);
             
             /*! @brief Return @c true if the string has wildcard characters.
              @returns @c true if there are wildcard characters in the string and @c false
              otherwise. */
-            inline bool hasWildcardCharacters(void)
+            inline bool
+            hasWildcardCharacters(void)
             const
             {
                 return _hasWildcards;
@@ -101,7 +115,8 @@ namespace MplusM
             
             /*! @brief The constructor.
              @param inString The matching segment of the original string. */
-            explicit MatchValue(const YarpString & inString);
+            explicit
+            MatchValue(const YarpString & inString);
             
             COPY_AND_ASSIGNMENT_(MatchValue);
             
@@ -110,9 +125,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseMatcher inherited;
             
             /*! @brief The subtring that (maximally) matched as a value. */
             YarpString _matchingString;

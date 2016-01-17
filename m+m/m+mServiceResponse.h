@@ -60,29 +60,40 @@ namespace MplusM
         class ServiceResponse
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor. */
             ServiceResponse(void);
             
             /*! @brief The constructor.
              @param values The (optional) values for the response. */
-            explicit ServiceResponse(const yarp::os::Bottle & values);
+            explicit
+            ServiceResponse(const yarp::os::Bottle & values);
             
             /*! @brief The destructor. */
-            virtual ~ServiceResponse(void);
+            virtual
+            ~ServiceResponse(void);
             
             /*! @brief The assignment operator.
              @param values The (optional) values for the response. */
-            ServiceResponse & operator =(const yarp::os::Bottle & values);
+            ServiceResponse &
+            operator =(const yarp::os::Bottle & values);
             
             /*! @brief Return a printable version of the response.
              @returns A printable version of the response. */
-            YarpString asString(void)
+            YarpString
+            asString(void)
             const;
             
             /*! @brief The number of values in the response.
              @returns The number of values in the response. */
-            inline int count(void)
+            inline int
+            count(void)
             const
             {
                 return _values.size();
@@ -91,12 +102,14 @@ namespace MplusM
             /*! @brief Fetch an element from the values.
              @param index The @c 0-based index of the desired element.
              @returns The element corresponding to the provided index. */
-            yarp::os::Value element(const int index)
+            yarp::os::Value
+            element(const int index)
             const;
             
             /*! @brief Return the full set of values.
              @returns All the values in the response. */
-            inline yarp::os::Bottle values(void)
+            inline yarp::os::Bottle
+            values(void)
             const
             {
                 return _values;

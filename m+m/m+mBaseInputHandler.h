@@ -59,17 +59,19 @@
  The method returns @c true if the input was correctly structured and successfully processed and
  @c false otherwise. */
 # define DECLARE_HANDLEINPUT_ \
-    virtual bool handleInput(const yarp::os::Bottle &     input,\
-                             const YarpString &           senderChannel,\
-                             yarp::os::ConnectionWriter * replyMechanism,\
-                             const size_t                 numBytes)
+    virtual bool\
+    handleInput(const yarp::os::Bottle &     input,\
+                const YarpString &           senderChannel,\
+                yarp::os::ConnectionWriter * replyMechanism,\
+                const size_t                 numBytes)
 
 /*! @brief Define the handleInput method. */
 # define DEFINE_HANDLE_INPUT_(class_) \
-    bool class_::handleInput(const yarp::os::Bottle &     input,\
-                             const YarpString &           senderChannel,\
-                             yarp::os::ConnectionWriter * replyMechanism,\
-                             const size_t                 numBytes)
+    bool\
+    class_::handleInput(const yarp::os::Bottle &     input,\
+                        const YarpString &           senderChannel,\
+                        yarp::os::ConnectionWriter * replyMechanism,\
+                        const size_t                 numBytes)
 
 namespace MplusM
 {
@@ -81,23 +83,36 @@ namespace MplusM
         class BaseInputHandler : public yarp::os::PortReader
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::PortReader inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             BaseInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~BaseInputHandler(void);
+            virtual
+            ~BaseInputHandler(void);
             
             /*! @brief Turn off the send / receive metrics collecting. */
-            void disableMetrics(void);
+            void
+            disableMetrics(void);
             
             /*! @brief Turn on the send / receive metrics collecting. */
-            void enableMetrics(void);
+            void
+            enableMetrics(void);
             
-            /*! @fn virtual bool handleInput(const yarp::os::Bottle &     input,
-                                             const YarpString &           senderChannel,
-                                             yarp::os::ConnectionWriter * replyMechanism,
-                                             const size_t                 numBytes)
+            /*! @fn virtual bool
+                    handleInput(const yarp::os::Bottle &     input,
+                                const YarpString &           senderChannel,
+                                yarp::os::ConnectionWriter * replyMechanism,
+                                const size_t                 numBytes)
              @brief Process partially-structured input data.
              @param input The partially-structured input data.
              @param senderChannel The name of the channel used to send the input data.
@@ -109,7 +124,8 @@ namespace MplusM
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
-            inline bool metricsAreEnabled(void)
+            inline bool
+            metricsAreEnabled(void)
             const
             {
                 return _metricsEnabled;
@@ -117,10 +133,12 @@ namespace MplusM
             
             /*! @brief Remember the channel that is feeding the input handler.
              @param theChannel The channel that is feeding the input handler. */
-            void setChannel(BaseChannel * theChannel);
+            void
+            setChannel(BaseChannel * theChannel);
             
             /*! @brief Terminate processing of the input data stream. */
-            void stopProcessing(void);
+            void
+            stopProcessing(void);
             
         protected :
             
@@ -131,16 +149,14 @@ namespace MplusM
             /*! @brief Read an object from the input stream.
              @param connection The input stream that is to be read from.
              @returns @c true if the object was successfully read and @c false otherwise. */
-            virtual bool read(yarp::os::ConnectionReader & connection);
+            virtual bool
+            read(yarp::os::ConnectionReader & connection);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::PortReader inherited;
             
             /*! @brief The channel that is feeding this input handler. */
             BaseChannel * _channel;

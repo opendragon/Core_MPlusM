@@ -66,16 +66,27 @@ namespace MplusM
         class TruncateFloatFilterInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             TruncateFloatFilterInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~TruncateFloatFilterInputHandler(void);
+            virtual
+            ~TruncateFloatFilterInputHandler(void);
             
             /*! @brief Set the channel to be written to.
              @param output The channel to be written to. */
-            void setOutput(Common::GeneralChannel * output);
+            void
+            setOutput(Common::GeneralChannel * output);
             
         protected :
             
@@ -90,9 +101,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The channel that is to be written to. */
             Common::GeneralChannel * _outChannel;

@@ -77,9 +77,10 @@ using namespace MplusM::Parser;
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-size_t BaseMatcher::SkipWhitespace(const YarpString & inString,
-                                   const size_t       inLength,
-                                   const size_t       startPos)
+size_t
+BaseMatcher::SkipWhitespace(const YarpString & inString,
+                            const size_t       inLength,
+                            const size_t       startPos)
 {
     size_t result = startPos;
     

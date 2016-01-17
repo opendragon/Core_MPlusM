@@ -77,8 +77,9 @@ using namespace MplusM::Common;
  @param workingContact The connection information that is to be filled in.
  @param channelName The desired endpoint name.
  @returns @c true if the connection information has been constructed and @c false otherwise. */
-static bool setChannelIPAddress(yarp::os::Contact & workingContact,
-                                const YarpString &  channelName)
+static bool
+setChannelIPAddress(yarp::os::Contact & workingContact,
+                    const YarpString &  channelName)
 {
 #if defined(MpM_ReportContactDetails)
     DumpContactToLog("enter setIPAddress", workingContact); //####
@@ -110,7 +111,8 @@ static bool setChannelIPAddress(yarp::os::Contact & workingContact,
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-void BaseChannel::RelinquishChannel(BaseChannel * theChannel)
+void
+BaseChannel::RelinquishChannel(BaseChannel * theChannel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("theChannel = ", theChannel); //####
@@ -160,7 +162,8 @@ BaseChannel::~BaseChannel(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseChannel::close(void)
+void
+BaseChannel::close(void)
 {
     OD_LOG_OBJENTER(); //####
 #if (! defined(MpM_DontUseTimeouts))
@@ -188,21 +191,24 @@ void BaseChannel::close(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::close
 
-void BaseChannel::disableMetrics(void)
+void
+BaseChannel::disableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = false;
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::disableMetrics
 
-void BaseChannel::enableMetrics(void)
+void
+BaseChannel::enableMetrics(void)
 {
     OD_LOG_OBJENTER(); //####
     _metricsEnabled = true;
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::enableMetrics
 
-void BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
+void
+BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("counters = ", &counters); //####
@@ -214,8 +220,9 @@ void BaseChannel::getSendReceiveCounters(SendReceiveCounters & counters)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool BaseChannel::openWithRetries(const YarpString & theChannelName,
-                                  const double       timeToWait)
+bool
+BaseChannel::openWithRetries(const YarpString & theChannelName,
+                             const double       timeToWait)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
@@ -246,8 +253,9 @@ bool BaseChannel::openWithRetries(const YarpString & theChannelName,
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
-                                  const double        timeToWait)
+bool
+BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
+                             const double        timeToWait)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_
@@ -314,7 +322,8 @@ bool BaseChannel::openWithRetries(yarp::os::Contact & theContactInfo,
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void BaseChannel::updateReceiveCounters(const size_t numBytes)
+void
+BaseChannel::updateReceiveCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
@@ -325,7 +334,8 @@ void BaseChannel::updateReceiveCounters(const size_t numBytes)
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::updateReceiveCounters
 
-void BaseChannel::updateSendCounters(const size_t numBytes)
+void
+BaseChannel::updateSendCounters(const size_t numBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("numBytes = ", numBytes); //####
@@ -336,7 +346,8 @@ void BaseChannel::updateSendCounters(const size_t numBytes)
     OD_LOG_OBJEXIT(); //####
 } // BaseChannel::updateSendCounters
 
-bool BaseChannel::write(yarp::os::Bottle & message)
+bool
+BaseChannel::write(yarp::os::Bottle & message)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("message = ", message.toString()); //####
@@ -356,8 +367,9 @@ bool BaseChannel::write(yarp::os::Bottle & message)
     return result;
 } // BaseChannel::write
 
-bool BaseChannel::write(yarp::os::Bottle & message,
-                        yarp::os::Bottle & reply)
+bool
+BaseChannel::write(yarp::os::Bottle & message,
+                   yarp::os::Bottle & reply)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("message = ", message.toString()); //####

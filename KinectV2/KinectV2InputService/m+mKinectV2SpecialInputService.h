@@ -72,6 +72,15 @@ namespace MplusM
         class KinectV2SpecialInputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -90,7 +99,8 @@ namespace MplusM
                                         const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~KinectV2SpecialInputService(void);
+            virtual
+            ~KinectV2SpecialInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -122,9 +132,6 @@ namespace MplusM
 
         private :
 
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
-            
             /*! @brief The event thread to use. */
             KinectV2SpecialEventThread * _eventThread;
 

@@ -106,7 +106,8 @@ Test09Service::~Test09Service(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void Test09Service::attachRequestHandlers(void)
+void
+Test09Service::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -129,7 +130,8 @@ void Test09Service::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // Test09Service::attachRequestHandlers
 
-void Test09Service::detachRequestHandlers(void)
+void
+Test09Service::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try

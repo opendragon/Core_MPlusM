@@ -96,7 +96,7 @@ ProComp2InputService::ProComp2InputService(const Utilities::DescriptorVector & a
                                            const YarpString &                  servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_PROCOMP2INPUT_CANONICAL_NAME_,
               PROCOMP2INPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-			  _eventThread(NULL)
+              _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -134,7 +134,7 @@ DEFINE_CONFIGURE_(ProComp2InputService)
     
     try
     {
-		result = true;
+        result = true;
     }
     catch (...)
     {
@@ -197,9 +197,9 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(ProComp2InputService)
     OD_LOG_OBJENTER(); //####
     bool result = inherited::shutDownOutputStreams();
     
-	if (_eventThread)
+    if (_eventThread)
     {
-		_eventThread->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -239,8 +239,8 @@ DEFINE_STARTSTREAMS_(ProComp2InputService)
     {
         if (! isActive())
         {
-			_eventThread = new ProComp2InputThread(getOutletStream(0));
-			if (_eventThread->start())
+            _eventThread = new ProComp2InputThread(getOutletStream(0));
+            if (_eventThread->start())
             {
                 setActive();
             }
@@ -284,12 +284,12 @@ DEFINE_STOPSTREAMS_(ProComp2InputService)
         if (isActive())
         {
             _eventThread->stop();
-			for (; _eventThread->isRunning();)
+            for (; _eventThread->isRunning();)
             {
                 yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
             }
-			delete _eventThread;
-			_eventThread = NULL;
+            delete _eventThread;
+            _eventThread = NULL;
             clearActive();
         }
     }

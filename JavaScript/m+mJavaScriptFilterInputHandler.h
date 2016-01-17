@@ -70,6 +70,15 @@ namespace MplusM
         class JavaScriptFilterInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param owner The service that owns this handler.
@@ -78,23 +87,27 @@ namespace MplusM
                                          const size_t              slotNumber);
             
             /*! @brief The destructor. */
-            virtual ~JavaScriptFilterInputHandler(void);
+            virtual
+            ~JavaScriptFilterInputHandler(void);
             
             /*! @brief Turn on input processing. */
-            inline void activate(void)
+            inline void
+            activate(void)
             {
                 _active = true;
             } // activate
             
             /*! @brief Turn off input processing. */
-            inline void deactivate(void)
+            inline void
+            deactivate(void)
             {
                 _active = false;
             } // deactivate
             
             /*! @brief Return the most recently received data.
              @returns The most recently received data. */
-            inline const yarp::os::Bottle & getReceivedData(void)
+            inline const yarp::os::Bottle &
+            getReceivedData(void)
             const
             {
                 return _received;
@@ -113,9 +126,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The service that owns this handler. */
             JavaScriptFilterService * _owner;

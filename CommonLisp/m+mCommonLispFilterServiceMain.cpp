@@ -121,7 +121,8 @@ static CommonLispFilterService * lActiveService = NULL;
 #endif // defined(__APPLE__)
 
 /*! @brief A C-callback function for Common Lisp to get the current time in seconds. */
-static cl_object getTimeNowForCl(void)
+static cl_object
+getTimeNowForCl(void)
 {
     OD_LOG_ENTER(); //####
     cl_env_ptr env = ecl_process_env();
@@ -132,7 +133,8 @@ static cl_object getTimeNowForCl(void)
 } // getTimeNowForCl
 
 /*! @brief A C-callback function for Common Lisp to stop the service. */
-static cl_object requestStopForCl(void)
+static cl_object
+requestStopForCl(void)
 {
     OD_LOG_ENTER(); //####
     cl_env_ptr env = ecl_process_env();
@@ -148,8 +150,9 @@ static cl_object requestStopForCl(void)
 /*! @brief A C-callback function for Common Lisp to send an object to a channel.
  @param channelIndex The number of the channel to be used.
  @param message The message to send to the channel. */
-static cl_object sendToChannelForCl(cl_object channelIndex,
-                                    cl_object message)
+static cl_object
+sendToChannelForCl(cl_object channelIndex,
+                   cl_object message)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("channelIndex = ", channelIndex, "message = ", message); //####
@@ -165,7 +168,8 @@ static cl_object sendToChannelForCl(cl_object channelIndex,
 
 /*! @brief Add custom functions to the Common Lisp environment.
  @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
-static void addCustomFunctions(void)
+static void
+addCustomFunctions(void)
 {
     OD_LOG_ENTER(); //####
     DEFUN_("getTimeNow", getTimeNowForCl, 0);
@@ -210,7 +214,8 @@ static void addCustomFunctions(void)
 /*! @brief Add custom classes to the Common Lisp environment.
  @param ourPackage The package to be used with the new classes.
  @returns @c true if the custom classes were addeded successfully and @c false otherwise. */
-static bool addCustomClasses(cl_object ourPackage)
+static bool
+addCustomClasses(cl_object ourPackage)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ourPackage = ", ourPackage); //####
@@ -223,8 +228,9 @@ static bool addCustomClasses(cl_object ourPackage)
 /*! @brief Add an array containing the command-line arguments to the Common Lisp environment.
  @param ourPackage The package to be used with the new object.
  @param argv The arguments to be used with the %CommonLisp filter service. */
-static void addArgvObject(cl_object                ourPackage,
-                          const YarpStringVector & argv)
+static void
+addArgvObject(cl_object                ourPackage,
+              const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("ourPackage = ", ourPackage, "argv = ", &argv); //####
@@ -245,8 +251,9 @@ static void addArgvObject(cl_object                ourPackage,
 /*! @brief Add a custom string object to the Common Lisp environment.
  @param ourPackage The package to be used with the new object.
  @param tag The modifier for the service name and port names. */
-static void addScriptTagObject(cl_object          ourPackage,
-                               const YarpString & tag)
+static void
+addScriptTagObject(cl_object          ourPackage,
+                   const YarpString & tag)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("ourPackage = ", ourPackage); //####
@@ -264,8 +271,9 @@ static void addScriptTagObject(cl_object          ourPackage,
 /*! @brief Add custom classes, functions and variables to the Common Lisp environment.
  @param tag The modifier for the service name and port names.
  @param argv The arguments to be used with the %CommonLisp filter service. */
-static cl_object addCustomObjects(const YarpString &       tag,
-                                  const YarpStringVector & argv)
+static cl_object
+addCustomObjects(const YarpString &       tag,
+                 const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("argv = ", &argv); //####
@@ -289,8 +297,9 @@ static cl_object addCustomObjects(const YarpString &       tag,
  @param objectFunction The function to be checked.
  @param arityRequired The required arity for the function.
  @returns @c true if the function has the required arity or @c false otherwise. */
-static bool checkArity(cl_object      objectFunction,
-                       const uint32_t arityRequired)
+static bool
+checkArity(cl_object      objectFunction,
+           const uint32_t arityRequired)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("objectFunction = ", objectFunction); //####
@@ -328,10 +337,11 @@ static bool checkArity(cl_object      objectFunction,
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the number, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedDouble(const char * propertyName,
-                            const bool   canBeFunction,
-                            const bool   isOptional,
-                            double &     result)
+static bool
+getLoadedDouble(const char * propertyName,
+                const bool   canBeFunction,
+                const bool   isOptional,
+                double &     result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
@@ -434,10 +444,11 @@ static bool getLoadedDouble(const char * propertyName,
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedString(const char * propertyName,
-                            const bool   canBeFunction,
-                            const bool   isOptional,
-                            YarpString & result)
+static bool
+getLoadedString(const char * propertyName,
+                const bool   canBeFunction,
+                const bool   isOptional,
+                YarpString & result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
@@ -558,10 +569,11 @@ static bool getLoadedString(const char * propertyName,
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedFunctionRef(const char *   propertyName,
-                                 const uint32_t arity,
-                                 const bool     isOptional,
-                                 cl_object &    result)
+static bool
+getLoadedFunctionRef(const char *   propertyName,
+                     const uint32_t arity,
+                     const bool     isOptional,
+                     cl_object &    result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("propertyName = ", propertyName); //####
@@ -621,9 +633,10 @@ static bool getLoadedFunctionRef(const char *   propertyName,
  @param inletHandlers non-@c NULL if there must be a handler for the stream description.
  @param description The validated stream description.
  @returns @c true on success and @c false otherwise. */
-static bool processStreamDescription(cl_object            anElement,
-                                     ObjectVector *       inletHandlers,
-                                     ChannelDescription & description)
+static bool
+processStreamDescription(cl_object            anElement,
+                         ObjectVector *       inletHandlers,
+                         ChannelDescription & description)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
@@ -754,9 +767,10 @@ static bool processStreamDescription(cl_object            anElement,
  @param inletHandlers non-@c NULL if there must be a handler for each stream description.
  @param streamDescriptions The list of loaded stream descriptions.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedStreamDescriptions(const char *    arrayName,
-                                        ObjectVector *  inletHandlers,
-                                        ChannelVector & streamDescriptions)
+static bool
+getLoadedStreamDescriptions(const char *    arrayName,
+                            ObjectVector *  inletHandlers,
+                            ChannelVector & streamDescriptions)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("inletHandlers = ", inletHandlers, "streamDescriptions = ", //####
@@ -886,17 +900,18 @@ static bool getLoadedStreamDescriptions(const char *    arrayName,
  @param loadedInterval The interval (in seconds) between executions of the output-generating thread.
  @returns @c true on success and @c false otherwise.
  @param missingStuff A list of the missing functions or variables. */
-static bool validateLoadedScript(bool &          sawThread,
-                                 YarpString &    description,
-                                 YarpString &    helpString,
-                                 ChannelVector & loadedInletDescriptions,
-                                 ChannelVector & loadedOutletDescriptions,
-                                 ObjectVector &  loadedInletHandlers,
-                                 cl_object &     loadedStartingFunction,
-                                 cl_object &     loadedStoppingFunction,
-                                 cl_object &     loadedThreadFunction,
-                                 double &        loadedInterval,
-                                 YarpString &    missingStuff)
+static bool
+validateLoadedScript(bool &          sawThread,
+                     YarpString &    description,
+                     YarpString &    helpString,
+                     ChannelVector & loadedInletDescriptions,
+                     ChannelVector & loadedOutletDescriptions,
+                     ObjectVector &  loadedInletHandlers,
+                     cl_object &     loadedStartingFunction,
+                     cl_object &     loadedStoppingFunction,
+                     cl_object &     loadedThreadFunction,
+                     double &        loadedInterval,
+                     YarpString &    missingStuff)
 {
     OD_LOG_ENTER();
     OD_LOG_P4("sawThread = ", &sawThread, "description = ", &description, "helpString = ", //####
@@ -1008,19 +1023,20 @@ static bool validateLoadedScript(bool &          sawThread,
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
-static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
-                       YarpString &                        scriptPath,
-                       const YarpStringVector &            arguments,
-                       const YarpString &                  progName,
-                       const int                           argc,
-                       char * *                            argv,
-                       YarpString &                        tag,
-                       YarpString &                        serviceEndpointName,
-                       const YarpString &                  servicePortNumber,
-                       const bool                          goWasSet,
-                       const bool                          nameWasSet,
-                       const bool                          reportOnExit,
-                       const bool                          stdinAvailable)
+static void
+setUpAndGo(const Utilities::DescriptorVector & argumentList,
+           YarpString &                        scriptPath,
+           const YarpStringVector &            arguments,
+           const YarpString &                  progName,
+           const int                           argc,
+           char * *                            argv,
+           YarpString &                        tag,
+           YarpString &                        serviceEndpointName,
+           const YarpString &                  servicePortNumber,
+           const bool                          goWasSet,
+           const bool                          nameWasSet,
+           const bool                          reportOnExit,
+           const bool                          stdinAvailable)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
@@ -1146,8 +1162,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %CommonLisp filter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -1183,14 +1200,14 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-		if (ProcessStandardServiceOptions(argc, argv, argumentList,
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           COMMONLISPFILTER_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           modFlag, kSkipNone, &arguments))
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -1233,8 +1250,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
     }
     catch (...)
     {

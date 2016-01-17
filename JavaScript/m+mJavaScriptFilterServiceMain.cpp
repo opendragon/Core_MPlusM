@@ -101,9 +101,10 @@ static JSClass lGlobalClass =
  @param cx The context in which the error happened.
  @param message An error message.
  @param report An error report record containing additional details about the error. */
-static void reportJavaScriptError(JSContext *     cx,
-                                  const char *    message,
-                                  JSErrorReport * report)
+static void
+reportJavaScriptError(JSContext *     cx,
+                      const char *    message,
+                      JSErrorReport * report)
 {
     // Note that, since this is a callback for the JavaScript engine, it must NOT throw any C++
     // exceptions!
@@ -131,9 +132,10 @@ static void reportJavaScriptError(JSContext *     cx,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool dumpObjectToStdoutForJs(JSContext * jct,
-                                    unsigned    argc,
-                                    JS::Value * vp)
+static bool
+dumpObjectToStdoutForJs(JSContext * jct,
+                        unsigned    argc,
+                        JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -192,9 +194,10 @@ static bool dumpObjectToStdoutForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool getTimeNowForJs(JSContext * jct,
-                            unsigned    argc,
-                            JS::Value * vp)
+static bool
+getTimeNowForJs(JSContext * jct,
+                unsigned    argc,
+                JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -221,9 +224,10 @@ static bool getTimeNowForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool requestStopForJs(JSContext * jct,
-                             unsigned    argc,
-                             JS::Value * vp)
+static bool
+requestStopForJs(JSContext * jct,
+                 unsigned    argc,
+                 JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -256,9 +260,10 @@ static bool requestStopForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool sendToChannelForJs(JSContext * jct,
-                               unsigned    argc,
-                               JS::Value * vp)
+static bool
+sendToChannelForJs(JSContext * jct,
+                   unsigned    argc,
+                   JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -298,9 +303,10 @@ static bool sendToChannelForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool writeLineToStdoutForJs(JSContext * jct,
-                                   unsigned    argc,
-                                   JS::Value * vp)
+static bool
+writeLineToStdoutForJs(JSContext * jct,
+                       unsigned    argc,
+                       JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -353,8 +359,9 @@ static const JSFunctionSpec lServiceFunctions[] =
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
  @returns @c true if the custom functions were addeded successfully and @c false otherwise. */
-static bool addCustomFunctions(JSContext *        jct,
-                               JS::RootedObject & global)
+static bool
+addCustomFunctions(JSContext *        jct,
+                   JS::RootedObject & global)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
@@ -369,8 +376,9 @@ static bool addCustomFunctions(JSContext *        jct,
 /*! @brief Release resources used by a Stream object.
  @param freeOp The environment in which this is being performed.
  @param obj The Stream object being released. */
-static void cleanupStreamObject(JSFreeOp * freeOp,
-                                JSObject * obj);
+static void
+cleanupStreamObject(JSFreeOp * freeOp,
+                    JSObject * obj);
 
 /*! @brief The class of the global object. */
 static JSClass lStreamClass =
@@ -390,8 +398,9 @@ static JSClass lStreamClass =
     cleanupStreamObject  // finalize
 }; // lStreamClass
 
-static void cleanupStreamObject(JSFreeOp * freeOp,
-                                JSObject * obj)
+static void
+cleanupStreamObject(JSFreeOp * freeOp,
+                    JSObject * obj)
 {
     OD_LOG_ENTER(); //####
     if (&lStreamClass == JS_GetClass(obj))
@@ -412,9 +421,10 @@ static void cleanupStreamObject(JSFreeOp * freeOp,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool CreateStreamObject(JSContext * jct,
-                               unsigned    argc,
-                               JS::Value * vp)
+static bool
+createStreamObject(JSContext * jct,
+                   unsigned    argc,
+                   JS::Value * vp)
 {
     bool         result = false;
     JS::CallArgs args = JS::CallArgsFromVp(argc, vp);
@@ -435,16 +445,17 @@ static bool CreateStreamObject(JSContext * jct,
         }
     }
     return result;
-} // CreateStreamObject
+} // createStreamObject
 
 /*! @brief A C-callback function for %JavaScript to check if a Stream object is at EOF.
  @param jct The context in which the native function is being called.
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamAtEofForJs(JSContext * jct,
-                             unsigned    argc,
-                             JS::Value * vp)
+static bool
+streamAtEofForJs(JSContext * jct,
+                 unsigned    argc,
+                 JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -481,9 +492,10 @@ static bool streamAtEofForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamClearErrorForJs(JSContext * jct,
-                                  unsigned    argc,
-                                  JS::Value * vp)
+static bool
+streamClearErrorForJs(JSContext * jct,
+                      unsigned    argc,
+                      JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -515,9 +527,10 @@ static bool streamClearErrorForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamCloseForJs(JSContext * jct,
-                             unsigned    argc,
-                             JS::Value * vp)
+static bool
+streamCloseForJs(JSContext * jct,
+                 unsigned    argc,
+                 JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -550,9 +563,10 @@ static bool streamCloseForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamHasErrorForJs(JSContext * jct,
-                                unsigned    argc,
-                                JS::Value * vp)
+static bool
+streamHasErrorForJs(JSContext * jct,
+                    unsigned    argc,
+                    JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -589,9 +603,10 @@ static bool streamHasErrorForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamIsOpenForJs(JSContext * jct,
-                             unsigned    argc,
-                             JS::Value * vp)
+static bool
+streamIsOpenForJs(JSContext * jct,
+                  unsigned    argc,
+                  JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -620,9 +635,10 @@ static bool streamIsOpenForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamOpenForJs(JSContext * jct,
-                            unsigned    argc,
-                            JS::Value * vp)
+static bool
+streamOpenForJs(JSContext * jct,
+                unsigned    argc,
+                JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -676,9 +692,10 @@ static bool streamOpenForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadCharacterForJs(JSContext * jct,
-                                     unsigned    argc,
-                                     JS::Value * vp)
+static bool
+streamReadCharacterForJs(JSContext * jct,
+                         unsigned    argc,
+                         JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -717,9 +734,10 @@ static bool streamReadCharacterForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadLineForJs(JSContext * jct,
-                                unsigned    argc,
-                                JS::Value * vp)
+static bool
+streamReadLineForJs(JSContext * jct,
+                    unsigned    argc,
+                    JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -786,9 +804,10 @@ static bool streamReadLineForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadNumberForJs(JSContext * jct,
-                                  unsigned    argc,
-                                  JS::Value * vp)
+static bool
+streamReadNumberForJs(JSContext * jct,
+                      unsigned    argc,
+                      JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -825,9 +844,10 @@ static bool streamReadNumberForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamReadStringForJs(JSContext * jct,
-                                  unsigned    argc,
-                                  JS::Value * vp)
+static bool
+streamReadStringForJs(JSContext * jct,
+                      unsigned    argc,
+                      JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -944,9 +964,10 @@ static bool streamReadStringForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamRewindForJs(JSContext * jct,
-                              unsigned    argc,
-                              JS::Value * vp)
+static bool
+streamRewindForJs(JSContext * jct,
+                  unsigned    argc,
+                  JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -978,9 +999,10 @@ static bool streamRewindForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamWriteForJs(JSContext * jct,
-                             unsigned    argc,
-                             JS::Value * vp)
+static bool
+streamWriteForJs(JSContext * jct,
+                 unsigned    argc,
+                 JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -1020,9 +1042,10 @@ static bool streamWriteForJs(JSContext * jct,
  @param argc The number of arguments supplied to the function by the caller.
  @param vp The arguments to the function.
  @returns @c true on success and @c false otherwise. */
-static bool streamWriteLineForJs(JSContext * jct,
-                                 unsigned    argc,
-                                 JS::Value * vp)
+static bool
+streamWriteLineForJs(JSContext * jct,
+                     unsigned    argc,
+                     JS::Value * vp)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "vp = ", vp); //####
@@ -1081,18 +1104,19 @@ static const JSFunctionSpec lStreamFunctions[] =
  @param jct The %JavaScript engine context.
  @param global The %JavaScript global object.
  @returns @c true if the custom classes were addeded successfully and @c false otherwise. */
-static bool addCustomClasses(JSContext *        jct,
-                             JS::RootedObject & global)
+static bool
+addCustomClasses(JSContext *        jct,
+                 JS::RootedObject & global)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
     bool okSoFar = false;
     
 #if (40 < MOZJS_MAJOR_VERSION)
-    if (JS_InitClass(jct, global, NULL, &lStreamClass, CreateStreamObject, 0, NULL,
+    if (JS_InitClass(jct, global, NULL, &lStreamClass, createStreamObject, 0, NULL,
                      lStreamFunctions, NULL, NULL))
 #else // 40 >= MOZJS_MAJOR_VERSION
-    if (JS_InitClass(jct, global, JS::NullPtr(), &lStreamClass, CreateStreamObject, 0, NULL,
+    if (JS_InitClass(jct, global, JS::NullPtr(), &lStreamClass, createStreamObject, 0, NULL,
                      lStreamFunctions, NULL, NULL))
 #endif // 40 >= MOZJS_MAJOR_VERSION
     {
@@ -1107,9 +1131,10 @@ static bool addCustomClasses(JSContext *        jct,
  @param global The %JavaScript global object.
  @param argv The arguments to be used with the %JavaScript filter service.
  @returns @c true if the arrays wss addeded successfully and @c false otherwise. */
-static bool addArgvObject(JSContext *              jct,
-                          JS::RootedObject &       global,
-                          const YarpStringVector & argv)
+static bool
+addArgvObject(JSContext *              jct,
+              JS::RootedObject &       global,
+              const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
@@ -1196,9 +1221,10 @@ static bool addArgvObject(JSContext *              jct,
  @param global The %JavaScript global object.
  @param tag The modifier for the service name and port names.
  @returns @c true if the custom string object was addeded successfully and @c false otherwise. */
-static bool addScriptTagObject(JSContext *        jct,
-                               JS::RootedObject & global,
-                               const YarpString & tag)
+static bool
+addScriptTagObject(JSContext *        jct,
+                   JS::RootedObject & global,
+                   const YarpString & tag)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "global = ", &global); //####
@@ -1230,10 +1256,11 @@ static bool addScriptTagObject(JSContext *        jct,
  @param tag The modifier for the service name and port names.
  @param argv The arguments to be used with the %JavaScript filter service.
  @returns @c true if the custom objects were addeded successfully and @c false otherwise. */
-static bool addCustomObjects(JSContext *              jct,
-                             JS::RootedObject &       global,
-                             const YarpString &       tag,
-                             const YarpStringVector & argv)
+static bool
+addCustomObjects(JSContext *              jct,
+                 JS::RootedObject &       global,
+                 const YarpString &       tag,
+                 const YarpStringVector & argv)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "global = ", &global, "argv = ", &argv); //####
@@ -1262,10 +1289,11 @@ static bool addCustomObjects(JSContext *              jct,
  @param script The %JavaScript source code to be executed.
  @param scriptPath The path to the script file.
  @returns @c true on success and @c false otherwise. */
-static bool loadScript(JSContext *                jct,
-                       JS::OwningCompileOptions & options,
-                       const YarpString &         script,
-                       const YarpString &         scriptPath)
+static bool
+loadScript(JSContext *                jct,
+           JS::OwningCompileOptions & options,
+           const YarpString &         script,
+           const YarpString &         scriptPath)
 {
     OD_LOG_ENTER();
     OD_LOG_P1("jct = ", jct); //####
@@ -1291,12 +1319,13 @@ static bool loadScript(JSContext *                jct,
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the number, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedDouble(JSContext *        jct,
-                            JS::RootedObject & anObject,
-                            const char *       propertyName,
-                            const bool         canBeFunction,
-                            const bool         isOptional,
-                            double &           result)
+static bool
+getLoadedDouble(JSContext *        jct,
+                JS::RootedObject & anObject,
+                const char *       propertyName,
+                const bool         canBeFunction,
+                const bool         isOptional,
+                double &           result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
@@ -1423,12 +1452,13 @@ static bool getLoadedDouble(JSContext *        jct,
  @param isOptional @c true if the property does not have to be present.
  @param result The value of the string, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedString(JSContext *        jct,
-                            JS::RootedObject & anObject,
-                            const char *       propertyName,
-                            const bool         canBeFunction,
-                            const bool         isOptional,
-                            YarpString &       result)
+static bool
+getLoadedString(JSContext *        jct,
+                JS::RootedObject & anObject,
+                const char *       propertyName,
+                const bool         canBeFunction,
+                const bool         isOptional,
+                YarpString &       result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
@@ -1561,11 +1591,12 @@ static bool getLoadedString(JSContext *        jct,
  @param arity The required arity for the function.
  @param result The value of the function, if located.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedFunctionRef(JSContext *        jct,
-                                 JS::RootedObject & anObject,
-                                 const char *       propertyName,
-                                 const uint32_t     arity,
-                                 JS::RootedValue &  result)
+static bool
+getLoadedFunctionRef(JSContext *        jct,
+                     JS::RootedObject & anObject,
+                     const char *       propertyName,
+                     const uint32_t     arity,
+                     JS::RootedValue &  result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "anObject = ", &anObject, "result = ", &result); //####
@@ -1644,10 +1675,11 @@ static bool getLoadedFunctionRef(JSContext *        jct,
  @param inletHandlers non-@c NULL if there must be a handler for the stream description.
  @param description The validated stream description.
  @returns @c true on success and @c false otherwise. */
-static bool processStreamDescription(JSContext *           jct,
-                                     JS::RootedValue &     anElement,
-                                     JS::AutoValueVector * inletHandlers,
-                                     ChannelDescription &  description)
+static bool
+processStreamDescription(JSContext *           jct,
+                         JS::RootedValue &     anElement,
+                         JS::AutoValueVector * inletHandlers,
+                         ChannelDescription &  description)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("jct = ", jct, "anElement = ", &anElement, "inletHandlers = ", inletHandlers, //####
@@ -1716,11 +1748,12 @@ static bool processStreamDescription(JSContext *           jct,
  @param inletHandlers non-@c NULL if there must be a handler for each stream description.
  @param streamDescriptions The list of loaded stream descriptions.
  @returns @c true on success and @c false otherwise. */
-static bool getLoadedStreamDescriptions(JSContext *           jct,
-                                        JS::RootedObject &    global,
-                                        const char *          arrayName,
-                                        JS::AutoValueVector * inletHandlers,
-                                        ChannelVector &       streamDescriptions)
+static bool
+getLoadedStreamDescriptions(JSContext *           jct,
+                            JS::RootedObject &    global,
+                            const char *          arrayName,
+                            JS::AutoValueVector * inletHandlers,
+                            ChannelVector &       streamDescriptions)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("jct = ", jct, "global = ", &global, "inletHandlers = ", inletHandlers, //####
@@ -1907,18 +1940,19 @@ static bool getLoadedStreamDescriptions(JSContext *           jct,
  @param loadedThreadFunction The function to execute on an output-generating thread.
  @param loadedInterval The interval (in seconds) between executions of the output-generating thread.
  @returns @c true on success and @c false otherwise. */
-static bool validateLoadedScript(JSContext *           jct,
-                                 JS::RootedObject &    global,
-                                 bool &                sawThread,
-                                 YarpString &          description,
-                                 YarpString &          helpString,
-                                 ChannelVector &       loadedInletDescriptions,
-                                 ChannelVector &       loadedOutletDescriptions,
-                                 JS::AutoValueVector & loadedInletHandlers,
-                                 JS::RootedValue &     loadedStartingFunction,
-                                 JS::RootedValue &     loadedStoppingFunction,
-                                 JS::RootedValue &     loadedThreadFunction,
-                                 double &              loadedInterval)
+static bool
+validateLoadedScript(JSContext *           jct,
+                     JS::RootedObject &    global,
+                     bool &                sawThread,
+                     YarpString &          description,
+                     YarpString &          helpString,
+                     ChannelVector &       loadedInletDescriptions,
+                     ChannelVector &       loadedOutletDescriptions,
+                     JS::AutoValueVector & loadedInletHandlers,
+                     JS::RootedValue &     loadedStartingFunction,
+                     JS::RootedValue &     loadedStoppingFunction,
+                     JS::RootedValue &     loadedThreadFunction,
+                     double &              loadedInterval)
 {
     OD_LOG_ENTER();
     OD_LOG_P4("jct = ", jct, "global = ", &global, "sawThread = ", &sawThread, //####
@@ -1994,19 +2028,20 @@ static bool validateLoadedScript(JSContext *           jct,
  @param nameWasSet @c true if the endpoint name was set and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  @param stdinAvailable @c true if running in the foreground and @c false otherwise. */
-static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
-                       YarpString &                        scriptPath,
-                       const YarpStringVector &            arguments,
-                       const YarpString &                  progName,
-                       const int                           argc,
-                       char * *                            argv,
-                       YarpString &                        tag,
-                       YarpString &                        serviceEndpointName,
-                       const YarpString &                  servicePortNumber,
-                       const bool                          goWasSet,
-                       const bool                          nameWasSet,
-                       const bool                          reportOnExit,
-                       const bool                          stdinAvailable)
+static void
+setUpAndGo(const Utilities::DescriptorVector & argumentList,
+           YarpString &                        scriptPath,
+           const YarpStringVector &            arguments,
+           const YarpString &                  progName,
+           const int                           argc,
+           char * *                            argv,
+           YarpString &                        tag,
+           YarpString &                        serviceEndpointName,
+           const YarpString &                  servicePortNumber,
+           const bool                          goWasSet,
+           const bool                          nameWasSet,
+           const bool                          reportOnExit,
+           const bool                          stdinAvailable)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("argumentList = ", &argumentList, "arguments = ", &arguments, "argv = ", argv); //####
@@ -2253,8 +2288,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %JavaScript filter service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -2290,14 +2326,14 @@ int main(int      argc,
 
         argumentList.push_back(&firstArg);
         argumentList.push_back(&secondArg);
-		if (ProcessStandardServiceOptions(argc, argv, argumentList,
+        if (ProcessStandardServiceOptions(argc, argv, argumentList,
                                           JAVASCRIPTFILTER_SERVICE_DESCRIPTION_, "", 2015,
                                           STANDARD_COPYRIGHT_NAME_, goWasSet, reportEndpoint,
                                           reportOnExit, tag, serviceEndpointName, servicePortNumber,
                                           modFlag, kSkipNone, &arguments))
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -2340,8 +2376,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
     }
     catch (...)
     {

@@ -81,11 +81,12 @@ static const char kComma = ',';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchExpression * MatchExpression::CreateMatcher(const YarpString &  inString,
-                                                 const size_t        inLength,
-                                                 const size_t        startPos,
-                                                 size_t &            endPos,
-                                                 BaseNameValidator * validator)
+MatchExpression *
+MatchExpression::CreateMatcher(const YarpString &  inString,
+                               const size_t        inLength,
+                               const size_t        startPos,
+                               size_t &            endPos,
+                               BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -170,7 +171,8 @@ MatchExpression * MatchExpression::CreateMatcher(const YarpString &  inString,
     return result;
 } // MatchExpression::CreateMatcher
 
-char MatchExpression::ExpressionSeparatorCharacter(void)
+char
+MatchExpression::ExpressionSeparatorCharacter(void)
 {
     return kComma;
 } // MatchExpression::ExpressionSeparatorCharacter
@@ -197,8 +199,9 @@ MatchExpression::~MatchExpression(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString MatchExpression::asSQLString(const char * prefixString,
-                                        const char * suffixString)
+YarpString
+MatchExpression::asSQLString(const char * prefixString,
+                             const char * suffixString)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -239,7 +242,8 @@ const
     return result;
 } // MatchExpression::asSQLString
 
-YarpString MatchExpression::asString(void)
+YarpString
+MatchExpression::asString(void)
 const
 {
     YarpString result;
@@ -266,13 +270,15 @@ const
     return result;
 } // MatchExpression::asString
 
-int MatchExpression::count(void)
+int
+MatchExpression::count(void)
 const
 {
     return static_cast<int>(_constraints.size());
 } // MatchExpression::count
 
-const MatchConstraint * MatchExpression::element(const int index)
+const MatchConstraint *
+MatchExpression::element(const int index)
 const
 {
     MatchConstraint * result = NULL;
@@ -297,7 +303,8 @@ const
     return result;
 } // MatchExpression::element
 
-void MatchExpression::empty(void)
+void
+MatchExpression::empty(void)
 {
     OD_LOG_OBJENTER(); //####
     try

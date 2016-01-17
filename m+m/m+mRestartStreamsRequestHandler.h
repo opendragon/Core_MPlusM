@@ -64,13 +64,24 @@ namespace MplusM
         class RestartStreamsRequestHandler : public BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit RestartStreamsRequestHandler(BaseInputOutputService & service);
+            explicit
+            RestartStreamsRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
-            virtual ~RestartStreamsRequestHandler(void);
+            virtual
+            ~RestartStreamsRequestHandler(void);
             
         protected :
             
@@ -89,9 +100,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // RestartStreamsRequestHandler
         

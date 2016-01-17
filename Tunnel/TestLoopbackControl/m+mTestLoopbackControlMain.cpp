@@ -90,7 +90,8 @@ static LARGE_INTEGER lFrequency;
 
 /*! @brief Write out a time value in a human-friendly form.
  @param measurement The time value to write out. */
-static void reportTimeInReasonableUnits(const double measurement)
+static void
+reportTimeInReasonableUnits(const double measurement)
 {
     double       newValue;
     const char * tag;
@@ -135,7 +136,8 @@ static void reportTimeInReasonableUnits(const double measurement)
 } // reportTimeInReasonableUnits
 
 /*! @brief Display the available commands. */
-static void displayCommands(void)
+static void
+displayCommands(void)
 {
     OD_LOG_ENTER(); //####
     cout << "Commands:" << endl;
@@ -166,7 +168,8 @@ double getTimeNow(void)
 
 /*! @brief Send and receive a random byte sequence.
  @param talkSocket The socket to use for communication. */
-static void sendAndReceiveRandom(SOCKET talkSocket)
+static void
+sendAndReceiveRandom(SOCKET talkSocket)
 {
     OD_LOG_ENTER(); //####
     char inBuffer[BUFFER_SIZE_];
@@ -239,8 +242,9 @@ static void sendAndReceiveRandom(SOCKET talkSocket)
 /*! @brief Send and receive a text sequence.
  @param talkSocket The socket to use for communication.
  @param inputLine The text to be used. */
-static void sendAndReceiveText(SOCKET              talkSocket,
-                               const std::string & inputLine)
+static void
+sendAndReceiveText(SOCKET              talkSocket,
+                   const std::string & inputLine)
 {
     OD_LOG_ENTER(); //####
     char         inBuffer[BUFFER_SIZE_];
@@ -314,8 +318,9 @@ static void sendAndReceiveText(SOCKET              talkSocket,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Test Loopback Control application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
 #if defined(MpM_ServicesLogToStandardError)
     OD_LOG_INIT(*argv, kODLoggingOptionIncludeProcessID | kODLoggingOptionIncludeThreadID | //####

@@ -81,7 +81,8 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Display the available commands. */
-static void displayCommands(void)
+static void
+displayCommands(void)
 {
     OD_LOG_ENTER(); //####
     cout << "Commands:" << endl;
@@ -95,9 +96,11 @@ static void displayCommands(void)
 
 /*! @brief Set up the environment and perform the operation. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(ChannelStatusReporter * reporter)
+static void
+setUpAndGo(ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(void)
+static void
+setUpAndGo(void)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -257,8 +260,9 @@ static void setUpAndGo(void)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)

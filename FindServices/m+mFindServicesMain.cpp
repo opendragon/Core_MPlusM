@@ -80,7 +80,8 @@ using std::endl;
 #endif // defined(__APPLE__)
 
 /*! @brief Display the available commands. */
-static void displayCommands(void)
+static void
+displayCommands(void)
 {
     OD_LOG_ENTER(); //####
     cout << "Commands:" << endl;
@@ -93,8 +94,9 @@ static void displayCommands(void)
 /*! @brief Produce a list of matching channel names from the given criteria.
  @param criteria The matching criteria to use.
  @param flavour The output format to be used. */
-static void getMatchingChannels(const YarpString &  criteria,
-                                const OutputFlavour flavour)
+static void
+getMatchingChannels(const YarpString &  criteria,
+                    const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("criteria = ", criteria); //####
@@ -205,8 +207,9 @@ static void getMatchingChannels(const YarpString &  criteria,
 /*! @brief Set up the environment and perform the operation.
  @param criteria The matching criteria for the service.
  @param flavour The format for the output. */
-static void setUpAndGo(const YarpString &  criteria,
-                       const OutputFlavour flavour)
+static void
+setUpAndGo(const YarpString &  criteria,
+           const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("criteria = ", criteria); //####
@@ -278,8 +281,9 @@ static void setUpAndGo(const YarpString &  criteria,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -302,8 +306,8 @@ int main(int      argc,
     {
         try
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -335,8 +339,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
         catch (...)
         {
             OD_LOG("Exception caught"); //####

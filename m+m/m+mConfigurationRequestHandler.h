@@ -67,13 +67,24 @@ namespace MplusM
         class ConfigurationRequestHandler : public BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit ConfigurationRequestHandler(BaseInputOutputService & service);
+            explicit
+            ConfigurationRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
-            virtual ~ConfigurationRequestHandler(void);
+            virtual
+            ~ConfigurationRequestHandler(void);
             
         protected :
             
@@ -92,9 +103,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // ConfigurationRequestHandler
         

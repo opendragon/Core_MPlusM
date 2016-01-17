@@ -102,8 +102,9 @@ ClientChannel::~ClientChannel(void)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-bool ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
-                                         const double       timeToWait)
+bool
+ClientChannel::addOutputWithRetries(const YarpString & theChannelToBeAdded,
+                                    const double       timeToWait)
 {
 #if ((! RETRY_LOOPS_USE_TIMEOUTS) && (! defined(OD_ENABLE_LOGGING_)))
 # if MAC_OR_LINUX_

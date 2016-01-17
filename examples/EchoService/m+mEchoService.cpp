@@ -112,7 +112,8 @@ EchoService::~EchoService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void EchoService::attachRequestHandlers(void)
+void
+EchoService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -135,7 +136,8 @@ void EchoService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // EchoService::attachRequestHandlers
 
-void EchoService::detachRequestHandlers(void)
+void
+EchoService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try

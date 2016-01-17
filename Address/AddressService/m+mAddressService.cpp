@@ -120,7 +120,8 @@ AddressService::~AddressService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void AddressService::attachRequestHandlers(void)
+void
+AddressService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -143,7 +144,8 @@ void AddressService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // AddressService::attachRequestHandlers
 
-void AddressService::detachRequestHandlers(void)
+void
+AddressService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -163,8 +165,9 @@ void AddressService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // AddressService::detachRequestHandlers
 
-void AddressService::getAddress(YarpString & address,
-                                int &        port)
+void
+AddressService::getAddress(YarpString & address,
+                           int &        port)
 {
     OD_LOG_OBJENTER(); //####
     address = _address;

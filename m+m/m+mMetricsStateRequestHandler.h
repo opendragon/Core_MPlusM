@@ -64,13 +64,24 @@ namespace MplusM
         class MetricsStateRequestHandler : public BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+       public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit MetricsStateRequestHandler(BaseService & service);
+            explicit
+            MetricsStateRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~MetricsStateRequestHandler(void);
+            virtual
+            ~MetricsStateRequestHandler(void);
             
         protected :
             
@@ -89,9 +100,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // MetricsStateRequestHandler
         

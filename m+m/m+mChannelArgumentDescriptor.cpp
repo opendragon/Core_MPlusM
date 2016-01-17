@@ -118,7 +118,8 @@ DEFINE_CLONE_(ChannelArgumentDescriptor)
     return result;
 } // ChannelArgumentDescriptor::clone
 
-BaseArgumentDescriptor * ChannelArgumentDescriptor::parseArgString(const YarpString & inString)
+BaseArgumentDescriptor *
+ChannelArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####

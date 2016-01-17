@@ -68,6 +68,15 @@ namespace MplusM
         class ExemplarFilterService : public Common::BaseFilterService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseFilterService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -86,7 +95,8 @@ namespace MplusM
                                   const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~ExemplarFilterService(void);
+            virtual
+            ~ExemplarFilterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -119,9 +129,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseFilterService inherited;
             
             /*! @brief The handler for input data. */
             ExemplarFilterInputHandler * _inHandler;

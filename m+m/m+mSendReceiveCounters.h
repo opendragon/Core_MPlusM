@@ -81,45 +81,58 @@ namespace MplusM
         class SendReceiveCounters
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param initialInBytes The initial number of bytes received.
              @param initialInMessages The initial number of messages received.
              @param initialOutBytes The initial number of bytes sent.
              @param initialOutMessages The initial number of messages sent. */
-            explicit SendReceiveCounters(const int64_t initialInBytes = 0,
-                                         const size_t  initialInMessages = 0,
-                                         const int64_t initialOutBytes = 0,
-                                         const size_t  initialOutMessages = 0);
+            explicit
+            SendReceiveCounters(const int64_t initialInBytes = 0,
+                                const size_t  initialInMessages = 0,
+                                const int64_t initialOutBytes = 0,
+                                const size_t  initialOutMessages = 0);
             
             /*! @brief Add a dictionary to a list from the send / receive counters.
              @param counterList The list to be modified.
              @param channel The channel associated with the counters. */
-            void addToList(yarp::os::Bottle & counterList,
-                           const YarpString & channel);
+            void
+            addToList(yarp::os::Bottle & counterList,
+                      const YarpString & channel);
             
             /*! @brief Reset the send / receive counters. */
-            void clearCounters(void);
+            void
+            clearCounters(void);
             
             /*! @brief Update the received data.
              @param moreInBytes The number of bytes received.
              @returns The modified values. */
-            SendReceiveCounters & incrementInCounters(const int64_t moreInBytes);
+            SendReceiveCounters &
+            incrementInCounters(const int64_t moreInBytes);
             
             /*! @brief Update the sent data.
              @param moreOutBytes The number of bytes sent.
              @returns The modified values. */
-            SendReceiveCounters & incrementOutCounters(const int64_t moreOutBytes);
+            SendReceiveCounters &
+            incrementOutCounters(const int64_t moreOutBytes);
             
             /*! @brief The assignment operator.
              @param other The values to be assigned to the send / receive counters.
              @returns The modified values. */
-            SendReceiveCounters & operator =(const SendReceiveCounters & other);
+            SendReceiveCounters &
+            operator =(const SendReceiveCounters & other);
 
             /*! @brief The additive assignment operator.
              @param other The values to be added to the send / receive counters.
              @returns The modified values. */
-            SendReceiveCounters & operator +=(const SendReceiveCounters & other);
+            SendReceiveCounters &
+            operator +=(const SendReceiveCounters & other);
             
         protected :
             

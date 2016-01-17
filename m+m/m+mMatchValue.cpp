@@ -98,10 +98,11 @@ static const char kUnderscore = '_';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchValue * MatchValue::CreateMatcher(const YarpString & inString,
-                                       const size_t       inLength,
-                                       const size_t       startPos,
-                                       size_t &           endPos)
+MatchValue *
+MatchValue::CreateMatcher(const YarpString & inString,
+                          const size_t       inLength,
+                          const size_t       startPos,
+                          size_t &           endPos)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -305,7 +306,8 @@ MatchValue::~MatchValue(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString MatchValue::asSQLString(void)
+YarpString
+MatchValue::asSQLString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -411,7 +413,8 @@ const
     return converted;
 } // MatchValue::asSQLString
 
-YarpString MatchValue::asString(void)
+YarpString
+MatchValue::asString(void)
 const
 {
     YarpString converted;

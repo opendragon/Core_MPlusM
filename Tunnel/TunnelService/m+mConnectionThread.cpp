@@ -74,7 +74,8 @@ using namespace MplusM::Tunnel;
 
 /*! @brief Create a 'listen' socket.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET createListener(void)
+static SOCKET
+createListener(void)
 {
     OD_LOG_ENTER(); //####
     SOCKET  listenSocket;
@@ -137,8 +138,9 @@ static SOCKET createListener(void)
  @param dataAddress The IP address to connect to.
  @param dataPort The port number to connect to.
  @returns The new network socket on sucess or @c INVALID_SOCKET on failure. */
-static SOCKET connectToSource(const YarpString & dataAddress,
-                              const int          dataPort)
+static SOCKET
+connectToSource(const YarpString & dataAddress,
+                const int          dataPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("dataAddress = ", dataAddress); //####
@@ -217,7 +219,7 @@ ConnectionThread::~ConnectionThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ConnectionThread::run(void)
+DEFINE_RUN_(ConnectionThread)
 {
     OD_LOG_OBJENTER(); //####
     SOCKET destinationSocket = accept(_listenSocket, 0, 0);
@@ -301,8 +303,9 @@ void ConnectionThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // ConnectionThread::run
 
-void ConnectionThread::setSourceAddress(const YarpString & sourceName,
-                                        const int          sourcePort)
+void
+ConnectionThread::setSourceAddress(const YarpString & sourceName,
+                                   const int          sourcePort)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("sourceName = ", sourceName); //####
@@ -339,7 +342,7 @@ void ConnectionThread::setSourceAddress(const YarpString & sourceName,
     OD_LOG_OBJEXIT(); //####
 } // ConnectionThread::setSourceAddress
 
-bool ConnectionThread::threadInit(void)
+DEFINE_THREADINIT_(ConnectionThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -348,7 +351,7 @@ bool ConnectionThread::threadInit(void)
     return result;
 } // ConnectionThread::threadInit
 
-void ConnectionThread::threadRelease(void)
+DEFINE_THREADRELEASE_(ConnectionThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

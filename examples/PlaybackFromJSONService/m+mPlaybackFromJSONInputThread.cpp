@@ -107,14 +107,15 @@ PlaybackFromJSONInputThread::~PlaybackFromJSONInputThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void PlaybackFromJSONInputThread::clearOutputChannel(void)
+void
+PlaybackFromJSONInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::clearOutputChannel
 
-void PlaybackFromJSONInputThread::run(void)
+DEFINE_RUN_(PlaybackFromJSONInputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool atEnd = false;
@@ -189,7 +190,7 @@ void PlaybackFromJSONInputThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::run
 
-bool PlaybackFromJSONInputThread::threadInit(void)
+DEFINE_THREADINIT_(PlaybackFromJSONInputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -199,7 +200,7 @@ bool PlaybackFromJSONInputThread::threadInit(void)
     return result;
 } // PlaybackFromJSONInputThread::threadInit
 
-void PlaybackFromJSONInputThread::threadRelease(void)
+DEFINE_THREADRELEASE_(PlaybackFromJSONInputThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

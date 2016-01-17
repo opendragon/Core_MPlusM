@@ -41,6 +41,7 @@
 
 # include "stdafx.h"
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
 # include <Client.h>
@@ -61,21 +62,32 @@ namespace MplusM
     namespace ViconDataStream
     {
         /*! @brief A class to generate output from Vicon data. */
-        class ViconDataStreamEventThread : public yarp::os::Thread
+        class ViconDataStreamEventThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
-			 @param nameAndPort The host name and port to connect to the Vicon server. */
+             @param nameAndPort The host name and port to connect to the Vicon server. */
             ViconDataStreamEventThread(Common::GeneralChannel * outChannel,
-				                       const YarpString &       nameAndPort);
+                                       const YarpString &       nameAndPort);
             
             /*! @brief The destructor. */
-            virtual ~ViconDataStreamEventThread(void);
+            virtual
+            ~ViconDataStreamEventThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
 
         protected :
             
@@ -83,21 +95,19 @@ namespace MplusM
             
             /*! @brief Initialize the connection to the Vicon device.
              @returns @c true on success and @c false otherwise. */
-            bool initializeConnection(void);
+            bool
+            initializeConnection(void);
             
             /*! @brief Handle the sensor data associated with the current frame.
              @param subjectCount The number of subjects in the data. */
-            void processEventData(const unsigned int subjectCount);
+            void
+            processEventData(const unsigned int subjectCount);
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(ViconDataStreamEventThread);
 
@@ -107,16 +117,13 @@ namespace MplusM
 
         private :
 
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
+            /* @brief The connection to the Vicon device. */
+            ViconDataStreamSDK::CPP::Client _viconClient;
 
-			/* @brief The connection to the Vicon device. */
-			ViconDataStreamSDK::CPP::Client _viconClient;
+            /* @brief The host name and port to connect to the Vicon server. */
+            YarpString _nameAndPort;
 
-			/* @brief The host name and port to connect to the Vicon server. */
-			YarpString _nameAndPort;
-
-			/*! @brief The channel to send data bursts to. */
+            /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
 
         }; // ViconDataStreamEventThread

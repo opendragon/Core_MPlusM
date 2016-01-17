@@ -63,10 +63,17 @@ namespace MplusM
         class BailOut
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param timeToWait The number of seconds to delay before triggering. */
-            explicit BailOut(const double timeToWait);
+            explicit
+            BailOut(const double timeToWait);
             
             /*! @brief The constructor.
              @param channelOfInterest The channel that we are waiting for.
@@ -75,7 +82,8 @@ namespace MplusM
                     const double  timeToWait);
             
             /*! @brief The destructor. */
-            virtual ~BailOut(void);
+            virtual
+            ~BailOut(void);
             
         protected :
             

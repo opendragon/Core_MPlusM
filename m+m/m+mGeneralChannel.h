@@ -60,17 +60,29 @@ namespace MplusM
         class GeneralChannel : public BaseChannel
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseChannel inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param isOutput @c true if the channel is used for output and @c false otherwise. */
-            explicit GeneralChannel(const bool isOutput);
+            explicit
+            GeneralChannel(const bool isOutput);
             
             /*! @brief The destructor. */
-            virtual ~GeneralChannel(void);
+            virtual
+            ~GeneralChannel(void);
             
             /*! @brief Returns @c true if the channel is used for output and @c false otherwise.
              @returns @c true if the channel is used for output and @c false otherwise. */
-            inline bool isOutput(void)
+            inline bool
+            isOutput(void)
             const
             {
                 return _isOutput;
@@ -78,7 +90,8 @@ namespace MplusM
             
             /*! @brief Returns the protocol associated with the channel.
              @returns The protocol associated with the channel. */
-            inline const YarpString & protocol(void)
+            inline const YarpString &
+            protocol(void)
             const
             {
                 return _protocol;
@@ -86,7 +99,8 @@ namespace MplusM
             
             /*! @brief Returns the description of the protocol associated with the channel.
              @returns The description of the protocol associated with the channel. */
-            inline const YarpString & protocolDescription(void)
+            inline const YarpString &
+            protocolDescription(void)
             const
             {
                 return _protocolDescription;
@@ -95,8 +109,9 @@ namespace MplusM
             /*! @brief Sets the protocol associated with the channel.
              @param newProtocol The new protocol associated with the channel.
              @param description The description of the new protocol. */
-            void setProtocol(const YarpString & newProtocol,
-                             const YarpString & description);
+            void
+            setProtocol(const YarpString & newProtocol,
+                        const YarpString & description);
             
         protected :
             
@@ -109,9 +124,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseChannel inherited;
             
             /*! @brief The protocol that the channel supports. */
             YarpString _protocol;

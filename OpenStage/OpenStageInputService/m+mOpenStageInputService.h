@@ -60,13 +60,22 @@
 
 namespace MplusM
 {
-	namespace OpenStage
+    namespace OpenStage
     {
-		class OpenStageInputThread;
+        class OpenStageInputThread;
         
         /*! @brief The Organic Motion %OpenStage input service. */
-		class OpenStageInputService : public Common::BaseInputService
+        class OpenStageInputService : public Common::BaseInputService
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
         public :
             
             /*! @brief The constructor.
@@ -79,14 +88,15 @@ namespace MplusM
              @param servicePortNumber The port being used by the service. */
             OpenStageInputService(const Utilities::DescriptorVector & argumentList,
                                   const YarpString &                  launchPath,
-				                  const int                           argc,
-								  char * *                            argv,
-								  const YarpString &                  tag,
-								  const YarpString &                  serviceEndpointName,
-								  const YarpString &                  servicePortNumber = "");
+                                  const int                           argc,
+                                  char * *                            argv,
+                                  const YarpString &                  tag,
+                                  const YarpString &                  serviceEndpointName,
+                                  const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-			virtual ~OpenStageInputService(void);
+            virtual
+            ~OpenStageInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -108,7 +118,7 @@ namespace MplusM
             
         private :
             
-			COPY_AND_ASSIGNMENT_(OpenStageInputService);
+            COPY_AND_ASSIGNMENT_(OpenStageInputService);
             
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
             
@@ -118,17 +128,14 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
-            
-			/*! @brief The name of the Organic Motion %OpenStage device server. */
-			YarpString _hostName;
+            /*! @brief The name of the Organic Motion %OpenStage device server. */
+            YarpString _hostName;
 
-			/*! @brief The port to connect to the Organic Motion %OpenStage device server. */
-			int _hostPort;
+            /*! @brief The port to connect to the Organic Motion %OpenStage device server. */
+            int _hostPort;
 
-			/*! @brief The output thread to use. */
-			OpenStageInputThread * _eventThread;
+            /*! @brief The output thread to use. */
+            OpenStageInputThread * _eventThread;
             
         }; // OpenStageInputService
         

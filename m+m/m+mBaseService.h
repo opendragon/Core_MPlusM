@@ -57,74 +57,90 @@
 /*! @brief Declare the disableMetrics method, which turns off the send / receive metrics
  collecting. */
 # define DECLARE_DISABLEMETRICS_ \
-    virtual void disableMetrics(void)
+    virtual void\
+    disableMetrics(void)
 
 /*! @brief Declare the enableMetrics method, which turns on the send / receive metrics
  collecting. */
 # define DECLARE_ENABLEMETRICS_ \
-    virtual void enableMetrics(void)
+    virtual void\
+    enableMetrics(void)
 
 /*! @brief Declare the fillInSecondaryClientChannelsList method, with a single argument of the list
  to be filled in with the secondary client channels for the service. */
 # define DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_ \
-    virtual void fillInSecondaryClientChannelsList(ChannelVector & channels)
+    virtual void\
+    fillInSecondaryClientChannelsList(ChannelVector & channels)
 
 /*! @brief Declare the fillInSecondaryInputChannelsList, with a single argument of the list to be
  filled in with the secondary input channels for the service. */
 # define DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_ \
-    virtual void fillInSecondaryInputChannelsList(ChannelVector & channels)
+    virtual void\
+    fillInSecondaryInputChannelsList(ChannelVector & channels)
 
 /*! @brief Declare the fillInSecondaryOutputChannelsList, with a single argument of the list to be
  filled in with the secondary output channels for the service. */
 # define DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_ \
-    virtual void fillInSecondaryOutputChannelsList(Common::ChannelVector & channels)
+    virtual void\
+    fillInSecondaryOutputChannelsList(Common::ChannelVector & channels)
 
 /*! @brief Declare the gatherMetrics method, which fills its single argument, metrics, with the
  metrics for the service. */
 # define DECLARE_GATHERMETRICS_ \
-    virtual void gatherMetrics(yarp::os::Bottle & metrics)
+    virtual void\
+    gatherMetrics(yarp::os::Bottle & metrics)
 
 /*! @brief Declare the startService method, which starts the service processing requests.
  The method returns @c true if the service was started and @c false if it was not. */
 # define DECLARE_STARTSERVICE_ \
-    virtual bool startService(void)
+    virtual bool\
+    startService(void)
 
 /*! @brief Declare the stopService method, which stops the service processing requests.
  The method returns @c true if the service was stopped and @c false if it was not. */
 # define DECLARE_STOPSERVICE_ \
-    virtual bool stopService(void)
+    virtual bool\
+    stopService(void)
 
 /*! @brief Define the disableMetrics method. */
 # define DEFINE_DISABLEMETRICS_(class_) \
-    void class_::disableMetrics(void)
+    void\
+    class_::disableMetrics(void)
 
 /*! @brief Define the enableMetrics method. */
 # define DEFINE_ENABLEMETRICS_(class_) \
-    void class_::enableMetrics(void)
+    void\
+    class_::enableMetrics(void)
 
 /*! @brief Define the fillInSecondaryClientChannelsList method. */
 # define DEFINE_FILLINSECONDARYCLIENTCHANNELSLIST_(class_) \
-    void class_::fillInSecondaryClientChannelsList(ChannelVector & channels)
+    void\
+    class_::fillInSecondaryClientChannelsList(ChannelVector & channels)
 
 /*! @brief Define the fillInSecondaryInputChannelsList method. */
 # define DEFINE_FILLINSECONDARYINPUTCHANNELSLIST_(class_) \
-    void class_::fillInSecondaryInputChannelsList(ChannelVector & channels)
+    void\
+    class_::fillInSecondaryInputChannelsList(ChannelVector & channels)
 
 /*! @brief Define the fillInSecondaryOutputChannelsList method. */
 # define DEFINE_FILLINSECONDARYOUTPUTCHANNELSLIST_(class_) \
-    void class_::fillInSecondaryOutputChannelsList(ChannelVector & channels)
+    void\
+    class_::fillInSecondaryOutputChannelsList(ChannelVector & channels)
 
 /*! @brief Define the gatherMetrics method. */
 # define DEFINE_GATHERMETRICS_(class_) \
-    void class_::gatherMetrics(yarp::os::Bottle & metrics)
+    void\
+    class_::gatherMetrics(yarp::os::Bottle & metrics)
 
 /*! @brief Define the startService method. */
 # define DEFINE_STARTSERVICE_(class_) \
-    bool class_::startService(void)
+    bool\
+    class_::startService(void)
 
 /*! @brief Define the stopService method. */
 # define DEFINE_STOPSERVICE_(class_) \
-    bool class_::stopService(void)
+    bool\
+    class_::stopService(void)
 
 namespace MplusM
 {
@@ -211,6 +227,18 @@ namespace MplusM
         class BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief A mapping from strings to contexts. */
+            typedef std::map<YarpString, BaseContext *> ContextMap;
+            
+            /*! @brief The entry-type for the mapping. */
+            typedef ContextMap::value_type ContextMapValue;
+            
+        public :
             
             /*! @brief The constructor.
              @param theKind The behavioural model for the service.
@@ -260,11 +288,13 @@ namespace MplusM
                         const YarpString & requestsDescription);
             
             /*! @brief The destructor. */
-            virtual ~BaseService(void);
+            virtual
+            ~BaseService(void);
             
             /*! @brief Return the description of the service.
              @returns The description of the service. */
-            inline const YarpString & description(void)
+            inline const YarpString &
+            description(void)
             const
             {
                 return _description;
@@ -272,19 +302,23 @@ namespace MplusM
             
             /*! @brief Forget the specified client.
              @param key The client-provided key. */
-            void detachClient(const YarpString & key);
+            void
+            detachClient(const YarpString & key);
             
-            /*! @fn virtual void disableMetrics(void)
+            /*! @fn virtual void
+                    disableMetrics(void)
              @brief Turn off the send / receive metrics collecting. */
             DECLARE_DISABLEMETRICS_;
             
-            /*! @fn virtual void enableMetrics(void)
+            /*! @fn virtual void
+                    enableMetrics(void)
              @brief Turn on the send / receive metrics collecting. */
             DECLARE_ENABLEMETRICS_;
             
             /*! @brief Return the extra information for the service.
              @returns The extra information for the service. */
-            inline const YarpString & extraInformation(void)
+            inline const YarpString &
+            extraInformation(void)
             const
             {
                 return _extraInfo;
@@ -292,31 +326,37 @@ namespace MplusM
 
             /*! @brief Fill in a list of clients for the service.
              @param clients The list to be filled in. */
-            void fillInClientList(YarpStringVector & clients);
+            void
+            fillInClientList(YarpStringVector & clients);
             
-            /*! @fn virtual void fillInSecondaryClientChannelsList(ChannelVector & channels)
+            /*! @fn virtual void
+                    fillInSecondaryClientChannelsList(ChannelVector & channels)
              @brief Fill in a list of secondary client channels for the service.
              @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYCLIENTCHANNELSLIST_;
             
-             /*! @fn virtual void fillInSecondaryInputChannelsList(ChannelVector & channels)
-              @brief Fill in a list of secondary input channels for the service.
-              @param channels The list of channels to be filled in. */
+            /*! @fn virtual void
+                    fillInSecondaryInputChannelsList(ChannelVector & channels)
+             @brief Fill in a list of secondary input channels for the service.
+             @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYINPUTCHANNELSLIST_;
             
-             /*! @fn virtual void fillInSecondaryOutputChannelsList(ChannelVector & channels)
-              @brief Fill in a list of secondary output channels for the service.
-              @param channels The list of channels to be filled in. */
+            /*! @fn virtual void
+                    fillInSecondaryOutputChannelsList(ChannelVector & channels)
+             @brief Fill in a list of secondary output channels for the service.
+             @param channels The list of channels to be filled in. */
             DECLARE_FILLINSECONDARYOUTPUTCHANNELSLIST_;
             
-             /*! @fn virtual void gatherMetrics(yarp::os::Bottle & metrics)
-              @brief Fill in the metrics for the service.
-              @param metrics The gathered metrics. */
+            /*! @fn virtual void
+                    gatherMetrics(yarp::os::Bottle & metrics)
+             @brief Fill in the metrics for the service.
+             @param metrics The gathered metrics. */
             DECLARE_GATHERMETRICS_;
             
             /*! @brief Return the list of arguments given to the service.
              @returns The list of arguments given to the service. */
-            inline const YarpStringVector & getArguments(void)
+            inline const YarpStringVector &
+            getArguments(void)
             const
             {
                 return _originalArguments;
@@ -324,7 +364,8 @@ namespace MplusM
             
             /*! @brief Return the associated endpoint.
              @returns The associated endpoint. */
-            inline Endpoint & getEndpoint(void)
+            inline Endpoint &
+            getEndpoint(void)
             const
             {
                 return *_endpoint;
@@ -332,11 +373,13 @@ namespace MplusM
             
             /*! @brief Update the auxiliary send / receive counters.
              @param additionalCounters The counters to add. */
-            void incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters);
+            void
+            incrementAuxiliaryCounters(const SendReceiveCounters & additionalCounters);
             
             /*! @brief Return the state of the service.
              @returns @c true if the service has been started and @c false otherwise. */
-            inline bool isStarted(void)
+            inline bool
+            isStarted(void)
             const
             {
                 return _started;
@@ -344,7 +387,8 @@ namespace MplusM
             
             /*! @brief Return the behavioural model for the service.
              @returns The behavioural model for the service. */
-            inline ServiceKind kind(void)
+            inline ServiceKind
+            kind(void)
             const
             {
                 return _kind;
@@ -352,7 +396,8 @@ namespace MplusM
             
             /*! @brief Return the command-line name used to launch the service.
              @returns The command-line name used to launch the service. */
-            inline const YarpString & launchPath(void)
+            inline const YarpString &
+            launchPath(void)
             const
             {
                 return _launchPath;
@@ -361,7 +406,8 @@ namespace MplusM
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
-            inline bool metricsAreEnabled(void)
+            inline bool
+            metricsAreEnabled(void)
             const
             {
                 return _metricsEnabled;
@@ -373,14 +419,16 @@ namespace MplusM
              @param senderChannel The name of the channel used to send the input data.
              @param replyMechanism @c NULL if no reply is expected and non-@c NULL otherwise.
              @returns @c true if the input was correctly structured and successfully processed. */
-            bool processRequest(const YarpString &           request,
-                                const yarp::os::Bottle &     restOfInput,
-                                const YarpString &           senderChannel,
-                                yarp::os::ConnectionWriter * replyMechanism);
+            bool
+            processRequest(const YarpString &           request,
+                           const yarp::os::Bottle &     restOfInput,
+                           const YarpString &           senderChannel,
+                           yarp::os::ConnectionWriter * replyMechanism);
             
             /*! @brief Return the description of the requests for the service.
              @returns The description of the requests for the service. */
-            inline const YarpString & requestsDescription(void)
+            inline const YarpString &
+            requestsDescription(void)
             const
             {
                 return _requestsDescription;
@@ -390,13 +438,15 @@ namespace MplusM
              @param channelName The service channel to report with the ping.
              @param checker A function that provides for early exit from loops.
              @param checkStuff The private data for the early exit function. */
-            bool sendPingForChannel(const YarpString & channelName,
-                                    CheckFunction      checker = NULL,
-                                    void *             checkStuff = NULL);
+            bool
+            sendPingForChannel(const YarpString & channelName,
+                               CheckFunction      checker = NULL,
+                               void *             checkStuff = NULL);
             
             /*! @brief Return the working name of the service.
              @returns The working name of the service. */
-            inline const YarpString & serviceName(void)
+            inline const YarpString &
+            serviceName(void)
             const
             {
                 return _serviceName;
@@ -404,24 +454,29 @@ namespace MplusM
 
             /*! @brief Set the extra information for the service.
              @param extraInfo The extra information for the service. */
-            void setExtraInformation(const YarpString & extraInfo);
+            void
+            setExtraInformation(const YarpString & extraInfo);
 
-            /*! @fn virtual bool startService(void)
+            /*! @fn virtual bool
+                    startService(void)
              @brief Start processing requests.
              @returns @c true if the service was started and @c false if it was not. */
             DECLARE_STARTSERVICE_;
             
             /*! @brief Start the background 'pinging' thread. */
-            void startPinger(void);
+            void
+            startPinger(void);
             
-            /*! @fn virtual bool stopService(void)
+            /*! @fn virtual bool
+                    stopService(void)
              @brief Stop processing requests.
              @returns @c true if the service was stopped and @c false it if was not. */
             DECLARE_STOPSERVICE_;
             
             /*! @brief Return the modifier tag of the service.
              @returns The modifier tag of the service. */
-            inline const YarpString & tag(void)
+            inline const YarpString &
+            tag(void)
             const
             {
                 return _tag;
@@ -429,66 +484,79 @@ namespace MplusM
             
             /*! @brief Update the response counters for the service port.
              @param numBytes The number of bytes sent. */
-            void updateResponseCounters(const size_t numBytes);
+            void
+            updateResponseCounters(const size_t numBytes);
             
         protected :
             
             /*! @brief Add a context for a persistent connection.
              @param key The name for the context.
              @param context The context to be remembered. */
-            void addContext(const YarpString & key,
-                            BaseContext *      context);
+            void
+            addContext(const YarpString & key,
+                       BaseContext *      context);
             
             /*! @brief Remove all contexts. */
-            void clearContexts(void);
+            void
+            clearContexts(void);
             
             /*! @brief Locate the context corresponding to a name.
              @param key The name of the context.
              @returns @c NULL if the named context could not be found or a pointer to the context if
              found. */
-            BaseContext * findContext(const YarpString & key);
+            BaseContext *
+            findContext(const YarpString & key);
             
             /*! @brief Remember the function to be used to handle a particular request.
              @param handler The function to be called for the request. */
-            void registerRequestHandler(BaseRequestHandler * handler);
+            void
+            registerRequestHandler(BaseRequestHandler * handler);
             
             /*! @brief Remove a context.
              @param key The name of the context. */
-            void removeContext(const YarpString & key);
+            void
+            removeContext(const YarpString & key);
             
             /*! @brief Remember the function to be used to handle unrecognized requests.
              @param handler The function to be called by default. */
-            void setDefaultRequestHandler(BaseRequestHandler * handler);
+            void
+            setDefaultRequestHandler(BaseRequestHandler * handler);
             
             /*! @brief Forget the function to be used to handle a particular request.
              @param handler The function that was called for the request. */
-            void unregisterRequestHandler(BaseRequestHandler * handler);
+            void
+            unregisterRequestHandler(BaseRequestHandler * handler);
             
         private :
             
             COPY_AND_ASSIGNMENT_(BaseService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
-            inline bool conditionallyLockContexts(void)
+            inline bool
+            conditionallyLockContexts(void)
             {
                 return _contextsLock.tryLock();
             } // conditionallyLockContexts
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
             /*! @brief Lock the data. */
-            inline void lockContexts(void)
+            inline void
+            lockContexts(void)
             {
                 _contextsLock.lock();
             } // lockContexts
             
             /*! @brief Unlock the data. */
-            inline void unlockContexts(void)
+            inline void
+            unlockContexts(void)
             {
                 _contextsLock.unlock();
             } // unlockContexts
@@ -498,12 +566,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief A mapping from strings to contexts. */
-            typedef std::map<YarpString, BaseContext *> ContextMap;
-            
-            /*! @brief The entry-type for the mapping. */
-            typedef ContextMap::value_type ContextMapValue;
             
             /*! @brief The command-line name used to launch the service. */
             YarpString _launchPath;
@@ -622,16 +684,18 @@ namespace MplusM
          @param tagModifier The string to be applied to the tag and endpoint for customization.
          @returns @c true if the endpoint name was set in the arguments and @c false if it was
          not. */
-        bool AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
-                                const AddressTagModifier modFlag,
-                                YarpString &             tag,
-                                YarpString &             serviceEndpointName,
-                                const YarpString &       tagModifier = "");
+        bool
+        AdjustEndpointName(const YarpString &       defaultEndpointNameRoot,
+                           const AddressTagModifier modFlag,
+                           YarpString &             tag,
+                           YarpString &             serviceEndpointName,
+                           const YarpString &       tagModifier = "");
 
         /*! @brief Determine the address that the Registry Service will use to connect to us.
          @param ourAddress The IP address that we are using.
          @returns @c true if the address was determined and @c false otherwise. */
-        bool GetOurEffectiveAddress(NetworkAddress & ourAddress);
+        bool
+        GetOurEffectiveAddress(NetworkAddress & ourAddress);
         
         /*! @brief Process the standard options for service executables.
          The option '-c' / '--channel' displays the endpoint name after applying all other
@@ -670,22 +734,23 @@ namespace MplusM
          @param skipOptions The command-line options to be skipped.
          @param arguments If non-@c NULL, returns the arguments for the service.
          @returns @c true if the service should continue and @c false if it should leave. */
-        bool ProcessStandardServiceOptions(const int                     argc,
-                                           char * *                      argv,
-                                           Utilities::DescriptorVector & argumentDescriptions,
-                                           const YarpString &            serviceDescription,
-                                           const YarpString &            matchingCriteria,
-                                           const int                     year,
-                                           const char *                  copyrightHolder,
-                                           bool &                        goWasSet,
-                                           bool &                        reportEndpoint,
-                                           bool &                        reportOnExit,
-                                           YarpString &                  tag,
-                                           YarpString &                  serviceEndpointName,
-                                           YarpString &                  servicePortNumber,
-                                           AddressTagModifier &          modFlag,
-                                           const OptionsMask             skipOptions = kSkipNone,
-                                           YarpStringVector *            arguments = NULL);
+        bool
+        ProcessStandardServiceOptions(const int                     argc,
+                                      char * *                      argv,
+                                      Utilities::DescriptorVector & argumentDescriptions,
+                                      const YarpString &            serviceDescription,
+                                      const YarpString &            matchingCriteria,
+                                      const int                     year,
+                                      const char *                  copyrightHolder,
+                                      bool &                        goWasSet,
+                                      bool &                        reportEndpoint,
+                                      bool &                        reportOnExit,
+                                      YarpString &                  tag,
+                                      YarpString &                  serviceEndpointName,
+                                      YarpString &                  servicePortNumber,
+                                      AddressTagModifier &          modFlag,
+                                      const OptionsMask             skipOptions = kSkipNone,
+                                      YarpStringVector *            arguments = NULL);
         
         /*! @brief Register a local service with a running %Registry Service.
          @param channelName The channel provided by the service.
@@ -693,10 +758,11 @@ namespace MplusM
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully registered and @c false otherwise. */
-        bool RegisterLocalService(const YarpString & channelName,
-                                  BaseService &      service,
-                                  CheckFunction      checker = NULL,
-                                  void *             checkStuff = NULL);
+        bool
+        RegisterLocalService(const YarpString & channelName,
+                             BaseService &      service,
+                             CheckFunction      checker = NULL,
+                             void *             checkStuff = NULL);
         
         /*! @brief Unregister a local service with a running %Registry Service.
          @param channelName The channel provided by the service.
@@ -704,10 +770,11 @@ namespace MplusM
          @param checker A function that provides for early exit from loops.
          @param checkStuff The private data for the early exit function.
          @returns @c true if the service was successfully unregistered and @c false otherwise. */
-        bool UnregisterLocalService(const YarpString & channelName,
-                                    BaseService &      service,
-                                    CheckFunction      checker = NULL,
-                                    void *             checkStuff = NULL);
+        bool
+        UnregisterLocalService(const YarpString & channelName,
+                               BaseService &      service,
+                               CheckFunction      checker = NULL,
+                               void *             checkStuff = NULL);
         
     } // Common
     

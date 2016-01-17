@@ -60,31 +60,45 @@ namespace MplusM
         class MovementDbClient : public Common::BaseClient
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseClient inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             MovementDbClient(void);
             
             /*! @brief The destructor. */
-            virtual ~MovementDbClient(void);
+            virtual
+            ~MovementDbClient(void);
             
             /*! @brief Add a file entry to the backend database.
              @param filePath The filesystem path to the file.
              @returns @c true if the file entry was added successfully and @c false otherwise. */
-            bool addFileToDb(const YarpString & filePath);
+            bool
+            addFileToDb(const YarpString & filePath);
             
             /*! @brief Set the active data track.
              @param dataTrack The data track to use with subsequent files.
              @returns @c true if the data track was successfully set and @c false otherwise. */
-            bool setDataTrackForDb(const YarpString & dataTrack);
+            bool
+            setDataTrackForDb(const YarpString & dataTrack);
             
             /*! @brief Set the active e-mail address.
              @param emailAddress The e-mail address of the user that will own subsequent files.
              @returns @c true if the e-mail address was successfully set and @c false otherwise. */
-            bool setEmailAddressForDb(const YarpString & emailAddress);
+            bool
+            setEmailAddressForDb(const YarpString & emailAddress);
             
             /*! @brief Stop the database connection for this client.
              @returns @c true if the service handled the request and @c false otherwise. */
-            bool stopDbConnection(void);
+            bool
+            stopDbConnection(void);
             
         protected :
             
@@ -97,9 +111,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseClient inherited;
             
         }; // MovementDbClient
         

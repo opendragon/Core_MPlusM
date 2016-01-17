@@ -41,6 +41,7 @@
 
 # include "m+mCommonLispFilterCommon.h"
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
 // The following is necessary to avoid a conflict in typedefs between the Windows header files and
@@ -73,8 +74,17 @@ namespace MplusM
         class CommonLispFilterService;
         
         /*! @brief A convenience class to generate output. */
-        class CommonLispFilterThread : public yarp::os::Thread
+        class CommonLispFilterThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
@@ -84,24 +94,22 @@ namespace MplusM
                                    const double              timeToWait);
             
             /*! @brief The destructor. */
-            virtual ~CommonLispFilterThread(void);
+            virtual
+            ~CommonLispFilterThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
             
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(CommonLispFilterThread);
             
@@ -111,19 +119,6 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-
             /*! @brief The service that owns this thread. */
             CommonLispFilterService & _owner;
 

@@ -65,13 +65,24 @@ namespace MplusM
         class SendToMQOutputInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
-            explicit SendToMQOutputInputHandler(SendToMQOutputService & owner);
+            explicit
+            SendToMQOutputInputHandler(SendToMQOutputService & owner);
             
             /*! @brief The destructor. */
-            virtual ~SendToMQOutputInputHandler(void);
+            virtual
+            ~SendToMQOutputInputHandler(void);
             
         protected :
             
@@ -86,9 +97,6 @@ namespace MplusM
         protected :
             
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */

@@ -114,9 +114,10 @@ BaseArgumentDescriptor::~BaseArgumentDescriptor(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
-                                             const size_t       indexOfDefaultValue,
-                                             YarpStringVector & result)
+bool
+BaseArgumentDescriptor::partitionString(const YarpString & inString,
+                                        const size_t       indexOfDefaultValue,
+                                        YarpStringVector & result)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -204,7 +205,8 @@ bool BaseArgumentDescriptor::partitionString(const YarpString & inString,
     return okSoFar;
 } // BaseArgumentDescriptor::partitionString
 
-YarpString BaseArgumentDescriptor::prefixFields(const YarpString & tagForField)
+YarpString
+BaseArgumentDescriptor::prefixFields(const YarpString & tagForField)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -218,7 +220,8 @@ const
     return result;
 } // BaseArgumentDescriptor::prefixFields
 
-YarpString BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
+YarpString
+BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("defaultToUse = ", defaultToUse); //####
@@ -250,7 +253,8 @@ YarpString BaseArgumentDescriptor::suffixFields(const YarpString & defaultToUse)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-YarpString Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
+YarpString
+Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
@@ -283,9 +287,10 @@ YarpString Utilities::ArgumentsToArgString(const DescriptorVector & arguments)
     return result;
 } // ArgumentsToArgString
 
-void Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
-                                            YarpStringVector &       output,
-                                            const size_t             minSpace)
+void
+Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
+                                       YarpStringVector &       output,
+                                       const size_t             minSpace)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "output = ", &output); //####
@@ -330,8 +335,9 @@ void Utilities::ArgumentsToDescriptionArray(const DescriptorVector & arguments,
     OD_LOG_EXIT(); //####
 } // Utilities::ArgumentsToDescriptionArray
 
-YarpString Utilities::CombineArguments(const DescriptorVector & arguments,
-                                       const YarpString &       sep)
+YarpString
+Utilities::CombineArguments(const DescriptorVector & arguments,
+                            const YarpString &       sep)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("sep = ", sep); //####
@@ -354,7 +360,8 @@ YarpString Utilities::CombineArguments(const DescriptorVector & arguments,
     return result;
 } // Utilities::CombineArguments
 
-BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & inString)
+BaseArgumentDescriptor *
+Utilities::ConvertStringToArgument(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     BaseArgumentDescriptor * result = NULL;
@@ -396,8 +403,9 @@ BaseArgumentDescriptor * Utilities::ConvertStringToArgument(const YarpString & i
     return result;
 } // Utilities::ConvertStringToArguments
 
-void Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
-                                      yarp::os::Bottle &       container)
+void
+Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
+                                 yarp::os::Bottle &       container)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("arguments = ", &arguments, "container = ", &container); //####
@@ -414,7 +422,8 @@ void Utilities::CopyArgumentsToBottle(const DescriptorVector & arguments,
     OD_LOG_EXIT(); //####
 } // Utilities::CopyArgumentsToBottle
 
-Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
+Utilities::ArgumentMode
+Utilities::ModeFromString(const YarpString & modeString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("modeString = ", modeString); //####
@@ -439,9 +448,10 @@ Utilities::ArgumentMode Utilities::ModeFromString(const YarpString & modeString)
     return result;
 } // Utilities::ModeFromString
 
-bool Utilities::ProcessArguments(const DescriptorVector & arguments,
-                                 Option_::Parser &        parseResult,
-                                 YarpString &             badArgs)
+bool
+Utilities::ProcessArguments(const DescriptorVector & arguments,
+                            Option_::Parser &        parseResult,
+                            YarpString &             badArgs)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("arguments = ", &arguments, "parseResult = ", &parseResult, "badArgs = ", //####
@@ -459,17 +469,17 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
 
     OD_LOG_LL3("numArgs <- ", numArgs, "numValues <-", numValues, "numToCheck <- ", //####
                numToCheck); //####
-	// Set all arguments to their default values, so that they are all defined.
+    // Set all arguments to their default values, so that they are all defined.
     badArgs = "";
-	for (size_t ii = 0; numArgs > ii; ++ii)
-	{
-		BaseArgumentDescriptor * anArg = arguments[ii];
+    for (size_t ii = 0; numArgs > ii; ++ii)
+    {
+        BaseArgumentDescriptor * anArg = arguments[ii];
 
-		if (anArg)
-		{
-			anArg->setToDefaultValue();
-		}
-	}
+        if (anArg)
+        {
+            anArg->setToDefaultValue();
+        }
+    }
     // Check if there are required arguments after optional arguments or the trailing arguments
     // placeholder.
     // Note that we don't care how many trailing arguments placeholders there are, but they must
@@ -552,24 +562,25 @@ bool Utilities::ProcessArguments(const DescriptorVector & arguments,
     return result;
 } // Utilities::ProcessArguments
 
-bool Utilities::PromptForValues(const DescriptorVector & arguments)
+bool
+Utilities::PromptForValues(const DescriptorVector & arguments)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("arguments = ", &arguments); //####
     bool result = true;
-	char inChar;
+    char inChar;
 
-	// Eat the trailing newline from the request.
-	inChar = std::cin.peek();
-	if (isspace(inChar))
-	{
-		// Eat it.
-		if ('\n' == inChar)
-		{
-			std::cin.get();
-		}
-	}
-	for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
+    // Eat the trailing newline from the request.
+    inChar = std::cin.peek();
+    if (isspace(inChar))
+    {
+        // Eat it.
+        if ('\n' == inChar)
+        {
+            std::cin.get();
+        }
+    }
+    for (size_t ii = 0, mm = arguments.size(); mm > ii; ++ii)
     {
         BaseArgumentDescriptor * anArg = arguments[ii];
         
@@ -579,8 +590,8 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
             std::string defaultValue(anArg->getDefaultValue().c_str());
             std::string inputLine;
             
-			std::cout << anArg->argumentDescription().c_str();
-			std::cout << " (default=" << defaultValue << ", current=" << currentValue << "): ";
+            std::cout << anArg->argumentDescription().c_str();
+            std::cout << " (default=" << defaultValue << ", current=" << currentValue << "): ";
             std::cout.flush();
             // Eat whitespace until we get something useful.
             for ( ; ; )
@@ -589,10 +600,10 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
                 if (isspace(inChar))
                 {
                     // Eat it.
-					if ('\n' == inChar)
-					{
-						break;
-					}
+                    if ('\n' == inChar)
+                    {
+                        break;
+                    }
 
                     std::cin.get();
                 }
@@ -609,8 +620,8 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
             }
             if (getline(std::cin, inputLine))
             {
-				if (! inputLine.length())
-				{
+                if (! inputLine.length())
+                {
                     if (currentValue.length())
                     {
                         inputLine = currentValue;
@@ -619,12 +630,12 @@ bool Utilities::PromptForValues(const DescriptorVector & arguments)
                     {
                         inputLine = defaultValue;
                     }
-				}
-				if (! anArg->validate(inputLine))
-				{
-					result = false;
-				}
-			}
+                }
+                if (! anArg->validate(inputLine))
+                {
+                    result = false;
+                }
+            }
         }
     }
     OD_LOG_EXIT_B(result); //####

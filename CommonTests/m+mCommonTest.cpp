@@ -93,8 +93,9 @@ using namespace MplusM::Test;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the endpoint constructor.
  @returns A newly created endpoint, or @c NULL if one could not be created. */
-static Endpoint * doCreateEndpointForTest(const int argc,
-                                          char * *  argv)
+static Endpoint *
+doCreateEndpointForTest(const int argc,
+                        char * *  argv)
 {
     OD_LOG_ENTER(); //####
     Endpoint * stuff = NULL;
@@ -133,8 +134,9 @@ static Endpoint * doCreateEndpointForTest(const int argc,
  @param destinationName The name of the channel to be connected to.
  @param channelPath The root path for the new temporary channel.
  @returns A pointer to a newly-allocated temporary channel. */
-static ClientChannel * doCreateTestChannel(const YarpString & destinationName,
-                                           const char *       channelPath)
+static ClientChannel *
+doCreateTestChannel(const YarpString & destinationName,
+                    const char *       channelPath)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2("destinationName = ", destinationName.c_str(), "channelPath = ", channelPath); //####
@@ -181,8 +183,9 @@ static ClientChannel * doCreateTestChannel(const YarpString & destinationName,
  @param anEndpoint The endpoint to be connected to.
  @param channelPath The root path for the new temporary channel.
  @returns A pointer to a newly-allocated temporary channel. */
-static ClientChannel * doCreateTestChannel(Endpoint &   anEndpoint,
-                                           const char * channelPath)
+static ClientChannel *
+doCreateTestChannel(Endpoint &   anEndpoint,
+                    const char * channelPath)
 {
     return doCreateTestChannel(anEndpoint.getName(), channelPath);
 } // doCreateTestChannel
@@ -194,8 +197,9 @@ static ClientChannel * doCreateTestChannel(Endpoint &   anEndpoint,
 /*! @brief Destroy a temporary channel that was used with a test.
  @param destinationName The name of the channel that the temporary channel was connected to.
  @param theChannel A pointer to the temporary channel. */
-static void doDestroyTestChannel(const YarpString & destinationName,
-                                 ClientChannel *    theChannel)
+static void
+doDestroyTestChannel(const YarpString & destinationName,
+                     ClientChannel *    theChannel)
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -228,8 +232,9 @@ static void doDestroyTestChannel(const YarpString & destinationName,
 /*! @brief Destroy a temporary channel that was used with a test.
  @param anEndpoint The endpoint to be connected to.
  @param theChannel A pointer to the temporary channel. */
-static void doDestroyTestChannel(Endpoint &      anEndpoint,
-                                 ClientChannel * theChannel)
+static void
+doDestroyTestChannel(Endpoint &      anEndpoint,
+                     ClientChannel * theChannel)
 {
     doDestroyTestChannel(anEndpoint.getName(), theChannel);
 } // doDestroyTestChannel
@@ -247,9 +252,10 @@ static void doDestroyTestChannel(Endpoint &      anEndpoint,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateEndpoint(const char * launchPath,
-                                const int    argc,
-                                char * *     argv) // create endpoint
+static int
+doTestCreateEndpoint(const char * launchPath,
+                     const int    argc,
+                     char * *     argv) // create endpoint
 {
 #if (! defined(OD_ENABLE_LOGGING_))
 # if MAC_OR_LINUX_
@@ -307,9 +313,10 @@ static int doTestCreateEndpoint(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestConnectToEndpoint(const char * launchPath,
-                                   const int    argc,
-                                   char * *     argv) // connect to endpoint
+static int
+doTestConnectToEndpoint(const char * launchPath,
+                        const int    argc,
+                        char * *     argv) // connect to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -414,9 +421,10 @@ static int doTestConnectToEndpoint(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestWriteToEndpoint(const char * launchPath,
-                                 const int    argc,
-                                 char * *     argv) // send to endpoint
+static int
+doTestWriteToEndpoint(const char * launchPath,
+                      const int    argc,
+                      char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -540,9 +548,10 @@ static int doTestWriteToEndpoint(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestEchoFromEndpointWithReader(const char * launchPath,
-                                            const int    argc,
-                                            char * *     argv) // send to endpoint
+static int
+doTestEchoFromEndpointWithReader(const char * launchPath,
+                                 const int    argc,
+                                 char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -667,9 +676,10 @@ static int doTestEchoFromEndpointWithReader(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
-                                                   const int    argc,
-                                                   char * *     argv) // send to endpoint
+static int
+doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
+                                        const int    argc,
+                                        char * *     argv) // send to endpoint
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -795,9 +805,10 @@ static int doTestEchoFromEndpointWithReaderCreator(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateRequest(const char * launchPath,
-                               const int    argc,
-                               char * *     argv) // create request
+static int
+doTestCreateRequest(const char * launchPath,
+                    const int    argc,
+                    char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -853,9 +864,10 @@ static int doTestCreateRequest(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateResponse(const char * launchPath,
-                                const int    argc,
-                                char * *     argv) // create request
+static int
+doTestCreateResponse(const char * launchPath,
+                     const int    argc,
+                     char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -904,9 +916,10 @@ static int doTestCreateResponse(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromEndpoint(const char * launchPath,
-                                         const int    argc,
-                                         char * *     argv) // create request
+static int
+doTestRequestEchoFromEndpoint(const char * launchPath,
+                              const int    argc,
+                              char * *     argv) // create request
 {
 #if (! defined(MpM_DoExplicitDisconnect))
 # if MAC_OR_LINUX_
@@ -994,10 +1007,10 @@ static int doTestRequestEchoFromEndpoint(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
-                                                              const int    argc,
-                                                              char * *     argv) // send 'echo'
-                                                                                 // request
+static int
+doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launchPath,
+                                                   const int    argc,
+                                                   char * *     argv) // send 'echo' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -1072,11 +1085,11 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReader(const char * launc
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPath,
-                                                                     const int    argc,
-                                                                     char * *     argv) // send
-                                                                                        // 'echo'
-                                                                                        // request
+static int
+doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char * launchPath,
+                                                          const int    argc,
+                                                          char * *     argv) // send 'echo'
+                                                                             // request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -1151,10 +1164,10 @@ static int doTestRequestEchoFromServiceUsingDefaultWithReaderCreator(const char 
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
-                                                          const int    argc,
-                                                          char * *     argv) // create 'echo'
-                                                                             // request
+static int
+doTestRequestEchoFromServiceWithRequestHandler(const char * launchPath,
+                                               const int    argc,
+                                               char * *     argv) // create 'echo' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -1256,19 +1269,20 @@ static int doTestRequestEchoFromServiceWithRequestHandler(const char * launchPat
  @param sawName Set to @c true if a valid 'name' entry appears.
  @param sawSetMetricsState Set to @c true if a valid 'setMetricsState' entry appears.
  @returns @c false if an unexpected value appears and @c true otherwise. */
-static bool checkListDictionary(yarp::os::Property & asDict,
-                                bool &               sawArguments,
-                                bool &               sawChannels,
-                                bool &               sawClients,
-                                bool &               sawDetach,
-                                bool &               sawEcho,
-                                bool &               sawExtraInfo,
-                                bool &               sawInfo,
-                                bool &               sawList,
-                                bool &               sawMetrics,
-                                bool &               sawMetricsState,
-                                bool &               sawName,
-                                bool &               sawSetMetricsState)
+static bool
+checkListDictionary(yarp::os::Property & asDict,
+                    bool &               sawArguments,
+                    bool &               sawChannels,
+                    bool &               sawClients,
+                    bool &               sawDetach,
+                    bool &               sawEcho,
+                    bool &               sawExtraInfo,
+                    bool &               sawInfo,
+                    bool &               sawList,
+                    bool &               sawMetrics,
+                    bool &               sawMetricsState,
+                    bool &               sawName,
+                    bool &               sawSetMetricsState)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P4("asDict = ", &asDict, "sawArguments = ", &sawArguments, "sawChannels = ", //####
@@ -1455,8 +1469,8 @@ static bool checkListDictionary(yarp::os::Property & asDict,
  @param response The response to be analyzed.
  @returns @c true if the expected values are all present and @c false if they are not or if
  unexpected values appear. */
-static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse &
-                                                                                        response)
+static bool
+checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const ServiceResponse & response)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("response = ", &response); //####
@@ -1551,10 +1565,10 @@ static bool checkResponseFromEchoFromServiceWithRequestHandlerAndInfo(const Serv
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
-                                                                 const int    argc,
-                                                                 char * *     argv) // send 'list'
-                                                                                    // request
+static int
+doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * launchPath,
+                                                      const int    argc,
+                                                      char * *     argv) // send 'list' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -1629,7 +1643,8 @@ static int doTestRequestEchoFromServiceWithRequestHandlerAndInfo(const char * la
 
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
-static void catchSignal(int signal)
+static void
+catchSignal(int signal)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
@@ -1659,8 +1674,9 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -1675,8 +1691,8 @@ int main(int      argc,
     
     try
     {
-		Utilities::SetUpGlobalStatusReporter();
-		Utilities::CheckForNameServerReporter();
+        Utilities::SetUpGlobalStatusReporter();
+        Utilities::CheckForNameServerReporter();
         if (Utilities::CheckForValidNetwork())
         {
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP

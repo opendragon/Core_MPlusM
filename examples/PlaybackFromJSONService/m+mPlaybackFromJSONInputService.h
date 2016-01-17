@@ -69,6 +69,15 @@ namespace MplusM
         class PlaybackFromJSONInputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param inputPath The path to the data file.
@@ -90,7 +99,8 @@ namespace MplusM
                                                                             servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~PlaybackFromJSONInputService(void);
+            virtual
+            ~PlaybackFromJSONInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -121,9 +131,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
             
             /*! @brief The output thread to use. */
             PlaybackFromJSONInputThread * _generator;

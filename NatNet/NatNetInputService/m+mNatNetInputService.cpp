@@ -97,7 +97,7 @@ NatNetInputService::NatNetInputService(const Utilities::DescriptorVector & argum
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_NATNETINPUT_CANONICAL_NAME_,
               NATNETINPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
     _commandPort(NATNETINPUT_DEFAULT_COMMAND_PORT_), _dataPort(NATNETINPUT_DEFAULT_DATA_PORT_),
-	_eventThread(NULL)
+    _eventThread(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -126,47 +126,47 @@ DEFINE_CONFIGURE_(NatNetInputService)
     
     try
     {
-		if (3 <= details.size())
-		{
-			yarp::os::Value firstValue(details.get(0));
-			yarp::os::Value secondValue(details.get(1));
-			yarp::os::Value thirdValue(details.get(2));
+        if (3 <= details.size())
+        {
+            yarp::os::Value firstValue(details.get(0));
+            yarp::os::Value secondValue(details.get(1));
+            yarp::os::Value thirdValue(details.get(2));
 
-			if (firstValue.isString() && secondValue.isInt() && thirdValue.isInt())
-			{
-				int secondNumber = secondValue.asInt();
-				int thirdNumber = thirdValue.asInt();
+            if (firstValue.isString() && secondValue.isInt() && thirdValue.isInt())
+            {
+                int secondNumber = secondValue.asInt();
+                int thirdNumber = thirdValue.asInt();
 
-				if ((0 < secondNumber) && (0 < thirdNumber))
-				{
-					std::stringstream buff;
+                if ((0 < secondNumber) && (0 < thirdNumber))
+                {
+                    std::stringstream buff;
 
-					_hostName = firstValue.asString();
-					OD_LOG_S1s("_hostName <- ", _hostName); //####
-					_commandPort = secondNumber;
-					OD_LOG_LL1("_commandPort <- ", _commandPort); //####
-					_dataPort = thirdNumber;
-					OD_LOG_LL1("_dataPort <- ", _dataPort); //####
-					buff << "Host name is '" << _hostName.c_str() << "', command port is " <<
+                    _hostName = firstValue.asString();
+                    OD_LOG_S1s("_hostName <- ", _hostName); //####
+                    _commandPort = secondNumber;
+                    OD_LOG_LL1("_commandPort <- ", _commandPort); //####
+                    _dataPort = thirdNumber;
+                    OD_LOG_LL1("_dataPort <- ", _dataPort); //####
+                    buff << "Host name is '" << _hostName.c_str() << "', command port is " <<
                             _commandPort << ", data port is " << _dataPort;
-					setExtraInformation(buff.str());
-					result = true;
-				}
+                    setExtraInformation(buff.str());
+                    result = true;
+                }
                 else
                 {
                     cerr << "One or more inputs are out of range." << endl;
                 }
-			}
+            }
             else
             {
                 cerr << "One or more inputs have the wrong type." << endl;
             }
-		}
+        }
         else
         {
             cerr << "Missing input(s)." << endl;
         }
-	}
+    }
     catch (...)
     {
         OD_LOG("Exception caught"); //####
@@ -183,9 +183,9 @@ DEFINE_GETCONFIGURATION_(NatNetInputService)
     bool result = true;
 
     details.clear();
-	details.addString(_hostName);
-	details.addInt(_commandPort);
-	details.addInt(_dataPort);
+    details.addString(_hostName);
+    details.addInt(_commandPort);
+    details.addInt(_dataPort);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // NatNetInputService::getConfiguration
@@ -216,9 +216,9 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(NatNetInputService)
     
     _outDescriptions.clear();
     description._portName = rootName + "output";
-	description._portProtocol = "NN";
-	description._protocolDescription = "A list of dictionaries with position values";
-	_outDescriptions.push_back(description);
+    description._portProtocol = "NN";
+    description._protocolDescription = "A list of dictionaries with position values";
+    _outDescriptions.push_back(description);
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // NatNetInputService::setUpStreamDescriptions
@@ -230,7 +230,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(NatNetInputService)
     
     if (_eventThread)
     {
-		_eventThread->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -270,19 +270,19 @@ DEFINE_STARTSTREAMS_(NatNetInputService)
     {
         if (! isActive())
         {
-			_eventThread = new NatNetInputThread(getOutletStream(0), _hostName, _commandPort,
+            _eventThread = new NatNetInputThread(getOutletStream(0), _hostName, _commandPort,
                                                  _dataPort);
-			if (_eventThread->start())
-			{
-				setActive();
-			}
-			else
-			{
-				OD_LOG("! (_eventThread->start())"); //####
+            if (_eventThread->start())
+            {
+                setActive();
+            }
+            else
+            {
+                OD_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                delete _eventThread;
+                _eventThread = NULL;
+            }
         }
     }
     catch (...)
@@ -318,17 +318,17 @@ DEFINE_STOPSTREAMS_(NatNetInputService)
     {
         if (isActive())
         {
-			if (_eventThread)
-			{
+            if (_eventThread)
+            {
 
-				_eventThread->stop();
-				for ( ; _eventThread->isRunning(); )
-				{
-					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-				}
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                _eventThread->stop();
+                for ( ; _eventThread->isRunning(); )
+                {
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                }
+                delete _eventThread;
+                _eventThread = NULL;
+            }
             clearActive();
         }
     }

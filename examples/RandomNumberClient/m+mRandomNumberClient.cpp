@@ -101,7 +101,8 @@ RandomNumberClient::~RandomNumberClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RandomNumberClient::getOneRandomNumber(double & result)
+bool
+RandomNumberClient::getOneRandomNumber(double & result)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("result = ", &result); //####
@@ -149,8 +150,9 @@ bool RandomNumberClient::getOneRandomNumber(double & result)
     return okSoFar;
 } // RandomNumberClient::getOneRandomNumber
 
-bool RandomNumberClient::getRandomNumbers(const int      howMany,
-                                          DoubleVector & result)
+bool
+RandomNumberClient::getRandomNumbers(const int      howMany,
+                                     DoubleVector & result)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("howMany = ", howMany); //####

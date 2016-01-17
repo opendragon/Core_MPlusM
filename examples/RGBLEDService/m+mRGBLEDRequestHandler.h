@@ -67,12 +67,23 @@ namespace MplusM
         class RGBLEDRequestHandler : public Common::BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor. */
-            explicit RGBLEDRequestHandler(RGBLEDService & service);
+            explicit
+            RGBLEDRequestHandler(RGBLEDService & service);
             
             /*! @brief The destructor. */
-            virtual ~RGBLEDRequestHandler(void);
+            virtual
+            ~RGBLEDRequestHandler(void);
             
         protected :
             
@@ -91,9 +102,6 @@ namespace MplusM
         protected :
 
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // RGBLEDRequestHandler
         

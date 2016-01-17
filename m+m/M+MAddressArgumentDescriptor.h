@@ -66,6 +66,15 @@ namespace MplusM
         class AddressArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef StringArgumentDescriptor inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
@@ -80,12 +89,14 @@ namespace MplusM
                                       struct in_addr *   addrBuff = NULL);
 
             /*! @brief The destructor. */
-            virtual ~AddressArgumentDescriptor(void);
+            virtual
+            ~AddressArgumentDescriptor(void);
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+            static BaseArgumentDescriptor *
+            parseArgString(const YarpString & inString);
 
         protected :
         
@@ -104,9 +115,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef StringArgumentDescriptor inherited;
             
             /*! @brief The variable to be filled in with the actual address. */
             struct in_addr * _addrBuff;

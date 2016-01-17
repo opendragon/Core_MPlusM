@@ -77,9 +77,10 @@ using namespace MplusM::Common;
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the value.
  @param bigValue The value to be added. */
-static void addLargeValueToDictionary(yarp::os::Property & dictionary,
-                                      const YarpString &   tag,
-                                      const int64_t        bigValue)
+static void
+addLargeValueToDictionary(yarp::os::Property & dictionary,
+                          const YarpString &   tag,
+                          const int64_t        bigValue)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
@@ -115,8 +116,9 @@ SendReceiveCounters::SendReceiveCounters(const int64_t initialInBytes,
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void SendReceiveCounters::addToList(yarp::os::Bottle & counterList,
-                                    const YarpString & channel)
+void
+SendReceiveCounters::addToList(yarp::os::Bottle & counterList,
+                               const YarpString & channel)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("counterList = ", &counterList); //####
@@ -136,7 +138,8 @@ void SendReceiveCounters::addToList(yarp::os::Bottle & counterList,
     OD_LOG_OBJEXIT(); //####
 } // SendReceiveCounters::addToList
 
-void SendReceiveCounters::clearCounters(void)
+void
+SendReceiveCounters::clearCounters(void)
 {
     OD_LOG_OBJENTER(); //####
     _inBytes = _outBytes = 0;
@@ -144,7 +147,8 @@ void SendReceiveCounters::clearCounters(void)
     OD_LOG_OBJEXIT(); //####
 } // SendReceiveCounters::clearCounters
 
-SendReceiveCounters & SendReceiveCounters::incrementInCounters(const int64_t moreInBytes)
+SendReceiveCounters &
+SendReceiveCounters::incrementInCounters(const int64_t moreInBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("moreInBytes = ", moreInBytes); //####
@@ -154,7 +158,8 @@ SendReceiveCounters & SendReceiveCounters::incrementInCounters(const int64_t mor
     return *this;
 } // SendReceiveCounters::incrementInCounters
 
-SendReceiveCounters & SendReceiveCounters::incrementOutCounters(const int64_t moreOutBytes)
+SendReceiveCounters &
+SendReceiveCounters::incrementOutCounters(const int64_t moreOutBytes)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("moreOutBytes = ", moreOutBytes); //####
@@ -164,7 +169,8 @@ SendReceiveCounters & SendReceiveCounters::incrementOutCounters(const int64_t mo
     return *this;
 } // SendReceiveCounters::incrementOutCounters
 
-SendReceiveCounters & SendReceiveCounters::operator =(const SendReceiveCounters & other)
+SendReceiveCounters &
+SendReceiveCounters::operator =(const SendReceiveCounters & other)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("other = ", &other); //####
@@ -176,7 +182,8 @@ SendReceiveCounters & SendReceiveCounters::operator =(const SendReceiveCounters 
     return *this;
 } // SendReceiveCounters::operator =
 
-SendReceiveCounters & SendReceiveCounters::operator +=(const SendReceiveCounters & other)
+SendReceiveCounters &
+SendReceiveCounters::operator +=(const SendReceiveCounters & other)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("other = ", &other); //####

@@ -85,9 +85,10 @@ using namespace MplusM::Utilities;
  @param forOutput @c true if the file is to be written to and @c false otherwise.
  @param emptyIsOK @c true if the file path can be empty and @c false otherwise.
  @returns @c true if the file path is acceptable and @c false otherwise. */
-static bool checkFilePath(const char * thePath,
-                          const bool   forOutput,
-                          const bool   emptyIsOK)
+static bool
+checkFilePath(const char * thePath,
+              const bool   forOutput,
+              const bool   emptyIsOK)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("thePath = ", thePath); //####
@@ -202,7 +203,8 @@ DEFINE_GETDEFAULTVALUE_(FilePathArgumentDescriptor)
     return _defaultValue;
 } // FilePathArgumentDescriptor::getDefaultValue
 
-BaseArgumentDescriptor * FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
+BaseArgumentDescriptor *
+FilePathArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####

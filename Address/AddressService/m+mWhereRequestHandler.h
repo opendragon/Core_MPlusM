@@ -64,13 +64,24 @@ namespace MplusM
         class WhereRequestHandler : public Common::BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit WhereRequestHandler(AddressService & service);
+            explicit
+            WhereRequestHandler(AddressService & service);
             
             /*! @brief The destructor. */
-            virtual ~WhereRequestHandler(void);
+            virtual
+            ~WhereRequestHandler(void);
             
         protected :
             
@@ -89,9 +100,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // WhereRequestHandler
         

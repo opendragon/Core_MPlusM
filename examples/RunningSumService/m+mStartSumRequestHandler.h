@@ -64,13 +64,24 @@ namespace MplusM
         class StartSumRequestHandler : public Common::BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit StartSumRequestHandler(RunningSumService & service);
+            explicit
+            StartSumRequestHandler(RunningSumService & service);
             
             /*! @brief The destructor. */
-            virtual ~StartSumRequestHandler(void);
+            virtual
+            ~StartSumRequestHandler(void);
             
         protected :
             
@@ -89,9 +100,6 @@ namespace MplusM
         protected :
             
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // StartSumRequestHandler
         

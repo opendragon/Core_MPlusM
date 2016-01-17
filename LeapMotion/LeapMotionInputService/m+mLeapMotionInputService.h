@@ -73,6 +73,15 @@ namespace MplusM
         class LeapMotionInputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -91,7 +100,8 @@ namespace MplusM
                                    const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~LeapMotionInputService(void);
+            virtual
+            ~LeapMotionInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -122,9 +132,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
             
             /*! @brief The connection to the %Leap Motion device. */
             Leap::Controller * _controller;

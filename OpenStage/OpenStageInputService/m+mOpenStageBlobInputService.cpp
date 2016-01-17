@@ -242,7 +242,7 @@ DEFINE_SHUTDOWNOUTPUTSTREAMS_(OpenStageBlobInputService)
     
     if (_eventThread)
     {
-		_eventThread->clearOutputChannel();
+        _eventThread->clearOutputChannel();
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -284,17 +284,17 @@ DEFINE_STARTSTREAMS_(OpenStageBlobInputService)
         {
             _eventThread = new OpenStageBlobInputThread(getOutletStream(0), _hostName, _hostPort);
             _eventThread->setScale(_translationScale);
-			if (_eventThread->start())
-			{
-				setActive();
-			}
-			else
-			{
-				OD_LOG("! (_eventThread->start())"); //####
+            if (_eventThread->start())
+            {
+                setActive();
+            }
+            else
+            {
+                OD_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                delete _eventThread;
+                _eventThread = NULL;
+            }
         }
     }
     catch (...)
@@ -330,16 +330,16 @@ DEFINE_STOPSTREAMS_(OpenStageBlobInputService)
     {
         if (isActive())
         {
-			if (_eventThread)
-			{
-				_eventThread->stop();
-				for ( ; _eventThread->isRunning();)
-				{
-					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-				}
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+            if (_eventThread)
+            {
+                _eventThread->stop();
+                for ( ; _eventThread->isRunning();)
+                {
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                }
+                delete _eventThread;
+                _eventThread = NULL;
+            }
             clearActive();
         }
     }

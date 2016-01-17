@@ -92,10 +92,11 @@ using std::endl;
  @param sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c false if an unexpected value appears and @c true otherwise. */
-static bool processDictionaryEntry(yarp::os::Property & asDict,
-                                   const YarpString &   cleanServiceName,
-                                   const OutputFlavour  flavour,
-                                   const bool           sawResponse)
+static bool
+processDictionaryEntry(yarp::os::Property & asDict,
+                       const YarpString &   cleanServiceName,
+                       const OutputFlavour  flavour,
+                       const bool           sawResponse)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("asDict = ", &asDict); //####
@@ -246,10 +247,11 @@ static bool processDictionaryEntry(yarp::os::Property & asDict,
  @param sawResponse @c true if there was already a response output and @c false if this is the
  first.
  @returns @c true if some output was generated and @c false otherwise. */
-static bool processResponse(const OutputFlavour     flavour,
-                            const YarpString &      serviceName,
-                            const ServiceResponse & response,
-                            const bool              sawResponse)
+static bool
+processResponse(const OutputFlavour     flavour,
+                const YarpString &      serviceName,
+                const ServiceResponse & response,
+                const bool              sawResponse)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("serviceName = ", serviceName); //####
@@ -294,9 +296,10 @@ static bool processResponse(const OutputFlavour     flavour,
  @param channelName The name of the primary channel of the service.
  @param requestName The name of the request being reported.
  @param flavour The format for the output. */
-static void setUpAndGo(const YarpString &  channelName,
-                       const YarpString &  requestName,
-                       const OutputFlavour flavour)
+static void
+setUpAndGo(const YarpString &  channelName,
+           const YarpString &  requestName,
+           const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("channelName = ", channelName, "requestName = ", requestName); //####
@@ -494,8 +497,9 @@ static void setUpAndGo(const YarpString &  channelName,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -523,8 +527,8 @@ int main(int      argc,
     {
         try
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -557,8 +561,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
         catch (...)
         {
             OD_LOG("Exception caught"); //####

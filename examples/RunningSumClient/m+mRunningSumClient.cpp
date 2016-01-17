@@ -101,8 +101,9 @@ RunningSumClient::~RunningSumClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool RunningSumClient::addToSum(const double value,
-                                double &     newSum)
+bool
+RunningSumClient::addToSum(const double value,
+                           double &     newSum)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("newSum = ", &newSum); //####
@@ -156,8 +157,9 @@ bool RunningSumClient::addToSum(const double value,
     return okSoFar;
 } // RunningSumClient::addToSum
 
-bool RunningSumClient::addToSum(const DoubleVector & values,
-                                double &             newSum)
+bool
+RunningSumClient::addToSum(const DoubleVector & values,
+                           double &             newSum)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P2("values = ", &values, "newSum = ", &newSum); //####
@@ -224,7 +226,8 @@ bool RunningSumClient::addToSum(const DoubleVector & values,
     return okSoFar;
 } // RunningSumClient::addToSum
 
-bool RunningSumClient::resetSum(void)
+bool
+RunningSumClient::resetSum(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
@@ -283,7 +286,8 @@ bool RunningSumClient::resetSum(void)
     return okSoFar;
 } // RunningSumClient::resetSum
 
-bool RunningSumClient::startSum(void)
+bool
+RunningSumClient::startSum(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;
@@ -342,7 +346,8 @@ bool RunningSumClient::startSum(void)
     return okSoFar;
 } // RunningSumClient::startSum
 
-bool RunningSumClient::stopSum(void)
+bool
+RunningSumClient::stopSum(void)
 {
     OD_LOG_OBJENTER(); //####
     bool okSoFar = false;

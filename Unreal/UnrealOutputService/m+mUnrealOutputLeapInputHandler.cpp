@@ -86,15 +86,17 @@ static const double kLeapScale = 1.0;
  @param scale The translation scale to use.
  @param okSoFar Set to @c false if an unexpected value appears. */
 #if defined(MpM_UseCustomStringBuffer)
-static void dumpFingerProps(Common::StringBuffer & outBuffer,
-                            yarp::os::Property &   fingerProps,
-                            const double           scale,
-                            bool &                 okSoFar)
+static void
+dumpFingerProps(Common::StringBuffer & outBuffer,
+                yarp::os::Property &   fingerProps,
+                const double           scale,
+                bool &                 okSoFar)
 #else // ! defined(MpM_UseCustomStringBuffer)
-static void dumpFingerProps(std::stringstream &  outBuffer,
-                            yarp::os::Property & fingerProps,
-                            const double         scale,
-                            bool &               okSoFar)
+static void
+dumpFingerProps(std::stringstream &  outBuffer,
+                yarp::os::Property & fingerProps,
+                const double         scale,
+                bool &               okSoFar)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -205,13 +207,15 @@ static void dumpFingerProps(std::stringstream &  outBuffer,
  @param scale The translation scale to use.
  @returns @c true if the had data was properly structured and @c false otherwise. */
 #if defined(MpM_UseCustomStringBuffer)
-static bool dumpHandData(Common::StringBuffer & outBuffer,
-                         yarp::os::Property &   handData,
-                         const double           scale)
+static bool
+dumpHandData(Common::StringBuffer & outBuffer,
+             yarp::os::Property &   handData,
+             const double           scale)
 #else // ! defined(MpM_UseCustomStringBuffer)
-static bool dumpHandData(std::stringstream &  outBuffer,
-                         yarp::os::Property & handData,
-                         const double         scale)
+static bool
+dumpHandData(std::stringstream &  outBuffer,
+             yarp::os::Property & handData,
+             const double         scale)
 #endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
@@ -509,7 +513,8 @@ DEFINE_HANDLE_INPUT_(UnrealOutputLeapInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void UnrealOutputLeapInputHandler::setScale(const double newScale)
+void
+UnrealOutputLeapInputHandler::setScale(const double newScale)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("newScale = ", newScale); //####
@@ -517,7 +522,8 @@ void UnrealOutputLeapInputHandler::setScale(const double newScale)
     OD_LOG_OBJEXIT(); //####
 } // UnrealOutputLeapInputHandler::setScale
 
-void UnrealOutputLeapInputHandler::setSocket(const SOCKET outSocket)
+void
+UnrealOutputLeapInputHandler::setSocket(const SOCKET outSocket)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_L1("outSocket = ", outSocket); //####

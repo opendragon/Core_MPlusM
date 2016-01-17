@@ -136,8 +136,9 @@ static TtyMode lTtyState = TTY_RESET_;
 /*! @brief Display the available commands.
  @param helpText The help text to be displayed.
  @param forAdapter @c true if for an adapter and @c false for a service. */
-static void displayCommands(const YarpString & helpText,
-                            const bool         forAdapter)
+static void
+displayCommands(const YarpString & helpText,
+                const bool         forAdapter)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("helpText = ", helpText); //####
@@ -157,7 +158,8 @@ static void displayCommands(const YarpString & helpText,
 } // displayCommands
 
 /*! @brief Place the standard input in 'cbreak' mode. */
-static int set_tty_cbreak(void)
+static int
+set_tty_cbreak(void)
 {
 #if MAC_OR_LINUX_
     int ii = tcgetattr(STDIN_FILENO, &lTermattr);
@@ -195,7 +197,8 @@ static int set_tty_cbreak(void)
 } // set_tty_cbreak
 
 /*! @brief Restore the standard input to its original mode. */
-static int set_tty_cooked(void)
+static int
+set_tty_cooked(void)
 {
     int res = 0;
 
@@ -218,7 +221,8 @@ static int set_tty_cooked(void)
 } // set_tty_cooked
 
 /*! @brief Place the standard input in 'raw' mode. */
-static int set_tty_raw(void)
+static int
+set_tty_raw(void)
 {
 #if MAC_OR_LINUX_
     int ii = tcgetattr(STDIN_FILENO, &lTermattr);
@@ -261,7 +265,8 @@ static int set_tty_raw(void)
 
 /*! @brief Get the next character available, or @c 0 if none is available.
  @returns The next available character or @c 0 if none is available. */
-static char kb_getc(void)
+static char
+kb_getc(void)
 {
 #if MAC_OR_LINUX_
     int           ii;
@@ -348,7 +353,8 @@ BaseInputOutputService::~BaseInputOutputService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & descriptions)
+bool
+BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & descriptions)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("descriptions = ", &descriptions); //####
@@ -416,7 +422,8 @@ bool BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVecto
     return result;
 } // BaseInputOutputService::addClientStreamsFromDescriptions
 
-bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descriptions)
+bool
+BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descriptions)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("descriptions = ", &descriptions); //####
@@ -486,7 +493,8 @@ bool BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & 
     return result;
 } // BaseInputOutputService::addInStreamsFromDescriptions
 
-bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & descriptions)
+bool
+BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & descriptions)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("descriptions = ", &descriptions); //####
@@ -556,7 +564,8 @@ bool BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector &
     return result;
 } // BaseInputOutputService::addOutStreamsFromDescriptions
 
-void BaseInputOutputService::attachRequestHandlers(void)
+void
+BaseInputOutputService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -592,7 +601,8 @@ void BaseInputOutputService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::attachRequestHandlers
 
-void BaseInputOutputService::detachRequestHandlers(void)
+void
+BaseInputOutputService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -867,7 +877,8 @@ DEFINE_GATHERMETRICS_(BaseInputOutputService)
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::gatherMetrics
 
-size_t BaseInputOutputService::getClientCount(void)
+size_t
+BaseInputOutputService::getClientCount(void)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -877,7 +888,8 @@ const
     return result;
 } // BaseInputOutputService::getClientCount
 
-ClientChannel * BaseInputOutputService::getClientStream(const size_t index)
+ClientChannel *
+BaseInputOutputService::getClientStream(const size_t index)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -888,7 +900,8 @@ const
     return result;
 } // BaseInputOutputService::getClientStream
 
-size_t BaseInputOutputService::getInletCount(void)
+size_t
+BaseInputOutputService::getInletCount(void)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -898,7 +911,8 @@ const
     return result;
 } // BaseInputOutputService::getInletCount
 
-GeneralChannel * BaseInputOutputService::getInletStream(const size_t index)
+GeneralChannel *
+BaseInputOutputService::getInletStream(const size_t index)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -909,7 +923,8 @@ const
     return result;
 } // BaseInputOutputService::getInletStream
 
-size_t BaseInputOutputService::getOutletCount(void)
+size_t
+BaseInputOutputService::getOutletCount(void)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -919,7 +934,8 @@ const
     return result;
 } // BaseInputOutputService::getOutletCount
 
-GeneralChannel * BaseInputOutputService::getOutletStream(const size_t index)
+GeneralChannel *
+BaseInputOutputService::getOutletStream(const size_t index)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -930,10 +946,11 @@ const
     return result;
 } // BaseInputOutputService::getOutletStream
 
-void BaseInputOutputService::performLaunch(const YarpString & helpText,
-                                           const bool         goWasSet,
-                                           const bool         stdinAvailable,
-                                           const bool         reportOnExit)
+void
+BaseInputOutputService::performLaunch(const YarpString & helpText,
+                                      const bool         goWasSet,
+                                      const bool         stdinAvailable,
+                                      const bool         reportOnExit)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("helpText = ", helpText); //####
@@ -984,18 +1001,20 @@ void BaseInputOutputService::performLaunch(const YarpString & helpText,
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::performLaunch
 
-void BaseInputOutputService::requestServiceStop(void)
+void
+BaseInputOutputService::requestServiceStop(void)
 {
     OD_LOG_ENTER(); //####
     lStopTheService = true;
     OD_LOG_EXIT(); //####
 } // BaseInputOutputService::requestServiceStop
 
-void BaseInputOutputService::runService(const YarpString & helpText,
-                                        const bool         forAdapter,
-                                        const bool         goWasSet,
-                                        const bool         stdinAvailable,
-                                        const bool         reportOnExit)
+void
+BaseInputOutputService::runService(const YarpString & helpText,
+                                   const bool         forAdapter,
+                                   const bool         goWasSet,
+                                   const bool         stdinAvailable,
+                                   const bool         reportOnExit)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("helpText = ", helpText); //####

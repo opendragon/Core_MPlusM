@@ -68,6 +68,15 @@ namespace MplusM
         class NatNetInputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -86,7 +95,8 @@ namespace MplusM
                                const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~NatNetInputService(void);
+            virtual
+            ~NatNetInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -118,19 +128,16 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
-            
-			/*! @brief The name of the Natural Point %NatNet device server. */
-			YarpString _hostName;
+            /*! @brief The name of the Natural Point %NatNet device server. */
+            YarpString _hostName;
 
-			/*! @brief The command port to connect to the Natural Point %NatNet device server. */
-			int _commandPort;
+            /*! @brief The command port to connect to the Natural Point %NatNet device server. */
+            int _commandPort;
 
-			/*! @brief The data port to connect to the Natural Point %NatNet device server. */
-			int _dataPort;
+            /*! @brief The data port to connect to the Natural Point %NatNet device server. */
+            int _dataPort;
 
-			/*! @brief The output thread to use. */
+            /*! @brief The output thread to use. */
             NatNetInputThread * _eventThread;
             
 # if defined(__APPLE__)

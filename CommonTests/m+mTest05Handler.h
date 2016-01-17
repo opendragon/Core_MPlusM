@@ -60,12 +60,22 @@ namespace MplusM
         class Test05Handler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             Test05Handler(void);
             
             /*! @brief The destructor. */
-            virtual ~Test05Handler(void);
+            virtual
+            ~Test05Handler(void);
             
         protected :
             
@@ -80,9 +90,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
         }; // Test05Handler
         

@@ -202,7 +202,8 @@ DEFINE_RESTARTSTREAMS_(MovementDbAdapterService)
     OD_LOG_OBJEXIT(); //####
 } // MovementDbAdapterService::restartStreams
 
-void MovementDbAdapterService::setUpInputHandlers(MovementDbAdapterData & sharedData)
+void
+MovementDbAdapterService::setUpInputHandlers(MovementDbAdapterData & sharedData)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("sharedData = ", &sharedData); //####

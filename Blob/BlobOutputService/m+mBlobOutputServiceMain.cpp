@@ -95,16 +95,17 @@ using std::endl;
  @param stdinAvailable @c true if running in the foreground and @c false otherwise.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
-                       const YarpString &                  progName,
-                       const int                           argc,
-                       char * *                            argv,
-                       const YarpString &                  tag,
-                       const YarpString &                  serviceEndpointName,
-                       const YarpString &                  servicePortNumber,
-                       const bool                          goWasSet,
-                       const bool                          stdinAvailable,
-                       const bool                          reportOnExit)
+static void
+setUpAndGo(const Utilities::DescriptorVector & argumentList,
+           const YarpString &                  progName,
+           const int                           argc,
+           char * *                            argv,
+           const YarpString &                  tag,
+           const YarpString &                  serviceEndpointName,
+           const YarpString &                  servicePortNumber,
+           const bool                          goWasSet,
+           const bool                          stdinAvailable,
+           const bool                          reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -139,8 +140,9 @@ static void setUpAndGo(const Utilities::DescriptorVector & argumentList,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the %Blob output service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -177,8 +179,8 @@ int main(int      argc,
                                           reportEndpoint, reportOnExit, tag, serviceEndpointName,
                                           servicePortNumber, modFlag, kSkipNone))
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -215,8 +217,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
     }
     catch (...)
     {

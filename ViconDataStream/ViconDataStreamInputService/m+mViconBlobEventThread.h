@@ -41,6 +41,7 @@
 
 # include "stdafx.h"
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 # include <m+m/m+mStringBuffer.h>
 
@@ -62,25 +63,37 @@ namespace MplusM
     namespace ViconBlob
     {
         /*! @brief A class to generate output from Vicon data. */
-        class ViconBlobEventThread : public yarp::os::Thread
+        class ViconBlobEventThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to.
-			 @param nameAndPort The host name and port to connect to the Vicon server. */
+             @param nameAndPort The host name and port to connect to the Vicon server. */
             ViconBlobEventThread(Common::GeneralChannel * outChannel,
                                  const YarpString &       nameAndPort);
             
             /*! @brief The destructor. */
-            virtual ~ViconBlobEventThread(void);
+            virtual
+            ~ViconBlobEventThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
 
             /*! @brief Set the translation scale.
              @param newScale The scale factor for translation values. */
-            void setScale(const double newScale);
+            void
+            setScale(const double newScale);
 
         protected :
             
@@ -88,21 +101,19 @@ namespace MplusM
             
             /*! @brief Initialize the connection to the Vicon device.
              @returns @c true on success and @c false otherwise. */
-            bool initializeConnection(void);
+            bool
+            initializeConnection(void);
             
             /*! @brief Handle the sensor data associated with the current frame.
              @param subjectCount The number of subjects in the data. */
-            void processEventData(const unsigned int subjectCount);
+            void
+            processEventData(const unsigned int subjectCount);
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(ViconBlobEventThread);
 
@@ -112,19 +123,16 @@ namespace MplusM
 
         private :
 
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-
             /*! @brief The translation scale to be used. */
             double _scale;
 
-			/* @brief The connection to the Vicon device. */
-			ViconDataStreamSDK::CPP::Client _viconClient;
+            /* @brief The connection to the Vicon device. */
+            ViconDataStreamSDK::CPP::Client _viconClient;
 
-			/* @brief The host name and port to connect to the Vicon server. */
-			YarpString _nameAndPort;
+            /* @brief The host name and port to connect to the Vicon server. */
+            YarpString _nameAndPort;
 
-			/*! @brief The channel to send data bursts to. */
+            /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
 
 # if defined(MpM_UseCustomStringBuffer)

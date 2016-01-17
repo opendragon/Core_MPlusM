@@ -86,11 +86,12 @@ static const char kExclamationMark = '!';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-MatchFieldName * MatchFieldName::CreateMatcher(const YarpString &  inString,
-                                               const size_t        inLength,
-                                               const size_t        startPos,
-                                               size_t &            endPos,
-                                               BaseNameValidator * validator)
+MatchFieldName *
+MatchFieldName::CreateMatcher(const YarpString &  inString,
+                              const size_t        inLength,
+                              const size_t        startPos,
+                              size_t &            endPos,
+                              BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####

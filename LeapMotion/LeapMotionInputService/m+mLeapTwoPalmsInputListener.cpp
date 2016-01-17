@@ -112,14 +112,16 @@ LeapTwoPalmsInputListener::~LeapTwoPalmsInputListener(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void LeapTwoPalmsInputListener::clearOutputChannel(void)
+void
+LeapTwoPalmsInputListener::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::clearOutputChannel
 
-void LeapTwoPalmsInputListener::onConnect(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
@@ -127,42 +129,48 @@ void LeapTwoPalmsInputListener::onConnect(const Leap::Controller & theController
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onConnect
 
-void LeapTwoPalmsInputListener::onDeviceChange(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onDeviceChange(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onDeviceChange
 
-void LeapTwoPalmsInputListener::onDisconnect(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onDisconnect
 
-void LeapTwoPalmsInputListener::onExit(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onExit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onExit
 
-void LeapTwoPalmsInputListener::onFocusGained(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onFocusGained(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onFocusGained
 
-void LeapTwoPalmsInputListener::onFocusLost(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onFocusLost(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onFocusLost
 
-void LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
@@ -260,22 +268,25 @@ void LeapTwoPalmsInputListener::onFrame(const Leap::Controller & theController)
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onFrame
 
-void LeapTwoPalmsInputListener::onInit(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onInit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
-	theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
+    theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onInit
 
-void LeapTwoPalmsInputListener::onServiceConnect(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onServiceConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoPalmsInputListener::onServiceConnect
 
-void LeapTwoPalmsInputListener::onServiceDisconnect(const Leap::Controller & theController)
+void
+LeapTwoPalmsInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####

@@ -104,14 +104,15 @@ JavaScriptFilterThread::~JavaScriptFilterThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void JavaScriptFilterThread::clearOutputChannel(void)
+void
+JavaScriptFilterThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
 //    _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptFilterThread::clearOutputChannel
 
-void JavaScriptFilterThread::run(void)
+DEFINE_RUN_(JavaScriptFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -134,7 +135,7 @@ void JavaScriptFilterThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptFilterThread::run
 
-bool JavaScriptFilterThread::threadInit(void)
+DEFINE_THREADINIT_(JavaScriptFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -144,7 +145,7 @@ bool JavaScriptFilterThread::threadInit(void)
     return result;
 } // JavaScriptFilterThread::threadInit
 
-void JavaScriptFilterThread::threadRelease(void)
+DEFINE_THREADRELEASE_(JavaScriptFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

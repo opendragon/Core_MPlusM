@@ -101,7 +101,8 @@ ExemplarClient::~ExemplarClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool ExemplarClient::getOneRandomNumber(double & result)
+bool
+ExemplarClient::getOneRandomNumber(double & result)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("result = ", &result); //####
@@ -149,8 +150,9 @@ bool ExemplarClient::getOneRandomNumber(double & result)
     return okSoFar;
 } // ExemplarClient::getOneRandomNumber
 
-bool ExemplarClient::getRandomNumbers(const int      howMany,
-                                      DoubleVector & result)
+bool
+ExemplarClient::getRandomNumbers(const int      howMany,
+                                 DoubleVector & result)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("howMany = ", howMany); //####

@@ -62,13 +62,24 @@ namespace MplusM
         class ClientsRequestHandler : public BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit ClientsRequestHandler(BaseService & service);
+            explicit
+            ClientsRequestHandler(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~ClientsRequestHandler(void);
+            virtual
+            ~ClientsRequestHandler(void);
             
         protected :
             
@@ -87,9 +98,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // ClientsRequestHandler
         

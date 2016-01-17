@@ -39,6 +39,7 @@
 #if (! defined(MpMProComp2InputThread_H_))
 # define MpMProComp2InputThread_H_ /* Header guard */
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
 # if defined(__APPLE__)
@@ -57,19 +58,31 @@ namespace MplusM
     namespace ProComp2
     {
         /*! @brief A class to generate output from %ProComp2 data. */
-        class ProComp2InputThread : public yarp::os::Thread
+        class ProComp2InputThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
              @param outChannel The channel to send data bursts to. */
-            explicit ProComp2InputThread(Common::GeneralChannel * outChannel);
+            explicit
+            ProComp2InputThread(Common::GeneralChannel * outChannel);
             
             /*! @brief The destructor. */
-            virtual ~ProComp2InputThread(void);
+            virtual
+            ~ProComp2InputThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
             
         protected :
             
@@ -77,21 +90,19 @@ namespace MplusM
             
             /*! @brief Extract the data for all channels and send it.
              @param time The time at which the channels are processed. */
-            void readChannelData(const DWORD time);
+            void
+            readChannelData(const DWORD time);
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
             /*! @brief Prepare any attached encoders for use.
              @returns @c true if at least one encoder was set up. */
-            bool setupEncoders(void);
+            bool
+            setupEncoders(void);
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(ProComp2InputThread);
             
@@ -100,19 +111,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
             
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;

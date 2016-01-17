@@ -63,6 +63,15 @@ namespace MplusM
         class BaseAdapterService : public Common::BaseInputOutputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputOutputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -90,7 +99,8 @@ namespace MplusM
                                const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~BaseAdapterService(void);
+            virtual
+            ~BaseAdapterService(void);
             
             /*! @brief Start the service and set up its configuration.
              @param sharedData The shared data for the input handlers.
@@ -99,11 +109,12 @@ namespace MplusM
              @param stdinAvailable @c true if running in the foreground and @c false otherwise.
              @param reportOnExit @c true if service metrics are to be reported on exit and @c false
              otherwise. */
-            void performLaunch(BaseAdapterData &  sharedData,
-                               const YarpString & helpText,
-                               const bool         goWasSet,
-                               const bool         stdinAvailable,
-                               const bool         reportOnExit);
+            void
+            performLaunch(BaseAdapterData &  sharedData,
+                          const YarpString & helpText,
+                          const bool         goWasSet,
+                          const bool         stdinAvailable,
+                          const bool         reportOnExit);
             
         protected :
             
@@ -137,9 +148,6 @@ namespace MplusM
             ChannelVector _outDescriptions;
             
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputOutputService inherited;
             
         }; // BaseAdapterService
         

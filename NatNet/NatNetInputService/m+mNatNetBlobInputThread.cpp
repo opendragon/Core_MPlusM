@@ -80,33 +80,34 @@ using namespace MplusM::NatNet;
 /*! @brief Process a received frame of data.
 @param aFrame The data to be processed.
 @param userData The initially supplied data for this callback. */
-static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
-	                             void *              userData)
+static void __cdecl
+dataReceived(sFrameOfMocapData * aFrame,
+             void *              userData)
 {
-	OD_LOG_ENTER(); //####
-	OD_LOG_P2("aFrame = ", aFrame, "userData = ", userData); //####
-	NatNetBlobInputThread * theThread = reinterpret_cast<NatNetBlobInputThread *>(userData);
+    OD_LOG_ENTER(); //####
+    OD_LOG_P2("aFrame = ", aFrame, "userData = ", userData); //####
+    NatNetBlobInputThread * theThread = reinterpret_cast<NatNetBlobInputThread *>(userData);
 
-	if (aFrame && theThread)
-	{
-		double scale = theThread->translationScale();
-		int    numSkeletons = aFrame->nSkeletons;
+    if (aFrame && theThread)
+    {
+        double scale = theThread->translationScale();
+        int    numSkeletons = aFrame->nSkeletons;
 
-		if (0 < numSkeletons)
-		{
+        if (0 < numSkeletons)
+        {
 #if defined(MpM_UseCustomStringBuffer)
-			Common::StringBuffer & outBuffer = theThread->getOutputBuffer();
+            Common::StringBuffer & outBuffer = theThread->getOutputBuffer();
 #else // ! defined(MpM_UseCustomStringBuffer)
             std::stringstream      outBuffer;
 #endif // ! defined(MpM_UseCustomStringBuffer)
             
             // Write out the number of skeletons == bodies.
 #if defined(MpM_UseCustomStringBuffer)
-			outBuffer.reset().addLong(static_cast<int>(numSkeletons)).addString(LINE_END_);
+            outBuffer.reset().addLong(static_cast<int>(numSkeletons)).addString(LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << numSkeletons << LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
-			for (int ii = 0; numSkeletons > ii; ++ii)
+            for (int ii = 0; numSkeletons > ii; ++ii)
             {
                 sSkeletonData &  aSkel = aFrame->Skeletons[ii];
                 int              numBones = aSkel.nRigidBodies;
@@ -158,30 +159,31 @@ static void __cdecl dataReceived(sFrameOfMocapData * aFrame,
             {
                 theThread->sendMessage(outString, outLength);
             }
-		}
-	}
-	OD_LOG_EXIT(); //####
+        }
+    }
+    OD_LOG_EXIT(); //####
 } // dataReceived
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
 # pragma warning(disable: 4100)
 #endif // ! MAC_OR_LINUX_
-static void __cdecl messageReceived(int    messageType,
-	                                char * message)
+static void __cdecl
+messageReceived(int    messageType,
+                char * message)
 {
 #if ((! defined(OD_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_)))
 # if MAC_OR_LINUX_
 #  pragma unused(messageType,message)
 # endif // MAC_OR_LINUX_
 #endif // (! defined(OD_ENABLE_LOGGING_)) || (! defined(REPORT_NATNET_MESSAGES_))
-	OD_LOG_ENTER(); //####
-	OD_LOG_LL1("messageType = ", messageType); //####
-	OD_LOG_S1("message = ", message); //####
+    OD_LOG_ENTER(); //####
+    OD_LOG_LL1("messageType = ", messageType); //####
+    OD_LOG_S1("message = ", message); //####
 #if defined(REPORT_NATNET_MESSAGES_)
-	std::cerr << messageType << ": " << message << std::endl;
+    std::cerr << messageType << ": " << message << std::endl;
 #endif // defined(REPORT_NATNET_MESSAGES_)
-	OD_LOG_EXIT(); //####
+    OD_LOG_EXIT(); //####
 } // messageReceived
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
@@ -196,29 +198,29 @@ static void __cdecl messageReceived(int    messageType,
 #endif // defined(__APPLE__)
 
 NatNetBlobInputThread::NatNetBlobInputThread(Common::GeneralChannel * outChannel,
-											 const YarpString &       name,
-											 const int                commandPort,
-											 const int                dataPort) :
+                                             const YarpString &       name,
+                                             const int                commandPort,
+                                             const int                dataPort) :
     inherited(), _outChannel(outChannel), _address(name), _translationScale(1),
-	_commandPort(commandPort), _dataPort(dataPort), _client(NULL)
+    _commandPort(commandPort), _dataPort(dataPort), _client(NULL)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
-	OD_LOG_S1s("name = ", name); //####
-	OD_LOG_LL2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
-	strcpy_s(_clientIPAddress, sizeof(_clientIPAddress) - 1, "");
-	strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, "");
-	OD_LOG_EXIT_P(this); //####
+    OD_LOG_S1s("name = ", name); //####
+    OD_LOG_LL2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
+    strcpy_s(_clientIPAddress, sizeof(_clientIPAddress) - 1, "");
+    strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, "");
+    OD_LOG_EXIT_P(this); //####
 } // NatNetBlobInputThread::NatNetBlobInputThread
 
 NatNetBlobInputThread::~NatNetBlobInputThread(void)
 {
     OD_LOG_OBJENTER(); //####
-	if (_client)
-	{
-		_client->Uninitialize();
-		delete _client;
-	}
+    if (_client)
+    {
+        _client->Uninitialize();
+        delete _client;
+    }
     OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::~NatNetBlobInputThread
 
@@ -226,43 +228,45 @@ NatNetBlobInputThread::~NatNetBlobInputThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void NatNetBlobInputThread::clearOutputChannel(void)
+void
+NatNetBlobInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::clearOutputChannel
 
-void NatNetBlobInputThread::run(void)
+DEFINE_RUN_(NatNetBlobInputThread)
 {
     OD_LOG_OBJENTER(); //####
-	try
-	{
-		if (_client)
-		{
-			for ( ; ! isStopping(); )
-			{
-				yarp::os::Time::yield();
-			}
-			_client->SetDataCallback(NULL, NULL);
-		}
-	}
-	catch (...)
-	{
-		OD_LOG("Exception caught"); //####
-		throw;
-	}
-	OD_LOG_OBJEXIT(); //####
+    try
+    {
+        if (_client)
+        {
+            for ( ; ! isStopping(); )
+            {
+                yarp::os::Time::yield();
+            }
+            _client->SetDataCallback(NULL, NULL);
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        throw;
+    }
+    OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::run
 
-void NatNetBlobInputThread::sendMessage(const char * message,
-                                        const size_t length)
+void
+NatNetBlobInputThread::sendMessage(const char * message,
+                                   const size_t length)
 {
-	OD_LOG_OBJENTER(); //####
-	OD_LOG_S1("message = ", message); //####
+    OD_LOG_OBJENTER(); //####
+    OD_LOG_S1("message = ", message); //####
 
-	if (_outChannel)
-	{
+    if (_outChannel)
+    {
         void *          rawString = static_cast<void *>(const_cast<char *>(message));
         yarp::os::Value blobValue(rawString, static_cast<int>(length));
         
@@ -272,14 +276,15 @@ void NatNetBlobInputThread::sendMessage(const char * message,
         {
             OD_LOG("(! _outChannel->write(_messageBottle))"); //####
 #if defined(MpM_StallOnSendProblem)
-			Stall();
+            Stall();
 #endif // defined(MpM_StallOnSendProblem)
-		}
-	}
-	OD_LOG_OBJEXIT(); //####
+        }
+    }
+    OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::sendMessage
 
-void NatNetBlobInputThread::setScale(const double newScale)
+void
+NatNetBlobInputThread::setScale(const double newScale)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("newScale = ", newScale); //####
@@ -287,89 +292,89 @@ void NatNetBlobInputThread::setScale(const double newScale)
     OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::setScale
 
-bool NatNetBlobInputThread::threadInit(void)
+DEFINE_THREADINIT_(NatNetBlobInputThread)
 {
-	OD_LOG_OBJENTER(); //####
-	bool result = true;
+    OD_LOG_OBJENTER(); //####
+    bool result = true;
 
-	try
-	{
-		_client = new NatNetClient(NATNET_CONNECTION_MODE_);
-		OD_LOG_P1("_client <- ", _client); //####
-		if (_client)
-		{
-			const char * theServerAddress = _address.c_str();
+    try
+    {
+        _client = new NatNetClient(NATNET_CONNECTION_MODE_);
+        OD_LOG_P1("_client <- ", _client); //####
+        if (_client)
+        {
+            const char * theServerAddress = _address.c_str();
 
-			if (theServerAddress && (IPADDRESS_BUFFER_SIZE > (strlen(theServerAddress) + 5)))
-			{
-				strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, theServerAddress);
-			}
-			else
-			{
-				strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, "");
-			}
-			_client->SetMessageCallback(messageReceived);
-			_client->SetVerbosityLevel(Verbosity_Debug);
-			_client->SetDataCallback(dataReceived, this);
-			int retCode = _client->Initialize(_clientIPAddress, _serverIPAddress, _commandPort,
-											  _dataPort);
+            if (theServerAddress && (IPADDRESS_BUFFER_SIZE > (strlen(theServerAddress) + 5)))
+            {
+                strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, theServerAddress);
+            }
+            else
+            {
+                strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, "");
+            }
+            _client->SetMessageCallback(messageReceived);
+            _client->SetVerbosityLevel(Verbosity_Debug);
+            _client->SetDataCallback(dataReceived, this);
+            int retCode = _client->Initialize(_clientIPAddress, _serverIPAddress, _commandPort,
+                                              _dataPort);
 
-			if (ErrorCode_OK == retCode)
-			{
-				sServerDescription theServer;
+            if (ErrorCode_OK == retCode)
+            {
+                sServerDescription theServer;
 
-				memset(&theServer, 0, sizeof(theServer));
-				_client->GetServerDescription(&theServer);
-				if (! theServer.HostPresent)
-				{
-					OD_LOG("(! theServer.HostPresent)"); //####
-					std::cerr << "Natural Point NatNet service host not present." << std::endl;
-					result = false;
-				}
-			}
-			else
-			{
-				OD_LOG("(_client->Initialize(NULL, const_cast<char *>(_address.c_str()), " //####
+                memset(&theServer, 0, sizeof(theServer));
+                _client->GetServerDescription(&theServer);
+                if (! theServer.HostPresent)
+                {
+                    OD_LOG("(! theServer.HostPresent)"); //####
+                    std::cerr << "Natural Point NatNet service host not present." << std::endl;
+                    result = false;
+                }
+            }
+            else
+            {
+                OD_LOG("(_client->Initialize(NULL, const_cast<char *>(_address.c_str()), " //####
                        "_commandPort, _dataPort))"); //####
-				std::cerr << "Initialization problem with Natural Point NatNet service: ";
-				switch (retCode)
-				{
-					case ErrorCode_External :
-						std::cerr << "external issue.";
-						break;
+                std::cerr << "Initialization problem with Natural Point NatNet service: ";
+                switch (retCode)
+                {
+                    case ErrorCode_External :
+                        std::cerr << "external issue.";
+                        break;
 
-					case ErrorCode_Internal :
-						std::cerr << "internal issue.";
-						break;
+                    case ErrorCode_Internal :
+                        std::cerr << "internal issue.";
+                        break;
 
-					case ErrorCode_Network :
-						std::cerr << "network issue.";
-						break;
+                    case ErrorCode_Network :
+                        std::cerr << "network issue.";
+                        break;
 
-					default :
-						std::cerr << "unknown issue.";
-						break;
+                    default :
+                        std::cerr << "unknown issue.";
+                        break;
 
-				}
-				std::cerr << std::endl;
-				result = false;
-			}
-		}
-		else
-		{
-			result = false;
-		}
-	}
-	catch (...)
-	{
-		OD_LOG("Exception caught"); //####
-		result = false;
-	}
-	OD_LOG_OBJEXIT_B(result); //####
+                }
+                std::cerr << std::endl;
+                result = false;
+            }
+        }
+        else
+        {
+            result = false;
+        }
+    }
+    catch (...)
+    {
+        OD_LOG("Exception caught"); //####
+        result = false;
+    }
+    OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // NatNetBlobInputThread::threadInit
 
-void NatNetBlobInputThread::threadRelease(void)
+DEFINE_THREADRELEASE_(NatNetBlobInputThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

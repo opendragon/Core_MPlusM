@@ -60,48 +60,62 @@ namespace MplusM
         class StringBuffer
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor. */
             StringBuffer(void);
             
             /*! @brief The destructor. */
-            virtual ~StringBuffer(void);
+            virtual
+            ~StringBuffer(void);
             
             /*! @brief Add a character to the buffer.
              @param aChar The character to add.
-			 @returns The StringBuffer object so that cascading can be done. */
-            StringBuffer & addChar(const char aChar);
+             @returns The StringBuffer object so that cascading can be done. */
+            StringBuffer &
+            addChar(const char aChar);
             
             /*! @brief Add a character string representation of a floating-point value to the
              buffer.
              @param aDouble The value to add.
-			 @returns The StringBuffer object so that cascading can be done. */
-			StringBuffer & addDouble(const double aDouble);
+             @returns The StringBuffer object so that cascading can be done. */
+            StringBuffer &
+            addDouble(const double aDouble);
             
             /*! @brief Add a character string representation of an integer value to the buffer.
              @param aLong The value to add.
-			 @returns The StringBuffer object so that cascading can be done. */
-			StringBuffer & addLong(const int64_t aLong);
+             @returns The StringBuffer object so that cascading can be done. */
+            StringBuffer &
+            addLong(const int64_t aLong);
             
             /*! @brief Add a character string to the buffer.
              @param aString The value to add.
-			 @returns The StringBuffer object so that cascading can be done. */
-			StringBuffer & addString(const char * aString);
+             @returns The StringBuffer object so that cascading can be done. */
+            StringBuffer &
+            addString(const char * aString);
             
             /*! @brief Add a character string to the buffer.
              @param aString The value to add.
-			 @returns The StringBuffer object so that cascading can be done. */
-			StringBuffer & addString(const YarpString & aString);
+             @returns The StringBuffer object so that cascading can be done. */
+            StringBuffer &
+            addString(const YarpString & aString);
             
             /*! @brief Add a horizontal tab character to the buffer.
              @returns The StringBuffer object so that cascading can be done. */
-            StringBuffer & addTab(void);
+            StringBuffer &
+            addTab(void);
 
             /*! @brief Return a pointer to the characters in the buffer as well as the number of
              valid characters present.
              @param length Set to the number of valid characters in the buffer.
              @returns A pointer to the characters in the buffer. */
-            inline const char * getString(size_t & length)
+            inline const char *
+            getString(size_t & length)
             const
             {
                 length = _currentLength;
@@ -110,15 +124,16 @@ namespace MplusM
             
             /*! @brief Return the number of valid charaacters in the buffer.
              @returns The number of valid characters in the buffer. */
-            inline size_t length(void)
+            inline size_t
+            length(void)
             const
             {
                 return _currentLength;
             } // length
             
-			/*! @brief Prepare the buffer for reuse.
-			 @returns The StringBuffer object so that cascading can be done. */
-			StringBuffer & reset(void);
+             /*! @brief Prepare the buffer for reuse.
+             @returns The StringBuffer object so that cascading can be done. */
+             StringBuffer & reset(void);
 
         protected :
             
@@ -127,7 +142,8 @@ namespace MplusM
             /*! @brief Increase the size of the internal buffer, copying the current contents into
              the new buffer.
              @param newSize The size for the new internal buffer. */
-            void setSize(const size_t newSize);
+            void
+            setSize(const size_t newSize);
             
             COPY_AND_ASSIGNMENT_(StringBuffer);
             

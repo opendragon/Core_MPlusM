@@ -243,16 +243,16 @@ DEFINE_STARTSTREAMS_(KinectV2InputService)
         {
             _eventThread = new KinectV2EventThread(getOutletStream(0));
             if (_eventThread->start())
-			{
-				setActive();
-			}
-			else
-			{
-				OD_LOG("! (_eventThread->start())"); //####
+            {
+                setActive();
+            }
+            else
+            {
+                OD_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                delete _eventThread;
+                _eventThread = NULL;
+            }
         }
     }
     catch (...)
@@ -288,16 +288,16 @@ DEFINE_STOPSTREAMS_(KinectV2InputService)
     {
         if (isActive())
         {
-			if (_eventThread)
-			{
-				_eventThread->stop();
-				for ( ; _eventThread->isRunning(); )
-				{
-					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-				}
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+            if (_eventThread)
+            {
+                _eventThread->stop();
+                for ( ; _eventThread->isRunning(); )
+                {
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                }
+                delete _eventThread;
+                _eventThread = NULL;
+            }
             clearActive();
         }
     }

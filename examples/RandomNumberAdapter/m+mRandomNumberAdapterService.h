@@ -70,6 +70,15 @@ namespace MplusM
         class RandomNumberAdapterService : public Common::BaseAdapterService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseAdapterService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -88,7 +97,8 @@ namespace MplusM
                                        const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RandomNumberAdapterService(void);
+            virtual
+            ~RandomNumberAdapterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -102,7 +112,8 @@ namespace MplusM
             
             /*! @brief Set up the input handlers.
              @param sharedData The shared data for the input handlers. */
-            void setUpInputHandlers(RandomNumberAdapterData & sharedData);
+            void
+            setUpInputHandlers(RandomNumberAdapterData & sharedData);
             
             DECLARE_STARTSERVICE_;
             
@@ -125,9 +136,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseAdapterService inherited;
             
             /*! @brief The handler for input data. */
             RandomNumberInputHandler * _inHandler;

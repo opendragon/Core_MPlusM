@@ -102,14 +102,15 @@ ExemplarInputThread::~ExemplarInputThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ExemplarInputThread::clearOutputChannel(void)
+void
+ExemplarInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // ExemplarInputThread::clearOutputChannel
 
-void ExemplarInputThread::run(void)
+DEFINE_RUN_(ExemplarInputThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -140,7 +141,7 @@ void ExemplarInputThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarInputThread::run
 
-bool ExemplarInputThread::threadInit(void)
+DEFINE_THREADINIT_(ExemplarInputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -150,7 +151,7 @@ bool ExemplarInputThread::threadInit(void)
     return result;
 } // ExemplarInputThread::threadInit
 
-void ExemplarInputThread::threadRelease(void)
+DEFINE_THREADRELEASE_(ExemplarInputThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

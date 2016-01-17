@@ -100,7 +100,7 @@ PingThread::~PingThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void PingThread::run(void)
+DEFINE_RUN_(PingThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -118,7 +118,7 @@ void PingThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // PingThread::run
 
-bool PingThread::threadInit(void)
+DEFINE_THREADINIT_(PingThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -128,7 +128,7 @@ bool PingThread::threadInit(void)
     return result;
 } // PingThread::threadInit
 
-void PingThread::threadRelease(void)
+DEFINE_THREADRELEASE_(PingThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

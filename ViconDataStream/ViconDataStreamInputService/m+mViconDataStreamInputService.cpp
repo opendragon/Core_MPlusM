@@ -272,21 +272,21 @@ DEFINE_STARTSTREAMS_(ViconDataStreamInputService)
     {
         if (! isActive())
         {
-		    std::stringstream nameAndPort;
+            std::stringstream nameAndPort;
 
-			nameAndPort << _hostName.c_str() << ":" << _hostPort;
+            nameAndPort << _hostName.c_str() << ":" << _hostPort;
             _eventThread = new ViconDataStreamEventThread(getOutletStream(0), nameAndPort.str());
-			if (_eventThread->start())
-			{
-				setActive();
-			}
-			else
-			{
-				OD_LOG("! (_eventThread->start())"); //####
+            if (_eventThread->start())
+            {
+                setActive();
+            }
+            else
+            {
+                OD_LOG("! (_eventThread->start())"); //####
                 cerr << "Could not start auxiliary thread." << endl;
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+                delete _eventThread;
+                _eventThread = NULL;
+            }
         }
     }
     catch (...)
@@ -322,16 +322,16 @@ DEFINE_STOPSTREAMS_(ViconDataStreamInputService)
     {
         if (isActive())
         {
-			if (_eventThread)
-			{
-				_eventThread->stop();
-				for ( ; _eventThread->isRunning(); )
-				{
-					yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
-				}
-				delete _eventThread;
-				_eventThread = NULL;
-			}
+            if (_eventThread)
+            {
+                _eventThread->stop();
+                for ( ; _eventThread->isRunning(); )
+                {
+                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                }
+                delete _eventThread;
+                _eventThread = NULL;
+            }
             clearActive();
         }
     }

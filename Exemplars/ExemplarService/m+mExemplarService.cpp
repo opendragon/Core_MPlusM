@@ -113,7 +113,8 @@ ExemplarService::~ExemplarService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ExemplarService::attachRequestHandlers(void)
+void
+ExemplarService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -136,7 +137,8 @@ void ExemplarService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // ExemplarService::attachRequestHandlers
 
-void ExemplarService::detachRequestHandlers(void)
+void
+ExemplarService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try

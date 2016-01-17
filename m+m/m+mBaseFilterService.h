@@ -61,6 +61,15 @@ namespace MplusM
         class BaseFilterService : public Common::BaseInputOutputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputOutputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -88,7 +97,8 @@ namespace MplusM
                               const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~BaseFilterService(void);
+            virtual
+            ~BaseFilterService(void);
             
         protected :
             
@@ -115,9 +125,6 @@ namespace MplusM
             ChannelVector _outDescriptions;
             
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputOutputService inherited;
             
         }; // BaseFilterService
         

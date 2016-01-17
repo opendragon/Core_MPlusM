@@ -109,7 +109,7 @@ BailOutThread::~BailOutThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BailOutThread::run(void)
+DEFINE_RUN_(BailOutThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -136,7 +136,7 @@ void BailOutThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // BailOutThread::run
 
-bool BailOutThread::threadInit(void)
+DEFINE_THREADINIT_(BailOutThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -146,7 +146,7 @@ bool BailOutThread::threadInit(void)
     return result;
 } // BailOutThread::threadInit
 
-void BailOutThread::threadRelease(void)
+DEFINE_THREADRELEASE_(BailOutThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

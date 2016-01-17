@@ -99,7 +99,7 @@ RegistryCheckThread::~RegistryCheckThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RegistryCheckThread::run(void)
+DEFINE_RUN_(RegistryCheckThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -116,7 +116,7 @@ void RegistryCheckThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // RegistryCheckThread::run
 
-bool RegistryCheckThread::threadInit(void)
+DEFINE_THREADINIT_(RegistryCheckThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -126,7 +126,7 @@ bool RegistryCheckThread::threadInit(void)
     return result;
 } // RegistryCheckThread::threadInit
 
-void RegistryCheckThread::threadRelease(void)
+DEFINE_THREADRELEASE_(RegistryCheckThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

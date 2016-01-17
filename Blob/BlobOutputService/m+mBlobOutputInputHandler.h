@@ -64,17 +64,29 @@ namespace MplusM
         class BlobOutputInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
-            explicit BlobOutputInputHandler(BlobOutputService & owner);
+            explicit
+            BlobOutputInputHandler(BlobOutputService & owner);
             
             /*! @brief The destructor. */
-            virtual ~BlobOutputInputHandler(void);
+            virtual
+            ~BlobOutputInputHandler(void);
             
-			/*! @brief Set the network socket to be written to.
+            /*! @brief Set the network socket to be written to.
              @param outSocket The network socket to be written to. */
-            void setSocket(const SOCKET outSocket);
+            void
+            setSocket(const SOCKET outSocket);
 
         protected :
             
@@ -89,9 +101,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The service that this handler is connected to. */
             BlobOutputService & _owner;

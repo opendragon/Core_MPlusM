@@ -97,7 +97,7 @@ BlobOutputService::BlobOutputService(const Utilities::DescriptorVector & argumen
                                      const YarpString &                  servicePortNumber) :
     inherited(argumentList, launchPath, argc, argv, tag, true, MpM_BLOBOUTPUT_CANONICAL_NAME_,
               BLOBOUTPUT_SERVICE_DESCRIPTION_, "", serviceEndpointName, servicePortNumber),
-	_outPort(9876), _networkSocket(INVALID_SOCKET), _inHandler(new BlobOutputInputHandler(*this))
+    _outPort(9876), _networkSocket(INVALID_SOCKET), _inHandler(new BlobOutputInputHandler(*this))
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("argumentList = ", &argumentList, "argv = ", argv); //####
@@ -194,11 +194,12 @@ DEFINE_GETCONFIGURATION_(BlobOutputService)
     return result;
 } // BlobOutputService::getConfiguration
 
-void BlobOutputService::deactivateConnection(void)
+void
+BlobOutputService::deactivateConnection(void)
 {
     OD_LOG_ENTER(); //####
     clearActive();
-	cerr << "connection is dead" << endl; //!!!!
+    cerr << "connection is dead" << endl; //!!!!
     if (_inHandler)
     {
         _inHandler->setSocket(INVALID_SOCKET);
@@ -284,8 +285,8 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
     {
         if (! isActive())
         {
-			if (_inHandler)
-			{
+            if (_inHandler)
+            {
 #if MAC_OR_LINUX_
                 SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 #else // ! MAC_OR_LINUX_
@@ -295,10 +296,10 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                 
 #if MAC_OR_LINUX_
                 if (INVALID_SOCKET == listenSocket)
-				{
+                {
                     cerr << "Could not create socket." << endl;
-				}
-				else
+                }
+                else
                 {
                     struct sockaddr_in addr;
                     
@@ -308,18 +309,18 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                     addr.sin_addr.s_addr = htonl(INADDR_ANY);
                     if (bind(listenSocket, reinterpret_cast<struct sockaddr *>(&addr),
                              sizeof(addr)))
-					{
+                    {
                         cerr << "Could not bind to socket." << endl;
-					}
-					else
+                    }
+                    else
                     {
                         listen(listenSocket, SOMAXCONN);
                         _networkSocket = accept(listenSocket, 0, 0);
                         if (INVALID_SOCKET == _networkSocket)
-						{
+                        {
                             cerr << "Could not accept connection." << endl;
-						}
-						else
+                        }
+                        else
                         {
                             _inHandler->setSocket(_networkSocket);
                             _inHandler->setChannel(getInletStream(0));
@@ -331,47 +332,47 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                 }
 #else // ! MAC_OR_LINUX_
                 if (WSAStartup(wVersionRequested, &ww))
-				{
-					cerr << "could not start up WSA" << endl; //!!!!
-				}
-				else
+                {
+                    cerr << "could not start up WSA" << endl; //!!!!
+                }
+                else
                 {
                     if ((2 == LOBYTE(ww.wVersion)) && (2 == HIBYTE(ww.wVersion)))
                     {
-						cerr << "creating socket" << endl; //!!!!
+                        cerr << "creating socket" << endl; //!!!!
                         SOCKET listenSocket = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
                         
                         if (INVALID_SOCKET == listenSocket)
-						{
+                        {
                             cerr << "Could not create socket." << endl;
-						}
-						else
+                        }
+                        else
                         {
                             SOCKADDR_IN addr;
                             
                             addr.sin_family = AF_INET;
                             addr.sin_port = htons(_outPort);
                             addr.sin_addr.s_addr = htonl(INADDR_ANY);
-							cerr << "binding to port" << endl; //!!!!
+                            cerr << "binding to port" << endl; //!!!!
                             if (SOCKET_ERROR == bind(listenSocket,
                                                      reinterpret_cast<LPSOCKADDR>(&addr),
                                                      sizeof(addr)))
-							{
-                                cerr << "Could not create socket." << endl;
-							}
-							else
                             {
-								cerr << "listening for connection" << endl; //!!!!
+                                cerr << "Could not create socket." << endl;
+                            }
+                            else
+                            {
+                                cerr << "listening for connection" << endl; //!!!!
                                 listen(listenSocket, SOMAXCONN);
-								cerr << "accepting the connection" << endl; //!!!!
+                                cerr << "accepting the connection" << endl; //!!!!
                                 _networkSocket = accept(listenSocket, 0, 0);
                                 if (INVALID_SOCKET == _networkSocket)
-								{
-                                    cerr << "Could not accept connection." << endl;
-								}
-								else
                                 {
-									cerr << "connection is live" << endl; //!!!!
+                                    cerr << "Could not accept connection." << endl;
+                                }
+                                else
+                                {
+                                    cerr << "connection is live" << endl; //!!!!
                                     _inHandler->setSocket(_networkSocket);
                                     getInletStream(0)->setReader(*_inHandler);
                                     _inHandler->setChannel(getInletStream(0));
@@ -384,13 +385,13 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
                     }
                     else
                     {
-						cerr << "WSA version not available" << endl;
+                        cerr << "WSA version not available" << endl;
                         WSACleanup();
                     }
                 }
 #endif // ! MAC_OR_LINUX_
-			}
-			else if (INVALID_SOCKET != _networkSocket)
+            }
+            else if (INVALID_SOCKET != _networkSocket)
             {
 #if MAC_OR_LINUX_
                 shutdown(_networkSocket, SHUT_RDWR);
@@ -401,7 +402,7 @@ DEFINE_STARTSTREAMS_(BlobOutputService)
 #endif // ! MAC_OR_LINUX_
                 _networkSocket = INVALID_SOCKET;
             }
-		}
+        }
     }
     catch (...)
     {

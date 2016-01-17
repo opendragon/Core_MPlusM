@@ -73,6 +73,7 @@ add_library(${THIS_TARGET}
             "${MpM_SOURCE_DIR}/m+m/m+mBaseOutputService.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mBaseRequestHandler.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mBaseService.cpp"
+            "${MpM_SOURCE_DIR}/m+m/m+mBaseThread.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mBoolArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mChannelArgumentDescriptor.cpp"
             "${MpM_SOURCE_DIR}/m+m/m+mChannelsRequestHandler.cpp"
@@ -170,6 +171,7 @@ install(FILES
         "${MpM_SOURCE_DIR}/m+m/m+mBaseOutputService.h"
         "${MpM_SOURCE_DIR}/m+m/m+mBaseRequestHandler.h"
         "${MpM_SOURCE_DIR}/m+m/m+mBaseService.h"
+        "${MpM_SOURCE_DIR}/m+m/m+mBaseThread.h"
         "${MpM_SOURCE_DIR}/m+m/m+mBoolArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/m+m/m+mChannelArgumentDescriptor.h"
         "${MpM_SOURCE_DIR}/m+m/m+mChannelStatusReporter.h"
@@ -225,6 +227,7 @@ if(MpM_DO_SWIG)
         m+mBaseOutputService.h m+mBaseOutputService.cpp
         m+mBaseRequestHandler.h m+mBaseRequestHandler.cpp
         m+mBaseService.h m+mBaseService.cpp
+        m+mBaseThread.h m+mBaseThread.cpp
         m+mBoolArgumentDescriptor.h m+mBoolArgumentDescriptor.cpp
         m+mChannelArgumentDescriptor.h m+mChannelArgumentDescriptor.cpp
         m+mChannelStatusReporter.h m+mChannelStatusReporter.cpp

@@ -39,6 +39,7 @@
 #if (! defined(MpMNatNetInputThread_H_))
 # define MpMNatNetInputThread_H_ /* Header guard */
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
 # include <NatNetTypes.h>
@@ -63,8 +64,17 @@ namespace MplusM
     namespace NatNet
     {
         /*! @brief A convenience class to generate output. */
-        class NatNetInputThread : public yarp::os::Thread
+        class NatNetInputThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
@@ -73,33 +83,32 @@ namespace MplusM
              @param commandPort The command port for the Natural Point %NatNet device.
              @param dataPort The data port for the Natural Point %NatNet device. */
             NatNetInputThread(Common::GeneralChannel * outChannel,
-				              const YarpString &       name,
-				              const int                commandPort,
-				              const int                dataPort);
+                              const YarpString &       name,
+                              const int                commandPort,
+                              const int                dataPort);
             
             /*! @brief The destructor. */
-            virtual ~NatNetInputThread(void);
+            virtual
+            ~NatNetInputThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
             
-			/*! @brief Send a message via the output channel.
-			@param message The message to send. */
-			void sendMessage(yarp::os::Bottle & message);
+            /*! @brief Send a message via the output channel.
+             @param message The message to send. */
+            void
+            sendMessage(yarp::os::Bottle & message);
 
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(NatNetInputThread);
             
@@ -109,39 +118,26 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
             
-			/*! @brief The address of the Natural Point %NatNet device. */
-			YarpString _address;
+            /*! @brief The address of the Natural Point %NatNet device. */
+            YarpString _address;
 
-			/*! @brief The command port of the Natural Point %NatNet device. */
-			int _commandPort;
+            /*! @brief The command port of the Natural Point %NatNet device. */
+            int _commandPort;
 
-			/*! @brief The command port of the Natural Point %NatNet device. */
-			int _dataPort;
+            /*! @brief The command port of the Natural Point %NatNet device. */
+            int _dataPort;
             
-			/*! @brief The connection to the Natural Point %NatNet device. */
-			NatNetClient * _client;
+            /*! @brief The connection to the Natural Point %NatNet device. */
+            NatNetClient * _client;
 
-			/*! @brief The local copy of the client IP address. */
-			char _clientIPAddress[IPADDRESS_BUFFER_SIZE];
+            /*! @brief The local copy of the client IP address. */
+            char _clientIPAddress[IPADDRESS_BUFFER_SIZE];
 
-			/*! @brief The local copy of the server IP address. */
-			char _serverIPAddress[IPADDRESS_BUFFER_SIZE];
+            /*! @brief The local copy of the server IP address. */
+            char _serverIPAddress[IPADDRESS_BUFFER_SIZE];
 
         }; // NatNetInputThread
         

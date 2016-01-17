@@ -73,6 +73,15 @@ namespace MplusM
         class UnrealOutputService : public Common::BaseOutputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseOutputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -91,12 +100,14 @@ namespace MplusM
                                 const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~UnrealOutputService(void);
+            virtual
+            ~UnrealOutputService(void);
             
             DECLARE_CONFIGURE_;
             
             /*! @brief Deactivate the network connection. */
-            void deactivateConnection(void);
+            void
+            deactivateConnection(void);
             
             DECLARE_DISABLEMETRICS_;
             
@@ -128,16 +139,13 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
-            
             /*! @brief The scale factor to apply to the translation data. */
             double _translationScale;
             
-			/*! @brief The output port number to be used. */
-			int _outPort;
+            /*! @brief The output port number to be used. */
+            int _outPort;
 
-			/*! @brief The network port to write to. */
+            /*! @brief The network port to write to. */
             SOCKET _networkSocket;
 
             /*! @brief The handler for input Vicon DataStream data. */

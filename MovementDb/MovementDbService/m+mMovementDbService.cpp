@@ -124,8 +124,9 @@ MovementDbService::~MovementDbService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool MovementDbService::addFileToDb(const YarpString & key,
-                                    const YarpString & filePath)
+bool
+MovementDbService::addFileToDb(const YarpString & key,
+                               const YarpString & filePath)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("key = ", key, "filePath = ", filePath); //####
@@ -153,7 +154,8 @@ bool MovementDbService::addFileToDb(const YarpString & key,
     return okSoFar;
 } // MovementDbService::addFileToDb
 
-void MovementDbService::attachRequestHandlers(void)
+void
+MovementDbService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -183,7 +185,8 @@ void MovementDbService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // MovementDbService::attachRequestHandlers
 
-void MovementDbService::detachRequestHandlers(void)
+void
+MovementDbService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -221,8 +224,9 @@ void MovementDbService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // MovementDbService::detachRequestHandlers
 
-bool MovementDbService::setDataTrack(const YarpString & key,
-                                     const YarpString & dataTrack)
+bool
+MovementDbService::setDataTrack(const YarpString & key,
+                                const YarpString & dataTrack)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("key = ", key, "dataTrack = ", dataTrack); //####
@@ -249,8 +253,9 @@ bool MovementDbService::setDataTrack(const YarpString & key,
     return okSoFar;
 } // MovementDbService::setDataTrack
 
-bool MovementDbService::setEmailAddress(const YarpString & key,
-                                        const YarpString & emailAddress)
+bool
+MovementDbService::setEmailAddress(const YarpString & key,
+                                   const YarpString & emailAddress)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2s("key = ", key, "emailAddress = ", emailAddress); //####

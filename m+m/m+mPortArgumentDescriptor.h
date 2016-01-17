@@ -68,6 +68,15 @@ namespace MplusM
         class PortArgumentDescriptor : public IntArgumentDescriptor
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef IntArgumentDescriptor inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
@@ -83,12 +92,14 @@ namespace MplusM
                                    const bool         isSystemPort);
             
             /*! @brief The destructor. */
-            virtual ~PortArgumentDescriptor(void);
+            virtual
+            ~PortArgumentDescriptor(void);
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+            static BaseArgumentDescriptor *
+            parseArgString(const YarpString & inString);
 
         protected :
         
@@ -105,9 +116,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef IntArgumentDescriptor inherited;
             
             /*! @brief @c true if the value can be a system port and @c false otherwise. */
             bool _isSystemPort;

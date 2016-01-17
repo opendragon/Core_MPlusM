@@ -102,14 +102,15 @@ RandomBurstInputThread::~RandomBurstInputThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RandomBurstInputThread::clearOutputChannel(void)
+void
+RandomBurstInputThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstInputThread::clearOutputChannel
 
-void RandomBurstInputThread::run(void)
+DEFINE_RUN_(RandomBurstInputThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -140,7 +141,7 @@ void RandomBurstInputThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstInputThread::run
 
-bool RandomBurstInputThread::threadInit(void)
+DEFINE_THREADINIT_(RandomBurstInputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -150,7 +151,7 @@ bool RandomBurstInputThread::threadInit(void)
     return result;
 } // RandomBurstInputThread::threadInit
 
-void RandomBurstInputThread::threadRelease(void)
+DEFINE_THREADRELEASE_(RandomBurstInputThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

@@ -64,16 +64,27 @@ namespace MplusM
         class RecordIntegersOutputInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             RecordIntegersOutputInputHandler(void);
             
             /*! @brief The destructor. */
-            virtual ~RecordIntegersOutputInputHandler(void);
+            virtual
+            ~RecordIntegersOutputInputHandler(void);
             
             /*! @brief Set the file to be written to.
              @param outFile The file to be written to. */
-            void setFile(FILE * outFile);
+            void
+            setFile(FILE * outFile);
             
         protected :
             
@@ -88,9 +99,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The file that is to be written to. */
             FILE * _outFile;

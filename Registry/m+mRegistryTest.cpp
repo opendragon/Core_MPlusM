@@ -93,9 +93,10 @@ using namespace MplusM::Test;
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestCreateRegistryService(const char * launchPath,
-                                       const int    argc,
-                                       char * *     argv) // create 'register' service
+static int
+doTestCreateRegistryService(const char * launchPath,
+                            const int    argc,
+                            char * *     argv) // create 'register' service
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -157,9 +158,10 @@ static int doTestCreateRegistryService(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestRegistryService(const char * launchPath,
-                                        const int    argc,
-                                        char * *     argv) // send 'register' request
+static int
+doTestRequestRegistryService(const char * launchPath,
+                             const int    argc,
+                             char * *     argv) // send 'register' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -262,9 +264,10 @@ static int doTestRequestRegistryService(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestUnregisterService(const char * launchPath,
-                                          const int    argc,
-                                          char * *     argv) // send 'register' request
+static int
+doTestRequestUnregisterService(const char * launchPath,
+                               const int    argc,
+                               char * *     argv) // send 'register' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -375,9 +378,10 @@ static int doTestRequestUnregisterService(const char * launchPath,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used for the test.
  @returns @c 0 on success and @c 1 on failure. */
-static int doTestRequestSearchService(const char * launchPath,
-                                      const int    argc,
-                                      char * *     argv) // send 'match' request
+static int
+doTestRequestSearchService(const char * launchPath,
+                           const int    argc,
+                           char * *     argv) // send 'match' request
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1("launchPath = ", launchPath); //####
@@ -605,7 +609,8 @@ static int doTestRequestSearchService(const char * launchPath,
 
 /*! @brief The signal handler to catch requests to stop the service.
  @param signal The signal being handled. */
-static void catchSignal(int signal)
+static void
+catchSignal(int signal)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
@@ -636,8 +641,9 @@ static void catchSignal(int signal)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the unit tests.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -654,7 +660,7 @@ int main(int      argc,
     {
         // We normally call CheckForNameServerReporter() here, but we should only run the tests with
         // a valid YARP configuration.
-		Utilities::SetUpGlobalStatusReporter();
+        Utilities::SetUpGlobalStatusReporter();
         if (Utilities::CheckForValidNetwork())
         {
             yarp::os::Network yarp; // This is necessary to establish any connections to the YARP
@@ -704,8 +710,8 @@ int main(int      argc,
                 OD_LOG("! (0 < --argc)"); //####
             }
         }
-		Utilities::ShutDownGlobalStatusReporter();
-	}
+        Utilities::ShutDownGlobalStatusReporter();
+    }
     catch (...)
     {
         OD_LOG("Exception caught"); //####

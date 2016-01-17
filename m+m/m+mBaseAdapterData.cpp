@@ -100,7 +100,8 @@ BaseAdapterData::~BaseAdapterData(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BaseAdapterData::activate(void)
+bool
+BaseAdapterData::activate(void)
 {
     OD_LOG_OBJENTER(); //####
     bool previous;
@@ -113,7 +114,8 @@ bool BaseAdapterData::activate(void)
     return previous;
 } // BaseAdapterData::activate
 
-bool BaseAdapterData::deactivate(void)
+bool
+BaseAdapterData::deactivate(void)
 {
     OD_LOG_OBJENTER(); //####
     bool previous;

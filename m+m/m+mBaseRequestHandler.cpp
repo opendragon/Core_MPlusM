@@ -103,7 +103,8 @@ BaseRequestHandler::~BaseRequestHandler(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseRequestHandler::sendOKResponse(yarp::os::ConnectionWriter * replyMechanism)
+void
+BaseRequestHandler::sendOKResponse(yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
@@ -133,7 +134,8 @@ void BaseRequestHandler::sendOKResponse(yarp::os::ConnectionWriter * replyMechan
     OD_LOG_OBJEXIT(); //####
 } // BaseRequestHandler::sendOKResponse
 
-void BaseRequestHandler::sendResponse(yarp::os::ConnectionWriter * replyMechanism)
+void
+BaseRequestHandler::sendResponse(yarp::os::ConnectionWriter * replyMechanism)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
@@ -161,7 +163,8 @@ void BaseRequestHandler::sendResponse(yarp::os::ConnectionWriter * replyMechanis
     OD_LOG_OBJEXIT(); //####
 } // BaseRequestHandler::sendResponse
 
-void BaseRequestHandler::setOwner(RequestMap & owner)
+void
+BaseRequestHandler::setOwner(RequestMap & owner)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("owner = ", &owner); //####

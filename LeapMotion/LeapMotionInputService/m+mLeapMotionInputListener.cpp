@@ -76,9 +76,10 @@ using namespace MplusM::LeapMotion;
  @param dictionary The dictionary to be added to.
  @param tag The name to be associated with the value.
  @param vectorToUse The %Vector containing the data to be added. */
-static void putVectorInDictionary(yarp::os::Property & dictionary,
-                                  const YarpString &   tag,
-                                  const Leap::Vector & vectorToUse)
+static void
+putVectorInDictionary(yarp::os::Property & dictionary,
+                      const YarpString &   tag,
+                      const Leap::Vector & vectorToUse)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffList = stuff.asList();
@@ -118,14 +119,16 @@ LeapMotionInputListener::~LeapMotionInputListener(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void LeapMotionInputListener::clearOutputChannel(void)
+void
+LeapMotionInputListener::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::clearOutputChannel
 
-void LeapMotionInputListener::onConnect(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
@@ -133,42 +136,48 @@ void LeapMotionInputListener::onConnect(const Leap::Controller & theController)
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onConnect
 
-void LeapMotionInputListener::onDeviceChange(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onDeviceChange(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onDeviceChange
 
-void LeapMotionInputListener::onDisconnect(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onDisconnect
 
-void LeapMotionInputListener::onExit(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onExit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onExit
 
-void LeapMotionInputListener::onFocusGained(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onFocusGained(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onFocusGained
 
-void LeapMotionInputListener::onFocusLost(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onFocusLost(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onFocusLost
 
-void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onFrame(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
@@ -364,22 +373,25 @@ void LeapMotionInputListener::onFrame(const Leap::Controller & theController)
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onFrame
 
-void LeapMotionInputListener::onInit(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onInit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
-	theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
+    theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onInit
 
-void LeapMotionInputListener::onServiceConnect(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onServiceConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapMotionInputListener::onServiceConnect
 
-void LeapMotionInputListener::onServiceDisconnect(const Leap::Controller & theController)
+void
+LeapMotionInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####

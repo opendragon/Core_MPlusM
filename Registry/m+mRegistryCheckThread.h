@@ -39,7 +39,7 @@
 #if (! defined(MpMRegistryCheckThread_H_))
 # define MpMRegistryCheckThread_H_ /* Header guard */
 
-# include <m+m/m+mCommon.h>
+# include <m+m/m+mBaseThread.h>
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -59,30 +59,37 @@ namespace MplusM
         class RegistryService;
         
         /*! @brief A convenience class to schedule registry checks. */
-        class RegistryCheckThread : public yarp::os::Thread
+        class RegistryCheckThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
              @param service The service that has owns this thread. */
-            explicit RegistryCheckThread(RegistryService & service);
+            explicit
+            RegistryCheckThread(RegistryService & service);
             
             /*! @brief The destructor. */
-            virtual ~RegistryCheckThread(void);
+            virtual
+            ~RegistryCheckThread(void);
             
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(RegistryCheckThread);
             
@@ -91,19 +98,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
             
             /*! @brief The service that owns this thread. */
             RegistryService & _service;

@@ -69,6 +69,15 @@ namespace MplusM
         class AbsorberFilterService : public Common::BaseFilterService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseFilterService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -87,7 +96,8 @@ namespace MplusM
                                   const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~AbsorberFilterService(void);
+            virtual
+            ~AbsorberFilterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -108,11 +118,13 @@ namespace MplusM
             DECLARE_STOPSTREAMS_;
             
             /*! @brief Report the average messages per second. */
-            void reportMessageRate(void);
+            void
+            reportMessageRate(void);
             
             /*! @brief Increment and report the count.
              @param numBytes The bytes reported on the input channel. */
-            void updateCount(const size_t numBytes);
+            void
+            updateCount(const size_t numBytes);
             
         protected :
             
@@ -127,9 +139,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseFilterService inherited;
             
             /*! @brief The handler for input data. */
             AbsorberFilterInputHandler * _inHandler;

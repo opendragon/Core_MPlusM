@@ -39,6 +39,7 @@
 #if (! defined(MpMNatNetBlobInputThread_H_))
 # define MpMNatNetBlobInputThread_H_ /* Header guard */
 
+# include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 # include <m+m/m+mStringBuffer.h>
 
@@ -64,8 +65,17 @@ namespace MplusM
     namespace NatNet
     {
         /*! @brief A convenience class to generate output. */
-        class NatNetBlobInputThread : public yarp::os::Thread
+        class NatNetBlobInputThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor.
@@ -79,52 +89,54 @@ namespace MplusM
                                   const int                dataPort);
             
             /*! @brief The destructor. */
-            virtual ~NatNetBlobInputThread(void);
+            virtual
+            ~NatNetBlobInputThread(void);
             
             /*! @brief Stop using the output channel. */
-            void clearOutputChannel(void);
+            void
+            clearOutputChannel(void);
             
 # if defined(MpM_UseCustomStringBuffer)
-			/*! @brief Provide access to the output buffer.
-			This is meant to be used by the data received callback.
-			@returns The output buffer. */
-			inline Common::StringBuffer & getOutputBuffer(void)
-			{
-				return _outBuffer;
-			} // getOutputBuffer
+            /*! @brief Provide access to the output buffer.
+             This is meant to be used by the data received callback.
+             @returns The output buffer. */
+            inline Common::StringBuffer &
+            getOutputBuffer(void)
+            {
+                return _outBuffer;
+            } // getOutputBuffer
 # endif // defined(MpM_UseCustomStringBuffer)
 
-			/*! @brief Send a message via the output channel.
+            /*! @brief Send a message via the output channel.
              @param message The message to send.
              @param length The length of the message. */
-            void sendMessage(const char * message,
-                             const size_t length);
+            void
+            sendMessage(const char * message,
+                        const size_t length);
 
             /*! @brief Set the translation scale.
              @param newScale The scale factor for translation values. */
-            void setScale(const double newScale);
+            void
+            setScale(const double newScale);
             
-			/*! @brief Return the translation scale.
-			@returns The translation scale. */
-			inline double translationScale(void)
-			const
-			{
-				return _translationScale;
-			} // translationScale
+            /*! @brief Return the translation scale.
+             @returns The translation scale. */
+            inline double
+            translationScale(void)
+            const
+            {
+                return _translationScale;
+            } // translationScale
 
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(NatNetBlobInputThread);
             
@@ -134,36 +146,23 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
-            
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;
             
-			/*! @brief The address of the Natural Point %NatNet device. */
-			YarpString _address;
+            /*! @brief The address of the Natural Point %NatNet device. */
+            YarpString _address;
 
-			/*! @brief The translation scale to be used. */
-			double _translationScale;
+            /*! @brief The translation scale to be used. */
+            double _translationScale;
 
-			/*! @brief The command port of the Natural Point %NatNet device. */
-			int _commandPort;
+            /*! @brief The command port of the Natural Point %NatNet device. */
+            int _commandPort;
 
-			/*! @brief The command port of the Natural Point %NatNet device. */
-			int _dataPort;
+            /*! @brief The command port of the Natural Point %NatNet device. */
+            int _dataPort;
             
-			/*! @brief The connection to the Natural Point %NatNet device. */
-			NatNetClient * _client;
+            /*! @brief The connection to the Natural Point %NatNet device. */
+            NatNetClient * _client;
 
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
@@ -174,10 +173,10 @@ namespace MplusM
             yarp::os::Bottle _messageBottle;
 
             /*! @brief The local copy of the client IP address. */
-			char _clientIPAddress[IPADDRESS_BUFFER_SIZE];
+            char _clientIPAddress[IPADDRESS_BUFFER_SIZE];
 
-			/*! @brief The local copy of the server IP address. */
-			char _serverIPAddress[IPADDRESS_BUFFER_SIZE];
+            /*! @brief The local copy of the server IP address. */
+            char _serverIPAddress[IPADDRESS_BUFFER_SIZE];
 
         }; // NatNetBlobInputThread
         

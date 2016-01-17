@@ -65,13 +65,24 @@ namespace MplusM
         class AddFileRequestHandler : public Common::BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit AddFileRequestHandler(MovementDbService & service);
+            explicit
+            AddFileRequestHandler(MovementDbService & service);
             
             /*! @brief The destructor. */
-            virtual ~AddFileRequestHandler(void);
+            virtual
+            ~AddFileRequestHandler(void);
             
         protected :
             
@@ -90,9 +101,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // AddFileRequestHandler
         

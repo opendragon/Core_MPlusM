@@ -67,42 +67,57 @@ namespace MplusM
         class Endpoint
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param endpointName The YARP name to be assigned to the new endpoint.
              @param portNumber The port being used by the endpoint. */
-            explicit Endpoint(const YarpString & endpoint,
-                              const YarpString & portNumber = "");
+            explicit
+            Endpoint(const YarpString & endpoint,
+                     const YarpString & portNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~Endpoint(void);
+            virtual
+            ~Endpoint(void);
             
             /*! @brief Check the format of an endpoint name.
              @param channelName The name to be checked.
              @returns @c true if the name is a valid endpoint name and @c false otherwise. */
-            static bool CheckEndpointName(const YarpString & channelName);
+            static bool
+            CheckEndpointName(const YarpString & channelName);
             
             /*! @brief Stop processing input. */
-            void close(void);
+            void
+            close(void);
             
             /*! @brief Turn off the send / receive metrics collecting. */
-            void disableMetrics(void);
+            void
+            disableMetrics(void);
             
             /*! @brief Turn on the send / receive metrics collecting. */
-            void enableMetrics(void);
+            void
+            enableMetrics(void);
             
             /*! @brief Return the YARP name for the endpoint.
              @returns The YARP name for the endpoint. */
-            YarpString getName(void)
+            YarpString
+            getName(void)
             const;
             
             /*! @brief Return the send / receive counters.
              @param counters The send / receive counters. */
-            void getSendReceiveCounters(SendReceiveCounters & counters);
+            void
+            getSendReceiveCounters(SendReceiveCounters & counters);
             
             /*! @brief Return the state of the endpoint.
              @returns @c true if the endpoint is open and @c false otherwise. */
-            inline bool isOpen(void)
+            inline bool
+            isOpen(void)
             const
             {
                 return _isOpen;
@@ -111,7 +126,8 @@ namespace MplusM
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
-            inline bool metricsAreEnabled(void)
+            inline bool
+            metricsAreEnabled(void)
             const
             {
                 return _metricsEnabled;
@@ -120,7 +136,8 @@ namespace MplusM
             /*! @brief Open the endpoint if it is not already open.
              @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the endpoint is open and @c false otherwise. */
-            bool open(const double timeToWait);
+            bool
+            open(const double timeToWait);
             
             /*! @brief Set the input handler for the endpoint.
              
@@ -128,7 +145,8 @@ namespace MplusM
              data will be processed and the endpoint cannot be open before set up.
              @param handler The input handler to be used by the endpoint to process incoming data.
              @returns @c true if the input handler was attached to the endpoint. */
-            bool setInputHandler(BaseInputHandler & handler);
+            bool
+            setInputHandler(BaseInputHandler & handler);
             
             /*! @brief Set the input handler creator for the endpoint.
              
@@ -137,23 +155,27 @@ namespace MplusM
              @param handlerCreator The input handler creator to be used by the endpoint to process
              incoming data.
              @returns @c true if the input handler creator was attached to the endpoint. */
-            bool setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator);
+            bool
+            setInputHandlerCreator(BaseInputHandlerCreator & handlerCreator);
             
             /*! @brief Set the channel status reporter for the endpoint.
              @param reporter The channel status reporter to be used by the endpoint.
              @param andReportNow @c true if the channel status reporter is to be activated
              immediately.
              @returns @c true if the channel status reporter was attached to the endpoint. */
-            bool setReporter(ChannelStatusReporter & reporter,
-                             const bool              andReportNow = false);
+            bool
+            setReporter(ChannelStatusReporter & reporter,
+                        const bool              andReportNow = false);
             
             /*! @brief Update the send counters for the endpoint.
              @param numBytes The number of bytes sent. */
-            void updateSendCounters(const size_t numBytes);
+            void
+            updateSendCounters(const size_t numBytes);
             
             /*! @brief Returns information on how this endpoint can be reached.
              @returns Connection information for the endpoint. */
-            yarp::os::Contact where(void)
+            yarp::os::Contact
+            where(void)
             const;
             
         protected :

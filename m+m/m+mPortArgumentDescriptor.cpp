@@ -121,7 +121,8 @@ DEFINE_CLONE_(PortArgumentDescriptor)
     return result;
 } // PortArgumentDescriptor::clone
 
-BaseArgumentDescriptor * PortArgumentDescriptor::parseArgString(const YarpString & inString)
+BaseArgumentDescriptor *
+PortArgumentDescriptor::parseArgString(const YarpString & inString)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####

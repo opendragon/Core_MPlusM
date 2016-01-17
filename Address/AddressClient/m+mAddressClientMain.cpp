@@ -89,11 +89,12 @@ using std::endl;
  @param needsAddress @c true if the IP address is requested and @c false otherwise.
  @param needsPort @c true if the port is requested and @c false otherwise.
  @returns @c true if the mode was recognized and @c false otherwise. */
-static bool processArguments(const YarpString & outputMode,
-                             const YarpString & tag,
-                             YarpString &       namePattern,
-                             bool &             needsAddress,
-                             bool &             needsPort)
+static bool
+processArguments(const YarpString & outputMode,
+                 const YarpString & tag,
+                 YarpString &       namePattern,
+                 bool &             needsAddress,
+                 bool &             needsPort)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S2s("outputMode = ", outputMode, "tag = ", tag); //####
@@ -141,14 +142,16 @@ static bool processArguments(const YarpString & outputMode,
  @param tag The tag for the service to be connected to.
  @param flavour The format for the output. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(const YarpString &      outputMode,
-                       const YarpString &      tag,
-                       const OutputFlavour     flavour,
-                       ChannelStatusReporter * reporter)
+static void
+setUpAndGo(const YarpString &      outputMode,
+           const YarpString &      tag,
+           const OutputFlavour     flavour,
+           ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(const YarpString &  outputMode,
-                       const YarpString &  tag,
-                       const OutputFlavour flavour)
+static void
+setUpAndGo(const YarpString &  outputMode,
+           const YarpString &  tag,
+           const OutputFlavour flavour)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -294,8 +297,9 @@ static void setUpAndGo(const YarpString &  outputMode,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the Address client.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)
@@ -329,12 +333,12 @@ int main(int      argc,
         {
             try
             {
-				Utilities::SetUpGlobalStatusReporter();
-				Utilities::CheckForNameServerReporter();
+                Utilities::SetUpGlobalStatusReporter();
+                Utilities::CheckForNameServerReporter();
                 if (Utilities::CheckForValidNetwork())
                 {
 #if defined(MpM_ReportOnConnections)
-					ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
+                    ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
 #endif // defined(MpM_ReportOnConnections)
                     yarp::os::Network       yarp; // This is necessary to establish any connections
                                                   // to the YARP infrastructure
@@ -370,8 +374,8 @@ int main(int      argc,
                     cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
                 }
-				Utilities::ShutDownGlobalStatusReporter();
-			}
+                Utilities::ShutDownGlobalStatusReporter();
+            }
             catch (...)
             {
                 OD_LOG("Exception caught"); //####

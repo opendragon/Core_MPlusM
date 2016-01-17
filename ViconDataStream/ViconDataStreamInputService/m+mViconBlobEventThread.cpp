@@ -102,56 +102,58 @@ static const int kLittleSleep = 200;
 
 ViconBlobEventThread::ViconBlobEventThread(Common::GeneralChannel * outChannel,
                                            const YarpString &       nameAndPort) :
-	inherited(), _viconClient(), _nameAndPort(nameAndPort), _outChannel(outChannel)
+    inherited(), _viconClient(), _nameAndPort(nameAndPort), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
-	OD_LOG_S1s("nameAndPort = ", nameAndPort); //####
+    OD_LOG_S1s("nameAndPort = ", nameAndPort); //####
     OD_LOG_EXIT_P(this); //####
-} // KinectV2EventThread::KinectV2EventThread
+} // ViconBlobEventThread::ViconBlobEventThread
 
 ViconBlobEventThread::~ViconBlobEventThread(void)
 {
     OD_LOG_OBJENTER(); //####
-	if (_viconClient.IsConnected().Connected)
-	{
-		_viconClient.Disconnect();
-	}
+    if (_viconClient.IsConnected().Connected)
+    {
+        _viconClient.Disconnect();
+    }
     OD_LOG_OBJEXIT(); //####
-} // KinectV2EventThread::~KinectV2EventThread
+} // ViconBlobEventThread::~ViconBlobEventThread
 
 #if defined(__APPLE__)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ViconBlobEventThread::clearOutputChannel(void)
+void
+ViconBlobEventThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // ViconBlobEventThread::clearOutputChannel
 
-bool ViconBlobEventThread::initializeConnection(void)
+bool
+ViconBlobEventThread::initializeConnection(void)
 {
     OD_LOG_OBJENTER(); //####
-	bool result = false;
+    bool result = false;
 
-	for (int ii = 0; (! result) && (kNumConnectTries > ii); ++ii)
-	{
-		if (_viconClient.IsConnected().Connected)
-		{
-			result = true;
-		}
-		else
-		{
-			_viconClient.Connect(_nameAndPort.c_str());
+    for (int ii = 0; (! result) && (kNumConnectTries > ii); ++ii)
+    {
+        if (_viconClient.IsConnected().Connected)
+        {
+            result = true;
+        }
+        else
+        {
+            _viconClient.Connect(_nameAndPort.c_str());
             Utilities::GoToSleep(kLittleSleep);
-		}
+        }
     }
-	if (result)
-	{
-		_viconClient.EnableMarkerData();
-		_viconClient.EnableSegmentData();
+    if (result)
+    {
+        _viconClient.EnableMarkerData();
+        _viconClient.EnableSegmentData();
 #if defined(VICON_Y_UP_)
         _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Up,
                                     CPP::Direction::Right);
@@ -159,16 +161,17 @@ bool ViconBlobEventThread::initializeConnection(void)
         _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Left,
                                     CPP::Direction::Up);
 #endif // defined(VICON_Z_UP_)
-		_viconClient.SetStreamMode(VICON_STREAM_MODE_);
-	}
+        _viconClient.SetStreamMode(VICON_STREAM_MODE_);
+    }
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ViconBlobEventThread::initializeConnection
 
-void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
+void
+ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 {
     OD_LOG_OBJENTER(); //####
-	OD_LOG_L1("subjectCount = ", subjectCount); //####
+    OD_LOG_L1("subjectCount = ", subjectCount); //####
     if (0 < subjectCount)
     {
         bool              okSoFar = true;
@@ -192,11 +195,11 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 
                 if (CPP::Result::Success == o_gsegc.Result)
                 {
-					const char * subjName = static_cast<std::string>(o_gsubjn.SubjectName).c_str();
+                    const char * subjName = static_cast<std::string>(o_gsubjn.SubjectName).c_str();
 
 #if defined(MpM_UseCustomStringBuffer)
                     _outBuffer.addString(subjName).addTab().addLong(o_gsegc.SegmentCount).
-						addString("\t0" LINE_END_);
+                        addString("\t0" LINE_END_);
 #else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << subjName << "\t" << o_gsegc.SegmentCount << "\t0" LINE_END_;
 #endif // ! defined(MpM_UseCustomStringBuffer)
@@ -208,8 +211,8 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
 
                         if (CPP::Result::Success == o_gsegn.Result)
                         {
-							const char *                                  segName =
-											static_cast<std::string>(o_gsegn.SegmentName).c_str();
+                            const char *                                  segName =
+                                            static_cast<std::string>(o_gsegn.SegmentName).c_str();
 #if defined(USE_SEGMENT_LOCAL_DATA_)
                             CPP::Output_GetSegmentLocalTranslation        o_gseglt =
                                     _viconClient.GetSegmentLocalTranslation(o_gsubjn.SubjectName,
@@ -248,10 +251,10 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                                         addString(LINE_END_);
 # else // ! defined(MpM_UseCustomStringBuffer)
                                     outBuffer << segName << "\t" <<
-												(o_gseglt.Translation[0] * _scale) << "\t" <<
-												(o_gseglt.Translation[1] * _scale) << "\t" <<
-												(o_gseglt.Translation[2] * _scale) << "\t" <<
-												o_gseglrq.Rotation[0] << "\t" <<
+                                                (o_gseglt.Translation[0] * _scale) << "\t" <<
+                                                (o_gseglt.Translation[1] * _scale) << "\t" <<
+                                                (o_gseglt.Translation[2] * _scale) << "\t" <<
+                                                o_gseglrq.Rotation[0] << "\t" <<
                                                 o_gseglrq.Rotation[1] << "\t" <<
                                                 o_gseglrq.Rotation[2] << "\t" <<
                                                 o_gseglrq.Rotation[3] << LINE_END_;
@@ -275,14 +278,14 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
                                     _outBuffer.addDouble(o_gseggrq.Rotation[0]).addTab();
                                     _outBuffer.addDouble(o_gseggrq.Rotation[1]).addTab();
                                     _outBuffer.addDouble(o_gseggrq.Rotation[2]).addTab();
-									_outBuffer.addDouble(o_gseggrq.Rotation[3]).
-										addString(LINE_END_);
+                                    _outBuffer.addDouble(o_gseggrq.Rotation[3]).
+                                        addString(LINE_END_);
 # else // ! defined(MpM_UseCustomStringBuffer)
                                     outBuffer << segName << "\t" <<
-												(o_gseggt.Translation[0] * _scale) << "\t" <<
-												(o_gseggt.Translation[1] * _scale) << "\t" <<
-												(o_gseggt.Translation[2] * _scale) << "\t" <<
-												o_gseggrq.Rotation[0] << "\t" <<
+                                                (o_gseggt.Translation[0] * _scale) << "\t" <<
+                                                (o_gseggt.Translation[1] * _scale) << "\t" <<
+                                                (o_gseggt.Translation[2] * _scale) << "\t" <<
+                                                o_gseggrq.Rotation[0] << "\t" <<
                                                 o_gseggrq.Rotation[1] << "\t" <<
                                                 o_gseggrq.Rotation[2] << "\t" <<
                                                 o_gseggrq.Rotation[3] << LINE_END_;
@@ -350,31 +353,32 @@ void ViconBlobEventThread::processEventData(const unsigned int subjectCount)
     OD_LOG_OBJEXIT(); //####
 } // ViconBlobEventThread::processEventData
 
-void ViconBlobEventThread::run(void)
+DEFINE_RUN_(ViconBlobEventThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
-		cerr << "checking for a frame" << endl; //!!!!
-		if (CPP::Result::Success == _viconClient.GetFrame().Result)
-		{
-			CPP::Output_GetSubjectCount o_gsubjc = _viconClient.GetSubjectCount();
+        cerr << "checking for a frame" << endl; //!!!!
+        if (CPP::Result::Success == _viconClient.GetFrame().Result)
+        {
+            CPP::Output_GetSubjectCount o_gsubjc = _viconClient.GetSubjectCount();
 
-			if (CPP::Result::Success == o_gsubjc.Result)
-			{
-				processEventData(o_gsubjc.SubjectCount);
-			}
-		}
-		else
-		{
-			Utilities::GoToSleep(kLittleSleep);
-		}
+            if (CPP::Result::Success == o_gsubjc.Result)
+            {
+                processEventData(o_gsubjc.SubjectCount);
+            }
+        }
+        else
+        {
+            Utilities::GoToSleep(kLittleSleep);
+        }
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
 } // ViconBlobEventThread::run
 
-void ViconBlobEventThread::setScale(const double newScale)
+void
+ViconBlobEventThread::setScale(const double newScale)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_D1("newScale = ", newScale); //####
@@ -382,7 +386,7 @@ void ViconBlobEventThread::setScale(const double newScale)
     OD_LOG_OBJEXIT(); //####
 } // ViconBlobEventThread::setScale
 
-bool ViconBlobEventThread::threadInit(void)
+DEFINE_THREADINIT_(ViconBlobEventThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = initializeConnection();
@@ -391,7 +395,7 @@ bool ViconBlobEventThread::threadInit(void)
     return result;
 } // ViconBlobEventThread::threadInit
 
-void ViconBlobEventThread::threadRelease(void)
+DEFINE_THREADRELEASE_(ViconBlobEventThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

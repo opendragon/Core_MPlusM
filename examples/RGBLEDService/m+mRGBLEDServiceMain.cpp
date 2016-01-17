@@ -93,13 +93,14 @@ using std::endl;
  @param servicePortNumber The port being used by the service.
  @param reportOnExit @c true if service metrics are to be reported on exit and @c false otherwise.
  */
-static void setUpAndGo(const YarpString & progName,
-                       const int          argc,
-                       char * *           argv,
-                       const YarpString & tag,
-                       const YarpString & serviceEndpointName,
-                       const YarpString & servicePortNumber,
-                       const bool         reportOnExit)
+static void
+setUpAndGo(const YarpString & progName,
+           const int          argc,
+           char * *           argv,
+           const YarpString & tag,
+           const YarpString & serviceEndpointName,
+           const YarpString & servicePortNumber,
+           const bool         reportOnExit)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S4s("progName = ", progName, "tag = ", tag, "serviceEndpointName = ", //####
@@ -178,8 +179,9 @@ static void setUpAndGo(const YarpString & progName,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the example RGBLED service.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 

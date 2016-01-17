@@ -76,6 +76,18 @@ namespace MplusM
         class JavaScriptFilterService : public Common::BaseFilterService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseFilterService inherited;
+            
+            /*! @brief A sequence of input handlers. */
+            typedef std::vector<JavaScriptFilterInputHandler *> HandlerVector;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -117,7 +129,8 @@ namespace MplusM
                                     const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~JavaScriptFilterService(void);
+            virtual
+            ~JavaScriptFilterService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -131,7 +144,8 @@ namespace MplusM
 
             /*! @brief Return the %JavaScript execution environment.
              @returns The %JavaScript execution environment. */
-            inline JSContext * getContext(void)
+            inline JSContext *
+            getContext(void)
             const
             {
                 return _context;
@@ -139,7 +153,8 @@ namespace MplusM
             
             /*! @brief Return the global object for the %JavaScript execution environment.
              @returns The global object for the %JavaScript execution environment. */
-            inline JS::RootedObject & getGlobal(void)
+            inline JS::RootedObject &
+            getGlobal(void)
             const
             {
                 return _global;
@@ -151,17 +166,20 @@ namespace MplusM
              @param channelSlot The output channel to be used.
              @param theData The value to be sent.
              @returns @c true if the data was successfully sent and @c false otherwise. */
-            bool sendToChannel(const int32_t channelSlot,
-                               JS::Value     theData);
+            bool
+            sendToChannel(const int32_t channelSlot,
+                          JS::Value     theData);
             
             /*! @brief Signal to the background process that the thread or handler function should
              be performed. */
-            void signalRunFunction(void);
+            void
+            signalRunFunction(void);
             
             /*! @brief Stall a thread until the main thread can process the request and then process
              the request.
              @param slotNumber The slot number of the input handler making the request. */
-            void stallUntilIdle(const size_t slotNumber);
+            void
+            stallUntilIdle(const size_t slotNumber);
             
             DECLARE_STARTSERVICE_;
             
@@ -178,7 +196,8 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(JavaScriptFilterService);
             
             /*! @brief Release all the allocated handlers. */
-            void releaseHandlers(void);
+            void
+            releaseHandlers(void);
 
             DECLARE_SETUPSTREAMDESCRIPTIONS_;
             
@@ -188,12 +207,6 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseFilterService inherited;
-            
-            /*! @brief A sequence of input handlers. */
-            typedef std::vector<JavaScriptFilterInputHandler *> HandlerVector;
-
             /*! @brief The handler functions to use for input. */
             JS::AutoValueVector _inletHandlers;
             
@@ -257,10 +270,11 @@ namespace MplusM
          @param anObject The object to be printed.
          @param depth The indentation level to be used.
          @returns The stream that was written to. */
-        std::ostream & PrintJavaScriptObject(std::ostream &     outStream,
-                                             JSContext *        jct,
-                                             JS::RootedObject & anObject,
-                                             const int          depth);
+        std::ostream &
+        PrintJavaScriptObject(std::ostream &     outStream,
+                              JSContext *        jct,
+                              JS::RootedObject & anObject,
+                              const int          depth);
         
         /*! @brief Print out a value.
          @param outStream Where to write the value.
@@ -269,11 +283,12 @@ namespace MplusM
          @param value The value to be printed.
          @param depth The indentation level to be used.
          @returns The stream that was written to. */
-        std::ostream & PrintJavaScriptValue(std::ostream &    outStream,
-                                            JSContext *       jct,
-                                            const char *      caption,
-                                            JS::RootedValue & value,
-                                            const int         depth);
+        std::ostream &
+        PrintJavaScriptValue(std::ostream &    outStream,
+                             JSContext *       jct,
+                             const char *      caption,
+                             JS::RootedValue & value,
+                             const int         depth);
 
     } // JavaScript
     

@@ -101,7 +101,8 @@ ServiceResponse::~ServiceResponse(void)
     OD_LOG_OBJEXIT(); //####
 } // ServiceResponse::~ServiceResponse
 
-ServiceResponse & ServiceResponse::operator =(const yarp::os::Bottle & values)
+ServiceResponse &
+ServiceResponse::operator =(const yarp::os::Bottle & values)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("values size = ", values.size()); //####
@@ -117,7 +118,8 @@ ServiceResponse & ServiceResponse::operator =(const yarp::os::Bottle & values)
 
 /*! @brief Return a printable version of the response.
  @returns A printable version of the response. */
-YarpString ServiceResponse::asString(void)
+YarpString
+ServiceResponse::asString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -127,7 +129,8 @@ const
     return result;
 } // ServiceResponse::asString
 
-yarp::os::Value ServiceResponse::element(const int index)
+yarp::os::Value
+ServiceResponse::element(const int index)
 const
 {
     OD_LOG_OBJENTER(); //####

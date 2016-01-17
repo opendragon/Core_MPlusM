@@ -74,6 +74,15 @@ namespace MplusM
         class FilePathArgumentDescriptor : public StringArgumentDescriptor
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef StringArgumentDescriptor inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
@@ -93,12 +102,14 @@ namespace MplusM
                                        const bool         useRandomPath = false);
             
             /*! @brief The destructor. */
-            virtual ~FilePathArgumentDescriptor(void);
+            virtual
+            ~FilePathArgumentDescriptor(void);
             
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+            static BaseArgumentDescriptor *
+            parseArgString(const YarpString & inString);
 
         protected :
         
@@ -127,9 +138,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef StringArgumentDescriptor inherited;
             
             /*! @brief The prefix value to use for constructing the default value. */
             YarpString _pathPrefix;

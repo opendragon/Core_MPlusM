@@ -64,13 +64,24 @@ namespace MplusM
         class StopStreamsRequestHandler : public BaseRequestHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseRequestHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that has registered this request. */
-            explicit StopStreamsRequestHandler(BaseInputOutputService & service);
+            explicit
+            StopStreamsRequestHandler(BaseInputOutputService & service);
             
             /*! @brief The destructor. */
-            virtual ~StopStreamsRequestHandler(void);
+            virtual
+            ~StopStreamsRequestHandler(void);
             
         protected :
             
@@ -89,9 +100,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseRequestHandler inherited;
             
         }; // StopStreamsRequestHandler
         

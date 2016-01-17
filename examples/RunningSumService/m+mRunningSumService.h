@@ -71,6 +71,15 @@ namespace MplusM
         class RunningSumService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -87,24 +96,28 @@ namespace MplusM
                               const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RunningSumService(void);
+            virtual
+            ~RunningSumService(void);
             
             /*! @brief Add to the running sum for the given client.
              @param key The client-provided key.
              @param value The value to be added to the running sum.
              @returns The running sum, including the newly added value. */
-            double addToSum(const YarpString & key,
-                            const double       value);
+            double
+            addToSum(const YarpString & key,
+                     const double       value);
             
             /*! @brief Reset the running sum for the given client.
              @param key The client-provided key. */
-            void resetSum(const YarpString & key);
+            void
+            resetSum(const YarpString & key);
             
             DECLARE_STARTSERVICE_;
             
             /*! @brief Start a running sum for the given client.
              @param key The client-provided key. */
-            void startSum(const YarpString & key);
+            void
+            startSum(const YarpString & key);
             
             DECLARE_STOPSERVICE_;
             
@@ -115,19 +128,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(RunningSumService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The request handler for the 'addToSum' request. */
             AddToSumRequestHandler * _addToSumHandler;

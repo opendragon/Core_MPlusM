@@ -104,13 +104,14 @@ CommonLispFilterThread::~CommonLispFilterThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void CommonLispFilterThread::clearOutputChannel(void)
+void
+CommonLispFilterThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####
 } // CommonLispFilterThread::clearOutputChannel
 
-void CommonLispFilterThread::run(void)
+DEFINE_RUN_(CommonLispFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -126,7 +127,7 @@ void CommonLispFilterThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // CommonLispFilterThread::run
 
-bool CommonLispFilterThread::threadInit(void)
+DEFINE_THREADINIT_(CommonLispFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = true;
@@ -136,7 +137,7 @@ bool CommonLispFilterThread::threadInit(void)
     return result;
 } // CommonLispFilterThread::threadInit
 
-void CommonLispFilterThread::threadRelease(void)
+DEFINE_THREADRELEASE_(CommonLispFilterThread)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_OBJEXIT(); //####

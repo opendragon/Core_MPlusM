@@ -72,32 +72,38 @@
 /*! @brief Declare the addValueToBottle method, which takes a single argument, container, and adds
  the processed value to the container. */
 # define DECLARE_ADDVALUETOBOTTLE_ \
-    virtual void addValueToBottle(yarp::os::Bottle & container)
+    virtual void\
+    addValueToBottle(yarp::os::Bottle & container)
 
 /*! @brief Declare the clone method, which returns a copy of the descriptor, with only
  non-pointer fields duplicated. */
 # define DECLARE_CLONE_ \
-    virtual BaseArgumentDescriptor * clone(void)
+    virtual BaseArgumentDescriptor *\
+    clone(void)
 
 /*! @brief Declare the getDefaultValue method, which returns the default value of the descriptor. */
 # define DECLARE_GETDEFAULTVALUE_ \
-    virtual YarpString getDefaultValue(void)
+    virtual YarpString\
+    getDefaultValue(void)
 
 /*! @brief Declare the getProcessedValue method, which returns the processed value for the
  descriptor. */
 # define DECLARE_GETPROCESSEDVALUE_ \
-    virtual YarpString getProcessedValue(void)
+    virtual YarpString\
+    getProcessedValue(void)
 
 /*! @brief Declare the isBoolean method, which returns @c true if the descriptor is for Boolean
  arguments and @c false otherwise. */
 # define DECLARE_ISBOOLEAN_ \
-    virtual bool isBoolean(void)\
+    virtual bool\
+    isBoolean(void)\
     const
 
 /*! @brief Declare the isExtra method, which returns @c true if the descriptor is a placeholder for
  zero or more trailing arguments and @c false otherwise. */
 # define DECLARE_ISEXTRA_ \
-    virtual bool isExtra(void)\
+    virtual bool\
+    isExtra(void)\
     const
 
 /*! @brief Declare the isForFiles method, which returns @c true if the descriptor is for file paths
@@ -105,52 +111,63 @@
  The argument isForOutput is set to @c true is the descriptor is for output files and @c false
  otherwise. */
 # define DECLARE_ISFORFILES_ \
-    virtual bool isForFiles(bool & isForOutput)\
+    virtual bool\
+    isForFiles(bool & isForOutput)\
     const
 
 /*! @brief Declare the setToDefaultValue method, which sets the descriptor to its default value. */
 # define DECLARE_SETTODEFAULTVALUE_ \
-    virtual void setToDefaultValue(void)
+    virtual void\
+    setToDefaultValue(void)
 
 /*! @brief Declare the toString method, which returns a printable representation of the
  descriptor. */
 # define DECLARE_TOSTRING_ \
-    virtual YarpString toString(void)
+    virtual YarpString\
+    toString(void)
 
 /*! @brief Declare the validate method, which takes a single argument, value, and checks it against
  the constraints of the descriptor.
  The method returns @c true if the argument is within the domain of the descriptor and @c false
  otherwise. */
 # define DECLARE_VALIDATE_ \
-    virtual bool validate(const YarpString & value)
+    virtual bool\
+    validate(const YarpString & value)
 
 /*! @brief Define the addValueToBottle method. */
 # define DEFINE_ADDVALUETOBOTTLE_(class_) \
-    void class_::addValueToBottle(yarp::os::Bottle & container)
+    void\
+    class_::addValueToBottle(yarp::os::Bottle & container)
 
 /*! @brief Define the clone method. */
 # define DEFINE_CLONE_(class_) \
-    BaseArgumentDescriptor * class_::clone(void)
+    BaseArgumentDescriptor *\
+    class_::clone(void)
 
 /*! @brief Define the getDefaultValue method. */
 # define DEFINE_GETDEFAULTVALUE_(class_) \
-    YarpString class_::getDefaultValue(void)
+    YarpString\
+    class_::getDefaultValue(void)
 
 /*! @brief Define the getProcessedValue method. */
 # define DEFINE_GETPROCESSEDVALUE_(class_) \
-    YarpString class_::getProcessedValue(void)
+    YarpString\
+    class_::getProcessedValue(void)
 
 /*! @brief Define the setToDefaultValue method. */
 # define DEFINE_SETTODEFAULTVALUE_(class_) \
-    void class_::setToDefaultValue(void)
+    void\
+    class_::setToDefaultValue(void)
 
 /*! @brief Define the toString method. */
 # define DEFINE_TOSTRING_(class_) \
-    YarpString class_::toString(void)
+    YarpString\
+    class_::toString(void)
 
 /*! @brief Define the validate method. */
 # define DEFINE_VALIDATE_(class_) \
-    bool class_::validate(const YarpString & value)
+    bool\
+    class_::validate(const YarpString & value)
 
 namespace MplusM
 {
@@ -196,11 +213,11 @@ namespace MplusM
          The external representation of an argument description is:
          
          argFormat ::= argName sep argMode sep typeTagAndInfo sep default_value sep
-						text_description_for_label;
+                        text_description_for_label;
          
          sep ::= ':';
          
-		 argMode ::= numeric value of mode;
+         argMode ::= numeric value of mode;
 
          default_value ::= delimiter text delimiter;
          # use matching pairs of |, <>, (), {}, [], whichever is not present in the text
@@ -228,6 +245,12 @@ namespace MplusM
         class BaseArgumentDescriptor
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
@@ -238,16 +261,19 @@ namespace MplusM
                                    const ArgumentMode argMode);
             
             /*! @brief The destructor. */
-            virtual ~BaseArgumentDescriptor(void);
+            virtual
+            ~BaseArgumentDescriptor(void);
 
-            /*! @fn virtual void addValueToBottle(yarp::os::Bottle & container)
+            /*! @fn virtual void
+                    addValueToBottle(yarp::os::Bottle & container)
              @brief Add the processed value to a bottle.
              @param container The bottle to be modified. */
             DECLARE_ADDVALUETOBOTTLE_ = 0;
             
             /*! @brief Return the description of the command-line argument.
              @returns The description of the command-line argument. */
-            inline const YarpString & argumentDescription(void)
+            inline const YarpString &
+            argumentDescription(void)
             const
             {
                 return _argDescription;
@@ -255,7 +281,8 @@ namespace MplusM
 
             /*! @brief Return the mode of the command-line argument.
              @returns The mode of the command-line argument. */
-            inline ArgumentMode argumentMode(void)
+            inline ArgumentMode
+            argumentMode(void)
             const
             {
                 return _argMode;
@@ -263,28 +290,34 @@ namespace MplusM
 
             /*! @brief Return the name of the command-line argument.
              @returns The name of the command-line argument. */
-            inline const YarpString & argumentName(void)
+            inline const YarpString &
+            argumentName(void)
             const
             {
                 return _argName;
             } // argumentName
 
-            /*! @fn virtual BaseArgumentDescriptor * clone(void)
+            /*! @fn virtual BaseArgumentDescriptor *
+                    clone(void)
              @brief Return a copy of the descriptor, with only non-pointer types duplicated.
              @returns A copy of the descriptor, with only non-pointer types duplicated. */
             DECLARE_CLONE_ = 0;
             
-            /*! @fn virtual YarpString getDefaultValue(void)
+            /*! @fn virtual YarpString
+                    getDefaultValue(void)
              @brief Return the default value.
              @returns The default value. */
             DECLARE_GETDEFAULTVALUE_ = 0;
 
-            /*! @fn virtual YarpString getProcessedValue(void)
+            /*! @fn virtual YarpString
+                    getProcessedValue(void)
              @brief Return the processed value.
              @returns The processed value. */
             DECLARE_GETPROCESSEDVALUE_ = 0;
             
-            /*! @fn virtual bool isBoolean(void) const
+            /*! @fn virtual bool
+                    isBoolean(void)
+                    const
              @brief Return @c true if the argument is for Boolean arguments.
              @returns @c true if the argument is for Boolean arguments and @c false otherwise. */
             DECLARE_ISBOOLEAN_
@@ -292,7 +325,9 @@ namespace MplusM
                 return false;
             } // isBoolean
             
-            /*! @fn virtual bool isExtra(void) const
+            /*! @fn virtual bool
+                    isExtra(void)
+                    const
              @brief Return @c true if the argument is a placeholder for zero or more trailing
              arguments.
              @returns @c true if the argument is a placeholder for zero of more trailing arguments
@@ -302,7 +337,9 @@ namespace MplusM
                 return false;
             } // isExtra
             
-            /*! @fn  virtual bool isForFiles(bool & isForOutput) const
+            /*! @fn virtual bool
+                    isForFiles(bool & isForOutput)
+                    const
              @brief Return @c true if the argument is for file paths and @c false otherwise.
              @param isForOutput Set to @c true if the argument is for output files and @c false
              otherwise.
@@ -315,7 +352,8 @@ namespace MplusM
             
             /*! @brief Return @c true if the argument is modifiable and @c false otherwise.
              @returns @c true if the argument is modifiable and @c false otherwise. */
-            inline bool isModifiable(void)
+            inline bool
+            isModifiable(void)
             const
             {
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModeModifiable)));
@@ -323,7 +361,8 @@ namespace MplusM
             
             /*! @brief Return @c true if the argument is optional and @c false otherwise.
              @returns @c true if the argument is optional and @c false otherwise. */
-            inline bool isOptional(void)
+            inline bool
+            isOptional(void)
             const
             {
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModeOptional)));
@@ -331,7 +370,8 @@ namespace MplusM
           
             /*! @brief Return @c true if the argument is a password and @c false otherwise.
              @returns @c true if the argument is a password and @c false otherwise. */
-            inline bool isPassword(void)
+            inline bool
+            isPassword(void)
             const
             {
                 return ((kArgModeUnknown != _argMode) && (0 != (_argMode & kArgModePassword)));
@@ -339,7 +379,8 @@ namespace MplusM
             
             /*! @brief Return @c true if the argument is required and @c false otherwise.
              @returns @c true if the argument is required and @c false otherwise. */
-            inline bool isRequired(void)
+            inline bool
+            isRequired(void)
             const
             {
                 return ((kArgModeUnknown != _argMode) && (0 == (_argMode & kArgModeOptional)));
@@ -347,22 +388,26 @@ namespace MplusM
             
             /*! @brief Return @c true if the argument is valid and @c false otherwise.
              @returns @c true if the argument is valid and @c false otherwise. */
-            inline bool isValid(void)
+            inline bool
+            isValid(void)
             const
             {
                 return _valid;
             } // isValid
             
-            /*! @fn virtual void setToDefaultValue(void)
+            /*! @fn virtual void
+                    setToDefaultValue(void)
              @brief Set the associated variable to the default value. */
             DECLARE_SETTODEFAULTVALUE_ = 0;
 
-            /*! @fn virtual YarpString toString(void)
+            /*! @fn virtual YarpString
+                    toString(void)
              @brief Convert to a printable representation.
              @returns A printable representation of the descriptor. */
             DECLARE_TOSTRING_ = 0;
             
-            /*! @fn  virtual bool validate(const YarpString & value)
+            /*! @fn virtual bool
+                    validate(const YarpString & value)
              @brief Check an input value against the constraints of the descriptor.
              @param value The value to be checked.
              @returns @c true if the value is within the domain of the descriptor and @c false
@@ -378,16 +423,18 @@ namespace MplusM
              @param result The partitioned string.
              @returns @c true if the correct number of fields appear within the input string and
              @c false otherwise. */
-            static bool partitionString(const YarpString & inString,
-                                        const size_t       indexOfDefaultValue,
-                                        YarpStringVector & result);
+            static bool
+            partitionString(const YarpString & inString,
+                            const size_t       indexOfDefaultValue,
+                            YarpStringVector & result);
 
             /*! @brief Returns a string that contains a printable representation of the standard
              prefix fields for a command-line argument.
              @param tagForField The tag value to use for the field.
              @returns A string that contains a printable representation of the standard prefix
              fields for a command-line argument. */
-            YarpString prefixFields(const YarpString & tagForField)
+            YarpString
+            prefixFields(const YarpString & tagForField)
             const;
 
             /*! @brief Returns a string that contains a printable representation of the standard
@@ -396,7 +443,8 @@ namespace MplusM
              value.
              @returns A string that contains a printable representation of the standard fields for
              a command-line argument. */
-            YarpString suffixFields(const YarpString & defaultToUse);
+            YarpString
+            suffixFields(const YarpString & defaultToUse);
             
         private :
             
@@ -442,39 +490,45 @@ namespace MplusM
          @param arguments The argument sequence.
          @returns A string containing the standard 'argument list' representation of the argument
          sequence. */
-        YarpString ArgumentsToArgString(const DescriptorVector & arguments);
+        YarpString
+        ArgumentsToArgString(const DescriptorVector & arguments);
         
         /*! @brief Generate the standard 'argument description' from an argument sequence.
          @param arguments The argument sequence.
          @param output The generated argument descriptions.
          @param minSpace The number of characters between the argument names and their
          descriptions. */
-        void ArgumentsToDescriptionArray(const DescriptorVector & arguments,
-                                         YarpStringVector &       output,
-                                         const size_t             minSpace);
+        void
+        ArgumentsToDescriptionArray(const DescriptorVector & arguments,
+                                    YarpStringVector &       output,
+                                    const size_t             minSpace);
         
         /*! @brief Return the resulting argument values.
          @param arguments The argument sequence.
          @param sep The separator string between the argument values.
          @returns The argument values, separated by 'sep'. */
-        YarpString CombineArguments(const DescriptorVector & arguments,
-                                    const YarpString &       sep);
+        YarpString
+        CombineArguments(const DescriptorVector & arguments,
+                         const YarpString &       sep);
 
         /*! @brief Convert a string in '--args' format into an argument description.
          @param inString The string to be analyzed.
          @returns A newly allocated argument descriptor or @c NULL if the string is not valid. */
-        BaseArgumentDescriptor * ConvertStringToArgument(const YarpString & inString);
+        BaseArgumentDescriptor *
+        ConvertStringToArgument(const YarpString & inString);
 
         /*! @brief Copy the argument values to a bottle.
          @param arguments The argument sequence.
          @param container The bottle to be modified. */
-        void CopyArgumentsToBottle(const DescriptorVector & arguments,
-                                   yarp::os::Bottle &       container);
+        void
+        CopyArgumentsToBottle(const DescriptorVector & arguments,
+                              yarp::os::Bottle &       container);
         
         /*! @brief Return the mode corresponding to a string.
          @param modeString The mode value as a string.
          @returns The mode corresponding to a string. */
-        ArgumentMode ModeFromString(const YarpString & modeString);
+        ArgumentMode
+        ModeFromString(const YarpString & modeString);
         
         /*! @brief Update the arguments data from the parsed argument list.
          @param arguments The argument sequence.
@@ -482,14 +536,16 @@ namespace MplusM
          @param badArgs The list of invalid or missing arguments.
          @returns @c true if the parsed argument list matches the argument sequence and @c false
          otherwise. */
-        bool ProcessArguments(const DescriptorVector & arguments,
-                              Option_::Parser &        parseResult,
-                              YarpString &             badArgs);
+        bool
+        ProcessArguments(const DescriptorVector & arguments,
+                         Option_::Parser &        parseResult,
+                         YarpString &             badArgs);
 
         /*! @brief Prompt the user for the value of each of the arguments.
          @param arguments The argument sequence.
          @returns @c true if all arguments are valid and @c false otherwise. */
-        bool PromptForValues(const DescriptorVector & arguments);
+        bool
+        PromptForValues(const DescriptorVector & arguments);
         
     } // Utilities
     

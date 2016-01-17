@@ -68,6 +68,15 @@ namespace MplusM
         class AddressService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param hostName The host address to be returned.
@@ -88,13 +97,15 @@ namespace MplusM
                            const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~AddressService(void);
+            virtual
+            ~AddressService(void);
             
             /*! @brief Return the remembered address.
              @param address The remembered address.
              @param port The remembered port. */
-            void getAddress(YarpString & address,
-                            int &        port);
+            void
+            getAddress(YarpString & address,
+                       int &        port);
             
             DECLARE_STARTSERVICE_;
             
@@ -107,19 +118,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(AddressService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The remembered address. */
             YarpString _address;

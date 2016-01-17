@@ -70,6 +70,15 @@ namespace MplusM
         class RequestCounterService : public Common::BaseService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param launchPath The command-line name used to launch the service.
@@ -84,23 +93,27 @@ namespace MplusM
                                   const YarpString & servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~RequestCounterService(void);
+            virtual
+            ~RequestCounterService(void);
             
             /*! @brief Record a request.
              @param key The client-provided key. */
-            void countRequest(const YarpString & key);
+            void
+            countRequest(const YarpString & key);
             
             /*! @brief Return the request statistics.
              @param key The client-provided key.
              @param counter The number of requests since the last reset.
              @param elapsedTime The number of seconds since the last reset. */
-            void getStatistics(const YarpString & key,
-                               long &             counter,
-                               double &           elapsedTime);
+            void
+            getStatistics(const YarpString & key,
+                          long &             counter,
+                          double &           elapsedTime);
             
             /*! @brief Reset the request statistics counters.
              @param key The client-provided key. */
-            void resetCounters(const YarpString & key);
+            void
+            resetCounters(const YarpString & key);
             
             DECLARE_STARTSERVICE_;
             
@@ -113,19 +126,18 @@ namespace MplusM
             COPY_AND_ASSIGNMENT_(RequestCounterService);
             
             /*! @brief Enable the standard request handlers. */
-            void attachRequestHandlers(void);
+            void
+            attachRequestHandlers(void);
             
             /*! @brief Disable the standard request handlers. */
-            void detachRequestHandlers(void);
+            void
+            detachRequestHandlers(void);
             
         public :
         
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseService inherited;
             
             /*! @brief The request handler for unrecognized requests. */
             RequestCounterDefaultRequestHandler * _defaultHandler;

@@ -116,7 +116,8 @@ RGBLEDService::~RGBLEDService(void)
 # pragma mark Actions
 #endif // defined(__APPLE__)
 
-void RGBLEDService::attachRequestHandlers(void)
+void
+RGBLEDService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try
@@ -139,7 +140,8 @@ void RGBLEDService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT();//####
 } // RGBLEDService::attachRequestHandlers
 
-void RGBLEDService::detachRequestHandlers(void)
+void
+RGBLEDService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER();//####
     try

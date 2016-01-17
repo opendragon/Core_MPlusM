@@ -66,13 +66,24 @@ namespace MplusM
         class AbsorberFilterInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that manages the message count. */
-            explicit AbsorberFilterInputHandler(AbsorberFilterService & service);
+            explicit
+            AbsorberFilterInputHandler(AbsorberFilterService & service);
             
             /*! @brief The destructor. */
-            virtual ~AbsorberFilterInputHandler(void);
+            virtual
+            ~AbsorberFilterInputHandler(void);
             
         protected :
             
@@ -87,9 +98,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The service that manages the message count. */
             AbsorberFilterService & _service;

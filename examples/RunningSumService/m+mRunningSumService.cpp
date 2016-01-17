@@ -121,8 +121,9 @@ RunningSumService::~RunningSumService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-double RunningSumService::addToSum(const YarpString & key,
-                                   const double       value)
+double
+RunningSumService::addToSum(const YarpString & key,
+                            const double       value)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -150,7 +151,8 @@ double RunningSumService::addToSum(const YarpString & key,
     return result;
 } // RunningSumService::addToSum
 
-void RunningSumService::attachRequestHandlers(void)
+void
+RunningSumService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -180,7 +182,8 @@ void RunningSumService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumService::attachRequestHandlers
 
-void RunningSumService::detachRequestHandlers(void)
+void
+RunningSumService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -218,7 +221,8 @@ void RunningSumService::detachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RunningSumService::detachRequestHandlers
 
-void RunningSumService::resetSum(const YarpString & key)
+void
+RunningSumService::resetSum(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####
@@ -271,7 +275,8 @@ DEFINE_STARTSERVICE_(RunningSumService)
     return result;
 } // RunningSumService::startService
 
-void RunningSumService::startSum(const YarpString & key)
+void
+RunningSumService::startSum(const YarpString & key)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1s("key = ", key); //####

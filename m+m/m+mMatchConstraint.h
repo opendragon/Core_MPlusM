@@ -63,64 +63,6 @@ namespace MplusM
         class MatchConstraint : public BaseMatcher
         {
         public :
-            
-            /*! @brief The destructor. */
-            virtual ~MatchConstraint(void);
-            
-            /*! @brief Generate a proper SQL string value corresponding to this match value.
-             @returns A string representing the value as a string suitable for use with SQL. */
-            YarpString asSQLString(void)
-            const;
-            
-            /*! @brief Return the match value as a printable string.
-             @returns The matching substring as a printable string. */
-            YarpString asString(void)
-            const;
-            
-            /*! @brief The character used between constraint list elements.
-             @returns The character that separates constraint list elements. */
-            static char ConstraintSeparatorCharacter(void);
-            
-            /*! @brief Return the number of elements in the constraint list.
-             @returns The number of elements in the constraint list. */
-            int count(void)
-            const;
-            
-            /*! @brief Create a pattern matcher if the next substring would be a valid constraint.
-             @param inString The string being scanned.
-             @param inLength The length of the string being scanned.
-             @param startPos Where in the string to start scanning.
-             @param endPos Where the scan terminated, if successful.
-             @param validator A function that returns @c true if the field name is valid and @c
-             false otherwise.
-             @returns A non-null matcher if the string would be a valid value and @c NULL
-             otherwise. */
-            static MatchConstraint * CreateMatcher(const YarpString &  inString,
-                                                   const size_t        inLength,
-                                                   const size_t        startPos,
-                                                   size_t &            endPos,
-                                                   BaseNameValidator * validator = NULL);
-            
-            /*! @brief Return an element from the constraint list.
-             @param index The zero-origin index of the element.
-             @returns An element of the constraint list or @c NULL if the index is outside the range
-             of the constraint list. */
-            const MatchFieldWithValues * element(const int index)
-            const;
-            
-        protected :
-            
-        private :
-            
-            /*! @brief The constructor. */
-            MatchConstraint(void);
-            
-            COPY_AND_ASSIGNMENT_(MatchConstraint);
-            
-            /*! @brief Remove all the list elements. */
-            void empty(void);
-            
-        public :
         
         protected :
         
@@ -134,6 +76,78 @@ namespace MplusM
             
             /*! @brief The size-type for sequence data. */
             typedef MatchConstraintListData::size_type MatchConstraintListSize;
+            
+        public :
+            
+            /*! @brief The destructor. */
+            virtual
+            ~MatchConstraint(void);
+            
+            /*! @brief Generate a proper SQL string value corresponding to this match value.
+             @returns A string representing the value as a string suitable for use with SQL. */
+            YarpString
+            asSQLString(void)
+            const;
+            
+            /*! @brief Return the match value as a printable string.
+             @returns The matching substring as a printable string. */
+            YarpString
+            asString(void)
+            const;
+            
+            /*! @brief The character used between constraint list elements.
+             @returns The character that separates constraint list elements. */
+            static char
+            ConstraintSeparatorCharacter(void);
+            
+            /*! @brief Return the number of elements in the constraint list.
+             @returns The number of elements in the constraint list. */
+            int
+            count(void)
+            const;
+            
+            /*! @brief Create a pattern matcher if the next substring would be a valid constraint.
+             @param inString The string being scanned.
+             @param inLength The length of the string being scanned.
+             @param startPos Where in the string to start scanning.
+             @param endPos Where the scan terminated, if successful.
+             @param validator A function that returns @c true if the field name is valid and @c
+             false otherwise.
+             @returns A non-null matcher if the string would be a valid value and @c NULL
+             otherwise. */
+            static MatchConstraint *
+            CreateMatcher(const YarpString &  inString,
+                          const size_t        inLength,
+                          const size_t        startPos,
+                          size_t &            endPos,
+                          BaseNameValidator * validator = NULL);
+            
+            /*! @brief Return an element from the constraint list.
+             @param index The zero-origin index of the element.
+             @returns An element of the constraint list or @c NULL if the index is outside the range
+             of the constraint list. */
+            const MatchFieldWithValues *
+            element(const int index)
+            const;
+            
+        protected :
+            
+        private :
+            
+            /*! @brief The constructor. */
+            MatchConstraint(void);
+            
+            COPY_AND_ASSIGNMENT_(MatchConstraint);
+            
+            /*! @brief Remove all the list elements. */
+            void
+            empty(void);
+            
+        public :
+        
+        protected :
+        
+        private :
             
             /*! @brief The elements of the list. */
             MatchConstraintListData _fieldsWithValues;

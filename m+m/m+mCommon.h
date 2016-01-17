@@ -243,7 +243,8 @@ executable. */
 /*! @brief The standard copy constructor and assignment operator declarations. */
 # define COPY_AND_ASSIGNMENT_(xx_) \
     xx_(const xx_ & other_);\
-    xx_ & operator =(const xx_ & other_)
+    xx_ &\
+    operator =(const xx_ & other_)
 
 /*! @brief @c TRUE if retry loops use timeouts and @c FALSE otherwise. */
 # if defined(MpM_UseTimeoutsInRetryLoops)
@@ -375,42 +376,50 @@ namespace MplusM
         /*! @brief A function that checks for early exit from loops.
          @param stuff Private data for the function.
          @returns @c true if the caller should exit any loops and @c false otherwise. */
-        typedef bool (*CheckFunction)
+        typedef bool
+        (*CheckFunction)
             (void * stuff);
         
         /*! @brief Dump out a description of the provided connection information to the log.
          @param tag A unique string used to identify the call point for the output.
          @param aContact The connection information to be reported. */
-        void DumpContactToLog(const char *              tag,
-                              const yarp::os::Contact & aContact);
+        void
+        DumpContactToLog(const char *              tag,
+                         const yarp::os::Contact & aContact);
         
 # if MAC_OR_LINUX_
         /*! @brief Return the YARP logging object.
          @returns The YARP logging object. */
-        yarp::os::impl::Logger & GetLogger(void);
+        yarp::os::impl::Logger &
+        GetLogger(void);
 # endif // MAC_OR_LINUX_
 
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
-        YarpString GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT_);
+        YarpString
+        GetRandomChannelName(const char * channelRoot = DEFAULT_CHANNEL_ROOT_);
         
         /*! @brief Generate a random channel name.
          @returns A randomly-generated channel name. */
-        YarpString GetRandomChannelName(const YarpString & channelRoot);
+        YarpString
+        GetRandomChannelName(const YarpString & channelRoot);
         
         /*! @brief Perform initialization of internal resources.
          @param progName The name of the executing program.
          
          Should be called in the main() function of each application or service. */
-        void Initialize(const YarpString & progName);
+        void
+        Initialize(const YarpString & progName);
         
         /*! @brief Connect the standard signals to a handler.
          @param theHandler The new handler for the signals. */
-        void SetSignalHandlers(yarp::os::YarpSignalHandler theHandler);
+        void
+        SetSignalHandlers(yarp::os::YarpSignalHandler theHandler);
         
         /*! @brief Set up the signal-handling behaviour so that this thread will catch our 
          signal. */
-        void SetUpCatcher(void);
+        void
+        SetUpCatcher(void);
         
 # if MAC_OR_LINUX_
         /*! @brief Set up the error logger.
@@ -418,28 +427,34 @@ namespace MplusM
          
          Should be called in the main() function of each application or service before anything
          else. */
-        void SetUpLogger(const YarpString & progName);
+        void
+        SetUpLogger(const YarpString & progName);
 # endif // MAC_OR_LINUX_
 
         /*! @brief Restore the normal signal-handling behaviour. */
-        void ShutDownCatcher(void);
+        void
+        ShutDownCatcher(void);
         
         /*! @brief Perform a busy loop, using yarp::os::Time::yield(). */
 # if MAC_OR_LINUX_
-        void Stall(void) __attribute__((noreturn));
+        void
+        Stall(void) __attribute__((noreturn));
 # else // ! MAC_OR_LINUX_
-        void Stall(void);
+        void
+        Stall(void);
 # endif // ! MAC_OR_LINUX_
         
     } // Common
     
     /*! @brief Return @c true if standard input can be used and @c false otherwise.
      @returns @c true if standard input can be used and @c false otherwise. */
-    bool CanReadFromStandardInput(void);
+    bool
+    CanReadFromStandardInput(void);
     
     /*! @brief Returns @c true if the executable can continue running and @c false otherwise.
      @returns @c true if the executable can continue running and @c false otherwise. */
-    bool IsRunning(void);
+    bool
+    IsRunning(void);
     
     /*! @brief Check if a list is actually a dictionary, as they have the same textual
      representation.
@@ -449,38 +464,45 @@ namespace MplusM
      @param aList The list of interest.
      @param aDictionary The corresponding dictionary.
      @returns @c true if the list can be converted into a dictionary and @c false otherwise. */
-    bool ListIsReallyDictionary(const yarp::os::Bottle & aList,
-                                yarp::os::Property &     aDictionary);
+    bool
+    ListIsReallyDictionary(const yarp::os::Bottle & aList,
+                           yarp::os::Property &     aDictionary);
     
     /*! @brief Return the name of a signal.
      @param theSignal The signal of interest.
      @returns A string description of the signal. */
-    const char * NameOfSignal(const int theSignal);
+    const char *
+    NameOfSignal(const int theSignal);
     
     /*! @brief Write out a (possibly multi-line) description.
      @param outStream The stream to write to.
      @param heading The text to appear on the first line before the beginning of the description.
      @param description The description, which may contain multiple newlines. */
-    void OutputDescription(std::ostream &             outStream,
-                           const char *               heading,
-                           const YarpString & description);
+    void
+    OutputDescription(std::ostream &             outStream,
+                      const char *               heading,
+                      const YarpString & description);
     
     /*! @brief Return a string with special characters escaped.
      @param inString The string to be processed.
      @param allowDoubleQuotes @c true if double quotes aren't escaped and @c false otherwise.
      @returns A string with special characters escaped. */
-    YarpString SanitizeString(const YarpString & inString,
-                              const bool         allowDoubleQuotes = false);
+    YarpString
+    SanitizeString(const YarpString & inString,
+                   const bool         allowDoubleQuotes = false);
     
     /*! @brief The signal handler to catch requests to stop the service.
      @param signal The signal being handled. */
-    void SignalRunningStop(const int signal);
+    void
+    SignalRunningStop(const int signal);
     
     /*! @brief Mark the executable as running or ready-to-run. */
-    void StartRunning(void);
+    void
+    StartRunning(void);
     
     /*! @brief Indicate that the executable should stop running. */
-    void StopRunning(void);
+    void
+    StopRunning(void);
     
     /*! @brief The escapre character. */
     extern const char kEscapeChar;

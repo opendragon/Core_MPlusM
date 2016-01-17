@@ -168,7 +168,8 @@ DEFINE_HANDLE_INPUT_(RecordAsJSONOutputInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void RecordAsJSONOutputInputHandler::setFile(FILE * outFile)
+void
+RecordAsJSONOutputInputHandler::setFile(FILE * outFile)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("outFile = ", outFile); //####

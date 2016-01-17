@@ -64,13 +64,24 @@ namespace MplusM
         class ServiceInputHandlerCreator : public BaseInputHandlerCreator
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandlerCreator inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param service The service that uses the object. */
-            explicit ServiceInputHandlerCreator(BaseService & service);
+            explicit
+            ServiceInputHandlerCreator(BaseService & service);
             
             /*! @brief The destructor. */
-            virtual ~ServiceInputHandlerCreator(void);
+            virtual
+            ~ServiceInputHandlerCreator(void);
             
         protected :
             
@@ -85,9 +96,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandlerCreator inherited;
             
             /*! @brief The service that 'owns' this handler. */
             BaseService & _service;

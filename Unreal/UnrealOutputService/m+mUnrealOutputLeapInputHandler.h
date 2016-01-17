@@ -67,21 +67,34 @@ namespace MplusM
         class UnrealOutputLeapInputHandler : public Common::BaseInputHandler
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputHandler inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param owner The service that this handler is connected to. */
-            explicit UnrealOutputLeapInputHandler(UnrealOutputService & owner);
+            explicit
+            UnrealOutputLeapInputHandler(UnrealOutputService & owner);
             
             /*! @brief The destructor. */
-            virtual ~UnrealOutputLeapInputHandler(void);
+            virtual
+            ~UnrealOutputLeapInputHandler(void);
             
             /*! @brief Set the translation scale.
              @param newScale The scale factor for translation values. */
-            void setScale(const double newScale);
+            void
+            setScale(const double newScale);
             
-			/*! @brief Set the network socket to be written to.
+            /*! @brief Set the network socket to be written to.
              @param outSocket The network socket to be written to. */
-            void setSocket(const SOCKET outSocket);
+            void
+            setSocket(const SOCKET outSocket);
 
         protected :
             
@@ -96,9 +109,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputHandler inherited;
             
             /*! @brief The service that this handler is connected to. */
             UnrealOutputService & _owner;

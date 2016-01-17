@@ -121,11 +121,12 @@ BaseAdapterService::~BaseAdapterService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
-                                       const YarpString & helpText,
-                                       const bool         goWasSet,
-                                       const bool         stdinAvailable,
-                                       const bool         reportOnExit)
+void
+BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
+                                  const YarpString & helpText,
+                                  const bool         goWasSet,
+                                  const bool         stdinAvailable,
+                                  const bool         reportOnExit)
 {
     OD_LOG_P1("sharedData = ", &sharedData); //####
     OD_LOG_S1s("helpText = ", helpText); //####

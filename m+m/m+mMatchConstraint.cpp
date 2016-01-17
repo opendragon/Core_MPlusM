@@ -82,16 +82,18 @@ static const char kAmpersand = '&';
 # pragma mark Class methods
 #endif // defined(__APPLE__)
 
-char MatchConstraint::ConstraintSeparatorCharacter(void)
+char
+MatchConstraint::ConstraintSeparatorCharacter(void)
 {
     return kAmpersand;
 } // MatchConstraint::ConstraintSeparatorCharacter
 
-MatchConstraint * MatchConstraint::CreateMatcher(const YarpString &  inString,
-                                                 const size_t        inLength,
-                                                 const size_t        startPos,
-                                                 size_t &            endPos,
-                                                 BaseNameValidator * validator)
+MatchConstraint *
+MatchConstraint::CreateMatcher(const YarpString &  inString,
+                               const size_t        inLength,
+                               const size_t        startPos,
+                               size_t &            endPos,
+                               BaseNameValidator * validator)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("inString = ", inString); //####
@@ -206,7 +208,8 @@ MatchConstraint::~MatchConstraint(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-YarpString MatchConstraint::asSQLString(void)
+YarpString
+MatchConstraint::asSQLString(void)
 const
 {
     OD_LOG_OBJENTER(); //####
@@ -234,7 +237,8 @@ const
     return result;
 } // MatchConstraint::asSQLString
 
-YarpString MatchConstraint::asString(void)
+YarpString
+MatchConstraint::asString(void)
 const
 {
     YarpString result;
@@ -262,13 +266,15 @@ const
     return result;
 } // MatchConstraint::asString
 
-int MatchConstraint::count(void)
+int
+MatchConstraint::count(void)
 const
 {
     return static_cast<int>(_fieldsWithValues.size());
 } // MatchConstraint::count
 
-const MatchFieldWithValues * MatchConstraint::element(const int index)
+const MatchFieldWithValues *
+MatchConstraint::element(const int index)
 const
 {
     MatchFieldWithValues * result = NULL;
@@ -294,7 +300,8 @@ const
     return result;
 } // MatchConstraint::element
 
-void MatchConstraint::empty(void)
+void
+MatchConstraint::empty(void)
 {
     OD_LOG_OBJENTER(); //####
     try

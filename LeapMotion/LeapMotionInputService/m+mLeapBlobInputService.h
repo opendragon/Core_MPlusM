@@ -73,6 +73,15 @@ namespace MplusM
         class LeapBlobInputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -91,7 +100,8 @@ namespace MplusM
                                  const YarpString &                  servicePortNumber = "");
 
             /*! @brief The destructor. */
-            virtual ~LeapBlobInputService(void);
+            virtual
+            ~LeapBlobInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -122,9 +132,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
             
             /*! @brief The scale factor to apply to the translation data. */
             double _translationScale;

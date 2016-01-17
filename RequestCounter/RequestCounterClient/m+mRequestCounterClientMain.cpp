@@ -83,7 +83,8 @@ using std::endl;
 
 /*! @brief Write out a time value in a human-friendly form.
  @param measurement The time value to write out. */
-static void reportTimeInReasonableUnits(const double measurement)
+static void
+reportTimeInReasonableUnits(const double measurement)
 {
     double       newValue;
     const char * tag;
@@ -129,9 +130,11 @@ static void reportTimeInReasonableUnits(const double measurement)
 
 /*! @brief Set up the environment and perform the operation. */
 #if defined(MpM_ReportOnConnections)
-static void setUpAndGo(ChannelStatusReporter * reporter)
+static void
+setUpAndGo(ChannelStatusReporter * reporter)
 #else // ! defined(MpM_ReportOnConnections)
-static void setUpAndGo(void)
+static void
+setUpAndGo(void)
 #endif // ! defined(MpM_ReportOnConnections)
 {
     OD_LOG_ENTER(); //####
@@ -262,8 +265,9 @@ static void setUpAndGo(void)
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
 #if MAC_OR_LINUX_
 # pragma unused(argc)

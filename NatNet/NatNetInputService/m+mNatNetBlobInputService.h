@@ -68,6 +68,15 @@ namespace MplusM
         class NatNetBlobInputService : public Common::BaseInputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -86,7 +95,8 @@ namespace MplusM
                                    const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~NatNetBlobInputService(void);
+            virtual
+            ~NatNetBlobInputService(void);
             
             DECLARE_CONFIGURE_;
             
@@ -118,22 +128,19 @@ namespace MplusM
         
         private :
             
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputService inherited;
-            
-			/*! @brief The name of the Natural Point %NatNet device server. */
-			YarpString _hostName;
+            /*! @brief The name of the Natural Point %NatNet device server. */
+            YarpString _hostName;
 
             /*! @brief The scale factor to apply to the translation data. */
             double _translationScale;
             
-			/*! @brief The command port to connect to the Natural Point %NatNet device server. */
-			int _commandPort;
+            /*! @brief The command port to connect to the Natural Point %NatNet device server. */
+            int _commandPort;
 
-			/*! @brief The data port to connect to the Natural Point %NatNet device server. */
-			int _dataPort;
+            /*! @brief The data port to connect to the Natural Point %NatNet device server. */
+            int _dataPort;
 
-			/*! @brief The output thread to use. */
+            /*! @brief The output thread to use. */
             NatNetBlobInputThread * _eventThread;
             
 # if defined(__APPLE__)

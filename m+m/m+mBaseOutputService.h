@@ -61,6 +61,15 @@ namespace MplusM
         class BaseOutputService : public Common::BaseInputOutputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseInputOutputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argumentList Descriptions of the arguments to the executable.
@@ -88,7 +97,8 @@ namespace MplusM
                               const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~BaseOutputService(void);
+            virtual
+            ~BaseOutputService(void);
             
         protected :
             
@@ -108,9 +118,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseInputOutputService inherited;
             
         }; // BaseOutputService
         

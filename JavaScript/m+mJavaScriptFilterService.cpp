@@ -85,17 +85,19 @@ using std::endl;
  @param jct The %JavaScript engine context.
  @param theData The output object.
  @param inputValue The value to be processed. */
-static void convertValue(JSContext *             jct,
-                         JS::MutableHandleValue  theData,
-                         const yarp::os::Value & inputValue);
+static void
+convertValue(JSContext *             jct,
+             JS::MutableHandleValue  theData,
+             const yarp::os::Value & inputValue);
 
 /*! @brief Convert a YARP dictionary into a %JavaScript object.
  @param jct The %JavaScript engine context.
  @param theData The output object.
  @param inputAsList The input dictionary as a list. */
-static void convertDictionary(JSContext *              jct,
-                              JS::MutableHandleValue   theData,
-                              const yarp::os::Bottle & inputAsList)
+static void
+convertDictionary(JSContext *              jct,
+                  JS::MutableHandleValue   theData,
+                  const yarp::os::Bottle & inputAsList)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("jct = ", jct, "theData = ", &theData, "inputAsList = ", &inputAsList); //####
@@ -135,9 +137,10 @@ static void convertDictionary(JSContext *              jct,
  @param jct The %JavaScript engine context.
  @param theData The output object.
  @param inputValue The value to be processed. */
-static void convertList(JSContext *              jct,
-                        JS::MutableHandleValue   theData,
-                        const yarp::os::Bottle & inputValue)
+static void
+convertList(JSContext *              jct,
+            JS::MutableHandleValue   theData,
+            const yarp::os::Bottle & inputValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
@@ -165,9 +168,10 @@ static void convertList(JSContext *              jct,
     OD_LOG_EXIT(); //####
 } // convertList
 
-static void convertValue(JSContext *             jct,
-                         JS::MutableHandleValue  theData,
-                         const yarp::os::Value & inputValue)
+static void
+convertValue(JSContext *             jct,
+             JS::MutableHandleValue  theData,
+             const yarp::os::Value & inputValue)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "inputValue = ", &inputValue); //####
@@ -234,9 +238,10 @@ static void convertValue(JSContext *             jct,
  @param jct The %JavaScript engine context.
  @param aBottle The bottle to be used.
  @param theData The value to be filled. */
-static void createValueFromBottle(JSContext *              jct,
-                                  const yarp::os::Bottle & aBottle,
-                                  JS::MutableHandleValue   theData)
+static void
+createValueFromBottle(JSContext *              jct,
+                      const yarp::os::Bottle & aBottle,
+                      JS::MutableHandleValue   theData)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
@@ -250,10 +255,11 @@ static void createValueFromBottle(JSContext *              jct,
  @param aBottle The bottle to be filled.
  @param theData The value to be sent.
  @param topLevel @c true if this is the outermost list of an object. */
-static void fillBottleFromValue(JSContext *        jct,
-                                yarp::os::Bottle & aBottle,
-                                JS::Value          theData,
-                                const bool         topLevel)
+static void
+fillBottleFromValue(JSContext *        jct,
+                    yarp::os::Bottle & aBottle,
+                    JS::Value          theData,
+                    const bool         topLevel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "aBottle = ", &aBottle); //####
@@ -731,7 +737,8 @@ DEFINE_GETCONFIGURATION_(JavaScriptFilterService)
     return result;
 } // JavaScriptFilterService::getConfiguration
 
-void JavaScriptFilterService::releaseHandlers(void)
+void
+JavaScriptFilterService::releaseHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     if (0 < _inHandlers.size())
@@ -769,7 +776,8 @@ DEFINE_RESTARTSTREAMS_(JavaScriptFilterService)
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptFilterService::restartStreams
 
-bool JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
+bool
+JavaScriptFilterService::sendToChannel(const int32_t channelSlot,
                                             JS::Value     theData)
 {
     OD_LOG_OBJENTER();
@@ -836,14 +844,16 @@ DEFINE_SETUPSTREAMDESCRIPTIONS_(JavaScriptFilterService)
     return result;
 } // JavaScriptFilterService::setUpStreamDescriptions
 
-void JavaScriptFilterService::signalRunFunction(void)
+void
+JavaScriptFilterService::signalRunFunction(void)
 {
     OD_LOG_OBJENTER(); //####
     _goAhead.post();
     OD_LOG_OBJEXIT(); //####
 } // JavaScriptFilterService::signalRunFunction
 
-void JavaScriptFilterService::stallUntilIdle(const size_t slotNumber)
+void
+JavaScriptFilterService::stallUntilIdle(const size_t slotNumber)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("slotNumber = ", slotNumber); //####
@@ -889,13 +899,13 @@ DEFINE_STARTSTREAMS_(JavaScriptFilterService)
             if (_isThreaded)
             {
                 _generator = new JavaScriptFilterThread(*this, _threadInterval);
-				if (! _generator->start())
-				{
-					OD_LOG("(! _generator->start())"); //####
+                if (! _generator->start())
+                {
+                    OD_LOG("(! _generator->start())"); //####
                     cerr << "Could not start auxiliary thread." << endl;
-					delete _generator;
-					_generator = NULL;
-				}
+                    delete _generator;
+                    _generator = NULL;
+                }
             }
             else
             {
@@ -952,16 +962,16 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
         {
             if (_isThreaded)
             {
-				if (_generator)
-				{
-					_generator->stop();
-					for ( ; _generator->isRunning(); )
-					{
-						yarp::os::Time::delay(_threadInterval / 3.9);
-					}
-					delete _generator;
-					_generator = NULL;
-				}
+                if (_generator)
+                {
+                    _generator->stop();
+                    for ( ; _generator->isRunning(); )
+                    {
+                        yarp::os::Time::delay(_threadInterval / 3.9);
+                    }
+                    delete _generator;
+                    _generator = NULL;
+                }
             }
             else
             {
@@ -1023,10 +1033,11 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-std::ostream & JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
-                                                 JSContext *        jct,
-                                                 JS::RootedObject & anObject,
-                                                 const int          depth)
+std::ostream &
+JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
+                                  JSContext *        jct,
+                                  JS::RootedObject & anObject,
+                                  const int          depth)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
@@ -1123,11 +1134,12 @@ std::ostream & JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
     return outStream;
 } // JavaScript::PrintJavaScriptObject
 
-std::ostream & JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
-                                                JSContext *       jct,
-                                                const char *      caption,
-                                                JS::RootedValue & value,
-                                                const int         depth)
+std::ostream &
+JavaScript::PrintJavaScriptValue(std::ostream &    outStream,
+                                 JSContext *       jct,
+                                 const char *      caption,
+                                 JS::RootedValue & value,
+                                 const int         depth)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("outStream = ", &outStream, "jct = ", jct, "value = ", &value); //####

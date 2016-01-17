@@ -173,7 +173,8 @@ DEFINE_HANDLE_INPUT_(RecordBlobOutputInputHandler)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
 
-void RecordBlobOutputInputHandler::setFile(FILE * outFile)
+void
+RecordBlobOutputInputHandler::setFile(FILE * outFile)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("outFile = ", outFile); //####

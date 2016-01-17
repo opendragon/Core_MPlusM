@@ -76,8 +76,9 @@ using std::endl;
 /*! @brief Add a three-dimensional floating-point vector to a list.
  @param listToUpdate The list to be added to.
  @param position The vector to be added. */
-static void add3VectorToList(yarp::os::Bottle &       listToUpdate,
-                             const CameraSpacePoint & position)
+static void
+add3VectorToList(yarp::os::Bottle &       listToUpdate,
+                 const CameraSpacePoint & position)
 {
     listToUpdate.addDouble(position.X);
     listToUpdate.addDouble(position.Y);
@@ -86,7 +87,8 @@ static void add3VectorToList(yarp::os::Bottle &       listToUpdate,
 
 /*! @brief Add a three-dimensional floating-point zero vector to a list.
  @param listToUpdate The list to be added to. */
-static void add3ZeroesToList(yarp::os::Bottle & listToUpdate)
+static void
+add3ZeroesToList(yarp::os::Bottle & listToUpdate)
 {
     listToUpdate.addDouble(0);
     listToUpdate.addDouble(0);
@@ -96,8 +98,9 @@ static void add3ZeroesToList(yarp::os::Bottle & listToUpdate)
 /*! @brief Add a four-dimensional floating-point vector to a list.
  @param listToUpdate The list to be added to.
  @param orientation The vector to be added. */
-static void add4VectorToList(yarp::os::Bottle & listToUpdate,
-                             const Vector4 &    orientation)
+static void
+add4VectorToList(yarp::os::Bottle & listToUpdate,
+                 const Vector4 &    orientation)
 {
     listToUpdate.addDouble(orientation.x);
     listToUpdate.addDouble(orientation.y);
@@ -107,7 +110,8 @@ static void add4VectorToList(yarp::os::Bottle & listToUpdate,
 
 /*! @brief Add a four-dimensional floating-point zero vector to a list.
  @param listToUpdate The list to be added to. */
-static void add4ZeroesToList(yarp::os::Bottle & listToUpdate)
+static void
+add4ZeroesToList(yarp::os::Bottle & listToUpdate)
 {
     listToUpdate.addDouble(0;
     listToUpdate.addDouble(0);
@@ -119,9 +123,10 @@ static void add4ZeroesToList(yarp::os::Bottle & listToUpdate)
  @param listToUpdate The list to be added to.
  @param jointData The joint position.
  @param orientationData The orientation of the joint. */
-static void addJointToList(yarp::os::Bottle &       listToUpdate,
-                           const Joint &            jointData,
-                           const JointOrientation & orientationData)
+static void
+addJointToList(yarp::os::Bottle &       listToUpdate,
+               const Joint &            jointData,
+               const JointOrientation & orientationData)
 {
     // If we can't find either of these joints, exit
     if (TrackingState_NotTracked == jointData.TrackingState)
@@ -162,14 +167,15 @@ static void addJointToList(yarp::os::Bottle &       listToUpdate,
  @param leftHandConfidence The confidence in the value of the state of the left hand.
  @param rightHandState The state of the right hand.
  @param rightHandConfidence The confidence in the value of the state of the right hand. */
-static void addBodyToMessage(yarp::os::Bottle &       message,
-                             const int                index,
-                             const Joint *            jointData,
-                             const JointOrientation * orientationData,
-                             const HandState          leftHandState,
-                             const TrackingConfidence leftHandConfidence,
-                             const HandState          rightHandState,
-                             const TrackingConfidence rightHandConfidence)
+static void
+addBodyToMessage(yarp::os::Bottle &       message,
+                 const int                index,
+                 const Joint *            jointData,
+                 const JointOrientation * orientationData,
+                 const HandState          leftHandState,
+                 const TrackingConfidence leftHandConfidence,
+                 const HandState          rightHandState,
+                 const TrackingConfidence rightHandConfidence)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("message = ", &message, "jointData = ", jointData, "orientationData = ", //####
@@ -224,9 +230,10 @@ static void addBodyToMessage(yarp::os::Bottle &       message,
  @param ppBodies The sensor data.
  @returns @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
-static bool processBody(yarp::os::Bottle & message,
-                        const int          nBodyCount,
-                        IBody * *          ppBodies)
+static bool
+processBody(yarp::os::Bottle & message,
+            const int          nBodyCount,
+            IBody * *          ppBodies)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("message = ", message, "ppBodies = ", ppBodies); //####
@@ -300,14 +307,16 @@ KinectV2SpecialEventThread::~KinectV2SpecialEventThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void KinectV2SpecialEventThread::clearOutputChannel(void)
+void
+KinectV2SpecialEventThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::clearOutputChannel
 
-HRESULT KinectV2SpecialEventThread::initializeDefaultSensor(void)
+HRESULT
+KinectV2SpecialEventThread::initializeDefaultSensor(void)
 {
     OD_LOG_OBJENTER(); //####
     HRESULT hr = GetDefaultKinectSensor(&_kinectSensor);
@@ -342,7 +351,8 @@ HRESULT KinectV2SpecialEventThread::initializeDefaultSensor(void)
     return hr;
 } // KinectV2SpecialEventThread::initializeDefaultSensor
 
-void KinectV2SpecialEventThread::processEventData(void)
+void
+KinectV2SpecialEventThread::processEventData(void)
 {
     OD_LOG_OBJENTER(); //####
     if (_bodyFrameReader)
@@ -400,7 +410,7 @@ void KinectV2SpecialEventThread::processEventData(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::processEventData
 
-void KinectV2SpecialEventThread::run(void)
+DEFINE_RUN_(KinectV2SpecialEventThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -435,7 +445,7 @@ void KinectV2SpecialEventThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::run
 
-bool KinectV2SpecialEventThread::threadInit(void)
+DEFINE_THREADINIT_(KinectV2SpecialEventThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = SUCCEEDED(initializeDefaultSensor());
@@ -444,7 +454,7 @@ bool KinectV2SpecialEventThread::threadInit(void)
     return result;
 } // KinectV2SpecialEventThread::threadInit
 
-void KinectV2SpecialEventThread::threadRelease(void)
+DEFINE_THREADRELEASE_(KinectV2SpecialEventThread)
 {
     OD_LOG_OBJENTER(); //####
     if (_bodyFrameReader && _frameEventHandle)

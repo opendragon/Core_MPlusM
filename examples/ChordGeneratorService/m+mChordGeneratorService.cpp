@@ -113,7 +113,8 @@ ChordGeneratorService::~ChordGeneratorService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void ChordGeneratorService::attachRequestHandlers(void)
+void
+ChordGeneratorService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -137,7 +138,8 @@ void ChordGeneratorService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // ChordGeneratorService::attachRequestHandlers
 
-void ChordGeneratorService::detachRequestHandlers(void)
+void
+ChordGeneratorService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try

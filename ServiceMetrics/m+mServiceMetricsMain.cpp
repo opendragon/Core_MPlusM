@@ -87,8 +87,9 @@ using std::endl;
 /*! @brief Set up the environment and perform the operation.
  @param channelName The primary channel for the service.
  @param flavour The format for the output. */
-static void setUpAndGo(const YarpString &  channelName,
-                       const OutputFlavour flavour)
+static void
+setUpAndGo(const YarpString &  channelName,
+           const OutputFlavour flavour)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("channelName = ", channelName); //####
@@ -213,8 +214,9 @@ static void setUpAndGo(const YarpString &  channelName,
  @param argc The number of arguments in 'argv'.
  @param argv The arguments to be used with the application.
  @returns @c 0 on a successful test and @c 1 on failure. */
-int main(int      argc,
-         char * * argv)
+int
+main(int      argc,
+     char * * argv)
 {
     YarpString progName(*argv);
 
@@ -237,8 +239,8 @@ int main(int      argc,
     {
         try
         {
-			Utilities::SetUpGlobalStatusReporter();
-			Utilities::CheckForNameServerReporter();
+            Utilities::SetUpGlobalStatusReporter();
+            Utilities::CheckForNameServerReporter();
             if (Utilities::CheckForValidNetwork())
             {
                 yarp::os::Network yarp; // This is necessary to establish any connections to the
@@ -270,8 +272,8 @@ int main(int      argc,
                 cerr << "YARP network not running." << endl;
 #endif // ! MAC_OR_LINUX_
             }
-			Utilities::ShutDownGlobalStatusReporter();
-		}
+            Utilities::ShutDownGlobalStatusReporter();
+        }
         catch (...)
         {
             OD_LOG("Exception caught"); //####

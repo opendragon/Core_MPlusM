@@ -39,7 +39,7 @@
 #if (! defined(MpMNameServerReportingThread_H_))
 # define MpMNameServerReportingThread_H_ /* Header guard */
 
-# include <m+m/m+mCommon.h>
+# include <m+m/m+mBaseThread.h>
 
 # include <dns_sd.h>
 
@@ -59,29 +59,35 @@ namespace MplusM
     namespace Registry
     {
         /*! @brief A convenience class to schedule registry checks. */
-        class NameServerReportingThread : public yarp::os::Thread
+        class NameServerReportingThread : public Common::BaseThread
         {
+        public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseThread inherited;
+            
         public :
             
             /*! @brief The constructor. */
             NameServerReportingThread(void);
             
             /*! @brief The destructor. */
-            virtual ~NameServerReportingThread(void);
+            virtual
+            ~NameServerReportingThread(void);
             
         protected :
             
         private :
             
-            /*! @brief The thread main body. */
-            virtual void run(void);
+            DECLARE_RUN_;
             
-            /*! @brief The thread initialization method.
-             @returns @c true if the thread is ready to run. */
-            virtual bool threadInit(void);
+            DECLARE_THREADINIT_;
             
-            /*! @brief The thread termination method. */
-            virtual void threadRelease(void);
+            DECLARE_THREADRELEASE_;
             
             COPY_AND_ASSIGNMENT_(NameServerReportingThread);
             
@@ -90,19 +96,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Thread inherited;
-            
-# if defined(__APPLE__)
-#  pragma clang diagnostic push
-#  pragma clang diagnostic ignored "-Wunused-private-field"
-# endif // defined(__APPLE__)
-            /*! @brief Filler to pad to alignment boundary */
-            char _filler1[7];
-# if defined(__APPLE__)
-#  pragma clang diagnostic pop
-# endif // defined(__APPLE__)
             
             /*! @brief The service reference for the mDNS service entity. */
             DNSServiceRef _serviceRef;

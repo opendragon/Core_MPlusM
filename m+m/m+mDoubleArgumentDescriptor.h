@@ -74,6 +74,15 @@ namespace MplusM
         class DoubleArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseArgumentDescriptor inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
@@ -96,11 +105,13 @@ namespace MplusM
                                      const double       maximumValue);
             
             /*! @brief The destructor. */
-            virtual ~DoubleArgumentDescriptor(void);
+            virtual
+            ~DoubleArgumentDescriptor(void);
             
             /*! @brief Return the current value.
              @returns The current value. */
-            inline double getCurrentValue(void)
+            inline double
+            getCurrentValue(void)
             const
             {
                 return _currentValue;
@@ -109,7 +120,8 @@ namespace MplusM
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+            static BaseArgumentDescriptor *
+            parseArgString(const YarpString & inString);
 
         protected :
         
@@ -136,9 +148,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseArgumentDescriptor inherited;
             
             /*! @brief The current value of the command-line argument. */
             double _currentValue;

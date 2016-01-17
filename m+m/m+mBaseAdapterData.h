@@ -66,34 +66,46 @@ namespace MplusM
         class BaseAdapterData
         {
         public :
+        
+        protected :
+        
+        private :
+            
+        public :
             
             /*! @brief The constructor.
              @param client The client connection that is used to communicate with the service.
              @param output The output channel that will receive the service responses. */
-            explicit BaseAdapterData(BaseClient *  client = NULL,
+            explicit
+            BaseAdapterData(BaseClient *  client = NULL,
                                      BaseChannel * output = NULL);
             
             /*! @brief The destructor. */
-            virtual ~BaseAdapterData(void);
+            virtual
+            ~BaseAdapterData(void);
             
             /*! @brief Mark the adapter as active.
              @returns @c true if the adapter was already active and @c false otherwise. */
-            bool activate(void);
+            bool
+            activate(void);
             
             /*! @brief Lock the data unless the lock would block.
              @returns @c true if the data was locked and @c false otherwise. */
-            inline bool conditionallyLock(void)
+            inline bool
+            conditionallyLock(void)
             {
                 return _lock.tryLock();
             } // conditionallyLock
             
             /*! @brief Mark the adapter as inactive.
              @returns @c true if the adapter was active and @c false otherwise. */
-            bool deactivate(void);
+            bool
+            deactivate(void);
             
             /*! @brief Return the client.
              @returns The client. */
-            inline BaseClient * getClient(void)
+            inline BaseClient *
+            getClient(void)
             const
             {
                 return _client;
@@ -101,7 +113,8 @@ namespace MplusM
             
             /*! @brief Return the output channel.
              @returns The output channel. */
-            inline BaseChannel * getOutput(void)
+            inline BaseChannel *
+            getOutput(void)
             const
             {
                 return _output;
@@ -109,20 +122,23 @@ namespace MplusM
             
             /*! @brief Return the adapter state.
              @returns @c true if the adapter is active and @c false otherwise. */
-            inline bool isActive(void)
+            inline bool
+            isActive(void)
             const
             {
                 return _active;
             } // isActive
             
             /*! @brief Lock the data. */
-            inline void lock(void)
+            inline void
+            lock(void)
             {
                 _lock.lock();
             } // lock
             
             /*! @brief Unlock the data. */
-            inline void unlock(void)
+            inline void
+            unlock(void)
             {
                 _lock.unlock();
             } // unlock

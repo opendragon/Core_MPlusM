@@ -79,9 +79,10 @@ using std::endl;
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
  @param position The vector to be added. */
-static void add3VectorToDictionary(yarp::os::Property &     dictionary,
-                                   const YarpString &       tag,
-                                   const CameraSpacePoint & position)
+static void
+add3VectorToDictionary(yarp::os::Property &     dictionary,
+                       const YarpString &       tag,
+                       const CameraSpacePoint & position)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
@@ -99,9 +100,10 @@ static void add3VectorToDictionary(yarp::os::Property &     dictionary,
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
  @param orientation The vector to be added. */
-static void add4VectorToDictionary(yarp::os::Property & dictionary,
-                                   const YarpString &   tag,
-                                   const Vector4 &      orientation)
+static void
+add4VectorToDictionary(yarp::os::Property & dictionary,
+                       const YarpString &   tag,
+                       const Vector4 &      orientation)
 {
     yarp::os::Value    stuff;
     yarp::os::Bottle * stuffAsList = stuff.asList();
@@ -124,12 +126,13 @@ static void add4VectorToDictionary(yarp::os::Property & dictionary,
  @param endJoint The ending joint of the bone.
  @param startOrientation The orientation of the beginning joint of the bone.
  @param endOrientation The orientation of the ending joint of the bone. */
-static void addBoneToList(yarp::os::Bottle &       listToUpdate,
-                          const YarpString &       jointTag,
-                          const Joint &            startJoint,
-                          const Joint &            endJoint,
-                          const JointOrientation & startOrientation,
-                          const JointOrientation & endOrientation)
+static void
+addBoneToList(yarp::os::Bottle &       listToUpdate,
+              const YarpString &       jointTag,
+              const Joint &            startJoint,
+              const Joint &            endJoint,
+              const JointOrientation & startOrientation,
+              const JointOrientation & endOrientation)
 {
     // If we can't find either of these joints, exit
     if ((TrackingState_NotTracked != startJoint.TrackingState) &&
@@ -155,10 +158,11 @@ static void addBoneToList(yarp::os::Bottle &       listToUpdate,
  @param jointTag The name of the bone.
  @param jointData The joint position.
  @param orientationData The orientation of the joint. */
-static void addJointToList(yarp::os::Bottle &       listToUpdate,
-                           const YarpString &       jointTag,
-                           const Joint &            jointData,
-                           const JointOrientation & orientationData)
+static void
+addJointToList(yarp::os::Bottle &       listToUpdate,
+               const YarpString &       jointTag,
+               const Joint &            jointData,
+               const JointOrientation & orientationData)
 {
     // If we can't find either of these joints, exit
     if (TrackingState_NotTracked != jointData.TrackingState)
@@ -179,7 +183,8 @@ static void addJointToList(yarp::os::Bottle &       listToUpdate,
 /*! @brief Convert a hand state into a string.
  @param theHandState The state of the hand.
  @returns The state of the hand as a string. */
-static const char * handStateToString(const HandState theHandState)
+static const char *
+handStateToString(const HandState theHandState)
 {
     const char * result;
 
@@ -208,7 +213,8 @@ static const char * handStateToString(const HandState theHandState)
 /*! @brief Convert a hand state confidence into a string.
  @param theHandConfidence The confidence in the state of the hand.
  @returns The confidence of the hand state as a string. */
-static const char * handConfidenceToString(const TrackingConfidence theHandConfidence)
+static const char *
+handConfidenceToString(const TrackingConfidence theHandConfidence)
 {
     const char * result;
 
@@ -255,13 +261,14 @@ static const char * handConfidenceToString(const TrackingConfidence theHandConfi
  @param leftHandConfidence The confidence in the value of the state of the left hand.
  @param rightHandState The state of the right hand.
  @param rightHandConfidence The confidence in the value of the state of the right hand. */
-static void addBodyToMessage(yarp::os::Bottle &       message,
-                             const Joint *            jointData,
-                             const JointOrientation * orientationData,
-                             const HandState          leftHandState,
-                             const TrackingConfidence leftHandConfidence,
-                             const HandState          rightHandState,
-                             const TrackingConfidence rightHandConfidence)
+static void
+addBodyToMessage(yarp::os::Bottle &       message,
+                 const Joint *            jointData,
+                 const JointOrientation * orientationData,
+                 const HandState          leftHandState,
+                 const TrackingConfidence leftHandConfidence,
+                 const HandState          rightHandState,
+                 const TrackingConfidence rightHandConfidence)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("message = ", &message, "jointData = ", jointData, "orientationData = ", //####
@@ -372,9 +379,10 @@ static void addBodyToMessage(yarp::os::Bottle &       message,
  @param ppBodies The sensor data.
  @returns @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
-static bool processBody(yarp::os::Bottle & message,
-                        const int          nBodyCount,
-                        IBody * *          ppBodies)
+static bool
+processBody(yarp::os::Bottle & message,
+            const int          nBodyCount,
+            IBody * *          ppBodies)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("message = ", message, "ppBodies = ", ppBodies); //####
@@ -448,14 +456,16 @@ KinectV2EventThread::~KinectV2EventThread(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void KinectV2EventThread::clearOutputChannel(void)
+void
+KinectV2EventThread::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::clearOutputChannel
 
-HRESULT KinectV2EventThread::initializeDefaultSensor(void)
+HRESULT
+KinectV2EventThread::initializeDefaultSensor(void)
 {
     OD_LOG_OBJENTER(); //####
     HRESULT hr = GetDefaultKinectSensor(&_kinectSensor);
@@ -490,7 +500,8 @@ HRESULT KinectV2EventThread::initializeDefaultSensor(void)
     return hr;
 } // KinectV2EventThread::initializeDefaultSensor
 
-void KinectV2EventThread::processEventData(void)
+void
+KinectV2EventThread::processEventData(void)
 {
     OD_LOG_OBJENTER(); //####
     if (_bodyFrameReader)
@@ -548,7 +559,7 @@ void KinectV2EventThread::processEventData(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::processEventData
 
-void KinectV2EventThread::run(void)
+DEFINE_RUN_(KinectV2EventThread)
 {
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
@@ -583,7 +594,7 @@ void KinectV2EventThread::run(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::run
 
-bool KinectV2EventThread::threadInit(void)
+DEFINE_THREADINIT_(KinectV2EventThread)
 {
     OD_LOG_OBJENTER(); //####
     bool result = SUCCEEDED(initializeDefaultSensor());
@@ -592,7 +603,7 @@ bool KinectV2EventThread::threadInit(void)
     return result;
 } // KinectV2EventThread::threadInit
 
-void KinectV2EventThread::threadRelease(void)
+DEFINE_THREADRELEASE_(KinectV2EventThread)
 {
     OD_LOG_OBJENTER(); //####
     if (_bodyFrameReader && _frameEventHandle)

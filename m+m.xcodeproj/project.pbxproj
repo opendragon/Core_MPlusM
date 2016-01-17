@@ -765,6 +765,8 @@
 		F655C6191B3B520800933D40 /* m+mViconBlobInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mViconBlobInputServiceMain.cpp"; path = "ViconDataStream/ViconDataStreamInputService/m+mViconBlobInputServiceMain.cpp"; sourceTree = "<group>"; };
 		F655C61A1B3B520800933D40 /* m+mViconBlobInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mViconBlobInputService.rc.in"; path = "ViconDataStream/ViconDataStreamInputService/m+mViconBlobInputService.rc.in"; sourceTree = "<group>"; };
 		F655C61B1B3B520800933D40 /* resource1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource1.h; path = ViconDataStream/ViconDataStreamInputService/resource1.h; sourceTree = "<group>"; };
+		F66A9CDD1C4C4B4D00263E24 /* m+mBaseThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mBaseThread.cpp"; path = "m+m/m+mBaseThread.cpp"; sourceTree = "<group>"; };
+		F66A9CDE1C4C4B4D00263E24 /* m+mBaseThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mBaseThread.h"; path = "m+m/m+mBaseThread.h"; sourceTree = "<group>"; };
 		F6753CA11BE3BB7B00DCE040 /* m+mKinectV2SpecialEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2SpecialEventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialEventThread.cpp"; sourceTree = "<group>"; };
 		F6753CA21BE3BB7B00DCE040 /* m+mKinectV2SpecialEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2SpecialEventThread.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialEventThread.h"; sourceTree = "<group>"; };
 		F6753CA31BE3BB7B00DCE040 /* m+mKinectV2SpecialInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2SpecialInputRequests.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputRequests.h"; sourceTree = "<group>"; };
@@ -1838,6 +1840,8 @@
 				DFEDCA081B46E0CD0034C881 /* m+mBaseRequestHandler.h */,
 				DFEDCA091B46E0CD0034C881 /* m+mBaseService.cpp */,
 				DFEDCA0A1B46E0CD0034C881 /* m+mBaseService.h */,
+				F66A9CDD1C4C4B4D00263E24 /* m+mBaseThread.cpp */,
+				F66A9CDE1C4C4B4D00263E24 /* m+mBaseThread.h */,
 				DFEF83E01B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.cpp */,
 				DFEF83E11B8CA85500C0ACDD /* m+mBoolArgumentDescriptor.h */,
 				DFEDCA0B1B46E0CD0034C881 /* m+mChannelArgumentDescriptor.cpp */,

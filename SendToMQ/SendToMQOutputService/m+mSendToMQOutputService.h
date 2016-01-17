@@ -79,6 +79,15 @@ namespace MplusM
         class SendToMQOutputService : public Common::BaseOutputService
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseOutputService inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param hostName The name of the MQ broker.
@@ -105,12 +114,14 @@ namespace MplusM
                                   const YarpString &                  servicePortNumber = "");
             
             /*! @brief The destructor. */
-            virtual ~SendToMQOutputService(void);
+            virtual
+            ~SendToMQOutputService(void);
             
             DECLARE_CONFIGURE_;
             
             /*! @brief Deactivate the network connection. */
-            void deactivateConnection(void);
+            void
+            deactivateConnection(void);
             
             DECLARE_DISABLEMETRICS_;
             
@@ -123,8 +134,9 @@ namespace MplusM
             /*! @brief Send a message via ActiveMQ.
              @param aMessage The message to send.
              @param messageLength The length of the message. */
-            void sendMessage(const std::string & aMessage,
-                             const size_t        messageLength);
+            void
+            sendMessage(const std::string & aMessage,
+                        const size_t        messageLength);
             
             DECLARE_STARTSERVICE_;
             
@@ -147,9 +159,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseOutputService inherited;
             
             /*! @brief The name of the MQ broker. */
             YarpString _hostName;

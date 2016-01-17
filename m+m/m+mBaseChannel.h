@@ -60,30 +60,45 @@ namespace MplusM
         class BaseChannel : public yarp::os::Port
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef yarp::os::Port inherited;
+            
+        public :
             
             /*! @brief The constructor. */
             BaseChannel(void);
 
             /*! @brief The destructor. */
-            virtual ~BaseChannel(void);
+            virtual
+            ~BaseChannel(void);
             
             /*! @brief Close the channel. */
-            void close(void);
+            void
+            close(void);
             
             /*! @brief Turn off the send / receive metrics collecting. */
-            void disableMetrics(void);
+            void
+            disableMetrics(void);
             
             /*! @brief Turn on the send / receive metrics collecting. */
-            void enableMetrics(void);
+            void
+            enableMetrics(void);
             
             /*! @brief Return the send / receive counters.
              @param counters The send / receive counters. */
-            void getSendReceiveCounters(SendReceiveCounters & counters);
+            void
+            getSendReceiveCounters(SendReceiveCounters & counters);
 
             /*! @brief Return the state of the  send / receive metrics.
              @returns @c true if the send / receive metrics are being gathered and @c false
              otherwise. */
-            inline bool metricsAreEnabled(void)
+            inline bool
+            metricsAreEnabled(void)
             const
             {
                 return _metricsEnabled;
@@ -91,7 +106,8 @@ namespace MplusM
             
             /*! @brief Returns the name associated with the channel.
              @returns The name associated with the channel. */
-            inline const YarpString & name(void)
+            inline const YarpString &
+            name(void)
             const
             {
                 return _name;
@@ -101,39 +117,46 @@ namespace MplusM
              @param theChannelName The name to be associated with the channel.
              @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(const YarpString & theChannelName,
-                                 const double       timeToWait);
+            bool
+            openWithRetries(const YarpString & theChannelName,
+                            const double       timeToWait);
 
             /*! @brief Open the channel, using a backoff strategy with retries.
              @param theContactInfo The connection information to be associated with the channel.
              @param timeToWait The number of seconds allowed before a failure is considered.
              @returns @c true if the channel was opened and @c false if it could not be opened. */
-            bool openWithRetries(yarp::os::Contact & theContactInfo,
-                                 const double        timeToWait);
+            bool
+            openWithRetries(yarp::os::Contact & theContactInfo,
+                            const double        timeToWait);
             
             /*! @brief Release an allocated adapter channel.
              @param theChannel A pointer to the channel to be released. */
-            static void RelinquishChannel(BaseChannel * theChannel);
+            static void
+            RelinquishChannel(BaseChannel * theChannel);
             
             /*! @brief Update the receive counters for the channel.
              @param numBytes The number of bytes received. */
-            void updateReceiveCounters(const size_t numBytes);
+            void
+            updateReceiveCounters(const size_t numBytes);
             
             /*! @brief Update the send counters for the channel.
              @param numBytes The number of bytes sent. */
-            void updateSendCounters(const size_t numBytes);
+            void
+            updateSendCounters(const size_t numBytes);
             
             /*! @brief Write a message to the port.
              @param message The message to write.
              @returns @c true if the message was successfully sent and @c false otherwise. */
-            bool write(yarp::os::Bottle & message);
+            bool
+            write(yarp::os::Bottle & message);
             
             /*! @brief Write a message to the port, with a reply expected.
              @param message The message to write.
              @param reply Where to put the expected reply.
              @returns @c true if the message was successfully sent and @c false otherwise. */
-            bool write(yarp::os::Bottle & message,
-                       yarp::os::Bottle & reply);
+            bool
+            write(yarp::os::Bottle & message,
+                  yarp::os::Bottle & reply);
             
         protected :
             
@@ -146,9 +169,6 @@ namespace MplusM
         protected :
         
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef yarp::os::Port inherited;
             
             /*! @brief The name associated with the channel. */
             YarpString _name;

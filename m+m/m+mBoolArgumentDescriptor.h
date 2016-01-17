@@ -66,6 +66,15 @@ namespace MplusM
         class BoolArgumentDescriptor : public BaseArgumentDescriptor
         {
         public :
+        
+        protected :
+        
+        private :
+            
+            /*! @brief The class that this class is derived from. */
+            typedef BaseArgumentDescriptor inherited;
+            
+        public :
             
             /*! @brief The constructor.
              @param argName The name of the command-line argument.
@@ -78,17 +87,20 @@ namespace MplusM
                                    const bool         defaultValue);
             
             /*! @brief The destructor. */
-            virtual ~BoolArgumentDescriptor(void);
+            virtual
+            ~BoolArgumentDescriptor(void);
             
             /*! @brief Return the current value.
              @returns The current value. */
-            inline bool getCurrentValue(void)
+            inline bool
+            getCurrentValue(void)
             const
             {
                 return _currentValue;
             } // getCurrentValue
             
-            /*! @fn virtual bool isBoolean(void) const
+            /*! @fn virtual bool
+                    isBoolean(void) const
              @brief Return @c true if the argument is for Boolean arguments.
              @returns @c true if the argument is for Boolean arguments and @c false otherwise. */
             DECLARE_ISBOOLEAN_
@@ -99,7 +111,8 @@ namespace MplusM
             /*! @brief Construct a descriptor, if at all possible, from the input string.
              @param inString The input string in 'arguments' format.
              @returns A valid descriptor or @c NULL if the input is not recognized. */
-            static BaseArgumentDescriptor * parseArgString(const YarpString & inString);
+            static BaseArgumentDescriptor *
+            parseArgString(const YarpString & inString);
 
         protected :
         
@@ -132,9 +145,6 @@ namespace MplusM
             bool _defaultValue;
 
         private :
-            
-            /*! @brief The class that this class is derived from. */
-            typedef BaseArgumentDescriptor inherited;
             
             /*! @brief The current value of the command-line argument. */
             bool _currentValue;

@@ -113,7 +113,8 @@ RandomNumberService::~RandomNumberService(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void RandomNumberService::attachRequestHandlers(void)
+void
+RandomNumberService::attachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try
@@ -136,7 +137,8 @@ void RandomNumberService::attachRequestHandlers(void)
     OD_LOG_OBJEXIT(); //####
 } // RandomNumberService::attachRequestHandlers
 
-void RandomNumberService::detachRequestHandlers(void)
+void
+RandomNumberService::detachRequestHandlers(void)
 {
     OD_LOG_OBJENTER(); //####
     try

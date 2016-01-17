@@ -114,7 +114,8 @@ ServiceRequest::~ServiceRequest(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool ServiceRequest::send(ClientChannel & usingChannel)
+bool
+ServiceRequest::send(ClientChannel & usingChannel)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("usingChannel = ", &usingChannel); //####
@@ -153,8 +154,9 @@ bool ServiceRequest::send(ClientChannel & usingChannel)
     return result;
 } // ServiceRequest::send
 
-bool ServiceRequest::send(ClientChannel &   usingChannel,
-                          ServiceResponse & response)
+bool
+ServiceRequest::send(ClientChannel &   usingChannel,
+                     ServiceResponse & response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P2("usingChannel = ", &usingChannel, "response = ", &response); //####

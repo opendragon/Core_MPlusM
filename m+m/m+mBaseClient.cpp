@@ -81,7 +81,8 @@ using namespace MplusM::Common;
 /*! @brief Check the response to the 'match' request for validity.
  @param response The response to be checked.
  @returns The original response, if it is valid, or an empty response if it is not. */
-static yarp::os::Bottle validateMatchResponse(const yarp::os::Bottle & response)
+static yarp::os::Bottle
+validateMatchResponse(const yarp::os::Bottle & response)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("response = ", response.toString()); //####
@@ -179,8 +180,9 @@ BaseClient::~BaseClient(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-bool BaseClient::connectToService(CheckFunction checker,
-                                  void *        checkStuff)
+bool
+BaseClient::connectToService(CheckFunction checker,
+                             void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("checkStuff = ", checkStuff); //####
@@ -239,8 +241,9 @@ bool BaseClient::connectToService(CheckFunction checker,
     return _connected;
 } // BaseClient::connectToService
 
-bool BaseClient::disconnectFromService(CheckFunction checker,
-                                       void *        checkStuff)
+bool
+BaseClient::disconnectFromService(CheckFunction checker,
+                                  void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("checkStuff = ", checkStuff); //####
@@ -307,10 +310,11 @@ bool BaseClient::disconnectFromService(CheckFunction checker,
     return ! _connected;
 } // BaseClient::disconnectFromService
 
-bool BaseClient::findService(const char *  criteria,
-                             const bool    allowOnlyOneMatch,
-                             CheckFunction checker,
-                             void *        checkStuff)
+bool
+BaseClient::findService(const char *  criteria,
+                        const bool    allowOnlyOneMatch,
+                        CheckFunction checker,
+                        void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S1("criteria = ", criteria); //####
@@ -378,8 +382,9 @@ bool BaseClient::findService(const char *  criteria,
     return result;
 } // BaseClient::findService
 
-void BaseClient::reconnectIfDisconnected(CheckFunction checker,
-                                         void *        checkStuff)
+void
+BaseClient::reconnectIfDisconnected(CheckFunction checker,
+                                    void *        checkStuff)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("checkStuff = ", checkStuff); //####
@@ -400,8 +405,9 @@ void BaseClient::reconnectIfDisconnected(CheckFunction checker,
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::reconnectIfDisconnected
 
-bool BaseClient::send(const char *             request,
-                      const yarp::os::Bottle & parameters)
+bool
+BaseClient::send(const char *             request,
+                 const yarp::os::Bottle & parameters)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2("request = ", request, "parameters = ", parameters.toString().c_str()); //####
@@ -436,9 +442,10 @@ bool BaseClient::send(const char *             request,
     return result;
 } // BaseClient::send
 
-bool BaseClient::send(const char *             request,
-                      const yarp::os::Bottle & parameters,
-                      ServiceResponse &        response)
+bool
+BaseClient::send(const char *             request,
+                 const yarp::os::Bottle & parameters,
+                 ServiceResponse &        response)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_S2("request = ", request, "parameters = ", parameters.toString().c_str()); //####
@@ -474,7 +481,8 @@ bool BaseClient::send(const char *             request,
     return result;
 } // BaseClient::send
 
-void BaseClient::setChannel(ClientChannel * newChannel)
+void
+BaseClient::setChannel(ClientChannel * newChannel)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("newChannel = ", newChannel); //####
@@ -500,8 +508,9 @@ void BaseClient::setChannel(ClientChannel * newChannel)
     OD_LOG_OBJEXIT(); //####
 } // BaseClient::setChannel
 
-void BaseClient::setReporter(ChannelStatusReporter & reporter,
-                             const bool              andReportNow)
+void
+BaseClient::setReporter(ChannelStatusReporter & reporter,
+                        const bool              andReportNow)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("reporter = ", &reporter); //####
@@ -515,10 +524,11 @@ void BaseClient::setReporter(ChannelStatusReporter & reporter,
 # pragma mark Global functions
 #endif // defined(__APPLE__)
 
-yarp::os::Bottle Common::FindMatchingServices(const YarpString & criteria,
-                                              const bool         getNames,
-                                              CheckFunction      checker,
-                                              void *             checkStuff)
+yarp::os::Bottle
+Common::FindMatchingServices(const YarpString & criteria,
+                             const bool         getNames,
+                             CheckFunction      checker,
+                             void *             checkStuff)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("criteria = ", criteria); //####

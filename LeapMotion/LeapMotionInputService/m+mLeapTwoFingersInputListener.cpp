@@ -112,14 +112,16 @@ LeapTwoFingersInputListener::~LeapTwoFingersInputListener(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void LeapTwoFingersInputListener::clearOutputChannel(void)
+void
+LeapTwoFingersInputListener::clearOutputChannel(void)
 {
     OD_LOG_OBJENTER(); //####
     _outChannel = NULL;
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::clearOutputChannel
 
-void LeapTwoFingersInputListener::onConnect(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
@@ -127,42 +129,48 @@ void LeapTwoFingersInputListener::onConnect(const Leap::Controller & theControll
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onConnect
 
-void LeapTwoFingersInputListener::onDeviceChange(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onDeviceChange(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onDeviceChange
 
-void LeapTwoFingersInputListener::onDisconnect(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onDisconnect
 
-void LeapTwoFingersInputListener::onExit(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onExit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onExit
 
-void LeapTwoFingersInputListener::onFocusGained(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onFocusGained(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onFocusGained
 
-void LeapTwoFingersInputListener::onFocusLost(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onFocusLost(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onFocusLost
 
-void LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
@@ -254,22 +262,25 @@ void LeapTwoFingersInputListener::onFrame(const Leap::Controller & theController
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onFrame
 
-void LeapTwoFingersInputListener::onInit(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onInit(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
-	theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
+    theController.setPolicyFlags(Leap::Controller::POLICY_BACKGROUND_FRAMES);
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onInit
 
-void LeapTwoFingersInputListener::onServiceConnect(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onServiceConnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####
     OD_LOG_OBJEXIT(); //####
 } // LeapTwoFingersInputListener::onServiceConnect
 
-void LeapTwoFingersInputListener::onServiceDisconnect(const Leap::Controller & theController)
+void
+LeapTwoFingersInputListener::onServiceDisconnect(const Leap::Controller & theController)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theController = ", &theController); //####

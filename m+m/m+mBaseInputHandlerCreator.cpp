@@ -96,7 +96,8 @@ BaseInputHandlerCreator::~BaseInputHandlerCreator(void)
 # pragma mark Actions and Accessors
 #endif // defined(__APPLE__)
 
-void BaseInputHandlerCreator::setChannel(BaseChannel * theChannel)
+void
+BaseInputHandlerCreator::setChannel(BaseChannel * theChannel)
 {
     OD_LOG_OBJENTER(); //####
     OD_LOG_P1("theChannel = ", theChannel); //####
