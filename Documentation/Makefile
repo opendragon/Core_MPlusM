@@ -105,7 +105,8 @@ IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 		$(IMAGE_DIR)/win_install07.eps $(IMAGE_DIR)/win_install08.eps \
 		$(IMAGE_DIR)/win_install09.eps $(IMAGE_DIR)/win_install10.eps \
 		$(IMAGE_DIR)/win_install11.eps $(IMAGE_DIR)/win_install12.eps \
-		$(IMAGE_DIR)/win_run01.eps
+		$(IMAGE_DIR)/win_install13.eps $(IMAGE_DIR)/win_install14.eps \
+		$(IMAGE_DIR)/win_install15.eps $(IMAGE_DIR)/win_run01.eps
 
 JSbitmapepsfiles = $(IMAGE_DIR)/javaScriptWithEndpoint.eps \
 		$(IMAGE_DIR)/javaScriptWithEndpointAndTag.eps $(IMAGE_DIR)/javaScriptWithTag.eps \
