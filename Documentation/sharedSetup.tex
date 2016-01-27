@@ -637,7 +637,7 @@ executable and leave \longDash{} note that this option is primarily for use by t
 \item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}}
 
-\newcommand{\insertAppParameters}{The application has ten optional parameters:
+\newcommand{\insertAppParameters}{The application has eleven optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
 \longDash{} note that this option is primarily for use by the \emph{\MMMU} application}
@@ -651,6 +651,8 @@ leave}
 \item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options and
 a description of the executable and leave \longDash{} note that this option is primarily
 for use by the \emph{\MMMU} application}
+\item\exSp\optItem{m}{n}{mod}{specifies the number of bytes `\textit{n}' of the IPv4
+address to be used to modify the tag}
 \item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
 \item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
@@ -659,7 +661,7 @@ service name}
 \item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
 \end{itemize}}
 
-\newcommand{\insertAutoAppParameters}{The application has nine optional parameters:
+\newcommand{\insertAutoAppParameters}{The application has ten optional parameters:
 \begin{itemize}
 \item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
 \longDash{} note that this option is primarily for use by the \emph{\MMMU} application}
@@ -672,6 +674,8 @@ leave}
 \item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options and
 a description of the executable and leave \longDash{} note that this option is primarily
 for use by the \emph{\MMMU} application}
+\item\exSp\optItem{m}{n}{mod}{specifies the number of bytes `\textit{n}' of the IPv4
+address to be used to modify the tag}
 \item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
 non\longDash{}default port is desired}
 \item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
@@ -685,8 +689,10 @@ service name}
 installation can support multiple copies of the #1 service, but the \emph{\MMMU}
 application cannot display them without a distinguishing `tag'.
 If the tag is not specified, the standard name of the service will be used.}
-\newcommand{\insertTagAndEndpointDescription}[4]{For details on the usage of the `endpoint' and `tag' options, see the \emph{\WTE} appendix in the \emph{\MMMU} manual.
-Once the options are set, an image similar to the following will appear in the \emph{\MMMU} window when the service has successfully started:
+\newcommand{\insertTagAndEndpointDescription}[4]{For details on the usage of the `endpoint', `mod' and
+`tag' options, see the \emph{\WTE} appendix in the \emph{\MMMU} manual.
+Once the options are set, an image similar to the following will appear in the \emph{\MMMU} window when
+the service has successfully started:
 \objScaledDiagram{#1}{#2}{#3}{#4}}
 
 \newcommand{\insertFilterServiceComment}{As well as the service name, the input and output

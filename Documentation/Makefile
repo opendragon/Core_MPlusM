@@ -141,8 +141,12 @@ MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/launchRandomNumberAdapter.eps \
 		$(IMAGE_DIR)/launchRegistryService.eps \
 		$(IMAGE_DIR)/launchServiceSpecifiedEndpoint.eps \
+		$(IMAGE_DIR)/launchServiceSpecifiedEndpointM1.eps \
 		$(IMAGE_DIR)/launchServiceSpecifiedEndpointAndTag.eps \
+		$(IMAGE_DIR)/launchServiceSpecifiedEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/launchServiceSpecifiedM1.eps \
 		$(IMAGE_DIR)/launchServiceSpecifiedTag.eps \
+		$(IMAGE_DIR)/launchServiceSpecifiedTagM1.eps \
 		$(IMAGE_DIR)/launchYarp.eps $(IMAGE_DIR)/m+mManager.eps \
 		$(IMAGE_DIR)/m+mManagerMenu.eps $(IMAGE_DIR)/noRegistryServiceFound.eps \
 		$(IMAGE_DIR)/noRunningRegistryService.eps $(IMAGE_DIR)/noRunningYarp.eps \
@@ -168,8 +172,24 @@ MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/recordIntegersWithTag.eps $(IMAGE_DIR)/recordJSONWithEndpoint.eps \
 		$(IMAGE_DIR)/recordJSONWithEndpointAndTag.eps $(IMAGE_DIR)/recordJSONWithTag.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpoint.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointM1.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointM2.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointM3.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointM4.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTag.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTagM2.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTagM3.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedEndpointAndTagM4.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedM1.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedM2.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedM3.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedM4.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedTag.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedTagM1.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedTagM2.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedTagM3.eps \
+		$(IMAGE_DIR)/runningServiceSpecifiedTagM4.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsDisabled.eps \
 		$(IMAGE_DIR)/serviceChannelMenuMetricsEnabled.eps \
 		$(IMAGE_DIR)/serviceMenuMetricsDisabled.eps \
