@@ -58,6 +58,7 @@ Software}, can process the \textbf{ZIP} archive files
 \companyReference{https://www.python.org/downloads}{Python.org}; install a \textbf{2.7.x}
 version, not a version \textbf{3} or newer, and make sure that the install directory for
 the executable is added to the system \asCode{Path} variable
+\item\exSp{}A program, such as \asCode{SourceTree}, to fetch files from `git' repositories
 \end{itemize}
 \tertiaryEnd
 \secondaryEnd
@@ -325,7 +326,7 @@ Getting\_SpiderMonkey\_source\_code}%
 \textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
 it must be at least \textbf{SpiderMonkey} \textbf{39}.
 \tertiaryStart{Building~on~\osx}
-\newcommand{\spiderversion}{42a1}%
+\newcommand{\spiderversion}{47a1}%
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `make install' process.
 \begin{itemize}
@@ -366,12 +367,21 @@ The most recent version of \textbf{SpiderMonkey} can be built on \win{} with the
 no scripts that support newer versions than this, and older versions are not supported at
 all, even though the scripts exist.
 \begin{itemize}
-\item Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
+\item Download and install the \asCode{MozillaBuild} package, located at
+\asCode{https://wiki.mozilla.org/MozillaBuild};
+there is a \win{} installer available at\\
+\asCode{ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-%
+Latest.exe}
+\item\exSp{}Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
 referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \asCode{\textbf{devel}} directory, but it need not be
 \item\exSp{}Open a Command Prompt window, running as Administrator
 \item\exSp{}Execute the command
-`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
+`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}', if
+\asCode{git} is available on the system, or use \asCode{SourceTree} to clone the
+repository\\
+`\asCode{https://github.com/mozilla/gecko-dev.git}' into the directory
+`\asCode{\textbf{spidermonkey}}'
 \item\exSp{}Move to the directory where the \asCode{MozillaBuild} environment was
 installed
 \item\exSp{}Execute the command `\asCode{start-shell-msvc2015-x64.bat}'; this will launch
@@ -399,9 +409,7 @@ standard \win{} paths for program files, so the target directory is not the fina
 \begin{itemize}
 \item \asCode{mozmake}
 \item\exSp\asCode{mozmake install}
-\item\exSp\asCode{cp dist/bin/icudt55.dll /c/spidermonkey/lib}
-\item\exSp\asCode{cp dist/bin/icuin55.dll /c/spidermonkey/lib}
-\item\exSp\asCode{cp dist/bin/icuuc55.dll /c/spidermonkey/lib}
+\item\exSp\asCode{cp dist/bin/icu*.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/mozglue.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/nspr4.dll /c/spidermonkey/lib}
 \item\exSp\asCode{cp dist/bin/plds4.dll /c/spidermonkey/lib}
@@ -470,7 +478,7 @@ the normal \mplusm{} installation procedure, so it's not necessary to rebuild
 \textbf{ActiveMQ-CPP}.
 The source files are not provided with the \asCode{Developer} package, but can be obtained
 via the instructions on the web\longDash{}page
-\companyReference{http://activemq.apache.org/cms/activemq-cpp-384-release.html}%
+\companyReference{http://activemq.apache.org/cms/activemq-cpp-391-release.html}%
 {\textbf{ActiveMQ-CPP} source code}, as \mplusm{} does not use a modified version of
 \textbf{ActiveMQ-CPP} and does not depend on a particular version \longDash{} other than
 it must be at least \textbf{ActiveMQ-CPP} \textbf{3.8}.\\
@@ -548,8 +556,12 @@ be referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \item\exSp{}Open a Command Prompt window
 \item\exSp{}Execute the command:
 \begin{itemize}
-\item\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
-\textbf{ActiveMQ}}
+\item Execute the command\\
+`\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
+\textbf{ActiveMQ}}', if \asCode{git} is available on the system, or use
+\asCode{SourceTree} to clone the repository\\
+`\asCode{https://git-wip-us.apache.org/repos/asf/activemq-cpp.git}' into the directory
+`\asCode{\textbf{ActiveMQ}}'
 \end{itemize}
 \item\exSp{}Close the Command Prompt window
 \item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
@@ -562,8 +574,8 @@ projects
 \item\exSp{}Disable the building of all but the `\asCode{activemq-cpp}' project by turning
 off the \asCode{Build} checkboxes for the other projects
 \item\exSp{}Click on the \asCode{Close} to close the \asCode{Configuration Manager} panel
-\item\exSp{}Select the `\asCode{activemq-cpp}' row in the left-hand table and open the
-\asCode{activemq-cpp Property Pages} panel via the menu item
+\item\exSp{}Select the `\asCode{activemq-cpp}' row in the \asCode{Solution Explorer} and
+open the \asCode{activemq-cpp Property Pages} panel via the menu item
 `\asCode{Project \bigRightArrow{} Project Properties}'
 \item\exSp{}Select the \asCode{All Configurations} configuration from the top-left
 combo-box and the \asCode{x64} platform from the top-right combo-box, unless building for
@@ -575,14 +587,17 @@ combo-box and the \asCode{x64} platform from the top-right combo-box, unless bui
 \item\exSp{}Click on the `expand' button to the right of the list of paths \longDash{} the
 button with a `v'
 \item\exSp{}Select the `\asCode{<Edit\textellipsis{}>}' item from the popup menu, which
-will open the \asCode{Additional Include Directories}' panel
+will open the `\asCode{Additional Include Directories}' panel
 \item\exSp{}Click on the `add' button, which is the fourth button from the right on the
 top, just below the title bar for the panel \longDash{} it is a button with an image of a
 folder with an asterisk on its top-left corner
 \item\exSp{}In the blank row that appears, enter the text
 `\asCode{C:\textbackslash{}Program Files\textbackslash{}m+m\textbackslash{}include}',
 without quotes
-\item\exSp{}Click on the \asCode{OK} button on the bottom-right of the panel
+\item\exSp{}Click on the \asCode{OK} button on the bottom row of the
+\asCode{Additional Include Directories} panel
+\item\exSp{}Click on the \asCode{OK} button on the bottom row of the
+\asCode{activemq-cpp Property Pages} panel
 \item\exSp{}Select the \asCode{Debug} :\ \asCode{x64} configuration; if building 32-bit,
 select the \asCode{Debug} :\ \asCode{Win32} configuration instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'

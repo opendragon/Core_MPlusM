@@ -1,0 +1,94 @@
+\ProvidesFile{Input_Output_Services_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\input{commonStrings.tex}
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{\IOM}
+\newcommand{\docKeywords}{ActiveMQ,Kinect,Leap,NaturalPoint,NatNet,Organic Motion,
+OpenStage,Procomp2,Vicon,DataStream,middleware,input,output}
+\newcommand{\docSubject}{I/O Services}
+\newcommand{\IOM}{Input / Output Services for m+m}
+\newcommand{\KVtwoI}{Kinect V2 Input} % Note that a number can't be a part of a command
+\newcommand{\KVtwoBI}{Kinect V2 Blob Input}
+\newcommand{\LMI}{Leap Motion Input}
+\newcommand{\LTFI}{Leap Two Fingers Input}
+\newcommand{\LBI}{Leap Blob Input}
+\newcommand{\LTPI}{Leap Two Palms Input}
+\newcommand{\NNI}{NatNet Input}
+\newcommand{\NNBI}{NatNet Blob Input}
+\newcommand{\OSI}{OpenStage Input}
+\newcommand{\OSBI}{OpenStage Blob Input}
+\newcommand{\PCtwoI}{ProComp2 Input} % Note that a number can't be a part of a command
+\newcommand{\SMO}{Send To MQ Output}
+\newcommand{\VDSI}{Vicon DataStream Input}
+\newcommand{\VBI}{Vicon Blob Input}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\IOM, \MMV]{\IOM, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\IOM}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+\ifthenelse{\boolean{heveaActive}}{}{\insertpart{List~of~Figures}{\listoffigures}}
+
+\input{IOdocumentationHistory.tex}
+\input{IOfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{IOoverview.tex}
+
+%% section for the services
+
+\input{KV2service.tex}
+\input{KV2blobService.tex}
+\input{LMservice.tex}
+\input{LMblobService.tex}
+\input{LM2FService.tex}
+\input{LM2PService.tex}
+\input{NNservice.tex}
+\input{NNblobService.tex}
+\input{OSservice.tex}
+\input{OSblobService.tex}
+\input{PC2service.tex}
+\input{SMservice.tex}
+\input{VDSservice.tex}
+\input{VDSblobService.tex}
+
+%% section for the message format
+
+\input{KV2messageFormat.tex}
+\input{KV2blobMessageFormat.tex}
+\input{LMmessageFormat.tex}
+\input{LMblobMessageFormat.tex}
+\input{LM2FMessageFormat.tex}
+\input{LM2PMessageFormat.tex}
+\input{NNmessageFormat.tex}
+\input{NNblobMessageFormat.tex}
+\input{OSmessageFormat.tex}
+\input{OSblobMessageFormat.tex}
+\input{PC2messageFormat.tex}
+\input{VDSmessageFormat.tex}
+
+%\appendix
+
+% End of contents
+
+\end{document}
+\end

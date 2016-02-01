@@ -798,6 +798,34 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordBlobWithEndpointAndTag}%
 {recordBlobWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Record Blob Output}
 service with an endpoint and tag}{1.0}
+\condPage{}
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/recordBlobWithTagM1}%
+{recordBlobWithTagM1}{The \emph{\MMMU} entity for the \emph{Record Blob Output} service
+with a tag and one byte tag modifier}{1.0}
+
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the script file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/recordBlobWithEndpointM1}%
+{recordBlobWithEndpointM1}{The \emph{\MMMU} entity for the \emph{Record Blob Output}
+service with an endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the script file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/recordBlobWithEndpointAndTagM1}%
+{recordBlobWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{Record Blob Output}
+service with an endpoint, tag and one byte tag modifier}{1.0}
+
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the script file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/recordBlobWithM2}%
+{recordBlobWithM2}{The \emph{\MMMU} entity for the \emph{Record Blob Output} service with
+a two byte tag modifier}{1.0}
 \tertiaryEnd{\utilityNameE{m+mRecordBlobOutputService}}
 \condPage
 \tertiaryStart{\utilityNameP{m+mRequestCounterService}}

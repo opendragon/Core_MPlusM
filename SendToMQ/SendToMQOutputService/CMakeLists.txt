@@ -44,6 +44,8 @@ else(WIN32)
     set(VERS_RESOURCE "")
 endif(WIN32)
 
+set(MQ_VERSION "3.10.0")
+
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(WIN32)
@@ -58,7 +60,7 @@ if(WIN32)
 	set(ACTIVEMQ_INC_PATH "${ACTIVEMQ_INSTALL_PATH}/include")
 endif(WIN32)
 if(APPLE)
-    set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-3.9.0")
+    set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-${MQ_VERSION}")
 endif(APPLE)
 
 include_directories(${ACTIVEMQ_INC_PATH})

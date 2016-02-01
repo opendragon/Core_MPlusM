@@ -390,7 +390,9 @@ static JSClass lStreamClass =
     NULL,             // getProperty
     NULL,             // setProperty
     NULL,             // enumerate
+#if (47 > MOZJS_MAJOR_VERSION)
     NULL,             // resolve
+#endif // 47 > MOZJS_MAJOR_VERSION
 #if (39 < MOZJS_MAJOR_VERSION)
     NULL,             // mayResolve
 #endif // 39 < MOZJS_MAJOR_VERSION
@@ -2120,10 +2122,19 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
             {
                 // Enter a request before running anything in the context. In particular, the
                 // request is needed in order for JS_InitStandardClasses to work properly.
-                JSAutoRequest    ar(jct);
-                JS::RootedObject global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
-                                                                JS::FireOnNewGlobalHook));
-
+                JSAutoRequest          ar(jct);
+#if (47 <= MOZJS_MAJOR_VERSION)
+                JS::CompartmentOptions opts;
+                JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
+                                                                      JS::FireOnNewGlobalHook,
+                                                                      opts));
+                
+#else // 47 > MOZJS_MAJOR_VERSION
+                JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
+                                                                      JS::FireOnNewGlobalHook));
+                
+#endif // 47 > MOZJS_MAJOR_VERSION
+                
                 if (global)
                 {
                     // Enter the new global object's compartment.

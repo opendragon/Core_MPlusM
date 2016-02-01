@@ -46,7 +46,8 @@ endif(WIN32)
 
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
-set(SPIDER_VERSION "42a1")
+set(SPIDER_VERSION "47a1")
+set(ICU_VERSION "561")
 
 if(WIN32)
     if(WIN64)
@@ -72,8 +73,9 @@ endif(APPLE)
 
 add_library(JS SHARED IMPORTED)
 
+include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
+
 if(WIN32)
-    include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
                 "${SPIDER_PATH}/lib/mozjs-${SPIDER_VERSION}.dll")
     set_property(TARGET JS PROPERTY IMPORTED_IMPLIB
@@ -90,15 +92,14 @@ if(WIN32)
             COMPONENT applications)
 	if(WIN64)
 		install(FILES
-				"${SPIDER_PATH}/lib/icudt55.dll"
-				"${SPIDER_PATH}/lib/icuin55.dll"
-				"${SPIDER_PATH}/lib/icuuc55.dll"
+                "${SPIDER_PATH}/lib/icudt${ICU_VERSION}.dll"
+				"${SPIDER_PATH}/lib/icuin${ICU_VERSION}.dll"
+				"${SPIDER_PATH}/lib/icuuc${ICU_VERSION}.dll"
 				DESTINATION bin
 				COMPONENT applications)
 	endif(WIN64)
 endif(WIN32)
 if(APPLE)
-    include_directories("${SPIDER_PATH}/include/mozjs-${SPIDER_VERSION}")
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
                 "${SPIDER_PATH}/lib/libmozjs-${SPIDER_VERSION}.dylib")
 endif(APPLE)

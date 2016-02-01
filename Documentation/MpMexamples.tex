@@ -94,7 +94,7 @@ running.\\
 \insertTagDescription{Echo}
 The matching client application does not directly use the endpoint name to establish a
 connection to the service.
-\condPage
+
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchEchoService}%
@@ -150,6 +150,7 @@ The application has three optional arguments \longDash{} the playback ratio, the
 delay in seconds and a flag indicating whether the data is to be sent continuously or just
 once.
 \insertAppParameters
+\condPage
 \insertTagDescription{Playback From JSON Input}
 \insertInputServiceComment\\
 
@@ -158,24 +159,75 @@ specified, a playback ratio of \asBoldCode{1}, an initial delay of zero seconds 
 flag of \asBoldCode{1} \longDash{} indicating continuous sending of the data \longDash{}
 will be used.
 Note that the playback ratio, initial delay and loop flag can also be set via commands,
-if the application is running from a terminal.
-\condPage
-\insertStandardServiceCommands{}
+if the application is running from a terminal.\\
+
+\insertStandardServiceCommands
+\condPage{}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchPlaybackFromJSONInputService}%
 {launchServicePlaybackFromJSON}{Launch options for the \emph{Playback From JSON Input}
 service}{0.8}
-\condPage
+
+Note that the input file path is required.
 \insertTagAndEndpointDescription{mpm_images/runningPlaybackFromJSONInputService}%
 {serviceRunningPlaybackFromJSON}{The \emph{\MMMU} entity for the \emph{Playback From JSON
 Input} service}{1.0}
-
+\condPage{}
 If the \textbf{Configure the service} menu item has been selected, the following will
 appear:
 \objScaledDiagram{mpm_images/configurePlaybackFromJSONInputService}%
 {configureServicePlaybackFromJSON}{Configuration window for the \emph{Playback From JSON
 Input} service}{1.0}
+
+The input file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.\\
+
+If a `tag' value is supplied, it is merged with the input file name, as shown here:
+\objScaledDiagram{mpm_images/playbackJSONWithTag}%
+{playbackJSONWithTag}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with a tag}{1.0}
+
+If an `endpoint' value is specified, the input file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpoint}%
+{playbackJSONWithEndpoint}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with an endpoint}{1.0}
+\condPage{}
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the input file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpointAndTag}%
+{playbackJSONWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Playback From JSON
+Input} service with an endpoint and tag}{1.0}
+
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/playbackJSONWithTagM1}%
+{playbackJSONWithTagM1}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with a tag and one byte tag modifier}{1.0}
+
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the input file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpointM1}%
+{playbackJSONWithEndpointM1}{The \emph{\MMMU} entity for the \emph{Playback From JSON
+Input} service with an endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the input file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpointAndTagM1}%
+{playbackJSONWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{Playback From
+JSON Input} service with an endpoint, tag and one byte tag modifier}{1.0}
+\condPage{}
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the input file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/playbackJSONWithM2}%
+{playbackJSONWithM2}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with a two byte tag modifier}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{m+mPlaybackFromJSONInputService}}
 \tertiaryStart{\examplesNameP{Services}{m+mRandomBurstInputService}}
 The \examplesNameX{Services}{m+mRandomBurstInputService} application is an Input service,
@@ -219,9 +271,10 @@ the number of random values to generate in each burst.
 The other parameters provide the initial burst period and size; if not specified, a burst
 period of 1 second and burst size of 1 will be used.
 Note that the burst period and size can also be set via commands, if the application is
-running from a terminal.
-\condPage
-\insertStandardServiceCommands{}
+running from a terminal.\\
+
+\insertStandardServiceCommands
+\condPage{}
 If the service is selected for execution from within the \emph{\MMMU} application, the
 following dialog will be presented:
 \objScaledDiagram{mpm_images/launchRandomBurstInputService}%
@@ -342,6 +395,34 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordJSONWithEndpointAndTag}%
 {recordJSONWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Record As JSON
 Output} service with an endpoint and tag}{1.0}
+
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/recordJSONWithTagM1}%
+{recordJSONWithTagM1}{The \emph{\MMMU} entity for the \emph{Record As JSON Output} service
+with a tag and one byte tag modifier}{1.0}
+
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the script file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/recordJSONWithEndpointM1}%
+{recordJSONWithEndpointM1}{The \emph{\MMMU} entity for the \emph{Record As JSON Output}
+service with an endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the script file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/recordJSONWithEndpointAndTagM1}%
+{recordJSONWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{Record As JSON
+Output} service with an endpoint, tag and one byte tag modifier}{1.0}
+\condPage{}
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the script file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/recordJSONWithM2}%
+{recordJSONWithM2}{The \emph{\MMMU} entity for the \emph{Record As JSON Output} service
+with a two byte tag modifier}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{m+mRecordAsJSONOutputService}}
 \tertiaryStart{\examplesNameP{Services}{m+mRecordIntegersOutputService}}
 The \examplesNameX{Services}{m+mRecordIntegersOutputService} application is an Output
@@ -418,6 +499,34 @@ as part of the title bar:
 \objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTag}%
 {recordIntegersWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Record Integers
 Output} service with an endpoint and tag}{1.0}
+\condPage{}
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/recordIntegersWithTagM1}%
+{recordIntegersWithTagM1}{The \emph{\MMMU} entity for the \emph{Record Integers Output}
+service with a tag and one byte tag modifier}{1.0}
+
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the script file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpointM1}%
+{recordIntegersWithEndpointM1}{The \emph{\MMMU} entity for the \emph{Record Integers
+Output} service with an endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the script file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTagM1}%
+{recordIntegersWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{Record Integers
+Output} service with an endpoint, tag and one byte tag modifier}{1.0}
+
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the script file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/recordIntegersWithM2}%
+{recordIntegersWithM2}{The \emph{\MMMU} entity for the \emph{Record Integers Output}
+service with a two byte tag modifier}{1.0}
 \tertiaryEnd{\examplesNameE{Services}{m+mRecordIntegersOutputService}}
 \condPage
 \tertiaryStart{\examplesNameP{Services}{m+mRunningSumService}}

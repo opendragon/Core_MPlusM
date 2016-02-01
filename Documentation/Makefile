@@ -6,92 +6,60 @@ IMAGE_DIR = mpm_images
 
 # Intermediate Postscript files
 
-CLpsfiles =
+ESpsfiles = 
 
 IMpsfiles =
 
-JSpsfiles =
-
-KV2psfiles =
-
-LMpsfiles =
+IOpsfiles =
 
 MMMpsfiles = MMMmmmDiagram.ps 
 
 MpMpsfiles = MpMdbDiagram.ps MpMmatchSyntaxrails.ps MpMmpmDiagram.ps
 
-NNpsfiles =
-
-OSpsfiles =
-
-PC2psfiles =
-
-SMpsfiles = 
-
-VDSpsfiles =
-
 # Intermediate Encapsulated Postscript files
 
-CLepsfiles =
+ESepsfiles = 
 
 IMepsfiles =
 
-JSepsfiles =
-
-KV2epsfiles =
-
-LMepsfiles =
+IOepsfiles =
 
 MMMepsfiles = $(IMAGE_DIR)/MMMmmmDiagram.eps 
 
 MpMepsfiles = $(IMAGE_DIR)/MpMdbDiagram.eps $(IMAGE_DIR)/MpMmatchSyntaxrails.eps \
 		$(IMAGE_DIR)/MpMmpmDiagram.eps
 
-NNepsfiles =
-
-OSepsfiles =
-
-PC2epsfiles =
-
-SMepsfiles =
-
-VDSepsfiles =
-
 # Intermediate Portable Network Graphics files
-
-CLpngfiles = 
 
 Commonpngfiles = $(IMAGE_DIR)/m+m_tight_logo.png
 
+ESpngfiles = 
+
 IMpngfiles = 
 
-JSpngfiles = 
-
-KV2pngfiles =
-
-LMpngfiles =
+IOpngfiles =
 
 MMMpngfiles = $(IMAGE_DIR)/MMMmmmDiagram.png
 
 MpMpngfiles = $(IMAGE_DIR)/MpMdbDiagram.png $(IMAGE_DIR)/MpMmatchSyntaxrails.png \
 		$(IMAGE_DIR)/MpMmpmDiagram.png 
 
-NNpngfiles =
-
-OSpngfiles =
-
-PC2pngfiles =
-
-SMpngfiles =
-
-VDSpngfiles =
-
 # Input bitmap EPS files
 
-CLbitmapepsfiles = $(IMAGE_DIR)/commonLispWithEndpoint.eps \
-		$(IMAGE_DIR)/commonLispWithEndpointAndTag.eps $(IMAGE_DIR)/commonLispWithTag.eps \
-		$(IMAGE_DIR)/launchCommonLispFilterService.eps \
-		$(IMAGE_DIR)/runningCommonLispFilterService.eps
+ESbitmapepsfiles = $(IMAGE_DIR)/commonLispWithEndpoint.eps \
+		$(IMAGE_DIR)/commonLispWithEndpointM1.eps \
+		$(IMAGE_DIR)/commonLispWithEndpointAndTag.eps \
+		$(IMAGE_DIR)/commonLispWithEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/commonLispWithTag.eps $(IMAGE_DIR)/commonLispWithTagM1.eps \
+		$(IMAGE_DIR)/commonLispWithM2.eps $(IMAGE_DIR)/launchCommonLispFilterService.eps \
+		$(IMAGE_DIR)/runningCommonLispFilterService.eps \
+		$(IMAGE_DIR)/javaScriptWithEndpoint.eps \
+		$(IMAGE_DIR)/javaScriptWithEndpointM1.eps \
+		$(IMAGE_DIR)/javaScriptWithEndpointAndTag.eps \
+		$(IMAGE_DIR)/javaScriptWithEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/javaScriptWithTag.eps $(IMAGE_DIR)/javaScriptWithTagM1.eps \
+		$(IMAGE_DIR)/javaScriptWithM2.eps $(IMAGE_DIR)/launchJavaScriptFilterService.eps \
+		$(IMAGE_DIR)/runningJavaScriptFilterService.eps
 
 IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 		$(IMAGE_DIR)/Installer03.eps $(IMAGE_DIR)/Installer04.eps \
@@ -108,18 +76,12 @@ IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 		$(IMAGE_DIR)/win_install13.eps $(IMAGE_DIR)/win_install14.eps \
 		$(IMAGE_DIR)/win_install15.eps $(IMAGE_DIR)/win_run01.eps
 
-JSbitmapepsfiles = $(IMAGE_DIR)/javaScriptWithEndpoint.eps \
-		$(IMAGE_DIR)/javaScriptWithEndpointAndTag.eps $(IMAGE_DIR)/javaScriptWithTag.eps \
-		$(IMAGE_DIR)/launchJavaScriptFilterService.eps \
-		$(IMAGE_DIR)/runningJavaScriptFilterService.eps
-
-KV2bitmapepsfiles = $(IMAGE_DIR)/configureKinectV2BlobInputService.eps \
+IObitmapepsfiles = $(IMAGE_DIR)/configureKinectV2BlobInputService.eps \
 		$(IMAGE_DIR)/launchKinectV2BlobInputService.eps \
 		$(IMAGE_DIR)/launchKinectV2InputService.eps \
 		$(IMAGE_DIR)/runningKinectV2BlobInputService.eps \
-		$(IMAGE_DIR)/runningKinectV2InputService.eps
-
-LMbitmapepsfiles = $(IMAGE_DIR)/configureLeapBlobInputService.eps \
+		$(IMAGE_DIR)/runningKinectV2InputService.eps \
+		$(IMAGE_DIR)/configureLeapBlobInputService.eps \
 		$(IMAGE_DIR)/launchLeapBlobInputService.eps \
 		$(IMAGE_DIR)/launchLeapMotionInputService.eps \
 		$(IMAGE_DIR)/launchLeapTwoFingersInputService.eps \
@@ -127,7 +89,30 @@ LMbitmapepsfiles = $(IMAGE_DIR)/configureLeapBlobInputService.eps \
 		$(IMAGE_DIR)/runningLeapBlobInputService.eps \
 		$(IMAGE_DIR)/runningLeapMotionInputService.eps \
 		$(IMAGE_DIR)/runningLeapTwoFingersInputService.eps \
-		$(IMAGE_DIR)/runningLeapTwoPalmsInputService.eps
+		$(IMAGE_DIR)/runningLeapTwoPalmsInputService.eps \
+		$(IMAGE_DIR)/configureNatNetBlobInputService.eps \
+		$(IMAGE_DIR)/configureNatNetInputService.eps \
+		$(IMAGE_DIR)/launchNatNetBlobInputService.eps \
+		$(IMAGE_DIR)/launchNatNetInputService.eps \
+		$(IMAGE_DIR)/runningNatNetBlobInputService.eps \
+		$(IMAGE_DIR)/runningNatNetInputService.eps \
+		$(IMAGE_DIR)/configureOpenStageBlobInputService.eps \
+		$(IMAGE_DIR)/configureOpenStageInputService.eps \
+		$(IMAGE_DIR)/launchOpenStageBlobInputService.eps \
+		$(IMAGE_DIR)/launchOpenStageInputService.eps \
+		$(IMAGE_DIR)/runningOpenStageBlobInputService.eps \
+		$(IMAGE_DIR)/runningOpenStageInputService.eps \
+		$(IMAGE_DIR)/launchProComp2InputService.eps \
+		$(IMAGE_DIR)/runningProComp2InputService.eps \
+		$(IMAGE_DIR)/configureSendToMQOutputService.eps \
+		$(IMAGE_DIR)/launchSendToMQOutputService.eps \
+		$(IMAGE_DIR)/runningSendToMQOutputService.eps \
+		$(IMAGE_DIR)/configureViconBlobInputService.eps \
+		$(IMAGE_DIR)/configureViconDataStreamInputService.eps \
+		$(IMAGE_DIR)/launchViconBlobInputService.eps \
+		$(IMAGE_DIR)/launchViconDataStreamInputService.eps \
+		$(IMAGE_DIR)/runningViconBlobInputService.eps \
+		$(IMAGE_DIR)/runningViconDataStreamInputService.eps
 
 MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/appListMenu.eps \
@@ -155,7 +140,12 @@ MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/operationMenuPort.eps $(IMAGE_DIR)/operationMenuPrimaryChannel.eps \
 		$(IMAGE_DIR)/operationMenuRegularChannel.eps \
 		$(IMAGE_DIR)/operationMenuService.eps \
-		$(IMAGE_DIR)/popupAdapterMetricsDisabled.eps \
+		$(IMAGE_DIR)/playbackJSONWithEndpoint.eps \
+		$(IMAGE_DIR)/playbackJSONWithEndpointM1.eps \
+		$(IMAGE_DIR)/playbackJSONWithEndpointAndTag.eps \
+		$(IMAGE_DIR)/playbackJSONWithEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/playbackJSONWithTag.eps $(IMAGE_DIR)/playbackJSONWithTagM1.eps \
+		$(IMAGE_DIR)/playbackJSONWithM2.eps $(IMAGE_DIR)/popupAdapterMetricsDisabled.eps \
 		$(IMAGE_DIR)/popupAdapterMetricsEnabled.eps $(IMAGE_DIR)/popupEntity.eps \
 		$(IMAGE_DIR)/popupOutputChannelMetricsDisabled.eps \
 		$(IMAGE_DIR)/popupOutputChannelMetricsEnabled.eps $(IMAGE_DIR)/popupPort.eps \
@@ -166,11 +156,21 @@ MMMbitmapepsfiles = $(IMAGE_DIR)/afterAdd.eps $(IMAGE_DIR)/afterForcedAdd.eps \
 		$(IMAGE_DIR)/popupServiceMetricsDisabled.eps \
 		$(IMAGE_DIR)/popupServiceMetricsEnabled.eps \
 		$(IMAGE_DIR)/recordBlobWithEndpoint.eps \
-		$(IMAGE_DIR)/recordBlobWithEndpointAndTag.eps $(IMAGE_DIR)/recordBlobWithTag.eps \
-		$(IMAGE_DIR)/recordIntegersWithEndpoint.eps \
+		$(IMAGE_DIR)/recordBlobWithEndpointM1.eps \
+		$(IMAGE_DIR)/recordBlobWithEndpointAndTag.eps \
+		$(IMAGE_DIR)/recordBlobWithEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/recordBlobWithTag.eps $(IMAGE_DIR)/recordBlobWithTagM1.eps \
+		$(IMAGE_DIR)/recordBlobWithM2.eps $(IMAGE_DIR)/recordIntegersWithEndpoint.eps \
+		$(IMAGE_DIR)/recordIntegersWithEndpointM1.eps \
 		$(IMAGE_DIR)/recordIntegersWithEndpointAndTag.eps \
-		$(IMAGE_DIR)/recordIntegersWithTag.eps $(IMAGE_DIR)/recordJSONWithEndpoint.eps \
-		$(IMAGE_DIR)/recordJSONWithEndpointAndTag.eps $(IMAGE_DIR)/recordJSONWithTag.eps \
+		$(IMAGE_DIR)/recordIntegersWithEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/recordIntegersWithTag.eps $(IMAGE_DIR)/recordIntegersWithTagM1.eps \
+		$(IMAGE_DIR)/recordIntegersWithM2.eps $(IMAGE_DIR)/recordJSONWithEndpoint.eps \
+		$(IMAGE_DIR)/recordJSONWithEndpointM1.eps \
+		$(IMAGE_DIR)/recordJSONWithEndpointAndTag.eps \
+		$(IMAGE_DIR)/recordJSONWithEndpointAndTagM1.eps \
+		$(IMAGE_DIR)/recordJSONWithTag.eps $(IMAGE_DIR)/recordJSONWithTagM1.eps \
+		$(IMAGE_DIR)/recordJSONWithM2.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpoint.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpointM1.eps \
 		$(IMAGE_DIR)/runningServiceSpecifiedEndpointM2.eps \
@@ -241,85 +241,29 @@ MpMbitmapepsfiles = $(IMAGE_DIR)/configureAbsorberFilterService.eps \
 		$(IMAGE_DIR)/runningTruncateFloatFilterService.eps \
 		$(IMAGE_DIR)/runningTunnelService.eps
 
-NNbitmapepsfiles = $(IMAGE_DIR)/configureNatNetBlobInputService.eps \
-		$(IMAGE_DIR)/configureNatNetInputService.eps \
-		$(IMAGE_DIR)/launchNatNetBlobInputService.eps \
-		$(IMAGE_DIR)/launchNatNetInputService.eps \
-		$(IMAGE_DIR)/runningNatNetBlobInputService.eps \
-		$(IMAGE_DIR)/runningNatNetInputService.eps
-
-OSbitmapepsfiles = $(IMAGE_DIR)/configureOpenStageBlobInputService.eps \
-		$(IMAGE_DIR)/configureOpenStageInputService.eps \
-		$(IMAGE_DIR)/launchOpenStageBlobInputService.eps \
-		$(IMAGE_DIR)/launchOpenStageInputService.eps \
-		$(IMAGE_DIR)/runningOpenStageBlobInputService.eps \
-		$(IMAGE_DIR)/runningOpenStageInputService.eps
-
-PC2bitmapepsfiles = $(IMAGE_DIR)/launchProComp2InputService.eps \
-		$(IMAGE_DIR)/runningProComp2InputService.eps
-
-SMbitmapepsfiles = $(IMAGE_DIR)/configureSendToMQOutputService.eps \
-		$(IMAGE_DIR)/launchSendToMQOutputService.eps \
-		$(IMAGE_DIR)/runningSendToMQOutputService.eps
-
-VDSbitmapepsfiles = $(IMAGE_DIR)/configureViconBlobInputService.eps \
-		$(IMAGE_DIR)/configureViconDataStreamInputService.eps \
-		$(IMAGE_DIR)/launchViconBlobInputService.eps \
-		$(IMAGE_DIR)/launchViconDataStreamInputService.eps \
-		$(IMAGE_DIR)/runningViconBlobInputService.eps \
-		$(IMAGE_DIR)/runningViconDataStreamInputService.eps
-
 # Input bitmap PNG files
 
-CLbitmappngfiles = $(CLbitmapepsfiles:.eps=.png)
+ESbitmappngfiles = $(ESbitmapepsfiles:.eps=.png)
 
 IMbitmappngfiles = $(IMbitmapepsfiles:.eps=.png)
 
-JSbitmappngfiles = $(JSbitmapepsfiles:.eps=.png)
-
-KV2bitmappngfiles = $(KV2bitmapepsfiles:.eps=.png)
-
-LMbitmappngfiles = $(LMbitmapepsfiles:.eps=.png)
+IObitmappngfiles = $(IObitmapepsfiles:.eps=.png)
 
 MMMbitmappngfiles = $(MMMbitmapepsfiles:.eps=.png)
 
 MpMbitmappngfiles = $(MpMbitmapepsfiles:.eps=.png)
 
-NNbitmappngfiles = $(NNbitmapepsfiles:.eps=.png)
-
-OSbitmappngfiles = $(OSbitmapepsfiles:.eps=.png)
-
-PC2bitmappngfiles = $(PC2bitmapepsfiles:.eps=.png)
-
-SMbitmappngfiles = $(SMbitmapepsfiles:.eps=.png)
-
-VDSbitmappngfiles = $(VDSbitmapepsfiles:.eps=.png)
-
 # Main source file
 
-CLmainsource = CommonLisp_Manual.tex
+ESmainsource = Extending_via_Scripting_Manual.tex
 
 IMmainsource = Installation_Manual.tex
 
-JSmainsource = JavaScript_Manual.tex
-
-KV2mainsource = KinectV2Input_Manual.tex
-
-LMmainsource = LeapMotionInput_Manual.tex
+IOmainsource = Input_Output_Services_Manual.tex
 
 MMMmainsource = MMManagerUtility_Manual.tex
 
 MpMmainsource = MpM_Manual.tex
-
-NNmainsource = NatNetInput_Manual.tex
-
-OSmainsource = OpenStageInput_Manual.tex
-
-PC2mainsource = ProComp2Input_Manual.tex
-
-SMmainsource = SendToMQOutput_Manual.tex
-
-VDSmainsource = ViconDataStreamInput_Manual.tex
 
 # Secondary source files
 
@@ -328,21 +272,23 @@ Commonsources = boilerPlate.tex commonStrings.tex sharedSetup.tex
 CLsecondaryfiles = CLdocumentationHistory.tex CLfrontispiece.tex CLoverview.tex \
 		CLfileFormat.tex CLservice.tex CLexamples.tex $(Commonsources) $(Commonpngfiles)
 
+ESsecondaryfiles = CLexamples.tex CLfileFormat.tex CLservice.tex \
+		ESdocumentationHistory.tex ESfrontispiece.tex ESoverview.tex JSexamples.tex \
+		JSfileFormat.tex JSservice.tex $(Commonsources) $(Commonpngfiles)
+
 IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMinstalling.tex \
 		IMoverview.tex IMuninstalling.tex $(Commonsources) $(Commonpngfiles)
 
-JSsecondaryfiles = JSdocumentationHistory.tex JSfrontispiece.tex JSoverview.tex \
-		JSfileFormat.tex JSservice.tex JSexamples.tex $(Commonsources) $(Commonpngfiles)
-	
-KV2secondaryfiles = KV2blobMessageFormat.tex KV2blobService.tex \
-		KV2documentationHistory.tex KV2frontispiece.tex KV2messageFormat.tex \
-		KV2overview.tex KV2service.tex $(Commonsources) $(Commonpngfiles)
-
-LMsecondaryfiles = LM2FMessageFormat.tex LM2FService.tex LM2PMessageFormat.tex \
+IOsecondaryfiles = IOdocumentationHistory.tex IOfrontispiece.tex IOoverview.tex \
+		KV2blobMessageFormat.tex KV2blobService.tex KV2messageFormat.tex KV2service.tex \
+		LM2FMessageFormat.tex LM2FService.tex LM2PMessageFormat.tex \
 		LM2PService.tex LMblobMessageFormat.tex LMblobService.tex \
-		LMdocumentationHistory.tex LMfrontispiece.tex LMmessageFormat.tex LMoverview.tex \
-		LMservice.tex $(Commonsources) $(Commonpngfiles)
-
+		LMmessageFormat.tex LMservice.tex NNblobMessageFormat.tex NNblobService.tex \
+		NNmessageFormat.tex NNservice.tex OSblobMessageFormat.tex OSblobService.tex \
+		OSmessageFormat.tex OSservice.tex PC2messageFormat.tex PC2service.tex \
+		SMservice.tex VDSblobMessageFormat.tex VDSblobService.tex VDSmessageFormat.tex \
+		VDSservice.tex $(Commonsources) $(Commonpngfiles)
+		
 MMMsecondaryfiles = MMMdocumentationHistory.tex MMMfrontispiece.tex \
 		MMMmanagingServices.tex MMMnoRegistryService.tex MMMnoYarp.tex MMMoverview.tex \
 		MMMtagsAndEndpoints.tex MMMutility.tex $(Commonsources) $(Commonpngfiles)
@@ -353,182 +299,79 @@ MpMsecondaryfiles = MpMbuildingFromSource.tex MpMcaseStudy.tex MpMclasses.tex \
 		MpMservices.tex MpMtechnology.tex MpMupdatingVersionNumber.tex MpMutilities.tex \
 		$(Commonsources) $(Commonpngfiles)
 
-NNsecondaryfiles = NNblobMessageFormat.tex NNblobService.tex NNdocumentationHistory.tex \
-		NNfrontispiece.tex NNmessageFormat.tex NNoverview.tex NNservice.tex \
-		$(Commonsources) $(Commonpngfiles)
-
-OSsecondaryfiles = OSblobMessageFormat.tex OSblobService.tex OSdocumentationHistory.tex \
-		OSfrontispiece.tex OSmessageFormat.tex OSoverview.tex OSservice.tex \
-		$(Commonsources) $(Commonpngfiles)
-
-PC2secondaryfiles = PC2documentationHistory.tex PC2frontispiece.tex \
-		PC2messageFormat.tex PC2overview.tex PC2service.tex $(Commonsources) \
-		$(Commonpngfiles)
-
-SMsecondaryfiles = SMdocumentationHistory.tex SMfrontispiece.tex SMoverview.tex \
-		SMservice.tex $(Commonsources) $(Commonpngfiles)
-
-VDSsecondaryfiles = VDSblobMessageFormat.tex VDSblobService.tex \
-		VDSdocumentationHistory.tex VDSfrontispiece.tex VDSmessageFormat.tex \
-		VDSoverview.tex VDSservice.tex $(Commonsources) $(Commonpngfiles)
-
 # DVI files
 
-CLmaindvi = $(CLmainsource:.tex=.dvi)
+ESmaindvi = $(ESmainsource:.tex=.dvi)
 
 IMmaindvi = $(IMmainsource:.tex=.dvi)
 
-JSmaindvi = $(JSmainsource:.tex=.dvi)
-
-KV2maindvi = $(KV2mainsource:.tex=.dvi)
-
-LMmaindvi = $(LMmainsource:.tex=.dvi)
+IOmaindvi = $(IOmainsource:.tex=.dvi)
 
 MMMmaindvi = $(MMMmainsource:.tex=.dvi)
 
 MpMmaindvi = $(MpMmainsource:.tex=.dvi)
 
-NNmaindvi = $(NNmainsource:.tex=.dvi)
-
-OSmaindvi = $(OSmainsource:.tex=.dvi)
-
-PC2maindvi = $(PC2mainsource:.tex=.dvi)
-
-SMmaindvi = $(SMmainsource:.tex=.dvi)
-
-VDSmaindvi = $(VDSmainsource:.tex=.dvi)
-
 # Index files
 
-CLmainidx = $(CLmainsource:.tex=.idx)
+ESmainidx = $(ESmainsource:.tex=.idx)
 
 IMmainidx = $(IMmainsource:.tex=.idx)
 
-JSmainidx = $(JSmainsource:.tex=.idx)
-
-KV2mainidx = $(KV2mainsource:.tex=.idx)
-
-LMmainidx = $(LMmainsource:.tex=.idx)
+IOmainidx = $(IOmainsource:.tex=.idx)
 
 MMMmainidx = $(MMMmainsource:.tex=.idx)
 
 MpMmainidx = $(MpMmainsource:.tex=.idx)
 
-NNmainidx = $(NNmainsource:.tex=.idx)
-
-OSmainidx = $(OSmainsource:.tex=.idx)
-
-PC2mainidx = $(PC2mainsource:.tex=.idx)
-
-SMmainidx = $(SMmainsource:.tex=.idx)
-
-VDSmainidx = $(VDSmainsource:.tex=.idx)
-
 # Intermediate Postscript files
 
-CLmainps = $(CLmainsource:.tex=.ps)
+ESmainps = $(ESmainsource:.tex=.ps)
 
 IMmainps = $(IMmainsource:.tex=.ps)
 
-JSmainps = $(JSmainsource:.tex=.ps)
-
-KV2mainps = $(KV2mainsource:.tex=.ps)
-
-LMmainps = $(LMmainsource:.tex=.ps)
+IOmainps = $(IOmainsource:.tex=.ps)
 
 MMMmainps = $(MMMmainsource:.tex=.ps)
 
 MpMmainps = $(MpMmainsource:.tex=.ps)
 
-NNmainps = $(NNmainsource:.tex=.ps)
-
-OSmainps = $(OSmainsource:.tex=.ps)
-
-PC2mainps = $(PC2mainsource:.tex=.ps)
-
-SMmainps = $(SMmainsource:.tex=.ps)
-
-VDSmainps = $(VDSmainsource:.tex=.ps)
-
 # Output HTML files
 
-CLmainhtml = $(CLmainsource:.tex=.html)
+ESmainhtml = $(ESmainsource:.tex=.html)
 
 IMmainhtml = $(IMmainsource:.tex=.html)
 
-JSmainhtml = $(JSmainsource:.tex=.html)
-
-KV2mainhtml = $(KV2mainsource:.tex=.html)
-
-LMmainhtml = $(LMmainsource:.tex=.html)
+IOmainhtml = $(IOmainsource:.tex=.html)
 
 MMMmainhtml = $(MMMmainsource:.tex=.html)
 
 MpMmainhtml = $(MpMmainsource:.tex=.html)
 
-NNmainhtml = $(NNmainsource:.tex=.html)
-
-OSmainhtml = $(OSmainsource:.tex=.html)
-
-PC2mainhtml = $(PC2mainsource:.tex=.html)
-
-SMmainhtml = $(SMmainsource:.tex=.html)
-
-VDSmainhtml = $(VDSmainsource:.tex=.html)
-
 # Output PDF files
 
-CLmainpdf = $(CLmainsource:.tex=.pdf)
+ESmainpdf = $(ESmainsource:.tex=.pdf)
 
 IMmainpdf = $(IMmainsource:.tex=.pdf)
 
-JSmainpdf = $(JSmainsource:.tex=.pdf)
-
-KV2mainpdf = $(KV2mainsource:.tex=.pdf)
-
-LMmainpdf = $(LMmainsource:.tex=.pdf)
+IOmainpdf = $(IOmainsource:.tex=.pdf)
 
 MMMmainpdf = $(MMMmainsource:.tex=.pdf)
 
 MpMmainpdf = $(MpMmainsource:.tex=.pdf)
 
-NNmainpdf = $(NNmainsource:.tex=.pdf)
-
-OSmainpdf = $(OSmainsource:.tex=.pdf)
-
-PC2mainpdf = $(PC2mainsource:.tex=.pdf)
-
-SMmainpdf = $(SMmainsource:.tex=.pdf)
-
-VDSmainpdf = $(VDSmainsource:.tex=.pdf)
-
 # Target files
 
 ARCHIVEtarget = $(HOME)/$(IMAGE_ARCHIVE)
 
-CLtarget = $(HOME)/$(CLmainpdf) $(HOME)/$(CLmainhtml)
+EStarget = $(HOME)/$(ESmainpdf) $(HOME)/$(ESmainhtml)
 
 IMtarget = $(HOME)/$(IMmainpdf) $(HOME)/$(IMmainhtml)
 
-JStarget = $(HOME)/$(JSmainpdf) $(HOME)/$(JSmainhtml)
-
-KV2target = $(HOME)/$(KV2mainpdf) $(HOME)/$(KV2mainhtml)
-
-LMtarget = $(HOME)/$(LMmainpdf) $(HOME)/$(LMmainhtml)
+IOtarget = $(HOME)/$(IOmainpdf) $(HOME)/$(IOmainhtml)
 
 MMMtarget = $(HOME)/$(MMMmainpdf) $(HOME)/$(MMMmainhtml)
 
 MpMtarget = $(HOME)/$(MpMmainpdf) $(HOME)/$(MpMmainhtml)
-
-NNtarget = $(HOME)/$(NNmainpdf) $(HOME)/$(NNmainhtml)
-
-OStarget = $(HOME)/$(OSmainpdf) $(HOME)/$(OSmainhtml)
-
-PC2target = $(HOME)/$(PC2mainpdf) $(HOME)/$(PC2mainhtml)
-
-SMtarget = $(HOME)/$(SMmainpdf) $(HOME)/$(SMmainhtml)
-
-VDStarget = $(HOME)/$(VDSmainpdf) $(HOME)/$(VDSmainhtml)
 
 # General rules
 
@@ -565,12 +408,12 @@ $(HOME)/%.gz: %.gz
 
 # Specific rules (DVI)
 
-$(CLmaindvi) : $(CLbitmapepsfiles) $(CLepsfiles) $(CLmainsource) $(CLsecondaryfiles)
-	-latex -interaction=batchmode $(CLmainsource)
-	-latex -interaction=batchmode $(CLmainsource)
-	-latex -interaction=batchmode $(CLmainsource)
-	makeindex $(CLmainidx)
-	latex -interaction=batchmode $(CLmainsource)
+$(ESmaindvi) : $(ESbitmapepsfiles) $(ESepsfiles) $(ESmainsource) $(ESsecondaryfiles)
+	-latex -interaction=batchmode $(ESmainsource)
+	-latex -interaction=batchmode $(ESmainsource)
+	-latex -interaction=batchmode $(ESmainsource)
+	makeindex $(ESmainidx)
+	latex -interaction=batchmode $(ESmainsource)
 
 $(IMmaindvi) : $(IMbitmapepsfiles) $(IMepsfiles) $(IMmainsource) $(IMsecondaryfiles)
 	-latex -interaction=batchmode $(IMmainsource)
@@ -579,26 +422,12 @@ $(IMmaindvi) : $(IMbitmapepsfiles) $(IMepsfiles) $(IMmainsource) $(IMsecondaryfi
 	makeindex $(IMmainidx)
 	latex -interaction=batchmode $(IMmainsource)
 
-$(JSmaindvi) : $(JSbitmapepsfiles) $(JSepsfiles) $(JSmainsource) $(JSsecondaryfiles)
-	-latex -interaction=batchmode $(JSmainsource)
-	-latex -interaction=batchmode $(JSmainsource)
-	-latex -interaction=batchmode $(JSmainsource)
-	makeindex $(JSmainidx)
-	latex -interaction=batchmode $(JSmainsource)
-
-$(KV2maindvi) : $(KV2bitmapepsfiles) $(KV2epsfiles) $(KV2mainsource) $(KV2secondaryfiles)
-	-latex -interaction=batchmode $(KV2mainsource)
-	-latex -interaction=batchmode $(KV2mainsource)
-	-latex -interaction=batchmode $(KV2mainsource)
-	makeindex $(KV2mainidx)
-	latex -interaction=batchmode $(KV2mainsource)
-
-$(LMmaindvi) : $(LMbitmapepsfiles) $(LMepsfiles) $(LMmainsource) $(LMsecondaryfiles)
-	-latex -interaction=batchmode $(LMmainsource)
-	-latex -interaction=batchmode $(LMmainsource)
-	-latex -interaction=batchmode $(LMmainsource)
-	makeindex $(LMmainidx)
-	latex -interaction=batchmode $(LMmainsource)
+$(IOmaindvi) : $(IObitmapepsfiles) $(IOepsfiles) $(IOmainsource) $(IOsecondaryfiles)
+	-latex -interaction=batchmode $(IOmainsource)
+	-latex -interaction=batchmode $(IOmainsource)
+	-latex -interaction=batchmode $(IOmainsource)
+	makeindex $(IOmainidx)
+	latex -interaction=batchmode $(IOmainsource)
 
 $(MMMmaindvi) : $(MMMbitmapepsfiles) $(MMMepsfiles) $(MMMmainsource) $(MMMsecondaryfiles)
 	-latex -interaction=batchmode $(MMMmainsource)
@@ -614,57 +443,16 @@ $(MpMmaindvi) : $(MpMbitmapepsfiles) $(MpMepsfiles) $(MpMmainsource) $(MpMsecond
 	makeindex $(MpMmainidx)
 	latex -interaction=batchmode $(MpMmainsource)
 
-$(NNmaindvi) : $(NNbitmapepsfiles) $(NNepsfiles) $(NNmainsource) $(NNsecondaryfiles)
-	-latex -interaction=batchmode $(NNmainsource)
-	-latex -interaction=batchmode $(NNmainsource)
-	-latex -interaction=batchmode $(NNmainsource)
-	makeindex $(NNmainidx)
-	latex -interaction=batchmode $(NNmainsource)
-
-$(OSmaindvi) : $(OSbitmapepsfiles) $(OSepsfiles) $(OSmainsource) $(OSsecondaryfiles)
-	-latex -interaction=batchmode $(OSmainsource)
-	-latex -interaction=batchmode $(OSmainsource)
-	-latex -interaction=batchmode $(OSmainsource)
-	makeindex $(OSmainidx)
-	latex -interaction=batchmode $(OSmainsource)
-
-$(PC2maindvi) : $(PC2bitmapepsfiles) $(PC2epsfiles) $(PC2mainsource) $(PC2secondaryfiles)
-	-latex -interaction=batchmode $(PC2mainsource)
-	-latex -interaction=batchmode $(PC2mainsource)
-	-latex -interaction=batchmode $(PC2mainsource)
-	makeindex $(PC2mainidx)
-	latex -interaction=batchmode $(PC2mainsource)
-
-$(SMmaindvi) : $(SMbitmapepsfiles) $(SMepsfiles) $(SMmainsource) $(SMsecondaryfiles)
-	-latex -interaction=batchmode $(SMmainsource)
-	-latex -interaction=batchmode $(SMmainsource)
-	-latex -interaction=batchmode $(SMmainsource)
-	makeindex $(SMmainidx)
-	latex -interaction=batchmode $(SMmainsource)
-
-$(VDSmaindvi) : $(VDSbitmapepsfiles) $(VDSepsfiles) $(VDSmainsource) $(VDSsecondaryfiles)
-	-latex -interaction=batchmode $(VDSmainsource)
-	-latex -interaction=batchmode $(VDSmainsource)
-	-latex -interaction=batchmode $(VDSmainsource)
-	makeindex $(VDSmainidx)
-	latex -interaction=batchmode $(VDSmainsource)
-
 # Specific rules (HTML)
 
-$(CLmainhtml) : $(CLbitmappngfiles) $(CLpngfiles) $(CLmainsource) $(CLsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(CLmainsource) -o $@
-
+$(ESmainhtml) : $(ESbitmappngfiles) $(ESpngfiles) $(ESmainsource) $(ESsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(ESmainsource) -o $@
+	
 $(IMmainhtml) : $(IMbitmappngfiles) $(IMpngfiles) $(IMmainsource) $(IMsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(IMmainsource) -o $@
 
-$(JSmainhtml) : $(JSbitmappngfiles) $(JSpngfiles) $(JSmainsource) $(JSsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(JSmainsource) -o $@
-
-$(KV2mainhtml) : $(KV2bitmappngfiles) $(KV2pngfiles) $(KV2mainsource) $(KV2secondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(KV2mainsource) -o $@
-
-$(LMmainhtml) : $(LMbitmappngfiles) $(LMpngfiles) $(LMmainsource) $(LMsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(LMmainsource) -o $@
+$(IOmainhtml) : $(IObitmappngfiles) $(IOpngfiles) $(IOmainsource) $(IOsecondaryfiles)
+	-hevea -O -fix -exec xxdate.exe $(IOmainsource) -o $@
 
 $(MMMmainhtml) : $(MMMbitmappngfiles) $(MMMpngfiles) $(MMMmainsource) $(MMMsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(MMMmainsource) -o $@
@@ -672,28 +460,9 @@ $(MMMmainhtml) : $(MMMbitmappngfiles) $(MMMpngfiles) $(MMMmainsource) $(MMMsecon
 $(MpMmainhtml) : $(MpMbitmappngfiles) $(MpMpngfiles) $(MpMmainsource) $(MpMsecondaryfiles)
 	-hevea -O -fix -exec xxdate.exe $(MpMmainsource) -o $@
 
-$(NNmainhtml) : $(NNbitmappngfiles) $(NNpngfiles) $(NNmainsource) $(NNsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(NNmainsource) -o $@
-
-$(OSmainhtml) : $(OSbitmappngfiles) $(OSpngfiles) $(OSmainsource) $(OSsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(OSmainsource) -o $@
-
-$(PC2mainhtml) : $(PC2bitmappngfiles) $(PC2pngfiles) $(PC2mainsource) $(PC2secondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(PC2mainsource) -o $@
-
-$(SMmainhtml) : $(SMbitmappngfiles) $(SMpngfiles) $(SMmainsource) $(SMsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(SMmainsource) -o $@
-
-$(VDSmainhtml) : $(VDSbitmappngfiles) $(VDSpngfiles) $(VDSmainsource) $(VDSsecondaryfiles)
-	-hevea -O -fix -exec xxdate.exe $(VDSmainsource) -o $@
-
-$(IMAGE_ARCHIVE) : $(CLbitmappngfiles) $(IMbitmappngfiles) $(JSbitmappngfiles) \
-		$(KV2bitmappngfiles) $(LMbitmappngfiles) $(MMMbitmappngfiles) \
-		$(MpMbitmappngfiles) $(NNbitmappngfiles) $(OSbitmappngfiles) \
-		$(PC2bitmappngfiles) $(SMbitmappngfiles) $(VDSbitmappngfiles) $(Commonpngfiles) \
-		$(CLpngfiles) $(IMpngfiles) $(JSpngfiles) $(KV2pngfiles) $(LMpngfiles) \
-		$(MMMpngfiles) $(MpMpngfiles) $(NNpngfiles) $(OSpngfiles) $(PC2pngfiles) \
-		$(SMpngfiles) $(VDSpngfiles) 
+$(IMAGE_ARCHIVE) : $(ESbitmappngfiles) $(IMbitmappngfiles) $(IObitmappngfiles) \
+		$(MMMbitmappngfiles) $(MpMbitmappngfiles) $(Commonpngfiles) $(ESpngfiles) \
+		$(IMpngfiles) $(IOpngfiles) $(MMMpngfiles) $(MpMpngfiles)
 	tar -czf $(IMAGE_ARCHIVE) $(IMAGE_DIR)
 
 # Top-level targets
@@ -708,6 +477,4 @@ clean :
 	-rm -f *.log *.pdf *.mpx *.dvi *.aux *.idx *.ilg *.ind *.lof *.out *.png *.ps *.eps
 	-rm -f *.html *.toc *.htoc *.haux *.hind $(IMAGE_ARCHIVE)
 
-all : $(CLtarget) $(IMtarget) $(JStarget) $(KV2target) $(LMtarget) $(MMMtarget) \
-		$(MpMtarget) $(NNtarget) $(OStarget) $(PC2target) $(SMtarget) $(VDStarget) \
-		$(ARCHIVEtarget)
+all : $(EStarget) $(IMtarget) $(IOtarget) $(MMMtarget) $(MpMtarget) $(ARCHIVEtarget)

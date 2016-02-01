@@ -132,7 +132,7 @@
 
 \ifthenelse{\boolean{heveaActive}}%
 	{\newcommand{\optItem}[4]{\textbf{-#1} \textit{#2} | \textbf{--#3} \textit{#2} #4}}
-	{\newcommand{\optItem}[4]{\makebox[1.75em][l]{\textbf{--#1} \textit{#2}} %
+	{\newcommand{\optItem}[4]{\makebox[2em][l]{\textbf{--#1} \textit{#2}} %
 	\textbar{} \makebox[5.5em][l]{\textbf{{-}{-}#3} \textit{#2}} \parbox{35em}{#4}}}
 
 \ifthenelse{\boolean{heveaActive}}%

@@ -304,8 +304,15 @@ fillBottleFromValue(JSContext *        jct,
         if (JS_ValueToObject(jct, asRootedValue, &asObject))
         {
             bool processed = false;
+#if (47 <= MOZJS_MAJOR_VERSION)
+            bool isArray;
+#endif // 47 <= MOZJS_MAJOR_VERSION
             
+#if (47 <= MOZJS_MAJOR_VERSION)
+            if (JS_IsArrayObject(jct, asObject, &isArray))
+#else // 47 > MOZJS_MAJOR_VERSION
             if (JS_IsArrayObject(jct, asObject))
+#endif // 47 > MOZJS_MAJOR_VERSION
             {
                 uint32_t arrayLength;
                 
@@ -345,11 +352,19 @@ fillBottleFromValue(JSContext *        jct,
             if (! processed)
             {
                 // Treat as a dictionary
-                JS::AutoIdArray      ids(jct, JS_Enumerate(jct, asObject));
-                yarp::os::Property & innerDict(aBottle.addDict());
+                yarp::os::Property &     innerDict(aBottle.addDict());
+#if (47 <= MOZJS_MAJOR_VERSION)
+                JS::Rooted<JS::IdVector> ids(jct, JS::IdVector(jct));
+#else // 47 > MOZJS_MAJOR_VERSION
+                JS::AutoIdArray          ids(jct, JS_Enumerate(jct, asObject));
+#endif // 47 > MOZJS_MAJOR_VERSION
                 
+#if (47 <= MOZJS_MAJOR_VERSION)
+                if (JS_Enumerate(jct, asObject, &ids))
+#else // 47 > MOZJS_MAJOR_VERSION
                 // Note that only operator! is defined, so we need to do a 'double-negative'.
                 if (!! ids)
+#endif // 47 > MOZJS_MAJOR_VERSION
                 {
                     bool okSoFar = true;
                     
@@ -1042,10 +1057,18 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
     OD_LOG_ENTER(); //####
     OD_LOG_P2("jct = ", jct, "anObject = ", &anObject); //####
     OD_LOG_L1("depth = ", depth); //####
-    JS::AutoIdArray ids(jct, JS_Enumerate(jct, anObject));
+#if (47 <= MOZJS_MAJOR_VERSION)
+    JS::Rooted<JS::IdVector> ids(jct, JS::IdVector(jct));
+#else // 47 > MOZJS_MAJOR_VERSION
+    JS::AutoIdArray          ids(jct, JS_Enumerate(jct, anObject));
+#endif // 47 > MOZJS_MAJOR_VERSION
     
+#if (47 <= MOZJS_MAJOR_VERSION)
+    if (JS_Enumerate(jct, anObject, &ids))
+#else // 47 > MOZJS_MAJOR_VERSION
     // Note that only operator! is defined, so we need to do a 'double-negative'.
     if (!! ids)
+#endif // 47 > MOZJS_MAJOR_VERSION
     {
         bool okSoFar = true;
         
@@ -1083,34 +1106,42 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                         
                         if (JS_ValueToObject(jct, result, &asObject))
                         {
-                            if (JS_IsArrayObject(jct, result))
-                            {
-                                outStream << "array";
-                                uint32_t arrayLength;
-                                
-                                if (JS_GetArrayLength(jct, asObject, &arrayLength))
+#if (47 <= MOZJS_MAJOR_VERSION)
+                            bool isArray;
+#endif // 47 <= MOZJS_MAJOR_VERSION
+                            
+#if (47 <= MOZJS_MAJOR_VERSION)
+                            if (JS_IsArrayObject(jct, result, &isArray))
+#else // 47 > MOZJS_MAJOR_VERSION
+                                if (JS_IsArrayObject(jct, result))
+#endif // 47 > MOZJS_MAJOR_VERSION
                                 {
-                                    outStream << ", size = " << arrayLength;
-                                }
-                            }
-                            else if (JS_ObjectIsFunction(jct, asObject))
-                            {
-                                outStream << "function";
-                                JSFunction * asFunction = JS_ValueToFunction(jct, result);
-                                
-                                if (asFunction)
-                                {
-                                    outStream << ", arity = " << JS_GetFunctionArity(asFunction);
-                                    if (! JS::IsCallable(asObject))
+                                    outStream << "array";
+                                    uint32_t arrayLength;
+                                    
+                                    if (JS_GetArrayLength(jct, asObject, &arrayLength))
                                     {
-                                        outStream << ", not callable";
+                                        outStream << ", size = " << arrayLength;
                                     }
                                 }
-                            }
-                            else
-                            {
-                                outStream << "object";
-                            }
+                                else if (JS_ObjectIsFunction(jct, asObject))
+                                {
+                                    outStream << "function";
+                                    JSFunction * asFunction = JS_ValueToFunction(jct, result);
+                                    
+                                    if (asFunction)
+                                    {
+                                        outStream << ", arity = " << JS_GetFunctionArity(asFunction);
+                                        if (! JS::IsCallable(asObject))
+                                        {
+                                            outStream << ", not callable";
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    outStream << "object";
+                                }
                         }
                         else
                         {
