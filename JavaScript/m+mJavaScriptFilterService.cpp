@@ -566,11 +566,7 @@ DEFINE_CONFIGURE_(JavaScriptFilterService)
                 if (JS_GetPendingException(_context, &exc))
                 {
                     JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Exception occurred while executing scriptStarting function.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Exception occurred while executing scriptStarting function." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("Exception occurred while executing scriptStarting function.");
                 }
             }
             JS_EndRequest(_context);
@@ -663,11 +659,7 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                                 buff << _mostRecentSlot;
                                 message += buff.str();
                                 message += ".";
-#if MAC_OR_LINUX_
-                                GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                                cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                                MpM_FAIL_(message.c_str());
                             }
                         }
                         JS_EndRequest(_context);
@@ -702,13 +694,8 @@ DEFINE_DOIDLE_(JavaScriptFilterService)
                         {
                             OD_LOG("(JS_GetPendingException(_context, &exc))"); //####
                             JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Exception occurred while executing the scriptThread "
-                                             "function.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Exception occurred while executing the scriptThread "
-                                    "function." << endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_("Exception occurred while executing the scriptThread "
+                                      "function.");
                         }
                     }
                     JS_EndRequest(_context);
@@ -1023,13 +1010,7 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
                     if (JS_GetPendingException(_context, &exc))
                     {
                         JS_ClearPendingException(_context);
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Exception occurred while executing scriptStopping "
-                                         "function.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Exception occurred while executing scriptStopping function." <<
-                                endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Exception occurred while executing scriptStopping function.");
                     }
                 }
                 JS_EndRequest(_context);

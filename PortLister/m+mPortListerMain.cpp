@@ -726,19 +726,13 @@ main(int      argc,
                 else
                 {
                     OD_LOG("! (Utilities::GetDetectedPortList(ports, true))"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Could not get port list.");
-#endif // MAC_OR_LINUX_
+                    MpM_FAIL_("Could not get port list.");
                 }
             }
             else
             {
                 OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }

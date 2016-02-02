@@ -257,6 +257,39 @@ executable. */
 #  define RETRY_LOOPS_USE_TIMEOUTS_  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
 
+# if MAC_OR_LINUX_
+#  define MpM_ERROR_(xx_) GetLogger().error(xx_)
+# else // ! MAC_OR_LINUX_
+#  define MpM_ERROR_(xx_) cerr << "Error: " << xx_ << endl
+# endif // ! MAC_OR_LINUX_
+
+# if MAC_OR_LINUX_
+#  define MpM_FAIL_(xx_) GetLogger().fail(xx_)
+# else // ! MAC_OR_LINUX_
+#  define MpM_FAIL_(xx_) cerr << "Fail: " << xx_ << endl
+# endif // ! MAC_OR_LINUX_
+
+/*! @brief A standard error message. */
+# define MSG_COULD_NOT_CONNECT_TO_SERVICE "Could not connect to the required service."
+
+/*! @brief A standard error message. */
+# define MSG_COULD_NOT_DISCONNECT_FROM_SERVICE "Problem disconnect ing from the service."
+
+/*! @brief A standard error message. */
+# define MSG_COULD_NOT_FIND_SERVICE "Could not find the required service."
+
+/*! @brief A standard error message. */
+# define MSG_REGISTRY_NOT_RUNNING "Registry Service not running."
+
+/*! @brief A standard error message. */
+# define MSG_SERVICE_NOT_REGISTERED "Service could not be registered."
+
+/*! @brief A standard error message. */
+# define MSG_SERVICE_NOT_STARTED "Service could not be started."
+
+/*! @brief A standard error message. */
+# define MSG_YARP_NOT_RUNNING "YARP network not running."
+
 /*! @brief An alias for a YARP-type string. */
 typedef yarp::os::ConstString YarpString;
 

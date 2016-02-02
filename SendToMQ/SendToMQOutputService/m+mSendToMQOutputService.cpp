@@ -388,11 +388,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
                     }
                     if (! _session)
                     {
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not create session.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Could not create session." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Could not create session.");
                     }
                 }
                 catch (cms::CMSException & )
@@ -421,19 +417,11 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
                 {
                     if (_useQueue)
                     {
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not create queue.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Could not create queue." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Could not create queue.");
                     }
                     else
                     {
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not create topic.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Could not create topic." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Could not create topic.");
                     }
                 }
             }
@@ -443,11 +431,7 @@ DEFINE_STARTSTREAMS_(SendToMQOutputService)
                 _producer = _session->createProducer(_destination);
                 if (! _producer)
                 {
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Could not create producer.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Could not create producer." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("Could not create producer.");
                 }
             }
             if (_producer)

@@ -232,7 +232,7 @@ set_tty_raw(void)
 #if MAC_OR_LINUX_
     if (ii < 0)
     {
-        printf("tcgetattr() returned &#37;d for fildes=%d\n", ii, STDIN_FILENO);
+        printf("tcgetattr() returned %d for fildes=%d\n", ii, STDIN_FILENO);
         perror("");
         res = -1;
     }
@@ -397,11 +397,7 @@ BaseInputOutputService::addClientStreamsFromDescriptions(const ChannelVector & d
                     {
                         OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Problem opening input channel.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Problem opening input channel." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Problem opening input channel.");
                         result = false;
                     }
                 }
@@ -468,11 +464,7 @@ BaseInputOutputService::addInStreamsFromDescriptions(const ChannelVector & descr
                     {
                         OD_LOG("! (newChannel->openWithRetries(aDescription._portName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Problem opening input channel.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Problem opening input channel." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Problem opening input channel.");
                         result = false;
                     }
                 }
@@ -539,11 +531,7 @@ BaseInputOutputService::addOutStreamsFromDescriptions(const ChannelVector & desc
                     {
                         OD_LOG("! (newChannel->openWithRetries(newName, " //####
                                "STANDARD_WAIT_TIME_))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Problem opening output channel.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Problem opening output channel." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Problem opening output channel.");
                         result = false;
                     }
                 }
@@ -982,21 +970,13 @@ BaseInputOutputService::performLaunch(const YarpString & helpText,
         else
         {
             OD_LOG("! (RegisterLocalService(channelName, *this))"); //####
-#if MAC_OR_LINUX_
-            GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Service could not be registered." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_(MSG_SERVICE_NOT_REGISTERED);
         }
     }
     else
     {
         OD_LOG("! (startService())"); //####
-#if MAC_OR_LINUX_
-        GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Service could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_(MSG_SERVICE_NOT_STARTED);
     }
     OD_LOG_OBJEXIT(); //####
 } // BaseInputOutputService::performLaunch

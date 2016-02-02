@@ -218,12 +218,10 @@ setUpAndGo(const YarpString &  channelName,
                             else
                             {
                                 OD_LOG("! (request.send(*newChannel, response))"); //####
-#if MAC_OR_LINUX_
-                                yarp::os::impl::Logger & theLogger = GetLogger();
+                                YarpString message("Problem communicating with ");
 
-                                theLogger.fail(YarpString("Problem communicating with ") + aMatch +
-                                               ".");
-#endif // MAC_OR_LINUX_
+                                message += aMatch + ".";
+                                MpM_FAIL_(message.c_str());
                             }
 #if defined(MpM_DoExplicitDisconnect)
                             if (! Utilities::NetworkDisconnectWithRetries(aName, aMatch,
@@ -351,21 +349,13 @@ main(int      argc,
                 else
                 {
                     OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
                 OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }

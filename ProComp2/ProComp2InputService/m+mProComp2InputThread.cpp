@@ -344,11 +344,7 @@ DEFINE_THREADINIT_(ProComp2InputThread)
     {
         OD_LOG("! (SUCCEEDED(hr)"); //####
         CheckHRESULT(hr);
-#if MAC_OR_LINUX_
-        GetLogger().fail("CoInitializeEx() failed.");
-#else // ! MAC_OR_LINUX_
-        cerr << "CoInitializeEx() failed." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("CoInitializeEx() failed.");
     }
     if (! result)
     {

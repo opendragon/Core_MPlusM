@@ -195,21 +195,13 @@ main(int      argc,
                 else
                 {
                     OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
                 OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }

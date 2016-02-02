@@ -141,9 +141,7 @@ BaseAdapterService::performLaunch(BaseAdapterData &  sharedData,
     if (! aClient->disconnectFromService())
     {
         OD_LOG("(! aClient->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
+        MpM_FAIL_(MSG_COULD_NOT_DISCONNECT_FROM_SERVICE);
     }
 } // BaseAdapterService::performLaunch
 

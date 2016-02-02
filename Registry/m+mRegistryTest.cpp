@@ -614,16 +614,14 @@ catchSignal(int signal)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_LL1("signal = ", signal); //####
-#if MAC_OR_LINUX_
     std::stringstream buff;
-#endif // ! MAC_OR_LINUX_
+    YarpString        message("Exiting due to signal ");
 
-#if MAC_OR_LINUX_
     buff << signal;
-    GetLogger().error(YarpString("Exiting due to signal ") + buff.str() + YarpString(" = ") +
-                      NameOfSignal(signal));
-#else // ! MAC_OR_LINUX_
-#endif // ! MAC_OR_LINUX_
+    message += buff.str();
+    message += " = ";
+    message += NameOfSignal(signal);
+    MpM_ERROR_(message.c_str());
     OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);
 } // catchSignal

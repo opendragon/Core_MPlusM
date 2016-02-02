@@ -141,10 +141,13 @@ localCatcher(int signal)
     if (lLogger)
     {
         std::stringstream buff;
+        YarpString        message("Exiting due to signal ");
         
         buff << signal;
-        lLogger->error(YarpString("Exiting due to signal ") + buff.str() + YarpString(" = ") +
-                       NameOfSignal(signal));
+        message += buff.str();
+        message += " = ";
+        message += NameOfSignal(signal);
+        lLogger->error(message.c_str());
     }
     OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);
@@ -163,15 +166,29 @@ Common::DumpContactToLog(const char *              tag,
     if (lLogger)
     {
         std::stringstream buff;
+        YarpString        message("tag = ");
         
         buff << aContact.getPort();
-        lLogger->info(YarpString("tag = ") + tag);
-        lLogger->info(YarpString("contact.carrier = ") + aContact.getCarrier());
-        lLogger->info(YarpString("contact.host = ") + aContact.getHost());
-        lLogger->info(YarpString("contact.isValid = ") + (aContact.isValid() ? "true" : "false"));
-        lLogger->info(YarpString("contact.name = ") + aContact.getName());
-        lLogger->info(YarpString("contact.port = ") + buff.str());
-        lLogger->info(YarpString("contact.toString = ") + aContact.toString());
+        message += tag;
+        lLogger->info(message.c_str());
+        message = "contact.carrier = ";
+        message += aContact.getCarrier();
+        lLogger->info(message.c_str());
+        message = "contact.host = ";
+        message += aContact.getHost();
+        lLogger->info(message.c_str());
+        message = "contact.isValid = ";
+        message += (aContact.isValid() ? "true" : "false");
+        lLogger->info(message.c_str());
+        message = "contact.name = ";
+        message += aContact.getName();
+        lLogger->info(message.c_str());
+        message = "contact.port = ";
+        message += buff.str();
+        lLogger->info(message.c_str());
+        message = "contact.toString = ";
+        message += aContact.toString();
+        lLogger->info(message.c_str());
     }
 #endif // MAC_OR_LINUX_
 } // Common::DumpContactToLog
@@ -264,7 +281,10 @@ Common::Initialize(const YarpString & progName)
 # if MAC_OR_LINUX_
         if (lLogger)
         {
-            lLogger->info(YarpString("Program ") + progName);
+            YarpString message("Program ");
+
+            message += progName;
+            lLogger->info(message.c_str());
             lLogger->info("Movement And Meaning Version: " MpM_VERSION_ ", YARP Version: "
                           YARP_VERSION_STRING ", ACE Version: " ACE_VERSION);
         }

@@ -115,11 +115,7 @@ reportJavaScriptError(JSContext *     cx,
         
         buff << report->lineno << ":" << message;
         errMessage += buff.str();
-#if MAC_OR_LINUX_
-        GetLogger().fail(errMessage);
-#else // ! MAC_OR_LINUX_
-        cerr << errMessage.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_(errMessage);
     }
     catch (...)
     {
@@ -1349,11 +1345,7 @@ getLoadedDouble(JSContext *        jct,
     {
         OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
         okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Problem searching for a property.");
     }
     if (okSoFar && found)
     {
@@ -1403,11 +1395,7 @@ getLoadedDouble(JSContext *        jct,
                                     
                                     message += propertyName;
                                     message += "'.";
-#if MAC_OR_LINUX_
-                                    GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                                    cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                                    MpM_FAIL_(message.c_str());
                                 }
                             }
                             JS_EndRequest(jct);
@@ -1423,22 +1411,14 @@ getLoadedDouble(JSContext *        jct,
                 
                 message += propertyName;
                 message += "' has the wrong type.";
-#if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(message.c_str());
             }
         }
         else
         {
             OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
             okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a property." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Problem retrieving a property.");
         }
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -1482,11 +1462,7 @@ getLoadedString(JSContext *        jct,
     {
         OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
         okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Problem searching for a property.");
     }
     if (okSoFar && found)
     {
@@ -1544,11 +1520,7 @@ getLoadedString(JSContext *        jct,
                                     
                                     message += propertyName;
                                     message += "'.";
-#if MAC_OR_LINUX_
-                                    GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                                    cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                                    MpM_FAIL_(message.c_str());
                                 }
                             }
                             JS_EndRequest(jct);
@@ -1564,22 +1536,14 @@ getLoadedString(JSContext *        jct,
                 
                 message += propertyName;
                 message += "' has the wrong type.";
-#if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(message.c_str());
             }
         }
         else
         {
             OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &value))"); //####
             okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a property." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Problem retrieving a property.");
         }
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -1615,11 +1579,7 @@ getLoadedFunctionRef(JSContext *        jct,
     {
         OD_LOG("! (JS_HasProperty(jct, anObject, propertyName, &found))"); //####
         okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Problem searching for a property.");
     }
     if (okSoFar)
     {
@@ -1649,22 +1609,14 @@ getLoadedFunctionRef(JSContext *        jct,
                 
                 message += propertyName;
                 message += "' has the wrong type.";
-#if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(message.c_str());
             }
         }
         else
         {
             OD_LOG("! (JS_GetProperty(jct, anObject, propertyName, &result))"); //####
             okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a property." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Problem retrieving a property.");
         }
     }
     OD_LOG_EXIT_B(okSoFar); //####
@@ -1692,11 +1644,7 @@ processStreamDescription(JSContext *           jct,
     {
         OD_LOG("(! anElement.isObject())"); //####
         okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Array element has the wrong type.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Array element has the wrong type." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Array element has the wrong type.");
     }
     JS::RootedObject asObject(jct);
     
@@ -1706,11 +1654,7 @@ processStreamDescription(JSContext *           jct,
         {
             OD_LOG("(! JS_ValueToObject(jct, anElement, &asObject))"); //####
             okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem converting array element to object.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem converting array element to object." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Problem converting array element to object.");
         }
     }
     if (okSoFar)
@@ -1773,11 +1717,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
     {
         OD_LOG("! (JS_HasProperty(jct, global, arrayName, &found))"); //####
         okSoFar = false;
-#if MAC_OR_LINUX_
-        GetLogger().fail("Problem searching for a global property.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Problem searching for a global property." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Problem searching for a global property.");
     }
     if (okSoFar && found)
     {
@@ -1796,11 +1736,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
                 else
                 {
                     OD_LOG("(! JS_ValueToObject(jct, value, &asObject))"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Problem converting value to object.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Problem converting value to object." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("Problem converting value to object.");
                 }
             }
             if (okSoFar)
@@ -1824,11 +1760,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
                             else
                             {
                                 OD_LOG("(! JS_ValueToObject(jct, funcResult, &asObject))"); //####
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Problem converting value to object.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "Problem converting value to object." << endl;
-#endif // ! MAC_OR_LINUX_
+                                MpM_FAIL_("Problem converting value to object.");
                             }
                         }
                     }
@@ -1846,11 +1778,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
                                                           
                             message += arrayName;
                             message += "'.";
-#if MAC_OR_LINUX_
-                            GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                            cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_(message.c_str());
                         }
                     }
                     JS_EndRequest(jct);
@@ -1863,22 +1791,14 @@ getLoadedStreamDescriptions(JSContext *           jct,
                 
                 message += arrayName;
                 message += "' has the wrong type.";
-#if MAC_OR_LINUX_
-                GetLogger().fail(message.c_str());
-#else // ! MAC_OR_LINUX_
-                cerr << message.c_str() << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(message.c_str());
             }
         }
         else
         {
             OD_LOG("! (JS_GetProperty(jct, global, arrayName, &value))"); //####
             okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem retrieving a global property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem retrieving a global property." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Problem retrieving a global property.");
         }
         uint32_t arrayLength;
         
@@ -1888,11 +1808,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
             {
                 OD_LOG("(! JS_GetArrayLength(jct, asObject, &arrayLength))"); //####
                 okSoFar = false;
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem getting the array length.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Problem getting the array length." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_("Problem getting the array length.");
             }
         }
         if (okSoFar)
@@ -1915,11 +1831,7 @@ getLoadedStreamDescriptions(JSContext *           jct,
                 {
                     OD_LOG("! (JS_GetElement(jct, asObject, ii, &anElement))"); //####
                     okSoFar = false;
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Problem getting an array element.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Problem getting an array element." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("Problem getting an array element.");
                 }
             }
         }
@@ -2100,11 +2012,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                 else
                 {
                     OD_LOG("! (jct)"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("JavaScript context could not be allocated.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "JavaScript context could not be allocated." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("JavaScript context could not be allocated.");
                     JS_DestroyRuntime(jrt);
                     jrt = NULL;
                 }
@@ -2112,11 +2020,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
             else
             {
                 OD_LOG("! (jrt)"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("JavaScript runtime could not be allocated.");
-#else // ! MAC_OR_LINUX_
-                cerr << "JavaScript runtime could not be allocated." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_("JavaScript runtime could not be allocated.");
             }
             if (jrt && jct)
             {
@@ -2153,11 +2057,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     {
                         OD_LOG("! (JS_InitStandardClasses(jct, global))"); //####
                         okSoFar = false;
-#if MAC_OR_LINUX_
-                        GetLogger().fail("JavaScript global object could not be initialized.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "JavaScript global object could not be initialized." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("JavaScript global object could not be initialized.");
                     }
                     if (okSoFar)
                     {
@@ -2165,13 +2065,8 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                         {
                             OD_LOG("(! addCustomObjects(jct, global, tag, arguments))"); //####
                             okSoFar = false;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Custom objects could not be added to the JavaScript "
-                                             "global object.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Custom objects could not be added to the JavaScript global "
-                                    "object." << endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_("Custom objects could not be added to the JavaScript global "
+                                      "object.");
                         }
                     }
                     if (okSoFar)
@@ -2180,11 +2075,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                         {
                             OD_LOG("(! loadScript(jct, options, scriptSource, scriptPath))"); //####
                             okSoFar = false;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Script could not be loaded.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Script could not be loaded." << endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_("Script could not be loaded.");
                         }
                     }
                     bool                sawThread;
@@ -2213,13 +2104,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                                    "loadedStartingFunction, loadedStoppingFunction, " //####
                                    "loadedThreadFunction, loadedInterval))"); //####
                             okSoFar = false;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Script is missing one or more functions or "
-                                             "variables.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Script is missing one or more functions or variables." <<
-                                    endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_("Script is missing one or more functions or variables.");
                         }
                     }
                     if (okSoFar)
@@ -2256,11 +2141,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                 else
                 {
                     OD_LOG("! (global)"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("JavaScript global object could not be created.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "JavaScript global object could not be created." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("JavaScript global object could not be created.");
                 }
                 JS_DestroyContext(jct);
                 JS_DestroyRuntime(jrt);
@@ -2270,21 +2151,13 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
         else
         {
             OD_LOG("! (JS_Init())"); //####
-#if MAC_OR_LINUX_
-            GetLogger().fail("JavaScript engine could not be started.");
-#else // ! MAC_OR_LINUX_
-            cerr << "JavaScript engine could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("JavaScript engine could not be started.");
         }
     }
     else
     {
         OD_LOG("! (0 < scriptSource.length())"); //####
-#if MAC_OR_LINUX_
-        GetLogger().fail("Empty script file.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Empty script file." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Empty script file.");
     }
     OD_LOG_EXIT(); //####
 } // setUpAndGo
@@ -2371,21 +2244,13 @@ main(int      argc,
                 else
                 {
                     OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
                 OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }

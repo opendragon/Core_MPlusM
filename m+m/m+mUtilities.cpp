@@ -1349,11 +1349,7 @@ Utilities::CheckForValidNetwork(const bool quiet)
     }
     if ((! result) && (! quiet))
     {
-#if MAC_OR_LINUX_
-        GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-        cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_(MSG_YARP_NOT_RUNNING);
     }
     OD_LOG_EXIT_B(result); //####
     return result;
@@ -1619,31 +1615,23 @@ Utilities::GatherPortConnections(const YarpString &    portName,
                     }
                     else if (! quiet)
                     {
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Could not open route to port.");
-#endif // MAC_OR_LINUX_
+                        MpM_FAIL_("Could not open route to port.");
                     }
                     delete out;
                 }
                 else if (! quiet)
                 {
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Could not connect to port.");
-#endif // MAC_OR_LINUX_
+                    MpM_FAIL_("Could not connect to port.");
                 }
             }
             else if (! quiet)
             {
-#if MAC_OR_LINUX_
-                GetLogger().fail("Port not using recognized connection type.");
-#endif // MAC_OR_LINUX_
+                MpM_FAIL_("Port not using recognized connection type.");
             }
         }
         else if (! quiet)
         {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Port name not recognized.");
-#endif // MAC_OR_LINUX_
+            MpM_FAIL_("Port name not recognized.");
         }
     }
     catch (...)
@@ -2691,11 +2679,11 @@ Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
             OD_LOG("(strcmp(MpM_OK_RESPONSE_, matchesFirstString.c_str()))"); //####
             if (! quiet)
             {
-#if MAC_OR_LINUX_
-                YarpString reason(matches.get(1).toString());
+                YarpString reason("Failed: ");
                 
-                GetLogger().fail(YarpString("Failed: ") + reason + ".");
-#endif // MAC_OR_LINUX_
+                reason += matches.get(1).toString();
+                reason += ".";
+                MpM_FAIL_(reason.c_str());
             }
         }
         else
@@ -2718,9 +2706,7 @@ Utilities::GetServiceNamesFromCriteria(const YarpString & criteria,
         OD_LOG("! (MpM_EXPECTED_MATCH_RESPONSE_SIZE_ == matches.size())"); //####
         if (! quiet)
         {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem getting information from the Registry Service.");
-#endif // MAC_OR_LINUX_
+            MpM_FAIL_("Problem getting information from the Registry Service.");
         }
     }
     if ((! okSoFar) && (! quiet))

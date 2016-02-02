@@ -171,12 +171,8 @@ StringBuffer::addLong(const int64_t aLong)
     OD_LOG_OBJENTER(); //####
     OD_LOG_LL1("aLong = ", aLong); //####
     char numBuff[kNumBuffSize];
-    
-#if MAC_OR_LINUX_
-    snprintf(numBuff, sizeof(numBuff), "%lld", aLong);
-#else // ! MAC_OR_LINUX_
-    sprintf_s(numBuff, sizeof(numBuff), "%lld", aLong);
-#endif // ! MAC_OR_LINUX_
+
+    snprintf(numBuff, sizeof(numBuff), "%" __INT64_FMTd__, aLong);
     OD_LOG_S1("numBuff <- ", numBuff); //####
     size_t lengthToAdd = strlen(numBuff);
     

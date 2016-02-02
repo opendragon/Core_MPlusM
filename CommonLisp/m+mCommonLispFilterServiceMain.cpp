@@ -188,11 +188,7 @@ addCustomFunctions(void)
     
     if (ECL_NIL == aFunction)
     {
-#if MAC_OR_LINUX_
-        GetLogger().fail("Could not create 'create-inlet-entry' function.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Could not create 'create-inlet-entry' function." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Could not create 'create-inlet-entry' function.");
     }
     form = c_string_to_object("(defun create-outlet-entry (name protocol protocolDescription) "
                               "(let ((entry (make-hash-table))) "
@@ -202,11 +198,7 @@ addCustomFunctions(void)
     aFunction = cl_safe_eval(form, ECL_NIL, ECL_NIL);
     if (ECL_NIL == aFunction)
     {
-#if MAC_OR_LINUX_
-        GetLogger().fail("Could not create 'create-outlet-entry' function.");
-#else // ! MAC_OR_LINUX_
-        cerr << "Could not create 'create-outlet-entry' function." << endl;
-#endif // ! MAC_OR_LINUX_
+        MpM_FAIL_("Could not create 'create-outlet-entry' function.");
     }
     OD_LOG_EXIT(); //####
 } // addCustomFunctions
@@ -386,11 +378,7 @@ getLoadedDouble(const char * propertyName,
                         {
                             /* This code is executed when an error happens. */
                             aValue = ECL_NIL;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_("Script aborted during load.");
                         }
                         ECL_RESTART_CASE_END;
                         if (ECL_NIL != aValue)
@@ -404,13 +392,11 @@ getLoadedDouble(const char * propertyName,
                     }
                     else
                     {
-#if MAC_OR_LINUX_
-                        GetLogger().fail(YarpString("Function (") + YarpString(propertyName) +
-                                         ") has the incorrect number of arguments.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Function (" << propertyName <<
-                                ") has the incorrect number of arguments." << endl;
-#endif // ! MAC_OR_LINUX_
+                        YarpString message("Function (");
+
+                        message += propertyName;
+                        message += ") has the incorrect number of arguments.";
+                        MpM_FAIL_(message.c_str());
                     }
                 }
             }
@@ -420,11 +406,7 @@ getLoadedDouble(const char * propertyName,
             }
             else
             {
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_("Problem searching for a property.");
             }
         }
     }
@@ -506,11 +488,7 @@ getLoadedString(const char * propertyName,
                         {
                             /* This code is executed when an error happens. */
                             aValue = ECL_NIL;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_("Script aborted during load.");
                         }
                         ECL_RESTART_CASE_END;
                         if (ECL_NIL != aValue)
@@ -529,14 +507,11 @@ getLoadedString(const char * propertyName,
                     }
                     else
                     {
-#if MAC_OR_LINUX_
-                        GetLogger().fail(YarpString(YarpString("Function (") +
-                                                    YarpString(propertyName) +
-                                                    ") has the incorrect number of arguments."));
-#else // ! MAC_OR_LINUX_
-                        cerr << "Function (" << propertyName <<
-                                ") has the incorrect number of arguments." << endl;
-#endif // ! MAC_OR_LINUX_
+                        YarpString message("Function (");
+
+                        message += propertyName;
+                        message += ") has the incorrect number of arguments.";
+                        MpM_FAIL_(message.c_str());
                     }
                 }
             }
@@ -546,11 +521,7 @@ getLoadedString(const char * propertyName,
             }
             else
             {
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_("Problem searching for a property.");
             }
         }
     }
@@ -595,11 +566,7 @@ getLoadedFunctionRef(const char *   propertyName,
     {
         if (ECL_NIL == cl_fboundp(aSymbol))
         {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Problem searching for a property.");
         }
         else
         {
@@ -612,14 +579,11 @@ getLoadedFunctionRef(const char *   propertyName,
                 }
                 else
                 {
-#if MAC_OR_LINUX_
-                    GetLogger().fail(YarpString(YarpString("Function (") +
-                                                YarpString(propertyName) +
-                                                ") has the incorrect number of arguments."));
-#else // ! MAC_OR_LINUX_
-                    cerr << "Function (" << propertyName <<
-                            ") has the incorrect number of arguments." << endl;
-#endif // ! MAC_OR_LINUX_
+                    YarpString message("Function (");
+
+                    message += propertyName;
+                    message += ") has the incorrect number of arguments.";
+                    MpM_FAIL_(message.c_str());
                 }
             }
         }
@@ -814,34 +778,23 @@ getLoadedStreamDescriptions(const char *    arrayName,
                         {
                             /* This code is executed when an error happens. */
                             descriptionArray = ECL_NIL;
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-                            cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
+                            MpM_FAIL_("Script aborted during load.");
                         }
                         ECL_RESTART_CASE_END;
                     }
                     else
                     {
-#if MAC_OR_LINUX_
-                        GetLogger().fail(YarpString(YarpString("Function (") +
-                                                    YarpString(arrayName) +
-                                                    ") has the incorrect number of arguments."));
-#else // ! MAC_OR_LINUX_
-                        cerr << "Function (" << arrayName <<
-                                ") has the incorrect number of arguments." << endl;
-#endif // ! MAC_OR_LINUX_
+                        YarpString message("Function (");
+
+                        message += arrayName;
+                        message += ") has the incorrect number of arguments.";
+                        MpM_FAIL_(message.c_str());
                     }
                 }
             }
             else
             {
-#if MAC_OR_LINUX_
-                GetLogger().fail("Problem searching for a property.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Problem searching for a property." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_("Problem searching for a property.");
             }
             if (descriptionArray)
             {
@@ -1085,11 +1038,7 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
         {
             /* This code is executed when an error happens. */
             okSoFar = false;
-#if MAC_OR_LINUX_
-            GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Script aborted during load.");
         }
         ECL_RESTART_CASE_END;
         if (okSoFar)
@@ -1133,14 +1082,11 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                        "loadedInletDescriptions, loadedOutletDescriptions, " //####
                        "loadedInletHandlers, loadedStartingFunction, " //####
                        "loadedStoppingFunction, loadedThreadFunction, loadedInterval))"); //####
+                YarpString message("Script is missing one or more functions or variables (");
+
                 okSoFar = false;
-#if MAC_OR_LINUX_
-                GetLogger().fail(YarpString("Script is missing one or more functions or "
-                                            "variables (") + missingStuff + ").");
-#else // ! MAC_OR_LINUX_
-                cerr << "Script is missing one or more functions or variables (" <<
-                        missingStuff.c_str() << ")." << endl;
-#endif // ! MAC_OR_LINUX_
+                message += missingStuff + ").";
+                MpM_FAIL_(message.c_str());
             }
         }
     }
@@ -1234,21 +1180,13 @@ main(int      argc,
                 else
                 {
                     OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
                 OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }

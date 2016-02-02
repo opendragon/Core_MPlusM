@@ -172,9 +172,7 @@ setUpAndGo(void)
                         {
                             if (! aClient->pokeService())
                             {
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Problem poking the service.");
-#endif // MAC_OR_LINUX_
+                                MpM_FAIL_("Problem poking the service.");
                                 break;
                             }
                             
@@ -201,44 +199,30 @@ setUpAndGo(void)
                         {
                             OD_LOG("! (aClient->getServiceStatistics(counter, " //####
                                    "elapsedTime))"); //####
-#if MAC_OR_LINUX_
-                            GetLogger().fail("Problem getting statistics from the service.");
-#endif // MAC_OR_LINUX_
+                            MpM_FAIL_("Problem getting statistics from the service.");
                         }
                     }
                     else
                     {
                         OD_LOG("! (aClient->resetServiceCounters())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Problem resetting the service counters.");
-#endif // MAC_OR_LINUX_
+                        MpM_FAIL_("Problem resetting the service counters.");
                     }
                     if (! aClient->disconnectFromService())
                     {
                         OD_LOG("(! aClient->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
+                        MpM_FAIL_(MSG_COULD_NOT_DISCONNECT_FROM_SERVICE);
                     }
                 }
                 else
                 {
                     OD_LOG("! (aClient->connectToService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
                 }
             }
             else
             {
                 OD_LOG("! (aClient->findService(\"name:RequestCounter\"))"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
             }
         }
         delete aClient;
@@ -314,21 +298,13 @@ main(int      argc,
                     else
                     {
                         OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
                     OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
             }

@@ -189,11 +189,7 @@ fillBottleFromValue(yarp::os::Bottle & aBottle,
         {
             /* This code is executed when an error happens. */
             aList = ECL_NIL;
-#if MAC_OR_LINUX_
-            GetLogger().fail("The 'hashMap' function failed.");
-#else // ! MAC_OR_LINUX_
-            cerr << "The 'hashMap' function failed." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("The 'hashMap' function failed.");
         }
         ECL_RESTART_CASE_END;
         if (ECL_NIL != aList)
@@ -400,11 +396,7 @@ convertDictionary(cl_object                setHashFunction,
                 ECL_RESTART_CASE(1, condition)
                 {
                     /* This code is executed when an error happens. */
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Function 'setHash' failed.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Function 'setHash' failed." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("Function 'setHash' failed.");
                 }
                 ECL_RESTART_CASE_END;
             }
@@ -617,11 +609,7 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
         _hash2assocFunc = cl_safe_eval(form, ECL_NIL, ECL_NIL);
         if (ECL_NIL == _hash2assocFunc)
         {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Could not create 'hash-to-assoc' function.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Could not create 'hash-to-assoc' function." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Could not create 'hash-to-assoc' function.");
         }
         // The following can't be directly expressed in C/C++, but is better described as Common
         // Lisp -
@@ -631,11 +619,7 @@ CommonLispFilterService::CommonLispFilterService(const Utilities::DescriptorVect
         _setHashFunc = cl_safe_eval(form, ECL_NIL, ECL_NIL);
         if (ECL_NIL == _setHashFunc)
         {
-#if MAC_OR_LINUX_
-            GetLogger().fail("Could not create 'setHash' function.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Could not create 'setHash' function." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_("Could not create 'setHash' function.");
         }
     }
     catch (...)
@@ -692,11 +676,7 @@ DEFINE_CONFIGURE_(CommonLispFilterService)
             {
                 /* This code is executed when an error happens. */
                 aValue = ECL_NIL;
-#if MAC_OR_LINUX_
-                GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_("Script aborted during load.");
             }
             ECL_RESTART_CASE_END;
             if (ECL_T == aValue)
@@ -792,11 +772,7 @@ DEFINE_DOIDLE_(CommonLispFilterService)
                             ECL_RESTART_CASE(1, condition)
                             {
                                 /* This code is executed when an error happens. */
-#if MAC_OR_LINUX_
-                                GetLogger().fail("Input handler function failed.");
-#else // ! MAC_OR_LINUX_
-                                cerr << "Input handler function failed." << endl;
-#endif // ! MAC_OR_LINUX_
+                                MpM_FAIL_("Input handler function failed.");
                             }
                             ECL_RESTART_CASE_END;
                         }
@@ -820,11 +796,7 @@ DEFINE_DOIDLE_(CommonLispFilterService)
                     ECL_RESTART_CASE(1, condition)
                     {
                         /* This code is executed when an error happens. */
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_("Script aborted during load.");
                     }
                     ECL_RESTART_CASE_END;
                 }
@@ -1133,11 +1105,7 @@ DEFINE_STOPSTREAMS_(CommonLispFilterService)
                 ECL_RESTART_CASE(1, condition)
                 {
                     /* This code is executed when an error happens. */
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Script aborted during load.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Script aborted during load." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_("Script aborted during load.");
                 }
                 ECL_RESTART_CASE_END;
             }

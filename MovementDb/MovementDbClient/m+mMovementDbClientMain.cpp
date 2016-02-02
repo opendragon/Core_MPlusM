@@ -194,9 +194,7 @@ setUpAndGo(void)
                                     else
                                     {
                                         OD_LOG("! (aClient->addFileToDb(inputString))"); //####
-#if MAC_OR_LINUX_
-                                        GetLogger().fail("Problem adding file to database.");
-#endif // MAC_OR_LINUX_
+                                        MpM_FAIL_("Problem adding file to database.");
                                         cout << "File not added to database." << endl;
                                     }
                                 }
@@ -219,9 +217,7 @@ setUpAndGo(void)
                                 else
                                 {
                                     OD_LOG("! (aClient->setDataTrackForDb(inputString))"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("Problem setting data track for database.");
-#endif // MAC_OR_LINUX_
+                                    MpM_FAIL_("Problem setting data track for database.");
                                     cout << "Data track not set for database." << endl;
                                 }
                                 break;
@@ -239,10 +235,7 @@ setUpAndGo(void)
                                 else
                                 {
                                     OD_LOG("! (aClient->setEmailAddressForDb(inputString))"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("Problem setting e-mail address for "
-                                                     "database.");
-#endif // MAC_OR_LINUX_
+                                    MpM_FAIL_("Problem setting e-mail address for database.");
                                     cout << "E-mail address not set for database." <<
                                     endl;
                                 }
@@ -255,9 +248,7 @@ setUpAndGo(void)
                                 if (! aClient->stopDbConnection())
                                 {
                                     OD_LOG("(! aClient->stopDbConnection())"); //####
-#if MAC_OR_LINUX_
-                                    GetLogger().fail("Problem stopping the database connection.");
-#endif // MAC_OR_LINUX_
+                                    MpM_FAIL_("Problem stopping the database connection.");
                                 }
                                 StopRunning();
                                 break;
@@ -278,29 +269,19 @@ setUpAndGo(void)
                 if (! aClient->disconnectFromService())
                 {
                     OD_LOG("(! aClient->disconnectFromService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Problem disconnecting from the service.");
-#endif // MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_COULD_NOT_DISCONNECT_FROM_SERVICE);
                 }
             }
             else
             {
                 OD_LOG("! (aClient->connectToService())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
             }
         }
         else
         {
             OD_LOG("! (aClient->findService(\"name:MovementDb\"))"); //####
-#if MAC_OR_LINUX_
-            GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
         }
         delete aClient;
     }
@@ -375,21 +356,13 @@ main(int      argc,
                     else
                     {
                         OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
                     OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
             }

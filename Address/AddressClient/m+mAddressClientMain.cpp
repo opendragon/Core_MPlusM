@@ -247,30 +247,20 @@ setUpAndGo(const YarpString &  outputMode,
                     else
                     {
                         OD_LOG("! (aClient->getAddress(address, port))"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Problem fetching the address information.");
-#endif // MAC_OR_LINUX_
+                        MpM_FAIL_("Problem fetching the address information.");
                     }
                 }
                 else
                 {
                     OD_LOG("! (aClient->connectToService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Could not connect to the required service.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Could not connect to the required service." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_COULD_NOT_CONNECT_TO_SERVICE);
                 }
             }
             else
             {
                 OD_LOG("! (aClient->findService(channelNameRequest)"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Could not find the required service.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Could not find the required service." << endl;
-#endif // ! MAC_OR_LINUX_
-            }            
+                MpM_FAIL_(MSG_COULD_NOT_FIND_SERVICE);
+            }
         }
         else
         {
@@ -358,21 +348,13 @@ main(int      argc,
                     else
                     {
                         OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                        GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                        cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                        MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                     }
                 }
                 else
                 {
                     OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_YARP_NOT_RUNNING);
                 }
                 Utilities::ShutDownGlobalStatusReporter();
             }

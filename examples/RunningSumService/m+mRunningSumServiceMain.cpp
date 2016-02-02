@@ -147,21 +147,13 @@ setUpAndGo(const YarpString & progName,
             else
             {
                 OD_LOG("! (RegisterLocalService(channelName, *aService))"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("Service could not be registered.");
-#else // ! MAC_OR_LINUX_
-                cerr << "Service could not be registered." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_SERVICE_NOT_REGISTERED);
             }
         }
         else
         {
             OD_LOG("! (aService->startService())"); //####
-#if MAC_OR_LINUX_
-            GetLogger().fail("Service could not be started.");
-#else // ! MAC_OR_LINUX_
-            cerr << "Service could not be started." << endl;
-#endif // ! MAC_OR_LINUX_
+            MpM_FAIL_(MSG_SERVICE_NOT_STARTED);
         }
         delete aService;
     }
@@ -236,21 +228,13 @@ main(int      argc,
                 else
                 {
                     OD_LOG("! (Utilities::CheckForRegistryService())"); //####
-#if MAC_OR_LINUX_
-                    GetLogger().fail("Registry Service not running.");
-#else // ! MAC_OR_LINUX_
-                    cerr << "Registry Service not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                    MpM_FAIL_(MSG_REGISTRY_NOT_RUNNING);
                 }
             }
             else
             {
                 OD_LOG("! (Utilities::CheckForValidNetwork())"); //####
-#if MAC_OR_LINUX_
-                GetLogger().fail("YARP network not running.");
-#else // ! MAC_OR_LINUX_
-                cerr << "YARP network not running." << endl;
-#endif // ! MAC_OR_LINUX_
+                MpM_FAIL_(MSG_YARP_NOT_RUNNING);
             }
             Utilities::ShutDownGlobalStatusReporter();
         }
