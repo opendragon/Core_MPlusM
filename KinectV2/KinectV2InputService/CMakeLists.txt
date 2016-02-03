@@ -73,13 +73,7 @@ endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                      m+mCommon
-					  Kinect
-                      odLogging
-                      ${YARP_LIBRARIES}
-                      ${ACE_LIBRARIES}
-                      ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -126,13 +120,7 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                        m+mCommon
-                        Kinect
-                        odLogging
-                        ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES}
-                        ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -179,13 +167,7 @@ $               {VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                        m+mCommon
-                        Kinect
-                        odLogging
-                        ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES}
-                        ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

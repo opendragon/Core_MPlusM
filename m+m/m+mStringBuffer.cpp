@@ -44,6 +44,8 @@
 //#include <odl/ODEnableLogging.h>
 #include <odl/ODLogging.h>
 
+#include <inttypes.h>
+
 #if defined(__APPLE__)
 # pragma clang diagnostic push
 # pragma clang diagnostic ignored "-Wunknown-pragmas"
@@ -172,7 +174,7 @@ StringBuffer::addLong(const int64_t aLong)
     OD_LOG_LL1("aLong = ", aLong); //####
     char numBuff[kNumBuffSize];
 
-    snprintf(numBuff, sizeof(numBuff), "%" __INT64_FMTd__, aLong);
+    snprintf(numBuff, sizeof(numBuff), "%" PRId64, aLong);
     OD_LOG_S1("numBuff <- ", numBuff); //####
     size_t lengthToAdd = strlen(numBuff);
     

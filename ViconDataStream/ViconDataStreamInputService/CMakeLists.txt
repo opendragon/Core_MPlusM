@@ -57,12 +57,7 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                      m+mCommon
-                      odLogging
-                      ${YARP_LIBRARIES}
-                      ${ACE_LIBRARIES}
-                      ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
 
 if(WIN32)
 	add_library(ViconDataStreamSDK SHARED IMPORTED)
@@ -82,11 +77,11 @@ if(WIN32)
 		set(MpMVICON_BOOST4_DLL "")
 	endif(WIN64)
 	set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_LOCATION
-					"${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.dll")
+                     "${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.dll")
 	set_property(TARGET ViconDataStreamSDK PROPERTY IMPORTED_IMPLIB
-					"${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.lib")
+                     "${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.lib")
 	target_link_libraries(${THIS_TARGET}
-                          ViconDataStreamSDK)
+                              ViconDataStreamSDK)
     install(FILES
 			"${MpMVICON_LIB_DIR}/ViconDataStreamSDK_CPP.dll"
             DESTINATION bin
@@ -165,12 +160,7 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                        m+mCommon
-                        odLogging
-                        ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES}
-                        ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
 
 if(WIN32)
     target_link_libraries(${THIS_TARGET}

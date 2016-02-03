@@ -55,9 +55,7 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                      m+mCommon
-                      odLogging)
+target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

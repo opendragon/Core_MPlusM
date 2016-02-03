@@ -51,6 +51,7 @@
 # include <ctype.h>
 # include <errno.h>
 # include <stdio.h>
+# include <inttypes.h>
 # if defined(__OBJC__)
 #  import "Foundation/NSObjCRuntime.h"
 # elif (defined(__APPLE__) || defined(__linux))
@@ -460,10 +461,10 @@ odWriteTime_(FILE * outFile)
 #  define OD_FORMAT_L2_        " %s%d, %s%d"
 
 /*! @brief The format string to be used with a single int64_t value. */
-#  define OD_FORMAT_LL1_      " %s%" __INT64_FMTd__
+#  define OD_FORMAT_LL1_      " %s%" PRId64
 
 /*! @brief The format string to be used with a pair of int64_t values. */
-#  define OD_FORMAT_LL2_      " %s%" __INT64_FMTd__ ", %s%" __INT64_FMTd__
+#  define OD_FORMAT_LL2_      " %s%" PRId64 ", %s%" PRId64
 
 /*! @brief The format string to be used with a message. */
 #  define OD_FORMAT_LOG_       " %s"
@@ -514,11 +515,10 @@ odWriteTime_(FILE * outFile)
 #  define OD_FORMAT_X2_        " %s%d(%#x), %s%d(%#x)"
 
 /*! @brief The format string to be used with a single int64_t hexadecimal value. */
-#  define OD_FORMAT_XL1_      " %s%" __INT64_FMTd__ "(%#" __UINT64_FMTx__ ")"
+#  define OD_FORMAT_XL1_      " %s%" PRId64 "(%" PRIu64 ")"
 
 /*! @brief The format string to be used with a pair of long long hexadecimal values. */
-#  define OD_FORMAT_XL2_      " %s%" __INT64_FMTd__ "(%#" __UINT64_FMTx__ "), %s%" __INT64_FMTd__ \
-                                "(%#" __UINT64_FMTx__ ")"
+#  define OD_FORMAT_XL2_      " %s%" PRId64 "(%" PRIu64 "), %s%" PRId64 "(%" PRIu64 ")"
 
 /*! @brief The message string to be used when setting up logging for the first time. */
 #  define OD_INIT_FORMAT_      "* %s%s" OD_FUNC_WHERE_ " started *"

@@ -390,11 +390,18 @@ browseCallBack(DNSServiceRef       service,
                     }
                     else if (0 != result)
                     {
-                        int  actErrno = errno;
-                        char errBuff[256];
+                        int    actErrno = errno;
+                        char   errBuff[256];
+#if MAC_OR_LINUX_
+# if LINUX_
+                        char * res;
+# else // ! LINUX_
+                        int    res;
+# endif // ! LINUX_
+#endif // MAC_OR_LINUX_
                         
 #if MAC_OR_LINUX_
-                        strerror_r(actErrno, errBuff, sizeof(errBuff));
+                        res = strerror_r(actErrno, errBuff, sizeof(errBuff));
 #else // ! MAC_OR_LINUX_
                         strerror_s(errBuff, sizeof(errBuff), actErrno);
 #endif // ! MAC_OR_LINUX_
@@ -1281,11 +1288,18 @@ Utilities::CheckForNameServerReporter(void)
                 }
                 else if (0 != result)
                 {
-                    int  actErrno = errno;
-                    char errBuff[256];
-                    
+                    int    actErrno = errno;
+                    char   errBuff[256];
 #if MAC_OR_LINUX_
-                    strerror_r(actErrno, errBuff, sizeof(errBuff));
+# if LINUX_
+                    char * res;
+# else // ! LINUX_
+                    int    res;
+# endif // ! LINUX_
+#endif // MAC_OR_LINUX_
+                        
+#if MAC_OR_LINUX_
+                    res = strerror_r(actErrno, errBuff, sizeof(errBuff));
 #else // ! MAC_OR_LINUX_
                     strerror_s(errBuff, sizeof(errBuff), actErrno);
 #endif // ! MAC_OR_LINUX_

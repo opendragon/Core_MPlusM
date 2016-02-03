@@ -42,6 +42,10 @@
 
 # include <m+m/m+mConfig.h>
 
+# if (! defined(LINUX_))
+/*! @brief @c TRUE if Linux, @c FALSE otherwise. */
+#  define LINUX_ defined(__linux__)
+# endif // ! defined(LINUX_)
 # if (! defined(MAC_OR_LINUX_))
 /*! @brief @c TRUE if non-Windows, @c FALSE if Windows. */
 #  define MAC_OR_LINUX_ (defined(__APPLE__) || defined(__linux__))
@@ -264,7 +268,7 @@ executable. */
 # endif // ! MAC_OR_LINUX_
 
 # if MAC_OR_LINUX_
-#  define MpM_FAIL_(xx_) GetLogger().fail(xx_)
+#  define MpM_FAIL_(xx_) GetLogger().fatal(xx_)
 # else // ! MAC_OR_LINUX_
 #  define MpM_FAIL_(xx_) cerr << "Fail: " << xx_ << endl
 # endif // ! MAC_OR_LINUX_

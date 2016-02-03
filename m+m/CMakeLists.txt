@@ -125,7 +125,12 @@ target_link_libraries(${THIS_TARGET}
                         odLogging
                         ${YARP_LIBRARIES}
                         ${ACE_LIBRARIES}
-						${BONJOUR_LIB})
+                        ${BONJOUR_LIB})
+
+if(LINUX)
+    target_link_libraries(${THIS_TARGET}
+                          pthread)
+endif(LINUX)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -301,11 +306,11 @@ if(MpM_DO_SWIG)
             DESTINATION lib
             COMPONENT libraries)
 
-install(FILES
-        swig_m+m_out_python/m+m.py
-        swig_m+m_out_python/m+mCommonPYTHON_wrap.cxx
-        DESTINATION python/m+m
-        COMPONENT headers)
+    install(FILES
+            swig_m+m_out_python/m+m.py
+            swig_m+m_out_python/m+mCommonPYTHON_wrap.cxx
+            DESTINATION python/m+m
+            COMPONENT headers)
 
 endif(MpM_DO_SWIG)
 

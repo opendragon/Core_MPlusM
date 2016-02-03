@@ -155,20 +155,13 @@ endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                        m+mCommon
-                        odLogging
-                        activemq
-                        ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES}
-                        ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} activemq ${MpM_LINK_LIBRARIES})
 
 if(WIN32)
     target_link_libraries(${THIS_TARGET}
-							aprlib
+                            aprlib
                             ${BONJOUR_LIB})
 endif(WIN32)
-
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin

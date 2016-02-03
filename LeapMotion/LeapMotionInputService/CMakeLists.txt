@@ -102,17 +102,11 @@ endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                      m+mCommon
-                      odLogging
-                      Leap
-                      ${YARP_LIBRARIES}
-                      ${ACE_LIBRARIES}
-                      ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} Leap ${MpM_LINK_LIBRARIES})
 
 install(TARGETS ${THIS_TARGET}
-		DESTINATION bin
-		COMPONENT applications)
+        DESTINATION bin
+        COMPONENT applications)
 
 set(THIS_TARGET m+mLeapTwoFingersInputService)
 
@@ -158,13 +152,7 @@ endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                        m+mCommon
-                        odLogging
-                        Leap
-                        ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES}
-                        ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} Leap ${MpM_LINK_LIBRARIES})
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
@@ -214,13 +202,7 @@ endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                        m+mCommon
-                        odLogging
-                        Leap
-                        ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES}
-                        ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} Leap ${MpM_LINK_LIBRARIES})
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
@@ -270,13 +252,7 @@ endif(APPLE)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET}
-                        m+mCommon
-                        odLogging
-                        Leap
-                        ${YARP_LIBRARIES}
-                        ${ACE_LIBRARIES}
-                        ${BONJOUR_LIB})
+target_link_libraries(${THIS_TARGET} Leap ${MpM_LINK_LIBRARIES})
 
 install(TARGETS ${THIS_TARGET}
         DESTINATION bin
