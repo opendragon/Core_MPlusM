@@ -68,17 +68,20 @@ if(WIN32)
 	set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${ECL_PATH}/ecl.dll")
 	set_property(TARGET ECL PROPERTY IMPORTED_IMPLIB "${ECL_PATH}/ecl.lib")
 	install(FILES
-			"${ECL_PATH}/ecl.dll"
-			DESTINATION bin
-			COMPONENT applications)
+                "${ECL_PATH}/ecl.dll"
+                DESTINATION bin
+                COMPONENT applications)
 	install(DIRECTORY
-			"${ECL_PATH}/ecl"
-			DESTINATION ecl
-			COMPONENT libraries)
+                "${ECL_PATH}/ecl"
+                DESTINATION ecl
+                COMPONENT libraries)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/libecl.dylib")
 endif(APPLE)
+if(LINUX)
+    set_property(TARGET ECL PROPERTY IMPORTED_LOCATION "${CMAKE_INSTALL_PREFIX}/lib/libecl.so")
+endif(LINUX)
 
 # Set up our program
 add_executable(${THIS_TARGET}

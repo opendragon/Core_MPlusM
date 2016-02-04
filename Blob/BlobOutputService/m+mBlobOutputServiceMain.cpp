@@ -69,6 +69,7 @@ using namespace MplusM;
 using namespace MplusM::Blob;
 using namespace MplusM::Common;
 using std::cerr;
+using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)

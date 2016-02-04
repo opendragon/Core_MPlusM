@@ -260,7 +260,7 @@ endif(WIN32)
 set(MpM_LINK_LIBRARIES m+mCommon odLogging ${YARP_LIBRARIES} ${ACE_LIBRARIES} ${BONJOUR_LIB})
 
 if(LINUX)
-    set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread kdnssd)
+    set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread dns_sd)
 endif(LINUX)
 
 add_subdirectory(Address)

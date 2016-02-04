@@ -153,8 +153,9 @@ DEFINE_PROCESSREQUEST_(Test09DefaultRequestHandler)
                "senderChannel = ", senderChannel); //####
     OD_LOG_P1("replyMechanism = ", replyMechanism); //####
     bool result = true;
-    
-    _response = name();
+ 
+    _response.clear();   
+    _response.addString(name());
     _response.append(restOfInput);
     sendResponse(replyMechanism);
     OD_LOG_OBJEXIT_B(result); //####
