@@ -115,7 +115,7 @@ reportJavaScriptError(JSContext *     cx,
         
         buff << report->lineno << ":" << message;
         errMessage += buff.str();
-        MpM_FAIL_(errMessage);
+        MpM_FAIL_(errMessage.c_str());
     }
     catch (...)
     {

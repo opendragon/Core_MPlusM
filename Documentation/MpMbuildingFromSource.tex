@@ -61,6 +61,18 @@ the executable is added to the system \asCode{Path} variable
 \item\exSp{}A program, such as \asCode{SourceTree}, to fetch files from `git' repositories
 \end{itemize}
 \tertiaryEnd
+\tertiaryStart{Prerequisites~for~\linux}
+\begin{itemize}
+\item The \asCode{clang} or \asCode{g++} (which includes \asCode{gcc}) \compLang{C}/
+\compLang{C++} compilers
+\item\exSp{}The \asCode{ccmake} and \asCode{cmake} command\longDash{}line tools
+\item\exSp{}The \asCode{autoconf-2.13}, \asCode{python} and \asCode{git}
+command\longDash{}line tools
+\end{itemize}
+The base set of tools can be obtained via the following command:\\
+\asCode{apt-get install cmake git g++ clang autoconf2.13 python2.7}\\
+Note that some of the tools may already be installed on the \linux{} system.
+\tertiaryEnd
 \secondaryEnd
 \secondaryStart{Initial~Steps}
 \begin{itemize}
@@ -148,6 +160,11 @@ panel
 \item\exSp{}Click on the \asCode{OK} button to close the \asCode{System Properties}
 window
 \end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+\mplusm{} can use the standard build of \textbf{ACE}, which can be installed via the
+command:\\
+\asCode{sudo apt-get install libace-dev}
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\yarp}}
@@ -258,6 +275,9 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \yarp{} server is running or indicate how to start one up
 \end{itemize}
 \tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+TBD
+\tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional, used with \textit{\MMMU})~Building~\textbf{OGDF}}
 \textbf{OGDF} (Open Graph Drawing Framework) provides the tools to layout graphs for the
@@ -311,6 +331,9 @@ panel
 \item\exSp{}Click on the \asCode{OK} button to close the \asCode{System Properties}
 window
 \end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+TBD
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
@@ -424,6 +447,9 @@ standard \win{} paths for program files, so the target directory is not the fina
 \item\exSp{}Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+TBD
+\tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\ECL}}
 \textbf{\ECL} (\textit{E}mbeddable \textit{C}ommon \textit{L}isp) is the
@@ -444,12 +470,11 @@ directory, but it need not be
 \begin{itemize}
 \item\asCode{git clone https://gitlab.com/embeddable-common-lisp/ecl.git \textbf{ecl}}
 \item\exSp\asCode{cd \textbf{ecl}}
-\item\exSp\asCode{make clean}
 \item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}enable-gengc {-}{-}with-cxx
 {-}{-}with-dffi\\
 {-}{-}enable-shared {-}{-}disable-threads {-}{-}enable-unicode {-}{-}enable-longdouble\\
 {-}{-}with-tcp {-}{-}with-clos-streams {-}{-}with-cmp {-}{-}enable-boehm}
-\item\exSp\asCode{make}
+\item\exSp\asCode{make clean \&\& make}
 \item\exSp\asCode{sudo make install}
 \end{itemize}
 \end{itemize}
@@ -469,6 +494,9 @@ ecl-16.0.0-msvc-win32-installer.exe}
 \asCode{C:\textbackslash{}Program Files (x86)}
 \item\exSp{}Rename the copy to \asCode{ecl\fUS{}src}
 \end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+TBD
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{ActiveMQ-CPP}}
@@ -556,8 +584,7 @@ be referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \item\exSp{}Open a Command Prompt window
 \item\exSp{}Execute the command:
 \begin{itemize}
-\item Execute the command\\
-`\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
+\item `\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
 \textbf{ActiveMQ}}', if \asCode{git} is available on the system, or use
 \asCode{SourceTree} to clone the repository\\
 `\asCode{https://git-wip-us.apache.org/repos/asf/activemq-cpp.git}' into the directory
@@ -618,6 +645,10 @@ select the \asCode{Release} :\ \asCode{Win32} configuration instead
 \item\exSp{}Close the Command Prompt window
 \end{itemize}
 \tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+TBD
+\tertiaryEnd
+\secondaryEnd
 \secondaryStart{Building~Core~\mplusm}
 If you need to update the version number of \mplusm, refer to the
 \appendixRef{UpdatingVersionNumber}{Updating~the~Version~Number} appendix for what files
@@ -734,6 +765,9 @@ version; note that this will fail the first time, since it attempts to install
 \item\exSp{}Exit from \asCode{Visual Studio}
 \end{itemize}
 \tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+TBD
+\tertiaryEnd
 \secondaryEnd
 \secondaryStart{Building~\textit{\MMMU}}
 \textit{\MMMU} is not built from the command\longDash{}line but, rather, from the IDE.
@@ -776,6 +810,9 @@ configuration instead
 select the \asCode{Release} :\ \asCode{Win32} configuration instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \end{itemize}
+\tertiaryEnd
+\tertiaryStart{Building~on~\linux}
+TBD
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Creating~the~Distribution~Packages}
@@ -849,6 +886,9 @@ the distribution package
 \asCode{m+m-\MMVn-x86.exe}, if building for 32-bit) file located in the
 `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM}' directory
 \end{itemize}
+\tertiaryEnd
+\tertiaryStart{Creating~on~\linux}
+TBD
 \tertiaryEnd
 \secondaryEnd
 \appendixEnd{}

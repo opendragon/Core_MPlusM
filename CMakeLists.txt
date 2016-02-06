@@ -87,6 +87,9 @@ if(APPLE)
 # 'rpath' warning
     cmake_policy(SET CMP0042 OLD)
 endif(APPLE)
+if(LINUX)
+    set(CMAKE_CXX_FLAGS "-std=c++11" CACHE STRING "Fixes compile problems with JavaScript" FORCE)
+endif(LINUX)
 
 if(WIN32)
     if(NOT ("${CMAKE_EXE_LINKER_FLAGS}" MATCHES ".*NODEFAULTLIB:libcmt.*"))

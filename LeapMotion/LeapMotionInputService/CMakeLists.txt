@@ -99,6 +99,10 @@ if(APPLE)
     install(FILES "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.dylib"
             DESTINATION lib)
 endif(APPLE)
+if(LINUX)
+    set_property(TARGET Leap PROPERTY IMPORTED_LOCATION
+                    "${MpMLEAPMOTION_SOURCE_DIR}/LeapMotionInputService/libLeap.so")
+endif(LINUX)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

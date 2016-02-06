@@ -63,6 +63,7 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::LeapTwoPalms;
 using std::cerr;
+using std::cout;
 using std::endl;
 
 #if defined(__APPLE__)

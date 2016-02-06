@@ -62,6 +62,9 @@ endif(WIN32)
 if(APPLE)
     set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-${MQ_VERSION}")
 endif(APPLE)
+if(LINUX)
+    set(ACTIVEMQ_INC_PATH "${CMAKE_INSTALL_PREFIX}/include/activemq-cpp-${MQ_VERSION}")
+endif(LINUX)
 
 include_directories(${ACTIVEMQ_INC_PATH})
 
@@ -152,6 +155,12 @@ if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
                         libYARP_init.1.dylib "@rpath/libYARP_init.1.dylib" ${THIS_TARGET})
 endif(APPLE)
+
+if(LINUX)
+	add_library(activemq SHARED IMPORTED)
+    set_property(TARGET activemq PROPERTY IMPORTED_LOCATION
+                    "${CMAKE_INSTALL_PREFIX}/lib/libactivemq-cpp.so")
+endif(LINUX)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
