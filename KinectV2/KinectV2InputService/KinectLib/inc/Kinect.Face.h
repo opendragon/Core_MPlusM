@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0595 */
-/* at Wed Sep 10 13:20:56 2014
+/* at Sun Oct 19 13:16:54 2014
  */
 /* Compiler settings for ..\..\idl\Kinect.Face.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0595 

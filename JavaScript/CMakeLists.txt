@@ -47,7 +47,11 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 set(SPIDER_VERSION "47a1")
-set(ICU_VERSION "561")
+if(WIN32)
+    set(ICU_VERSION "56")
+else(WIN32)
+    set(ICU_VERSION "561")
+endif(WIN32)
 
 if(WIN32)
     if(WIN64)
@@ -84,19 +88,19 @@ if(WIN32)
             DESTINATION bin
             COMPONENT applications)
     install(FILES
-			"${SPIDER_PATH}/lib/mozglue.dll"
-			"${SPIDER_PATH}/lib/nspr4.dll"
+            "${SPIDER_PATH}/lib/mozglue.dll"
+            "${SPIDER_PATH}/lib/nspr4.dll"
             "${SPIDER_PATH}/lib/plds4.dll"
-			"${SPIDER_PATH}/lib/plc4.dll"
-			DESTINATION bin
+            "${SPIDER_PATH}/lib/plc4.dll"
+            DESTINATION bin
             COMPONENT applications)
 	if(WIN64)
 		install(FILES
-                "${SPIDER_PATH}/lib/icudt${ICU_VERSION}.dll"
-				"${SPIDER_PATH}/lib/icuin${ICU_VERSION}.dll"
-				"${SPIDER_PATH}/lib/icuuc${ICU_VERSION}.dll"
-				DESTINATION bin
-				COMPONENT applications)
+                        "${SPIDER_PATH}/lib/icudt${ICU_VERSION}.dll"
+                        "${SPIDER_PATH}/lib/icuin${ICU_VERSION}.dll"
+                        "${SPIDER_PATH}/lib/icuuc${ICU_VERSION}.dll"
+                        DESTINATION bin
+                        COMPONENT applications)
 	endif(WIN64)
 endif(WIN32)
 if(APPLE)

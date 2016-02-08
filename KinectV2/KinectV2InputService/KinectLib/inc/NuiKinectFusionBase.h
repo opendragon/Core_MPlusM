@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0595 */
-/* at Wed Sep 10 12:58:28 2014
+/* at Sun Oct 19 12:58:13 2014
  */
 /* Compiler settings for ..\inc_public\KinectFusionBase.idl:
     Oicf, W3, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0595 

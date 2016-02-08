@@ -145,6 +145,8 @@ m+mKinectV2BlobInputService
 m+mKinectV2BlobInputService.rc
 m+mKinectV2InputService
 m+mKinectV2InputService.rc
+m+mKinectV2SpecialInputService
+m+mKinectV2SpecialInputService.rc
 m+mLeapBlobInputService
 m+mLeapBlobInputService.rc
 m+mLeapMotionInputService

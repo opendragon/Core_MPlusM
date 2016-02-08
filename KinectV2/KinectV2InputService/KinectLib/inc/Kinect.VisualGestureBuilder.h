@@ -4,7 +4,7 @@
 
 
  /* File created by MIDL compiler version 8.00.0595 */
-/* at Wed Sep 10 13:10:36 2014
+/* at Sun Oct 19 13:17:53 2014
  */
 /* Compiler settings for ..\..\idl\Kinect.VisualGestureBuilder.idl:
     Oicf, W1, Zp8, env=Win64 (32b run), target_arch=AMD64 8.00.0595 
