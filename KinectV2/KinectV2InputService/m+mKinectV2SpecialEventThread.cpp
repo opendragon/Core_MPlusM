@@ -113,7 +113,7 @@ add4VectorToList(yarp::os::Bottle & listToUpdate,
 static void
 add4ZeroesToList(yarp::os::Bottle & listToUpdate)
 {
-    listToUpdate.addDouble(0;
+    listToUpdate.addDouble(0);
     listToUpdate.addDouble(0);
     listToUpdate.addDouble(0);
     listToUpdate.addDouble(0);
@@ -154,10 +154,9 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
 } // addJointToList
 
 /*! @brief Add a joint to the list that's being built.
- @param str_ The name for the joint.
  @param index_ The joint index. */
 #define ADD_JOINT_TO_LIST_(index_) \
-        addJointToList(*jointsList, jointData[index_], orientationData[index_])
+        addJointToList(message, jointData[index_], orientationData[index_])
 
 /*! @brief Add the data for a body to a message.
  @param message The message to be updated with the body data.

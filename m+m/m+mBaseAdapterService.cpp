@@ -64,6 +64,8 @@
 
 using namespace MplusM;
 using namespace MplusM::Common;
+using std::cerr;
+using std::endl;
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables

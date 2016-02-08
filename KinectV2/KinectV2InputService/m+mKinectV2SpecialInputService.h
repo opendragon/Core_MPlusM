@@ -56,7 +56,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_KINECTV2SPECIALINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_
+# define DEFAULT_KINECTV2SPECIALINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
                                                         "input/kinectv2special")
 
 /*! @brief The description of the service. */

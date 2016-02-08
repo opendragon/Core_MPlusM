@@ -67,6 +67,7 @@ using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::Parser;
 using namespace MplusM::Test;
+using std::cerr;
 using std::cout;
 using std::endl;
 

@@ -163,7 +163,7 @@ add_executable(${THIS_TARGET}
                 m+mKinectV2SpecialInputServiceMain.cpp
                 m+mKinectV2SpecialEventThread.cpp
                 m+mKinectV2SpecialInputService.cpp
-$               {VERS_RESOURCE})
+                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.

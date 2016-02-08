@@ -60,7 +60,7 @@ namespace MplusM
     namespace KinectV2Special
     {
         /*! @brief A class to generate output from Kinect V2 data. */
-        class KinectV2SpecialEventThread : public COmmon::BaseThread
+        class KinectV2SpecialEventThread : public Common::BaseThread
         {
         public :
         
