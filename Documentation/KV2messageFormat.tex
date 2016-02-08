@@ -1,5 +1,5 @@
 \ProvidesFile{KV2messageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format: \KVtwoI}
+\appendixStart[KV2Format]{\textitcorr{\KVtwoI{} Message Format}}
 Each time that the Kinect V2 controller reports that there is information available,
 the \asCode{KinectV2InputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
@@ -43,4 +43,4 @@ controller
 \openSq{}x, y, z, w\closeSq{} of the orientation of the joint, as a list of four
 floating\longDash{}point numbers
 \end{itemize}
-\primaryEnd{}
+\appendixEnd{}

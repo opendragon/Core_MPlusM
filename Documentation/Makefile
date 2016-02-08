@@ -79,8 +79,10 @@ IMbitmapepsfiles = $(IMAGE_DIR)/Installer01.eps $(IMAGE_DIR)/Installer02.eps \
 IObitmapepsfiles = $(IMAGE_DIR)/configureKinectV2BlobInputService.eps \
 		$(IMAGE_DIR)/launchKinectV2BlobInputService.eps \
 		$(IMAGE_DIR)/launchKinectV2InputService.eps \
+		$(IMAGE_DIR)/launchKinectV2SpecialInputService.eps \
 		$(IMAGE_DIR)/runningKinectV2BlobInputService.eps \
 		$(IMAGE_DIR)/runningKinectV2InputService.eps \
+		$(IMAGE_DIR)/runningKinectV2SpecialInputService.eps \
 		$(IMAGE_DIR)/configureLeapBlobInputService.eps \
 		$(IMAGE_DIR)/launchLeapBlobInputService.eps \
 		$(IMAGE_DIR)/launchLeapMotionInputService.eps \
@@ -281,6 +283,7 @@ IMsecondaryfiles = IMdocumentationHistory.tex IMfrontispiece.tex IMinstalling.te
 
 IOsecondaryfiles = IOdocumentationHistory.tex IOfrontispiece.tex IOoverview.tex \
 		KV2blobMessageFormat.tex KV2blobService.tex KV2messageFormat.tex KV2service.tex \
+		KV2specialMessageFormat.tex KV2specialService.tex \
 		LM2FMessageFormat.tex LM2FService.tex LM2PMessageFormat.tex \
 		LM2PService.tex LMblobMessageFormat.tex LMblobService.tex \
 		LMmessageFormat.tex LMservice.tex NNblobMessageFormat.tex NNblobService.tex \

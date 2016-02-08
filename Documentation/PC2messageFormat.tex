@@ -1,5 +1,5 @@
 \ProvidesFile{PC2messageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format: \PCtwoI}
+\appendixStart[PC2Format]{\textitcorr{\PCtwoI{} Message Format}}
 Each time that the ProComp2 controller reports that there is information available,
 the \asCode{ProComp2InputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
@@ -21,4 +21,4 @@ keys (starting with `\textbf{A}') will be reported.
 For example, if the only sensor that is connected is in encoder port `\textbf{C}', then
 ports `\textbf{A}' and `\textbf{B}' as well as ports with higher numbers than `\textbf{C}'
 will not be in the dictionary.
-\primaryEnd{}
+\appendixEnd{}

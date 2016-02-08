@@ -1,5 +1,5 @@
 \ProvidesFile{OSmessageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format: \OSI}
+\appendixStart[OSFormat]{\textitcorr{\OSI{} Message Format}}
 Each time that the Organic Motion OpenStage controller reports that there is information
 available, the \asCode{OpenStageInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
@@ -16,4 +16,4 @@ Z\closeSq{} of the `translation' of the joint
 \item\exSp\textbf{rotation} The rotation quaternion \openSq{}x, y, z, w\closeSq{} for the
 joint
 \end{itemize}
-\primaryEnd{}
+\appendixEnd{}

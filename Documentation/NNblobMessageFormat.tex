@@ -1,5 +1,5 @@
 \ProvidesFile{NNblobMessageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format: \NNBI}
+\appendixStart[NNblobFormat]{\textitcorr{\NNBI{} Message Format}}
 Each time that the Natural Point NatNet controller reports that there is information
 available, the \asCode{NatNetBlobInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing a single binary blob, with the following
@@ -16,4 +16,4 @@ of the segment, multiplied by the translation scale and the rotation quaternion
 \openSq{}x, y, z, w\closeSq{} for the segment
 \end{itemize}
 \end{itemize}
-\primaryEnd{}
+\appendixEnd{}

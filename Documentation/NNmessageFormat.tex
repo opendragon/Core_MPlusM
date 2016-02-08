@@ -1,5 +1,5 @@
 \ProvidesFile{NNmessageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format: \NNI}
+\appendixStart[NNFormat]{\textitcorr{\NNI{} Message Format}}
 Each time that the Natural Point NatNet controller reports that there is information
 available, the \asCode{NatNetInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
@@ -50,4 +50,4 @@ coordinate of the bone
 \item\exSp\textbf{qz} \longDash{} The `z' component of the rotation quaternion of the bone
 \item\exSp\textbf{qw} \longDash{} The `w' component of the rotation quaternion of the bone
 \end{itemize}
-\primaryEnd{}
+\appendixEnd{}

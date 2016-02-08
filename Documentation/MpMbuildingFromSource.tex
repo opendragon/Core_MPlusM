@@ -1,5 +1,5 @@
 \ProvidesFile{MpMbuildingFromSource.tex}[v1.0.0]
-\appendixStart[BuildingFromSource]{\textitcorr{Building~\mplusm{}~From~Source}}
+\appendixStart[BuildingFromSource]{\textitcorr{Building \mplusm{} From Source}}
 An \mplusm{} installation is normally simply installed according to the
 \emph{\MMM{}~Installation} manual.
 It is also possible to build a customized \mplusm{} from the source files, which can be
@@ -236,6 +236,8 @@ for 32-bit, do not select the \asCode{Win64} variant
 \asCode{\textbf{devel}/ACE\fUS{}wrappers/lib/ACE.lib}
 \item\exSp{}Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
 \asCode{\textbf{devel}/ACE\fUS{}wrappers}
+\item\exSp{}Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to
+\asCode{C:/Program Files/m+m}
 \item\exSp{}Turn off the `\asCode{Advanced}' option
 \item\exSp{}Turn off the `\asCode{CREATE\fUS{}YMANAGER}' option
 \item\exSp{}Click on the `\asCode{Configure}' button
@@ -251,10 +253,10 @@ configuration instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Click on the `\asCode{Deselect All}' button
 \item\exSp{}Select the `\asCode{INSTALL}' project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
-`\asCode{Release|Win32}' configuration if building for 32-bit; no other checkboxes should
-be on
+`\asCode{Release|Win32}' configuration if building for 32-bit
 \item\exSp{}Click on the `\asCode{Build}' button to build and install the Release version
 \item\exSp{}Exit from \asCode{Visual Studio}
 \item\exSp{}Open the \asCode{System} Control Panel
@@ -395,18 +397,26 @@ all, even though the scripts exist.
 there is a \win{} installer available at\\
 \asCode{ftp.mozilla.org/pub/mozilla.org/mozilla/libraries/win32/MozillaBuildSetup-%
 Latest.exe}
-\item\exSp{}Select a directory to hold the \textbf{SpiderMonkey} source code, which will be
-referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
+\item\exSp{}Select a directory to hold the \textbf{SpiderMonkey} source code, which will
+be referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \asCode{\textbf{devel}} directory, but it need not be
-\item\exSp{}Open a Command Prompt window, running as Administrator
-\item\exSp{}Execute the command
-`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}', if
-\asCode{git} is available on the system, or use \asCode{SourceTree} to clone the
-repository\\
+\item\exSp{}If \asCode{git} is available as a command\longDash{}tool on the system, do the
+following:
+\begin{itemize}
+\item Open a Command Prompt window, running as Administrator
+\item\exSp{}Execute the command\\
+`\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}'
+\end{itemize}
+\item\exSp{}if \asCode{git} is not available as a command\longDash{}tool on the system, do
+the following:
+\begin{itemize}
+\item\exSp{}Use \asCode{SourceTree} to clone the repository
 `\asCode{https://github.com/mozilla/gecko-dev.git}' into the directory
 `\asCode{\textbf{spidermonkey}}'
-\item\exSp{}Move to the directory where the \asCode{MozillaBuild} environment was
-installed
+\item\exSp{}Open a Command Prompt window, running as Administrator
+\end{itemize}
+\item\exSp{}In the Command Prompt Window, move to the directory where the
+\asCode{MozillaBuild} environment was installed
 \item\exSp{}Execute the command `\asCode{start-shell-msvc2015-x64.bat}'; this will launch
 an environment in which \textbf{SpiderMonkey} can be built; note that the initial
 directory will be the `home' directory of the user, on the system drive
@@ -571,26 +581,38 @@ configuration instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Click on the `\asCode{Deselect All}' button
 \item\exSp{}Select the `\asCode{INSTALL}' project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
-`\asCode{Release|Win32} configuration if building for 32-bit; no other checkboxes should
-be on
+`\asCode{Release|Win32} configuration if building for 32-bit
 \item\exSp{}Click on the `\asCode{Build}' button to build and install the Release
 version
 \item\exSp{}Exit from \asCode{Visual Studio}
 \item\exSp{}Select a directory to hold the \textbf{ActiveMQ-CPP} source code, which will
 be referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \asCode{\textbf{devel}} directory, but it need not be
-\item\exSp{}Open a Command Prompt window
-\item\exSp{}Execute the command:
+\item\exSp{}If \asCode{git} is available as a command\longDash{}tool on the system, do the
+following:
 \begin{itemize}
+\item Open a Command Prompt window
+\item\exSp{}Execute the command:
 \item `\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
-\textbf{ActiveMQ}}', if \asCode{git} is available on the system, or use
-\asCode{SourceTree} to clone the repository\\
+\textbf{ActiveMQ}}'
+\item\exSp{}Close the Command Prompt window
+\end{itemize}
+\item\exSp{}if \asCode{git} is not available as a command\longDash{}tool on the system, do
+the following:
+\begin{itemize}
+\item Use \asCode{SourceTree} to clone the repository\\
 `\asCode{https://git-wip-us.apache.org/repos/asf/activemq-cpp.git}' into the directory
 `\asCode{\textbf{ActiveMQ}}'
 \end{itemize}
-\item\exSp{}Close the Command Prompt window
+\item\exSp{}Open the directory \asCode{C:\textbackslash{}Program
+Files\textbackslash{}m+m\textbackslash{}include} in the File Explorer
+\item\exSp{}Move the directories \asCode{activemq}, \asCode{cms} and \asCode{decaf} to the
+trash;
+if the previously\longDash{}installed header files conflict with the ones retrieved using
+\asCode{git}, building \textbf{ActiveMQ-CPP} will likely fail
 \item\exSp{}Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the file
 \asCode{\textbf{ActiveMQ}\textbackslash{}activemq-cpp\textbackslash{}vs2010-build%
@@ -610,6 +632,8 @@ combo-box and the \asCode{x64} platform from the top-right combo-box, unless bui
 \item\exSp{}Expand the \asCode{Configuration Properties} item in the left-hand panel
 \item\exSp{}Expand the \asCode{C/C++} item
 \item\exSp{}Select the \asCode{General} item
+\item\exSp{}In the middle panel, change the \asCode{Debug Information Format} setting to
+`\asCode{Program Database (/Zi)}'
 \item\exSp{}Select the \asCode{Additional Include Directories} item in the middle panel
 \item\exSp{}Click on the `expand' button to the right of the list of paths \longDash{} the
 button with a `v'
@@ -755,10 +779,10 @@ configuration instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Click on the `\asCode{Deselect All}' button
 \item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
-`\asCode{Release|Win32}' configuration if building for 32-bit; no other checkboxes should
-be on
+`\asCode{Release|Win32}' configuration if building for 32-bit
 \item\exSp{}Click on the `\asCode{Build}' button to build and install the Release
 version; note that this will fail the first time, since it attempts to install
 \textit{\MMMU}, which has not been built yet
@@ -871,10 +895,10 @@ distribution packages successfully
 \asCode{Visual Studio}
 \item\exSp{}Open the \asCode{Batch Build} panel via the menu item
 `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Click on the `\asCode{Deselect All}' button
 \item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
-`\asCode{Release|Win32}' configuration if building for 32-bit; no other checkboxes should
-be on
+`\asCode{Release|Win32}' configuration if building for 32-bit
 \item\exSp{}Select the `\asCode{PACKAGE}' project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
 `\asCode{Release|Win32}' configuration for 32-bit; the only other checkbox that should be

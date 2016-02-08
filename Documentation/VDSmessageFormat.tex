@@ -1,5 +1,5 @@
 \ProvidesFile{VDSmessageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format: \VDSI}
+\appendixStart[VDSFormat]{\textitcorr{\VDSI{} Message Format}}
 Each time that the Vicon DataStream controller reports that there is information
 available, the\\
 \asCode{ViconDataStreamInputService} packages it into a single message
@@ -15,4 +15,4 @@ Each segment entry consists of the segment name as its key and a value consistin
 list of floating\longDash{}point numbers, with the three\longDash{}dimensional coordinates
 \openSq{}X, Y, Z\closeSq{} of the `translation' of the segment, followed by the rotation
 quaternion \openSq{}x, y, z, w\closeSq{} for the segment.
-\primaryEnd{}
+\appendixEnd{}

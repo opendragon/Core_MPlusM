@@ -1,5 +1,5 @@
 \ProvidesFile{LMmessageFormat.tex}[v1.0.0]
-\primaryStart{The~Message~Format: \LMI}
+\appendixStart[LMFormat]{\textitcorr{\LMI{} Message Format}}
 Each time that the Leap Motion controller reports that there is information available,
 the \asCode{LeapMotionInputService} packages it into a single message
 \openSq\asCode{Bottle}\closeSq, containing the following:
@@ -91,4 +91,4 @@ from its previous position
 unit three\longDash{}dimensional vector
 \item\exSp\textbf{length} \longDash{} the length of the tool in millimetres
 \end{itemize}
-\primaryEnd{}
+\appendixEnd{}
