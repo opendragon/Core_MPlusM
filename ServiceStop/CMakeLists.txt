@@ -1,14 +1,14 @@
 #--------------------------------------------------------------------------------------------------
 #
-#  File:       ServiceLister/CMakeLists.txt
+#  File:       ServiceStop/CMakeLists.txt
 #
 #  Project:    m+m
 #
-#  Contains:   The CMAKE definitions for the ServiceLister application.
+#  Contains:   The CMAKE definitions for the ServiceStop application.
 #
 #  Written by: Norman Jaffe
 #
-#  Copyright:  (c) 2014 by H Plus Technologies Ltd. and Simon Fraser University.
+#  Copyright:  (c) 2015 by H Plus Technologies Ltd. and Simon Fraser University.
 #
 #              All rights reserved. Redistribution and use in source and binary forms, with or
 #              without modification, are permitted provided that the following conditions are met:
@@ -32,13 +32,13 @@
 #              ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH
 #              DAMAGE.
 #
-#  Created:    2014-03-12
+#  Created:    2015-04-27
 #
 #--------------------------------------------------------------------------------------------------
 
 include_directories("${MpM_SOURCE_DIR}")
 
-set(THIS_TARGET m+mServiceLister)
+set(THIS_TARGET m+mServiceStop)
 
 if(WIN32)
     set(VERS_RESOURCE ${THIS_TARGET}.rc)
@@ -50,7 +50,7 @@ configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 # Set up our program
 add_executable(${THIS_TARGET}
-               m+mServiceListerMain.cpp
+               m+mServiceStopMain.cpp
                ${VERS_RESOURCE})
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be

@@ -48,9 +48,9 @@ m+mClientList
 m+mFindServices
 m+mPortLister
 m+mRequestInfo
-m+mServiceLister
+m+mServiceList
 m+mServiceMetrics
-m+mStopService
+m+mServiceStop
 m+mTestLoopbackControl
 m+mTestLoopbackResponder
 m+mTestSink

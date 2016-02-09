@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mStopServiceMain.cpp
+//  File:       m+mServiceStopMain.cpp
 //
 //  Project:    m+m
 //
@@ -51,8 +51,8 @@
 /*! @file
  @brief A utility application to stop a service. */
 
-/*! @dir StopService
- @brief The set of files that implement the Stop Service application. */
+/*! @dir ServiceStop
+ @brief The set of files that implement the Service Stop application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)

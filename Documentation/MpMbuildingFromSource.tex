@@ -59,6 +59,8 @@ Software}, can process the \textbf{ZIP} archive files
 version, not a version \textbf{3} or newer, and make sure that the install directory for
 the executable is added to the system \asCode{Path} variable
 \item\exSp{}A program, such as \asCode{SourceTree}, to fetch files from `git' repositories
+\item\exSp{}The Nullsoft Scriptable Install System (\asCode{NSIS}) from
+\companyReference{http://nsis.sourceforge.net/Download}{NullSoft}
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Prerequisites~for~\linux}
@@ -741,7 +743,7 @@ instructions above
 \item\exSp{}Execute the command `\asCode{m+mRegistryService \&}'; this will launch the
 \serviceNameR[\RS]{RegistryService} in the background and return the \textbf{PID} that can
 be used to halt it later
-\item\exSp{}Execute the command `\asCode{m+mServiceLister}; this should display the
+\item\exSp{}Execute the command `\asCode{m+mServiceList}; this should display the
 properties of the \serviceNameR[\RS]{RegistryService}
 \item\exSp{}If you wish to halt the \serviceNameR[\RS]{RegistryService}, execute the
 command `\asCode{halt -s HUP} \#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was
@@ -787,6 +789,19 @@ configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
 version; note that this will fail the first time, since it attempts to install
 \textit{\MMMU}, which has not been built yet
 \item\exSp{}Exit from \asCode{Visual Studio}
+\item\exSp{}Open the \asCode{System} Control Panel
+\item\exSp{}Click on the \asCode{Advanced system settings} button
+\item\exSp{}Click on the \asCode{Environment Variables} button on the \asCode{Advanced}
+tab
+\item\exSp{}Select the \asCode{MPlusM\fUS{}ROOT} system variable and click on the
+\asCode{Edit} button 
+\item\exSp{}Edit the variable value to be
+`\asCode{C:\textbackslash{}Program Files\textbackslash{}m+m\textbackslash{}include}', and
+click on the \asCode{OK} button
+\item\exSp{}Click on the \asCode{OK} button to close the \asCode{Environment Variables}
+panel
+\item\exSp{}Click on the \asCode{OK} button to close the \asCode{System Properties}
+window
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}

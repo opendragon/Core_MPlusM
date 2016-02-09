@@ -205,8 +205,6 @@
 		DF385014198A9D6A00A0414E /* m+mStatsRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mStatsRequestHandler.h"; path = "RequestCounter/RequestCounterService/m+mStatsRequestHandler.h"; sourceTree = SOURCE_ROOT; };
 		DF385015198A9DA800A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = RequestInfo/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF385016198A9DA800A0414E /* m+mRequestInfoMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mRequestInfoMain.cpp"; path = "RequestInfo/m+mRequestInfoMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF385017198A9DBE00A0414E /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceLister/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
-		DF385018198A9DBE00A0414E /* m+mServiceListerMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mServiceListerMain.cpp"; path = "ServiceLister/m+mServiceListerMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF385019198A9DD500A0414E /* sqlite3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = sqlite3.c; path = SQLite3/sqlite3.c; sourceTree = SOURCE_ROOT; };
 		DF38501A198A9DD500A0414E /* sqlite3.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3.h; path = SQLite3/sqlite3.h; sourceTree = SOURCE_ROOT; };
 		DF38501B198A9DD500A0414E /* sqlite3ext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = sqlite3ext.h; path = SQLite3/sqlite3ext.h; sourceTree = SOURCE_ROOT; };
@@ -357,10 +355,6 @@
 		DF824BD119C8E4C5004D13AC /* m+mLeapMotionInputService.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapMotionInputService.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapMotionInputService.cpp"; sourceTree = SOURCE_ROOT; };
 		DF824BD219C8E4C5004D13AC /* m+mLeapMotionInputService.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mLeapMotionInputService.h"; path = "LeapMotion/LeapMotionInputService/m+mLeapMotionInputService.h"; sourceTree = SOURCE_ROOT; };
 		DF824BD319C8E4C5004D13AC /* m+mLeapMotionInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mLeapMotionInputServiceMain.cpp"; path = "LeapMotion/LeapMotionInputService/m+mLeapMotionInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
-		DF88881E1AEFD2B7001320EB /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = StopService/CMakeLists.txt; sourceTree = "<group>"; };
-		DF88881F1AEFD2B7001320EB /* m+mStopServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mStopServiceMain.cpp"; path = "StopService/m+mStopServiceMain.cpp"; sourceTree = "<group>"; };
-		DF8888201AEFD2B7001320EB /* m+mStopService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mStopService.rc.in"; path = "StopService/m+mStopService.rc.in"; sourceTree = "<group>"; };
-		DF8888211AEFD2B7001320EB /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = StopService/resource.h; sourceTree = "<group>"; };
 		DF8D35451AA4B34300322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestLoopbackControl/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
 		DF8D35461AA4B34300322DDD /* m+mTestLoopbackControlMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mTestLoopbackControlMain.cpp"; path = "Tunnel/TestLoopbackControl/m+mTestLoopbackControlMain.cpp"; sourceTree = SOURCE_ROOT; };
 		DF8D35471AA4B49B00322DDD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = Tunnel/TestLoopbackResponder/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
@@ -422,7 +416,6 @@
 		DFA7D1091ADD9C2B00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestCounter/RequestCounterClient/resource.h; sourceTree = "<group>"; };
 		DFA7D10B1ADD9C5400A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestCounter/RequestCounterService/resource.h; sourceTree = "<group>"; };
 		DFA7D10D1ADD9C8200A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = RequestInfo/resource.h; sourceTree = "<group>"; };
-		DFA7D10F1ADD9CA100A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ServiceLister/resource.h; sourceTree = "<group>"; };
 		DFA7D1111ADD9CC000A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ServiceMetrics/resource.h; sourceTree = "<group>"; };
 		DFA7D1131ADD9CEB00A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TestLoopbackControl/resource.h; sourceTree = "<group>"; };
 		DFA7D1151ADD9D0800A17BD6 /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = Tunnel/TestLoopbackResponder/resource.h; sourceTree = "<group>"; };
@@ -465,7 +458,6 @@
 		DFA7D1471ADDB7C300A17BD6 /* m+mPortLister.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mPortLister.rc.in"; path = "PortLister/m+mPortLister.rc.in"; sourceTree = "<group>"; };
 		DFA7D14C1ADDB89B00A17BD6 /* m+mRequestCounterService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestCounterService.rc.in"; path = "RequestCounter/RequestCounterService/m+mRequestCounterService.rc.in"; sourceTree = "<group>"; };
 		DFA7D14D1ADDB8AC00A17BD6 /* m+mRequestInfo.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mRequestInfo.rc.in"; path = "RequestInfo/m+mRequestInfo.rc.in"; sourceTree = "<group>"; };
-		DFA7D14E1ADDB8B900A17BD6 /* m+mServiceLister.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mServiceLister.rc.in"; path = "ServiceLister/m+mServiceLister.rc.in"; sourceTree = "<group>"; };
 		DFA7D14F1ADDB8C500A17BD6 /* m+mServiceMetrics.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mServiceMetrics.rc.in"; path = "ServiceMetrics/m+mServiceMetrics.rc.in"; sourceTree = "<group>"; };
 		DFA7D1501ADDB8D800A17BD6 /* m+mTestLoopbackControl.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mTestLoopbackControl.rc.in"; path = "Tunnel/TestLoopbackControl/m+mTestLoopbackControl.rc.in"; sourceTree = "<group>"; };
 		DFA7D1511ADDB8E500A17BD6 /* m+mTestLoopbackResponder.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mTestLoopbackResponder.rc.in"; path = "Tunnel/TestLoopbackResponder/m+mTestLoopbackResponder.rc.in"; sourceTree = "<group>"; };
@@ -795,6 +787,14 @@
 		F69C06481B65592200A83A7E /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = SendToMQ/SendToMQOutputService/resource.h; sourceTree = "<group>"; };
 		F6DA54581A1D83C000238986 /* m+mUnrealOutputLeapInputHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mUnrealOutputLeapInputHandler.cpp"; path = "Unreal/UnrealOutputService/m+mUnrealOutputLeapInputHandler.cpp"; sourceTree = SOURCE_ROOT; };
 		F6DA54591A1D83C000238986 /* m+mUnrealOutputLeapInputHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mUnrealOutputLeapInputHandler.h"; path = "Unreal/UnrealOutputService/m+mUnrealOutputLeapInputHandler.h"; sourceTree = SOURCE_ROOT; };
+		F6FF50021C69427600369FCD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceStop/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F6FF50031C69427600369FCD /* m+mServiceStop.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mServiceStop.rc.in"; path = "ServiceStop/m+mServiceStop.rc.in"; sourceTree = SOURCE_ROOT; };
+		F6FF50041C69427600369FCD /* m+mServiceStopMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mServiceStopMain.cpp"; path = "ServiceStop/m+mServiceStopMain.cpp"; sourceTree = SOURCE_ROOT; };
+		F6FF50051C69427600369FCD /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ServiceStop/resource.h; sourceTree = SOURCE_ROOT; };
+		F6FF50061C69434400369FCD /* CMakeLists.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = CMakeLists.txt; path = ServiceList/CMakeLists.txt; sourceTree = SOURCE_ROOT; };
+		F6FF50071C69434400369FCD /* m+mServiceList.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mServiceList.rc.in"; path = "ServiceList/m+mServiceList.rc.in"; sourceTree = SOURCE_ROOT; };
+		F6FF50081C69434400369FCD /* m+mServiceListMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mServiceListMain.cpp"; path = "ServiceList/m+mServiceListMain.cpp"; sourceTree = SOURCE_ROOT; };
+		F6FF50091C69434400369FCD /* resource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource.h; path = ServiceList/resource.h; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -1025,15 +1025,15 @@
 			name = OpenStageInputService;
 			sourceTree = "<group>";
 		};
-		DF20928F18D0DAA50093D3DC /* ServiceLister */ = {
+		DF20928F18D0DAA50093D3DC /* ServiceList */ = {
 			isa = PBXGroup;
 			children = (
-				DF385017198A9DBE00A0414E /* CMakeLists.txt */,
-				DFA7D14E1ADDB8B900A17BD6 /* m+mServiceLister.rc.in */,
-				DF385018198A9DBE00A0414E /* m+mServiceListerMain.cpp */,
-				DFA7D10F1ADD9CA100A17BD6 /* resource.h */,
+				F6FF50061C69434400369FCD /* CMakeLists.txt */,
+				F6FF50071C69434400369FCD /* m+mServiceList.rc.in */,
+				F6FF50081C69434400369FCD /* m+mServiceListMain.cpp */,
+				F6FF50091C69434400369FCD /* resource.h */,
 			);
-			name = ServiceLister;
+			name = ServiceList;
 			sourceTree = SOURCE_ROOT;
 		};
 		DF20929218D241270093D3DC /* RequestInfo */ = {
@@ -1657,15 +1657,15 @@
 			name = LeapMotionInputService;
 			sourceTree = SOURCE_ROOT;
 		};
-		DF8888151AEE7EAF001320EB /* StopService */ = {
+		DF8888151AEE7EAF001320EB /* ServiceStop */ = {
 			isa = PBXGroup;
 			children = (
-				DF88881E1AEFD2B7001320EB /* CMakeLists.txt */,
-				DF8888201AEFD2B7001320EB /* m+mStopService.rc.in */,
-				DF88881F1AEFD2B7001320EB /* m+mStopServiceMain.cpp */,
-				DF8888211AEFD2B7001320EB /* resource.h */,
+				F6FF50021C69427600369FCD /* CMakeLists.txt */,
+				F6FF50031C69427600369FCD /* m+mServiceStop.rc.in */,
+				F6FF50041C69427600369FCD /* m+mServiceStopMain.cpp */,
+				F6FF50051C69427600369FCD /* resource.h */,
 			);
-			name = StopService;
+			name = ServiceStop;
 			sourceTree = "<group>";
 		};
 		DF8D353F1A9F916300322DDD /* TesLoopbackResponder */ = {
@@ -1718,12 +1718,12 @@
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
 				DF20929218D241270093D3DC /* RequestInfo */,
 				F69C063D1B6558DF00A83A7E /* SendToMQ */,
-				DF20928F18D0DAA50093D3DC /* ServiceLister */,
+				DF20928F18D0DAA50093D3DC /* ServiceList */,
 				DFCDE50719E7393D0051D294 /* ServiceMetrics */,
+				DF8888151AEE7EAF001320EB /* ServiceStop */,
 				DFEF83F11B99D48600C0ACDD /* sloc.sh */,
 				DF06998E18EDD9F100FF0E93 /* SQLite3 */,
 				DF7623641B029130002BDC49 /* standardApplications.txt */,
-				DF8888151AEE7EAF001320EB /* StopService */,
 				DF1BD3351A8C010E0070A09C /* Tunnel */,
 				DF2934491B4B34B90067FBB0 /* uninstallm+m.sh */,
 				DFEF4B591A1CE6C300FBB838 /* Unreal */,

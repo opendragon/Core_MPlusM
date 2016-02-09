@@ -316,8 +316,8 @@ No services found.
 and the \json\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{m+mRequestInfo}}
 \condPage
-\tertiaryStart{\utilityNameP{m+mServiceLister}}
-The application \utilityNameX{m+mServiceLister} displays the active services in the
+\tertiaryStart{\utilityNameP{m+mServiceList}}
+The application \utilityNameX{m+mServiceList} displays the active services in the
 \mplusm{} installation.
 It lists each service, along with the service description and requests, as well as the
 path to the executable for the service and the \yarp{} network ports that the service
@@ -449,7 +449,7 @@ For clarity, the full paths to the executables have been shortened and blank lin
 been added; in the actual output the paths would be absolute paths and there would be no
 blank lines between the output rows.
 Note that, if no services are found, the output would be empty.
-\tertiaryEnd{\utilityNameE{m+mServiceLister}}
+\tertiaryEnd{\utilityNameE{m+mServiceList}}
 \condPage
 \tertiaryStart{\utilityNameP{m+mServiceMetrics}}
 The application \utilityNameX{m+mServiceMetrics} displays measurements for the channels of
@@ -549,8 +549,8 @@ No services found.
 and the \json\longDash{}formatted and tab\longDash{}delimited outputs would be empty.
 \tertiaryEnd{\utilityNameE{m+mServiceMetrics}}
 \condPage
-\tertiaryStart{\utilityNameP{m+mStopService}}
-The application \utilityNameX{m+mStopService} tells a particular active service to stop
+\tertiaryStart{\utilityNameP{m+mServiceStop}}
+The application \utilityNameX{m+mServiceStop} tells a particular active service to stop
 running.\\
 
 The application takes an argument for the \yarp{} network port of the service and produces
@@ -560,7 +560,7 @@ no output.
 Note that, in order to specify the \serviceNameR[\RS]{RegistryService}, it must be quoted
 with single quotes, as the network port contains a character that is special to the Unix
 shell program.
-\tertiaryEnd{\utilityNameE{m+mStopService}}
+\tertiaryEnd{\utilityNameE{m+mServiceStop}}
 \tertiaryStart{\utilityNameP{m+mVersion}}
 The application \utilityNameX{m+mVersion} displays the version numbers for \mplusm,
 \yarp{} and ACE, the low\longDash{}level networking layer used by \mplusm{} and \yarp.\\

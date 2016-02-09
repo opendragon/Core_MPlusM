@@ -1,6 +1,6 @@
 //{{NO_DEPENDENCIES}}
 // Microsoft Visual C++ generated include file.
-// Used by m+mServiceLister.rc
+// Used by m+mServiceList.rc
 
 // Next default values for new objects
 // 

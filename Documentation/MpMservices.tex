@@ -115,7 +115,7 @@ the executable containing a service.
 The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
 channels and a list of the secondary output channels for its service.\\
 
-It is used by the \utilityNameR{m+mServiceLister} and \emph{\MMMU} applications to
+It is used by the \utilityNameR{m+mServiceList} and \emph{\MMMU} applications to
 determine the active \yarp{} network connections for each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{channels}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{clients}, alias:\ %
@@ -190,7 +190,7 @@ executable for the service, some extra information and a description of the requ
 the service.\\
 
 It is used by the \serviceNameR[\RS]{RegistryService} and the
-\utilityNameR{m+mServiceLister} and \emph{\MMMU} applications to collect basic information
+\utilityNameR{m+mServiceList} and \emph{\MMMU} applications to collect basic information
 about each service.
 \tertiaryEnd{\requestsNameE{Basic}{Basic}{name}}
 \tertiaryStart{\requestsNameD{Basic}{Basic}{setMetricsState}}
@@ -215,7 +215,7 @@ argument to the request.\\
 It is used by all client and adapter applications to identify the service to which they
 need to connect as well as by the \utilityNameR{m+mClientList},
 \utilityNameR{m+mPortLister}, \utilityNameR{m+mRequestInfo},
-\utilityNameR{m+mServiceLister} and \emph{\MMMU} applications to identify services in
+\utilityNameR{m+mServiceList} and \emph{\MMMU} applications to identify services in
 order to gather information about them.\\
 
 For details on the syntax used with the criteria, see the 

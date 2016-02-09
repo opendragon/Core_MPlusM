@@ -67,12 +67,12 @@ BEGIN
         BLOCK "100904b0"
         BEGIN
             VALUE "CompanyName", "@MpM_COMPANY@\0"
-            VALUE "FileDescription", "Stop Service\0"
+            VALUE "FileDescription", "Service Stop\0"
             VALUE "FileVersion", "@MpM_VERSION_STRING@.0\0"
-            VALUE "InternalName", "m+mStopS.exe\0"
+            VALUE "InternalName", "m+mServi.exe\0"
             VALUE "LegalCopyright", "(c) 2014 by @MpM_COMPANY@.\0"
-            VALUE "OriginalFilename", "m+mStopS.exe\0"
-            VALUE "ProductName", "Stop Service\0"
+            VALUE "OriginalFilename", "m+mServi.exe\0"
+            VALUE "ProductName", "Service Stop\0"
             VALUE "ProductVersion", "@MpM_VERSION_STRING@.0\0"
         END
     END
