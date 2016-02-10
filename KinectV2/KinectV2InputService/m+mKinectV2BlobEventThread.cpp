@@ -73,27 +73,28 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the description of a joint to the output.
  @param outBuffer The output buffer to be updated with the body data.
  @param scale The translation scale to be applied.
  @param jointTag The name of the bone.
  @param jointData The joint position.
  @param orientationData The orientation of the joint. */
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
 static void
 addJointToBuffer(Common::StringBuffer &   outBuffer,
                  const double             scale,
                  const YarpString &       jointTag,
                  const Joint &            jointData,
                  const JointOrientation & orientationData)
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
 static void
 addJointToBuffer(std::stringstream &      outBuffer,
                  const double             scale,
                  const YarpString &       jointTag,
                  const Joint &            jointData,
                  const JointOrientation & orientationData)
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("outBuffer = ", &outBuffer, "jointData = ", &jointData, "orientationData = ", //####
@@ -105,7 +106,7 @@ addJointToBuffer(std::stringstream &      outBuffer,
         // Don't process if point is inferred
         if (TrackingState_Inferred != jointData.TrackingState)
         {
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
             outBuffer.addString(jointTag).addTab();
             outBuffer.addDouble(jointData.Position.X * scale).addTab();
             outBuffer.addDouble(jointData.Position.Y * scale).addTab();
@@ -114,48 +115,52 @@ addJointToBuffer(std::stringstream &      outBuffer,
             outBuffer.addDouble(orientationData.Orientation.y).addTab();
             outBuffer.addDouble(orientationData.Orientation.z).addTab();
             outBuffer.addDouble(orientationData.Orientation.w).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << jointTag << "\t" << (jointData.Position.X * scale) << "\t" <<
                         (jointData.Position.Y * scale) << "\t" <<
                         (jointData.Position.Z * scale) << "\t" <<
                         orientationData.Orientation.x << "\t" << orientationData.Orientation.y <<
                         orientationData.Orientation.z << "\t" << orientationData.Orientation.w <<
                         LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
         }
     }
     OD_LOG_EXIT(); //####
 } // addJointToBuffer
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a joint to the output that's being built.
  @param str_ The name for the joint.
  @param index_ The joint index. */
-#if defined(MpM_UseCustomStringBuffer)
-# define ADD_JOINT_TO_BUFFER_(str_, index_) \
+# if defined(MpM_UseCustomStringBuffer)
+#  define ADD_JOINT_TO_BUFFER_(str_, index_) \
     addJointToBuffer(outBuffer, scale, str_, jointData[index_], orientationData[index_])
-#else // ! defined(MpM_UseCustomStringBuffer)
-# define ADD_JOINT_TO_BUFFER_(str_, index_) \
+# else // ! defined(MpM_UseCustomStringBuffer)
+#  define ADD_JOINT_TO_BUFFER_(str_, index_) \
     addJointToBuffer(outBuffer, scale, str_, jointData[index_], orientationData[index_])
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the data for a body to a message.
  @param outBuffer The output buffer to be updated with the body data.
  @param scale The translation scale to be applied.
  @param jointData The set of joints for the body.
  @param orientationData The orientations of the joints. */
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
 static void
 addBodyToMessage(Common::StringBuffer &   outBuffer,
                  const double             scale,
                  const Joint *            jointData,
                  const JointOrientation * orientationData)
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
 static void
 addBodyToMessage(std::stringstream &      outBuffer,
                  const double             scale,
                  const Joint *            jointData,
                  const JointOrientation * orientationData)
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P3("outBuffer = ", &outBuffer, "jointData = ", jointData, "orientationData = ", //####
@@ -198,7 +203,9 @@ addBodyToMessage(std::stringstream &      outBuffer,
 
     OD_LOG_EXIT(); //####
 } // addBodyToMessage
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Process the data returned by the Kinect V2 sensor.
  @param outBuffer The output buffer to be updated with the body data.
  @param scale The translation scale to be applied.
@@ -206,19 +213,19 @@ addBodyToMessage(std::stringstream &      outBuffer,
  @param ppBodies The sensor data.
  @returns @c true if at least one body was added to the message successfully, and @c false
  otherwise. */
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
 static bool
 processBody(Common::StringBuffer & outBuffer,
             const double           scale,
             const int              nBodyCount,
             IBody * *              ppBodies)
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
 static bool
 processBody(std::stringstream & outBuffer,
             const double        scale,
             const int           nBodyCount,
             IBody * *           ppBodies)
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P2("outBuffer = ", outBuffer, "ppBodies = ", ppBodies); //####
@@ -253,12 +260,12 @@ processBody(std::stringstream & outBuffer,
             }
         }
     }
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
     outBuffer.reset().addLong(actualBodyCount).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
     outBuffer.seekp(0);
     outBuffer << actualBodyCount << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
     for (int ii = 0; nBodyCount > ii; ++ii)
     {
         IBody * pBody = ppBodies[ii];
@@ -294,26 +301,27 @@ processBody(std::stringstream & outBuffer,
                             }
                         }
                     }
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
                     outBuffer.addLong(static_cast<int>(ii)).addTab().
                         addLong(actualJointCount).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << ii << "\t" << actualJointCount << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                     addBodyToMessage(outBuffer, scale, jointData, orientationData);
                     result = true;
                 }
             }
         }
     }
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
     outBuffer.addString("END" LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
     outBuffer << "END" LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
     OD_LOG_EXIT_B(result); //####
     return result;
 } // processBody
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -324,8 +332,11 @@ processBody(std::stringstream & outBuffer,
 #endif // defined(__APPLE__)
 
 KinectV2BlobEventThread::KinectV2BlobEventThread(Common::GeneralChannel * outChannel) :
-    inherited(), _translationScale(1), _kinectSensor(NULL), _bodyFrameReader(NULL),
-    _bodyFrameSource(NULL), _outChannel(outChannel)
+    inherited(), _translationScale(1),
+#if (! defined(MpM_BuildDummyServices))
+    _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL),
+#endif // ! defined(MpM_BuildDummyServices)
+    _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -350,6 +361,7 @@ KinectV2BlobEventThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2BlobEventThread::clearOutputChannel
 
+#if (! defined(MpM_BuildDummyServices))
 HRESULT
 KinectV2BlobEventThread::initializeDefaultSensor(void)
 {
@@ -385,11 +397,13 @@ KinectV2BlobEventThread::initializeDefaultSensor(void)
     OD_LOG_OBJEXIT_L(hr); //####
     return hr;
 } // KinectV2BlobEventThread::initializeDefaultSensor
+#endif // ! defined(MpM_BuildDummyServices)
 
 void
 KinectV2BlobEventThread::processEventData(void)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader)
     {
         IBodyFrameArrivedEventArgs * eventData = NULL;
@@ -414,29 +428,29 @@ KinectV2BlobEventThread::processEventData(void)
                     hr = bodyFrame->GetAndRefreshBodyData(_countof(ppBodies), ppBodies);
                     if (SUCCEEDED(hr))
                     {
-#if (! defined(MpM_UseCustomStringBuffer))
+# if (! defined(MpM_UseCustomStringBuffer))
                         std::stringstream outBuffer;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                         
                         _messageBottle.clear();
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
                         if (processBody(_outBuffer, _translationScale, BODY_COUNT, ppBodies))
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
                         if (processBody(outBuffer, BODY_COUNT, ppBodies))
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                         {
                             const char * outString;
                             size_t       outLength;
-#if (! defined(MpM_UseCustomStringBuffer))
+# if (! defined(MpM_UseCustomStringBuffer))
                             std::string  buffAsString(outBuffer.str());
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
 
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
                             outString = _outBuffer.getString(outLength);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
                             outString = bufAsString.c_str();
                             outLength = bufAsString.length();
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                             if (outString && outLength)
                             {
                                 void *          rawString = static_cast<void *>(const_cast<char *>(outString));
@@ -462,9 +476,9 @@ KinectV2BlobEventThread::processEventData(void)
                             if (! _outChannel->write(_messageBottle))
                             {
                                 OD_LOG("(! _outChannel->write(_messageBottle))"); //####
-#if defined(MpM_StallOnSendProblem)
+# if defined(MpM_StallOnSendProblem)
                                 Stall();
-#endif // defined(MpM_StallOnSendProblem)
+# endif // defined(MpM_StallOnSendProblem)
                             }
                         }
                     }
@@ -472,6 +486,7 @@ KinectV2BlobEventThread::processEventData(void)
             }
         }
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2BlobEventThread::processEventData
 
@@ -480,8 +495,11 @@ DEFINE_RUN_(KinectV2BlobEventThread)
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
+#if (! defined(MpM_BuildDummyServices))
         MSG msg;
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
         while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
             DispatchMessage(&msg);
@@ -505,6 +523,7 @@ DEFINE_RUN_(KinectV2BlobEventThread)
         {
             stop();
         }
+#endif // ! defined(MpM_BuildDummyServices)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
@@ -522,7 +541,11 @@ KinectV2BlobEventThread::setScale(const double newScale)
 DEFINE_THREADINIT_(KinectV2BlobEventThread)
 {
     OD_LOG_OBJENTER(); //####
+#if defined(MpM_BuildDummyServices)
+    bool result = true;
+#else // ! defined(MpM_BuildDummyServices)
     bool result = SUCCEEDED(initializeDefaultSensor());
+#endif // ! defined(MpM_BuildDummyServices)
 
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -531,6 +554,7 @@ DEFINE_THREADINIT_(KinectV2BlobEventThread)
 DEFINE_THREADRELEASE_(KinectV2BlobEventThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader && _frameEventHandle)
     {
         _bodyFrameReader->UnsubscribeFrameArrived(_frameEventHandle);
@@ -545,6 +569,7 @@ DEFINE_THREADRELEASE_(KinectV2BlobEventThread)
         _kinectSensor->Close();
     }
     SafeRelease(_kinectSensor);
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2BlobEventThread::threadRelease
 

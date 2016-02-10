@@ -261,6 +261,17 @@ executable. */
 #  define RETRY_LOOPS_USE_TIMEOUTS_  FALSE
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
 
+/*! @brief @c TRUE if the version of YARP uses 'fatal' instead of 'fail'. */
+# if (2 < YARP_VERSION_MAJOR)
+#  define NEW_YARP_ TRUE
+# elif (3 < YARP_VERSION_MINOR)
+#  define NEW_YARP_ TRUE
+# elif (62 < YARP_VERSION_PATCH)
+#  define NEW_YARP_ TRUE
+# else // 62 >= YARP_VERSION_PATCH
+#  define NEW_YARP_ FALSE
+# endif // 62 >= YARP_VERSION_PATCH
+
 # if MAC_OR_LINUX_
 #  define MpM_ERROR_(xx_) GetLogger().error(xx_)
 # else // ! MAC_OR_LINUX_
@@ -268,7 +279,11 @@ executable. */
 # endif // ! MAC_OR_LINUX_
 
 # if MAC_OR_LINUX_
-#  define MpM_FAIL_(xx_) GetLogger().fatal(xx_)
+#  if NEW_YARP_
+#    define MpM_FAIL_(xx_) GetLogger().fatal(xx_)
+#  else // ! NEW_YARP_
+#    define MpM_FAIL_(xx_) GetLogger().fail(xx_)
+#  endif // ! NEW_YARP_
 # else // ! MAC_OR_LINUX_
 #  define MpM_FAIL_(xx_) cerr << "Fail: " << xx_ << endl
 # endif // ! MAC_OR_LINUX_

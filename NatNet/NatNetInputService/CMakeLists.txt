@@ -64,17 +64,20 @@ if(WIN32)
 	set_property(TARGET NatNet PROPERTY IMPORTED_IMPLIB "${MpMNATNET_LIB_DIR}/NatNetLib.lib")
 	set_property(TARGET NatNet PROPERTY IMPORTED_LOCATION "${MpMNATNET_LIB_DIR}/NatNetLib.dll")
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-						"${MpMNATNET_LIB_DIR}"
-						$<TARGET_FILE_DIR:m+mNatNetInputService>)
+                           "${MpMNATNET_LIB_DIR}" $<TARGET_FILE_DIR:m+mNatNetInputService>)
 	install(FILES
-			"${MpMNATNET_LIB_DIR}/NatNetLib.dll"
-			DESTINATION bin
-			COMPONENT applications)			
+                "${MpMNATNET_LIB_DIR}/NatNetLib.dll"
+                DESTINATION bin
+                COMPONENT applications)			
 endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} NatNet ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} NatNet ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -99,8 +102,8 @@ if(APPLE)
 endif(APPLE)
 
 install(TARGETS ${THIS_TARGET}
-		DESTINATION bin
-		COMPONENT applications)
+        DESTINATION bin
+        COMPONENT applications)
 
 set(THIS_TARGET m+mNatNetBlobInputService)
 
@@ -121,7 +124,11 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} NatNet ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} NatNet ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

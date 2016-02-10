@@ -75,6 +75,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a three-dimensional floating-point vector to a dictionary.
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
@@ -95,7 +96,9 @@ add3VectorToDictionary(yarp::os::Property &     dictionary,
         dictionary.put(tag, stuff);
     }
 } // add3VectorToDictionary
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a four-dimensional floating-point vector to a dictionary.
  @param dictionary The dictionary to be updated.
  @param tag The tag to associate with the vector.
@@ -117,8 +120,10 @@ add4VectorToDictionary(yarp::os::Property & dictionary,
         dictionary.put(tag, stuff);
     }
 } // add4VectorToDictionary
+#endif // ! defined(MpM_BuildDummyServices)
 
-#if defined(GENERATE_BONES_)
+#if (! defined(MpM_BuildDummyServices))
+# if defined(GENERATE_BONES_)
 /*! @brief Add the description of a bone to a list.
  @param listToUpdate The list to be added to.
  @param jointTag The name of the bone.
@@ -152,7 +157,7 @@ addBoneToList(yarp::os::Bottle &       listToUpdate,
         }
     }
 } // addBoneToList
-#else // ! defined(GENERATE_BONES_)
+# else // ! defined(GENERATE_BONES_)
 /*! @brief Add the description of a joint to a list.
  @param listToUpdate The list to be added to.
  @param jointTag The name of the bone.
@@ -178,8 +183,10 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
         }
     }
 } // addJointToList
-#endif // ! defined(GENERATE_BONES_)
+# endif // ! defined(GENERATE_BONES_)
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Convert a hand state into a string.
  @param theHandState The state of the hand.
  @returns The state of the hand as a string. */
@@ -209,7 +216,9 @@ handStateToString(const HandState theHandState)
     }
     return result;
 } // handStateToString
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Convert a hand state confidence into a string.
  @param theHandConfidence The confidence in the state of the hand.
  @returns The confidence of the hand state as a string. */
@@ -235,24 +244,28 @@ handConfidenceToString(const TrackingConfidence theHandConfidence)
     }
     return result;
 } // handConfidenceToString
+#endif // ! defined(MpM_BuildDummyServices)
 
-#if defined(GENERATE_BONES_)
+#if (! defined(MpM_BuildDummyServices))
+# if defined(GENERATE_BONES_)
 /*! @brief Add a bone to the list that's being built.
  @param str_ The name for the bone.
  @param start_ The starting joint for the bone.
  @param end_ The ending joint for the bone. */
-# define ADD_BONE_TO_LIST_(str_, start_, end_) \
+#  define ADD_BONE_TO_LIST_(str_, start_, end_) \
         addBoneToList(*bonesList, str_, jointData[start_], jointData[end_],\
                         orientationData[start_], orientationData[end_])
 
-#else // ! defined(GENERATE_BONES_)
+# else // ! defined(GENERATE_BONES_)
 /*! @brief Add a joint to the list that's being built.
  @param str_ The name for the joint.
  @param index_ The joint index. */
-# define ADD_JOINT_TO_LIST_(str_, index_) \
+#  define ADD_JOINT_TO_LIST_(str_, index_) \
         addJointToList(*jointsList, str_, jointData[index_], orientationData[index_])
-#endif // ! defined(GENERATE_BONES_)
+# endif // ! defined(GENERATE_BONES_)
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the data for a body to a message.
  @param message The message to be updated with the body data.
  @param jointData The set of joints for the body.
@@ -279,10 +292,15 @@ addBodyToMessage(yarp::os::Bottle &       message,
     bodyProps.put("righthand", handStateToString(rightHandState));
     bodyProps.put("lefthandconfidence", handConfidenceToString(leftHandConfidence));
     bodyProps.put("righthandconfidence", handConfidenceToString(rightHandConfidence));
-#if defined(GENERATE_BONES_)
+# if defined(GENERATE_BONES_)
     yarp::os::Value    bones;
     yarp::os::Bottle * bonesList = bones.asList();
+# else // ! defined(GENERATE_BONES_)
+    yarp::os::Value    joints;
+    yarp::os::Bottle * jointsList = joints.asList();
+# endif // ! defined(GENERATE_BONES_)
     
+# if defined(GENERATE_BONES_)
     if (bonesList)
     {
         // Torso
@@ -325,10 +343,7 @@ addBodyToMessage(yarp::os::Bottle &       message,
         // Add them all
         bodyProps.put("bones", bones);
     }
-#else // ! defined(GENERATE_BONES_)
-    yarp::os::Value    joints;
-    yarp::os::Bottle * jointsList = joints.asList();
-    
+# else // ! defined(GENERATE_BONES_)
     if (jointsList)
     {
         // Torso
@@ -369,10 +384,12 @@ addBodyToMessage(yarp::os::Bottle &       message,
         // Add them all
         bodyProps.put("joints", joints);
     }
-#endif // ! defined(GENERATE_BONES_)
+# endif // ! defined(GENERATE_BONES_)
     OD_LOG_EXIT(); //####
 } // addBodyToMessage
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Process the data returned by the Kinect V2 sensor.
  @param message The message to be updated with the sensor data.
  @param nBodyCount The number of 'bodies' in the sensor data.
@@ -428,6 +445,7 @@ processBody(yarp::os::Bottle & message,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // processBody
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -438,7 +456,10 @@ processBody(yarp::os::Bottle & message,
 #endif // defined(__APPLE__)
 
 KinectV2EventThread::KinectV2EventThread(Common::GeneralChannel * outChannel) :
-    inherited(), _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL),
+    inherited(),
+#if (! defined(MpM_BuildDummyServices))
+    _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL),
+#endif // ! defined(MpM_BuildDummyServices)
     _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
@@ -464,6 +485,7 @@ KinectV2EventThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::clearOutputChannel
 
+#if (! defined(MpM_BuildDummyServices))
 HRESULT
 KinectV2EventThread::initializeDefaultSensor(void)
 {
@@ -499,11 +521,13 @@ KinectV2EventThread::initializeDefaultSensor(void)
     OD_LOG_OBJEXIT_L(hr); //####
     return hr;
 } // KinectV2EventThread::initializeDefaultSensor
+#endif // ! defined(MpM_BuildDummyServices)
 
 void
 KinectV2EventThread::processEventData(void)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader)
     {
         IBodyFrameArrivedEventArgs * eventData = NULL;
@@ -546,9 +570,9 @@ KinectV2EventThread::processEventData(void)
                             if (! _outChannel->write(message))
                             {
                                 OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
+# if defined(MpM_StallOnSendProblem)
                                 Stall();
-#endif // defined(MpM_StallOnSendProblem)
+# endif // defined(MpM_StallOnSendProblem)
                             }
                         }
                     }
@@ -556,6 +580,7 @@ KinectV2EventThread::processEventData(void)
             }
         }
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::processEventData
 
@@ -564,8 +589,11 @@ DEFINE_RUN_(KinectV2EventThread)
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
+#if (! defined(MpM_BuildDummyServices))
         MSG msg;
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
         while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
             DispatchMessage(&msg);
@@ -589,6 +617,7 @@ DEFINE_RUN_(KinectV2EventThread)
         {
             stop();
         }
+#endif // ! defined(MpM_BuildDummyServices)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
@@ -597,7 +626,11 @@ DEFINE_RUN_(KinectV2EventThread)
 DEFINE_THREADINIT_(KinectV2EventThread)
 {
     OD_LOG_OBJENTER(); //####
+#if defined(MpM_BuildDummyServices)
+    bool result = true;
+#else // ! defined(MpM_BuildDummyServices)
     bool result = SUCCEEDED(initializeDefaultSensor());
+#endif // ! defined(MpM_BuildDummyServices)
 
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -606,6 +639,7 @@ DEFINE_THREADINIT_(KinectV2EventThread)
 DEFINE_THREADRELEASE_(KinectV2EventThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader && _frameEventHandle)
     {
         _bodyFrameReader->UnsubscribeFrameArrived(_frameEventHandle);
@@ -620,6 +654,7 @@ DEFINE_THREADRELEASE_(KinectV2EventThread)
         _kinectSensor->Close();
     }
     SafeRelease(_kinectSensor);
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::threadRelease
 

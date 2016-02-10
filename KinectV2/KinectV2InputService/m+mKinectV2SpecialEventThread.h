@@ -39,7 +39,10 @@
 #if (! defined(MpMKinectV2SpecialEventThread_H_))
 # define MpMKinectV2SpecialEventThread_H_ /* Header guard */
 
-# include "stdafx.h"
+# include <m+m/m+mConfig.h>
+# if (! defined(MpM_BuildDummyServices))
+#  include "stdafx.h"
+# endif // ! defined(MpM_BuildDummyServices)
 
 # include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
@@ -90,10 +93,12 @@ namespace MplusM
             
         private :
             
+# if (! defined(MpM_BuildDummyServices))
             /*! @brief Initialize the default Kinect V2 sensor.
              @returns @c S_OK on success, a failure code otherwise. */
             HRESULT
             initializeDefaultSensor(void);
+# endif // ! defined(MpM_BuildDummyServices)
             
             /*! @brief Handle the sensor data associated with the event. */
             void
@@ -113,17 +118,25 @@ namespace MplusM
 
         private :
 
+# if (! defined(MpM_BuildDummyServices))
             /* @brief The event from the device that we are waiting for. */
             WAITABLE_HANDLE _frameEventHandle;
+# endif // ! defined(MpM_BuildDummyServices)
 
+# if (! defined(MpM_BuildDummyServices))
             /*! @brief The current Kinect V2 sensor. */
             IKinectSensor * _kinectSensor;
+# endif // ! defined(MpM_BuildDummyServices)
 
+# if (! defined(MpM_BuildDummyServices))
             /*! @brief The body frame reader. */
             IBodyFrameReader * _bodyFrameReader;
+# endif // ! defined(MpM_BuildDummyServices)
 
+# if (! defined(MpM_BuildDummyServices))
             /*! @brief The body frame source. */
             IBodyFrameSource * _bodyFrameSource;
+# endif // ! defined(MpM_BuildDummyServices)
 
             /*! @brief The channel to send data bursts to. */
             Common::GeneralChannel * _outChannel;

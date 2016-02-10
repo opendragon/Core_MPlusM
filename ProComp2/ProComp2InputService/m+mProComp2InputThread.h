@@ -88,10 +88,12 @@ namespace MplusM
             
         private :
             
-            /*! @brief Extract the data for all channels and send it.
+# if (! defined(MpM_BuildDummyServices))
+           /*! @brief Extract the data for all channels and send it.
              @param time The time at which the channels are processed. */
             void
             readChannelData(const DWORD time);
+# endif // ! defined(MpM_BuildDummyServices)
             
             DECLARE_RUN_;
             

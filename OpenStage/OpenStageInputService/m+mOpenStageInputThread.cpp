@@ -47,9 +47,11 @@
 # pragma clang diagnostic ignored "-Wdocumentation"
 # pragma clang diagnostic ignored "-Wshadow"
 #endif // defined(__APPLE__)
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#if (! defined(MpM_BuildDummyServices))
+# include <glm/glm.hpp>
+# include <glm/gtc/quaternion.hpp>
+# include <glm/gtc/matrix_transform.hpp>
+#endif // ! defined(MpM_BuildDummyServices)
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -73,7 +75,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::OpenStage;
+#if (! defined(MpM_BuildDummyServices))
 using namespace om;
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -101,8 +105,10 @@ using namespace om;
 OpenStageInputThread::OpenStageInputThread(Common::GeneralChannel * outChannel,
                                            const YarpString &       name,
                                            const int                port) :
-    inherited(), _address(name), _port(port), _outChannel(outChannel), _client(NULL),
-    _actorStream(NULL), _actorViewJoint(NULL)
+    inherited(), _address(name), _port(port), _outChannel(outChannel)
+#if (! defined(MpM_BuildDummyServices))
+    , _client(NULL), _actorStream(NULL), _actorViewJoint(NULL)
+#endif // ! defined(MpM_BuildDummyServices)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -129,6 +135,7 @@ OpenStageInputThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::clearOutputChannel
 
+#if (! defined(MpM_BuildDummyServices))
 void
 OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 {
@@ -229,21 +236,25 @@ OpenStageInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
             if (! _outChannel->write(message))
             {
                 OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
+# if defined(MpM_StallOnSendProblem)
                 Stall();
-#endif // defined(MpM_StallOnSendProblem)
+# endif // defined(MpM_StallOnSendProblem)
             }
         }
     }
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::processData
+#endif // ! defined(MpM_BuildDummyServices)
 
 DEFINE_RUN_(OpenStageInputThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     _actorStream->Start();
+#endif // ! defined(MpM_BuildDummyServices)
     for ( ; ! isStopping(); )
     {
+#if (! defined(MpM_BuildDummyServices))
         if (_client->WaitAnyUpdateAll())
         {
             // The streams are updated, now get the data.
@@ -252,6 +263,7 @@ DEFINE_RUN_(OpenStageInputThread)
             _actorStream->GetData(&actorData);
             processData(actorData);
         }
+#endif // ! defined(MpM_BuildDummyServices)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
@@ -262,6 +274,7 @@ DEFINE_THREADINIT_(OpenStageInputThread)
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
+#if (! defined(MpM_BuildDummyServices))
     // Create the necessary objects.
     _client = sdk2::CreateClient();
 
@@ -270,6 +283,7 @@ DEFINE_THREADINIT_(OpenStageInputThread)
     _actorStream = sdk2::CreateActorStream(_client);
     _actorViewJoint = sdk2::CreateActorViewJoint();
     _actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // OpenStageInputThread::threadInit
@@ -277,7 +291,9 @@ DEFINE_THREADINIT_(OpenStageInputThread)
 DEFINE_THREADRELEASE_(OpenStageInputThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     _actorStream->Stop();
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::threadRelease
 

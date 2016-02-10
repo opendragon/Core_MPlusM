@@ -47,9 +47,11 @@
 # pragma clang diagnostic ignored "-Wdocumentation"
 # pragma clang diagnostic ignored "-Wshadow"
 #endif // defined(__APPLE__)
-#include <glm/glm.hpp>
-#include <glm/gtc/quaternion.hpp>
-#include <glm/gtc/matrix_transform.hpp>
+#if (! defined(MpM_BuildDummyServices))
+# include <glm/glm.hpp>
+# include <glm/gtc/quaternion.hpp>
+# include <glm/gtc/matrix_transform.hpp>
+#endif // ! defined(MpM_BuildDummyServices)
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
@@ -73,7 +75,9 @@
 using namespace MplusM;
 using namespace MplusM::Common;
 using namespace MplusM::OpenStageBlob;
+#if (! defined(MpM_BuildDummyServices))
 using namespace om;
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if defined(__APPLE__)
 # pragma mark Private structures, constants and variables
@@ -101,8 +105,10 @@ using namespace om;
 OpenStageBlobInputThread::OpenStageBlobInputThread(Common::GeneralChannel * outChannel,
                                                    const YarpString &       name,
                                                    const int                port) :
-    inherited(), _address(name), _scale(1), _port(port), _outChannel(outChannel), _client(NULL),
-    _actorStream(NULL), _actorViewJoint(NULL)
+    inherited(), _address(name), _scale(1), _port(port), _outChannel(outChannel)
+#if (! defined(MpM_BuildDummyServices))
+    , _client(NULL), _actorStream(NULL), _actorViewJoint(NULL)
+#endif // ! defined(MpM_BuildDummyServices)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -129,6 +135,7 @@ OpenStageBlobInputThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::clearOutputChannel
 
+#if (! defined(MpM_BuildDummyServices))
 void
 OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorData)
 {
@@ -138,16 +145,16 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
 
     if (0 < numActors)
     {
-#if (! defined(MpM_UseCustomStringBuffer))
+# if (! defined(MpM_UseCustomStringBuffer))
         std::stringstream outBuffer;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
 
         // Write out the number of actors == bodies.
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
         _outBuffer.reset().addLong(static_cast<int>(numActors)).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
         outBuffer << numActors << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
         for (size_t ii = 0; ii < numActors; ++ii)
         {
             sdk2::SkeletonConstPtr skel = actorData->GetAt(ii).skeleton;
@@ -171,12 +178,12 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
                     ++count;
                 }
             }
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
             _outBuffer.addLong(static_cast<int>(ii)).addTab().addLong(count).
                 addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << ii << "\t" << count << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
             for (absJointTreeIt = absJointTree->Begin(); absJointTreeIt != absJointTreeItEnd;
                  ++absJointTreeIt)
             {
@@ -200,7 +207,7 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
                     glm::quat      absRotQuat = glm::quat_cast(absJointTransform);
                     glm::quat      relRotQuat = glm::quat_cast(relJointTransform);
 
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
                     _outBuffer.addString(jointId).addTab();
                     _outBuffer.addDouble(absTransform.m[3][0] * _scale).addTab();
                     _outBuffer.addDouble(absTransform.m[3][1] * _scale).addTab();
@@ -216,7 +223,7 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
                     _outBuffer.addDouble(relRotQuat.y).addTab();
                     _outBuffer.addDouble(relRotQuat.z).addTab();
                     _outBuffer.addDouble(relRotQuat.w).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << jointId << "\t" << (absTransform.m[3][0] * _scale) << "\t" <<
                         (absTransform.m[3][1] * _scale) << "\t" <<
                         (absTransform.m[3][2] * _scale) << "\t" << absRotQuat.x << "\t" <<
@@ -226,30 +233,30 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
                         (relTransform.m[3][2] * _scale) << "\t" << relRotQuat.x << "\t" <<
                         relRotQuat.y << "\t" << relRotQuat.z << "\t" << relRotQuat.w <<
                         LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                 }
             }
         }
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
         _outBuffer.addString("END" LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
         outBuffer << "END" LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
         if (_outChannel)
         {
             const char *     outString;
             yarp::os::Bottle message;
             size_t           outLength;
-#if (! defined(MpM_UseCustomStringBuffer))
+# if (! defined(MpM_UseCustomStringBuffer))
             std::string      buffAsString(outBuffer.str());
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
 
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
             outString = _outBuffer.getString(outLength);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
             outString = buffAsString.c_str();
             outLength = buffAsString.length();
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
             if (outString && outLength)
             {
                 void *          rawString = static_cast<void *>(const_cast<char *>(outString));
@@ -260,22 +267,26 @@ OpenStageBlobInputThread::processData(om::sdk2::ActorDataListConstPtr & actorDat
                 if (! _outChannel->write(_messageBottle))
                 {
                     OD_LOG("(! _outChannel->write(_messageBottle))"); //####
-#if defined(MpM_StallOnSendProblem)
+# if defined(MpM_StallOnSendProblem)
                     Stall();
-#endif // defined(MpM_StallOnSendProblem)
+# endif // defined(MpM_StallOnSendProblem)
                 }
             }
         }
     }
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::processData
+#endif // ! defined(MpM_BuildDummyServices)
 
 DEFINE_RUN_(OpenStageBlobInputThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     _actorStream->Start();
+#endif // ! defined(MpM_BuildDummyServices)
     for ( ; ! isStopping(); )
     {
+#if (! defined(MpM_BuildDummyServices))
         if (_client->WaitAnyUpdateAll())
         {
             // The streams are updated, now get the data.
@@ -284,6 +295,7 @@ DEFINE_RUN_(OpenStageBlobInputThread)
             _actorStream->GetData(&actorData);
             processData(actorData);
         }
+#endif // ! defined(MpM_BuildDummyServices)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
@@ -303,6 +315,7 @@ DEFINE_THREADINIT_(OpenStageBlobInputThread)
     OD_LOG_OBJENTER(); //####
     bool result = true;
     
+#if (! defined(MpM_BuildDummyServices))
     // Create the necessary objects.
     _client = sdk2::CreateClient();
 
@@ -311,6 +324,7 @@ DEFINE_THREADINIT_(OpenStageBlobInputThread)
     _actorStream = sdk2::CreateActorStream(_client);
     _actorViewJoint = sdk2::CreateActorViewJoint();
     _actorStream->SetBufferSize(ACTOR_QUEUE_DEPTH_);
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // OpenStageBlobInputThread::threadInit
@@ -318,7 +332,9 @@ DEFINE_THREADINIT_(OpenStageBlobInputThread)
 DEFINE_THREADRELEASE_(OpenStageBlobInputThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     _actorStream->Stop();
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // OpenStageBlobInputThread::threadRelease
 

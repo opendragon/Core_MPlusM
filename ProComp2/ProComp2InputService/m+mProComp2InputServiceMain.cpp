@@ -166,9 +166,13 @@ main(int      argc,
 #if MAC_OR_LINUX_
     SetUpLogger(progName);
 #endif // MAC_OR_LINUX_
+#if (! defined(MpM_BuildDummyServices))
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
     if (SUCCEEDED(hr))
+#endif // ! defined(MpM_BuildDummyServices)
     {
         try
         {
@@ -224,13 +228,17 @@ main(int      argc,
             OD_LOG("Exception caught"); //####
         }
     }
+#if (! defined(MpM_BuildDummyServices))
     else
     {
         OD_LOG("! (SUCCEEDED(hr)"); //####
         MpM_FAIL_("CoInitializeEx() failed.");
     }
+#endif // ! defined(MpM_BuildDummyServices)
     yarp::os::Network::fini();
+#if (! defined(MpM_BuildDummyServices))
     CoUninitialize();
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_EXIT_L(0); //####
     return 0;
 } // main

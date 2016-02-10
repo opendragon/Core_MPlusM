@@ -77,6 +77,7 @@ using namespace MplusM::NatNet;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Process a received frame of data.
 @param aFrame The data to be processed.
 @param userData The initially supplied data for this callback. */
@@ -154,6 +155,7 @@ dataReceived(sFrameOfMocapData * aFrame,
     }
     OD_LOG_EXIT(); //####
 } // dataReceived
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
@@ -193,25 +195,35 @@ NatNetInputThread::NatNetInputThread(Common::GeneralChannel * outChannel,
                                      const int                commandPort,
                                      const int                dataPort) :
     inherited(), _outChannel(outChannel), _address(name), _commandPort(commandPort),
-    _dataPort(dataPort), _client(NULL)
+    _dataPort(dataPort)
+#if (! defined(MpM_BuildDummyServices))
+    , _client(NULL)
+#endif // ! defined(MpM_BuildDummyServices)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
     OD_LOG_S1s("name = ", name); //####
     OD_LOG_LL2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
+#if defined(MpM_BuildDummyServices)
+    strncpy(_clientIPAddress, "", sizeof(_clientIPAddress) - 1);
+    strncpy(_serverIPAddress, "", sizeof(_serverIPAddress) - 1);
+#else // ! defined(MpM_BuildDummyServices)
     strcpy_s(_clientIPAddress, sizeof(_clientIPAddress) - 1, "");
     strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, "");
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_EXIT_P(this); //####
 } // NatNetInputThread::NatNetInputThread
 
 NatNetInputThread::~NatNetInputThread(void)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_client)
     {
         _client->Uninitialize();
         delete _client;
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // NatNetInputThread::~NatNetInputThread
 
@@ -232,14 +244,16 @@ DEFINE_RUN_(NatNetInputThread)
     OD_LOG_OBJENTER(); //####
     try
     {
+        for ( ; ! isStopping(); )
+        {
+            yarp::os::Time::yield();
+        }
+#if (! defined(MpM_BuildDummyServices))
         if (_client)
         {
-            for ( ; ! isStopping(); )
-            {
-                yarp::os::Time::yield();
-            }
             _client->SetDataCallback(NULL, NULL);
         }
+#endif // ! defined(MpM_BuildDummyServices)
     }
     catch (...)
     {
@@ -275,6 +289,7 @@ DEFINE_THREADINIT_(NatNetInputThread)
 
     try
     {
+#if (! defined(MpM_BuildDummyServices))
         _client = new NatNetClient(NATNET_CONNECTION_MODE_);
         OD_LOG_P1("_client <- ", _client); //####
         if (_client)
@@ -340,6 +355,7 @@ DEFINE_THREADINIT_(NatNetInputThread)
         {
             result = false;
         }
+#endif // ! defined(MpM_BuildDummyServices)
     }
     catch (...)
     {

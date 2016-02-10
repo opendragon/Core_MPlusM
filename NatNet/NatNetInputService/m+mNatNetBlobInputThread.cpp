@@ -77,6 +77,7 @@ using namespace MplusM::NatNet;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Process a received frame of data.
 @param aFrame The data to be processed.
 @param userData The initially supplied data for this callback. */
@@ -95,33 +96,33 @@ dataReceived(sFrameOfMocapData * aFrame,
 
         if (0 < numSkeletons)
         {
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
             Common::StringBuffer & outBuffer = theThread->getOutputBuffer();
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
             std::stringstream      outBuffer;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
             
             // Write out the number of skeletons == bodies.
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
             outBuffer.reset().addLong(static_cast<int>(numSkeletons)).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << numSkeletons << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
             for (int ii = 0; numSkeletons > ii; ++ii)
             {
                 sSkeletonData &  aSkel = aFrame->Skeletons[ii];
                 int              numBones = aSkel.nRigidBodies;
                 
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
                 outBuffer.addLong(ii).addTab().addLong(numBones).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
                 outBuffer << ii << "\t" << numBones << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                 for (int jj = 0; numBones > jj; ++jj)
                 {
                     sRigidBodyData & aBone = aSkel.RigidBodyData[jj];
                     
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
                     outBuffer.addLong(aBone.ID).addTab();
                     outBuffer.addDouble(aBone.x * scale).addTab();
                     outBuffer.addDouble(aBone.y * scale).addTab();
@@ -130,31 +131,31 @@ dataReceived(sFrameOfMocapData * aFrame,
                     outBuffer.addDouble(aBone.qy).addTab();
                     outBuffer.addDouble(aBone.qz).addTab();
                     outBuffer.addDouble(aBone.qw).addString(LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
                     outBuffer << aBone.ID << "\t" << (aBone.x * scale) << "\t" <<
                     (aBone.y * scale) << "\t" << (aBone.z * scale) << "\t" <<
                     aBone.qx << "\t" << aBone.qy << "\t" << aBone.qz << "\t" <<
                     aBone.qw << LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
                 }
             }
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
             outBuffer.addString("END" LINE_END_);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
             outBuffer << "END" LINE_END_;
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
             const char * outString;
             size_t       outLength;
-#if (! defined(MpM_UseCustomStringBuffer))
+# if (! defined(MpM_UseCustomStringBuffer))
             std::string  buffAsString(outBuffer.str());
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
             
-#if defined(MpM_UseCustomStringBuffer)
+# if defined(MpM_UseCustomStringBuffer)
             outString = outBuffer.getString(outLength);
-#else // ! defined(MpM_UseCustomStringBuffer)
+# else // ! defined(MpM_UseCustomStringBuffer)
             outString = bufAsString.c_str();
             outLength = bufAsString.length();
-#endif // ! defined(MpM_UseCustomStringBuffer)
+# endif // ! defined(MpM_UseCustomStringBuffer)
             if (outString && outLength)
             {
                 theThread->sendMessage(outString, outLength);
@@ -163,6 +164,7 @@ dataReceived(sFrameOfMocapData * aFrame,
     }
     OD_LOG_EXIT(); //####
 } // dataReceived
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if (! MAC_OR_LINUX_)
 # pragma warning(push)
@@ -202,25 +204,35 @@ NatNetBlobInputThread::NatNetBlobInputThread(Common::GeneralChannel * outChannel
                                              const int                commandPort,
                                              const int                dataPort) :
     inherited(), _outChannel(outChannel), _address(name), _translationScale(1),
-    _commandPort(commandPort), _dataPort(dataPort), _client(NULL)
+    _commandPort(commandPort), _dataPort(dataPort)
+#if (! defined(MpM_BuildDummyServices))
+    , _client(NULL)
+#endif // ! defined(MpM_BuildDummyServices)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
     OD_LOG_S1s("name = ", name); //####
     OD_LOG_LL2("commandPort = ", commandPort, "dataPort = ", dataPort); //####
+#if defined(MpM_BuildDummyServices)
+    strncpy(_clientIPAddress, "", sizeof(_clientIPAddress) - 1);
+    strncpy(_serverIPAddress, "", sizeof(_serverIPAddress) - 1);
+#else // ! defined(MpM_BuildDummyServices)
     strcpy_s(_clientIPAddress, sizeof(_clientIPAddress) - 1, "");
     strcpy_s(_serverIPAddress, sizeof(_serverIPAddress) - 1, "");
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_EXIT_P(this); //####
 } // NatNetBlobInputThread::NatNetBlobInputThread
 
 NatNetBlobInputThread::~NatNetBlobInputThread(void)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_client)
     {
         _client->Uninitialize();
         delete _client;
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // NatNetBlobInputThread::~NatNetBlobInputThread
 
@@ -241,14 +253,16 @@ DEFINE_RUN_(NatNetBlobInputThread)
     OD_LOG_OBJENTER(); //####
     try
     {
+        for ( ; ! isStopping(); )
+        {
+            yarp::os::Time::yield();
+        }
+#if (! defined(MpM_BuildDummyServices))
         if (_client)
         {
-            for ( ; ! isStopping(); )
-            {
-                yarp::os::Time::yield();
-            }
             _client->SetDataCallback(NULL, NULL);
         }
+#endif // ! defined(MpM_BuildDummyServices)
     }
     catch (...)
     {
@@ -299,6 +313,7 @@ DEFINE_THREADINIT_(NatNetBlobInputThread)
 
     try
     {
+#if (! defined(MpM_BuildDummyServices))
         _client = new NatNetClient(NATNET_CONNECTION_MODE_);
         OD_LOG_P1("_client <- ", _client); //####
         if (_client)
@@ -364,6 +379,7 @@ DEFINE_THREADINIT_(NatNetBlobInputThread)
         {
             result = false;
         }
+#endif // ! defined(MpM_BuildDummyServices)
     }
     catch (...)
     {

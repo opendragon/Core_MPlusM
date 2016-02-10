@@ -60,7 +60,9 @@
 
 using namespace MplusM;
 using namespace MplusM::ViconDataStream;
+#if (! defined(MpM_BuildDummyServices))
 using namespace ViconDataStreamSDK;
+#endif // ! defined(MpM_BuildDummyServices)
 using std::cerr;
 using std::endl;
 
@@ -102,7 +104,11 @@ static const int kLittleSleep = 200;
 
 ViconDataStreamEventThread::ViconDataStreamEventThread(Common::GeneralChannel * outChannel,
                                                        const YarpString &       nameAndPort) :
-    inherited(), _viconClient(), _nameAndPort(nameAndPort), _outChannel(outChannel)
+    inherited(),
+#if (! defined(MpM_BuildDummyServices))
+    _viconClient(),
+#endif // ! defined(MpM_BuildDummyServices)
+    _nameAndPort(nameAndPort), _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_P1("outChannel = ", outChannel); //####
@@ -113,10 +119,12 @@ ViconDataStreamEventThread::ViconDataStreamEventThread(Common::GeneralChannel * 
 ViconDataStreamEventThread::~ViconDataStreamEventThread(void)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_viconClient.IsConnected().Connected)
     {
         _viconClient.Disconnect();
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // ViconDataStreamEventThread::~ViconDataStreamEventThread
 
@@ -136,8 +144,13 @@ bool
 ViconDataStreamEventThread::initializeConnection(void)
 {
     OD_LOG_OBJENTER(); //####
+#if defined(MpM_BuildDummyServices)
+    bool result = true;
+#else // ! defined(MpM_BuildDummyServices)
     bool result = false;
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
     for (int ii = 0; (! result) && (kNumConnectTries > ii); ++ii)
     {
         if (_viconClient.IsConnected().Connected)
@@ -154,15 +167,16 @@ ViconDataStreamEventThread::initializeConnection(void)
     {
         _viconClient.EnableMarkerData();
         _viconClient.EnableSegmentData();
-#if defined(VICON_Y_UP_)
+# if defined(VICON_Y_UP_)
         _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Up,
                                     CPP::Direction::Right);
-#elif defined(VICON_Z_UP_)
+# elif defined(VICON_Z_UP_)
         _viconClient.SetAxisMapping(CPP::Direction::Forward, CPP::Direction::Left,
                                     CPP::Direction::Up);
-#endif // defined(VICON_Z_UP_)
+# endif // defined(VICON_Z_UP_)
         _viconClient.SetStreamMode(VICON_STREAM_MODE_);
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ViconDataStreamEventThread::initializeConnection
@@ -174,6 +188,7 @@ ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
     OD_LOG_L1("subjectCount = ", subjectCount); //####
     yarp::os::Bottle message;
 
+#if (! defined(MpM_BuildDummyServices))
     for (unsigned int ii = 0; subjectCount > ii; ++ii)
     {
         CPP::Output_GetSubjectName o_gsubjn = _viconClient.GetSubjectName(ii);
@@ -196,23 +211,23 @@ ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
 
                     if (CPP::Result::Success == o_gsegn.Result)
                     {
-#if defined(USE_SEGMENT_LOCAL_DATA_)
+# if defined(USE_SEGMENT_LOCAL_DATA_)
                         CPP::Output_GetSegmentLocalTranslation        o_gseglt =
                                     _viconClient.GetSegmentLocalTranslation(o_gsubjn.SubjectName,
                                                                             o_gsegn.SegmentName);
                         CPP::Output_GetSegmentLocalRotationQuaternion o_gseglrq =
                                 _viconClient.GetSegmentLocalRotationQuaternion(o_gsubjn.SubjectName,
                                                                                o_gsegn.SegmentName);
-#else // ! defined(USE_SEGMENT_LOCAL_DATA_)
+# else // ! defined(USE_SEGMENT_LOCAL_DATA_)
                         CPP::Output_GetSegmentGlobalTranslation        o_gseggt =
                                     _viconClient.GetSegmentGlobalTranslation(o_gsubjn.SubjectName,
                                                                              o_gsegn.SegmentName);
                         CPP::Output_GetSegmentGlobalRotationQuaternion o_gseggrq =
                             _viconClient.GetSegmentGlobalRotationQuaternion(o_gsubjn.SubjectName,
                                                                             o_gsegn.SegmentName);
-#endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
+# endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
                         
-#if defined(USE_SEGMENT_LOCAL_DATA_)
+# if defined(USE_SEGMENT_LOCAL_DATA_)
                         if ((CPP::Result::Success == o_gseglt.Result) &&
                             (CPP::Result::Success == o_gseglrq.Result))
                         {
@@ -235,7 +250,7 @@ ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
                                 }
                             }
                         }
-#else // ! defined(USE_SEGMENT_LOCAL_DATA_)
+# else // ! defined(USE_SEGMENT_LOCAL_DATA_)
                         if ((CPP::Result::Success == o_gseggt.Result) &&
                             (CPP::Result::Success == o_gseggrq.Result))
                         {
@@ -258,12 +273,13 @@ ViconDataStreamEventThread::processEventData(const unsigned int subjectCount)
                                 }
                             }
                         }
-#endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
+# endif // ! defined(USE_SEGMENT_LOCAL_DATA_)
                     }
                 }
             }
         }
     }
+#endif // ! defined(MpM_BuildDummyServices)
     if (_outChannel)
     {
         if (0 < message.size())
@@ -285,6 +301,7 @@ DEFINE_RUN_(ViconDataStreamEventThread)
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
+#if (! defined(MpM_BuildDummyServices))
         if (CPP::Result::Success == _viconClient.GetFrame().Result)
         {
             CPP::Output_GetSubjectCount o_gsubjc = _viconClient.GetSubjectCount();
@@ -298,6 +315,7 @@ DEFINE_RUN_(ViconDataStreamEventThread)
         {
             Utilities::GoToSleep(kLittleSleep);
         }
+#endif // ! defined(MpM_BuildDummyServices)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####

@@ -54,18 +54,22 @@ add_executable(${THIS_TARGET}
                ${VERS_RESOURCE})
 
 if(WIN32)
-	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
+    add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
                        "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib" 
                        $<TARGET_FILE_DIR:m+mProComp2InputService>)
     install(FILES "${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/lib/TTLLiveCtrl.dll"
             DESTINATION bin
             COMPONENT applications)
-	include_directories(${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/inc)
+    include_directories(${MpMPROCOMP2_SOURCE_DIR}/ProComp2InputService/ProCompLib/inc)
 endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

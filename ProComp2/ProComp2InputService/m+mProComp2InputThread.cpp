@@ -48,8 +48,10 @@
 # pragma warning(disable: 4267)
 # pragma warning(disable: 4996)
 #endif // ! MAC_OR_LINUX_
-#define USING_WRAPPER_CLASS
-#include "ttllive.h"
+#if (! defined(MpM_BuildDummyServices))
+# define USING_WRAPPER_CLASS
+# include "ttllive.h"
+#endif // ! defined(MpM_BuildDummyServices)
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
@@ -85,8 +87,10 @@ using std::endl;
 # pragma mark Private structures, constants and variables
 #endif // defined(__APPLE__)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief The main interface pointer. */
 static ITTLLive2Ptr lTTLLive;
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if defined(__APPLE__)
 # pragma mark Global constants and variables
@@ -96,6 +100,7 @@ static ITTLLive2Ptr lTTLLive;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Display an error.
  @param ee The error to be displayed. */
 static void
@@ -104,6 +109,7 @@ show_error(_com_error & ee)
     cerr << "(0x" << std::hex << ee.Error() << std::dec << ")" << endl;
     cerr << static_cast<char *>(ee.Description()) << endl;
 } // show_error
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -139,6 +145,7 @@ ProComp2InputThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::clearOutputChannel
 
+#if (! defined(MpM_BuildDummyServices))
 void
 ProComp2InputThread::readChannelData(const DWORD time)
 {
@@ -228,13 +235,17 @@ ProComp2InputThread::readChannelData(const DWORD time)
     }
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::readChannelData
+#endif // ! defined(MpM_BuildDummyServices)
 
 DEFINE_RUN_(ProComp2InputThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     MSG      aMessage;
     UINT_PTR aTimer = NULL;
+#endif // ! defined(MpM_BuildDummyServices)
     
+#if (! defined(MpM_BuildDummyServices))
     memset(&aMessage, 0, sizeof(aMessage));
     if (0 < lTTLLive->EncoderCount)
     {
@@ -242,8 +253,10 @@ DEFINE_RUN_(ProComp2InputThread)
         // Set up a Windows time.
         aTimer = ::SetTimer(NULL, 0, PROCOMP2_TIMER_INTERVAL_, NULL);
     }
+#endif // ! defined(MpM_BuildDummyServices)
     for ( ; ! isStopping(); )
     {
+#if (! defined(MpM_BuildDummyServices))
         while (PeekMessage(&aMessage, NULL, 0, 0, PM_REMOVE))
         {
             if (WM_TIMER == aMessage.message)
@@ -255,14 +268,17 @@ DEFINE_RUN_(ProComp2InputThread)
             }
             DispatchMessage(&aMessage);
         }
+#endif // ! defined(MpM_BuildDummyServices)
         yarp::os::Time::yield();
     }
+#if (! defined(MpM_BuildDummyServices))
     lTTLLive->StopChannels();
     ::KillTimer(NULL, aTimer);
     if (lTTLLive)
     {
         lTTLLive.Release();
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::run
 
@@ -275,6 +291,7 @@ ProComp2InputThread::setupEncoders(void)
     OD_LOG("Autodetecting encoders"); //####
     try
     {
+#if (! defined(MpM_BuildDummyServices))
         lTTLLive->OpenConnections(TTLAPI_OCCMD_AUTODETECT, 1000, NULL, NULL);
         OD_LOG("Setting up channels"); //####
         lTTLLive->AutoSetupChannels();
@@ -289,6 +306,7 @@ ProComp2InputThread::setupEncoders(void)
             lTTLLive->UnitType[channelHND] = TTLAPI_UT_COUNT;
         }
         result = (0 < lTTLLive->EncoderCount);
+#endif // ! defined(MpM_BuildDummyServices)
     }
     catch (...)
     {
@@ -303,8 +321,11 @@ DEFINE_THREADINIT_(ProComp2InputThread)
 {
     OD_LOG_OBJENTER(); //####
     bool    result = true;
+#if (! defined(MpM_BuildDummyServices))
     HRESULT hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+#endif // ! defined(MpM_BuildDummyServices)
     
+#if (! defined(MpM_BuildDummyServices))
     if (SUCCEEDED(hr))
     {
         OD_LOG("Creating instance"); //####
@@ -353,6 +374,7 @@ DEFINE_THREADINIT_(ProComp2InputThread)
             lTTLLive.Release();
         }
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT_B(result); //####
     return result;
 } // ProComp2InputThread::threadInit
@@ -360,7 +382,9 @@ DEFINE_THREADINIT_(ProComp2InputThread)
 DEFINE_THREADRELEASE_(ProComp2InputThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     CoUninitialize();
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // ProComp2InputThread::threadRelease
 

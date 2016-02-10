@@ -64,8 +64,7 @@ if(WIN32)
 	set_property(TARGET Kinect PROPERTY IMPORTED_IMPLIB "${MpMKINECT_LIB_DIR}/Kinect20.lib")
 	set_property(TARGET Kinect PROPERTY IMPORTED_LOCATION "${MpMKINECT_LIB_DIR}/Kinect20.dll")
 	add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_directory
-						"${MpMKINECT_LIB_DIR}"
-						$<TARGET_FILE_DIR:m+mKinectV2InputService>)
+                           "${MpMKINECT_LIB_DIR}" $<TARGET_FILE_DIR:m+mKinectV2InputService>)
 	install(FILES "${MpMKINECT_LIB_DIR}/Kinect20.dll"
 			DESTINATION bin
 			COMPONENT applications)
@@ -73,7 +72,11 @@ endif(WIN32)
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -120,7 +123,11 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change
@@ -167,7 +174,11 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} Kinect ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

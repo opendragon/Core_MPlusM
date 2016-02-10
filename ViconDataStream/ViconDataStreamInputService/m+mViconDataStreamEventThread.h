@@ -39,12 +39,17 @@
 #if (! defined(MpMViconDataStreamEventThread_H_))
 # define MpMViconDataStreamEventThread_H_ /* Header guard */
 
-# include "stdafx.h"
+# include <m+m/m+mConfig.h>
+# if (! defined(MpM_BuildDummyServices))
+#  include "stdafx.h"
+# endif // ! defined(MpM_BuildDummyServices)
 
 # include <m+m/m+mBaseThread.h>
 # include <m+m/m+mGeneralChannel.h>
 
-# include <Client.h>
+# if (! defined(MpM_BuildDummyServices))
+#  include <Client.h>
+# endif // ! defined(MpM_BuildDummyServices)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -117,8 +122,10 @@ namespace MplusM
 
         private :
 
+# if (! defined(MpM_BuildDummyServices))
             /* @brief The connection to the Vicon device. */
             ViconDataStreamSDK::CPP::Client _viconClient;
+# endif // ! defined(MpM_BuildDummyServices)
 
             /* @brief The host name and port to connect to the Vicon server. */
             YarpString _nameAndPort;

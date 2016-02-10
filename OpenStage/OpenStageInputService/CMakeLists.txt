@@ -75,7 +75,11 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} "${OPENSTAGESDK_LIBRARIES}" ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} "${OPENSTAGESDK_LIBRARIES}" ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(WIN32)
     install(FILES
@@ -134,7 +138,11 @@ add_executable(${THIS_TARGET}
 
 # Note that the order of inclusion of libraries is critical in Linux, as they appear to only be
 # processed once.
-target_link_libraries(${THIS_TARGET} "${OPENSTAGESDK_LIBRARIES}" ${MpM_LINK_LIBRARIES})
+if(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} ${MpM_LINK_LIBRARIES})
+else(MpM_BuildDummyServices)
+    target_link_libraries(${THIS_TARGET} "${OPENSTAGESDK_LIBRARIES}" ${MpM_LINK_LIBRARIES})
+endif(MpM_BuildDummyServices)
 
 if(APPLE)
     add_custom_command(TARGET ${THIS_TARGET} POST_BUILD COMMAND install_name_tool -change

@@ -73,6 +73,7 @@ using std::endl;
 # pragma mark Local functions
 #endif // defined(__APPLE__)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a three-dimensional floating-point vector to a list.
  @param listToUpdate The list to be added to.
  @param position The vector to be added. */
@@ -84,6 +85,7 @@ add3VectorToList(yarp::os::Bottle &       listToUpdate,
     listToUpdate.addDouble(position.Y);
     listToUpdate.addDouble(position.Z);
 } // add3VectorToList
+#endif // ! defined(MpM_BuildDummyServices)
 
 /*! @brief Add a three-dimensional floating-point zero vector to a list.
  @param listToUpdate The list to be added to. */
@@ -95,6 +97,7 @@ add3ZeroesToList(yarp::os::Bottle & listToUpdate)
     listToUpdate.addDouble(0);
 } // add3ZeroesToList
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a four-dimensional floating-point vector to a list.
  @param listToUpdate The list to be added to.
  @param orientation The vector to be added. */
@@ -107,6 +110,7 @@ add4VectorToList(yarp::os::Bottle & listToUpdate,
     listToUpdate.addDouble(orientation.z);
     listToUpdate.addDouble(orientation.w);
 } // add4VectorToList
+#endif // ! defined(MpM_BuildDummyServices)
 
 /*! @brief Add a four-dimensional floating-point zero vector to a list.
  @param listToUpdate The list to be added to. */
@@ -119,6 +123,7 @@ add4ZeroesToList(yarp::os::Bottle & listToUpdate)
     listToUpdate.addDouble(0);
 } // add4ZeroesToList
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the description of a joint to a list.
  @param listToUpdate The list to be added to.
  @param jointData The joint position.
@@ -152,12 +157,16 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
         }
     }
 } // addJointToList
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add a joint to the list that's being built.
  @param index_ The joint index. */
-#define ADD_JOINT_TO_LIST_(index_) \
+# define ADD_JOINT_TO_LIST_(index_) \
         addJointToList(message, jointData[index_], orientationData[index_])
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Add the data for a body to a message.
  @param message The message to be updated with the body data.
  @param jointData The set of joints for the body.
@@ -222,7 +231,9 @@ addBodyToMessage(yarp::os::Bottle &       message,
     
     OD_LOG_EXIT(); //####
 } // addBodyToMessage
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
 /*! @brief Process the data returned by the Kinect V2 sensor.
  @param message The message to be updated with the sensor data.
  @param nBodyCount The number of 'bodies' in the sensor data.
@@ -278,6 +289,7 @@ processBody(yarp::os::Bottle & message,
     OD_LOG_EXIT_B(result); //####
     return result;
 } // processBody
+#endif // ! defined(MpM_BuildDummyServices)
 
 #if defined(__APPLE__)
 # pragma mark Class methods
@@ -288,7 +300,10 @@ processBody(yarp::os::Bottle & message,
 #endif // defined(__APPLE__)
 
 KinectV2SpecialEventThread::KinectV2SpecialEventThread(Common::GeneralChannel * outChannel) :
-    inherited(), _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL),
+    inherited(),
+#if (! defined(MpM_BuildDummyServices))
+    _kinectSensor(NULL), _bodyFrameReader(NULL), _bodyFrameSource(NULL),
+#endif // ! defined(MpM_BuildDummyServices)
     _outChannel(outChannel)
 {
     OD_LOG_ENTER(); //####
@@ -314,6 +329,7 @@ KinectV2SpecialEventThread::clearOutputChannel(void)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::clearOutputChannel
 
+#if (! defined(MpM_BuildDummyServices))
 HRESULT
 KinectV2SpecialEventThread::initializeDefaultSensor(void)
 {
@@ -349,11 +365,13 @@ KinectV2SpecialEventThread::initializeDefaultSensor(void)
     OD_LOG_OBJEXIT_L(hr); //####
     return hr;
 } // KinectV2SpecialEventThread::initializeDefaultSensor
+#endif // ! defined(MpM_BuildDummyServices)
 
 void
 KinectV2SpecialEventThread::processEventData(void)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader)
     {
         IBodyFrameArrivedEventArgs * eventData = NULL;
@@ -396,9 +414,9 @@ KinectV2SpecialEventThread::processEventData(void)
                             if (! _outChannel->write(message))
                             {
                                 OD_LOG("(! _outChannel->write(message))"); //####
-#if defined(MpM_StallOnSendProblem)
+# if defined(MpM_StallOnSendProblem)
                                 Stall();
-#endif // defined(MpM_StallOnSendProblem)
+# endif // defined(MpM_StallOnSendProblem)
                             }
                         }
                     }
@@ -406,6 +424,7 @@ KinectV2SpecialEventThread::processEventData(void)
             }
         }
     }
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::processEventData
 
@@ -414,8 +433,11 @@ DEFINE_RUN_(KinectV2SpecialEventThread)
     OD_LOG_OBJENTER(); //####
     for ( ; ! isStopping(); )
     {
+#if (! defined(MpM_BuildDummyServices))
         MSG msg;
+#endif // ! defined(MpM_BuildDummyServices)
 
+#if (! defined(MpM_BuildDummyServices))
         while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
         {
             DispatchMessage(&msg);
@@ -439,6 +461,7 @@ DEFINE_RUN_(KinectV2SpecialEventThread)
         {
             stop();
         }
+#endif // ! defined(MpM_BuildDummyServices)
         yarp::os::Time::yield();
     }
     OD_LOG_OBJEXIT(); //####
@@ -447,7 +470,11 @@ DEFINE_RUN_(KinectV2SpecialEventThread)
 DEFINE_THREADINIT_(KinectV2SpecialEventThread)
 {
     OD_LOG_OBJENTER(); //####
+#if defined(MpM_BuildDummyServices)
+    bool result = true;
+#else // ! defined(MpM_BuildDummyServices)
     bool result = SUCCEEDED(initializeDefaultSensor());
+#endif // ! defined(MpM_BuildDummyServices)
 
     OD_LOG_OBJEXIT_B(result); //####
     return result;
@@ -456,6 +483,7 @@ DEFINE_THREADINIT_(KinectV2SpecialEventThread)
 DEFINE_THREADRELEASE_(KinectV2SpecialEventThread)
 {
     OD_LOG_OBJENTER(); //####
+#if (! defined(MpM_BuildDummyServices))
     if (_bodyFrameReader && _frameEventHandle)
     {
         _bodyFrameReader->UnsubscribeFrameArrived(_frameEventHandle);
@@ -470,6 +498,7 @@ DEFINE_THREADRELEASE_(KinectV2SpecialEventThread)
         _kinectSensor->Close();
     }
     SafeRelease(_kinectSensor);
+#endif // ! defined(MpM_BuildDummyServices)
     OD_LOG_OBJEXIT(); //####
 } // KinectV2SpecialEventThread::threadRelease
 

@@ -43,8 +43,10 @@
 # include <m+m/m+mGeneralChannel.h>
 # include <m+m/m+mStringBuffer.h>
 
-# include <NatNetTypes.h>
-# include <NatNetClient.h>
+# if (! defined(MpM_BuildDummyServices))
+#  include <NatNetTypes.h>
+#  include <NatNetClient.h>
+# endif // ! defined(MpM_BuildDummyServices)
 
 # if defined(__APPLE__)
 #  pragma clang diagnostic push
@@ -161,8 +163,10 @@ namespace MplusM
             /*! @brief The command port of the Natural Point %NatNet device. */
             int _dataPort;
             
+# if (! defined(MpM_BuildDummyServices))
             /*! @brief The connection to the Natural Point %NatNet device. */
             NatNetClient * _client;
+# endif // ! defined(MpM_BuildDummyServices)
 
 # if defined(MpM_UseCustomStringBuffer)
             /*! @brief The buffer to hold the output data. */
