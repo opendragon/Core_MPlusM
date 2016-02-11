@@ -338,7 +338,7 @@ DEFINE_STOPSTREAMS_(ViconBlobInputService)
                 _eventThread->stop();
                 for ( ; _eventThread->isRunning(); )
                 {
-                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                    ConsumeSomeTime(IO_SERVICE_DELAY_FACTOR_);
                 }
                 delete _eventThread;
                 _eventThread = NULL;

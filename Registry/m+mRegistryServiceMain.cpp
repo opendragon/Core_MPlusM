@@ -132,14 +132,7 @@ setUpAndGo(const YarpString & progName,
                 delete reporter;
                 reporter = NULL;
             }
-            for ( ; IsRunning(); )
-            {
-#if defined(MpM_MainDoesDelayNotYield)
-                yarp::os::Time::delay(ONE_SECOND_DELAY_);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-            }
+            IdleUntilNotRunning();
             if (reporter)
             {
                 reporter->stop();

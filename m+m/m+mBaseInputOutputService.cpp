@@ -1042,11 +1042,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                             doIdle();
                         }
                     }
-#if defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
+                    ConsumeSomeTime();
                 }
             }
             // Watch for a newline here!
@@ -1074,11 +1070,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
                                 doIdle();
                             }
                         }
-#if defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                        yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
+                        ConsumeSomeTime();
                     }
                 }
             }
@@ -1197,11 +1189,7 @@ BaseInputOutputService::runService(const YarpString & helpText,
             {
                 doIdle();
             }
-#if defined(MpM_MainDoesDelayNotYield)
-            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 100.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-            yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
+            ConsumeSomeTime();
         }
     }
     OD_LOG_OBJEXIT(); //####

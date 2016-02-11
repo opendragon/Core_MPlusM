@@ -131,7 +131,7 @@ DEFINE_RUN_(BailOutThread)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
         }
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // BailOutThread::run

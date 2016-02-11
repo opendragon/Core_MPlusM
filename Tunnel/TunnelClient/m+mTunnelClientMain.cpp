@@ -261,7 +261,7 @@ handleConnections(SOCKET             listenSocket,
             OD_LOG("(INVALID_SOCKET != tunnelSocket)"); //####
             for ( ; keepGoing; )
             {
-                yarp::os::Time::yield();
+                ConsumeSomeTime();
 #if MAC_OR_LINUX_
                 ssize_t inSize = recv(tunnelSocket, buffer, sizeof(buffer), 0);
 #else // ! MAC_OR_LINUX_

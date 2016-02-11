@@ -269,7 +269,7 @@ DEFINE_RUN_(ProComp2InputThread)
             DispatchMessage(&aMessage);
         }
 #endif // ! defined(MpM_BuildDummyServices)
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
 #if (! defined(MpM_BuildDummyServices))
     lTTLLive->StopChannels();

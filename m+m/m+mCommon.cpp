@@ -428,7 +428,7 @@ Common::Stall(void)
 {
     for ( ; ; )
     {
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
 } // Common::Stall
 
@@ -438,8 +438,10 @@ MplusM::CanReadFromStandardInput(void)
     OD_LOG_ENTER(); //####
 #if MAC_OR_LINUX_
     pid_t fg = tcgetpgrp(STDIN_FILENO);
-#endif // MAC_OR_LINUX_
-    bool result = false;
+#else // ! MAC_OR_LINUX_
+    HWND  wind = GetConsoleWindow();
+#endif // ! MAC_OR_LINUX_
+    bool  result = false;
     
 #if MAC_OR_LINUX_
     if (-1 == fg)
@@ -458,14 +460,31 @@ MplusM::CanReadFromStandardInput(void)
         result = false;
     }
 #else // ! MAC_OR_LINUX_
-      // How do we check on Windows??
-    HWND wind = GetConsoleWindow();
-    
     result = (NULL != wind);
 #endif // ! MAC_OR_LINUX_
     OD_LOG_EXIT_B(result); //####
     return result;
 } // MplusM::CanReadFromStandardInput
+
+void
+MplusM::ConsumeSomeTime(const double factor)
+{
+    OD_LOG_ENTER(); //####
+    yarp::os::Time::delay(ONE_SECOND_DELAY_ / factor);
+    yarp::os::Time::yield();
+    OD_LOG_EXIT(); //####
+} // MplusM::ConsumeSomeTime
+
+void
+MplusM::IdleUntilNotRunning(void)
+{
+    OD_LOG_ENTER(); //####
+    for ( ; IsRunning(); )
+    {
+        ConsumeSomeTime();
+    }
+    OD_LOG_EXIT(); //####
+} // MplusM::IdleUntilNotRunning
 
 bool
 MplusM::IsRunning(void)

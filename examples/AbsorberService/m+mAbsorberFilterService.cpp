@@ -376,7 +376,7 @@ DEFINE_STOPSTREAMS_(AbsorberFilterService)
                 _generator->stop();
                 for ( ; _generator->isRunning(); )
                 {
-                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 3.9);
+                    ConsumeSomeTime(IO_SERVICE_DELAY_FACTOR_);
                 }
                 delete _generator;
                 _generator = NULL;

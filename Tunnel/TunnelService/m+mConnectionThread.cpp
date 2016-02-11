@@ -253,7 +253,7 @@ DEFINE_RUN_(ConnectionThread)
             
             for (bool keepGoing = true; keepGoing && (! isStopping()); )
             {
-                yarp::os::Time::yield();
+                ConsumeSomeTime();
 #if MAC_OR_LINUX_
                 ssize_t inSize = recv(_sourceSocket, buffer, sizeof(buffer), 0);
 #else // ! MAC_OR_LINUX_
@@ -279,7 +279,6 @@ DEFINE_RUN_(ConnectionThread)
                     OD_LOG("! (0 < inSize)"); //####
                     keepGoing = false;
                 }
-                yarp::os::Time::yield();
             }
             _service.setPort(-1);
 #if MAC_OR_LINUX_

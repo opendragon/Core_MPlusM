@@ -136,7 +136,7 @@ DEFINE_RUN_(ExemplarInputThread)
             }
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // ExemplarInputThread::run

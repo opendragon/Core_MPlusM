@@ -180,12 +180,12 @@ DEFINE_RUN_(PlaybackFromJSONInputThread)
                 atEnd = true;
             }
         }
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     // If we get here, the data was only sent once, without loopback...
     for ( ; (! isStopping()); )
     {
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // PlaybackFromJSONInputThread::run

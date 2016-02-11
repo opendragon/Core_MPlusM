@@ -264,7 +264,7 @@ DEFINE_RUN_(OpenStageInputThread)
             processData(actorData);
         }
 #endif // ! defined(MpM_BuildDummyServices)
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // OpenStageInputThread::run

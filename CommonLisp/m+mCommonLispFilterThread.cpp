@@ -122,7 +122,7 @@ DEFINE_RUN_(CommonLispFilterThread)
             _owner.signalRunFunction();
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // CommonLispFilterThread::run

@@ -127,9 +127,6 @@ mark_as_advanced(MpM_DontUseTimeouts)
 
 option(MpM_LogIncludesYarpTrace "Include YARP trace when logging")
 
-option(MpM_MainDoesDelayNotYield "Use Delay() in main() loop")
-mark_as_advanced(MpM_MainDoesDelayNotYield)
-
 option(MpM_MetricsInitiallyOn "Collect channel measurement data by default")
 
 option(MpM_ReportContactDetails

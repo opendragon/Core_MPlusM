@@ -316,7 +316,7 @@ DEFINE_RUN_(ViconDataStreamEventThread)
             Utilities::GoToSleep(kLittleSleep);
         }
 #endif // ! defined(MpM_BuildDummyServices)
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // ViconDataStreamEventThread::run

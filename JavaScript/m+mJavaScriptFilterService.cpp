@@ -969,7 +969,7 @@ DEFINE_STOPSTREAMS_(JavaScriptFilterService)
                     _generator->stop();
                     for ( ; _generator->isRunning(); )
                     {
-                        yarp::os::Time::delay(_threadInterval / 3.9);
+                        yarp::os::Time::delay(_threadInterval / IO_SERVICE_DELAY_FACTOR_);
                     }
                     delete _generator;
                     _generator = NULL;

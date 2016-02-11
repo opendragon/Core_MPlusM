@@ -136,7 +136,7 @@ DEFINE_RUN_(RandomBurstInputThread)
             }
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // RandomBurstInputThread::run

@@ -503,6 +503,15 @@ namespace MplusM
     bool
     CanReadFromStandardInput(void);
     
+    /*! @brief Introduce some delay in processing.
+     @param factor The fraction of a second to delay. */
+    void
+    ConsumeSomeTime(const double factor = 200.0);
+    
+    /*! @brief Sit in an idle loop until a request to stop occurs. */
+    void
+    IdleUntilNotRunning(void);
+
     /*! @brief Returns @c true if the executable can continue running and @c false otherwise.
      @returns @c true if the executable can continue running and @c false otherwise. */
     bool

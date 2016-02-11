@@ -94,8 +94,6 @@
 
 #cmakedefine MpM_LogIncludesYarpTrace /* Enable YARP tracing. */
 
-#cmakedefine MpM_MainDoesDelayNotYield /* Use delay() instead of yield() in the background loop in main(). */
-
 #cmakedefine MpM_MetricsInitiallyOn /* Collect channel measurement data by default. */
 
 #cmakedefine MpM_ReportContactDetails /* Report details of the contacts during operations that might change them. */

@@ -389,7 +389,7 @@ DEFINE_RUN_(ViconBlobEventThread)
             Utilities::GoToSleep(kLittleSleep);
         }
 #endif // ! defined(MpM_BuildDummyServices)
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // ViconBlobEventThread::run

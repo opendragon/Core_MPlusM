@@ -125,7 +125,7 @@ DEFINE_RUN_(JavaScriptFilterThread)
                 _owner.signalRunFunction();
                 _nextTime = yarp::os::Time::now() + _timeToWait;
             }
-            yarp::os::Time::yield();
+            ConsumeSomeTime();
         }
     }
     catch (...)

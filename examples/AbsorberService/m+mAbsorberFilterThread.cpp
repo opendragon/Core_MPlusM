@@ -113,7 +113,7 @@ DEFINE_RUN_(AbsorberFilterThread)
             _service.reportMessageRate();
             _nextTime = yarp::os::Time::now() + _timeToWait;
         }
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // AbsorberFilterThread::run

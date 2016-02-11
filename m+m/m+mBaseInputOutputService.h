@@ -54,6 +54,9 @@
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
 
+/*! @brief The fraction of a second to delay while idling in an input / output service. */
+# define IO_SERVICE_DELAY_FACTOR_   3.9
+
 /*! @brief Declare the configure method, which updates the service configuration from its single
  argument, details.
  The method returns @c true if the service was successfully configured and @c false otherwise. */

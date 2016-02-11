@@ -365,7 +365,7 @@ performSQLstatementWithNoResults(sqlite3 *    database,
                         OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
-                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+                            ConsumeSomeTime(10.0);
                         }
                     }
                     while (SQLITE_BUSY == sqlRes);
@@ -433,7 +433,7 @@ performSQLstatementWithNoResultsNoArgs(sqlite3 *    database,
                         OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
-                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+                            ConsumeSomeTime(10.0);
                         }
                     }
                     while (SQLITE_BUSY == sqlRes);
@@ -512,7 +512,7 @@ performSQLstatementWithNoResultsAllowConstraint(sqlite3 *    database,
                         OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                         if (SQLITE_BUSY == sqlRes)
                         {
-                            yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+                            ConsumeSomeTime(10.0);
                         }
                     }
                     while (SQLITE_BUSY == sqlRes);
@@ -601,7 +601,7 @@ performSQLstatementWithDoubleColumnResults(sqlite3 *          database,
                             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
-                                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+                                ConsumeSomeTime(10.0);
                             }
                         }
                         while (SQLITE_BUSY == sqlRes);
@@ -718,7 +718,7 @@ performSQLstatementWithSingleColumnResults(sqlite3 *          database,
                             OD_LOG_S1("sqlRes <- ", mapStatusToStringForSQL(sqlRes)); //####
                             if (SQLITE_BUSY == sqlRes)
                             {
-                                yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
+                                ConsumeSomeTime(10.0);
                             }
                         }
                         while (SQLITE_BUSY == sqlRes);

@@ -255,7 +255,7 @@ DEFINE_RUN_(NatNetBlobInputThread)
     {
         for ( ; ! isStopping(); )
         {
-            yarp::os::Time::yield();
+            ConsumeSomeTime();
         }
 #if (! defined(MpM_BuildDummyServices))
         if (_client)

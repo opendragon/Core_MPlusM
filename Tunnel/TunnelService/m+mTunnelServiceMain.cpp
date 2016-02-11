@@ -133,14 +133,7 @@ setUpAndGo(const YarpString & hostName,
                 StartRunning();
                 SetSignalHandlers(SignalRunningStop);
                 aService->startPinger();
-                for ( ; IsRunning(); )
-                {
-#if defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::delay(ONE_SECOND_DELAY_ / 10.0);
-#else // ! defined(MpM_MainDoesDelayNotYield)
-                    yarp::os::Time::yield();
-#endif // ! defined(MpM_MainDoesDelayNotYield)
-                }
+                IdleUntilNotRunning();
                 UnregisterLocalService(channelName, *aService);
                 if (reportOnExit)
                 {

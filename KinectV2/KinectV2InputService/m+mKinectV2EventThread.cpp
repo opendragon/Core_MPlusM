@@ -618,7 +618,7 @@ DEFINE_RUN_(KinectV2EventThread)
             stop();
         }
 #endif // ! defined(MpM_BuildDummyServices)
-        yarp::os::Time::yield();
+        ConsumeSomeTime();
     }
     OD_LOG_OBJEXIT(); //####
 } // KinectV2EventThread::run

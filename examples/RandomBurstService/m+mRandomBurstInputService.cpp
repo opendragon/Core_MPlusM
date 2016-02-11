@@ -318,7 +318,7 @@ DEFINE_STOPSTREAMS_(RandomBurstInputService)
                 _generator->stop();
                 for ( ; _generator->isRunning(); )
                 {
-                    yarp::os::Time::delay(_burstSize / 3.9);
+                    yarp::os::Time::delay(_burstSize / IO_SERVICE_DELAY_FACTOR_);
                 }
                 delete _generator;
                 _generator = NULL;
