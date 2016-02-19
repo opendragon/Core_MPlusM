@@ -46,7 +46,7 @@ m+mTunnelClient
 # Utilities
 m+mClientList
 m+mFindServices
-m+mPortLister
+m+mPortList
 m+mRequestInfo
 m+mServiceList
 m+mServiceMetrics

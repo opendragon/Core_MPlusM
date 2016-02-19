@@ -1,6 +1,6 @@
 //--------------------------------------------------------------------------------------------------
 //
-//  File:       m+mPortListerMain.cpp
+//  File:       m+mPortListMain.cpp
 //
 //  Project:    m+m
 //
@@ -51,8 +51,8 @@
 /*! @file
  @brief A utility application to list the available ports. */
 
-/*! @dir PortLister
- @brief The set of files that implement the Port Lister application. */
+/*! @dir PortList
+ @brief The set of files that implement the Port List application. */
 #if defined(__APPLE__)
 # pragma clang diagnostic pop
 #endif // defined(__APPLE__)
