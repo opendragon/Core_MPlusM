@@ -675,8 +675,9 @@ BaseService::sendPingForChannel(const YarpString & channelName,
     
     try
     {
-        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "ping_/"
-                                                           DEFAULT_CHANNEL_ROOT_));
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                           BUILD_NAME_("ping_",
+                                                                       DEFAULT_CHANNEL_ROOT_)));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
@@ -1029,8 +1030,9 @@ Common::GetOurEffectiveAddress(NetworkAddress & ourAddress)
     
     try
     {
-        YarpString    aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "whereAmI_/"
-                                                 DEFAULT_CHANNEL_ROOT_));
+        YarpString    aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                 BUILD_NAME_("whereAmI_",
+                                                             DEFAULT_CHANNEL_ROOT_)));
         BaseChannel * newChannel = new BaseChannel;
         
         if (newChannel)
@@ -1564,8 +1566,9 @@ Common::RegisterLocalService(const YarpString & channelName,
     
     try
     {
-        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "registerlocal_/"
-                                                           DEFAULT_CHANNEL_ROOT_));
+        YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                           BUILD_NAME_("registerlocal_",
+                                                                       DEFAULT_CHANNEL_ROOT_)));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();
@@ -1682,8 +1685,8 @@ Common::UnregisterLocalService(const YarpString & channelName,
     try
     {
         YarpString              aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
-                                                           "unregisterlocal_/"
-                                                           DEFAULT_CHANNEL_ROOT_));
+                                                           BUILD_NAME_("unregisterlocal_",
+                                                                       DEFAULT_CHANNEL_ROOT_)));
         ClientChannel *         newChannel = new ClientChannel;
 #if defined(MpM_ReportOnConnections)
         ChannelStatusReporter * reporter = Utilities::GetGlobalStatusReporter();

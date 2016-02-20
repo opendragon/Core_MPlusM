@@ -152,13 +152,14 @@ validateMatchResponse(const yarp::os::Bottle & response)
 #endif // defined(__APPLE__)
 
 BaseClient::BaseClient(const YarpString & baseChannelName) :
-    _reporter(NULL), _channel(NULL), _baseChannelName(CLIENT_PORT_NAME_BASE_), _channelName(),
+    _reporter(NULL), _channel(NULL), _baseChannelName(MpM_CLIENT_BASE_NAME_), _channelName(),
     _serviceChannelName(), _clientOwnsChannel(true), _connected(false), _reportImmediately(false)
 {
     OD_LOG_ENTER(); //####
     OD_LOG_S1s("baseChannelName = ", baseChannelName); //####
     if (0 < baseChannelName.length())
     {
+        _baseChannelName += MpM_NAME_SEPARATOR_;
         _baseChannelName += baseChannelName;
     }
     OD_LOG_EXIT_P(this); //####
@@ -538,8 +539,9 @@ Common::FindMatchingServices(const YarpString & criteria,
     
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "findmatch_/"
-                                                   DEFAULT_CHANNEL_ROOT_));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                   BUILD_NAME_("findmatch_",
+                                                               DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)

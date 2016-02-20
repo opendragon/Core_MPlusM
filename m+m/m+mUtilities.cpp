@@ -1668,8 +1668,9 @@ Utilities::GetConfigurationForService(const YarpString & serviceChannelName,
     OD_LOG_P2("values = ", &values, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "configuration_/"
-                                               DEFAULT_CHANNEL_ROOT_));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                               BUILD_NAME_("configuration_",
+                                                           DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
     
     values.clear();
@@ -1866,8 +1867,9 @@ Utilities::GetExtraInformationForService(const YarpString &  serviceChannelName,
     
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "extraInfo_/"
-                                                   DEFAULT_CHANNEL_ROOT_));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                   BUILD_NAME_("extraInfo_",
+                                                               DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
@@ -2042,8 +2044,9 @@ Utilities::GetMetricsForService(const YarpString & serviceChannelName,
     OD_LOG_P2("metrics = ", &metrics, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicemetrics_/"
-                                               DEFAULT_CHANNEL_ROOT_));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                               BUILD_NAME_("servicemetrics_",
+                                                           DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
     
     if (newChannel)
@@ -2111,8 +2114,9 @@ Utilities::GetMetricsStateForService(const YarpString & serviceChannelName,
     OD_LOG_P2("metrics = ", &metricsState, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicemetrics_/"
-                                               DEFAULT_CHANNEL_ROOT_));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                               BUILD_NAME_("servicemetrics_",
+                                                           DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
     
     if (newChannel)
@@ -2199,8 +2203,9 @@ Utilities::GetNameAndDescriptionForService(const YarpString &  serviceChannelNam
     
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicelister_/"
-                                                   DEFAULT_CHANNEL_ROOT_));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                   BUILD_NAME_("servicelister_",
+                                                               DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)
@@ -2578,24 +2583,24 @@ Utilities::PortKind
 Utilities::GetPortKind(const YarpString & portName)
 {
     const char * portNameChars = portName.c_str();
-    const size_t kAdapterPortNameBaseLen = sizeof(DEFAULT_ADAPTER_NAME_BASE_) - 1;
-    const size_t kClientPortNameBaseLen = sizeof(CLIENT_PORT_NAME_BASE_) - 1;
-    const size_t kDefaultServiceNameBaseLen = sizeof(DEFAULT_SERVICE_NAME_BASE_) - 1;
+    const size_t kAdapterPortNameBaseLen = sizeof(MpM_ADAPTER_BASE_NAME_) - 1;
+    const size_t kClientPortNameBaseLen = sizeof(MpM_CLIENT_BASE_NAME_) - 1;
+    const size_t kDefaultServiceNameBaseLen = sizeof(MpM_SERVICE_BASE_NAME_) - 1;
     PortKind     result;
     
     if (! strcmp(MpM_REGISTRY_ENDPOINT_NAME_, portNameChars))
     {
         result = kPortKindRegistryService;
     }
-    else if (! strncmp(DEFAULT_SERVICE_NAME_BASE_, portNameChars, kDefaultServiceNameBaseLen))
+    else if (! strncmp(MpM_SERVICE_BASE_NAME_, portNameChars, kDefaultServiceNameBaseLen))
     {
         result = kPortKindService;
     }
-    else if (! strncmp(DEFAULT_ADAPTER_NAME_BASE_, portNameChars, kAdapterPortNameBaseLen))
+    else if (! strncmp(MpM_ADAPTER_BASE_NAME_, portNameChars, kAdapterPortNameBaseLen))
     {
         result = kPortKindAdapter;
     }
-    else if (! strncmp(CLIENT_PORT_NAME_BASE_, portNameChars, kClientPortNameBaseLen))
+    else if (! strncmp(MpM_CLIENT_BASE_NAME_, portNameChars, kClientPortNameBaseLen))
     {
         result = kPortKindClient;
     }
@@ -3441,8 +3446,9 @@ Utilities::RestartAService(const YarpString & serviceChannelName,
 
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "restart_/"
-                                                   DEFAULT_CHANNEL_ROOT_));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                   BUILD_NAME_("restart_",
+                                                               DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
 
         if (newChannel)
@@ -3518,8 +3524,9 @@ Utilities::SetConfigurationForService(const YarpString &       serviceChannelNam
     OD_LOG_P2("newValues = ", &newValues, "checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "configure_/"
-                                               DEFAULT_CHANNEL_ROOT_));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                               BUILD_NAME_("configure_",
+                                                           DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
     
     if (newChannel)
@@ -3589,8 +3596,9 @@ Utilities::SetMetricsStateForService(const YarpString & serviceChannelName,
     OD_LOG_P1("checkStuff = ", checkStuff); //####
     OD_LOG_D1("timeToWait = ", timeToWait); //####
     bool            result = false;
-    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "servicemetrics_/"
-                                               DEFAULT_CHANNEL_ROOT_));
+    YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                               BUILD_NAME_("servicemetrics_",
+                                                           DEFAULT_CHANNEL_ROOT_)));
     ClientChannel * newChannel = new ClientChannel;
     
     if (newChannel)
@@ -3684,8 +3692,9 @@ Utilities::StopAService(const YarpString & serviceChannelName,
     
     try
     {
-        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "stop_/"
-                                                   DEFAULT_CHANNEL_ROOT_));
+        YarpString      aName(GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                   BUILD_NAME_("stop_",
+                                                               DEFAULT_CHANNEL_ROOT_)));
         ClientChannel * newChannel = new ClientChannel;
         
         if (newChannel)

@@ -53,8 +53,9 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_PLAYBACKFROMJSONINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                        "input/playbackfromJSON")
+# define DEFAULT_PLAYBACKFROMJSONINPUT_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                                 BUILD_NAME_("input", \
+                                                                             "playbackfromJSON"))
 
 /*! @brief The description of the service. */
 # define PLAYBACKFROMJSONINPUT_SERVICE_DESCRIPTION_ T_("Playback From JSON input service")

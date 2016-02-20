@@ -53,7 +53,8 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_OPENSTAGEINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "input/openstageos")
+# define DEFAULT_OPENSTAGEINPUT_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                          BUILD_NAME_("input", "openstageos"))
 
 /*! @brief The description of the service. */
 # define OPENSTAGEINPUT_SERVICE_DESCRIPTION_ T_("OpenStage input service")

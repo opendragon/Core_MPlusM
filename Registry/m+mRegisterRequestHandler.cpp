@@ -181,8 +181,8 @@ DEFINE_PROCESSREQUEST_(RegisterRequestHandler)
                                                   RegistryService::kRegistryRegisterService);
                     // Send a 'name' request to the channel
                     YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
-                                                                 "register_/"
-                                                                 DEFAULT_CHANNEL_ROOT_);
+                                                                 BUILD_NAME_("register_",
+                                                                          DEFAULT_CHANNEL_ROOT_));
                     ClientChannel * outChannel = new ClientChannel;
                     
                     if (outChannel)

@@ -182,15 +182,17 @@ doTestRequestRegistryService(const char * launchPath,
                 case 0 :
                     registry = new Registry::RegistryService(launchPath, argc, argv,
                                                              TEST_INMEMORY_);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
-                                              "test/requestregisterservice_1");
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                                                       BUILD_NAME_("test",
+                                                                   "requestregisterservice_1"));
                     break;
                     
                 case 1 :
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
-                                              "test/requestregisterservice_2");
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                                                       BUILD_NAME_("test",
+                                                                   "requestregisterservice_2"));
                     break;
                     
                 default :
@@ -288,15 +290,17 @@ doTestRequestUnregisterService(const char * launchPath,
                 case 0 :
                     registry = new Registry::RegistryService(launchPath, argc, argv,
                                                              TEST_INMEMORY_);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
-                                              "test/requestunregisterservice_1");
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                                                       BUILD_NAME_("test",
+                                                                   "requestunregisterservice_1"));
                     break;
                     
                 case 1 :
                     registry = new Registry::RegistryService(launchPath, argc, argv, TEST_INMEMORY_,
                                                              *argv);
-                    secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
-                                              "test/requestunregisterservice_2");
+                    secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                                                       BUILD_NAME_("test",
+                                                                   "requestunregisterservice_2"));
                     break;
                     
                 default :
@@ -394,8 +398,9 @@ doTestRequestSearchService(const char * launchPath,
         if (1 < argc)
         {
             bool                        getNamesFlag = ('0' != **argv);
-            const char *                secondServiceChannel = T_(DEFAULT_SERVICE_NAME_BASE_
-                                                                  "test/requestsearchservice");
+            const char *                secondServiceChannel = BUILD_NAME_(MpM_SERVICE_BASE_NAME_, 
+                                                                           BUILD_NAME_("test",
+                                                                           "requestsearchservice"));
             Registry::RegistryService * registry = new Registry::RegistryService(launchPath, argc,
                                                                                  argv,
                                                                                  TEST_INMEMORY_);

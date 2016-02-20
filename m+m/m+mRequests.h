@@ -51,13 +51,13 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The standard name for the %Registry Service request channel. */
-# define MpM_REGISTRY_ENDPOINT_NAME_       "/$ervice"
+# define MpM_REGISTRY_ENDPOINT_NAME_       T_(MpM_BASE_NAME_PREFIX_ "$ervice")
 
 /*! @brief The channel-independent name of the %Registry Service. */
 # define MpM_REGISTRY_CANONICAL_NAME_      "Registry"
 
 /*! @brief The name of the secondary port for the %Registry Service. */
-# define MpM_REGISTRY_STATUS_NAME_         T_(MpM_REGISTRY_ENDPOINT_NAME_ "/status")
+# define MpM_REGISTRY_STATUS_NAME_         BUILD_NAME_(MpM_REGISTRY_ENDPOINT_NAME_, "status")
 
 /*! @brief The name for an 'argumentDescriptions' request. */
 # define MpM_ARGUMENTDESCRIPTIONS_REQUEST_ "argumentDescriptions"

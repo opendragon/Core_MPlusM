@@ -53,7 +53,8 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_ECHO_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "examples/echo")
+# define DEFAULT_ECHO_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                BUILD_NAME_("examples", "echo"))
 
 /*! @brief The description of the service. */
 # define ECHO_SERVICE_DESCRIPTION_ T_("Echo service")

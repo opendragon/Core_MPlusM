@@ -53,8 +53,8 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_CHORDGENERATOR_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                 "examples/chordgenerator")
+# define DEFAULT_CHORDGENERATOR_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                          BUILD_NAME_("examples", "chordgenerator"))
 
 /*! @brief The description of the service. */
 # define CHORDGENERATOR_SERVICE_DESCRIPTION_ T_("Chord generator service")

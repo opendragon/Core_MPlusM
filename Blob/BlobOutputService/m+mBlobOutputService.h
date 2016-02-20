@@ -57,7 +57,8 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_BLOBOUTPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "output/blob")
+# define DEFAULT_BLOBOUTPUT_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                      BUILD_NAME_("output", "blob"))
 
 /*! @brief The description of the service. */
 # define BLOBOUTPUT_SERVICE_DESCRIPTION_ T_("Blob output service")

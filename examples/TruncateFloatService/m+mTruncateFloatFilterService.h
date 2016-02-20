@@ -53,8 +53,9 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_TRUNCATEFLOATFILTER_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                        "filter/truncatefloat")
+# define DEFAULT_TRUNCATEFLOATFILTER_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                               BUILD_NAME_("filter", \
+                                                                           "truncatefloat"))
 
 /*! @brief The description of the service. */
 # define TRUNCATEFLOATFILTER_SERVICE_DESCRIPTION_ T_("Truncate Float filter service")

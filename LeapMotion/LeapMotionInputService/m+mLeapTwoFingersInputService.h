@@ -58,8 +58,9 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_LEAPTWOFINGERSINPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                        "input/leaptwofingers")
+# define DEFAULT_LEAPTWOFINGERSINPUT_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                               BUILD_NAME_("input", \
+                                                                           "leaptwofingers"))
 
 /*! @brief The description of the service. */
 # define LEAPTWOFINGERSINPUT_SERVICE_DESCRIPTION_ T_("Leap Two Fingers input service")

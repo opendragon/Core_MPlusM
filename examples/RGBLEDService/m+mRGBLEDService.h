@@ -57,7 +57,8 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_RGBLED_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "examples/rgbled")
+# define DEFAULT_RGBLED_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                  BUILD_NAME_("examples", "rgbled"))
 
 /*! @brief The description of the service. */
 # define RGBLED_SERVICE_DESCRIPTION_ T_("example RGB LED service")

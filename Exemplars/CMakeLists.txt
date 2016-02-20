@@ -96,6 +96,12 @@ set(MpMExemplars_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
 include_directories("${MpMExemplars_SOURCE_DIR}")
 
+set(MpM_LINK_LIBRARIES m+mCommon odLogging ${YARP_LIBRARIES} ${ACE_LIBRARIES} ${BONJOUR_LIB})
+
+if(LINUX)
+    set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread dns_sd)
+endif(LINUX)
+
 # Add the subdirectories for a client / service
 add_subdirectory(ExemplarAdapter)
 add_subdirectory(ExemplarClient)

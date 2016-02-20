@@ -148,6 +148,9 @@
 /*! @brief The character separating argument descriptors. */
 # define ARGUMENT_SEPARATOR_        "\v"
 
+/*! @brief Construct a proper channel name from two parts. */
+# define BUILD_NAME_(aa_, bb_)      T_(aa_ MpM_NAME_SEPARATOR_ bb_)
+
 /*! @brief The carrier type to be used for m+m connections. */
 # define CHANNEL_CARRIER_           "tcp"
 
@@ -160,32 +163,20 @@
 /*! @brief A DOUBLEQUOTE character. */
 # define CHAR_DOUBLEQUOTE_          "\""
 
-/*! @brief The base of the channel name to use for a client if not provided. */
-# define CLIENT_PORT_NAME_BASE_     MpM_CLIENT_BASE_NAME_
-
 /*! @brief The size of the buffer used to display the date or the time. */
 # define DATE_TIME_BUFFER_SIZE_     20
 
-/*! @brief The base of the channel name to use for an adapter if not provided. */
-# define DEFAULT_ADAPTER_NAME_BASE_ MpM_ADAPTER_BASE_NAME_
-
 /*! @brief The default name for the root part of a channel name. */
 # define DEFAULT_CHANNEL_ROOT_      "channel_"
-
-/*! @brief The base of the channel name to use for a service if not provided. */
-# define DEFAULT_SERVICE_NAME_BASE_ MpM_SERVICE_BASE_NAME_
 
 /*! @brief The line length for command-line help output. */
 # define HELP_LINE_LENGTH_          250
 
 /*! @brief The prefix string to use for internal channels. */
-# define HIDDEN_CHANNEL_PREFIX_     "/$$$_"
+# define HIDDEN_CHANNEL_PREFIX_     T_(MpM_BASE_NAME_PREFIX_ "$$$_")
 
 /*! @brief The basic time interval for retries. */
 # define INITIAL_RETRY_INTERVAL_    (0.11 * ONE_SECOND_DELAY_)
-
-/*! @brief The base of the channel name to use for an input if not provided. */
-# define INPUT_PORT_NAME_BASE_      MpM_INPUT_BASE_NAME_
 
 /*! @brief The Windows line end sequence. */
 # define LINE_END_                  "\r\n"
@@ -204,9 +195,6 @@
 
 /*! @brief The delay value corresponding to one second of delay. */
 # define ONE_SECOND_DELAY_          1.0
-
-/*! @brief The base of the channel name to use for an output if not provided. */
-# define OUTPUT_PORT_NAME_BASE_     MpM_OUTPUT_BASE_NAME_
 
 /*! @brief The time between checking for 'stale' registry entries. */
 # define PING_CHECK_INTERVAL_       (7.3 * ONE_SECOND_DELAY_)

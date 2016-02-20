@@ -65,11 +65,17 @@
 /*! @brief The base of the channel name to use for an adapter. */
 # define MpM_ADAPTER_BASE_NAME_        "@MpM_ADAPTER_BASE_NAME@"
 
+/*! @brief The initial part of a channel name. */
+# define MpM_BASE_NAME_PREFIX_         "@MpM_BASE_NAME_PREFIX@"
+
 /*! @brief The base of the channel name to use for a client. */
 # define MpM_CLIENT_BASE_NAME_         "@MpM_CLIENT_BASE_NAME@"
 
 /*! @brief The base name of the channel name to use for an input. */
 # define MpM_INPUT_BASE_NAME_          "@MpM_INPUT_BASE_NAME@"
+
+/*! @brief The separator between elements of a channel name. */
+# define MpM_NAME_SEPARATOR_           "@MpM_NAME_SEPARATOR@"
 
 /*! @brief The base name of the channel name to use for an output. */
 # define MpM_OUTPUT_BASE_NAME_         "@MpM_OUTPUT_BASE_NAME@"

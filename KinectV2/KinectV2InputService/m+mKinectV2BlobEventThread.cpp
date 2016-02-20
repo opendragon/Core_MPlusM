@@ -453,7 +453,8 @@ KinectV2BlobEventThread::processEventData(void)
 # endif // ! defined(MpM_UseCustomStringBuffer)
                             if (outString && outLength)
                             {
-                                void *          rawString = static_cast<void *>(const_cast<char *>(outString));
+                                void *          rawString =
+                                                static_cast<void *>(const_cast<char *>(outString));
                                 yarp::os::Value blobValue(rawString, static_cast<int>(outLength));
 
                                 _messageBottle.add(blobValue);

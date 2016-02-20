@@ -177,8 +177,9 @@ setUpAndGo(const YarpString &  channelName,
 
         if (0 < matchesCount)
         {
-            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_ "clientlist_/"
-                                                         DEFAULT_CHANNEL_ROOT_);
+            YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
+                                                         BUILD_NAME_("clientlist_",
+                                                                     DEFAULT_CHANNEL_ROOT_));
             ClientChannel * newChannel = new ClientChannel;
 
             if (newChannel)

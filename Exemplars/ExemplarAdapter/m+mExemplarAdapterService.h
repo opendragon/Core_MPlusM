@@ -53,8 +53,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_EXEMPLARADAPTER_SERVICE_NAME_ T_(DEFAULT_ADAPTER_NAME_BASE_ \
-                                                  "exemplar")
+# define DEFAULT_EXEMPLARADAPTER_SERVICE_NAME_ BUILD_NAME_(MpM_ADAPTER_BASE_NAME_, "exemplar")
 
 /*! @brief The description of the service. */
 # define EXEMPLARADAPTER_SERVICE_DESCRIPTION_ T_("exemplar adapter")

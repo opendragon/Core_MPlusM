@@ -53,8 +53,9 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_RECORDINTEGERSOUTPUT_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ \
-                                                        "output/recordintegers")
+# define DEFAULT_RECORDINTEGERSOUTPUT_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, \
+                                                                BUILD_NAME_("output", \
+                                                                            "recordintegers"))
 
 /*! @brief The description of the service. */
 # define RECORDINTEGERSOUTPUT_SERVICE_DESCRIPTION_ T_("Record Integers output service")

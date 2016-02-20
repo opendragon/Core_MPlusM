@@ -53,7 +53,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The base channel name to use for the service if not provided. */
-# define DEFAULT_MOVEMENTDBADAPTER_SERVICE_NAME_ T_(DEFAULT_ADAPTER_NAME_BASE_ "movementdb")
+# define DEFAULT_MOVEMENTDBADAPTER_SERVICE_NAME_ BUILD_NAME_(MpM_ADAPTER_BASE_NAME_, "movementdb")
 
 /*! @brief The description of the service. */
 # define MOVEMENTDBADAPTER_SERVICE_DESCRIPTION_ T_("Movement database adapter")

@@ -1112,7 +1112,8 @@ JavaScript::PrintJavaScriptObject(std::ostream &     outStream,
                                     
                                     if (asFunction)
                                     {
-                                        outStream << ", arity = " << JS_GetFunctionArity(asFunction);
+                                        outStream << ", arity = " <<
+                                                     JS_GetFunctionArity(asFunction);
                                         if (! JS::IsCallable(asObject))
                                         {
                                             outStream << ", not callable";

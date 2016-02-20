@@ -47,3 +47,5 @@
 - investigate YARP namespaces for future use with multiple networks
 
 - embedding Python - https://docs.python.org/2/extending/embedding.html#embedding-python-in-c
+
+= change the construction of channel names to a macro and a function, so that the 'separator' character (/) is not hard-wired

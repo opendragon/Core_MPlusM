@@ -205,8 +205,8 @@ DEFINE_PROCESSREQUEST_(PingRequestHandler)
                     {
                         // Send a 'name' request to the channel
                         YarpString      aName = GetRandomChannelName(HIDDEN_CHANNEL_PREFIX_
-                                                                     "ping_/"
-                                                                     DEFAULT_CHANNEL_ROOT_);
+                                                                     BUILD_NAME_("ping_",
+                                                                          DEFAULT_CHANNEL_ROOT_));
                         ClientChannel * outChannel = new ClientChannel;
                         
                         if (outChannel)

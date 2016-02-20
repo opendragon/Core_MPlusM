@@ -238,12 +238,15 @@ if(MpM_DO_SWIG)
     set(CMAKE_SWIG_FLAGS "")
 endif(MpM_DO_SWIG)
 
-set(MpM_ADAPTER_BASE_NAME "/_adapter_/")
-set(MpM_CLIENT_BASE_NAME "/_client_/")
-set(MpM_INPUT_BASE_NAME "/_input_/")
-set(MpM_OUTPUT_BASE_NAME "/_output_/")
+set(MpM_BASE_NAME_PREFIX "/")
+set(MpM_NAME_SEPARATOR "/")
+
+set(MpM_ADAPTER_BASE_NAME "${MpM_BASE_NAME_PREFIX}_adapter_")
+set(MpM_CLIENT_BASE_NAME "${MpM_BASE_NAME_PREFIX}_client_")
+set(MpM_INPUT_BASE_NAME "${MpM_BASE_NAME_PREFIX}_input_")
+set(MpM_OUTPUT_BASE_NAME "${MpM_BASE_NAME_PREFIX}_output_")
 set(MpM_REGISTRY_EXECUTABLE_NAME "m+mRegistryService")
-set(MpM_SERVICE_BASE_NAME "/_service_/")
+set(MpM_SERVICE_BASE_NAME "${MpM_BASE_NAME_PREFIX}_service_")
 
 set(MpM_SQLITE_DIR "${PROJECT_SOURCE_DIR}/SQLite3")
 

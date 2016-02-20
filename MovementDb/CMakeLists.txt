@@ -40,7 +40,7 @@
 cmake_minimum_required(VERSION 2.6)
 
 if(WIN32)
-	set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
+    set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
 endif(WIN32)
 
 project(m+mMovementDb)
@@ -95,6 +95,12 @@ include_directories(${ACE_INCLUDE_DIRS})
 set(MpMDb_SOURCE_DIR "${PROJECT_SOURCE_DIR}")
 
 include_directories("${MpMDb_SOURCE_DIR}")
+
+set(MpM_LINK_LIBRARIES m+mCommon odLogging ${YARP_LIBRARIES} ${ACE_LIBRARIES} ${BONJOUR_LIB})
+
+if(LINUX)
+    set(MpM_LINK_LIBRARIES ${MpM_LINK_LIBRARIES} pthread dns_sd)
+endif(LINUX)
 
 add_subdirectory(MovementDbAdapter)
 add_subdirectory(MovementDbClient)

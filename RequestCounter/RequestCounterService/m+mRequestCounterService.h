@@ -53,7 +53,7 @@
 # endif // defined(__APPLE__)
 
 /*! @brief The channel name to use for the service if not provided. */
-# define DEFAULT_REQUESTCOUNTER_SERVICE_NAME_ T_(DEFAULT_SERVICE_NAME_BASE_ "requestcounter")
+# define DEFAULT_REQUESTCOUNTER_SERVICE_NAME_ BUILD_NAME_(MpM_SERVICE_BASE_NAME_, "requestcounter")
 
 /*! @brief The description of the service. */
 # define REQUESTCOUNTER_SERVICE_DESCRIPTION_ T_("Request Counter service")
