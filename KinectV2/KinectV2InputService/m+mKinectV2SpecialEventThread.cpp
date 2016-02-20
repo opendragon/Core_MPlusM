@@ -140,21 +140,18 @@ addJointToList(yarp::os::Bottle &       listToUpdate,
         add3ZeroesToList(listToUpdate);
         add4ZeroesToList(listToUpdate);
     }
-    else
+    else if (TrackingState_Inferred == jointData.TrackingState)
     {
         // Don't process if point is inferred
-        if (TrackingState_Inferred == jointData.TrackingState)
-        {
-            listToUpdate.addInt(0);
-            add3ZeroesToList(listToUpdate);
-            add4ZeroesToList(listToUpdate);
-        }
-        else
-        {
-            listToUpdate.addInt(1);
-            add3VectorToList(listToUpdate, jointData.Position);
-            add4VectorToList(listToUpdate, orientationData.Orientation);
-        }
+        listToUpdate.addInt(0);
+        add3ZeroesToList(listToUpdate);
+        add4ZeroesToList(listToUpdate);
+    }
+    else
+    {
+        listToUpdate.addInt(1);
+        add3VectorToList(listToUpdate, jointData.Position);
+        add4VectorToList(listToUpdate, orientationData.Orientation);
     }
 } // addJointToList
 #endif // ! defined(MpM_BuildDummyServices)
