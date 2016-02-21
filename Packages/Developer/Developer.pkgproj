@@ -379,7 +379,7 @@
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../archives/ACE_wrappers.zip</string>
 												<key>PATH_TYPE</key>
@@ -389,13 +389,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../archives/Core_MPlusM-master.zip</string>
 												<key>PATH_TYPE</key>
@@ -405,7 +405,7 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
@@ -421,13 +421,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../archives/Utilities_mm_manager-master.zip</string>
 												<key>PATH_TYPE</key>
@@ -437,13 +437,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../archives/Utilities_ServiceViewer-master.zip</string>
 												<key>PATH_TYPE</key>
@@ -453,13 +453,13 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 											<dict>
 												<key>CHILDREN</key>
 												<array/>
 												<key>GID</key>
-												<integer>20</integer>
+												<integer>0</integer>
 												<key>PATH</key>
 												<string>../../../archives/yarp_MPlusM-master.zip</string>
 												<key>PATH_TYPE</key>
@@ -469,7 +469,7 @@
 												<key>TYPE</key>
 												<integer>3</integer>
 												<key>UID</key>
-												<integer>502</integer>
+												<integer>0</integer>
 											</dict>
 										</array>
 										<key>GID</key>
@@ -637,7 +637,7 @@
 			<key>USE_HFS+_COMPRESSION</key>
 			<true/>
 			<key>VERSION</key>
-			<string>1.6.6</string>
+			<string>1.6.7</string>
 		</dict>
 		<key>PROJECT_COMMENTS</key>
 		<dict>

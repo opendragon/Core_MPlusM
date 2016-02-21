@@ -96,11 +96,11 @@ if(WIN32)
             COMPONENT applications)
 	if(WIN64)
 		install(FILES
-                        "${SPIDER_PATH}/lib/icudt${ICU_VERSION}.dll"
-                        "${SPIDER_PATH}/lib/icuin${ICU_VERSION}.dll"
-                        "${SPIDER_PATH}/lib/icuuc${ICU_VERSION}.dll"
-                        DESTINATION bin
-                        COMPONENT applications)
+                "${SPIDER_PATH}/lib/icudt${ICU_VERSION}.dll"
+                "${SPIDER_PATH}/lib/icuin${ICU_VERSION}.dll"
+                "${SPIDER_PATH}/lib/icuuc${ICU_VERSION}.dll"
+                DESTINATION bin
+                COMPONENT applications)
 	endif(WIN64)
 endif(WIN32)
 if(APPLE)

@@ -462,9 +462,9 @@
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../CommonLisp_Manual.html</string>
+													<string>../Documentation/Extending_via_Scripting_Manual.html</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -472,15 +472,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../CommonLisp_Manual.pdf</string>
+													<string>../Documentation/Extending_via_Scripting_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -488,15 +488,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../Installation_Manual.html</string>
+													<string>../Documentation/Input_Output_Services_Manual.html</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -504,15 +504,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../Installation_Manual.pdf</string>
+													<string>../Documentation/Input_Output_Services_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -520,15 +520,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../JavaScript_Manual.html</string>
+													<string>../Documentation/Installation_Manual.html</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -536,15 +536,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../JavaScript_Manual.pdf</string>
+													<string>../Documentation/Installation_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -552,15 +552,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../KinectV2Input_Manual.html</string>
+													<string>../Documentation/MMManagerUtility_Manual.html</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -568,15 +568,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../KinectV2Input_Manual.pdf</string>
+													<string>../Documentation/MMManagerUtility_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -584,79 +584,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../LeapMotionInput_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../LeapMotionInput_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../MMManagerUtility_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../MMManagerUtility_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../mpm_images</string>
+													<string>../Documentation/mpm_images</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -664,15 +600,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../MpM_Manual.html</string>
+													<string>../Documentation/MpM_Manual.html</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -680,15 +616,15 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 												<dict>
 													<key>CHILDREN</key>
 													<array/>
 													<key>GID</key>
-													<integer>20</integer>
+													<integer>0</integer>
 													<key>PATH</key>
-													<string>../../../../MpM_Manual.pdf</string>
+													<string>../Documentation/MpM_Manual.pdf</string>
 													<key>PATH_TYPE</key>
 													<integer>1</integer>
 													<key>PERMISSIONS</key>
@@ -696,167 +632,7 @@
 													<key>TYPE</key>
 													<integer>3</integer>
 													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../NatNetInput_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../NatNetInput_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../OpenStageInput_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../OpenStageInput_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ProComp2Input_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ProComp2Input_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../SendToMQOutput_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../SendToMQOutput_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ViconDataStreamInput_Manual.html</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
-												</dict>
-												<dict>
-													<key>CHILDREN</key>
-													<array/>
-													<key>GID</key>
-													<integer>20</integer>
-													<key>PATH</key>
-													<string>../../../../ViconDataStreamInput_Manual.pdf</string>
-													<key>PATH_TYPE</key>
-													<integer>1</integer>
-													<key>PERMISSIONS</key>
-													<integer>420</integer>
-													<key>TYPE</key>
-													<integer>3</integer>
-													<key>UID</key>
-													<integer>502</integer>
+													<integer>0</integer>
 												</dict>
 											</array>
 											<key>GID</key>
@@ -1122,7 +898,7 @@
 				<key>USE_HFS+_COMPRESSION</key>
 				<false/>
 				<key>VERSION</key>
-				<string>1.6.6</string>
+				<string>1.6.7</string>
 			</dict>
 			<key>UUID</key>
 			<string>A96E4410-5B5D-4A7C-A567-7F3468558EA0</string>
