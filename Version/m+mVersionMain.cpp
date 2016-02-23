@@ -57,7 +57,6 @@
 # pragma warning(disable: 4996)
 #endif // ! MAC_OR_LINUX_
 #include <ace/Version.h>
-#include <yarp/conf/version.h>
 #if (! MAC_OR_LINUX_)
 # pragma warning(pop)
 #endif // ! MAC_OR_LINUX_
