@@ -87,6 +87,7 @@
 #  pragma warning(disable: 4996)
 # endif // ! MAC_OR_LINUX_
 # include <yarp/os/all.h>
+# include <yarp/conf/version.h>
 # if (! MAC_OR_LINUX_)
 #  pragma warning(pop)
 # endif // ! MAC_OR_LINUX_
@@ -96,6 +97,13 @@
 # if defined(__APPLE__)
 #  pragma clang diagnostic pop
 # endif // defined(__APPLE__)
+
+# if (! defined(TRUE))
+#  define TRUE 1
+# endif // ! defined(TRUE)
+# if (! defined(FALSE))
+#  define FALSE 0
+# endif // ! defined(FALSE)
 
 # if MAC_OR_LINUX_
 #  include <sys/socket.h>
@@ -250,14 +258,15 @@ executable. */
 # endif // ! defined(MpM_UseTimeoutsInRetryLoops)
 
 /*! @brief @c TRUE if the version of YARP uses 'fatal' instead of 'fail'. */
+# undef USE_YARP_FATAL_NOT_FAIL_
 # if (2 < YARP_VERSION_MAJOR)
-#  define NEW_YARP_ TRUE
+#  define USE_YARP_FATAL_NOT_FAIL_ TRUE
 # elif (3 < YARP_VERSION_MINOR)
-#  define NEW_YARP_ TRUE
+#  define USE_YARP_FATAL_NOT_FAIL_ TRUE
 # elif (62 < YARP_VERSION_PATCH)
-#  define NEW_YARP_ TRUE
+#  define USE_YARP_FATAL_NOT_FAIL_ TRUE
 # else // 62 >= YARP_VERSION_PATCH
-#  define NEW_YARP_ FALSE
+#  define USE_YARP_FATAL_NOT_FAIL_ FALSE
 # endif // 62 >= YARP_VERSION_PATCH
 
 # if MAC_OR_LINUX_
@@ -267,11 +276,11 @@ executable. */
 # endif // ! MAC_OR_LINUX_
 
 # if MAC_OR_LINUX_
-#  if NEW_YARP_
-#    define MpM_FAIL_(xx_) GetLogger().fatal(xx_)
-#  else // ! NEW_YARP_
-#    define MpM_FAIL_(xx_) GetLogger().fail(xx_)
-#  endif // ! NEW_YARP_
+#  if USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_FAIL_(xx_) GetLogger().fatal(xx_)
+#  else // ! USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_FAIL_(xx_) GetLogger().fail(xx_)
+#  endif // ! USE_YARP_FATAL_NOT_FAIL_
 # else // ! MAC_OR_LINUX_
 #  define MpM_FAIL_(xx_) cerr << "Fail: " << xx_ << endl
 # endif // ! MAC_OR_LINUX_

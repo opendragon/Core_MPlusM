@@ -63,6 +63,9 @@ endif(WIN32)
 if(APPLE)
     set(SPIDER_PATH "${CMAKE_INSTALL_PREFIX}/spidermonkey")
 endif(APPLE)
+if(LINUX)
+    set(SPIDER_PATH "${CMAKE_INSTALL_PREFIX}/spidermonkey")
+endif(LINUX)
 
 if(APPLE)
 # There's a problem with building V8 / SpiderMonkey as a Universal - it acts as if we're building
