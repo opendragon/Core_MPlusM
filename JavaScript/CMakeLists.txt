@@ -110,6 +110,10 @@ if(APPLE)
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
                 "${SPIDER_PATH}/lib/libmozjs-${SPIDER_VERSION}.dylib")
 endif(APPLE)
+if(LINUX)
+    set_property(TARGET JS PROPERTY IMPORTED_LOCATION
+                "${SPIDER_PATH}/lib/libmozjs-${SPIDER_VERSION}.so")
+endif(LINUX)
 
 # Set up our program
 add_executable(${THIS_TARGET}

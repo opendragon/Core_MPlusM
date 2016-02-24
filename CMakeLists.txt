@@ -88,7 +88,8 @@ if(APPLE)
     cmake_policy(SET CMP0042 OLD)
 endif(APPLE)
 if(LINUX)
-    set(CMAKE_CXX_FLAGS "-std=c++11" CACHE STRING "Fixes compile problems with JavaScript" FORCE)
+    set(CMAKE_CXX_FLAGS "-std=c++11 -Wno-deprecated-declarations -Wno-invalid-offsetof" CACHE STRING
+        "Fixes compile problems with JavaScript and SendToMQ" FORCE)
 endif(LINUX)
 
 if(WIN32)
