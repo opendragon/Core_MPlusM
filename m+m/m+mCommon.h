@@ -259,14 +259,19 @@ executable. */
 
 /*! @brief @c TRUE if the version of YARP uses 'fatal' instead of 'fail'. */
 # undef USE_YARP_FATAL_NOT_FAIL_
+# undef YARP_SYSTEM_INFO_MOVED_
 # if (2 < YARP_VERSION_MAJOR)
 #  define USE_YARP_FATAL_NOT_FAIL_ TRUE
+#  define YARP_SYSTEM_INFO_MOVED_ TRUE
 # elif (3 < YARP_VERSION_MINOR)
 #  define USE_YARP_FATAL_NOT_FAIL_ TRUE
+#  define YARP_SYSTEM_INFO_MOVED_ TRUE
 # elif (62 < YARP_VERSION_PATCH)
 #  define USE_YARP_FATAL_NOT_FAIL_ TRUE
+#  define YARP_SYSTEM_INFO_MOVED_ TRUE
 # else // 62 >= YARP_VERSION_PATCH
 #  define USE_YARP_FATAL_NOT_FAIL_ FALSE
+#  define YARP_SYSTEM_INFO_MOVED_ FALSE
 # endif // 62 >= YARP_VERSION_PATCH
 
 # if MAC_OR_LINUX_

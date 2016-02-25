@@ -71,9 +71,11 @@ the executable is added to the system \asCode{Path} variable
 \item\exSp{}The \asCode{autoconf-2.13}, \asCode{python} and \asCode{git}
 command\longDash{}line tools
 \end{itemize}
-The base set of tools can be obtained via the following command:\\
-\asCode{apt-get install cmake git g++ clang autoconf2.13 python2.7}\\
-Note that some of the tools may already be installed on the \linux{} system.
+The base set of tools can be obtained via the following commands:
+\begin{itemize}
+\item \asCode{apt-get install cmake git g++ clang autoconf2.13 python2.7}
+\end{itemize}
+Note that some of the tools may already be installed on an \linux{} system.
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Initial~Steps}
@@ -89,6 +91,8 @@ refer to it from now on as `\asCode{\textbf{devel}}'
 \asCode{\textbf{devel}}
 \item\exSp{}Rename the new directories, stripping off the `\asCode{-master}' suffix if
 present
+\item\exSp{}Make sure to update the date recorded in the last line of the
+\asCode{license.txt} file, located in the `\asCode{Core\fUS{}MPlusM}' directory
 \end{itemize}
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{ACE}}
@@ -129,15 +133,9 @@ unneeded files
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers\textbackslash{}ACE\fUS{}%
 wrappers\fUS{}vc12.sln}' with \asCode{Visual Studio}
-\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration; if building 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
+\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
+configuration; if building 32-bit, select the \asCode{Release} :\ \asCode{Win32}
 configuration instead
-\item\exSp{}Clear out any older binary files via the menu item
-`\asCode{Build \bigRightArrow{} Clean Solution}'
-\item\exSp{}Build the Debug version via the menu item
-`\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building 32-bit,
-select the \asCode{Release} :\ \asCode{Win32} configuration instead
 \item\exSp{}Clear out any older binary files via the menu item
 `\asCode{Build \bigRightArrow{} Clean Solution}'
 \item\exSp{}Build the Release version via the menu item
@@ -232,8 +230,6 @@ the generator and that `\asCode{Use default native compilers}' is selected; if b
 for 32-bit, do not select the \asCode{Win64} variant
 \item\exSp{}Click on the `\asCode{Finish}' button
 \item\exSp{}Turn on the `\asCode{Advanced}' option once the configuration step completes
-\item\exSp{}Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}DEBUG}' value to
-\asCode{\textbf{devel}/ACE\fUS{}wrappers/lib/ACEd.lib}
 \item\exSp{}Change the `\textbf{ACE\fUS{}ACE\fUS{}LIBRARY\fUS{}RELEASE}' value to
 \asCode{\textbf{devel}/ACE\fUS{}wrappers/lib/ACE.lib}
 \item\exSp{}Change the `\textbf{ACE\fUS{}INCLUDE\fUS{}DIR}' value to
@@ -249,12 +245,8 @@ for 32-bit, do not select the \asCode{Win64} variant
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}yarp\fUS{}MPlusM\textbackslash{}YARP.sln}' with
 \asCode{Visual Studio}
-\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration; if building for 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
-configuration instead
-\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Open the \asCode{Batch Build} panel via the menu item
-`\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Within \asCode{Visual Studio}, open the \asCode{Batch Build} panel via the
+menu item `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
 \item\exSp{}Click on the `\asCode{Deselect All}' button
 \item\exSp{}Select the `\asCode{INSTALL}' project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
@@ -315,11 +307,9 @@ source code, \asCode{\textbf{devel}}
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}OGDF\textbackslash{}ogdf.sln}' with
 \asCode{Visual Studio}
-\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration; if building for 32-bit, select the \asCode{Debug} :\ \asCode{Win32} instead
-\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building for
-32-bit, select the \asCode{Release} :\ \asCode{Win32} configuration instead
+\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
+configuration; if building for 32-bit, select the \asCode{Release} :\ \asCode{Win32}
+instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Exit from \asCode{Visual Studio}
 \item\exSp{}Open the \asCode{System} Control Panel
@@ -577,12 +567,8 @@ for 32-bit, do not select the \asCode{Win64} variant
 \item\exSp{}Open the file
 \asCode{\textbf{APR}\textbackslash{}apr-\#.\#.\#\textbackslash{}apr.sln} with 
 \asCode{Visual Studio}
-\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration; if building for 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
-configuration instead
-\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Open the \asCode{Batch Build} panel via the menu item
-`\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Within \asCode{Visual Studio}, open the \asCode{Batch Build} panel via the
+menu item `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
 \item\exSp{}Click on the `\asCode{Deselect All}' button
 \item\exSp{}Select the `\asCode{INSTALL}' project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
@@ -651,9 +637,6 @@ without quotes
 \asCode{Additional Include Directories} panel
 \item\exSp{}Click on the \asCode{OK} button on the bottom row of the
 \asCode{activemq-cpp Property Pages} panel
-\item\exSp{}Select the \asCode{Debug} :\ \asCode{x64} configuration; if building 32-bit,
-select the \asCode{Debug} :\ \asCode{Win32} configuration instead
-\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building 32-bit,
 select the \asCode{Release} :\ \asCode{Win32} configuration instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
@@ -775,12 +758,8 @@ completes
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}Core\fUS{}MPlusM\textbackslash{}m+m.sln}' with
 \asCode{Visual Studio}
-\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration; if building 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
-configuration instead
-\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Open the \asCode{Batch Build} panel via the menu item
-`\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
+\item\exSp{}Within \asCode{Visual Studio}, open the \asCode{Batch Build} panel via the
+menu item `\asCode{Build \bigRightArrow{} Batch Build\textellipsis}'
 \item\exSp{}Click on the `\asCode{Deselect All}' button
 \item\exSp{}Select the `\asCode{INSTALL}' Project and the `\asCode{Release|x64}'
 configuration by clicking on the corresponding `\asCode{Build}' checkbox, or the
@@ -841,12 +820,9 @@ directory
 `\asCode{\textbf{devel}\textbackslash{}Utilities\fUS{}mm\fUS{}manager\textbackslash{}%
 Builds\textbackslash{}VisualStudio2015\textbackslash{}m+m manager.sln}' with
 \asCode{Visual Studio}
-\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Debug} :\ \asCode{x64}
-configuration; if building 32-bit, select the \asCode{Debug} :\ \asCode{Win32}
+\item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
+configuration; if building 32-bit, select the \asCode{Release} :\ \asCode{Win32}
 configuration instead
-\item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
-\item\exSp{}Select the \asCode{Release} :\ \asCode{x64} configuration; if building 32-bit,
-select the \asCode{Release} :\ \asCode{Win32} configuration instead
 \item\exSp{}Build via the menu item `\asCode{Build \bigRightArrow{} Build Solution}'
 \end{itemize}
 \tertiaryEnd
@@ -887,9 +863,7 @@ directory
 \tertiaryEnd
 \tertiaryStart{Creating~on~\win}
 \begin{itemize}
-\item Make sure to update the date recorded in the last line of the \asCode{license.txt}
-file, located in the `\asCode{Core\fUS{}MPlusM}' directory
-\item\exSp{}Commit the changes for the `\asCode{Core\fUS{}MPlusM}' directory to the
+\item Commit the changes for the `\asCode{Core\fUS{}MPlusM}' directory to the
 \asCode{git} repository
 \item\exSp{}If any source files have been modified in the
 `\asCode{Utilities\fUS{}mm\fUS{}manager}' directory, commit the changes to the
