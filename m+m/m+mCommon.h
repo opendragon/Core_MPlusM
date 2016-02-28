@@ -275,19 +275,43 @@ executable. */
 # endif // 62 >= YARP_VERSION_PATCH
 
 # if MAC_OR_LINUX_
-#  define MpM_ERROR_(xx_) GetLogger().error(xx_)
+#  if USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_ERROR_(xx_) Common::GetLogger().error("%s", xx_)
+#  else // ! USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_ERROR_(xx_) Common::GetLogger().error(xx_)
+#  endif // ! USE_YARP_FATAL_NOT_FAIL_
 # else // ! MAC_OR_LINUX_
 #  define MpM_ERROR_(xx_) cerr << "Error: " << xx_ << endl
 # endif // ! MAC_OR_LINUX_
 
 # if MAC_OR_LINUX_
 #  if USE_YARP_FATAL_NOT_FAIL_
-#   define MpM_FAIL_(xx_) GetLogger().fatal(xx_)
+#   define MpM_FAIL_(xx_) Common::GetLogger().fatal("%s", xx_)
 #  else // ! USE_YARP_FATAL_NOT_FAIL_
-#   define MpM_FAIL_(xx_) GetLogger().fail(xx_)
+#   define MpM_FAIL_(xx_) Common::GetLogger().fail(xx_)
 #  endif // ! USE_YARP_FATAL_NOT_FAIL_
 # else // ! MAC_OR_LINUX_
 #  define MpM_FAIL_(xx_) cerr << "Fail: " << xx_ << endl
+# endif // ! MAC_OR_LINUX_
+
+# if MAC_OR_LINUX_
+#  if USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_INFO_(xx_) Common::GetLogger().info("%s", xx_)
+#  else // ! USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_INFO_(xx_) Common::GetLogger().info(xx_)
+#  endif // ! USE_YARP_FATAL_NOT_FAIL_
+# else // ! MAC_OR_LINUX_
+#  define MpM_INFO_(xx_) cerr << "Info: " << xx_ << endl
+# endif // ! MAC_OR_LINUX_
+
+# if MAC_OR_LINUX_
+#  if USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_WARNING_(xx_) Common::GetLogger().warning("%s", xx_)
+#  else // ! USE_YARP_FATAL_NOT_FAIL_
+#   define MpM_WARNING_(xx_) Common::GetLogger().warning(xx_)
+#  endif // ! USE_YARP_FATAL_NOT_FAIL_
+# else // ! MAC_OR_LINUX_
+#  define MpM_WARNING_(xx_) cerr << "Warning: " << xx_ << endl
 # endif // ! MAC_OR_LINUX_
 
 /*! @brief A standard error message. */

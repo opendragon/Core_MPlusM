@@ -1,14 +1,18 @@
 \ProvidesFile{MpMbuildingFromSource.tex}[v1.0.0]
 \appendixStart[BuildingFromSource]{\textitcorr{Building \mplusm{} From Source}}
-An \mplusm{} installation is normally simply installed according to the
-\emph{\MMM{}~Installation} manual.
+For \osx{} and \win{}, an \mplusm{} installation is normally simply installed according to
+the \emph{\MMM{}~Installation} manual.
 It is also possible to build a customized \mplusm{} from the source files, which can be
-done if the \asCode{Developer} package has also been installed.
+done if the \asCode{Developer} package has also been installed.\\
+
+For \linux{}, an \mplusm{} installation is (currently) built from source, due to the large
+number of hardware platforms and \linux{} variants where \mplusm{} could be potentially
+installed.
 \secondaryStart{Prerequisites}
 \tertiaryStart{General~prerequisites}
 In order to successfully build all the pieces for \mplusm{}, it is important that the
 latest version of the installer is run first, selecting the \asCode{Developer} package (on
-\osx) of \asCode{Optional} component (on \win).
+\osx) or the \asCode{Optional} component (on \win).
 If the installer is not run, some of the optional services may fail to build, as they
 depend on pieces that are outside of the \mplusm{} source code but that are installed when
 \mplusm{} is installed.\\
@@ -28,7 +32,7 @@ snapshot of the \asCode{git} repositories where the source code is stored.
 \tertiaryEnd
 \tertiaryStart{Prerequisites~for~\osx}
 \begin{itemize}
-\item\asCode{Xcode} is available from the Mac App Store and provides the
+\item \asCode{Xcode} is available from the Mac App Store and provides the
 \compLang{C++} development environment for \osx{}
 \item\exSp{}The \asCode{Xcode} command\longDash{}line tools must be installed, using the
 command `\asCode{xcode-select {-}{-}install}'
@@ -45,7 +49,7 @@ this is only needed if you wish to create installer packages after building \mpl
 \tertiaryEnd
 \tertiaryStart{Prerequisites~for~\win}
 \begin{itemize}
-\item\asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
+\item \asCode{Visual Studio} is available from Microsoft and provides the \compLang{C++}
 development environment for \win; the version used for development is
 `\asCode{Visual Studio Community 2015}', but newer versions should also work
 %; note that older versions are not supported with \textbf{SpiderMonkey}
@@ -67,26 +71,90 @@ the executable is added to the system \asCode{Path} variable
 \begin{itemize}
 \item The \asCode{clang} or \asCode{g++} (which includes \asCode{gcc}) \compLang{C}/
 \compLang{C++} compilers
-\item\exSp{}The \asCode{ccmake} and \asCode{cmake} command\longDash{}line tools
-\item\exSp{}The \asCode{autoconf-2.13}, \asCode{python} and \asCode{git}
+\item\exSp{}The \asCode{ccmake}, \asCode{cmake} and \asCode{sudo} command\longDash{}line
+tools
+\item\exSp{}The \asCode{autoconf-2.13}, \asCode{python}, \asCode{git} and \asCode{wget}
 command\longDash{}line tools
+\item\exSp{}The \asCode{avahi}, \asCode{e2fs}, \asCode{libicu}, \asCode{libssl-dev},
+\asCode{uuid}, \asCode{sqlite}, \asCode{X11}, \asCode{xft}, \asCode{X11} extensions and
+\asCode{libtool} packages
 \end{itemize}
-The base set of tools can be obtained via the following commands:
+The prerequisites can be obtained via the following commands in the \asCode{Terminal}
+application:
 \begin{itemize}
-\item \asCode{apt-get install cmake git g++ clang autoconf2.13 python2.7}
+\item \asCode{apt-get install cmake-curses-gui cmake git g++ clang autoconf2.13 python2.7
+wget}
+\item\exSp\asCode{apt-get install libtool libavahi-compat-libdnssd-dev libavahi-core-dev
+uuid-dev}
+\item\exSp\asCode{apt-get install sqlite e2fsprogs e2fslibs-dev libicu-dev libssl-dev}
+\item\exSp\asCode{apt-get install libx11-dev libxft-dev libxrandr-dev libxinerama-dev
+libxcursor-dev}
 \end{itemize}
 Note that some of the tools may already be installed on an \linux{} system.
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Initial~Steps}
+\tertiaryStart{Initial~steps~for~\osx}
+\begin{itemize}
+\item There are three choices for where the source code will be obtained from:
+\begin{itemize}
+\item The \textbf{ZIP} archives that have been installed via the \asCode{Developer}
+package;
+all but the files \asCode{Core\fUS{}MPlusM.zip} and
+\asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional and \asCode{yarp\fUS{}MPlusM.zip}
+is a variation of the standard \textbf{\yarp} distribution to support \ios{} builds
+\item\exSp{}A snapshot of the current state of the source code for a package; this will be
+a `point in time' copy, rather than an updatable version
+\item\exSp{}An updatable version of the source code for the packages
+\end{itemize}
+\item\exSp{}Create a directory to hold the source code, where the build will be performed;
+we'll refer to it from now on as `\asCode{\textbf{devel}}'
+\item\exSp{}To use the \textbf{ZIP} archives that have been installed via the
+\asCode{Developer} package, perform the following steps:
+\begin{itemize}
+\item Copy the desired \textbf{ZIP} archive files from their installation location
+(\asCode{/opt/m+m/src}) to the new directory \asCode{\textbf{devel}}; all but the files
+\asCode{Core\fUS{}MPlusM.zip} and \asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional
+\item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory
+\asCode{\textbf{devel}}
+\item\exSp{}Rename the new directories, stripping off the `\asCode{-master}' suffix if
+present
+\end{itemize}
+\item\exSp{}To obtain a snapshot of the source code for the packages, perform the
+following steps:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Core\fUS{}MPlusM/%
+archive/master.zip}
+\item\exSp\asCode{unzip master.zip}
+\item\exSp\asCode{rm master.zip}
+\item\exSp\asCode{mv Core\fUS{}MPlusM-master Core\fUS{}MPlusM}
+\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}%
+manager/archive/master.zip}
+\item\exSp\asCode{unzip master.zip}
+\item\exSp\asCode{rm master.zip}
+\item\exSp\asCode{mv Utilities\fUS{}mm\fUS{}manager-master
+Utilities\fUS{}mm\fUS{}manager}
+\end{itemize}
+\item\exSp{}To obtain an updatable version of the source code for the packages, perform
+the following steps:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://github.com/MovementAndMeaning/Core\fUS{}MPlusM.git}
+\item\exSp\asCode{git clone
+https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
+\end{itemize}
+\end{itemize}
+\secondaryEnd
+\tertiaryEnd
+\tertiaryStart{Initial~steps~for~\win}
 \begin{itemize}
 \item Create a directory to hold the source code, where the build will be performed; we'll
 refer to it from now on as `\asCode{\textbf{devel}}'
 \item\exSp{}Copy the desired \textbf{ZIP} archive files from their installation location
-(\asCode{/opt/m+m/src} on \osx,\\
-\asCode{C:\textbackslash{}Program Files\textbackslash{}m+m\textbackslash{}src} for
-\win{}) to the new directory \asCode{\textbf{devel}}; all but the files
-\asCode{Core\fUS{}MPlusM.zip} and \asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional
+(\asCode{C:\textbackslash{}Program Files\textbackslash{}m+m\textbackslash{}src}) to the
+new directory \asCode{\textbf{devel}}; all but the files \asCode{Core\fUS{}MPlusM.zip} and
+\asCode{Utilities\fUS{}mm\fUS{}manager.zip} are optional
 \item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory
 \asCode{\textbf{devel}}
 \item\exSp{}Rename the new directories, stripping off the `\asCode{-master}' suffix if
@@ -94,6 +162,49 @@ present
 \item\exSp{}Make sure to update the date recorded in the last line of the
 \asCode{license.txt} file, located in the `\asCode{Core\fUS{}MPlusM}' directory
 \end{itemize}
+\secondaryEnd
+\tertiaryEnd
+\tertiaryStart{Initial~steps~for~\linux}
+\begin{itemize}
+\item Create a directory to hold the source code, where the build will be performed; we'll
+refer to it from now on as `\asCode{\textbf{devel}}'
+\item\exSp{}If you wish to get a snapshot of the current source, execute the following
+commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Core\fUS{}MPlusM/%
+archive/master.zip}
+\item\exSp\asCode{unzip master.zip}
+\item\exSp\asCode{rm master.zip}
+\item\exSp\asCode{mv Core\fUS{}MPlusM-master Core\fUS{}MPlusM}
+\item\exSp\asCode{wget https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}%
+manager/archive/master.zip}
+\item\exSp\asCode{unzip master.zip}
+\item\exSp\asCode{rm master.zip}
+\item\exSp\asCode{mv Utilities\fUS{}mm\fUS{}manager-master
+Utilities\fUS{}mm\fUS{}manager}
+\end{itemize}
+\item\exSp{}If, instead, you wish to track the source code as it changes, execute the
+following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://github.com/MovementAndMeaning/Core\fUS{}MPlusM.git}
+\item\exSp\asCode{git clone
+https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
+\end{itemize}
+\item\exSp{}Add the following lines to the end of the files
+\asCode{\textdollar{}HOME/.bashrc} and \asCode{\textdollar{}HOME/.bash\fUS{}profile},
+whichever are present:
+\begin{verbatim}
+if [[ -d "/opt/test/bin" && ! "$PATH" =~ "/opt/m+m/bin" ]]; then
+        PATH+=:/opt/m+m/bin
+fi
+if [[ -d "/opt/test/lib" && ! "$LD_LIBRARY_PATH" =~ "/opt/m+m/lib" ]]; then
+        export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/m+m/lib
+fi
+\end{verbatim}
+\end{itemize}
+\tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{ACE}}
 \textbf{ACE} (The ADAPTIVE Communication Environment) provides the low\longDash{}level
@@ -110,14 +221,14 @@ configuration file for \osx{} or \win{}, so it does not need to be modified.
 code, \asCode{\textbf{devel}}
 \item\exSp{}Execute the following commands:
 \begin{itemize}
-\item\asCode{cd ACE\fUS{}wrappers}
+\item \asCode{cd ACE\fUS{}wrappers}
 \item\exSp\asCode{export ACE\fUS{}ROOT=\$(pwd)}
 \item\exSp\asCode{make clean \&\& make}
 \end{itemize}
 \item\exSp{}If the build is successful, execute the command `\asCode{sudo~sh}'
 \item\exSp{}Execute the following commands within the new subshell:
 \begin{itemize}
-\item\asCode{export ACE\fUS{}ROOT=\$(pwd)}
+\item \asCode{export ACE\fUS{}ROOT=\$(pwd)}
 \item\exSp\asCode{export DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/m+m/lib:%
 \$DYLD\fUS{}LIBRARY\fUS{}PATH}
 \item\exSp\asCode{make install}
@@ -162,9 +273,12 @@ window
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-\mplusm{} can use the standard build of \textbf{ACE}, which can be installed via the
-command:\\
-\asCode{sudo apt-get install libace-dev}
+\mplusm{} can use the standard build of \textbf{ACE}, which can be installed by executing the
+command:
+\begin{itemize}
+\item \asCode{sudo apt-get install libace-dev}
+\end{itemize}
+in the \asCode{Terminal} application.
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\yarp}}
@@ -175,12 +289,12 @@ part of the normal \mplusm{} installation procedure, so it's not necessary to re
 libraries.
 \tertiaryStart{Building~on~\osx}
 \begin{itemize}
-\item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{\textbf{devel}}
+\item On the command\longDash{}line, move to the directory containing the \yarp{} source
+code \longDash{} \asCode{\textbf{devel}/yarp} or\\
+\asCode{\textbf{devel}/yarp\fUS{}MPlusM}
 \item\exSp{}Execute the following commands:
 \begin{itemize}
-\item\asCode{cd yarp\fUS{}MPlusM}
-\item\exSp\asCode{mkdir build}
+\item \asCode{mkdir build}
 \item\exSp\asCode{cd build}
 \end{itemize}
 \item\exSp{}Execute the command `\asCode{ccmake ..}'; this will open a graphical
@@ -201,7 +315,8 @@ the previous page of options
 \item\exSp{}Change any other options that you are interested in applying; it is
 recommended that the option\\
 `\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
-`\textbf{CREATE\fUS{}YMANAGER}' and\\
+`\textbf{CREATE\fUS{}YMANAGER}' (or\\
+`\textbf{CREATE\fUS{}YMANAGER\fUS{}CONSOLE}') and
 `\textbf{YARP\fUS{}USE\fUS{}READLINE}' should be disabled
 \item\exSp{}Press `\textbf{c}' to configure the makefiles; there may be some CMake
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
@@ -213,8 +328,9 @@ developer warnings, which can be safely ignored
 \item\exSp{}Execute the command `\asCode{sudo ../after-build.sh}'; this corrects some
 linking issues with \yarp{} caused by installing it in a non\longDash{}default location
 \item\exSp{}Execute the command `\asCode{sudo make install}'
-\item\exSp{}If desired, you can verify that \yarp{} was correctly built be executing the
-command `\asCode{make~test}'
+\item\exSp{}If desired, you can verify that \yarp{} was correctly built by executing the
+command `\asCode{yarp~where}' in a Command Prompt window; it should either report where a
+\yarp{} server is running or indicate how to start one up
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\win}
@@ -272,7 +388,53 @@ command `\asCode{yarp~where}' in a Command Prompt window; it should either repor
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-TBD
+\begin{itemize}
+\item If you wish to get a snapshot of the current source, execute the following
+commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget https://github.com/robotology/yarp/archive/master.zip}
+\item\exSp\asCode{unzip master.zip}
+\item\exSp\asCode{rm master.zip}
+\item\exSp\asCode{mv yarp-master yarp}
+\end{itemize}
+\item\exSp{}If, instead, you wish to track the source code as it changes, execute the
+following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://github.com/robotology/yarp.git}
+\end{itemize}
+\item\exSp{}Execute the following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}/yarp}
+\item\exSp\asCode{mkdir build}
+\item\exSp\asCode{cd build}
+\end{itemize}
+\item\exSp{}Execute the command `\asCode{ccmake ..}'; this will open a graphical
+interface to the makefile builder. If this is the first time that the command is executed
+within a directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
+`\textbf{c}' to do the initial configuration; there may be some warnings for project
+developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{}Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to
+\asCode{/opt/m+m}
+\item\exSp{}Change any other options that you are interested in applying; it is
+recommended that the option\\
+`\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
+`\textbf{CREATE\fUS{}YMANAGER}' (or\\
+`\textbf{CREATE\fUS{}YMANAGER\fUS{}CONSOLE}') and
+`\textbf{YARP\fUS{}USE\fUS{}READLINE}' (if present) should be disabled
+\item\exSp{}Press `\textbf{c}' to configure the makefiles; there may be some CMake
+warnings for project developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{}Press `\textbf{g}' to generate the makefiles; there may be some CMake
+warnings for project developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{}Execute the command `\asCode{cmake .}'; again, there will be some project
+developer warnings, which can be safely ignored
+\item\exSp{}Execute the command `\asCode{make clean \&\& make}'
+\item\exSp{}Execute the command `\asCode{sudo make install}'
+\item\exSp{}If desired, you can verify that \yarp{} was correctly built by executing the
+command `\asCode{yarp~where}' in a Command Prompt window; it should either report where a
+\yarp{} server is running or indicate how to start one up
+\end{itemize}
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional, used with \textit{\MMMU})~Building~\textbf{OGDF}}
@@ -282,12 +444,39 @@ of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
 source code is provided in case there is an issue with the headers or libraries.
 \tertiaryStart{Building~on~\osx}
 \begin{itemize}
-\item On the command\longDash{}line, move to the directory containing the \mplusm{} source
-code, \asCode{\textbf{devel}}
-\item\exSp{}Execute the following commands:
+\item To use the \textbf{OGDF} \textbf{ZIP} archive that was installed via the
+\asCode{Developer} package, perform the following steps:
 \begin{itemize}
-\item\asCode{cd OGDF}
-\item\exSp\asCode{python makeMakefile.py}
+\item Copy the \textbf{OGDF.zip} archive file from its installation location
+(\asCode{/opt/m+m/src}) to the directory \asCode{\textbf{devel}}
+\item\exSp\asCode{unzip} the \textbf{OGDF.zip} archive file in the directory
+\asCode{\textbf{devel}}
+\end{itemize}
+\item\exSp{}To obtain a snapshot of the current state of the source code for the
+\textbf{OGDF} package, perform the following steps:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget http://www.ogdf.net/lib/exe/fetch.php/tech:ogdf.v2015.05.zip -O
+OGDF.zip}
+\item\exSp\asCode{unzip OGDF.zip}
+\item\exSp\asCode{rm OGDF.zip}
+\end{itemize}
+\item\exSp{}Open the file \asCode{makeMakefile.config} with a text editor and change the
+following items:
+\begin{itemize}
+\item \asCode{compilerCommand} should be \asCode{g++ -stdlib=libstdc++}, not \asCode{g++}
+\item\exSp{}\asCode{installPrefix} should be \asCode{/opt/m+m}
+\item\exSp\asCode{compilerParams} should be
+\asCode{-DGTEST\fUS{}HAS\fUS{}TR1\fUS{}TUPLE=0 -mmacosx-version-min=10.6}
+\item\exSp\asCode{debug} and \asCode{release} should have \asCode{-arch i386 -arch
+x86\fUS{}64} added at the end of the line
+\item\exSp\asCode{memoryManager} should be \asCode{OGDF\fUS{}MEMORY\fUS{}MALLOC\fUS{}TS}
+\item\exSp\asCode{useCoin} should be \asCode{false}
+\end{itemize}
+\item\exSp{}On the command\longDash{}line, execute the following steps:
+\begin{itemize}
+\item \asCode{cd OGDF}
+\item\exSp\asCode{./makeMakefile.sh}
 \item\exSp\asCode{make cleanrelease \&\& make release}
 \item\exSp\asCode{sudo make install}
 \end{itemize}
@@ -299,7 +488,7 @@ code, \asCode{\textbf{devel}}
 source code, \asCode{\textbf{devel}}
 \item\exSp{}Execute the following commands:
 \begin{itemize}
-\item\asCode{cd OGDF}
+\item \asCode{cd OGDF}
 \item\exSp\asCode{python makeVCXProj.py}
 \end{itemize}
 \item\exSp{}Close the Command Prompt window
@@ -327,9 +516,32 @@ window
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-TBD
+\begin{itemize}
+\item Execute the following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget http://www.ogdf.net/lib/exe/fetch.php/tech:ogdf.v2015.05.zip -O
+OGDF.zip}
+\item\exSp\asCode{unzip OGDF.zip}
+\item\exSp\asCode{rm OGDF.zip}
+\item\exSp\asCode{cd OGDF}
+\end{itemize}
+\item\exSp{}Open the file \asCode{makeMakefile.config} with a text editor and change the
+following items:
+\begin{itemize}
+\item \asCode{installPrefix} should be \asCode{/opt/m+m}
+\item\exSp\asCode{memoryManager} should be \asCode{OGDF\fUS{}MEMORY\fUS{}MALLOC\fUS{}TS}
+\item\exSp\asCode{useCoin} should be \asCode{false}
+\end{itemize}
+\item\exSp{}Execute the following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \exSp\asCode{make cleanrelease \&\& make release}
+\item\exSp\asCode{sudo make install}
+\end{itemize}
+\end{itemize}
 \tertiaryEnd
 \secondaryEnd
+\newcommand{\spiderversion}{47a1}%
 \secondaryStart{(Optional)~Building~\textbf{SpiderMonkey}}
 \textbf{SpiderMonkey} is the \compLang{JavaScript} engine used with the JavaScript Filter
 service of \mplusm{}; the files needed to compile and link with \textbf{SpiderMonkey} are
@@ -343,7 +555,6 @@ Getting\_SpiderMonkey\_source\_code}%
 \textbf{SpiderMonkey} and does not depend on a particular version \longDash{} other than
 it must be at least \textbf{SpiderMonkey} \textbf{39}.
 \tertiaryStart{Building~on~\osx}
-\newcommand{\spiderversion}{47a1}%
 Note that the build process for \textbf{SpiderMonkey} is currently `broken', necessitating
 that manual steps be performed that should be part of the `make install' process.
 \begin{itemize}
@@ -352,7 +563,7 @@ referred to as `\asCode{spidermonkey}'; this can be a sister directory to the
 \asCode{\textbf{devel}} directory, but it need not be
 \item\exSp{}On the command\longDash{}line, execute the following commands:
 \begin{itemize}
-\item\asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}
+\item \asCode{git clone https://github.com/mozilla/gecko-dev.git \textbf{spidermonkey}}
 \item\exSp\asCode{cd \textbf{spidermonkey}}
 \item\exSp\asCode{cd js/src}
 \item\exSp\asCode{autoconf213}
@@ -402,7 +613,7 @@ following:
 \item\exSp{}if \asCode{git} is not available as a command\longDash{}tool on the system, do
 the following:
 \begin{itemize}
-\item\exSp{}Use \asCode{SourceTree} to clone the repository
+\item \exSp{}Use \asCode{SourceTree} to clone the repository
 `\asCode{https://github.com/mozilla/gecko-dev.git}' into the directory
 `\asCode{\textbf{spidermonkey}}'
 \item\exSp{}Open a Command Prompt window, running as Administrator
@@ -419,7 +630,7 @@ the lower-case form of the drive letter for the drive containing
 must not be `\asCode{C:\textbackslash{}spidermonkey}'
 \item\exSp{}Execute the following commands:
 \begin{itemize}
-\item\asCode{cd \textbf{spidermonkey}}
+\item \asCode{cd \textbf{spidermonkey}}
 \item\exSp\asCode{cd js/src}
 \item\exSp\asCode{/usr/local/bin/autoconf-2.13}
 \item\exSp\asCode{mkdir \fUS{}obj\fUS}
@@ -450,7 +661,55 @@ standard \win{} paths for program files, so the target directory is not the fina
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-TBD
+
+
+
+\begin{itemize}
+\item If you wish to get a snapshot of the current source, execute the following
+commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget https://github.com/mozilla/gecko-dev/archive/master.zip}
+\item\exSp\asCode{unzip master.zip}
+\item\exSp\asCode{rm master.zip}
+\item\exSp\asCode{mv gecko-dev-master spidermonkey}
+\end{itemize}
+\item\exSp{}If, instead, you wish to track the source code as it changes, execute the
+following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://github.com/mozilla/gecko-dev.git
+\textbf{spidermonkey}}
+\end{itemize}
+\item\exSp{}Execute the following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \exSp\asCode{cd \textbf{spidermonkey}}
+\item\exSp\asCode{cd js/src}
+\item\exSp\asCode{autoconf2.13}
+\item\exSp\asCode{mkdir \fUS{}obj\fUS}
+\item\exSp\asCode{cd \fUS{}obj\fUS}
+\item\exSp\asCode{../configure {-}{-}prefix=/opt/m+m/spidermonkey {-}{-}with-system-icu
+\textbackslash\\
+{-}{-}enable-release {-}{-}enable-more-deterministic}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo make install}
+\item\exSp\asCode{sudo cp dist/bin/libmozglue.so /opt/m+m/spidermonkey/lib}
+%\item\exSp\asCode{sudo install\fUS{}name\fUS{}tool -change
+%"@executable\fUS{}path/libmozglue.dylib" \textbackslash\\
+%"@rpath/libmozglue.dylib" /opt/m+m/spidermonkey/lib/libmozjs-\spiderversion.dylib}; note
+%the single dash for `\asCode{-change}'
+\end{itemize}
+%\item\exSp{}In the \asCode{Terminal} application, move to the directory containing the \mplusm{}
+%source code, \asCode{\textbf{devel}}
+%\item\exSp{}Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
+%\textbackslash\\
+%/opt/m+m/spidermonkey/include/mozjs-\spiderversion}'; this replaces symbolic links in the
+%header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
+%to distribute the resulting directories
+\end{itemize}
+
+
+
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\ECL}}
@@ -465,18 +724,32 @@ via the instructions on the web\longDash{}page
 particular version \longDash{} other than it must be at least \textbf{15.3.7}.
 \tertiaryStart{Building~on~\osx}
 \begin{itemize}
-\item Select a directory to hold the \textbf{\ECL} source code, which will be referred to
-as `\asCode{ecl}'; this can be a sister directory to the \asCode{\textbf{devel}}
-directory, but it need not be
+\item If you wish to get a snapshot of the current source, execute the following
+commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget https://common-lisp.net/project/ecl/files/current-release.tgz}
+\item\exSp\asCode{gunzip current-release.tgz}
+\item\exSp\asCode{tar xvf current-release.tar}
+\item\exSp\asCode{rm current-release.zip}
+\item\exSp\asCode{mv ecl-* ecl}
+\end{itemize}
+\item\exSp{}If, instead, you wish to track the source code as it changes, execute the
+following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://gitlab.com/embeddable-common-lisp/ecl.git
+\textbf{ecl}}
+\end{itemize}
 \item\exSp{}On the command\longDash{}line, execute the following commands:
 \begin{itemize}
-\item\asCode{git clone https://gitlab.com/embeddable-common-lisp/ecl.git \textbf{ecl}}
-\item\exSp\asCode{cd \textbf{ecl}}
+\item \asCode{cd \textbf{ecl}}
+\item\exSp\asCode{make clean}
 \item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}enable-gengc {-}{-}with-cxx
 {-}{-}with-dffi\\
 {-}{-}enable-shared {-}{-}disable-threads {-}{-}enable-unicode {-}{-}enable-longdouble\\
 {-}{-}with-tcp {-}{-}with-clos-streams {-}{-}with-cmp {-}{-}enable-boehm}
-\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{make}
 \item\exSp\asCode{sudo make install}
 \end{itemize}
 \end{itemize}
@@ -498,7 +771,36 @@ ecl-16.0.0-msvc-win32-installer.exe}
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-TBD
+\begin{itemize}
+\item If you wish to get a snapshot of the current source, execute the following
+commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{wget https://common-lisp.net/project/ecl/files/current-release.tgz}
+\item\exSp\asCode{gunzip current-release.tgz}
+\item\exSp\asCode{tar xvf current-release.tar}
+\item\exSp\asCode{rm current-release.zip}
+\item\exSp\asCode{mv ecl-* ecl}
+\end{itemize}
+\item\exSp{}If, instead, you wish to track the source code as it changes, execute the
+following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://gitlab.com/embeddable-common-lisp/ecl.git
+\textbf{ecl}}
+\end{itemize}
+\item\exSp{}Execute the following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item \exSp\asCode{cd \textbf{ecl}}
+\item\exSp\asCode{make clean}
+\item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}enable-gengc {-}{-}with-cxx
+{-}{-}with-dffi\\
+{-}{-}enable-shared {-}{-}disable-threads {-}{-}enable-unicode {-}{-}enable-longdouble\\
+{-}{-}with-tcp {-}{-}with-clos-streams {-}{-}with-cmp {-}{-}enable-boehm}
+\item\exSp\asCode{make}
+\item\exSp\asCode{sudo make install}
+\end{itemize}
+\end{itemize}
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{ActiveMQ-CPP}}
@@ -524,7 +826,7 @@ referred to as `\asCode{ActiveMQ}'; this can be a sister directory to the
 \asCode{\textbf{devel}} directory, but it need not be
 \item\exSp{}On the command\longDash{}line, execute the following commands:
 \begin{itemize}
-\item\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
+\item \asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
 \textbf{ActiveMQ}}
 \item\exSp\asCode{cd \textbf{ActiveMQ}}
 \item\exSp\asCode{cd activemq-cpp}
@@ -545,7 +847,7 @@ will be referred to as `\asCode{APR}'; this can be a sister directory to the
 \asCode{\textbf{devel}} directory, but it need not be
 \item\exSp{}Download the recommended versions of \textbf{APR}, \textbf{APR-util} and
 \textbf{APR-iconv} into \asCode{\textbf{APR}}
-\item\exSp{}\asCode{unzip} the \textbf{ZIP} archive files in the directory
+\item\exSp\asCode{unzip} the \textbf{ZIP} archive files in the directory
 \asCode{\textbf{APR}}; the result will be three directories, \asCode{apr-\#.\#.\#},\\
 \asCode{apr-iconv-\#.\#.\#} and \asCode{apr-util-\#.\#.\#}, where `\asCode{\#.\#.\#}'
 represents the version number of each piece of \textbf{APR}
@@ -644,7 +946,7 @@ select the \asCode{Release} :\ \asCode{Win32} configuration instead
 \item\exSp{}Open a Command Prompt window, running as Administrator
 \item\exSp{}Execute the following commands
 \begin{itemize}
-\item\asCode{cd \textbf{ActiveMQ}\textbackslash{}activemq-cpp}
+\item \asCode{cd \textbf{ActiveMQ}\textbackslash{}activemq-cpp}
 \item\exSp\asCode{set PREFIX="C:\textbackslash{}Program Files\textbackslash{}m+m"}
 \item\exSp\asCode{copy vs2010-build\textbackslash{}x64\textbackslash{}Release%
 \textbackslash{}libactivemq-cpp.lib \%PREFIX\%\textbackslash{}lib}
@@ -655,7 +957,50 @@ select the \asCode{Release} :\ \asCode{Win32} configuration instead
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-TBD
+\begin{itemize}
+\item Download the recommended versions of \textbf{APR}, \textbf{APR-util} and
+\textbf{APR-iconv} from the web\longDash{}page\\
+\companyReference{http://http://apr.apache.org/download.cgi}%
+{\textbf{Apache Portable Runtime Project} source code
+\openSq{}apr.apache.org/download.cgi\closeSq} \longDash{} select the `\textbf{gz}'
+versions of each archive
+\item\exSp{}Create a new directory, \textbf{APR}, and copy the downloaded archives into
+the directory
+\item\exSp{}In the \asCode{Terminal} application, execute the following commands:
+\begin{itemize}
+\item \asCode{cd \textbf{APR}}
+\item\exSp\asCode{gunzip *.gz}
+\item\exSp\asCode{for ii in *.tar; do tar xvf \textdollar{}ii; done}
+\item\exSp\asCode{rm *.tar}
+\end{itemize}
+\item\exSp{}There will now be three directories in \textbf{APR} \longDash{}
+\asCode{apr-\#.\#.\#}, \asCode{apr-iconv-\#.\#.\#} and \asCode{apr-util-\#.\#.\#}, where
+`\asCode{\#.\#.\#}' represents the version number of each piece of \textbf{APR}
+\item\exSp{}In the \asCode{Terminal} application, execute the following commands:
+\begin{itemize}
+\item \asCode{cd \textbf{APR}/apr-\#.\#.\#}
+\item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo make install}
+\item\exSp\asCode{cd ../apr-iconv-\#.\#.\#}
+\item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}with-apr=/opt/m+m}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo make install}
+\item\exSp\asCode{cd ../apr-util-\#.\#.\#}
+\item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}with-apr=/opt/m+m}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo make install}
+\item\exSp\asCode{cd \textbf{devel}}
+\item\exSp\asCode{git clone https://git-wip-us.apache.org/repos/asf/activemq-cpp.git
+ActiveMQ}
+\item\exSp\asCode{cd ActiveMQ}
+\item\exSp\asCode{cd activemq-cpp}
+\item\exSp\asCode{./autogen.sh}
+\item\exSp\asCode{./configure {-}{-}prefix=/opt/m+m {-}{-}with-apr=/opt/m+m}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo make install}
+\end{itemize}
+\end{itemize}
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Building~Core~\mplusm}
@@ -784,7 +1129,80 @@ window
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-TBD
+\begin{itemize}
+\item In the \asCode{Terminal} application, move to the directory containing the \mplusm{}
+source code, \asCode{\textbf{devel}}
+\item\exSp{}Execute the command `\asCode{cd Core\fUS{}MPlusM}'
+\item\exSp{}Execute the command `\asCode{ccmake .}'; this will open a graphical interface
+to the makefile builder. If this is the first time that the command is executed within a
+directory, the text `\asCode{EMPTY~CACHE}' will be displayed \longDash{} press
+`\textbf{c}' to do the initial configuration
+\item\exSp{}Change the `\textbf{CMAKE\fUS{}BUILD\fUS{}TYPE}' to \asCode{Release}
+\item\exSp{}Change any other options that you are interested in applying; the default
+options minimize the amount of text that is output when \mplusm{} command\longDash{}line
+tools are executed
+\item\exSp{}Press `\textbf{c}' to configure the makefiles
+\item\exSp{}Press `\textbf{g}' to generate the makefiles
+\item\exSp{}Execute the following commands in the \asCode{Terminal} application:
+\begin{itemize}
+\item\exSp\asCode{cmake .}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo mkdir /var/m+m}
+\item\exSp\asCode{sudo cp standardApplications.txt /var/m+m}
+\end{itemize}
+\item\exSp{}To run the unit tests for \mplusm, do the following:
+\begin{itemize}
+\item Execute the command `\asCode{ps | grep yarp | grep -v grep}'; if there is a line
+similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}' then the \yarp{}
+server is already running
+\item\exSp{}If the \yarp{} server is not already running, open another window in the
+\asCode{Terminal} application and launch the \yarp{} server by executing the command
+`\asCode{yarp~server}'
+\item\exSp{}If you see something similar to the following, there is another process using
+the network port that \yarp{} uses by default:
+\outputBegin
+\begin{verbatim}
+__   __ _    ____  ____  
+\ \ / // \  |  _ \|  _ \ 
+ \ V // _ \ | |_) | |_) |
+  | |/ ___ \|  _ <|  __/ 
+  |_/_/   \_\_| \_\_|    
+
+Call with --help for information on available options
+Options can be set on command line or in /Users/M_M/Library/Application
+       Support/yarp/config/yarpserver.conf
+Using port database: :memory:
+Using subscription database: :memory:
+IP address: default
+Port number: 10000
+yarp: Port /root failed to activate at tcp://10.0.1.2:10000 (address conflict)
+Name server failed to open
+\end{verbatim}
+\outputEnd
+\item\exSp{}If you see the above error message, you will need to clear the \yarp{}
+configuration by issuing the command `\asCode{yarp~conf~{-}{-}clean}'.
+\item\exSp{}Once the \yarp{} configuration is cleared, execute the command
+`\asCode{yarp server \longDash{}socket 11223 \longDash{}write}' to start the \yarp{}
+server, where `\asCode{11223}' is an arbitrary number greater than 1024.
+\item\exSp{}In the \asCode{Terminal} window where \mplusm{} was built, execute the command
+`\asCode{make~test}'
+\end{itemize}
+\item\exSp{}To install the freshly\longDash{}built \mplusm{} files, execute the command
+`\asCode{sudo~make~install}'
+\item\exSp{}To confirm the normal operation of \mplusm, do the following:
+\begin{itemize}
+\item Check that the \yarp{} server is running and start it if it is not, using the
+instructions above
+\item\exSp{}Execute the command `\asCode{m+mRegistryService \&}'; this will launch the
+\serviceNameR[\RS]{RegistryService} in the background and return the \textbf{PID} that can
+be used to halt it later
+\item\exSp{}Execute the command `\asCode{m+mServiceList}; this should display the
+properties of the \serviceNameR[\RS]{RegistryService}
+\item\exSp{}If you wish to halt the \serviceNameR[\RS]{RegistryService}, execute the
+command `\asCode{halt -s HUP} \#\#\#\#', where ``\#\#\#\#'' is the \textbf{PID} that was
+returned when the \serviceNameR[\RS]{RegistryService} was launched
+\end{itemize}
+\end{itemize}
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Building~\textit{\MMMU}}
@@ -827,7 +1245,15 @@ configuration instead
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-TBD
+\begin{itemize}
+\item In the \asCode{Terminal} application, execute the following commands:
+\begin{itemize}
+\item \asCode{cd \textbf{devel}/Utilities\fUS{}mm\fUS{}manager}
+\item\exSp\asCode{cd Builds/LinuxMakefile}
+\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{sudo cp build/m+m\textbackslash{}~manager /opt/m+m/bin}
+\end{itemize}
+\end{itemize}
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{Creating~the~Distribution~Packages}

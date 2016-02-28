@@ -79,7 +79,7 @@ if(APPLE)
         "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_EXE_LINKER_FLAGS "-headerpad_max_install_names" CACHE STRING "Increases link limit"
         FORCE)
-    set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
+    set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m" FORCE)
     set(CMAKE_INSTALL_RPATH
 "${E_PATH}/../lib;${E_PATH}/../m+m;${E_PATH}/../odl;${E_PATH}/../../m+m;${E_PATH}/../../odl;${CMAKE_INSTALL_PREFIX}/lib"
         CACHE STRING "Fixes rpath" FORCE)
@@ -90,6 +90,7 @@ endif(APPLE)
 if(LINUX)
     set(CMAKE_CXX_FLAGS "-std=c++11 -Wno-deprecated-declarations -Wno-invalid-offsetof" CACHE STRING
         "Fixes compile problems with JavaScript and SendToMQ" FORCE)
+    set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m" FORCE)
 endif(LINUX)
 
 if(WIN32)
