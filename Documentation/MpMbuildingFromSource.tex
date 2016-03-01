@@ -484,8 +484,18 @@ x86\fUS{}64} added at the end of the line
 \tertiaryEnd
 \tertiaryStart{Building~on~\win}
 \begin{itemize}
-\item Open a Command Prompt window and move to the directory containing the \mplusm{}
-source code, \asCode{\textbf{devel}}
+\item Open the file \asCode{makeVCXProj.config} in the
+\asCode{\textbf{devel}\textbackslash{}OGDF} directory with a text editor and change the
+following items:
+\begin{itemize}
+\item \asCode{platformToolset} should be \asCode{v120}
+\item\exSp\asCode{windowsVersion} should be \asCode{0x0601}
+\item\exSp\asCode{OpenMP} should be \asCode{false}
+\item\exSp\asCode{memoryManager} should be \asCode{OGDF\fUS{}MEMORY\fUS{}MALLOC\fUS{}TS}
+\item\exSp\asCode{useCoin} should be \asCode{false}
+\end{itemize}
+\item\exSp{}Open a Command Prompt window and move to the directory containing the
+\mplusm{} source code, \asCode{\textbf{devel}}
 \item\exSp{}Execute the following commands:
 \begin{itemize}
 \item \asCode{cd OGDF}
