@@ -146,7 +146,11 @@ localCatcher(int signal)
         message += buff.str();
         message += " = ";
         message += NameOfSignal(signal);
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->error("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->error(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
     }
     OD_LOG_EXIT_EXIT(1); //####
     yarp::os::exit(1);
@@ -169,25 +173,53 @@ Common::DumpContactToLog(const char *              tag,
         
         buff << aContact.getPort();
         message += tag;
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->info("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->info(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
         message = "contact.carrier = ";
         message += aContact.getCarrier();
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->info("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->info(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
         message = "contact.host = ";
         message += aContact.getHost();
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->info("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->info(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
         message = "contact.isValid = ";
         message += (aContact.isValid() ? "true" : "false");
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->info("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->info(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
         message = "contact.name = ";
         message += aContact.getName();
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->info("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->info(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
         message = "contact.port = ";
         message += buff.str();
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->info("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->info(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
         message = "contact.toString = ";
         message += aContact.toString();
+# if USE_YARP_FATAL_NOT_FAIL_
+        lLogger->info("%s", message.c_str());
+# else // ! USE_YARP_FATAL_NOT_FAIL_
         lLogger->info(message.c_str());
+# endif // ! USE_YARP_FATAL_NOT_FAIL_
     }
 #endif // MAC_OR_LINUX_
 } // Common::DumpContactToLog
@@ -283,7 +315,11 @@ Common::Initialize(const YarpString & progName)
             YarpString message("Program ");
 
             message += progName;
+#  if USE_YARP_FATAL_NOT_FAIL_
+            lLogger->info("%s", message.c_str());
+#  else // ! USE_YARP_FATAL_NOT_FAIL_
             lLogger->info(message.c_str());
+#  endif // ! USE_YARP_FATAL_NOT_FAIL_
             lLogger->info("Movement And Meaning Version: " MpM_VERSION_ ", YARP Version: "
                           YARP_VERSION_STRING ", ACE Version: " ACE_VERSION);
         }
