@@ -76,19 +76,20 @@ tools
 \item\exSp{}The \asCode{autoconf-2.13}, \asCode{python}, \asCode{git} and \asCode{wget}
 command\longDash{}line tools
 \item\exSp{}The \asCode{avahi}, \asCode{e2fs}, \asCode{libicu}, \asCode{libssl-dev},
-\asCode{uuid}, \asCode{sqlite}, \asCode{X11}, \asCode{xft}, \asCode{X11} extensions and
-\asCode{libtool} packages
+\asCode{uuid}, \asCode{sqlite}, \asCode{xft} and \asCode{X11} extensions and the
+\asCode{libtool} package
 \end{itemize}
 The prerequisites can be obtained via the following commands in the \asCode{Terminal}
 application:
 \begin{itemize}
-\item \asCode{apt-get install cmake-curses-gui cmake git g++ clang autoconf2.13 python2.7
-wget}
-\item\exSp\asCode{apt-get install libtool libavahi-compat-libdnssd-dev libavahi-core-dev
-uuid-dev}
-\item\exSp\asCode{apt-get install sqlite e2fsprogs e2fslibs-dev libicu-dev libssl-dev}
-\item\exSp\asCode{apt-get install libx11-dev libxft-dev libxrandr-dev libxinerama-dev
-libxcursor-dev}
+\item \asCode{sudo apt-get install cmake-curses-gui cmake git g++ clang autoconf2.13
+python2.7}
+\item\exSp\asCode{sudo apt-get install libtool libavahi-compat-libdnssd-dev
+libavahi-core-dev}
+\item\exSp\asCode{sudo apt-get install sqlite e2fsprogs e2fslibs-dev libicu-dev-dev}
+\item\exSp\asCode{sudo apt-get install libx11-dev libxft-dev libxrandr-dev
+libxinerama-dev}
+\item\exSp\asCode{sudo apt-get install wget uuid-dev libssl-dev libxcursor-dev}
 \end{itemize}
 Note that some of the tools may already be installed on an \linux{} system.
 \tertiaryEnd
@@ -196,10 +197,10 @@ https://github.com/MovementAndMeaning/Utilities\fUS{}mm\fUS{}manager.git}
 \asCode{\textdollar{}HOME/.bashrc} and \asCode{\textdollar{}HOME/.bash\fUS{}profile},
 whichever are present:
 \begin{verbatim}
-if [[ -d "/opt/test/bin" && ! "$PATH" =~ "/opt/m+m/bin" ]]; then
+if [[ -d "/opt/m+m/bin" && ! "$PATH" =~ "/opt/m+m/bin" ]]; then
         PATH+=:/opt/m+m/bin
 fi
-if [[ -d "/opt/test/lib" && ! "$LD_LIBRARY_PATH" =~ "/opt/m+m/lib" ]]; then
+if [[ -d "/opt/m+m/lib" && ! "$LD_LIBRARY_PATH" =~ "/opt/m+m/lib" ]]; then
         export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/m+m/lib
 fi
 \end{verbatim}
@@ -316,12 +317,21 @@ the previous page of options
 recommended that the option\\
 `\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
 `\textbf{CREATE\fUS{}YMANAGER}' (or\\
-`\textbf{CREATE\fUS{}YMANAGER\fUS{}CONSOLE}') and
-`\textbf{YARP\fUS{}USE\fUS{}READLINE}' should be disabled
-\item\exSp{}Press `\textbf{c}' to configure the makefiles; there may be some CMake
+`\textbf{CREATE\fUS{}YMANAGER\fUS{}CONSOLE}'), `\textbf{CREATE\fUS{}YARPROBOTINTERFACE}'
+and\\
+`\textbf{YARP\fUS{}USE\fUS{}READLINE}' (if present) should be disabled
+\item\exSp{}Press `\textbf{c}' to configure the makefiles; there may be some
+\asCode{CMake} warnings for project developers, which can be cleared by pressing
+`\textbf{e}'
+\item\exSp{}Press `\textbf{g}' to generate the makefiles; there may be some \asCode{CMake}
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
-\item\exSp{}Press `\textbf{g}' to generate the makefiles; there may be some CMake
-warnings for project developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{}Note that the current build process for \yarp{} is broken, and the robot
+interface will fail to build, even though it is disabled \longDash{} comment out the line
+`\asCode{add\fUS{}directory(yarprobotinterface)}' in the file\\
+\asCode{\textbf{devel}/yarp/src/CMakeLists.txt} by placing a hash mark character
+(`\asCode{\#}') at the start of the line; if there is no matching line or the
+`\textbf{CREATE\fUS{}YARPROBOTINTERFACE}' option was not displayed, this note can be
+ignored
 \item\exSp{}Execute the command `\asCode{cmake .}'; again, there will be some project
 developer warnings, which can be safely ignored
 \item\exSp{}Execute the command `\asCode{make clean \&\& make}'
@@ -421,12 +431,21 @@ developers, which can be cleared by pressing `\textbf{e}'
 recommended that the option\\
 `\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
 `\textbf{CREATE\fUS{}YMANAGER}' (or\\
-`\textbf{CREATE\fUS{}YMANAGER\fUS{}CONSOLE}') and
+`\textbf{CREATE\fUS{}YMANAGER\fUS{}CONSOLE}'), `\textbf{CREATE\fUS{}YARPROBOTINTERFACE}'
+and\\
 `\textbf{YARP\fUS{}USE\fUS{}READLINE}' (if present) should be disabled
-\item\exSp{}Press `\textbf{c}' to configure the makefiles; there may be some CMake
+\item\exSp{}Press `\textbf{c}' to configure the makefiles; there may be some
+\asCode{CMake} warnings for project developers, which can be cleared by pressing
+`\textbf{e}'
+\item\exSp{}Press `\textbf{g}' to generate the makefiles; there may be some \asCode{CMake}
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
-\item\exSp{}Press `\textbf{g}' to generate the makefiles; there may be some CMake
-warnings for project developers, which can be cleared by pressing `\textbf{e}'
+\item\exSp{}Note that the current build process for \yarp{} is broken, and the robot
+interface will fail to build, even though it is disabled \longDash{} comment out the line
+`\asCode{add\fUS{}directory(yarprobotinterface)}' in the file\\
+\asCode{\textbf{devel}/yarp/src/CMakeLists.txt} by placing a hash mark character
+(`\asCode{\#}') at the start of the line; if there is no matching line or the
+`\textbf{CREATE\fUS{}YARPROBOTINTERFACE}' option was not displayed, this note can be
+ignored
 \item\exSp{}Execute the command `\asCode{cmake .}'; again, there will be some project
 developer warnings, which can be safely ignored
 \item\exSp{}Execute the command `\asCode{make clean \&\& make}'
@@ -461,8 +480,8 @@ OGDF.zip}
 \item\exSp\asCode{unzip OGDF.zip}
 \item\exSp\asCode{rm OGDF.zip}
 \end{itemize}
-\item\exSp{}Open the file \asCode{makeMakefile.config} with a text editor and change the
-following items:
+\item\exSp{}Open the file \asCode{\textbf{devel}/OGDF/makeMakefile.config} with a text
+editor and change the following items:
 \begin{itemize}
 \item \asCode{compilerCommand} should be \asCode{g++ -stdlib=libstdc++}, not \asCode{g++}
 \item\exSp{}\asCode{installPrefix} should be \asCode{/opt/m+m}
@@ -545,7 +564,8 @@ following items:
 \end{itemize}
 \item\exSp{}Execute the following commands in the \asCode{Terminal} application:
 \begin{itemize}
-\item \exSp\asCode{make cleanrelease \&\& make release}
+\item \asCode{./makeMakefile.sh}
+\item\exSp\asCode{make cleanrelease \&\& make release}
 \item\exSp\asCode{sudo make install}
 \end{itemize}
 \end{itemize}
@@ -671,9 +691,6 @@ standard \win{} paths for program files, so the target directory is not the fina
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-
-
-
 \begin{itemize}
 \item If you wish to get a snapshot of the current source, execute the following
 commands in the \asCode{Terminal} application:
@@ -703,23 +720,15 @@ following commands in the \asCode{Terminal} application:
 {-}{-}enable-release {-}{-}enable-more-deterministic}
 \item\exSp\asCode{make clean \&\& make}
 \item\exSp\asCode{sudo make install}
-\item\exSp\asCode{sudo cp dist/bin/libmozglue.so /opt/m+m/spidermonkey/lib}
-%\item\exSp\asCode{sudo install\fUS{}name\fUS{}tool -change
-%"@executable\fUS{}path/libmozglue.dylib" \textbackslash\\
-%"@rpath/libmozglue.dylib" /opt/m+m/spidermonkey/lib/libmozjs-\spiderversion.dylib}; note
-%the single dash for `\asCode{-change}'
 \end{itemize}
-%\item\exSp{}In the \asCode{Terminal} application, move to the directory containing the \mplusm{}
-%source code, \asCode{\textbf{devel}}
-%\item\exSp{}Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
-%\textbackslash\\
-%/opt/m+m/spidermonkey/include/mozjs-\spiderversion}'; this replaces symbolic links in the
-%header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
-%to distribute the resulting directories
+\item\exSp{}In the \asCode{Terminal} application, move to the directory containing the
+\mplusm{} source code, \asCode{\textbf{devel}}
+\item\exSp{}Execute the command `\asCode{sudo Core\fUS{}MPlusM/replace-links.sh
+\textbackslash\\
+/opt/m+m/spidermonkey/include/mozjs-\spiderversion}'; this replaces symbolic links in the
+header directories for \textbf{SpiderMonkey} with the original items, so that it is safe
+to distribute the resulting directories
 \end{itemize}
-
-
-
 \tertiaryEnd
 \secondaryEnd
 \secondaryStart{(Optional)~Building~\textbf{\ECL}}
@@ -789,7 +798,7 @@ commands in the \asCode{Terminal} application:
 \item\exSp\asCode{wget https://common-lisp.net/project/ecl/files/current-release.tgz}
 \item\exSp\asCode{gunzip current-release.tgz}
 \item\exSp\asCode{tar xvf current-release.tar}
-\item\exSp\asCode{rm current-release.zip}
+\item\exSp\asCode{rm current-release.tar}
 \item\exSp\asCode{mv ecl-* ecl}
 \end{itemize}
 \item\exSp{}If, instead, you wish to track the source code as it changes, execute the

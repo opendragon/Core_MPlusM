@@ -723,6 +723,7 @@
 		DFFFC1E31B72B44B00DA3C4D /* TruncateFloat.lisp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = TruncateFloat.lisp; path = CommonLisp/TruncateFloat.lisp; sourceTree = "<group>"; };
 		DFFFC1E41B73DF1800DA3C4D /* m+mAbsorberFilterThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mAbsorberFilterThread.cpp"; path = "examples/AbsorberService/m+mAbsorberFilterThread.cpp"; sourceTree = "<group>"; };
 		DFFFC1E51B73DF1800DA3C4D /* m+mAbsorberFilterThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mAbsorberFilterThread.h"; path = "examples/AbsorberService/m+mAbsorberFilterThread.h"; sourceTree = "<group>"; };
+		F60648EB1C8C16E7002A74D2 /* replace-links.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "replace-links.sh"; sourceTree = "<group>"; };
 		F63BC82D1B65331400BD5ADB /* m+mKinectV2BlobEventThread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2BlobEventThread.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.cpp"; sourceTree = "<group>"; };
 		F63BC82E1B65331400BD5ADB /* m+mKinectV2BlobEventThread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobEventThread.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobEventThread.h"; sourceTree = "<group>"; };
 		F63BC82F1B65331400BD5ADB /* m+mKinectV2BlobInputRequests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mKinectV2BlobInputRequests.h"; path = "KinectV2/KinectV2InputService/m+mKinectV2BlobInputRequests.h"; sourceTree = "<group>"; };
@@ -1715,6 +1716,7 @@
 				DF30063718E605D400B51C22 /* PortList */,
 				DF0C7A911AE006C000E8FB15 /* ProComp2 */,
 				DFA3431418C91B8B0053B87C /* Registry */,
+				F60648EB1C8C16E7002A74D2 /* replace-links.sh */,
 				DF06997C18ECBFB900FF0E93 /* RequestCounter */,
 				DF20929218D241270093D3DC /* RequestInfo */,
 				F69C063D1B6558DF00A83A7E /* SendToMQ */,
