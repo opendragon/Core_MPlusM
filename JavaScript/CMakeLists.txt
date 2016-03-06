@@ -103,13 +103,13 @@ if(WIN32)
             DESTINATION bin
             COMPONENT applications)
     if(WIN64)
-		install(FILES
+        install(FILES
                 "${SPIDER_PATH}/lib/icudt${ICU_VERSION}.dll"
                 "${SPIDER_PATH}/lib/icuin${ICU_VERSION}.dll"
                 "${SPIDER_PATH}/lib/icuuc${ICU_VERSION}.dll"
                 DESTINATION bin
                 COMPONENT applications)
-	endif(WIN64)
+    endif(WIN64)
 endif(WIN32)
 if(APPLE)
     set_property(TARGET JS PROPERTY IMPORTED_LOCATION
