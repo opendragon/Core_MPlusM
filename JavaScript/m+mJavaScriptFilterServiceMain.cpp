@@ -1993,26 +1993,29 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
         if (JS_Init())
         {
             JSContext * jct = NULL;
-            JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE_ * 1024 * 1024);
+            OD_LOG("creating the JavaScript runtime"); //####
+            JSRuntime * jrt = JS_NewRuntime(JAVASCRIPT_GC_SIZE_ * 1024L * 1024L);
 
             if (jrt)
             {
+                JS_SetErrorReporter(jrt, reportJavaScriptError);
 #if (40 >= MOZJS_MAJOR_VERSION)
                 // Avoid ambiguity between 'var x = ...' and 'x = ...'.
                 JS::RuntimeOptionsRef(jrt).setVarObjFix(true);
 #endif // 40 >= MOZJS_MAJOR_VERSION
                 JS::RuntimeOptionsRef(jrt).setExtraWarnings(true);
+                OD_LOG("creating the JavaScript context"); //####
                 jct = JS_NewContext(jrt, JAVASCRIPT_STACKCHUNK_SIZE_);
                 if (jct)
                 {
                     JS::ContextOptionsRef(jct).setDontReportUncaught(true);
                     JS::ContextOptionsRef(jct).setAutoJSAPIOwnsErrorReporting(true);
-                    JS_SetErrorReporter(jrt, reportJavaScriptError);
                 }
                 else
                 {
                     OD_LOG("! (jct)"); //####
                     MpM_FAIL_("JavaScript context could not be allocated.");
+                    OD_LOG("destroying the JavaScript runtime"); //####
                     JS_DestroyRuntime(jrt);
                     jrt = NULL;
                 }
@@ -2024,25 +2027,24 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
             }
             if (jrt && jct)
             {
-                // Enter a request before running anything in the context. In particular, the
-                // request is needed in order for JS_InitStandardClasses to work properly.
-                JSAutoRequest          ar(jct);
 #if (47 <= MOZJS_MAJOR_VERSION)
                 JS::CompartmentOptions opts;
-                JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
+                JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, nullptr,
                                                                       JS::FireOnNewGlobalHook,
                                                                       opts));
                 
 #else // 47 > MOZJS_MAJOR_VERSION
-                JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, NULL,
+                JS::RootedObject       global(jct, JS_NewGlobalObject(jct, &lGlobalClass, nullptr,
                                                                       JS::FireOnNewGlobalHook));
                 
 #endif // 47 > MOZJS_MAJOR_VERSION
                 
                 if (global)
                 {
-                    // Enter the new global object's compartment.
+                    // Enter a request before running anything in the context. In particular, the
+                    // request is needed in order for JS_InitStandardClasses to work properly.
                     bool                     okSoFar;
+                    JSAutoRequest            ar(jct);
                     JSAutoCompartment        ac(jct, global);
                     JS::OwningCompileOptions options(jct); // this is used so that script
                                                            // objects persist
@@ -2143,9 +2145,12 @@ setUpAndGo(const Utilities::DescriptorVector & argumentList,
                     OD_LOG("! (global)"); //####
                     MpM_FAIL_("JavaScript global object could not be created.");
                 }
+                OD_LOG("destroying the JavaScript context"); //####
                 JS_DestroyContext(jct);
+                OD_LOG("destroying the JavaScript runtime"); //####
                 JS_DestroyRuntime(jrt);
             }
+            OD_LOG("shutting down JavaScript"); //####
             JS_ShutDown();
         }
         else
