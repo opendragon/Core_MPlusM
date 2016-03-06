@@ -77,6 +77,11 @@ if(APPLE)
     set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};${SPIDER_PATH}/lib" CACHE STRING
         "Fixes rpath" FORCE)
 endif(APPLE)
+if(LINUX)
+    set(OLD_CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH}")
+    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH};${SPIDER_PATH}/lib" CACHE STRING
+        "Fixes rpath" FORCE)
+endif(LINUX)
 
 add_library(JS SHARED IMPORTED)
 
@@ -97,7 +102,7 @@ if(WIN32)
             "${SPIDER_PATH}/lib/plc4.dll"
             DESTINATION bin
             COMPONENT applications)
-	if(WIN64)
+    if(WIN64)
 		install(FILES
                 "${SPIDER_PATH}/lib/icudt${ICU_VERSION}.dll"
                 "${SPIDER_PATH}/lib/icuin${ICU_VERSION}.dll"
@@ -164,5 +169,9 @@ if(APPLE)
         "Build architectures for Mac OS X" FORCE)
     set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH}" CACHE STRING "Fixes rpath" FORCE)
 endif(APPLE)
+if(LINUX)
+    # Restore the architecture settings so that later builds will be correct.
+    set(CMAKE_INSTALL_RPATH "${OLD_CMAKE_INSTALL_RPATH}" CACHE STRING "Fixes rpath" FORCE)
+endif(LINUX)
 
 enable_testing()

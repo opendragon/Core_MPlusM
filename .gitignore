@@ -173,6 +173,8 @@ m+mParserTest
 m+mParserTest.rc
 m+mPlaybackFromJSONInputService
 m+mPlaybackFromJSONInputService.rc
+m+mPortList
+m+mPortList.rc
 m+mPortLister
 m+mPortLister.rc
 m+mProComp2InputService
