@@ -55,7 +55,7 @@
 # include <jsapi.h>
 # include <js/CallArgs.h>
 # include <js/Conversions.h>
-# include <js//Initialization.h>
+# include <js/Initialization.h>
 # if (! MAC_OR_LINUX_)
 #  pragma warning(pop)
 # endif // ! MAC_OR_LINUX_

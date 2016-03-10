@@ -764,6 +764,8 @@
 		F6753CA61BE3BB7B00DCE040 /* m+mKinectV2SpecialInputService.rc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "m+mKinectV2SpecialInputService.rc.in"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputService.rc.in"; sourceTree = SOURCE_ROOT; };
 		F6753CA71BE3BB7B00DCE040 /* m+mKinectV2SpecialInputServiceMain.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mKinectV2SpecialInputServiceMain.cpp"; path = "KinectV2/KinectV2InputService/m+mKinectV2SpecialInputServiceMain.cpp"; sourceTree = SOURCE_ROOT; };
 		F6753CA81BE3BB7B00DCE040 /* resource2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = resource2.h; path = KinectV2/KinectV2InputService/resource2.h; sourceTree = "<group>"; };
+		F67AF3B01C90F99600BD6C3A /* after-ace-install.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "after-ace-install.sh"; sourceTree = "<group>"; };
+		F67AF3B11C90F99600BD6C3A /* after-yarp-build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = "after-yarp-build.sh"; sourceTree = "<group>"; };
 		F685DAE41B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mConfigurationRequestHandler.cpp"; path = "m+m/m+mConfigurationRequestHandler.cpp"; sourceTree = "<group>"; };
 		F685DAE51B5C1A7300B7EC9C /* m+mConfigurationRequestHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "m+mConfigurationRequestHandler.h"; path = "m+m/m+mConfigurationRequestHandler.h"; sourceTree = "<group>"; };
 		F685DAE61B5C1B4200B7EC9C /* m+mMetricsRequestHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = "m+mMetricsRequestHandler.cpp"; path = "m+m/m+mMetricsRequestHandler.cpp"; sourceTree = "<group>"; };
@@ -1695,6 +1697,8 @@
 			isa = PBXGroup;
 			children = (
 				DF1BD31E1A8BA2D00070A09C /* Address */,
+				F67AF3B01C90F99600BD6C3A /* after-ace-install.sh */,
+				F67AF3B11C90F99600BD6C3A /* after-yarp-build.sh */,
 				DF1C1C581B39F1DF00E816A4 /* Blob */,
 				DFCB229718EF23D200358EA5 /* ClientList */,
 				DF27F42B18CA377A00E93C95 /* CMakeLists.txt */,

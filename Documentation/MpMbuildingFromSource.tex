@@ -216,6 +216,9 @@ headers or libraries.\\
 
 Note that the file \asCode{ACE\fUS{}wrappers/ace/config.h} will select the correct
 configuration file for \osx{} or \win{}, so it does not need to be modified.
+Also, newer versions of \textbf{ACE} may or may not build correctly and may cause
+\mplusm{} to exhibit unusual behaviour, so only build \textbf{ACE} from the provided
+source code.
 \tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \mplusm{} source
@@ -224,19 +227,23 @@ code, \asCode{\textbf{devel}}
 \begin{itemize}
 \item \asCode{cd ACE\fUS{}wrappers}
 \item\exSp\asCode{export ACE\fUS{}ROOT=\$(pwd)}
-\item\exSp\asCode{make clean \&\& make}
+\item\exSp\asCode{export DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/m+m/lib:%
+\$DYLD\fUS{}LIBRARY\fUS{}PATH}
+\item\exSp\asCode{make clean}
+\item\exSp\asCode{cd ace}
+\item\exSp\asCode{make}
 \end{itemize}
 \item\exSp{}If the build is successful, execute the command `\asCode{sudo~sh}'
 \item\exSp{}Execute the following commands within the new subshell:
 \begin{itemize}
-\item \asCode{export ACE\fUS{}ROOT=\$(pwd)}
+\item \asCode{cd ..}
+\item\exSp\asCode{export ACE\fUS{}ROOT=\$(pwd)}
 \item\exSp\asCode{export DYLD\fUS{}LIBRARY\fUS{}PATH=/opt/m+m/lib:%
 \$DYLD\fUS{}LIBRARY\fUS{}PATH}
+\item\exSp\asCode{cd ace}
 \item\exSp\asCode{make install}
-\item\exSp\asCode{exit}
+\item\exSp\asCode{\textbf{devel}/Core\fUS{}MPlusM/after-ace-install.sh}
 \end{itemize}
-\item\exSp{}Execute the command `\asCode{sudo ./after-install.sh}'; this removes some
-unneeded files
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\win}
@@ -244,7 +251,7 @@ unneeded files
 \item Launch \asCode{Visual Studio}, running as Administrator
 \item\exSp{}Open the project file
 `\asCode{\textbf{devel}\textbackslash{}ACE\fUS{}wrappers\textbackslash{}ACE\fUS{}%
-wrappers\fUS{}vc12.sln}' with \asCode{Visual Studio}
+wrappers\fUS{}vc14.sln}' with \asCode{Visual Studio}
 \item\exSp{}Within \asCode{Visual Studio}, select the \asCode{Release} :\ \asCode{x64}
 configuration; if building 32-bit, select the \asCode{Release} :\ \asCode{Win32}
 configuration instead
@@ -274,8 +281,8 @@ window
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\linux}
-\mplusm{} can use the standard build of \textbf{ACE}, which can be installed by executing the
-command:
+\mplusm{} can use the standard build of \textbf{ACE}, which can be installed by executing
+the command:
 \begin{itemize}
 \item \asCode{sudo apt-get install libace-dev}
 \end{itemize}
@@ -287,12 +294,15 @@ in the \asCode{Terminal} application.
 used within \mplusm{}; the files needed to compile and link with \yarp{} are installed as
 part of the normal \mplusm{} installation procedure, so it's not necessary to rebuild
 \yarp{}; the source code is provided in case there is an issue with the headers or
-libraries.
+libraries.\\
+
+Note that newer versions of \yarp{} may or may not build correctly and may cause
+\mplusm{} to exhibit unusual behaviour, so only build \yarp{} from the provided
+source code.
 \tertiaryStart{Building~on~\osx}
 \begin{itemize}
 \item On the command\longDash{}line, move to the directory containing the \yarp{} source
-code \longDash{} \asCode{\textbf{devel}/yarp} or\\
-\asCode{\textbf{devel}/yarp\fUS{}MPlusM}
+code \longDash{} \asCode{\textbf{devel}/yarp\fUS{}MPlusM}
 \item\exSp{}Execute the following commands:
 \begin{itemize}
 \item \asCode{mkdir build}
@@ -313,34 +323,29 @@ the previous page of options
 \item\exSp{}Press `\textbf{t}' to show fewer options
 \item\exSp{}Change the `\textbf{CMAKE\fUS{}INSTALL\fUS{}PREFIX}' value to
 \asCode{/opt/m+m}
+\item\exSp{}Change the `\textbf{CMAKE\fUS{}OSX\fUS{}ARCHITECTURES}' value to
+\asCode{i386;x86\fUS{}64}
 \item\exSp{}Change any other options that you are interested in applying; it is
 recommended that the option\\
 `\textbf{ENABLE\fUS{}YARPRUN\fUS{}LOG}' should be enabled and the options
-`\textbf{CREATE\fUS{}YMANAGER}' (or\\
-`\textbf{CREATE\fUS{}YMANAGER\fUS{}CONSOLE}'), `\textbf{CREATE\fUS{}YARPROBOTINTERFACE}'
-and\\
-`\textbf{YARP\fUS{}USE\fUS{}READLINE}' (if present) should be disabled
+`\textbf{CREATE\fUS{}YMANAGER}' and\\
+`\textbf{YARP\fUS{}USE\fUS{}READLINE}' should be disabled
 \item\exSp{}Press `\textbf{c}' to configure the makefiles; there may be some
 \asCode{CMake} warnings for project developers, which can be cleared by pressing
 `\textbf{e}'
 \item\exSp{}Press `\textbf{g}' to generate the makefiles; there may be some \asCode{CMake}
 warnings for project developers, which can be cleared by pressing `\textbf{e}'
-\item\exSp{}Note that the current build process for \yarp{} is broken, and the robot
-interface will fail to build, even though it is disabled \longDash{} comment out the line
-`\asCode{add\fUS{}directory(yarprobotinterface)}' in the file\\
-\asCode{\textbf{devel}/yarp/src/CMakeLists.txt} by placing a hash mark character
-(`\asCode{\#}') at the start of the line; if there is no matching line or the
-`\textbf{CREATE\fUS{}YARPROBOTINTERFACE}' option was not displayed, this note can be
-ignored
 \item\exSp{}Execute the command `\asCode{cmake .}'; again, there will be some project
 developer warnings, which can be safely ignored
 \item\exSp{}Execute the command `\asCode{make clean \&\& make}'
-\item\exSp{}Execute the command `\asCode{sudo ../after-build.sh}'; this corrects some
-linking issues with \yarp{} caused by installing it in a non\longDash{}default location
+\item\exSp{}Execute the command
+`\asCode{\textbf{devel}/Core\fUS{}MPlusM/after-yarp-build.sh}';
+this corrects some linking issues with \yarp{} caused by installing it in a
+non\longDash{}default location
 \item\exSp{}Execute the command `\asCode{sudo make install}'
 \item\exSp{}If desired, you can verify that \yarp{} was correctly built by executing the
-command `\asCode{yarp~where}' in a Command Prompt window; it should either report where a
-\yarp{} server is running or indicate how to start one up
+command `\asCode{yarp~where}' on the command line; it should either report where a \yarp{}
+server is running or indicate how to start one up
 \end{itemize}
 \tertiaryEnd
 \tertiaryStart{Building~on~\win}
