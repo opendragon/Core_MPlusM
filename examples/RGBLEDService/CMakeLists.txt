@@ -52,7 +52,7 @@ endif(WIN32)
 configure_file(${THIS_TARGET}.rc.in ${THIS_TARGET}.rc)
 
 if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
         "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_INSTALL_PREFIX "/opt/m+m" CACHE STRING "Fixes install path for m+m/ACE" FORCE)
@@ -81,7 +81,7 @@ include_directories(${ACE_INCLUDE_DIRS})
 # Set up our program
 add_executable(${THIS_TARGET}
                m+mRGBLEDServiceMain.cpp
-			   m+mRGBLEDRequestHandler.cpp
+               m+mRGBLEDRequestHandler.cpp
                m+mRGBLEDService.cpp
                ${VERS_RESOURCE})
 

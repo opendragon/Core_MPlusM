@@ -1,0 +1,40 @@
+\ProvidesFile{LM2PService.tex}[v1.0.0]
+\primaryStart[TheLTPIService]{The \LTPI{} Service}
+The \asCode{m+mLeapTwoPalmsInputService} application is an Input service,
+generating a stream of information on the position and normal of the palm of the first two
+detected hands.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \emph{configuration} request has no arguments and returns nothing.\\
+
+The \emph{configure} request request has no arguments and does nothing.\\
+
+The \emph{restartStreams} request stops and then starts the output stream.\\
+
+The \emph{startStreams} request request initiates listening to the Leap Motion controller.
+Once started, the service will send palm position, normal data and palm velocity via the
+output \yarp{} network connection.\\
+
+The \emph{stopStreams} request stops the Leap Motion controller listener, which stops the
+output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+\insertAppParameters
+\insertTagDescription{\LTPI}
+\insertInputServiceComment
+\condPage
+\insertStandardServiceCommands
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchLeapTwoPalmsInputService}%
+{launchServiceLeapTwoPalms}{Launch options for the \emph{\LTPI} service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningLeapTwoPalmsInputService}%
+{serviceRunningLeapTwoPalms}{The \emph{\MMMU} entity for the \emph{\LTPI} service}{1.0}
+\secondaryEnd
+\primaryEnd{}

@@ -1,0 +1,52 @@
+\ProvidesFile{MpMoverview.tex}[v1.0.0]
+\primaryStart{Overview}
+\textbf{Movement~and~Meaning~Middleware} (also known as \mplusm) is a software system
+that acts as an intermediary between subsystems that provide sensor data, such as
+accelerometers and motion capture cameras, and actuators such as projectors and sound
+systems.
+It provides mechanisms for reporting and interrogating the protocols used by the sensors
+and actuators, as well as a standard architecture for creating services.\\
+
+\mplusm{} is available as a standalone installer for \osx{} or \win{}, or it can be built
+from source; for \linux{}, \mplusm{} (currently) must be built from source.\\
+
+An \mplusm{} installation consists of a set of programs that interconnect using the
+\companyReference{http://wiki.icub.org/yarpdoc/what_is_yarp.html}{\yarp} networking
+protocols, along with libraries that can be linked to applications to provide access to
+the \mplusm{} features.\\
+
+There are three main classes of programs in the set \longDash{} services, clients and
+utilities.
+Clients use a formalized protocol to connect to services and utilities manage or monitor
+the aggregate state of an \mplusm{} configuration.
+There is a unique service, the \serviceNameR[\RS]{RegistryService}, that maintains
+information on all the active services that are accessible to clients within an \mplusm{}
+installation.
+The primary utility is the \emph{\MMMU} application, which provides a GUI\longDash{}based
+view of the state of connections, services and clients within the installation.
+It is described in its own manual, \emph{MMManagerUtility\fUS{}Manual.pdf}.\\
+
+Each service can support multiple client connections, and the client functionality can be
+embedded in command\longDash{}line tools, GUI\longDash{}based applications or headless
+background processes.\\
+
+There are subtypes of services as well as of clients, distinguished by the presence of
+additional \yarp{} network connections and their characteristics.\\
+
+Basic services have only the client~/~service \yarp{} connection and provide a central
+resource\longDash{}sharing facility; simple services, such as the
+\serviceNameR[\RS]{RegistryService}, have one or more additional \yarp{} network
+connections that have no special properties and \inputOutput{} services have one or more
+additional \yarp{} network connections with specific protocols.
+\inputOutput{} services provide a mechanism for `packaging' sensors and actuators as
+\mplusm{} resources.\\
+
+Basic clients have only the client~/~service \yarp{} network connection while adapters
+have one or more additional \yarp{} network connections.
+Note that connections to services or clients that don't involve the \yarp{} network are
+considered to be intrinsic to the process involved and are not `visible' to \mplusm{}
+applications.\\
+
+Adapters provide a mechanism for non\longDash\mplusm{} applications to make requests of
+\mplusm{} services via \yarp{} network connections.
+\primaryEnd{}

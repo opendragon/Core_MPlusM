@@ -40,7 +40,7 @@
 cmake_minimum_required(VERSION 2.6)
 
 if(WIN32)
-	set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
+    set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
 endif(WIN32)
 
 project(m+mLeapMotion)
@@ -50,7 +50,7 @@ mark_as_advanced(CLEAR BUILD_SHARED_LIBS)
 mark_as_advanced(CLEAR CMAKE_OSX_ARCHITECTURES)
 
 if(APPLE)
-	set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
         "Fixes linking error for m+m/ACE" FORCE)
 endif(APPLE)

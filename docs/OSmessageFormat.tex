@@ -1,0 +1,19 @@
+\ProvidesFile{OSmessageFormat.tex}[v1.0.0]
+\appendixStart[OSFormat]{\textitcorr{\OSI{} Message Format}}
+Each time that the Organic Motion OpenStage controller reports that there is information
+available, the \asCode{OpenStageInputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing the following:
+\begin{itemize}
+\item A list of actors
+\end{itemize}
+
+For each valid actor, a list of dictionaries is added to the actor, with the following
+properties:
+\begin{itemize}
+\item\textbf{id} The name of a joint
+\item\exSp\textbf{position} The three\longDash{}dimensional coordinates \openSq{}X, Y,
+Z\closeSq{} of the `translation' of the joint
+\item\exSp\textbf{rotation} The rotation quaternion \openSq{}x, y, z, w\closeSq{} for the
+joint
+\end{itemize}
+\appendixEnd{}

@@ -1,0 +1,18 @@
+\ProvidesFile{VDSmessageFormat.tex}[v1.0.0]
+\appendixStart[VDSFormat]{\textitcorr{\VDSI{} Message Format}}
+Each time that the Vicon DataStream controller reports that there is information
+available, the\\
+\asCode{ViconDataStreamInputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing the following:
+\begin{itemize}
+\item A list of subjects
+\end{itemize}
+
+For each valid subject, a dictionary \openSq\asCode{Property}\closeSq{} is added to the
+list of subjects, with an entry for each non\longDash{}occluded segment reported.\\
+
+Each segment entry consists of the segment name as its key and a value consisting of a
+list of floating\longDash{}point numbers, with the three\longDash{}dimensional coordinates
+\openSq{}X, Y, Z\closeSq{} of the `translation' of the segment, followed by the rotation
+quaternion \openSq{}x, y, z, w\closeSq{} for the segment.
+\appendixEnd{}

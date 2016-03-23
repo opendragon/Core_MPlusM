@@ -1,0 +1,20 @@
+\ProvidesFile{LMblobMessageFormat.tex}[v1.0.0]
+\appendixStart[LMblobFormat]{\textitcorr{\LBI{} Message Format}}
+Each time that the Leap Motion controller reports that there is information available,
+the \asCode{LeapBlobInputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing a single binary blob, with the following
+format:
+\begin{itemize}
+\item A line containing the number of hands to follow
+\item\exSp{}A list of hands, consisting of
+\begin{itemize}
+\item A line containing the name of the hand (`\asCode{left}', `\asCode{right}' or
+`\asCode{unknown}' (which should never appear)) and the number of fingers
+\item\exSp{}A list of fingers, with each finger one per line, with its name
+(`\asCode{thumb}', `\asCode{index}', `\asCode{middle}', `\asCode{ring}', `\asCode{pinky}'
+or `\asCode{unknown}' (which should never appear)), the three\longDash{}dimensional
+coordinates of the tip of the finger, multiplied by the translation scale and the
+direction in which the finger tip is pointing, as a quaternion
+\end{itemize}
+\end{itemize}
+\appendixEnd{}

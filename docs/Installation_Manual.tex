@@ -1,0 +1,49 @@
+\ProvidesFile{Installation_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\input{commonStrings.tex}
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{\MMM{} Installation}
+\newcommand{\docKeywords}{movement,middleware,installation}
+\newcommand{\docSubject}{Middleware Installation}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\MMM{} Installation, \MMV]{\MMM{} Installation, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\MMM{} Installation}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+%\ifthenelse{\boolean{heveaActive}}{}{\insertpart{List~of~Figures}{\listoffigures}}
+
+\input{IMdocumentationHistory.tex}
+\input{IMfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{IMoverview.tex}
+
+%% section for the service
+
+\input{IMinstalling.tex}
+\input{IMuninstalling.tex}
+
+% End of contents
+
+\end{document}
+\end

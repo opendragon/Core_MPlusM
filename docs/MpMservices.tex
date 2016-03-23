@@ -1,0 +1,359 @@
+\ProvidesFile{MpMservices.tex}[v1.0.0]
+\primaryStart[ServicesAndTheirProtocols]{Services and Their Protocols}
+An \mplusm{} installation consists of a number of service applications and their companion
+client applications, communicating via \mplusm{} requests and responses on a \yarp{}
+network.\\
+
+There is one special service, the \serviceNameR[\RS]{RegistryService}, which manages
+information about all other active services; all services register themselves with the
+\serviceNameR[\RS]{RegistryService} so that client applications and utilities can get
+information about the service.\\
+
+Other services can be, broadly, characterized as either \inputOutput{} services or normal
+services.
+\inputOutput{} services can be further divided into Input services, Output services and
+Filter services.
+Input services act as intermediaries between external data sources and the \mplusm{}
+infrastructure, Output services act as intermediaries between an \mplusm{}
+installation and external presentation systems and Filter services act as translators
+between data formats.\\
+
+\inputOutput{} services respond to a special set of requests, the
+\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests}, and have secondary \yarp{}
+ports that provide access to the information that they process.
+Input services have one or more secondary output \yarp{} network ports, Output services
+have one or more secondary input \yarp{} network ports and Filter services have both
+secondary input and output \yarp{} network ports.\\
+
+Note that an Input service can also have secondary output \yarp{} network ports and an
+Output service can also have secondary input \yarp{} network ports, but this is uncommon.
+
+All services and clients utilize a request~/~response protocol that is defined by the
+\mplusm{} \compLang{C++} core classes.\\
+
+The standard requests are in 4 groups:
+\begin{itemize}
+\item\textbf{\secondaryRef{BasicRequests}{Basic~Requests:}} requests that support the
+fundamental \mplusm{} service mechanisms
+\item\exSp\textbf{\secondaryRef{RegistryServiceRequests}{\RS{} Requests:}}
+requests that are specific to the \serviceNameR[\RS]{RegistryService}
+\item\exSp\textbf{\secondaryRef{InputOutputRequests}{\inputOutput{}~Requests:}} requests
+that are specific to \inputOutput{} services
+\item\exSp\textbf{\secondaryRef{MiscellaneousRequests}{Miscellaneous~Requests:}} other
+requests
+\end{itemize}
+Requests are handled by derived classes of the base class for request handlers,
+\classNameR{Common}{BaseRequestHandler}.
+Note that the \secondaryRef{BasicRequests}{Basic~Requests} are part of every service and
+automatically supported in the base class of all services,
+\classNameR{Common}{BaseService}.\\
+
+When a client sends a request to a service, it can optionally request a response from the
+service.
+If no response is requested, the request is processed but no response is sent.
+\secondaryStart[StandardServices]{Standard~Services}
+There are two standard services that are always part of an \mplusm{} installation.
+\utilityNameR{m+mRequestCounterService} and its companion application
+\utilityNameR{m+mRequestCounterClient} are described elsewhere, and the
+\serviceNameR[\RS]{RegistryService} is described in \tertiaryRef{RegistryService}{\RS}.
+\tertiaryStart[RegistryService]{m+mRegistryService (also known as the
+\serviceNameD[\RS]{RegistryService})}
+The \serviceNameX[\RS]{RegistryService} application is a background service that is used
+to manage other services and their connections.
+Its primary purpose is to serve as a repository of information on the active services in
+an \mplusm{} installation.\\
+
+It uses an internal database, as described in the
+\appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.
+It responds to the requests in the
+\secondaryRef{RegistryServiceRequests}{\RS{} Requests} group.\\
+
+The application has six optional parameters:
+\begin{itemize}
+\item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
+\longDash{} note that this option is primarily for use by the \emph{\MMMU} application}
+\item\exSp\optItem{c}{}{channel}{display the endpoint name and leave}
+\item\optItem{h}{}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options and
+a description of the executable and then leave \longDash{} note that this option is
+primarily for use by the \emph{\MMMU} application}
+\item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{}{report}{report the service metrics when the application exits}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
+\end{itemize}
+Note that only one copy of the \serviceNameX[\RS]{RegistryService} application can be
+running at a time in an \mplusm{} installation, due to its fixed \yarp{} network port.\\
+
+The \serviceNameX[\RS]{RegistryService} application responds to a `HUP' signal and will
+exit gracefully when one is sent to it.\\
+
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRegistryService}%
+{launchServiceRegistry}{Launch options for the \serviceNameX[\RS]{RegistryService}}{1.0}
+\condPage
+\insertTagAndEndpointDescription{mpm_images/runningRegistryService}%
+{serviceRunningRegistry}{The \emph{\MMMU} entity for the
+\serviceNameX[\RS]{RegistryService}}{1.0}
+\tertiaryEnd{\serviceNameE[\RS]{RegistryService}}
+\secondaryEnd
+\secondaryStart[BasicRequests]{Basic~Requests}
+These requests are implemented in all \mplusm{} services, via the
+\classNameR{Common}{BaseService} class.
+They constitute the fundamental mechanism that is used by the
+\serviceNameR[\RS]{RegistryService} to identify each active service.
+\tertiaryStart{\requestsNameD{Basic}{Basic}{arguments}}
+The \requestsNameX{Basic}{Basic}{arguments} request returns a list of the original
+arguments given when the executable containing the active service was launched.\\
+
+It is used by the \emph{\MMMU} application to record the actual arguments used to launch
+the executable containing a service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{arguments}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{channels}}
+The \requestsNameX{Basic}{Basic}{channels} request returns a list of the secondary input
+channels and a list of the secondary output channels for its service.\\
+
+It is used by the \utilityNameR{m+mServiceList} and \emph{\MMMU} applications to
+determine the active \yarp{} network connections for each service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{channels}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{clients}, alias:\ %
+\requestsNameA{Basic}{Basic}{c}}
+The \requestsNameX{Basic}{Basic}{clients} request returns a list of the active clients of
+its service, if the service has \yarp{} network connections with persistent state.\\
+
+It is used by the \utilityNameR{m+mClientList} utility to display a list of the clients
+of services that have \yarp{} network connections with state.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{clients}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{detach}}
+The \requestsNameX{Basic}{Basic}{detach} request is used by clients of a service to
+indicate that they are no longer actively communicating with the service.\\
+
+It is used by all client applications and adapters, such as
+\examplesNameR{Clients}{m+mEchoClient},
+\examplesNameR{Adapters}{m+mRandomNumberAdapter},\\
+\examplesNameR{Clients}{m+mRandomNumberClient}, \utilityNameR{m+mRequestCounterClient},
+\examplesNameR{Adapters}{m+mRunningSumAdapter},
+\examplesNameR{Adapters}{m+mRunningSumAltAdapter} and
+\examplesNameR{Clients}{m+mRunningSumClient}, to cleanly disconnect from their
+corresponding service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{detach}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{extraInfo}}
+The \requestsNameX{Basic}{Basic}{extraInfo} request returns extra information from a
+service.
+The request details include the `extra information' returned by the
+\requestsNameR{Basic}{Basic}{name} request.\\
+
+It is used by the \emph{\MMMU} application to update the details for an active service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{extraInfo}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{info}}
+The \requestsNameX{Basic}{Basic}{info} request returns details about a single request
+handled by a service.
+The request details include the standard name of the request, the version number of the
+request handler for the request, search keywords that can be used when matching requests,
+a description of the request as well as representations of the expected arguments for the
+request and output of the request.\\
+
+It is used by the \utilityNameR{m+mRequestInfo} utility to gather information about a
+request available from an active service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{info}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{list}, alias:\ %
+\requestsNameA{Basic}{Basic}{l}}
+The \requestsNameX{Basic}{Basic}{list} request returns details about one or more requests
+handled by a service.
+The request details include the standard name of the request, the version number of the
+request handler for the request, search keywords that can be used when matching requests,
+a description of the request as well as representations of the expected arguments for the
+request and output of the request.\\
+
+It is used by the \serviceNameR[\RS]{RegistryService} and the
+\utilityNameR{m+mRequestInfo} utility to gather information about the requests available
+from each active service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{list}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{metrics}}
+The \requestsNameX{Basic}{Basic}{metrics} request returns measurements of the channels
+associated with a service.
+The measurements include the number of bytes and the number of messages sent and
+received on each channel.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{metrics}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{metricsState}}
+The \requestsNameX{Basic}{Basic}{metricsState} request returns the state of the metrics
+collection for the service, with \asCode{0} indicating that the metrics collection is
+disabled and \asCode{1} indicating that it is enabled.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{metricsState}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{name}, alias:\ %
+\requestsNameA{Basic}{Basic}{n}}
+The \requestsNameX{Basic}{Basic}{name} request returns details about its service, in the
+form of the canonical name of the service, its description, its kind, the path to the
+executable for the service, some extra information and a description of the requests for
+the service.\\
+
+It is used by the \serviceNameR[\RS]{RegistryService} and the
+\utilityNameR{m+mServiceList} and \emph{\MMMU} applications to collect basic information
+about each service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{name}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{setMetricsState}}
+The \requestsNameX{Basic}{Basic}{setMetricsState} request sets the state of the metrics
+collection for the service, with \asCode{0} indicating that the metrics collection is
+to be disabled and \asCode{1} indicating that it is to be enabled.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{setMetricsState}}
+\tertiaryStart{\requestsNameD{Basic}{Basic}{stop}}
+The \requestsNameX{Basic}{Basic}{stop} request stops the service.
+\tertiaryEnd{\requestsNameE{Basic}{Basic}{stop}}
+\secondaryEnd
+\secondaryStart[RegistryServiceRequests]{\RS{} Requests}
+The requests in this group are used exclusively by the
+\serviceNameR[\RS]{RegistryService} application to manage its internal database and to
+respond to information requests from client applications.
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{match}, alias:\ %
+\requestsNameA{\RS}{RegistryService}{find}}
+The \requestsNameX{\RS}{RegistryService}{match} request returns a list of input \yarp{}
+network connections or service names for services that match the criteria provided as an
+argument to the request.\\
+
+It is used by all client and adapter applications to identify the service to which they
+need to connect as well as by the \utilityNameR{m+mClientList},
+\utilityNameR{m+mPortLister}, \utilityNameR{m+mRequestInfo},
+\utilityNameR{m+mServiceList} and \emph{\MMMU} applications to identify services in
+order to gather information about them.\\
+
+For details on the syntax used with the criteria, see the 
+\appendixRef{ServiceMatchSyntax}{Service~Match~Syntax} appendix.
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{match}}
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{ping}}
+The \requestsNameX{\RS}{RegistryService}{ping} request is sent by each active service
+(except the \serviceNameR[\RS]{RegistryService}) to indicate that it is still `alive'.\\
+
+Sending a \requestsNameX{\RS}{RegistryService}{ping} request results in a sequence of
+requests being sent from the \serviceNameR[\RS]{RegistryService} to the active service if
+the information on the service is no longer in the internal database.
+This will happen if the service is considered to be `stale' \longDash{} it has not sent a
+\requestsNameX{\RS}{RegistryService}{ping} request often enough to be remembered.
+The sequence of requests sent to the active service is described in the 
+\appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{ping}}
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{register}, alias:\ %
+\requestsNameA{\RS}{RegistryService}{remember}}
+The \requestsNameX{\RS}{RegistryService}{register} request is sent by each active service
+(except the \serviceNameR[\RS]{RegistryService}) when it starts execution.\\
+
+Sending a \requestsNameX{\RS}{RegistryService}{register} request results in a sequence of
+requests being sent from the \serviceNameR[\RS]{RegistryService} to the active service.
+The sequence of requests sent to the active service is described in the 
+\appendixRef{RegistrationSequence}{Registration~Sequence} appendix.
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{register}}
+\tertiaryStart{\requestsNameD{\RS}{RegistryService}{unregister}, alias:\ %
+\requestsNameA{\RS}{RegistryService}{forget}}
+The \requestsNameX{\RS}{RegistryService}{unregister} request is sent by each service
+(except the \serviceNameR[\RS]{RegistryService}) just before it stops execution.\\
+
+Upon receiving the \requestsNameX{\RS}{RegistryService}{unregister} request, the
+\serviceNameR[\RS]{RegistryService} removes all entries from the internal database that
+are related to the service being removed.
+\tertiaryEnd{\requestsNameE{\RS}{RegistryService}{unregister}}
+\secondaryEnd
+\secondaryStart[InputOutputRequests]{\inputOutput{}~Requests}
+These requests are implemented in all \mplusm{} \inputOutput{} services, via the
+\classNameR{Common}{BaseInputOutputService} class.
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{argumentDescriptions}}
+The \requestsNameX{\inputOutput}{InputOutput}{argumentDescriptions} request allows client
+applications to determine the format of the configuration data of the service.\\
+
+It is used by the \emph{\MMMU} application to set up the dialog that is used to configure
+services.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{argumentDescriptions}}
+
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{configuration}}
+The \requestsNameX{\inputOutput}{InputOutput}{configuration} request allows client
+applications to retrieve the current values for the configuration data of the service.\\
+
+It is used by the \emph{\MMMU} application to initialize the fields of the dialog that is
+used to configure services.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{configuration}}
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{configure}}
+The \requestsNameX{\inputOutput}{InputOutput}{configure} request is available for
+\inputOutput{} services that require special setup information, such as a device
+identifier or file\longDash{}system path.
+It is the responsibility of derived classes of the
+\classNameR{Common}{BaseInputOutputService} class to provide a method that handles the
+data provided in the \requestsNameX{\inputOutput}{InputOutput}{configure} request.\\
+
+For the \examplesNameR{Services}{m+mRandomBurstInputService} application, the
+configuration data consists of a floating\longDash{}point number (the burst period) and an
+integer (the burst size); for the \examplesNameR{Services}{m+mRecordIntegersOutputService}
+application, the configuration data consists of the file\longDash{}system path for the
+service output file.\\
+
+\requestsNameX{\inputOutput}{InputOutput}{configure} requests should be sent by
+client applications before sending
+\requestsNameR{\inputOutput}{InputOutput}{startStreams} requests.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{configure}}
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{restartStreams}}
+The \requestsNameX{\inputOutput}{InputOutput}{restartStreams} request allows client
+applications to `rewind' all input and output streams, if this is a meaningful operation.
+It is roughly equivalent to a \requestsNameR{\inputOutput}{InputOutput}{stopStreams}
+request followed by a \requestsNameR{\inputOutput}{InputOutput}{startStreams} request,
+but it may perform some extra work between the two requests.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{restartStreams}}
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{startStreams}}
+The \requestsNameX{\inputOutput}{InputOutput}{startStreams} request initiates activity
+on the input and output ports associated with an \inputOutput{} service.
+That is, for Input services, data will now be sent out the output \yarp{} network ports,
+for Output services, data will be processed from the input \yarp{} network ports and, for
+Filter services, data will flow from the input \yarp{} network ports to the output \yarp{}
+network ports.\\
+
+Note that an Output service can be `always on', as it can defer the external
+representation of its input data until the first data arrives at its input \yarp{}
+network port.\\
+
+For the \examplesNameR{Services}{m+mRandomBurstInputService} application, starting the
+streams corresponds to initiating an asynchronous random number generator; for the
+\examplesNameR{Services}{m+mRecordIntegersOutputService} application, starting the streams
+involves opening the service output file and for the
+\examplesNameR{Services}{m+mTruncateFloatFilterService} application, starting the streams
+simply allows data to flow through.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{startStreams}}
+\tertiaryStart{\requestsNameD{\inputOutput}{InputOutput}{stopStreams}}
+The \requestsNameX{\inputOutput}{InputOutput}{stopStreams} request stops activity on
+the input and output ports associated with an \inputOutput{} service.
+That is, for Input services, data will no longer be sent out the output \yarp{} network
+ports, for Output services, data from the input \yarp{} network ports will be ignored and,
+for Filter services, data will no longer flow from the input \yarp{} network ports to the
+output \yarp{} network ports.\\
+
+Note that an `always on' Output service can ignore
+\requestsNameX{\inputOutput}{InputOutput}{stopStreams} requests, if the external
+representation of its input data is not affected by the lack of input data.
+\tertiaryEnd{\requestsNameE{\inputOutput}{InputOutput}{stopStreams}}
+\secondaryEnd
+\secondaryStart[MiscellaneousRequests]{Miscellaneous~Requests}
+Requests in this group are used with the \utilityNameR{m+mRequestCounterClient} client
+application and \utilityNameR{m+mRequestCounterService} application or are requests that
+are common.
+\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{echo}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{echo} request simply returns whatever
+as provided as arguments to the request.
+It is used by the unit testing framework of \mplusm{} to provide a simple request that
+can be validated, as well as by the \examplesNameR{Clients}{m+mEchoClient} application
+and \examplesNameR{Services}{m+mEchoService} application to implement an `echo' mechanism.
+\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{echo}}
+\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{resetcounter}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{resetcounter} request is used by the
+\utilityNameR{m+mRequestCounterClient} application to request that the\\
+\utilityNameR{m+mRequestCounterService} application is to clear its request counter and
+elapsed time data.
+\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{resetcounter}}
+\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{stats}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{stats} request is used by the
+\utilityNameR{m+mRequestCounterClient} application to retrieve the request counter and
+elapsed time data from the \utilityNameR{m+mRequestCounterService} application.
+\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{stats}}
+\tertiaryStart{\requestsNameD{Miscellaneous}{Miscellaneous}{where}}
+The \requestsNameX{Miscellaneous}{Miscellaneous}{where} request is used by the
+\utilityNameR{m+mAddressClient} application to retrieve the IP address and port from the\\
+\utilityNameR{m+mAddressService} application.
+\tertiaryEnd{\requestsNameE{Miscellaneous}{Miscellaneous}{where}}
+\secondaryEnd
+\primaryEnd{}

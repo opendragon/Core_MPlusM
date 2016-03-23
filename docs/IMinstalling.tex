@@ -1,0 +1,343 @@
+\ProvidesFile{IMinstalling.tex}[v1.0.0]
+\primaryStart[InstallationProcedure]{Installing \mplusm}
+\secondaryStart{\osx}
+The files needed for an \mplusm{} installation are all contained within the
+\asCode{m+m.pkg} file; note that Administrator privileges are needed to perform the
+installation.
+\tertiaryStart{Installing~The~Packages}
+After obtaining the \asCode{m+m-\MMVn.pkg} file, open it by double\longDash{}clicking, at
+which point the \asEmphCode{Introduction} page is presented.
+\objScaledPicture{mpm_images/Installer01}{0.75}
+
+Click on the \asBoldCode{Continue} button to proceed.
+\condPage{}
+The \asEmphCode{Read~Me} page will now appear, which describes what software tools are
+needed if you wish to do development with \mplusm{} \longDash{} these are not part of the
+\asCode{M+M.pkg} file and will need to be installed separately.
+\objScaledPicture{mpm_images/Installer02}{0.75}
+Determine whether you have the software tools mentioned and click on the
+\asBoldCode{Continue} button to proceed, or the \asBoldCode{Print\textellipsis} or
+\asBoldCode{Save\textellipsis} to record the other software tools that you would need for
+development.
+\condPage{}
+The \asEmphCode{License} page will now appear; please read it and click on the
+\asBoldCode{Continue} button to proceed, or the \asBoldCode{Print\textellipsis} or
+\asBoldCode{Save\textellipsis} buttons to record the license.
+\objScaledPicture{mpm_images/Installer03}{0.75}
+Once you click on the \asBoldCode{Continue} button, you will be asked to confirm that you
+agree to the license; click on the \asBoldCode{Agree} button to accept the license, on the
+\asBoldCode{Disagree} button to stop the installation process or on the
+\asBoldCode{Read~License} button to go back to the \asEmphCode{License} page.
+If you agree to the license, the installation will proceed.
+\objScaledPicture{mpm_images/Installer04}{0.75}
+\condPage{}
+The \asEmphCode{Installation~Type} page will now appear \longDash{} at this point you can
+select which items will be installed and where to install them.
+\objScaledPicture{mpm_images/Installer05}{0.75}
+Click on the \asBoldCode{Change~Install~Location\textellipsis} button to specify the disk
+drive where the \mplusm{} packages will be installed, on the \asBoldCode{Customize} button
+if you wish to select the packages that will be installed, on the \asBoldCode{Go~Back}
+button if you would like to review the license and on the \asBoldCode{Install} button if
+you are ready to proceed with the installation.
+\condPage{}
+If you clicked on the \asBoldCode{Change~Install~Location\textellipsis} button on the
+\asEmphCode{Installation~Type} page, the\\
+\asEmphCode{Select~a~Destination} page will appear.
+You can select any disk drive that contains the \osx{} operating system on it.
+Typically, only one disk drive is selectable; the current operating system disk will be
+selected if there is sufficient space to do the installation.
+The amount of disk space required to install the packages that you have selected will also
+appear.
+\objScaledPicture{mpm_images/Installer05a}{0.75}
+Select a disk drive by clicking on it and then click on the \asBoldCode{Continue} button
+to return to the \asEmphCode{Installation~Type} page.
+\condPage{}
+If you clicked on the \asBoldCode{Customize} button on the \asEmphCode{Installation~Type}
+page, the \asEmphCode{Custom~Install} page will appear.
+\objScaledPicture{mpm_images/Installer06}{0.75}
+Click on the \asBoldCode{Standard~Install} button to return to the
+\asEmphCode{Installation~Type} page, with just the \asCode{Core} package selected, on the
+\asBoldCode{Go~Back} button to return to the \asEmphCode{Installation~Type} page with the
+current selections and on the \asBoldCode{Install} button to proceed with the
+installation.
+\condPage{}
+If you clicked on the \asCode{Core} package, a description of the package appears.
+The \asCode{Core} package is always installed \longDash{} if you have an existing
+\mplusm{} installation, the Action shown will be `Upgrade', not `Install'.
+\objScaledPicture{mpm_images/Installer06a}{0.75}
+\condPage{}
+If you clicked on the \asCode{Developer} package, a description of the package appears.
+The \asCode{Developer} package is optional \longDash{} if you have an existing \mplusm{}
+installation that includes the \asCode{Developer} package, the Action shown will be
+`Upgrade', not `Install'.
+The default Action is to `Skip' the installation of the \asCode{Developer} package.
+\objScaledPicture{mpm_images/Installer06b}{0.75}
+Note that the amount of disk space required to the install the packages will be adjusted
+to reflect if the \asCode{Developer} package has been selected for installation.
+\condPage{}
+Clicking on the \asBoldCode{Install} button on the \asEmphCode{Installation~Type} page
+will result in a page being displayed which requests an administrator name and password.
+\objScaledPicture{mpm_images/Installer07}{0.75}
+Clicking on the \asBoldCode{Cancel} button will return you to the
+\asEmphCode{Installation~Type} page; entering a valid administrator name and password and
+clicking on the \asBoldCode{Install~Software} button will result in a series of pages
+being displayed, reflecting the installation progress.
+\condPage{}
+Once the installation completes, the \asEmphCode{Summary} page will appear.
+\objScaledPicture{mpm_images/Installer08}{0.75}
+Click on the \asBoldCode{Close} button to exit from the installer.
+\condPage
+\tertiaryEnd
+\tertiaryStart{Testing~The~Installation}
+Open the \asCode{Terminal} program and enter the following:
+\outputBegin
+\begin{verbatim}
+ps | grep yarp | grep -v grep
+\end{verbatim}
+\outputEnd{}
+If there is a line similar to `\asCode{30339 ttys004 0:00.01 yarp server\textellipsis}'
+then the \yarp{} server is already running. If not, enter the following:
+\outputBegin
+\begin{verbatim}
+yarp server
+\end{verbatim}
+\outputEnd{}
+If you then see something similar to the following, there is another process using the
+network port that \yarp{} uses by default:
+\outputBegin
+\begin{verbatim}
+__   __ _    ____  ____  
+\ \ / // \  |  _ \|  _ \ 
+ \ V // _ \ | |_) | |_) |
+  | |/ ___ \|  _ <|  __/ 
+  |_/_/   \_\_| \_\_|    
+
+Call with --help for information on available options
+Options can be set on command line or in /Users/M_M/Library/Application
+       Support/yarp/config/yarpserver.conf
+Using port database: :memory:
+Using subscription database: :memory:
+IP address: default
+Port number: 10000
+yarp: Port /root failed to activate at tcp://10.0.1.2:10000 (address conflict)
+Name server failed to open
+\end{verbatim}
+\outputEnd{}
+If you chose to stop the running \yarp{} server in order to use the version installed with
+\mplusm{} or if you see the above error message, you will need to clear the \yarp{}
+configuration before issuing the `\asCode{yarp~server}' command.
+The following command will clear the \yarp{} configuration:
+\outputBegin
+\begin{verbatim}
+yarp conf --clean
+\end{verbatim}
+\outputEnd{}
+If there was an address conflict due to another process using \yarp's default port, use
+the following command to start the \yarp{} server:
+\outputBegin
+\begin{verbatim}
+yarp server --socket 11223 --write
+\end{verbatim}
+\outputEnd{}
+where `\asCode{11223}' is an arbitrary number greater than 1024.
+Note that \mplusm{} has been tested with \yarp{} versions 2.3.61 through 2.3.63 and should
+work with newer versions.
+To identify the version of \yarp{} that is installed, issue the command:
+\outputBegin
+\begin{verbatim}
+yarp version
+\end{verbatim}
+\outputEnd{}
+If you see the following, the \asCode{Terminal} program was running during the
+installation and did not pick up the correct settings:
+\outputBegin
+\begin{verbatim}
+-bash: yarp: No such file or directory
+\end{verbatim}
+\outputEnd{}
+Exit from the \asCode{Terminal} program and open it again, so that its settings will be
+updated.\\
+
+If you see the following, \yarp{} started correctly, and the \mplusm{} installation can be
+confirmed:
+\outputBegin
+\begin{verbatim}
+__   __ _    ____  ____  
+\ \ / // \  |  _ \|  _ \ 
+ \ V // _ \ | |_) | |_) |
+  | |/ ___ \|  _ <|  __/ 
+  |_/_/   \_\_| \_\_|    
+
+Call with --help for information on available options
+Options can be set on command line or in /Users/M_M/Library/Application
+       Support/yarp/config/yarpserver.conf
+Using port database: :memory:
+Using subscription database: :memory:
+IP address: default
+Port number: 10000
+yarp: Port /root active at tcp://10.0.1.2:10000
+
+Registering name server with itself:
+ * register "/root" tcp "10.0.1.2" 10000
+   + set "/root" ips "127.0.0.1" "10.0.1.2" "25.142.170.49"
+   + set "/root" process 90494
+ * register fallback mcast "224.2.1.1" 10000
+   + set fallback ips "127.0.0.1" "10.0.1.2" "25.142.170.49"
+   + set fallback process 90494
+Name server can be browsed at http://10.0.1.2:10000/
+
+Ok.  Ready!
+\end{verbatim}
+\outputEnd{}
+Once you've confirmed that \yarp{} is running correctly, it's time to start \mplusm.
+Start another \asCode{Terminal} session or open another tab in the \asCode{Terminal}
+application and enter the following:
+\outputBegin
+\begin{verbatim}
+m+mRegistryService &
+\end{verbatim}
+\outputEnd{}
+The output similar to the following should appear:
+\outputBegin
+\begin{verbatim}
+[1] 63918
+registered admin's iMac._yarpns._tcp.local.
+\end{verbatim}
+\outputEnd{}
+where `\asBoldCode{1}' will be incremented each time that a process is run in the
+background, `\asBoldCode{63918}' will be replaced by the process identifier for the copy
+of \asCode{m+mRegistryService} that is running and `\asCode{admin's~iMac}' will be
+replaced by the name of the computer on which \mplusm{} has been installed.\\
+
+If something similar to the following appears:
+\outputBegin
+\begin{verbatim}
+[1] 64234
+[1]+ Done        m+mRegistryService
+\end{verbatim}
+\outputEnd{}
+then the \emph{m+mRegistryService} application was already running when \mplusm{} was
+installed, indicating that this was not a new installation but, rather, an upgrade.
+\condPage{}
+It will be necessary to stop the earlier copy of \emph{m+mRegistryService}.
+To to this, find the running copy via the command:
+\outputBegin
+\begin{verbatim}
+ps -ax | grep -i m+m | grep -v grep
+\end{verbatim}
+\outputEnd{}
+A single line of output should appear, similar to:
+\outputBegin
+\begin{verbatim}
+63918 ttys015   16:42.19 m+mRegistryService
+\end{verbatim}
+\outputEnd{}
+where `\asBoldCode{63918}' will be the process identifier of the already\longDash{}running
+copy of \emph{m+mRegistryService}.
+Enter the following command, replacing `\asBoldCode{63918}' with the first number that
+appeared in the output that was just displayed.
+\outputBegin
+\begin{verbatim}
+kill -s HUP 63918
+\end{verbatim}
+\outputEnd{}
+It should now be possible to issue the `\asCode{m+mRegistryService~\&}' command as
+described earlier.\\
+
+The last step in testing the \mplusm{} installation is to launch the \emph{\MMMU}
+application, which was placed in the \asCode{/Applications}
+directory.
+You should see something similar to the following:
+\objScaledPicture{mpm_images/Runningm+mManager}{1.0}
+You now have a basic \mplusm{} installation and can begin using it for your projects!
+\tertiaryEnd
+\secondaryEnd
+\condPage
+\secondaryStart{\win}
+To install \mplusm, simply execute the installer package titled
+``\asCode{m+m-\MMVn-win64.exe}''.
+Depending on your security settings, you may receive a User Access Warning.
+Simply click the \asBoldCode{Allow access} button if that is the case.
+You will be greeted with the following window:
+\objScaledPicture{mpm_images/win_install01}{0.75}
+Click the \asBoldCode{Next~>} button to proceed.
+You will be greeted with the following window:
+\objScaledPicture{mpm_images/win_install02}{0.75}
+Click the \asBoldCode{I~Agree} button to proceed.
+\condPage{}
+You will now have the option of adding \mplusm{} to a \textbf{PATH} environment variable.
+This is highly recommended, as it will make launching the applications provided with
+\mplusm{} much easier.
+Selecting \emph{Create M+M Desktop Icon} will have no effect, as \mplusm{} consists of a
+number of applications, rather than the single application that the installer expects.
+\objScaledPicture{mpm_images/win_install03}{0.75}
+Select the \textbf{PATH} option that you would prefer and click the \asBoldCode{Next~>}
+button to proceed.
+\objScaledPicture{mpm_images/win_install04}{0.75}
+Select the destination for the installed files and click the \asBoldCode{Next~>} button to
+proceed.
+\condPage
+\objScaledPicture{mpm_images/win_install05}{0.75}
+An option to create a Start Menu folder will be provided.
+Currently this will contain a shortcut to the uninstaller application.
+After making your selection, click the \asBoldCode{Next~>} button to proceed.
+\objScaledPicture{mpm_images/win_install06}{0.75}
+Here you can select the components to be installed.
+The \asBoldCode{Core} selection contains just the libraries, standard applications and
+header files, while the \asBoldCode{Optional} selection contains the example applications
+and source code.
+Select what you wish to install and click the \asBoldCode{Install} button to proceed.
+\condPage{}
+The installer will now proceed to place the elements of \mplusm{} on the system.
+\objScaledPicture{mpm_images/win_install07}{0.75}
+If this is the first time that \mplusm{} is being installed, the following may be
+displayed, as \mplusm{} is built with \asCode{Visual Studio} from Microsoft and needs
+some libraries to be installed as well:
+\objScaledPicture{mpm_images/win_install08}{0.75}
+After choosing to accept the license agreement, click on the \asBoldCode{Install} button
+to proceed.
+\condPage{}
+Once the Microsoft libraries are placed on the system, the following window will appear.
+\objScaledPicture{mpm_images/win_install09}{0.75}
+Click on the \asBoldCode{Close} button to complete the installation of the Microsoft
+libraries.\\
+
+The \mplusm{} Library makes use of the \emph{Apple Bonjour SDK}, and its installer will be
+launched at this point:
+\objScaledPicture{mpm_images/win_install10}{0.75}
+Click the \asBoldCode{Next~>} button to proceed.
+\objScaledPicture{mpm_images/win_install11}{0.75}
+After choosing to accept the license agreement, click on the \asBoldCode{Next~>} button to
+proceed.
+\objScaledPicture{mpm_images/win_install12}{0.75}
+Please read the system requirements to ensure that you can safely install the \emph{Apple
+Bonjour SDK} and then click on the \asBoldCode{Next~>} button to proceed.
+\condPage{}
+\objScaledPicture{mpm_images/win_install13}{0.75}
+At this point, you can select an alternative location to install the \emph{Apple Bonjour
+SDK}, if you wish.
+Click on the \asBoldCode{Install} button to proceed once you've made your selection.\\
+
+After a short while, the following window will appear:
+\objScaledPicture{mpm_images/win_install14}{0.75}
+Click on the \asBoldCode{Finish} button to return to the \mplusm{} installer.
+\objScaledPicture{mpm_images/win_install15}{0.75}
+Click on the \asBoldCode{Finish} button to exit from the \mplusm{} installer \longDash{}
+the installation is complete.
+\condPage
+\tertiaryStart{Testing~The~\win{}~Installation}
+For the most part, testing the \win{} installation is similar to the \osx{} version,
+except most of the applications can be executed directly by double clicking the icons in
+the \asCode{/bin} folder of the installation directory.
+If command\longDash{}line arguments are required (e.g. for clearing of the \yarp{}
+configuration file), it can be done by opening a \win{} ``command prompt'' and
+\asBoldCode{cd}ing into the \asCode{/bin} folder.\\
+
+One other thing to note, is that the first time you open any of these network
+applications, a warning may be generated by \win{} Firewall as follows:
+\objScaledPicture{mpm_images/win_run01}{0.75}
+Please click on the \asBoldCode{Allow access} button to enable the networking features of
+each application.
+\tertiaryEnd
+\secondaryEnd
+\primaryEnd{}

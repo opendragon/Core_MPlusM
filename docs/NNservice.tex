@@ -1,0 +1,53 @@
+\ProvidesFile{NNservice.tex}[v1.0.0]
+\primaryStart[TheNNIService]{The \NNI{} Service (\win{} only)}
+The \asCode{m+mNatNetInputService} application is an Input service,
+generating a stream of information on the position and orientation of one or more bodies.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \emph{configuration} request has no arguments and returns the string value for the
+host name of the Natural Point NatNet controller, the integer value for the command port
+and the integer value for the data port on the Natural Point NatNet controller to connect
+to.\\
+
+The \emph{configure} request has three arguments \longDash{} a string value for the host
+name of the Natural Point NatNet controller, an integer value for the command port and an
+integer value for the data port on the Natural Point NatNet controller to connect to.
+These values will be applied when the output stream is started or restarted.\\ 
+
+The \emph{restartStreams} request stops and then starts the output stream.\\
+
+The \emph{startStreams} request request initiates listening to the Natural Point NatNet
+controller.
+Once started, the service will send groups of body data via the output \yarp{} network
+connection.\\
+
+The \emph{stopStreams} request stops the Natural Point NatNet controller listener, which
+stops the output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+The application has three optional arguments \longDash{} the host name, command port and
+data port for the Natural Point NatNet controller.
+\insertAppParameters
+\insertTagDescription{\NNI}
+\insertInputServiceComment\\
+
+\insertStandardServiceCommands
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchNatNetInputService}%
+{launchServiceNatNet}{Launch options for the \emph{\NNI} service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningNatNetInputService}%
+{serviceRunningNatNet}{The \emph{\MMMU} entity for the \emph{\NNI} service}{1.0}
+\condPage{}
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureNatNetInputService}%
+{configureServiceNatNet}{Configuration window for the \emph{\NNI} service}{1.0}
+\secondaryEnd
+\primaryEnd{}

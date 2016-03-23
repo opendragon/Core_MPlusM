@@ -1,0 +1,48 @@
+\ProvidesFile{IMuninstalling.tex}[v1.0.0]
+\primaryStart[Uninstalling]{Uninstalling \mplusm}
+\secondaryStart{\osx}
+The files for an \mplusm{} installation are all contained within the
+\asCode{/opt/m+m} directory; note that Administrator privileges are needed to remove the
+installation.\\
+
+Included in the set of installed files is a script to perform the removal,
+\asCode{uninstallm+m.sh}.
+To use it, open the \asCode{Terminal} program and enter the following:
+\outputBegin
+\begin{verbatim}
+uninstallm+m.sh
+\end{verbatim}
+\outputEnd{}
+You will then be presented with an opportunity to cancel the removal:
+\outputBegin
+\begin{verbatim}
+This script will remove the m+m installation from this system,
+except for a reference in the system PATH variable.
+Are you sure? ([y]es or [N]o):
+\end{verbatim}
+\outputEnd{}
+If you respond with \asCode{Y} or \asCode{Yes}, there is one more opportunity to cancel
+the removal:
+\outputBegin
+\begin{verbatim}
+Are you *really* sure? ([y]es or [N]o): n
+\end{verbatim}
+\outputEnd{}
+If you again respond with \asCode{Y} or \asCode{Yes}, the script may prompt you for your
+password, in order to perform the actual removal.
+After the removal has completed, you will see the following:
+\outputBegin
+\begin{verbatim}
+m+m installation removed.
+\end{verbatim}
+\outputEnd
+\secondaryEnd
+\secondaryStart{\win}
+The files for an \mplusm{} installation are all contained within the
+\asCode{C:\textbackslash{}Program Files (x86)\textbackslash{}m+m} directory.\\
+
+Included in the set of installed files is a program to perform the removal,
+\asCode{Uninstall.exe}.
+To use it, simply double\longDash{}click on the icon for the program.
+\secondaryEnd
+\primaryEnd{}

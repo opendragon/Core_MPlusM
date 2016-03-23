@@ -1,0 +1,45 @@
+\ProvidesFile{MpMupdatingVersionNumber.tex}[v1.0.0]
+\appendixStart[UpdatingVersionNumber]{\textitcorr{Updating the Version Number}}
+When a significant change is made to the source files for \mplusm, such as the addition of
+new core messages or methods, the version number should be updated to reflect the
+change.\\
+
+The version number is recorded in a number of locations:
+\begin{itemize}
+\item The documentation version number is located in the \asCode{commonStrings.tex} file
+in the \asCode{docs} directory in the \asCode{Core\fUS{}MPlusM} directory
+\longDash{} look for the `\asCode{\textbackslash{}MMVn}' macro
+\item\exSp{}The version number is also referred to in the description of the output of
+the \utilityNameR{m+mVersion} application \longDash{} it appears in three `verbatim'
+sections in the \asCode{MpMutilities.tex} file in the \asCode{docs} directory in the
+\asCode{Core\fUS{}MPlusM} directory
+\item\exSp{}The primary location for the source code version number is in the
+\asCode{CMakeLists.txt} file in the \asCode{Core\fUS{}MPlusM} directory; the
+`\asCode{set(MpM\fUS{}VERSION\fUS{}MAJOR)}', `\asCode{set(MpM\fUS{}VERSION\fUS{}MINOR}'
+and `\asCode{set(MpM\fUS{}VERSION\fUS{}PATCH)}' commands are used to construct the version
+number
+\item\exSp{}The \emph{\MMMU} version number is located in the \asCode{Xcode} project
+settings \longDash{} make sure to change both of the \asCode{Version} and \asCode{Build}
+settings in the \asCode{General} settings for the \asCode{\MMMU} target \longDash{} and
+the \asCode{m+mmResources.rc} file, where the `\asCode{FILEVERSION}', `\asCode{FileVersion}'
+and `\asCode{ProductVersion}' values will need to be modified
+\item\exSp{}The distribution build numbers for \osx{} are changed via the
+\asCode{Packages} GUI tool \longDash{} update the \asCode{Developer} file, located in the
+\asCode{Core\fUS{}MPlusM/Packages/Developer} directory within the \asCode{devel}
+directory, as well as the \asCode{m+m} file, located in the
+\asCode{Core\fUS{}MPlusM/Packages} directory
+\item\exSp{}The \asCode{doxygen} configuration files should also be updated; the two
+files are \asCode{Core\fUS{}MPlusM/Doxyfile} and
+\asCode{Utilities\fUS{}mm\fUS{}manager/Doxyfile}
+\end{itemize}
+To update to the new version number, once the files have been edited, perform the normal
+build process.\\
+
+When changing the version number, the first and second sections of the number should only
+be modified when substantial modifications have been made - significant enough that users
+will need to review the source code or documentation; normally only the third section of
+the number is updated.
+\appendixEnd{}
+
+
+

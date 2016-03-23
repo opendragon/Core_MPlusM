@@ -40,7 +40,7 @@
 cmake_minimum_required(VERSION 2.6)
 
 if(WIN32)
-	set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
+    set(CMAKE_CONFIGURATION_TYPES Debug Release CACHE INTERNAL "" FORCE)
 endif(WIN32)
 
 project(m+mExemplars)
@@ -53,7 +53,7 @@ mark_as_advanced(SET CMAKE_BUILD_WITH_INSTALL_RPATH)
 
 if(APPLE)
     set(E_PATH "@executable_path")
-    set(CMAKE_OSX_ARCHITECTURES "i386;x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
+    set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "Build architectures for Mac OS X" FORCE)
     set(CMAKE_CXX_FLAGS "-std=c++11 -stdlib=libstdc++" CACHE STRING
         "Fixes linking error for m+m/ACE" FORCE)
     set(CMAKE_EXE_LINKER_FLAGS "-headerpad_max_install_names -L${CMAKE_INSTALL_PREFIX}/lib" CACHE

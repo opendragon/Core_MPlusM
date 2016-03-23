@@ -1,0 +1,99 @@
+\ProvidesFile{CLservice.tex}[v1.0.0]
+\primaryStart[TheCLService]{The \CLF{} Service (\osx{} and 32\longDash{}bit \win{} only)}
+The \asCode{m+mCommonLispFilterService} application is a Filter service, executing a set
+of \CL{} forms contained in a file.
+The application responds to the standard Filter service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \emph{configuration} request has no arguments and returns nothing.\\
+
+The \emph{configure} request request has no arguments and does nothing.\\
+
+The \emph{restartStreams} request stops and then starts the processing thread and the
+input and output streams.\\
+
+The \emph{startStreams} request starts a processing thread and the input and output
+streams.
+Once started, the processing thread will execute the \asCode{scriptThread} function with
+an interval provided by the value of \asCode{scriptInterval}.\\
+
+The \emph{stopStreams} request stops the processing thread and the input and output
+streams.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+The application has one required argument \longDash{} the path to the \CL{} file to be
+used.
+Any additional arguments are passed to the \CL{} environment.
+\insertAppParameters
+\insertTagDescription{\CLF}
+\insertFilterServiceComment\\
+
+\insertStandardServiceCommands
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchCommonLispFilterService}%
+{launchServiceCommonLisp}{Launch options for the \emph{\CLF} service}{0.8}
+
+Note that the script file path is required.
+\insertTagAndEndpointDescription{mpm_images/runningCommonLispFilterService}%
+{serviceRunningCommonLisp}{The \emph{\MMMU} entity for the \emph{\CLF} service}{1.0}
+
+The script file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.
+\condPage{}
+If a `tag' value is supplied, it is merged with the script file name, as shown here:
+\objScaledDiagram{mpm_images/commonLispWithTag}%
+{commonLispWithTag}{The \emph{\MMMU} entity for the \emph{\CLF} service with a tag}{1.0}
+
+If an `endpoint' value is specified, the script file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/commonLispWithEndpoint}%
+{commonLispWithEndpoint}{The \emph{\MMMU} entity for the \emph{\CLF} service with an
+endpoint}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the script file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/commonLispWithEndpointAndTag}%
+{commonLispWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{\CLF} service with an
+endpoint and tag}{1.0}
+
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/commonLispWithTagM1}%
+{commonLispWithTagM1}{The \emph{\MMMU} entity for the \emph{\CLF} service with a tag and
+one byte tag modifier}{1.0}
+\condPage{}
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the script file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/commonLispWithEndpointM1}%
+{commonLispWithEndpointM1}{The \emph{\MMMU} entity for the \emph{\CLF} service with an
+endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the script file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/commonLispWithEndpointAndTagM1}%
+{commonLispWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{\CLF} service with an
+endpoint, tag and one byte tag modifier}{1.0}
+
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the script file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/commonLispWithM2}%
+{commonLispWithM2}{The \emph{\MMMU} entity for the \emph{\CLF} service with a two byte tag
+modifier}{1.0}
+
+If the \asBoldCode{+ scriptArgument} button is clicked, additional text entry fields are
+provided to allow entering arguments that a particular script may need.
+\openSq{}Due to an anomaly with the particular GUI library used to create the
+\emph{\MMMU} application, the additional text entry fields cannot be removed from the
+dialog, once added.\closeSq{}
+\secondaryEnd
+\primaryEnd{}

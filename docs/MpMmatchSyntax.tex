@@ -1,0 +1,66 @@
+\ProvidesFile{MpMmatchSyntax.tex}[v1.0.0]
+\appendixStart[ServiceMatchSyntax]{\textitcorr{Service Match Syntax}}
+Services are matched against `expressions', which consist of one or more
+`constraints'.\\
+`constraints' consist of one or more `fields with values'.\\
+`fields with values' consist of a `field name' and either a single value or a list of
+values.\\
+A `field name' is one of the names recognized as being in the internal database, which is
+described in the\\
+\appendixRef{InternalDatabaseStructure}{Internal~Database~Structure} appendix.\\
+
+The following BNF statements describe the syntax in more precise terms:
+\outputBegin
+\begin{listing}[5]{1}
+<Expression> ::= <Constraint> ',' <Expression> | <Constraint>
+;; Expressions are the union of the constraints.
+
+<Constraint> ::= <FieldWithValues> '&' <Constraint> | <FieldWithValues>
+;; Constraints are the 'AND' or intersection of the field matches.
+
+<FieldWithValues> ::= <FieldName> <Separator> <MatchValue>
+<Separator> ::= ':' | '!'
+;; Whitespace is optional between elements. If an exclamation mark is
+;; used as the separator, then the matching is negated.
+
+<MatchValue> ::= <SingleValue> | '(' <ValueList> ')'
+<ValueList> ::= <SingleValue> ',' <ValueList> | <SingleValue>
+;; The comma used to separate values doesn't get confused with the
+;; comma used between constraints. A value list is the 'OR' or union
+;; of the values within the list. A negated value list is the
+;; complement of the values within the list.
+
+<FieldName> ::= 'description' | 'details' | 'executable' | 'input' |
+                'keyword' | 'name' | 'output' | 'channelname' |
+                'request' | 'requestsdescription' | 'tag' | 'version'
+;; The field names are case-insensitive and correspond to the columns
+;; in the internal database.
+
+<SingleValue> ::= <DoubleQuote> <String> <DoubleQuote> |
+                  <SingleQuote> <String> <SingleQuote> | <String>
+<DoubleQuote> ::= '"'
+<SingleQuote> ::= "'"
+;; If the matching value includes an unescaped double quote character,
+;; it should be surrounded by single quote characters and, if it
+;; includes an unescaped single quote character, it should be
+;; surrounded by double quote characters. Otherwise, the use of quote
+;; characters is optional. Note that, if white space is part of the
+;; matching value, the white space needs to be escaped or the matching
+;; value should be surrounded by quote characters.
+
+<String> ::= <Character> <String> | <Character>
+<Character> ::= <Escape> <Reserved> | <WildSpan> | <WildSingle> |
+                <Normal>
+<Escape> ::= '\'
+<Reserved> ::= <DoubleQuote> | <SingleQuote> | <WildSpan> |
+               <WildSingle> | <Escape>
+<WildSpan> ::= '*'
+<WildSingle> ::= '?'
+<Normal> ::= <a non-reserved character>
+;; Strings consist of one or more characters. The 'wild span' character
+;; will match zero or more characters and the 'wild single' character
+;; will match a single character.
+\end{listing}
+\outputEnd
+\objDiagram{mpm_images/MpMmatchSyntaxrails}{matchRails}{Service~Match~syntax~diagram}
+\appendixEnd{}

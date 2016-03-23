@@ -1,0 +1,53 @@
+\ProvidesFile{NNmessageFormat.tex}[v1.0.0]
+\appendixStart[NNFormat]{\textitcorr{\NNI{} Message Format}}
+Each time that the Natural Point NatNet controller reports that there is information
+available, the \asCode{NatNetInputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing the following:
+\begin{itemize}
+\item A list of rigid bodies
+\item\exSp{}A list of skeletons
+\end{itemize}
+
+For each valid rigid body, a dictionary \openSq\asCode{Property}\closeSq{} is added to the
+list of rigid bodies.\\
+
+Each rigid body dictionary contains the following items:
+\begin{itemize}
+\item \textbf{id} \longDash{} The numeric identifier for the rigid body
+\item\exSp\textbf{x} \longDash{} The `x' component of the three\longDash{}dimensional
+coordinate of the body
+\item\exSp\textbf{y} \longDash{} The `y' component of the three\longDash{}dimensional
+coordinate of the body
+\item\exSp\textbf{z} \longDash{} The `z' component of the three\longDash{}dimensional
+coordinate of the body
+\item\exSp\textbf{qx} \longDash{} The `x' component of the rotation quaternion of the body
+\item\exSp\textbf{qy} \longDash{} The `y' component of the rotation quaternion of the body
+\item\exSp\textbf{qz} \longDash{} The `z' component of the rotation quaternion of the body
+\item\exSp\textbf{qw} \longDash{} The `w' component of the rotation quaternion of the body
+\end{itemize}
+
+For each skeleton, a dictionary is added to the list of skeletons.\\
+
+Each skeleton dictionary contains the following items:
+\begin{itemize}
+\item \textbf{id} \longDash{} The numeric identifier for the skeleton
+\item\exSp\textbf{bones} \longDash{} A list of bones
+\end{itemize}
+
+For each bone, a dictionary is added to the list of bones.\\
+
+Each bone dictionary contains the following items:
+\begin{itemize}
+\item \textbf{id} \longDash{} The numeric identifier for the bone
+\item\exSp\textbf{x} \longDash{} The `x' component of the three\longDash{}dimensional
+coordinate of the bone
+\item\exSp\textbf{y} \longDash{} The `y' component of the three\longDash{}dimensional
+coordinate of the bone
+\item\exSp\textbf{z} \longDash{} The `z' component of the three\longDash{}dimensional
+coordinate of the bone
+\item\exSp\textbf{qx} \longDash{} The `x' component of the rotation quaternion of the bone
+\item\exSp\textbf{qy} \longDash{} The `y' component of the rotation quaternion of the bone
+\item\exSp\textbf{qz} \longDash{} The `z' component of the rotation quaternion of the bone
+\item\exSp\textbf{qw} \longDash{} The `w' component of the rotation quaternion of the bone
+\end{itemize}
+\appendixEnd{}

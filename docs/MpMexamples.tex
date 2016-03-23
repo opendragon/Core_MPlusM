@@ -1,0 +1,810 @@
+\ProvidesFile{MpMexamples.tex}[v1.0.0]
+\appendixStart{\textitcorr{Examples}}
+The examples that are part of the \mplusm{} set of source files are provided to support
+the development of custom applications.
+There are example clients, services, adapters as well as examples of the more specialized
+Input, Output and Filter services.\\
+
+All the example applications respond to a `HUP' signal and will exit gracefully when one
+is sent to them.
+\secondaryStart{Example~Services}
+The set of example services include a pair of simple services
+[\examplesNameR{Services}{m+mEchoService} and
+\examplesNameR{Services}{m+mRandomNumberService}], a service with client context
+[\examplesNameR{Services}{m+mRunningSumService}] as well as two input services
+[\examplesNameR{Services}{m+mPlaybackFromJSONInputService} and
+\examplesNameR{Services}{m+mRandomBurstInputService}], two output services
+[\examplesNameR{Services}{m+mRecordAsJSONOutputService} and\\
+\examplesNameR{Services}{m+mRecordIntegersOutputService}] and two filter services
+[\examplesNameR{Services}{m+mAbsorberFilterService} and\\
+\examplesNameR{Services}{m+mTruncateFloatFilterService}].\\
+
+Note that services normally have no direct interface.
+That is, they are `faceless' applications and perform their operations without user
+interaction.
+\tertiaryStart{\examplesNameP{Services}{m+mAbsorberFilterService}}
+The \examplesNameX{Services}{m+mAbsorberFilterService} application is a Filter
+service, accepting (and ignoring) any input data, while counting the number of messages
+and bytes received, which are (optionally) sent out the `stats' outlet.
+The application responds to the standard Filter service requests and can be used as a
+standalone data transformer, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the integer value for the `sample interval'.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has one argument
+\longDash{} an integer value for the `sample interval'.
+This value will be applied when the service is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request initiates listening
+on the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
+on the input stream.\\
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.
+\condPage{}
+The application has one optional argument \longDash{} the sample interval in seconds.
+If the sample interval is greater than zero, this specifies how often the messages per
+second (and bytes per second) are reported.
+The statistics are output to the console from which the application was run as well as to
+the `stats' outlet.
+If the sample interval is not greater than zero, each incoming message is reported as it
+is received, along with the total number of bytes received since the service was started
+or restarted.
+The reporting is only done to the console from which the application was run.
+\insertAppParameters
+\insertTagDescription{Absorber Filter}
+\insertFilterServiceComment\\
+
+Note that the sample interval can also be set via commands, if the application is
+running from a terminal.\\
+
+\insertStandardServiceCommands
+\condPage
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchAbsorberFilterService}%
+{launchServiceAbsorber}{Launch options for the \emph{Absorber Filter} service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningAbsorberFilterService}%
+{serviceRunningAbsorber}{The \emph{\MMMU} entity for the \emph{Absorber Filter} service}%
+{1.0}
+\condPage{}
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureAbsorberFilterService}%
+{configureServiceAbsorber}{Configuration window for the \emph{Absorber Filter}
+service}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mAbsorberFilterService}}
+\tertiaryStart{\examplesNameP{Services}{m+mEchoService}}
+The \examplesNameX{Services}{m+mEchoService} application responds to
+\requestsNameR{Miscellaneous}{Miscellaneous}{echo} requests from the
+\examplesNameR{Clients}{m+mEchoClient} application; it simply returns any arguments
+sent with the request.\\
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+\insertAutoAppParameters
+\insertTagDescription{Echo}
+The matching client application does not directly use the endpoint name to establish a
+connection to the service.
+
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchEchoService}%
+{launchServiceEcho}{Launch options for the \emph{Echo} service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningEchoService}%
+{serviceRunningEcho}{The \emph{\MMMU} entity for the \emph{Echo} service}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mEchoService}}
+\tertiaryStart{\examplesNameP{Services}{m+mPlaybackFromJSONInputService}}
+The \examplesNameX{Services}{m+mPlaybackFromJSONInputService} application is an Input
+service, generating a stream of \yarp{} messages that have been recorded by the
+\examplesNameR{Services}{m+mRecordAsJSONOutputService} application in a file.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the floating\longDash{}point value for the `playback ratio', the
+floating\longDash{}point value for the initial delay and an integer value for the
+`loop flag'.
+The `playback ratio' is a scaling factor for the interval between the sending of each
+message from the file; a value of \asBoldCode{1} indicates no scaling while, for example,
+a value of \asBoldCode{2} indicates that the messages will be sent half as often as they
+were recorded.
+A value of \asBoldCode{0} for the `loop flag' indicates no looping \longDash{} the data
+contained in the file will be sent once, after the initial delay \longDash{} and a value
+of \asBoldCode{1} indicates that the data contained in the file will be sent
+continuously.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has three arguments
+\longDash{} a floating\longDash{}point value for the `playback ratio', a
+floating\longDash{}point value for the initial delay and an integer value for the
+`loop flag'.
+These values will be applied when the playback service is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the playback engine, which restarts the output \yarp{} network connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request starts a playback
+engine for the output stream, using the configured `playback ratio', `initial delay' and
+`loop flag'.
+Once started, the playback engine will send the data contained in the specified file via
+the output \yarp{} network connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request stops the playback
+engine, which stops the output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+The application has one required argument \longDash{} the path to the \json{} file
+containing the messages to be used.
+The application has three optional arguments \longDash{} the playback ratio, the initial
+delay in seconds and a flag indicating whether the data is to be sent continuously or just
+once.
+\insertAppParameters
+\condPage
+\insertTagDescription{Playback From JSON Input}
+\insertInputServiceComment\\
+
+The other parameters provide the playback ratio, initial delay and loop flag; if not
+specified, a playback ratio of \asBoldCode{1}, an initial delay of zero seconds and a loop
+flag of \asBoldCode{1} \longDash{} indicating continuous sending of the data \longDash{}
+will be used.
+Note that the playback ratio, initial delay and loop flag can also be set via commands,
+if the application is running from a terminal.\\
+
+\insertStandardServiceCommands
+\condPage{}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchPlaybackFromJSONInputService}%
+{launchServicePlaybackFromJSON}{Launch options for the \emph{Playback From JSON Input}
+service}{0.8}
+
+Note that the input file path is required.
+\insertTagAndEndpointDescription{mpm_images/runningPlaybackFromJSONInputService}%
+{serviceRunningPlaybackFromJSON}{The \emph{\MMMU} entity for the \emph{Playback From JSON
+Input} service}{1.0}
+\condPage{}
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configurePlaybackFromJSONInputService}%
+{configureServicePlaybackFromJSON}{Configuration window for the \emph{Playback From JSON
+Input} service}{1.0}
+
+The input file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.\\
+
+If a `tag' value is supplied, it is merged with the input file name, as shown here:
+\objScaledDiagram{mpm_images/playbackJSONWithTag}%
+{playbackJSONWithTag}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with a tag}{1.0}
+
+If an `endpoint' value is specified, the input file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpoint}%
+{playbackJSONWithEndpoint}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with an endpoint}{1.0}
+\condPage{}
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the input file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpointAndTag}%
+{playbackJSONWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Playback From JSON
+Input} service with an endpoint and tag}{1.0}
+
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/playbackJSONWithTagM1}%
+{playbackJSONWithTagM1}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with a tag and one byte tag modifier}{1.0}
+
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the input file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpointM1}%
+{playbackJSONWithEndpointM1}{The \emph{\MMMU} entity for the \emph{Playback From JSON
+Input} service with an endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the input file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/playbackJSONWithEndpointAndTagM1}%
+{playbackJSONWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{Playback From
+JSON Input} service with an endpoint, tag and one byte tag modifier}{1.0}
+\condPage{}
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the input file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/playbackJSONWithM2}%
+{playbackJSONWithM2}{The \emph{\MMMU} entity for the \emph{Playback From JSON Input}
+service with a two byte tag modifier}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mPlaybackFromJSONInputService}}
+\tertiaryStart{\examplesNameP{Services}{m+mRandomBurstInputService}}
+The \examplesNameX{Services}{m+mRandomBurstInputService} application is an Input service,
+generating a stream of random floating\longDash{}point values, with a given `burst size'
+\longDash{} the number of values sent in a group, and a `burst period' \longDash{} the
+number of seconds between groups.
+The application responds to the standard Input service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the floating\longDash{}point value for the `burst period' and an integer value for
+the `burst size'.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has two arguments
+\longDash{} a floating\longDash{}point value for the `burst period' and an integer value
+for the `burst size'.
+These values will be applied when the random number generator is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the random number generator, which restarts the output \yarp{} network
+connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request starts a random
+number generator for the output stream, using the configured `burst period' and
+`burst size'.
+Once started, the random number generator will send groups of random
+floating\longDash{}point values via the output \yarp{} network connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request stops the random
+number generator, which stops the output \yarp{} network connection.\\ 
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+The application has two optional arguments \longDash{} the burst period, in seconds and
+the number of random values to generate in each burst.
+\insertAppParameters
+\insertTagDescription{Random Burst Input}
+\insertInputServiceComment\\
+
+The other parameters provide the initial burst period and size; if not specified, a burst
+period of 1 second and burst size of 1 will be used.
+Note that the burst period and size can also be set via commands, if the application is
+running from a terminal.\\
+
+\insertStandardServiceCommands
+\condPage{}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRandomBurstInputService}%
+{launchServiceRandomBurst}{Launch options for the \emph{Random Burst Input} service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningRandomBurstInputService}%
+{serviceRunningRandomBurst}{The \emph{\MMMU} entity for the \emph{Random Burst Input}
+service}{1.0}
+\condPage{}
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureRandomBurstInputService}%
+{configureServiceRandomBurst}{Configuration window for the \emph{Random Burst Input}
+service}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mRandomBurstInputService}}
+\condPage
+\tertiaryStart{\examplesNameP{Services}{m+mRandomNumberService}}
+The \examplesNameX{Services}{m+mRandomNumberService} application responds to
+\requestsNameR{Examples}{Examples}{random} requests from the
+\examplesNameR{Clients}{m+mRandomNumberClient} application; it returns a group of random
+numbers to the client.\\
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+\insertAutoAppParameters
+\insertTagDescription{Random Number Input}
+The matching client application does not directly use the endpoint name to establish a
+connection to the service.\\
+
+The \requestsNameD{Examples}{Examples}{random} request has an argument of the
+count of floating\longDash{}point random numbers to be returned as a response to the
+request.
+\requestsNameE{Examples}{Examples}{random}%
+\condPage
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRandomNumberService}%
+{launchServiceRandomNumber}{Launch options for the \emph{Random Number} service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningRandomNumberService}%
+{serviceRunningRandomNumber}{The \emph{\MMMU} entity for the \emph{Random Number}
+service}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mRandomNumberService}}
+\condPage
+\tertiaryStart{\examplesNameP{Services}{m+mRecordAsJSONOutputService}}
+The \examplesNameX{Services}{m+mRecordAsJSONOutputService} application is an Output
+service, recording a stream of \yarp{} values as \json{} structures to an external file.
+The application responds to the standard Output service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the file\longDash{}system path to use for the output file.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
+the file\longDash{}system path to use for the output file.
+The path will be used when the input stream is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request opens a file to be
+used for output, using the configured output file path.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
+file that is being used.\\
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+The application has one optional argument \longDash{} the output file path to be used.
+\insertAppParameters
+\insertTagDescription{Record as JSON Output}
+\insertOutputServiceComment\\
+
+The output file path parameter provides the initial output file path; if not specified, a
+random path in the system temporary directory will be used.
+For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \osx{},
+it will be ``/tmp''.
+Note that the output file path can also be set via commands, if the application is
+running from a terminal.\\
+
+\insertStandardServiceCommands
+
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRecordAsJSONOutputService}%
+{launchServiceRecordAsJSON}{Launch options for the \emph{Record As JSON Output} service}%
+{0.8}
+\condPage
+\insertTagAndEndpointDescription{mpm_images/runningRecordAsJSONOutputService}%
+{serviceRunningRecordAsJSON}{The \emph{\MMMU} entity for the \emph{Record As JSON Output}
+service}{1.0}
+
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureRecordAsJSONOutputService}%
+{configureServiceRecordAsJSON}{Configuration window for the \emph{Record As JSON Output}
+service}{1.0}
+
+The output file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.\\
+
+If a `tag' value is supplied, it is merged with the output file name, as shown here:
+\objScaledDiagram{mpm_images/recordJSONWithTag}%
+{recordJSONWithTag}{The \emph{\MMMU} entity for the \emph{Record As JSON Output} service
+with a tag}{1.0}
+
+If an `endpoint' value is specified, the output file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/recordJSONWithEndpoint}%
+{recordJSONWithEndpoint}{The \emph{\MMMU} entity for the \emph{Record As JSON Output}
+service with an endpoint}{1.0}
+\condPage{}
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the output file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/recordJSONWithEndpointAndTag}%
+{recordJSONWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Record As JSON
+Output} service with an endpoint and tag}{1.0}
+
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/recordJSONWithTagM1}%
+{recordJSONWithTagM1}{The \emph{\MMMU} entity for the \emph{Record As JSON Output} service
+with a tag and one byte tag modifier}{1.0}
+
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the script file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/recordJSONWithEndpointM1}%
+{recordJSONWithEndpointM1}{The \emph{\MMMU} entity for the \emph{Record As JSON Output}
+service with an endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the script file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/recordJSONWithEndpointAndTagM1}%
+{recordJSONWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{Record As JSON
+Output} service with an endpoint, tag and one byte tag modifier}{1.0}
+\condPage{}
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the script file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/recordJSONWithM2}%
+{recordJSONWithM2}{The \emph{\MMMU} entity for the \emph{Record As JSON Output} service
+with a two byte tag modifier}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mRecordAsJSONOutputService}}
+\tertiaryStart{\examplesNameP{Services}{m+mRecordIntegersOutputService}}
+The \examplesNameX{Services}{m+mRecordIntegersOutputService} application is an Output
+service, recording a stream of integer values to an external file.
+The application responds to the standard Output service requests and can be used as a
+standalone data generator, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns the file\longDash{}system path to use for the output file.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has a single argument,
+the file\longDash{}system path to use for the output file.
+The path will be used when the input stream is started or restarted.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the input stream.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request opens a file to be
+used for output, using the configured output file path.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request closes the output
+file that is being used.\\
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+The application has one optional argument \longDash{} the output file path to be used.
+\insertAppParameters
+\insertTagDescription{Record Integers Output}
+\insertOutputServiceComment\\
+
+The output file path parameter provides the initial output file path; if not specified, a
+random path in the system temporary directory will be used.
+For \win, the temporary directory being used is ``\textbackslash{}tmp'' while, for \osx{},
+it will be ``/tmp''.
+Note that the output file path can also be set via commands, if the application is
+running from a terminal.\\
+
+\insertStandardServiceCommands
+\condPage{}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRecordIntegersOutputService}%
+{launchServiceRecordIntegers}{Launch options for the \emph{Record Integers Output}
+service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningRecordIntegersOutputService}%
+{serviceRunningRecordIntegers}{The \emph{\MMMU} entity for the \emph{Record Integers
+Output} service}{1.0}
+\condPage{}
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureRecordIntegersOutputService}%
+{configureServiceRecordIntegers}{Configuration window for the \emph{Record Integers
+Output} service}{1.0}
+
+The output file name forms part of the names of the channels and is added to the title bar
+of the service, as though it were a `tag'.\\
+
+If a `tag' value is supplied, it is merged with the output file name, as shown here:
+\objScaledDiagram{mpm_images/recordIntegersWithTag}%
+{recordIntegersWithTag}{The \emph{\MMMU} entity for the \emph{Record Integers Output}
+service with a tag}{1.0}
+
+If an `endpoint' value is specified, the output file name forms part of the title bar but
+does not affect the channel names:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpoint}%
+{recordIntegersWithEndpoint}{The \emph{\MMMU} entity for the \emph{Record Integers Output}
+service with an endpoint}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided, the `endpoint' value
+determines the channel names while the `tag' value is combined with the output file name
+as part of the title bar:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTag}%
+{recordIntegersWithEndpointAndTag}{The \emph{\MMMU} entity for the \emph{Record Integers
+Output} service with an endpoint and tag}{1.0}
+\condPage{}
+If the `mod' option is used, the `tag' option is primarily affected.
+For example, if a `tag' value is supplied along a tag modifier of 1 byte, the following
+will be displayed for the service:
+\objScaledDiagram{mpm_images/recordIntegersWithTagM1}%
+{recordIntegersWithTagM1}{The \emph{\MMMU} entity for the \emph{Record Integers Output}
+service with a tag and one byte tag modifier}{1.0}
+
+If an `endpoint' value is specified along with a tag modifier of 1 byte, the script file
+name forms part of the title bar but does not affect the channel names and the tag
+modifier is used to form the tag:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpointM1}%
+{recordIntegersWithEndpointM1}{The \emph{\MMMU} entity for the \emph{Record Integers
+Output} service with an endpoint and one byte tag modifier}{1.0}
+
+If both a `tag' value and an `endpoint' value are provided along with a tag modifier of 1
+byte, the `endpoint' value determines the channel names while the `tag' value is combined
+with the script file name and the tag modifier as part of the title bar:
+\objScaledDiagram{mpm_images/recordIntegersWithEndpointAndTagM1}%
+{recordIntegersWithEndpointAndTagM1}{The \emph{\MMMU} entity for the \emph{Record Integers
+Output} service with an endpoint, tag and one byte tag modifier}{1.0}
+
+If only a tag modifier is set \longDash{} for example a 2 byte tag modifier \longDash{}
+then the tag modifier is combined with the script file name and affects both the channel
+names and the title bar:
+\objScaledDiagram{mpm_images/recordIntegersWithM2}%
+{recordIntegersWithM2}{The \emph{\MMMU} entity for the \emph{Record Integers Output}
+service with a two byte tag modifier}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mRecordIntegersOutputService}}
+\condPage
+\tertiaryStart{\examplesNameP{Services}{m+mRunningSumService}}
+The \examplesNameX{Services}{m+mRunningSumService} application responds to
+requests from the \examplesNameR{Clients}{m+mRunningSumClient} application or\\
+\examplesNameR{Adapters}{m+mRunningSumAdapter} or
+\examplesNameR{Adapters}{m+mRunningSumAltAdapter} adapters; it returns the running sum
+associated with the requesting application or adapter.\\
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.
+\insertAutoAppParameters
+\insertTagDescription{Running Sum}
+The matching client application does not directly use the endpoint name to establish a
+connection to the service.\\
+
+The \requestsNameD{Examples}{Examples}{addtosum} request updates the running sum
+corresponding to the requesting application or adapter and returns the resulting value.
+Note that an \requestsNameX{Examples}{Examples}{addtosum} request implicitly starts the
+calculation.\\
+\requestsNameE{Examples}{Examples}{addtosum}%
+
+The \requestsNameD{Examples}{Examples}{resetsum} request clears the running sum
+corresponding to the requesting application or adapter.\\
+\requestsNameE{Examples}{Examples}{resetsum}%
+
+The \requestsNameD{Examples}{Examples}{startsum} request starts the running sum
+calculation for the requesting application or adapter.
+Note that a \requestsNameX{Examples}{Examples}{startsum} request implicitly resets the
+calculation, if it has already been started.\\
+\requestsNameE{Examples}{Examples}{startsum}%
+
+The \requestsNameD{Examples}{Examples}{stopsum} request stops the running sum
+calculation for the requesting application or adapter.
+\requestsNameE{Examples}{Examples}{stopsum}%
+\condPage{}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRunningSumService}%
+{launchServiceRunningSum}{Launch options for the \emph{Running Sum} service}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningRunningSumService}%
+{serviceRunningRunningSum}{The \emph{\MMMU} entity for the \emph{Running Sum} service}%
+{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mRunningSumService}}
+\tertiaryStart{\examplesNameP{Services}{m+mTruncateFloatFilterService}}
+The \examplesNameX{Services}{m+mTruncateFloatFilterService} application is a Filter
+service, converting a stream of floating\longDash{}point values into a stream of integers.
+The application responds to the standard Filter service requests and can be used as a
+standalone data transformer, without the need for a client connection.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configuration} request has no arguments and
+returns nothing.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{configure} request has no arguments and
+does nothing.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{restartStreams} request stops and then
+starts the input and output streams.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{startStreams} request initiates listening
+on the input stream; the output stream is only written to when input is seen, so nothing
+special is done with it.\\
+
+The \requestsNameR{\inputOutput}{InputOutput}{stopStreams} request terminates listening
+on the input stream, which will cause sending on the output stream to cease as well.\\
+
+Note that the application will exit if the \serviceNameR[\RS]{RegistryService} is not
+running.\\
+
+\insertAppParameters
+\insertTagDescription{Truncate Float Filter}
+\insertFilterServiceComment\\
+
+\insertStandardServiceCommands
+\condPage{}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchTruncateFloatFilterService}%
+{launchServiceTruncateFloat}{Launch options for the \emph{Truncate Float Filter} service}%
+{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningTruncateFloatFilterService}%
+{serviceRunningTruncateFloat}{The \emph{\MMMU} entity for the \emph{Truncate Float Filter}
+service}{1.0}
+\tertiaryEnd{\examplesNameE{Services}{m+mTruncateFloatFilterService}}
+\secondaryEnd
+\condPage
+\secondaryStart{Example~Clients}
+The example client applications provided use simple terminal\longDash{}based interfaces to
+generate requests for their matching service applications.
+\tertiaryStart{\examplesNameP{Clients}{m+mEchoClient}}
+The \examplesNameX{Clients}{m+mEchoClient} application reads input from a terminal and
+sends it to the \examplesNameR{Services}{m+mEchoService} application using an
+\requestsNameR{Miscellaneous}{Miscellaneous}{echo} request; it exits when an empty line is
+entered.\\
+
+\insertShortClientParameters{}
+
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
+\examplesNameR{Services}{m+mEchoService} application are not running or if the application
+is not running from an interactive terminal.
+\tertiaryEnd{\examplesNameE{Clients}{m+mEchoClient}}
+\tertiaryStart{\examplesNameP{Clients}{m+mRandomNumberClient}}
+The \examplesNameX{Clients}{m+mRandomNumberClient} application reads the count of
+random numbers desired from a terminal and sends a
+\requestsNameR{Examples}{Examples}{random} request to the
+\examplesNameR{Services}{m+mRandomNumberService} application; it exits when a zero is
+entered for the count of random numbers desired.
+
+\insertShortClientParameters{}
+
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
+\examplesNameR{Services}{m+mRandomNumberService} application are not running or if the
+application is not running from an interactive terminal.
+\tertiaryEnd{\examplesNameE{Clients}{m+mRandomNumberClient}}
+\condPage
+\tertiaryStart{\examplesNameP{Clients}{m+mRunningSumClient}}
+The \examplesNameX{Clients}{m+mRunningSumClient} application reads commands from a
+terminal and sends corresponding requests to the
+\examplesNameR{Services}{m+mRunningSumService} application.\\
+
+The commands are:
+\begin{itemize}
+\item\cmdItem{?}{display a list of the available commands}
+\item\exSp\cmdItem{+}{read a number from the terminal and send it to the service via an
+\requestsNameR{Examples}{Examples}{addtosum} request, to update the running sum for this
+client}
+\item\exSp\cmdItem{q}{send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+service so that it will stop calculating the running sum for this client and then exit the
+application}
+\item\exSp\cmdItem{r}{send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+service so that it will reset the running sum for this client}
+\item\exSp\cmdItem{s}{send a \requestsNameR{Examples}{Examples}{startsum} request to the
+service so that it will start calculating the running sum for this client}
+\end{itemize}
+
+\insertShortClientParameters{}
+
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
+\examplesNameR{Services}{m+mRunningSumService} application are not running or if the
+application is not running from an interactive terminal.
+\tertiaryEnd{\examplesNameE{Clients}{m+mRunningSumClient}}
+\secondaryEnd
+\condPage
+\secondaryStart{Example~Adapters}
+Adapters are applications that use a client object to connect to an \mplusm{} service,
+routing input from one or more input \yarp{} network connection via the client object to
+the service and returning results from the client to one or more output \yarp{} network
+connections.\\
+
+The example adapters demonstrate using a single input \yarp{} network connection
+[\examplesNameR{Adapters}{m+mRandomNumberAdapter} and
+\examplesNameR{Adapters}{m+mRunningSumAltAdapter}] or multiple input \yarp{} network
+connections [\examplesNameR{Adapters}{m+mRunningSumAdapter}].\\
+
+Adapters have ten optional parameters:
+\begin{itemize}
+\item\optItem{a}{}{args}{display the argument descriptions for the executable and leave
+\longDash{} note that this option is primarily for use by the \emph{\MMMU} application}
+\item\exSp\optItem{c}{}{channel}{display the endpoint name after applying all other
+options and leave}
+\item\exSp\optItem{e}{v}{endpoint}{specifies an alternative endpoint name `\textit{v}' to
+be used}
+\item\exSp\optItem{g}{}{go}{indicates that the adapter is to be started immediately}
+\item\exSp\optItem{h}{}{help}{display the list of optional parameters and arguments and
+leave}
+\item\exSp\optItem{i}{}{info}{display the type of the executable, the valid options, the
+matching criteria used to locate the service to which the adapter will attach and a
+description of the executable and leave \longDash{} note that this option is primarily
+for use by the \emph{\MMMU} application}
+\item\exSp\optItem{p}{v}{port}{specifies the port number `\textit{v}' to be used, if a
+non\longDash{}default port is desired}
+\item\exSp\optItem{r}{}{report}{report the adapter metrics when the application exits}
+\item\exSp\optItem{t}{v}{tag}{specifies the tag `\textit{v}' to be used as part of the
+adapter name}
+\item\exSp\optItem{v}{}{vers}{display the version and copyright information and leave}
+\end{itemize}
+
+Note that adapters normally have no direct interface.
+That is, they are `faceless' applications and perform their operations without user
+interaction.
+\condPage
+\tertiaryStart{\examplesNameP{Adapters}{m+mRandomNumberAdapter}}
+The \examplesNameX{Adapters}{m+mRandomNumberAdapter} application reads the count of
+random numbers desired from an input \yarp{} network connection and sends a
+\requestsNameR{Examples}{Examples}{random} request to the
+\examplesNameR{Services}{m+mRandomNumberService} application.
+The random numbers returned from the service are sent out an output \yarp{} network
+connection.
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
+\examplesNameR{Services}{m+mRandomNumberService} application are not running.\\
+
+\insertStandardAdapterCommands{}
+If the adapter is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRandomNumberAdapter}%
+{launchAdapterRandomNumber}{Launch options for the \emph{Random Number} adapter}{0.8}
+\condPage
+\insertTagAndEndpointDescription{mpm_images/runningRandomNumberAdapter}%
+{adapterRunningRandomNumber}{The \emph{\MMMU} entity for the \emph{Random Number}
+adapter}{1.0}
+\tertiaryEnd{\examplesNameE{Adapters}{m+mRandomNumberAdapter}}
+\tertiaryStart{\examplesNameP{Adapters}{m+mRunningSumAdapter}}
+
+The \examplesNameX{Adapters}{m+mRunningSumAdapter} application reads  values from an input
+`data' \yarp{} network connection and commands from an input `control' \yarp{} network
+connection and sends corresponding requests to the
+\examplesNameR{Services}{m+mRunningSumService} application.\\
+
+If a numeric value is read from the `data' input \yarp{} network connection, it is sent to
+the service via an \requestsNameR{Examples}{Examples}{addtosum} request, to update the
+running sum for this adapter.
+If a string is read from the `control' input \yarp{} network connection, it is considered
+to be one of the following commands:
+\begin{itemize}
+\item\textbf{q:} exit the application.
+\item\exSp\textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+service so that it will reset the running sum for this adapter.
+\item\exSp\textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
+service so that it will start calculating the running sum for this adapter.
+\item\exSp\textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+service so that it will stop calculating the running sum for this adapter.
+\end{itemize}
+The running sums returned from the service are sent out an output \yarp{} network
+connection.\\
+
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
+\examplesNameR{Services}{m+mRunningSumService} application are not running.\\
+
+\insertStandardAdapterCommands
+\condPage{}
+If the adapter is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRunningSumAdapter}%
+{launchAdapterRunningSum}{Launch options for the \emph{Running Sum} adapter}{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningRunningSumAdapter}%
+{adapterRunningRunningSum}{The \emph{\MMMU} entity for the \emph{Running Sum} adapter}%
+{1.0}
+\tertiaryEnd{\examplesNameE{Adapters}{m+mRunningSumAdapter}}
+\condPage
+\tertiaryStart{\examplesNameP{Adapters}{m+mRunningSumAltAdapter}}
+The \examplesNameX{Adapters}{m+mRunningSumAltAdapter} application reads  values and
+commands from an input \yarp{} network connection and sends corresponding requests to the
+\examplesNameR{Services}{m+mRunningSumService} application.\\
+
+If a numeric value is read from the input \yarp{} network connection, it is sent to the
+service via an \requestsNameR{Examples}{Examples}{addtosum} request, to update the running
+sum for this adapter.
+If a string is read from the input \yarp{} network connection, is is considered to be one
+of the following commands:
+\begin{itemize}
+\item\textbf{q:} exit the application.
+\item\exSp\textbf{r:} send a \requestsNameR{Examples}{Examples}{resetsum} request to the
+service so that it will reset the running sum for this adapter.
+\item\exSp\textbf{s:} send a \requestsNameR{Examples}{Examples}{startsum} request to the
+service so that it will start calculating the running sum for this adapter.
+\item\exSp\textbf{x:} send a \requestsNameR{Examples}{Examples}{stopsum} request to the
+service so that it will stop calculating the running sum for this adapter.
+\end{itemize}
+The running sums returned from the service are sent out an output \yarp{} network
+connection.\\
+
+Note that the application will also exit if the \serviceNameR[\RS]{RegistryService} or the
+\examplesNameR{Services}{m+mRunningSumService} application are not running.\\
+
+\insertStandardAdapterCommands
+\condPage{}
+If the adapter is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchRunningSumAltAdapter}%
+{launchAdapterRunningSumAlt}{Launch options for the \emph{Running Sum} alternate adapter}%
+{0.8}
+
+\insertTagAndEndpointDescription{mpm_images/runningRunningSumAltAdapter}%
+{adapterRunningRunningSumAlt}{The \emph{\MMMU} entity for the \emph{Running Sum} alternate
+adapter}{1.0}
+\tertiaryEnd{\examplesNameE{Adapters}{m+mRunningSumAltAdapter}}
+\secondaryEnd
+\appendixEnd{}

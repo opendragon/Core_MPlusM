@@ -1,0 +1,24 @@
+\ProvidesFile{PC2messageFormat.tex}[v1.0.0]
+\appendixStart[PC2Format]{\textitcorr{\PCtwoI{} Message Format}}
+Each time that the ProComp2 controller reports that there is information available,
+the \asCode{ProComp2InputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing the following:
+\begin{itemize}
+\item A dictionary \openSq\asCode{Property}\closeSq{} of the sensor values 
+\end{itemize}
+
+The dictionary has the following properties:
+\begin{itemize}
+\item\textbf{time} \longDash{} the system time at which the sensors were read
+\item\exSp\textbf{A} \longDash{} the sensor value for the first encoder port, if
+connected
+\item\exSp\textbf{B} \longDash{} the sensor value for the second encoder port, if
+connected
+\item\exSp\textbf{...} \longDash{} sensor values
+\end{itemize}
+Note that only encoder ports that have sensors attached report their values, so not all
+keys (starting with `\textbf{A}') will be reported.
+For example, if the only sensor that is connected is in encoder port `\textbf{C}', then
+ports `\textbf{A}' and `\textbf{B}' as well as ports with higher numbers than `\textbf{C}'
+will not be in the dictionary.
+\appendixEnd{}

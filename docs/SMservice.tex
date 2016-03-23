@@ -1,0 +1,63 @@
+\ProvidesFile{SMservice.tex}[v1.0.0]
+\primaryStart[TheSMOService]{The \SMO{} Service (\osx{} and 64\longDash{}bit \win{} only)}
+The \asCode{m+mSendToMQOutputService} application is an Output service, sending a stream
+of \yarp{} values as \json{} text to an ActiveMQ broker.
+The application responds to the standard Output service requests and can be used as a
+standalone data sink, without the need for a client connection.\\
+
+The \emph{configuration} request has no arguments and returns the string value for the
+topic or queue to set up on the ActiveMQ broker and an integer value for the `queue flag'.
+A value of \asBoldCode{0} for the `queue flag' indicates that a topic will be used for
+sending to the ActiveMQ broker and a value of \asBoldCode{1} indicates that a queue will
+be used.\\
+
+The \emph{configure} request request has two arguments \longDash{} a string value for the
+topic or queue to set up on the ActiveMQ broker and an integer value for the `queue flag'.
+These values will be applied when the input stream is started or restarted.\\
+
+The \emph{restartStreams} request stops and then starts the input stream.\\
+
+The \emph{startStreams} request initiates listening on the input stream and creates a
+connection to the ActiveMQ broker.\\
+
+The \emph{stopStreams} request terminates listening ont the input stream and drops the
+connection to the ActiveMQ broker.\\ 
+
+Note that the application will exit if the \emph{\RS} is not running.
+\secondaryStart[StartingFromCommandLine]{Starting from the command\longDash{}line}
+The application has four required arguments \longDash{} a string value for the host name
+of the ActiveMQ broker, an integer value for the port on the ActiveMQ broker to
+connect to, a string value for the user identifier to use on the ActiveMQ broker and a
+string value for the password for the user on the ActiveMQ broker.
+The application has two optional arguments \longDash{} a string value for the
+topic or queue to set up on the ActiveMQ broker and a flag indicating whether a queue will
+be used to send to the ActiveMQ broker.
+\insertAppParameters
+\insertTagDescription{\SMO}
+\insertInputServiceComment
+
+The other parameters provide the topic or queue name to set up on the ActiveMQ broker and
+the queue flag; if not specified, a topic or queue name of \asCode{m+m} and a queue flag
+of \asCode{0} \longDash{} indicating sending of the data via a topic \longDash{} will be
+used.
+Note that the topic or queue name and queue flag can also be set via commands, if the
+application is running from a terminal.\\
+
+\insertStandardServiceCommands
+\secondaryEnd
+\condPage
+\secondaryStart[StartingFromMMManager]{Starting from the \emph{\MMMU} application}
+If the service is selected for execution from within the \emph{\MMMU} application, the
+following dialog will be presented:
+\objScaledDiagram{mpm_images/launchSendToMQOutputService}%
+{launchServiceSendToMQ}{Launch options for the \emph{\SMO} service}{0.8}
+\condPage
+\insertTagAndEndpointDescription{mpm_images/runningSendToMQOutputService}%
+{serviceRunningSendToMQ}{The \emph{\MMMU} entity for the \emph{\SMO} service}{1.0}
+
+If the \textbf{Configure the service} menu item has been selected, the following will
+appear:
+\objScaledDiagram{mpm_images/configureSendToMQOutputService}%
+{configureServiceSendToMQ}{Configuration window for the \emph{\SMO} service}{1.0}
+\secondaryEnd
+\primaryEnd{}

@@ -1,0 +1,94 @@
+\ProvidesFile{LMmessageFormat.tex}[v1.0.0]
+\appendixStart[LMFormat]{\textitcorr{\LMI{} Message Format}}
+Each time that the Leap Motion controller reports that there is information available,
+the \asCode{LeapMotionInputService} packages it into a single message
+\openSq\asCode{Bottle}\closeSq, containing the following:
+\begin{itemize}
+\item A list of hands
+\item\exSp{}A list of tools
+\end{itemize}
+
+For each valid hand, a dictionary \openSq\asCode{Property}\closeSq{} is added to the list
+of hands, with the following properties:
+\begin{itemize}
+\item\textbf{id} \longDash{} a numeric value for the hand, to separate data for different
+hands
+\item\exSp\textbf{palmposition} \longDash{} the three\longDash{}dimensional coordinates
+\openSq{}X, Y, Z\closeSq{} of the palm, as a list of three floating\longDash{}point
+numbers;
+the units are millimetres from the Leap Motion origin
+\item\exSp\textbf{palmnormal} \longDash{} the surface normal of the palm
+\item\exSp\textbf{palmvelocity} \longDash{} the relative change of the palm position from
+its previous position, in millimetres / second
+\item\exSp\textbf{direction} \longDash{} the direction in which the hand is pointing, as a
+unit three\longDash{}dimensional vector
+\item\exSp\textbf{arm} \longDash{} the arm information
+\item\exSp\textbf{wristposition} \longDash{} the three\longDash{}dimensional coordinates
+of the wrist
+\item\exSp\textbf{confidence} \longDash{} the degree of confidence (from \asCode{0} to
+\asCode{1}) with the data
+\item\exSp\textbf{side} \longDash{} `\asCode{left}', `\asCode{right}' or
+`\asCode{unknown}' (which should never appear)
+\item\exSp\textbf{fingers} \longDash{} a list of fingers
+\end{itemize}
+
+The arm information consists of a single\longDash{}element list containing a dictionary.
+Since \yarp{} does not allow a dictionary to contain another dictionary directly, a list
+is used to hold the arm\longDash{}specific information.
+The arm information has the following properties:
+\begin{itemize}
+\item\textbf{direction} \longDash{} the direction in which the arm is pointing, as a unit
+three\longDash{}dimensional vector
+\item\exSp\textbf{elbowposition} \longDash{} the three\longDash{}dimensional coordinates
+of the elbow
+\end{itemize}
+
+For each valid finger, a dictionary is added to the list of fingers, with the following
+properties:
+\begin{itemize}
+\item\textbf{id} \longDash{} a numeric value for the finger, to separate data for
+different fingers
+\item\exSp\textbf{type} \longDash{} either `\asCode{thumb}', `\asCode{index}',
+`\asCode{middle}', `\asCode{ring}', `\asCode{pinky}' or `\asCode{unknown}' (which should
+never appear)
+\item\exSp\textbf{tipposition} \longDash{} the three\longDash{}dimensional coordinates of
+the tip of the finger
+\item\exSp\textbf{tipvelocity} \longDash{} the relative change of the finger tip position
+from its previous position
+\item\exSp\textbf{direction} \longDash{} the direction in which the finger tip is
+pointing, as a unit three\longDash{}dimensional vector
+\item\exSp\textbf{length} \longDash{} the length of the finger in millimetres
+\item\exSp\textbf{extended} \longDash{} `\asCode{yes}' or `\asCode{no}' if the finger is
+extended or not
+\item\exSp\textbf{bones} \longDash{} a list of bones
+\end{itemize}
+
+For each valid bone, a dictionary is added to the list of bones, with the following
+properties:
+\begin{itemize}
+\item\textbf{proximal} \longDash{} the three\longDash{}dimensional coordinates of the end
+of the bone that is closest to the wrist
+\item\exSp\textbf{distal} \longDash{} the three\longDash{}dimensional coordinates of the
+end of the bone that is closest to the finger tip
+\item\exSp\textbf{direction} \longDash{} the direction in which the bone is pointing, as a
+unit three\longDash{}dimensional vector
+\item\exSp\textbf{length} \longDash{} the length of the bone in millimetres
+\end{itemize}
+Note that the same number of bones are described for each finger, even though the thumb
+actually has one fewer bone \longDash{} the first ``bone'' of a thumb in the list has zero
+length.\\
+
+For each valid tool, a dictionary is added to the list of tools, with the following
+properties:
+\begin{itemize}
+\item\textbf{id} \longDash{} a numeric value for the tool, to separate data for different
+tools
+\item\exSp\textbf{tipposition} \longDash{} the three\longDash{}dimensional coordinates of
+the tip of the tool
+\item\exSp\textbf{tipvelocity} \longDash{} the relative change of the tool tip position
+from its previous position
+\item\exSp\textbf{direction} \longDash{} the direction in which the tool is pointing, as a
+unit three\longDash{}dimensional vector
+\item\exSp\textbf{length} \longDash{} the length of the tool in millimetres
+\end{itemize}
+\appendixEnd{}

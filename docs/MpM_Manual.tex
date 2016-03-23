@@ -1,0 +1,68 @@
+\ProvidesFile{MpM_Manual.tex}[v1.0.0]
+
+% Begin Preamble
+
+\input{commonStrings.tex}
+
+\newcommand{\docAuthor}{Norman Jaffe}
+\newcommand{\docTitle}{\MMM}
+\newcommand{\docKeywords}{movement,middleware,YARP,ACE,JUCE}
+\newcommand{\docSubject}{Middleware}
+
+\input{sharedSetup.tex}
+
+% Customize the page layout:
+
+\cfoot[\MMM, \MMV]{\MMM, \MMV}
+\title{\mpmLogo\\
+\vspace{0.5ex}\cal\Huge\textitcorr{\MMM}}
+
+% End Preamble
+
+\begin{document}
+
+% Begin front matter
+
+\maketitle
+
+\insertpart{Contents}{\tableofcontents}
+\ifthenelse{\boolean{heveaActive}}{}{\insertpart{List~of~Figures}{\listoffigures}}
+
+\input{MpMdocumentationHistory.tex}
+\input{MpMfrontispiece.tex}
+\clearpage\pagenumbering{arabic}
+
+% End of front matter
+
+% Begin contents
+
+\input{MpMoverview.tex}
+\input{MpMtechnology.tex}
+
+%% section for each of the utilities
+
+\input{MpMutilities.tex}
+
+%% section for each of the core services
+
+\input{MpMservices.tex}
+
+%% section for each of the core classes
+
+\input{MpMclasses.tex}
+
+\appendix
+\input{MpMexamples.tex}
+\input{MpMexemplars.tex}
+\input{MpMcaseStudy.tex}
+\input{MpMregistrationSequence.tex}
+\input{MpMinternalDb.tex}
+\input{MpMmatchSyntax.tex}
+\input{MpMupdatingVersionNumber.tex}
+\input{MpMbuildingFromSource.tex}
+
+% End of contents
+
+\ifthenelse{\boolean{heveaActive}}{}{\insertpart{Index}{\printindex}}
+\end{document}
+\end
